@@ -258,7 +258,7 @@ class EditorApp extends Component {
                                 onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
                                 onRichMarkUpdated={(box, state, mark)=>{this.dispatchAndSetState(editRichMark(box, state, mark));}}
                                 onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
-                                onBoxDropped={(id, row, col, parent, container) => this.dispatchAndSetState(dropBox(id, row, col, parent, container))}
+                                onBoxDropped={(id, row, col, parent, container, oldParent, oldContainer) => this.dispatchAndSetState(dropBox(id, row, col, parent, container, oldParent, oldContainer))}
                                 onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                                 onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
                                 onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
@@ -311,7 +311,7 @@ class EditorApp extends Component {
                                 onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                                 onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
                                 onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
-                                onBoxDropped={(id, row, col, parent, container) => this.dispatchAndSetState(dropBox(id, row, col, parent, container))}
+                                onBoxDropped={(id, row, col, parent, container, oldParent, oldContainer) => this.dispatchAndSetState(dropBox(id, row, col, parent, container, oldParent, oldContainer))}
                                 onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}
                                 onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
@@ -502,8 +502,6 @@ class EditorApp extends Component {
                 e.detail.state.__pluginContainerIds = newPluginState;
             } else {
                 parsePluginContainersReact(e.detail.content, newPluginState);
-                console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                console.log(newPluginState);
 
                 e.detail.state.__pluginContainerIds = newPluginState;
             }
@@ -519,7 +517,6 @@ class EditorApp extends Component {
                     this.severalBoxes = Date.now() + this.index++;
                 }
                 e.detail.ids.id = (this.severalBoxes !== 0) ? ID_PREFIX_BOX + this.severalBoxes++ : ID_PREFIX_BOX + Date.now() + this.index++;
-                console.log(e.detail.ids.container);
                 this.dispatchAndSetState(addBox(
                     {
                         parent: e.detail.ids.parent,
@@ -557,7 +554,6 @@ class EditorApp extends Component {
             if (e.detail.config.flavor !== "react") {
                 addDefaultContainerPlugins(e.detail, e.detail.content, this.props.boxes);
             } else {
-                console.log(2);
                 addDefaultContainerPluginsReact(e.detail, e.detail.content, this.props.boxes);
             }
             if (e.detail.state.__xml_path) {

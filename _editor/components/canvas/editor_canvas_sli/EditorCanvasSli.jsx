@@ -107,8 +107,8 @@ export default class EditorCanvasSli extends Component {
                             position: "absolute",
                             top: 0,
                             opacity: 0.4,
-                            display: (this.props.boxLevelSelected > 0) ? "block" : "none",
-                            visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse",
+                            display: 'none', // (this.props.boxLevelSelected > 0) ? "block" : "none",
+                            visibility: "collapse", // (this.props.boxLevelSelected > 0) ? "visible" : "collapse",
                         }} />
 
                         {boxes.map(id => {
@@ -171,7 +171,7 @@ export default class EditorCanvasSli extends Component {
     componentDidMount() {
 
         interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).dropzone({
-            accept: '.floatingEditorBox',
+            accept: '.floatingEditorBox, .dnd',
             overlap: 'pointer',
             ondropactivate: function(event) {
                 event.target.classList.add('drop-active');
@@ -185,7 +185,6 @@ export default class EditorCanvasSli extends Component {
             ondrop: function(event) {
                 if (Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
                     for (let child in this.props.boxes) {
-                        console.log(this.props.boxes);
                         if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.id && this.props.toolbars[child].config.name === event.relatedTarget.getAttribute("name")) {
                             let alert = (<Alert className="pageModal"
                                 show

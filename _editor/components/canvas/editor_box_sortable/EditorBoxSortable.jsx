@@ -342,8 +342,9 @@ export default class EditorBoxSortable extends Component {
                             this.props.onBoxDropped(this.props.boxSelected,
                                 extraParams.j,
                                 extraParams.i,
-                                boxDragged.parent,
-                                extraParams.idContainer);
+                                this.props.id,
+                                extraParams.idContainer,
+                                boxDragged.parent, boxDragged.container);
                         }
 
                         let clone = document.getElementById('clone');
@@ -383,7 +384,6 @@ export default class EditorBoxSortable extends Component {
                             container: e.target.getAttribute("data-id"),
                         };
                     } else if (dropArea === 'newContainer') {
-                        console.log(this.props.id);
                         initialParams = {
                             parent: this.props.id,
                             container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),

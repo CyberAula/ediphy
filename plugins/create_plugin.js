@@ -16,17 +16,20 @@ let options = {
 };
 
 function p(text) {
+    // eslint-disable-next-line no-console
     console.log(text);
 }
 
 function help() {
-    p("Uso: yarn run create-plugin \"<Nombre del plugin>\" <opciones>");
-    p(" o bien : npm run create-plugin -- \"<Nombre del plugin>\"  <opciones> ");
-    p("  Opciones: ");
-    p("     no-visor:              Plugin sin definir para el visor ");
-    p("     rich:                  Plugin enriquecido ");
-    p("     category <categoría>:  Categoría del plugin ");
-    p("");
+    p(`       
+        Uso: yarn run create-plugin \"<Nombre del plugin>\" <opciones>
+         o bien : npm run create-plugin -- \"<Nombre del plugin>\"  <opciones> 
+         
+        Opciones: 
+         no-visor:              Plugin sin definir para el visor 
+         rich:                  Plugin enriquecido 
+         category <categoría>:  Categoría del plugin                    
+        `);
 }
 
 function parseArgs(args) {

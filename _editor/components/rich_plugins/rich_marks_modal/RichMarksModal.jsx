@@ -175,7 +175,6 @@ export default class RichMarksModal extends Component {
                                         display: /* this.state.newType === PAGE_TYPES.SLIDE || this.state.newType === PAGE_TYPES.DOCUMENT*/ this.state.newSelected === "" ? "initial" : "none",
                                     }}
                                     onChange={e => {
-                                        console.log(this.state.newType);
                                         this.setState({ newType: e.nativeEvent.target.value });
                                     }}>
                                     <option value={PAGE_TYPES.DOCUMENT}>{i18n.t("marks.new_document")}</option>

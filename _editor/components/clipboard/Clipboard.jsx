@@ -68,6 +68,7 @@ export default class Clipboard extends Component {
                 let clipboardData = event.clipboardData.getData("text");
                 data = JSON.parse(clipboardData);
             } catch (err) {
+                // eslint-disable-next-line no-console
                 console.log(err);
             }
 
@@ -143,6 +144,7 @@ export default class Clipboard extends Component {
                         }
                             , false);
                     } catch (err) {
+                        // eslint-disable-next-line no-console
                         console.log(err);
                     }
                     if (noImage) {

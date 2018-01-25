@@ -112,7 +112,6 @@ export function VirtualTour(base) {
             };
         },
         getRenderTemplate: function(state, props) {
-            console.log(props);
             let id = "map-" + Date.now();
             let marks = state.__marks;
             if (!window.google || !navigator.onLine) {
