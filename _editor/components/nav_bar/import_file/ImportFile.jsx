@@ -126,11 +126,18 @@ export default class ImportFile extends Component {
             switch(this.state.ImportAs) {
             case 'Image':
                 this.AddPlugins();
-
+                break;
             case 'SliBackground':
-                console.log("add to slide background");
+                if (isSlide(this.props.navItems[this.props.navItemSelected].type)) {
+                    for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
+                        let canvas = document.getElementById('can' + i);
+                        let dataURL = canvas.toDataURL("image/jpeg", 1.0);
+                        this.props.onToolbarUpdated(this.props.navItemSelected, 'main', ['background'], 'background', { background: dataURL, attr: 'centered' });
+                        this.props.onBackgroundChanged(this.props.navItemSelected, { background: dataURL, attr: 'centered' });
+                    }
+                }
+                break;
             }
-
         }
         // TODO:
         // rest of cases (files)
@@ -204,8 +211,9 @@ export default class ImportFile extends Component {
                     FileType: '(.pdf)',
                     ImportAs: 'Image' });
                 // Request pages
+                let page;
                 for (let i = 1; i <= numPages; i++) {
-                    let page = pdfDocument.getPage(i).then(function(pdfPage) {
+                    page = pdfDocument.getPage(i).then(function(pdfPage) {
                         // Display page on the existing canvas with 100% scale.
                         let viewport = pdfPage.getViewport(0.5);
                         let canvas = document.createElement('canvas');
@@ -232,9 +240,8 @@ export default class ImportFile extends Component {
                         }
                         return renderTask.promise;
                     });
-                    if (i === numPages) { return page; }
                 }
-
+                return page;
             }).catch(function(reason) {
                 console.error('Error: ' + reason);
             });

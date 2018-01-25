@@ -81,8 +81,8 @@ export default class EditorCanvasSli extends Component {
                         className={'innercanvas sli'}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: isColor ? itemSelected.background : '',
                             backgroundImage: !isColor ? 'url(' + itemSelected.background.background + ')' : '',
-                            backgroundSize: itemSelected.background.attr === 'full' ? 'cover' : 'auto',
-                            backgroundRepeat: itemSelected.background.attr === 'centered' ? 'no-repeat' : 'repeat',
+                            backgroundSize: itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'repeat' ? 'auto 100%' : 'cover',
+                            backgroundRepeat: itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'full' ? 'no-repeat' : 'repeat',
                             backgroundPosition: itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'full' ? 'center center' : '0% 0%' }}>
                         {this.state.alert}
                         {gridOn ? <SnapGrid key={this.props.fromCV}/> : null}

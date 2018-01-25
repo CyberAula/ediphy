@@ -98,6 +98,8 @@ class EditorApp extends Component {
                     <EditorNavBar hideTab={this.state.hideTab}
                         globalConfig={globalConfig}
                         changeGlobalConfig={(prop, value) => {this.dispatchAndSetState(changeGlobalConfig(prop, value));}}
+                        onBackgroundChanged={(id, background) => this.dispatchAndSetState(changeBackground(id, background))}
+                        onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
                         undoDisabled={undoDisabled}
                         redoDisabled={redoDisabled}
                         navItemsIds={navItemsIds}

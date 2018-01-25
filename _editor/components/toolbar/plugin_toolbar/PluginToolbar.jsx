@@ -790,10 +790,12 @@ export default class PluginToolbar extends Component {
                                 }
                             };
                             img.src = data;
+                            console.log(data);
                         };
                         reader.readAsDataURL(file);
                         return;
                     }
+
                 }
 
                 if (button.type === 'checkbox') {
