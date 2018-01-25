@@ -29,7 +29,6 @@ function singleContainedViewReducer(state = {}, action = {}) {
         }
         return changeProp(state, "parent", previousParents);
     case DELETE_BOX:
-        // TODO: Borrar parent boxes borradas
         let modState = JSON.parse(JSON.stringify(state));
         delete modState.parent[action.payload.id];
         return changeProp(modState, "boxes", modState.boxes.filter(id => action.payload.id !== id));

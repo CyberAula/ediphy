@@ -24,10 +24,6 @@ function navItemCreator(state = {}, action = {}) {
             state[action.payload.parent].unitNumber),
         hidden: state[action.payload.parent].hidden,
         extraFiles: {},
-        header: {
-            elementContent: { documentTitle: '', documentSubTitle: '', numPage: '' },
-            display: { courseTitle: 'hidden', documentTitle: 'expanded', documentSubTitle: 'hidden', breadcrumb: "reduced", pageNumber: "hidden" },
-        },
         // titleMode: isSlide(action.payload.type) ? 'hidden' : 'expanded'
     };
 }

@@ -5,8 +5,6 @@ import { ADD_RICH_MARK } from "../../common/actions";
 
 const state = testState.present.marksById;
 
-// console.log(state);
-
 describe('# marks_by_id reducer', ()=>{
 
     describe('DEFAULT', ()=>{
@@ -45,7 +43,7 @@ describe('# marks_by_id reducer', ()=>{
                 oldConnection: 'cv-1511252975055',
                 newConnection: 'pa-1511252955865',
             };
-            expect(plugin_toolbars_by_id(state, {})).toEqual(newState);
+            expect(marks_by_id(state, action)).toEqual(newState);
         });
     });
     describe('handle DELETE_BOX', ()=>{
@@ -58,7 +56,7 @@ describe('# marks_by_id reducer', ()=>{
             };
             let newState = JSON.parse(JSON.stringify(state));
             delete newState["rm-1511252975055"];
-            expect(plugin_toolbars_by_id(state, {})).toEqual(newState);
+            expect(marks_by_id(state, action)).toEqual(newState);
         });
     });
     describe('handle DELETE_CONTAINED_VIEW', ()=>{
@@ -72,7 +70,7 @@ describe('# marks_by_id reducer', ()=>{
                 },
             };
             let newState = JSON.parse(JSON.stringify(state));
-            expect(plugin_toolbars_by_id(state, {})).toEqual(newState);
+            expect(marks_by_id(state, action)).toEqual(newState);
         });
     });
     describe('handle DUPLICATE_BOX', ()=>{
@@ -84,7 +82,7 @@ describe('# marks_by_id reducer', ()=>{
                 },
             };
             let newState = JSON.parse(JSON.stringify(state));
-            expect(plugin_toolbars_by_id(state, {})).toEqual(newState);
+            expect(marks_by_id(state, action)).toEqual(newState);
         });
     });
     describe('handle EDIT_RICH_MARK', ()=>{
@@ -94,7 +92,7 @@ describe('# marks_by_id reducer', ()=>{
                 payload: {
                     parent: 'bo-1511252970033',
                     id: "rm-1511252975055",
-                    title: "new mark",
+                    title: "mark33",
                     connectMode: "existing",
                     connection: "pa-1511252955865",
                     displayMode: "navigate",
@@ -105,7 +103,8 @@ describe('# marks_by_id reducer', ()=>{
                 },
             };
             let newState = JSON.parse(JSON.stringify(state));
-            expect(plugin_toolbars_by_id(state, {})).toEqual(newState);
+            newState["rm-1511252975055"].title = "mark33";
+            expect(marks_by_id(state, action)).toEqual(newState);
         });
     });
     describe('handle DELETE_RICH_MARK', ()=>{
@@ -126,7 +125,7 @@ describe('# marks_by_id reducer', ()=>{
                 },
             };
             let newState = JSON.parse(JSON.stringify(state));
-            expect(plugin_toolbars_by_id(state, {})).toEqual(newState);
+            expect(marks_by_id(state, action)).toEqual(newState);
         });
     });
     describe('handle PASTE_BOX', ()=>{
@@ -157,7 +156,7 @@ describe('# marks_by_id reducer', ()=>{
                 },
             };
             let newState = JSON.parse(JSON.stringify(state));
-            expect(plugin_toolbars_by_id(state, {})).toEqual(newState);
+            expect(marks_by_id(state, action)).toEqual(newState);
         });
     });
 });
