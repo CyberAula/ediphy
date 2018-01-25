@@ -8,6 +8,12 @@ let en = {
         "Advanced": "Advanced",
         "Aspect_ratio": "Aspect ratio",
         "Auto": "Automatic",
+        "background": {
+            "background_color": "Background color",
+            "background_image": "Background image",
+            "reset_background": "Reset background",
+            "background_input_url": "URL Image",
+        },
         "Block": "Block",
         "Breadcrumb": "Breadcrumb",
         "Cancel": "Cancel",

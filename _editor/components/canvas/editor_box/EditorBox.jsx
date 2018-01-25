@@ -178,9 +178,9 @@ export default class EditorBox extends Component {
         );
 
         let classes = "wholebox";
-        if (box.container) {
-            classes += " dnd";// + box.container;
-        }
+        // if (box.container) {
+        classes += " dnd";// + box.container;
+        // }
         if (this.props.id === this.props.boxSelected) {
             classes += " selectedBox";
         }
@@ -236,6 +236,7 @@ export default class EditorBox extends Component {
                         e.stopPropagation();
                     }
                     if(box.level === 0) {
+                        console.log(6);
 
                         e.stopPropagation();
                     }
@@ -255,7 +256,6 @@ export default class EditorBox extends Component {
                 {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxes[this.props.id]}
                     style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.toolbars} id={this.props.id}
                     onBlur={this.blurTextarea}/> : null}
-                {/* {this.props.id}*/}
                 <div className="boxOverlay" style={{ display: showOverlay }} />
                 <MarkCreator
                     addMarkShortcut={this.props.addMarkShortcut}
@@ -269,8 +269,7 @@ export default class EditorBox extends Component {
                     markCreatorId={this.props.markCreatorId}
                     currentId={this.props.id}
                     pageType={this.props.pageType}
-                    onRichMarksModalToggled={this.props.onRichMarksModalToggled}
-                />
+                    onRichMarksModalToggled={this.props.onRichMarksModalToggled} />
             </div>
         );
         /* <MarkCreator/>*/

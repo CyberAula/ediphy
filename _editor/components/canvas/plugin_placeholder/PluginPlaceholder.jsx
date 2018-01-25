@@ -123,7 +123,7 @@ export default class PluginPlaceholder extends Component {
                     Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                 } else {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
-                    // If box being dragged is dropped in a different column or row, change it's value
+                    // If box being dragged is dropped in a different column or row, change its value
                     // if (boxDragged && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
                     this.props.onBoxDropped(this.props.boxSelected, extraParams.j, extraParams.i, this.props.parentBox.id,
                         this.idConvert(this.props.pluginContainer), boxDragged.parent, boxDragged.container);

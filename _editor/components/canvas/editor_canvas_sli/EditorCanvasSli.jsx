@@ -62,6 +62,8 @@ export default class EditorCanvasSli extends Component {
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
+        let backgroundIsUri = (/data\:/).test(itemSelected.background);
+        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(itemSelected.background);
         let gridOn = this.props.grid && ((this.props.containedViewSelected !== 0) === this.props.fromCV);
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
@@ -79,7 +81,11 @@ export default class EditorCanvasSli extends Component {
                             e.stopPropagation();
                         }}
                         className={'innercanvas sli'}
-                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: isColor ? itemSelected.background : '',
+                            backgroundImage: !isColor ? 'url(' + itemSelected.background.background + ')' : '',
+                            backgroundSize: itemSelected.background.attr === 'full' ? 'cover' : 'auto',
+                            backgroundRepeat: itemSelected.background.attr === 'centered' ? 'no-repeat' : 'repeat',
+                            backgroundPosition: itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'full' ? 'center center' : '0% 0%' }}>
                         {this.state.alert}
                         {gridOn ? <SnapGrid key={this.props.fromCV}/> : null}
                         <EditorHeader titles={titles}
@@ -183,37 +189,46 @@ export default class EditorCanvasSli extends Component {
                 event.target.classList.remove("drop-target");
             },
             ondrop: function(event) {
-                if (Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
-                    for (let child in this.props.boxes) {
-                        if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.id && this.props.toolbars[child].config.name === event.relatedTarget.getAttribute("name")) {
-                            let alert = (<Alert className="pageModal"
-                                show
-                                hasHeader
-                                backdrop={false}
-                                title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
-                                closeButton onClose={()=>{this.setState({ alert: null });}}>
-                                <span> {i18n.t('messages.instance_limit')} </span>
-                            </Alert>);
-                            this.setState({ alert: alert });
-                            event.dragEvent.stopPropagation();
-                            return;
+                console.log(event.relatedTarget);
+                if (event.relatedTarget.classList.contains('rib')) {
+                    if (Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
+                        for (let child in this.props.boxes) {
+                            if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.id && this.props.toolbars[child].config.name === event.relatedTarget.getAttribute("name")) {
+                                let alert = (<Alert className="pageModal"
+                                    show
+                                    hasHeader
+                                    backdrop={false}
+                                    title={<span><i className="material-icons" style={{
+                                        fontSize: '14px',
+                                        marginRight: '5px',
+                                    }}>warning</i>{i18n.t("messages.alert")}</span>}
+                                    closeButton onClose={() => {this.setState({ alert: null });}}>
+                                    <span> {i18n.t('messages.instance_limit')} </span>
+                                </Alert>);
+                                this.setState({ alert: alert });
+                                event.dragEvent.stopPropagation();
+                                return;
+                            }
                         }
                     }
+                    let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
+                    let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
+                    let position = {
+                        x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - mc.offsetLeft) * 100 / mc.offsetWidth + "%",
+                        y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + mc.scrollTop /* - parseFloat(al.style.marginTop)*/) * 100 / mc.offsetHeight + '%',
+                        type: 'absolute',
+                    };
+                    let initialParams = {
+                        parent: this.props.fromCV ? this.props.containedViewSelected.id : this.props.navItemSelected.id,
+                        container: 0,
+                        position: position,
+                    };
+                    Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                    event.dragEvent.stopPropagation();
+                } else {
+                    let boxDragged = this.props.boxes[this.props.boxSelected];
+                    this.props.onBoxDropped(this.props.boxSelected, 0, 0, this.props.id, 0, boxDragged.parent, boxDragged.container);
                 }
-                let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
-                let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
-                let position = {
-                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - mc.offsetLeft) * 100 / mc.offsetWidth + "%",
-                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + mc.scrollTop /* - parseFloat(al.style.marginTop)*/) * 100 / mc.offsetHeight + '%',
-                    type: 'absolute',
-                };
-                let initialParams = {
-                    parent: this.props.fromCV ? this.props.containedViewSelected.id : this.props.navItemSelected.id,
-                    container: 0,
-                    position: position,
-                };
-                Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
-                event.dragEvent.stopPropagation();
             }.bind(this),
             ondropdeactivate: function(event) {
                 event.target.classList.remove('drop-active');

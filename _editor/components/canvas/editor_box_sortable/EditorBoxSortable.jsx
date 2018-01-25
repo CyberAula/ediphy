@@ -191,6 +191,7 @@ export default class EditorBoxSortable extends Component {
                 </div>
 
                 <div className="dragContentHere" data-html2canvas-ignore
+                    // style={{ backgroundColor: this.props.background }}
                     onClick={e => {
                         this.props.onBoxSelected(-1);
                         e.stopPropagation();}}>{i18n.t("messages.drag_content")}
