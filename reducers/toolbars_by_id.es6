@@ -367,6 +367,18 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                             },
                         },
                     },
+                    background: {
+                        __name: "Fondo",
+                        icon: "image",
+                        buttons: {
+                            background: {
+                                __name: i18n.t('background.background'),
+                                type: 'background_picker',
+                                value: { background: "rgb(255,255,255)", attr: "full" },
+                                autoManaged: false,
+                            },
+                        },
+                    },
                     header: {
                         __name: i18n.t('Header'),
                         icon: 'format_color_text',

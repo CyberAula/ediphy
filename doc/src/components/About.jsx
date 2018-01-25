@@ -63,6 +63,7 @@ export default class About extends Component {
 
             }.bind(this))
             .fail(function(xhr) {
+                // eslint-disable-next-line no-console
                 console.error('error', xhr);
                 this.setState({ changelog: "" });
             }.bind(this));
@@ -77,6 +78,7 @@ export default class About extends Component {
 
             }.bind(this))
             .fail(function(xhr) {
+                // eslint-disable-next-line no-console
                 console.error('error', xhr);
                 this.setState({ about: "" });
             }.bind(this));

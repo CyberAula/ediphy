@@ -17,10 +17,10 @@ export default class PluginPlaceholder extends Component {
     render() {
         let container = this.props.parentBox.sortableContainers[this.idConvert(this.props.pluginContainer)] || {};
         let className = "drg" + this.idConvert(this.props.pluginContainer);
-        if(this.props.boxLevelSelected - this.props.parentBox.level === 1 &&
+        /* if(this.props.boxLevelSelected - this.props.parentBox.level === 1 &&
            isAncestorOrSibling(this.props.parentBox.id, this.props.boxSelected, this.props.boxes)) {
             className += " childBoxSelected";
-        }
+        }*/
         container.style = container.style || {};
         return (
             <div style={
@@ -48,7 +48,7 @@ export default class PluginPlaceholder extends Component {
                                         if(e !== null) {
                                             this.configureDropZone(
                                                 ReactDOM.findDOMNode(e),
-                                                ".rib, .dnd" + this.idConvert(this.props.pluginContainer),
+                                                ".rib, .dnd" /* + this.idConvert(this.props.pluginContainer)*/,
                                                 {
                                                     i: i,
                                                     j: j,
@@ -123,14 +123,16 @@ export default class PluginPlaceholder extends Component {
                     Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                 } else {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
-                    // If box being dragged is dropped in a different column or row, change it's value
-                    if (boxDragged && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
-                        this.props.onBoxDropped(this.props.boxSelected, extraParams.j, extraParams.i);
+                    // If box being dragged is dropped in a different column or row, change its value
+                    // if (boxDragged && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
+                    this.props.onBoxDropped(this.props.boxSelected, extraParams.j, extraParams.i, this.props.parentBox.id,
+                        this.idConvert(this.props.pluginContainer), boxDragged.parent, boxDragged.container);
 
-                        let clone = document.getElementById('clone');
-                        clone.parentElement.removeChild(clone);
-                    }
+                    let clone = document.getElementById('clone');
+                    clone.parentElement.removeChild(clone);
+                    // }
                 }
+                // e.stopPropagation()
             }.bind(this),
             ondropdeactivate: function(e) {
                 e.target.classList.remove('drop-active');
@@ -138,7 +140,11 @@ export default class PluginPlaceholder extends Component {
             },
         });
     }
+    componentWillUnmount() {
+        interact(ReactDOM.findDOMNode(this)).unset();
+        interact(".editorBoxSortableContainer").unset();
 
+    }
     componentDidMount() {
         interact(ReactDOM.findDOMNode(this))
             .resizable({

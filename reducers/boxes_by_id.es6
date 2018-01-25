@@ -1,4 +1,7 @@
-import Utils, { changeProp, changeProps, deleteProp, deleteProps, isSortableBox, isContainedView, isSortableContainer } from '../common/utils';
+import Utils, {
+    changeProp, changeProps, deleteProp, deleteProps, isSortableBox, isContainedView, isSortableContainer,
+    isBox,
+} from '../common/utils';
 import {
     ADD_BOX, MOVE_BOX, DUPLICATE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, ADD_RICH_MARK,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
@@ -161,15 +164,18 @@ function boxReducer(state = {}, action = {}) {
             ]
         );
     case DROP_BOX:
-        if (state.id === action.payload.parent) {
+        if (state.id === action.payload.parent || state.id === action.payload.oldParent) {
             return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
         } else if (state.id === action.payload.id) {
             return changeProps(
                 state,
-                ["container",
+                [
+                    "parent",
+                    "container",
                     "row",
                     "col",
                 ], [
+                    action.payload.parent,
                     action.payload.container,
                     action.payload.row,
                     action.payload.col,
@@ -267,10 +273,13 @@ function singleSortableContainerReducer(state = {}, action = {}) {
         return changeProp(state, "style", changeProp(state.style, action.payload.prop, action.payload.value));
     case DELETE_BOX:
         return changeProp(state, "children", state.children.filter(id => id !== action.payload.id));
-    case "DROP_BOX_ADD":
-        return changeProp(state, "children", [...state.children, action.payload.id]);
-    case "DROP_BOX_DELETE":
-        return changeProp(state, "children", state.children.filter(id => id !== action.payload.id));
+    case DROP_BOX:
+        if (state.key === action.payload.oldContainer) {
+            return changeProp(state, "children", state.children.filter(id => id !== action.payload.id));
+        } else if (state.key === action.payload.container) {
+            return changeProp(state, "children", [...state.children, action.payload.id]);
+        }
+        return state;
     case REORDER_BOXES:
         return changeProp(state, "children", action.payload.order);
     case RESIZE_SORTABLE_CONTAINER:
@@ -289,7 +298,7 @@ function sortableContainersReducer(state = {}, action = {}) {
             action.payload.ids.container,
             state[action.payload.ids.container] ?
                 singleSortableContainerReducer(state[action.payload.ids.container], action) :
-                sortableContainerCreator("", [action.payload.ids.id])
+                sortableContainerCreator(action.payload.ids.container, [action.payload.ids.id])
         );
     case CHANGE_COLS:
         return changeProp(state, action.payload.id, singleSortableContainerReducer(state[action.payload.id], action));
@@ -300,25 +309,27 @@ function sortableContainersReducer(state = {}, action = {}) {
     case DELETE_BOX:
         return changeProp(state, action.payload.container, singleSortableContainerReducer(state[action.payload.container], action));
     case DROP_BOX:
-        let oldContainer;
-        for(let container in state) {
-            if (state[container].children.indexOf(action.payload.id) !== -1) {
-                oldContainer = container;
+        if (state[action.payload.oldContainer] && state[action.payload.container]) {
+            if (action.payload.oldContainer !== action.payload.container) {
+                return changeProps(state,
+                    [action.payload.oldContainer, action.payload.container],
+                    [
+                        singleSortableContainerReducer(state[action.payload.oldContainer], action),
+                        singleSortableContainerReducer(state[action.payload.container], action),
+                    ]);
             }
+            return state;
+        } else if (state[action.payload.oldContainer] && !state[action.payload.container]) {
+            return changeProp(state,
+                action.payload.oldContainer,
+                singleSortableContainerReducer(state[action.payload.oldContainer], action)
+            );
+        } else if (!state[action.payload.oldContainer] && state[action.payload.container]) {
+            return changeProp(state,
+                action.payload.container,
+                singleSortableContainerReducer(state[action.payload.container], action)
+            );
         }
-        if(oldContainer && oldContainer !== action.payload.container) {
-            return changeProps(state,
-                [
-                    oldContainer,
-                    action.payload.container,
-                ],
-                [
-                    singleSortableContainerReducer(state[oldContainer], Object.assign({}, action, { type: "DROP_BOX_DELETE" })),
-                    singleSortableContainerReducer(state[action.payload.container], Object.assign({}, action, { type: "DROP_BOX_ADD" })),
-                ]);
-
-        }
-
         return state;
     case DELETE_SORTABLE_CONTAINER:
         return deleteProp(state, action.payload.id);
@@ -337,7 +348,6 @@ export default function(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
         // if box is contained in sortableContainer, add it as well to its children
-        console.log(action.payload);
         if (isSortableContainer(action.payload.ids.container)) {
             return changeProps(
                 state,
@@ -389,10 +399,27 @@ export default function(state = {}, action = {}) {
     case CHANGE_SORTABLE_PROPS:
         return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
     case DROP_BOX:
-        if (isSortableBox(action.payload.parent)) {
+        if (isSortableBox(action.payload.parent) || isBox(action.payload.parent)) { // New parent is box
+            if (action.payload.oldParent === action.payload.parent) { // Same parent as before but container or row changes
+                // We need to change the box's container and tell the parent
+                return changeProps(state, [action.payload.id, action.payload.parent], [boxReducer(state[action.payload.id], action), boxReducer(state[action.payload.parent], action)]);
+            } // Differen parent
+            if (isBox(action.payload.oldParent) || isSortableBox(action.payload.oldParent)) { // Old parent was a box
+                // We need to change the new and old parent
+                return changeProps(state, [action.payload.id, action.payload.parent, action.payload.oldParent], [boxReducer(state[action.payload.id], action), boxReducer(state[action.payload.parent], action), boxReducer(state[action.payload.oldParent], action)]);
+            } // Old parent was a page or something else
+            // We just need to change the new parent
             return changeProps(state, [action.payload.id, action.payload.parent], [boxReducer(state[action.payload.id], action), boxReducer(state[action.payload.parent], action)]);
-        }
-        return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
+
+        } // New parent is something other than a box
+        if (!isBox(action.payload.parent) && !isSortableBox(action.payload.parent)) { // Old parent was a box
+            // We need to change the box's parent and container and remove the child from the old parent.
+            return changeProps(state, [action.payload.id, action.payload.oldParent], [boxReducer(state[action.payload.id], action), boxReducer(state[action.payload.oldParent], action)]);
+        } // Old parent was a page or something else
+        // We do nothing because boxes cannot change their parents to another page.
+
+        return state;
+        // return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
     case CHANGE_COLS:
         newState = changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
         action.payload.boxesAffected.forEach(id => {

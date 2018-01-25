@@ -56,7 +56,7 @@ export function changeProps(object, keys, values) {
         }
         return temp;
     }
-
+    // eslint-disable-next-line no-console
     console.error("Incorrect parameters");
     return undefined;
 }
@@ -88,6 +88,7 @@ export function deleteProps(object, keys) {
         }
         return temp;
     }
+    // eslint-disable-next-line no-console
     console.error("Parameter is not an array");
     return undefined;
 }

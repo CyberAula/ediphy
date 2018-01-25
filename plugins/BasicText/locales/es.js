@@ -2,7 +2,7 @@ module.exports = {
     "BasicText": {
         "box_style": "Estilo caja",
         "classname": "Nombres de clases",
-        "PluginName": "Texto básico",
+        "PluginName": "Texto",
         "background_color": "Color de fondo",
         "border_color": "Color de borde",
         "border_size": "Grosor de borde",

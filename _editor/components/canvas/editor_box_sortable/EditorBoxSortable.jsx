@@ -65,7 +65,7 @@ export default class EditorBoxSortable extends Component {
                                     height: container.height === 'auto' ? container.height : container.height + 'px',
                                 }, container.style)
                             }>
-                            <div className="disp_table width100 height100" style={{ minHeight: '100px', height: '1px' }}>
+                            <div className="disp_table width100 height100" style={{ minHeight: '100px' }}>
                                 {container.colDistribution.map((col, i) => {
                                     if (container.cols[i]) {
                                         return (<div key={i}
@@ -191,6 +191,7 @@ export default class EditorBoxSortable extends Component {
                 </div>
 
                 <div className="dragContentHere" data-html2canvas-ignore
+                    // style={{ backgroundColor: this.props.background }}
                     onClick={e => {
                         this.props.onBoxSelected(-1);
                         e.stopPropagation();}}>{i18n.t("messages.drag_content")}
@@ -326,6 +327,7 @@ export default class EditorBoxSortable extends Component {
                                 }
                             }
                         }
+
                         let initialParams = {
                             parent: this.props.id,
                             container: extraParams.idContainer,
@@ -334,14 +336,16 @@ export default class EditorBoxSortable extends Component {
                         };
                         Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     } else {
+
                         let boxDragged = this.props.boxes[this.props.boxSelected];
                         // If box being dragged is dropped in a different column or row, change it's value
                         if (boxDragged) { // && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
                             this.props.onBoxDropped(this.props.boxSelected,
                                 extraParams.j,
                                 extraParams.i,
-                                boxDragged.parent,
-                                extraParams.idContainer);
+                                this.props.id,
+                                extraParams.idContainer,
+                                boxDragged.parent, boxDragged.container);
                         }
 
                         let clone = document.getElementById('clone');

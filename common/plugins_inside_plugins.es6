@@ -24,7 +24,6 @@ export function parsePluginContainersReact(obj, state) {
     if (obj.type && obj.type === PluginPlaceholder) {
         let newProps = {};
         if (obj.props) {
-            console.log(22);
             let height = "auto";
             if (obj.props) {
                 if (obj.props['plugin-data-height']) {
@@ -59,7 +58,6 @@ export function parsePluginContainersReact(obj, state) {
             if (!newProps['plugin-data-height']) {
                 newProps['plugin-data-height'] = newProps['plugin-data-initial-height'] || (newProps.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto");
             }
-            console.log(state[obj.props.pluginContainer]);
             if (obj.props.pluginContainer && !state[obj.props.pluginContainer]) {
                 state[newProps.pluginContainer] = {
                     id: newProps.pluginContainer,
@@ -67,7 +65,6 @@ export function parsePluginContainersReact(obj, state) {
                     height: newProps['plugin-data-height'],
                 };
             }
-            console.log(state[newProps.pluginContainer]);
         }
     }
 
@@ -140,7 +137,7 @@ export function parsePluginContainers(obj, state) {
 }
 
 export function hasExerciseBox(navItemId, navItems, state, boxes) {
-    if(state.pluginTab === "exercises" && (navItems[navItemId].boxes.length > 1 || boxes[navItems[navItemId].boxes[0]].children.length !== 0)) {
+    if(state.pluginTab === "evaluation" && (navItems[navItemId].boxes.length > 1 || boxes[navItems[navItemId].boxes[0]].children.length !== 0)) {
         return true;
     }
     if(navItems[navItemId] && Object.keys(navItems[navItemId].extraFiles).length !== 0) {
@@ -183,11 +180,9 @@ export function addDefaultContainerPluginsReact(eventDetails, obj, boxes) {
             addDefaultContainerPluginsReact(eventDetails, obj.props.children, boxes);
         }
     }
-    console.log(obj, "heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeere");
     if (obj.type && obj.type === PluginPlaceholder && obj.props['plugin-data-default']) {
         let idContainer = isSortableContainer(obj.props.pluginContainer) ? obj.props.pluginContainer : ID_PREFIX_SORTABLE_CONTAINER + obj.props.pluginContainer;
         let plug_children = boxes[eventDetails.ids.id].sortableContainers[idContainer];
-        console.log(plug_children, "plug_children", eventDetails, boxes);
         if (plug_children && plug_children.children && plug_children.children.length === 0) {
             obj.props['plugin-data-default'].split(" ").map(name => {
                 if (!Ediphy.Plugins.get(name)) {
@@ -201,7 +196,6 @@ export function addDefaultContainerPluginsReact(eventDetails, obj, boxes) {
                     isDefaultPlugin: true,
                 }, ADD_BOX);
             });
-            console.log(idContainer, obj.props.pluginContainer);
         }
     }
 }

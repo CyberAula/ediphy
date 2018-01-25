@@ -178,9 +178,9 @@ export default class EditorBox extends Component {
         );
 
         let classes = "wholebox";
-        if (box.container) {
-            classes += " dnd";// + box.container;
-        }
+        // if (box.container) {
+        classes += " dnd";// + box.container;
+        // }
         if (this.props.id === this.props.boxSelected) {
             classes += " selectedBox";
         }
@@ -190,14 +190,13 @@ export default class EditorBox extends Component {
 
         let showOverlay = "none";
         // If current level selected is bigger than this box's and it has no children, show overlay
-        if (this.props.boxLevelSelected > box.level && box.children.length === 0) {
+        /* if (this.props.boxLevelSelected > box.level && box.children.length === 0) {
             showOverlay = "initial";
         // If current level selected is the same but this box belongs to another "tree" of boxes, show overlay
         } else if (this.props.boxLevelSelected === box.level &&
-                   box.level !== 0 &&
-                   !isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
+                   box.level !== 0) {
             showOverlay = "initial";
-        }
+        }*/
         let verticalAlign = "top";
         if (isSortableBox(box.container)) {
             if (toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign && toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value) {
@@ -215,7 +214,6 @@ export default class EditorBox extends Component {
                     // If there's no box selected and current's level is 0 (otherwise, it would select a deeper box)
                     // or -1 (only EditorBoxSortable can have level -1)
                     if((this.props.boxSelected === -1 || this.props.boxLevelSelected === -1) && box.level === 0) {
-                        console.log(1);
                         this.props.onBoxSelected(this.props.id);
                         e.stopPropagation();
                         return;
@@ -223,20 +221,16 @@ export default class EditorBox extends Component {
                     // Last parent has to be the same, otherwise all boxes with same level would be selectable
                     if(this.props.boxLevelSelected === box.level &&
                  isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
-                        console.log(2);
-
+                        // if(this.props.boxLevelSelected === box.level) {
                         if(e.nativeEvent.ctrlKey && box.children.length !== 0) {
-                            console.log(3);
 
                             this.props.onBoxLevelIncreased();
                         }else if(this.props.boxSelected !== this.props.id) {
-                            console.log(4);
 
                             this.props.onBoxSelected(this.props.id);
                         }
                     }
                     if(this.props.boxSelected !== -1 && this.props.boxLevelSelected === 0) {
-                        console.log(5);
 
                         this.props.onBoxSelected(this.props.id);
                         e.stopPropagation();
@@ -262,7 +256,6 @@ export default class EditorBox extends Component {
                 {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxes[this.props.id]}
                     style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.toolbars} id={this.props.id}
                     onBlur={this.blurTextarea}/> : null}
-                {this.props.id}
                 <div className="boxOverlay" style={{ display: showOverlay }} />
                 <MarkCreator
                     addMarkShortcut={this.props.addMarkShortcut}
@@ -276,8 +269,7 @@ export default class EditorBox extends Component {
                     markCreatorId={this.props.markCreatorId}
                     currentId={this.props.id}
                     pageType={this.props.pageType}
-                    onRichMarksModalToggled={this.props.onRichMarksModalToggled}
-                />
+                    onRichMarksModalToggled={this.props.onRichMarksModalToggled} />
             </div>
         );
         /* <MarkCreator/>*/
@@ -494,7 +486,6 @@ export default class EditorBox extends Component {
                     // If contained in smth different from ContainedCanvas (sortableContainer || PluginPlaceHolder), clone the node and hide the original
                     if (isSortableContainer(box.container)) {
                         let original = event.target;
-                        console.log(original);
                         let parent = original;
                         // Find real parent to append clone
                         let iterate = true;
@@ -635,23 +626,24 @@ export default class EditorBox extends Component {
                     }
                     let containerId = hoverSortableContainer || box.container;
                     let disposition = { col: col || 0, row: row || 0 };
-                    this.props.onBoxMoved(
+                    let containerHoverID = this.releaseClick(releaseClick, 'sc-');
+                    // TODO Comentar?
+                    /* this.props.onBoxMoved(
                         this.props.id,
                         isSortableContainer(box.container) ? left : absoluteLeft,
                         isSortableContainer(box.container) ? top : absoluteTop,
                         this.props.boxes[this.props.id].position.type,
                         box.parent,
-                        containerId,
+                        containerHoverID ? ('sc-'+containerHoverID) : containerId,
                         disposition
-                    );
+                    );*/
 
                     // Stuff to reorder boxes when position is relative
                     let hoverID = this.releaseClick(releaseClick, 'box-');
                     let boxOb = this.props.boxes[this.props.id];
-                    console.log(boxOb.container, containerId, container, this.props.boxes);
+                    if (boxOb && isSortableContainer(boxOb.container) && box.container === containerId) {
 
-                    if (boxOb && isSortableContainer(boxOb.container) && boxOb.container === containerId) {
-                        let children = this.props.boxes[boxOb.parent].sortableContainers[boxOb.container].children;
+                        let children = this.props.boxes[boxOb.parent].sortableContainers[box.container].children;
                         if (children.indexOf(hoverID) !== -1) {
                             let newOrder = JSON.parse(JSON.stringify(children));
                             newOrder.splice(newOrder.indexOf(hoverID), 0, newOrder.splice(newOrder.indexOf(boxOb.id), 1)[0]);
@@ -763,6 +755,7 @@ export default class EditorBox extends Component {
                     target.style.width = widthButton.displayValue === 'auto' ? 'auto' : widthButton.value + widthButton.units;
                     target.style.height = heightButton.displayValue === 'auto' ? 'auto' : heightButton.value + heightButton.units;
                     this.props.onBoxResized(this.props.id, widthButton, heightButton);
+
                     if (box.position.x !== target.style.left || box.position.y !== target.style.top) {
                         target.style.left = (parseFloat(target.style.left) / 100 * target.parentElement.offsetWidth + parseFloat(target.getAttribute('data-x'))) * 100 / target.parentElement.offsetWidth + '%';
                         target.style.top = (parseFloat(target.style.top) / 100 * target.parentElement.offsetHeight + parseFloat(target.getAttribute('data-y'))) * 100 / target.parentElement.offsetHeight + '%';
@@ -783,7 +776,6 @@ export default class EditorBox extends Component {
                     if (span) {
                         span.parentElement.removeChild(span);
                     }
-                    console.log(event);
                     event.stopPropagation();
                 },
             });

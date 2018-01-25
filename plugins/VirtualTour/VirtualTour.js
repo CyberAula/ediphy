@@ -15,7 +15,7 @@ export function VirtualTour(base) {
             return {
                 name: 'VirtualTour',
                 displayName: Ediphy.i18n.t('VirtualTour.PluginName'),
-                category: 'multimedia',
+                category: 'objects',
                 needsConfigModal: false,
                 flavor: "react",
                 needsTextEdition: false,
@@ -112,7 +112,6 @@ export function VirtualTour(base) {
             };
         },
         getRenderTemplate: function(state, props) {
-            console.log(props);
             let id = "map-" + Date.now();
             let marks = state.__marks;
             if (!window.google || !navigator.onLine) {

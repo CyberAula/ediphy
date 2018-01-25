@@ -13,6 +13,7 @@ export default function() {
         }
 
         if (warn) {
+            // eslint-disable-next-line no-console
             console.warn(warn);
         }
         return value;
@@ -30,6 +31,7 @@ export default function() {
             }
             let key = json.attr['plugin-data-key'];
             if (!key) {
+                // eslint-disable-next-line no-console
                 console.error(json.tag + " has not defined plugin-data-key");
             } else if (state.__pluginContainerIds[key]) {
                 json.attr['plugin-data-id'] = state.__pluginContainerIds[key].id;
@@ -40,8 +42,6 @@ export default function() {
     };
 
     let assignPluginContainerIdsReact = function(temp) {
-        console.log('temp');
-        console.log(temp);
         if (temp.props && temp.props.children) {
             if(temp.props.children instanceof Array) {
                 for (let i = 0; i < temp.props.children.length; i++) {
@@ -58,9 +58,7 @@ export default function() {
             }
             let key = temp.props['plugin-data-key'];
             if (!key) {
-                // console.error(temp.type.toString() + " has not defined plugin-data-key");
             } else if (state.__pluginContainerIds[key]) {
-                console.log(200);
                 temp.props.pluginContainer = state.__pluginContainerIds[key].id;
                 temp.props['plugin-data-display-name'] = state.__pluginContainerIds[key].name;
                 temp.props['plugin-data-height'] = state.__pluginContainerIds[key].height;
@@ -153,6 +151,7 @@ export default function() {
                 aspectRatioButtonConfig.name = Ediphy.i18n.t("Aspect_ratio");
                 aspectRatioButtonConfig.location = defaultFor(aspectRatioButtonConfig.location, ["main", "z__extra"], "Aspect ratio button location not defined");
                 if (!Array.isArray(aspectRatioButtonConfig.location) || aspectRatioButtonConfig.location.length < 2 || aspectRatioButtonConfig.location.length > 3) {
+                    // eslint-disable-next-line no-console
                     console.error("Aspect ratio button location malformed");
                 }
                 aspectRatioButtonConfig.defaultValue = defaultFor(aspectRatioButtonConfig.defaultValue, "unchecked");
@@ -273,6 +272,7 @@ export default function() {
                         accordions[accordionKey].accordions = accordions2;
                         accordions[accordionKey].order = defaultFor(accordions[accordionKey].order, [], "Property order in accordion '" + accordionKey + "' not found");
                         if (accordions[accordionKey].order.length !== (Object.keys(buttons).length + Object.keys(accordions2).length)) {
+                            // eslint-disable-next-line no-console
                             console.warn("Accordion '%s' in tab '%s' malformed. Order property length differs from expected", accordionKey, tabKey);
                         }
                         for (let accordionKey2 in accordions2) {
@@ -302,6 +302,7 @@ export default function() {
 
             if (!descendant.getConfigTemplate) {
                 if (this.getConfig().needsConfigModal) {
+                    // eslint-disable-next-line no-console
                     console.error(this.getConfig().name + " has not defined getConfigTemplate method");
                 }
             } else {
@@ -366,6 +367,7 @@ export default function() {
             // UPDATE_NAV_ITEM_EXTRA_FILES
 
             if (!descendant.getRenderTemplate) {
+                // eslint-disable-next-line no-console
                 console.error(this.getConfig().name + " has not defined getRenderTemplate method");
             } else {
 
@@ -383,7 +385,6 @@ export default function() {
                 }
 
                 if (template !== null) {
-                    console.log('ww');
                     Ediphy.API.renderPlugin(
                         template,
                         this.getToolbar(),

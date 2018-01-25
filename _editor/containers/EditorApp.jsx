@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { ActionCreators } from 'redux-undo';
 import { Grid, Col, Row } from 'react-bootstrap';
 import { addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
-    changeNavItemName, changeUnitNumber, selectIndex,
+    changeNavItemName, selectIndex,
     addBox, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
-    resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
-    toggleTextEditor, toggleTitleMode, pasteBox,
+    resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeBackground, changeSortableProps, reorderBoxes, verticallyAlignBox,
+    toggleTextEditor, toggleTitleMode, pasteBox, changeBoxLayer,
     changeDisplayMode, updateToolbar,
     exportStateAsync, importStateAsync, importState, changeGlobalConfig,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
@@ -203,19 +203,26 @@ class EditorApp extends Component {
                         <Row id="actionsRibbon">
                             <ActionsRibbon onGridToggle={()=> {this.setState({ grid: !this.state.grid });}}
                                 grid={this.state.grid}
+                                onBoxLayerChanged={(id, parent, container, value, boxes_array) => this.dispatchAndSetState(changeBoxLayer(id, parent, container, value, boxes_array))}
                                 navItemSelected={navItemSelected}
                                 containedViewSelected={containedViewSelected}
+                                boxSelected={boxSelected}
+                                boxes={boxes}
                                 navItems={navItems}
                                 containedViews={containedViews}
                                 ribbonHeight={ribbonHeight + 'px'}/>
                         </Row>
-                        <Row id="ribbonRow" style={{ left: (this.state.carouselShow ? '15px' : '147px') }}>
+
+                        <Row id="ribbonRow" style={{ top: '-1px', left: (this.state.carouselShow ? '15px' : '147px') }}>
                             <PluginRibbon disabled={navItemSelected === 0 || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected)) || hasExerciseBox(navItemSelected, navItems, this.state, boxes)} // ADD condition navItemSelected There are extrafiles
                                 boxSelected={boxes[boxSelected]}
                                 navItemSelected={navItems[navItemSelected]}
-                                containedViewSelected={containedViewSelected}
+                                navItems={navItems}
+                                containedViewSelected={containedViews[containedViewSelected] || containedViewSelected }
                                 category={this.state.pluginTab}
                                 hideTab={this.state.hideTab}
+                                boxes={boxes}
+                                toolbars={toolbars}
                                 ribbonHeight={ribbonHeight + 'px'} />
                         </Row>
                         <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
@@ -251,11 +258,10 @@ class EditorApp extends Component {
                                 onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
                                 onRichMarkUpdated={(box, state, mark)=>{this.dispatchAndSetState(editRichMark(box, state, mark));}}
                                 onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
-                                onBoxDropped={(id, row, col, parent, container) => this.dispatchAndSetState(dropBox(id, row, col, parent, container))}
+                                onBoxDropped={(id, row, col, parent, container, oldParent, oldContainer) => this.dispatchAndSetState(dropBox(id, row, col, parent, container, oldParent, oldContainer))}
                                 onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                                 onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
                                 onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
-                                // onUnitNumberChanged={(id, value) => this.dispatchAndSetState(changeUnitNumber(id, value))}
                                 onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                 onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order));}}
                                 titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
@@ -305,7 +311,7 @@ class EditorApp extends Component {
                                 onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                                 onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
                                 onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
-                                onBoxDropped={(id, row, col, parent, container) => this.dispatchAndSetState(dropBox(id, row, col, parent, container))}
+                                onBoxDropped={(id, row, col, parent, container, oldParent, oldContainer) => this.dispatchAndSetState(dropBox(id, row, col, parent, container, oldParent, oldContainer))}
                                 onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}
                                 onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
@@ -366,6 +372,7 @@ class EditorApp extends Component {
                     fetchResults={fetchVishResults}
                     titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
                     onContainedViewNameChanged={(id, titleStr) => this.dispatchAndSetState(changeContainedViewName(id, titleStr))}
+                    onBackgroundChanged={(id, background) => this.dispatchAndSetState(changeBackground(id, background))}
                     onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(navItemSelected)) }
                     onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                     onNavItemNameChanged={(id, titleStr) => this.dispatchAndSetState(changeNavItemName(id, titleStr))}
@@ -496,8 +503,6 @@ class EditorApp extends Component {
                 e.detail.state.__pluginContainerIds = newPluginState;
             } else {
                 parsePluginContainersReact(e.detail.content, newPluginState);
-                console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                console.log(newPluginState);
 
                 e.detail.state.__pluginContainerIds = newPluginState;
             }
@@ -513,7 +518,6 @@ class EditorApp extends Component {
                     this.severalBoxes = Date.now() + this.index++;
                 }
                 e.detail.ids.id = (this.severalBoxes !== 0) ? ID_PREFIX_BOX + this.severalBoxes++ : ID_PREFIX_BOX + Date.now() + this.index++;
-                console.log(e.detail.ids.container);
                 this.dispatchAndSetState(addBox(
                     {
                         parent: e.detail.ids.parent,
@@ -551,7 +555,6 @@ class EditorApp extends Component {
             if (e.detail.config.flavor !== "react") {
                 addDefaultContainerPlugins(e.detail, e.detail.content, this.props.boxes);
             } else {
-                console.log(2);
                 addDefaultContainerPluginsReact(e.detail, e.detail.content, this.props.boxes);
             }
             if (e.detail.state.__xml_path) {
@@ -802,6 +805,7 @@ class EditorApp extends Component {
             this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
         } else {
             this.dispatchAndSetState(editRichMark(boxSelected, state, mark, oldConnection, newConnection));
+
         }
 
     }
