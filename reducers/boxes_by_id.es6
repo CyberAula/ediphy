@@ -167,6 +167,8 @@ function boxReducer(state = {}, action = {}) {
         if (state.id === action.payload.parent || state.id === action.payload.oldParent) {
             return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
         } else if (state.id === action.payload.id) {
+            let newLevel = isBox(action.payload.parent) ? 1 : 0;
+            let isResizable = !(isBox(action.payload.parent) || isSortableBox(action.payload.parent));
             return changeProps(
                 state,
                 [
@@ -174,11 +176,17 @@ function boxReducer(state = {}, action = {}) {
                     "container",
                     "row",
                     "col",
+                    "position",
+                    "level",
+                    "resizable",
                 ], [
                     action.payload.parent,
                     action.payload.container,
                     action.payload.row,
                     action.payload.col,
+                    action.payload.position || state.position,
+                    newLevel,
+                    isResizable,
                 ]);
         }
         return state;

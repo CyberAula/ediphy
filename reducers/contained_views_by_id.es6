@@ -2,10 +2,10 @@
 import {
     ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_RICH_MARK, EDIT_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW,
     CHANGE_CONTAINED_VIEW_NAME, TOGGLE_TITLE_MODE, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, PASTE_BOX, IMPORT_STATE,
-    CHANGE_BOX_LAYER, CHANGE_BACKGROUND,
+    CHANGE_BOX_LAYER, CHANGE_BACKGROUND, DROP_BOX,
 } from '../common/actions';
 
-import { changeProp, deleteProps, isContainedView, findNavItemContainingBox, isView } from '../common/utils';
+import { changeProp, deleteProps, isContainedView, findNavItemContainingBox } from '../common/utils';
 
 function singleContainedViewReducer(state = {}, action = {}) {
     switch (action.type) {
@@ -53,6 +53,13 @@ function singleContainedViewReducer(state = {}, action = {}) {
         let modState = JSON.parse(JSON.stringify(state));
         delete modState.parent[action.payload.id];
         return changeProp(modState, "boxes", modState.boxes.filter(id => action.payload.id !== id));
+    case DROP_BOX:
+        if (state.id === action.payload.parent) {
+            return changeProp(state, "boxes", [...state.boxes, action.payload.id]);
+        } else if (state.id === action.payload.oldParent) {
+            return changeProp(state, "boxes", state.boxes.filter(id => id !== action.payload.id));
+        }
+        return state;
     case TOGGLE_TITLE_MODE:
         return changeProp(state, "header", action.payload.titles);
     case CHANGE_CONTAINED_VIEW_NAME:
@@ -120,6 +127,15 @@ export default function(state = {}, action = {}) {
     case DELETE_RICH_MARK:
         if(isContainedView(action.payload.cvid)) {
             return changeProp(state, action.payload.cvid, singleContainedViewReducer(state[action.payload.cvid], action));
+        }
+        return state;
+    case DROP_BOX:
+        if (isContainedView(action.payload.parent) && isContainedView(action.payload.oldParent)) {
+            return changeProps(state, [action.payload.parent, action.payload.oldParent], [singleContainedViewReducer(state[action.payload.parent], action), singleContainedViewReducer(state[action.payload.oldParent], action)]);
+        } else if (!isContainedView(action.payload.parent) && isContainedView(action.payload.oldParent)) {
+            return changeProp(state, action.payload.oldParent, singleContainedViewReducer(state[action.payload.oldParent], action));
+        } else if (isContainedView(action.payload.parent) && !isContainedView(action.payload.oldParent)) {
+            return changeProp(state, action.payload.parent, singleContainedViewReducer(state[action.payload.parent], action));
         }
         return state;
     case ADD_RICH_MARK:

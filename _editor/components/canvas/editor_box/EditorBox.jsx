@@ -303,7 +303,7 @@ export default class EditorBox extends Component {
                     markCreatorId: this.props.markCreatorId,
                     addMarkShortcut: this.props.addMarkShortcut,
                     deleteMarkCreator: this.props.deleteMarkCreator,
-                    boxLevelSelected: this.props.boxLevelSelected,
+                    boxLevelISelected: this.props.boxLevelSelected,
                     toolbars: this.props.toolbars,
                     lastActionDispatched: this.props.lastActionDispatched,
                     onBoxSelected: this.props.onBoxSelected,
@@ -578,6 +578,7 @@ export default class EditorBox extends Component {
                     }
 
                     let target = event.target;
+                    target.style.opacity = 1;
                     if (!target.parentNode) {
                         return;
                     }
@@ -608,11 +609,12 @@ export default class EditorBox extends Component {
                     target.style.zIndex = 'initial';
 
                     // Delete clone and unhide original
+
+                    let clone = document.getElementById('clone');
+                    if (clone) {
+                        clone.parentElement.removeChild(clone);
+                    }
                     if (isSortableContainer(box.container)) {
-                        let clone = document.getElementById('clone');
-                        if (clone) {
-                            clone.parentElement.removeChild(clone);
-                        }
                         target.style.opacity = 1;
                     }
 
@@ -628,15 +630,15 @@ export default class EditorBox extends Component {
                     let disposition = { col: col || 0, row: row || 0 };
                     let containerHoverID = this.releaseClick(releaseClick, 'sc-');
                     // TODO Comentar?
-                    /* this.props.onBoxMoved(
+                    this.props.onBoxMoved(
                         this.props.id,
                         isSortableContainer(box.container) ? left : absoluteLeft,
                         isSortableContainer(box.container) ? top : absoluteTop,
                         this.props.boxes[this.props.id].position.type,
                         box.parent,
-                        containerHoverID ? ('sc-'+containerHoverID) : containerId,
+                        containerHoverID ? ('sc-' + containerHoverID) : containerId,
                         disposition
-                    );*/
+                    );
 
                     // Stuff to reorder boxes when position is relative
                     let hoverID = this.releaseClick(releaseClick, 'box-');

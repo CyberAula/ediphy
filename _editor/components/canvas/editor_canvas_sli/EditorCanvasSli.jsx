@@ -190,6 +190,13 @@ export default class EditorCanvasSli extends Component {
             },
             ondrop: function(event) {
                 console.log(event.relatedTarget);
+                let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
+                let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
+                let position = {
+                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - mc.offsetLeft) * 100 / mc.offsetWidth + "%",
+                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + mc.scrollTop /* - parseFloat(al.style.marginTop)*/) * 100 / mc.offsetHeight + '%',
+                    type: 'absolute',
+                };
                 if (event.relatedTarget.classList.contains('rib')) {
                     if (Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
                         for (let child in this.props.boxes) {
@@ -211,13 +218,7 @@ export default class EditorCanvasSli extends Component {
                             }
                         }
                     }
-                    let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
-                    let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
-                    let position = {
-                        x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - mc.offsetLeft) * 100 / mc.offsetWidth + "%",
-                        y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + mc.scrollTop /* - parseFloat(al.style.marginTop)*/) * 100 / mc.offsetHeight + '%',
-                        type: 'absolute',
-                    };
+
                     let initialParams = {
                         parent: this.props.fromCV ? this.props.containedViewSelected.id : this.props.navItemSelected.id,
                         container: 0,
@@ -227,7 +228,15 @@ export default class EditorCanvasSli extends Component {
                     event.dragEvent.stopPropagation();
                 } else {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
-                    this.props.onBoxDropped(this.props.boxSelected, 0, 0, this.props.id, 0, boxDragged.parent, boxDragged.container);
+                    let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
+                    if (boxDragged.parent !== itemSelected.id) {
+                        this.props.onBoxDropped(this.props.boxSelected,
+                            0, 0, itemSelected.id, 0, boxDragged.parent, boxDragged.container, position);
+                    }
+                    let clone = document.getElementById('clone');
+                    if (clone) {
+                        clone.parentElement.removeChild(clone);
+                    }
                 }
             }.bind(this),
             ondropdeactivate: function(event) {

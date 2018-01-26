@@ -67,6 +67,7 @@ export default class PluginPlaceholder extends Component {
                                                 toolbars={this.props.toolbars}
                                                 lastActionDispatched={this.props.lastActionDispatched}
                                                 markCreatorId={this.props.markCreatorId}
+                                                onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                                 addMarkShortcut={this.props.addMarkShortcut}
                                                 deleteMarkCreator={this.props.deleteMarkCreator}
                                                 onBoxSelected={this.props.onBoxSelected}
@@ -80,6 +81,7 @@ export default class PluginPlaceholder extends Component {
                                                 containedViews={this.props.containedViews}
                                                 onBoxDropped={this.props.onBoxDropped}
                                                 onBoxModalToggled={this.props.onBoxModalToggled}
+                                                onRichMarkUpdated={this.props.onRichMarkUpdated}
                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                                 onTextEditorToggled={this.props.onTextEditorToggled}/>);
                                         } else if (index === container.children.length - 1) {
@@ -103,8 +105,10 @@ export default class PluginPlaceholder extends Component {
             accept: selector,
             overlap: 'pointer',
             ondropactivate: function(e) {
-                e.target.classList.add('drop-active');
-            },
+                if (this.props.parentBox.id !== this.props.boxSelected) {
+                    e.target.classList.add('drop-active');
+                }
+            }.bind(this),
             ondragenter: function(e) {
                 e.target.classList.add("drop-target");
             },
@@ -125,13 +129,15 @@ export default class PluginPlaceholder extends Component {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
                     // If box being dragged is dropped in a different column or row, change its value
                     // if (boxDragged && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
-                    this.props.onBoxDropped(this.props.boxSelected, extraParams.j, extraParams.i, this.props.parentBox.id,
-                        this.idConvert(this.props.pluginContainer), boxDragged.parent, boxDragged.container);
-
+                    if (this.props.parentBox.id !== this.props.boxSelected) {
+                        let position = { type: 'relative', x: 0, y: 0 };
+                        this.props.onBoxDropped(this.props.boxSelected, extraParams.j, extraParams.i, this.props.parentBox.id,
+                            this.idConvert(this.props.pluginContainer), boxDragged.parent, boxDragged.container, position);
+                    }
                     let clone = document.getElementById('clone');
-                    clone.parentElement.removeChild(clone);
-                    // }
+                    if (clone) {clone.parentElement.removeChild(clone);}
                 }
+
                 // e.stopPropagation()
             }.bind(this),
             ondropdeactivate: function(e) {
