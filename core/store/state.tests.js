@@ -44,7 +44,7 @@ export const testState = { present:
                 "pa-1511252955865": {
                     id: 0,
                     children: [],
-                    boxes: [],
+                    boxes: ['bo-1511252957954'],
                     level: 0,
                     type: '',
                     hidden: false,
@@ -53,7 +53,7 @@ export const testState = { present:
             navItemsIds: ["pa-1511252955865"],
             navItemSelected: 0,
             marksById: {
-                "rm-1511252975055": {
+                "rm-1511252975065": {
                     parent: 'bo-1511252970033',
                     id: "rm-1511252975055",
                     title: "new mark",
@@ -68,11 +68,57 @@ export const testState = { present:
             },
             containedViewsById: {
                 'cv-1511252975055': {
-
+                    id: 'cv-1511252975055',
+                    extraFiles: {},
+                    boxes: ['bo-1511252952413'],
+                    parent: {
+                        'bo-1511252957954': [''],
+                    },
                 },
             },
-            boxesById: { },
-            viewToolbarsById: { },
+            boxesById: {
+                'bo-1511252957954': {
+                    children: [],
+                    col: 0,
+                    containedViews: [],
+                    container: 0,
+                    content: "",
+                    draggable: true,
+                    fragment: {},
+                    id: 'bo-1511252957954',
+                    level: 0,
+                    parent: "pa-1511252955865",
+                    position: {
+                        type: "absolute",
+                        x: "56.57015590200445%",
+                        y: "1.5978695073235685%" },
+                    resizable: true,
+                    row: 0,
+                    showTextEditor: false,
+                },
+                'bo-1511252952413': {
+                    children: [],
+                    col: 0,
+                    containedViews: [],
+                    container: 0,
+                    content: "",
+                    draggable: true,
+                    fragment: {},
+                    id: 'bo-1511252957954',
+                    level: 0,
+                    parent: "pa-1511252955865",
+                    position: {
+                        type: "absolute",
+                        x: "56.57015590200445%",
+                        y: "1.5978695073235685%" },
+                    resizable: true,
+                    row: 0,
+                    showTextEditor: false,
+                },
+            },
+            viewToolbarsById: { "pa-1511252955865": {},
+                'cv-1511252975055': {},
+            },
             pluginToolbarsById: { },
             isBusy: "",
             fetchVishResults: { "results": [] },
