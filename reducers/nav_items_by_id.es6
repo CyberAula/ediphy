@@ -24,7 +24,7 @@ function navItemCreator(state = {}, action = {}) {
             state[action.payload.parent].unitNumber),
         hidden: state[action.payload.parent].hidden,
         extraFiles: {},
-        background: "rgb(255,255,255)",
+        background: action.payload.background,
         header: {
             elementContent: { documentTitle: '', documentSubTitle: '', numPage: '' },
             display: { courseTitle: 'hidden', documentTitle: 'expanded', documentSubTitle: 'hidden', breadcrumb: "reduced", pageNumber: "hidden" },

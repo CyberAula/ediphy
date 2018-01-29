@@ -65,6 +65,7 @@ export default class EditorCanvasSli extends Component {
         let backgroundIsUri = (/data\:/).test(itemSelected.background);
         let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(itemSelected.background);
         let gridOn = this.props.grid && ((this.props.containedViewSelected !== 0) === this.props.fromCV);
+        console.log(itemSelected.background);
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>

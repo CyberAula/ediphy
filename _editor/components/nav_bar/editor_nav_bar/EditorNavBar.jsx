@@ -246,8 +246,10 @@ export default class EditorNavBar extends Component {
                     changeGlobalConfig={this.props.changeGlobalConfig}
                     close={()=>{this.setState({ showGlobalConfig: false });}}/>
                 <ImportFile navItemSelected={this.props.navItemSelected}
-                    onBackgroundChanged={this.props.onBackgroundChanged}
+                    onNavItemAdded={this.props.onNavItemAdded}
+                    onIndexSelected={this.props.onIndexSelected}
                     onToolbarUpdated={this.props.onToolbarUpdated}
+                    navItemsIds={this.props.navItemsIds}
                     navItems={this.props.navItems}
                     show={this.state.showImportFile}
                     close={()=>{this.setState({ showImportFile: false });}}/>

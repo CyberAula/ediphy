@@ -7,7 +7,7 @@ import pdflib from 'pdfjs-dist/webpack';
 import { ADD_BOX } from "../../../../common/actions";
 import { isSlide } from "../../../../common/utils";
 import { randomPositionGenerator } from "../../clipboard/clipboard.utils";
-import { ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
+import { ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from "../../../../common/constants";
 import Ediphy from "../../../../core/editor/main";
 // styles
 import './_ImportFile.scss';
@@ -35,6 +35,7 @@ export default class ImportFile extends Component {
         this.AddPlugins = this.AddPlugins.bind(this);
         this.fileLoad = this.fileLoad.bind(this);
         this.ImportFile = this.ImportFile.bind(this);
+        this.PreviewFile = this.PreviewFile.bind(this);
     }
     /**
      * Renders React component
@@ -58,7 +59,15 @@ export default class ImportFile extends Component {
                             <div className="fileUploaded" ><i className="material-icons">insert_drive_file</i><span>{ this.state.FileName || '' }</span></div>
                         </div>
                         <Row style={{ display: this.state.FileLoaded ? 'block' : 'none' }}>
-                            <Col xs={12} md={6} lg={6}><canvas id='FilePreview' /></Col>
+                            <Col xs={12} md={6} lg={6}>
+                                <img id='FilePreview' />
+                                <button onClick={ e => {this.PreviewFile(2); }}>
+                                    <i className="material-icons">arrow_back</i>
+                                </button>
+                                <button onClick={ e => {this.PreviewFile(3); }}>
+                                    <i className="material-icons">arrow_forward</i>
+                                </button>
+                            </Col>
                             <Col xs={12} md={6} lg={6}>
                                 <FormGroup>
                                     <ControlLabel>Páginas</ControlLabel>
@@ -128,13 +137,21 @@ export default class ImportFile extends Component {
                 this.AddPlugins();
                 break;
             case 'SliBackground':
-                if (isSlide(this.props.navItems[this.props.navItemSelected].type)) {
-                    for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
-                        let canvas = document.getElementById('can' + i);
-                        let dataURL = canvas.toDataURL("image/jpeg", 1.0);
-                        this.props.onToolbarUpdated(this.props.navItemSelected, 'main', ['background'], 'background', { background: dataURL, attr: 'centered' });
-                        this.props.onBackgroundChanged(this.props.navItemSelected, { background: dataURL, attr: 'centered' });
-                    }
+                // refactor new action ()
+                for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
+                    let canvas = document.getElementById('can' + i);
+                    let dataURL = canvas.toDataURL("image/jpeg", 1.0);
+                    let newId = ID_PREFIX_PAGE + Date.now();
+                    this.props.onNavItemAdded(
+                        newId,
+                        i18n.t("slide"),
+                        0,
+                        PAGE_TYPES.SLIDE,
+                        this.props.navItemsIds.length,
+                        { background: dataURL, attr: 'centered' }
+                    );
+                    this.props.onIndexSelected(newId);
+                    this.props.onToolbarUpdated(this.props.navItemSelected, 'main', ['background'], 'background', { background: dataURL, attr: 'centered' });
                 }
                 break;
             }
@@ -162,7 +179,14 @@ export default class ImportFile extends Component {
 
         this.props.close();
     }
-
+    PreviewFile(page) {
+        let preview = document.getElementById('FilePreview');
+        let firstCanvas = document.getElementById('can' + page);
+        preview.src = firstCanvas.toDataURL();
+        preview.style.width = '100%';
+        preview.style.height = 'auto';
+        preview.style.border = '1px solid';
+    }
     AddPlugins() {
         // insert image plugins
         for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
@@ -215,7 +239,7 @@ export default class ImportFile extends Component {
                 for (let i = 1; i <= numPages; i++) {
                     page = pdfDocument.getPage(i).then(function(pdfPage) {
                         // Display page on the existing canvas with 100% scale.
-                        let viewport = pdfPage.getViewport(0.5);
+                        let viewport = pdfPage.getViewport(1.0);
                         let canvas = document.createElement('canvas');
                         document.body.appendChild(canvas);
                         canvas.id = "can" + i;
@@ -229,13 +253,7 @@ export default class ImportFile extends Component {
                         });
                         if (i === 1) {
                             renderTask.promise.then(() => {
-                                let newCanvas = document.getElementById('FilePreview');
-                                let newCanvasCtx = newCanvas.getContext('2d');
-                                let oldCanvas = document.getElementById('can1');
-                                newCanvas.width = viewport.width;
-                                newCanvas.height = viewport.height;
-                                newCanvas.style.border = '1px solid';
-                                newCanvasCtx.drawImage(oldCanvas, 0, 0, oldCanvas.width, oldCanvas.height);
+                                process.PreviewFile(i);
                             });
                         }
                         return renderTask.promise;
@@ -247,6 +265,7 @@ export default class ImportFile extends Component {
             });
         }
     }
+
     /**
      * Close modal
      */

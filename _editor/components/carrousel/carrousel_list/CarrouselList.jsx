@@ -240,7 +240,8 @@ export default class CarrouselList extends Component {
                                     i18n.t("slide"),
                                     this.getParent().id,
                                     PAGE_TYPES.SLIDE,
-                                    this.calculatePosition()
+                                    this.calculatePosition(),
+                                    "rgb(255,255,255)"
                                 );
                                 this.props.onIndexSelected(newId);
                             }}><i className="material-icons">slideshow</i>
