@@ -210,6 +210,15 @@ export default class EditorBox extends Component {
         return (
             <div className={classes} id={'box-' + this.props.id}
                 onClick={e => {
+                    if (this.props.boxSelected !== this.props.id &&
+                      (box.level < 1 || box.level < this.props.boxLevelSelected || isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes))) {
+                        this.props.onBoxSelected(this.props.id);
+                        e.stopPropagation();
+                    }
+                    if(box.level === 0) {
+                        e.stopPropagation();
+                    }
+                    /* TODO Borrar?
 
                     // If there's no box selected and current's level is 0 (otherwise, it would select a deeper box)
                     // or -1 (only EditorBoxSortable can have level -1)
@@ -223,28 +232,22 @@ export default class EditorBox extends Component {
                  isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
                         // if(this.props.boxLevelSelected === box.level) {
                         if(e.nativeEvent.ctrlKey && box.children.length !== 0) {
-
                             this.props.onBoxLevelIncreased();
                         }else if(this.props.boxSelected !== this.props.id) {
-
                             this.props.onBoxSelected(this.props.id);
                         }
                     }
                     if(this.props.boxSelected !== -1 && this.props.boxLevelSelected === 0) {
-
                         this.props.onBoxSelected(this.props.id);
                         e.stopPropagation();
                     }
                     if(box.level === 0) {
-                        console.log(6);
-
                         e.stopPropagation();
-                    }
+                    }*/
                 }}
                 onDoubleClick={(e)=> {
                     if(toolbar.config && toolbar.config.needsTextEdition && this.props.id === this.props.boxSelected) {
                         this.props.onTextEditorToggled(this.props.id, true);
-
                     }
                 }}
                 style={wholeBoxStyle}>

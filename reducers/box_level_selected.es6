@@ -16,16 +16,7 @@ export default function(state = 0, action = {}) {
         if (isSortableBox(action.payload.id)) {
             return -1;
         }
-        return action.payload.box && action.payload.box.level ? action.payload.box.level : 0;
-
-        /*   if (action.payload.id === -1) {
-            return 0;
-        }
-        if (isSortableBox(action.payload.id)) {
-            return -1;
-        }
-        // If level is -1 because a EditorBoxSortable was selected previously, we want to return 0, otherwise, return current
-        return Math.max(state, 0);*/
+        return action.payload.box && action.payload.box.level ? action.payload.box.level : Math.max(state, 0);
     case IMPORT_STATE:
         return 0;
     case SELECT_NAV_ITEM:
