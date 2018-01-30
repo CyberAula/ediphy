@@ -5,6 +5,7 @@ import GlobalConfig from '../global_config/GlobalConfig';
 import i18n from 'i18next';
 import { isSection } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
+import PluginsMenu from './PluginsMenu.jsx';
 import './_navBar.scss';
 import screenfull from 'screenfull';
 
@@ -51,40 +52,7 @@ export default class EditorNavBar extends Component {
             <Col id="iconBar">
                 <div className="grad1" />
                 <div className="identity"><span className="highlight">ED</span>iphy</div>
-                <div className="pluginsMenu" onClick={()=> this.openPlugin("")}>
-                    <button
-                        className={ this.props.hideTab === 'show' && this.props.category === 'image' ? 'navButtonPlug active' : 'navButtonPlug' }
-                        title={i18n.t("Images")} disabled={false /* disablePlugins*/}
-                        onClick={(e) => { this.props.category === 'image' ? this.openPlugin('') : this.openPlugin('image'); e.stopPropagation();}}>
-                        <i className="material-icons showonresize">image</i><span className="hideonresize"> {i18n.t("Images")}</span>
-                    </button>
-                    <button
-                        className={ this.props.hideTab === 'show' && this.props.category === 'text' ? 'navButtonPlug active' : 'navButtonPlug' }
-                        title={i18n.t("Text")} disabled={false /* disablePlugins*/}
-                        onClick={(e) => { this.props.category === 'text' ? this.openPlugin('') : this.openPlugin('text'); e.stopPropagation();}}>
-                        <i className="material-icons showonresize">text_fields</i><span className="hideonresize">{i18n.t("Text")}</span>
-                    </button>
-                    <button
-                        className={ this.props.hideTab === 'show' && this.props.category === 'multimedia' ? 'navButtonPlug active' : 'navButtonPlug' }
-                        title={i18n.t("Multimedia")} disabled={false /* disablePlugins*/}
-                        onClick={(e) => { this.props.category === 'multimedia' ? this.openPlugin('') : this.openPlugin('multimedia'); e.stopPropagation();}}>
-                        <i className="material-icons showonresize">play_circle_outline</i><span className="hideonresize">{i18n.t("Multimedia")}</span>
-                    </button>
-                    <button
-                        className={ this.props.hideTab === 'show' && this.props.category === 'objects' ? ' navButtonPlug active' : 'navButtonPlug' }
-                        title={i18n.t("Objects")} disabled={false /* disablePlugins*/}
-                        onClick={(e) => { this.props.category === 'objects' ? this.openPlugin('') : this.openPlugin('objects'); e.stopPropagation();}}>
-                        <i className="material-icons showonresize">unarchive</i><span className="hideonresize">{i18n.t("Objects")}</span>
-                    </button>
-                    <button
-                        className={ this.props.hideTab === 'show' && this.props.category === 'evaluation' ? 'navButtonPlug active' : 'navButtonPlug' }
-                        title={i18n.t("Evaluation")} disabled={false /* disablePlugins*/}
-                        style={{ display: 'none' }}
-                        onClick={(e) => { this.props.category === 'evaluation' ? this.openPlugin('') : this.openPlugin('evaluation'); e.stopPropagation(); }}>
-                        <span className="hideonresize">{i18n.t("Evaluation")}</span>
-                    </button>
-                    <div className="togglePlugins"><i className="material-icons">widgets</i></div>
-                </div>
+                <PluginsMenu category={this.props.category} hideTab={this.props.hideTab} setcat={this.props.setcat} />
                 <div className="navButtons">
                     <button className="navButton"
                         title={i18n.t("messages.fullscreen")}
