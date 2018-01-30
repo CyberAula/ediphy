@@ -99,7 +99,7 @@ class EditorApp extends Component {
                         globalConfig={globalConfig}
                         changeGlobalConfig={(prop, value) => {this.dispatchAndSetState(changeGlobalConfig(prop, value));}}
                         onIndexSelected={(id) => this.dispatchAndSetState(selectIndex(id))}
-                        onNavItemAdded={(id, name, parent, type, position, background, hasContent) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, background, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content))))}
+                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hasContent) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, background, customSize, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content))))}
                         onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
                         undoDisabled={undoDisabled}
                         redoDisabled={redoDisabled}
@@ -153,7 +153,7 @@ class EditorApp extends Component {
                             this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
                         }}
                         onNavItemNameChanged={(id, titleStr) => this.dispatchAndSetState(changeNavItemName(id, titleStr))}
-                        onNavItemAdded={(id, name, parent, type, position, background, hasContent) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, background, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content))))}
+                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hasContent) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, background, customSize, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content))))}
                         onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                         onNavItemExpanded={(id, value) => this.dispatchAndSetState(expandNavItem(id, value))}
                         onNavItemDeleted={(navsel) => {

@@ -65,7 +65,6 @@ export default class EditorCanvasSli extends Component {
         let backgroundIsUri = (/data\:/).test(itemSelected.background);
         let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(itemSelected.background);
         let gridOn = this.props.grid && ((this.props.containedViewSelected !== 0) === this.props.fromCV);
-        console.log(itemSelected.background);
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
@@ -150,7 +149,7 @@ export default class EditorCanvasSli extends Component {
                         {boxes.length === 0 ? (<div className="dragContentHere" style={{backgroundColor: 'transparent', border:0}}>{i18n.t("messages.drag_content")}</div>):(<span></span>)}
                         */}
                     </div>
-                    <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', this.props.fromCV ? 'containedCanvas' : 'canvas');
+                    <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', this.props.fromCV ? 'containedCanvas' : 'canvas', this.props.navItemSelected.customSize);
                     }} />
                 </div>
                 <EditorShortcuts
@@ -225,9 +224,8 @@ export default class EditorCanvasSli extends Component {
                 event.target.classList.remove("drop-target");
             },
         });
-
-        aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas');
-        // window.addEventListener("resize", aspectRatio);
+        aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas', this.props.navItemSelected.customSize);
+        // console.log(this.props.navItemSelected.customSize);
     }
 
     /**
@@ -235,7 +233,6 @@ export default class EditorCanvasSli extends Component {
      * Unset interact
      */
     componentWillUnmount() {
-        // window.removeEventListener("resize", aspectRatio);
         interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).unset();
     }
 
@@ -247,9 +244,7 @@ export default class EditorCanvasSli extends Component {
     componentWillUpdate(nextProps) {
         if (this.props.canvasRatio !== nextProps.canvasRatio) {
             window.canvasRatio = nextProps.canvasRatio;
-            // window.removeEventListener("resize", aspectRatio);
-            aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas');
-            // window.addEventListener("resize", aspectRatio);
+            aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas', this.props.navItemSelected.customSize);
         }
 
     }

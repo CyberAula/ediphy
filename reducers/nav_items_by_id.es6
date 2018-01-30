@@ -25,9 +25,15 @@ function navItemCreator(state = {}, action = {}) {
         hidden: state[action.payload.parent].hidden,
         extraFiles: {},
         background: action.payload.background,
+        customSize: action.payload.customSize,
         header: {
             elementContent: { documentTitle: '', documentSubTitle: '', numPage: '' },
-            display: { courseTitle: 'hidden', documentTitle: 'expanded', documentSubTitle: 'hidden', breadcrumb: "reduced", pageNumber: "hidden" },
+            display: {
+                courseTitle: 'hidden',
+                documentTitle: 'expanded',
+                documentSubTitle: 'hidden',
+                breadcrumb: action.payload.type === 'slide' ? "hidden" : "reduced",
+                pageNumber: "hidden" },
         },
     };
 }

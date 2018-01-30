@@ -33,6 +33,7 @@ export default class ImportFile extends Component {
             PagesTo: 1,
         };
         this.AddPlugins = this.AddPlugins.bind(this);
+        this.AddAsNavItem = this.AddAsNavItem.bind(this);
         this.fileLoad = this.fileLoad.bind(this);
         this.ImportFile = this.ImportFile.bind(this);
         this.PreviewFile = this.PreviewFile.bind(this);
@@ -46,7 +47,7 @@ export default class ImportFile extends Component {
             <Modal className="pageModal" id="ImportFileModal"
                 show={this.props.show}>
                 <Modal.Header>
-                    <Modal.Title><span id="previewTitle">Importar fichero {this.state.FileType}</span></Modal.Title>
+                    <Modal.Title><span id="previewTitle">Importar fichero <span className="highlight">{this.state.FileName}</span></span></Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="gcModalBody" style={{ overFlowY: 'auto' }}>
                     <form>
@@ -56,17 +57,18 @@ export default class ImportFile extends Component {
                             </div>
                         </FileInput>
                         <div className="fileLoaded" style={{ display: this.state.FileLoaded ? 'block' : 'none' }}>
-                            <div className="fileUploaded" ><i className="material-icons">insert_drive_file</i><span>{ this.state.FileName || '' }</span></div>
+                            <h2>Vista previa</h2>
+                            {/* <div className="fileUploaded" ><i className="material-icons">insert_drive_file</i><span>{ this.state.FileName || '' }</span></div> */}
                         </div>
                         <Row style={{ display: this.state.FileLoaded ? 'block' : 'none' }}>
                             <Col xs={12} md={6} lg={6}>
                                 <img id='FilePreview' />
-                                <button onClick={ e => {this.PreviewFile(2); }}>
-                                    <i className="material-icons">arrow_back</i>
-                                </button>
-                                <button onClick={ e => {this.PreviewFile(3); }}>
-                                    <i className="material-icons">arrow_forward</i>
-                                </button>
+                                {/* <button onClick={ e => {this.PreviewFile(2); }}> */}
+                                {/* <i className="material-icons">arrow_back</i> */}
+                                {/* </button> */}
+                                {/* <button onClick={ e => {this.PreviewFile(3); }}> */}
+                                {/* <i className="material-icons">arrow_forward</i> */}
+                                {/* </button> */}
                             </Col>
                             <Col xs={12} md={6} lg={6}>
                                 <FormGroup>
@@ -105,10 +107,10 @@ export default class ImportFile extends Component {
                                     <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'SliBackground' });}} >
                                         Fondo en diapositiva
                                     </Radio>
-                                    <Radio name="radioImport" inline defaultChecked onChange={e => {this.setState({ ImportAs: 'Image' });}}>
+                                    <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'Image' });}}>
                                         Imágenes
                                     </Radio>
-                                    <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'Custom' });}}>
+                                    <Radio name="radioImport" inline defaultChecked onChange={e => {this.setState({ ImportAs: 'Custom' });}}>
                                         Ajustar al tamaño del fichero
                                     </Radio>
                                 </FormGroup>
@@ -137,34 +139,20 @@ export default class ImportFile extends Component {
                 this.AddPlugins();
                 break;
             case 'SliBackground':
-                // refactor new action ()
-                for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
-                    let canvas = document.getElementById('can' + i);
-                    let dataURL = canvas.toDataURL("image/jpeg", 1.0);
-                    let newId = ID_PREFIX_PAGE + Date.now();
-                    this.props.onNavItemAdded(
-                        newId,
-                        i18n.t("slide"),
-                        0,
-                        PAGE_TYPES.SLIDE,
-                        this.props.navItemsIds.length,
-                        { background: dataURL, attr: 'centered' }
-                    );
-                    this.props.onIndexSelected(newId);
-                    this.props.onToolbarUpdated(this.props.navItemSelected, 'main', ['background'], 'background', { background: dataURL, attr: 'centered' });
-                }
+                this.AddAsNavItem();
+                break;
+            case 'Custom':
+                this.AddAsNavItem(true);
                 break;
             }
         }
-        // TODO:
-        // rest of cases (files)
+        // TODO: rest of cases (files)
 
         // delete canvas preview util
         for (let i = 1; i <= this.state.FilePages; i++) {
             let canvas = document.getElementById('can' + i);
             document.body.removeChild(canvas);
         }
-
         // reset state
         this.setState({
             FileURL: '',
@@ -179,6 +167,27 @@ export default class ImportFile extends Component {
 
         this.props.close();
     }
+    AddAsNavItem(hasCustomSize) {
+        // TODO: refactor -> create new action
+        for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
+            let canvas = document.getElementById('can' + i);
+            let dataURL = canvas.toDataURL("image/jpeg", 1.0);
+            let newId = ID_PREFIX_PAGE + Date.now();
+            let customSize = hasCustomSize ? { width: canvas.width, height: canvas.height } : 0;
+            this.props.onNavItemAdded(
+                newId,
+                i18n.t("slide"),
+                0,
+                PAGE_TYPES.SLIDE,
+                this.props.navItemsIds.length,
+                { background: dataURL, attr: 'centered' },
+                customSize
+            );
+            this.props.onIndexSelected(newId);
+            this.props.onToolbarUpdated(this.props.navItemSelected, 'main', ['background'], 'background', { background: dataURL, attr: 'centered' });
+        }
+    }
+    // function for preview pages
     PreviewFile(page) {
         let preview = document.getElementById('FilePreview');
         let firstCanvas = document.getElementById('can' + page);
@@ -233,7 +242,7 @@ export default class ImportFile extends Component {
                     FileName: file.name,
                     FilePages: numPages,
                     FileType: '(.pdf)',
-                    ImportAs: 'Image' });
+                    ImportAs: 'Custom' });
                 // Request pages
                 let page;
                 for (let i = 1; i <= numPages; i++) {
@@ -271,7 +280,7 @@ export default class ImportFile extends Component {
      */
     closeModal() {
         // delete canvas preview util
-        for (let i = 1; i <= this.state.FilePages - 1; i++) {
+        for (let i = 1; i <= this.state.FilePages; i++) {
             let canvas = document.getElementById('can' + i);
             document.body.removeChild(canvas);
         }
