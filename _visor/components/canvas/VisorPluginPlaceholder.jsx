@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import VisorBox from './VisorBox';
-import { isAncestorOrSibling } from '../../../common/utils';
+import { isAncestorOrSibling, isSortableContainer } from '../../../common/utils';
+import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../common/constants';
 
 export default class VisorPluginPlaceholder extends Component {
+    idConvert(id) {
+        if (isSortableContainer(id)) {
+            return id;
+        }
+        return ID_PREFIX_SORTABLE_CONTAINER + id;
+
+    }
     render() {
-        let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
-        let className = "drg" + this.props.pluginContainer;
+        let idContainer = this.idConvert(this.props.pluginContainer);
+        let container = this.props.parentBox.sortableContainers[idContainer];
+        let className = "drg" + this.props.idContainer;
         if(this.props.boxLevelSelected - this.props.parentBox.level === 1 &&
            isAncestorOrSibling(this.props.parentBox.id, this.props.boxSelected, this.props.boxes)) {
             className += " childBoxSelected";
@@ -24,7 +33,7 @@ export default class VisorPluginPlaceholder extends Component {
                     display: 'table',
                 }, container.style)
             }
-            id={this.props.pluginContainer}
+            id={idContainer}
             className={className}>
                 {container.colDistribution.map((col, i) => {
                     if (container.cols[i]) {

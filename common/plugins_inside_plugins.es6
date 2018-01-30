@@ -182,6 +182,7 @@ export function addDefaultContainerPluginsReact(eventDetails, obj, boxes) {
     }
     if (obj.type && obj.type === PluginPlaceholder && obj.props['plugin-data-default']) {
         let idContainer = isSortableContainer(obj.props.pluginContainer) ? obj.props.pluginContainer : ID_PREFIX_SORTABLE_CONTAINER + obj.props.pluginContainer;
+        console.log(222, boxes, eventDetails.ids.id);
         let plug_children = boxes[eventDetails.ids.id].sortableContainers[idContainer];
         if (plug_children && plug_children.children && plug_children.children.length === 0) {
             obj.props['plugin-data-default'].split(" ").map(name => {

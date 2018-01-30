@@ -356,6 +356,7 @@ export default function(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
         // if box is contained in sortableContainer, add it as well to its children
+        console.log(state, action);
         if (isSortableContainer(action.payload.ids.container)) {
             return changeProps(
                 state,
@@ -368,6 +369,7 @@ export default function(state = {}, action = {}) {
                 ]
             );
         }
+
         return changeProp(state, action.payload.ids.id, boxCreator(state, action));
     case MOVE_BOX:
         return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));

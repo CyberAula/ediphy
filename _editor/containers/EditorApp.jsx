@@ -517,7 +517,11 @@ class EditorApp extends Component {
                 if(this.severalBoxes === 0) {
                     this.severalBoxes = Date.now() + this.index++;
                 }
+                console.log(10, e.detail.ids.id);
                 e.detail.ids.id = (this.severalBoxes !== 0) ? ID_PREFIX_BOX + this.severalBoxes++ : ID_PREFIX_BOX + Date.now() + this.index++;
+                console.log(11, e.detail.ids.id);
+
+                console.log(4444, e.detail);
                 this.dispatchAndSetState(addBox(
                     {
                         parent: e.detail.ids.parent,
@@ -532,6 +536,13 @@ class EditorApp extends Component {
                     e.detail.state,
                     e.detail.initialParams
                 ));
+                console.log('bx', this.props.boxes);
+                if (e.detail.config.flavor !== "react") {
+                    addDefaultContainerPlugins(e.detail, e.detail.content, this.props.boxes);
+                } else {
+                    console.log(999, e.detail, this.props.boxes);
+                    addDefaultContainerPluginsReact(e.detail, e.detail.content, this.props.boxes);
+                }
                 break;
 
             // case DELETE_RICH_MARK:
@@ -552,11 +563,6 @@ class EditorApp extends Component {
                 console.error("I don't know how to manage this");
             }
 
-            if (e.detail.config.flavor !== "react") {
-                addDefaultContainerPlugins(e.detail, e.detail.content, this.props.boxes);
-            } else {
-                addDefaultContainerPluginsReact(e.detail, e.detail.content, this.props.boxes);
-            }
             if (e.detail.state.__xml_path) {
                 if (!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path) {
                     this.dispatchAndSetState(updateNavItemExtraFiles(this.props.navItemSelected, e.detail.ids.id, e.detail.state.__xml_path));
