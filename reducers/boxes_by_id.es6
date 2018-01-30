@@ -164,11 +164,13 @@ function boxReducer(state = {}, action = {}) {
             ]
         );
     case DROP_BOX:
-        if (state.id === action.payload.parent || state.id === action.payload.oldParent) {
-            return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
-        } else if (state.id === action.payload.id) {
+        if (state.id === action.payload.parent || state.id === action.payload.oldParent) { // If we are dealing with the new or the previous parents, we need to modify the sortable containers of each one of them to add/delete the dropped box to/from its children
+            // Two boxes can have containers with the same name (like plugins inside plugins) so we need to let them know in which box we are. That's why we create a new value in the action.payload
+            return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, Object.assign({}, action, { payload: Object.assign({}, action.payload, { currentBoxReducer: state.id }) })));
+        } else if (state.id === action.payload.id) { // If we are dealing with the dropped box, we need to modify some of its properties
+
             let newLevel = isBox(action.payload.parent) ? 1 : 0;
-            let isResizable = !(isBox(action.payload.parent) || isSortableBox(action.payload.parent));
+            let isResizable = !(isBox(action.payload.parent) || isSortableBox(action.payload.parent)); // Change from slide to sortable or viceversa
             return changeProps(
                 state,
                 [
@@ -275,16 +277,15 @@ function singleSortableContainerReducer(state = {}, action = {}) {
     case CHANGE_ROWS:
         let newCols = state.cols.slice();
         newCols[action.payload.column] = action.payload.distribution;
-
         return changeProp(state, "cols", newCols);
     case CHANGE_SORTABLE_PROPS:
         return changeProp(state, "style", changeProp(state.style, action.payload.prop, action.payload.value));
     case DELETE_BOX:
         return changeProp(state, "children", state.children.filter(id => id !== action.payload.id));
     case DROP_BOX:
-        if (state.key === action.payload.oldContainer) {
+        if (state.key === action.payload.oldContainer && action.payload.currentBoxReducer === action.payload.oldParent) {
             return changeProp(state, "children", state.children.filter(id => id !== action.payload.id));
-        } else if (state.key === action.payload.container) {
+        } else if (state.key === action.payload.container && action.payload.currentBoxReducer === action.payload.parent) {
             return changeProp(state, "children", [...state.children, action.payload.id]);
         }
         return state;
@@ -317,8 +318,8 @@ function sortableContainersReducer(state = {}, action = {}) {
     case DELETE_BOX:
         return changeProp(state, action.payload.container, singleSortableContainerReducer(state[action.payload.container], action));
     case DROP_BOX:
-        if (state[action.payload.oldContainer] && state[action.payload.container]) {
-            if (action.payload.oldContainer !== action.payload.container) {
+        if (action.payload.parent === action.payload.oldParent) { // Sibling containers
+            if (action.payload.oldContainer !== action.payload.container) { // But not the same one
                 return changeProps(state,
                     [action.payload.oldContainer, action.payload.container],
                     [
@@ -326,13 +327,13 @@ function sortableContainersReducer(state = {}, action = {}) {
                         singleSortableContainerReducer(state[action.payload.container], action),
                     ]);
             }
-            return state;
-        } else if (state[action.payload.oldContainer] && !state[action.payload.container]) {
+            return state; // If we are moving to the same container we do nothing
+        } else if (action.payload.currentBoxReducer === action.payload.oldParent) {
             return changeProp(state,
                 action.payload.oldContainer,
                 singleSortableContainerReducer(state[action.payload.oldContainer], action)
             );
-        } else if (!state[action.payload.oldContainer] && state[action.payload.container]) {
+        } else if (action.payload.currentBoxReducer === action.payload.parent) {
             return changeProp(state,
                 action.payload.container,
                 singleSortableContainerReducer(state[action.payload.container], action)
@@ -356,7 +357,6 @@ export default function(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
         // if box is contained in sortableContainer, add it as well to its children
-        console.log(state, action);
         if (isSortableContainer(action.payload.ids.container)) {
             return changeProps(
                 state,
