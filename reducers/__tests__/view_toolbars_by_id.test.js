@@ -8,13 +8,15 @@ describe('# plugin_toolbars_by_id reducer **************************************
 
     describe('DEFAULT', ()=>{
         test('Should return test.state as default', () => {
+
             expect(view_toolbars_by_id(state, {})).toEqual(state);
         });
     });
 
     describe('handle ADD_NAV_ITEM', ()=>{
         test('If nav item added', () => {
-            // expect(plugin_toolbars_by_id(state, {})).toEqual(state);
+            const action = { type: ActionTypes.ADD_NAV_ITEM, payload: { id: 'pa-1511252985429' } };
+            expect(plugin_toolbars_by_id(state, action)).toEqual(state);
         });
     });
 

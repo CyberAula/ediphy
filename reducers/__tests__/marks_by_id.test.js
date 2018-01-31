@@ -51,11 +51,11 @@ describe('# marks_by_id reducer', ()=>{
             const action = {
                 type: ActionTypes.DELETE_BOX,
                 payload: {
-                    id: "rm-1511252975055",
+                    id: "1511252975065",
                 },
             };
             let newState = JSON.parse(JSON.stringify(state));
-            delete newState["rm-1511252975055"];
+            delete newState["1511252975065"];
             expect(marks_by_id(state, action)).toEqual(newState);
         });
     });
@@ -90,20 +90,20 @@ describe('# marks_by_id reducer', ()=>{
             const action = {
                 type: ActionTypes.EDIT_RICH_MARK,
                 payload: {
-                    parent: 'bo-1511252970033',
-                    id: "rm-1511252975055",
-                    title: "mark33",
+                    parent: 'bo-1511252957954',
+                    id: "rm-1511252975065",
+                    title: "great mark",
                     connectMode: "existing",
-                    connection: "pa-1511252955865",
+                    connection: "cv-1511252975055",
                     displayMode: "navigate",
                     value: "30.95,49.15",
                     color: "#222222",
-                    oldConnection: 'cv-1511252975055',
-                    newConnection: 'pa-1511252955865',
+                    oldConnection: '',
+                    newConnection: 'cv-1511252975055',
                 },
             };
             let newState = JSON.parse(JSON.stringify(state));
-            newState["rm-1511252975055"].title = "mark33";
+            newState["rm-1511252975065"].title = "great mark";
             expect(marks_by_id(state, action)).toEqual(newState);
         });
     });
