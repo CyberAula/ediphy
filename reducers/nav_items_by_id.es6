@@ -1,5 +1,5 @@
 import {
-    ADD_BOX, MOVE_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_BACKGROUND, DELETE_BOX, DUPLICATE_BOX, EXPAND_NAV_ITEM,
+    ADD_BOX, MOVE_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_BACKGROUND, DELETE_BOX, EXPAND_NAV_ITEM,
     REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES,
     DELETE_SORTABLE_CONTAINER, DROP_BOX,
     ADD_RICH_MARK, EDIT_RICH_MARK, DELETE_RICH_MARK,
@@ -255,20 +255,6 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
                 }
               }*/
         return nState;
-    case DUPLICATE_BOX:
-        if (isView(action.payload.parent)) {
-            let newBoxes = state[action.payload.parent].boxes;
-            newBoxes.push(ID_PREFIX_BOX + action.payload.newId);
-
-            if (action.payload.parent !== 0) {
-                return Object.assign({}, state, {
-                    [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
-                        boxes: newBoxes,
-                    }),
-                });
-            }
-        }
-        return state;
     case EXPAND_NAV_ITEM:
         return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
     case REORDER_NAV_ITEM:
@@ -409,6 +395,24 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
                         }
                         newState[marks[mark].connection].linkedBoxes[action.payload.ids.id].push(mark);
 
+                    }
+                }
+            }
+        }
+        if(action.payload.children) {
+            let ids = Object.keys(action.payload.children);
+
+            for (let id in ids) {
+                let marks = action.payload.children[ids[id]].toolbar.state.__marks;
+                for (let mark in marks) {
+                    if (isContainedView(marks[mark].connection)) {
+                        if (newState[marks[mark].connection]) {
+                            if (!newState[marks[mark].connection].linkedBoxes[ids[id]]) {
+                                newState[marks[mark].connection].linkedBoxes[ids[id]] = [];
+                            }
+                            newState[marks[mark].connection].linkedBoxes[ids[id]].push(mark);
+
+                        }
                     }
                 }
             }

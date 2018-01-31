@@ -1,6 +1,6 @@
 import {
     ADD_BOX, ADD_RICH_MARK, CHANGE_NAV_ITEM_NAME, DELETE_BOX, DELETE_RICH_MARK, DELETE_CONTAINED_VIEW, ADD_NAV_ITEM,
-    DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
+    DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER,
     EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR,
     CHANGE_CONTAINED_VIEW_NAME,
     VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX,
@@ -713,15 +713,6 @@ export default function(state = {}, action = {}) {
         return deleteProps(newToolbar, boxes.concat(action.payload.ids));
     case DELETE_SORTABLE_CONTAINER:
         return deleteProps(state, action.payload.children);
-    case DUPLICATE_BOX:
-        let replaced = JSON.parse(JSON.stringify(state));
-        let newIds = action.payload.newIds;
-        // let count = 0;
-        Object.keys(newIds).map((box)=> {
-            replaced = Object.assign({}, Object.replaceAll(replaced, box, newIds[box]));
-        });
-        replaced = Object.assign({}, Object.replaceAll(replaced, action.payload.id.substr(3), action.payload.newId));
-        return replaced;
     case EDIT_RICH_MARK:
         if(action.payload.mark.connectMode === "new" && action.payload.oldConnection !== action.payload.newConnection) {
             let modState = changeProp(state, action.payload.mark.connection.id || action.payload.mark.connection, toolbarSectionCreator(state, action, true));

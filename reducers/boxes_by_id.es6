@@ -3,7 +3,7 @@ import Utils, {
     isBox,
 } from '../common/utils';
 import {
-    ADD_BOX, MOVE_BOX, DUPLICATE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, ADD_RICH_MARK,
+    ADD_BOX, MOVE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, ADD_RICH_MARK,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE, PASTE_BOX,
 } from '../common/actions';
@@ -373,7 +373,7 @@ export default function(state = {}, action = {}) {
         return changeProp(state, action.payload.ids.id, boxCreator(state, action));
     case PASTE_BOX:
         let ids = Object.keys(action.payload.children);
-        let bx = Object.keys(action.payload.children).map(k => {return action.payload.children[k].box;});
+        let bx = ids.map(k => {return action.payload.children[k].box;});
         if (isSortableContainer(action.payload.ids.container)) {
 
             return changeProps(
@@ -396,25 +396,6 @@ export default function(state = {}, action = {}) {
         );
     case MOVE_BOX:
         return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
-    case DUPLICATE_BOX:
-        // TODO
-        newState = JSON.parse(JSON.stringify(state));
-        let replaced = JSON.parse(JSON.stringify(state));
-        let newIds = action.payload.newIds;
-        let newId = ID_PREFIX_BOX + action.payload.newId;
-        // let count = 0;
-        Object.keys(newIds).map(box => {
-            replaced = Object.replaceAll(replaced, box, newIds[box]);
-        });
-        replaced = Object.replaceAll(replaced, action.payload.id.substr(3), action.payload.newId);// split -
-        let defState = Object.assign({}, newState, replaced);
-        if (action.payload.container !== 0) {
-            replaced[action.payload.parent].sortableContainers[action.payload.container].children.push(action.payload.id);
-        }
-
-        return Object.assign({}, defState, {
-            [newId]: Object.assign({}, defState[newId], { position: { x: 0, y: 0, position: 'absolute' } }),
-        });
     case RESIZE_SORTABLE_CONTAINER:
         return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
     case UPDATE_BOX:

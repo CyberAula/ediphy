@@ -496,7 +496,7 @@ export default class EditorBox extends Component {
                         let iterate = true;
                         while (iterate) {
                             parent = parent.parentNode;
-                            if (parent.className && (parent.className.indexOf("editorBoxSortableContainer") !== -1 /* || parent.className.indexOf("drg" + box.container) !== -1*/)) {
+                            if (parent.className && (parent.className.indexOf("editorBoxSortableContainer") !== -1 || parent.className.indexOf("slide_air") !== -1)) {
                                 iterate = false;
                             }
                         }

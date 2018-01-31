@@ -104,12 +104,6 @@ describe('# boxes_by_id reducer', () => {
         });
     });
 
-    // describe('handle DUPLICATE_BOX  **************************************** TODO copy & paste', () => {
-    //     test('If duplicated box', () => {
-    //         // expect(boxes_by_id(state, {})).toEqual(state);
-    //     });
-    // });
-
     describe('handle RESIZE_SORTABLE_CONTAINER', () => {
         test('If resized sortable container', () => {
             const action = {
@@ -314,6 +308,8 @@ describe('# boxes_by_id reducer', () => {
                     col: 1,
                     container: 'sc-1511443052922',
                     parent: 'bs-1511252985426',
+                    oldParent: 'bs-1511252985426',
+                    oldContainer: 'sc-1511443052922',
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
@@ -321,6 +317,27 @@ describe('# boxes_by_id reducer', () => {
             newState['bo-1511443052925'].row = action.payload.row;
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
+        test('If box dropped from one sc to another in the same Sortable box', ()=> {
+            const action = {
+                type: ActionTypes.DROP_BOX,
+                payload: {
+                    id: 'bo-1511443052925',
+                    row: 0,
+                    col: 0,
+                    container: 'sc-1511443052923',
+                    parent: 'bs-1511252985426',
+                    oldParent: 'bs-1511252985426',
+                    oldContainer: 'sc-1511443052922',
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState['bo-1511443052925'].parent = 'bs-1511252985426';
+            newState['bo-1511443052925'].container = 'sc-1511443052923',
+            newState['bs-1511252985426'].sortableContainers['sc-1511443052923'].children.push('bo-1511443052925');
+            newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].children = ["bo-1511443052967"];
+            expect(boxes_by_id(state, action)).toEqual(newState);
+        });
+        // TODO Plugins inside plugins
     });
 
     describe('handle DELETE_BOX', () => {

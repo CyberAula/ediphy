@@ -86,7 +86,7 @@ export default class Clipboard extends Component {
 
         let container = isTargetSlide ? 0 : containerId;
 
-        if (this.props.boxSelected && this.props.boxes[this.props.boxSelected]) {
+        if (this.props.boxSelected && this.props.boxes[this.props.boxSelected] && isBox(this.props.boxSelected)) {
             parent = this.props.boxes[this.props.boxSelected].parent;
             container = this.props.boxes[this.props.boxSelected].container;
         }
@@ -94,9 +94,12 @@ export default class Clipboard extends Component {
         this.pasteBox(data, ids, isTargetSlide);
     }
     duplicateListener(event) {
-        event.preventDefault();
+
         let key = event.keyCode ? event.keyCode : event.which;
-        if (key === 68 && event.ctrlKey) {
+        console.log(key, event.ctrlKey);
+        if (key === 66 && event.ctrlKey && isBox(this.props.boxSelected)) {
+            event.preventDefault();
+            event.stopPropagation();
             this.duplicateBox();
         }
     }
@@ -130,6 +133,7 @@ export default class Clipboard extends Component {
                 let idsChild = { id: transformedBox.newIds[bid], parent: ids.id, container: data.childBoxes[bid].container };
                 let transformedBoxChild = this.transformBox(data.childBoxes[bid], idsChild, false, false);
                 let transformedToolbarChild = this.transformToolbar(data.childToolbars[bid], idsChild, false, false);
+                console.log(transformedToolbarChild);
                 transformedChildren[transformedBox.newIds[bid]] = { box: transformedBoxChild.newBox, toolbar: transformedToolbarChild };
             }
         }
@@ -161,7 +165,7 @@ export default class Clipboard extends Component {
 
                 let container = isTargetSlide ? 0 : containerId;
 
-                if (this.props.boxSelected && this.props.boxes[this.props.boxSelected]) {
+                if (this.props.boxSelected && this.props.boxes[this.props.boxSelected] && isBox(this.props.boxSelected)) {
                     parent = this.props.boxes[this.props.boxSelected].parent;
                     container = this.props.boxes[this.props.boxSelected].container;
                 }

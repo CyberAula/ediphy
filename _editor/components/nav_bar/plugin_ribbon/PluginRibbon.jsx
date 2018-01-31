@@ -252,8 +252,8 @@ export default class PluginRibbon extends Component {
                 type: 'absolute',
             };
             let initialParams = {
-                parent: this.props.boxSelected ? this.props.boxSelected.parent : SelectedNav,
-                container: this.props.boxSelected ? this.props.boxSelected.container : 0,
+                parent: (this.props.boxSelected && isBox(this.props.boxSelected)) ? this.props.boxSelected.parent : SelectedNav,
+                container: (this.props.boxSelected && isBox(this.props.boxSelected)) ? this.props.boxSelected.container : 0,
                 position: position,
             };
             Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
@@ -274,8 +274,8 @@ export default class PluginRibbon extends Component {
                 }
             }
             let initialParams = {
-                parent: this.props.boxSelected ? this.props.boxSelected.parent : parentBox,
-                container: this.props.boxSelected ? this.props.boxSelected.container : (ID_PREFIX_SORTABLE_CONTAINER + Date.now()), col: 0, row: 0,
+                parent: (this.props.boxSelected && isBox(this.props.boxSelected)) ? this.props.boxSelected.parent : parentBox,
+                container: (this.props.boxSelected && isBox(this.props.boxSelected)) ? this.props.boxSelected.container : (ID_PREFIX_SORTABLE_CONTAINER + Date.now()), col: 0, row: 0,
             };
 
             Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);

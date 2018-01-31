@@ -96,7 +96,6 @@ export default class EditorCanvasDoc extends Component {
                                         display: (this.props.boxLevelSelected > 0) ? "block" : "none",
                                         visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse",
                                     }} />*/}
-                                <h4>{this.props.boxLevelSelected}  {this.props.boxSelected}</h4>
                                 {boxes.map(id => {
                                     let box = boxes[id];
                                     if (!isSortableBox(id)) {

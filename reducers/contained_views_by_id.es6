@@ -228,6 +228,24 @@ export default function(state = {}, action = {}) {
                 }
             }
         }
+        if(action.payload.children) {
+            let ids = Object.keys(action.payload.children);
+
+            for (let id in ids) {
+                let marks = action.payload.children[ids[id]].toolbar.state.__marks;
+                for (let mark in marks) {
+                    if (isContainedView(marks[mark].connection)) {
+                        if (newState[marks[mark].connection]) {
+                            if (!newState[marks[mark].connection].parent[ids[id]]) {
+                                newState[marks[mark].connection].parent[ids[id]] = [];
+                            }
+                            newState[marks[mark].connection].parent[ids[id]].push(mark);
+
+                        }
+                    }
+                }
+            }
+        }
         return newState;
     case IMPORT_STATE:
         return action.payload.present.containedViewsById || state;
