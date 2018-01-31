@@ -279,7 +279,6 @@ export default class PluginRibbon extends Component {
                 parent: parentBox,
                 container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(), col: 0, row: 0,
             };
-            console.log(initialParams);
 
             Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
             event.stopPropagation();

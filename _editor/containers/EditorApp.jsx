@@ -466,7 +466,7 @@ class EditorApp extends Component {
                     containedViews={containedViews}
                     toolbars={toolbars}
                     onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
-                    onBoxPasted={(ids, box, toolbar)=>this.dispatchAndSetState(pasteBox(ids, box, toolbar))}
+                    onBoxPasted={(ids, box, toolbar, children)=>this.dispatchAndSetState(pasteBox(ids, box, toolbar, children))}
                     onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                 />
 
@@ -517,11 +517,8 @@ class EditorApp extends Component {
                 if(this.severalBoxes === 0) {
                     this.severalBoxes = Date.now() + this.index++;
                 }
-                console.log(10, e.detail.ids.id);
                 e.detail.ids.id = (this.severalBoxes !== 0) ? ID_PREFIX_BOX + this.severalBoxes++ : ID_PREFIX_BOX + Date.now() + this.index++;
-                console.log(11, e.detail.ids.id);
 
-                console.log(4444, e.detail);
                 this.dispatchAndSetState(addBox(
                     {
                         parent: e.detail.ids.parent,
@@ -536,11 +533,9 @@ class EditorApp extends Component {
                     e.detail.state,
                     e.detail.initialParams
                 ));
-                console.log('bx', this.props.boxes);
                 if (e.detail.config.flavor !== "react") {
                     addDefaultContainerPlugins(e.detail, e.detail.content, this.props.boxes);
                 } else {
-                    console.log(999, e.detail, this.props.boxes);
                     addDefaultContainerPluginsReact(e.detail, e.detail.content, this.props.boxes);
                 }
                 break;

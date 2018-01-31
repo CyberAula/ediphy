@@ -189,7 +189,6 @@ export default class EditorCanvasSli extends Component {
                 event.target.classList.remove("drop-target");
             },
             ondrop: function(event) {
-                console.log(event.relatedTarget);
                 let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
                 let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
                 let position = {

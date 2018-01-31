@@ -390,7 +390,6 @@ export default class EditorBoxSortable extends Component {
                             container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
                         };
                     }
-                    console.log(initialParams);
                     Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     e.dragEvent.stopPropagation();
                 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Ediphy from '../../../core/editor/main';
 import Alert from '../common/alert/Alert';
-import { isContainedView, isSlide, isSortableBox, isView } from '../../../common/utils';
+import { isContainedView, isSlide, isBox, isSortableBox, isView } from '../../../common/utils';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_RICH_MARK } from '../../../common/constants';
 import { ADD_BOX } from '../../../common/actions';
 import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent } from './clipboard.utils';
@@ -37,10 +37,20 @@ export default class Clipboard extends Component {
             if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
                 if (focus.indexOf('form-control') === -1 && focus.indexOf('cke_editable') === -1 && activeElement.tagName !== 'TEXTAREA') { // focus.indexOf('tituloCurso') === -1 &&
                     event.preventDefault();
-                    let copyData = {
-                        box: this.props.boxes[this.props.boxSelected],
-                        toolbar: this.props.toolbars[this.props.boxSelected],
-                    };
+                    let box = this.props.boxes[this.props.boxSelected];
+                    let toolbar = this.props.toolbars[this.props.boxSelected];
+                    let childBoxes = {};
+                    let childToolbars = {};
+                    if (box.sortableContainers) {
+                        for (let sc in box.sortableContainers) {
+                            for (let b in box.sortableContainers[sc].children) {
+                                let bid = box.sortableContainers[sc].children[b];
+                                childBoxes[bid] = this.props.boxes[bid];
+                                childToolbars[bid] = this.props.toolbars[bid];
+                            }
+                        }
+                    }
+                    let copyData = { box, toolbar, childBoxes, childToolbars };
                     event.clipboardData.setData("text/plain", JSON.stringify(copyData));
                     return true;
                 }
@@ -110,10 +120,22 @@ export default class Clipboard extends Component {
                                 this.setState({ alert: alert }); return;
                             }
                         }
-                        this.props.onBoxPasted(ids,
-                            this.transformBox(data.box, ids, isTargetSlide, data.box.resizable),
-                            this.transformToolbar(data.toolbar, ids, isTargetSlide, data.box.resizable));
+
+                        let transformedBox = this.transformBox(data.box, ids, isTargetSlide, data.box.resizable);
+                        let transformedToolbar = this.transformToolbar(data.toolbar, ids, isTargetSlide, data.box.resizable);
+                        let transformedChildren = {};
+                        if (data.childBoxes && data.childToolbars) {
+                            for (let bid in transformedBox.newIds) {
+                                let idsChild = { id: transformedBox.newIds[bid], parent: ids.id, container: data.childBoxes[bid].container };
+                                let transformedBoxChild = this.transformBox(data.childBoxes[bid], idsChild, false, false);
+                                let transformedToolbarChild = this.transformToolbar(data.childToolbars[bid], idsChild, false, false);
+                                transformedChildren[transformedBox.newIds[bid]] = { box: transformedBoxChild.newBox, toolbar: transformedToolbarChild };
+                            }
+                        }
+                        this.props.onBoxPasted(ids, transformedBox.newBox, transformedToolbar, transformedChildren);
+
                         // Inside a text box (CKEditor or input)
+
                     } else {
                         // Let normal paste work
                         // event.preventDefault();
@@ -158,6 +180,18 @@ export default class Clipboard extends Component {
     }
 
     transformBox(box, ids, isTargetSlide, isOriginSlide) {
+        let newIds = {};
+        let newContainerBoxes = {};
+        if (box.sortableContainers) {
+            newContainerBoxes = JSON.parse(JSON.stringify(box.sortableContainers));
+            for (let sc in newContainerBoxes) {
+                for (let b in newContainerBoxes[sc].children) {
+                    let newID = newContainerBoxes[sc].children[b] + Date.now();
+                    newIds[newContainerBoxes[sc].children[b]] = newID;
+                    newContainerBoxes[sc].children[b] = newID;
+                }
+            }
+        }
         let newBox = Object.assign({}, box, {
             container: ids.container,
             id: ids.id,
@@ -170,9 +204,11 @@ export default class Clipboard extends Component {
             resizable: isTargetSlide,
             row: 0,
             col: 0,
+            level: isBox(ids.parent) ? 1 : 0,
+            sortableContainers: newContainerBoxes,
             containedViews: box.containedViews.filter(cv=> this.props.containedViews[cv]),
         });
-        return newBox;
+        return { newBox, newIds };
 
     }
 

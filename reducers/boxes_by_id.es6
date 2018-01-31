@@ -371,9 +371,31 @@ export default function(state = {}, action = {}) {
         }
 
         return changeProp(state, action.payload.ids.id, boxCreator(state, action));
+    case PASTE_BOX:
+        let ids = Object.keys(action.payload.children);
+        let bx = Object.keys(action.payload.children).map(k => {return action.payload.children[k].box;});
+        if (isSortableContainer(action.payload.ids.container)) {
+
+            return changeProps(
+                state,
+                [
+                    action.payload.ids.id,
+                    action.payload.ids.parent,
+                    ...ids,
+                ], [
+                    action.payload.box,
+                    boxReducer(state[action.payload.ids.parent], action),
+                    ...bx,
+                ]
+            );
+        }
+        return changeProps(
+            state,
+            [action.payload.ids.id, ...ids],
+            [action.payload.box, ...bx]
+        );
     case MOVE_BOX:
         return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
-
     case DUPLICATE_BOX:
         // TODO
         newState = JSON.parse(JSON.stringify(state));
@@ -473,24 +495,7 @@ export default function(state = {}, action = {}) {
         return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
     case IMPORT_STATE:
         return action.payload.present.boxesById || state;
-    case PASTE_BOX:
-        if (isSortableContainer(action.payload.ids.container)) {
-            return changeProps(
-                state,
-                [
-                    action.payload.ids.id,
-                    action.payload.ids.parent,
-                ], [
-                    action.payload.box,
-                    boxReducer(state[action.payload.ids.parent], action),
-                ]
-            );
-        }
-        return changeProp(
-            state,
-            action.payload.ids.id,
-            action.payload.box
-        );
+
     default:
         return state;
     }

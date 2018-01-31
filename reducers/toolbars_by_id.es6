@@ -749,7 +749,7 @@ export default function(state = {}, action = {}) {
     case IMPORT_STATE:
         return action.payload.present.toolbarsById || state;
     case PASTE_BOX:
-        return changeProp(state, action.payload.ids.id, action.payload.toolbar);
+        return changeProps(state, [action.payload.ids.id, ...Object.keys(action.payload.children)], [action.payload.toolbar, ...Object.keys(action.payload.children).map(k=>{return action.payload.children[k].toolbar;})]);
     default:
         return state;
     }
