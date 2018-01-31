@@ -94,20 +94,16 @@ export default class ActionsRibbon extends Component {
         );
     }
     createAlert(state, callback) {
+        let actions = ["copy", "cut", "paste"];
+        let shortCuts = ["C", "X", "V"];
         return <Alert show={state} onClose={callback} className="pageModal" key="-2">
             <p>{i18n.t("clipboard.msg")}</p>
-            <Col xs={4}>
-                <h2>Ctrl+C</h2>
-                <div>{i18n.t("clipboard.to")} {i18n.t("clipboard.copy").toLowerCase()}</div>
-            </Col>
-            <Col xs={4}>
-                <h2>Ctrl+X</h2>
-                <div>{i18n.t("clipboard.to")} {i18n.t("clipboard.cut").toLowerCase()}</div>
-            </Col>
-            <Col xs={4}>
-                <h2>Ctrl+V</h2>
-                <div>{i18n.t("clipboard.to")} {i18n.t("clipboard.paste").toLowerCase()}</div>
-            </Col>
+            {actions.map((act, ind) => {
+                return <Col xs={4}>
+                    <h2>Ctrl+{shortCuts[ind]}</h2>
+                    <div>{i18n.t("clipboard.to")} {i18n.t("clipboard." + actions[ind]).toLowerCase()}</div>
+                </Col>;
+            })}
             <br/>
 
         </Alert>;
