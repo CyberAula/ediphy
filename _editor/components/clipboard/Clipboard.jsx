@@ -90,9 +90,14 @@ export default class Clipboard extends Component {
                 let id = ID_PREFIX_BOX + Date.now();
                 let isTargetSlide = isSlide(page.type);
                 let parent = isTargetSlide ? page.id : page.boxes[0];
-                let container = isTargetSlide ? 0 : containerId;
-                let ids = { id, parent, container };
 
+                let container = isTargetSlide ? 0 : containerId;
+
+                if (this.props.boxSelected && this.props.boxes[this.props.boxSelected]) {
+                    parent = this.props.boxes[this.props.boxSelected].parent;
+                    container = this.props.boxes[this.props.boxSelected].container;
+                }
+                let ids = { id, parent, container };
                 // Copied data is an EditorBox
                 if (data && data.box && data.toolbar) {
                     // Focus is outside a text box
