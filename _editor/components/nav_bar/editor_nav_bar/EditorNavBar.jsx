@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Input, Dropdown, MenuItem } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import GlobalConfig from '../global_config/GlobalConfig';
 import i18n from 'i18next';
 import Ediphy from '../../../../core/editor/main';
 import NavActionButtons from './NavActionButtons.jsx';
+import NavDropdown from './NavDropdown.jsx';
 import PluginsMenu from './PluginsMenu.jsx';
 import './_navBar.scss';
 
@@ -24,6 +25,11 @@ export default class EditorNavBar extends Component {
         this.state = {
             showGlobalConfig: false,
         };
+
+        /**
+         * Binded function
+         */
+        this.toggleGlobalConfig = this.toggleGlobalConfig.bind(this);
     }
 
     /**
@@ -51,77 +57,30 @@ export default class EditorNavBar extends Component {
                     undo={this.props.undo}
                     undoDisabled={this.props.undoDisabled}
                     visor={this.props.visor} />
-                <Dropdown id="dropdown-menu" style={{ float: 'right' }}>
-                    <Dropdown.Toggle noCaret className="navButton">
-                        <i className="material-icons">more_vert</i><br/>
-                        <span className="hideonresize" style={{ fontSize: '12px' }}>Menu</span>
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu id="topMenu" className="pageMenu super-colors topMenu">
-                        {(Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button) &&
-                        <MenuItem disabled={this.props.undoDisabled} eventKey="6" key="6">
-                            <button className="dropdownButton"
-                                disabled={this.props.undoDisabled}
-                                onClick={(e) => {
-                                    this.props.save();
-                                    this.props.serverModalOpen();
-                                }}>
-                                <i className="material-icons">save</i>
-                                {i18n.t('Save')}
-                            </button>
-                        </MenuItem>}
-                        <MenuItem disabled={this.props.undoDisabled} eventKey="1" key="1">
-                            <button className="dropdownButton" title={i18n.t('messages.export_to_HTML')}
-                                disabled={ (this.props.navItemSelected === 0) || this.props.undoDisabled}
-                                onClick={() => this.props.export() }><i className="material-icons">file_download</i>
-                                {i18n.t('messages.export_to_HTML')}
-                            </button>
-                        </MenuItem>
-                        <MenuItem disabled={this.props.undoDisabled} eventKey="2" key="2">
-                            <button className="dropdownButton" title={i18n.t('messages.export_to_SCORM')}
-                                disabled={(this.props.navItemSelected === 0) || this.props.undoDisabled}
-                                onClick={() => this.props.scorm() }><i className="material-icons">class</i>
-                                {i18n.t('messages.export_to_SCORM')}
-                            </button>
-                        </MenuItem>
-                        <MenuItem disabled={false} eventKey="3" key="3">
-                            <button className="dropdownButton" title={i18n.t('messages.global_config')}
-                                disabled={false}
-                                onClick={() => this.setState({ showGlobalConfig: true })}><i className="material-icons">settings</i>
-                                {i18n.t('messages.global_config')}
-                            </button>
-                        </MenuItem>
-                        {Ediphy.Config.external_providers.enable_catalog_modal &&
-                        <MenuItem divider key="div_4"/> &&
-                        <MenuItem eventKey="4" key="4">
-                            <button className="dropdownButton" title={i18n.t('Open_Catalog')}
-                                onClick={() => {
-                                    this.props.onExternalCatalogToggled();
-                                }}><i className="material-icons">grid_on</i>
-                                {i18n.t('Open_Catalog')}
-                            </button>
-                        </MenuItem>
-                        }
-                        {(Ediphy.Config.open_button_enabled === undefined || Ediphy.Config.open_button_enabled) &&
-                        [<MenuItem divider key="div_5"/>,
-                            <MenuItem eventKey="5" key="5">
-                                <button className="dropdownButton"
-                                    onClick={(e) => {
-                                        this.props.serverModalOpen();
-                                        this.props.opens();
-                                    }}>
-                                    <i className="material-icons">folder_open</i>
-                                    {i18n.t('Open')}
-                                </button>
-                            </MenuItem>]}
-                    </Dropdown.Menu>
-                </Dropdown>
-
+                <NavDropdown export={this.props.export}
+                    navItemSelected={this.props.navItemSelected}
+                    onExternalCatalogToggled={this.props.onExternalCatalogToggled}
+                    opens={this.props.opens}
+                    save={this.props.save}
+                    scorm={this.props.scorm}
+                    serverModalOpen={this.props.serverModalOpen}
+                    toggleGlobalConfig={this.toggleGlobalConfig}
+                    undoDisabled={this.props.undoDisabled} />
                 <GlobalConfig show={this.state.showGlobalConfig}
                     globalConfig={this.props.globalConfig}
                     changeGlobalConfig={this.props.changeGlobalConfig}
-                    close={()=>{this.setState({ showGlobalConfig: false });}}/>
+                    close={this.toggleGlobalConfig} />
             </Col>
         );
+    }
+
+    /**
+     * Shows/Hides the global configuration menu
+     */
+    toggleGlobalConfig() {
+        this.setState((prevState, props) => ({
+            showGlobalConfig: !prevState.showGlobalConfig,
+        }));
     }
 }
 
