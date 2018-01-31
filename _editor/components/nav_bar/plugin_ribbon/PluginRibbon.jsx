@@ -234,7 +234,6 @@ export default class PluginRibbon extends Component {
 
         let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected.id) && isSlide(this.props.containedViewSelected.type);
         let cvdoc = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected.id) && !isSlide(this.props.containedViewSelected.type);
-
         if (isSlide(this.props.navItemSelected.type) || cv) {
 
             let SelectedNav = cv ? this.props.containedViewSelected.id : this.props.navItemSelected.id;
@@ -253,8 +252,8 @@ export default class PluginRibbon extends Component {
                 type: 'absolute',
             };
             let initialParams = {
-                parent: SelectedNav,
-                container: 0,
+                parent: this.props.boxSelected ? this.props.boxSelected.parent : SelectedNav,
+                container: this.props.boxSelected ? this.props.boxSelected.container : 0,
                 position: position,
             };
             Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
@@ -275,10 +274,9 @@ export default class PluginRibbon extends Component {
                 }
             }
             let initialParams = {
-                parent: parentBox,
-                container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(), col: 0, row: 0,
+                parent: this.props.boxSelected ? this.props.boxSelected.parent : parentBox,
+                container: this.props.boxSelected ? this.props.boxSelected.container : (ID_PREFIX_SORTABLE_CONTAINER + Date.now()), col: 0, row: 0,
             };
-            console.log(initialParams);
 
             Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
             event.stopPropagation();

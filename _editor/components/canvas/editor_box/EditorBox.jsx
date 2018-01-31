@@ -322,6 +322,8 @@ export default class EditorBox extends Component {
                     onVerticallyAlignBox: this.props.onVerticallyAlignBox,
                     onBoxesInsideSortableReorder: this.props.onBoxesInsideSortableReorder,
                     onTextEditorToggled: this.props.onTextEditorToggled,
+                    onRichMarksModalToggled: this.props.onRichMarksModalToggled,
+                    boxLevelSelected: this.props.boxLevelSelected,
                 });
             } else {
                 component = markup.tag;
@@ -494,7 +496,7 @@ export default class EditorBox extends Component {
                         let iterate = true;
                         while (iterate) {
                             parent = parent.parentNode;
-                            if (parent.className && (parent.className.indexOf("editorBoxSortableContainer") !== -1 || parent.className.indexOf("drg" + box.container) !== -1)) {
+                            if (parent.className && (parent.className.indexOf("editorBoxSortableContainer") !== -1 /* || parent.className.indexOf("drg" + box.container) !== -1*/)) {
                                 iterate = false;
                             }
                         }
@@ -504,20 +506,22 @@ export default class EditorBox extends Component {
                         let parentRect = parent.getBoundingClientRect();
                         let x = originalRect.left - parentRect.left;
                         let y = originalRect.top - parentRect.top;
+
                         clone.setAttribute("id", "clone");
                         clone.setAttribute('data-x', x);
                         clone.setAttribute('data-y', y);
                         clone.style.left = 0 + 'px';
                         clone.style.top = 0 + 'px';
+                        clone.style.zIndex = '9999 !important';
                         original.setAttribute('data-x', x);
                         original.setAttribute('data-y', y);
                         clone.style.position = 'absolute';
-                        parent.appendChild(clone);
+
                         clone.style.WebkitTransform = clone.style.transform = 'translate(' + (x) + 'px, ' + (y) + 'px)';
                         clone.style.height = originalRect.height + "px";
                         clone.style.width = originalRect.width + "px";
                         clone.style.border = "1px dashed #555";
-
+                        parent.appendChild(clone);
                         original.style.opacity = 0;
                     } else if (isContainedView(box.container)) {
                         let target = event.target;
