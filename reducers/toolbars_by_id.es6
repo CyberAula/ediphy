@@ -374,7 +374,7 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                             background: {
                                 __name: i18n.t('background.background'),
                                 type: 'background_picker',
-                                value: action.payload.background,
+                                value: action.payload.background || { background: "rgb(255,255,255)", attr: "full" },
                                 autoManaged: false,
                             },
                         },
