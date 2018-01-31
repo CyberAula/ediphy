@@ -374,7 +374,7 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                             background: {
                                 __name: i18n.t('background.background'),
                                 type: 'background_picker',
-                                value: { background: "rgb(255,255,255)", attr: "full" },
+                                value: action.payload.background,
                                 autoManaged: false,
                             },
                         },
@@ -392,7 +392,7 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                             display_pagetitle: {
                                 __name: pagetitle,
                                 type: 'checkbox',
-                                checked: true,
+                                checked: (isSlide(type) && action.payload.customSize === 0) || !isSlide(type),
                                 autoManaged: false,
                             },
                             pagetitle_name: {
@@ -434,7 +434,7 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
         toolbar.controls.main.accordions.header.buttons.display_breadcrumb = {
             __name: i18n.t('Breadcrumb'),
             type: 'checkbox',
-            checked: true,
+            checked: !isSlide(type),
             autoManaged: false,
         };
         toolbar.controls.main.accordions.header.buttons.display_pagenumber = {

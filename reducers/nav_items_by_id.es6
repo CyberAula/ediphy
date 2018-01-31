@@ -30,7 +30,7 @@ function navItemCreator(state = {}, action = {}) {
             elementContent: { documentTitle: '', documentSubTitle: '', numPage: '' },
             display: {
                 courseTitle: 'hidden',
-                documentTitle: 'expanded',
+                documentTitle: action.payload.type === 'slide' && action.payload.customSize !== 0 ? 'hidden' : 'expanded',
                 documentSubTitle: 'hidden',
                 breadcrumb: action.payload.type === 'slide' ? "hidden" : "reduced",
                 pageNumber: "hidden" },

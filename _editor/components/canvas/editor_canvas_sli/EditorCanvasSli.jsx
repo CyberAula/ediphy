@@ -242,9 +242,9 @@ export default class EditorCanvasSli extends Component {
      * @param nextProps
      */
     componentWillUpdate(nextProps) {
-        if (this.props.canvasRatio !== nextProps.canvasRatio) {
+        if (this.props.canvasRatio !== nextProps.canvasRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
             window.canvasRatio = nextProps.canvasRatio;
-            aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas', this.props.navItemSelected.customSize);
+            aspectRatio(nextProps.canvasRatio, nextProps.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas', nextProps.navItemSelected.customSize);
         }
 
     }

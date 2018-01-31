@@ -184,7 +184,6 @@ export default class ImportFile extends Component {
                 customSize
             );
             this.props.onIndexSelected(newId);
-            this.props.onToolbarUpdated(this.props.navItemSelected, 'main', ['background'], 'background', { background: dataURL, attr: 'centered' });
         }
     }
     // function for preview pages
