@@ -281,7 +281,7 @@ export default class PluginRibbon extends Component {
             Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
             event.stopPropagation();
 
-            event.prevenDefault();
+            event.preventDefault();
         }
 
     }

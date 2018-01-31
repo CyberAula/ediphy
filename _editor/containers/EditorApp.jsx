@@ -532,7 +532,7 @@ class EditorApp extends Component {
                         addDefaultContainerPluginsReact(e.detail, e.detail.content, this.props.boxes);
                     }
                 },
-                0.1);
+                0.00000001);
                 break;
 
             // case DELETE_RICH_MARK:

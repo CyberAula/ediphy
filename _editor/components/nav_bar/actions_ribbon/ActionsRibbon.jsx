@@ -5,7 +5,7 @@ import i18n from "i18next";
 import './_ActionsRibbon.scss';
 import Alert from '../../common/alert/Alert';
 import Clipboard from '../../clipboard/Clipboard';
-import { isSlide, isSortableBox } from '../../../../common/utils';
+import { isSlide, isBox, isSortableBox } from '../../../../common/utils';
 export default class ActionsRibbon extends Component {
     /**
      * Constructor
@@ -23,8 +23,14 @@ export default class ActionsRibbon extends Component {
      * @returns {code}
      */
     render() {
-        let actions = ["copy", "cut", "paste"];
         let onClick = (e)=>{this.setState({ clipboardAlert: !this.state.clipboardAlert });};
+
+        let clipboardActions = [
+            { key: "copy", disabled: !(this.props.boxSelected && isBox(this.props.boxSelected)), icon: "content_copy", i18nkey: "clipboard.copy", onClick: onClick },
+            { key: "cut", disabled: !(this.props.boxSelected && isBox(this.props.boxSelected)), icon: "content_cut", i18nkey: "clipboard.cut", onClick: onClick },
+            { key: "paste", disabled: false, icon: "content_paste", i18nkey: "clipboard.paste", onClick: onClick },
+            { key: "duplicate", disabled: !(this.props.boxSelected && isBox(this.props.boxSelected)), icon: "content_copy", i18nkey: "clipboard.duplicate", onClick: ()=> {} },
+        ];
 
         let page = this.props.containedViews[this.props.containedViewSelected] ? this.props.containedViews[this.props.containedViewSelected] : (
             this.props.navItems[this.props.navItemSelected] ? this.props.navItems[this.props.navItemSelected] : null
@@ -42,6 +48,14 @@ export default class ActionsRibbon extends Component {
             box_layer = this.props.boxes[page.boxes[0]].sortableContainers[container].children.indexOf(this.props.boxSelected);
             disable_bt = this.props.boxSelected === -1 || page.boxes.length === 2;
         } */
+        let layerActions = [
+            { key: "BringtoFront", i18nkey: "order.BringtoFront", icon: "flip_to_front", disabled: (disable_bt || box_layer === boxes.length - 1), onClick: () => { this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'front', boxes);} },
+            { key: "Ahead", i18nkey: "order.Ahead", icon: "flip_to_front", disabled: (disable_bt || box_layer === boxes.length - 1), onClick: () => { this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'ahead', boxes);} },
+            { key: "Behind", i18nkey: "order.Behind", icon: "flip_to_back", disabled: (disable_bt || box_layer === 0), onClick: () => { this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'behind', boxes);} },
+            { key: "SendtoBack", i18nkey: "order.SendtoBack", icon: "flip_to_back", disabled: (disable_bt || box_layer === 0), onClick: () => { this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'back', boxes);} },
+            { key: "Grid", i18nkey: "Grid", icon: "grid_on", disabled: false, onClick: this.props.onGridToggle },
+
+        ];
         return (
             <Col id="ActionRibbon" md={12} xs={12}
                 style={{
@@ -49,31 +63,14 @@ export default class ActionsRibbon extends Component {
                     overflowY: 'hidden',
                 }} ref="holder">
                 <div id="Actions">
-                    { slide ? [<button key={'-4'} className="ActionBtn" disabled={ disable_bt || box_layer === boxes.length - 1 } onClick={() => {
-                        this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'front', boxes);}}>
-                        <i className="material-icons">flip_to_front</i>
-                        <span className="hideonresize">{i18n.t("order.BringtoFront")}</span>
-                    </button>,
-                    <button key={'-6'} className="ActionBtn" disabled={disable_bt || box_layer === boxes.length - 1} onClick={() => {
-                        this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'ahead', boxes);}}>
-                        <i className="material-icons">flip_to_front</i>
-                        <span className="hideonresize">{i18n.t("order.Ahead")}</span>
-                    </button>,
-                    <button key={'-7'} className="ActionBtn" disabled={disable_bt || box_layer === 0} onClick={() => {
-                        this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'behind', boxes);}}>
-                        <i className="material-icons">flip_to_back</i>
-                        <span className="hideonresize">{i18n.t("order.Behind")}</span>
-                    </button>,
-                    <button key={'-5'} className="ActionBtn" disabled={disable_bt || box_layer === 0} onClick={() => {
-                        this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'back', boxes);}}>
-                        <i className="material-icons">flip_to_back</i>
-                        <span className="hideonresize">{i18n.t("order.SendtoBack")}</span>
-                    </button>,
-                    <span id="vs" key="-8" />,
-                        (<button key={'-1'} className={this.props.grid ? "ActionBtn active" : "ActionBtn"} onClick={this.props.onGridToggle}><i
-                            className="material-icons">grid_on</i> <span
-                            className="hideonresize">{i18n.t("Grid")}</span></button>),
-                        <span id="vs" key="-3" />] : null }
+                    { slide ? layerActions.map((act, ind) => {
+                        return <button key={act.key}
+                            className={(act.key === "Grid" && this.props.grid) ? "ActionBtn active" : "ActionBtn"}
+                            disabled={act.disabled}
+                            onClick={act.onClick}>
+                            <i className="material-icons">{act.icon}</i>
+                            <span className="hideonresize">{ i18n.t(act.i18nkey) }</span>
+                        </button>;}) : null }
                     <Clipboard boxes={this.props.boxes}
                         boxSelected={this.props.boxSelected}
                         navItemSelected={this.props.navItemSelected}
@@ -84,14 +81,11 @@ export default class ActionsRibbon extends Component {
                         onTextEditorToggled={this.props.onTextEditorToggled}
                         onBoxPasted={this.props.onBoxPasted}
                         onBoxDeleted={this.props.onBoxDeleted} >
-                        { actions.map((act, ind)=>{
-                            return <button key={ind} className="ActionBtn" name={act} onClick={onClick}><i
-                                className="material-icons">{"content_" + act}</i> <span
-                                className="hideonresize">{i18n.t("clipboard." + act)}</span></button>;
+                        { clipboardActions.map((act, ind)=>{
+                            return <button key={act.key} disabled={act.disabled} className="ActionBtn" name={act.key} onClick={act.onClick}><i
+                                className="material-icons">{act.icon}</i> <span
+                                className="hideonresize">{i18n.t(act.i18nkey)}</span></button>;
                         })}
-                        <button key={"duplicate"} className="ActionBtn" name={"duplicate"} ><i
-                            className="material-icons">{"content_copy"}</i> <span
-                            className="hideonresize">{i18n.t("clipboard.duplicate")}</span></button>
                     </Clipboard>
 
                     {this.createAlert(this.state.clipboardAlert, onClick)}
