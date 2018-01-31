@@ -487,6 +487,12 @@ class EditorApp extends Component {
      * After component mounts
      * Loads plugin API and sets listeners for plugin events, marks and keyboard keys pressed
      */
+    componentWillReceiveProps(nextProps) {
+        if (this.props.boxes !== nextProps.boxes) {
+            console.log(nextProps.boxes);
+        }
+
+    }
     componentDidMount() {
         if (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' && ediphy_editor_json && ediphy_editor_json !== 'undefined') {
             this.props.dispatch(importState(JSON.parse(ediphy_editor_json)));
@@ -536,13 +542,17 @@ class EditorApp extends Component {
                     e.detail.state,
                     e.detail.initialParams
                 ));
-                console.log('bx', this.props.boxes);
-                if (e.detail.config.flavor !== "react") {
-                    addDefaultContainerPlugins(e.detail, e.detail.content, this.props.boxes);
-                } else {
-                    console.log(999, e.detail, this.props.boxes);
-                    addDefaultContainerPluginsReact(e.detail, e.detail.content, this.props.boxes);
-                }
+                setTimeout(()=> {
+                    console.log('bx', this.props.boxes);
+                    if (e.detail.config.flavor !== "react") {
+                        addDefaultContainerPlugins(e.detail, e.detail.content, this.props.boxes);
+                    } else {
+                        console.log(999, e.detail, this.props.boxes);
+                        addDefaultContainerPluginsReact(e.detail, e.detail.content, this.props.boxes);
+                    }
+                },
+                0.1);
+
                 break;
 
             // case DELETE_RICH_MARK:

@@ -28,6 +28,7 @@ export default class PluginRibbon extends Component {
             showed: true,
             alert: null,
         };
+        this.ClickAddBox = this.ClickAddBox.bind(this);
     }
 
     /**
@@ -51,9 +52,7 @@ export default class PluginRibbon extends Component {
                                         name={item.name}
                                         bsSize="large"
                                         draggable="false"
-                                        onClick={(event) => {
-                                            this.ClickAddBox(event);
-                                        }}
+                                        onClick={this.ClickAddBox}
                                         style={(button.iconFromUrl) ? {
                                             padding: '8px 8px 8px 45px',
                                             backgroundImage: 'url(' + clase + ')',
@@ -283,6 +282,8 @@ export default class PluginRibbon extends Component {
 
             Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
             event.stopPropagation();
+
+            event.prevenDefault();
         }
 
     }
