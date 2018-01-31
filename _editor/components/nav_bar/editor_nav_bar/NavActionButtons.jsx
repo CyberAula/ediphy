@@ -35,88 +35,107 @@ export default class NavActionButtons extends Component {
      * @returns {code}
      */
     render() {
-        return (
-            <div className="navButtons">
-                <button className="navButton"
-                    title={i18n.t("messages.fullscreen")}
-                    onClick={() => {
-                        screenfull.toggle(document.documentElement);
-                    }}>
-                    {this.state.isFullScreenOn ?
-                        (<i className="material-icons">fullscreen_exit</i>) :
-                        (<i className="material-icons">fullscreen</i>)}
-                    <br/>
-                    <span className="hideonresize">{i18n.t('fullscreen')}</span>
-                </button>
-                <button className="navButton"
-                    title="Undo"
-                    disabled={this.props.undoDisabled}
-                    onClick={() => this.props.undo()}>
-                    <i className="material-icons">undo</i>
-                    <br/>
-                    <span className="hideonresize">{i18n.t('Undone')}</span>
-                </button>
-                <button className="navButton"
-                    title="Redo"
-                    disabled={this.props.redoDisabled}
-                    onClick={() => this.props.redo()}>
-                    <i className="material-icons">redo</i>
-                    <br/>
-                    <span className="hideonresize">{i18n.t('Redone')}</span>
-                </button>
-                { (!Ediphy.Config.disable_save_button && (Ediphy.Config.publish_button === undefined || !Ediphy.Config.publish_button)) &&
-                <button className="navButton"
-                    title={i18n.t('Save')}
-                    disabled={this.props.undoDisabled}
-                    onClick={() => {
-                        this.props.save();
-                        this.props.serverModalOpen();
-                    }}>
-                    <i className="material-icons">save</i>
-                    <br/>
-                    <span className="hideonresize">{i18n.t('Save')}</span>
-                </button>
-                }
-                { Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "draft" &&
-                <button className="navButton"
-                    title={i18n.t('Publish')}
-                    disabled={this.props.undoDisabled}
-                    onClick={() => {
-                        this.props.changeGlobalConfig("status", "final");
-                        this.props.save();
-                        this.props.serverModalOpen();
-                    }}>
-                    <i className="material-icons">publish</i>
-                    <br/>
-                    <span className="hideonresize">{i18n.t('Publish')}</span>
-                </button>
-                }
-                { Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "final" &&
-                <button className="navButton"
-                    title={i18n.t('Unpublish')}
-                    disabled={this.props.undoDisabled}
-                    onClick={() => {
-                        this.props.changeGlobalConfig("status", "draft");
-                        this.props.save();
-                        this.props.serverModalOpen();
-                    }}>
-                    <i className="material-icons">no_sim</i>
-                    <br/>
-                    <span className="hideonresize">{i18n.t('Unpublish')}</span>
-                </button>
-                }
-                <button className="navButton"
-                    title={i18n.t('Preview')}
-                    disabled={((this.props.navItemSelected === 0 || (this.props.navItemSelected && !Ediphy.Config.sections_have_content && isSection(this.props.navItemSelected))))}
-                    onClick={() =>
-                    { if (this.props.boxSelected !== 0) {
+        let buttons = [
+            {
+                name: 'fullscreen',
+                description: i18n.t('fullscreen'),
+                tooltip: i18n.t('messages.fullscreen'),
+                display: true,
+                disabled: false,
+                icon: this.state.isFullScreenOn ? 'fullscreen_exit' : 'fullscreen',
+                onClick: () => {
+                    screenfull.toggle(document.documentElement);
+                },
+            },
+            {
+                name: 'undo',
+                description: i18n.t('Undo'),
+                tooltip: i18n.t('messages.undo'),
+                display: true,
+                disabled: this.props.undoDisabled,
+                icon: 'undo',
+                onClick: this.props.undo,
+            },
+            {
+                name: 'redo',
+                description: i18n.t('Redo'),
+                tooltip: i18n.t('messages.redo'),
+                display: true,
+                disabled: this.props.redoDisabled,
+                icon: 'redo',
+                onClick: this.props.redo,
+            },
+            {
+                name: 'save',
+                description: i18n.t('Save'),
+                tooltip: i18n.t('messages.save_changes'),
+                display: (!Ediphy.Config.disable_save_button && (Ediphy.Config.publish_button === undefined || !Ediphy.Config.publish_button)),
+                disabled: false,
+                icon: 'save',
+                onClick: () => {
+                    this.props.save();
+                    this.props.serverModalOpen();
+                },
+            },
+            {
+                name: 'publish',
+                description: i18n.t('Publish'),
+                tooltip: i18n.t('messages.publish'),
+                display: (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "draft"),
+                disabled: false,
+                icon: 'publish',
+                onClick: () => {
+                    this.props.changeGlobalConfig("status", "final");
+                    this.props.save();
+                    this.props.serverModalOpen();
+                },
+            },
+            {
+                name: 'unpublish',
+                description: i18n.t('Unpublish'),
+                tooltip: i18n.t('messages.unpublish'),
+                display: (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "final"),
+                disabled: false,
+                icon: 'no_sim',
+                onClick: () => {
+                    this.props.changeGlobalConfig("status", "draft");
+                    this.props.save();
+                    this.props.serverModalOpen();
+                },
+            },
+            {
+                name: 'preview',
+                description: i18n.t('Preview'),
+                tooltip: i18n.t('messages.preview'),
+                display: true,
+                disabled: ((this.props.navItemSelected === 0 || (this.props.navItemSelected && !Ediphy.Config.sections_have_content && isSection(this.props.navItemSelected)))),
+                icon: 'visibility',
+                onClick: () => {
+                    if (this.props.boxSelected !== 0) {
                         this.props.onTextEditorToggled(this.props.boxSelected, false);
                     }
                     this.props.visor();
-                    }}><i className="material-icons">visibility</i>
-                    <br/>
-                    <span className="hideonresize">{i18n.t('Preview')}</span>
-                </button>
+                },
+            },
+        ];
+
+        return (
+            <div className="navButtons">
+                {buttons.map((item, index) => {
+                    if (!item.display) { return null; }
+                    return (
+                        <button className="navButton"
+                            disabled={item.disabled}
+                            key={item.name}
+                            name={item.name}
+                            onClick={item.onClick}
+                            title={item.tooltip} >
+                            <i className="material-icons">{item.icon}</i>
+                            <br />
+                            <span className="hideonresize">{item.description}</span>
+                        </button>
+                    );
+                })}
             </div>
         );
     }
