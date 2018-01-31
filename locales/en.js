@@ -21,6 +21,7 @@ let en = {
             "copy": "Copy",
             "cut": "Cut",
             "paste": "Paste",
+            "duplicate": "Duplicate",
             "to": "to",
             "msg": "These actions are not available. Use the keyboard shortcuts:",
         },

@@ -4,6 +4,7 @@ import { Col } from 'react-bootstrap';
 import i18n from "i18next";
 import './_ActionsRibbon.scss';
 import Alert from '../../common/alert/Alert';
+import Clipboard from '../../clipboard/Clipboard';
 import { isSlide, isSortableBox } from '../../../../common/utils';
 export default class ActionsRibbon extends Component {
     /**
@@ -73,11 +74,26 @@ export default class ActionsRibbon extends Component {
                             className="material-icons">grid_on</i> <span
                             className="hideonresize">{i18n.t("Grid")}</span></button>),
                         <span id="vs" key="-3" />] : null }
-                    { actions.map((act, ind)=>{
-                        return <button key={ind} className="ActionBtn" onClick={onClick}><i
-                            className="material-icons">{"content_" + act}</i> <span
-                            className="hideonresize">{i18n.t("clipboard." + act)}</span></button>;
-                    })}
+                    <Clipboard boxes={this.props.boxes}
+                        boxSelected={this.props.boxSelected}
+                        navItemSelected={this.props.navItemSelected}
+                        containedViewSelected={this.props.containedViewSelected}
+                        navItems={this.props.navItems}
+                        containedViews={this.props.containedViews}
+                        toolbars={this.props.toolbars}
+                        onTextEditorToggled={this.props.onTextEditorToggled}
+                        onBoxPasted={this.props.onBoxPasted}
+                        onBoxDeleted={this.props.onBoxDeleted} >
+                        { actions.map((act, ind)=>{
+                            return <button key={ind} className="ActionBtn" name={act} onClick={onClick}><i
+                                className="material-icons">{"content_" + act}</i> <span
+                                className="hideonresize">{i18n.t("clipboard." + act)}</span></button>;
+                        })}
+                        <button key={"duplicate"} className="ActionBtn" name={"duplicate"} ><i
+                            className="material-icons">{"content_copy"}</i> <span
+                            className="hideonresize">{i18n.t("clipboard.duplicate")}</span></button>
+                    </Clipboard>
+
                     {this.createAlert(this.state.clipboardAlert, onClick)}
                 </div>
             </Col>

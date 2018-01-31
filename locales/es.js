@@ -21,6 +21,7 @@ let es = {
             "copy": "Copiar",
             "cut": "Cortar",
             "paste": "Pegar",
+            "duplicate": "Duplicar",
             "to": "para",
             "msg": "Estas acciones no se encuentran disponibles. Para acceder a ellas usa los atajos del teclado:",
         },

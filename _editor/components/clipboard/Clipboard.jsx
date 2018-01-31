@@ -23,6 +23,10 @@ export default class Clipboard extends Component {
         this.copyListener = this.copyListener.bind(this);
         this.pasteListener = this.pasteListener.bind(this);
         this.cutListener = this.cutListener.bind(this);
+        this.pasteBox = this.pasteBox.bind(this);
+        this.copyData = this.copyData.bind(this);
+        this.duplicateBox = this.duplicateBox.bind(this);
+        this.duplicateListener = this.duplicateListener.bind(this);
     }
 
     /**
@@ -30,6 +34,22 @@ export default class Clipboard extends Component {
      * Sets listener
      */
 
+    copyData() {
+        let box = this.props.boxes[this.props.boxSelected];
+        let toolbar = this.props.toolbars[this.props.boxSelected];
+        let childBoxes = {};
+        let childToolbars = {};
+        if (box.sortableContainers) {
+            for (let sc in box.sortableContainers) {
+                for (let b in box.sortableContainers[sc].children) {
+                    let bid = box.sortableContainers[sc].children[b];
+                    childBoxes[bid] = this.props.boxes[bid];
+                    childToolbars[bid] = this.props.toolbars[bid];
+                }
+            }
+        }
+        return { box, toolbar, childBoxes, childToolbars };
+    }
     copyListener(event) {
         let activeElement = document.activeElement;
         let focus = activeElement.className;
@@ -37,28 +57,13 @@ export default class Clipboard extends Component {
             if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
                 if (focus.indexOf('form-control') === -1 && focus.indexOf('cke_editable') === -1 && activeElement.tagName !== 'TEXTAREA') { // focus.indexOf('tituloCurso') === -1 &&
                     event.preventDefault();
-                    let box = this.props.boxes[this.props.boxSelected];
-                    let toolbar = this.props.toolbars[this.props.boxSelected];
-                    let childBoxes = {};
-                    let childToolbars = {};
-                    if (box.sortableContainers) {
-                        for (let sc in box.sortableContainers) {
-                            for (let b in box.sortableContainers[sc].children) {
-                                let bid = box.sortableContainers[sc].children[b];
-                                childBoxes[bid] = this.props.boxes[bid];
-                                childToolbars[bid] = this.props.toolbars[bid];
-                            }
-                        }
-                    }
-                    let copyData = { box, toolbar, childBoxes, childToolbars };
-                    event.clipboardData.setData("text/plain", JSON.stringify(copyData));
+                    event.clipboardData.setData("text/plain", JSON.stringify(this.copyData()));
                     return true;
                 }
             }
         }
         return false;
     }
-
     cutListener(event) {
         let fromPlugin = this.copyListener(event);
         if (fromPlugin) {
@@ -68,6 +73,69 @@ export default class Clipboard extends Component {
 
     }
 
+    duplicateBox() {
+        let data = this.copyData();
+        let containerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
+        let id = ID_PREFIX_BOX + Date.now();
+        let page = isContainedView(this.props.containedViewSelected) ?
+            this.props.containedViews[this.props.containedViewSelected] :
+            (this.props.navItemSelected !== 0 ? this.props.navItems[this.props.navItemSelected] : null);
+
+        let isTargetSlide = isSlide(page.type);
+        let parent = isTargetSlide ? page.id : page.boxes[0];
+
+        let container = isTargetSlide ? 0 : containerId;
+
+        if (this.props.boxSelected && this.props.boxes[this.props.boxSelected]) {
+            parent = this.props.boxes[this.props.boxSelected].parent;
+            container = this.props.boxes[this.props.boxSelected].container;
+        }
+        let ids = { id, parent, container };
+        this.pasteBox(data, ids, isTargetSlide);
+    }
+    duplicateListener(event) {
+        event.preventDefault();
+        let key = event.keyCode ? event.keyCode : event.which;
+        if (key === 68 && event.ctrlKey) {
+            this.duplicateBox();
+        }
+    }
+
+    pasteBox(data, ids, isTargetSlide) {
+        let pluginName = data.toolbar.config.name;
+        let limitToOneInstance = data.toolbar.config.limitToOneInstance;
+
+        if (limitToOneInstance) {
+            let same = Object.keys(this.props.boxes).filter((key)=>{
+                return (this.props.boxes[key].parent === parent && this.props.toolbars[key].config.name === pluginName);
+            });
+            if (same.length > 0) {
+                let alert = (<Alert className="pageModal"
+                    show
+                    hasHeader
+                    backdrop={false}
+                    title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+                    closeButton onClose={()=>{this.setState({ alert: null });}}>
+                    <span> {i18n.t('messages.instance_limit')} </span>
+                </Alert>);
+                this.setState({ alert: alert }); return;
+            }
+        }
+
+        let transformedBox = this.transformBox(data.box, ids, isTargetSlide, data.box.resizable);
+        let transformedToolbar = this.transformToolbar(data.toolbar, ids, isTargetSlide, data.box.resizable);
+        let transformedChildren = {};
+        if (data.childBoxes && data.childToolbars) {
+            for (let bid in transformedBox.newIds) {
+                let idsChild = { id: transformedBox.newIds[bid], parent: ids.id, container: data.childBoxes[bid].container };
+                let transformedBoxChild = this.transformBox(data.childBoxes[bid], idsChild, false, false);
+                let transformedToolbarChild = this.transformToolbar(data.childToolbars[bid], idsChild, false, false);
+                transformedChildren[transformedBox.newIds[bid]] = { box: transformedBoxChild.newBox, toolbar: transformedToolbarChild };
+            }
+        }
+        this.props.onBoxPasted(ids, transformedBox.newBox, transformedToolbar, transformedChildren);
+
+    }
     pasteListener(event) {
         let activeElement = document.activeElement;
         let focus = activeElement.className;
@@ -106,39 +174,7 @@ export default class Clipboard extends Component {
                         event.preventDefault();
                         event.stopPropagation();
                         // TODO Drag with Ctrl key held
-                        let pluginName = data.toolbar.config.name;
-                        let limitToOneInstance = data.toolbar.config.limitToOneInstance;
-
-                        if (limitToOneInstance) {
-                            let same = Object.keys(this.props.boxes).filter((key)=>{
-                                return (this.props.boxes[key].parent === parent && this.props.toolbars[key].config.name === pluginName);
-                            });
-                            if (same.length > 0) {
-                                let alert = (<Alert className="pageModal"
-                                    show
-                                    hasHeader
-                                    backdrop={false}
-                                    title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
-                                    closeButton onClose={()=>{this.setState({ alert: null });}}>
-                                    <span> {i18n.t('messages.instance_limit')} </span>
-                                </Alert>);
-                                this.setState({ alert: alert }); return;
-                            }
-                        }
-
-                        let transformedBox = this.transformBox(data.box, ids, isTargetSlide, data.box.resizable);
-                        let transformedToolbar = this.transformToolbar(data.toolbar, ids, isTargetSlide, data.box.resizable);
-                        let transformedChildren = {};
-                        if (data.childBoxes && data.childToolbars) {
-                            for (let bid in transformedBox.newIds) {
-                                let idsChild = { id: transformedBox.newIds[bid], parent: ids.id, container: data.childBoxes[bid].container };
-                                let transformedBoxChild = this.transformBox(data.childBoxes[bid], idsChild, false, false);
-                                let transformedToolbarChild = this.transformToolbar(data.childToolbars[bid], idsChild, false, false);
-                                transformedChildren[transformedBox.newIds[bid]] = { box: transformedBoxChild.newBox, toolbar: transformedToolbarChild };
-                            }
-                        }
-                        this.props.onBoxPasted(ids, transformedBox.newBox, transformedToolbar, transformedChildren);
-
+                        this.pasteBox(data, ids, isTargetSlide);
                         // Inside a text box (CKEditor or input)
 
                     } else {
@@ -261,6 +297,7 @@ export default class Clipboard extends Component {
         document.addEventListener('copy', this.copyListener);
         document.addEventListener('paste', this.pasteListener);
         document.addEventListener('cut', this.cutListener);
+        document.addEventListener('keyup', this.duplicateListener);
     }
 
     /**
@@ -271,6 +308,7 @@ export default class Clipboard extends Component {
         document.removeEventListener('copy', this.copyListener);
         document.removeEventListener('paste', this.pasteListener);
         document.removeEventListener('cut', this.cutListener);
+        document.removeEventListener('keyup', this.duplicateListener);
     }
 
     /**
@@ -278,7 +316,18 @@ export default class Clipboard extends Component {
      * @returns {code} React rendered component
      */
     render() {
-        return this.state.alert;
+        let props = {
+            onClick: this.duplicateBox,
+        };
+        let childrenWithProps = React.Children.map(this.props.children, function(child) {
+            if (React.isValidElement(child) && child.props.name === "duplicate") {
+                return React.cloneElement(child, props);
+            }
+            return child;
+        });
+        return [this.state.alert, ...(childrenWithProps || []),
+
+        ];
     }
 
 }

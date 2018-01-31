@@ -322,6 +322,8 @@ export default class EditorBox extends Component {
                     onVerticallyAlignBox: this.props.onVerticallyAlignBox,
                     onBoxesInsideSortableReorder: this.props.onBoxesInsideSortableReorder,
                     onTextEditorToggled: this.props.onTextEditorToggled,
+                    onRichMarksModalToggled: this.props.onRichMarksModalToggled,
+                    boxLevelSelected: this.props.boxLevelSelected,
                 });
             } else {
                 component = markup.tag;

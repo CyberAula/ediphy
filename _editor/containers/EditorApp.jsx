@@ -28,7 +28,6 @@ import EditorNavBar from '../components/nav_bar/editor_nav_bar/EditorNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
 import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
 import AutoSave from '../components/autosave/AutoSave';
-import Clipboard from '../components/clipboard/Clipboard';
 import Alert from '../components/common/alert/Alert';
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
 import i18n from 'i18next';
@@ -210,6 +209,10 @@ class EditorApp extends Component {
                                 boxes={boxes}
                                 navItems={navItems}
                                 containedViews={containedViews}
+                                toolbars={toolbars}
+                                onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
+                                onBoxPasted={(ids, box, toolbar, children)=>this.dispatchAndSetState(pasteBox(ids, box, toolbar, children))}
+                                onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                                 ribbonHeight={ribbonHeight + 'px'}/>
                         </Row>
 
@@ -457,17 +460,6 @@ class EditorApp extends Component {
                     }}
                     onUploadVishResource={(query) => this.dispatchAndSetState(uploadVishResourceAsync(query))}
                     onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))}
-                />
-                <Clipboard boxes={boxes}
-                    boxSelected={boxSelected}
-                    navItemSelected={navItemSelected}
-                    containedViewSelected={containedViewSelected}
-                    navItems={navItems}
-                    containedViews={containedViews}
-                    toolbars={toolbars}
-                    onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
-                    onBoxPasted={(ids, box, toolbar, children)=>this.dispatchAndSetState(pasteBox(ids, box, toolbar, children))}
-                    onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                 />
 
             </Grid>
