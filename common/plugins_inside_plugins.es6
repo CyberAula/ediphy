@@ -9,6 +9,11 @@ import { ADD_BOX } from './actions';
  * @param state
  */
 export function parsePluginContainersReact(obj, state) {
+    if (obj instanceof Array) {
+        for (let i = 0; i < obj.length; i++) {
+            parsePluginContainersReact(obj[i], state);
+        }
+    }
     if (obj.props && obj.props.children) {
         if (obj.props.children && obj.props.children instanceof Array) {
             for (let i = 0; i < obj.props.children.length; i++) {
@@ -171,6 +176,11 @@ export function addDefaultContainerPlugins(eventDetails, obj, boxes) {
     }
 }
 export function addDefaultContainerPluginsReact(eventDetails, obj, boxes) {
+    if (obj instanceof Array) {
+        for (let i = 0; i < obj.length; i++) {
+            addDefaultContainerPluginsReact(eventDetails, obj[i], boxes);
+        }
+    }
     if (obj.props && obj.props.children) {
         if (obj.props.children && obj.props.children instanceof Array) {
             for (let i = 0; i < obj.props.children.length; i++) {

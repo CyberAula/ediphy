@@ -494,8 +494,8 @@ class EditorApp extends Component {
                 parsePluginContainers(e.detail.content, newPluginState);
                 e.detail.state.__pluginContainerIds = newPluginState;
             } else {
-                parsePluginContainersReact(e.detail.content, newPluginState);
-
+                let content = Ediphy.Plugins.get(e.detail.config.name).getRenderTemplate(e.detail.state, {});
+                parsePluginContainersReact(content, newPluginState);
                 e.detail.state.__pluginContainerIds = newPluginState;
             }
 
@@ -529,7 +529,8 @@ class EditorApp extends Component {
                     if (e.detail.config.flavor !== "react") {
                         addDefaultContainerPlugins(e.detail, e.detail.content, this.props.boxes);
                     } else {
-                        addDefaultContainerPluginsReact(e.detail, e.detail.content, this.props.boxes);
+                        let content = Ediphy.Plugins.get(e.detail.config.name).getRenderTemplate(e.detail.state, {});
+                        addDefaultContainerPluginsReact(e.detail, content, this.props.boxes);
                     }
                 },
                 0.00000001);

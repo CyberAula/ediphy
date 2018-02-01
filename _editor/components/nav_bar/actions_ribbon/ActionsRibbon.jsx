@@ -99,7 +99,7 @@ export default class ActionsRibbon extends Component {
         return <Alert show={state} onClose={callback} className="pageModal" key="alert">
             <p>{i18n.t("clipboard.msg")}</p>
             {actions.map((act, ind) => {
-                return <Col xs={4}>
+                return <Col xs={4} key={ind}>
                     <h2>Ctrl+{shortCuts[ind]}</h2>
                     <div>{i18n.t("clipboard.to")} {i18n.t("clipboard." + actions[ind]).toLowerCase()}</div>
                 </Col>;

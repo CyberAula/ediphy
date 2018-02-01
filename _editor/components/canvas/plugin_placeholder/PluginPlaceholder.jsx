@@ -121,10 +121,10 @@ export default class PluginPlaceholder extends Component {
             accept: selector,
             overlap: 'pointer',
             ondropactivate: function(e) {
-                if (this.props.parentBox.id !== this.props.boxSelected) {
-                    e.target.classList.add('drop-active');
-                }
-            }.bind(this),
+                // if (this.props.parentBox.id !== this.props.boxSelected) {
+                e.target.classList.add('drop-active');
+                // }
+            },
             ondragenter: function(e) {
                 e.target.classList.add("drop-target");
             },

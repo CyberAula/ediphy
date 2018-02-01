@@ -195,6 +195,7 @@ export default function() {
                     }
                 }
                 initialParams = initParams;
+                initialParams.name = descendant.getConfig().name;
                 if (initialParams && Object.keys(initialParams).length !== 0) {
                     let floatingBox = !isSortableContainer(initialParams.container);
                     if (descendant.getConfig().initialWidth) {
