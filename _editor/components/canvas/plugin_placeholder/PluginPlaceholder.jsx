@@ -121,7 +121,8 @@ export default class PluginPlaceholder extends Component {
             accept: selector,
             overlap: 'pointer',
             ondropactivate: (e) => {
-                if ((this.props.parentBox.id !== this.props.boxSelected && !Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected ].config.name).getConfig().isComplex) || e.relatedTarget.className.indexOf("rib") !== -1) {
+                if ((this.props.parentBox.id !== this.props.boxSelected && this.props.toolbars[this.props.boxSelected ] && !Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected ].config.name).getConfig().isComplex) ||
+                    (e.relatedTarget.className.indexOf("rib") !== -1 && !Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().isComplex)) {
                     e.target.classList.add('drop-active');
                 }
             },
@@ -137,37 +138,40 @@ export default class PluginPlaceholder extends Component {
                 let draggingFromRibbon = e.relatedTarget.className.indexOf("rib") !== -1;
                 let name = (draggingFromRibbon) ? e.relatedTarget.getAttribute("name") : this.props.toolbars[this.props.boxSelected].config.name;
                 let parent = this.props.parentBox.id;
+                let forbidden = isBox(parent) && Ediphy.Plugins.get(name).getConfig().isComplex; // && (parent !== this.props.boxSelected);
 
-                if (isBox(parent) && Ediphy.Plugins.get(name).getConfig().isComplex && (parent !== this.props.boxSelected)) {
-                    this.setState({ alert: alert(i18n.t('messages.depth_limit')) });
-                    e.dragEvent.stopPropagation();
-                    return;
-                }
                 if (draggingFromRibbon) {
                     let config = Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig();
 
                     let initialParams = {
-                        parent: parent,
-                        container: this.idConvert(this.props.pluginContainer),
-                        col: extraParams.i,
-                        row: extraParams.j,
+                        parent: forbidden ? this.props.parentBox.parent : parent,
+                        container: forbidden ? this.props.parentBox.container : this.idConvert(this.props.pluginContainer),
+                        col: forbidden ? 0 : extraParams.i,
+                        row: forbidden ? 0 : extraParams.j,
                     };
                     config.callback(initialParams, ADD_BOX);
 
                 } else {
+
                     let boxDragged = this.props.boxes[this.props.boxSelected];
                     // If box being dragged is dropped in a different column or row, change its value
-                    // if (boxDragged && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
                     if (this.props.parentBox.id !== this.props.boxSelected) {
-                        let position = { type: 'relative', x: 0, y: 0 };
-                        this.props.onBoxDropped(boxDragged.id, extraParams.j, extraParams.i, parent,
-                            this.idConvert(this.props.pluginContainer), boxDragged.parent, boxDragged.container, position);
+                        let initialParams = {
+                            parent: parent,
+                            container: this.idConvert(this.props.pluginContainer),
+                            col: extraParams.i,
+                            row: extraParams.j,
+                            position: { type: 'relative', x: 0, y: 0 } };
+                        if (!forbidden) {
+                            this.props.onBoxDropped(boxDragged.id, initialParams.row, initialParams.col, initialParams.parent,
+                                initialParams.container, boxDragged.parent, boxDragged.container, initialParams.position);
+
+                        }
                     }
                     let clone = document.getElementById('clone');
                     if (clone) {clone.parentElement.removeChild(clone);}
                 }
 
-                // e.stopPropagation()
             }.bind(this),
             ondropdeactivate: function(e) {
                 e.target.classList.remove('drop-active');

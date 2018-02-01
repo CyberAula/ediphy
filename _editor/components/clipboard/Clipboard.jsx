@@ -169,7 +169,9 @@ export default class Clipboard extends Component {
                 if (this.props.boxSelected && this.props.boxes[this.props.boxSelected] && isBox(this.props.boxSelected)) {
                     parent = this.props.boxes[this.props.boxSelected].parent;
                     container = this.props.boxes[this.props.boxSelected].container;
+                    isTargetSlide = false;
                 }
+
                 let ids = { id, parent, container };
                 // Copied data is an EditorBox
                 if (data && data.box && data.toolbar) {
