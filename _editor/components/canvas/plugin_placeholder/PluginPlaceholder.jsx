@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import interact from 'interactjs';
+import Alert from './../../common/alert/Alert';
 import EditorBox from '../editor_box/EditorBox';
 import { RESIZE_SORTABLE_CONTAINER, ADD_BOX } from '../../../../common/actions';
-import { isAncestorOrSibling, isSortableContainer } from '../../../../common/utils';
+import { isAncestorOrSibling, isBox, isSortableContainer } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
-
+import i18n from 'i18next';
 import './_pluginPlaceHolder.scss';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 
@@ -14,6 +15,12 @@ import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
  * @deprecated
  */
 export default class PluginPlaceholder extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            alert: null,
+        };
+    }
     render() {
         let container = this.props.parentBox.sortableContainers[this.idConvert(this.props.pluginContainer)] || {};
         let className = "drg" + this.idConvert(this.props.pluginContainer);
@@ -56,6 +63,7 @@ export default class PluginPlaceholder extends Component {
                                             );
                                         }
                                     }}>
+                                    {this.state.alert}
                                     {container.children.map((idBox, index) => {
                                         if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
                                             return (<EditorBox id={idBox}
@@ -101,6 +109,14 @@ export default class PluginPlaceholder extends Component {
     }
 
     configureDropZone(node, selector, extraParams) {
+        let alert = (msg)=>{return (<Alert className="pageModal"
+            show
+            hasHeader
+            backdrop={false}
+            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+            closeButton onClose={()=>{this.setState({ alert: null });}}>
+            <span> {msg} </span>
+        </Alert>);};
         interact(node).dropzone({
             accept: selector,
             overlap: 'pointer',
@@ -116,22 +132,36 @@ export default class PluginPlaceholder extends Component {
                 e.target.classList.remove("drop-target");
             },
             ondrop: function(e) {
+
                 // If element dragged is coming from PluginRibbon, create a new EditorBox
-                if (e.relatedTarget.className.indexOf("rib") !== -1) {
+                let draggingFromRibbon = e.relatedTarget.className.indexOf("rib") !== -1;
+                let name = (draggingFromRibbon) ? e.relatedTarget.getAttribute("name") : this.props.toolbars[this.props.boxSelected].config.name;
+                let parent = this.props.parentBox.id;
+                console.log(name, parent, Ediphy.Plugins.get(name).getConfig());
+
+                if (isBox(parent) && Ediphy.Plugins.get(name).getConfig().isComplex && (parent !== this.props.boxSelected)) {
+                    this.setState({ alert: alert(i18n.t('messages.depth_limit')) });
+                    e.dragEvent.stopPropagation();
+                    return;
+                }
+                if (draggingFromRibbon) {
+                    let config = Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig();
+
                     let initialParams = {
-                        parent: this.props.parentBox.id,
+                        parent: parent,
                         container: this.idConvert(this.props.pluginContainer),
                         col: extraParams.i,
                         row: extraParams.j,
                     };
-                    Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                    config.callback(initialParams, ADD_BOX);
+
                 } else {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
                     // If box being dragged is dropped in a different column or row, change its value
                     // if (boxDragged && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
                     if (this.props.parentBox.id !== this.props.boxSelected) {
                         let position = { type: 'relative', x: 0, y: 0 };
-                        this.props.onBoxDropped(this.props.boxSelected, extraParams.j, extraParams.i, this.props.parentBox.id,
+                        this.props.onBoxDropped(boxDragged.id, extraParams.j, extraParams.i, parent,
                             this.idConvert(this.props.pluginContainer), boxDragged.parent, boxDragged.container, position);
                     }
                     let clone = document.getElementById('clone');

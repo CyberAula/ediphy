@@ -101,7 +101,7 @@ export default function() {
         },
         getConfig: function() {
             let name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig, needsPointerEventsAllowed,
-                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance, initialWidth, initialHeight, initialWidthSlide, initialHeightSlide;
+                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isComplex, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance, initialWidth, initialHeight, initialWidthSlide, initialHeightSlide;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
                 name = cfg.name;
@@ -110,6 +110,7 @@ export default function() {
                 icon = cfg.icon;
                 iconFromUrl = cfg.iconFromUrl;
                 isRich = cfg.isRich;
+                isComplex = cfg.isComplex;
                 flavor = cfg.flavor;
                 marksType = cfg.marksType;
                 needsConfigModal = cfg.needsConfigModal;
@@ -133,6 +134,7 @@ export default function() {
             icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
             iconFromUrl = defaultFor(iconFromUrl, false);
             isRich = defaultFor(isRich, false);
+            isComplex = defaultFor(isComplex, false);
             marksType = defaultFor(marksType, [{ name: 'value', key: 'value' }]);
             flavor = defaultFor(flavor, 'plain');
             allowFloatingBox = defaultFor(allowFloatingBox, true);
@@ -225,6 +227,7 @@ export default function() {
                 icon: icon,
                 iconFromUrl: iconFromUrl,
                 isRich: isRich,
+                isComplex: isComplex,
                 marksType: marksType,
                 flavor: flavor,
                 needsPointerEventsAllowed: needsPointerEventsAllowed,

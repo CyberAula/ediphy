@@ -5,6 +5,7 @@ import MarkCreator from '../../rich_plugins/mark_creator/MarkCreator';
 import interact from 'interactjs';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import { EDIT_PLUGIN_TEXT } from '../../../../common/actions';
+import { releaseClick } from '../../../../common/common_tools';
 import Ediphy from '../../../../core/editor/main';
 import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
 import './_editorBox.scss';
@@ -625,17 +626,17 @@ export default class EditorBox extends Component {
                         target.style.opacity = 1;
                     }
 
-                    let releaseClick = document.elementFromPoint(event.clientX, event.clientY);
-                    let row = this.releaseClick(releaseClick, "rowNum");
-                    let col = this.releaseClick(releaseClick, "colNum");
+                    let releaseClickEl = document.elementFromPoint(event.clientX, event.clientY);
+                    let row = releaseClick(releaseClickEl, "rowNum");
+                    let col = releaseClick(releaseClickEl, "colNum");
                     let hoverSortableContainer;
-                    let calculatedId = this.releaseClick(releaseClick, ID_PREFIX_SORTABLE_CONTAINER);
+                    let calculatedId = releaseClick(releaseClickEl, ID_PREFIX_SORTABLE_CONTAINER);
                     if (calculatedId) {
                         hoverSortableContainer = ID_PREFIX_SORTABLE_CONTAINER + calculatedId;
                     }
                     let containerId = hoverSortableContainer || box.container;
                     let disposition = { col: col || 0, row: row || 0 };
-                    let containerHoverID = this.releaseClick(releaseClick, 'sc-');
+                    let containerHoverID = releaseClick(releaseClickEl, 'sc-');
                     // TODO Comentar?
                     this.props.onBoxMoved(
                         this.props.id,
@@ -648,7 +649,7 @@ export default class EditorBox extends Component {
                     );
 
                     // Stuff to reorder boxes when position is relative
-                    let hoverID = this.releaseClick(releaseClick, 'box-');
+                    let hoverID = releaseClick(releaseClickEl, 'box-');
                     let boxOb = this.props.boxes[this.props.id];
                     if (boxOb && isSortableContainer(boxOb.container) && box.container === containerId) {
 
@@ -789,41 +790,6 @@ export default class EditorBox extends Component {
                 },
             });
 
-    }
-
-    /**
-   * Calculate if a click was released on top of any element of a kind
-   * Example: Check if plugin was dropped on top of another plugin. Check in which sortable it was dropped, etc.
-   * @param releaseClick Element where the click was released
-   * @param name Prefix of the className of the parent we are looking for
-   * @returns {*}
-   */
-    releaseClick(releaseClick, name) {
-        if (releaseClick) {
-        // Get element that has been clicked
-            let release = releaseClick.getAttribute('id') || "noid";
-            let counter = 7;
-            // Check recursively the parent of the element clicked to check if any of them is a box
-            while (release && release.indexOf(name) === -1 && counter > 0 && releaseClick.parentNode) {
-                releaseClick = releaseClick.parentNode;
-                if (releaseClick) {
-                    release = releaseClick.getAttribute('id') || "noid";
-                } else {
-                    counter = 0;
-                    break;
-                }
-                counter--;
-            }
-            if (counter > 0 && release && release.indexOf(name) !== -1) {
-                let partialID = release.split(name);
-                if (partialID && partialID.length > 0) {
-                    return partialID[1];
-
-                }
-
-            }
-        }
-        return undefined;
     }
 
     /**

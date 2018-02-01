@@ -10,6 +10,7 @@ export function ContainerReact(base) {
                 icon: 'view_agenda',
                 initialWidth: '60%',
                 flavor: 'react',
+                isComplex: true,
             };
         },
         getToolbar: function() {

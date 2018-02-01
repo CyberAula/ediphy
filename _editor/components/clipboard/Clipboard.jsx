@@ -107,21 +107,24 @@ export default class Clipboard extends Component {
     pasteBox(data, ids, isTargetSlide) {
         let pluginName = data.toolbar.config.name;
         let limitToOneInstance = data.toolbar.config.limitToOneInstance;
+        let alertMsg = (msg) => { return;
+            (<Alert className="pageModal" key="alert" show hasHeader backdrop={false}
+                title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+                closeButton onClose={()=>{this.setState({ alert: null });}}>
+                <span> {msg} </span>
+            </Alert>);
 
+        };
+        // Forbid plugins inside plugins inside plugins (only 1 level allowed)
+        if (isBox(ids.parent) && (!data.childBoxes || Object.keys(data.childBoxes).length > 0)) {
+            this.setState({ alert: alertMsg(i18n.t('messages.depth_limit')) }); return;
+        }
         if (limitToOneInstance) {
             let same = Object.keys(this.props.boxes).filter((key)=>{
                 return (this.props.boxes[key].parent === parent && this.props.toolbars[key].config.name === pluginName);
             });
             if (same.length > 0) {
-                let alert = (<Alert className="pageModal"
-                    show
-                    hasHeader
-                    backdrop={false}
-                    title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
-                    closeButton onClose={()=>{this.setState({ alert: null });}}>
-                    <span> {i18n.t('messages.instance_limit')} </span>
-                </Alert>);
-                this.setState({ alert: alert }); return;
+                this.setState({ alert: alertMsg(i18n.t('messages.instance_limit')) }); return;
             }
         }
 
@@ -133,7 +136,6 @@ export default class Clipboard extends Component {
                 let idsChild = { id: transformedBox.newIds[bid], parent: ids.id, container: data.childBoxes[bid].container };
                 let transformedBoxChild = this.transformBox(data.childBoxes[bid], idsChild, false, false);
                 let transformedToolbarChild = this.transformToolbar(data.childToolbars[bid], idsChild, false, false);
-                console.log(transformedToolbarChild);
                 transformedChildren[transformedBox.newIds[bid]] = { box: transformedBoxChild.newBox, toolbar: transformedToolbarChild };
             }
         }
@@ -143,6 +145,7 @@ export default class Clipboard extends Component {
     pasteListener(event) {
         let activeElement = document.activeElement;
         let focus = activeElement.className;
+
         if (event.clipboardData) {
             // Check if copied data is plugin
             let data = "";

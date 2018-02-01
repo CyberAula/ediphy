@@ -6,7 +6,7 @@ import Ediphy from '../../../../core/editor/main';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
 import './_pluginRibbon.scss';
-import { isSortableBox, isSlide, isContainedView } from "../../../../common/utils";
+import { isSortableBox, isSlide, isBox, isContainedView } from "../../../../common/utils";
 import { ADD_BOX } from "../../../../common/actions";
 import Alert from './../../common/alert/Alert';
 import { ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
@@ -223,24 +223,33 @@ export default class PluginRibbon extends Component {
     }
 
     ClickAddBox(event) {
-        let alert = (<Alert className="pageModal"
+        let alert = (msg) => {return <Alert key="alert" className="pageModal"
             show
             hasHeader
             backdrop={false}
             title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px', color: 'yellow' }}>warning</i>{ i18n.t("messages.alert") }</span> }
             closeButton onClose={()=>{this.setState({ alert: null });}}>
-            <span> {i18n.t('messages.instance_limit')} </span>
-        </Alert>);
+            <span> {msg} </span>
+        </Alert>;};
 
         let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected.id) && isSlide(this.props.containedViewSelected.type);
         let cvdoc = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected.id) && !isSlide(this.props.containedViewSelected.type);
-        if (isSlide(this.props.navItemSelected.type) || cv) {
+        let name = event.target.getAttribute("name");
+        let config = Ediphy.Plugins.get(name).getConfig();
+        let isBoxSelected = (this.props.boxSelected && isBox(this.props.boxSelected.id));
+        if (isBoxSelected && isBox(this.props.boxSelected.parent) && config.isComplex) {
+            this.setState({ alert: alert(i18n.t('messages.depth_limit')) });
+            event.stopPropagation();
+            return;
+        }
 
+        let inASlide = isSlide(this.props.navItemSelected.type) || cv;
+        if (inASlide) {
             let SelectedNav = cv ? this.props.containedViewSelected.id : this.props.navItemSelected.id;
-            if (Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().limitToOneInstance) {
+            if (config.limitToOneInstance) {
                 for (let child in this.props.boxes) {
-                    if (!isSortableBox(child) && this.props.boxes[child].parent === SelectedNav && this.props.toolbars[child].config.name === event.target.getAttribute("name")) {
-                        this.setState({ alert: alert });
+                    if (!isSortableBox(child) && this.props.boxes[child].parent === SelectedNav && this.props.toolbars[child].config.name === name) {
+                        this.setState({ alert: alert(i18n.t('messages.instance_limit')) });
                         event.stopPropagation();
                         return;
                     }
@@ -252,35 +261,32 @@ export default class PluginRibbon extends Component {
                 type: 'absolute',
             };
             let initialParams = {
-                parent: (this.props.boxSelected && isBox(this.props.boxSelected)) ? this.props.boxSelected.parent : SelectedNav,
-                container: (this.props.boxSelected && isBox(this.props.boxSelected)) ? this.props.boxSelected.container : 0,
+                parent: isBoxSelected ? this.props.boxSelected.parent : SelectedNav,
+                container: isBoxSelected ? this.props.boxSelected.container : 0,
                 position: position,
             };
-            Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+            config.callback(initialParams, ADD_BOX);
             event.stopPropagation();
         } else {
             let parentBox = cvdoc ? this.props.containedViewSelected.boxes[0] : this.props.navItemSelected.boxes[0];
 
             // Check if there is a limit in the number of plugin instances
-            if (isSortableBox(parentBox) && Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().limitToOneInstance) {
+            if (isSortableBox(parentBox) && config.limitToOneInstance) {
                 for (let child in this.props.boxes) {
-
-                    if (!isSortableBox(child) && this.props.boxes[child].parent === parentBox && this.props.toolbars[child].config.name === event.target.getAttribute("name")) {
-
-                        this.setState({ alert: alert });
+                    if (!isSortableBox(child) && this.props.boxes[child].parent === parentBox && this.props.toolbars[child].config.name === name) {
+                        this.setState({ alert: alert(i18n.t('messages.instance_limit')) });
                         event.stopPropagation();
                         return;
                     }
                 }
             }
             let initialParams = {
-                parent: (this.props.boxSelected && isBox(this.props.boxSelected)) ? this.props.boxSelected.parent : parentBox,
-                container: (this.props.boxSelected && isBox(this.props.boxSelected)) ? this.props.boxSelected.container : (ID_PREFIX_SORTABLE_CONTAINER + Date.now()), col: 0, row: 0,
+                parent: isBoxSelected ? this.props.boxSelected.parent : parentBox,
+                container: isBoxSelected ? this.props.boxSelected.container : (ID_PREFIX_SORTABLE_CONTAINER + Date.now()), col: 0, row: 0,
             };
 
-            Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+            config.callback(initialParams, ADD_BOX);
             event.stopPropagation();
-
             event.preventDefault();
         }
 

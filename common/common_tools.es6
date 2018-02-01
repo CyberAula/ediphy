@@ -86,3 +86,39 @@ export function fullScreenListener(callback, set) {
         document.removeEventListener('MSFullscreenChange', callback);
     }
 }
+
+/**
+ * Calculate if a click was released on top of any element of a kind
+ * Example: Check if plugin was dropped on top of another plugin. Check in which sortable it was dropped, etc.
+ * @param releaseClick Element where the click was released
+ * @param name Prefix of the className of the parent we are looking for
+ * @returns {*}
+ */
+export function releaseClick(releaseClickEl, name) {
+    console.log(releaseClickEl);
+    if (releaseClickEl && releaseClickEl.getAttribute) {
+    // Get element that has been clicked
+        let release = releaseClickEl.getAttribute('id') || "noid";
+        let counter = 7;
+        // Check recursively the parent of the element clicked to check if any of them has the name that we are looking for
+        while (release && release.indexOf(name) === -1 && counter > 0 && releaseClickEl.parentNode) {
+            releaseClickEl = releaseClickEl.parentNode;
+            if (releaseClick) {
+                release = releaseClickEl.getAttribute('id') || "noid";
+            } else {
+                counter = 0;
+                break;
+            }
+            counter--;
+        }
+        if (counter > 0 && release && release.indexOf(name) !== -1) {
+            let partialID = release.split(name);
+            if (partialID && partialID.length > 0) {
+                return partialID[1];
+
+            }
+
+        }
+    }
+    return undefined;
+}

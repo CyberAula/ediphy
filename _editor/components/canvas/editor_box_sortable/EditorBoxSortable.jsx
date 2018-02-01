@@ -7,7 +7,7 @@ import Alert from './../../common/alert/Alert';
 import EditorBox from '../editor_box/EditorBox';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import { ADD_BOX } from '../../../../common/actions';
-import { isSortableBox } from '../../../../common/utils';
+import { isSortableBox, isBox } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 
@@ -147,9 +147,7 @@ export default class EditorBoxSortable extends Component {
                                         onHide={() => {this.setState({ show: this.state.show === idContainer ? false : this.state.show });}}>
                                         <Popover id="popov" title={i18n.t("delete_container")}>
                                             <i style={{ color: 'yellow', fontSize: '13px', padding: '0 5px' }} className="material-icons">warning</i>
-                                            {
-                                                i18n.t("messages.delete_container")
-                                            }
+                                            { i18n.t("messages.delete_container") }
                                             <br/>
                                             <br/>
                                             <Button className="popoverButton"
@@ -163,8 +161,7 @@ export default class EditorBoxSortable extends Component {
                                                     this.props.onSortableContainerDeleted(idContainer, box.id);
                                                     e.stopPropagation();
                                                     this.setState({ show: false });
-                                                }}
-                                            >
+                                                }} >
                                                 {i18n.t("Accept")}
                                             </Button>
                                             <Button className="popoverButton"
@@ -390,6 +387,7 @@ export default class EditorBoxSortable extends Component {
                             container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
                         };
                     }
+
                     Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     e.dragEvent.stopPropagation();
                 }
