@@ -62,16 +62,15 @@ export default class NavDropdown extends Component {
                         </button>
                     </MenuItem>
                     {Ediphy.Config.external_providers.enable_catalog_modal &&
-                    <MenuItem divider key="div_4"/> &&
-                    <MenuItem eventKey="4" key="4">
-                        <button className="dropdownButton" title={i18n.t('Open_Catalog')}
-                            onClick={() => {
-                                this.props.onExternalCatalogToggled();
-                            }}><i className="material-icons">grid_on</i>
-                            {i18n.t('Open_Catalog')}
-                        </button>
-                    </MenuItem>
-                    }
+                    [<MenuItem divider key="div_4"/>,
+                        <MenuItem eventKey="4" key="4">
+                            <button className="dropdownButton" title={i18n.t('Open_Catalog')}
+                                onClick={() => {
+                                    this.props.onExternalCatalogToggled();
+                                }}><i className="material-icons">grid_on</i>
+                                {i18n.t('Open_Catalog')}
+                            </button>
+                        </MenuItem>]}
                     {(Ediphy.Config.open_button_enabled === undefined || Ediphy.Config.open_button_enabled) &&
                     [<MenuItem divider key="div_5"/>,
                         <MenuItem eventKey="5" key="5">
