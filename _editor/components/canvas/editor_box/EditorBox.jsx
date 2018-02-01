@@ -548,7 +548,7 @@ export default class EditorBox extends Component {
                     bar.classList.add('hidden');
 
                     // Level has to be the same to drag a box, unless a sortableContainer is selected, then it should allow level 0 boxes
-                    if ((box.level - this.props.boxLevelSelected) === 0 || (box.level === 0 && this.props.boxLevelSelected === -1)) {
+                    if ((box.level - this.props.boxLevelSelected) === 0 || (box.level === 0 && this.props.boxLevelSelected < 1)) {
                         // If box not in a sortableContainer or PluginPlaceHolder, just drag
                         if (!isSortableContainer(box.container)) {
                             let target = event.target;
