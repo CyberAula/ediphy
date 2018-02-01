@@ -38,7 +38,7 @@ export default class ActionsRibbon extends Component {
         let slide = page && isSlide(page.type);
         let container = 0;
         let box_layer = page.boxes.indexOf(this.props.boxSelected);
-        let disable_bt = this.props.boxSelected === -1 || page.boxes.length === 1;
+        let disable_bt = (this.props.boxSelected !== -1 && isBox(this.props.boxes[this.props.boxSelected].parent)) || this.props.boxSelected === -1 || page.boxes.length === 1;
         let boxes = page.boxes;
         // let index = Object.keys(this.props.boxes).length;
         // TODO:revisar este código para que puedan funcionar las capas en los documentos (posición absoluta combinada con relativa...mal)
