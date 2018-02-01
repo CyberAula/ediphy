@@ -95,7 +95,6 @@ export function fullScreenListener(callback, set) {
  * @returns {*}
  */
 export function releaseClick(releaseClickEl, name) {
-    console.log(releaseClickEl);
     if (releaseClickEl && releaseClickEl.getAttribute) {
     // Get element that has been clicked
         let release = releaseClickEl.getAttribute('id') || "noid";
@@ -103,7 +102,7 @@ export function releaseClick(releaseClickEl, name) {
         // Check recursively the parent of the element clicked to check if any of them has the name that we are looking for
         while (release && release.indexOf(name) === -1 && counter > 0 && releaseClickEl.parentNode) {
             releaseClickEl = releaseClickEl.parentNode;
-            if (releaseClick) {
+            if (releaseClickEl && releaseClickEl.getAttribute) {
                 release = releaseClickEl.getAttribute('id') || "noid";
             } else {
                 counter = 0;

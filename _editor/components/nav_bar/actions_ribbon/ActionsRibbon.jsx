@@ -71,7 +71,7 @@ export default class ActionsRibbon extends Component {
                             <i className="material-icons">{act.icon}</i>
                             <span className="hideonresize">{ i18n.t(act.i18nkey) }</span>
                         </button>;}) : null }
-                    <Clipboard boxes={this.props.boxes}
+                    <Clipboard boxes={this.props.boxes} key="clipboard"
                         boxSelected={this.props.boxSelected}
                         navItemSelected={this.props.navItemSelected}
                         containedViewSelected={this.props.containedViewSelected}
@@ -96,7 +96,7 @@ export default class ActionsRibbon extends Component {
     createAlert(state, callback) {
         let actions = ["copy", "cut", "paste"];
         let shortCuts = ["C", "X", "V"];
-        return <Alert show={state} onClose={callback} className="pageModal" key="-2">
+        return <Alert show={state} onClose={callback} className="pageModal" key="alert">
             <p>{i18n.t("clipboard.msg")}</p>
             {actions.map((act, ind) => {
                 return <Col xs={4}>

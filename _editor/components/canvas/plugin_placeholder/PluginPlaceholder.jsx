@@ -137,7 +137,6 @@ export default class PluginPlaceholder extends Component {
                 let draggingFromRibbon = e.relatedTarget.className.indexOf("rib") !== -1;
                 let name = (draggingFromRibbon) ? e.relatedTarget.getAttribute("name") : this.props.toolbars[this.props.boxSelected].config.name;
                 let parent = this.props.parentBox.id;
-                console.log(name, parent, Ediphy.Plugins.get(name).getConfig());
 
                 if (isBox(parent) && Ediphy.Plugins.get(name).getConfig().isComplex && (parent !== this.props.boxSelected)) {
                     this.setState({ alert: alert(i18n.t('messages.depth_limit')) });

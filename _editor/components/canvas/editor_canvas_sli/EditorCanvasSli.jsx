@@ -40,7 +40,6 @@ export default class EditorCanvasSli extends Component {
      */
     render() {
         let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
-        console.log('aaaaaaaa', itemSelected);
         let titles = [];
         if (itemSelected && itemSelected.id !== 0) {
             titles.push(itemSelected.name);

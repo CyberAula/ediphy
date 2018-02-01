@@ -579,14 +579,13 @@ export default class EditorBox extends Component {
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('editorBoxIcons') :
                         document.getElementById('contained_editorBoxIcons');
-                    bar.classList.remove('hidden');
-
+                    if (bar) { bar.classList.remove('hidden');}
+                    let target = event.target;
+                    target.style.opacity = 1;
                     if (this.props.boxSelected !== this.props.id) {
                         return;
                     }
 
-                    let target = event.target;
-                    target.style.opacity = 1;
                     if (!target.parentNode) {
                         return;
                     }

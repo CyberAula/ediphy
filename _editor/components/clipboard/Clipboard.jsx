@@ -96,7 +96,6 @@ export default class Clipboard extends Component {
     duplicateListener(event) {
 
         let key = event.keyCode ? event.keyCode : event.which;
-        console.log(key, event.ctrlKey);
         if (key === 66 && event.ctrlKey && isBox(this.props.boxSelected)) {
             event.preventDefault();
             event.stopPropagation();
@@ -107,12 +106,11 @@ export default class Clipboard extends Component {
     pasteBox(data, ids, isTargetSlide) {
         let pluginName = data.toolbar.config.name;
         let limitToOneInstance = data.toolbar.config.limitToOneInstance;
-        let alertMsg = (msg) => { return;
-            (<Alert className="pageModal" key="alert" show hasHeader backdrop={false}
-                title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
-                closeButton onClose={()=>{this.setState({ alert: null });}}>
-                <span> {msg} </span>
-            </Alert>);
+        let alertMsg = (msg) => { return (<Alert className="pageModal" key="alert" show hasHeader backdrop={false}
+            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+            closeButton onClose={()=>{this.setState({ alert: null });}}>
+            <span> {msg} </span>
+        </Alert>);
 
         };
         // Forbid plugins inside plugins inside plugins (only 1 level allowed)
