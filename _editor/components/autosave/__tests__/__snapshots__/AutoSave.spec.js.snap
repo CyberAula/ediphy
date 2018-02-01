@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Autosave should render with isRequired props 1`] = `
+<div
+  className="savingLabel"
+  style={
+    Object {
+      "display": "none",
+    }
+  }
+>
+  Guardando...
+</div>
+`;
