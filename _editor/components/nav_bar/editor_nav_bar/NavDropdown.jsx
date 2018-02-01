@@ -29,7 +29,7 @@ export default class NavDropdown extends Component {
                 </Dropdown.Toggle>
                 <Dropdown.Menu id="topMenu" className="pageMenu super-colors topMenu">
                     {(Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button) &&
-                    <MenuItem disabled={this.props.undoDisabled} eventKey="6" key="6">
+                    <MenuItem eventKey="6" key="6">
                         <button className="dropdownButton"
                             disabled={this.props.undoDisabled}
                             onClick={(e) => {
@@ -40,14 +40,14 @@ export default class NavDropdown extends Component {
                             {i18n.t('Save')}
                         </button>
                     </MenuItem>}
-                    <MenuItem disabled={this.props.undoDisabled} eventKey="1" key="1">
+                    <MenuItem eventKey="1" key="1">
                         <button className="dropdownButton" title={i18n.t('messages.export_to_HTML')}
                             disabled={ (this.props.navItemSelected === 0) || this.props.undoDisabled}
                             onClick={() => this.props.export() }><i className="material-icons">file_download</i>
                             {i18n.t('messages.export_to_HTML')}
                         </button>
                     </MenuItem>
-                    <MenuItem disabled={this.props.undoDisabled} eventKey="2" key="2">
+                    <MenuItem eventKey="2" key="2">
                         <button className="dropdownButton" title={i18n.t('messages.export_to_SCORM')}
                             disabled={(this.props.navItemSelected === 0) || this.props.undoDisabled}
                             onClick={() => this.props.scorm() }><i className="material-icons">class</i>
