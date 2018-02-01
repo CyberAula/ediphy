@@ -121,7 +121,7 @@ export default class PluginPlaceholder extends Component {
             accept: selector,
             overlap: 'pointer',
             ondropactivate: (e) => {
-                if (this.props.parentBox.id !== this.props.boxSelected || e.relatedTarget.className.indexOf("rib") !== -1) {
+                if ((this.props.parentBox.id !== this.props.boxSelected && !Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected ].config.name).getConfig().isComplex) || e.relatedTarget.className.indexOf("rib") !== -1) {
                     e.target.classList.add('drop-active');
                 }
             },
