@@ -209,7 +209,7 @@ export default class EditorBox extends Component {
         wholeBoxStyle.verticalAlign = verticalAlign;
 
         return (
-            <div className={classes} id={'box-' + this.props.id}
+            <div className={classes} id={'box-' + this.props.id} name={toolbar.config.name}
                 onClick={e => {
                     if (this.props.boxSelected !== this.props.id &&
                       (box.level < 1 || box.level < this.props.boxLevelSelected || isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes))) {

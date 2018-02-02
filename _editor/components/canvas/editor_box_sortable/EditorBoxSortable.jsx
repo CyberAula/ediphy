@@ -12,6 +12,7 @@ import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 
 import './_editorBoxSortable.scss';
+import { instanceExists } from '../../../../common/common_tools';
 
 /**
  * EditorBoxSortable Component
@@ -303,27 +304,32 @@ export default class EditorBoxSortable extends Component {
                 e.target.classList.remove("drop-target");
             },
             ondrop: function(e) {
+                let draggingFromRibbon = e.relatedTarget.className.indexOf("rib") !== -1;
+                if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
+
+                    if (draggingFromRibbon && instanceExists(e.relatedTarget.getAttribute("name"))) {
+                        let alert = (<Alert className="pageModal"
+                            show
+                            hasHeader
+                            backdrop={false}
+                            title={<span><i className="material-icons alert-warning" >
+                                        warning</i>{i18n.t("messages.alert")}</span>}
+                            closeButton onClose={() => {this.setState({ alert: null });}}>
+                            <span> {i18n.t('messages.instance_limit')} </span>
+                        </Alert>);
+                        this.setState({ alert: alert });
+                        let clone = document.getElementById('clone');
+                        if (clone) {
+                            clone.parentNode.removeChild(clone);
+                        }
+                        e.dragEvent.stopPropagation();
+                        return;
+                    }
+                }
                 if (dropArea === 'cell') {
                     // If element dragged is coming from PluginRibbon, create a new EditorBox
-                    if (e.relatedTarget.className.indexOf("rib") !== -1) {
+                    if (draggingFromRibbon) {
                         // Check if there is a limit in the number of plugin instances
-                        if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
-                            for (let child in this.props.boxes) {
-                                if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.id && this.props.toolbars[child].config.name === e.relatedTarget.getAttribute("name")) {
-                                    let alert = (<Alert className="pageModal"
-                                        show
-                                        hasHeader
-                                        backdrop={false}
-                                        title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
-                                        closeButton onClose={()=>{this.setState({ alert: null });}}>
-                                        <span> {i18n.t('messages.instance_limit')} </span>
-                                    </Alert>);
-                                    this.setState({ alert: alert });
-                                    e.dragEvent.stopPropagation();
-                                    return;
-                                }
-                            }
-                        }
 
                         let initialParams = {
                             parent: this.props.id,
@@ -358,23 +364,7 @@ export default class EditorBoxSortable extends Component {
 
                     }
                 } else {
-                    if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
-                        for (let child in this.props.boxes) {
-                            if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.id && this.props.toolbars[child].config.name === e.relatedTarget.getAttribute("name")) {
-                                let alert = (<Alert className="pageModal"
-                                    show
-                                    hasHeader
-                                    backdrop={false}
-                                    title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
-                                    closeButton onClose={()=>{this.setState({ alert: null });}}>
-                                    <span> {i18n.t('messages.instance_limit')} </span>
-                                </Alert>);
-                                this.setState({ alert: alert });
-                                e.dragEvent.stopPropagation();
-                                return;
-                            }
-                        }
-                    }
+
                     let initialParams = {};
                     if (dropArea === 'existingContainer') {
                         initialParams = {

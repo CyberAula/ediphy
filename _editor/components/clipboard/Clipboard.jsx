@@ -7,6 +7,7 @@ import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_RICH_MARK } from
 import { ADD_BOX } from '../../../common/actions';
 import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent } from './clipboard.utils';
 import i18n from 'i18next';
+import { instanceExists } from '../../../common/common_tools';
 /** *
  * Component for managing the clipboard
  */
@@ -96,7 +97,7 @@ export default class Clipboard extends Component {
     duplicateListener(event) {
 
         let key = event.keyCode ? event.keyCode : event.which;
-        if (key === 66 && event.ctrlKey && isBox(this.props.boxSelected)) {
+        if ((key === 66 || key === 69) && event.ctrlKey && isBox(this.props.boxSelected)) {
             event.preventDefault();
             event.stopPropagation();
             this.duplicateBox();
@@ -107,7 +108,7 @@ export default class Clipboard extends Component {
         let pluginName = data.toolbar.config.name;
         let limitToOneInstance = data.toolbar.config.limitToOneInstance;
         let alertMsg = (msg) => { return (<Alert className="pageModal" key="alert" show hasHeader backdrop={false}
-            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+            title={ <span><i className="material-icons alert-warning" >warning</i>{ i18n.t("messages.alert") }</span> }
             closeButton onClose={()=>{this.setState({ alert: null });}}>
             <span> {msg} </span>
         </Alert>);
@@ -117,13 +118,9 @@ export default class Clipboard extends Component {
         if (isBox(ids.parent) && (!data.childBoxes || Object.keys(data.childBoxes).length > 0)) {
             this.setState({ alert: alertMsg(i18n.t('messages.depth_limit')) }); return;
         }
-        if (limitToOneInstance) {
-            let same = Object.keys(this.props.boxes).filter((key)=>{
-                return (this.props.boxes[key].parent === parent && this.props.toolbars[key].config.name === pluginName);
-            });
-            if (same.length > 0) {
-                this.setState({ alert: alertMsg(i18n.t('messages.instance_limit')) }); return;
-            }
+        if (limitToOneInstance && instanceExists(data.toolbar.config.name)) {
+            this.setState({ alert: alertMsg(i18n.t('messages.instance_limit')) });
+            return;
         }
 
         let transformedBox = this.transformBox(data.box, ids, isTargetSlide, data.box.resizable);

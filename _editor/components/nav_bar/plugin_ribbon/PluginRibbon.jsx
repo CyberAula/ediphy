@@ -11,6 +11,7 @@ import { ADD_BOX } from "../../../../common/actions";
 import Alert from './../../common/alert/Alert';
 import { ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
 import { randomPositionGenerator } from './../../clipboard/clipboard.utils';
+import { instanceExists } from '../../../../common/common_tools';
 
 /**
  * Plugin ribbon inside toolbar
@@ -227,7 +228,7 @@ export default class PluginRibbon extends Component {
             show
             hasHeader
             backdrop={false}
-            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px', color: 'yellow' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+            title={ <span><i className="material-icons alert-warning" >warning</i>{ i18n.t("messages.alert") }</span> }
             closeButton onClose={()=>{this.setState({ alert: null });}}>
             <span> {msg} </span>
         </Alert>;};
@@ -243,18 +244,16 @@ export default class PluginRibbon extends Component {
             return;
         }
 
+        if (config.limitToOneInstance && instanceExists(config.name)) {
+            this.setState({ alert: alert(i18n.t('messages.instance_limit')) });
+            event.stopPropagation();
+            return;
+        }
+
         let inASlide = isSlide(this.props.navItemSelected.type) || cv;
+
         if (inASlide) {
-            let SelectedNav = cv ? this.props.containedViewSelected.id : this.props.navItemSelected.id;
-            if (config.limitToOneInstance) {
-                for (let child in this.props.boxes) {
-                    if (!isSortableBox(child) && this.props.boxes[child].parent === SelectedNav && this.props.toolbars[child].config.name === name) {
-                        this.setState({ alert: alert(i18n.t('messages.instance_limit')) });
-                        event.stopPropagation();
-                        return;
-                    }
-                }
-            }
+
             let position = {
                 x: randomPositionGenerator(20, 40),
                 y: randomPositionGenerator(20, 40),
@@ -269,17 +268,6 @@ export default class PluginRibbon extends Component {
             event.stopPropagation();
         } else {
             let parentBox = cvdoc ? this.props.containedViewSelected.boxes[0] : this.props.navItemSelected.boxes[0];
-
-            // Check if there is a limit in the number of plugin instances
-            if (isSortableBox(parentBox) && config.limitToOneInstance) {
-                for (let child in this.props.boxes) {
-                    if (!isSortableBox(child) && this.props.boxes[child].parent === parentBox && this.props.toolbars[child].config.name === name) {
-                        this.setState({ alert: alert(i18n.t('messages.instance_limit')) });
-                        event.stopPropagation();
-                        return;
-                    }
-                }
-            }
             let initialParams = {
                 parent: isBoxSelected ? this.props.boxSelected.parent : parentBox,
                 container: isBoxSelected ? this.props.boxSelected.container : (ID_PREFIX_SORTABLE_CONTAINER + Date.now()), col: 0, row: 0,

@@ -9,7 +9,7 @@ import EditorHeader from '../editor_header/EditorHeader';
 import interact from 'interactjs';
 import { ADD_BOX } from '../../../../common/actions';
 import { isSortableBox } from '../../../../common/utils';
-import { aspectRatio } from '../../../../common/common_tools';
+import { aspectRatio, instanceExists } from '../../../../common/common_tools';
 import Ediphy from '../../../../core/editor/main';
 import ReactResizeDetector from 'react-resize-detector';
 import i18n from 'i18next';
@@ -198,23 +198,19 @@ export default class EditorCanvasSli extends Component {
                 };
                 if (event.relatedTarget.classList.contains('rib')) {
                     if (Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
-                        for (let child in this.props.boxes) {
-                            if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.id && this.props.toolbars[child].config.name === event.relatedTarget.getAttribute("name")) {
-                                let alert = (<Alert className="pageModal"
-                                    show
-                                    hasHeader
-                                    backdrop={false}
-                                    title={<span><i className="material-icons" style={{
-                                        fontSize: '14px',
-                                        marginRight: '5px',
-                                    }}>warning</i>{i18n.t("messages.alert")}</span>}
-                                    closeButton onClose={() => {this.setState({ alert: null });}}>
-                                    <span> {i18n.t('messages.instance_limit')} </span>
-                                </Alert>);
-                                this.setState({ alert: alert });
-                                event.dragEvent.stopPropagation();
-                                return;
-                            }
+                        if (instanceExists(event.relatedTarget.getAttribute("name"))) {
+                            let alert = (<Alert className="pageModal"
+                                show
+                                hasHeader
+                                backdrop={false}
+                                title={<span><i className="material-icons alert-warning" >
+                                        warning</i>{i18n.t("messages.alert")}</span>}
+                                closeButton onClose={() => {this.setState({ alert: null });}}>
+                                <span> {i18n.t('messages.instance_limit')} </span>
+                            </Alert>);
+                            this.setState({ alert: alert });
+                            event.dragEvent.stopPropagation();
+                            return;
                         }
                     }
 

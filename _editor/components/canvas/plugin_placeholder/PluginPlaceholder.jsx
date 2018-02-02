@@ -10,6 +10,7 @@ import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 import './_pluginPlaceHolder.scss';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
+import { instanceExists } from '../../../../common/common_tools';
 
 /**
  * @deprecated
@@ -113,7 +114,7 @@ export default class PluginPlaceholder extends Component {
             show
             hasHeader
             backdrop={false}
-            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px', color: 'yellow' }}>warning</i>{ i18n.t("messages.alert") }</span> }
             closeButton onClose={()=>{this.setState({ alert: null });}}>
             <span> {msg} </span>
         </Alert>);};
@@ -138,11 +139,18 @@ export default class PluginPlaceholder extends Component {
                 let draggingFromRibbon = e.relatedTarget.className.indexOf("rib") !== -1;
                 let name = (draggingFromRibbon) ? e.relatedTarget.getAttribute("name") : this.props.toolbars[this.props.boxSelected].config.name;
                 let parent = this.props.parentBox.id;
-                let forbidden = isBox(parent) && Ediphy.Plugins.get(name).getConfig().isComplex; // && (parent !== this.props.boxSelected);
+                let config = Ediphy.Plugins.get(name).getConfig();
+                let forbidden = isBox(parent) && config.isComplex; // && (parent !== this.props.boxSelected);
 
                 if (draggingFromRibbon) {
-                    let config = Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig();
-
+                    if (config.limitToOneInstance && instanceExists(config.name)) {
+                        this.setState({ alert: alert(i18n.t('messages.instance_limit')) });
+                        let clone = document.getElementById('clone');
+                        if (clone) {
+                            clone.parentNode.removeChild(clone);
+                        }
+                        return;
+                    }
                     let initialParams = {
                         parent: forbidden ? this.props.parentBox.parent : parent,
                         container: forbidden ? this.props.parentBox.container : this.idConvert(this.props.pluginContainer),

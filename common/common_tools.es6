@@ -121,3 +121,16 @@ export function releaseClick(releaseClickEl, name) {
     }
     return undefined;
 }
+
+export function instanceExists(name) {
+    let isCV = $('#containedCanvas').css('display') !== 'none';
+    let alreadyOne = false;
+    let query = (isCV ? '#containedCanvas' : '#canvas') + ' .wholebox';
+    $(query).each((ind, el)=>{
+        if (el.getAttribute('name') === name) {
+            alreadyOne = true; return;
+        }
+    });
+
+    return alreadyOne;
+}
