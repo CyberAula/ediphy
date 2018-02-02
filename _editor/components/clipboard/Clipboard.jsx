@@ -105,6 +105,8 @@ export default class Clipboard extends Component {
             event.preventDefault();
             event.stopPropagation();
             this.duplicateBox();
+        } else if (key === 67 && event.ctrlKey && event.shiftKey) {
+            this.pasteListener(event, true);
         }
     }
 
@@ -147,7 +149,10 @@ export default class Clipboard extends Component {
         return (focus.contains('form-control') || focus.contains('cke_editable') || focus.contains('textAreaStyle') || activeElement.tagName === 'TEXTAREA');
     }
 
-    pasteListener(event) {
+    pasteListener(event, overrideShiftKey) {
+        if (event.shiftKey && !overrideShiftKey) {
+            return;
+        }
         let activeElement = document.activeElement;
 
         if (event.clipboardData) {
