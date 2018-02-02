@@ -4,7 +4,12 @@ import * as ActionTypes from '../../common/actions';
 
 const state = testState.present.pluginToolbarsById;
 
-// console.log(state);
+/*
+* ADD_BOX, DELETE_BOX, DELETE_CONTAINED_VIEW,
+    DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER,
+    TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_PLUGIN_TOOLBAR,
+    VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX,
+* */
 
 describe('# plugin_toolbars_by_id reducer ******************************************************************* TODO :)', ()=>{
 
@@ -18,26 +23,7 @@ describe('# plugin_toolbars_by_id reducer **************************************
             // expect(plugin_toolbars_by_id(state, {})).toEqual(state);
         });
     });
-    describe('handle ADD_NAV_ITEM', ()=>{
-        test('If nav item added', () => {
-            // expect(plugin_toolbars_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle ADD_RICH_MARK', ()=>{
-        test('If rich mark added', () => {
-            // expect(plugin_toolbars_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle CHANGE_NAV_ITEM_NAME', ()=>{
-        test('If nav item name changed', () => {
-            // expect(plugin_toolbars_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle CHANGE_CONTAINED_VIEW_NAME', ()=>{
-        test('If contained view name changed', () => {
-            // expect(plugin_toolbars_by_id(state, {})).toEqual(state);
-        });
-    });
+
     describe('handle DELETE_BOX', ()=>{
         test('If box deleted', () => {
             // expect(plugin_toolbars_by_id(state, {})).toEqual(state);
@@ -55,21 +41,6 @@ describe('# plugin_toolbars_by_id reducer **************************************
     });
     describe('handle DELETE_SORTABLE_CONTAINER', ()=>{
         test('If sortable container deleted', () => {
-            // expect(plugin_toolbars_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle DUPLICATE_BOX', ()=>{
-        test('If duplicated box', () => {
-            // expect(plugin_toolbars_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle EDIT_RICH_MARK', ()=>{
-        test('If rich mark edited', () => {
-            // expect(plugin_toolbars_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle DELETE_RICH_MARK', ()=>{
-        test('If rich mark deleted', () => {
             // expect(plugin_toolbars_by_id(state, {})).toEqual(state);
         });
     });
@@ -93,7 +64,7 @@ describe('# plugin_toolbars_by_id reducer **************************************
             // expect(plugin_toolbars_by_id(state, {})).toEqual(state);
         });
     });
-    describe('handle UPDATE_TOOLBAR', ()=>{
+    describe('handle UPDATE_PLUGIN_TOOLBAR', ()=>{
         test('If updated toolbar', () => {
             // expect(plugin_toolbars_by_id(state, {})).toEqual(state);
         });
