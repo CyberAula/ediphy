@@ -6,7 +6,7 @@ export function ContainerReact(base) {
             return {
                 name: 'ContainerReact',
                 displayName: Ediphy.i18n.t('ContainerReact.PluginName'),
-                category: 'text',
+                category: 'evaluation',
                 icon: 'view_agenda',
                 initialWidth: '60%',
                 flavor: 'react',
@@ -45,7 +45,7 @@ export function ContainerReact(base) {
             for (let i = 0; i < state.nBoxes; i++) {
                 answers.push(<div key={i + 1} className={"row"}><div className={"col-xs-2 h3"}>{i + 1}</div><div className={"col-xs-10"}><PluginPlaceholder {...props} key={i + 1} plugin-data-display-name={"Respuesta " + (i + 1)} plugin-data-default="BasicText" pluginContainer={"Respuesta" + (i + 1)} /></div></div>);
             }
-            return <div><h1 >Ejercicio</h1>
+            return <div><h1>Ejercicio</h1>
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
                         <PluginPlaceholder {...props} key="1" plugin-data-display-name={"Pregunta"} plugin-data-default="BasicText" pluginContainer={"Pregunta"} />

@@ -142,12 +142,12 @@ export function parsePluginContainers(obj, state) {
 }
 
 export function hasExerciseBox(navItemId, navItems, state, boxes) {
-    if(state.pluginTab === "evaluation" && (navItems[navItemId].boxes.length > 1 || boxes[navItems[navItemId].boxes[0]].children.length !== 0)) {
+    /* if(state.pluginTab === "evaluation" && (navItems[navItemId].boxes.length > 1 || (boxes[navItems[navItemId]].boxes.length > 0 && boxes[navItems[navItemId].boxes[0]].children.length !== 0))) {
         return true;
     }
     if(navItems[navItemId] && Object.keys(navItems[navItemId].extraFiles).length !== 0) {
         return true;
-    }
+    }*/
     return false;
 }
 

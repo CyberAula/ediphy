@@ -5,7 +5,7 @@ export function ContainerJS(base) {
 
                 name: 'ContainerJS',
                 displayName: Ediphy.i18n.t('ContainerJS.PluginName'),
-                category: 'multimedia',
+                category: 'evaluation',
                 icon: 'view_agenda',
             };
         },
