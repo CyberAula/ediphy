@@ -13,35 +13,6 @@
     }
 }
 
-/*Título del componente*/
-.carouselListTitle {
-    cursor: pointer;
-    color: $grisclaro;
-    *{
-        @include animacion(all, 0.2s);
-    }
-    &:hover {
-        color: #fff !important;
-    }
-    .toolbarTitle{
-        .material-icons:hover{
-            @include rotate(180);
-        }
-    }
-    .material-icons{
-        padding: 10px;
-        &:hover{@include scale(1.2);}
-
-    }
-    .btnToggleCarousel{
-        background-color: transparent;
-        border: none;
-        &:hover{
-            @include scale(1.2);
-        }
-    }
-}
-
 /*Section*/
 .expandir {
     color: grey;

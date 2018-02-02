@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import CarouselHeader from '../carousel_header/CarouselHeader';
 import CarrouselList from '../carrousel_list/CarrouselList';
 import EditorIndexTitle from '../editor_index_title/EditorIndexTitle';
 import i18n from 'i18next';
@@ -51,29 +52,12 @@ export default class EditorCarousel extends Component {
                 overflowX: this.props.carouselFull ? 'hidden' : '',
             }} id="colLeft">
                 <div className="wrapperCarousel">
-                    <div style={{ textAlign: this.props.carouselShow ? 'left' : 'center', display: 'flex', flexFlow: this.props.carouselShow ? 'row' : 'column' }}
-                        className={this.props.carouselShow ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
-                        <button className="btnToggleCarousel" onClick={() => {this.props.onToggleWidth();}}>
-                            <i style={{ fontSize: this.props.carouselShow ? "16px" : "28px" }} className="material-icons">format_list_numbered</i>
-                        </button>
-                        {!this.props.carouselShow ? <br/> : null}
-
-                        <div className="navBarSpace" style={{ display: (this.props.carouselShow ? 'block' : 'none') }}>
-                            <EditorIndexTitle className="tituloCurso" title={this.props.globalConfig.title} onNameChanged={this.props.onTitleChanged} />
-                        </div>
-                        <i style={{
-                            fontSize: this.props.carouselShow ? "16px" : "32px",
-                            position: this.props.carouselShow ? "absolute" : "initial",
-                            right: 0,
-                        }}
-                        className="material-icons"
-                        onClick={e => {
-                            this.props.onToggleFull();
-                            e.stopPropagation();
-                        }}>{!this.props.carouselFull ? "keyboard_arrow_right" : "keyboard_arrow_left"}
-                        </i>
-                        <div className="clear" />
-                    </div>
+                    <CarouselHeader carouselFull={this.props.carouselFull}
+                        carouselShow={this.props.carouselShow}
+                        courseTitle={this.props.globalConfig.title}
+                        onTitleChanged={this.props.onTitleChanged}
+                        onToggleFull={this.props.onToggleFull}
+                        onToggleWidth={this.props.onToggleWidth} />
                     <div id="indice"
                         className="editorCarousel"
                         key="indice"
@@ -160,6 +144,10 @@ EditorCarousel.propTypes = {
      * Reordena elementos del índice
      */
     onNavItemReordered: PropTypes.func.isRequired,
+    /**
+     * Modifies the course's title
+     */
+    onTitleChanged: PropTypes.func.isRequired,
     /**
      * Título del curso
      */
