@@ -163,7 +163,7 @@ export default class Clipboard extends Component {
                 data = JSON.parse(clipboardData);
             } catch (err) {
                 // eslint-disable-next-line no-console
-                console.log(err);
+                // console.log(err);
             }
 
             let page = this.currentPage();

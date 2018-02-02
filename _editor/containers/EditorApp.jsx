@@ -4,7 +4,7 @@ import { ActionCreators } from 'redux-undo';
 import { Grid, Col, Row } from 'react-bootstrap';
 import { addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
     changeNavItemName, selectIndex,
-    addBox, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
+    addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeBackground, changeSortableProps, reorderBoxes, verticallyAlignBox,
     toggleTextEditor, toggleTitleMode, pasteBox, changeBoxLayer,
     changeDisplayMode, updateToolbar,
@@ -36,7 +36,7 @@ import {
     hasExerciseBox,
 } from '../../common/plugins_inside_plugins';
 import Ediphy from '../../core/editor/main';
-import { isSortableBox, isSection, isContainedView, isSortableContainer } from '../../common/utils';
+import { isSortableBox, isSection, isContainedView, isSortableContainer, getDuplicatedBoxesIds, getDescendantLinkedBoxes } from '../../common/utils';
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import PluginPlaceholder from '../components/canvas/plugin_placeholder/PluginPlaceholder';
@@ -170,7 +170,7 @@ class EditorApp extends Component {
                                     // containedRemoving = containedRemoving.concat(this.getDescendantContainedViews(boxes[boxId]));
                                 });
                             });
-                            let marksRemoving = this.getDescendantLinkedBoxes(viewRemoving, navItems) || [];
+                            let marksRemoving = getDescendantLinkedBoxes(viewRemoving, navItems) || [];
                             this.dispatchAndSetState(deleteNavItem(viewRemoving, navItems[navsel].parent, boxesRemoving, containedRemoving, marksRemoving));
                         }}
                         onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => this.dispatchAndSetState(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
@@ -334,10 +334,6 @@ class EditorApp extends Component {
                     onVisibilityToggled={()=> this.setState({ visorVisible: !this.state.visorVisible })}
                     state={this.props.store.getState().present}/>
                 <PluginConfigModal />
-                {/* <XMLConfigModal id={boxSelected}
-                    toolbar={toolbars[boxSelected]}
-                    visible={this.state.xmlEditorVisible}
-                    onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}/>*/}
                 {Ediphy.Config.external_providers.enable_catalog_modal &&
                 <ExternalCatalogModal images={imagesUploaded}
                     visible={this.state.catalogModal}
@@ -390,7 +386,6 @@ class EditorApp extends Component {
                     onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
                     onSortablePropsChanged={(id, parent, prop, value) => this.dispatchAndSetState(changeSortableProps(id, parent, prop, value))}
                     onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
-                    onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState(duplicateBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendantBoxes(boxes[id])), Date.now() - 1))}
                     onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                     onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}
                     onRichMarksModalToggled={() => {
@@ -590,13 +585,6 @@ class EditorApp extends Component {
             Ediphy.API_Private.answer(Ediphy.API_Private.events.getPluginsInView, plugins);
         });
 
-        // Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.editRichMark, e => {
-        //     let newState = JSON.parse(JSON.stringify(this.props.toolbars[e.detail.box].state));
-        //     newState.__marks[e.detail.id].value = e.detail.value;
-        //     this.dispatchAndSetState(editRichMark(e.detail.box, newState, newState.__marks[e.detail.id], false, false));
-        //
-        // });
-
         window.onkeyup = function(e) {
             let key = e.keyCode ? e.keyCode : e.which;
             // Checks what element has the cursor focus currently
@@ -729,25 +717,6 @@ class EditorApp extends Component {
     }
 
     /**
-     * Boxes that link to the given views
-     * @param ids Views ids
-     * @param navs navItemsById
-     * @returns {{}}
-     */
-    getDescendantLinkedBoxes(ids, navs) {
-        let boxes = {};
-
-        ids.forEach((nav) => {
-            for (let lb in navs[nav].linkedBoxes) {
-                boxes[lb] = [(boxes[lb] || []), ...navs[nav].linkedBoxes[lb]];
-            }
-            // boxes = [...new Set([...boxes, ...navs[nav].linkedBoxes])];
-            // boxes.concat(navs[nav].linkedBoxes);
-        });
-        return boxes;
-    }
-
-    /**
 
      * ContainerJS's linked contained views
      * @param box EditorBoxSortable
@@ -770,20 +739,6 @@ class EditorApp extends Component {
         }
 
         return selected;
-    }
-
-    /**
-     * Get descendants of duplicated boxes
-     * @param descendants
-     * @returns {{}}
-     */
-    getDuplicatedBoxesIds(descendants) {
-        let newIds = {};
-        let date = Date.now();
-        descendants.map(box => {
-            newIds[box.substr(3)] = date++;
-        });
-        return newIds;
     }
 
     onRichMarkUpdated(mark, createNew) {

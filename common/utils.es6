@@ -239,7 +239,7 @@ export function nextToolbarAvailName(key, views) {
  * Check if item is in collection
  * @param a: Collection
  * @param b: Item
- * @returns {boolean} true is it is, false if it is not
+ * @returns {boolean} true if it is, false if it is not
  */
 function collectionHas(a, b) { // helper function (see below)
     for (let i = 0, len = a.length; i < len; i++) {
@@ -249,6 +249,40 @@ function collectionHas(a, b) { // helper function (see below)
     }
     return false;
 }
+
+/**
+ * Get descendants of duplicated boxes
+ * @param descendants
+ * @returns {{}}
+ */
+export function getDuplicatedBoxesIds(descendants) {
+    let newIds = {};
+    let date = Date.now();
+    descendants.map(box => {
+        newIds[box.substr(3)] = date++;
+    });
+    return newIds;
+}
+
+/**
+ * Boxes that link to the given views
+ * @param ids Views ids
+ * @param navs navItemsById
+ * @returns {{}}
+ */
+export function getDescendantLinkedBoxes(ids, navs) {
+    let boxes = {};
+
+    ids.forEach((nav) => {
+        for (let lb in navs[nav].linkedBoxes) {
+            boxes[lb] = [(boxes[lb] || []), ...navs[nav].linkedBoxes[lb]];
+        }
+        // boxes = [...new Set([...boxes, ...navs[nav].linkedBoxes])];
+        // boxes.concat(navs[nav].linkedBoxes);
+    });
+    return boxes;
+}
+
 /** *
  * Find closest ancestor with a given selector
  * @param elm  Origin DOM element

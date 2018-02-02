@@ -17,6 +17,13 @@ export default class ActionsRibbon extends Component {
             buttons: [],
             clipboardAlert: false,
         };
+        this.isPage = this.isPage.bind(this);
+    }
+
+    isPage() {
+        return this.props.containedViews[this.props.containedViewSelected] ? this.props.containedViews[this.props.containedViewSelected] : (
+            this.props.navItems[this.props.navItemSelected] ? this.props.navItems[this.props.navItemSelected] : null
+        );
     }
     /**
      * Render React Component
@@ -32,16 +39,15 @@ export default class ActionsRibbon extends Component {
             { key: "duplicate", disabled: !(this.props.boxSelected && isBox(this.props.boxSelected)), icon: "content_copy", i18nkey: "clipboard.duplicate", onClick: ()=> {} },
         ];
 
-        let page = this.props.containedViews[this.props.containedViewSelected] ? this.props.containedViews[this.props.containedViewSelected] : (
-            this.props.navItems[this.props.navItemSelected] ? this.props.navItems[this.props.navItemSelected] : null
-        );
+        let page = this.isPage();
         let slide = page && isSlide(page.type);
         let container = 0;
         let box_layer = page.boxes.indexOf(this.props.boxSelected);
         let disable_bt = (this.props.boxSelected !== -1 && isBox(this.props.boxes[this.props.boxSelected].parent)) || this.props.boxSelected === -1 || page.boxes.length === 1;
         let boxes = page.boxes;
-        // let index = Object.keys(this.props.boxes).length;
+
         // TODO:revisar este código para que puedan funcionar las capas en los documentos (posición absoluta combinada con relativa...mal)
+        // let index = Object.keys(this.props.boxes).length;
         /* if (!slide && this.props.boxes[this.props.boxSelected] !== undefined && index > 1) {
             container = this.props.boxes[this.props.boxSelected].container;
             boxes = this.props.boxes[page.boxes[0]].sortableContainers[container].children;
