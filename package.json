@@ -55,7 +55,7 @@
       "enzyme-to-json/serializer"
     ],
     "testMatch": [
-      "**/?(*.)(test|spec).js"
+      "**/?(*.)(test|spec).js?(x)"
     ]
   },
   "devDependencies": {
