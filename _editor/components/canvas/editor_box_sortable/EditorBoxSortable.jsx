@@ -75,7 +75,7 @@ export default class EditorBoxSortable extends Component {
                                             {container.cols[i].map((row, j) => {
                                                 return (<div key={j}
                                                     className={"colDist-j width100 pos_relative rowNum" + j}
-                                                    style={{ height: row + "%" }}
+                                                    style={{ height: row + "%", minHeight: parseInt(100 / (container.cols[i].length), 10) + 'px' }}
                                                     ref={e => {
                                                         if(e !== null) {
                                                             this.configureDropZone(
@@ -121,8 +121,10 @@ export default class EditorBoxSortable extends Component {
                                                         } else if (ind === container.children.length - 1) {
                                                             return (<span key={ind}><br/><br/></span>);
                                                         }
+
                                                         return null;
                                                     })}
+                                                    {container.children.length === 0 ? (<div key={-1} style={{ height: '46px' }}/>) : null }
                                                 </div>);
                                             })}
                                         </div>);
@@ -216,7 +218,7 @@ export default class EditorBoxSortable extends Component {
      */
     componentDidMount() {
         this.configureDropZone(ReactDOM.findDOMNode(this), "newContainer", ".rib");
-        this.configureDropZone(".editorBoxSortableContainer", "existingContainer", ".rib");
+        // this.configureDropZone(".editorBoxSortableContainer", "existingContainer", ".rib");
 
         this.props.boxes[this.props.id].children.map(id => {
             this.configureResizable(this.refs[id]);
@@ -342,7 +344,7 @@ export default class EditorBoxSortable extends Component {
                     } else {
 
                         let boxDragged = this.props.boxes[this.props.boxSelected];
-                        if (boxDragged && ((this.props.id !== boxDragged.parent) || (extraParams.idContainer !== boxDragged.container))) { // && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
+                        if (boxDragged && ((this.props.id !== boxDragged.parent) || (extraParams.idContainer !== boxDragged.container) || (extraParams.j !== boxDragged.row) || (extraParams.i !== boxDragged.col))) {
                             this.props.onBoxDropped(this.props.boxSelected,
                                 extraParams.j,
                                 extraParams.i,

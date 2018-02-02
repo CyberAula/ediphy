@@ -656,7 +656,12 @@ export default class EditorBox extends Component {
                         if (children.indexOf(hoverID) !== -1) {
                             let newOrder = JSON.parse(JSON.stringify(children));
                             newOrder.splice(newOrder.indexOf(hoverID), 0, newOrder.splice(newOrder.indexOf(boxOb.id), 1)[0]);
-                            this.props.onBoxesInsideSortableReorder(boxOb.parent, boxOb.container, newOrder);
+                            let is_same = (newOrder.length === children.length) && newOrder.every(function(element, index) {
+                                return element === children[index];
+                            });
+                            if (!is_same) {
+                                this.props.onBoxesInsideSortableReorder(boxOb.parent, boxOb.container, newOrder);
+                            }
                         }
                     }
 

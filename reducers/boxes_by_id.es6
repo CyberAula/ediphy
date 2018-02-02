@@ -416,7 +416,7 @@ export default function(state = {}, action = {}) {
             if (action.payload.oldParent === action.payload.parent) { // Same parent as before but container or row changes
                 // We need to change the box's container and tell the parent
                 return changeProps(state, [action.payload.id, action.payload.parent], [boxReducer(state[action.payload.id], action), boxReducer(state[action.payload.parent], action)]);
-            } // Differen parent
+            } // Different parent
             if (isBox(action.payload.oldParent) || isSortableBox(action.payload.oldParent)) { // Old parent was a box
                 // We need to change the new and old parent
                 return changeProps(state, [action.payload.id, action.payload.parent, action.payload.oldParent], [boxReducer(state[action.payload.id], action), boxReducer(state[action.payload.parent], action), boxReducer(state[action.payload.oldParent], action)]);

@@ -173,16 +173,19 @@ export default class Clipboard extends Component {
                 let id = ID_PREFIX_BOX + Date.now();
                 let isTargetSlide = isSlide(page.type);
                 let parent = isTargetSlide ? page.id : page.boxes[0];
-
+                let row = 0;
+                let col = 0;
                 let container = isTargetSlide ? 0 : containerId;
 
                 if (this.props.boxSelected && this.props.boxes[this.props.boxSelected] && isBox(this.props.boxSelected)) {
                     parent = this.props.boxes[this.props.boxSelected].parent;
                     container = this.props.boxes[this.props.boxSelected].container;
                     isTargetSlide = false;
+                    row = this.props.boxes[this.props.boxSelected].row;
+                    col = this.props.boxes[this.props.boxSelected].col;
                 }
 
-                let ids = { id, parent, container };
+                let ids = { id, parent, container, row, col };
                 // Copied data is an EditorBox
                 if (data && data.box && data.toolbar) {
                     // Focus is outside a text box
@@ -206,6 +209,8 @@ export default class Clipboard extends Component {
                     let initialParams = {
                         parent: parent, //
                         container: container,
+                        row: row,
+                        col: col,
                         position: isTargetSlide ? {
                             type: "absolute",
                             x: randomPositionGenerator(20, 40),
@@ -260,8 +265,8 @@ export default class Clipboard extends Component {
                 y: randomPositionGenerator(20, 40),
             } : { type: "relative", x: "0%", y: "0%" },
             resizable: isTargetSlide,
-            row: 0,
-            col: 0,
+            row: ids.row || 0,
+            col: ids.col || 0,
             level: isBox(ids.parent) ? 1 : 0,
             sortableContainers: newContainerBoxes,
             containedViews: box.containedViews.filter(cv=> this.props.containedViews[cv]),
