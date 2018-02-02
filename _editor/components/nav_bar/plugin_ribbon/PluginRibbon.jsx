@@ -29,7 +29,7 @@ export default class PluginRibbon extends Component {
             showed: true,
             alert: null,
         };
-        this.ClickAddBox = this.ClickAddBox.bind(this);
+        this.clickAddBox = this.clickAddBox.bind(this);
     }
 
     /**
@@ -53,7 +53,7 @@ export default class PluginRibbon extends Component {
                                         name={item.name}
                                         bsSize="large"
                                         draggable="false"
-                                        onClick={this.ClickAddBox}
+                                        onClick={(e)=>this.clickAddBox(e, item.name)}
                                         style={(button.iconFromUrl) ? {
                                             padding: '8px 8px 8px 45px',
                                             backgroundImage: 'url(' + clase + ')',
@@ -223,7 +223,7 @@ export default class PluginRibbon extends Component {
         interact('.rib').unset();
     }
 
-    ClickAddBox(event) {
+    clickAddBox(event, name) {
         let alert = (msg) => {return <Alert key="alert" className="pageModal"
             show
             hasHeader
@@ -235,7 +235,6 @@ export default class PluginRibbon extends Component {
 
         let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected.id) && isSlide(this.props.containedViewSelected.type);
         let cvdoc = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected.id) && !isSlide(this.props.containedViewSelected.type);
-        let name = event.target.getAttribute("name");
         let config = Ediphy.Plugins.get(name).getConfig();
         let isBoxSelected = (this.props.boxSelected && isBox(this.props.boxSelected.id));
         if (isBoxSelected && isBox(this.props.boxSelected.parent) && config.isComplex) {
@@ -244,7 +243,7 @@ export default class PluginRibbon extends Component {
             return;
         }
 
-        if (config.limitToOneInstance && instanceExists(config.name)) {
+        if (config.limitToOneInstance && instanceExists(name)) {
             this.setState({ alert: alert(i18n.t('messages.instance_limit')) });
             event.stopPropagation();
             return;
@@ -253,7 +252,7 @@ export default class PluginRibbon extends Component {
         let inASlide = isSlide(this.props.navItemSelected.type) || cv;
 
         if (inASlide) {
-
+            let SelectedNav = cv ? this.props.containedViewSelected.id : this.props.navItemSelected.id;
             let position = {
                 x: randomPositionGenerator(20, 40),
                 y: randomPositionGenerator(20, 40),

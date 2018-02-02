@@ -28,6 +28,7 @@ export default class Clipboard extends Component {
         this.copyData = this.copyData.bind(this);
         this.duplicateBox = this.duplicateBox.bind(this);
         this.duplicateListener = this.duplicateListener.bind(this);
+        this.currentPage = this.currentPage.bind(this);
     }
 
     /**
@@ -53,10 +54,9 @@ export default class Clipboard extends Component {
     }
     copyListener(event) {
         let activeElement = document.activeElement;
-        let focus = activeElement.className;
         if (event.clipboardData) {
             if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
-                if (focus.indexOf('form-control') === -1 && focus.indexOf('cke_editable') === -1 && activeElement.tagName !== 'TEXTAREA') { // focus.indexOf('tituloCurso') === -1 &&
+                if (!this.containsCKEDitorText(activeElement)) {
                     event.preventDefault();
                     event.clipboardData.setData("text/plain", JSON.stringify(this.copyData()));
                     return true;
@@ -74,13 +74,17 @@ export default class Clipboard extends Component {
 
     }
 
+    currentPage() {
+        return isContainedView(this.props.containedViewSelected) ?
+            this.props.containedViews[this.props.containedViewSelected] :
+            (this.props.navItemSelected !== 0 ? this.props.navItems[this.props.navItemSelected] : null);
+    }
+
     duplicateBox() {
         let data = this.copyData();
         let containerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
         let id = ID_PREFIX_BOX + Date.now();
-        let page = isContainedView(this.props.containedViewSelected) ?
-            this.props.containedViews[this.props.containedViewSelected] :
-            (this.props.navItemSelected !== 0 ? this.props.navItems[this.props.navItemSelected] : null);
+        let page = this.currentPage();
 
         let isTargetSlide = isSlide(page.type);
         let parent = isTargetSlide ? page.id : page.boxes[0];
@@ -137,9 +141,14 @@ export default class Clipboard extends Component {
         this.props.onBoxPasted(ids, transformedBox.newBox, transformedToolbar, transformedChildren);
 
     }
+
+    containsCKEDitorText(activeElement) {
+        let focus = activeElement.classList;
+        return (focus.contains('form-control') || focus.contains('cke_editable') || focus.contains('textAreaStyle') || activeElement.tagName === 'TEXTAREA');
+    }
+
     pasteListener(event) {
         let activeElement = document.activeElement;
-        let focus = activeElement.className;
 
         if (event.clipboardData) {
             // Check if copied data is plugin
@@ -152,9 +161,7 @@ export default class Clipboard extends Component {
                 console.log(err);
             }
 
-            let page = isContainedView(this.props.containedViewSelected) ?
-                this.props.containedViews[this.props.containedViewSelected] :
-                (this.props.navItemSelected !== 0 ? this.props.navItems[this.props.navItemSelected] : null);
+            let page = this.currentPage();
             if (page) {
                 let containerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
                 let id = ID_PREFIX_BOX + Date.now();
@@ -173,7 +180,7 @@ export default class Clipboard extends Component {
                 // Copied data is an EditorBox
                 if (data && data.box && data.toolbar) {
                     // Focus is outside a text box
-                    if (focus.indexOf('form-control') === -1 && focus.indexOf('cke_editable') === -1 && activeElement.tagName !== 'TEXTAREA') {
+                    if (!this.containsCKEDitorText(activeElement)) {
                         // Paste plugin
                         event.preventDefault();
                         event.stopPropagation();
@@ -187,7 +194,7 @@ export default class Clipboard extends Component {
                     }
 
                 // Copied data is not an EditorBox
-                } else if (focus.indexOf('form-control') === -1 && focus.indexOf('cke_editable') === -1 && activeElement !== 'TEXTAREA') {
+                } else if (!this.containsCKEDitorText(activeElement)) {
                     event.preventDefault();
                     let imageBlob;
                     let initialParams = {

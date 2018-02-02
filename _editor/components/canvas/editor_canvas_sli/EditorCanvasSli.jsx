@@ -175,7 +175,6 @@ export default class EditorCanvasSli extends Component {
      * Set up interact in order to enable dragging boxes
      */
     componentDidMount() {
-
         interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).dropzone({
             accept: '.floatingEditorBox, .dnd',
             overlap: 'pointer',
