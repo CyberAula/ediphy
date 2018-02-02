@@ -172,23 +172,6 @@
     padding: 0 8px 4px 8px;
 }
 
-/*Collapsed Carrousel*/
-.indiceoculto {
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-
-/*Hide Sections when collapsed*/
-.carouseloculto {
-    width: 0;
-}
-
-/*Show Sections when collapsed*/
-.carouselshow {
-    width: 100%;
-}
-
 /*Buttons that act upon navItems*/
 .carrouselButton {
     border: 0;
