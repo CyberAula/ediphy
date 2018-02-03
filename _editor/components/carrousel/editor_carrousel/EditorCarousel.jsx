@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
+import CarouselButtons from '../carousel_buttons/CarouselButtons';
 import CarouselHeader from '../carousel_header/CarouselHeader';
 import CarrouselList from '../carrousel_list/CarrouselList';
-import EditorIndexTitle from '../editor_index_title/EditorIndexTitle';
-import i18n from 'i18next';
 
 /**
  * Index wrapper container
@@ -22,49 +22,48 @@ export default class EditorCarousel extends Component {
      * @returns {code}
      */
     render() {
-        let displayModeClassName = "";
-        let carrouselContent;
-        // if (this.props.displayMode === "list") {
-        carrouselContent = <CarrouselList id={0}
-            containedViews={this.props.containedViews}
-            containedViewSelected={this.props.containedViewSelected}
-            boxes={this.props.boxes}
-            navItemsIds={this.props.navItemsIds}
-            navItems={this.props.navItems}
-            navItemSelected={this.props.navItemSelected}
-            indexSelected={this.props.indexSelected}
-            onBoxAdded={this.props.onBoxAdded}
-            onContainedViewDeleted={this.props.onContainedViewDeleted}
-            onContainedViewSelected={this.props.onContainedViewSelected}
-            onContainedViewNameChanged={this.props.onContainedViewNameChanged}
-            onNavItemNameChanged={this.props.onNavItemNameChanged}
-            onNavItemAdded={this.props.onNavItemAdded}
-            onNavItemSelected={this.props.onNavItemSelected}
-            onIndexSelected={this.props.onIndexSelected}
-            onNavItemExpanded={this.props.onNavItemExpanded}
-            onNavItemDeleted={this.props.onNavItemDeleted}
-            onNavItemReordered={this.props.onNavItemReordered}/>;
-        // }
         return (
-            <div style={{
-                minWidth: this.props.carouselShow ? (this.props.carouselFull ? '100%' : '212px') : '80px',
-                maxWidth: this.props.carouselFull ? '100%' : '212px',
-                overflowX: this.props.carouselFull ? 'hidden' : '',
-            }} id="colLeft">
-                <div className="wrapperCarousel">
-                    <CarouselHeader carouselFull={this.props.carouselFull}
-                        carouselShow={this.props.carouselShow}
-                        courseTitle={this.props.globalConfig.title}
-                        onTitleChanged={this.props.onTitleChanged}
-                        onToggleFull={this.props.onToggleFull}
-                        onToggleWidth={this.props.onToggleWidth} />
-                    <div id="indice"
-                        className="editorCarousel"
-                        key="indice"
-                        style={{ height: '100%' }}>
-                        {this.props.carouselShow ? carrouselContent : <br/>}
-                    </div>
-                </div>
+            <div id="colLeft" className="wrapperCarousel"
+                style={{
+                    maxWidth: this.props.carouselShow ? (this.props.carouselFull ? '100%' : '212px') : '80px',
+                    overflowX: this.props.carouselFull ? 'hidden' : '',
+                }}>
+                <CarouselHeader carouselFull={this.props.carouselFull}
+                    carouselShow={this.props.carouselShow}
+                    courseTitle={this.props.globalConfig.title}
+                    onTitleChanged={this.props.onTitleChanged}
+                    onToggleFull={this.props.onToggleFull}
+                    onToggleWidth={this.props.onToggleWidth} />
+                <CarrouselList id={0}
+                    carouselShow={this.props.carouselShow}
+                    containedViews={this.props.containedViews}
+                    containedViewSelected={this.props.containedViewSelected}
+                    boxes={this.props.boxes}
+                    navItemsIds={this.props.navItemsIds}
+                    navItems={this.props.navItems}
+                    navItemSelected={this.props.navItemSelected}
+                    indexSelected={this.props.indexSelected}
+                    onBoxAdded={this.props.onBoxAdded}
+                    onContainedViewDeleted={this.props.onContainedViewDeleted}
+                    onContainedViewSelected={this.props.onContainedViewSelected}
+                    onContainedViewNameChanged={this.props.onContainedViewNameChanged}
+                    onNavItemNameChanged={this.props.onNavItemNameChanged}
+                    onNavItemAdded={this.props.onNavItemAdded}
+                    onNavItemSelected={this.props.onNavItemSelected}
+                    onIndexSelected={this.props.onIndexSelected}
+                    onNavItemExpanded={this.props.onNavItemExpanded}
+                    onNavItemDeleted={this.props.onNavItemDeleted}
+                    onNavItemReordered={this.props.onNavItemReordered}/>
+                <CarouselButtons boxes={this.props.boxes}
+                    containedViews={this.props.containedViews}
+                    indexSelected={this.props.indexSelected}
+                    navItems={this.props.navItems}
+                    navItemsIds={this.props.navItemsIds}
+                    onNavItemAdded={this.props.onNavItemAdded}
+                    onBoxAdded={this.props.onBoxAdded}
+                    onIndexSelected={this.props.onIndexSelected}
+                    onContainedViewDeleted={this.props.onContainedViewDeleted}
+                    onNavItemDeleted={this.props.onNavItemDeleted} />
             </div>
         );
     }
