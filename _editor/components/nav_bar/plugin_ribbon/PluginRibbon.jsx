@@ -11,7 +11,7 @@ import { ADD_BOX } from "../../../../common/actions";
 import Alert from './../../common/alert/Alert';
 import { ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
 import { randomPositionGenerator } from './../../clipboard/clipboard.utils';
-import { instanceExists } from '../../../../common/common_tools';
+import { instanceExists, releaseClick } from '../../../../common/common_tools';
 
 /**
  * Plugin ribbon inside toolbar
@@ -53,7 +53,7 @@ export default class PluginRibbon extends Component {
                                         name={item.name}
                                         bsSize="large"
                                         draggable="false"
-                                        onClick={(e)=>this.clickAddBox(e, item.name)}
+                                        onMouseUp={(e)=>this.clickAddBox(e, item.name)}
                                         style={(button.iconFromUrl) ? {
                                             padding: '8px 8px 8px 45px',
                                             backgroundImage: 'url(' + clase + ')',
@@ -136,13 +136,10 @@ export default class PluginRibbon extends Component {
 
             let container;
 
-            if(this.props.containedViewSelected !== 0) {
+            if (this.props.containedViewSelected !== 0) {
                 container = "containedCanvas";
-
-            }else{
-
+            } else {
                 container = "canvas";
-
             }
             let elContainer = document.getElementById(container);
             interact.dynamicDrop(true);
@@ -179,7 +176,6 @@ export default class PluginRibbon extends Component {
                         target.style.transform =
                             'translate(' + (x) + 'px, ' + (y) + 'px)';
                         target.style.zIndex = '9999';
-
                         target.classList.add('ribdrag');
 
                         // update the position attributes
@@ -193,7 +189,7 @@ export default class PluginRibbon extends Component {
                         let parent = original.parentNode;
                         let dw = original.offsetWidth;
                         let clone = document.getElementById('clone');
-
+                        let name = clone.getAttribute('name');
                         let target = clone,
                             x = 0,
                             y = 0;
@@ -209,7 +205,13 @@ export default class PluginRibbon extends Component {
                         target.setAttribute('data-y', y);
 
                         parent.removeChild(clone);
+                        let releaseClickEl = document.elementFromPoint(event.clientX, event.clientY);
+                        let rib = releaseClick(releaseClickEl, "ribbon");
                         event.stopPropagation();
+                        if(rib === 'List') {
+                            this.clickAddBox(event, name);
+                        }
+
                     },
                 });
         });
@@ -291,8 +293,6 @@ function changeOverflow(bool) {
     document.getElementById('insideribbon').style.overflowY = bool ? 'visible' : 'hidden';
     document.getElementById('ribbonList').style.overflowY = bool ? 'visible' : 'hidden';
     document.getElementById('ribbonRow').style.overflowY = bool ? 'visible' : 'hidden';
-    document.getElementById('canvas').style.zIndex = bool ? '-1' : '0';
-    document.getElementById('containedCanvas').style.zIndex = bool ? '-1' : '0';
 }
 
 PluginRibbon.propTypes = {
