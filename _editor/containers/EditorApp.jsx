@@ -16,7 +16,7 @@ import { addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../common/constants';
 import EditorCanvas from '../components/canvas/editor_canvas/EditorCanvas';
 import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
-import EditorCarousel from '../components/carrousel/editor_carrousel/EditorCarousel';
+import EditorCarousel from '../components/carousel/editor_carousel/EditorCarousel';
 import PluginConfigModal from '../components/plugin_config_modal/PluginConfigModal';
 import XMLConfigModal from '../components/xml_config_modal/XMLConfigModal';
 import PluginToolbar from '../components/toolbar/plugin_toolbar/PluginToolbar';

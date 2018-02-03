@@ -99,7 +99,7 @@ export default class CarouselButtons extends Component {
             <div className="bottomGroup">
                 <div className="bottomLine" />
                 <OverlayTrigger placement="top" overlay={(<Tooltip id="newFolderTooltip">{i18n.t('create new folder')}</Tooltip>)}>
-                    <Button className="carrouselButton"
+                    <Button className="carouselButton"
                         disabled={ !this.props.indexSelected || this.props.indexSelected === -1 || isContainedView(this.props.indexSelected) || this.props.navItems[this.props.indexSelected].level >= 10}
                         onClick={e => {
 
@@ -130,7 +130,7 @@ export default class CarouselButtons extends Component {
                 <OverlayTrigger placement="top" overlay={
                     <Tooltip id="newDocumentTooltip">{i18n.t('create new document')}
                     </Tooltip>}>
-                    <Button className="carrouselButton"
+                    <Button className="carouselButton"
                         disabled={isContainedView(this.props.indexSelected)}
                         onClick={e =>{
                             let newId = ID_PREFIX_PAGE + Date.now();
@@ -152,7 +152,7 @@ export default class CarouselButtons extends Component {
                 <OverlayTrigger placement="top" overlay={
                     <Tooltip id="newSlideTooltip">{i18n.t('create new slide')}
                     </Tooltip>}>
-                    <Button className="carrouselButton"
+                    <Button className="carouselButton"
                         disabled={isContainedView(this.props.indexSelected)}
                         onClick={e => {
                             let newId = ID_PREFIX_PAGE + Date.now();
@@ -171,7 +171,7 @@ export default class CarouselButtons extends Component {
                  <OverlayTrigger placement="top" overlay={
                  <Tooltip  id="hideNavItemTooltip">{i18n.t('display')}
                  </Tooltip>}>
-                 <Button className="carrouselButton">
+                 <Button className="carouselButton">
                  <i className="material-icons"
                  onClick={e => {
                  this.props.onNavItemToggled(this.props.navItemSelected);
@@ -225,7 +225,7 @@ export default class CarouselButtons extends Component {
                 <OverlayTrigger placement="top" overlay={
                     <Tooltip id="deleteTooltip">{i18n.t('delete')}
                     </Tooltip>}>
-                    <Button className="carrouselButton"
+                    <Button className="carouselButton"
                         disabled={this.props.indexSelected === 0}
                         onClick={() => this.setState({ showOverlay: true })}
                         ref="target"

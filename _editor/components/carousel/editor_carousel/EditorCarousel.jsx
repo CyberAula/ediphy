@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import CarouselButtons from '../carousel_buttons/CarouselButtons';
 import CarouselHeader from '../carousel_header/CarouselHeader';
-import CarrouselList from '../carrousel_list/CarrouselList';
+import CarouselList from '../carousel_list/CarouselList';
 
 /**
  * Index wrapper container
@@ -34,7 +34,7 @@ export default class EditorCarousel extends Component {
                     onTitleChanged={this.props.onTitleChanged}
                     onToggleFull={this.props.onToggleFull}
                     onToggleWidth={this.props.onToggleWidth} />
-                <CarrouselList id={0}
+                <CarouselList id={0}
                     carouselShow={this.props.carouselShow}
                     containedViews={this.props.containedViews}
                     containedViewSelected={this.props.containedViewSelected}

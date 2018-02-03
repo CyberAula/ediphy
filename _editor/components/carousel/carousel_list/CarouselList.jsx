@@ -4,13 +4,13 @@ import Section from './../section/Section';
 import EditorIndexTitle from '../editor_index_title/EditorIndexTitle';
 import { isPage, isSection, isSlide, isContainedView, calculateNewIdOrder } from '../../../../common/utils';
 import i18n from 'i18next';
-import './_carrouselList.scss';
+import './_carouselList.scss';
 
 /**
- * Ediphy CarrouselList Component
+ * Ediphy CarouselList Component
  * List of all the course's views and contained views
  */
-export default class CarrouselList extends Component {
+export default class CarouselList extends Component {
     /**
      * Constructor
      * @param props
@@ -297,7 +297,7 @@ export default class CarrouselList extends Component {
     }
 }
 
-CarrouselList.propTypes = {
+CarouselList.propTypes = {
     /**
      * Indicates whether the carousel has been expanded or not
      */
