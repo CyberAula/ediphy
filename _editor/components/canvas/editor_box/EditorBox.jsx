@@ -467,6 +467,10 @@ export default class EditorBox extends Component {
         Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         let dragRestrictionSelector = isSortableContainer(box.container) ? /* ".editorBoxSortableContainer, .drg" + box.container :*/"sortableContainerBox" : "parent";
         let resizeRestrictionSelector = isSortableContainer(box.container) ? ".editorBoxSortableContainer, .drg" + box.container : "parent";
+        let canvas = this.props.containedViewSelected === 0 ?
+            document.getElementById('canvas') :
+            document.getElementById('containedCanvas');
+        interact.dynamicDrop(true);
         interact(ReactDOM.findDOMNode(this))
             .snap({
                 actions: ['resizex', 'resizey', 'resizexy', 'resize', 'drag'],
@@ -482,7 +486,12 @@ export default class EditorBox extends Component {
                     restriction: dragRestrictionSelector,
                     elementRect: { top: 0, left: 0, bottom: 1, right: 1 },
                 },
-                autoScroll: true,
+                autoScroll: {
+                    container: canvas,
+                    margin: 50,
+                    distance: 5,
+                    interval: 10,
+                },
                 onstart: (event) => {
                     event.stopPropagation();
                     if (this.props.boxSelected !== this.props.id) {
@@ -501,6 +510,7 @@ export default class EditorBox extends Component {
                                 iterate = false;
                             }
                         }
+                        parent = document.body;
                         // Clone, assign values and hide original
                         let clone = original.cloneNode(true);
                         let originalRect = original.getBoundingClientRect();

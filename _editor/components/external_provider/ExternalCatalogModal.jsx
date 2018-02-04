@@ -34,7 +34,7 @@ export default class ExternalCatalogModal extends Component {
                                     <img key={index}
                                         src={item}
                                         style={{
-                                            width: 160,
+                                            width: 'auto',
                                             height: 160,
                                             border: "solid transparent 3px",
                                         }} />
