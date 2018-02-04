@@ -12,9 +12,9 @@ beforeEach(() => {
 
 // Unit test's mocks
 let mockFunctions = {
-    onTitleChanged: jest.fn(),
-    onToggleFull: jest.fn(),
-    onToggleWidth: jest.fn(),
+    onTitleChanged: jest.fn().mockName('onTitleChanged'),
+    onToggleFull: jest.fn().mockName('onToggleFull'),
+    onToggleWidth: jest.fn().mockName('onToggleWidth'),
 };
 
 let placeholderProps = {
@@ -57,7 +57,7 @@ describe('CarouselHeader', () => {
     it('should handle when the arrow is clicked', () => {
         let component = shallow(<CarouselHeader {...placeholderProps} />);
 
-        let stopPropagation = jest.fn();
+        let stopPropagation = jest.fn().mockName('stopPropagation');
         component.find('button.btnFullCarousel').simulate('click', { stopPropagation: stopPropagation });
 
         expect(mockFunctions.onToggleFull).toBeCalled();
