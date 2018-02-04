@@ -100,6 +100,7 @@ export default class CarouselButtons extends Component {
                 <div className="bottomLine" />
                 <OverlayTrigger placement="top" overlay={(<Tooltip id="newFolderTooltip">{i18n.t('create new folder')}</Tooltip>)}>
                     <Button className="carouselButton"
+                        name="newFolder"
                         disabled={ !this.props.indexSelected || this.props.indexSelected === -1 || isContainedView(this.props.indexSelected) || this.props.navItems[this.props.indexSelected].level >= 10}
                         onClick={e => {
 
@@ -131,6 +132,7 @@ export default class CarouselButtons extends Component {
                     <Tooltip id="newDocumentTooltip">{i18n.t('create new document')}
                     </Tooltip>}>
                     <Button className="carouselButton"
+                        name="newDocument"
                         disabled={isContainedView(this.props.indexSelected)}
                         onClick={e =>{
                             let newId = ID_PREFIX_PAGE + Date.now();
@@ -153,6 +155,7 @@ export default class CarouselButtons extends Component {
                     <Tooltip id="newSlideTooltip">{i18n.t('create new slide')}
                     </Tooltip>}>
                     <Button className="carouselButton"
+                        name="newSlide"
                         disabled={isContainedView(this.props.indexSelected)}
                         onClick={e => {
                             let newId = ID_PREFIX_PAGE + Date.now();
@@ -194,6 +197,7 @@ export default class CarouselButtons extends Component {
                 </OverlayTrigger>
 
                 <Overlay rootClose
+                    name="confirmationOverlay"
                     show={this.state.showOverlay}
                     placement='top'
                     target={() => ReactDOM.findDOMNode(this.overlayTarget)}
@@ -208,12 +212,14 @@ export default class CarouselButtons extends Component {
                         <br/>
                         <br/>
                         <Button className="popoverButton"
+                            name="popoverCancelButton"
                             disabled={this.props.indexSelected === 0}
                             onClick={() => this.setState({ showOverlay: false })}
                             style={{ float: 'right' }} >
                             {i18n.t("Cancel")}
                         </Button>
                         <Button className="popoverButton"
+                            name="popoverAcceptButton"
                             disabled={/* (isContainedView(this.props.indexSelected) && !this.canDeleteContainedView(this.props.indexSelected)) || */this.props.indexSelected === 0}
                             style={{ float: 'right' }}
                             onClick={(e) =>

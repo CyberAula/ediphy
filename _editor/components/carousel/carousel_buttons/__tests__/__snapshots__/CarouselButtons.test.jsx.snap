@@ -1,0 +1,226 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CarouselButtons - General should render with required props 1`] = `
+<div
+  className="bottomGroup"
+>
+  <div
+    className="bottomLine"
+  />
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="newFolderTooltip"
+        placement="right"
+      >
+        i18n string
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      className="carouselButton"
+      disabled={true}
+      name="newFolder"
+      onClick={[Function]}
+    >
+      <i
+        className="material-icons"
+      >
+        create_new_folder
+      </i>
+    </Button>
+  </OverlayTrigger>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="newDocumentTooltip"
+        placement="right"
+      >
+        i18n string
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      className="carouselButton"
+      disabled={false}
+      name="newDocument"
+      onClick={[Function]}
+    >
+      <i
+        className="material-icons"
+      >
+        insert_drive_file
+      </i>
+    </Button>
+  </OverlayTrigger>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="newSlideTooltip"
+        placement="right"
+      >
+        i18n string
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      className="carouselButton"
+      disabled={false}
+      name="newSlide"
+      onClick={[Function]}
+    >
+      <i
+        className="material-icons"
+      >
+        slideshow
+      </i>
+    </Button>
+  </OverlayTrigger>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="deleteTooltip"
+        placement="right"
+      >
+        i18n string
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      className="carouselButton"
+      disabled={true}
+      name="delete"
+      onClick={[Function]}
+      style={
+        Object {
+          "float": "right",
+        }
+      }
+    >
+      <i
+        className="material-icons"
+      >
+        delete
+      </i>
+    </Button>
+  </OverlayTrigger>
+  <Overlay
+    animation={[Function]}
+    name="confirmationOverlay"
+    onHide={[Function]}
+    placement="top"
+    rootClose={true}
+    show={false}
+    target={[Function]}
+  >
+    <Popover
+      bsClass="popover"
+      id="popov"
+      placement="right"
+      title="i18n string"
+    >
+      <i
+        className="material-icons"
+        style={
+          Object {
+            "color": "yellow",
+            "fontSize": "13px",
+            "padding": "0 5px",
+          }
+        }
+      >
+        warning
+      </i>
+      i18n string
+      <br />
+      <br />
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        className="popoverButton"
+        disabled={true}
+        name="popoverCancelButton"
+        onClick={[Function]}
+        style={
+          Object {
+            "float": "right",
+          }
+        }
+      >
+        i18n string
+      </Button>
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        className="popoverButton"
+        disabled={true}
+        name="popoverAcceptButton"
+        onClick={[Function]}
+        style={
+          Object {
+            "float": "right",
+          }
+        }
+      >
+        i18n string
+      </Button>
+    </Popover>
+  </Overlay>
+</div>
+`;
