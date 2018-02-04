@@ -32,10 +32,9 @@ export default class Clipboard extends Component {
     }
 
     /**
-     * After component mounts
-     * Sets listener
+     * Extracts necessary information for clipboard/duplicating
+     * @returns {{box: Box copied, toolbar: Corresponding toolbar, childBoxes: {Object with child boxes of copied box (plugins inside plugins)}, childToolbars: {Object with child boxes' toolbars of copied box (plugins inside plugins)}}}
      */
-
     copyData() {
         let box = this.props.boxes[this.props.boxSelected];
         let toolbar = this.props.toolbars[this.props.boxSelected];
@@ -52,6 +51,11 @@ export default class Clipboard extends Component {
         }
         return { box, toolbar, childBoxes, childToolbars };
     }
+    /**
+     * Copy action listener
+     * @param event
+     * @returns {false if no box selected}
+     */
     copyListener(event) {
         let activeElement = document.activeElement;
         if (event.clipboardData) {
@@ -65,21 +69,30 @@ export default class Clipboard extends Component {
         }
         return false;
     }
+    /**
+     * Cut action listener
+     * @param event
+     */
     cutListener(event) {
         let fromPlugin = this.copyListener(event);
         if (fromPlugin) {
             let box = this.props.boxes[this.props.boxSelected];
             this.props.onBoxDeleted(box.id, box.parent, box.container);
         }
-
     }
-
+    /**
+     * Calculates current page (nav or cv)
+     * @returns {page}
+     */
     currentPage() {
         return isContainedView(this.props.containedViewSelected) ?
             this.props.containedViews[this.props.containedViewSelected] :
             (this.props.navItemSelected !== 0 ? this.props.navItems[this.props.navItemSelected] : null);
     }
 
+    /**
+     * Duplicates box
+     */
     duplicateBox() {
         let data = this.copyData();
         let containerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
@@ -99,6 +112,11 @@ export default class Clipboard extends Component {
         let ids = { id, parent, container };
         this.pasteBox(data, ids, isTargetSlide);
     }
+
+    /**
+     * Duplicate action listener
+     * @param event
+     */
     duplicateListener(event) {
 
         let key = event.keyCode ? event.keyCode : event.which;
@@ -111,6 +129,12 @@ export default class Clipboard extends Component {
         }
     }
 
+    /**
+     * Pastes box
+     * @param data Clipboard data
+     * @param ids New ids of pasted box
+     * @param isTargetSlide New parent is going to be a slide
+     */
     pasteBox(data, ids, isTargetSlide) {
         let pluginName = data.toolbar.config.name;
         let limitToOneInstance = data.toolbar.config.limitToOneInstance;
@@ -145,11 +169,21 @@ export default class Clipboard extends Component {
 
     }
 
+    /**
+     * Calculates if the current focused element in the DOM is a text area. If it is we do not want to paste the box.
+     * @param activeElement DOM focused element
+     * @returns {boolean} True if it is a text element. False if it is not
+     */
     containsCKEDitorText(activeElement) {
         let focus = activeElement.classList;
         return (focus.contains('form-control') || focus.contains('cke_editable') || focus.contains('textAreaStyle') || activeElement.tagName === 'TEXTAREA');
     }
 
+    /**
+     * Paste action listener
+     * @param event
+     * @param overrideShiftKey Ignore if shift key was pressed
+     */
     pasteListener(event, overrideShiftKey) {
         if (event.shiftKey && !overrideShiftKey) {
             return;
@@ -180,7 +214,7 @@ export default class Clipboard extends Component {
                 if (this.props.boxSelected && this.props.boxes[this.props.boxSelected] && isBox(this.props.boxSelected)) {
                     parent = this.props.boxes[this.props.boxSelected].parent;
                     container = this.props.boxes[this.props.boxSelected].container;
-                    isTargetSlide = false;
+                    isTargetSlide = container === 0;
                     row = this.props.boxes[this.props.boxSelected].row;
                     col = this.props.boxes[this.props.boxSelected].col;
                 }
@@ -242,6 +276,14 @@ export default class Clipboard extends Component {
         }
     }
 
+    /**
+     * Modifies pasted box so it adapts to its new parent
+     * @param box Box object
+     * @param ids New ids
+     * @param isTargetSlide Pasted on a slide
+     * @param isOriginSlide Coming from a slide
+     * @returns {{newBox: *, newIds: {}}}
+     */
     transformBox(box, ids, isTargetSlide, isOriginSlide) {
         let newIds = {};
         let newContainerBoxes = {};
@@ -275,6 +317,14 @@ export default class Clipboard extends Component {
 
     }
 
+    /**
+     * Modifies pasted toolbar so it adapts to its new parent
+     * @param toolbar Toolbar object
+     * @param ids Newids
+     * @param isTargetSlide Pasted on a slide
+     * @param isOriginSlide Coming from a slide
+     * @returns {*} New toolbar
+     */
     transformToolbar(toolbar, ids, isTargetSlide, isOriginSlide) {
         let newToolbar = Object.assign({}, toolbar, { id: ids.id });
         if (newToolbar.state && newToolbar.state.__marks) {
@@ -315,6 +365,10 @@ export default class Clipboard extends Component {
 
     }
 
+    /**
+     * After component mounts
+     * Sets listeners
+     */
     componentDidMount() {
         document.addEventListener('copy', this.copyListener);
         document.addEventListener('paste', this.pasteListener);
@@ -324,7 +378,7 @@ export default class Clipboard extends Component {
 
     /**
      * Before component unmounts
-     * Unsets listener
+     * Unsets listeners
      */
     componentWillUnmount() {
         document.removeEventListener('copy', this.copyListener);
