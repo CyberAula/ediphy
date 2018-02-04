@@ -179,10 +179,24 @@ export default class CarouselButtons extends Component {
                  </Button>
                  </OverlayTrigger>
                  */}
+
+                <OverlayTrigger placement="top" overlay={
+                    <Tooltip id="deleteTooltip">{i18n.t('delete')}
+                    </Tooltip>}>
+                    <Button className="carouselButton"
+                        name="delete"
+                        disabled={this.props.indexSelected === 0}
+                        onClick={() => this.setState({ showOverlay: true })}
+                        ref={button => {this.overlayTarget = button;}}
+                        style={{ float: 'right' }}>
+                        <i className="material-icons">delete</i>
+                    </Button>
+                </OverlayTrigger>
+
                 <Overlay rootClose
                     show={this.state.showOverlay}
                     placement='top'
-                    target={() => ReactDOM.findDOMNode(this.refs.target)}
+                    target={() => ReactDOM.findDOMNode(this.overlayTarget)}
                     onHide={() => this.setState({ showOverlay: false })}>
                     <Popover id="popov" title={
                         isSection(this.props.indexSelected) ? i18n.t("delete_section") :
@@ -218,21 +232,8 @@ export default class CarouselButtons extends Component {
                             }>
                             {i18n.t("Accept")}
                         </Button>
-
                     </Popover>
                 </Overlay>
-
-                <OverlayTrigger placement="top" overlay={
-                    <Tooltip id="deleteTooltip">{i18n.t('delete')}
-                    </Tooltip>}>
-                    <Button className="carouselButton"
-                        disabled={this.props.indexSelected === 0}
-                        onClick={() => this.setState({ showOverlay: true })}
-                        ref="target"
-                        style={{ float: 'right' }}>
-                        <i className="material-icons">delete</i>
-                    </Button>
-                </OverlayTrigger>
             </div>
         );
     }
