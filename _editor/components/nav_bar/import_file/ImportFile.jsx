@@ -176,7 +176,7 @@ export default class ImportFile extends Component {
             let customSize = hasCustomSize ? { width: canvas.width, height: canvas.height } : 0;
             this.props.onNavItemAdded(
                 newId,
-                i18n.t("slide"),
+                "Página PDF",
                 0,
                 PAGE_TYPES.SLIDE,
                 this.props.navItemsIds.length,
