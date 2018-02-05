@@ -160,6 +160,8 @@ export default class MarkEditor extends Component {
         let component = this;
         overlay.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
         document.body.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+        // document.getElementsByClassName('boxSelected')[0].style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+
         let base = this.props.base;
         let toolbarState = this.props.state;
         let parseRichMarkInput = base.parseRichMarkInput;

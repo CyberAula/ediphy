@@ -90,6 +90,8 @@ export default class MarkCreator extends Component {
                 let cursor_y_offset = 20;
 
                 document.body.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+                document.body.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+
                 /* OVERLAY */
 
                 let component = this;

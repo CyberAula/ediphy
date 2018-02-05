@@ -10,7 +10,7 @@ import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 import './_pluginPlaceHolder.scss';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
-import { instanceExists } from '../../../../common/common_tools';
+import { instanceExists, releaseClick } from '../../../../common/common_tools';
 
 /**
  * @deprecated
@@ -164,17 +164,28 @@ export default class PluginPlaceholder extends Component {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
                     // If box being dragged is dropped in a different column or row, change its value
                     if (this.props.parentBox.id !== this.props.boxSelected) {
+                        let container = this.idConvert(this.props.pluginContainer);
                         let initialParams = {
                             parent: parent,
-                            container: this.idConvert(this.props.pluginContainer),
+                            container: container,
                             col: extraParams.i,
                             row: extraParams.j,
                             position: { type: 'relative', x: 0, y: 0 } };
+                        let clone = document.getElementById('clone');
+                        if(clone) {
+                            clone.parentElement.removeChild(clone);
+                            let rc = document.elementFromPoint(e.dragEvent.clientX, e.dragEvent.clientY);
+                            let children = this.props.boxes[parent].sortableContainers[container].children;
+                            let bid = releaseClick(rc, 'box-');
+                            let newInd = children.indexOf(bid); // Position where it's being released
+                            // TODO Establish  position when dragging
+                        }
                         if (!forbidden) {
                             this.props.onBoxDropped(boxDragged.id, initialParams.row, initialParams.col, initialParams.parent,
                                 initialParams.container, boxDragged.parent, boxDragged.container, initialParams.position);
 
                         }
+                        return;
                     }
                     let clone = document.getElementById('clone');
                     if (clone) {clone.parentElement.removeChild(clone);}

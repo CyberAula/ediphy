@@ -107,7 +107,7 @@ export default class Clipboard extends Component {
         if (this.props.boxSelected && this.props.boxes[this.props.boxSelected] && isBox(this.props.boxSelected)) {
             parent = this.props.boxes[this.props.boxSelected].parent;
             container = this.props.boxes[this.props.boxSelected].container;
-            isTargetSlide = false;
+            isTargetSlide = container === 0;
         }
         let ids = { id, parent, container };
         this.pasteBox(data, ids, isTargetSlide);
@@ -118,13 +118,12 @@ export default class Clipboard extends Component {
      * @param event
      */
     duplicateListener(event) {
-
         let key = event.keyCode ? event.keyCode : event.which;
-        if ((key === 66 || key === 69) && event.ctrlKey && isBox(this.props.boxSelected)) {
+        if ((key === 69) && event.ctrlKey && event.altKey && isBox(this.props.boxSelected)) {
             event.preventDefault();
             event.stopPropagation();
             this.duplicateBox();
-        } else if (key === 67 && event.ctrlKey && event.shiftKey) {
+        } else if (key === 86 && event.ctrlKey && event.shiftKey) {
             this.pasteListener(event, true);
         }
     }
