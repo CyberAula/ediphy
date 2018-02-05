@@ -337,6 +337,12 @@ export default function() {
             }
             return undefined;
         },
+        getDefaultMarkValue: function() {
+            if(descendant.getDefaultMarkValue) {
+                return descendant.getDefaultMarkValue();
+            }
+            return undefined;
+        },
         pointerEventsCallback: function(bool, toolbarState) {
             if(descendant.pointerEventsCallback) {
                 return descendant.pointerEventsCallback(bool, toolbarState);

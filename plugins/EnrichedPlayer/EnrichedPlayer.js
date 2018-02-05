@@ -111,6 +111,9 @@ export function EnrichedPlayer(base) {
                 </div>
             );
         },
+        getDefaultMarkValue(state) {
+            return '50%';
+        },
         parseRichMarkInput: function(...value) {
             let parsed_value = (value[0] + 10) * 100 / value[2];
             return parsed_value.toFixed(2) + "%";

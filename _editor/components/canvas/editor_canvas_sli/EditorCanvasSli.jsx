@@ -190,13 +190,25 @@ export default class EditorCanvasSli extends Component {
             ondrop: function(event) {
                 let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
                 let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
+                let rect = event.target.getBoundingClientRect();
+                let x = (event.dragEvent.clientX - rect.left - mc.offsetLeft) * 100 / mc.offsetWidth;
+                let y = (event.dragEvent.clientY - rect.top + mc.scrollTop /* - parseFloat(al.style.marginTop)*/) * 100 / mc.offsetHeight;
+                let config = Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig();
+                let w = parseFloat(config.initialWidthSlide ? config.initialWidthSlide : (config.initialWidth ? config.initialWidth : '25%'));
+                let h = parseFloat(config.initialHeightSlide ? config.initialHeightSlide : (config.initialHeight ? config.initialHeight : '30%'));
+                if ((w + x) > 100) {
+                    x = 100 - w;
+                }
+                if ((h + y) > 100) {
+                    y = 100 - h;
+                }
                 let position = {
-                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - mc.offsetLeft) * 100 / mc.offsetWidth + "%",
-                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + mc.scrollTop /* - parseFloat(al.style.marginTop)*/) * 100 / mc.offsetHeight + '%',
+                    x: x + "%",
+                    y: y + "%",
                     type: 'absolute',
                 };
                 if (event.relatedTarget.classList.contains('rib')) {
-                    if (Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
+                    if (config.limitToOneInstance) {
                         if (instanceExists(event.relatedTarget.getAttribute("name"))) {
                             let alert = (<Alert className="pageModal"
                                 show
@@ -218,7 +230,7 @@ export default class EditorCanvasSli extends Component {
                         container: 0,
                         position: position,
                     };
-                    Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                    config.callback(initialParams, ADD_BOX);
                     event.dragEvent.stopPropagation();
                 } else {
                     let boxDragged = this.props.boxes[this.props.boxSelected];

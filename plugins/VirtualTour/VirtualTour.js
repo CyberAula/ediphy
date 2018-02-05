@@ -29,7 +29,7 @@ export function VirtualTour(base) {
                     key: 'value',
                     format: '[Lat,Lng]',
                     default: '40.452,-3.727',
-                    defaultColor: '#222222',
+                    defaultColor: '#000002',
                 }],
                 needsPointerEventsAllowed: true,
                 limitToOneInstance: true,
@@ -153,6 +153,7 @@ export function VirtualTour(base) {
                     <Map placeholder={i18n.t("VirtualTour.Search")}
                         state={state}
                         id={id}
+                        key={id}
                         searchBox
                         update={(lat, lng, zoom, render)=>{
                             base.setState('config', { lat: lat, lng: lng, zoom: zoom });
@@ -163,6 +164,10 @@ export function VirtualTour(base) {
         },
         handleToolbar: function(name, value) {
             base.setState(name, value);
+        },
+        getDefaultMarkValue() {
+            let cfg = base.getState().config;
+            return Math.round(cfg.lat * 100000) / 100000 + ',' + Math.round(cfg.lng * 100000) / 100000;
         },
         parseRichMarkInput: function(...value) {
             let state = value[5];

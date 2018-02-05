@@ -21,7 +21,7 @@ export function HotspotImages(base) {
                     defaultValue: true,
                 },
                 isRich: true,
-                marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#222222' }],
+                marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#000001' }],
             };
         },
         getToolbar: function() {
@@ -109,6 +109,9 @@ export function HotspotImages(base) {
                 url: img_placeholder, // Ediphy.Config.image_placeholder,
 
             };
+        },
+        getDefaultMarkValue(state) {
+            return 50 + ',' + 50;
         },
         getRenderTemplate: function(state, props) {
             let marks = state.__marks || {};

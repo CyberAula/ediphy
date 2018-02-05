@@ -115,11 +115,11 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                 {(this.state.controls) && (
                     <div className="player-media-controls" style={{ pointerEvents: 'none' }}>
                         <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
-                        <div className="progress-player-input dropableRichZone" style={{ height: "10px", position: "relative" }}
+                        <div className="progress-player-input dropableRichZone" style={{ height: "15px", position: "relative" }}
                             // value={this.state.played}
-                            onMouseDown={this.onSeekMouseDown.bind(this)}
-                            onChange={this.onSeekChange.bind(this)}
-                            onMouseUp={this.onSeekMouseUp.bind(this)}
+                            // onMouseDown={this.onSeekMouseDown.bind(this)}
+                            // onChange={this.onSeekChange.bind(this)}
+                            // onMouseUp={this.onSeekMouseUp.bind(this)}
                         >
                             <div className="fakeProgress" />
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />

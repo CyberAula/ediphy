@@ -771,7 +771,6 @@ export default class PluginToolbar extends Component {
                     if(e.currentTarget && e.currentTarget.type === "button") {
                         value = { background: e.currentTarget.value, attr: 'full' };
                     }
-                    console.log(e.target);
                     if (e.target && e.target.files) {
                         if(e.target.files.length === 1) {
                             let file = e.target.files[0];
