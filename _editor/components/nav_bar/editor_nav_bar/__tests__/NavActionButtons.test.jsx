@@ -14,9 +14,9 @@ jest.mock('i18next', () => ({
 
 beforeEach(() => {
     jest.mock('screenfull', () => ({
-        on: jest.fn(),
-        off: jest.fn(),
-        toggle: jest.fn(),
+        on: jest.fn().mockName('on'),
+        off: jest.fn().mockName('off'),
+        toggle: jest.fn().mockName('toggle'),
     }));
 
     // Ediphy.Config is set to make the snapshot deterministic, regardless of
@@ -38,13 +38,13 @@ beforeEach(() => {
 
 // Unit test's mocks
 let mockFunctions = {
-    changeGlobalConfig: jest.fn(),
-    onTextEditorToggled: jest.fn(),
-    redo: jest.fn(),
-    save: jest.fn(),
-    serverModalOpen: jest.fn(),
-    undo: jest.fn(),
-    visor: jest.fn(),
+    changeGlobalConfig: jest.fn().mockName('changeGlobalConfig'),
+    onTextEditorToggled: jest.fn().mockName('onTextEditorToggled'),
+    redo: jest.fn().mockName('redo'),
+    save: jest.fn().mockName('save'),
+    serverModalOpen: jest.fn().mockName('serverModalOpen'),
+    undo: jest.fn().mockName('undo'),
+    visor: jest.fn().mockName('visor'),
 };
 
 let placeholderProps = {
@@ -83,8 +83,8 @@ describe('NavActionButtons - General', () => {
     it('should save in state.isFullScreenOn the full screen status when checkFullScreen() is called', () => {
         // Override screenfull's mock
         jest.mock('screenfull', () => ({
-            on: jest.fn(),
-            off: jest.fn(),
+            on: jest.fn().mockName('on'),
+            off: jest.fn().mockName('off'),
             isFullscreen: true,
         }));
         jest.resetModules();

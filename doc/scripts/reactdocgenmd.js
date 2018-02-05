@@ -47,7 +47,7 @@ function getFiles(filePath, renderer, lang) {
     fs.readdirSync(filePath).forEach(function(file) {
         if (file) {
             let subpath = filePath + '/' + file;
-            if(fs.lstatSync(subpath).isDirectory()) {
+            if(fs.lstatSync(subpath).isDirectory() && subpath.indexOf('__tests__') === -1) {
                 getFiles(subpath, renderer, lang);
             } else if (path.extname(file) && path.extname(file) === '.jsx') {
                 files.push(path.basename(file, path.extname(file)));

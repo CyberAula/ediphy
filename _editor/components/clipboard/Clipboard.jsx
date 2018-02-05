@@ -8,13 +8,12 @@ import { ADD_BOX } from '../../../common/actions';
 import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent } from './clipboard.utils';
 import i18n from 'i18next';
 import { instanceExists } from '../../../common/common_tools';
-/** *
+/**
  * Component for managing the clipboard
  */
 export default class Clipboard extends Component {
     /**
      * Constructor
-     * @param props React component props
      */
     constructor(props) {
         super(props);
@@ -33,7 +32,6 @@ export default class Clipboard extends Component {
 
     /**
      * Extracts necessary information for clipboard/duplicating
-     * @returns {{box: Box copied, toolbar: Corresponding toolbar, childBoxes: {Object with child boxes of copied box (plugins inside plugins)}, childToolbars: {Object with child boxes' toolbars of copied box (plugins inside plugins)}}}
      */
     copyData() {
         let box = this.props.boxes[this.props.boxSelected];
@@ -54,7 +52,6 @@ export default class Clipboard extends Component {
     /**
      * Copy action listener
      * @param event
-     * @returns {false if no box selected}
      */
     copyListener(event) {
         let activeElement = document.activeElement;
@@ -71,7 +68,6 @@ export default class Clipboard extends Component {
     }
     /**
      * Cut action listener
-     * @param event
      */
     cutListener(event) {
         let fromPlugin = this.copyListener(event);
@@ -82,7 +78,6 @@ export default class Clipboard extends Component {
     }
     /**
      * Calculates current page (nav or cv)
-     * @returns {page}
      */
     currentPage() {
         return isContainedView(this.props.containedViewSelected) ?
@@ -115,7 +110,6 @@ export default class Clipboard extends Component {
 
     /**
      * Duplicate action listener
-     * @param event
      */
     duplicateListener(event) {
         let key = event.keyCode ? event.keyCode : event.which;
@@ -130,9 +124,6 @@ export default class Clipboard extends Component {
 
     /**
      * Pastes box
-     * @param data Clipboard data
-     * @param ids New ids of pasted box
-     * @param isTargetSlide New parent is going to be a slide
      */
     pasteBox(data, ids, isTargetSlide) {
         let pluginName = data.toolbar.config.name;
@@ -170,8 +161,6 @@ export default class Clipboard extends Component {
 
     /**
      * Calculates if the current focused element in the DOM is a text area. If it is we do not want to paste the box.
-     * @param activeElement DOM focused element
-     * @returns {boolean} True if it is a text element. False if it is not
      */
     containsCKEDitorText(activeElement) {
         let focus = activeElement.classList;
@@ -180,8 +169,6 @@ export default class Clipboard extends Component {
 
     /**
      * Paste action listener
-     * @param event
-     * @param overrideShiftKey Ignore if shift key was pressed
      */
     pasteListener(event, overrideShiftKey) {
         if (event.shiftKey && !overrideShiftKey) {
@@ -277,11 +264,6 @@ export default class Clipboard extends Component {
 
     /**
      * Modifies pasted box so it adapts to its new parent
-     * @param box Box object
-     * @param ids New ids
-     * @param isTargetSlide Pasted on a slide
-     * @param isOriginSlide Coming from a slide
-     * @returns {{newBox: *, newIds: {}}}
      */
     transformBox(box, ids, isTargetSlide, isOriginSlide) {
         let newIds = {};
@@ -318,11 +300,6 @@ export default class Clipboard extends Component {
 
     /**
      * Modifies pasted toolbar so it adapts to its new parent
-     * @param toolbar Toolbar object
-     * @param ids Newids
-     * @param isTargetSlide Pasted on a slide
-     * @param isOriginSlide Coming from a slide
-     * @returns {*} New toolbar
      */
     transformToolbar(toolbar, ids, isTargetSlide, isOriginSlide) {
         let newToolbar = Object.assign({}, toolbar, { id: ids.id });
@@ -388,7 +365,6 @@ export default class Clipboard extends Component {
 
     /**
      * Renders React Component
-     * @returns {code} React rendered component
      */
     render() {
         let props = {
