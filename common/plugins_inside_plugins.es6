@@ -117,15 +117,15 @@ export function parsePluginContainers(obj, state) {
     }
     if (obj.tag && obj.tag === "plugin") {
         if (obj.attr) {
-            if (!obj.attr['plugin-data-id']) {
-                obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + parseInt(Math.random() * 10000, 10) + new Date().getUTCMilliseconds();
+            if (!obj.attr['plugin-container']) {
+                obj.attr['plugin-container'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + parseInt(Math.random() * 10000, 10) + new Date().getUTCMilliseconds();
             }
             if (!obj.attr['plugin-data-height']) {
                 obj.attr['plugin-data-height'] = obj.attr['plugin-data-initial-height'] || (obj.attr.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto");
             }
             if (obj.attr['plugin-data-key'] && !state[obj.attr['plugin-data-key']]) {
                 state[obj.attr['plugin-data-key']] = {
-                    id: obj.attr['plugin-data-id'],
+                    id: obj.attr['plugin-container'],
                     name: obj.attr['plugin-data-display-name'] || obj.attr['plugin-data-key'],
                     height: obj.attr['plugin-data-height'],
                 };
@@ -152,13 +152,16 @@ export function hasExerciseBox(navItemId, navItems, state, boxes) {
 }
 
 export function addDefaultContainerPlugins(eventDetails, obj, boxes) {
+
     if (obj.child) {
         for (let i = 0; i < obj.child.length; i++) {
             addDefaultContainerPlugins(eventDetails, obj.child[i], boxes);
         }
     }
     if (obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
-        let plug_children = boxes[eventDetails.ids.id].sortableContainers[obj.attr['plugin-data-id']];
+        let idContainer = isSortableContainer(obj.attr['plugin-container']) ? obj.attr['plugin-container'] : ID_PREFIX_SORTABLE_CONTAINER + obj.props.pluginContainer;
+
+        let plug_children = boxes[eventDetails.ids.id].sortableContainers[idContainer];
         if (plug_children && plug_children.children && plug_children.children.length === 0) {
             obj.attr['plugin-data-default'].split(" ").map(name => {
                 if (!Ediphy.Plugins.get(name)) {
@@ -168,7 +171,7 @@ export function addDefaultContainerPlugins(eventDetails, obj, boxes) {
                 }
                 Ediphy.Plugins.get(name).getConfig().callback({
                     parent: eventDetails.ids.id,
-                    container: obj.attr['plugin-data-id'],
+                    container: idContainer,
                     isDefaultPlugin: true,
                 }, ADD_BOX);
             });

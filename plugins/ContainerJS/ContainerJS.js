@@ -1,3 +1,4 @@
+/* Broken*/
 export function ContainerJS(base) {
     return {
         getConfig: function() {
@@ -35,12 +36,11 @@ export function ContainerJS(base) {
             return { boxes: 1 };
         },
         getRenderTemplate: function(state) {
-            let template = "<div>";
+            let template = "<div><h1>ContainerJS</h1>";
             for (let i = 0; i < state.boxes; i++) {
-                template += "<div><plugin plugin-data-key='" + i + "' /></div>";
+                template += "<div><plugin plugin-data-key='" + i + "' plugin-data-resizable='true' plugin-container='Contenedor" + (i + 1) + "' plugin-data-display-name='Contenedor" + (i + 1) + "' plugin-data-default='BasicText'/></div>";
             }
             template += "</div>";
-
             return template;
         },
         handleToolbar: function(name, value) {
