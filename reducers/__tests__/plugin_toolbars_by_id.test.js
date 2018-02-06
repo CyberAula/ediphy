@@ -11,7 +11,7 @@ const state = testState.present.pluginToolbarsById;
     VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX,
 * */
 
-describe('# plugin_toolbars_by_id reducer ******************************************************************* TODO :)', ()=>{
+describe('# plugin_toolbars_by_id reducer', ()=>{
 
     describe('DEFAULT', ()=>{
         test('Should return test.state as default', () => {
@@ -20,7 +20,7 @@ describe('# plugin_toolbars_by_id reducer **************************************
     });
     describe('handle ADD_BOX', ()=>{
         test('If added box', () => {
-            // expect(plugin_toolbars_by_id(state, {})).toEqual(state);
+            expect(plugin_toolbars_by_id(state, ActionTypes.ADD_BOX)).toEqual(state);
         });
     });
 

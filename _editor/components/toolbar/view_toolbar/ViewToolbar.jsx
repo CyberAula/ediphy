@@ -24,7 +24,8 @@ export default class ViewToolbar extends Component {
      */
     render() {
         let id = this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
-        let type = this.props.containedViewSelected !== 0 ? this.props.containedView[this.props.containedViewSelected].type : this.props.navItem[this.props.navItemSelected];
+        let type = this.props.containedViewSelected !== 0 ? this.props.containedViews[this.props.containedViewSelected].type : this.props.navItems[this.props.navItemSelected];
+        let doc_type = '';
         if (isPage(id)) {
             doc_type = i18n.t('page');
         }
@@ -51,7 +52,7 @@ export default class ViewToolbar extends Component {
                             navitem_name: {
                                 __name: i18n.t('NavItem_name'),
                                 type: 'text',
-                                value: isContainedView ? action.payload.mark.connection.name /* nextToolbarAvailName(i18n.t('contained_view'), state)*/ : doc_type,
+                                value: this.props.viewToolbarsById[id].displayableTitle,
                                 autoManaged: false,
                             },
                         },

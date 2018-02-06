@@ -137,7 +137,7 @@ class EditorApp extends Component {
                         navItems={navItems}
                         navItemSelected={navItemSelected}
                         displayMode={displayMode}
-                        onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
+                        onBoxAdded={(ids, draggable, resizable, content, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, state))}
                         onIndexSelected={(id) => this.dispatchAndSetState(selectIndex(id))}
                         onContainedViewNameChanged={(id, titleStr) => this.dispatchAndSetState(changeContainedViewName(id, titleStr))}
                         onContainedViewSelected={ (id) => this.dispatchAndSetState(selectContainedView(id)) }
@@ -228,7 +228,7 @@ class EditorApp extends Component {
                                 viewToolbars={viewToolbars}
                                 title={title}
                                 markCreatorId={this.state.markCreatorVisible}
-                                onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
+                                onBoxAdded={(ids, draggable, resizable, content, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, state))}
                                 addMarkShortcut= {(mark) => {
                                     let state = JSON.parse(JSON.stringify(toolbars[boxSelected].state));
                                     state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
@@ -295,7 +295,7 @@ class EditorApp extends Component {
                                     }
                                     this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
                                 }}
-                                onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
+                                onBoxAdded={(ids, draggable, resizable, content, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, state))}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
                                 title={title}
                                 onRichMarksModalToggled={(value) => {
@@ -372,7 +372,7 @@ class EditorApp extends Component {
                     currentRichMark={this.state.currentRichMark}
                     defaultValueMark={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).getConfig().defaultMarkValue : 0}
                     validateValueInput={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).validateValueInput : null}
-                    onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
+                    onBoxAdded={(ids, draggable, resizable, content, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, state))}
                     onRichMarkUpdated={(mark, createNew) => {
                         let toolbar = pluginToolbars[boxSelected];
                         let state = JSON.parse(JSON.stringify(toolbar.state));
@@ -404,6 +404,7 @@ class EditorApp extends Component {
                     box={boxes[boxSelected]}
                     boxSelected={boxSelected}
                     containedViews={containedViews}
+                    containedViewSelected={containedViewSelected}
                     navItemSelected={containedViewSelected !== 0 ? containedViewSelected : navItemSelected}
                     navItems={containedViewSelected !== 0 ? containedViews : navItems}
                     carouselShow={this.state.carouselShow}
@@ -576,8 +577,6 @@ class EditorApp extends Component {
                     true,
                     !isSortableContainer(e.detail.ids.container),
                     e.detail.content,
-                    e.detail.toolbar,
-                    e.detail.config,
                     e.detail.state,
                     e.detail.initialParams
                 ));
