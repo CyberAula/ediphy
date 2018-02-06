@@ -12,7 +12,7 @@ import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 
 import './_editorBoxSortable.scss';
-import { instanceExists } from '../../../../common/common_tools';
+import { instanceExists, releaseClick } from '../../../../common/common_tools';
 
 /**
  * EditorBoxSortable Component
@@ -342,7 +342,15 @@ export default class EditorBoxSortable extends Component {
 
                         Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     } else {
-
+                        let clone = document.getElementById('clone');
+                        if (clone) {
+                            clone.parentNode.removeChild(clone);
+                        }
+                        let el = document.elementFromPoint(e.dragEvent.clientX, e.dragEvent.clientY);
+                        let rc = releaseClick(el, 'box-');
+                        let children = this.props.boxes[this.props.id].sortableContainers[extraParams.idContainer].children; // .filter(box=>{return this.props.boxes[box].row === extraParams.j && this.props.boxes[box].col === extraParams.i});
+                        let newInd = children.indexOf(rc);
+                        newInd = newInd < 1 ? 1 : (newInd >= newInd.length ? (newInd.length - 1) : newInd);
                         let boxDragged = this.props.boxes[this.props.boxSelected];
                         if (boxDragged && ((this.props.id !== boxDragged.parent) || (extraParams.idContainer !== boxDragged.container) || (extraParams.j !== boxDragged.row) || (extraParams.i !== boxDragged.col))) {
                             this.props.onBoxDropped(this.props.boxSelected,
@@ -350,13 +358,9 @@ export default class EditorBoxSortable extends Component {
                                 extraParams.i,
                                 this.props.id,
                                 extraParams.idContainer,
-                                boxDragged.parent, boxDragged.container);
+                                boxDragged.parent, boxDragged.container, undefined, newInd);
                         }
 
-                        let clone = document.getElementById('clone');
-                        if (clone) {
-                            clone.parentNode.removeChild(clone);
-                        }
                         for (let b in this.props.boxes) {
                             let dombox = document.getElementById('box-' + b);
                             if (dombox) {

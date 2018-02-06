@@ -215,9 +215,13 @@ export default class Clipboard extends Component {
                         event.stopPropagation();
                         // TODO Drag with Ctrl key held
                         this.pasteBox(data, ids, isTargetSlide);
-                        // Inside a text box (CKEditor or input)
-
+                        // Scroll into pasted element
+                        let createdBox = document.getElementById('box-' + ids.id);
+                        if (createdBox) {
+                            createdBox.scrollIntoView();
+                        }
                     } else {
+                        // Inside a text box (CKEditor or input)
                         // Let normal paste work
                         // event.preventDefault();
                     }

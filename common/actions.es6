@@ -140,8 +140,8 @@ export function reorderSortableContainer(ids, parent) {
     return { type: REORDER_SORTABLE_CONTAINER, payload: { ids, parent } };
 }
 
-export function dropBox(id, row, col, parent, container, oldParent, oldContainer, position) {
-    return { type: DROP_BOX, payload: { id, row, col, parent, container, oldParent, oldContainer, position } };
+export function dropBox(id, row, col, parent, container, oldParent, oldContainer, position, index) {
+    return { type: DROP_BOX, payload: { id, row, col, parent, container, oldParent, oldContainer, position, index } };
 }
 
 export function verticallyAlignBox(id, verticalAlign) {

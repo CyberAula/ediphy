@@ -174,15 +174,18 @@ export default class PluginPlaceholder extends Component {
                         let clone = document.getElementById('clone');
                         if(clone) {
                             clone.parentElement.removeChild(clone);
-                            let rc = document.elementFromPoint(e.dragEvent.clientX, e.dragEvent.clientY);
-                            let children = this.props.boxes[parent].sortableContainers[container].children;
-                            let bid = releaseClick(rc, 'box-');
-                            let newInd = children.indexOf(bid); // Position where it's being released
-                            // TODO Establish  position when dragging
                         }
+                        let rc = document.elementFromPoint(e.dragEvent.clientX, e.dragEvent.clientY);
+                        let children = this.props.boxes[parent].sortableContainers[container].children;
+                        let bid = releaseClick(rc, 'box-');
+
+                        let newInd = children.indexOf(bid); // Position where it's being released
+                        newInd = newInd < 1 ? 1 : (newInd >= newInd.length ? (newInd.length - 1) : newInd);
+                        // TODO Establish  position when dragging
+
                         if (!forbidden) {
                             this.props.onBoxDropped(boxDragged.id, initialParams.row, initialParams.col, initialParams.parent,
-                                initialParams.container, boxDragged.parent, boxDragged.container, initialParams.position);
+                                initialParams.container, boxDragged.parent, boxDragged.container, initialParams.position, newInd);
 
                         }
                         return;

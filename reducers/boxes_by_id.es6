@@ -286,6 +286,11 @@ function singleSortableContainerReducer(state = {}, action = {}) {
         if (state.key === action.payload.oldContainer && action.payload.currentBoxReducer === action.payload.oldParent) {
             return changeProp(state, "children", state.children.filter(id => id !== action.payload.id));
         } else if (state.key === action.payload.container && action.payload.currentBoxReducer === action.payload.parent) {
+            if (action.payload.index) {
+                let newOrder = [...state.children];
+                newOrder.splice(action.payload.index, 0, action.payload.id);
+                return changeProp(state, "children", newOrder);
+            }
             return changeProp(state, "children", [...state.children, action.payload.id]);
         }
         return state;
