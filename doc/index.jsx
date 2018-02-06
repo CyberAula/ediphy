@@ -93,9 +93,9 @@ export default class Docs extends Component {
                 <Route exact path="/:section" component={Comp}/>
                 <Route exact path="/:section/:page" component={Comp}/>
                 <Route path="/:section/:page/:subpage" component={Comp}/>
-                <snap id="langSelector">
+                <span id="langSelector">
                     <ChangeLang lang="en"/>・<ChangeLang lang="es"/>
-                </snap>
+                </span>
             </Grid></Router>);
 
     }

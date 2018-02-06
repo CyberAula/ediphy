@@ -138,9 +138,6 @@ export function DataTable(base) {
             };
             reader.readAsText(file);
         },
-        chartTypeChange: function(elements) {
-            base.setState("chartType", elements[0].id);
-        },
         handleToolbar: function(name, value) {
             base.setState(name, value);
         },

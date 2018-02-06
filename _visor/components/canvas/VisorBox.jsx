@@ -90,8 +90,9 @@ export default class VisorBox extends Component {
 
         /* TODO: Reasign object if is rich to have marks as property box.content.props*/
 
+        let props = { ...this.props, parentBox: this.props.boxes[this.props.id] };
         let content = toolbar.config.flavor === "react" ? (
-            <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>{Ediphy.Visor.Plugins[toolbar.config.name].getRenderTemplate(toolbar.state, box.id)}</div>
+            <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>{Ediphy.Visor.Plugins[toolbar.config.name].getRenderTemplate(toolbar.state, box.id, props)}</div>
         ) : (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
                 {this.renderChildren(Ediphy.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0, this.props.id), 0)}

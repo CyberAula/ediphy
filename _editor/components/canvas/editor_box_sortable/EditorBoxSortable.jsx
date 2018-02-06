@@ -7,11 +7,12 @@ import Alert from './../../common/alert/Alert';
 import EditorBox from '../editor_box/EditorBox';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import { ADD_BOX } from '../../../../common/actions';
-import { isSortableBox } from '../../../../common/utils';
+import { isSortableBox, isBox } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 
 import './_editorBoxSortable.scss';
+import { instanceExists, releaseClick } from '../../../../common/common_tools';
 
 /**
  * EditorBoxSortable Component
@@ -74,7 +75,7 @@ export default class EditorBoxSortable extends Component {
                                             {container.cols[i].map((row, j) => {
                                                 return (<div key={j}
                                                     className={"colDist-j width100 pos_relative rowNum" + j}
-                                                    style={{ height: row + "%" }}
+                                                    style={{ height: row + "%", minHeight: parseInt(100 / (container.cols[i].length), 10) + 'px' }}
                                                     ref={e => {
                                                         if(e !== null) {
                                                             this.configureDropZone(
@@ -102,6 +103,7 @@ export default class EditorBoxSortable extends Component {
                                                                 lastActionDispatched={this.props.lastActionDispatched}
                                                                 addMarkShortcut={this.props.addMarkShortcut}
                                                                 deleteMarkCreator={this.props.deleteMarkCreator}
+                                                                onRichMarkUpdated={this.props.onRichMarkUpdated}
                                                                 markCreatorId={this.props.markCreatorId}
                                                                 onBoxAdded={this.props.onBoxAdded}
                                                                 onBoxSelected={this.props.onBoxSelected}
@@ -119,8 +121,10 @@ export default class EditorBoxSortable extends Component {
                                                         } else if (ind === container.children.length - 1) {
                                                             return (<span key={ind}><br/><br/></span>);
                                                         }
+
                                                         return null;
                                                     })}
+                                                    {container.children.length === 0 ? (<div key={-1} style={{ height: '46px' }}/>) : null }
                                                 </div>);
                                             })}
                                         </div>);
@@ -146,9 +150,7 @@ export default class EditorBoxSortable extends Component {
                                         onHide={() => {this.setState({ show: this.state.show === idContainer ? false : this.state.show });}}>
                                         <Popover id="popov" title={i18n.t("delete_container")}>
                                             <i style={{ color: 'yellow', fontSize: '13px', padding: '0 5px' }} className="material-icons">warning</i>
-                                            {
-                                                i18n.t("messages.delete_container")
-                                            }
+                                            { i18n.t("messages.delete_container") }
                                             <br/>
                                             <br/>
                                             <Button className="popoverButton"
@@ -162,8 +164,7 @@ export default class EditorBoxSortable extends Component {
                                                     this.props.onSortableContainerDeleted(idContainer, box.id);
                                                     e.stopPropagation();
                                                     this.setState({ show: false });
-                                                }}
-                                            >
+                                                }} >
                                                 {i18n.t("Accept")}
                                             </Button>
                                             <Button className="popoverButton"
@@ -217,7 +218,7 @@ export default class EditorBoxSortable extends Component {
      */
     componentDidMount() {
         this.configureDropZone(ReactDOM.findDOMNode(this), "newContainer", ".rib");
-        this.configureDropZone(".editorBoxSortableContainer", "existingContainer", ".rib");
+        // this.configureDropZone(".editorBoxSortableContainer", "existingContainer", ".rib");
 
         this.props.boxes[this.props.id].children.map(id => {
             this.configureResizable(this.refs[id]);
@@ -305,27 +306,32 @@ export default class EditorBoxSortable extends Component {
                 e.target.classList.remove("drop-target");
             },
             ondrop: function(e) {
+                let draggingFromRibbon = e.relatedTarget.className.indexOf("rib") !== -1;
+                if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
+
+                    if (draggingFromRibbon && instanceExists(e.relatedTarget.getAttribute("name"))) {
+                        let alert = (<Alert className="pageModal"
+                            show
+                            hasHeader
+                            backdrop={false}
+                            title={<span><i className="material-icons alert-warning" >
+                                        warning</i>{i18n.t("messages.alert")}</span>}
+                            closeButton onClose={() => {this.setState({ alert: null });}}>
+                            <span> {i18n.t('messages.instance_limit')} </span>
+                        </Alert>);
+                        this.setState({ alert: alert });
+                        let clone = document.getElementById('clone');
+                        if (clone) {
+                            clone.parentNode.removeChild(clone);
+                        }
+                        e.dragEvent.stopPropagation();
+                        return;
+                    }
+                }
                 if (dropArea === 'cell') {
                     // If element dragged is coming from PluginRibbon, create a new EditorBox
-                    if (e.relatedTarget.className.indexOf("rib") !== -1) {
+                    if (draggingFromRibbon) {
                         // Check if there is a limit in the number of plugin instances
-                        if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
-                            for (let child in this.props.boxes) {
-                                if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.id && this.props.toolbars[child].config.name === e.relatedTarget.getAttribute("name")) {
-                                    let alert = (<Alert className="pageModal"
-                                        show
-                                        hasHeader
-                                        backdrop={false}
-                                        title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
-                                        closeButton onClose={()=>{this.setState({ alert: null });}}>
-                                        <span> {i18n.t('messages.instance_limit')} </span>
-                                    </Alert>);
-                                    this.setState({ alert: alert });
-                                    e.dragEvent.stopPropagation();
-                                    return;
-                                }
-                            }
-                        }
 
                         let initialParams = {
                             parent: this.props.id,
@@ -333,23 +339,28 @@ export default class EditorBoxSortable extends Component {
                             col: extraParams.i,
                             row: extraParams.j,
                         };
+
                         Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     } else {
-
-                        let boxDragged = this.props.boxes[this.props.boxSelected];
-                        // If box being dragged is dropped in a different column or row, change it's value
-                        if (boxDragged) { // && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
-                            this.props.onBoxDropped(this.props.boxSelected,
-                                extraParams.j,
-                                extraParams.i,
-                                boxDragged.parent,
-                                extraParams.idContainer);
-                        }
-
                         let clone = document.getElementById('clone');
                         if (clone) {
                             clone.parentNode.removeChild(clone);
                         }
+                        let el = document.elementFromPoint(e.dragEvent.clientX, e.dragEvent.clientY);
+                        let rc = releaseClick(el, 'box-');
+                        let children = this.props.boxes[this.props.id].sortableContainers[extraParams.idContainer].children; // .filter(box=>{return this.props.boxes[box].row === extraParams.j && this.props.boxes[box].col === extraParams.i});
+                        let newInd = children.indexOf(rc);
+                        newInd = newInd < 1 ? 1 : (newInd >= newInd.length ? (newInd.length - 1) : newInd);
+                        let boxDragged = this.props.boxes[this.props.boxSelected];
+                        if (boxDragged && ((this.props.id !== boxDragged.parent) || (extraParams.idContainer !== boxDragged.container) || (extraParams.j !== boxDragged.row) || (extraParams.i !== boxDragged.col))) {
+                            this.props.onBoxDropped(this.props.boxSelected,
+                                extraParams.j,
+                                extraParams.i,
+                                this.props.id,
+                                extraParams.idContainer,
+                                boxDragged.parent, boxDragged.container, undefined, newInd);
+                        }
+
                         for (let b in this.props.boxes) {
                             let dombox = document.getElementById('box-' + b);
                             if (dombox) {
@@ -359,23 +370,7 @@ export default class EditorBoxSortable extends Component {
 
                     }
                 } else {
-                    if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
-                        for (let child in this.props.boxes) {
-                            if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.id && this.props.toolbars[child].config.name === e.relatedTarget.getAttribute("name")) {
-                                let alert = (<Alert className="pageModal"
-                                    show
-                                    hasHeader
-                                    backdrop={false}
-                                    title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
-                                    closeButton onClose={()=>{this.setState({ alert: null });}}>
-                                    <span> {i18n.t('messages.instance_limit')} </span>
-                                </Alert>);
-                                this.setState({ alert: alert });
-                                e.dragEvent.stopPropagation();
-                                return;
-                            }
-                        }
-                    }
+
                     let initialParams = {};
                     if (dropArea === 'existingContainer') {
                         initialParams = {
@@ -383,7 +378,6 @@ export default class EditorBoxSortable extends Component {
                             container: e.target.getAttribute("data-id"),
                         };
                     } else if (dropArea === 'newContainer') {
-                        console.log(this.props.id);
                         initialParams = {
                             parent: this.props.id,
                             container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),

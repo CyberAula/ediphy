@@ -5,7 +5,6 @@ import i18n from 'i18next';
 export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';
 export const MOVE_BOX = 'MOVE_BOX';
-export const DUPLICATE_BOX = 'DUPLICATE_BOX';
 export const RESIZE_BOX = 'RESIZE_BOX';
 export const UPDATE_BOX = 'UPDATE_BOX';
 export const DELETE_BOX = 'DELETE_BOX';
@@ -117,17 +116,12 @@ export function addBox(ids, draggable, resizable, content, toolbar, config, stat
     return { type: ADD_BOX, payload: { ids, draggable, resizable, content, toolbar, config, state, initialParams } };
 }
 
-export function selectBox(id) {
-    return { type: SELECT_BOX, payload: { id } };
+export function selectBox(id, box) {
+    return { type: SELECT_BOX, payload: { id, box } };
 }
 
 export function moveBox(id, x, y, position, parent, container) {
     return { type: MOVE_BOX, payload: { id, x, y, position, parent, container } };
-}
-
-// @TODO
-export function duplicateBox(id, parent, container, children, newIds, newId) {
-    return { type: DUPLICATE_BOX, payload: { id, parent, container, children, newIds, newId } };
 }
 
 export function resizeBox(id, widthButton, heightButton) {
@@ -146,8 +140,8 @@ export function reorderSortableContainer(ids, parent) {
     return { type: REORDER_SORTABLE_CONTAINER, payload: { ids, parent } };
 }
 
-export function dropBox(id, row, col, parent, container) {
-    return { type: DROP_BOX, payload: { id, row, col, parent, container } };
+export function dropBox(id, row, col, parent, container, oldParent, oldContainer, position, index) {
+    return { type: DROP_BOX, payload: { id, row, col, parent, container, oldParent, oldContainer, position, index } };
 }
 
 export function verticallyAlignBox(id, verticalAlign) {
@@ -205,8 +199,8 @@ export function toggleTextEditor(caller, value) {
     return { type: TOGGLE_TEXT_EDITOR, payload: { caller, value } };
 }
 
-export function pasteBox(ids, box, toolbar) {
-    return { type: PASTE_BOX, payload: { ids, box, toolbar } };
+export function pasteBox(ids, box, toolbar, children) {
+    return { type: PASTE_BOX, payload: { ids, box, toolbar, children } };
 }
 
 export function toggleTitleMode(id, titles) {
@@ -326,6 +320,7 @@ export function importStateAsync() {
                 return response.text();
             })
             .then(result => {
+                // eslint-disable-next-line no-console
                 console.log(result);
                 dispatch(importState(JSON.parse(result)));
                 return true;

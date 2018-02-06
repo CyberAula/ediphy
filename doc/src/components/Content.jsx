@@ -164,6 +164,7 @@ export default class Content extends Component {
 
                 }.bind(this))
                 .fail(function(xhr) {
+                    // eslint-disable-next-line no-console
                     console.error('error', xhr);
                     this.setState({ content: " La página solicitada no está disponible", md: content.md });
                 }.bind(this));

@@ -9,8 +9,14 @@
   width: auto;
   background-color: $blueprimary;
   border-radius: 0 0 5px 0px;
-  min-width: 350px;
+  min-width: 430px;
   height: auto;
+}
+
+@media screen and (max-width: 1147px) {
+  #ribbonRow {
+    min-width: 230px;
+  }
 }
 
 /*Ribbon Column*/

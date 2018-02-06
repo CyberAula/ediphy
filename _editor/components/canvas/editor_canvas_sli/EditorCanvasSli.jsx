@@ -9,7 +9,7 @@ import EditorHeader from '../editor_header/EditorHeader';
 import interact from 'interactjs';
 import { ADD_BOX } from '../../../../common/actions';
 import { isSortableBox } from '../../../../common/utils';
-import { aspectRatio } from '../../../../common/common_tools';
+import { aspectRatio, instanceExists } from '../../../../common/common_tools';
 import Ediphy from '../../../../core/editor/main';
 import ReactResizeDetector from 'react-resize-detector';
 import i18n from 'i18next';
@@ -111,8 +111,8 @@ export default class EditorCanvasSli extends Component {
                             position: "absolute",
                             top: 0,
                             opacity: 0.4,
-                            display: (this.props.boxLevelSelected > 0) ? "block" : "none",
-                            visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse",
+                            display: 'none', // (this.props.boxLevelSelected > 0) ? "block" : "none",
+                            visibility: "collapse", // (this.props.boxLevelSelected > 0) ? "visible" : "collapse",
                         }} />
 
                         {boxes.map(id => {
@@ -135,6 +135,7 @@ export default class EditorCanvasSli extends Component {
                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                 onBoxMoved={this.props.onBoxMoved}
                                 onBoxResized={this.props.onBoxResized}
+                                onRichMarkUpdated={this.props.onRichMarkUpdated}
                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                 onBoxDropped={this.props.onBoxDropped}
@@ -172,9 +173,8 @@ export default class EditorCanvasSli extends Component {
      * Set up interact in order to enable dragging boxes
      */
     componentDidMount() {
-
         interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).dropzone({
-            accept: '.floatingEditorBox',
+            accept: '.floatingEditorBox, .dnd',
             overlap: 'pointer',
             ondropactivate: function(event) {
                 event.target.classList.add('drop-active');
@@ -186,16 +186,35 @@ export default class EditorCanvasSli extends Component {
                 event.target.classList.remove("drop-target");
             },
             ondrop: function(event) {
-                if (Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
-                    for (let child in this.props.boxes) {
-                        console.log(this.props.boxes);
-                        if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.id && this.props.toolbars[child].config.name === event.relatedTarget.getAttribute("name")) {
+                let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
+                let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
+                let rect = event.target.getBoundingClientRect();
+                let x = (event.dragEvent.clientX - rect.left - mc.offsetLeft) * 100 / mc.offsetWidth;
+                let y = (event.dragEvent.clientY - rect.top + mc.scrollTop /* - parseFloat(al.style.marginTop)*/) * 100 / mc.offsetHeight;
+                let config = Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig();
+                let w = parseFloat(config.initialWidthSlide ? config.initialWidthSlide : (config.initialWidth ? config.initialWidth : '25%'));
+                let h = parseFloat(config.initialHeightSlide ? config.initialHeightSlide : (config.initialHeight ? config.initialHeight : '30%'));
+                if ((w + x) > 100) {
+                    x = 100 - w;
+                }
+                if ((h + y) > 100) {
+                    y = 100 - h;
+                }
+                let position = {
+                    x: x + "%",
+                    y: y + "%",
+                    type: 'absolute',
+                };
+                if (event.relatedTarget.classList.contains('rib')) {
+                    if (config.limitToOneInstance) {
+                        if (instanceExists(event.relatedTarget.getAttribute("name"))) {
                             let alert = (<Alert className="pageModal"
                                 show
                                 hasHeader
                                 backdrop={false}
-                                title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
-                                closeButton onClose={()=>{this.setState({ alert: null });}}>
+                                title={<span><i className="material-icons alert-warning" >
+                                        warning</i>{i18n.t("messages.alert")}</span>}
+                                closeButton onClose={() => {this.setState({ alert: null });}}>
                                 <span> {i18n.t('messages.instance_limit')} </span>
                             </Alert>);
                             this.setState({ alert: alert });
@@ -203,21 +222,26 @@ export default class EditorCanvasSli extends Component {
                             return;
                         }
                     }
+
+                    let initialParams = {
+                        parent: this.props.fromCV ? this.props.containedViewSelected.id : this.props.navItemSelected.id,
+                        container: 0,
+                        position: position,
+                    };
+                    config.callback(initialParams, ADD_BOX);
+                    event.dragEvent.stopPropagation();
+                } else {
+                    let boxDragged = this.props.boxes[this.props.boxSelected];
+                    let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
+                    if (boxDragged.parent !== itemSelected.id) {
+                        this.props.onBoxDropped(this.props.boxSelected,
+                            0, 0, itemSelected.id, 0, boxDragged.parent, boxDragged.container, position);
+                    }
+                    let clone = document.getElementById('clone');
+                    if (clone) {
+                        clone.parentElement.removeChild(clone);
+                    }
                 }
-                let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
-                let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
-                let position = {
-                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - mc.offsetLeft) * 100 / mc.offsetWidth + "%",
-                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + mc.scrollTop /* - parseFloat(al.style.marginTop)*/) * 100 / mc.offsetHeight + '%',
-                    type: 'absolute',
-                };
-                let initialParams = {
-                    parent: this.props.fromCV ? this.props.containedViewSelected.id : this.props.navItemSelected.id,
-                    container: 0,
-                    position: position,
-                };
-                Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
-                event.dragEvent.stopPropagation();
             }.bind(this),
             ondropdeactivate: function(event) {
                 event.target.classList.remove('drop-active');

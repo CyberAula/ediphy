@@ -69,7 +69,6 @@ export function setFinalScore(scores, visited, trackProgress) {
         setScore("objectives." + num + ".", 0, sizeSc, sumSc, avgSc, isComplete, isPassed);
         setScore("", 0, sizeSc, sumSc, avgSc, isComplete, isPassed);
     }
-    // console.log('setfinal', 'track?' + trackProgress, "sizeV: "+ sizeV,"sumV: "+  sumV, "avgV:" + avgV, "sizeSc" + sizeSc, "sUMSc" + sumSc, "avgSc" + avgSc, isComplete, isPassed);
     return API.doCommit();
 }
 

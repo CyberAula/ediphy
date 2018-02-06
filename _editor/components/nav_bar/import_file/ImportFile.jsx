@@ -167,6 +167,7 @@ export default class ImportFile extends Component {
 
         this.props.close();
     }
+
     AddAsNavItem(hasCustomSize) {
         // TODO: refactor -> create new action
         for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
@@ -176,7 +177,7 @@ export default class ImportFile extends Component {
             let customSize = hasCustomSize ? { width: canvas.width, height: canvas.height } : 0;
             this.props.onNavItemAdded(
                 newId,
-                "Página PDF",
+                "Página " + i + " PDF",
                 0,
                 PAGE_TYPES.SLIDE,
                 this.props.navItemsIds.length,
@@ -186,6 +187,7 @@ export default class ImportFile extends Component {
             this.props.onIndexSelected(newId);
         }
     }
+
     // function for preview pages
     PreviewFile(page) {
         let preview = document.getElementById('FilePreview');
@@ -195,6 +197,7 @@ export default class ImportFile extends Component {
         preview.style.height = 'auto';
         preview.style.border = '1px solid';
     }
+
     AddPlugins() {
         // insert image plugins
         for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {

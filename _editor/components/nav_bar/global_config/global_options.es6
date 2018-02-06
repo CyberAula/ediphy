@@ -4,28 +4,10 @@ import i18n from 'i18next';
  * @returns {array} Array of keywords
  */
 export function suggestions() {
-    return [
-        i18n.t("global_config.keylist.Art"),
-        i18n.t("global_config.keylist.Biology"),
-        i18n.t("global_config.keylist.Chemistry"),
-        i18n.t("global_config.keylist.Citizenship"),
-        i18n.t("global_config.keylist.Computerscience"),
-        i18n.t("global_config.keylist.Economics"),
-        i18n.t("global_config.keylist.Education"),
-        i18n.t("global_config.keylist.Engineering"),
-        i18n.t("global_config.keylist.Foreignlanguages"),
-        i18n.t("global_config.keylist.Generalculture"),
-        i18n.t("global_config.keylist.Geography"),
-        i18n.t("global_config.keylist.Geology"),
-        i18n.t("global_config.keylist.History"),
-        i18n.t("global_config.keylist.Humanities"),
-        i18n.t("global_config.keylist.Literature"),
-        i18n.t("global_config.keylist.Maths"),
-        i18n.t("global_config.keylist.Music"),
-        i18n.t("global_config.keylist.Naturalscience"),
-        i18n.t("global_config.keylist.Physics"),
-        i18n.t("global_config.keylist.Technology"),
-    ];
+    let subjects = ["Art", "Biology", "Chemistry", "Citizenship", "Computerscience", "Economics", "Education", "Engineering", "Foreignlanguages", "Generalculture", "Geography", "Geology", "History", "Humanities", "Literature", "Maths", "Music", "Naturalscience", "Physics", "Technology"];
+    return subjects.map(sub => {
+        return i18n.t("global_config.keylist." + sub);
+    });
 }
 
 /**

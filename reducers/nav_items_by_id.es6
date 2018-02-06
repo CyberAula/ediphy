@@ -1,7 +1,7 @@
 import {
-    ADD_BOX, MOVE_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_BACKGROUND, DELETE_BOX, DUPLICATE_BOX, EXPAND_NAV_ITEM,
+    ADD_BOX, MOVE_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_BACKGROUND, DELETE_BOX, EXPAND_NAV_ITEM,
     REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES,
-    DELETE_SORTABLE_CONTAINER,
+    DELETE_SORTABLE_CONTAINER, DROP_BOX,
     ADD_RICH_MARK, EDIT_RICH_MARK, DELETE_RICH_MARK,
     IMPORT_STATE, PASTE_BOX, CHANGE_BOX_LAYER,
 } from '../common/actions';
@@ -133,6 +133,13 @@ function singleNavItemReducer(state = {}, action = {}) {
         return changeProp(state, "hidden", action.payload.value);
     case TOGGLE_TITLE_MODE:
         return changeProp(state, "header", action.payload.titles);
+    case DROP_BOX:
+        if (state.id === action.payload.parent) {
+            return changeProp(state, "boxes", [...state.boxes, action.payload.id]);
+        } else if (state.id === action.payload.oldParent) {
+            return changeProp(state, "boxes", state.boxes.filter(id => id !== action.payload.id));
+        }
+        return state;
     case ADD_RICH_MARK:
         let oldParents = JSON.parse(JSON.stringify(state.linkedBoxes));
         if(Object.keys(oldParents).indexOf(action.payload.parent) === -1) {
@@ -254,20 +261,6 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
                 }
               }*/
         return nState;
-    case DUPLICATE_BOX:
-        if (isView(action.payload.parent)) {
-            let newBoxes = state[action.payload.parent].boxes;
-            newBoxes.push(ID_PREFIX_BOX + action.payload.newId);
-
-            if (action.payload.parent !== 0) {
-                return Object.assign({}, state, {
-                    [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
-                        boxes: newBoxes,
-                    }),
-                });
-            }
-        }
-        return state;
     case EXPAND_NAV_ITEM:
         return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
     case REORDER_NAV_ITEM:
@@ -381,6 +374,16 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
         return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
     case IMPORT_STATE:
         return action.payload.present.navItemsById || state;
+    case DROP_BOX:
+        if (isView(action.payload.parent) && isView(action.payload.oldParent)) {
+            return changeProps(state, [action.payload.parent, action.payload.oldParent], [singleNavItemReducer(state[action.payload.parent], action), singleNavItemReducer(state[action.payload.oldParent], action)]);
+        } else if (!isView(action.payload.parent) && isView(action.payload.oldParent)) {
+            return changeProp(state, action.payload.oldParent, singleNavItemReducer(state[action.payload.oldParent], action));
+        } else if (isView(action.payload.parent) && !isView(action.payload.oldParent)) {
+            return changeProp(state, action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
+        }
+        return state;
+
     case PASTE_BOX:
 
         let newState = JSON.parse(JSON.stringify(state));
@@ -398,6 +401,24 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
                         }
                         newState[marks[mark].connection].linkedBoxes[action.payload.ids.id].push(mark);
 
+                    }
+                }
+            }
+        }
+        if(action.payload.children) {
+            let ids = Object.keys(action.payload.children);
+
+            for (let id in ids) {
+                let marks = action.payload.children[ids[id]].toolbar.state.__marks;
+                for (let mark in marks) {
+                    if (isContainedView(marks[mark].connection)) {
+                        if (newState[marks[mark].connection]) {
+                            if (!newState[marks[mark].connection].linkedBoxes[ids[id]]) {
+                                newState[marks[mark].connection].linkedBoxes[ids[id]] = [];
+                            }
+                            newState[marks[mark].connection].linkedBoxes[ids[id]].push(mark);
+
+                        }
                     }
                 }
             }

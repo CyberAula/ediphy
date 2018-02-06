@@ -22,9 +22,9 @@ export default class Map extends React.Component {
         let { lat, lng, zoom } = config;
         let center = { lat: lat, lng: lng };
         return(
-            <div id={this.props.id} className="dropableRichZone" style={{ width: '100%', height: '100%' }}>
+            <div id={this.props.id} key={this.props.id} className="dropableRichZone" style={{ width: '100%', height: '100%' }}>
                 <GoogleMapReact center={center}
-                    draggable={Boolean(this.state.draggable)}
+                    draggable={Boolean(this.state.draggable)} key={'map_' + this.props.id}
                     zoom={zoom}
                     options={{
                         draggable: this.state.draggable,

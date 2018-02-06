@@ -17,8 +17,11 @@ const mkdirSync = function(dirPath) {
 mkdirSync(dstPath);
 ncp(origPath, dstPath, function(err) {
     if (err) {
+        // eslint-disable-next-line no-console
         return console.error(err);
     }
+
+    // eslint-disable-next-line no-console
     console.log("Done !");
     return "";
 });

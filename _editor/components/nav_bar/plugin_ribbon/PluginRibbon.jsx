@@ -6,11 +6,13 @@ import Ediphy from '../../../../core/editor/main';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
 import './_pluginRibbon.scss';
-import { isSortableBox, isSlide, isContainedView } from "../../../../common/utils";
+import { isSortableBox, isSlide, isBox, isContainedView } from "../../../../common/utils";
 import { ADD_BOX } from "../../../../common/actions";
 import Alert from './../../common/alert/Alert';
 import { ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
 import { randomPositionGenerator } from './../../clipboard/clipboard.utils';
+import { instanceExists, releaseClick } from '../../../../common/common_tools';
+
 /**
  * Plugin ribbon inside toolbar
  */
@@ -27,6 +29,7 @@ export default class PluginRibbon extends Component {
             showed: true,
             alert: null,
         };
+        this.clickAddBox = this.clickAddBox.bind(this);
     }
 
     /**
@@ -50,9 +53,7 @@ export default class PluginRibbon extends Component {
                                         name={item.name}
                                         bsSize="large"
                                         draggable="false"
-                                        onClick={(event) => {
-                                            this.ClickAddBox(event);
-                                        }}
+                                        onMouseUp={(e)=>this.clickAddBox(e, item.name)}
                                         style={(button.iconFromUrl) ? {
                                             padding: '8px 8px 8px 45px',
                                             backgroundImage: 'url(' + clase + ')',
@@ -135,13 +136,10 @@ export default class PluginRibbon extends Component {
 
             let container;
 
-            if(this.props.containedViewSelected !== 0) {
+            if (this.props.containedViewSelected !== 0) {
                 container = "containedCanvas";
-
-            }else{
-
+            } else {
                 container = "canvas";
-
             }
             let elContainer = document.getElementById(container);
             interact.dynamicDrop(true);
@@ -178,7 +176,6 @@ export default class PluginRibbon extends Component {
                         target.style.transform =
                             'translate(' + (x) + 'px, ' + (y) + 'px)';
                         target.style.zIndex = '9999';
-
                         target.classList.add('ribdrag');
 
                         // update the position attributes
@@ -192,7 +189,7 @@ export default class PluginRibbon extends Component {
                         let parent = original.parentNode;
                         let dw = original.offsetWidth;
                         let clone = document.getElementById('clone');
-
+                        let name = clone.getAttribute('name');
                         let target = clone,
                             x = 0,
                             y = 0;
@@ -208,7 +205,13 @@ export default class PluginRibbon extends Component {
                         target.setAttribute('data-y', y);
 
                         parent.removeChild(clone);
+                        let releaseClickEl = document.elementFromPoint(event.clientX, event.clientY);
+                        let rib = releaseClick(releaseClickEl, "ribbon");
                         event.stopPropagation();
+                        if(rib === 'List') {
+                            this.clickAddBox(event, name);
+                        }
+
                     },
                 });
         });
@@ -222,64 +225,58 @@ export default class PluginRibbon extends Component {
         interact('.rib').unset();
     }
 
-    ClickAddBox(event) {
-        let alert = (<Alert className="pageModal"
+    clickAddBox(event, name) {
+        let alert = (msg) => {return <Alert key="alert" className="pageModal"
             show
             hasHeader
             backdrop={false}
-            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px', color: 'yellow' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+            title={ <span><i className="material-icons alert-warning" >warning</i>{ i18n.t("messages.alert") }</span> }
             closeButton onClose={()=>{this.setState({ alert: null });}}>
-            <span> {i18n.t('messages.instance_limit')} </span>
-        </Alert>);
+            <span> {msg} </span>
+        </Alert>;};
 
         let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected.id) && isSlide(this.props.containedViewSelected.type);
         let cvdoc = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected.id) && !isSlide(this.props.containedViewSelected.type);
+        let config = Ediphy.Plugins.get(name).getConfig();
+        let isBoxSelected = (this.props.boxSelected && isBox(this.props.boxSelected.id));
+        if (isBoxSelected && isBox(this.props.boxSelected.parent) && config.isComplex) {
+            this.setState({ alert: alert(i18n.t('messages.depth_limit')) });
+            event.stopPropagation();
+            return;
+        }
 
-        if (isSlide(this.props.navItemSelected.type) || cv) {
+        if (config.limitToOneInstance && instanceExists(name)) {
+            this.setState({ alert: alert(i18n.t('messages.instance_limit')) });
+            event.stopPropagation();
+            return;
+        }
 
+        let inASlide = isSlide(this.props.navItemSelected.type) || cv;
+
+        if (inASlide) {
             let SelectedNav = cv ? this.props.containedViewSelected.id : this.props.navItemSelected.id;
-            if (Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().limitToOneInstance) {
-                for (let child in this.props.boxes) {
-                    if (!isSortableBox(child) && this.props.boxes[child].parent === SelectedNav && this.props.toolbars[child].config.name === event.target.getAttribute("name")) {
-                        this.setState({ alert: alert });
-                        event.stopPropagation();
-                        return;
-                    }
-                }
-            }
             let position = {
                 x: randomPositionGenerator(20, 40),
                 y: randomPositionGenerator(20, 40),
                 type: 'absolute',
             };
             let initialParams = {
-                parent: SelectedNav,
-                container: 0,
+                parent: isBoxSelected ? this.props.boxSelected.parent : SelectedNav,
+                container: isBoxSelected ? this.props.boxSelected.container : 0,
                 position: position,
             };
-            Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+            config.callback(initialParams, ADD_BOX);
             event.stopPropagation();
         } else {
             let parentBox = cvdoc ? this.props.containedViewSelected.boxes[0] : this.props.navItemSelected.boxes[0];
-
-            // Check if there is a limit in the number of plugin instances
-            if (isSortableBox(parentBox) && Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().limitToOneInstance) {
-                for (let child in this.props.boxes) {
-
-                    if (!isSortableBox(child) && this.props.boxes[child].parent === parentBox && this.props.toolbars[child].config.name === event.target.getAttribute("name")) {
-
-                        this.setState({ alert: alert });
-                        event.stopPropagation();
-                        return;
-                    }
-                }
-            }
             let initialParams = {
-                parent: parentBox,
-                container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
+                parent: isBoxSelected ? this.props.boxSelected.parent : parentBox,
+                container: isBoxSelected ? this.props.boxSelected.container : (ID_PREFIX_SORTABLE_CONTAINER + Date.now()), col: 0, row: 0,
             };
-            Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+
+            config.callback(initialParams, ADD_BOX);
             event.stopPropagation();
+            event.preventDefault();
         }
 
     }
@@ -296,8 +293,6 @@ function changeOverflow(bool) {
     document.getElementById('insideribbon').style.overflowY = bool ? 'visible' : 'hidden';
     document.getElementById('ribbonList').style.overflowY = bool ? 'visible' : 'hidden';
     document.getElementById('ribbonRow').style.overflowY = bool ? 'visible' : 'hidden';
-    document.getElementById('canvas').style.zIndex = bool ? '-1' : '0';
-    document.getElementById('containedCanvas').style.zIndex = bool ? '-1' : '0';
 }
 
 PluginRibbon.propTypes = {

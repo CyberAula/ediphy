@@ -23,8 +23,15 @@
     border-radius: 0;
     right: 0;
     left: auto;
-    .disabled .dropdownButton {
-      color: #aaa;
+    li > a {
+      padding: 0;
+    }
+    .dropdownButton {
+      padding: 7px 16px;
+      &[disabled] {
+        color: $lightgrey;
+        cursor: not-allowed;
+      }
     }
   }
 }
@@ -228,7 +235,7 @@ button[disabled].navButton {
   height: auto;
   font-size: 12px;
   padding: 3px 12px;
-  color: $grismedio;
+  color: $lightgrey;
   &:hover {
     color: white;
   }

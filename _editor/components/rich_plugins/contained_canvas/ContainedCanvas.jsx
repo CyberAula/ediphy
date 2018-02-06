@@ -6,7 +6,7 @@ import EditorCanvasDoc from '../../canvas/editor_canvas_doc/EditorCanvasDoc';
 import { isSlide } from '../../../../common/utils';
 
 /**
- * Container component to render contained views
+ * ContainerJS component to render contained views
  *
  */
 export default class ContainedCanvas extends Component {

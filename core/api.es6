@@ -26,6 +26,7 @@ export function api() {
         },
         renderPlugin: function(html, toolbar, config, state, ids, initialParams, reason) {
             if(!reason) {
+                // eslint-disable-next-line no-console
                 console.warn("No reason given");
             }
             Ediphy.API_Private.emit(Ediphy.API_Private.events.render, {
@@ -36,6 +37,7 @@ export function api() {
                 ids: ids,
                 initialParams: initialParams,
                 reason: reason,
+
             });
         },
     };

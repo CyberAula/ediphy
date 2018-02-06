@@ -89,7 +89,7 @@ export const testState = {
                             "colDistribution": [100],
                             "cols": [[100]],
                             "height": "auto",
-                            "key": "",
+                            "key": "sc-1511443052922",
                             "style": {
                                 "borderColor": "#ffffff",
                                 "borderStyle": "solid",
@@ -105,7 +105,7 @@ export const testState = {
                             "colDistribution": [100],
                             "cols": [[100]],
                             "height": "auto",
-                            "key": "",
+                            "key": "sc-1511443052923",
                             "style": {
                                 "borderColor": "#ffffff",
                                 "borderStyle": "solid",

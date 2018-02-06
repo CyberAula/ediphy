@@ -76,7 +76,7 @@ export const markState = {
                             "className": "",
                         },
                         "height": "auto",
-                        "key": "",
+                        "key": "sc-1511258834567",
                         "colDistribution": [100],
                         "cols": [[100]],
                     },

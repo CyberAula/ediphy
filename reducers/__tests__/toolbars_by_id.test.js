@@ -59,11 +59,7 @@ describe('# toolbars_by_id reducer *********************************************
             // expect(toolbars_by_id(state, {})).toEqual(state);
         });
     });
-    describe('handle DUPLICATE_BOX', ()=>{
-        test('If duplicated box', () => {
-            // expect(toolbars_by_id(state, {})).toEqual(state);
-        });
-    });
+
     describe('handle EDIT_RICH_MARK', ()=>{
         test('If rich mark edited', () => {
             // expect(toolbars_by_id(state, {})).toEqual(state);
