@@ -1,6 +1,7 @@
 import Ediphy from './main';
 import ReactDOM from 'react-dom';
 import { isSortableContainer } from '../../common/utils';
+import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 let html2json = require('html2json').html2json;
 
 export default function() {
@@ -12,6 +13,7 @@ export default function() {
         }
 
         if (warn) {
+            // eslint-disable-next-line no-console
             console.warn(warn);
         }
         return value;
@@ -29,11 +31,37 @@ export default function() {
             }
             let key = json.attr['plugin-data-key'];
             if (!key) {
+                // eslint-disable-next-line no-console
                 console.error(json.tag + " has not defined plugin-data-key");
             } else if (state.__pluginContainerIds[key]) {
                 json.attr['plugin-data-id'] = state.__pluginContainerIds[key].id;
                 json.attr['plugin-data-display-name'] = state.__pluginContainerIds[key].name;
                 json.attr['plugin-data-height'] = state.__pluginContainerIds[key].height;
+            }
+        }
+    };
+
+    let assignPluginContainerIdsReact = function(temp) {
+        if (temp.props && temp.props.children) {
+            if(temp.props.children instanceof Array) {
+                for (let i = 0; i < temp.props.children.length; i++) {
+                    assignPluginContainerIdsReact(temp.props.children[i]);
+                }
+            } else {
+                assignPluginContainerIdsReact(temp.props.children);
+            }
+
+        }
+        if (temp.type && temp.type === PluginPlaceholder) {
+            if (!state.__pluginContainerIds) {
+                state.__pluginContainerIds = {};
+            }
+            let key = temp.props['plugin-data-key'];
+            if (!key) {
+            } else if (state.__pluginContainerIds[key]) {
+                temp.props.pluginContainer = state.__pluginContainerIds[key].id;
+                temp.props['plugin-data-display-name'] = state.__pluginContainerIds[key].name;
+                temp.props['plugin-data-height'] = state.__pluginContainerIds[key].height;
             }
         }
     };
@@ -44,16 +72,16 @@ export default function() {
 
             Object.keys(descendant).map(function(idKey) {
                 if (idKey !== 'init' &&
-                idKey !== 'getConfig' &&
-                idKey !== 'getToolbar' &&
-                idKey !== 'getSections' &&
-                idKey !== 'getInitialState' &&
-                idKey !== 'handleToolbar' &&
-                idKey !== 'afterRender' &&
-                idKey !== 'getConfigTemplate' &&
-                idKey !== 'getRenderTemplate' &&
-                idKey !== 'editRichMark' &&
-                idKey !== 'getLocales') {
+                    idKey !== 'getConfig' &&
+                    idKey !== 'getToolbar' &&
+                    idKey !== 'getSections' &&
+                    idKey !== 'getInitialState' &&
+                    idKey !== 'handleToolbar' &&
+                    idKey !== 'afterRender' &&
+                    idKey !== 'getConfigTemplate' &&
+                    idKey !== 'getRenderTemplate' &&
+                    idKey !== 'editRichMark' &&
+                    idKey !== 'getLocales') {
                     plugin[idKey] = descendant[idKey];
                 }
             });
@@ -73,7 +101,7 @@ export default function() {
         },
         getConfig: function() {
             let name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig, needsPointerEventsAllowed,
-                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance, initialWidth, initialHeight, initialWidthSlide, initialHeightSlide;
+                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isComplex, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance, initialWidth, initialHeight, initialWidthSlide, initialHeightSlide;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
                 name = cfg.name;
@@ -82,6 +110,7 @@ export default function() {
                 icon = cfg.icon;
                 iconFromUrl = cfg.iconFromUrl;
                 isRich = cfg.isRich;
+                isComplex = cfg.isComplex;
                 flavor = cfg.flavor;
                 marksType = cfg.marksType;
                 needsConfigModal = cfg.needsConfigModal;
@@ -105,6 +134,7 @@ export default function() {
             icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
             iconFromUrl = defaultFor(iconFromUrl, false);
             isRich = defaultFor(isRich, false);
+            isComplex = defaultFor(isComplex, false);
             marksType = defaultFor(marksType, [{ name: 'value', key: 'value' }]);
             flavor = defaultFor(flavor, 'plain');
             allowFloatingBox = defaultFor(allowFloatingBox, true);
@@ -123,6 +153,7 @@ export default function() {
                 aspectRatioButtonConfig.name = Ediphy.i18n.t("Aspect_ratio");
                 aspectRatioButtonConfig.location = defaultFor(aspectRatioButtonConfig.location, ["main", "z__extra"], "Aspect ratio button location not defined");
                 if (!Array.isArray(aspectRatioButtonConfig.location) || aspectRatioButtonConfig.location.length < 2 || aspectRatioButtonConfig.location.length > 3) {
+                    // eslint-disable-next-line no-console
                     console.error("Aspect ratio button location malformed");
                 }
                 aspectRatioButtonConfig.defaultValue = defaultFor(aspectRatioButtonConfig.defaultValue, "unchecked");
@@ -142,7 +173,7 @@ export default function() {
                         state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
                     }
                     if (!descendant.getRenderTemplate) {
-                        descendant.getRenderTemplate = function(stateObj) {
+                        descendant.getRenderTemplate = function(stateObj, props) {
                             return stateObj.__text;
                         };
                     }
@@ -164,6 +195,7 @@ export default function() {
                     }
                 }
                 initialParams = initParams;
+                initialParams.name = descendant.getConfig().name;
                 if (initialParams && Object.keys(initialParams).length !== 0) {
                     let floatingBox = !isSortableContainer(initialParams.container);
                     if (descendant.getConfig().initialWidth) {
@@ -196,6 +228,7 @@ export default function() {
                 icon: icon,
                 iconFromUrl: iconFromUrl,
                 isRich: isRich,
+                isComplex: isComplex,
                 marksType: marksType,
                 flavor: flavor,
                 needsPointerEventsAllowed: needsPointerEventsAllowed,
@@ -206,8 +239,8 @@ export default function() {
                 initialHeight: initialHeight,
             };
         },
-        getRenderTemplate: function(render_state) {
-            return descendant.getRenderTemplate(render_state);
+        getRenderTemplate: function(render_state, props) {
+            return descendant.getRenderTemplate(render_state, props);
         },
         getToolbar: function() {
             let toolbar;
@@ -243,6 +276,7 @@ export default function() {
                         accordions[accordionKey].accordions = accordions2;
                         accordions[accordionKey].order = defaultFor(accordions[accordionKey].order, [], "Property order in accordion '" + accordionKey + "' not found");
                         if (accordions[accordionKey].order.length !== (Object.keys(buttons).length + Object.keys(accordions2).length)) {
+                            // eslint-disable-next-line no-console
                             console.warn("Accordion '%s' in tab '%s' malformed. Order property length differs from expected", accordionKey, tabKey);
                         }
                         for (let accordionKey2 in accordions2) {
@@ -272,6 +306,7 @@ export default function() {
 
             if (!descendant.getConfigTemplate) {
                 if (this.getConfig().needsConfigModal) {
+                    // eslint-disable-next-line no-console
                     console.error(this.getConfig().name + " has not defined getConfigTemplate method");
                 }
             } else {
@@ -299,6 +334,12 @@ export default function() {
         parseRichMarkInput: function(...values) {
             if(descendant.parseRichMarkInput) {
                 return descendant.parseRichMarkInput(...values);
+            }
+            return undefined;
+        },
+        getDefaultMarkValue: function() {
+            if(descendant.getDefaultMarkValue) {
+                return descendant.getDefaultMarkValue();
             }
             return undefined;
         },
@@ -336,16 +377,23 @@ export default function() {
             // UPDATE_NAV_ITEM_EXTRA_FILES
 
             if (!descendant.getRenderTemplate) {
+                // eslint-disable-next-line no-console
                 console.error(this.getConfig().name + " has not defined getRenderTemplate method");
             } else {
 
-                let template = descendant.getRenderTemplate(state);
-                if(template !== null && this.getConfig().flavor !== "react") {
-                    template = html2json(template);
-                    assignPluginContainerIds(template);
+                let template = null;
+                if (this.getConfig().flavor !== "react") {
+                    template = descendant.getRenderTemplate(state, {});
+                    if(template !== null) {
+                        template = html2json(template);
+                        assignPluginContainerIds(template);
+                    }
                 } else{
-                    template = '';
+                    template = descendant.getRenderTemplate(state, {});
+                    assignPluginContainerIdsReact(template);
+
                 }
+
                 if (template !== null) {
                     Ediphy.API.renderPlugin(
                         template,

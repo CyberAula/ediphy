@@ -43,7 +43,10 @@ export default class CKEDitorComponent extends Component {
             for (let key in toolbar.config.extraTextConfig) {
                 CKEDITOR.config[key] += toolbar.config.extraTextConfig[key] + ",";
             }
-            let editor = CKEDITOR.inline(this.refs.textarea);
+            // TODO Scale text
+            let editor = CKEDITOR.inline(this.refs.textarea /* , {
+                fontSize_sizes: '1/1vh;2/2vh;3/3vh;4/4vh;5/5vh;6/6vh;'
+            }*/);
             if (toolbar.state.__text) {
                 editor.setData(decodeURI(toolbar.state.__text));
             }
@@ -64,6 +67,22 @@ export default class CKEDitorComponent extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (this.props.toolbars[this.props.id].showTextEditor && prevProps.toolbars[prevProps.id] && !prevProps.toolbars[prevProps.id].showTextEditor) {
             this.refs.textarea.focus();
+
+            /* TODO Scale text
+            // buildPreview() is called every time "size" dropdowm is opened
+            CKEDITOR.style.prototype.buildPreviewOriginal = CKEDITOR.style.prototype.buildPreview;
+            CKEDITOR.style.prototype.buildPreview = function (label) {
+                var result = this.buildPreviewOriginal (label);
+                var match = /^(.*)font-size:(\d+)vh(.*)$/.exec (result);
+                if (match) {
+                    // apparently ckeditor uses iframe or something that breaks vh units
+                    // we shall use current window height to convert vh to px here
+                    var pixels = Math.round (0.01 * window.innerHeight * parseInt (match[2]));
+                    result = match[1] + 'font-size:' + pixels + 'px' + match[3];
+                }
+                return result;
+            };
+            */
         }
         window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
 

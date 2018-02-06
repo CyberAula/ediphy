@@ -628,7 +628,6 @@ export default {
         return formatted;
     },
     objCreator: function(navsIds, sections, doc) {
-        console.log(sections);
         let objectives = doc.createElement("imsss:objectives");
         let primaryObjective = doc.createElement("imsss:primaryObjective");
         primaryObjective.setAttribute("objectiveID", "PRIMARYOBJ");

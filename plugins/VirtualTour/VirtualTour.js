@@ -29,7 +29,7 @@ export function VirtualTour(base) {
                     key: 'value',
                     format: '[Lat,Lng]',
                     default: '40.452,-3.727',
-                    defaultColor: '#222222',
+                    defaultColor: '#000002',
                 }],
                 needsPointerEventsAllowed: true,
                 limitToOneInstance: true,
@@ -111,8 +111,7 @@ export function VirtualTour(base) {
                 num: window.mapList.length,
             };
         },
-        getRenderTemplate: function(state) {
-
+        getRenderTemplate: function(state, props) {
             let id = "map-" + Date.now();
             let marks = state.__marks;
             if (!window.google || !navigator.onLine) {
@@ -125,7 +124,7 @@ export function VirtualTour(base) {
             }
 
             let Mark = ({ idKey, title, color }) => (
-                <MarkEditor time={1.5} mark={idKey} base={base} state={state}>
+                <MarkEditor time={1.5} mark={idKey} base={base} onRichMarkUpdated={props.onRichMarkUpdated} state={state}>
                     <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
                         <a className="mapMarker" href="#">
                             <i style={{ color: color }} key="i" className="material-icons">room</i>
@@ -154,6 +153,7 @@ export function VirtualTour(base) {
                     <Map placeholder={i18n.t("VirtualTour.Search")}
                         state={state}
                         id={id}
+                        key={id}
                         searchBox
                         update={(lat, lng, zoom, render)=>{
                             base.setState('config', { lat: lat, lng: lng, zoom: zoom });
@@ -164,6 +164,10 @@ export function VirtualTour(base) {
         },
         handleToolbar: function(name, value) {
             base.setState(name, value);
+        },
+        getDefaultMarkValue() {
+            let cfg = base.getState().config;
+            return Math.round(cfg.lat * 100000) / 100000 + ',' + Math.round(cfg.lng * 100000) / 100000;
         },
         parseRichMarkInput: function(...value) {
             let state = value[5];

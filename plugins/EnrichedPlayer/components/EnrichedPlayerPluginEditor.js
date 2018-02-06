@@ -84,7 +84,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
             let color = marks[id].color;
 
             return(
-                <MarkEditor key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} state={this.props.state} base={this.props.base}>
+                <MarkEditor key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} onRichMarkUpdated={this.props.props.onRichMarkUpdated} state={this.props.state} base={this.props.base}>
                     <a key={id} href="#">
                         <div style={{ width: "4px", height: "8px", background: color || "#17CFC8" }}>
                             <OverlayTrigger key={id} text={title} placement="top" overlay={<Tooltip id={id}>{title}</Tooltip>}>
@@ -113,13 +113,13 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                     onDuration={duration => this.setState({ duration })}
                 />
                 {(this.state.controls) && (
-                    <div className="player-media-controls" style={{ pointerEvents: 'all' }}>
+                    <div className="player-media-controls" style={{ pointerEvents: 'none' }}>
                         <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
-                        <div className="progress-player-input dropableRichZone" style={{ height: "10px", position: "relative" }}
+                        <div className="progress-player-input dropableRichZone" style={{ height: "15px", position: "relative" }}
                             // value={this.state.played}
-                            onMouseDown={this.onSeekMouseDown.bind(this)}
-                            onChange={this.onSeekChange.bind(this)}
-                            onMouseUp={this.onSeekMouseUp.bind(this)}
+                            // onMouseDown={this.onSeekMouseDown.bind(this)}
+                            // onChange={this.onSeekChange.bind(this)}
+                            // onMouseUp={this.onSeekMouseUp.bind(this)}
                         >
                             <div className="fakeProgress" />
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />

@@ -37,8 +37,9 @@ export default {
         'VirtualTour',
         'Webpage',
         'HotspotImages',
+        // 'ContainerReact',
+        // 'ContainerJS',
         'GraficaD3',
-
     ],
     availableLanguages: [
         'en',

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 import i18n from 'i18next';
-import { isSortableBox, isCanvasElement, isContainedView } from '../../../../common/utils';
+import { isSortableBox, isBox, isCanvasElement, isContainedView } from '../../../../common/utils';
 
 /**
  *  Contained View mark information
@@ -33,6 +33,10 @@ export default class CVInfo extends Component {
                 if (isSortableBox(el.parent)) {
                     let origin = this.props.boxes[el.parent].parent;
                     from = isContainedView(origin) ? this.props.containedViews[origin].name : this.props.navItems[origin].name;
+                } else if (isBox(el.parent)) {
+                    let origin = this.props.boxes[this.props.boxes[el.parent].parent].parent;
+                    from = isContainedView(origin) ? this.props.containedViews[origin].name : this.props.navItems[origin].name;
+
                 } else if (isCanvasElement(el.parent)) {
                     from = isContainedView(el.parent) ? this.props.containedViews[el.parent].name : this.props.navItems[el.parent].name;
                 } else {

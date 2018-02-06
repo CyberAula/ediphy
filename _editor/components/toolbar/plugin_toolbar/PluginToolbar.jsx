@@ -748,6 +748,8 @@ export default class PluginToolbar extends Component {
                         reader.readAsDataURL(file);
                         return;
                     }
+                    return;
+
                 }
 
                 if (button.type === 'background_picker') {
@@ -769,30 +771,33 @@ export default class PluginToolbar extends Component {
                     if(e.currentTarget && e.currentTarget.type === "button") {
                         value = { background: e.currentTarget.value, attr: 'full' };
                     }
-
-                    if (e.target && e.target.files && e.target.files.length === 1) {
-                        let file = e.target.files[0];
-                        let reader = new FileReader();
-                        reader.onload = () => {
-                            let img = new Image();
-                            let data = reader.result;
-                            img.onload = () => {
-                                let canvas = document.createElement('canvas');
-                                let ctx = canvas.getContext('2d');
-                                ctx.drawImage(img, 0, 0, 1200, 1200);
-                                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, { background: data, attr: 'full' });
-                                if (!button.autoManaged) {
-                                    if (!button.callback) {
-                                        this.handlecanvasToolbar(button.__name, { background: data, attr: 'full' });
-                                    } else {
-                                        button.callback(state, buttonKey, data, id, UPDATE_TOOLBAR);
+                    if (e.target && e.target.files) {
+                        if(e.target.files.length === 1) {
+                            let file = e.target.files[0];
+                            let reader = new FileReader();
+                            reader.onload = () => {
+                                let img = new Image();
+                                let data = reader.result;
+                                img.onload = () => {
+                                    let canvas = document.createElement('canvas');
+                                    let ctx = canvas.getContext('2d');
+                                    ctx.drawImage(img, 0, 0, 1200, 1200);
+                                    this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, { background: data, attr: 'full' });
+                                    if (!button.autoManaged) {
+                                        if (!button.callback) {
+                                            this.handlecanvasToolbar(button.__name, { background: data, attr: 'full' });
+                                        } else {
+                                            button.callback(state, buttonKey, data, id, UPDATE_TOOLBAR);
+                                        }
                                     }
-                                }
+                                };
+                                img.src = data;
                             };
-                            img.src = data;
-                        };
-                        reader.readAsDataURL(file);
+                            reader.readAsDataURL(file);
+                            return;
+                        }
                         return;
+
                     }
                 }
 

@@ -25,39 +25,45 @@ export default class PluginsMenu extends Component {
      * @returns {code}
      */
     render() {
+        let categories = [
+            {
+                name: 'image',
+                displayName: i18n.t("Images"),
+                icon: 'image',
+            },
+            {
+                name: 'text',
+                displayName: i18n.t("Text"),
+                icon: 'text_fields',
+            },
+            {
+                name: 'multimedia',
+                displayName: i18n.t("Multimedia"),
+                icon: 'play_circle_outline',
+            },
+            {
+                name: 'objects',
+                displayName: i18n.t("Objects"),
+                icon: 'unarchive',
+            },
+            /* {
+                name: 'evaluation',
+                displayName: i18n.t("Evaluation"),
+                icon: 'school',
+            },*/
+
+        ];
         return (
             <div className="pluginsMenu" onClick={()=> this.openPlugin("")}>
-                <button
-                    className={ this.props.hideTab === 'show' && this.props.category === 'image' ? 'navButtonPlug active' : 'navButtonPlug' }
-                    title={i18n.t("Images")} disabled={false /* disablePlugins*/}
-                    onClick={(e) => { this.props.category === 'image' ? this.openPlugin('') : this.openPlugin('image'); e.stopPropagation();}}>
-                    <i className="material-icons showonresize">image</i><span className="hideonresize"> {i18n.t("Images")}</span>
-                </button>
-                <button
-                    className={ this.props.hideTab === 'show' && this.props.category === 'text' ? 'navButtonPlug active' : 'navButtonPlug' }
-                    title={i18n.t("Text")} disabled={false /* disablePlugins*/}
-                    onClick={(e) => { this.props.category === 'text' ? this.openPlugin('') : this.openPlugin('text'); e.stopPropagation();}}>
-                    <i className="material-icons showonresize">text_fields</i><span className="hideonresize">{i18n.t("Text")}</span>
-                </button>
-                <button
-                    className={ this.props.hideTab === 'show' && this.props.category === 'multimedia' ? 'navButtonPlug active' : 'navButtonPlug' }
-                    title={i18n.t("Multimedia")} disabled={false /* disablePlugins*/}
-                    onClick={(e) => { this.props.category === 'multimedia' ? this.openPlugin('') : this.openPlugin('multimedia'); e.stopPropagation();}}>
-                    <i className="material-icons showonresize">play_circle_outline</i><span className="hideonresize">{i18n.t("Multimedia")}</span>
-                </button>
-                <button
-                    className={ this.props.hideTab === 'show' && this.props.category === 'objects' ? ' navButtonPlug active' : 'navButtonPlug' }
-                    title={i18n.t("Objects")} disabled={false /* disablePlugins*/}
-                    onClick={(e) => { this.props.category === 'objects' ? this.openPlugin('') : this.openPlugin('objects'); e.stopPropagation();}}>
-                    <i className="material-icons showonresize">unarchive</i><span className="hideonresize">{i18n.t("Objects")}</span>
-                </button>
-                <button
-                    className={ this.props.hideTab === 'show' && this.props.category === 'evaluation' ? 'navButtonPlug active' : 'navButtonPlug' }
-                    title={i18n.t("Evaluation")} disabled={false /* disablePlugins*/}
-                    style={{ display: 'none' }}
-                    onClick={(e) => { this.props.category === 'evaluation' ? this.openPlugin('') : this.openPlugin('evaluation'); e.stopPropagation(); }}>
-                    <span className="hideonresize">{i18n.t("Evaluation")}</span>
-                </button>
+                {categories.map((cat, ind)=>{
+                    return (<button key={ind}
+                        className={ this.props.hideTab === 'show' && this.props.category === cat.name ? 'navButtonPlug active' : 'navButtonPlug' }
+                        title={cat.displayName} disabled={false /* disablePlugins*/}
+                        onClick={(e) => { this.props.category === cat.name ? this.openPlugin('') : this.openPlugin(cat.name); e.stopPropagation();}}>
+                        <i className="material-icons showonresize">{cat.icon}</i><span className="hideonresize"> {cat.displayName}</span>
+                    </button>);
+                })}
+
                 <div className="togglePlugins"><i className="material-icons">widgets</i></div>
             </div>
         );

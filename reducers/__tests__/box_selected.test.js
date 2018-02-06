@@ -2,7 +2,7 @@ import helper from './test_helper';
 import reducer from '../box_selected';
 
 import {
-    ADD_BOX, ADD_NAV_ITEM, DELETE_BOX, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX, DELETE_NAV_ITEM, SELECT_BOX,
+    ADD_BOX, ADD_NAV_ITEM, DELETE_BOX, DELETE_SORTABLE_CONTAINER, DELETE_NAV_ITEM, SELECT_BOX,
     SELECT_CONTAINED_VIEW, SELECT_NAV_ITEM, IMPORT_STATE, PASTE_BOX,
 } from '../../common/actions';
 
@@ -76,14 +76,6 @@ describe('# box_selected reducer', () => {
             reducerHelper.call({ type: DELETE_BOX, payload: { id: reducerHelper.getBox(), parent: reducerHelper.getSortableBox(), container: reducerHelper.getContainedView() } });
             reducerHelper.call({ type: DELETE_SORTABLE_CONTAINER });
             expect(reducerHelper.state).toEqual(-1);
-        });
-    });
-
-    describe('handle DUPLICATE_BOX', () => {
-        test('return the new id', () => {
-            let id = reducerHelper.getRandomInt(10000, 100000);
-            reducerHelper.call({ type: DUPLICATE_BOX, payload: { newId: id } });
-            expect(reducerHelper.state).toEqual(reducerHelper.getBox(id));
         });
     });
 

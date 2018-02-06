@@ -28,14 +28,11 @@ export default class NavActionButtons extends Component {
          * Binded function
          */
         this.checkFullScreen = this.checkFullScreen.bind(this);
+        this.getButtons = this.getButtons.bind(this);
     }
 
-    /**
-     * Render React Component
-     * @returns {code}
-     */
-    render() {
-        let buttons = [
+    getButtons() {
+        return [
             {
                 name: 'fullscreen',
                 description: i18n.t('fullscreen'),
@@ -118,6 +115,13 @@ export default class NavActionButtons extends Component {
                 },
             },
         ];
+    }
+    /**
+     * Render React Component
+     * @returns {code}
+     */
+    render() {
+        let buttons = this.getButtons();
 
         return (
             <div className="navButtons">

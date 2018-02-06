@@ -250,12 +250,6 @@ describe('# nav_items_by_id reducer', ()=>{
         });
     });
 
-    // describe('handle DUPLICATE_BOX ***************************** TODO :)', () => {
-    //     test('If duplicated box', () => {
-    //         // expect(nav_items_by_id(state, action)).toEqual(newState);
-    //     });
-    // });
-
     describe('handle EXPAND_NAV_ITEM', () => {
         test('If nav item (SECTION) expanded', () => {
             const action = {

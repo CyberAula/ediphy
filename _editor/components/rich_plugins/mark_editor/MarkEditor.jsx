@@ -158,8 +158,10 @@ export default class MarkEditor extends Component {
         let cursor_x_offset = 12;
         let cursor_y_offset = 20;
         let component = this;
-        overlay.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
-        document.body.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+        // overlay.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+        // document.body.style.cursor =  'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+        // document.getElementsByClassName('boxSelected')[0].style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+
         let base = this.props.base;
         let toolbarState = this.props.state;
         let parseRichMarkInput = base.parseRichMarkInput;
@@ -230,7 +232,10 @@ export default class MarkEditor extends Component {
             let boxParent = findParentBySelector(myself, '.wholebox');
             if (boxParent) {
                 let boxId = findParentBySelector(myself, '.wholebox').id.replace("box-", "");
-                base.editRichMark(boxId, id, value);
+                // base.editRichMark(boxId, id, value);
+                let newState = JSON.parse(JSON.stringify(base.getState()));
+                newState.__marks = marks;
+                component.props.onRichMarkUpdated(boxId, newState, id);
                 // base.setState('__marks', marks);
                 // base.render('EDIT_RICH_MARK');
             }

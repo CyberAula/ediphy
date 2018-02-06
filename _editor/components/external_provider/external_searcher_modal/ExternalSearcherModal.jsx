@@ -105,9 +105,8 @@ export default class ExternalSearcherModal extends Component {
                                         return (
                                             <img key={index}
                                                 src={item.file_url}
+                                                className={'catalogImage'}
                                                 style={{
-                                                    width: 160,
-                                                    height: 160,
                                                     border: border,
                                                 }}
                                                 onClick={e => {
@@ -123,7 +122,7 @@ export default class ExternalSearcherModal extends Component {
                             ) :
                             (
                                 <FormGroup>
-                                    <ControlLabel>{this.props.isBusy.msg}</ControlLabel>
+                                    <ControlLabel>{process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' ? this.props.isBusy.msg : ''}</ControlLabel>
                                 </FormGroup>
                             )
                         }
