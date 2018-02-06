@@ -529,8 +529,12 @@ class EditorApp extends Component {
                     }
                     let boxCreated = document.getElementById('box-' + e.detail.ids.id);
                     if (boxCreated) {
+                        if (/chrome/i.test(navigator.userAgent)) {
+                            boxCreated.scrollIntoViewIfNeeded();
+                        }
                         boxCreated.scrollIntoView();
                     }
+
                 },
                 0.00000001);
 
