@@ -222,7 +222,7 @@ let components = {
         "hidden": "Indicador de si el elemento está marcado como privado (aparece tachado y no se muestra en el visor)",
         "onNameChanged": "Cambia el título del elemento seleccionado",
     },
-    "CarrouselList": {
+    "CarouselList": {
         "containedViews": "Diccionario que contiene todas las vistas contenidas, accesibles por su *id*",
         "containedViewSelected": "Vista contenida seleccionada, identificada por su *id*",
         "boxes": "Diccionario que contiene todas las cajas creadas, accesibles por su *id*",

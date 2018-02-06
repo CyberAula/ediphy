@@ -13,35 +13,6 @@
     }
 }
 
-/*Título del componente*/
-.carouselListTitle {
-    cursor: pointer;
-    color: $grisclaro;
-    *{
-        @include animacion(all, 0.2s);
-    }
-    &:hover {
-        color: #fff !important;
-    }
-    .toolbarTitle{
-        .material-icons:hover{
-            @include rotate(180);
-        }
-    }
-    .material-icons{
-        padding: 10px;
-        &:hover{@include scale(1.2);}
-
-    }
-    .btnToggleCarousel{
-        background-color: transparent;
-        border: none;
-        &:hover{
-            @include scale(1.2);
-        }
-    }
-}
-
 /*Section*/
 .expandir {
     color: grey;
@@ -61,23 +32,6 @@
     border: 4px solid $brand_orange;
     min-height: 28px;
     width: 100%;
-}
-
-/*Overriding bootstrap*/
-.editorCarousel {
-    h3, h4 {
-        &:hover {
-            cursor: pointer;
-        }
-    }
-    .open > .dropdown-toggle.btn-default {
-        color: white !important;
-    }
-    .btn-default, .open > .dropdown-toggle.btn-default {
-        &:focus {
-            color: white !important;
-        }
-    }
 }
 
 .expand-element{
@@ -165,7 +119,7 @@
             float: right;
             padding: 4px;
         }
-        .carrouselButton {
+        .carouselButton {
             .material-icons {
                 font-size: 1em;
             }
@@ -180,62 +134,9 @@
     }
 }
 
-/*bottomLine*/
-.bottomLine {
-    width: 100%;
-    border-top: 1px solid #555;
-}
-
-/*bottomGroup*/
-.bottomGroup {
-    width: 212px;
-    position: fixed;
-    bottom: 0;
-    .material-icons {
-        padding: 8px;
-    }
-}
-
 /*Icon for files*/
 .fileIcon {
     padding: 0 8px 4px 8px;
-}
-
-/*Collapsed Carrousel*/
-.indiceoculto {
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-
-/*Hide Sections when collapsed*/
-.carouseloculto {
-    width: 0;
-}
-
-/*Show Sections when collapsed*/
-.carouselshow {
-    width: 100%;
-}
-
-/*Buttons that act upon navItems*/
-.carrouselButton {
-    border: 0;
-    padding: 2px;
-    font-size: 20px;
-    color: $grismedio;
-    min-width: 20%;
-    border-radius: 0;
-    background-color: transparent !important;;
-    float: none;
-    &:hover, &:active {
-        box-shadow: none !important;
-        -moz-box-shadow: none !important;
-        -webkit-box-shadow: none !important;
-        outline: none;
-        color: white !important;
-        background-color: transparent !important;
-    }
 }
 
 /*Dropup*/
