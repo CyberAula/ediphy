@@ -159,22 +159,27 @@ export default class ImportFile extends Component {
     }
 
     AddAsNavItem(hasCustomSize) {
-        // TODO: refactor -> create new action
+        let navs = [];
         for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
             let canvas = document.getElementById('can' + i);
             let dataURL = canvas.toDataURL("image/jpeg", 1.0);
-            let newId = ID_PREFIX_PAGE + Date.now();
+            let newId = ID_PREFIX_PAGE + Date.now() + "_" + i;
             let customSize = hasCustomSize ? { width: canvas.width, height: canvas.height } : 0;
-            this.props.onNavItemAdded(
-                newId,
-                "Página " + i + " PDF",
-                0,
-                PAGE_TYPES.SLIDE,
-                this.props.navItemsIds.length,
-                { background: dataURL, attr: 'centered' },
-                customSize
-            );
-            this.props.onIndexSelected(newId);
+            let nav = {
+                id: newId,
+                name: "Página " + i + " PDF",
+                parent: 0,
+                type: PAGE_TYPES.SLIDE,
+                position: this.props.navItemsIds.length + navs.length,
+                background: { background: dataURL, attr: 'centered' },
+                customSize,
+            };
+            navs.push(nav);
+
+        }
+        this.props.onNavItemsAdded(navs, 0);
+        if (navs.length > 0) {
+            // this.props.onIndexSelected( navs[navs.length-1].id );
         }
     }
 

@@ -37,11 +37,11 @@ export default class CarouselList extends Component {
         if(!this.state.showSortableItems && !this.state.showContainedViews) {
             return("50px");
         } else if(this.state.showSortableItems && !this.state.showContainedViews) {
-            return "calc(100% - 118px)";
+            return "calc(100% - 124px)";
         } else if(this.state.showSortableItems && this.state.showContainedViews) {
             return "calc(50%)";
         }
-        return "calc(100% - 118px)";
+        return "calc(100% - 124px)";
 
     }
 

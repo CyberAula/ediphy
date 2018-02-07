@@ -189,7 +189,7 @@ export default class CarrouselList extends Component {
                                     i18n.t("section"),
                                     this.getParent().id,
                                     PAGE_TYPES.SECTION,
-                                    this.calculatePosition()
+                                    this.calculatePosition(),
                                 );
                                 if(Ediphy.Config.sections_have_content) {
                                     this.props.onBoxAdded({
@@ -243,24 +243,13 @@ export default class CarrouselList extends Component {
                                     PAGE_TYPES.SLIDE,
                                     this.calculatePosition(),
                                     "rgb(255,255,255)",
-                                    0
+                                    0,
+                                    true
                                 );
                                 this.props.onIndexSelected(newId);
                             }}><i className="material-icons">slideshow</i>
                         </Button>
                     </OverlayTrigger>
-                    {/*
-                     <OverlayTrigger placement="top" overlay={
-                     <Tooltip  id="hideNavItemTooltip">{i18n.t('display')}
-                     </Tooltip>}>
-                     <Button className="carrouselButton">
-                     <i className="material-icons"
-                     onClick={e => {
-                     this.props.onNavItemToggled(this.props.navItemSelected);
-                     }}>{this.props.navItems[this.props.navItemSelected].hidden ? "visibility_off" : "visibility"}</i>
-                     </Button>
-                     </OverlayTrigger>
-                     */}
                     <Overlay rootClose
                         show={this.state.show}
                         placement='top'

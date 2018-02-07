@@ -73,6 +73,7 @@ export default class EditorNavBar extends Component {
                     close={this.toggleGlobalConfig} />
                 <ImportFile navItemSelected={this.props.navItemSelected}
                     onNavItemAdded={this.props.onNavItemAdded}
+                    onNavItemsAdded={this.props.onNavItemsAdded}
                     onIndexSelected={this.props.onIndexSelected}
                     onToolbarUpdated={this.props.onToolbarUpdated}
                     navItemsIds={this.props.navItemsIds}
