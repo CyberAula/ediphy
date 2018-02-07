@@ -16,25 +16,23 @@ export default class EditorHeader extends Component {
      */
     render() {
         if (this.props.navItem || this.props.containedView) {
-            let titles = this.props.titles || [];
             let navItem = this.props.containedView !== 0 ? this.props.containedView : this.props.navItem;
-            let currentStatus = (navItem.header) ? navItem.header.display : undefined;
-            let docTitle = navItem.name;
-            let subTitle = i18n.t('subtitle');
-            let pagenumber = this.props.navItem.unitNumber;
-
+            let toolbar = (this.props.viewToolbars[navItem.id]) ? this.props.viewToolbars[navItem.id] : undefined;
+            let docTitle = "";
+            let subTitle = "";
+            let pagenumber = "";
             if (navItem !== undefined && navItem.id !== 0 && navItem.header) {
-                docTitle = navItem.header.elementContent.documentTitle !== "" && (navItem.header.elementContent.documentTitle !== navItem.name) ? navItem.header.elementContent.documentTitle : navItem.name;
-                subTitle = navItem.header.elementContent.documentSubTitle !== "" && (navItem.header.elementContent.documentSubTitle !== i18n.t('subtitle')) ? navItem.header.elementContent.documentSubTitle : i18n.t('subtitle');
-                pagenumber = navItem.header.elementContent.numPage !== "" && (navItem.header.elementContent.numPage !== navItem.unitNumber) ? navItem.header.elementContent.numPage : navItem.unitNumber;
+                docTitle = toolbar.documentTitle !== "" && (toolbar.documentTitle !== navItem.name) ? toolbar.documentTitle : navItem.name;
+                subTitle = toolbar.documentSubTitle !== "" && (toolbar.documentSubTitle !== i18n.t('subtitle')) ? toolbar.documentSubTitle : i18n.t('subtitle');
+                pagenumber = toolbar.numPage !== "" ? toolbar.numPage : "";
             }
 
             let content;
             let unidad = "";
             // breadcrumb
             if (this.props.containedView === 0) {
-                if (currentStatus !== undefined) {
-                    if (currentStatus.breadcrumb === 'reduced') {
+                if (toolbar !== undefined) {
+                    if (toolbar.breadcrumb === 'reduced') {
                         let titleList = this.props.titles;
 
                         let actualTitle = titleList[titleList.length - 1];
@@ -50,7 +48,7 @@ export default class EditorHeader extends Component {
                             )
                         );
 
-                    } else if (currentStatus.breadcrumb === 'expanded') {
+                    } else if (toolbar.breadcrumb === 'expanded') {
                         let titlesComponents = "";
                         let titles_length = this.props.titles.length;
                         content = React.createElement("div", { className: "subheader" },
@@ -73,8 +71,8 @@ export default class EditorHeader extends Component {
             }
             if (navItem.id !== 0) {
                 let hide = true;
-                for (let i in currentStatus) {
-                    if (currentStatus[i] !== 'hidden') {
+                for (let i in toolbar) {
+                    if (toolbar[i] !== 'hidden') {
                         hide = false;
                         break;
                     }
@@ -87,23 +85,23 @@ export default class EditorHeader extends Component {
                     }}>
                         <div style={{
                             backgroundColor: 'transparent',
-                            display: (!hide && titles.length !== 0) ? 'initial' : 'none',
+                            display: (!hide && this.props.titles.length !== 0) ? 'initial' : 'none',
                         }}>
                             {/* <div className={this.props.showButtons ? "caja selectedTitle selectedBox" : "caja"} > */}
                             <div className={"caja"}>
                                 <div className="cab">
 
                                     <div className="cabtabla_numero"
-                                        style={{ display: (currentStatus.pageNumber === 'hidden') ? 'none' : 'block' }}
+                                        style={{ display: (toolbar.pageNumber === 'hidden') ? 'none' : 'block' }}
                                     >{pagenumber}</div>
 
                                     <div className="tit_ud_cap">
                                         {/* Course title*/}
                                         <h1
-                                            style={{ display: (currentStatus.courseTitle === 'hidden') ? 'none' : 'block' }}>{this.props.courseTitle}</h1>
+                                            style={{ display: (toolbar.courseTitle === 'hidden') ? 'none' : 'block' }}>{this.props.courseTitle}</h1>
                                         {/* NavItem title */}
                                         <h2
-                                            style={{ display: (currentStatus.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}{this.props.containedView !== 0 ? (
+                                            style={{ display: (toolbar.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}{this.props.containedView !== 0 ? (
                                                 <CVInfo containedViews={this.props.containedViews}
                                                     navItems={this.props.navItems}
                                                     containedView={this.props.containedView}
@@ -111,11 +109,11 @@ export default class EditorHeader extends Component {
                                                     boxes={this.props.boxes}/>) : null}</h2>
                                         {/* NavItem subtitle */}
                                         <h3
-                                            style={{ display: (currentStatus.documentSubTitle === 'hidden') ? 'none' : 'block' }}>{subTitle}</h3>
+                                            style={{ display: (toolbar.documentSubTitle === 'hidden') ? 'none' : 'block' }}>{subTitle}</h3>
 
                                         {/* breadcrumb */}
                                         <div className="contenido"
-                                            style={{ display: (currentStatus.breadcrumb === 'hidden') ? 'none' : 'block' }}>
+                                            style={{ display: (toolbar.breadcrumb === 'hidden') ? 'none' : 'block' }}>
                                             {content}
                                         </div>
                                     </div>

@@ -25,7 +25,7 @@ export default class EditorCanvasDoc extends Component {
             if (!this.props.fromCV) {
                 let parent = itemSelected.parent;
                 while (parent !== 0) {
-                    titles.push(this.props.navItems[parent].name);
+                    titles.push(this.props.viewToolbars[parent].displayableTitle);
                     parent = this.props.navItems[parent].parent;
                 }
             }

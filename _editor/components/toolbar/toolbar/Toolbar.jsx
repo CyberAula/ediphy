@@ -12,6 +12,7 @@ export default class Toolbar extends Component {
      */
     constructor(props) {
         super(props);
+
         /**
          * Component's initial state
          * @type {{open: boolean}}
@@ -26,10 +27,10 @@ export default class Toolbar extends Component {
             (this.props.boxSelected === -1 && isCanvasElement(this.props.navItemSelected, Ediphy.Config.sections_have_content)) ?
                 <ViewToolbar {...this.props}
                     open={this.state.open}
-                    toggleToolbar={this.toggleToolbar()}/> :
+                    toggleToolbar={()=>this.toggleToolbar()}/> :
                 <PluginToolbar {...this.props}
                     open={this.state.open}
-                    toggleToolbar={this.toggleToolbar()}
+                    toggleToolbar={()=>this.toggleToolbar()}
                 />
         );
     }

@@ -102,6 +102,8 @@ export const testState = { present:
             viewToolbarsById: {
                 "pa-1511252955865": {
                     id: "pa-1511252955865",
+                    hidden: false,
+                    viewName: i18n.t('Section'),
                     breadcrumb: 'reduced',
                     displayableTitle: "Documento",
                     courseTitle: 'hidden',
@@ -109,10 +111,13 @@ export const testState = { present:
                     documentSubtitleContent: '',
                     documentTitle: 'expanded',
                     documentTitleContent: '',
-                    numPage: '',
+                    numPage: 'hidden',
+                    numPageContent: '',
                 },
                 'cv-1511252975055': {
                     id: "cv-1511252975055",
+                    hidden: false,
+                    viewName: i18n.t('Section'),
                     breadcrumb: 'reduced',
                     displayableTitle: "Documento: vita contenida",
                     courseTitle: 'hidden',
@@ -120,7 +125,8 @@ export const testState = { present:
                     pageSubtitleContent: '',
                     pageTitle: 'expanded',
                     pageTitleContent: '',
-                    numPage: '',
+                    numPage: 'hidden',
+                    numPageContent: '',
                 },
             },
             pluginToolbarsById: {
