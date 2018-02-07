@@ -112,6 +112,7 @@ class EditorApp extends Component {
                         navItemsIds={navItemsIds}
                         navItems={navItems}
                         onTitleChanged={(id, titleStr) => {this.dispatchAndSetState(changeGlobalConfig('title', titleStr));}}
+                        containedViews={containedViews}
                         containedViewSelected={containedViewSelected}
                         navItemSelected={navItemSelected}
                         boxSelected={boxSelected}

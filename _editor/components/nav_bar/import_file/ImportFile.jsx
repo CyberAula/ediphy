@@ -5,7 +5,7 @@ import i18n from 'i18next';
 import FileInput from "../../common/file-input/FileInput";
 import pdflib from 'pdfjs-dist/webpack';
 import { ADD_BOX } from "../../../../common/actions";
-import { isSlide } from "../../../../common/utils";
+import { isContainedView, isSlide } from "../../../../common/utils";
 import { randomPositionGenerator } from "../../clipboard/clipboard.utils";
 import { ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from "../../../../common/constants";
 import Ediphy from "../../../../core/editor/main";
@@ -190,26 +190,30 @@ export default class ImportFile extends Component {
 
     AddPlugins() {
         // insert image plugins
+        let cvSli = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected) && isSlide(this.props.containedViews[this.props.containedViewSelected].type);
+        let cvDoc = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected) && !isSlide(this.props.containedViews[this.props.containedViewSelected].type);
+        let inASlide = isSlide(this.props.navItemSelected.type) || cvSli;
+
         for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
             let canvas = document.getElementById('can' + i);
             let dataURL = canvas.toDataURL("image/jpeg", 1.0);
             let initialParams;
             // If slide
-            if (isSlide(this.props.navItems[this.props.navItemSelected].type)) {
+            if (inASlide) {
                 let position = {
                     x: randomPositionGenerator(20, 40),
                     y: randomPositionGenerator(20, 40),
                     type: 'absolute',
                 };
                 initialParams = {
-                    parent: this.props.navItemSelected,
+                    parent: cvSli ? this.props.containedViewSelected : this.props.navItemSelected,
                     container: 0,
                     position: position,
                     url: dataURL,
                 };
             } else {
                 initialParams = {
-                    parent: this.props.navItems[this.props.navItemSelected].boxes[0],
+                    parent: cvDoc ? this.props.containedViews[this.props.containedViewSelected].boxes[0] : this.props.navItems[this.props.navItemSelected].boxes[0],
                     container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
                     url: dataURL,
                 };

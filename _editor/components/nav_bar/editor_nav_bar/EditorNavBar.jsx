@@ -77,6 +77,8 @@ export default class EditorNavBar extends Component {
                     onToolbarUpdated={this.props.onToolbarUpdated}
                     navItemsIds={this.props.navItemsIds}
                     navItems={this.props.navItems}
+                    containedViews={this.props.containedViews}
+                    containedViewSelected={this.props.containedViewSelected}
                     show={this.state.showImportFile}
                     close={this.toggleImportFile}/>
 
