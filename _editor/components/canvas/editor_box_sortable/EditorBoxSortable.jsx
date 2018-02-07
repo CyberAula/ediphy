@@ -137,11 +137,11 @@ export default class EditorBoxSortable extends Component {
 
                             <div className="sortableMenu width100 over_hidden">
                                 <div className="iconsOverBar float_left pos_absolute bottom0">
-                                    <OverlayTrigger placement="top" overlay={
+                                    { box.children.length > 1 ? <OverlayTrigger placement="top" overlay={
                                         <Tooltip id="deleteTooltip">{i18n.t('Reorder')}
                                         </Tooltip>}>
                                         <i className="material-icons drag-handle btnOverBar">swap_vert</i>
-                                    </OverlayTrigger>
+                                    </OverlayTrigger> : null }
 
                                     <Overlay rootClose
                                         show={this.state.show === idContainer}
