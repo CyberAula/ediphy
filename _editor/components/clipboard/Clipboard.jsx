@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Ediphy from '../../../core/editor/main';
 import Alert from '../common/alert/Alert';
-import { isContainedView, isSlide, isBox, isSortableBox, isView } from '../../../common/utils';
+import { isContainedView, isSlide, isBox, isSortableBox, isView, isSortableContainer } from '../../../common/utils';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_RICH_MARK } from '../../../common/constants';
 import { ADD_BOX } from '../../../common/actions';
 import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent } from './clipboard.utils';
@@ -28,6 +28,7 @@ export default class Clipboard extends Component {
         this.duplicateBox = this.duplicateBox.bind(this);
         this.duplicateListener = this.duplicateListener.bind(this);
         this.currentPage = this.currentPage.bind(this);
+        this.getIndex = this.getIndex.bind(this);
     }
 
     /**
@@ -98,14 +99,16 @@ export default class Clipboard extends Component {
         let parent = isTargetSlide ? page.id : page.boxes[0];
 
         let container = isTargetSlide ? 0 : containerId;
-
+        let newInd;
         if (this.props.boxSelected && this.props.boxes[this.props.boxSelected] && isBox(this.props.boxSelected)) {
             parent = this.props.boxes[this.props.boxSelected].parent;
             container = this.props.boxes[this.props.boxSelected].container;
             isTargetSlide = container === 0;
+            newInd = this.getIndex(parent, container);
+
         }
         let ids = { id, parent, container };
-        this.pasteBox(data, ids, isTargetSlide);
+        this.pasteBox(data, ids, isTargetSlide, newInd);
     }
 
     /**
@@ -125,7 +128,7 @@ export default class Clipboard extends Component {
     /**
      * Pastes box
      */
-    pasteBox(data, ids, isTargetSlide) {
+    pasteBox(data, ids, isTargetSlide, index) {
         let pluginName = data.toolbar.config.name;
         let limitToOneInstance = data.toolbar.config.limitToOneInstance;
         let alertMsg = (msg) => { return (<Alert className="pageModal" key="alert" show hasHeader backdrop={false}
@@ -155,7 +158,7 @@ export default class Clipboard extends Component {
                 transformedChildren[transformedBox.newIds[bid]] = { box: transformedBoxChild.newBox, toolbar: transformedToolbarChild };
             }
         }
-        this.props.onBoxPasted(ids, transformedBox.newBox, transformedToolbar, transformedChildren);
+        this.props.onBoxPasted(ids, transformedBox.newBox, transformedToolbar, transformedChildren, index);
 
     }
 
@@ -196,13 +199,14 @@ export default class Clipboard extends Component {
                 let row = 0;
                 let col = 0;
                 let container = isTargetSlide ? 0 : containerId;
-
+                let newInd;
                 if (this.props.boxSelected && this.props.boxes[this.props.boxSelected] && isBox(this.props.boxSelected)) {
                     parent = this.props.boxes[this.props.boxSelected].parent;
                     container = this.props.boxes[this.props.boxSelected].container;
                     isTargetSlide = container === 0;
                     row = this.props.boxes[this.props.boxSelected].row;
                     col = this.props.boxes[this.props.boxSelected].col;
+                    newInd = this.getIndex(parent, container);
                 }
 
                 let ids = { id, parent, container, row, col };
@@ -214,11 +218,11 @@ export default class Clipboard extends Component {
                         event.preventDefault();
                         event.stopPropagation();
                         // TODO Drag with Ctrl key held
-                        this.pasteBox(data, ids, isTargetSlide);
+                        this.pasteBox(data, ids, isTargetSlide, newInd);
                         // Scroll into pasted element
                         let createdBox = document.getElementById('box-' + ids.id);
                         if (createdBox) {
-                            createdBox.scrollIntoView();
+                            createdBox.scrollIntoView({ behavior: 'smooth' });
                         }
                     } else {
                         // Inside a text box (CKEditor or input)
@@ -235,6 +239,7 @@ export default class Clipboard extends Component {
                         container: container,
                         row: row,
                         col: col,
+                        index: newInd,
                         position: isTargetSlide ? {
                             type: "absolute",
                             x: randomPositionGenerator(20, 40),
@@ -343,6 +348,17 @@ export default class Clipboard extends Component {
         }
         return newToolbar;
 
+    }
+
+    getIndex(parent, container) {
+        let newInd;
+        if(isSortableContainer(container)) {
+            let children = this.props.boxes[parent].sortableContainers[container].children;
+            newInd = children.indexOf(this.props.boxSelected);
+            return newInd < 1 ? 1 : (newInd >= children.length ? (children.length - 1) : newInd);
+
+        }
+        return newInd;
     }
 
     /**

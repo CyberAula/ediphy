@@ -134,29 +134,31 @@ export default class PluginPlaceholder extends Component {
                 e.target.classList.remove("drop-target");
             },
             ondrop: function(e) {
-
+                let clone = document.getElementById('clone');
+                if (clone) {
+                    clone.parentNode.removeChild(clone);
+                }
                 // If element dragged is coming from PluginRibbon, create a new EditorBox
                 let draggingFromRibbon = e.relatedTarget.className.indexOf("rib") !== -1;
                 let name = (draggingFromRibbon) ? e.relatedTarget.getAttribute("name") : this.props.toolbars[this.props.boxSelected].config.name;
-                let parent = this.props.parentBox.id;
+                let parent = forbidden ? this.props.parentBox.parent : this.props.parentBox.id;
+                let container = forbidden ? this.props.parentBox.container : this.idConvert(this.props.pluginContainer);
                 let config = Ediphy.Plugins.get(name).getConfig();
                 let forbidden = isBox(parent) && config.isComplex; // && (parent !== this.props.boxSelected);
+                let newInd = this.getIndex(this.props.boxes, parent, container, e.dragEvent.clientX, e.dragEvent.clientY);
 
+                let initialParams = {
+                    parent: forbidden ? this.props.parentBox.parent : parent,
+                    container: forbidden ? this.props.parentBox.container : container,
+                    col: forbidden ? 0 : extraParams.i,
+                    row: forbidden ? 0 : extraParams.j,
+                    index: newInd,
+                };
                 if (draggingFromRibbon) {
                     if (config.limitToOneInstance && instanceExists(config.name)) {
                         this.setState({ alert: alert(i18n.t('messages.instance_limit')) });
-                        let clone = document.getElementById('clone');
-                        if (clone) {
-                            clone.parentNode.removeChild(clone);
-                        }
                         return;
                     }
-                    let initialParams = {
-                        parent: forbidden ? this.props.parentBox.parent : parent,
-                        container: forbidden ? this.props.parentBox.container : this.idConvert(this.props.pluginContainer),
-                        col: forbidden ? 0 : extraParams.i,
-                        row: forbidden ? 0 : extraParams.j,
-                    };
                     config.callback(initialParams, ADD_BOX);
 
                 } else {
@@ -164,34 +166,13 @@ export default class PluginPlaceholder extends Component {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
                     // If box being dragged is dropped in a different column or row, change its value
                     if (this.props.parentBox.id !== this.props.boxSelected) {
-                        let container = this.idConvert(this.props.pluginContainer);
-                        let initialParams = {
-                            parent: parent,
-                            container: container,
-                            col: extraParams.i,
-                            row: extraParams.j,
-                            position: { type: 'relative', x: 0, y: 0 } };
-                        let clone = document.getElementById('clone');
-                        if(clone) {
-                            clone.parentElement.removeChild(clone);
-                        }
-                        let rc = document.elementFromPoint(e.dragEvent.clientX, e.dragEvent.clientY);
-                        let children = this.props.boxes[parent].sortableContainers[container].children;
-                        let bid = releaseClick(rc, 'box-');
-
-                        let newInd = children.indexOf(bid); // Position where it's being released
-                        newInd = newInd < 1 ? 1 : (newInd >= newInd.length ? (newInd.length - 1) : newInd);
-                        // TODO Establish  position when dragging
-
                         if (!forbidden) {
+                            initialParams.position = { type: 'relative', x: 0, y: 0 };
                             this.props.onBoxDropped(boxDragged.id, initialParams.row, initialParams.col, initialParams.parent,
                                 initialParams.container, boxDragged.parent, boxDragged.container, initialParams.position, newInd);
-
                         }
                         return;
                     }
-                    let clone = document.getElementById('clone');
-                    if (clone) {clone.parentElement.removeChild(clone);}
                 }
 
             }.bind(this),
@@ -222,6 +203,15 @@ export default class PluginPlaceholder extends Component {
             });
     }
 
+    getIndex(boxes, parent, container, x, y) {
+
+        let rc = document.elementFromPoint(x, y);
+        let children = boxes[parent].sortableContainers[container].children;
+        let bid = releaseClick(rc, 'box-');
+        let newInd = children.indexOf(bid); // Position where it's being released
+        newInd = newInd < 1 ? 1 : (newInd >= children.length ? (children.length - 1) : newInd);
+        return newInd;
+    }
     idConvert(id) {
         if (isSortableContainer(id)) {
             return id;

@@ -211,7 +211,7 @@ class EditorApp extends Component {
                                 containedViews={containedViews}
                                 toolbars={toolbars}
                                 onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
-                                onBoxPasted={(ids, box, toolbar, children)=>this.dispatchAndSetState(pasteBox(ids, box, toolbar, children))}
+                                onBoxPasted={(ids, box, toolbar, children, index)=>this.dispatchAndSetState(pasteBox(ids, box, toolbar, children, index))}
                                 onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                                 ribbonHeight={ribbonHeight + 'px'}/>
                         </Row>
@@ -529,7 +529,7 @@ class EditorApp extends Component {
                     }
                     let boxCreated = document.getElementById('box-' + e.detail.ids.id);
                     if (boxCreated) {
-                        boxCreated.scrollIntoView();
+                        boxCreated.scrollIntoView({ behavior: 'smooth' });
                     }
                 },
                 0.00000001);

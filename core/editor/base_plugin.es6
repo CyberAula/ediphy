@@ -412,6 +412,7 @@ export default function() {
                             width: initialParams.width,
                             height: initialParams.height,
                             isDefaultPlugin: defaultFor(initialParams.isDefaultPlugin, false),
+                            index: initialParams.index,
                         },
                         reason
                     );
