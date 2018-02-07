@@ -47,7 +47,7 @@ export default class ImportFile extends Component {
             <Modal className="pageModal" id="ImportFileModal"
                 show={this.props.show}>
                 <Modal.Header>
-                    <Modal.Title><span id="previewTitle">Importar fichero <span className="highlight">{this.state.FileName}</span></span></Modal.Title>
+                    <Modal.Title><span id="previewTitle">{i18n.t("importFile.title")}<span className="highlight">{this.state.FileName}</span></span></Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="gcModalBody" style={{ overFlowY: 'auto' }}>
                     <form>
@@ -57,29 +57,22 @@ export default class ImportFile extends Component {
                             </div>
                         </FileInput>
                         <div className="fileLoaded" style={{ display: this.state.FileLoaded ? 'block' : 'none' }}>
-                            <h2>Vista previa</h2>
-                            {/* <div className="fileUploaded" ><i className="material-icons">insert_drive_file</i><span>{ this.state.FileName || '' }</span></div> */}
+                            <h2>{i18n.t("Preview")}</h2>
                         </div>
                         <Row style={{ display: this.state.FileLoaded ? 'block' : 'none' }}>
                             <Col xs={12} md={6} lg={6}>
                                 <img id='FilePreview' />
-                                {/* <button onClick={ e => {this.PreviewFile(2); }}> */}
-                                {/* <i className="material-icons">arrow_back</i> */}
-                                {/* </button> */}
-                                {/* <button onClick={ e => {this.PreviewFile(3); }}> */}
-                                {/* <i className="material-icons">arrow_forward</i> */}
-                                {/* </button> */}
                             </Col>
                             <Col xs={12} md={6} lg={6}>
                                 <FormGroup>
-                                    <ControlLabel>Páginas</ControlLabel>
+                                    <ControlLabel>{i18n.t("importFile.pages.title")}</ControlLabel>
                                     <Radio name="radioPages" inline onChange={e => {this.setState({ PagesFrom: 1, PagesTo: this.state.FilePages });}}>
-                                        Todas ({ this.state.FilePages })
+                                        {i18n.t("importFile.pages.whole_file")} ({ this.state.FilePages })
                                     </Radio>
                                     <Radio name="radioPages" inline defaultChecked>
                                         <FormGroup >
                                             <InputGroup className="inputGroup">
-                                                <InputGroup.Addon>Desde</InputGroup.Addon>
+                                                <InputGroup.Addon>{i18n.t("importFile.pages.from")}</InputGroup.Addon>
                                                 <FormControl type="number"
                                                     style={{ minWidth: '55px' }}
                                                     value={ this.state.PagesFrom }
@@ -88,7 +81,7 @@ export default class ImportFile extends Component {
                                                     onChange={e => {this.setState({ PagesFrom: e.target.value });}}/>
                                             </InputGroup>
                                             <InputGroup className="inputGroup">
-                                                <InputGroup.Addon>Hasta</InputGroup.Addon>
+                                                <InputGroup.Addon>{i18n.t("importFile.pages.to")}</InputGroup.Addon>
                                                 <FormControl type="number"
                                                     style={{ minWidth: '55px' }}
                                                     value={this.state.PagesTo}
@@ -100,18 +93,15 @@ export default class ImportFile extends Component {
                                     </Radio>
                                 </FormGroup>
                                 <FormGroup>
-                                    <ControlLabel>Importar como</ControlLabel>
-                                    {/* <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'DocBackground' });}}>
-                                        Fondo en documento
-                                        </Radio> */}
+                                    <ControlLabel>{i18n.t("importFile.importAs.title")}</ControlLabel>
                                     <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'SliBackground' });}} >
-                                        Fondo en diapositiva
+                                        {i18n.t("importFile.importAs.slideBackground")}
                                     </Radio>
                                     <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'Image' });}}>
-                                        Imágenes
+                                        {i18n.t("importFile.importAs.images")}
                                     </Radio>
                                     <Radio name="radioImport" inline defaultChecked onChange={e => {this.setState({ ImportAs: 'Custom' });}}>
-                                        Ajustar al tamaño del fichero
+                                        {i18n.t("importFile.importAs.customSize")}
                                     </Radio>
                                 </FormGroup>
                             </Col>
@@ -122,10 +112,10 @@ export default class ImportFile extends Component {
                 <Modal.Footer>
                     <Button bsStyle="default" id="import_file_button" onClick={ e => {
                         this.closeModal(); e.preventDefault();
-                    }}>cancelar</Button>
+                    }}>{i18n.t("importFile.footer.cancel")}</Button>
                     <Button bsStyle="primary" id="cancel_button" onClick={ (e) => {
                         this.ImportFile(e); e.preventDefault();
-                    }}>Aceptar</Button>
+                    }}>{i18n.t("importFile.footer.ok")}</Button>
                 </Modal.Footer>
             </Modal>
         );

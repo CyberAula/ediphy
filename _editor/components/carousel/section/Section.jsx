@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import EditorIndexTitle from '../editor_index_title/EditorIndexTitle';
 import { isPage, isSection, isSlide, calculateNewIdOrder } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
+import iconPDF from './../../../../dist/images/file-pdf.svg';
 
 /**
  * Section element in index
@@ -106,9 +107,9 @@ export default class Section extends Component {
                                         e.stopPropagation();
                                     }}>
                                     <span style={{ marginLeft: 20 * (this.props.navItems[id].level - 1) }}>
-                                        <i className="material-icons fileIcon">
-                                            {isSlide(this.props.navItems[id].type) ? "slideshow" : "insert_drive_file"}
-                                        </i>
+                                        {(this.props.navItems[id].customSize === 0) ?
+                                            <i className="material-icons fileIcon">{isSlide(this.props.navItems[id].type) ? "slideshow" : "insert_drive_file"}</i>
+                                            : <img className="svgIcon" src={iconPDF}/>}
                                         <EditorIndexTitle id={id}
                                             index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id) + 1 + '.'}
                                             title={this.props.navItems[id].name}

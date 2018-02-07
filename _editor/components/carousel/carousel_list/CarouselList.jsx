@@ -5,6 +5,7 @@ import EditorIndexTitle from '../editor_index_title/EditorIndexTitle';
 import { isPage, isSection, isSlide, isContainedView, calculateNewIdOrder } from '../../../../common/utils';
 import i18n from 'i18next';
 import './_carouselList.scss';
+import iconPDF from './../../../../dist/images/file-pdf.svg';
 
 /**
  * Ediphy CarouselList Component
@@ -108,9 +109,9 @@ export default class CarouselList extends Component {
                                         e.stopPropagation();
                                     }}>
                                     <span style={{ marginLeft: 20 * (this.props.navItems[id].level - 1) }}>
-                                        <i className="material-icons fileIcon">
-                                            {isSlide(this.props.navItems[id].type) ? "slideshow" : "insert_drive_file"}
-                                        </i>
+                                        {(this.props.navItems[id].customSize === 0) ?
+                                            <i className="material-icons fileIcon">{isSlide(this.props.navItems[id].type) ? "slideshow" : "insert_drive_file"}</i>
+                                            : <img className="svgIcon" src={iconPDF}/>}
                                         <EditorIndexTitle
                                             id={id}
                                             title={this.props.navItems[id].name}
