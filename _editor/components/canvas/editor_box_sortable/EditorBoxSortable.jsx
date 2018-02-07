@@ -12,7 +12,7 @@ import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 
 import './_editorBoxSortable.scss';
-import { instanceExists, releaseClick } from '../../../../common/common_tools';
+import { instanceExists, releaseClick, findBox } from '../../../../common/common_tools';
 
 /**
  * EditorBoxSortable Component
@@ -357,7 +357,7 @@ export default class EditorBoxSortable extends Component {
                         }
 
                         for (let b in this.props.boxes) {
-                            let dombox = document.getElementById('box-' + b);
+                            let dombox = findBox(b);
                             if (dombox) {
                                 dombox.style.opacity = 1;
                             }

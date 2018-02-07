@@ -89,7 +89,7 @@ export default class GlobalConfig extends Component {
                         bool ? this.saveState() : this.cancel();
                         // Anyway close the alert
                         this.setState({ showAlert: false });
-                        this.props.close();
+                        // this.props.close();
                     }}>
                     {i18n.t("global_config.prompt")}
                 </Alert>
