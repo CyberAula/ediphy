@@ -386,7 +386,7 @@ export default class GlobalConfig extends Component {
                 // a.click();
 
                 document.body.removeChild(clone);
-                this.setState({ thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
+                this.setState({ modifiedState: true, thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
 
             },
             useCORS: true });
@@ -407,7 +407,7 @@ export default class GlobalConfig extends Component {
                 canvas.height = canvas.width * (img.height / img.width);
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                gc.setState({ thumbnail: canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
+                gc.setState({ modifiedState: true, thumbnail: canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
             };
             img.src = data;
         };

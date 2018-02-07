@@ -225,6 +225,7 @@ let es = {
             "publish": "Permite que el curso esté disponible al público",
             "redo": "Rehace la última acción",
             "save_changes": "Guardar cambios",
+            "saving": 'Guardando...',
             "undo": "Deshace la última acción",
             "unpublish": "Hace que el curso deje de estar accesible al público",
         },

@@ -218,6 +218,9 @@ export default class Clipboard extends Component {
                         // Scroll into pasted element
                         let createdBox = document.getElementById('box-' + ids.id);
                         if (createdBox) {
+                            if (/chrome/i.test(navigator.userAgent)) {
+                                createdBox.scrollIntoViewIfNeeded();
+                            }
                             createdBox.scrollIntoView();
                         }
                     } else {

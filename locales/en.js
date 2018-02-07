@@ -227,6 +227,7 @@ let en = {
             "publish": "Makes the course available for the public",
             "redo": "Redo the last action",
             "save_changes": "Save changes",
+            "saving": "Saving...",
             "undo": "Undo the last action",
             "unpublish": "Makes the course unavailable for the public",
         },

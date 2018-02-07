@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'react-bootstrap';
 import GlobalConfig from '../global_config/GlobalConfig';
-import i18n from 'i18next';
-import Ediphy from '../../../../core/editor/main';
 import NavActionButtons from './NavActionButtons.jsx';
 import NavDropdown from './NavDropdown.jsx';
 import PluginsMenu from './PluginsMenu.jsx';
@@ -42,9 +40,6 @@ export default class EditorNavBar extends Component {
      * @returns {code}
      */
     render() {
-        let disablePlugins = (this.props.navItemsIds.length === 0 || (this.props.navItemSelected === 0 && this.props.containedViewSelected === 0));
-        let modalTitle = "";
-        let modalShow = false;
         return (
             <Col id="iconBar">
                 <div className="grad1" />
