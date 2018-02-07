@@ -109,6 +109,7 @@ class EditorApp extends Component {
                         globalConfig={globalConfig}
                         changeGlobalConfig={(prop, value) => {this.dispatchAndSetState(changeGlobalConfig(prop, value));}}
                         onIndexSelected={(id) => this.dispatchAndSetState(selectIndex(id))}
+                        onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                         onNavItemAdded={(id, name, parent, type, position, background, customSize, hasContent) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, background, customSize, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content))))}
                         onNavItemsAdded={(navs, parent)=> this.dispatchAndSetState(addNavItems(navs, parent))}
                         onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}

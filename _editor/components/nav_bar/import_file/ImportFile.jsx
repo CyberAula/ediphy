@@ -163,7 +163,7 @@ export default class ImportFile extends Component {
         for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
             let canvas = document.getElementById('can' + i);
             let dataURL = canvas.toDataURL("image/jpeg", 1.0);
-            let newId = ID_PREFIX_PAGE + Date.now() + "_" + i;
+            let newId = ID_PREFIX_PAGE + Date.now();
             let customSize = hasCustomSize ? { width: canvas.width, height: canvas.height } : 0;
             let nav = {
                 id: newId,
@@ -179,7 +179,8 @@ export default class ImportFile extends Component {
         }
         this.props.onNavItemsAdded(navs, 0);
         if (navs.length > 0) {
-            // this.props.onIndexSelected( navs[navs.length-1].id );
+            this.props.onIndexSelected(navs[navs.length - 1].id);
+            this.props.onNavItemSelected(navs[navs.length - 1].id);
         }
     }
 

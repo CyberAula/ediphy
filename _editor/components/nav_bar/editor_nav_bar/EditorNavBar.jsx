@@ -8,6 +8,7 @@ import PluginsMenu from './PluginsMenu.jsx';
 import './_navBar.scss';
 import screenfull from 'screenfull';
 import ImportFile from "../import_file/ImportFile";
+import { selectNavItem } from "../../../../common/actions";
 
 /**
  * Upper navigation bar component
@@ -75,6 +76,7 @@ export default class EditorNavBar extends Component {
                     onNavItemAdded={this.props.onNavItemAdded}
                     onNavItemsAdded={this.props.onNavItemsAdded}
                     onIndexSelected={this.props.onIndexSelected}
+                    onNavItemSelected={this.props.onNavItemSelected}
                     onToolbarUpdated={this.props.onToolbarUpdated}
                     navItemsIds={this.props.navItemsIds}
                     navItems={this.props.navItems}
