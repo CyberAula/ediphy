@@ -1,3 +1,4 @@
+import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
 
 export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", customSize = 0) {
     // change ratio to the global ratio store in the app
@@ -133,4 +134,11 @@ export function instanceExists(name) {
     });
 
     return alreadyOne;
+}
+
+export function scrollElement(node, options) {
+    let cfg = options || { duration: 300, centerIfNeeded: true, easing: 'easeInOut' };
+    if (node) {
+        scrollIntoViewIfNeeded(node, cfg);
+    }
 }

@@ -6,7 +6,7 @@ import Ediphy from '../../../../core/editor/main';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
 import './_pluginRibbon.scss';
-import { isSortableBox, isSlide, isBox, isContainedView } from "../../../../common/utils";
+import { isSortableBox, isSlide, isBox, isContainedView, isSortableContainer } from '../../../../common/utils';
 import { ADD_BOX } from "../../../../common/actions";
 import Alert from './../../common/alert/Alert';
 import { ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
@@ -189,22 +189,25 @@ export default class PluginRibbon extends Component {
                         let parent = original.parentNode;
                         let dw = original.offsetWidth;
                         let clone = document.getElementById('clone');
-                        let name = clone.getAttribute('name');
-                        let target = clone,
-                            x = 0,
-                            y = 0;
-                        target.style.webkitTransform =
-                        target.style.transform =
-                            'translate(' + (x) + 'px, ' + y + 'px)';
+                        if (clone) {
+                            let name = clone.getAttribute('name');
+                            let target = clone,
+                                x = 0,
+                                y = 0;
+                            target.style.webkitTransform =
+                            target.style.transform =
+                              'translate(' + (x) + 'px, ' + y + 'px)';
 
-                        target.style.zIndex = '9999';
-                        target.style.position = 'relative';
-                        target.classList.remove('ribdrag');
+                            target.style.zIndex = '9999';
+                            target.style.position = 'relative';
+                            target.classList.remove('ribdrag');
 
-                        target.setAttribute('data-x', x);
-                        target.setAttribute('data-y', y);
+                            target.setAttribute('data-x', x);
+                            target.setAttribute('data-y', y);
 
-                        parent.removeChild(clone);
+                            parent.removeChild(clone);
+                        }
+
                         let releaseClickEl = document.elementFromPoint(event.clientX, event.clientY);
                         let rib = releaseClick(releaseClickEl, "ribbon");
                         event.stopPropagation();
@@ -235,8 +238,9 @@ export default class PluginRibbon extends Component {
             <span> {msg} </span>
         </Alert>;};
 
-        let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected.id) && isSlide(this.props.containedViewSelected.type);
-        let cvdoc = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected.id) && !isSlide(this.props.containedViewSelected.type);
+        let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected.id);
+        let cvslide = cv && isSlide(this.props.containedViewSelected.type);
+        let cvdoc = cv && !isSlide(this.props.containedViewSelected.type);
         let config = Ediphy.Plugins.get(name).getConfig();
         let isBoxSelected = (this.props.boxSelected && isBox(this.props.boxSelected.id));
         if (isBoxSelected && isBox(this.props.boxSelected.parent) && config.isComplex) {
@@ -250,34 +254,38 @@ export default class PluginRibbon extends Component {
             event.stopPropagation();
             return;
         }
+        let inASlide = isSlide(this.props.navItemSelected.type) || cvslide;
 
-        let inASlide = isSlide(this.props.navItemSelected.type) || cv;
+        let position = inASlide ? {
+            x: randomPositionGenerator(20, 40),
+            y: randomPositionGenerator(20, 40),
+            type: 'absolute',
+        } : undefined;
+        let SelectedNav = inASlide ? (cvslide ? this.props.containedViewSelected.id : this.props.navItemSelected.id) : 0;
+        let parentBox = inASlide ? 0 : (cvdoc ? this.props.containedViewSelected.boxes[0] : this.props.navItemSelected.boxes[0]);
 
-        if (inASlide) {
-            let SelectedNav = cv ? this.props.containedViewSelected.id : this.props.navItemSelected.id;
-            let position = {
-                x: randomPositionGenerator(20, 40),
-                y: randomPositionGenerator(20, 40),
-                type: 'absolute',
-            };
-            let initialParams = {
-                parent: isBoxSelected ? this.props.boxSelected.parent : SelectedNav,
-                container: isBoxSelected ? this.props.boxSelected.container : 0,
-                position: position,
-            };
-            config.callback(initialParams, ADD_BOX);
-            event.stopPropagation();
-        } else {
-            let parentBox = cvdoc ? this.props.containedViewSelected.boxes[0] : this.props.navItemSelected.boxes[0];
-            let initialParams = {
-                parent: isBoxSelected ? this.props.boxSelected.parent : parentBox,
-                container: isBoxSelected ? this.props.boxSelected.container : (ID_PREFIX_SORTABLE_CONTAINER + Date.now()), col: 0, row: 0,
-            };
-
-            config.callback(initialParams, ADD_BOX);
-            event.stopPropagation();
-            event.preventDefault();
+        let parent = isBoxSelected ? this.props.boxSelected.parent : (inASlide ? SelectedNav : parentBox);
+        let container = isBoxSelected ? this.props.boxSelected.container : (inASlide ? 0 : (ID_PREFIX_SORTABLE_CONTAINER + Date.now()));
+        let initialParams = {
+            parent: parent,
+            container: container,
+            col: 0, row: 0,
+            position: position,
+        };
+        if (!inASlide) {
+            if (isBoxSelected) {
+                let newInd;
+                if(isSortableContainer(initialParams.container)) {
+                    let children = this.props.boxes[initialParams.parent].sortableContainers[initialParams.container].children;
+                    newInd = children.indexOf(this.props.boxSelected.id) + 1;
+                    newInd = newInd === 0 ? 1 : ((newInd === 0 || newInd >= children.length) ? (children.length) : newInd);
+                    initialParams.index = newInd;
+                }
+            }
         }
+        config.callback(initialParams, ADD_BOX);
+        event.stopPropagation();
+        event.preventDefault();
 
     }
 }

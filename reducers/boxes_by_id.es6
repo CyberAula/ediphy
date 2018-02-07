@@ -245,6 +245,11 @@ function singleSortableContainerReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
     case PASTE_BOX:
+        if (action.payload.index || (action.payload.initialParams && action.payload.initialParams.index)) {
+            let newOrder = [...state.children];
+            newOrder.splice(action.payload.index || action.payload.initialParams.index, 0, action.payload.ids.id);
+            return changeProp(state, "children", newOrder);
+        }
         return changeProp(state, "children", [...state.children, action.payload.ids.id]);
     case CHANGE_COLS:
         let cols = state.cols;

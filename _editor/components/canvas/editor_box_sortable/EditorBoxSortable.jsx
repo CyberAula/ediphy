@@ -32,6 +32,7 @@ export default class EditorBoxSortable extends Component {
         this.state = {
             alert: null,
         };
+        this.getNewIndex = this.getNewIndex.bind(this);
     }
     /**
      * Renders React Component
@@ -307,8 +308,12 @@ export default class EditorBoxSortable extends Component {
             },
             ondrop: function(e) {
                 let draggingFromRibbon = e.relatedTarget.className.indexOf("rib") !== -1;
+                let clone = document.getElementById('clone');
+                if (clone) {
+                    clone.parentNode.removeChild(clone);
+                }
+                let newInd = extraParams ? this.getNewIndex(e.dragEvent.clientX, e.dragEvent.clientY, this.props.id, extraParams.idContainer) : 0;
                 if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
-
                     if (draggingFromRibbon && instanceExists(e.relatedTarget.getAttribute("name"))) {
                         let alert = (<Alert className="pageModal"
                             show
@@ -320,10 +325,7 @@ export default class EditorBoxSortable extends Component {
                             <span> {i18n.t('messages.instance_limit')} </span>
                         </Alert>);
                         this.setState({ alert: alert });
-                        let clone = document.getElementById('clone');
-                        if (clone) {
-                            clone.parentNode.removeChild(clone);
-                        }
+
                         e.dragEvent.stopPropagation();
                         return;
                     }
@@ -338,19 +340,12 @@ export default class EditorBoxSortable extends Component {
                             container: extraParams.idContainer,
                             col: extraParams.i,
                             row: extraParams.j,
+                            index: newInd,
                         };
 
                         Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                        e.dragEvent.stopPropagation();
                     } else {
-                        let clone = document.getElementById('clone');
-                        if (clone) {
-                            clone.parentNode.removeChild(clone);
-                        }
-                        let el = document.elementFromPoint(e.dragEvent.clientX, e.dragEvent.clientY);
-                        let rc = releaseClick(el, 'box-');
-                        let children = this.props.boxes[this.props.id].sortableContainers[extraParams.idContainer].children; // .filter(box=>{return this.props.boxes[box].row === extraParams.j && this.props.boxes[box].col === extraParams.i});
-                        let newInd = children.indexOf(rc);
-                        newInd = newInd < 1 ? 1 : (newInd >= newInd.length ? (newInd.length - 1) : newInd);
                         let boxDragged = this.props.boxes[this.props.boxSelected];
                         if (boxDragged && ((this.props.id !== boxDragged.parent) || (extraParams.idContainer !== boxDragged.container) || (extraParams.j !== boxDragged.row) || (extraParams.i !== boxDragged.col))) {
                             this.props.onBoxDropped(this.props.boxSelected,
@@ -376,11 +371,14 @@ export default class EditorBoxSortable extends Component {
                         initialParams = {
                             parent: this.props.id,
                             container: e.target.getAttribute("data-id"),
+                            index: newInd,
+
                         };
                     } else if (dropArea === 'newContainer') {
                         initialParams = {
                             parent: this.props.id,
                             container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
+                            index: newInd,
                         };
                     }
 
@@ -394,6 +392,14 @@ export default class EditorBoxSortable extends Component {
                 e.target.classList.remove("drop-target");
             },
         });
+    }
+
+    getNewIndex(x, y, parent, container) {
+        let el = document.elementFromPoint(x, y);
+        let rc = releaseClick(el, 'box-');
+        let children = this.props.boxes[parent].sortableContainers[container].children; // .filter(box=>{return this.props.boxes[box].row === extraParams.j && this.props.boxes[box].col === extraParams.i});
+        let newInd = children.indexOf(rc);
+        return newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
     }
 
     /**

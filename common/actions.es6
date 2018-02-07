@@ -203,8 +203,8 @@ export function toggleTextEditor(caller, value) {
     return { type: TOGGLE_TEXT_EDITOR, payload: { caller, value } };
 }
 
-export function pasteBox(ids, box, toolbar, children) {
-    return { type: PASTE_BOX, payload: { ids, box, toolbar, children } };
+export function pasteBox(ids, box, toolbar, children, index) {
+    return { type: PASTE_BOX, payload: { ids, box, toolbar, children, index } };
 }
 
 export function toggleTitleMode(id, titles) {
