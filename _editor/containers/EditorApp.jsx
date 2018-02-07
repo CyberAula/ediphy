@@ -40,6 +40,7 @@ import { isSortableBox, isSection, isContainedView, isSortableContainer, getDupl
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import PluginPlaceholder from '../components/canvas/plugin_placeholder/PluginPlaceholder';
+import { scrollElement } from '../../common/common_tools';
 
 /**
  * EditorApp. Main application component that renders everything else
@@ -528,9 +529,7 @@ class EditorApp extends Component {
                         addDefaultContainerPluginsReact(e.detail, content, this.props.boxes);
                     }
                     let boxCreated = document.getElementById('box-' + e.detail.ids.id);
-                    if (boxCreated) {
-                        boxCreated.scrollIntoView({ behavior: 'smooth' });
-                    }
+                    scrollElement(boxCreated);
                 },
                 0.00000001);
 

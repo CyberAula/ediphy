@@ -399,7 +399,7 @@ export default class EditorBoxSortable extends Component {
         let rc = releaseClick(el, 'box-');
         let children = this.props.boxes[parent].sortableContainers[container].children; // .filter(box=>{return this.props.boxes[box].row === extraParams.j && this.props.boxes[box].col === extraParams.i});
         let newInd = children.indexOf(rc);
-        return newInd < 1 ? 1 : (newInd >= children.length ? (children.length - 1) : newInd);
+        return newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
     }
 
     /**

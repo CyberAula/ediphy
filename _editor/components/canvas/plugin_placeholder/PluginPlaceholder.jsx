@@ -208,9 +208,9 @@ export default class PluginPlaceholder extends Component {
         let rc = document.elementFromPoint(x, y);
         let children = boxes[parent].sortableContainers[container].children;
         let bid = releaseClick(rc, 'box-');
-        let newInd = children.indexOf(bid); // Position where it's being released
-        newInd = newInd < 1 ? 1 : (newInd >= children.length ? (children.length - 1) : newInd);
-        return newInd;
+        let newInd = children.indexOf(rc);
+        return newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
+
     }
     idConvert(id) {
         if (isSortableContainer(id)) {

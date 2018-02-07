@@ -278,7 +278,7 @@ export default class PluginRibbon extends Component {
                 if(isSortableContainer(initialParams.container)) {
                     let children = this.props.boxes[initialParams.parent].sortableContainers[initialParams.container].children;
                     newInd = children.indexOf(this.props.boxSelected.id) + 1;
-                    newInd = newInd < 1 ? 1 : (newInd >= children.length ? (children.length) : newInd);
+                    newInd = newInd === 0 ? 1 : ((newInd === 0 || newInd >= children.length) ? (children.length) : newInd);
                     initialParams.index = newInd;
                 }
             }

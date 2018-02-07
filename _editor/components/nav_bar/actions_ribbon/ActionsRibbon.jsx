@@ -59,9 +59,21 @@ export default class ActionsRibbon extends Component {
             { key: "Ahead", i18nkey: "order.Ahead", icon: "flip_to_front", disabled: (disable_bt || box_layer === boxes.length - 1), onClick: () => { this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'ahead', boxes);} },
             { key: "Behind", i18nkey: "order.Behind", icon: "flip_to_back", disabled: (disable_bt || box_layer === 0), onClick: () => { this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'behind', boxes);} },
             { key: "SendtoBack", i18nkey: "order.SendtoBack", icon: "flip_to_back", disabled: (disable_bt || box_layer === 0), onClick: () => { this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'back', boxes);} },
+            "separator",
             { key: "Grid", i18nkey: "Grid", icon: "grid_on", disabled: false, onClick: this.props.onGridToggle },
+            "separator",
 
         ];
+        let button = (act, ind) => {
+            return <button key={act.key}
+                className={(act.key === "Grid" && this.props.grid) ? "ActionBtn active" : "ActionBtn"}
+                disabled={act.disabled}
+                name={act.key}
+                onClick={act.onClick}>
+                <i className="material-icons">{act.icon}</i>
+                <span className="hideonresize">{ i18n.t(act.i18nkey) }</span>
+            </button>;
+        };
         return (
             <Col id="ActionRibbon" md={12} xs={12}
                 style={{
@@ -70,13 +82,10 @@ export default class ActionsRibbon extends Component {
                 }} ref="holder">
                 <div id="Actions">
                     { slide ? layerActions.map((act, ind) => {
-                        return <button key={act.key}
-                            className={(act.key === "Grid" && this.props.grid) ? "ActionBtn active" : "ActionBtn"}
-                            disabled={act.disabled}
-                            onClick={act.onClick}>
-                            <i className="material-icons">{act.icon}</i>
-                            <span className="hideonresize">{ i18n.t(act.i18nkey) }</span>
-                        </button>;}) : null }
+                        if (act === "separator") {
+                            return <span id="vs" key={ind} />;
+                        }
+                        return button(act, ind);}) : null }
                     <Clipboard boxes={this.props.boxes} key="clipboard"
                         boxSelected={this.props.boxSelected}
                         navItemSelected={this.props.navItemSelected}
@@ -88,9 +97,7 @@ export default class ActionsRibbon extends Component {
                         onBoxPasted={this.props.onBoxPasted}
                         onBoxDeleted={this.props.onBoxDeleted} >
                         { clipboardActions.map((act, ind)=>{
-                            return <button key={act.key} disabled={act.disabled} className="ActionBtn" name={act.key} onClick={act.onClick}><i
-                                className="material-icons">{act.icon}</i> <span
-                                className="hideonresize">{i18n.t(act.i18nkey)}</span></button>;
+                            return button(act, ind);
                         })}
                     </Clipboard>
 
