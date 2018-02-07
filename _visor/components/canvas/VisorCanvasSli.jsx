@@ -34,7 +34,6 @@ export default class VisorCanvasSli extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
-        // aspectRatio(this.props.aspectRatio);
         let boxes = isCV ? this.props.containedViews[this.props.currentView].boxes || [] : this.props.navItems[this.props.currentView].boxes || [];
         let thisView = this.props.viewsArray && this.props.viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(this.props.viewsArray[this.props.viewsArray.length - 2]) ? this.props.containedViews[this.props.viewsArray[this.props.viewsArray.length - 2]].name : this.props.navItems[this.props.viewsArray[this.props.viewsArray.length - 2]].name)) : i18n.t('messages.go_back');
         let backgroundIsUri = (/data\:/).test(itemSelected.background);
@@ -113,7 +112,7 @@ export default class VisorCanvasSli extends Component {
                         })}
 
                         <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
-                            aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas");
+                            aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSelected.customSize);
                         }} />
                     </div>
                 </div>
@@ -127,7 +126,8 @@ export default class VisorCanvasSli extends Component {
 
     componentDidMount() {
         let isCV = !isView(this.props.currentView);
-        aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas");
+        let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
+        aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSel.customSize);
 
         // window.addEventListener("resize", aspectRatio);
     }
@@ -138,9 +138,10 @@ export default class VisorCanvasSli extends Component {
     componentWillUpdate(nextProps) {
         if (this.props.canvasRatio !== nextProps.canvasRatio) {
             let isCV = !isView(nextProps.currentView);
+            let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
             window.canvasRatio = nextProps.canvasRatio;
             // window.removeEventListener("resize", aspectRatio);
-            aspectRatio(nextProps.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas");
+            aspectRatio(nextProps.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSel.customSize);
             // window.addEventListener("resize", aspectRatio);
         }
 
