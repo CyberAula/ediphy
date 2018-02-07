@@ -112,7 +112,7 @@ export function VirtualTour(base) {
             };
         },
         getRenderTemplate: function(state, props) {
-            let id = "map-" + Date.now();
+            let id = "map-" + props.id;
             let marks = state.__marks;
             if (!window.google || !navigator.onLine) {
                 return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
@@ -213,22 +213,23 @@ export function VirtualTour(base) {
         },
         pointerEventsCallback: function(bool, toolbarState) {
             if (!window.google || !navigator.onLine) {return;}
-            if (window.mapList[toolbarState.num || (toolbarState.state ? toolbarState.state.num : 9999)]) {
+            let num = toolbarState.num || (toolbarState.state ? toolbarState.state.num : 9999);
+            if (window.mapList[num]) {
                 switch(bool) {
                 case 'mouseenter':
-                    window.mapList[toolbarState.num].setOptions({ draggable: false });
+                    window.mapList[num].setOptions({ draggable: false });
                     return;
                 case 'mouseleave_true':
-                    window.mapList[toolbarState.num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
+                    window.mapList[num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
                     return;
                 case 'mouseleave_false':
-                    window.mapList[toolbarState.num].setOptions({ draggable: false });
+                    window.mapList[num].setOptions({ draggable: false });
                     return;
                 case 'disableAll':
-                    window.mapList[toolbarState.state.num].setOptions({ draggable: false, mapTypeControl: false, zoomControl: false });
+                    window.mapList[num].setOptions({ draggable: false, mapTypeControl: false, zoomControl: false });
                     return;
                 case 'enableAll':
-                    window.mapList[toolbarState.state.num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
+                    window.mapList[num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
                     return;
                 }
             }

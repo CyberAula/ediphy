@@ -6,6 +6,7 @@ import Markdown from 'react-remarkable';
 import loaderSvg from '../img/Rolling.svg';
 import editIcon from '../img/edit.svg';
 import * as Components from '../components';
+import Prism from 'prismjs';
 const loader = <div className="loader" ><img src={loaderSvg} /></div>;
 import i18n from 'i18next';
 export default class Content extends Component {
@@ -180,7 +181,12 @@ export default class Content extends Component {
         this.reload(nextProps.section, nextProps.subsection, nextProps.page || 1, nextProps.subpage || 0);
         // }
     }
+    componentDidUpdate(prevProps, prevState) {
+        Prism.highlightAll(Prism.languages.jsx);
+    }
     componentDidMount() {
+
         this.reload(this.props.section, this.props.subsection, this.props.page, this.props.subpage);
+        Prism.highlightAll(Prism.languages.jsx);
     }
 }
