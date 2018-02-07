@@ -34,6 +34,7 @@ export default class EditorNavBar extends Component {
          * Binded function
          */
         this.toggleGlobalConfig = this.toggleGlobalConfig.bind(this);
+        this.toggleImportFile = this.toggleImportFile.bind(this);
     }
 
     /**
@@ -69,6 +70,7 @@ export default class EditorNavBar extends Component {
                     scorm={this.props.scorm}
                     serverModalOpen={this.props.serverModalOpen}
                     toggleGlobalConfig={this.toggleGlobalConfig}
+                    toggleImportFile={this.toggleImportFile}
                     undoDisabled={this.props.undoDisabled} />
                 <GlobalConfig show={this.state.showGlobalConfig}
                     globalConfig={this.props.globalConfig}
@@ -81,7 +83,7 @@ export default class EditorNavBar extends Component {
                     navItemsIds={this.props.navItemsIds}
                     navItems={this.props.navItems}
                     show={this.state.showImportFile}
-                    close={()=>{this.setState({ showImportFile: false });}}/>
+                    close={this.toggleImportFile}/>
 
             </Col>
         );
@@ -93,6 +95,14 @@ export default class EditorNavBar extends Component {
     toggleGlobalConfig() {
         this.setState((prevState, props) => ({
             showGlobalConfig: !prevState.showGlobalConfig,
+        }));
+    }
+    /**
+     * Shows/Hides the Import file modal
+     */
+    toggleImportFile() {
+        this.setState((prevState, props) => ({
+            showImportFile: !prevState.showImportFile,
         }));
     }
 }

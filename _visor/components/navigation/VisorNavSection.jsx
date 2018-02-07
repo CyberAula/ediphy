@@ -17,7 +17,6 @@ export default class VisorNavSection extends Component {
         let marginUl = (this.props.navItemsById[this.props.pageName].level * 10) + "px";
         let name = this.props.navItemsById[this.props.pageName].name;
         let classes = this.props.display ? "visorNavListEl" : "visorNavListEl hiddenNavVisor";
-        console.log(this.props.navItemsById);
         return (
             <ul className={classes}>
                 <li className="visorNavListEl" onClick={(e)=>{

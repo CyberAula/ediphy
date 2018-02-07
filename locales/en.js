@@ -215,6 +215,7 @@ let en = {
             "global_config": "Global Config",
             "go_back": "Go back",
             "go_back_to": "Go back to ",
+            "import_file": "Import file",
             "instance_limit": "This plugin only allows one instance per page",
             "depth_limit": "A complex plugin can only contain simple plugins",
             "height_auto_warning": "The boxes inside can only have a relative height if you fix the container height",

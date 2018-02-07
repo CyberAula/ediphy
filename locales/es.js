@@ -213,6 +213,7 @@ let es = {
             "global_config": "Configuración Global",
             "go_back": "Volver",
             "go_back_to": "Volver a ",
+            "import_file": "Importar archivo",
             "instance_limit": "Este plugin sólo permite una instancia por página",
             "depth_limit": "Un plugin complejo sólo puede contener plugins simples",
             "height_auto_warning": "Sólo si fijas una altura podrán tener alturas relativas las cajas en su interior",
