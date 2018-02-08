@@ -167,7 +167,7 @@ export default class ImportFile extends Component {
             let customSize = hasCustomSize ? { width: canvas.width, height: canvas.height } : 0;
             let nav = {
                 id: newId,
-                name: "Página " + i + " PDF",
+                name: hasCustomSize ? (i18n.t('page') + i + " PDF") : i18n.t('slide'),
                 parent: 0,
                 type: PAGE_TYPES.SLIDE,
                 position: this.props.navItemsIds.length + navs.length,
@@ -272,6 +272,7 @@ export default class ImportFile extends Component {
                 }
                 return page;
             }).catch(function(reason) {
+                // eslint-disable-next-line no-console
                 console.error('Error: ' + reason);
             });
         }

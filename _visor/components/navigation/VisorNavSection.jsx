@@ -49,8 +49,8 @@ export default class VisorNavSection extends Component {
                         <a style={{ paddingLeft: margin }}
                             className={this.props.navItemSelected === page ? "indexElementTitle selectedNavItemVisor" : "indexElementTitle"}
                             href="#">
-                            {(this.props.navItemsById[this.props.navItemSelected].customSize === 0) ?
-                                <i className="material-icons fileIcon">{isSlide(this.props.navItemsById[page].type) ? "slideshow" : "insert_drive_file"}</i>
+                            {(this.props.navItemsById[page].customSize === 0) ?
+                                <i className="material-icons">{isSlide(this.props.navItemsById[page].type) ? "slideshow" : "insert_drive_file"}</i>
                                 : <img className="svgIcon" src={iconPDF}/>}
                             <span>{this.props.navItemsById[page].name}</span>
                         </a>

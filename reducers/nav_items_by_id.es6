@@ -9,7 +9,6 @@ import { ID_PREFIX_BOX } from '../common/constants';
 import { changeProp, changeProps, deleteProp, deleteProps, isView, isSlide, isDocument, findNavItemContainingBox, findDescendantNavItems, isContainedView } from '../common/utils';
 
 function navItemCreator(state = {}, action = {}) {
-    console.log(action.payload);
     return {
         id: action.payload.id,
         name: action.payload.name,
@@ -31,7 +30,7 @@ function navItemCreator(state = {}, action = {}) {
             elementContent: { documentTitle: '', documentSubTitle: '', numPage: '' },
             display: {
                 courseTitle: 'hidden',
-                documentTitle: action.payload.type === 'slide' && action.payload.customSize !== 0 ? 'hidden' : 'expanded',
+                documentTitle: (action.payload.type === 'slide' && action.payload.customSize !== 0) ? 'hidden' : 'expanded',
                 documentSubTitle: 'hidden',
                 breadcrumb: action.payload.type === 'slide' ? "hidden" : "reduced",
                 pageNumber: "hidden" },
@@ -197,13 +196,13 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
             ]
         );
     case ADD_NAV_ITEMS:
-        let ids = action.payload.navs.map(nav => { return nav.id; });
+        let navIds = action.payload.navs.map(nav => { return nav.id; });
         let navs = action.payload.navs.map(nav => { return navItemCreator(state, { type: ADD_NAV_ITEM, payload: nav }); });
         return changeProps(
             state,
-            [...ids, action.payload.parent],
+            [...navIds, action.payload.parent],
             [...navs,
-                singleNavItemReducer(state[action.payload.parent], { type: ADD_NAV_ITEM, payload: { parent: action.payload.parent, ids } }),
+                singleNavItemReducer(state[action.payload.parent], { type: ADD_NAV_ITEM, payload: { parent: action.payload.parent, ids: navIds } }),
             ]
         );
     case CHANGE_NAV_ITEM_NAME:

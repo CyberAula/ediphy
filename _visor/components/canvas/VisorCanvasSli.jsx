@@ -136,17 +136,22 @@ export default class VisorCanvasSli extends Component {
     }
 
     componentWillUpdate(nextProps) {
-        if (this.props.canvasRatio !== nextProps.canvasRatio) {
+        let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
+        let nextItemSel = nextProps.navItems[nextProps.currentView] || nextProps.containedViews[nextProps.currentView];
+        if ((this.props.canvasRatio !== nextProps.canvasRatio) || (itemSel !== nextItemSel)) {
             let isCV = !isView(nextProps.currentView);
-            let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
             window.canvasRatio = nextProps.canvasRatio;
-            // window.removeEventListener("resize", aspectRatio);
-            aspectRatio(nextProps.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSel.customSize);
-            // window.addEventListener("resize", aspectRatio);
+            aspectRatio(nextProps.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", nextItemSel.customSize);
         }
 
     }
-
+    // componentWillUpdate(nextProps) {
+    //     if (this.props.canvasRatio !== nextProps.canvasRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
+    //         window.canvasRatio = nextProps.canvasRatio;
+    //         aspectRatio(nextProps.canvasRatio, nextProps.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas', nextProps.navItemSelected.customSize);
+    //     }
+    //
+    // }
 }
 
 VisorCanvasSli.propTypes = {

@@ -31,6 +31,9 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", 
     } else {
         canvas.style.height = customSize.height + 'px';
         canvas.style.width = customSize.width + 'px';
+        if (parent/* && parent.offsetHeight - newHeight > 0*/) {
+            canvas.style.marginTop = ((parent.offsetHeight - canvas.offsetHeight) / 2 - 5) + 'px';
+        }
     }
 }
 
