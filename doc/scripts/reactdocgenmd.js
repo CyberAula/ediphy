@@ -24,11 +24,10 @@ function genDoc(componentPath, renderer, lang) {
                 Object.keys(doc.props).map(prop => {
                     let trans = doc.props[prop].description || "";
                     if (trans === "") {
-                        log(":warning: You forgot to provide a description for prop " + prop + " at component " + componentName);
-                    }
+                        log("You forgot to provide a description for prop " + prop + " at component " + componentName, 'warn'); }
                     trans = i18n.t("components." + componentName + "." + prop, { lng: lang });
                     if (trans === "components." + componentName + "." + prop) {
-                        log(":warning: You forgot to translate the prop " + prop + "  in " + lang + " for component " + componentName);
+                        log("You forgot to translate the prop " + prop + "  in " + lang + " for component " + componentName, 'warn');
                         trans = doc.props[prop].description;
                     }
                     doc.props[prop] = { ...doc.props[prop], description: trans };

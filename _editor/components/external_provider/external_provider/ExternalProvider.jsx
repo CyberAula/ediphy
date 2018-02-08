@@ -84,7 +84,7 @@ ExternalProvider.propTypes = {
      * */
     accept: PropTypes.any,
     /**
-    * Importa los props desde Plugin Toolbar
+    * Importa las props desde Plugin Toolbar
     * */
     formControlProps: PropTypes.object,
     /**

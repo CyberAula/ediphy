@@ -129,7 +129,7 @@ CKEDitorComponent.propTypes = {
    */
     boxSelected: PropTypes.any,
     /**
-   * This box
+   * Box to which the CKEDitor belongs
    */
     box: PropTypes.any,
     /**
