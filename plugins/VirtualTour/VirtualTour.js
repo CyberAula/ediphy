@@ -5,6 +5,8 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MarkEditor from "../../_editor/components/rich_plugins/mark_editor/MarkEditor";
 require('./_virtualTour.scss');
 window.mapList = [];
+/* eslint-disable react/prop-types */
+
 export function VirtualTour(base) {
     return {
         init: function() {
@@ -153,7 +155,6 @@ export function VirtualTour(base) {
                     <Map placeholder={i18n.t("VirtualTour.Search")}
                         state={state}
                         id={id}
-                        key={id}
                         searchBox
                         update={(lat, lng, zoom, render)=>{
                             base.setState('config', { lat: lat, lng: lng, zoom: zoom });
@@ -237,3 +238,4 @@ export function VirtualTour(base) {
 
     };
 }
+/* eslint-enable react/prop-types */

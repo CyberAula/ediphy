@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ActionCreators } from 'redux-undo';
 import { Grid, Col, Row } from 'react-bootstrap';
@@ -18,7 +18,6 @@ import EditorCanvas from '../components/canvas/editor_canvas/EditorCanvas';
 import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
 import EditorCarousel from '../components/carousel/editor_carousel/EditorCarousel';
 import PluginConfigModal from '../components/plugin_config_modal/PluginConfigModal';
-import XMLConfigModal from '../components/xml_config_modal/XMLConfigModal';
 import PluginToolbar from '../components/toolbar/plugin_toolbar/PluginToolbar';
 import Visor from '../../_visor/containers/Visor';
 import ExternalCatalogModal from '../components/external_provider/ExternalCatalogModal';
@@ -41,7 +40,7 @@ import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import PluginPlaceholder from '../components/canvas/plugin_placeholder/PluginPlaceholder';
 import { scrollElement } from '../../common/common_tools';
-
+import PropTypes from 'prop-types';
 /**
  * EditorApp. Main application component that renders everything else
  */
@@ -92,7 +91,7 @@ class EditorApp extends Component {
      * @returns {code}
      */
     render() {
-        const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
+        const { dispatch, boxes, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, imagesUploaded, indexSelected,
             undoDisabled, redoDisabled, displayMode, isBusy, toolbars, globalConfig, fetchVishResults } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
@@ -304,6 +303,7 @@ class EditorApp extends Component {
                                         this.setState({ currentRichMark: null, value: null });
                                     }
                                 }}
+                                onRichMarkUpdated={(box, state, mark)=>{this.dispatchAndSetState(editRichMark(box, state, mark));}}
                                 toolbars={toolbars}
                                 titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
                                 lastActionDispatched={this.state.lastAction}
@@ -809,3 +809,24 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(EditorApp);
+EditorApp.propTypes = {
+    globalConfig: PropTypes.object.isRequired,
+    imagesUploaded: PropTypes.any,
+    boxes: PropTypes.object.isRequired,
+    boxSelected: PropTypes.any,
+    boxLevelSelected: PropTypes.any,
+    indexSelected: PropTypes.any,
+    navItemsIds: PropTypes.array.isRequired,
+    navItems: PropTypes.object.isRequired,
+    navItemSelected: PropTypes.any,
+    containedViews: PropTypes.object.isRequired,
+    containedViewSelected: PropTypes.any,
+    undoDisabled: PropTypes.bool,
+    redoDisabled: PropTypes.bool,
+    displayMode: PropTypes.string,
+    toolbars: PropTypes.object.isRequired,
+    isBusy: PropTypes.any,
+    fetchVishResults: PropTypes.any,
+    dispatch: PropTypes.func.isRequired,
+    store: PropTypes.any,
+};

@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 export function RichText(base) {
     return {
         getConfig: function() {
@@ -72,3 +74,4 @@ export function RichText(base) {
         },
     };
 }
+/* eslint-enable react/prop-types */

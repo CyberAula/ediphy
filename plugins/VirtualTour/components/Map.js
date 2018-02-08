@@ -54,7 +54,6 @@ export default class Map extends React.Component {
                 </GoogleMapReact>
                 {this.props.searchBox ? <SearchBox
                     num={num}
-                    center={center}
                     id={this.props.id}
                     placeholder={this.props.placeholder}
                     onPlacesChanged={(places) => {
@@ -66,7 +65,31 @@ export default class Map extends React.Component {
 
         );
     }
-    componentWillUpdate() {
 
-    }
 }
+Map.propTypes = {
+    /**
+   * Placeholder text for the search box
+   */
+    placeholder: PropTypes.string,
+    /**
+   * Plugin state
+   */
+    state: PropTypes.obj.isRequired,
+    /**
+   * Box id
+   */
+    id: PropTypes.string.isRequired,
+    /**
+   * Whether or not it has a search box
+   */
+    searchBox: PropTypes.bool,
+    /**
+   * Update callback
+   */
+    update: PropTypes.func.isRequired,
+    /**
+     * Marks
+     */
+    children: PropTypes.any,
+};

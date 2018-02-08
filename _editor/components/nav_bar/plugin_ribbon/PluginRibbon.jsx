@@ -309,19 +309,23 @@ PluginRibbon.propTypes = {
     */
     disabled: PropTypes.bool,
     /**
-  * Vista seleccionada
-  */
+     * Vista seleccionada
+     */
     navItemSelected: PropTypes.any.isRequired,
     /**
-  * Vista contenida seleccionada
-  */
+      * Vista contenida seleccionada
+      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
-  * Categoría de plugin seleccionada
-  */
+      * Categoría de plugin seleccionada
+      */
     category: PropTypes.string,
     /**
-  * Altura del ribbon
-  */
-    ribbonHeight: PropTypes.string,
+      * Caja seleccionada
+      */
+    boxSelected: PropTypes.any,
+    /**
+      * Cajas
+      */
+    boxes: PropTypes.object,
 };

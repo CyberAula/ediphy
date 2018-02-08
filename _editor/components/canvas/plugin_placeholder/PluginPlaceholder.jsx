@@ -12,9 +12,6 @@ import './_pluginPlaceHolder.scss';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import { instanceExists, releaseClick } from '../../../../common/common_tools';
 
-/**
- * @deprecated
- */
 export default class PluginPlaceholder extends Component {
     constructor(props) {
         super(props);
@@ -89,7 +86,6 @@ export default class PluginPlaceholder extends Component {
                                                 pageType={this.props.pageType}
                                                 containedViews={this.props.containedViews}
                                                 onBoxDropped={this.props.onBoxDropped}
-                                                onBoxModalToggled={this.props.onBoxModalToggled}
                                                 onRichMarkUpdated={this.props.onRichMarkUpdated}
                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                                 onTextEditorToggled={this.props.onTextEditorToggled}/>);
@@ -315,7 +311,16 @@ PluginPlaceholder.propTypes = {
        */
     pageType: PropTypes.string,
     /**
-   * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
-   */
+     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     */
     containedViews: PropTypes.object,
+    /**
+    * Hace aparecer/desaparecer el modal de configuración de marcas
+    */
+    onRichMarksModalToggled: PropTypes.func.isRequired,
+    /**
+    * Actualiza marca
+     */
+    onRichMarkUpdated: PropTypes.func.isRequired,
+
 };

@@ -142,7 +142,7 @@ export default class ExternalSearcherModal extends Component {
     }
 }
 
-ExternalSearcherModal.proptypes = {
+ExternalSearcherModal.propTypes = {
     /**
      * Flag para saber si el elemento debería estar visible o no
      */
@@ -159,4 +159,8 @@ ExternalSearcherModal.proptypes = {
      * Función para obtener resultados del proveedor externo
      */
     onFetchVishResources: PropTypes.func,
+    /**
+      * Indicador de si hay una operación en curso con el servidor
+      */
+    isBusy: PropTypes.any,
 };

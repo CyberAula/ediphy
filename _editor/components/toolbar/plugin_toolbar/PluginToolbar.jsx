@@ -27,6 +27,7 @@ import { isSortableContainer, isCanvasElement, isContainedView, isSlide, isDocum
 import i18n from 'i18next';
 import './_pluginToolbar.scss';
 import FileInput from "../../common/file-input/FileInput";
+import PropTypes from 'prop-types';
 
 /**
  * Toolbar component for configuring boxes or pages
@@ -148,18 +149,7 @@ export default class PluginToolbar extends Component {
                 </div>
             );
         }
-        let xmlButton;
-        if (toolbar.config.needsXMLEdition) {
-            xmlButton = (
-                <Button key={'xml'}
-                    className={toolbar.showXMLEditor ? 'toolbarButton textediting' : 'toolbarButton'}
-                    onClick={() => {
-                        this.props.onXMLEditorToggled();
-                    }}>
-                    Edit XML
-                </Button>
-            );
-        }
+
         let configButton;
         if (toolbar.config && toolbar.config.needsConfigModal) {
             configButton = (
@@ -173,19 +163,6 @@ export default class PluginToolbar extends Component {
                         {i18n.t('open_conf')}
                     </Button>
                 </div>
-            );
-        }
-        let duplicateButton;
-        if (this.props.box.id[1] !== 's') {
-            duplicateButton = (
-                <Button key={'duplicate'}
-                    className="pluginToolbarMainButton"
-                    onClick={e => {
-                        this.props.onBoxDuplicated(this.props.box.id, this.props.box.parent, this.props.box.container);
-                        e.stopPropagation();
-                    }}>
-                    <i className="material-icons">content_copy</i>
-                </Button>
             );
         }
 
@@ -280,7 +257,6 @@ export default class PluginToolbar extends Component {
                                             })}
                                         </PanelGroup>
                                         {textButton}
-                                        {xmlButton}
                                         {configButton}
                                     </div>
                                 );
@@ -1275,3 +1251,118 @@ export default class PluginToolbar extends Component {
     }
 
 }
+
+PluginToolbar.propTypes = {
+    /**
+   *
+   */
+    navItemSelected: PropTypes.any,
+    /**
+   *
+   */
+    top: PropTypes.string,
+    /**
+   *
+   */
+    boxSelected: PropTypes.any,
+    /**
+   *
+   */
+    toolbars: PropTypes.object.isRequired,
+    /**
+   *
+   */
+    carouselShow: PropTypes.bool,
+    /**
+   *
+   */
+    box: PropTypes.object,
+    /**
+   *
+   */
+    onTextEditorToggled: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onColsChanged: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onRowsChanged: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onSortablePropsChanged: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onSortableContainerResized: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    navItems: PropTypes.object.isRequired,
+    /**
+   *
+   */
+    onBackgroundChanged: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    titleModeToggled: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onNavItemToggled: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onContainedViewNameChanged: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onNavItemNameChanged: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onRichMarksModalToggled: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onRichMarkEditPressed: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onRichMarkDeleted: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onBoxResized: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onToolbarUpdated: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onBoxMoved: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onVerticallyAlignBox: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    isBusy: PropTypes.any,
+    /**
+   *
+   */
+    fetchResults: PropTypes.any,
+    /**
+   *
+   */
+    onFetchVishResources: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onUploadVishResource: PropTypes.func.isRequired,
+};

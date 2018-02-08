@@ -79,3 +79,4 @@ export function BasicText(base) {
         },
     };
 }
+/* eslint-enable react/prop-types */

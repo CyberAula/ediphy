@@ -73,35 +73,44 @@ export default class VisorPluginPlaceholder extends Component {
 
 VisorPluginPlaceholder.propTypes = {
     /**
-     * Identificador del contenedor de plugins
-     */
+   * Nombre del contenedor de plugins
+   */
     pluginContainer: PropTypes.string.isRequired,
+
     /**
-     * Indica si se puede redimensionar el contenedor
-     */
-    resizable: PropTypes.bool,
+   * Identificador único de la caja padre
+   */
+    parentBox: PropTypes.any,
     /**
-     * Identificador de la caja
-     */
-    parentBox: PropTypes.object.isRequired,
-    /**
-     * Diccionario que contiene todas las cajas
-     */
+   * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+   */
     boxes: PropTypes.object.isRequired,
+    /**
+   * Caja seleccionada
+   */
+    boxSelected: PropTypes.any,
+    /**
+      * Nivel de caja seleccionado
+     */
+    boxLevelSelected: PropTypes.any,
     /**
      * Cambia la vista actual
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     * Vista actual
-     */
-    currentView: PropTypes.any,
-    /**
      * Diccionario que contiene todas las toolbars
      */
-    toolbars: PropTypes.object,
+    toolbars: PropTypes.object.isRequired,
     /**
      * Estado del plugin enriquecido en la transición
      */
     richElementsState: PropTypes.object,
+    /**
+   * Id del contenedor
+   */
+    idContainer: PropTypes.string.isRequired,
+    /**
+   * Vista contenida seleccionada
+   */
+    currentViewSelected: PropTypes.string.isRequired,
 };

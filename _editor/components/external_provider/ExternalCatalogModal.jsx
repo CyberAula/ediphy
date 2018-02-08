@@ -48,21 +48,21 @@ export default class ExternalCatalogModal extends Component {
     }
 }
 
-ExternalCatalogModal.proptypes = {
+ExternalCatalogModal.propTypes = {
     /**
      * Muestra el Modal
      */
     visible: PropTypes.bool,
     /**
-     * Indicador de si hay una operación en curso con el servidor
-     * */
-    isBusy: PropTypes.bool,
+      * Imágenes
+      */
+    images: PropTypes.object,
     /**
-     * Función para mostrar la búsqueda externa
-     */
-    onExternalSearcherToggled: PropTypes.func,
+       * Estado
+       */
+    state: PropTypes.object,
     /**
-     * Función para obtener resultados del proveedor externo
-     */
-    onFetchVishResources: PropTypes.func,
+      * Toggle function
+      */
+    onExternalCatalogToggled: PropTypes.func,
 };

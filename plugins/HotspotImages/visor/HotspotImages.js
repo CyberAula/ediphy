@@ -1,6 +1,7 @@
 import React from "react";
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import img from './../../../dist/images/broken_link.png';
+/* eslint-disable react/prop-types */
 
 export function HotspotImages(base) {
     return {
@@ -37,3 +38,4 @@ export function HotspotImages(base) {
         },
     };
 }
+/* eslint-enable react/prop-types */

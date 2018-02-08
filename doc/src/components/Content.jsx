@@ -9,6 +9,7 @@ import * as Components from '../components';
 import Prism from 'prismjs';
 const loader = <div className="loader" ><img src={loaderSvg} /></div>;
 import i18n from 'i18next';
+import PropTypes from 'prop-types';
 export default class Content extends Component {
     constructor(props) {
         super(props);
@@ -190,3 +191,21 @@ export default class Content extends Component {
         Prism.highlightAll(Prism.languages.jsx);
     }
 }
+Content.propTypes = {
+    /**
+   * Section of docs in top navbar
+   */
+    section: PropTypes.any,
+    /**
+   * Subsection of docs in top navbar (dropdown)
+   */
+    subsection: PropTypes.any,
+    /**
+   * Page of docs (left bar)
+   */
+    page: PropTypes.any,
+    /**
+   * Subpage of docs (left bar)
+   */
+    subpage: PropTypes.any,
+};

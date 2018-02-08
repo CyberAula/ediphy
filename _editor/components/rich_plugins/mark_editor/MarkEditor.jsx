@@ -27,25 +27,10 @@ export default class MarkEditor extends Component {
             start: 0,
             ended: false,
         };
-        /**
-         * Binded function
-         */
         this.start = this.start.bind(this);
-        /**
-         * Binded function
-         */
         this.end = this.end.bind(this);
-        /**
-         * Binded function
-         */
         this.timeout = this.timeout.bind(this);
-        /**
-         * Binded function
-         */
         this.overlay = this.overlay.bind(this);
-        /**
-         * Binded function
-         */
         this.mouseLeave = this.mouseLeave.bind(this);
     }
 
@@ -270,4 +255,12 @@ MarkEditor.propTypes = {
      * Estado de la toolbar del plugin
      */
     state: PropTypes.object.isRequired,
+    /**
+      * Callback al soltar la marca
+      */
+    onClickNHold: PropTypes.func,
+    /**
+      * COmponentes que forman la marca
+      */
+    children: PropTypes.any,
 };

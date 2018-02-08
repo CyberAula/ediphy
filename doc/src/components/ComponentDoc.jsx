@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Panel } from 'react-bootstrap';
 import * as doc from '../../importMdFiles';
 import i18n from 'i18next';
+import PropTypes from 'prop-types';
+
 export default class ComponentDoc extends Component {
     constructor(props) {
         super(props);
@@ -24,3 +26,10 @@ export default class ComponentDoc extends Component {
 
     }
 }
+
+ComponentDoc.propTypes = {
+    /**
+   * React component
+   */
+    component: PropTypes.any,
+};

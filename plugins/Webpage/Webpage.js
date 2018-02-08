@@ -1,4 +1,5 @@
 import React from 'react';
+/* eslint-disable react/prop-types */
 export function Webpage(base) {
     return {
         getConfig: function() {
@@ -95,3 +96,5 @@ export function Webpage(base) {
         },
     };
 }
+
+/* eslint-enable react/prop-types */

@@ -101,22 +101,6 @@ EditorNavBar.propTypes = {
      */
     redoDisabled: PropTypes.bool,
     /**
-     * Array que contiene todas las vistas identificables por su *id*
-     */
-    navItemsIds: PropTypes.array,
-    /**
-     * Diccionario que contiene todas las vistas identificables por su *id*
-     */
-    navItems: PropTypes.object.isRequired,
-    /**
-     * Modifica el título del curso
-     */
-    onTitleChanged: PropTypes.func.isRequired,
-    /**
-     * Identifica la vista contenida que se está editando
-     */
-    containedViewSelected: PropTypes.any.isRequired,
-    /**
      * Identifica la vista contenida que se está editando
      */
     navItemSelected: PropTypes.any.isRequired,

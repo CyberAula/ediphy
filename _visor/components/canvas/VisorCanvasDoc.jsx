@@ -54,14 +54,11 @@ export default class VisorCanvasDoc extends Component {
                                 a.stopPropagation();
                             }}><i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
                     <VisorHeader titles={titles}
-                        onShowTitle={()=>this.setState({ showTitle: true })}
                         courseTitle={this.props.title}
                         titleMode={itemSelected.titleMode}
                         navItems={this.props.navItems}
                         currentView={this.props.currentView}
                         containedViews={this.props.containedViews}
-                        titleModeToggled={this.props.titleModeToggled}
-                        onUnitNumberChanged={this.props.onUnitNumberChanged}
                         showButton/>
                     <div className="outter canvasvisor">
                         <div id={isCV ? 'airlayer_cv' : 'airlayer'}
@@ -77,25 +74,12 @@ export default class VisorCanvasDoc extends Component {
 
                                 <br/>
 
-                                <div style={{
-                                    width: "100%",
-                                    background: "black",
-                                    height: overlayHeight,
-                                    position: "absolute",
-                                    top: 0,
-                                    opacity: 0.4,
-                                    display: (this.props.boxLevelSelected > 0) ? "block" : "none",
-                                    visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse",
-                                }} />
-
                                 {boxes.map(id => {
                                     let box = this.props.boxes[id];
                                     if (!isSortableBox(box.id)) {
                                         return <VisorBox key={id}
                                             id={id}
                                             boxes={this.props.boxes}
-                                            boxSelected={this.props.boxSelected}
-                                            boxLevelSelected={this.props.boxLevelSelected}
                                             changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
                                             currentView={this.props.currentView}
                                             toolbars={this.props.toolbars}
@@ -104,8 +88,6 @@ export default class VisorCanvasDoc extends Component {
                                     return <VisorBoxSortable key={id}
                                         id={id}
                                         boxes={this.props.boxes}
-                                        boxSelected={this.props.boxSelected}
-                                        boxLevelSelected={this.props.boxLevelSelected}
                                         changeCurrentView={this.props.changeCurrentView}
                                         currentView={this.props.currentView}
                                         toolbars={this.props.toolbars}
@@ -121,9 +103,6 @@ export default class VisorCanvasDoc extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.boxSelected !== -1) {
-            this.setState({ showTitle: false });
-        }
         if (this.props.currentView.id !== nextProps.currentView.id) {
             document.getElementById(!isView(this.props.currentView) ? "contained_maincontent" : "maincontent").scrollTop = 0;
         }
@@ -172,10 +151,6 @@ VisorCanvasDoc.propTypes = {
      * Diccionario que contiene todas las toolbars
      */
     toolbars: PropTypes.object,
-    /**
-     * Lista de marcas en curso o lanzadas
-     */
-    triggeredMarks: PropTypes.array,
     /**
      *  Array de vistas
      */

@@ -152,22 +152,6 @@ EditorCarousel.propTypes = {
      */
     title: PropTypes.string.isRequired,
     /**
-     * Modo de renderizar el índice (por ahora solo lista - `list`)
-     */
-    displayMode: PropTypes.string.isRequired,
-    /**
-     * Cambia modo de renderizado
-     */
-    onDisplayModeChanged: PropTypes.func.isRequired,
-    /**
-     * Indicador de si la lista de vistas contenidas está desplegada
-     */
-    containedViewsVisible: PropTypes.bool,
-    /**
-     * Despliega la lista de vistas contenidas
-     */
-    onContainedViewsExpand: PropTypes.func.isRequired,
-    /**
      * Indicador de si el índice desplegado
      */
     carouselShow: PropTypes.bool,
@@ -183,5 +167,9 @@ EditorCarousel.propTypes = {
      * Modifica el ancho del índice
      */
     onToggleWidth: PropTypes.func.isRequired,
+    /**
+      * Configuración global
+      */
+    globalConfig: PropTypes.object,
 
 };

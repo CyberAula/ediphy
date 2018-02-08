@@ -510,4 +510,12 @@ EditorBoxSortable.propTypes = {
      * Indica el tipo de página en el que se encuentra la caja
      */
     pageType: PropTypes.string.isRequired,
+    /**
+      * Hace aparecer/desaparecer el modal de configuración de marcas
+      */
+    onRichMarksModalToggled: PropTypes.func.isRequired,
+    /**
+      * Actualiza marca
+      */
+    onRichMarkUpdated: PropTypes.func.isRequired,
 };

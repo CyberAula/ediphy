@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 export function Youtube(base) {
     return {
         getConfig: function() {
@@ -120,3 +122,4 @@ export function Youtube(base) {
         },
     };
 }
+/* eslint-enable react/prop-types */

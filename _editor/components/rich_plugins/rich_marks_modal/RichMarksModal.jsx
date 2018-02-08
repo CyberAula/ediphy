@@ -406,10 +406,6 @@ RichMarksModal.propTypes = {
      */
     navItems: PropTypes.object.isRequired,
     /**
-     * Array que contiene las vistas creadas
-     */
-    navItemsIds: PropTypes.array.isRequired,
-    /**
      * Indica si se muestra o oculta el modal de edición de marcas
      */
     visible: PropTypes.any.isRequired,
@@ -417,10 +413,6 @@ RichMarksModal.propTypes = {
      * Marca en edición
      */
     currentRichMark: PropTypes.any,
-    /**
-     * Valor por defecto de la marca
-     */
-    defaultValueMark: PropTypes.any,
     /**
      * Valida si el valor introducido es correcto
      */
@@ -437,4 +429,8 @@ RichMarksModal.propTypes = {
      * Muestra/oculta el modal
      */
     onRichMarksModalToggled: PropTypes.any.isRequired,
+    /**
+      * Valor del cursor al crear la marca (coordenadas)
+      */
+    markCursorValue: PropTypes.any,
 };

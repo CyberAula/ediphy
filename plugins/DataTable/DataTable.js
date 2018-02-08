@@ -144,3 +144,4 @@ export function DataTable(base) {
 
     };
 }
+/* eslint-enable react/prop-types */

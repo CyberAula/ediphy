@@ -78,7 +78,7 @@ export default class ExternalProvider extends Component {
     }
 }
 
-ExternalProvider.proptypes = {
+ExternalProvider.propTypes = {
     /**
      * Delegación del botón en la creación
      * */
@@ -103,5 +103,9 @@ ExternalProvider.proptypes = {
      * Función para subir imágenes al proveedor externo
      */
     onUploadVishResource: PropTypes.func,
+    /**
+      * Change callback
+      */
+    onChange: PropTypes.func,
 
 };

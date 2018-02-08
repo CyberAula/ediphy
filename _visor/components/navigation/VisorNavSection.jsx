@@ -20,7 +20,7 @@ export default class VisorNavSection extends Component {
             <ul className={classes}>
                 <li className="visorNavListEl" onClick={(e)=>{
                     if (Ediphy.Config.sections_have_content) {
-                        this.props.changePage(this.props.pageName);
+                        this.props.changeCurrentView(this.props.pageName);
                     } else {
                         this.setState({ toggled: !this.state.toggled });
                     }}}>

@@ -110,3 +110,4 @@ export function BasicVideo(base) {
         },
     };
 }
+/* eslint-enable react/prop-types */

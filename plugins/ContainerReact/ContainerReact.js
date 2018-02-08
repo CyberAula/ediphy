@@ -60,3 +60,4 @@ export function ContainerReact(base) {
         },
     };
 }
+/* eslint-enable react/prop-types */

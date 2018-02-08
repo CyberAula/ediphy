@@ -76,8 +76,4 @@ VisorSideNav.propTypes = {
      * Array que contiene todas las vistas y vistas contenidas, accesibles por su *id*
      */
     navItemsIds: PropTypes.array.isRequired,
-    /**
-     * Indica si la barra de navegación está recogida o expandida
-     */
-    toggled: PropTypes.bool,
 };

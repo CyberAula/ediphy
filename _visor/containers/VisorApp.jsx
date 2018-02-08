@@ -271,7 +271,6 @@ export default class Visor extends Component {
                 </div>
                 {this.state.fromScorm ? (
                     <ScormComponent
-                        navItems={navItems}
                         navItemsIds={navItemsIds}
                         currentView={this.getLastCurrentViewElement()}
                         globalConfig={globalConfig}

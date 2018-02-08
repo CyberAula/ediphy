@@ -34,9 +34,6 @@ export default class VisorContainedCanvas extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.boxSelected !== -1) {
-            this.setState({ showTitle: false });
-        }
         document.getElementById('contained_maincontent').scrollTop = 0;
 
     }
@@ -92,11 +89,8 @@ VisorContainedCanvas.propTypes = {
      */
     toolbars: PropTypes.object,
     /**
-     * Lista de marcas en curso o lanzadas
-     */
-    triggeredMarks: PropTypes.array,
-    /**
      *  Array de vistas
      */
     viewsArray: PropTypes.array,
+
 };

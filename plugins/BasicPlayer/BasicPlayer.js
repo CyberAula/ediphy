@@ -114,3 +114,4 @@ export function BasicPlayer(base) {
 
     };
 }
+/* eslint-enable react/prop-types */

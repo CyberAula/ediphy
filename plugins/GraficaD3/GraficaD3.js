@@ -3,6 +3,7 @@ import Chart from './components/chart-component';
 import Config from './components/config-component';
 
 require('./_graficaD3.scss');
+/* eslint-disable react/prop-types */
 
 export function GraficaD3(base) {
     return {
@@ -132,3 +133,4 @@ export function GraficaD3(base) {
 
     };
 }
+/* eslint-enable react/prop-types */

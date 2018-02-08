@@ -5,6 +5,7 @@ import screenfull from 'screenfull';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 import img from './../../../dist/images/broken_link.png';
+/* eslint-disable react/prop-types */
 
 export default class EnrichedPlayerPluginEditor extends React.Component {
     constructor(props) {
@@ -132,3 +133,4 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
         );
     }
 }
+/* eslint-enable react/prop-types */

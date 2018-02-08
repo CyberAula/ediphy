@@ -150,4 +150,8 @@ VisorHeader.propTypes = {
      * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
      */
     containedViews: PropTypes.object.isRequired,
+    /**
+      * Current nav Item
+      */
+    navItem: PropTypes.object,
 };

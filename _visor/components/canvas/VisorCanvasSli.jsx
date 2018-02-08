@@ -76,26 +76,12 @@ export default class VisorCanvasSli extends Component {
                             onShowTitle={()=>this.setState({ showTitle: true })}
                             courseTitle={this.props.title}
                             titleMode={itemSelected.titleMode}
-                            navItem={this.props.navItemSelected}
                             navItems={this.props.navItems}
                             currentView={this.props.currentView}
                             containedViews={this.props.containedViews}
-                            titleModeToggled={this.props.titleModeToggled}
-                            onUnitNumberChanged={this.props.onUnitNumberChanged}
                             showButton/>
 
                         <br/>
-
-                        <div style={{
-                            width: "100%",
-                            background: "black",
-                            height: overlayHeight,
-                            position: "absolute",
-                            top: 0,
-                            opacity: 0.4,
-                            display: (this.props.boxLevelSelected > 0) ? "block" : "none",
-                            visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse",
-                        }} />
 
                         {boxes.map(id => {
                             let box = this.props.boxes[id];
@@ -103,8 +89,6 @@ export default class VisorCanvasSli extends Component {
                             return <VisorBox key={id}
                                 id={id}
                                 boxes={this.props.boxes}
-                                boxSelected={this.props.boxSelected}
-                                boxLevelSelected={this.props.boxLevelSelected}
                                 changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
                                 currentView={this.props.currentView}
                                 toolbars={this.props.toolbars}
@@ -193,10 +177,6 @@ VisorCanvasSli.propTypes = {
      * Diccionario que contiene todas las toolbars
      */
     toolbars: PropTypes.object,
-    /**
-     * Lista de marcas en curso o lanzadas
-     */
-    triggeredMarks: PropTypes.array,
     /**
      *  Array de vistas
      */

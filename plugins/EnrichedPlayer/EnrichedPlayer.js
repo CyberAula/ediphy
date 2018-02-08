@@ -139,3 +139,4 @@ export function EnrichedPlayer(base) {
 
     };
 }
+/* eslint-enable react/prop-types */

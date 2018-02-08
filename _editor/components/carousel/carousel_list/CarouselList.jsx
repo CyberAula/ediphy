@@ -299,6 +299,10 @@ export default class CarouselList extends Component {
 
 CarouselList.propTypes = {
     /**
+     * Global parent of navItems (0
+     */
+    id: PropTypes.number.isRequired,
+    /**
      * Indicates whether the carousel has been expanded or not
      */
     carouselShow: PropTypes.bool,
@@ -306,89 +310,60 @@ CarouselList.propTypes = {
      * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
      */
     containedViews: PropTypes.object.isRequired,
-
     /**
      * Vista contenida seleccionada, identificada por su *id*
      */
     containedViewSelected: PropTypes.any,
-
-    /**
-     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
-     */
-    boxes: PropTypes.object.isRequired,
-
     /**
      * Array que contiene todas las vistas creadas, identificadas por su *id*
      */
     navItemsIds: PropTypes.array.isRequired,
-
     /**
      * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
      */
     navItems: PropTypes.object.isRequired,
-
     /**
      * Vista seleccionada, identificada por su *id*
      */
     navItemSelected: PropTypes.any,
-
     /**
      * Vista/vista contenida seleccionada en el índice
      */
     indexSelected: PropTypes.any,
-
     /**
      * Añade caja
      */
     onBoxAdded: PropTypes.func.isRequired,
-
-    /**
-     * Borra vista contenida
-     */
-    onContainedViewDeleted: PropTypes.func.isRequired,
-
     /**
      * Selecciona vista contenida
      */
     onContainedViewSelected: PropTypes.func.isRequired,
-
     /**
      * Renombre vista contenida
      */
     onContainedViewNameChanged: PropTypes.func.isRequired,
-
     /**
      * Renombra vista
      */
     onNavItemNameChanged: PropTypes.func.isRequired,
-
     /**
      * Añade vista
      */
     onNavItemAdded: PropTypes.func.isRequired,
-
     /**
      * Selecciona vista
      */
     onNavItemSelected: PropTypes.func.isRequired,
-
     /**
      * Selecciona vista/vista contenida en el contexto del índice
      */
     onIndexSelected: PropTypes.func.isRequired,
-
     /**
      * Expande sección
      */
     onNavItemExpanded: PropTypes.func.isRequired,
-
-    /**
-     * Elimina vista/vista contenida
-     */
-    onNavItemDeleted: PropTypes.func.isRequired,
     /**
      * Reordena elementos del índice
      */
     onNavItemReordered: PropTypes.func.isRequired,
-
 };

@@ -13,3 +13,4 @@ export function EnrichedPlayer(base) {
         },
     };
 }
+// eslint-disable-file react/prop-types

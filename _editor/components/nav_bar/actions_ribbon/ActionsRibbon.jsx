@@ -152,4 +152,33 @@ ActionsRibbon.propTypes = {
      * Whether grid is disabled or not
      */
     grid: PropTypes.bool,
+    /**
+     * Caja seleccionada
+     */
+    boxSelected: PropTypes.any,
+    /**
+     * Lista de cajas
+     */
+    boxes: PropTypes.any,
+    /**
+      * Callback para cambiar de capa una caja
+     */
+    onBoxLayerChanged: PropTypes.any,
+    /**
+      * Lista de toolbars
+      */
+    toolbars: PropTypes.any,
+    /**
+      * Callback de edición de texto
+      */
+    onTextEditorToggled: PropTypes.any,
+    /**
+      * Callback para pegar una caja
+     */
+    onBoxPasted: PropTypes.any,
+    /**
+      * Callback para borrar una caja
+      */
+    onBoxDeleted: PropTypes.any,
+
 };

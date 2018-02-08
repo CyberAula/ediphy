@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import i18n from 'i18next';
+import PropTypes from 'prop-types';
+
 export default class CKEDitorComponent extends Component {
     constructor(props) {
         super(props);
@@ -121,3 +123,33 @@ export default class CKEDitorComponent extends Component {
     }
 
 }
+CKEDitorComponent.propTypes = {
+    /**
+   * Selected box
+   */
+    boxSelected: PropTypes.any,
+    /**
+   * This box
+   */
+    box: PropTypes.any,
+    /**
+   * Style object
+   */
+    style: PropTypes.object,
+    /**
+   * CSS classes to apply
+   */
+    className: PropTypes.string,
+    /**
+   * Toolbars
+   */
+    toolbars: PropTypes.object,
+    /**
+   * Box id
+   */
+    id: PropTypes.id,
+    /**
+   * Blur callback
+   */
+    onBlur: PropTypes.func.isRequired,
+};

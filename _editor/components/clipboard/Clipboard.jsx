@@ -435,5 +435,9 @@ Clipboard.propTypes = {
    * Object that contains all the contained views
    */
     containedViews: PropTypes.any,
+    /**
+     * Children components
+     */
+    children: PropTypes.any,
 };
 

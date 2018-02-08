@@ -73,7 +73,7 @@ VisorBoxSortable.propTypes = {
     /**
      * Vista actual
      */
-    currentView: PropTypes.any,
+    currentViewSelected: PropTypes.any,
     /**
      * Diccionario que contiene todas las toolbars
      */

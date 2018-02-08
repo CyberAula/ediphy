@@ -1,5 +1,5 @@
 import React from 'react';
-
+/* eslint-disable react/prop-types */
 export function Webpage(base) {
     return {
         getRenderTemplate: function(state) {
@@ -8,3 +8,4 @@ export function Webpage(base) {
         },
     };
 }
+/* eslint-enable react/prop-types */

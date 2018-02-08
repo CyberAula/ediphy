@@ -302,29 +302,6 @@ export default class EditorBox extends Component {
                     pluginContainer: markup.attr["plugin-container"],
                     resizable: resizable,
                     parentBox: this.props.boxes[this.props.id],
-                    // boxes: this.props.boxes,
-                    // boxSelected: this.props.boxSelected,
-                    // markCreatorId: this.props.markCreatorId,
-                    // addMarkShortcut: this.props.addMarkShortcut,
-                    // deleteMarkCreator: this.props.deleteMarkCreator,
-                    // boxLevelISelected: this.props.boxLevelSelected,
-                    // toolbars: this.props.toolbars,
-                    // lastActionDispatched: this.props.lastActionDispatched,
-                    // onBoxSelected: this.props.onBoxSelected,
-                    // onBoxLevelIncreased: this.props.onBoxLevelIncreased,
-                    // containedViewSelected: this.props.containedViewSelected,
-                    // onBoxMoved: this.props.onBoxMoved,
-                    // onBoxResized: this.props.onBoxResized,
-                    // onSortableContainerResized: this.props.onSortableContainerResized,
-                    // onBoxDropped: this.props.onBoxDropped,
-                    // containedViews: this.props.containedViews,
-                    // onBoxAdded: this.props.onBoxAdded,
-                    // pageType: this.props.pageType,
-                    // onVerticallyAlignBox: this.props.onVerticallyAlignBox,
-                    // onBoxesInsideSortableReorder: this.props.onBoxesInsideSortableReorder,
-                    // onTextEditorToggled: this.props.onTextEditorToggled,
-                    // onRichMarksModalToggled: this.props.onRichMarksModalToggled,
-                    // boxLevelSelected: this.props.boxLevelSelected,
                 });
             } else {
                 component = markup.tag;
@@ -921,4 +898,12 @@ EditorBox.propTypes = {
      * Indica el tipo de página en el que se encuentra la caja
      */
     pageType: PropTypes.string.isRequired,
+    /**
+       * Hace aparecer/desaparecer el modal de configuración de marcas
+        */
+    onRichMarksModalToggled: PropTypes.func.isRequired,
+    /**
+      * Snap to grid
+      */
+    grid: PropTypes.bool,
 };

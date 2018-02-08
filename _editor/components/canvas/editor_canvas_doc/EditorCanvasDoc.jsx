@@ -181,10 +181,6 @@ EditorCanvasDoc.propTypes = {
      */
     fromCV: PropTypes.bool,
     /**
-     * Indicador de si se muestra el canvas (tiene que haber un navItem seleccionado)
-     */
-    showCanvas: PropTypes.bool,
-    /**
      * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
      */
     boxes: PropTypes.object.isRequired,
@@ -289,11 +285,15 @@ EditorCanvasDoc.propTypes = {
      */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
-     * Selecciona una vista contenida
-     */
-    onContainedViewSelected: PropTypes.func.isRequired,
-    /**
      * Hace aparecer/desaparecer el CKEditor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
+    /**
+   * Hace aparecer/desaparecer el modal de configuración de marcas
+   */
+    onRichMarksModalToggled: PropTypes.func.isRequired,
+    /**
+   * Actualiza marca
+   */
+    onRichMarkUpdated: PropTypes.func.isRequired,
 };

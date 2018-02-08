@@ -48,3 +48,4 @@ export function ContainerJS(base) {
         },
     };
 }
+/* eslint-enable react/prop-types */

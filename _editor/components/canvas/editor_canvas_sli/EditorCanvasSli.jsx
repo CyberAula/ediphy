@@ -385,21 +385,9 @@ EditorCanvasSli.propTypes = {
      */
     onBoxesInsideSortableReorder: PropTypes.func.isRequired,
     /**
-     * Borra un contenedor
-     */
-    onSortableContainerDeleted: PropTypes.func.isRequired,
-    /**
-     * Reordena los contenedores
-     */
-    onSortableContainerReordered: PropTypes.func.isRequired,
-    /**
      * Redimensiona un contenedor
      */
     onSortableContainerResized: PropTypes.func.isRequired,
-    /**
-     * Selecciona una vista contenida
-     */
-    onContainedViewSelected: PropTypes.func.isRequired,
     /**
      * Hace aparecer/desaparecer el CKEditor
      */
@@ -408,4 +396,12 @@ EditorCanvasSli.propTypes = {
      * Whether or not the grid is activated for slides
      */
     grid: PropTypes.bool,
+    /**
+      * Hace aparecer/desaparecer el modal de configuración de marcas
+      */
+    onRichMarksModalToggled: PropTypes.func.isRequired,
+    /**
+      * Actualiza marca
+      */
+    onRichMarkUpdated: PropTypes.func.isRequired,
 };

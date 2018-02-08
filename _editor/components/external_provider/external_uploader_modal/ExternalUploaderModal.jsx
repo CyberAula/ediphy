@@ -91,7 +91,7 @@ export default class ExternalUploaderModal extends Component {
     }
 }
 
-ExternalUploaderModal.proptypes = {
+ExternalUploaderModal.propTypes = {
     /**
      * Delegación del botón en la creación
      * */
@@ -108,4 +108,8 @@ ExternalUploaderModal.proptypes = {
      * Función para subir imágenes al proveedor externo
      */
     onUploadVishResource: PropTypes.func,
+    /**
+      * Si está visible o no el modal
+      */
+    visible: PropTypes.bool,
 };
