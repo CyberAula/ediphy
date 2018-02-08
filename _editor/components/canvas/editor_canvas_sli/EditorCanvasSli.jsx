@@ -68,11 +68,9 @@ export default class EditorCanvasSli extends Component {
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
-
                 <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
                     className={'slide_air'}
                     style={{ margin: 'auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
-
                     <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                         ref="slideDropZone"
                         onClick={e => {
@@ -83,8 +81,8 @@ export default class EditorCanvasSli extends Component {
                         className={'innercanvas sli'}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: isColor ? itemSelected.background : '',
                             backgroundImage: (!isColor && itemSelected.background) ? 'url(' + itemSelected.background.background + ')' : '',
-                            backgroundSize: (itemSelected.background && itemSelected.background.attr === 'full') ? 'cover' : 'auto',
-                            backgroundRepeat: (itemSelected.background && itemSelected.background.attr === 'centered') ? 'no-repeat' : 'repeat',
+                            backgroundSize: (itemSelected.background && (itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'repeat')) ? 'auto 100%' : 'cover',
+                            backgroundRepeat: (itemSelected.background && (itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'full')) ? 'no-repeat' : 'repeat',
                             backgroundPosition: (itemSelected.background && (itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'full')) ? 'center center' : '0% 0%' }}>
                         {this.state.alert}
                         {gridOn ? <SnapGrid key={this.props.fromCV}/> : null}
@@ -152,7 +150,7 @@ export default class EditorCanvasSli extends Component {
                         {boxes.length === 0 ? (<div className="dragContentHere" style={{backgroundColor: 'transparent', border:0}}>{i18n.t("messages.drag_content")}</div>):(<span></span>)}
                         */}
                     </div>
-                    <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', this.props.fromCV ? 'containedCanvas' : 'canvas');
+                    <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', this.props.fromCV ? 'containedCanvas' : 'canvas', this.props.navItemSelected.customSize);
                     }} />
                 </div>
                 <EditorShortcuts
@@ -250,9 +248,8 @@ export default class EditorCanvasSli extends Component {
                 event.target.classList.remove("drop-target");
             },
         });
-
-        aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas');
-        // window.addEventListener("resize", aspectRatio);
+        aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas', this.props.navItemSelected.customSize);
+        // console.log(this.props.navItemSelected.customSize);
     }
 
     /**
@@ -260,7 +257,6 @@ export default class EditorCanvasSli extends Component {
      * Unset interact
      */
     componentWillUnmount() {
-        // window.removeEventListener("resize", aspectRatio);
         interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).unset();
     }
 
@@ -270,11 +266,9 @@ export default class EditorCanvasSli extends Component {
      * @param nextProps
      */
     componentWillUpdate(nextProps) {
-        if (this.props.canvasRatio !== nextProps.canvasRatio) {
+        if (this.props.canvasRatio !== nextProps.canvasRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
             window.canvasRatio = nextProps.canvasRatio;
-            // window.removeEventListener("resize", aspectRatio);
-            aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas');
-            // window.addEventListener("resize", aspectRatio);
+            aspectRatio(nextProps.canvasRatio, nextProps.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas', nextProps.navItemSelected.customSize);
         }
 
     }

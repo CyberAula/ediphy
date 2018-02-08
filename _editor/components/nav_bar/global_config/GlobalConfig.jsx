@@ -297,7 +297,7 @@ export default class GlobalConfig extends Component {
                     </Grid>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button bsStyle="default" id="insert_plugin_config_modal" onClick={e => {
+                    <Button bsStyle="default" id="cancel_insert_plugin_config_modal" onClick={e => {
                         this.cancel(); e.preventDefault();
                     }}>{i18n.t("global_config.Discard")}</Button>
                     <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
@@ -463,19 +463,19 @@ export default class GlobalConfig extends Component {
 
 GlobalConfig.propTypes = {
     /**
-     * Indica si se debe mostrar la ventana de configuración del curso u ocultar
+     * Indicates whether the course configuration modal should be shown or hidden
      */
     show: PropTypes.bool,
     /**
-     * Diccionario que contiene la configuración del curso. Objeto idéntico a ***globalConfig*** en el estado de Redux.
+     * Configuration course dictionary. Object identical to Redux state ***globalConfig*** .
      */
     globalConfig: PropTypes.object.isRequired,
     /**
-     * Guarda la nueva configuración
+     * Saves new configuration
      */
     changeGlobalConfig: PropTypes.func.isRequired,
     /**
-     * Cierra la ventana de configuración
+     * Closes course configuration modal
      */
     close: PropTypes.func.isRequired,
 };

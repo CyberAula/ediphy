@@ -3,7 +3,7 @@ import {
     REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES,
     DELETE_SORTABLE_CONTAINER, DROP_BOX,
     ADD_RICH_MARK, EDIT_RICH_MARK, DELETE_RICH_MARK,
-    IMPORT_STATE, PASTE_BOX, CHANGE_BOX_LAYER,
+    IMPORT_STATE, PASTE_BOX, CHANGE_BOX_LAYER, ADD_NAV_ITEMS,
 } from '../common/actions';
 import { ID_PREFIX_BOX } from '../common/constants';
 import { changeProp, changeProps, deleteProp, deleteProps, isView, isSlide, isDocument, findNavItemContainingBox, findDescendantNavItems, isContainedView } from '../common/utils';
@@ -24,10 +24,16 @@ function navItemCreator(state = {}, action = {}) {
             state[action.payload.parent].unitNumber),
         hidden: state[action.payload.parent].hidden,
         extraFiles: {},
-        background: "rgb(255,255,255)",
+        background: action.payload.background,
+        customSize: action.payload.customSize,
         header: {
             elementContent: { documentTitle: '', documentSubTitle: '', numPage: '' },
-            display: { courseTitle: 'hidden', documentTitle: 'expanded', documentSubTitle: 'hidden', breadcrumb: "reduced", pageNumber: "hidden" },
+            display: {
+                courseTitle: 'hidden',
+                documentTitle: (action.payload.type === 'slide' && action.payload.customSize !== 0) ? 'hidden' : 'expanded',
+                documentSubTitle: 'hidden',
+                breadcrumb: action.payload.type === 'slide' ? "hidden" : "reduced",
+                pageNumber: "hidden" },
         },
     };
 }
@@ -50,13 +56,19 @@ function singleNavItemReducer(state = {}, action = {}) {
         }
         return changeProp(state, "boxes", boxes);
     case ADD_NAV_ITEM:
+        let newChildren = JSON.parse(JSON.stringify(state.children));
+        if (action.payload.id) {
+            newChildren = [...newChildren, action.payload.id];
+        } else if (action.payload.ids) {
+            newChildren = newChildren.concat(action.payload.ids);
+        }
         return changeProps(
             state,
             [
                 "children",
                 "isExpanded",
             ], [
-                [...state.children, action.payload.id],
+                newChildren,
                 true,
             ]
         );
@@ -181,6 +193,16 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
             ], [
                 navItemCreator(state, action),
                 singleNavItemReducer(state[action.payload.parent], action),
+            ]
+        );
+    case ADD_NAV_ITEMS:
+        let navIds = action.payload.navs.map(nav => { return nav.id; });
+        let navs = action.payload.navs.map(nav => { return navItemCreator(state, { type: ADD_NAV_ITEM, payload: nav }); });
+        return changeProps(
+            state,
+            [...navIds, action.payload.parent],
+            [...navs,
+                singleNavItemReducer(state[action.payload.parent], { type: ADD_NAV_ITEM, payload: { parent: action.payload.parent, ids: navIds } }),
             ]
         );
     case CHANGE_NAV_ITEM_NAME:

@@ -7,6 +7,9 @@
     box-sizing: border-box;
     position: relative;
 }
+.editorBoxSortable{
+  overflow: auto;
+}
 
 .dividerBar{
     background: $lightgrey;

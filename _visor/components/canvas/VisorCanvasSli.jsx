@@ -34,7 +34,6 @@ export default class VisorCanvasSli extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
-        // aspectRatio(this.props.aspectRatio);
         let boxes = isCV ? this.props.containedViews[this.props.currentView].boxes || [] : this.props.navItems[this.props.currentView].boxes || [];
         let thisView = this.props.viewsArray && this.props.viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(this.props.viewsArray[this.props.viewsArray.length - 2]) ? this.props.containedViews[this.props.viewsArray[this.props.viewsArray.length - 2]].name : this.props.navItems[this.props.viewsArray[this.props.viewsArray.length - 2]].name)) : i18n.t('messages.go_back');
         let backgroundIsUri = (/data\:/).test(itemSelected.background);
@@ -60,7 +59,7 @@ export default class VisorCanvasSli extends Component {
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'),
                             background: isColor ? itemSelected.background : '',
                             backgroundImage: !isColor ? 'url(' + itemSelected.background.background + ')' : '',
-                            backgroundSize: itemSelected.background.attr === 'full' ? 'cover' : 'auto',
+                            backgroundSize: itemSelected.background.attr === 'full' ? 'cover' : 'auto 100%',
                             backgroundRepeat: itemSelected.background.attr === 'centered' ? 'no-repeat' : 'repeat',
                             backgroundPosition: itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'full' ? 'center center' : '0% 0%' }}>
                         {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
@@ -113,7 +112,7 @@ export default class VisorCanvasSli extends Component {
                         })}
 
                         <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
-                            aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas");
+                            aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSelected.customSize);
                         }} />
                     </div>
                 </div>
@@ -127,7 +126,8 @@ export default class VisorCanvasSli extends Component {
 
     componentDidMount() {
         let isCV = !isView(this.props.currentView);
-        aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas");
+        let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
+        aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSel.customSize);
 
         // window.addEventListener("resize", aspectRatio);
     }
@@ -136,16 +136,22 @@ export default class VisorCanvasSli extends Component {
     }
 
     componentWillUpdate(nextProps) {
-        if (this.props.canvasRatio !== nextProps.canvasRatio) {
+        let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
+        let nextItemSel = nextProps.navItems[nextProps.currentView] || nextProps.containedViews[nextProps.currentView];
+        if ((this.props.canvasRatio !== nextProps.canvasRatio) || (itemSel !== nextItemSel)) {
             let isCV = !isView(nextProps.currentView);
             window.canvasRatio = nextProps.canvasRatio;
-            // window.removeEventListener("resize", aspectRatio);
-            aspectRatio(nextProps.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas");
-            // window.addEventListener("resize", aspectRatio);
+            aspectRatio(nextProps.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", nextItemSel.customSize);
         }
 
     }
-
+    // componentWillUpdate(nextProps) {
+    //     if (this.props.canvasRatio !== nextProps.canvasRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
+    //         window.canvasRatio = nextProps.canvasRatio;
+    //         aspectRatio(nextProps.canvasRatio, nextProps.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas', nextProps.navItemSelected.customSize);
+    //     }
+    //
+    // }
 }
 
 VisorCanvasSli.propTypes = {

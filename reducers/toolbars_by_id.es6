@@ -3,7 +3,7 @@ import {
     DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER,
     EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR,
     CHANGE_CONTAINED_VIEW_NAME,
-    VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX,
+    VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX, ADD_NAV_ITEMS,
 } from '../common/actions';
 import Utils, {
     changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSlide, isDocument,
@@ -374,7 +374,7 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                             background: {
                                 __name: i18n.t('background.background'),
                                 type: 'background_picker',
-                                value: { background: "rgb(255,255,255)", attr: "full" },
+                                value: action.payload.background || { background: "rgb(255,255,255)", attr: "full" },
                                 autoManaged: false,
                             },
                         },
@@ -392,7 +392,7 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                             display_pagetitle: {
                                 __name: pagetitle,
                                 type: 'checkbox',
-                                checked: true,
+                                checked: (isSlide(type) && action.payload.customSize === 0) || !isSlide(type),
                                 autoManaged: false,
                             },
                             pagetitle_name: {
@@ -434,7 +434,7 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
         toolbar.controls.main.accordions.header.buttons.display_breadcrumb = {
             __name: i18n.t('Breadcrumb'),
             type: 'checkbox',
-            checked: true,
+            checked: !isSlide(type),
             autoManaged: false,
         };
         toolbar.controls.main.accordions.header.buttons.display_pagenumber = {
@@ -661,6 +661,10 @@ export default function(state = {}, action = {}) {
         return changeProp(state, action.payload.ids.id, toolbarCreator(state, action));
     case ADD_NAV_ITEM:
         return changeProp(state, action.payload.id, toolbarSectionCreator(state, action));
+    case ADD_NAV_ITEMS:
+        let ids = action.payload.navs.map(nav=> { return nav.id; });
+        let navs = action.payload.navs.map(nav=> { return toolbarSectionCreator(state, { type: ADD_NAV_ITEM, payload: nav });});
+        return changeProps(state, [...ids], [...navs]);
     case ADD_RICH_MARK:
         newState = JSON.parse(JSON.stringify(state));
         if(action.payload.mark.connectMode === "new") {
