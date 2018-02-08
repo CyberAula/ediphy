@@ -2,17 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ActionCreators } from 'redux-undo';
 import { Grid, Col, Row } from 'react-bootstrap';
-import { addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
+import {
+    addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
     changeNavItemName, selectIndex,
     addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
-    resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeBackground, changeSortableProps, reorderBoxes, verticallyAlignBox,
+    resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeBackground, changeSortableProps,
+    reorderBoxes, verticallyAlignBox,
     toggleTextEditor, toggleTitleMode, pasteBox, changeBoxLayer,
     changeDisplayMode, updateToolbar,
     exportStateAsync, importStateAsync, importState, changeGlobalConfig,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
     addRichMark, editRichMark, deleteRichMark,
-    ADD_BOX, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR } from '../../common/actions';
+    ADD_BOX, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR,
+    addNavItems } from '../../common/actions';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../common/constants';
 import EditorCanvas from '../components/canvas/editor_canvas/EditorCanvas';
 import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
@@ -38,9 +41,9 @@ import Ediphy from '../../core/editor/main';
 import { isSortableBox, isSection, isContainedView, isSortableContainer, getDuplicatedBoxesIds, getDescendantLinkedBoxes } from '../../common/utils';
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
-import PluginPlaceholder from '../components/canvas/plugin_placeholder/PluginPlaceholder';
-import { scrollElement } from '../../common/common_tools';
 import PropTypes from 'prop-types';
+import { scrollElement, findBox } from '../../common/common_tools';
+
 /**
  * EditorApp. Main application component that renders everything else
  */
@@ -104,11 +107,17 @@ class EditorApp extends Component {
                     <EditorNavBar hideTab={this.state.hideTab}
                         globalConfig={globalConfig}
                         changeGlobalConfig={(prop, value) => {this.dispatchAndSetState(changeGlobalConfig(prop, value));}}
+                        onIndexSelected={(id) => this.dispatchAndSetState(selectIndex(id))}
+                        onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
+                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hasContent) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, background, customSize, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content))))}
+                        onNavItemsAdded={(navs, parent)=> this.dispatchAndSetState(addNavItems(navs, parent))}
+                        onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
                         undoDisabled={undoDisabled}
                         redoDisabled={redoDisabled}
                         navItemsIds={navItemsIds}
                         navItems={navItems}
                         onTitleChanged={(id, titleStr) => {this.dispatchAndSetState(changeGlobalConfig('title', titleStr));}}
+                        containedViews={containedViews}
                         containedViewSelected={containedViewSelected}
                         navItemSelected={navItemSelected}
                         boxSelected={boxSelected}
@@ -156,7 +165,7 @@ class EditorApp extends Component {
                             this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
                         }}
                         onNavItemNameChanged={(id, titleStr) => this.dispatchAndSetState(changeNavItemName(id, titleStr))}
-                        onNavItemAdded={(id, name, parent, type, position) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content))))}
+                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hasContent) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, background, customSize, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content))))}
                         onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                         onNavItemExpanded={(id, value) => this.dispatchAndSetState(expandNavItem(id, value))}
                         onNavItemDeleted={(navsel) => {
@@ -528,7 +537,7 @@ class EditorApp extends Component {
                         let content = Ediphy.Plugins.get(e.detail.config.name).getRenderTemplate(e.detail.state, {});
                         addDefaultContainerPluginsReact(e.detail, content, this.props.boxes);
                     }
-                    let boxCreated = document.getElementById('box-' + e.detail.ids.id);
+                    let boxCreated = findBox(e.detail.ids.id);
                     scrollElement(boxCreated);
                 },
                 0.00000001);

@@ -139,6 +139,47 @@
     padding: 0 8px 4px 8px;
 }
 
+.svgIcon{
+    height: 12px;
+    padding: 0 8px;
+}
+/*Collapsed Carrousel*/
+.indiceoculto {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/*Hide Sections when collapsed*/
+.carouseloculto {
+    width: 0;
+}
+
+/*Show Sections when collapsed*/
+.carouselshow {
+    width: 100%;
+}
+
+/*Buttons that act upon navItems*/
+.carrouselButton {
+    border: 0;
+    padding: 2px;
+    font-size: 20px;
+    color: $grismedio;
+    min-width: 20%;
+    border-radius: 0;
+    background-color: transparent !important;;
+    float: none;
+    &:hover, &:active {
+        box-shadow: none !important;
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        outline: none;
+        color: white !important;
+        background-color: transparent !important;
+    }
+}
+
 /*Dropup*/
 
 .pageMenu {

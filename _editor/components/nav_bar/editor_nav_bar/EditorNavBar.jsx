@@ -6,6 +6,9 @@ import NavActionButtons from './NavActionButtons.jsx';
 import NavDropdown from './NavDropdown.jsx';
 import PluginsMenu from './PluginsMenu.jsx';
 import './_navBar.scss';
+import screenfull from 'screenfull';
+import ImportFile from "../import_file/ImportFile";
+import { selectNavItem } from "../../../../common/actions";
 
 /**
  * Upper navigation bar component
@@ -22,12 +25,15 @@ export default class EditorNavBar extends Component {
          */
         this.state = {
             showGlobalConfig: false,
+            showImportFile: false,
+            isFullScreenOn: screenfull.isFullscreen,
         };
 
         /**
          * Binded function
          */
         this.toggleGlobalConfig = this.toggleGlobalConfig.bind(this);
+        this.toggleImportFile = this.toggleImportFile.bind(this);
     }
 
     /**
@@ -60,11 +66,25 @@ export default class EditorNavBar extends Component {
                     scorm={this.props.scorm}
                     serverModalOpen={this.props.serverModalOpen}
                     toggleGlobalConfig={this.toggleGlobalConfig}
+                    toggleImportFile={this.toggleImportFile}
                     undoDisabled={this.props.undoDisabled} />
                 <GlobalConfig show={this.state.showGlobalConfig}
                     globalConfig={this.props.globalConfig}
                     changeGlobalConfig={this.props.changeGlobalConfig}
                     close={this.toggleGlobalConfig} />
+                <ImportFile navItemSelected={this.props.navItemSelected}
+                    onNavItemAdded={this.props.onNavItemAdded}
+                    onNavItemsAdded={this.props.onNavItemsAdded}
+                    onIndexSelected={this.props.onIndexSelected}
+                    onNavItemSelected={this.props.onNavItemSelected}
+                    onToolbarUpdated={this.props.onToolbarUpdated}
+                    navItemsIds={this.props.navItemsIds}
+                    navItems={this.props.navItems}
+                    containedViews={this.props.containedViews}
+                    containedViewSelected={this.props.containedViewSelected}
+                    show={this.state.showImportFile}
+                    close={this.toggleImportFile}/>
+
             </Col>
         );
     }
@@ -75,6 +95,14 @@ export default class EditorNavBar extends Component {
     toggleGlobalConfig() {
         this.setState((prevState, props) => ({
             showGlobalConfig: !prevState.showGlobalConfig,
+        }));
+    }
+    /**
+     * Shows/Hides the Import file modal
+     */
+    toggleImportFile() {
+        this.setState((prevState, props) => ({
+            showImportFile: !prevState.showImportFile,
         }));
     }
 }
@@ -156,6 +184,42 @@ EditorNavBar.propTypes = {
      * Cambia la categoría de plugins seleccionada
      * */
     setcat: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onNavItemAdded: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onNavItemsAdded: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onIndexSelected: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onNavItemSelected: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    onToolbarUpdated: PropTypes.func.isRequired,
+    /**
+   *
+   */
+    navItemsIds: PropTypes.array.isRequired,
+    /**
+   *
+   */
+    navItems: PropTypes.object.isRequired,
+    /**
+   *
+   */
+    containedViews: PropTypes.object.isRequired,
+    /**
+   *
+   */
+    containedViewSelected: PropTypes.any,
 
 };
 

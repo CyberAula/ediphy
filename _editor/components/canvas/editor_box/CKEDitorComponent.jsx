@@ -147,7 +147,7 @@ CKEDitorComponent.propTypes = {
     /**
    * Box id
    */
-    id: PropTypes.id,
+    id: PropTypes.any,
     /**
    * Blur callback
    */

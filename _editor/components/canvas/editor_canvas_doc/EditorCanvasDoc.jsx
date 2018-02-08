@@ -74,7 +74,6 @@ export default class EditorCanvasDoc extends Component {
                                  e.stopPropagation();
                              }}><i className="material-icons">undo</i></button>):(<br/>)}
                      */}
-
                         <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
                             className={'doc_air'}
                             style={{ background: itemSelected.background, visibility: (show ? 'visible' : 'hidden') }}>

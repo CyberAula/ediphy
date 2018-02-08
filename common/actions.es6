@@ -22,6 +22,7 @@ export const CHANGE_COLS = 'CHANGE_COLS';
 export const CHANGE_ROWS = 'CHANGE_ROWS';
 
 export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
+export const ADD_NAV_ITEMS = 'ADD_NAV_ITEMS';
 export const SELECT_NAV_ITEM = 'SELECT_NAV_ITEM';
 export const EXPAND_NAV_ITEM = 'EXPAND_NAV_ITEM';
 export const DELETE_NAV_ITEM = 'DELETE_NAV_ITEM';
@@ -76,8 +77,11 @@ export function deleteContainedView(ids, boxes, parent) {
     return { type: DELETE_CONTAINED_VIEW, payload: { ids, boxes, parent } };
 }
 
-export function addNavItem(id, name, parent, type, position, hasContent) {
-    return { type: ADD_NAV_ITEM, payload: { id, name, parent, type, position, hasContent } };
+export function addNavItem(id, name, parent, type, position, background, customSize, hasContent) {
+    return { type: ADD_NAV_ITEM, payload: { id, name, parent, type, position, background, customSize, hasContent } };
+}
+export function addNavItems(navs, parent) {
+    return { type: ADD_NAV_ITEMS, payload: { navs, parent } };
 }
 
 export function expandNavItem(id, value) {

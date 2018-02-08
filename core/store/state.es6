@@ -22,6 +22,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                 type: "section",
                 extraFiles: {},
                 background: "rgb(255, 255, 255)",
+                customSize: 0,
                 header: {
                     elementContent: {
                         documentTitle: '',
@@ -260,6 +261,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                 type: "section",
                 extraFiles: {},
                 background: "rgb(255,255,255)",
+                customSize: 0,
                 header: {
                     elementContent: {
                         documentTitle: "",
@@ -289,6 +291,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                 hidden: false,
                 extraFiles: {},
                 background: "rgb(255,255,255)",
+                customSize: 0,
                 header: {
                     elementContent: {
                         documentTitle: "",

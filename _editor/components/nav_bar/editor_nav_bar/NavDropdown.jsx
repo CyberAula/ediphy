@@ -40,6 +40,13 @@ export default class NavDropdown extends Component {
                             {i18n.t('Save')}
                         </button>
                     </MenuItem>}
+                    <MenuItem disabled={this.props.undoDisabled} eventKey="0" key="0">
+                        <button className="dropdownButton" title={i18n.t('messages.import_file')}
+                            disabled={ false }
+                            onClick={this.props.toggleImportFile}><i className="material-icons">file_upload</i>
+                            {i18n.t('messages.import_file')}
+                        </button>
+                    </MenuItem>
                     <MenuItem eventKey="1" key="1">
                         <button className="dropdownButton" title={i18n.t('messages.export_to_HTML')}
                             disabled={ (this.props.navItemSelected === 0) || this.props.undoDisabled}
@@ -126,4 +133,8 @@ NavDropdown.propTypes = {
      * Enables the "undo" feature
      */
     undoDisabled: PropTypes.bool,
+    /**
+   * Toggle file import modal
+   */
+    toggleImportFile: PropTypes.func.isRequired,
 };

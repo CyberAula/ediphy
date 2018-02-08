@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Ediphy from '../../../core/editor/main';
 import { isSlide, isSection } from '../../../common/utils';
+import iconPDF from './../../../dist/images/file-pdf.svg';
 
 export default class VisorNavSection extends Component {
     constructor(props) {
@@ -48,7 +49,9 @@ export default class VisorNavSection extends Component {
                         <a style={{ paddingLeft: margin }}
                             className={this.props.navItemSelected === page ? "indexElementTitle selectedNavItemVisor" : "indexElementTitle"}
                             href="#">
-                            {isSlide(this.props.navItemsById[page].type) ? (<i className="material-icons">slideshow</i>) : (<i className="material-icons">insert_drive_file</i>)}
+                            {(this.props.navItemsById[page].customSize === 0) ?
+                                <i className="material-icons">{isSlide(this.props.navItemsById[page].type) ? "slideshow" : "insert_drive_file"}</i>
+                                : <img className="svgIcon" src={iconPDF}/>}
                             <span>{this.props.navItemsById[page].name}</span>
                         </a>
                     </li>);

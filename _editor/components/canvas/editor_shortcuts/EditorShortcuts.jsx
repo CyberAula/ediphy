@@ -6,6 +6,7 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { UPDATE_BOX } from '../../../../common/actions';
 import i18n from 'i18next';
 import { isSortableBox, isSortableContainer } from '../../../../common/utils';
+import { findBox } from '../../../../common/common_tools';
 
 /**
  * EditorShortcuts component
@@ -43,7 +44,7 @@ export default class EditorShortcuts extends Component {
         if (!box || !toolbar) {
             return null;
         }
-        let boxEl = document.getElementById('box-' + (box ? box.id : ''));
+        let boxEl = findBox((box ? box.id : ''));
 
         return (
             <div id={this.props.isContained ? "contained_editorBoxIcons" : "editorBoxIcons"}
@@ -209,7 +210,7 @@ export default class EditorShortcuts extends Component {
     resize(fromUpdate, newProps) {
         let nextProps = (fromUpdate === 'fromUpdate') ? newProps : this.props;
         if (nextProps && nextProps.box) {
-            let box = document.getElementById('box-' + nextProps.box.id);
+            let box = findBox(nextProps.box.id);
             // box = box && box.parentNode ? box.parentNode : box;
             let element = ReactDOM.findDOMNode(this.refs.innerContainer);
             let left = 0;
@@ -277,7 +278,7 @@ export default class EditorShortcuts extends Component {
                 // this.resize("fromUpdate", nextProps);
                 // Removes pointer events allowance when box is changed
                 if (!this.props.box || nextProps.box.id !== this.props.box.id) {
-                    let boxEl = document.getElementById('box-' + (this.props.box ? this.props.box.id : ''));
+                    let boxEl = findBox((this.props.box ? this.props.box.id : ''));
                     if (boxEl) {
                         if (this.props.pointerEventsCallback) {
                             this.props.pointerEventsCallback('disableAll', this.props.toolbar);
@@ -300,7 +301,7 @@ export default class EditorShortcuts extends Component {
     componentDidMount() {
         window.addEventListener('resize', this.resizeAndSetState);
         if (this.props && this.props.box) {
-            let boxObj = document.getElementById('box-' + this.props.box.id);
+            let boxObj = findBox(this.props.box.id);
             if(boxObj) {
                 boxObj.addEventListener('resize', this.resizeAndSetState);
             }
@@ -313,7 +314,7 @@ export default class EditorShortcuts extends Component {
      * Remove resize listeners
      */
     componentWillUnmount() {
-        let boxEl = document.getElementById('box-' + (this.props.box ? this.props.box.id : ''));
+        let boxEl = findBox((this.props.box ? this.props.box.id : ''));
         if (boxEl) {
             let bool = boxEl.classList.contains('pointerEventsEnabled');
             if (this.props.pointerEventsCallback) {
@@ -324,7 +325,7 @@ export default class EditorShortcuts extends Component {
 
         window.removeEventListener('resize', this.resizeAndSetState);
         if (this.props && this.props.box) {
-            let boxObj = document.getElementById('box-' + this.props.box.id);
+            let boxObj = findBox(this.props.box.id);
             if(boxObj) {
                 boxObj.removeEventListener('resize', this.resizeAndSetState);
             }

@@ -13,6 +13,7 @@
 
 #Actions {
   float: right;
+  height: 50px;
 }
 .ActionBtn {
   height: 40px;
@@ -43,9 +44,8 @@
 }
 #vs {
   border-right: 1px solid #999;
-  height: 32px;
-  vertical-align: middle;
+  height: 50px;
+  vertical-align: top;
   overflow: visible;
   display: inline-block;
-  margin-top: 8px;
 }

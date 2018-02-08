@@ -10,7 +10,7 @@ import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 import './_pluginPlaceHolder.scss';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
-import { instanceExists, releaseClick } from '../../../../common/common_tools';
+import { instanceExists, releaseClick, findBox } from '../../../../common/common_tools';
 
 export default class PluginPlaceholder extends Component {
     constructor(props) {

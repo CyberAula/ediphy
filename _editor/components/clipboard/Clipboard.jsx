@@ -7,7 +7,7 @@ import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_RICH_MARK } from
 import { ADD_BOX } from '../../../common/actions';
 import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent } from './clipboard.utils';
 import i18n from 'i18next';
-import { instanceExists, scrollElement } from '../../../common/common_tools';
+import { instanceExists, scrollElement, findBox } from '../../../common/common_tools';
 /**
  * Component for managing the clipboard
  */
@@ -219,7 +219,7 @@ export default class Clipboard extends Component {
                         // TODO Drag with Ctrl key held
                         this.pasteBox(data, ids, isTargetSlide, newInd);
                         // Scroll into pasted element
-                        let boxCreated = document.getElementById('box-' + ids.id);
+                        let boxCreated = findBox(ids.id);
                         scrollElement(boxCreated);
                     } else {
                         // Inside a text box (CKEditor or input)
