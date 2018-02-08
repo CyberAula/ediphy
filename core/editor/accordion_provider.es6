@@ -1,5 +1,5 @@
 import i18n from "i18next";
-import { isSlide, isSortableBox, isSortableContainer } from "../../common/utils";
+import { isContainedView, isSlide, isSortableBox, isSortableContainer } from "../../common/utils";
 import Select from "react-select";
 import { ControlLabel, FormControl, FormGroup, Panel, Radio } from "react-bootstrap";
 import RadioButtonFormGroup from "../../_editor/components/toolbar/radio_button_form_group/RadioButtonFormGroup";
@@ -276,7 +276,7 @@ export function createSizeButtons(controls, state, action, floatingBox) {
      * @param state Toolbar state
      * @param key Current key
      */
-export function renderAccordion(accordion, tabKey, accordionKeys, state, key) {
+export function renderAccordion(accordion, tabKey, accordionKeys, state, key, toolbar_props) {
     if (accordionKeys[0] === 'z__extra') {
         return null;
     }
@@ -302,9 +302,9 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key) {
     if (accordion.order) {
         for (let i = 0; i < accordion.order.length; i++) {
             if (accordion.accordions[accordion.order[i]]) {
-                children.push(this.renderAccordion(accordion.accordions[accordion.order[i]], tabKey, [accordionKeys[0], accordion.order[i]], state, i));
+                children.push(renderAccordion(accordion.accordions[accordion.order[i]], tabKey, [accordionKeys[0], accordion.order[i]], state, i));
             } else if (accordion.buttons[accordion.order[i]]) {
-                children.push(this.renderButton(accordion, tabKey, accordionKeys, accordion.order[i], state, i));
+                children.push(renderButton(accordion, tabKey, accordionKeys, accordion.order[i], state, i, toolbar_props));
             } else {
                 // eslint-disable-next-line no-console
                 console.error("Element %s not defined", accordion.order[i]);
@@ -321,7 +321,7 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key) {
                         width: buttonWidth,
                         marginRight: buttonMargin,
                     }}>
-                    {this.renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], state, i)}
+                    {renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], state, i, toolbar_props)}
 
                 </div>
             );
@@ -353,14 +353,14 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key) {
      * @param key Current key
      * @returns {code} Button code
      */
-export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key) {
+export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key, toolbar_props) {
     let button = accordion.buttons[buttonKey];
     let children = null;
     let id;
-    if (this.props.boxSelected === -1) {
-        id = this.props.navItemSelected;
+    if (toolbar_props.boxSelected === -1) {
+        id = toolbar_props.navItemSelected;
     } else {
-        id = this.props.box.id;
+        id = toolbar_props.box.id;
     }
 
     let props = {
@@ -447,9 +447,9 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 }
 
                 if (buttonKey === "__width") {
-                    this.props.onBoxResized(id, newButton, otherButton);
+                    toolbar_props.onBoxResized(id, newButton, otherButton);
                 } else {
-                    this.props.onBoxResized(id, otherButton, newButton);
+                    toolbar_props.onBoxResized(id, otherButton, newButton);
                 }
                 return;
 
@@ -471,13 +471,13 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             if (button.type === 'radio') {
                 value = button.options[value];
                 if (buttonKey === '__position') {
-                    this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__position', value);
-                    let parentId = this.props.box.parent;
-                    let containerId = this.props.box.container;
-                    this.props.onBoxMoved(id, 0, 0, value, parentId, containerId);
+                    toolbar_props.onToolbarUpdated(id, tabKey, accordionKeys, '__position', value);
+                    let parentId = toolbar_props.box.parent;
+                    let containerId = toolbar_props.box.container;
+                    toolbar_props.onBoxMoved(id, 0, 0, value, parentId, containerId);
                     if (isSortableContainer(containerId)) {
                         let newHeight = parseFloat(document.getElementById(containerId).clientHeight, 10);
-                        this.props.onSortableContainerResized(containerId, parentId, newHeight);
+                        toolbar_props.onSortableContainerResized(containerId, parentId, newHeight);
                     }
                 }
             }
@@ -498,11 +498,11 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 }
             }
 
-            this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+            toolbar_props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
             if (!button.autoManaged) {
                 if (!button.callback) {
-                    this.handlecanvasToolbar(button.__name, value);
+                    handlecanvasToolbar(button.__name, value, accordion, toolbar_props);
                 } else {
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                 }
@@ -625,7 +625,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     options: button.options,
                     selected: button.value,
                     click: (option) => {
-                        this.props.onVerticallyAlignBox(this.props.boxSelected, option);
+                        toolbar_props.onVerticallyAlignBox(toolbar_props.boxSelected, option);
                     },
                     tooltips: button.tooltips,
                     icons: button.icons,
@@ -675,10 +675,10 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         return React.createElement(ExternalProvider, {
             key: button.__name,
             formControlProps: props,
-            isBusy: this.props.isBusy,
-            fetchResults: this.props.fetchResults,
-            onFetchVishResources: this.props.onFetchVishResources,
-            onUploadVishResource: this.props.onUploadVishResource,
+            isBusy: toolbar_props.isBusy,
+            fetchResults: toolbar_props.fetchResults,
+            onFetchVishResources: toolbar_props.onFetchVishResources,
+            onUploadVishResource: toolbar_props.onUploadVishResource,
             onChange: props.onChange,
             accept: button.accept,
         }, null);
@@ -693,7 +693,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     onChange={props.onChange}/>
                 {i18n.t("Auto")} <br/>
                 {/* Disable px size in slides*/}
-                {isSlide(this.props.navItems[this.props.navItemSelected].type) ?
+                {isSlide(toolbar_props.navItems[toolbar_props.navItemSelected].type) ?
                     (<span/>) :
                     (<div><br/>
                         <ControlLabel>{i18n.t("Units")}</ControlLabel>
@@ -791,5 +791,112 @@ export function renderValue(option) {
     return (
         <span>{option.label}</span>
     );
+}
+
+/**
+ * Header configuration
+ * @param name type of title
+ * @param value value of the field
+ */
+export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
+    let navitem = toolbar_props.navItems[toolbar_props.navItemSelected];
+    let toolbar = accordions;
+    switch (name) {
+    // change page/slide title
+    case i18n.t('background.background'):
+        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(value.background);
+        if(isColor) {
+            toolbar_props.onBackgroundChanged(toolbar_props.navItemSelected, value.background);
+        } else {
+            toolbar_props.onBackgroundChanged(toolbar_props.navItemSelected, value);
+        }
+        break;
+    case "custom_title":
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            documentTitle: value,
+        });
+        break;
+    // change page/slide title
+    case "custom_subtitle":
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            documentSubTitle: value,
+        });
+        break;
+    // change page/slide title
+    case "custom_pagenum":
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            numPage: value,
+        });
+        break;
+    // preview / export document
+    case i18n.t('display_page'):
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected);
+        break;
+    // change document(navitem) name
+    case i18n.t('NavItem_name'):
+        if (isContainedView(toolbar_props.navItemSelected)) {
+            toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, value);
+        } else {
+            toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, value);
+        }
+        break;
+    // display - course title
+    case i18n.t('course_title'):
+        let courseTitle = value ? 'reduced' : 'hidden';
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            courseTitle: courseTitle,
+        });
+        break; // display - page title
+    case i18n.t('Title') + i18n.t('document'):
+        let docTitle = value ? 'reduced' : 'hidden';
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            documentTitle: docTitle,
+        });
+        break;
+    // display - page title
+    case i18n.t('Title') + i18n.t('page'):
+        let pageTitle = value ? 'reduced' : 'hidden';
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            documentTitle: pageTitle,
+        });
+        break;
+    // display - slide title
+    case i18n.t('Title') + i18n.t('slide'):
+        let slideTitle = value ? 'reduced' : 'hidden';
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            documentTitle: slideTitle,
+        });
+        break;
+    case i18n.t('Title') + i18n.t('section'):
+        let sectionTitle = value ? 'reduced' : 'hidden';
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            documentTitle: sectionTitle,
+        });
+        break;
+    // display - subtitle
+    case i18n.t('subtitle'):
+        let subTitle = value ? 'reduced' : 'hidden';
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            documentSubTitle: subTitle,
+        });
+        break;
+    // display - breadcrumb
+    case i18n.t('Breadcrumb'):
+        let breadcrumb = value ? 'reduced' : 'hidden';
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            breadcrumb: breadcrumb,
+        });
+        break;
+    // display - pagenumber
+    case i18n.t('pagenumber'):
+        let pagenumber = value ? 'reduced' : 'hidden';
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            pageNumber: pagenumber,
+        });
+        break;
+    default:
+        break;
+    }
+
 }
 

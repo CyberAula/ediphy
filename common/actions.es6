@@ -101,10 +101,6 @@ export function updateNavItemExtraFiles(id, box, xml_path) {
     return { type: UPDATE_NAV_ITEM_EXTRA_FILES, payload: { id, box, xml_path } };
 }
 
-export function changeNavItemName(id, title) {
-    return { type: CHANGE_NAV_ITEM_NAME, payload: { id, title } };
-}
-
 export function changeContainedViewName(id, title) {
     return { type: CHANGE_CONTAINED_VIEW_NAME, payload: { id, title } };
 }

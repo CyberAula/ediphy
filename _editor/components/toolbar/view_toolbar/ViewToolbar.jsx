@@ -53,7 +53,7 @@ export default class ViewToolbar extends Component {
                             navitem_name: {
                                 __name: i18n.t('NavItem_name'),
                                 type: 'text',
-                                value: this.props.viewToolbars[id].courseTitle,
+                                value: this.props.viewToolbars[id].viewName,
                                 autoManaged: false,
                             },
                         },
@@ -166,8 +166,9 @@ export default class ViewToolbar extends Component {
                                                     tab.accordions[accordionKey],
                                                     tabKey,
                                                     [accordionKey],
-                                                    toolbar.state,
-                                                    ind
+                                                    toolbar,
+                                                    ind,
+                                                    this.props
                                                 );
                                             })}
                                         </PanelGroup>
@@ -179,113 +180,6 @@ export default class ViewToolbar extends Component {
                 </div>
             </div>
         );
-    }
-
-    /**
-     * Header configuration
-     * @param name type of title
-     * @param value value of the field
-     */
-    handlecanvasToolbar(name, value) {
-        let navitem = this.props.navItems[this.props.navItemSelected];
-        let toolbar = this.props.toolbars[this.props.navItemSelected].controls.main.accordions;
-        switch (name) {
-        // change page/slide title
-        case i18n.t('background.background'):
-            let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(value.background);
-            if(isColor) {
-                this.props.onBackgroundChanged(this.props.navItemSelected, value.background);
-            } else {
-                this.props.onBackgroundChanged(this.props.navItemSelected, value);
-            }
-            break;
-        case "custom_title":
-            this.props.titleModeToggled(this.props.navItemSelected, {
-                documentTitle: value,
-            });
-            break;
-        // change page/slide title
-        case "custom_subtitle":
-            this.props.titleModeToggled(this.props.navItemSelected, {
-                documentSubTitle: value,
-            });
-            break;
-        // change page/slide title
-        case "custom_pagenum":
-            this.props.titleModeToggled(this.props.navItemSelected, {
-                numPage: value,
-            });
-            break;
-        // preview / export document
-        case i18n.t('display_page'):
-            this.props.onNavItemToggled(this.props.navItemSelected);
-            break;
-        // change document(navitem) name
-        case i18n.t('NavItem_name'):
-            if (isContainedView(this.props.navItemSelected)) {
-                this.props.onContainedViewNameChanged(this.props.navItemSelected, value);
-            } else {
-                this.props.onNavItemNameChanged(this.props.navItemSelected, value);
-            }
-            break;
-        // display - course title
-        case i18n.t('course_title'):
-            let courseTitle = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {
-                courseTitle: courseTitle,
-            });
-            break; // display - page title
-        case i18n.t('Title') + i18n.t('document'):
-            let docTitle = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {
-                documentTitle: docTitle,
-            });
-            break;
-        // display - page title
-        case i18n.t('Title') + i18n.t('page'):
-            let pageTitle = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {
-                documentTitle: pageTitle,
-            });
-            break;
-        // display - slide title
-        case i18n.t('Title') + i18n.t('slide'):
-            let slideTitle = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {
-                documentTitle: slideTitle,
-            });
-            break;
-        case i18n.t('Title') + i18n.t('section'):
-            let sectionTitle = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {
-                documentTitle: sectionTitle,
-            });
-            break;
-        // display - subtitle
-        case i18n.t('subtitle'):
-            let subTitle = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {
-                documentSubTitle: subTitle,
-            });
-            break;
-        // display - breadcrumb
-        case i18n.t('Breadcrumb'):
-            let breadcrumb = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {
-                breadcrumb: breadcrumb,
-            });
-            break;
-        // display - pagenumber
-        case i18n.t('pagenumber'):
-            let pagenumber = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {
-                pageNumber: pagenumber,
-            });
-            break;
-        default:
-            break;
-        }
-
     }
 
 }

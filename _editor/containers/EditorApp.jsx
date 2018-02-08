@@ -11,7 +11,7 @@ import { addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem
     exportStateAsync, importStateAsync, importState, changeGlobalConfig,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
-    addRichMark, editRichMark, deleteRichMark,
+    addRichMark, editRichMark, deleteRichMark, updateViewToolbar,
     ADD_BOX, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR } from '../../common/actions';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../common/constants';
 import EditorCanvas from '../components/canvas/editor_canvas/EditorCanvas';
@@ -510,6 +510,7 @@ class EditorApp extends Component {
                     }}
                     onUploadVishResource={(query) => this.dispatchAndSetState(uploadVishResourceAsync(query))}
                     onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))}
+                    updateViewToolbar={(id, toolbar)=> this.dispatchAndSetState(updateViewToolbar(id, toolbar))}
                 />
                 <Clipboard boxes={boxes}
                     accordions={this.state.accordions}
