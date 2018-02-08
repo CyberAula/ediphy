@@ -206,15 +206,15 @@ export default class PluginRibbon extends Component {
                             target.setAttribute('data-y', y);
 
                             parent.removeChild(clone);
-                        }
 
-                        let releaseClickEl = document.elementFromPoint(event.clientX, event.clientY);
-                        let rib = releaseClick(releaseClickEl, "ribbon");
+                            let releaseClickEl = document.elementFromPoint(event.clientX, event.clientY);
+                            let rib = releaseClick(releaseClickEl, "ribbon");
+
+                            if(rib === 'List') {
+                                this.clickAddBox(event, name);
+                            }
+                        }
                         event.stopPropagation();
-                        if(rib === 'List') {
-                            this.clickAddBox(event, name);
-                        }
-
                     },
                 });
         });

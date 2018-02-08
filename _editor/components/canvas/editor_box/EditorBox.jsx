@@ -5,7 +5,7 @@ import MarkCreator from '../../rich_plugins/mark_creator/MarkCreator';
 import interact from 'interactjs';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import { EDIT_PLUGIN_TEXT } from '../../../../common/actions';
-import { releaseClick } from '../../../../common/common_tools';
+import { releaseClick, findBox } from '../../../../common/common_tools';
 import Ediphy from '../../../../core/editor/main';
 import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
 import './_editorBox.scss';
@@ -266,7 +266,6 @@ export default class EditorBox extends Component {
                     deleteMarkCreator={this.props.deleteMarkCreator}
                     onBoxAdded={this.props.onBoxAdded}
                     boxSelected={this.props.boxSelected}
-                    content={this.refs.content}
                     containedViews={this.props.containedViews}
                     toolbar={toolbar ? toolbar : {}}
                     parseRichMarkInput={Ediphy.Plugins.get(toolbar.config.name).parseRichMarkInput}
@@ -569,7 +568,7 @@ export default class EditorBox extends Component {
                             // Else, drag the clone and update values in attributes in both elements
                         } else {
                             let target = document.getElementById('clone');
-                            let original = document.getElementById('box-' + this.props.id);
+                            let original = findBox(this.props.id);
                             let x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx;
                             let y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
                             target.style.webkitTransform =

@@ -132,7 +132,8 @@ export function instanceExists(name) {
     let query = (isCV ? '#containedCanvas' : '#canvas') + ' .wholebox';
     $(query).each((ind, el)=>{
         if (el.getAttribute('name') === name) {
-            alreadyOne = true; return;
+            alreadyOne = true;
+            return;
         }
     });
 
@@ -144,4 +145,8 @@ export function scrollElement(node, options) {
     if (node) {
         scrollIntoViewIfNeeded(node, cfg);
     }
+}
+
+export function findBox(id) {
+    return document.getElementById('box-' + id);
 }

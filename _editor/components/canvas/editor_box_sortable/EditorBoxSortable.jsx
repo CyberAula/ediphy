@@ -12,7 +12,7 @@ import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 
 import './_editorBoxSortable.scss';
-import { instanceExists, releaseClick } from '../../../../common/common_tools';
+import { instanceExists, releaseClick, findBox } from '../../../../common/common_tools';
 
 /**
  * EditorBoxSortable Component
@@ -137,11 +137,11 @@ export default class EditorBoxSortable extends Component {
 
                             <div className="sortableMenu width100 over_hidden">
                                 <div className="iconsOverBar float_left pos_absolute bottom0">
-                                    <OverlayTrigger placement="top" overlay={
+                                    { box.children.length > 1 ? <OverlayTrigger placement="top" overlay={
                                         <Tooltip id="deleteTooltip">{i18n.t('Reorder')}
                                         </Tooltip>}>
                                         <i className="material-icons drag-handle btnOverBar">swap_vert</i>
-                                    </OverlayTrigger>
+                                    </OverlayTrigger> : null }
 
                                     <Overlay rootClose
                                         show={this.state.show === idContainer}
@@ -357,7 +357,7 @@ export default class EditorBoxSortable extends Component {
                         }
 
                         for (let b in this.props.boxes) {
-                            let dombox = document.getElementById('box-' + b);
+                            let dombox = findBox(b);
                             if (dombox) {
                                 dombox.style.opacity = 1;
                             }

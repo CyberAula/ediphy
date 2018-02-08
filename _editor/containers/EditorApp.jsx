@@ -43,7 +43,7 @@ import { isSortableBox, isSection, isContainedView, isSortableContainer, getDupl
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import PluginPlaceholder from '../components/canvas/plugin_placeholder/PluginPlaceholder';
-import { scrollElement } from '../../common/common_tools';
+import { scrollElement, findBox } from '../../common/common_tools';
 
 /**
  * EditorApp. Main application component that renders everything else
@@ -537,7 +537,7 @@ class EditorApp extends Component {
                         let content = Ediphy.Plugins.get(e.detail.config.name).getRenderTemplate(e.detail.state, {});
                         addDefaultContainerPluginsReact(e.detail, content, this.props.boxes);
                     }
-                    let boxCreated = document.getElementById('box-' + e.detail.ids.id);
+                    let boxCreated = findBox(e.detail.ids.id);
                     scrollElement(boxCreated);
                 },
                 0.00000001);
