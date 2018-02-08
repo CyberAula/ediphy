@@ -24,10 +24,12 @@ function genDoc(componentPath, renderer, lang) {
                     let trans = doc.props[prop].description || "";
 
                     if (trans === "") {
+                        // eslint-disable-next-line no-console
                         console.log('\x1b[36m%s\x1b[0m', "\tdoc-warning", "You forgot to provide a description for prop " + prop + " at component ", componentName);
                     }
                     trans = i18n.t("components." + componentName + "." + prop, { lng: lang });
                     if (trans === "components." + componentName + "." + prop) {
+                        // eslint-disable-next-line no-console
                         console.log('\x1b[36m%s\x1b[0m', "\tdoc-warning", "You forgot to translate the prop " + prop + "  in " + lang + " for component ", componentName);
                         trans = doc.props[prop].description;
                     }
@@ -79,6 +81,7 @@ function createDirIfNotExists(dir) {
 }
 
 function main() {
+    // eslint-disable-next-line no-console
     console.log();
     fs.writeFileSync(IMPORT_PATH, "");
     createDirIfNotExists(FILES_PATH);
