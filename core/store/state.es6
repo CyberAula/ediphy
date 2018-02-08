@@ -103,7 +103,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                             },
                             "background": {
                                 "__name": "Fondo",
-                                "icon": "image",
+                                "icon": "crop_original",
                                 "buttons": {
                                     "background": {
                                         "__name": i18n.t('background.background'),
@@ -338,7 +338,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                             },
                             "background": {
                                 "__name": "Fondo",
-                                "icon": "image",
+                                "icon": "crop_original",
                                 "buttons": {
                                     "background": {
                                         "__name": i18n.t('background.background'),
@@ -453,7 +453,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                             },
                             "background": {
                                 "__name": "Fondo",
-                                "icon": "image",
+                                "icon": "crop_original",
                                 "buttons": {
                                     "background": {
                                         "__name": i18n.t('background.background'),

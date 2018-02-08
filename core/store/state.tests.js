@@ -474,7 +474,7 @@ export const testState = {
                                 },
                                 "background": {
                                     "__name": "Fondo",
-                                    "icon": "image",
+                                    "icon": "crop_original",
                                     "buttons": {
                                         "background": {
                                             "__name": i18n.t('background.background'),
@@ -589,7 +589,7 @@ export const testState = {
                                 },
                                 "background": {
                                     "__name": "Fondo",
-                                    "icon": "image",
+                                    "icon": "crop_original",
                                     "buttons": {
                                         "background": {
                                             "__name": i18n.t('background.background'),
@@ -711,7 +711,7 @@ export const testState = {
                                 },
                                 "background": {
                                     "__name": "Fondo",
-                                    "icon": "image",
+                                    "icon": "crop_original",
                                     "buttons": {
                                         "background": {
                                             "__name": i18n.t('background.background'),
@@ -825,7 +825,7 @@ export const testState = {
                                 },
                                 "background": {
                                     "__name": "Fondo",
-                                    "icon": "image",
+                                    "icon": "crop_original",
                                     "buttons": {
                                         "background": {
                                             "__name": i18n.t('background.background'),
@@ -940,7 +940,7 @@ export const testState = {
                                 },
                                 "background": {
                                     "__name": "Fondo",
-                                    "icon": "image",
+                                    "icon": "crop_original",
                                     "buttons": {
                                         "background": {
                                             "__name": i18n.t('background.background'),
@@ -1062,7 +1062,7 @@ export const testState = {
                                 },
                                 "background": {
                                     "__name": "Fondo",
-                                    "icon": "image",
+                                    "icon": "crop_original",
                                     "buttons": {
                                         "background": {
                                             "__name": i18n.t('background.background'),
