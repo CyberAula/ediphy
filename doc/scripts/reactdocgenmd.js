@@ -1,7 +1,6 @@
 import i18n from '../locales/i18n';
 import path from 'path';
 import fs from 'fs';
-import log from 'console-emoji';
 const reactDocgen = require('react-docgen');
 const ReactDocGenMarkdownRenderer = require('react-docgen-markdown-renderer');
 export const languages = ['en', 'es'];
@@ -23,11 +22,15 @@ function genDoc(componentPath, renderer, lang) {
 
                 Object.keys(doc.props).map(prop => {
                     let trans = doc.props[prop].description || "";
+
                     if (trans === "") {
-                        log("You forgot to provide a description for prop " + prop + " at component " + componentName, 'warn'); }
+                        // eslint-disable-next-line no-console
+                        console.log('\x1b[36m%s\x1b[0m', "\tdoc-warning", "You forgot to provide a description for prop " + prop + " at component ", componentName);
+                    }
                     trans = i18n.t("components." + componentName + "." + prop, { lng: lang });
                     if (trans === "components." + componentName + "." + prop) {
-                        log("You forgot to translate the prop " + prop + "  in " + lang + " for component " + componentName, 'warn');
+                        // eslint-disable-next-line no-console
+                        console.log('\x1b[36m%s\x1b[0m', "\tdoc-warning", "You forgot to translate the prop " + prop + "  in " + lang + " for component ", componentName);
                         trans = doc.props[prop].description;
                     }
                     doc.props[prop] = { ...doc.props[prop], description: trans };
@@ -78,6 +81,8 @@ function createDirIfNotExists(dir) {
 }
 
 function main() {
+    // eslint-disable-next-line no-console
+    console.log();
     fs.writeFileSync(IMPORT_PATH, "");
     createDirIfNotExists(FILES_PATH);
     for (let l in languages) {
