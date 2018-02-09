@@ -37,13 +37,13 @@ export default class Docs extends Component {
 
             if (Object.keys(tree[el].children).length === 0) {
                 return (<LinkContainer to={tree[el].path}>
-                    <NavItem key={el} active={this.state.section === el} eventKey={el} href="#">
+                    <NavItem key={el} active={this.state.section === el} href="#">
                         <span>{tree[el].title}</span>
                     </NavItem></LinkContainer>
                 );
             }
 
-            return (<NavDropdown key={el} active={this.state.section === el} eventKey={el} title={tree[el].title} id="basic-nav-dropdown">
+            return (<NavDropdown key={el} active={this.state.section === el} title={tree[el].title} id="basic-nav-dropdown">
                 {Object.keys(tree[el].children).map(sub =>{
                     return (<LinkContainer to={tree[el].children[sub].path}>
                         <MenuItem key={el + '.' + sub} eventKey={el + '.' + sub}>
@@ -89,10 +89,11 @@ export default class Docs extends Component {
                         </Navbar.Collapse>
                     </Navbar>
                 </Row>
-                <Route exact path="/" component={Comp}/>
+
                 <Route exact path="/:section" component={Comp}/>
                 <Route exact path="/:section/:page" component={Comp}/>
                 <Route path="/:section/:page/:subpage" component={Comp}/>
+                <Route exact path="/" component={Comp}/>
                 <span id="langSelector">
                     <ChangeLang lang="en"/>・<ChangeLang lang="es"/>
                 </span>

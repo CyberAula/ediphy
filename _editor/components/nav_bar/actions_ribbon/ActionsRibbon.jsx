@@ -157,27 +157,27 @@ ActionsRibbon.propTypes = {
      */
     boxSelected: PropTypes.any,
     /**
-     * Lista de cajas
+     * Array containing all the boxes
      */
     boxes: PropTypes.any,
     /**
-      * Callback para cambiar de capa una caja
+      * Callback for changing box layers
      */
     onBoxLayerChanged: PropTypes.any,
     /**
-      * Lista de toolbars
+      * Array of toolbars
       */
     toolbars: PropTypes.any,
     /**
-      * Callback de edición de texto
+      * Callback for text edition
       */
     onTextEditorToggled: PropTypes.any,
     /**
-      * Callback para pegar una caja
+      * Callback for pasting a box
      */
     onBoxPasted: PropTypes.any,
     /**
-      * Callback para borrar una caja
+      * Callback for deleting a box
       */
     onBoxDeleted: PropTypes.any,
 

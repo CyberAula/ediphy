@@ -11,19 +11,19 @@ export const srcTree = (lang = "es") => {
     let langPath = lang === "en" ? "" : "_" + lang;
     return {
         1: {
-            path: '/',
+            path: '/home',
             title: i18n.t("title.Home"),
             children: {},
             self: true,
             componentName: "Home",
         },
-        2: {
+        /* 2: {
             path: '/about',
             title: i18n.t("title.About"),
             children: {},
             self: true,
             componentName: "About",
-        },
+        },*/
         3: {
             path: '/manual',
             title: i18n.t("title.UserManual"),

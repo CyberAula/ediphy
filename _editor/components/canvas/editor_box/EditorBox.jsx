@@ -810,71 +810,71 @@ export default class EditorBox extends Component {
 
 EditorBox.propTypes = {
     /**
-     * Identificador único de la caja
+     * Box unique identifier
      */
     id: PropTypes.string.isRequired,
     /**
-     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     * Object contianing all the boxes
      */
     boxes: PropTypes.object.isRequired,
     /**
-     * Caja seleccionada en el momento. Si no hay ninguna, -1
+     * Box selected. If there is none selected the value is, -1
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * Nivel de profundidad de caja seleccionada (sólo para plugins dentro de plugins)
+     * Depth level of the selected box. Used when there are plugins inside plugins
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Object that holds all the contained views in the project
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Vista contenida seleccionada identificada por su *id*
+     * Selected contained view
      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
-     * Diccionario que contiene todas las cajas y vistas creadas , accesibles por su *id*
+     * Object containing all the toolbars
      */
     toolbars: PropTypes.object.isRequired,
     /**
-     * Última acción realizada en Redux
+     * Last action dispatched in Redux
      */
     lastActionDispatched: PropTypes.any.isRequired,
     /**
-     * Añade una marca a la caja
+     * Callback for when adding a mark
      */
     addMarkShortcut: PropTypes.func.isRequired,
     /**
-     * Función que oculta el overlay de creación de marcas
+     * Callback for when deleting a mark
      */
     deleteMarkCreator: PropTypes.func.isRequired,
     /**
-     * Identificador de la caja en la que se va a crear una marca
+     * Identifier of the box that is currently in process of creating a mark
      */
     markCreatorId: PropTypes.any.isRequired,
     /**
-     * Añade una caja
+     * Callback for when adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
-     * Selecciona la caja
+     * Selects a box
      */
     onBoxSelected: PropTypes.func.isRequired,
     /**
-     * Aumenta el nivel de profundidad de selección (plugins dentro de plugins)
+     * Icreases box level selected
      */
     onBoxLevelIncreased: PropTypes.func.isRequired,
     /**
-     * Mueve la caja
+     * Callback for when moving a box
      */
     onBoxMoved: PropTypes.func.isRequired,
     /**
-     * Redimensiona la caja
+     * Callback for when resizing a box
      */
     onBoxResized: PropTypes.func.isRequired,
     /**
-     * Suelta la caja en una zona de un EditorBoxSortable
+     * Callback for when dropping a box
      */
     onBoxDropped: PropTypes.func.isRequired,
     /**
@@ -882,27 +882,27 @@ EditorBox.propTypes = {
      */
     onVerticallyAlignBox: PropTypes.func.isRequired,
     /**
-     * Reordena las cajas dentro de su contenedor
+     * Callback for when vertically aligning boxes inside a contianer
      */
     onBoxesInsideSortableReorder: PropTypes.func.isRequired,
     /**
-     * Redimensiona un contenedor
+     * Callabck for when resizing a sortable container
      */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
-     * Hace aparecer/desaparecer el CKEditor
+     * Callback for toggling the CKEDitor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
     /**
-     * Indica el tipo de página en el que se encuentra la caja
+     * Indicates the page type that the box is at
      */
     pageType: PropTypes.string.isRequired,
     /**
-       * Hace aparecer/desaparecer el modal de configuración de marcas
-        */
+      * Makes the rich marks modal appear/disappear
+      */
     onRichMarksModalToggled: PropTypes.func.isRequired,
     /**
-      * Snap to grid
+      * Snap to grid flag
       */
     grid: PropTypes.bool,
 };
