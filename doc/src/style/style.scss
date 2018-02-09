@@ -62,9 +62,11 @@ h5, .h5 {
 #indexCol {
   background-color: white;
   padding: 0px;
+
   .sidebarTitle{
     padding: 35px 0 25px;
     font-size: 1em;
+    width: 100%;
   }
   .list-group {
       margin-top: 10px;
@@ -76,7 +78,7 @@ h5, .h5 {
     border: 0;
     border-style: ridge;
     border-top: 3px solid $ediphy_blue;
-    width: 90%;
+    width: 100%;
   }
 }
 

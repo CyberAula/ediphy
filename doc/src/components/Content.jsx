@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Row, Col, ListGroup, ListGroupItem, Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Grid, Row, Col, ListGroup, ListGroupItem, Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { srcTree, WIKI_BASE_URL, editURL } from './../content';
 import Markdown from 'react-remarkable';
 import loaderSvg from '../img/Rolling.svg';
-import editIcon from '../img/edit.svg';
 import * as Components from '../components';
 import Prism from 'prismjs';
 const loader = <div className="loader" ><img src={loaderSvg} /></div>;
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
+import SideTree from './SideTree';
+import EditDocButton from './EditDocButton';
 export default class Content extends Component {
     constructor(props) {
         super(props);
@@ -21,25 +22,9 @@ export default class Content extends Component {
         };
     }
 
-    changePage(page, subpage) {
-        this.reload(this.props.section, this.props.subsection, page, subpage);
-
-    }
-
-    mapAlternate(array, fn1, fn2, thisArg) {
-        let fn = fn1, output = [];
-        for (let i = 0; i < array.length; i++) {
-            output[i] = fn.call(thisArg, array[i], i, array);
-            // toggle between the two functions
-            fn = fn === fn1 ? fn2 : fn1;
-        }
-        return output;
-    }
-
     render() {
         let tree = srcTree(i18n.t("lang"));
         let pages = this.state.pages;
-        let changePage = this.changePage.bind(this);
         let currentPage = this.props.page;
         let currentSubPage = this.props.subpage;
         let customComponent = null;
@@ -70,48 +55,12 @@ export default class Content extends Component {
             content = children;
 
         }
-        const tooltip = (
-            <Tooltip id="tooltip">{i18n.t("EditDocs")}</Tooltip>
-        );
 
         return (
             <Row className="mainRow">
-                <Col xs={12} sm={3} md={2} className="mainCol" id="indexCol" style={{ display: big ? 'none' : 'block' }}>
-
-                    <h4 className="sidebarTitle">
-                        {/* <Glyphicon style={{ fontSize: '18px' }} glyph="list-alt"/> */}{sideBarTitle}
-                    </h4>
-                    <hr />
-                    <ListGroup>
-                        {Object.keys(pages).map((key) => {
-                            let item = pages[key];
-                            return <div>
-                                <ListGroupItem key={key} className={currentPage === key && (!currentSubPage || currentSubPage === 0) ? 'selectedNav navListItem' : 'navListItem'} >
-                                    <LinkContainer to={item.path || '#'}>
-                                        <span>{item.title}</span>
-                                    </LinkContainer>
-                                </ListGroupItem>
-                                {Object.keys(item.subpages || {}).map(function(sub) {
-                                    return <ListGroupItem style={{ paddingLeft: '30px' }}
-                                        className={currentPage === key && currentSubPage === sub ? 'selectedNav navListItem subItem' : 'navListItem subItem'}
-                                        key={ key + "_" + sub }>
-                                        <LinkContainer to={item.subpages[sub].path || '#'}>
-                                            <span>{item.subpages[sub].title}</span>
-                                        </LinkContainer>
-                                    </ListGroupItem>;
-                                })}
-                            </div>;
-                        })}
-
-                    </ListGroup>
-                </Col>
+                <SideTree big={big} sideBarTitle={sideBarTitle} pages={pages} currentPage={currentPage} currentSubPage={currentSubPage} />
                 <Col xs={12} className="mainCol contentCol" sm={big ? 12 : 9 } md={big ? 12 : 10} >
-                    <OverlayTrigger placement="bottom" overlay={tooltip}>
-                        <span className="editIcon"
-                            style={{ display: content && content !== "" && content !== loader ? 'inline-block' : 'none' }}>
-                            <a href={this.state.url}><img style={{ width: '25px' }} src={editIcon}/></a>
-                        </span>
-                    </OverlayTrigger>
+                    <EditDocButton show={content && content !== "" && content !== loader} link={this.state.url}/>
                     {(this.state.self || !pages || !pages[currentPage] || (pages[currentPage] && pages[currentPage].hideTitle)) ? null : (<h1> {this.state.title}</h1>)}
                     {this.state.md ?
                         <div className="markdownContainer" style={{ padding: !big ? '0px' : '0px 50px' }}>
@@ -124,7 +73,8 @@ export default class Content extends Component {
                     {customComponent}
 
                 </Col>
-            </Row>);
+            </Row>
+        );
 
     }
 
@@ -190,6 +140,16 @@ export default class Content extends Component {
         this.reload(this.props.section, this.props.subsection, this.props.page, this.props.subpage);
         Prism.highlightAll(Prism.languages.jsx);
     }
+    mapAlternate(array, fn1, fn2, thisArg) {
+        let fn = fn1, output = [];
+        for (let i = 0; i < array.length; i++) {
+            output[i] = fn.call(thisArg, array[i], i, array);
+            // toggle between the two functions
+            fn = fn === fn1 ? fn2 : fn1;
+        }
+        return output;
+    }
+
 }
 Content.propTypes = {
     /**

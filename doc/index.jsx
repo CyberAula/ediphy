@@ -74,30 +74,33 @@ export default class Docs extends Component {
         };
 
         return (<Router forceRefresh={!supportsHistory}>
-            <Grid fluid>
-                <Row id="nbRow">
-                    <Navbar collapseOnSelect >
-                        <Navbar.Header>
-                            <Navbar.Brand>
-                                <a href="#">Ediphy Docs</a>
-                            </Navbar.Brand>
-                        </Navbar.Header>
-                        <Navbar.Toggle style={{ top: '0px', right: '0px', position: 'absolute' }}/>
-                        <Navbar.Collapse>
-                            {navItems}
+            <div>
+                <Grid fluid>
+                    <Row id="nbRow">
+                        <Navbar collapseOnSelect >
+                            <Navbar.Header>
+                                <Navbar.Brand>
+                                    <a href="#">Ediphy Docs</a>
+                                </Navbar.Brand>
+                            </Navbar.Header>
+                            <Navbar.Toggle style={{ top: '0px', right: '0px', position: 'absolute' }}/>
+                            <Navbar.Collapse>
+                                {navItems}
 
-                        </Navbar.Collapse>
-                    </Navbar>
-                </Row>
+                            </Navbar.Collapse>
+                            <span id="langSelector">
+                                <ChangeLang lang="en"/>・<ChangeLang lang="es"/>
+                            </span>
+                        </Navbar>
+                    </Row></Grid>
+                <Grid >
 
-                <Route exact path="/:section" component={Comp}/>
-                <Route exact path="/:section/:page" component={Comp}/>
-                <Route path="/:section/:page/:subpage" component={Comp}/>
-                <Route exact path="/" component={Comp}/>
-                <span id="langSelector">
-                    <ChangeLang lang="en"/>・<ChangeLang lang="es"/>
-                </span>
-            </Grid></Router>);
+                    <Route exact path="/:section" component={Comp}/>
+                    <Route exact path="/:section/:page" component={Comp}/>
+                    <Route path="/:section/:page/:subpage" component={Comp}/>
+                    <Route exact path="/" component={Comp}/></Grid>
+            </div>
+        </Router>);
 
     }
     handleNav(section, subsection) {
