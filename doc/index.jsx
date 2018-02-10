@@ -74,32 +74,28 @@ export default class Docs extends Component {
         };
 
         return (<Router forceRefresh={!supportsHistory}>
-            <div>
-                <Grid fluid>
-                    <Row id="nbRow">
-                        <Navbar collapseOnSelect >
-                            <Navbar.Header>
-                                <Navbar.Brand>
-                                    <a href="#">Ediphy Docs</a>
-                                </Navbar.Brand>
-                            </Navbar.Header>
-                            <Navbar.Toggle style={{ top: '0px', right: '0px', position: 'absolute' }}/>
-                            <Navbar.Collapse>
-                                {navItems}
+            <Grid fluid id="grid">
+                <Navbar collapseOnSelect id="nb">
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            <a href="#">Ediphy Docs</a>
+                        </Navbar.Brand>
+                    </Navbar.Header>
+                    <Navbar.Toggle style={{ top: '0px', right: '0px', position: 'absolute' }}/>
+                    <Navbar.Collapse>
+                        {navItems}
 
-                            </Navbar.Collapse>
-                            <span id="langSelector">
-                                <ChangeLang lang="en"/>・<ChangeLang lang="es"/>
-                            </span>
-                        </Navbar>
-                    </Row></Grid>
-                <Grid >
+                    </Navbar.Collapse>
+                    <span id="langSelector">
+                        <ChangeLang lang="en"/>・<ChangeLang lang="es"/>
+                    </span>
+                </Navbar>
 
-                    <Route exact path="/:section" component={Comp}/>
-                    <Route exact path="/:section/:page" component={Comp}/>
-                    <Route path="/:section/:page/:subpage" component={Comp}/>
-                    <Route exact path="/" component={Comp}/></Grid>
-            </div>
+                <Route exact path="/:section" component={Comp}/>
+                <Route exact path="/:section/:page" component={Comp}/>
+                <Route path="/:section/:page/:subpage" component={Comp}/>
+                <Route exact path="/" component={Comp}/>
+            </Grid>
         </Router>);
 
     }

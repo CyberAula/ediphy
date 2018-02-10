@@ -1,49 +1,41 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Jumbotron, Grid, Col, Row } from 'react-bootstrap';
-import icon from '../img/ging.png';
-import react from '../img/React-icon.svg';
-import redux from '../img/Redux-icon.svg';
-import git from '../img/Github-icon.svg';
-import plugin from '../img/plugin.svg';
-import i18n from 'i18next';
-import About from './About';
-export default class Content extends Component {
 
+import Main from './LandingPageScreens/Main';
+import How from './LandingPageScreens/How';
+import What from './LandingPageScreens/What';
+import When from './LandingPageScreens/When';
+import Why from './LandingPageScreens/Why';
+import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
+/* eslint-disable react/prop-types */
+export default class Content extends Component {
     render() {
         return (
-            [<Grid className="bsGrid">
-                <br/>
-                <Jumbotron>
-                    <img src={icon} className="mainLogo" alt=""/>
-                    <h1><b>ED</b>iphy</h1>
-                    <h2>{i18n.t("Home.Description")}</h2>
-                </Jumbotron>
-                <Row className="tools">
-                    <Col xs={12} md={4} className="mainPageBlock">
-                        <Link to="api">
-                            <img src={plugin} className="homeImg" alt=""/>
-                        </Link>
-                        <h3>{i18n.t("Home.PluginBased")}</h3>
-                    </Col>
-                    <Col xs={12} md={4} className="mainPageBlock">
-                        <a href="https://facebook.github.io/react/">
-                            <img src={react} className="homeImg" alt=""/>
-                        </a>
-                        <a href="http://redux.js.org/docs/introduction/">
-                            <img src={redux} className="homeImg" alt=""/>
-                        </a>
-                        <h3>{i18n.t("Home.ReactRedux")}</h3>
-                    </Col>
-
-                    <Col xs={12} md={4} className="mainPageBlock">
-                        <a href="https://github.com/ging/ediphy/">
-                            <img src={git} className="homeImg" alt=""/>
-                        </a>
-                        <h3>{i18n.t("Home.Github")}</h3>
-                    </Col>
-                </Row>
-            </Grid>, <About/>]
+            [<Main/>, <Why/>, <How/>, <What/>, <When/>,
+                <button onClick={this.handleScroll} className="down_arrow">
+                    <i className="material-icons">keyboard_arrow_down</i>
+                </button>]
         );
     }
+
+    handleScroll() {
+        let viewList = ["main", "why", "how", "what", "when"];
+        let where = "main";
+        let nextInd = 0;
+        for (let view in viewList) {
+            let element = document.getElementById(viewList[view]);
+            let rect = element.getBoundingClientRect();
+            if (rect.top >= 0 || rect.bottom > 0) {
+                where = viewList[view];
+                nextInd = parseInt(view, 10) + 1;
+                if (nextInd === viewList.length) {
+                    nextInd = 0;
+                }
+                break;
+            }
+        }
+        let element = document.getElementById(viewList[nextInd]);
+        scrollIntoViewIfNeeded(element, { duration: 300, centerIfNeeded: true, easing: 'easeInOut' });
+
+    }
 }
+/* eslint-enable react/prop-types */

@@ -91,7 +91,7 @@ button[disabled].navButton {
   height: 60px;
   width: 10px;
   float: left;
-  background: linear-gradient(141deg, $blueprimarydark 0%, #14b6b0 51%, $blueprimary 75%);
+  background: linear-gradient(141deg, $blueprimarydark 0%, $bluemedium 51%, $blueprimary 75%);
   color: white;
   opacity: 0.95;
 }

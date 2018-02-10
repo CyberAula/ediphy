@@ -2,7 +2,7 @@ import editIcon from '../img/edit.svg';
 import React, { Component } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import i18n from 'i18next';
-
+/* eslint-disable react/prop-types */
 export default class EditDocButton extends Component {
     render() {
         const tooltip = <Tooltip id="tooltip">{i18n.t("EditDocs")}</Tooltip>;
@@ -15,3 +15,4 @@ export default class EditDocButton extends Component {
             </OverlayTrigger>);
     }
 }
+/* eslint-enable react/prop-types */

@@ -11,6 +11,8 @@ import i18n from 'i18next';
 import PropTypes from 'prop-types';
 import SideTree from './SideTree';
 import EditDocButton from './EditDocButton';
+/* eslint-disable react/prop-types */
+
 export default class Content extends Component {
     constructor(props) {
         super(props);
@@ -57,7 +59,7 @@ export default class Content extends Component {
         }
 
         return (
-            <Row className="mainRow">
+            customComponent ? customComponent : <Row className="mainRow">
                 <SideTree big={big} sideBarTitle={sideBarTitle} pages={pages} currentPage={currentPage} currentSubPage={currentSubPage} />
                 <Col xs={12} className="mainCol contentCol" sm={big ? 12 : 9 } md={big ? 12 : 10} >
                     <EditDocButton show={content && content !== "" && content !== loader} link={this.state.url}/>
@@ -70,7 +72,6 @@ export default class Content extends Component {
                         </div> :
                         (<div>{content}</div>)
                     }
-                    {customComponent}
 
                 </Col>
             </Row>
@@ -169,3 +170,4 @@ Content.propTypes = {
    */
     subpage: PropTypes.any,
 };
+/* eslint-enable react/prop-types */

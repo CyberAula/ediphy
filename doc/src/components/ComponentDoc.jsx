@@ -3,7 +3,7 @@ import { Panel } from 'react-bootstrap';
 import * as doc from '../../importMdFiles';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
-
+/* eslint-disble react/prop-types */
 export default class ComponentDoc extends Component {
     constructor(props) {
         super(props);
@@ -33,3 +33,4 @@ ComponentDoc.propTypes = {
    */
     component: PropTypes.any,
 };
+/* eslint-enable react/prop-types */
