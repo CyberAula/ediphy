@@ -50,7 +50,7 @@ export default class Content extends Component {
             let children = this.mapAlternate(parts,
                 function(x) { return x; },
                 function(x) {
-                    return <Components.ComponentDoc bsClass="default" component={x}/>;
+                    return <Components.ComponentDoc bsClass="default" component={x} key={Math.random() * 10}/>;
 
                 });
 
@@ -134,12 +134,12 @@ export default class Content extends Component {
         // }
     }
     componentDidUpdate(prevProps, prevState) {
-        Prism.highlightAll(Prism.languages.jsx);
+        Prism.highlightAll();
     }
     componentDidMount() {
 
         this.reload(this.props.section, this.props.subsection, this.props.page, this.props.subpage);
-        Prism.highlightAll(Prism.languages.jsx);
+        Prism.highlightAll();
     }
     mapAlternate(array, fn1, fn2, thisArg) {
         let fn = fn1, output = [];

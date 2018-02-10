@@ -35,7 +35,7 @@ let es = {
             "ReactRedux": "Creado con React y Redux",
             "Github": "Visita el proyecto en Github",
             "How": {
-                "Header": '¿Qué es <span style="color:white">EDiphy?</span>',
+                "Header": '¿Qué es <span style="color:white;">EDiphy?</span>',
                 "Subheader": "Es una herramienta de código libre de autoría de recursos de aprendizaje online que permite crear diferentes tipos de recursos (documentos web, diapositivas…) Es un proyecto desarrollado en Javascript (ES6), junto con librerías como React y Redux. Empleamos yarn como gestor de paquetes y webpack como servidor de desarrollo.",
             },
             "Why": {
@@ -44,7 +44,7 @@ let es = {
                 "Subheader2": "¡Echa un vistazo y compruébalo tú mismo!",
             },
             "What": {
-                "Header": '¿Qué puedes hacer en <span className="ediphy_blue">EDiphy</span>?',
+                "Header": '¿Qué puedes hacer en <span class="ediphy_blue">EDiphy</span>?',
                 "Version": 'Versión 1.0.0',
                 "Subheader": "¿Qué tiene EDiphy que lo hace tan estupendo y que hará tus presentaciones más fáciles, dinámicas y divertidas?",
                 "dnd": "Además el contenido está basado en plugins con interacción drag and drop",

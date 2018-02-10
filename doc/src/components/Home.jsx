@@ -11,7 +11,7 @@ export default class Content extends Component {
     render() {
         return (
             [<Main/>, <Why/>, <How/>, <What/>, <When/>,
-                <button onClick={this.handleScroll} className="down_arrow">
+                <button onClick={this.handleScroll} className="down_arrow" autoFocus>
                     <i className="material-icons">keyboard_arrow_down</i>
                 </button>]
         );

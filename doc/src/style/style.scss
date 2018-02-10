@@ -9,8 +9,11 @@ $material-font-path:  '../../../node_modules/material-design-icons-font/iconfont
 }
 @import '../../../node_modules/material-design-icons-font/iconfont/material-icons';
 
-body, #root, #root > .container-fluid, #mainRow {
+html, body, #root, #root > .container-fluid, #mainRow {
     height:100%;
+}
+body {
+  overflow-y: scroll;
 }
 a{
   color: $blueprimary;
@@ -54,6 +57,7 @@ h5, .h5 {
 }
 .mainCol {
   height:100%;
+  overflow: auto;
 }
 
 .mainRow{
@@ -294,12 +298,13 @@ img[alt=Índice], img[alt=Toolbar] {
     //margin-top:7%;
   }
   h1 {
+    word-break: keep-all;
     font-size: 10em;
     //font-size: 14vw;
     vertical-align: middle;
   }
   h2 {
-    font-size: 1.2em;
+    font-size: 1.3em;
     //font-size: 1.8vw;
     text-align: left;
     margin-top: -20px;
@@ -428,7 +433,24 @@ div.int-box { display: table-cell; vertical-align: middle; }
 
 /*****************************/
 /******FLOATING INDEX**********/
+
+
+
+@media only screen and (max-width : 768px) {
+  .floatingIndex {
+    padding: 15px;
+  }
+  #mainTitle h1 {
+    font-size: 8em;
+    margin-bottom: 20px;
+  }
+  #main h2 {
+    text-align: center;
+  }
+
+}
 /* Custom, iPhone Retina */
+
 @media only screen and (min-width : 320px) {
 
 }
@@ -438,6 +460,7 @@ div.int-box { display: table-cell; vertical-align: middle; }
   .floatingIndex {
     padding: 15px;
   }
+
 }
 
 /* Small Devices, Tablets */
@@ -445,6 +468,8 @@ div.int-box { display: table-cell; vertical-align: middle; }
   .floatingIndex {
     position:fixed;
     width: 25%;
+    max-height: calc(100% - 60px);
+    overflow: auto;
   }
 }
 
@@ -465,4 +490,19 @@ div.int-box { display: table-cell; vertical-align: middle; }
 }
 
 
+.codeButton {
+  border-radius: 50%;
+  background-color: $blueprimary;
+  width:35px;
+  height:35px;
+  font-size: 20px;
+  line-height:35px;
+  text-align: center;
+  color:white;
+  margin:10px;
+}
+.codePanel {
+  margin-top: -52px;
+
+}
 /******************************************/

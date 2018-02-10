@@ -33,7 +33,7 @@ let en = {
             "ReactRedux": "Built with React & Redux",
             "Github": "Visit the project on Github",
             "How": {
-                "Header": 'What is <span style="color:white">EDiphy?</span>',
+                "Header": 'What is <span style="color:white;">EDiphy?</span>',
                 "Subheader": "It is an open-source e-learning authoring tool fot creating educational resources of all kinds (slides, web documents...). It is a project developed in Javascript (ES6), along with tools such as Rect & Redux. We use yarn as our package manager and webpack as development server",
             },
             "Why": {
@@ -42,7 +42,7 @@ let en = {
                 "Subheader2": "Take a look at it and check yourself!",
             },
             "What": {
-                "Header": 'What can you do with <span className="ediphy_blue">EDiphy</span>?',
+                "Header": 'What can you do with <span class="ediphy_blue">EDiphy</span>?',
                 "Version": 'Version 1.0.0',
                 "Subheader": "What makes Ediphy so wonderful and easy to use for creating dynamic and fun content?",
                 "dnd": "Each feature is plugin-based and has drag-and-drop interaction",

@@ -15,7 +15,7 @@ export default class SideTree extends Component {
                 <ListGroup>
                     {Object.keys(pages).map((key) => {
                         let item = pages[key];
-                        return <div>
+                        return <div key={key}>
                             <ListGroupItem key={key} className={currentPage === key && (!currentSubPage || currentSubPage === 0) ? 'selectedNav navListItem' : 'navListItem'} >
                                 <LinkContainer to={item.path || '#'}>
                                     <span>{item.title}</span>
