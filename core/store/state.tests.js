@@ -147,6 +147,11 @@ export const testState = { present:
                         opacity: 1,
                         padding: 0,
                     },
+                    structure: {
+                        __width:,
+                        __height:,
+                        rotation:,
+                    },
                     /*
                 "bs-1511252985426": {
                     "id": "bs-1511252985426",

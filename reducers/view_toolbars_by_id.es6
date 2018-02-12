@@ -37,6 +37,8 @@ function toolbarElementCreator(state, action, isContainedView = false) {
         documentTitle: 'expanded',
         documentTitleContent: pagetitle,
         numPage: '',
+        customSize: 0,
+        background: "rgb(255,255,255)",
     };
 
     return toolbar;
