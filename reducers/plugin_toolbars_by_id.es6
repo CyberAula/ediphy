@@ -12,7 +12,7 @@ import i18n from 'i18next';
 function toolbarCreator(state, action) {
     let toolbar = {
         id: action.payload.ids.id,
-        pluginName: action.payload.pluginName,
+        pluginId: action.payload.initialParams.name,
         state: action.payload.state || {},
         style: action.payload.style || {},
         showTextEditor: false,

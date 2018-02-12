@@ -154,7 +154,7 @@ class EditorApp extends Component {
                         navItemSelected={navItemSelected}
                         displayMode={displayMode}
                         viewToolbars={viewToolbars}
-                        onBoxAdded={(ids, draggable, resizable, content, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, state))}
+                        onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                         onIndexSelected={(id) => this.dispatchAndSetState(selectIndex(id))}
                         onContainedViewNameChanged={(id, titleStr) => this.dispatchAndSetState(changeContainedViewName(id, titleStr))}
                         onContainedViewSelected={ (id) => this.dispatchAndSetState(selectContainedView(id)) }
@@ -255,7 +255,7 @@ class EditorApp extends Component {
                                 viewToolbars={viewToolbars}
                                 title={title}
                                 markCreatorId={this.state.markCreatorVisible}
-                                onBoxAdded={(ids, draggable, resizable, content, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, state))}
+                                onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 addMarkShortcut= {(mark) => {
                                     let state = JSON.parse(JSON.stringify(toolbars[boxSelected].state));
                                     state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
@@ -308,7 +308,7 @@ class EditorApp extends Component {
                                     }
                                     this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
                                 }}
-                                onBoxAdded={(ids, draggable, resizable, content, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, state))}
+                                onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
                                 title={title}
                                 onRichMarksModalToggled={(value) => {
@@ -368,7 +368,7 @@ class EditorApp extends Component {
                     currentRichMark={this.state.currentRichMark}
                     defaultValueMark={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).getConfig().defaultMarkValue : 0}
                     validateValueInput={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).validateValueInput : null}
-                    onBoxAdded={(ids, draggable, resizable, content, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, state))}
+                    onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                     onRichMarkUpdated={this.onRichMarkUpdated}
                     onRichMarksModalToggled={() => {
                         this.setState({ richMarksVisible: !this.state.richMarksVisible });
@@ -527,6 +527,8 @@ class EditorApp extends Component {
                 }
                 e.detail.ids.id = (this.severalBoxes !== 0) ? ID_PREFIX_BOX + this.severalBoxes++ : ID_PREFIX_BOX + Date.now() + this.index++;
 
+                let pt = this.buildPluginToolbar(e.detail);
+
                 this.dispatchAndSetState(addBox(
                     {
                         parent: e.detail.ids.parent,
@@ -536,7 +538,9 @@ class EditorApp extends Component {
                     true,
                     !isSortableContainer(e.detail.ids.container),
                     e.detail.content,
-                    e.detail.state,
+                    pt.styles,
+                    pt.state,
+                    pt.structure,
                     e.detail.initialParams
                 ));
                 setTimeout(()=> {
@@ -593,14 +597,14 @@ class EditorApp extends Component {
                     if (!isSortableBox(id)) {
                         let button = toolbar.controls.main.accordions.z__extra.buttons.alias;
                         if (button.value.length !== 0) {
-                            if (!plugins[toolbar.config.name]) {
-                                plugins[toolbar.config.name] = [];
+                            if (!plugins[toolbar.pluginId]) {
+                                plugins[toolbar.pluginId] = [];
                             }
-                            plugins[toolbar.config.name].push(button.value);
+                            plugins[toolbar.pluginId].push(button.value);
                         }
                     }
-                } else if (plugins[toolbar.config.name]) {
-                    plugins[toolbar.config.name] = true;
+                } else if (plugins[toolbar.pluginId]) {
+                    plugins[toolbar.pluginId] = true;
                 }
             });
 
@@ -800,6 +804,16 @@ class EditorApp extends Component {
             }
         }
         this.dispatchAndSetState(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/));
+    }
+
+    buildPluginToolbar(detail) {
+        let state = detail.state;
+        let styles = {};
+        Object.keys(detail.toolbar.main.accordions.style.buttons).map((e) => {
+            styles[e] = detail.toolbar.main.accordions.style.buttons[e].value;
+        });
+
+        return { state, styles };
     }
 
 }

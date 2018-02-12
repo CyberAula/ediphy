@@ -57,12 +57,14 @@ export default class EditorBox extends Component {
         let width;
         let height;
         let classNames = "";
-        let config = Ediphy.Plugins.get(toolbar.config.name);
+        let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
+        let config = apiPlugin.getConfig();
         if (config.needsTextEdition) {
             textareaStyle.textAlign = "left";
             style.textAlign = "left";
         }
-
+        let controls = apiPlugin.getToolbar();
+        style = { ...style, ...toolbar.style };
         for (let tabKey in toolbar.controls) {
             for (let accordionKey in toolbar.controls[tabKey].accordions) {
                 let button;
@@ -148,7 +150,7 @@ export default class EditorBox extends Component {
         let props = { ...this.props, parentBox: this.props.boxes[this.props.id] };
         let content = toolbar.config.flavor === "react" ? (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {Ediphy.Plugins.get(toolbar.config.name).getRenderTemplate(toolbar.state, props)}
+                {Ediphy.Plugins.get(toolbar.pluginId).getRenderTemplate(toolbar.state, props)}
             </div>
         ) : (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
@@ -209,7 +211,7 @@ export default class EditorBox extends Component {
         wholeBoxStyle.verticalAlign = verticalAlign;
 
         return (
-            <div className={classes} id={'box-' + this.props.id} name={toolbar.config.name}
+            <div className={classes} id={'box-' + this.props.id} name={toolbar.pluginId}
                 onClick={e => {
                     if (this.props.boxSelected !== this.props.id &&
                       (box.level < 1 || box.level < this.props.boxLevelSelected || isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes))) {
@@ -258,7 +260,7 @@ export default class EditorBox extends Component {
                  To disable this, you also have to change the textareastyle to an absolute position div, and remove the float property*/}
                 {toolbar.showTextEditor ? null : content }
                 {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxes[this.props.id]}
-                    style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.toolbars} id={this.props.id}
+                    style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.pluginToolbars} id={this.props.id}
                     onBlur={this.blurTextarea}/> : null}
                 <div className="boxOverlay" style={{ display: showOverlay }} />
                 <MarkCreator
@@ -268,7 +270,7 @@ export default class EditorBox extends Component {
                     boxSelected={this.props.boxSelected}
                     containedViews={this.props.containedViews}
                     toolbar={toolbar ? toolbar : {}}
-                    parseRichMarkInput={Ediphy.Plugins.get(toolbar.config.name).parseRichMarkInput}
+                    parseRichMarkInput={Ediphy.Plugins.get(toolbar.pluginId).parseRichMarkInput}
                     markCreatorId={this.props.markCreatorId}
                     currentId={this.props.id}
                     pageType={this.props.pageType}
@@ -347,9 +349,9 @@ export default class EditorBox extends Component {
      */
     blurTextarea(data) {
         this.props.onTextEditorToggled(this.props.id, false);
-        let toolbar = this.props.toolbars[this.props.id];
+        let toolbar = this.props.pluginToolbars[this.props.id];
 
-        Ediphy.Plugins.get(toolbar.config.name).forceUpdate(Object.assign({}, toolbar.state, {
+        Ediphy.Plugins.get(toolbar.pluginId).forceUpdate(Object.assign({}, toolbar.state, {
             __text: toolbar.config.extraTextConfig ? data : encodeURI(data),
         }), this.props.id, EDIT_PLUGIN_TEXT);
     }
@@ -359,7 +361,7 @@ export default class EditorBox extends Component {
      * @returns {boolean} true if aspect ratio shoud be kept, false otherwise
      */
     checkAspectRatioValue() {
-        let toolbar = this.props.toolbars[this.props.id];
+        let toolbar = this.props.pluginToolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
         if (box && box.height && box.height === 'auto') {
             return true;
@@ -391,7 +393,7 @@ export default class EditorBox extends Component {
      * @param prevState React previous state
      */
     componentDidUpdate(prevProps, prevState) {
-        let toolbar = this.props.toolbars[this.props.id];
+        let toolbar = this.props.pluginToolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
         let node = ReactDOM.findDOMNode(this);
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
@@ -408,7 +410,7 @@ export default class EditorBox extends Component {
             ] };
         }
 
-        if (prevProps.toolbars[this.props.id] && (toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && box.draggable) {
+        if (prevProps.pluginToolbars[this.props.id] && (toolbar.showTextEditor !== prevProps.pluginToolbars[this.props.id].showTextEditor) && box.draggable) {
             interact(node).draggable({ enabled: !toolbar.showTextEditor, snap: snap });
         } else {
             interact(node).draggable({ snap: snap });
@@ -430,7 +432,7 @@ export default class EditorBox extends Component {
      * Set interact listeners for box manipulation
      */
     componentDidMount() {
-        let toolbar = this.props.toolbars[this.props.id];
+        let toolbar = this.props.pluginToolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
         let container = box.container;
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
@@ -723,8 +725,8 @@ export default class EditorBox extends Component {
                     }
                     // Calculate new button values
                     let target = event.target;
-                    let widthButton = Object.assign({}, this.props.toolbars[this.props.id].controls.main.accordions.__sortable.buttons.__width);
-                    let heightButton = Object.assign({}, this.props.toolbars[this.props.id].controls.main.accordions.__sortable.buttons.__height);
+                    let widthButton = Object.assign({}, this.props.pluginToolbars[this.props.id].controls.main.accordions.__sortable.buttons.__width);
+                    let heightButton = Object.assign({}, this.props.pluginToolbars[this.props.id].controls.main.accordions.__sortable.buttons.__height);
 
                     // Units can be either % or px
                     if (widthButton.units === "%") {
@@ -836,7 +838,7 @@ EditorBox.propTypes = {
     /**
      * Object containing all the toolbars
      */
-    toolbars: PropTypes.object.isRequired,
+    pluginToolbars: PropTypes.object.isRequired,
     /**
      * Last action dispatched in Redux
      */

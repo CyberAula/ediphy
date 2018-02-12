@@ -116,8 +116,8 @@ export function changeContainedViewName(id, title) {
     return { type: CHANGE_CONTAINED_VIEW_NAME, payload: { id, title } };
 }
 
-export function addBox(ids, draggable, resizable, content, style, state, initialParams) {
-    return { type: ADD_BOX, payload: { ids, draggable, resizable, content, style, state, initialParams } };
+export function addBox(ids, draggable, resizable, content, style, state, structure, initialParams) {
+    return { type: ADD_BOX, payload: { ids, draggable, resizable, content, style, state, structure, initialParams } };
 }
 
 export function selectBox(id, box) {

@@ -189,11 +189,11 @@ export default function() {
                         state.__size = null;
                     }
                 }
-                if(isRich) {
+                /* if(isRich) {
                     if(!state.__marks) {
                         state.__marks = {};
                     }
-                }
+                }*/
                 initialParams = initParams;
                 initialParams.name = descendant.getConfig().name;
                 if (initialParams && Object.keys(initialParams).length !== 0) {
@@ -406,6 +406,7 @@ export default function() {
                             container: initialParams.container,
                         },
                         {
+                            name: this.getConfig().name,
                             position: initialParams.position,
                             row: initialParams.row,
                             col: initialParams.col,

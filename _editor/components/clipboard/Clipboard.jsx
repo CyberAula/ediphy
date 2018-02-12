@@ -128,7 +128,7 @@ export default class Clipboard extends Component {
      * Pastes box
      */
     pasteBox(data, ids, isTargetSlide, index) {
-        let pluginName = data.toolbar.config.name;
+        let pluginName = data.toolbar.pluginId;
         let limitToOneInstance = data.toolbar.config.limitToOneInstance;
         let alertMsg = (msg) => { return (<Alert className="pageModal" key="alert" show hasHeader backdrop={false}
             title={ <span><i className="material-icons alert-warning" >warning</i>{ i18n.t("messages.alert") }</span> }
@@ -141,7 +141,7 @@ export default class Clipboard extends Component {
         if (isBox(ids.parent) && (!data.childBoxes || Object.keys(data.childBoxes).length > 0)) {
             this.setState({ alert: alertMsg(i18n.t('messages.depth_limit')) }); return;
         }
-        if (limitToOneInstance && instanceExists(data.toolbar.config.name)) {
+        if (limitToOneInstance && instanceExists(data.toolbar.pluginId)) {
             this.setState({ alert: alertMsg(i18n.t('messages.instance_limit')) });
             return;
         }
@@ -326,7 +326,7 @@ export default class Clipboard extends Component {
             newToolbar.state.__marks = newMarks;
         }
         if (isTargetSlide !== isOriginSlide) {
-            let config = Ediphy.Plugins.get(newToolbar.config.name).getConfig();
+            let config = Ediphy.Plugins.get(newtoolbar.pluginId).getConfig();
             if (isTargetSlide) {
                 newToolbar.controls.main.accordions.__sortable.buttons.__width.units = "%";
                 newToolbar.controls.main.accordions.__sortable.buttons.__width.value =
