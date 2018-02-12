@@ -80,7 +80,7 @@ export default class EditorCanvasDoc extends Component {
 
                             <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                                 className={'innercanvas doc'}
-                                style={{ background: itemSelected.background, visibility: (show ? 'visible' : 'hidden') }}>
+                                style={{ background: itemSelected.background, visibility: (show ? 'visible' : 'hidden'), paddingBottom: '10px' }}>
 
                                 <br/>
 
