@@ -53,7 +53,8 @@ export default class EditorCarousel extends Component {
                     onIndexSelected={this.props.onIndexSelected}
                     onNavItemExpanded={this.props.onNavItemExpanded}
                     onNavItemDeleted={this.props.onNavItemDeleted}
-                    onNavItemReordered={this.props.onNavItemReordered}/>
+                    onNavItemReordered={this.props.onNavItemReordered}
+                    viewToolbars={this.props.viewToolbars} />
                 <CarouselButtons boxes={this.props.boxes}
                     containedViews={this.props.containedViews}
                     indexSelected={this.props.indexSelected}

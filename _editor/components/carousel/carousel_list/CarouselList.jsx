@@ -87,6 +87,7 @@ export default class CarouselList extends Component {
                                     onIndexSelected={this.props.onIndexSelected}
                                     onNavItemSelected={this.props.onNavItemSelected}
                                     onNavItemExpanded={this.props.onNavItemExpanded}
+                                    viewToolbars={this.props.viewToolbars}
                                     onNavItemReordered={this.props.onNavItemReordered} />
                             );
                         } else if (isPage(id)) {

@@ -57,8 +57,8 @@ export default class EditorBox extends Component {
         let width;
         let height;
         let classNames = "";
-
-        if (toolbar.config.needsTextEdition) {
+        let config = Ediphy.Plugins.get(toolbar.config.name);
+        if (config.needsTextEdition) {
             textareaStyle.textAlign = "left";
             style.textAlign = "left";
         }

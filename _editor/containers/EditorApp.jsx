@@ -6,7 +6,7 @@ import {
     addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
     addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeBackground, changeSortableProps,
-    reorderBoxes, verticallyAlignBox,
+    reorderBoxes, verticallyAlignBox, selectIndex,
     toggleTextEditor, toggleTitleMode, pasteBox, changeBoxLayer,
     changeDisplayMode,
     exportStateAsync, importStateAsync, importState, changeGlobalConfig,
@@ -153,6 +153,7 @@ class EditorApp extends Component {
                         navItems={navItems}
                         navItemSelected={navItemSelected}
                         displayMode={displayMode}
+                        viewToolbars={viewToolbars}
                         onBoxAdded={(ids, draggable, resizable, content, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, state))}
                         onIndexSelected={(id) => this.dispatchAndSetState(selectIndex(id))}
                         onContainedViewNameChanged={(id, titleStr) => this.dispatchAndSetState(changeContainedViewName(id, titleStr))}
