@@ -8,10 +8,17 @@ import Why from './LandingPageScreens/Why';
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
 /* eslint-disable react/prop-types */
 export default class Content extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            rotate: false,
+        };
+        this.handleScroll = this.handleScroll.bind(this);
+    }
     render() {
         return (
             [<Main/>, <Why/>, <How/>, <What/>, <When/>,
-                <button onClick={this.handleScroll} className="down_arrow" autoFocus>
+                <button onClick={this.handleScroll} className={"down_arrow" + (this.state.rotate ? ' rotate' : '')} autoFocus>
                     <i className="material-icons">keyboard_arrow_down</i>
                 </button>]
         );
@@ -34,6 +41,11 @@ export default class Content extends Component {
             }
         }
         let element = document.getElementById(viewList[nextInd]);
+        if(nextInd === viewList.length - 1) {
+            this.setState({ rotate: true });
+        } else {
+            this.setState({ rotate: false });
+        }
         scrollIntoViewIfNeeded(element, { duration: 300, centerIfNeeded: true, easing: 'easeInOut' });
 
     }
