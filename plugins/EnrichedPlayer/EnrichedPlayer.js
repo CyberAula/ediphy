@@ -104,12 +104,15 @@ export function EnrichedPlayer(base) {
                 controls: true,
             };
         },
-        getRenderTemplate: function(state) {
+        getRenderTemplate: function(state, props) {
             return (
                 <div style={{ width: "100%", height: "100%" }}>
-                    <EnrichedPlayerPluginEditor style={{ width: "100%", height: "100%" }} state={state} base={base} />
+                    <EnrichedPlayerPluginEditor style={{ width: "100%", height: "100%" }} state={state} base={base} props={props}/>
                 </div>
             );
+        },
+        getDefaultMarkValue(state) {
+            return '50%';
         },
         parseRichMarkInput: function(...value) {
             let parsed_value = (value[0] + 10) * 100 / value[2];
@@ -136,3 +139,4 @@ export function EnrichedPlayer(base) {
 
     };
 }
+/* eslint-enable react/prop-types */

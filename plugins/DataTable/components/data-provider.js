@@ -3,6 +3,7 @@ import { Form, Button, FormGroup, FormControl, ControlLabel, Col } from "react-b
 import FileInput from '../../../_editor/components/common/file-input/FileInput';
 import Alert from '../../../_editor/components/common/alert/Alert';
 import i18n from 'i18next';
+/* eslint-disable react/prop-types */
 
 export default class DataProvider extends React.Component {
 
@@ -328,3 +329,4 @@ export default class DataProvider extends React.Component {
         );
     }
 }
+/* eslint-enable react/prop-types */

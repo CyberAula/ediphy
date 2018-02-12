@@ -1,3 +1,4 @@
+
 import i18n from 'i18next';
 
 export const testState = { present:
@@ -146,9 +147,66 @@ export const testState = { present:
                         opacity: 1,
                         padding: 0,
                     },
+                    /*
+                "bs-1511252985426": {
+                    "id": "bs-1511252985426",
+                    "parent": "pa-1511252985426",
+                    "container": 0,
+                    "level": -1,
+                    "col": 0,
+                    "row": 0,
+                    "position": { "x": 0, "y": 0, "type": "relative" },
+                    "draggable": false,
+                    "resizable": false,
+                    "showTextEditor": false,
+                    "fragment": {},
+                    "children": ['sc-1511443052922', 'sc-1511443052923'],
+                    "sortableContainers": {
+                        "sc-1511443052922": {
+                            "children": ["bo-1511443052925", "bo-1511443052967"],
+                            "colDistribution": [100],
+                            "cols": [[100]],
+                            "height": "auto",
+                            "key": "sc-1511443052922",
+                            "style": {
+                                "borderColor": "#ffffff",
+                                "borderStyle": "solid",
+                                "borderWidth": "0px",
+                                "className": "",
+                                "opacity": "1",
+                                "padding": "0px",
+                                "textAlign": "center",
+                            },
+                        },
+                        "sc-1511443052923": {
+                            "children": [],
+                            "colDistribution": [100],
+                            "cols": [[100]],
+                            "height": "auto",
+                            "key": "sc-1511443052923",
+                            "style": {
+                                "borderColor": "#ffffff",
+                                "borderStyle": "solid",
+                                "borderWidth": "0px",
+                                "className": "",
+                                "opacity": "1",
+                                "padding": "0px",
+                                "textAlign": "center",
+                            },
+                        },
+                    },
+                    "containedViews": [],
+                },*/
                 },
+                "bs-1511252985426": {
+                    "id": "bs-1511252985426",
+                    "controls": { "main": { "__name": "Main", "accordions": {} } },
+                    "config": { "displayName": "Contenedor" },
+                    "state": {},
+                    "showTextEditor": false,
+                }, "-1": { "showTextEditor": false },
             },
-            isBusy: "",
-            fetchVishResults: { "results": [] },
+            "isBusy": { "value": false, "msg": "La operación se ha realizado correctamente" },
+            "fetchVishResults": { "results": [] },
         },
 };

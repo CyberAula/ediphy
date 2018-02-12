@@ -3,7 +3,9 @@ import i18n from 'i18next';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MarkEditor from '../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 import img_broken from './../../dist/images/broken_link.png';
-import img_placeholder from './../../dist/images/placeholder.png';
+import img_placeholder from './../../dist/images/placeholder.svg';
+/* eslint-disable react/prop-types */
+
 export function HotspotImages(base) {
     return {
         getConfig: function() {
@@ -21,7 +23,7 @@ export function HotspotImages(base) {
                     defaultValue: true,
                 },
                 isRich: true,
-                marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#222222' }],
+                marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#000001' }],
             };
         },
         getToolbar: function() {
@@ -110,10 +112,13 @@ export function HotspotImages(base) {
 
             };
         },
-        getRenderTemplate: function(state) {
+        getDefaultMarkValue(state) {
+            return 50 + ',' + 50;
+        },
+        getRenderTemplate: function(state, props) {
             let marks = state.__marks || {};
             let Mark = ({ idKey, title, style, color }) => (
-                <MarkEditor style={style} time={1.5} mark={idKey} base={base} state={state}>
+                <MarkEditor style={style} time={1.5} onRichMarkUpdated={props.onRichMarkUpdated} mark={idKey} base={base} state={state}>
                     <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
                         <a className="mapMarker" href="#">
                             <i key="i" style={{ color: color }} className="material-icons">room</i>
@@ -176,3 +181,4 @@ export function HotspotImages(base) {
 
     };
 }
+/* eslint-enable react/prop-types */

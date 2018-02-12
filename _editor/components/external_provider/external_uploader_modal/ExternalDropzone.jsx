@@ -71,7 +71,7 @@ export default class ExternalDropzone extends Component {
     }
 }
 
-ExternalDropzone.proptypes = {
+ExternalDropzone.propTypes = {
     /**
      * Delegación del botón en la creación
      * */

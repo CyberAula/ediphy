@@ -34,9 +34,10 @@ export default class VisorCanvasSli extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
-        // aspectRatio(this.props.aspectRatio);
         let boxes = isCV ? this.props.containedViews[this.props.currentView].boxes || [] : this.props.navItems[this.props.currentView].boxes || [];
         let thisView = this.props.viewsArray && this.props.viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(this.props.viewsArray[this.props.viewsArray.length - 2]) ? this.props.containedViews[this.props.viewsArray[this.props.viewsArray.length - 2]].name : this.props.navItems[this.props.viewsArray[this.props.viewsArray.length - 2]].name)) : i18n.t('messages.go_back');
+        let backgroundIsUri = (/data\:/).test(itemSelected.background);
+        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(itemSelected.background);
 
         const tooltip = (
             <Tooltip id="tooltip">{thisView}</Tooltip>
@@ -55,7 +56,12 @@ export default class VisorCanvasSli extends Component {
                             this.setState({ showTitle: false });
                         }}
                         className={'innercanvas sli'}
-                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'),
+                            background: isColor ? itemSelected.background : '',
+                            backgroundImage: !isColor ? 'url(' + itemSelected.background.background + ')' : '',
+                            backgroundSize: itemSelected.background.attr === 'full' ? 'cover' : 'auto 100%',
+                            backgroundRepeat: itemSelected.background.attr === 'centered' ? 'no-repeat' : 'repeat',
+                            backgroundPosition: itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'full' ? 'center center' : '0% 0%' }}>
                         {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
                             <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }} onClick={a => {
                                 document.getElementById("containedCanvas").classList.add("exitCanvas");
@@ -69,26 +75,12 @@ export default class VisorCanvasSli extends Component {
                             onShowTitle={()=>this.setState({ showTitle: true })}
                             courseTitle={this.props.title}
                             titleMode={itemSelected.titleMode}
-                            navItem={this.props.navItemSelected}
                             navItems={this.props.navItems}
                             currentView={this.props.currentView}
                             containedViews={this.props.containedViews}
-                            titleModeToggled={this.props.titleModeToggled}
-                            onUnitNumberChanged={this.props.onUnitNumberChanged}
                             showButton/>
 
                         <br/>
-
-                        <div style={{
-                            width: "100%",
-                            background: "black",
-                            height: overlayHeight,
-                            position: "absolute",
-                            top: 0,
-                            opacity: 0.4,
-                            display: (this.props.boxLevelSelected > 0) ? "block" : "none",
-                            visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse",
-                        }} />
 
                         {boxes.map(id => {
                             let box = this.props.boxes[id];
@@ -96,8 +88,6 @@ export default class VisorCanvasSli extends Component {
                             return <VisorBox key={id}
                                 id={id}
                                 boxes={this.props.boxes}
-                                boxSelected={this.props.boxSelected}
-                                boxLevelSelected={this.props.boxLevelSelected}
                                 changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
                                 currentView={this.props.currentView}
                                 toolbars={this.props.toolbars}
@@ -106,7 +96,7 @@ export default class VisorCanvasSli extends Component {
                         })}
 
                         <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
-                            aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas");
+                            aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSelected.customSize);
                         }} />
                     </div>
                 </div>
@@ -120,7 +110,8 @@ export default class VisorCanvasSli extends Component {
 
     componentDidMount() {
         let isCV = !isView(this.props.currentView);
-        aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas");
+        let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
+        aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSel.customSize);
 
         // window.addEventListener("resize", aspectRatio);
     }
@@ -129,16 +120,22 @@ export default class VisorCanvasSli extends Component {
     }
 
     componentWillUpdate(nextProps) {
-        if (this.props.canvasRatio !== nextProps.canvasRatio) {
+        let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
+        let nextItemSel = nextProps.navItems[nextProps.currentView] || nextProps.containedViews[nextProps.currentView];
+        if ((this.props.canvasRatio !== nextProps.canvasRatio) || (itemSel !== nextItemSel)) {
             let isCV = !isView(nextProps.currentView);
             window.canvasRatio = nextProps.canvasRatio;
-            // window.removeEventListener("resize", aspectRatio);
-            aspectRatio(nextProps.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas");
-            // window.addEventListener("resize", aspectRatio);
+            aspectRatio(nextProps.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", nextItemSel.customSize);
         }
 
     }
-
+    // componentWillUpdate(nextProps) {
+    //     if (this.props.canvasRatio !== nextProps.canvasRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
+    //         window.canvasRatio = nextProps.canvasRatio;
+    //         aspectRatio(nextProps.canvasRatio, nextProps.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas', nextProps.navItemSelected.customSize);
+    //     }
+    //
+    // }
 }
 
 VisorCanvasSli.propTypes = {
@@ -186,10 +183,6 @@ VisorCanvasSli.propTypes = {
      * Diccionario que contiene todas las toolbars
      */
     toolbars: PropTypes.object,
-    /**
-     * Lista de marcas en curso o lanzadas
-     */
-    triggeredMarks: PropTypes.array,
     /**
      *  Array de vistas
      */

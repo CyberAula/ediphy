@@ -52,6 +52,9 @@ export const initialState = (config) => { return config.sections_have_content ?
                 level: 1,
                 type: "section",
                 extraFiles: {},
+                // background: "rgb(255, 255, 255)",
+                // customSize: 0,
+
             },
         },
         navItemsIds: ['se-1467887497411'],
@@ -82,6 +85,23 @@ export const initialState = (config) => { return config.sections_have_content ?
         pluginToolbarsById: {
         },
         isBusy: "",
+        viewToolbarsById: {
+            "se-1467887497411": {
+                id: "se-1467887497411",
+                hidden: false,
+                viewName: i18n.t('Section'),
+                breadcrumb: 'reduced',
+                courseTitle: 'hidden',
+                documentSubtitle: 'hidden',
+                documentSubtitleContent: '',
+                documentTitle: 'expanded',
+                documentTitleContent: '',
+                numPage: 'hidden',
+                numPageContent: '',
+                background: "rgb(255,255,255)",
+                customSize: 0,
+            },
+        },
         fetchVishResults: { "results": [] },
     } }) :
     ({ present: {
@@ -197,13 +217,14 @@ export const initialState = (config) => { return config.sections_have_content ?
                 viewName: i18n.t('Section'),
                 breadcrumb: 'reduced',
                 courseTitle: 'hidden',
-                elementTitle: i18n.t('Section'),
                 documentSubtitle: 'hidden',
                 documentSubtitleContent: '',
                 documentTitle: 'expanded',
                 documentTitleContent: '',
                 numPage: 'hidden',
                 numPageContent: '',
+                background: "rgb(255,255,255)",
+                customSize: 0,
             },
             "pa-1497983247795": {
                 id: "pa-1497983247795",
@@ -217,6 +238,8 @@ export const initialState = (config) => { return config.sections_have_content ?
                 documentTitleContent: '',
                 numPage: 'hidden',
                 numPageContent: '',
+                background: "rgb(255,255,255)",
+                customSize: 0,
             },
         },
         isBusy: "",

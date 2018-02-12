@@ -23,7 +23,7 @@
     /*Possible Errors */
     "comma-dangle": [1, "always-multiline"],
     "no-cond-assign": [1, "except-parens"],
-    "no-console": 0,
+    "no-console": 1,
     "no-constant-condition": 1,
     "no-control-regex": 1,
     "no-debugger": 1,
@@ -210,7 +210,8 @@
     "react/no-did-update-set-state": 1,
 //    "react/no-multi-comp": 1,
     "react/no-unknown-property": 1,
-//    "react/prop-types": 1,
+    "react/prop-types": 1,
+    "react/no-unused-prop-types": 1,
     "react/react-in-jsx-scope": 1,
     "react/self-closing-comp": 1,
 //    "react/sort-comp": 1,

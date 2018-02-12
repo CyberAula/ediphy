@@ -43,6 +43,7 @@ export default class RichMarksModal extends Component {
     componentWillReceiveProps(nextProps) {
         let current = nextProps.currentRichMark;
         let allViews = this.returnAllViews(nextProps);
+        let currentViewType = this.props.containedViewSelected === 0 ? this.props.navItems[this.props.navItemSelected].type : this.props.containedViews[this.props.containedViewSelected].type;
         if (!this.props.visible) {
             if (current) {
                 this.setState({
@@ -95,7 +96,7 @@ export default class RichMarksModal extends Component {
         }
 
         let currentNavItemType = this.props.navItems[this.props.navItemSelected].type;
-
+        let defaultMarkValue = this.props.pluginToolbar && this.props.pluginToolbar.config && this.props.pluginToolbar.config.name ? Ediphy.Plugins.get(this.props.pluginToolbar.config.name).getDefaultMarkValue() : '';
         let pluginType = this.props.pluginToolbar && this.props.pluginToolbar.config ? this.props.pluginToolbar.config.displayName : 'Plugin';
         return (
             <Modal className="pageModal richMarksModal" backdrop bsSize="large" show={this.props.visible}>
@@ -170,12 +171,11 @@ export default class RichMarksModal extends Component {
                         <Col xs={5} md={3}>
                             <FormGroup style={{ display: this.state.connectMode === "new" ? "initial" : "none" }}>
                                 <FormControl componentClass="select"
-                                    defaultValue={currentNavItemType}
+                                    defaultValue={this.state.newType}
                                     style={{
                                         display: /* this.state.newType === PAGE_TYPES.SLIDE || this.state.newType === PAGE_TYPES.DOCUMENT*/ this.state.newSelected === "" ? "initial" : "none",
                                     }}
                                     onChange={e => {
-                                        console.log(this.state.newType);
                                         this.setState({ newType: e.nativeEvent.target.value });
                                     }}>
                                     <option value={PAGE_TYPES.DOCUMENT}>{i18n.t("marks.new_document")}</option>
@@ -234,7 +234,7 @@ export default class RichMarksModal extends Component {
                                 <FormControl
                                     ref="value"
                                     type={this.state.actualMarkType}
-                                    defaultValue={this.props.markCursorValue ? this.props.markCursorValue : (current ? current.value : (marksType.default ? marksType.default : 0))}/>
+                                    defaultValue={this.props.markCursorValue ? this.props.markCursorValue : (current ? current.value : (defaultMarkValue ? defaultMarkValue : 0))}/>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -267,6 +267,10 @@ export default class RichMarksModal extends Component {
                                     boxes: [],
                                     type: this.state.newType,
                                     extraFiles: {},
+                                    background: {
+                                        background: 'rgb(255,255,255)',
+                                        attr: 'full',
+                                    },
                                     header: {
                                         elementContent: {
                                             documentTitle: name,
@@ -304,7 +308,7 @@ export default class RichMarksModal extends Component {
                             }
                         }
                         this.props.onRichMarkUpdated({ id: (current ? current.id : newMark), title, connectMode, connection, displayMode, value, color }, this.state.newSelected === "");
-                        if(connectMode === 'new' && !this.props.toolbars[connection.id] && this.state.newType === PAGE_TYPES.DOCUMENT) {
+                        if(connectMode === 'new' && !this.props.toolbars[connection.id || connection] && this.state.newType === PAGE_TYPES.DOCUMENT) {
                             this.props.onBoxAdded({ parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now() }, false, false);
                         }
                         this.props.onRichMarksModalToggled();
@@ -402,10 +406,6 @@ RichMarksModal.propTypes = {
      */
     navItems: PropTypes.object.isRequired,
     /**
-     * Array que contiene las vistas creadas
-     */
-    navItemsIds: PropTypes.array.isRequired,
-    /**
      * Indica si se muestra o oculta el modal de edición de marcas
      */
     visible: PropTypes.any.isRequired,
@@ -413,10 +413,6 @@ RichMarksModal.propTypes = {
      * Marca en edición
      */
     currentRichMark: PropTypes.any,
-    /**
-     * Valor por defecto de la marca
-     */
-    defaultValueMark: PropTypes.any,
     /**
      * Valida si el valor introducido es correcto
      */
@@ -433,4 +429,8 @@ RichMarksModal.propTypes = {
      * Muestra/oculta el modal
      */
     onRichMarksModalToggled: PropTypes.any.isRequired,
+    /**
+      * Valor del cursor al crear la marca (coordenadas)
+      */
+    markCursorValue: PropTypes.any,
 };

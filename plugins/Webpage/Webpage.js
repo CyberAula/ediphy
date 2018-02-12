@@ -1,11 +1,12 @@
 import React from 'react';
+/* eslint-disable react/prop-types */
 export function Webpage(base) {
     return {
         getConfig: function() {
             return {
                 name: 'Webpage',
                 displayName: Ediphy.i18n.t('Webpage.PluginName'),
-                category: 'multimedia',
+                category: 'objects',
                 icon: 'public',
                 initialWidth: '70%',
                 initialHeight: "300px",
@@ -95,3 +96,5 @@ export function Webpage(base) {
         },
     };
 }
+
+/* eslint-enable react/prop-types */

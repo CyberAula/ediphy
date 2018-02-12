@@ -4,6 +4,7 @@ import i18n from 'i18next';
 import TableComponent from './table-component';
 import DataProvider from './data-provider';
 import ChartOptions from './chart-options';
+/* eslint-disable react/prop-types */
 
 export default class Config extends React.Component {
     render() {
@@ -121,3 +122,4 @@ export default class Config extends React.Component {
 
 }
 
+/* eslint-enable react/prop-types */

@@ -3,7 +3,10 @@ import GoogleMapReact from 'google-map-react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import i18n from 'i18next';
 require('./../_virtualTour.scss');
+
 window.mapsVisor = [];
+/* eslint-disable react/prop-types */
+
 export function VirtualTour(base) {
     return {
         getRenderTemplate: function(state, id) {
@@ -63,3 +66,4 @@ export function VirtualTour(base) {
         },
     };
 }
+/* eslint-enable react/prop-types */

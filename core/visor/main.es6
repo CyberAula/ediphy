@@ -256,6 +256,7 @@ export default {
                                     state.pluginToolbarsById[boxKey].state.isScorm = true;
                                 },
                                 error: function(xhr, status) {
+                                    // eslint-disable-next-line no-console
                                     console.error("Error while downloading XML file");
                                 },
                             });

@@ -3,6 +3,7 @@ import { Form, FormGroup, FormControl, Col, Radio } from "react-bootstrap";
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
 
 import i18n from 'i18next';
+/* eslint-disable react/prop-types */
 
 export default class ChartOptions extends React.Component {
     constructor(props) {
@@ -131,3 +132,4 @@ export default class ChartOptions extends React.Component {
         );
     }
 }
+/* eslint-enable react/prop-types */

@@ -1,8 +1,8 @@
 import React from 'react';
 import i18n from 'i18next';
 import img_broken from './../../dist/images/broken_link.png';
-import img_placeholder from './../../dist/images/placeholder.png';
-
+import img_placeholder from './../../dist/images/placeholder.svg';
+/* eslint-disable react/prop-types */
 export function BasicImage(base) {
     return {
         getConfig: function() {
@@ -26,7 +26,6 @@ export function BasicImage(base) {
                 main: {
                     __name: "Main",
                     accordions: {
-
                         style: {
                             __name: Ediphy.i18n.t('BasicImage.box_style'),
                             icon: 'palette',
@@ -131,3 +130,4 @@ export function BasicImage(base) {
         },
     };
 }
+/* eslint-enable react/prop-types */

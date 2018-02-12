@@ -89,7 +89,7 @@ export default class GlobalConfig extends Component {
                         bool ? this.saveState() : this.cancel();
                         // Anyway close the alert
                         this.setState({ showAlert: false });
-                        this.props.close();
+                        // this.props.close();
                     }}>
                     {i18n.t("global_config.prompt")}
                 </Alert>
@@ -158,7 +158,7 @@ export default class GlobalConfig extends Component {
                                                 {i18n.t('global_config.rights_short_txt')}
                                                 <a target="_blank" href={"https://creativecommons.org/licenses/?lang=" + i18n.t('currentLang')}> [{i18n.t('Read_more')}] </a>
                                             </Popover>}>
-                                            <a className="miniIcon"><i className="material-icons">help</i></a>
+                                            <a className="miniIcon" id="helpIcon"><i className="material-icons">help</i></a>
                                         </OverlayTrigger>
                                         {/*
                                         <a className="miniIcon" target="_blank" href={"https://creativecommons.org/licenses/?lang="+i18n.t('currentLang')}><i className="material-icons">help</i></a>
@@ -297,7 +297,7 @@ export default class GlobalConfig extends Component {
                     </Grid>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button bsStyle="default" id="insert_plugin_config_modal" onClick={e => {
+                    <Button bsStyle="default" id="cancel_insert_plugin_config_modal" onClick={e => {
                         this.cancel(); e.preventDefault();
                     }}>{i18n.t("global_config.Discard")}</Button>
                     <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
@@ -343,7 +343,6 @@ export default class GlobalConfig extends Component {
         // mutate array
         tags.splice(currPos, 1);
         tags.splice(newPos, 0, tag);
-        console.log(tags, this.state.keywords);
         // re-render
         this.setState({ modifiedState: true, keywords: tags });
     }
@@ -387,7 +386,7 @@ export default class GlobalConfig extends Component {
                 // a.click();
 
                 document.body.removeChild(clone);
-                this.setState({ thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
+                this.setState({ modifiedState: true, thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
 
             },
             useCORS: true });
@@ -408,7 +407,7 @@ export default class GlobalConfig extends Component {
                 canvas.height = canvas.width * (img.height / img.width);
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                gc.setState({ thumbnail: canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
+                gc.setState({ modifiedState: true, thumbnail: canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
             };
             img.src = data;
         };
@@ -464,19 +463,19 @@ export default class GlobalConfig extends Component {
 
 GlobalConfig.propTypes = {
     /**
-     * Indica si se debe mostrar la ventana de configuración del curso u ocultar
+     * Indicates whether the course configuration modal should be shown or hidden
      */
     show: PropTypes.bool,
     /**
-     * Diccionario que contiene la configuración del curso. Objeto idéntico a ***globalConfig*** en el estado de Redux.
+     * Configuration course dictionary. Object identical to Redux state ***globalConfig*** .
      */
     globalConfig: PropTypes.object.isRequired,
     /**
-     * Guarda la nueva configuración
+     * Saves new configuration
      */
     changeGlobalConfig: PropTypes.func.isRequired,
     /**
-     * Cierra la ventana de configuración
+     * Closes course configuration modal
      */
     close: PropTypes.func.isRequired,
 };

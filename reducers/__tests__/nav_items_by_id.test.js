@@ -1,7 +1,8 @@
 import { testState } from '../../core/store/state.tests.js';
 import nav_items_by_id from '../nav_items_by_id';
 import * as ActionTypes from '../../common/actions';
-import { isContainedView, isSortableContainer, isView } from "../../common/utils";
+import { isContainedView, isSortableContainer, isView, isSlide } from "../../common/utils";
+import { CHANGE_BOX_LAYER } from "../../common/actions";
 
 const state = testState.present.navItemsById;
 
@@ -76,6 +77,7 @@ describe('# nav_items_by_id reducer', ()=>{
             const newSection = { boxes: [],
                 children: [],
                 extraFiles: {},
+                background: "rgb(255,255,255)",
                 header: {
                     display: {
                         breadcrumb: "reduced",
@@ -140,6 +142,7 @@ describe('# nav_items_by_id reducer', ()=>{
                 level: 2,
                 linkedBoxes: {},
                 name: "Página",
+                background: "rgb(255,255,255)",
                 parent: "se-1467887497411",
                 type: "document",
                 "unitNumber": 1 };
@@ -174,6 +177,17 @@ describe('# nav_items_by_id reducer', ()=>{
             const newState = JSON.parse(JSON.stringify(state));
             newState['pa-1497983247795'].name = action.payload.title;
             expect(nav_items_by_id(state, action)).toEqual(newState);
+        });
+    });
+
+    describe('handle CHANGE_NAV_ITEM_BACKGROOUND', ()=>{
+        test('If nav item background changed', () => {
+            // expect(nav_items_by_id(state, {})).toEqual(state);
+        });
+    });
+    describe('handle CHANGE_UNIT_NUMBER', ()=>{
+        test('If unit number changed', () => {
+            // expect(nav_items_by_id(state, {})).toEqual(state);
         });
     });
 
@@ -212,7 +226,7 @@ describe('# nav_items_by_id reducer', ()=>{
             };
             const newState = JSON.parse(JSON.stringify(state));
 
-            newState['pa-1511252955865'].boxes = [];
+            newState['pa-1511252955865'].boxes = ["bo-1511252970034"];
 
             expect(isView(action.payload.parent)).toBeTruthy();
             expect(action.payload.parent !== 0).toBeTruthy();
@@ -235,12 +249,6 @@ describe('# nav_items_by_id reducer', ()=>{
             expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
-
-    // describe('handle DUPLICATE_BOX ***************************** TODO :)', () => {
-    //     test('If duplicated box', () => {
-    //         // expect(nav_items_by_id(state, action)).toEqual(newState);
-    //     });
-    // });
 
     describe('handle EXPAND_NAV_ITEM', () => {
         test('If nav item (SECTION) expanded', () => {
@@ -421,7 +429,23 @@ describe('# nav_items_by_id reducer', ()=>{
             expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
-
+    describe('handle CHANGE_BOX_LAYER', () => {
+        test('Bring to front selected_box in a slide', () => {
+            const action = {
+                type: ActionTypes.CHANGE_BOX_LAYER,
+                payload: {
+                    id: 'bo-1511252970033',
+                    parent: 'pa-1511252955865',
+                    container: 0,
+                    value: 'front',
+                    boxes_array: ['bo-1511252970033', 'bo-1511252970034'],
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState['pa-1511252955865'].boxes = ['bo-1511252970034', 'bo-1511252970033'];
+            expect(nav_items_by_id(state, action)).toEqual(newState);
+        });
+    });
     describe('handle UPDATE_NAV_ITEM_EXTRA_FILES  ***************** TODO (Adams heritage ??)', () => {
         test('If updated nav items extra files', () => {
         // TODO
@@ -555,5 +579,4 @@ describe('# nav_items_by_id reducer', ()=>{
             expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
-
 });

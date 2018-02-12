@@ -50,7 +50,7 @@ export default class EditorCanvasDoc extends Component {
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
 
                 <div className="scrollcontainer"
-                    style={{ backgroundColor: show ? 'white' : 'transparent', display: show ? 'block' : 'none' }}
+                    style={{ backgroundColor: show ? itemSelected.background : 'transparent', display: show ? 'block' : 'none' }}
                     onClick={e => {
                         this.props.onBoxSelected(-1);
                         this.setState({ showTitle: false });
@@ -66,7 +66,7 @@ export default class EditorCanvasDoc extends Component {
                         viewToolbars={this.props.viewToolbars}
                         boxes={this.props.boxes}
                     />
-                    <div className="outter canvaseditor" style={{ display: show ? 'block' : 'none' }}>
+                    <div className="outter canvaseditor" style={{ background: itemSelected.background, display: show ? 'block' : 'none' }}>
                         {/*
                     {this.props.fromCV ?  (<button className="btnOverBar cvBackButton" style={{margin: "10px 0px 0px 10px"}}
                              onClick={e => {
@@ -74,18 +74,17 @@ export default class EditorCanvasDoc extends Component {
                                  e.stopPropagation();
                              }}><i className="material-icons">undo</i></button>):(<br/>)}
                      */}
-
                         <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
                             className={'doc_air'}
-                            style={{ visibility: (show ? 'visible' : 'hidden') }}>
+                            style={{ background: itemSelected.background, visibility: (show ? 'visible' : 'hidden') }}>
 
                             <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                                 className={'innercanvas doc'}
-                                style={{ visibility: (show ? 'visible' : 'hidden') }}>
+                                style={{ background: itemSelected.background, visibility: (show ? 'visible' : 'hidden') }}>
 
                                 <br/>
 
-                                <div id={this.props.fromCV ? "contained_canvas_boxes" : "canvas_boxes"}
+                                {/*  <div id={this.props.fromCV ? "contained_canvas_boxes" : "canvas_boxes"}
                                     style={{
                                         width: "100%",
                                         background: "black",
@@ -95,8 +94,7 @@ export default class EditorCanvasDoc extends Component {
                                         opacity: 0.4,
                                         display: (this.props.boxLevelSelected > 0) ? "block" : "none",
                                         visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse",
-                                    }} />
-
+                                    }} />*/}
                                 {boxes.map(id => {
                                     let box = boxes[id];
                                     if (!isSortableBox(id)) {
@@ -117,6 +115,7 @@ export default class EditorCanvasDoc extends Component {
                                             onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                             onBoxMoved={this.props.onBoxMoved}
                                             onBoxResized={this.props.onBoxResized}
+                                            onRichMarkUpdated={this.props.onRichMarkUpdated}
                                             onSortableContainerResized={this.props.onSortableContainerResized}
                                             onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                             onBoxDropped={this.props.onBoxDropped}
@@ -130,6 +129,7 @@ export default class EditorCanvasDoc extends Component {
                                         id={id}
                                         addMarkShortcut={this.props.addMarkShortcut}
                                         accordions={this.props.accordions}
+                                        background={itemSelected.background}
                                         boxes={this.props.boxes}
                                         boxSelected={this.props.boxSelected}
                                         boxLevelSelected={this.props.boxLevelSelected}
@@ -138,6 +138,7 @@ export default class EditorCanvasDoc extends Component {
                                         pluginToolbars={this.props.pluginToolbars}
                                         lastActionDispatched={this.props.lastActionDispatched}
                                         deleteMarkCreator={this.props.deleteMarkCreator}
+                                        onRichMarkUpdated={this.props.onRichMarkUpdated}
                                         markCreatorId={this.props.markCreatorId}
                                         onBoxAdded={this.props.onBoxAdded}
                                         onBoxSelected={this.props.onBoxSelected}
@@ -174,46 +175,6 @@ export default class EditorCanvasDoc extends Component {
             </Col>
         );
     }
-/*
-    componentWillUnmount() {
-        interact(ReactDOM.findDOMNode(this)).unset();
-    }
-
-    componentDidMount() {
-
-        interact(ReactDOM.findDOMNode(this)).dropzone({
-            accept: '.floatingEditorBox',
-            overlap: 'pointer',
-            ondropactivate: function (event) {
-                event.target.classList.add('drop-active');
-            },
-            ondragenter: function (event) {
-                event.target.classList.add("drop-target");
-            },
-            ondragleave: function (event) {
-                event.target.classList.remove("drop-target");
-            },
-            ondrop: function (event) {
-                let position = {
-                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft)*100/event.target.parentElement.offsetWidth + "%",
-                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + document.getElementById('maincontent').scrollTop) + 'px',
-                    type: 'absolute'
-                };
-                let initialParams = {
-                    parent: this.props.fromCV ? this.props.containedViewSelected.id:this.props.navItemSelected.id,
-                    container: 0,
-                    position: position
-                };
-                Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
-                event.dragEvent.stopPropagation();
-            }.bind(this),
-            ondropdeactivate: function (event) {
-                event.target.classList.remove('drop-active');
-                event.target.classList.remove("drop-target");
-            }
-        });
-    }
-*/
 }
 
 EditorCanvasDoc.propTypes = {
@@ -221,10 +182,6 @@ EditorCanvasDoc.propTypes = {
      * Si se renderiza el componente desde una vista contenida (true) o una normal (false)
      */
     fromCV: PropTypes.bool,
-    /**
-     * Indicador de si se muestra el canvas (tiene que haber un navItem seleccionado)
-     */
-    showCanvas: PropTypes.bool,
     /**
      * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
      */
@@ -334,11 +291,15 @@ EditorCanvasDoc.propTypes = {
      */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
-     * Selecciona una vista contenida
-     */
-    onContainedViewSelected: PropTypes.func.isRequired,
-    /**
      * Hace aparecer/desaparecer el CKEditor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
+    /**
+   * Hace aparecer/desaparecer el modal de configuración de marcas
+   */
+    onRichMarksModalToggled: PropTypes.func.isRequired,
+    /**
+   * Actualiza marca
+   */
+    onRichMarkUpdated: PropTypes.func.isRequired,
 };

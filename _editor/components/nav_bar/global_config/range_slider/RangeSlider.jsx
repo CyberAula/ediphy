@@ -147,4 +147,12 @@ RangeSlider.propTypes = {
      * Incremento de valor mínimo
      */
     step: PropTypes.number.isRequired,
+    /**
+      * Clase a aplicar
+      */
+    className: PropTypes.string,
+    /**
+      * Estilo a aplicar
+      */
+    style: PropTypes.object,
 };

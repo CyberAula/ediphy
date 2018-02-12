@@ -1,6 +1,7 @@
 import React from "react";
 import PlayerPlugin from './components/PlayerPluginEditor.js';
 require('./BasicPlayer.scss');
+/* eslint-disable react/prop-types */
 
 export function BasicPlayer(base) {
     return {
@@ -114,3 +115,4 @@ export function BasicPlayer(base) {
 
     };
 }
+/* eslint-enable react/prop-types */

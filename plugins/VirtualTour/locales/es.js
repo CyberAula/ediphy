@@ -1,7 +1,7 @@
 module.exports = {
     "VirtualTour": {
         "background_color": "Color de fondo",
-        "PluginName": "Tour Virtual",
+        "PluginName": "Mapa Google",
         "border_color": "Color de borde",
         "border_size": "Grosor de borde",
         "border_style": "Estilo de borde",

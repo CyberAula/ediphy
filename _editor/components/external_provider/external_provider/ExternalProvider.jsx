@@ -78,13 +78,13 @@ export default class ExternalProvider extends Component {
     }
 }
 
-ExternalProvider.proptypes = {
+ExternalProvider.propTypes = {
     /**
      * Delegación del botón en la creación
      * */
     accept: PropTypes.any,
     /**
-    * Importa los props desde Plugin Toolbar
+    * Importa las props desde Plugin Toolbar
     * */
     formControlProps: PropTypes.object,
     /**
@@ -103,5 +103,9 @@ ExternalProvider.proptypes = {
      * Función para subir imágenes al proveedor externo
      */
     onUploadVishResource: PropTypes.func,
+    /**
+      * Change callback
+      */
+    onChange: PropTypes.func,
 
 };

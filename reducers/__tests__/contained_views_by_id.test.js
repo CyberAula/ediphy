@@ -1,8 +1,9 @@
 import { testState } from '../../core/store/state.tests.js';
 import contained_views_by_id from '../contained_views_by_id';
 import * as ActionTypes from '../../common/actions';
-import { isContainedView } from "../../common/utils";
+import { isContainedView, isSlide } from "../../common/utils";
 import boxes_by_id from "../boxes_by_id";
+import nav_items_by_id from "../nav_items_by_id";
 
 const state = testState.present.containedViewsById;
 
@@ -29,7 +30,7 @@ describe('# contained_views_by_id reducer', ()=>{
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            newState['cv-1511252975055'].boxes = ['bo-1511443052968', 'bo-1511443052929'];
+            newState['cv-1511252975055'].boxes = ['bo-1511443052968', 'bo-1511443052969', 'bo-1511443052929'];
 
             expect(isContainedView(action.payload.ids.parent)).toBeTruthy();
             expect(contained_views_by_id(state, action)).toEqual(newState);
@@ -224,7 +225,7 @@ describe('# contained_views_by_id reducer', ()=>{
             };
             const newState = JSON.parse(JSON.stringify(state));
             delete newState[action.payload.parent].boxes[action.payload.id];
-            newState['cv-1511252975055'].boxes = [];
+            newState['cv-1511252975055'].boxes = ['bo-1511443052969'];
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
@@ -358,7 +359,7 @@ describe('# contained_views_by_id reducer', ()=>{
             };
 
             const newState = JSON.parse(JSON.stringify(state));
-            newState["cv-1511252975055"].boxes = ["bo-1511443052968", ids.id];
+            newState["cv-1511252975055"].boxes = ["bo-1511443052968", "bo-1511443052969", ids.id];
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
         test('If box pasted to cv slide with mark to navItem', () => {
@@ -404,7 +405,7 @@ describe('# contained_views_by_id reducer', ()=>{
 
             const newState = JSON.parse(JSON.stringify(state));
             newState["cv-1511252975055"].parent["bo-15118685651356"] = ["rm-1511252975055_1"];
-            newState["cv-1511252975055"].boxes = ["bo-1511443052968", ids.id];
+            newState["cv-1511252975055"].boxes = ["bo-1511443052968", "bo-1511443052969", ids.id];
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
         test('If box pasted to regular view', () => {
@@ -427,7 +428,24 @@ describe('# contained_views_by_id reducer', ()=>{
 
             expect(contained_views_by_id(state, action)).toEqual(state);
         });
+    });
 
+    describe('handle CHANGE_BOX_LAYER', () => {
+        test('Bring to front selected_box in a slide', () => {
+            const action = {
+                type: ActionTypes.CHANGE_BOX_LAYER,
+                payload: {
+                    id: 'bo-1511443052968',
+                    parent: "cv-1511252975055",
+                    container: 0,
+                    value: 'front',
+                    boxes_array: ['bo-1511443052968', 'bo-1511443052969'],
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState['cv-1511252975055'].boxes = ['bo-1511443052969', 'bo-1511443052968'];
+            expect(contained_views_by_id(state, action)).toEqual(newState);
+        });
     });
 });
 

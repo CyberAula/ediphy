@@ -22,9 +22,9 @@ export default class Map extends React.Component {
         let { lat, lng, zoom } = config;
         let center = { lat: lat, lng: lng };
         return(
-            <div id={this.props.id} className="dropableRichZone" style={{ width: '100%', height: '100%' }}>
+            <div id={this.props.id} key={this.props.id} className="dropableRichZone" style={{ width: '100%', height: '100%' }}>
                 <GoogleMapReact center={center}
-                    draggable={Boolean(this.state.draggable)}
+                    draggable={Boolean(this.state.draggable)} key={'map_' + this.props.id}
                     zoom={zoom}
                     options={{
                         draggable: this.state.draggable,
@@ -54,7 +54,6 @@ export default class Map extends React.Component {
                 </GoogleMapReact>
                 {this.props.searchBox ? <SearchBox
                     num={num}
-                    center={center}
                     id={this.props.id}
                     placeholder={this.props.placeholder}
                     onPlacesChanged={(places) => {
@@ -66,7 +65,31 @@ export default class Map extends React.Component {
 
         );
     }
-    componentWillUpdate() {
 
-    }
 }
+Map.propTypes = {
+    /**
+   * Placeholder text for the search box
+   */
+    placeholder: PropTypes.string,
+    /**
+   * Plugin state
+   */
+    state: PropTypes.obj.isRequired,
+    /**
+   * Box id
+   */
+    id: PropTypes.string.isRequired,
+    /**
+   * Whether or not it has a search box
+   */
+    searchBox: PropTypes.bool,
+    /**
+   * Update callback
+   */
+    update: PropTypes.func.isRequired,
+    /**
+     * Marks
+     */
+    children: PropTypes.any,
+};

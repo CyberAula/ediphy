@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import VisorBox from './VisorBox';
-import { isAncestorOrSibling } from '../../../common/utils';
+import { isAncestorOrSibling, isSortableContainer } from '../../../common/utils';
+import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../common/constants';
 
 export default class VisorPluginPlaceholder extends Component {
+    idConvert(id) {
+        if (isSortableContainer(id)) {
+            return id;
+        }
+        return ID_PREFIX_SORTABLE_CONTAINER + id;
+
+    }
     render() {
-        let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
-        let className = "drg" + this.props.pluginContainer;
+        let idContainer = this.idConvert(this.props.pluginContainer);
+        let container = this.props.parentBox.sortableContainers[idContainer];
+        let className = "drg" + this.props.idContainer;
         if(this.props.boxLevelSelected - this.props.parentBox.level === 1 &&
            isAncestorOrSibling(this.props.parentBox.id, this.props.boxSelected, this.props.boxes)) {
             className += " childBoxSelected";
@@ -24,7 +33,7 @@ export default class VisorPluginPlaceholder extends Component {
                     display: 'table',
                 }, container.style)
             }
-            id={this.props.pluginContainer}
+            id={idContainer}
             className={className}>
                 {container.colDistribution.map((col, i) => {
                     if (container.cols[i]) {
@@ -64,35 +73,44 @@ export default class VisorPluginPlaceholder extends Component {
 
 VisorPluginPlaceholder.propTypes = {
     /**
-     * Identificador del contenedor de plugins
-     */
+   * Nombre del contenedor de plugins
+   */
     pluginContainer: PropTypes.string.isRequired,
+
     /**
-     * Indica si se puede redimensionar el contenedor
-     */
-    resizable: PropTypes.bool,
+   * Identificador único de la caja padre
+   */
+    parentBox: PropTypes.any,
     /**
-     * Identificador de la caja
-     */
-    parentBox: PropTypes.string.isRequired,
-    /**
-     * Diccionario que contiene todas las cajas
-     */
+   * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+   */
     boxes: PropTypes.object.isRequired,
+    /**
+   * Caja seleccionada
+   */
+    boxSelected: PropTypes.any,
+    /**
+      * Nivel de caja seleccionado
+     */
+    boxLevelSelected: PropTypes.any,
     /**
      * Cambia la vista actual
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     * Vista actual
-     */
-    currentView: PropTypes.any,
-    /**
      * Diccionario que contiene todas las toolbars
      */
-    toolbars: PropTypes.object,
+    toolbars: PropTypes.object.isRequired,
     /**
      * Estado del plugin enriquecido en la transición
      */
     richElementsState: PropTypes.object,
+    /**
+   * Id del contenedor
+   */
+    idContainer: PropTypes.string.isRequired,
+    /**
+   * Vista contenida seleccionada
+   */
+    currentViewSelected: PropTypes.string.isRequired,
 };

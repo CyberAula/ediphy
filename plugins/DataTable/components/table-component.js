@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { DataTable } from 'react-datatable-bs';
 require('react-datatable-bs/css/table-twbs.css');
+/* eslint-disable react/prop-types */
 
 export default class TableComponent extends React.Component {
     render() {
@@ -64,3 +65,4 @@ export default class TableComponent extends React.Component {
     }
 
 }
+/* eslint-enable react/prop-types */

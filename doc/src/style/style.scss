@@ -1,6 +1,6 @@
 //vars and mixins
 $material-font-path:  '../../../node_modules/material-design-icons-font/iconfont/';
-$ediphy_blue: #17CFC8;
+@import '../../../sass/general/variables';
 
 @mixin scale{
   -ms-transform: scale(1.1); /* IE 9 */
@@ -9,13 +9,16 @@ $ediphy_blue: #17CFC8;
 }
 @import '../../../node_modules/material-design-icons-font/iconfont/material-icons';
 
-body, #root, #root > .container-fluid, #mainRow {
+html, body, #root, #root > .container-fluid, #mainRow {
     height:100%;
 }
+body {
+  overflow-y: scroll;
+}
 a{
-  color: $ediphy_blue;
+  color: $blueprimary;
   &:hover, &:active, &:focus{
-    color: $ediphy_blue;
+    color: $blueprimary;
   }
 }
 
@@ -23,7 +26,7 @@ a{
   color: #17CFC8;
 }
 code{
-  color: $ediphy_blue;
+  color: $blueprimary;
   background-color: #e9fafc;
 }
 
@@ -36,23 +39,28 @@ h5, .h5 {
     text-decoration: underline;
 }
 
+#grid {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 .playground h2 {
   font-size: 18px;
 }
 
-#nbRow{
+#nb{
   background: #3e3f3a;
   position: fixed;
   width: 100%;
   z-index: 9999;
-  nav.navbar {
-    margin: auto;
+  margin: 0;
+  .container {
     max-width: 960px;
-    z-index: 9999;
   }
 }
 .mainCol {
   height:100%;
+  overflow: auto;
 }
 
 .mainRow{
@@ -62,9 +70,11 @@ h5, .h5 {
 #indexCol {
   background-color: white;
   padding: 0px;
+
   .sidebarTitle{
     padding: 35px 0 25px;
     font-size: 1em;
+    width: 100%;
   }
   .list-group {
       margin-top: 10px;
@@ -75,8 +85,8 @@ h5, .h5 {
     margin-top: 5px;
     border: 0;
     border-style: ridge;
-    border-top: 3px solid $ediphy_blue;
-    width: 90%;
+    border-top: 3px solid $blueprimary;
+    width: 100%;
   }
 }
 
@@ -220,12 +230,7 @@ img[alt=Índice], img[alt=Toolbar] {
     border: none;
 }
 
-.mainLogo {
-    width: 150px;
-    float: left;
-    margin-right: 30px;
-    stroke: #777;
-}
+
 @media(max-width:576px){
     .mainCol {
         height:auto;
@@ -252,17 +257,279 @@ img[alt=Índice], img[alt=Toolbar] {
   position: fixed;
   bottom: 0;
   left: 0;
+  color: #333;
+  margin: 15px;
+
 }
 .langButton {
   background: none !important;
-  color: inherit;
+  color:  #333;
   border: none;
   padding: 0! important;
   font: inherit;
   cursor: pointer;
   outline: inherit !important;
-  color: #555;
   &:hover {
     text-decoration: underline;
   }
 }
+
+/****Main page*****/
+.well {
+  min-height: 200px;
+  background-color: transparent;
+  padding: 20px;
+}
+
+.view {
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  text-align: center;
+  padding-top:100px;
+}
+
+#main {
+  background: linear-gradient(0deg, $blueprimarydark 0%, #14b6b0 51%, $blueprimary 75%);
+  color: white;
+  //height:100%;
+  //padding-top: 0px;
+  #mainTitle {
+    display:inline-block;
+    margin:auto;
+    vertical-align: middle;
+    //margin-top:7%;
+  }
+  h1 {
+    word-break: keep-all;
+    font-size: 10em;
+    //font-size: 14vw;
+    vertical-align: middle;
+  }
+  h2 {
+    font-size: 1.3em;
+    //font-size: 1.8vw;
+    text-align: left;
+    margin-top: -20px;
+    font-weight: bold;
+  }
+  .mainLogo {
+    width: 0.8em;
+    //width: 11vw;
+    vertical-align: middle;
+    margin-top: -20px;
+    margin-right: 15px;
+    //float: left;
+    //margin-right: 30px;
+    //stroke: #777;
+  }
+}
+div.ext-box { display: table; width:100%;height:100%;}
+div.int-box { display: table-cell; vertical-align: middle; }
+
+#why {
+
+  h2 {
+    font-weight: bold;
+  }
+}
+
+
+#how{
+  background: linear-gradient(0deg, $blueprimarydark 0%, #14b6b0 51%, $blueprimary 75%);
+  color: white;
+  .how_link {
+    color: white; //#3e3f3a;
+    font-weight: bold;
+  }
+  .how_icon {
+    font-size: 4.5em;
+    margin-bottom: 10px;
+    //color:white;
+    color: #333;
+  }
+
+  h2 {
+    font-weight: bold;
+  }
+  h3 {
+    font-size: 1.2em;
+  }
+}
+
+#what{
+
+  h2 {
+    font-weight: bold;
+  }
+  h3 {
+    font-size: 1.2em;
+  }
+  .feature {
+    list-style: none;
+    display:inline-block;
+    background-color: $bluemedium;
+    margin:5px;
+    border-radius: 20px;
+    span {
+      color:white;
+      font-size: 1.3em;
+      font-weight: bold;
+      padding: 12px 18px;
+      line-height: 1.8em;
+    }
+
+  }
+
+  .pluginFeature {
+    display: inline-block;
+    margin: 20px;
+    width: 93px;
+     .pluginName {
+
+       font-size: 1.5em;
+       font-weight: bold;
+       color: #777;
+
+     }
+     i {
+       color: $bluemedium;
+       font-size: 4.2em;
+     }
+
+  }
+}
+#when {
+  background: linear-gradient(0deg, $blueprimarydark 0%, #14b6b0 51%, $blueprimary 75%);
+  //height:100%;
+  h2 {
+    font-weight: bold;
+  }
+  h3 {
+    font-size: 1.2em;
+    color: white;
+  }
+  .demoComputer {
+    height: 400px;
+    cursor: pointer;
+  }
+}
+
+.down_arrow {
+  background: white;
+  border: 0;
+  color: inherit;
+  /* cursor: default; */
+  font: inherit;
+  line-height: normal;
+  overflow: visible;
+  padding: 0;
+  -webkit-appearance: button; /* for input */
+  -webkit-user-select: none; /* for button */
+  -moz-user-select: none;
+  -ms-user-select: none;
+  //font-size: 5em;
+  position: fixed;
+  bottom:3px;
+  margin-left: -16px;
+  left: 50%;
+  outline: none;
+  i {
+    font-size: 36px;
+  }
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  padding-top: 2px;
+  color: $blueprimary;
+
+}
+.rotate {
+  transform: rotate(180deg);
+}
+
+/*****************************/
+/******FLOATING INDEX**********/
+
+
+
+@media only screen and (max-width : 768px) {
+  .floatingIndex {
+    padding: 15px;
+  }
+  #mainTitle h1 {
+    font-size: 8em;
+    margin-bottom: 20px;
+  }
+  #main h2 {
+    text-align: center;
+  }
+
+}
+/* Custom, iPhone Retina */
+
+@media only screen and (min-width : 320px) {
+  #main {
+    height: 100%;
+    padding-top: 0px;
+  }
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width : 480px) {
+  .floatingIndex {
+    padding: 15px;
+  }
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+  .floatingIndex {
+    position:fixed;
+    width: 25%;
+    max-height: calc(100% - 60px);
+    overflow: auto;
+  }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+  .floatingIndex {
+    width: 16%;
+    max-width: 160px; //16% of 960px
+  }
+
+    #why, #how, #what, #when, #main {
+      height: 100%;
+      padding-top: 0px;
+  }
+
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+  .floatingIndex {
+    width: 16%;
+    max-width: 160px;
+  }
+}
+
+
+.codeButton {
+  border-radius: 50%;
+  background-color: $blueprimary;
+  width:35px;
+  height:35px;
+  font-size: 20px;
+  line-height:35px;
+  text-align: center;
+  color:white;
+  margin:10px;
+}
+.codePanel {
+  margin-top: -52px;
+
+}
+/******************************************/

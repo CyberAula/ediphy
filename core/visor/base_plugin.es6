@@ -39,6 +39,7 @@ export default function() {
             }
             let key = json.attr['plugin-data-key'];
             if (!key) {
+                // eslint-disable-next-line no-console
                 console.error(json.tag + " has not defined plugin-data-key");
             } else if (state.__pluginContainerIds[key]) {
                 json.attr['plugin-data-id'] = state.__pluginContainerIds[key].id;
@@ -82,6 +83,7 @@ export default function() {
                     template = state.__text;
                 } else {
                     template = "<div></div>";
+                    // eslint-disable-next-line no-console
                     console.error("Plugin %s has not defined getRenderTemplate", name);
                 }
             } else {
@@ -142,6 +144,7 @@ export default function() {
             }
 
             if(!element) {
+                // eslint-disable-next-line no-console
                 console.error("Invalid argument -> need parent with correct id @ triggerMark");
                 return;
             }

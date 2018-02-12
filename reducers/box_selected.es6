@@ -1,5 +1,5 @@
 import {
-    ADD_BOX, ADD_NAV_ITEM, DELETE_BOX, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX, DELETE_NAV_ITEM, SELECT_BOX,
+    ADD_BOX, ADD_NAV_ITEM, DELETE_BOX, DELETE_SORTABLE_CONTAINER, DELETE_NAV_ITEM, SELECT_BOX,
     DELETE_CONTAINED_VIEW,
     SELECT_CONTAINED_VIEW, SELECT_NAV_ITEM, IMPORT_STATE, PASTE_BOX,
 } from '../common/actions';
@@ -37,8 +37,6 @@ export default function(state = -1, action = {}) {
         return -1;
     case DELETE_SORTABLE_CONTAINER:
         return -1;
-    case DUPLICATE_BOX:
-        return ID_PREFIX_BOX + action.payload.newId;
     case DELETE_NAV_ITEM:
         return -1;
     case DELETE_CONTAINED_VIEW:

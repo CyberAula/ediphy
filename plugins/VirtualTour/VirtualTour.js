@@ -5,6 +5,8 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MarkEditor from "../../_editor/components/rich_plugins/mark_editor/MarkEditor";
 require('./_virtualTour.scss');
 window.mapList = [];
+/* eslint-disable react/prop-types */
+
 export function VirtualTour(base) {
     return {
         init: function() {
@@ -15,7 +17,7 @@ export function VirtualTour(base) {
             return {
                 name: 'VirtualTour',
                 displayName: Ediphy.i18n.t('VirtualTour.PluginName'),
-                category: 'multimedia',
+                category: 'objects',
                 needsConfigModal: false,
                 flavor: "react",
                 needsTextEdition: false,
@@ -29,7 +31,7 @@ export function VirtualTour(base) {
                     key: 'value',
                     format: '[Lat,Lng]',
                     default: '40.452,-3.727',
-                    defaultColor: '#222222',
+                    defaultColor: '#000002',
                 }],
                 needsPointerEventsAllowed: true,
                 limitToOneInstance: true,
@@ -111,9 +113,8 @@ export function VirtualTour(base) {
                 num: window.mapList.length,
             };
         },
-        getRenderTemplate: function(state) {
-
-            let id = "map-" + Date.now();
+        getRenderTemplate: function(state, props) {
+            let id = "map-" + props.id;
             let marks = state.__marks;
             if (!window.google || !navigator.onLine) {
                 return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
@@ -125,7 +126,7 @@ export function VirtualTour(base) {
             }
 
             let Mark = ({ idKey, title, color }) => (
-                <MarkEditor time={1.5} mark={idKey} base={base} state={state}>
+                <MarkEditor time={1.5} mark={idKey} base={base} onRichMarkUpdated={props.onRichMarkUpdated} state={state}>
                     <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
                         <a className="mapMarker" href="#">
                             <i style={{ color: color }} key="i" className="material-icons">room</i>
@@ -164,6 +165,10 @@ export function VirtualTour(base) {
         },
         handleToolbar: function(name, value) {
             base.setState(name, value);
+        },
+        getDefaultMarkValue() {
+            let cfg = base.getState().config;
+            return Math.round(cfg.lat * 100000) / 100000 + ',' + Math.round(cfg.lng * 100000) / 100000;
         },
         parseRichMarkInput: function(...value) {
             let state = value[5];
@@ -209,22 +214,23 @@ export function VirtualTour(base) {
         },
         pointerEventsCallback: function(bool, toolbarState) {
             if (!window.google || !navigator.onLine) {return;}
-            if (window.mapList[toolbarState.num || (toolbarState.state ? toolbarState.state.num : 9999)]) {
+            let num = toolbarState.num || (toolbarState.state ? toolbarState.state.num : 9999);
+            if (window.mapList[num]) {
                 switch(bool) {
                 case 'mouseenter':
-                    window.mapList[toolbarState.num].setOptions({ draggable: false });
+                    window.mapList[num].setOptions({ draggable: false });
                     return;
                 case 'mouseleave_true':
-                    window.mapList[toolbarState.num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
+                    window.mapList[num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
                     return;
                 case 'mouseleave_false':
-                    window.mapList[toolbarState.num].setOptions({ draggable: false });
+                    window.mapList[num].setOptions({ draggable: false });
                     return;
                 case 'disableAll':
-                    window.mapList[toolbarState.state.num].setOptions({ draggable: false, mapTypeControl: false, zoomControl: false });
+                    window.mapList[num].setOptions({ draggable: false, mapTypeControl: false, zoomControl: false });
                     return;
                 case 'enableAll':
-                    window.mapList[toolbarState.state.num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
+                    window.mapList[num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
                     return;
                 }
             }
@@ -232,3 +238,4 @@ export function VirtualTour(base) {
 
     };
 }
+/* eslint-enable react/prop-types */

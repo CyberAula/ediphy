@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Form, FormGroup, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
-
+import './_external.scss';
 /**
  * VISH Catalog Modal
  */
@@ -31,13 +31,7 @@ export default class ExternalCatalogModal extends Component {
                         <FormGroup>
                             {(this.props.state || this.props.images.length !== 0) ? this.props.images.map((item, index) => {
                                 return (
-                                    <img key={index}
-                                        src={item}
-                                        style={{
-                                            width: 160,
-                                            height: 160,
-                                            border: "solid transparent 3px",
-                                        }} />
+                                    <img key={index} src={item} className={'catalogImage'} />
                                 );
                             }) : <div className="alert alert-info">{i18n.t("Uploaded_Images_No")}</div>}
                         </FormGroup>
@@ -54,21 +48,21 @@ export default class ExternalCatalogModal extends Component {
     }
 }
 
-ExternalCatalogModal.proptypes = {
+ExternalCatalogModal.propTypes = {
     /**
      * Muestra el Modal
      */
     visible: PropTypes.bool,
     /**
-     * Indicador de si hay una operación en curso con el servidor
-     * */
-    isBusy: PropTypes.bool,
+      * Imágenes
+      */
+    images: PropTypes.object,
     /**
-     * Función para mostrar la búsqueda externa
-     */
-    onExternalSearcherToggled: PropTypes.func,
+       * Estado
+       */
+    state: PropTypes.object,
     /**
-     * Función para obtener resultados del proveedor externo
-     */
-    onFetchVishResources: PropTypes.func,
+      * Toggle function
+      */
+    onExternalCatalogToggled: PropTypes.func,
 };

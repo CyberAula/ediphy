@@ -5,7 +5,6 @@ import i18n from 'i18next';
 export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';
 export const MOVE_BOX = 'MOVE_BOX';
-export const DUPLICATE_BOX = 'DUPLICATE_BOX';
 export const RESIZE_BOX = 'RESIZE_BOX';
 export const UPDATE_BOX = 'UPDATE_BOX';
 export const DELETE_BOX = 'DELETE_BOX';
@@ -23,12 +22,15 @@ export const CHANGE_COLS = 'CHANGE_COLS';
 export const CHANGE_ROWS = 'CHANGE_ROWS';
 
 export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
+export const ADD_NAV_ITEMS = 'ADD_NAV_ITEMS';
 export const SELECT_NAV_ITEM = 'SELECT_NAV_ITEM';
 export const EXPAND_NAV_ITEM = 'EXPAND_NAV_ITEM';
 export const DELETE_NAV_ITEM = 'DELETE_NAV_ITEM';
 export const REORDER_NAV_ITEM = 'REORDER_NAV_ITEM';
 export const TOGGLE_NAV_ITEM = 'TOGGLE_NAV_ITEM';
+export const CHANGE_BACKGROUND = 'CHANGE_BACKGROUND';
 export const UPDATE_NAV_ITEM_EXTRA_FILES = 'UPDATE_NAV_ITEM_EXTRA_FILES';
+
 export const INDEX_SELECT = 'INDEX_SELECT';
 
 export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
@@ -60,6 +62,7 @@ export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
 export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 
 export const PASTE_BOX = 'PASTE_BOX';
+export const CHANGE_BOX_LAYER = 'CHANGE_BOX_LAYER';
 
 export function selectIndex(id) {
     return { type: INDEX_SELECT, payload: { id } };
@@ -77,8 +80,11 @@ export function deleteContainedView(ids, boxes, parent) {
     return { type: DELETE_CONTAINED_VIEW, payload: { ids, boxes, parent } };
 }
 
-export function addNavItem(id, name, parent, type, position, hasContent) {
-    return { type: ADD_NAV_ITEM, payload: { id, name, parent, type, position, hasContent } };
+export function addNavItem(id, name, parent, type, position, background, customSize, hasContent) {
+    return { type: ADD_NAV_ITEM, payload: { id, name, parent, type, position, background, customSize, hasContent } };
+}
+export function addNavItems(navs, parent) {
+    return { type: ADD_NAV_ITEMS, payload: { navs, parent } };
 }
 
 export function expandNavItem(id, value) {
@@ -101,29 +107,25 @@ export function updateNavItemExtraFiles(id, box, xml_path) {
     return { type: UPDATE_NAV_ITEM_EXTRA_FILES, payload: { id, box, xml_path } };
 }
 
-export function changeContainedViewName(id, title) {
-    return { type: CHANGE_CONTAINED_VIEW_NAME, payload: { id, title } };
+export function changeBackground(id, background) {
+    return { type: CHANGE_BACKGROUND, payload: { id, background } };
+
 }
 
-export function changeUnitNumber(id, value) {
-    return { type: CHANGE_UNIT_NUMBER, payload: { id, value } };
+export function changeContainedViewName(id, title) {
+    return { type: CHANGE_CONTAINED_VIEW_NAME, payload: { id, title } };
 }
 
 export function addBox(ids, draggable, resizable, content, style, state, initialParams) {
     return { type: ADD_BOX, payload: { ids, draggable, resizable, content, style, state, initialParams } };
 }
 
-export function selectBox(id) {
-    return { type: SELECT_BOX, payload: { id } };
+export function selectBox(id, box) {
+    return { type: SELECT_BOX, payload: { id, box } };
 }
 
 export function moveBox(id, x, y, position, parent, container) {
     return { type: MOVE_BOX, payload: { id, x, y, position, parent, container } };
-}
-
-// @TODO
-export function duplicateBox(id, parent, container, children, newIds, newId) {
-    return { type: DUPLICATE_BOX, payload: { id, parent, container, children, newIds, newId } };
 }
 
 export function resizeBox(id, widthButton, heightButton) {
@@ -142,8 +144,8 @@ export function reorderSortableContainer(ids, parent) {
     return { type: REORDER_SORTABLE_CONTAINER, payload: { ids, parent } };
 }
 
-export function dropBox(id, row, col, parent, container) {
-    return { type: DROP_BOX, payload: { id, row, col, parent, container } };
+export function dropBox(id, row, col, parent, container, oldParent, oldContainer, position, index) {
+    return { type: DROP_BOX, payload: { id, row, col, parent, container, oldParent, oldContainer, position, index } };
 }
 
 export function verticallyAlignBox(id, verticalAlign) {
@@ -152,6 +154,10 @@ export function verticallyAlignBox(id, verticalAlign) {
 
 export function increaseBoxLevel() {
     return { type: INCREASE_LEVEL, payload: {} };
+}
+
+export function changeBoxLayer(id, parent, container, value, boxes_array) {
+    return { type: CHANGE_BOX_LAYER, payload: { id, parent, container, value, boxes_array } };
 }
 
 export function resizeSortableContainer(id, parent, height) {
@@ -197,8 +203,8 @@ export function toggleTextEditor(caller, value) {
     return { type: TOGGLE_TEXT_EDITOR, payload: { caller, value } };
 }
 
-export function pasteBox(ids, box, toolbar) {
-    return { type: PASTE_BOX, payload: { ids, box, toolbar } };
+export function pasteBox(ids, box, toolbar, children, index) {
+    return { type: PASTE_BOX, payload: { ids, box, toolbar, children, index } };
 }
 
 export function toggleTitleMode(id, titles) {
@@ -322,6 +328,7 @@ export function importStateAsync() {
                 return response.text();
             })
             .then(result => {
+                // eslint-disable-next-line no-console
                 console.log(result);
                 dispatch(importState(JSON.parse(result)));
                 return true;

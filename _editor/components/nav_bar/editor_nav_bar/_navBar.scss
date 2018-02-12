@@ -23,8 +23,15 @@
     border-radius: 0;
     right: 0;
     left: auto;
-    .disabled .dropdownButton {
-      color: #aaa;
+    li > a {
+      padding: 0;
+    }
+    .dropdownButton {
+      padding: 7px 16px;
+      &[disabled] {
+        color: $lightgrey;
+        cursor: not-allowed;
+      }
     }
   }
 }
@@ -44,7 +51,6 @@
   font-size: 20px;
   height: 60px;
   padding: 0 8px;
-  color: $grisadams;
   background: transparent; //$lightestgrey;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -60,7 +66,7 @@
   }
   &:hover {
     color: $darkest;
-    @include scale(1.1);
+    //@include scale(1.1);
   }
   .material-icons {
     vertical-align: middle;
@@ -85,7 +91,7 @@ button[disabled].navButton {
   height: 60px;
   width: 10px;
   float: left;
-  background: linear-gradient(141deg, $blueprimarydark 0%, #14b6b0 51%, $blueprimary 75%);
+  background: linear-gradient(141deg, $blueprimarydark 0%, $bluemedium 51%, $blueprimary 75%);
   color: white;
   opacity: 0.95;
 }
@@ -229,7 +235,7 @@ button[disabled].navButton {
   height: auto;
   font-size: 12px;
   padding: 3px 12px;
-  color: $grismedio;
+  color: $lightgrey;
   &:hover {
     color: white;
   }

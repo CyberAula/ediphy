@@ -2,6 +2,7 @@ import React from "react";
 import { Form, FormGroup, FormControl, ControlLabel, Col, Checkbox, Radio } from "react-bootstrap";
 
 import i18n from 'i18next';
+/* eslint-disable react/prop-types */
 
 export default class ChartOptions extends React.Component {
     constructor(props) {
@@ -309,3 +310,4 @@ export default class ChartOptions extends React.Component {
         );
     }
 }
+/* eslint-enable react/prop-types */

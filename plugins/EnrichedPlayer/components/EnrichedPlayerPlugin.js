@@ -4,6 +4,7 @@ import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import img from './../../../dist/images/broken_link.png';
+/* eslint-disable react/prop-types */
 
 export default class EnrichedPlayerPlugin extends React.Component {
     constructor(props) {
@@ -176,3 +177,5 @@ export default class EnrichedPlayerPlugin extends React.Component {
         );
     }
 }
+
+/* eslint-enable react/prop-types */

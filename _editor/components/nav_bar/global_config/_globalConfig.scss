@@ -5,7 +5,7 @@
 	position: relative;
 	top: -1px;
 	width: 100%;
-	height:97%; 
+	height:97%;
 	padding: 0px;
 	background-color: white;
 	overflow-y: auto;
@@ -72,6 +72,12 @@ div.ReactTags__tagInput{
 	font-size: 18px;
 	vertical-align: middle;
 	cursor: help;
+
+}
+
+#helpIcon {
+  right: 15px;
+  position: absolute;
 }
 
 textarea#descTA{
@@ -100,10 +106,10 @@ textarea#descTA{
 	    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
 	    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
 	    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
-		
+
 	}
 	.Select-control {
-		border:none;
+		border: one;
 	}
 }
 .toggle-switch---switch---3EchW.toggle-switch---checked---3aC9B .toggle-switch---toggle---mncCu {

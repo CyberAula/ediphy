@@ -17,7 +17,6 @@ export default class VisorBox extends Component {
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];
-        let vis = this.props.boxSelected === this.props.id;
         let style = {};
 
         let attrs = {};
@@ -90,23 +89,12 @@ export default class VisorBox extends Component {
 
         /* TODO: Reasign object if is rich to have marks as property box.content.props*/
 
+        let props = { ...this.props, parentBox: this.props.boxes[this.props.id] };
         let content = toolbar.config.flavor === "react" ? (
-            <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>{Ediphy.Visor.Plugins[toolbar.config.name].getRenderTemplate(toolbar.state, box.id)}</div>
+            <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>{Ediphy.Visor.Plugins[toolbar.config.name].getRenderTemplate(toolbar.state, box.id, props)}</div>
         ) : (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
                 {this.renderChildren(Ediphy.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0, this.props.id), 0)}
-            </div>
-        );
-        let border = (
-            <div style={{ visibility: (vis ? 'visible' : 'hidden') }}>
-                <div style={{
-                    position: 'absolute',
-                    top: -(this.borderSize),
-                    left: -(this.borderSize),
-                    width: '100%',
-                    height: '100%',
-                    boxSizing: 'content-box',
-                }} />
             </div>
         );
 
@@ -141,7 +129,6 @@ export default class VisorBox extends Component {
         return (
             <div className={classes} id={'box-' + this.props.id}
                 style={wholeBoxVisorStyle}>
-                {border}
                 {content}
 
             </div>
@@ -238,7 +225,7 @@ VisorBox.propTypes = {
     /**
      * Vista actual
      */
-    currentView: PropTypes.any,
+    currentViewSelected: PropTypes.any,
     /**
      * Diccionario que contiene todas las toolbars
      */
