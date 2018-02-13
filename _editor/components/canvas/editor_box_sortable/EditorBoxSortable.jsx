@@ -146,7 +146,7 @@ export default class EditorBoxSortable extends Component {
                                     <Overlay rootClose
                                         show={this.state.show === idContainer}
                                         placement="top"
-                                        container={this.refs[idContainer]}
+                                        container={this/* .refs[idContainer]*/}
                                         target={() => ReactDOM.findDOMNode(this.refs['btn-' + idContainer])}
                                         onHide={() => {this.setState({ show: this.state.show === idContainer ? false : this.state.show });}}>
                                         <Popover id="popov" title={i18n.t("delete_container")}>

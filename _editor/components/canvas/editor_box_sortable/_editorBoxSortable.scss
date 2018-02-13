@@ -8,7 +8,7 @@
     position: relative;
 }
 .editorBoxSortable{
-  overflow: auto;
+  overflow: visible; //auto;
 }
 
 .dividerBar{

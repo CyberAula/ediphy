@@ -141,7 +141,10 @@ export default class CarouselButtons extends Component {
                                 i18n.t("page"),
                                 this.getParent().id,
                                 PAGE_TYPES.DOCUMENT,
-                                this.calculatePosition()
+                                this.calculatePosition(),
+                                "rgb(255,255,255)",
+                                0,
+
                             );
                             this.props.onBoxAdded(
                                 { parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now() },
@@ -224,8 +227,7 @@ export default class CarouselButtons extends Component {
                             name="popoverAcceptButton"
                             disabled={/* (isContainedView(this.props.indexSelected) && !this.canDeleteContainedView(this.props.indexSelected)) || */this.props.indexSelected === 0}
                             style={{ float: 'right' }}
-                            onClick={(e) =>
-                            {
+                            onClick={(e) => {
                                 if(this.props.indexSelected !== 0) {
                                     if (isContainedView(this.props.indexSelected) /* && this.canDeleteContainedView(this.props.indexSelected)*/) {
                                         this.props.onContainedViewDeleted(this.props.indexSelected);
@@ -233,11 +235,9 @@ export default class CarouselButtons extends Component {
                                         this.props.onNavItemDeleted(this.props.indexSelected);
                                     }
                                 }
-
                                 this.props.onIndexSelected(0);
-                                this.setState({ showOverlay: false });
-                            }
-                            }>
+                                this.setState({ showOverlay: false });}}>
+
                             {i18n.t("Accept")}
                         </Button>
                     </Popover>
