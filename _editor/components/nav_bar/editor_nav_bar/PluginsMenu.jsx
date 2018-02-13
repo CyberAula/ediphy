@@ -46,11 +46,11 @@ export default class PluginsMenu extends Component {
                 displayName: i18n.t("Objects"),
                 icon: 'unarchive',
             },
-            /* {
+            {
                 name: 'evaluation',
                 displayName: i18n.t("Evaluation"),
                 icon: 'school',
-            },*/
+            },
 
         ];
         return (

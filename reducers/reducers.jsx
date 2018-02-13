@@ -91,7 +91,7 @@ const GlobalState = undoable(combineReducers({
         case TOGGLE_TEXT_EDITOR:
         case TOGGLE_TITLE_MODE:
         case UPDATE_NAV_ITEM_EXTRA_FILES:
-        // case UPDATE_BOX:
+        case UPDATE_BOX:
         // case ADD_RICH_MARK:
             return false;
         }

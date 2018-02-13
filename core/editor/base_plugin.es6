@@ -101,7 +101,7 @@ export default function() {
         },
         getConfig: function() {
             let name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig, needsPointerEventsAllowed,
-                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isComplex, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance, initialWidth, initialHeight, initialWidthSlide, initialHeightSlide;
+                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isComplex, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance, initialWidth, initialHeight, initialWidthSlide, initialHeightSlide, defaultCorrectAnswer;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
                 name = cfg.name;
@@ -126,6 +126,7 @@ export default function() {
                 initialWidthSlide = cfg.initialWidthSlide;
                 initialHeightSlide = cfg.initialHeightSlide;
                 initialHeight = cfg.initialHeight;
+                defaultCorrectAnswer = cfg.defaultCorrectAnswer;
             }
 
             name = defaultFor(name, 'PluginName', "Plugin name not assigned");
@@ -148,6 +149,7 @@ export default function() {
             initialWidthSlide = defaultFor(initialWidthSlide, initialWidth);
             initialHeight = defaultFor(initialHeight, '25');
             initialHeightSlide = defaultFor(initialHeightSlide, initialHeight);
+            defaultCorrectAnswer = defaultFor(defaultCorrectAnswer, false);
 
             if (aspectRatioButtonConfig) {
                 aspectRatioButtonConfig.name = Ediphy.i18n.t("Aspect_ratio");
@@ -192,6 +194,15 @@ export default function() {
                 if(isRich) {
                     if(!state.__marks) {
                         state.__marks = {};
+                    }
+                }
+                if(category === 'evaluation') {
+                    if (!state.__score) {
+                        state.__score = {
+                            score: 1,
+                            correctAnswer: defaultCorrectAnswer,
+
+                        };
                     }
                 }
                 initialParams = initParams;
@@ -426,6 +437,11 @@ export default function() {
             state = oldState;
             if (descendant.afterRender) {
                 descendant.afterRender(element, oldState);
+            }
+        },
+        setCorrectAnswer: function(answer) {
+            if (state.__score) {
+                state.__score.correctAnswer = answer;
             }
         },
         update: function(oldState, name, value, sender, reason) {

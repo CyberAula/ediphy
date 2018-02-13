@@ -1,6 +1,6 @@
 import React from 'react';
 import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
-export function ContainerReact() {
+export function MultipleChoice() {
     return {
         getRenderTemplate: function(state, id, props) {
             let content = [];
