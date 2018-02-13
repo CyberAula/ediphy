@@ -31,6 +31,7 @@ function toolbarElementCreator(state, action, isContainedView = false) {
         id: id,
         breadcrumb: 'reduced',
         doc_type: type,
+        viewName: doc_type,
         courseTitle: 'hidden',
         documentSubtitle: 'hidden',
         documentSubtitleContent: '',
@@ -58,7 +59,7 @@ export default function(state = {}, action = {}) {
     case UPDATE_VIEW_TOOLBAR:
         newState = {
             ...state,
-            [action.payload.id]: action.payload,
+            [action.payload.id]: action.payload.elements,
         };
         return newState;
     case IMPORT_STATE:

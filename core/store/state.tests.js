@@ -148,9 +148,9 @@ export const testState = { present:
                         padding: 0,
                     },
                     structure: {
-                        __width:,
-                        __height:,
-                        rotation:,
+                        __width: "200px",
+                        __height: "200px",
+                        rotation: 0,
                     },
                     /*
                 "bs-1511252985426": {

@@ -115,7 +115,7 @@ export default class CarouselList extends Component {
                                             : <img className="svgIcon" src={iconPDF}/>}
                                         <EditorIndexTitle
                                             id={id}
-                                            title={this.props.navItems[id].name}
+                                            title={this.props.viewToolbars[id].viewName}
                                             index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id) + 1 + '.'}
                                             hidden={this.props.navItems[id].hidden}
                                             onNameChanged={this.props.onNavItemNameChanged}/>

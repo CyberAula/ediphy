@@ -227,12 +227,12 @@ export function importState(state) {
     return { type: IMPORT_STATE, payload: state };
 }
 
-export function updatePluginToolbar(id, tab, accordions, name, value) {
-    return { type: UPDATE_PLUGIN_TOOLBAR, payload: { id, tab, accordions, name, value } };
+export function updatePluginToolbar(id, elements) {
+    return { type: UPDATE_PLUGIN_TOOLBAR, payload: { id, elements } };
 }
 
-export function updateViewToolbar(id, tab, accordions, name, value) {
-    return { type: UPDATE_VIEW_TOOLBAR, payload: { id, tab, accordions, name, value } };
+export function updateViewToolbar(id, elements) {
+    return { type: UPDATE_VIEW_TOOLBAR, payload: { id, elements } };
 }
 
 export function fetchVishResourcesSuccess(result) {

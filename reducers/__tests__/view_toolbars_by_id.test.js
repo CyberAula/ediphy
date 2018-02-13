@@ -71,6 +71,22 @@ describe('# plugin_toolbars_by_id reducer', ()=>{
             };
             expect(view_toolbars_by_id(state, action)).toEqual(newState);
         });
+
+        test('If update name', () => {
+            let action = {
+                type: ActionTypes.UPDATE_VIEW_TOOLBAR,
+                payload: {
+                    id: "pa-1511252955865",
+                    viewName: "NewName",
+                },
+            };
+
+            let newState = {
+                ...state,
+                [action.payload.id]: action.payload,
+            };
+            expect(view_toolbars_by_id(state, action)).toEqual(newState);
+        });
     });
 
     describe('handle PASTE_BOX', ()=>{
