@@ -28,7 +28,6 @@
 }
 
 /*Resize*/
-
 #sizing {
     position: absolute;
     background-color: $darkest;
@@ -43,13 +42,11 @@
     text-overflow: ellipsis;
      white-space: nowrap;
 }
-
 .fileDrag {
     color: #C4C4C4;
     text-align: center;
     min-height: 50px;
     height: auto;
-    //padding: 20px;
     font-size: 16px;
     border: 2px dashed #C4C4C4;
     border-radius: 4px;
@@ -60,30 +57,22 @@
         font-size: 16px;
     }
 }
-
 .fileDrag_toolbar{
     color: #C4C4C4;
     text-align: center;
     min-height: 50px;
     height: auto;
-    //padding: 20px;
-    font-size: 16px;
-    border: 2px dashed #C4C4C4;
+    font-size: 0.9em;
+    border: 1px dashed #C4C4C4;
     border-radius: 4px;
-    background-color: #f5f5f5;
     line-height: 50px;
-    i{
-        font-size: 16px;
-    }
 }
-
 .fileInput {
     cursor: pointer !important;
     input {
         cursor: pointer !important;
     }
 }
-
 .fileUploaded {
     color: #333;
 }

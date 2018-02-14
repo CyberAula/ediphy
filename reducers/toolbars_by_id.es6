@@ -369,7 +369,7 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                     },
                     background: {
                         __name: "Fondo",
-                        icon: "image",
+                        icon: "crop_original",
                         buttons: {
                             background: {
                                 __name: i18n.t('background.background'),
