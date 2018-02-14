@@ -448,10 +448,10 @@ export default class EditorBox extends Component {
             document.getElementById('containedCanvas');
         interact.dynamicDrop(true);
         interact(ReactDOM.findDOMNode(this))
-            .snap({
+        /*  .snap({
                 actions: ['resizex', 'resizey', 'resizexy', 'resize', 'drag'],
                 mode: 'grid',
-            })
+            })*/
             .draggable({
                 snap: {
                     targets: targets,
