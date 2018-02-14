@@ -90,6 +90,7 @@ export default class VisorCanvasSli extends Component {
                                 boxes={this.props.boxes}
                                 changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
                                 currentView={this.props.currentView}
+                                fromScorm={this.props.fromScorm}
                                 toolbars={this.props.toolbars}
                                 richElementsState={this.props.richElementsState}/>;
 

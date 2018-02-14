@@ -45,7 +45,7 @@ export default class ScormComponent extends Component {
         this.setState({ scores: previousScores, visited: previousVisited }); // Careful with this pattern
     }
     render() {
-        return null;
+        return this.props.children;
     }
     componentDidMount() {
         window.addEventListener("load", this.onLoad);

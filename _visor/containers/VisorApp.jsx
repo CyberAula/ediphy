@@ -203,7 +203,7 @@ export default class Visor extends Component {
         !isCV && navItems[this.getLastCurrentViewElement()] === "slide" ?
             "pcw_slide" : "pcw_doc";
 
-        return (
+        let visorContent = (
             <div id="app"
                 className={wrapperClasses} >
                 <VisorSideNav
@@ -240,6 +240,7 @@ export default class Visor extends Component {
                                         canvasRatio={ratio}
                                         containedViews={containedViews}
                                         currentView={this.getLastCurrentViewElement()}
+                                        fromScorm={this.state.fromScorm}
                                         navItems={navItems}
                                         removeLastView={()=>{this.removeLastView();}}
                                         richElementsState={this.state.richElementState}
@@ -255,6 +256,7 @@ export default class Visor extends Component {
                                         canvasRatio={ratio}
                                         containedViews={containedViews}
                                         currentView={this.getLastCurrentViewElement()}
+                                        fromScorm={this.state.fromScorm}
                                         navItems={navItems}
                                         toolbars={toolbars}
                                         title={title}
@@ -269,16 +271,14 @@ export default class Visor extends Component {
                         </Row>
                     </Grid>
                 </div>
-                {this.state.fromScorm ? (
-                    <ScormComponent
-                        navItemsIds={navItemsIds}
-                        currentView={this.getLastCurrentViewElement()}
-                        globalConfig={globalConfig}
-                        changeCurrentView={(el)=>{this.changeCurrentView(el);}}
-                    />) : (null)}
-            </div>
+            </div>);
+        return this.state.fromScorm ? (
+            <ScormComponent
+                navItemsIds={navItemsIds}
+                currentView={this.getLastCurrentViewElement()}
+                globalConfig={globalConfig}
+                changeCurrentView={(el)=>{this.changeCurrentView(el);}}>{visorContent}</ScormComponent>) : (visorContent);
 
-        );
     }
 
     /**

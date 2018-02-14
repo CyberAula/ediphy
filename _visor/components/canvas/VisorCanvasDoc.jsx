@@ -82,6 +82,7 @@ export default class VisorCanvasDoc extends Component {
                                             boxes={this.props.boxes}
                                             changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
                                             currentView={this.props.currentView}
+                                            fromScorm={this.props.fromScorm}
                                             toolbars={this.props.toolbars}
                                             richElementsState={this.props.richElementsState}/>;
                                     }
@@ -90,6 +91,7 @@ export default class VisorCanvasDoc extends Component {
                                         boxes={this.props.boxes}
                                         changeCurrentView={this.props.changeCurrentView}
                                         currentView={this.props.currentView}
+                                        fromScorm={this.props.fromScorm}
                                         toolbars={this.props.toolbars}
                                         richElementsState={this.props.richElementsState}/>;
 
