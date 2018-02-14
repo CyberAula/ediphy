@@ -2,6 +2,7 @@ import Ediphy from './main';
 import ReactDOM from 'react-dom';
 import { isSortableContainer } from '../../common/utils';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
+import { UPDATE_BOX } from '../../common/actions';
 let html2json = require('html2json').html2json;
 
 export default function() {
@@ -441,10 +442,15 @@ export default function() {
         },
         setCorrectAnswer: function(answer) {
             if (state.__score) {
-                state.__score.correctAnswer = answer;
+                let score = JSON.parse(JSON.stringify(state.__score));
+                score.correctAnswer = answer;
+                state.__score = score;
+                this.render('UPDATE_TOOLBAR');
+
             }
         },
         update: function(oldState, name, value, sender, reason) {
+            console.log(oldState, name, value, sender, reason);
             state = oldState;
             id = sender || id;
             if (descendant.handleToolbar) {

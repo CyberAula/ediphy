@@ -142,6 +142,7 @@ export default class EditorCanvasSli extends Component {
                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                 onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                 onTextEditorToggled={this.props.onTextEditorToggled}
+                                setCorrectAnswer={this.props.setCorrectAnswer}
                                 pageType={itemSelected.type || 0}
                             />;
 

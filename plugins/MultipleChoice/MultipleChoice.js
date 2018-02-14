@@ -1,6 +1,8 @@
 import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import Answer from '../../core/scorm/components/editor/Answer';
+import './_multipleChoice.scss';
+
 export function MultipleChoice(base) {
     return {
         getConfig: function() {
@@ -48,9 +50,8 @@ export function MultipleChoice(base) {
                 answers.push(<div key={i + 1} className={"row"}>
                     <div className={"col-xs-2 h3"}>
                         {i + 1}
-                        <input type="radio" name={props.id} value={i} checked={state.__score.correctAnswer === i ? 'checked' : 'unchecked'} onClick={(e)=>{
-                            console.log(state, e.target.value);
-                            base.setCorrectAnswer(e.target.value);
+                        <input type="radio" className="radioQuiz" name={props.id} value={i} checked={state.__score.correctAnswer === i ? 'checked' : 'unchecked'} onChange={(e)=>{
+                            props.setCorrectAnswer(parseInt(e.target.value));
                         }}/>
                     </div>
                     <div className={"col-xs-10"}>
@@ -59,7 +60,7 @@ export function MultipleChoice(base) {
                 </div>
                 );
             }
-            return <div><h1>Multiple Choice</h1>
+            return <div className={"exercisePlugin"}><h1>Multiple Choice</h1>
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
                         <PluginPlaceholder {...props} key="1" plugin-data-display-name={"Pregunta"} plugin-data-default="BasicText" pluginContainer={"Pregunta"} />

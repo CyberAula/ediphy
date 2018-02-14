@@ -88,6 +88,7 @@ export default class PluginPlaceholder extends Component {
                                                 onBoxDropped={this.props.onBoxDropped}
                                                 onRichMarkUpdated={this.props.onRichMarkUpdated}
                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
+                                                setCorrectAnswer={this.props.setCorrectAnswer}
                                                 onTextEditorToggled={this.props.onTextEditorToggled}/>);
                                         } else if (index === container.children.length - 1) {
                                             return (<span><br/><br/></span>);

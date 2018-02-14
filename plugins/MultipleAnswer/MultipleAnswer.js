@@ -1,6 +1,8 @@
 import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import Answer from '../../core/scorm/components/editor/Answer';
+import './_multipleAnswer.scss';
+
 export function MultipleAnswer(base) {
     return {
         getConfig: function() {
@@ -44,12 +46,13 @@ export function MultipleAnswer(base) {
         },
         getRenderTemplate: function(state, props) {
             let answers = [];
+            console.log(props);
             for (let i = 0; i < state.nBoxes; i++) {
                 console.log(state.__score.correctAnswer.indexOf(i) > -1);
                 answers.push(<div key={i + 1} className={"row"}>
                     <div className={"col-xs-2 h3"}>
                         {i + 1}
-                        <input type="checkbox" name={props.id} value={i} checked={state.__score.correctAnswer.indexOf(i) > -1 } onClick={(e)=>{
+                        <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={state.__score.correctAnswer.indexOf(i) > -1 } onClick={(e)=>{
                             let newCorrectAnswer = Object.assign([], state.__score.correctAnswer);
                             let index = newCorrectAnswer.indexOf(i);
                             if (index === -1) {
@@ -57,8 +60,8 @@ export function MultipleAnswer(base) {
                             } else {
                                 newCorrectAnswer.splice(index, 1);
                             }
-                            console.log(newCorrectAnswer);
-                            base.setCorrectAnswer(newCorrectAnswer);
+                            props.setCorrectAnswer(newCorrectAnswer);
+                            // base.setCorrectAnswer(newCorrectAnswer);
                         }}/>
                     </div>
                     <div className={"col-xs-10"}>
@@ -67,7 +70,7 @@ export function MultipleAnswer(base) {
                 </div>
                 );
             }
-            return <div><h1>Multiple Answer</h1>
+            return <div className={"exercisePlugin"} ><h1>Multiple Answer</h1>
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
                         <PluginPlaceholder {...props} key="1" plugin-data-display-name={"Pregunta"} plugin-data-default="BasicText" pluginContainer={"Pregunta"} />

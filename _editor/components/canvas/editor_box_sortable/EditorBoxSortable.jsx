@@ -117,6 +117,7 @@ export default class EditorBoxSortable extends Component {
                                                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                                                 onTextEditorToggled={this.props.onTextEditorToggled}
                                                                 onRichMarksModalToggled={this.props.onRichMarksModalToggled}
+                                                                setCorrectAnswer={this.props.setCorrectAnswer}
                                                                 pageType={this.props.pageType}/>);
 
                                                         } else if (ind === container.children.length - 1) {

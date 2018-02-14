@@ -100,6 +100,7 @@ export default class EditorCanvasDoc extends Component {
                                     if (!isSortableBox(id)) {
                                         return <EditorBox key={id}
                                             id={id}
+                                            setCorrectAnswer={this.props.setCorrectAnswer}
                                             addMarkShortcut={this.props.addMarkShortcut}
                                             boxes={this.props.boxes}
                                             boxSelected={this.props.boxSelected}
@@ -128,6 +129,7 @@ export default class EditorCanvasDoc extends Component {
                                         id={id}
                                         addMarkShortcut={this.props.addMarkShortcut}
                                         background={itemSelected.background}
+                                        setCorrectAnswer={this.props.setCorrectAnswer}
                                         boxes={this.props.boxes}
                                         boxSelected={this.props.boxSelected}
                                         boxLevelSelected={this.props.boxLevelSelected}

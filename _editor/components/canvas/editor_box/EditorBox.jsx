@@ -145,7 +145,7 @@ export default class EditorBox extends Component {
         }
         wholeBoxStyle.transform = wholeBoxStyle.WebkitTransform = wholeBoxStyle.MsTransform = rotate;
         // style.transform = style.WebkitTransform = style.MsTransform = rotate;
-        let props = { ...this.props, parentBox: this.props.boxes[this.props.id] };
+        let props = { ...this.props, parentBox: this.props.boxes[this.props.id], setCorrectAnswer: (correctAnswer) => { this.props.setCorrectAnswer(this.props.id, correctAnswer);} };
         let content = toolbar.config.flavor === "react" ? (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
                 {Ediphy.Plugins.get(toolbar.config.name).getRenderTemplate(toolbar.state, props)}

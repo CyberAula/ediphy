@@ -61,6 +61,8 @@ export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 export const PASTE_BOX = 'PASTE_BOX';
 export const CHANGE_BOX_LAYER = 'CHANGE_BOX_LAYER';
 
+export const SET_CORRECT_ANSWER = 'SET_CORRECT_ANSWER';
+
 export function selectIndex(id) {
     return { type: INDEX_SELECT, payload: { id } };
 }
@@ -238,6 +240,10 @@ export function fetchVishResourcesSuccess(result) {
 
 export function uploadImage(url) {
     return { type: UPLOAD_IMAGE, payload: { url } };
+}
+
+export function setCorrectAnswer(id, correctAnswer) {
+    return { type: SET_CORRECT_ANSWER, payload: { id, correctAnswer } };
 }
 
 // Async actions

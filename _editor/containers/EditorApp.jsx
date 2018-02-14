@@ -13,7 +13,7 @@ import {
     exportStateAsync, importStateAsync, importState, changeGlobalConfig,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
-    addRichMark, editRichMark, deleteRichMark,
+    addRichMark, editRichMark, deleteRichMark, setCorrectAnswer,
     ADD_BOX, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR,
     addNavItems } from '../../common/actions';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../common/constants';
@@ -251,6 +251,7 @@ class EditorApp extends Component {
                                 toolbars={toolbars}
                                 title={title}
                                 markCreatorId={this.state.markCreatorVisible}
+                                setCorrectAnswer={(id, correctAnswer) => { this.dispatchAndSetState(setCorrectAnswer(id, correctAnswer));}}
                                 onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                 addMarkShortcut= {(mark) => {
                                     let state = JSON.parse(JSON.stringify(toolbars[boxSelected].state));
@@ -292,6 +293,7 @@ class EditorApp extends Component {
                                 navItems={navItems}
                                 navItemSelected={navItems[navItemSelected]}
                                 containedViews={containedViews}
+                                setCorrectAnswer={(id, correctAnswer) => { this.dispatchAndSetState(setCorrectAnswer(id, correctAnswer));}}
                                 containedViewSelected={containedViews[containedViewSelected] || 0}
                                 markCreatorId={this.state.markCreatorVisible}
                                 addMarkShortcut= {(mark) => {

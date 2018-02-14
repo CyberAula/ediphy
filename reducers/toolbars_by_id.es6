@@ -3,7 +3,7 @@ import {
     DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER,
     EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR,
     CHANGE_CONTAINED_VIEW_NAME,
-    VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX, ADD_NAV_ITEMS,
+    VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX, ADD_NAV_ITEMS, SET_CORRECT_ANSWER,
 } from '../common/actions';
 import Utils, {
     changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSlide, isDocument,
@@ -619,6 +619,12 @@ function toolbarReducer(state, action) {
         }
 
         return newState;
+    case SET_CORRECT_ANSWER:
+        let newScoreState = JSON.parse(JSON.stringify(state));
+        if (newScoreState.state && newScoreState.state.__score) {
+            newScoreState.state.__score.correctAnswer = action.payload.correctAnswer;
+        }
+        return newScoreState;
     case DELETE_RICH_MARK:
         return changeProp(state, "state", action.payload.state);
     case VERTICALLY_ALIGN_BOX:
@@ -738,6 +744,7 @@ export default function(state = {}, action = {}) {
     case UPDATE_BOX:
         return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
     case UPDATE_TOOLBAR:
+    case SET_CORRECT_ANSWER:
         return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
     case VERTICALLY_ALIGN_BOX:
         return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
