@@ -26,6 +26,7 @@ export default class ViewToolbar extends Component {
     render() {
         let id = this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
         let type = this.props.containedViewSelected !== 0 ? this.props.containedViews[this.props.containedViewSelected].type : this.props.navItems[this.props.navItemSelected];
+        let isContainedView = this.props.containedViewSelected !== 0;
         let doc_type = '';
         if (isPage(id)) {
             doc_type = i18n.t('page');
@@ -65,13 +66,13 @@ export default class ViewToolbar extends Component {
                             display_title: {
                                 __name: i18n.t('course_title'),
                                 type: 'checkbox',
-                                checked: false,
+                                checked: this.props.viewToolbars[id].courseTitle === 'expanded',
                                 autoManaged: false,
                             },
                             display_pagetitle: {
-                                __name: this.props.viewToolbars[id].displayableTitle,
+                                __name: i18n.t('Title') + i18n.t('document'),
                                 type: 'checkbox',
-                                checked: true,
+                                checked: this.props.viewToolbars[id].documentTitle === 'expanded',
                                 autoManaged: false,
                             },
                             pagetitle_name: {
@@ -84,7 +85,7 @@ export default class ViewToolbar extends Component {
                             display_pagesubtitle: {
                                 __name: i18n.t('subtitle'),
                                 type: 'checkbox',
-                                checked: false,
+                                checked: this.props.viewToolbars[id].documentTitle === 'expanded',
                                 autoManaged: false,
                             },
                             pagesubtitle_name: {
@@ -101,6 +102,36 @@ export default class ViewToolbar extends Component {
                 },
             },
         };
+
+        if (!isContainedView && controls && controls.main && controls.main.accordions.header && controls.main.accordions.header.buttons) {
+            controls.main.accordions.header.buttons.display_breadcrumb = {
+                __name: i18n.t('Breadcrumb'),
+                type: 'checkbox',
+                checked: true,
+                autoManaged: false,
+            };
+            controls.main.accordions.header.buttons.display_pagenumber = {
+                __name: i18n.t('pagenumber'),
+                type: 'checkbox',
+                checked: false,
+                autoManaged: false,
+            };
+            controls.main.accordions.header.buttons.pagenumber_name = {
+                __name: "custom_pagenum",
+                type: 'conditionalText',
+                associatedKey: 'display_pagenumber',
+                value: "",
+                autoManaged: false,
+                display: true,
+            };
+        }
+        if (!isContainedView && controls && controls.main && controls.main.accordions.basic && controls.main.accordions.basic.buttons) {
+            controls.main.accordions.basic.buttons.page_display = {
+                __name: i18n.t('display_page'),
+                type: 'checkbox',
+                checked: true,
+                autoManaged: false };
+        }
 
         if (!isCanvasElement(this.props.navItemSelected, Ediphy.Config.sections_have_content)) {
             return (

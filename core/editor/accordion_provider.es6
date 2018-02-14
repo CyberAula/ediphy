@@ -806,9 +806,9 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     case i18n.t('background.background'):
         let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(value.background);
         if(isColor) {
-            toolbar_props.onBackgroundChanged(toolbar_props.navItemSelected, value.background);
+            toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, value.background);
         } else {
-            toolbar_props.onBackgroundChanged(toolbar_props.navItemSelected, value);
+            toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, value);
         }
         break;
     case "custom_title":
@@ -835,9 +835,9 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     // change document(navitem) name
     case i18n.t('NavItem_name'):
         if (isContainedView(toolbar_props.navItemSelected)) {
-            toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, value);
+            toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, { viewName: value });
         } else {
-            toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, value);
+            toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, { viewName: value });
         }
         break;
     // display - course title

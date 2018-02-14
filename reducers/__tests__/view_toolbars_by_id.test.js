@@ -82,9 +82,36 @@ describe('# plugin_toolbars_by_id reducer', ()=>{
             };
 
             let newState = {
-                ...state,
-                [action.payload.id]: action.payload,
+                "pa-1511252955865": {
+                    id: "pa-1511252955865",
+                    hidden: false,
+                    viewName: "NewName",
+                    breadcrumb: 'reduced',
+                    displayableTitle: "Documento",
+                    courseTitle: 'hidden',
+                    documentSubtitle: 'hidden',
+                    documentSubtitleContent: '',
+                    documentTitle: 'expanded',
+                    documentTitleContent: '',
+                    numPage: 'hidden',
+                    numPageContent: '',
+                },
+                'cv-1511252975055': {
+                    id: "cv-1511252975055",
+                    hidden: false,
+                    viewName: "Page",
+                    breadcrumb: 'reduced',
+                    displayableTitle: "Documento: vita contenida",
+                    courseTitle: 'hidden',
+                    pageSubtitle: 'hidden',
+                    pageSubtitleContent: '',
+                    pageTitle: 'expanded',
+                    pageTitleContent: '',
+                    numPage: 'hidden',
+                    numPageContent: '',
+                },
             };
+
             expect(view_toolbars_by_id(state, action)).toEqual(newState);
         });
     });

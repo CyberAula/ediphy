@@ -104,7 +104,7 @@ export const testState = { present:
                 "pa-1511252955865": {
                     id: "pa-1511252955865",
                     hidden: false,
-                    viewName: i18n.t('Section'),
+                    viewName: "Section",
                     breadcrumb: 'reduced',
                     displayableTitle: "Documento",
                     courseTitle: 'hidden',
@@ -118,7 +118,7 @@ export const testState = { present:
                 'cv-1511252975055': {
                     id: "cv-1511252975055",
                     hidden: false,
-                    viewName: i18n.t('Section'),
+                    viewName: "Page",
                     breadcrumb: 'reduced',
                     displayableTitle: "Documento: vita contenida",
                     courseTitle: 'hidden',

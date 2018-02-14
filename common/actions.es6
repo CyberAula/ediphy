@@ -228,11 +228,11 @@ export function importState(state) {
 }
 
 export function updatePluginToolbar(id, elements) {
-    return { type: UPDATE_PLUGIN_TOOLBAR, payload: { id, elements } };
+    return { type: UPDATE_PLUGIN_TOOLBAR, payload: { id, ...elements } };
 }
 
 export function updateViewToolbar(id, elements) {
-    return { type: UPDATE_VIEW_TOOLBAR, payload: { id, elements } };
+    return { type: UPDATE_VIEW_TOOLBAR, payload: { id, ...elements } };
 }
 
 export function fetchVishResourcesSuccess(result) {

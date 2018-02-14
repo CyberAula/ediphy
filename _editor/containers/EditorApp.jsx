@@ -156,7 +156,7 @@ class EditorApp extends Component {
                         viewToolbars={viewToolbars}
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                         onIndexSelected={(id) => this.dispatchAndSetState(selectIndex(id))}
-                        onContainedViewNameChanged={(id, titleStr) => this.dispatchAndSetState(changeContainedViewName(id, titleStr))}
+                        onContainedViewNameChanged={(id, titleStr) => this.dispatchAndSetState(updateViewToolbar(id, titleStr))}
                         onContainedViewSelected={ (id) => this.dispatchAndSetState(selectContainedView(id)) }
                         onContainedViewDeleted={(cvid)=>{
                             let boxesRemoving = [];
@@ -167,7 +167,7 @@ class EditorApp extends Component {
 
                             this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
                         }}
-                        onNavItemNameChanged={(id, titleStr) => this.dispatchAndSetState(updateViewToolbar(id, { viewName: titleStr }))}
+                        onNavItemNameChanged={(id, titleStr) => this.dispatchAndSetState(updateViewToolbar(id, titleStr))}
                         onNavItemAdded={(id, name, parent, type, position, background, customSize, hasContent) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, background, customSize, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content))))}
                         onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                         onNavItemExpanded={(id, value) => this.dispatchAndSetState(expandNavItem(id, value))}

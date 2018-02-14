@@ -39,7 +39,7 @@ export default class EditorIndexTitle extends Component {
                         onDoubleClick={e => {
                             this.setState({ editing: !this.state.editing });
                             if (this.state.editing) { /* Save changes to Redux state*/
-                                this.props.onNameChanged(this.props.id, this.state.currentValue);
+                                this.props.onNameChanged(this.props.id, { viewName: this.state.currentValue });
 
                             // Synchronize current component state with Redux state when entering edition mode
                             } else {
@@ -58,7 +58,7 @@ export default class EditorIndexTitle extends Component {
                         onKeyDown={e=> {
                             if (e.keyCode === 13) { // Enter Key
                                 this.setState({ editing: !this.state.editing });
-                                this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? this.state.currentValue : this.getDefaultValue());
+                                this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? { viewName: this.state.currentValue } : this.getDefaultValue());
                             }
                             if (e.keyCode === 27) { // Escape key
                                 this.setState({ editing: !this.state.editing });
@@ -76,7 +76,7 @@ export default class EditorIndexTitle extends Component {
                         onBlur={e => {
                         /* Change to non-edition mode*/
                             this.setState({ editing: !this.state.editing });
-                            this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? this.state.currentValue : this.getDefaultValue());
+                            this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? { viewName: this.state.currentValue } : this.getDefaultValue());
                         }} />
                     )
                 }

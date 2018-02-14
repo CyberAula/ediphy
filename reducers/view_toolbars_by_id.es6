@@ -59,7 +59,10 @@ export default function(state = {}, action = {}) {
     case UPDATE_VIEW_TOOLBAR:
         newState = {
             ...state,
-            [action.payload.id]: action.payload.elements,
+            [action.payload.id]: {
+                ...state[action.payload.id],
+                ...action.payload,
+            },
         };
         return newState;
     case IMPORT_STATE:
