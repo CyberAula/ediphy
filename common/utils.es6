@@ -12,6 +12,13 @@ export function isView(id) {
     return isPage(id) || isSection(id);
 }
 
+export function existsAndIsViewOrContainedView(id) {
+    if (id) {
+        return isView(id) || isContainedView(id);
+    }
+    return false;
+}
+
 export function isPage(id) {
     return id.length && id.indexOf(ID_PREFIX_PAGE) !== -1;
 }

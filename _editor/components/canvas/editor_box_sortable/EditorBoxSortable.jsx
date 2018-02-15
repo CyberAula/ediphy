@@ -117,6 +117,7 @@ export default class EditorBoxSortable extends Component {
                                                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                                                 onTextEditorToggled={this.props.onTextEditorToggled}
                                                                 onRichMarksModalToggled={this.props.onRichMarksModalToggled}
+                                                                page={this.props.page}
                                                                 setCorrectAnswer={this.props.setCorrectAnswer}
                                                                 pageType={this.props.pageType}/>);
 
@@ -331,6 +332,7 @@ export default class EditorBoxSortable extends Component {
                         return;
                     }
                 }
+                let page = this.props.page;
                 if (dropArea === 'cell') {
                     // If element dragged is coming from PluginRibbon, create a new EditorBox
                     if (draggingFromRibbon) {
@@ -342,6 +344,7 @@ export default class EditorBoxSortable extends Component {
                             col: extraParams.i,
                             row: extraParams.j,
                             index: newInd,
+                            page: page,
                         };
 
                         Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
@@ -373,6 +376,7 @@ export default class EditorBoxSortable extends Component {
                             parent: this.props.id,
                             container: e.target.getAttribute("data-id"),
                             index: newInd,
+                            page,
 
                         };
                     } else if (dropArea === 'newContainer') {
@@ -380,6 +384,7 @@ export default class EditorBoxSortable extends Component {
                             parent: this.props.id,
                             container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
                             index: newInd,
+                            page,
                         };
                     }
 

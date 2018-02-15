@@ -120,6 +120,7 @@ export default class EditorCanvasSli extends Component {
                             return <EditorBox key={id}
                                 id={id}
                                 grid={gridOn}
+                                page={itemSelected ? itemSelected.id : 0}
                                 addMarkShortcut={this.props.addMarkShortcut}
                                 boxes={this.props.boxes}
                                 boxSelected={this.props.boxSelected}
@@ -223,11 +224,13 @@ export default class EditorCanvasSli extends Component {
                             return;
                         }
                     }
-
+                    let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
+                    let page = itemSelected.id;
                     let initialParams = {
-                        parent: this.props.fromCV ? this.props.containedViewSelected.id : this.props.navItemSelected.id,
+                        parent: page,
                         container: 0,
                         position: position,
+                        page: page,
                     };
                     config.callback(initialParams, ADD_BOX);
                     event.dragEvent.stopPropagation();

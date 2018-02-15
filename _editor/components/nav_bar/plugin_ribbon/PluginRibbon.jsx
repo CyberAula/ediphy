@@ -271,6 +271,7 @@ export default class PluginRibbon extends Component {
             container: container,
             col: 0, row: 0,
             position: position,
+            page: cv ? this.props.containedViewSelected.id : (this.props.navItemSelected ? this.props.navItemSelected.id : 0),
         };
         if (!inASlide) {
             if (isBoxSelected) {

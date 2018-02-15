@@ -83,6 +83,7 @@ export default class PluginPlaceholder extends Component {
                                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                                 onBoxAdded={this.props.onBoxAdded}
+                                                page={this.props.page}
                                                 pageType={this.props.pageType}
                                                 containedViews={this.props.containedViews}
                                                 onBoxDropped={this.props.onBoxDropped}
@@ -143,13 +144,13 @@ export default class PluginPlaceholder extends Component {
                 let config = Ediphy.Plugins.get(name).getConfig();
                 let forbidden = isBox(parent) && config.isComplex; // && (parent !== this.props.boxSelected);
                 let newInd = this.getIndex(this.props.boxes, parent, container, e.dragEvent.clientX, e.dragEvent.clientY);
-
+                let page = this.props.pa;
                 let initialParams = {
                     parent: forbidden ? this.props.parentBox.parent : parent,
                     container: forbidden ? this.props.parentBox.container : container,
                     col: forbidden ? 0 : extraParams.i,
                     row: forbidden ? 0 : extraParams.j,
-                    index: newInd,
+                    index: newInd, page: this.props.page,
                 };
                 if (draggingFromRibbon) {
                     if (config.limitToOneInstance && instanceExists(config.name)) {

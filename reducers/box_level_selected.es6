@@ -7,6 +7,7 @@ import { isSortableBox, isBox } from '../common/utils';
 export default function(state = 0, action = {}) {
     switch (action.type) {
     case ADD_BOX:
+        console.log(action.payload);
         if (action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
             return 0;
         }

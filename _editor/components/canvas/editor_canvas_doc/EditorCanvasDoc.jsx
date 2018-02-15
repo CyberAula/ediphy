@@ -103,6 +103,7 @@ export default class EditorCanvasDoc extends Component {
                                             setCorrectAnswer={this.props.setCorrectAnswer}
                                             addMarkShortcut={this.props.addMarkShortcut}
                                             boxes={this.props.boxes}
+                                            page={itemSelected ? itemSelected.id : 0}
                                             boxSelected={this.props.boxSelected}
                                             boxLevelSelected={this.props.boxLevelSelected}
                                             containedViews={this.props.containedViews}
@@ -127,6 +128,7 @@ export default class EditorCanvasDoc extends Component {
                                     }
                                     return <EditorBoxSortable key={id}
                                         id={id}
+                                        page={itemSelected ? itemSelected.id : 0}
                                         addMarkShortcut={this.props.addMarkShortcut}
                                         background={itemSelected.background}
                                         setCorrectAnswer={this.props.setCorrectAnswer}

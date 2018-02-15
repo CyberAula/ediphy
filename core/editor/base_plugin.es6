@@ -416,6 +416,7 @@ export default function() {
                             id: id,
                             parent: initialParams.parent,
                             container: initialParams.container,
+                            page: initialParams.page,
                         },
                         {
                             position: initialParams.position,
@@ -425,6 +426,7 @@ export default function() {
                             height: initialParams.height,
                             isDefaultPlugin: defaultFor(initialParams.isDefaultPlugin, false),
                             index: initialParams.index,
+
                         },
                         reason
                     );

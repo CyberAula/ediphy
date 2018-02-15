@@ -619,7 +619,7 @@ function toolbarReducer(state, action) {
         }
 
         return newState;
-    case SET_CORRECT_ANSWER:
+    case SET_CORRECT_ANSWER: // TODO Borrar
         let newScoreState = JSON.parse(JSON.stringify(state));
         if (newScoreState.state && newScoreState.state.__score) {
             newScoreState.state.__score.correctAnswer = action.payload.correctAnswer;

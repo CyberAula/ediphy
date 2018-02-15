@@ -196,10 +196,11 @@ export default class ImportFile extends Component {
 
     AddPlugins() {
         // insert image plugins
-        let cvSli = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected) && isSlide(this.props.containedViews[this.props.containedViewSelected].type);
-        let cvDoc = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected) && !isSlide(this.props.containedViews[this.props.containedViewSelected].type);
+        let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected);
+        let cvSli = cv && isSlide(this.props.containedViews[this.props.containedViewSelected].type);
+        let cvDoc = cv && !isSlide(this.props.containedViews[this.props.containedViewSelected].type);
         let inASlide = isSlide(this.props.navItemSelected.type) || cvSli;
-
+        let page = cv ? this.props.containedViewSelected : this.props.navItemSelected;
         for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
             let canvas = document.getElementById('can' + i);
             let dataURL = canvas.toDataURL("image/jpeg", 1.0);
@@ -209,19 +210,19 @@ export default class ImportFile extends Component {
                 let position = {
                     x: randomPositionGenerator(20, 40),
                     y: randomPositionGenerator(20, 40),
-                    type: 'absolute',
+                    type: 'absolute', page,
                 };
                 initialParams = {
                     parent: cvSli ? this.props.containedViewSelected : this.props.navItemSelected,
                     container: 0,
                     position: position,
-                    url: dataURL,
+                    url: dataURL, page,
                 };
             } else {
                 initialParams = {
                     parent: cvDoc ? this.props.containedViews[this.props.containedViewSelected].boxes[0] : this.props.navItems[this.props.navItemSelected].boxes[0],
                     container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
-                    url: dataURL,
+                    url: dataURL, page,
                 };
             }
             Ediphy.Plugins.get('HotspotImages').getConfig().callback(initialParams, ADD_BOX);
