@@ -21,7 +21,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                 level: 1,
                 type: "section",
                 extraFiles: {},
-                background: "rgb(255, 255, 255)",
+                background: "rgb(255,255,255)",
                 customSize: 0,
                 header: {
                     elementContent: {
@@ -103,11 +103,11 @@ export const initialState = (config) => { return config.sections_have_content ?
                             },
                             "background": {
                                 "__name": "Fondo",
-                                "icon": "image",
+                                "icon": "crop_original",
                                 "buttons": {
                                     "background": {
                                         "__name": i18n.t('background.background'),
-                                        "value": 'rgb(255,255,255)',
+                                        "value": '#ffffff',
                                         "type": 'background_picker',
                                         "autoManaged": false,
                                     },
@@ -338,12 +338,12 @@ export const initialState = (config) => { return config.sections_have_content ?
                             },
                             "background": {
                                 "__name": "Fondo",
-                                "icon": "image",
+                                "icon": "crop_original",
                                 "buttons": {
                                     "background": {
                                         "__name": i18n.t('background.background'),
                                         "type": 'background_picker',
-                                        "value": { "background": "rgb(255,255,255)", "attr": "full" },
+                                        "value": { "background": "#ffffff", "attr": "full" },
                                         "autoManaged": false,
                                     },
                                 },
@@ -453,12 +453,12 @@ export const initialState = (config) => { return config.sections_have_content ?
                             },
                             "background": {
                                 "__name": "Fondo",
-                                "icon": "image",
+                                "icon": "crop_original",
                                 "buttons": {
                                     "background": {
                                         "__name": i18n.t('background.background'),
                                         "type": 'background_picker',
-                                        "value": { "background": "rgb(255,255,255)", "attr": "full" },
+                                        "value": { "background": "#ffffff", "attr": "full" },
                                         "autoManaged": false,
                                     },
                                 },

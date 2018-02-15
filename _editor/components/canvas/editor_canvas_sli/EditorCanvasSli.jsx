@@ -7,7 +7,7 @@ import Alert from './../../common/alert/Alert';
 import { Col, Button } from 'react-bootstrap';
 import EditorHeader from '../editor_header/EditorHeader';
 import interact from 'interactjs';
-import { ADD_BOX } from '../../../../common/actions';
+import { ADD_BOX, changeGlobalConfig, changeNavItemName } from '../../../../common/actions';
 import { isSortableBox } from '../../../../common/utils';
 import { aspectRatio, instanceExists } from '../../../../common/common_tools';
 import Ediphy from '../../../../core/editor/main';
@@ -95,6 +95,7 @@ export default class EditorCanvasSli extends Component {
                             containedViews={this.props.containedViews}
                             toolbars={this.props.toolbars}
                             boxes={this.props.boxes}
+                            onTitleChanged={this.props.onTitleChanged}
                         />
 
                         {/* {this.props.fromCV ?  (<button className="btnOverBar cvBackButton" style={{margin: "10px 0px 0px 10px"}}
@@ -402,4 +403,8 @@ EditorCanvasSli.propTypes = {
       * Actualiza marca
       */
     onRichMarkUpdated: PropTypes.func.isRequired,
+    /**
+     * Cambia el texto del título del curso
+     */
+    onTitleChanged: PropTypes.func.isRequired,
 };

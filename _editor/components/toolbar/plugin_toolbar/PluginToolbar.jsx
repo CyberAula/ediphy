@@ -865,7 +865,7 @@ export default class PluginToolbar extends Component {
                                 style: { width: '100%' },
                             },
                             React.createElement('div', {
-                                style: { backgroundImage: isURI ? 'url(' + props.value + ')' : 'none' },
+                                style: { backgroundImage: isURI ? 'url(' + props.value + ')' : 'none', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' },
                                 key: "inside_" + props.label,
                                 className: 'fileDrag_toolbar',
                             }, isURI ? null : [
@@ -883,9 +883,10 @@ export default class PluginToolbar extends Component {
         }
 
         if (button.type === "background_picker") {
+
             let isURI = (/data\:/).test(props.value.background);
             let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background);
-            let default_background = "rgb(255,255,255)";
+            let default_background = "#ffffff";
             let isSli = isSlide(this.props.navItems[this.props.navItemSelected].type);
 
             return React.createElement(
@@ -913,17 +914,12 @@ export default class PluginToolbar extends Component {
                                 style: { width: '100%' },
                             },
                             React.createElement('div', {
-                                style: { backgroundImage: isURI ? 'url(' + props.value.background + ')' : 'none' },
+                                style: { backgroundImage: isURI ? 'url(' + props.value.background + ')' : 'none', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' },
                                 key: "inside_" + props.label,
                                 className: 'fileDrag_toolbar',
                             }, isURI ? null : [
-                                React.createElement('span', { key: props.label + "1" }, i18n.t('FileInput.Drag')),
-                                React.createElement('span', { key: props.label + "2", className: "fileUploaded" }, [
-                                    React.createElement('i', {
-                                        key: 'icon_' + button.__name,
-                                        className: 'material-icons',
-                                    }, 'insert_drive_file'),
-                                ]),
+                                React.createElement('span', { key: props.label + "1", className: "uploadFile" }, i18n.t('FileInput.Drag') + i18n.t('FileInput.Drag_2') + i18n.t('FileInput.Click')),
+                                React.createElement('span', { key: props.label + "2", className: "fileUploaded" }),
                             ])
                         ),
                         React.createElement(
@@ -941,15 +937,11 @@ export default class PluginToolbar extends Component {
                                         onChange: props.onChange,
                                     }, null),
                             ]),
-                        (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: props.value.attr === 'full', onChange: props.onChange, value: 'full' }, 'full'),
-                        (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: props.value.attr === 'repeat', onChange: props.onChange, value: 'repeat' }, 'repeat'),
-                        (!isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display', checked: props.value.attr === 'centered', onChange: props.onChange, value: 'centered' }, 'centered'),
+                        (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: props.value.attr === 'full', onChange: props.onChange, value: 'full' }, i18n.t('background.cover')),
+                        (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: props.value.attr === 'repeat', onChange: props.onChange, value: 'repeat' }, i18n.t('background.repeat')),
+                        (!isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display', checked: props.value.attr === 'centered', onChange: props.onChange, value: 'centered' }, i18n.t('background.centered')),
                         ]
                     ),
-                    React.createElement(
-                        ControlLabel,
-                        { key: 'label_' + button.__name },
-                        i18n.t('background.reset_background')),
                     React.createElement(
                         Button, {
                             value: default_background,
@@ -957,7 +949,7 @@ export default class PluginToolbar extends Component {
                             onClick: props.onChange,
                             className: "toolbarButton",
                         },
-                        React.createElement("div", { key: props.label }, "Reset"),
+                        React.createElement("div", { key: props.label }, i18n.t('background.reset_background')),
                     ),
                 ]);
         }

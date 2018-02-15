@@ -65,6 +65,7 @@ export default class EditorCanvasDoc extends Component {
                         containedViews={this.props.containedViews}
                         toolbars={this.props.toolbars}
                         boxes={this.props.boxes}
+                        onTitleChanged={this.props.onTitleChanged}
                     />
                     <div className="outter canvaseditor" style={{ background: itemSelected.background, display: show ? 'block' : 'none' }}>
                         {/*
@@ -299,4 +300,8 @@ EditorCanvasDoc.propTypes = {
    * Actualiza marca
    */
     onRichMarkUpdated: PropTypes.func.isRequired,
+    /**
+     * Cambia el texto del título del curso
+     */
+    onTitleChanged: PropTypes.func.isRequired,
 };
