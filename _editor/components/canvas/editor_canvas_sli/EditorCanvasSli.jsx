@@ -95,7 +95,6 @@ export default class EditorCanvasSli extends Component {
                             containedViews={this.props.containedViews}
                             toolbars={this.props.toolbars}
                             boxes={this.props.boxes}
-                            onNavItemNameChanged={this.props.onNavItemNameChanged}
                             onTitleChanged={this.props.onTitleChanged}
                         />
 
@@ -401,7 +400,7 @@ EditorCanvasSli.propTypes = {
       */
     onRichMarkUpdated: PropTypes.func.isRequired,
     /**
-     * Cambia el título del curso
+     * Cambia el texto del título del curso
      */
     onTitleChanged: PropTypes.func.isRequired,
 };
