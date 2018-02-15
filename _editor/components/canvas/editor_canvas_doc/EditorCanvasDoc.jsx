@@ -65,6 +65,8 @@ export default class EditorCanvasDoc extends Component {
                         containedViews={this.props.containedViews}
                         toolbars={this.props.toolbars}
                         boxes={this.props.boxes}
+                        onNavItemNameChanged={this.props.onNavItemNameChanged}
+                        onTitleChanged={this.props.onTitleChanged}
                     />
                     <div className="outter canvaseditor" style={{ background: itemSelected.background, display: show ? 'block' : 'none' }}>
                         {/*

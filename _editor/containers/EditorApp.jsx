@@ -283,6 +283,8 @@ class EditorApp extends Component {
                                         this.setState({ currentRichMark: null, value: null });
                                     }
                                 }}
+                                onNavItemNameChanged={(id, titleStr) => this.dispatchAndSetState(changeNavItemName(id, titleStr))}
+                                onTitleChanged={(id, titleStr) => {this.dispatchAndSetState(changeGlobalConfig('title', titleStr));}}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}/>
                             <ContainedCanvas boxes={boxes}
                                 grid={this.state.grid}
