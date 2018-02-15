@@ -865,7 +865,7 @@ export default class PluginToolbar extends Component {
                                 style: { width: '100%' },
                             },
                             React.createElement('div', {
-                                style: { backgroundImage: isURI ? 'url(' + props.value + ')' : 'none' },
+                                style: { backgroundImage: isURI ? 'url(' + props.value + ')' : 'none', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' },
                                 key: "inside_" + props.label,
                                 className: 'fileDrag_toolbar',
                             }, isURI ? null : [
@@ -913,7 +913,7 @@ export default class PluginToolbar extends Component {
                                 style: { width: '100%' },
                             },
                             React.createElement('div', {
-                                style: { backgroundImage: isURI ? 'url(' + props.value.background + ')' : 'none' },
+                                style: { backgroundImage: isURI ? 'url(' + props.value.background + ')' : 'none', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' },
                                 key: "inside_" + props.label,
                                 className: 'fileDrag_toolbar',
                             }, isURI ? null : [
