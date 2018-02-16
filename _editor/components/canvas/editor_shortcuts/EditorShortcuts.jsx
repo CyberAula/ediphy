@@ -187,7 +187,8 @@ export default class EditorShortcuts extends Component {
                         }>
                         <button className="editorTitleButton"
                             onClick={(e) => {
-                                this.props.onBoxDeleted(box.id, box.parent, box.container);
+                                let page = this.props.containedViewSelected === 0 ? this.props.navItemSelected : this.props.containedViewSelected;
+                                this.props.onBoxDeleted(box.id, box.parent, box.container, page && page.id ? page.id : 0);
                                 e.stopPropagation();
                             }}>
                             <i className="material-icons">delete</i>

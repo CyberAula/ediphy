@@ -74,7 +74,7 @@ export default class Clipboard extends Component {
         let fromPlugin = this.copyListener(event);
         if (fromPlugin) {
             let box = this.props.boxes[this.props.boxSelected];
-            this.props.onBoxDeleted(box.id, box.parent, box.container);
+            this.props.onBoxDeleted(box.id, box.parent, box.container, this.currentPage());
         }
     }
     /**

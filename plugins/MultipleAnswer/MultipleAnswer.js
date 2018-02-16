@@ -2,6 +2,7 @@ import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import Answer from '../../core/scorm/components/editor/Answer';
 import './_multipleAnswer.scss';
+/* eslint-disable react/prop-types */
 
 export function MultipleAnswer(base) {
     return {
@@ -45,10 +46,9 @@ export function MultipleAnswer(base) {
             };
         },
         getRenderTemplate: function(state, props) {
+
             let answers = [];
-            console.log(props);
             for (let i = 0; i < state.nBoxes; i++) {
-                console.log(state.__score.correctAnswer.indexOf(i) > -1);
                 answers.push(<div key={i + 1} className={"row"}>
                     <div className={"col-xs-2 h3"}>
                         {i + 1}

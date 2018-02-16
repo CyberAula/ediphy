@@ -2,6 +2,7 @@ import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import Answer from '../../core/scorm/components/editor/Answer';
 import './_multipleChoice.scss';
+/* eslint-disable react/prop-types */
 
 export function MultipleChoice(base) {
     return {
@@ -51,7 +52,7 @@ export function MultipleChoice(base) {
                     <div className={"col-xs-2 h3"}>
                         {i + 1}
                         <input type="radio" className="radioQuiz" name={props.id} value={i} checked={state.__score.correctAnswer === i ? 'checked' : 'unchecked'} onChange={(e)=>{
-                            props.setCorrectAnswer(parseInt(e.target.value));
+                            props.setCorrectAnswer(parseInt(e.target.value, 10));
                         }}/>
                     </div>
                     <div className={"col-xs-10"}>

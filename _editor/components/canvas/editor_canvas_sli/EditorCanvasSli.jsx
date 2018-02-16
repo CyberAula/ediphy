@@ -159,6 +159,7 @@ export default class EditorCanvasSli extends Component {
                 <EditorShortcuts
                     box={this.props.boxes[this.props.boxSelected]}
                     containedViewSelected={this.props.containedViewSelected}
+                    navItemSelected={this.props.navItemSelected}
                     isContained={this.props.fromCV}
                     onTextEditorToggled={this.props.onTextEditorToggled}
                     onBoxResized={this.props.onBoxResized}

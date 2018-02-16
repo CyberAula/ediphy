@@ -2,6 +2,7 @@ import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import Answer from '../../core/scorm/components/editor/Answer';
 import './_freeResponse.scss';
+/* eslint-disable react/prop-types */
 
 export function FreeResponse(base) {
     return {

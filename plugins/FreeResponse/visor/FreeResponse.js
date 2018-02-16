@@ -1,6 +1,7 @@
 import React from 'react';
 import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
 import './../_freeResponse.scss';
+/* eslint-disable react/prop-types */
 
 export function FreeResponse() {
     return {
@@ -16,3 +17,4 @@ export function FreeResponse() {
         },
     };
 }
+/* eslint-enable react/prop-types */
