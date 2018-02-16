@@ -95,7 +95,7 @@ class EditorApp extends Component {
      */
     render() {
         const { dispatch, boxes, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
-            containedViews, containedViewSelected, imagesUploaded, indexSelected,
+            containedViews, containedViewSelected, imagesUploaded, indexSelected, exercises,
             undoDisabled, redoDisabled, displayMode, isBusy, toolbars, globalConfig, fetchVishResults } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
@@ -251,7 +251,7 @@ class EditorApp extends Component {
                                 toolbars={toolbars}
                                 title={title}
                                 markCreatorId={this.state.markCreatorVisible}
-                                setCorrectAnswer={(id, correctAnswer) => { this.dispatchAndSetState(setCorrectAnswer(id, correctAnswer));}}
+                                setCorrectAnswer={(id, correctAnswer, page) => { this.dispatchAndSetState(setCorrectAnswer(id, correctAnswer, page));}}
                                 onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                 addMarkShortcut= {(mark) => {
                                     let state = JSON.parse(JSON.stringify(toolbars[boxSelected].state));
@@ -262,6 +262,7 @@ class EditorApp extends Component {
                                     this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
                                 }}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
+                                exercises={exercises}
                                 lastActionDispatched={this.state.lastAction}
                                 onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id, boxes[id]))}
                                 onBoxLevelIncreased={() => this.dispatchAndSetState(increaseBoxLevel())}
@@ -290,11 +291,12 @@ class EditorApp extends Component {
                                 grid={this.state.grid}
                                 boxSelected={boxSelected}
                                 canvasRatio={canvasRatio}
+                                exercises={exercises}
                                 boxLevelSelected={boxLevelSelected}
                                 navItems={navItems}
                                 navItemSelected={navItems[navItemSelected]}
                                 containedViews={containedViews}
-                                setCorrectAnswer={(id, correctAnswer) => { this.dispatchAndSetState(setCorrectAnswer(id, correctAnswer));}}
+                                setCorrectAnswer={(id, correctAnswer, page) => { this.dispatchAndSetState(setCorrectAnswer(id, correctAnswer, page));}}
                                 containedViewSelected={containedViews[containedViewSelected] || 0}
                                 markCreatorId={this.state.markCreatorVisible}
                                 addMarkShortcut= {(mark) => {
@@ -502,7 +504,7 @@ class EditorApp extends Component {
                 parsePluginContainers(e.detail.content, newPluginState);
                 e.detail.state.__pluginContainerIds = newPluginState;
             } else {
-                let content = Ediphy.Plugins.get(e.detail.config.name).getRenderTemplate(e.detail.state, {});
+                let content = Ediphy.Plugins.get(e.detail.config.name).getRenderTemplate(e.detail.state, { exercises: { correctAnswer: true } });
                 parsePluginContainersReact(content, newPluginState);
                 e.detail.state.__pluginContainerIds = newPluginState;
             }
@@ -538,7 +540,7 @@ class EditorApp extends Component {
                     if (e.detail.config.flavor !== "react") {
                         addDefaultContainerPlugins(e.detail, e.detail.content, this.props.boxes);
                     } else {
-                        let content = Ediphy.Plugins.get(e.detail.config.name).getRenderTemplate(e.detail.state, {});
+                        let content = Ediphy.Plugins.get(e.detail.config.name).getRenderTemplate(e.detail.state, { exercises: { correctAnswer: true } });
                         addDefaultContainerPluginsReact(e.detail, content, this.props.boxes);
                     }
                     let boxCreated = findBox(e.detail.ids.id);
@@ -817,6 +819,7 @@ function mapStateToProps(state) {
         redoDisabled: state.future.length === 0,
         displayMode: state.present.displayMode,
         toolbars: state.present.toolbarsById,
+        exercises: state.present.exercises,
         isBusy: state.present.isBusy,
         fetchVishResults: state.present.fetchVishResults,
     };

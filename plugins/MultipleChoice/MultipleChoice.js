@@ -45,15 +45,18 @@ export function MultipleChoice(base) {
                 nBoxes: 3,
             };
         },
-        getRenderTemplate: function(state, props) {
+        getRenderTemplate: function(state, props = {}) {
             let answers = [];
+            console.log(state.__score.correctAnswer);
             for (let i = 0; i < state.nBoxes; i++) {
+                let clickHandler = (e)=>{
+                    props.setCorrectAnswer(parseInt(e.target.value, 10));
+                };
                 answers.push(<div key={i + 1} className={"row"}>
                     <div className={"col-xs-2 h3"}>
                         {i + 1}
-                        <input type="radio" className="radioQuiz" name={props.id} value={i} checked={state.__score.correctAnswer === i ? 'checked' : 'unchecked'} onChange={(e)=>{
-                            props.setCorrectAnswer(parseInt(e.target.value, 10));
-                        }}/>
+                        <input type="radio" className="radioQuiz" name={props.id} value={i} checked={props.exercises.correctAnswer === i ? 'checked' : 'unchecked'}
+                            onChange={clickHandler} onClick={clickHandler} />
                     </div>
                     <div className={"col-xs-10"}>
                         <PluginPlaceholder {...props} key={i + 1} plugin-data-display-name={"Respuesta " + (i + 1)} plugin-data-default="BasicText" pluginContainer={"Respuesta" + (i + 1)} />

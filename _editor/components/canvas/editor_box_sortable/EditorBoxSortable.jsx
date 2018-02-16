@@ -105,6 +105,7 @@ export default class EditorBoxSortable extends Component {
                                                                 addMarkShortcut={this.props.addMarkShortcut}
                                                                 deleteMarkCreator={this.props.deleteMarkCreator}
                                                                 onRichMarkUpdated={this.props.onRichMarkUpdated}
+                                                                exercises={(this.props.page && this.props.exercises[this.props.page]) ? (this.props.exercises[this.props.page].exercises[idBox]) : undefined}
                                                                 markCreatorId={this.props.markCreatorId}
                                                                 onBoxAdded={this.props.onBoxAdded}
                                                                 onBoxSelected={this.props.onBoxSelected}

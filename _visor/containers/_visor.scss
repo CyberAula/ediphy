@@ -381,4 +381,19 @@ li > .selectedNavItemVisor {
 }
 .cvBackButton {
    z-index:9999;
-} 
+}
+
+.submitButton {
+  background-color: white;
+  padding: 10px 40px;
+  border-radius: 25px;
+  border: 3px solid $blueprimary;
+  color: $blueprimary;
+  font-size: 18px;
+}
+
+.pageFooter {
+  text-align: right;
+  margin: 15px;
+  bottom: 0px;
+}

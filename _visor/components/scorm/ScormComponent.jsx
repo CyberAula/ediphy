@@ -10,9 +10,12 @@ export default class ScormComponent extends Component {
         this.state = {
             scores: [],
             visited: [],
+            exercises: this.props.exercises,
         };
         this.onUnload = this.onUnload.bind(this);
         this.onLoad = this.onLoad.bind(this);
+        this.setAnswer = this.setAnswer.bind(this);
+        this.submitPage = this.submitPage.bind(this);
     }
     getFirstPage() {
         let navItems = this.props.navItemsIds || [];
@@ -45,7 +48,14 @@ export default class ScormComponent extends Component {
         this.setState({ scores: previousScores, visited: previousVisited }); // Careful with this pattern
     }
     render() {
-        return this.props.children;
+        const { children } = this.props;
+
+        let childrenWithProps = React.Children.map(children, child =>
+            React.cloneElement(child, {
+                setAnswer: this.setAnswer,
+                submitPage: this.submitPage,
+                exercises: this.state.exercises[this.props.currentView] }));
+        return childrenWithProps;
     }
     componentDidMount() {
         window.addEventListener("load", this.onLoad);
@@ -69,6 +79,18 @@ export default class ScormComponent extends Component {
     componentWillUnmount() {
         window.removeEventListener("beforeunload", this.onUnload);
         window.removeEventListener("onload", this.onLoad);
+    }
+    setAnswer(id, answer, page) {
+        console.log(answer, id, page, "SET_ANSWER_IN_VISOR");
+        let exercises = JSON.parse(JSON.stringify(this.state.exercises));
+        console.log();
+        if (exercises[page] && exercises[page].exercises[id]) {
+            exercises[page].exercises[id].currentAnswer = answer;
+            this.setState({ exercises });
+        }
+    }
+    submitPage(page) {
+        console.log(page);
     }
 
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import VisorBox from './VisorBox';
+import SubmitButton from '../scorm/SubmitButton';
 import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import VisorHeader from './VisorHeader';
 import { aspectRatio } from '../../../common/common_tools';
@@ -87,11 +88,13 @@ export default class VisorCanvasSli extends Component {
 
                             return <VisorBox key={id}
                                 id={id}
+                                exercises={(this.props.exercises && this.props.exercises.exercises) ? this.props.exercises.exercises[id] : undefined}
                                 boxes={this.props.boxes}
                                 changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
                                 currentView={this.props.currentView}
                                 fromScorm={this.props.fromScorm}
                                 toolbars={this.props.toolbars}
+                                setAnswer={this.props.setAnswer}
                                 richElementsState={this.props.richElementsState}/>;
 
                         })}
@@ -99,6 +102,9 @@ export default class VisorCanvasSli extends Component {
                         <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
                             aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSelected.customSize);
                         }} />
+                        <div className={"pageFooter"}>
+                            <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}}/>
+                        </div>
                     </div>
                 </div>
 

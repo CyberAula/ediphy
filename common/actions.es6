@@ -242,8 +242,8 @@ export function uploadImage(url) {
     return { type: UPLOAD_IMAGE, payload: { url } };
 }
 
-export function setCorrectAnswer(id, correctAnswer) {
-    return { type: SET_CORRECT_ANSWER, payload: { id, correctAnswer } };
+export function setCorrectAnswer(id, correctAnswer, page) {
+    return { type: SET_CORRECT_ANSWER, payload: { id, correctAnswer, page } };
 }
 
 // Async actions

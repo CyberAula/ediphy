@@ -124,6 +124,7 @@ export default class EditorCanvasDoc extends Component {
                                             onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                             onTextEditorToggled={this.props.onTextEditorToggled}
                                             toolbars={this.props.toolbars}
+                                            exercises={itemSelected ? (this.props.exercises[itemSelected.id].exercises[id]) : undefined}
                                             onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                             pageType={itemSelected.type || 0}/>;
                                     }
@@ -138,6 +139,7 @@ export default class EditorCanvasDoc extends Component {
                                         boxLevelSelected={this.props.boxLevelSelected}
                                         containedViews={this.props.containedViews}
                                         containedViewSelected={this.props.containedViewSelected}
+                                        exercises={this.props.exercises}
                                         toolbars={this.props.toolbars}
                                         lastActionDispatched={this.props.lastActionDispatched}
                                         deleteMarkCreator={this.props.deleteMarkCreator}

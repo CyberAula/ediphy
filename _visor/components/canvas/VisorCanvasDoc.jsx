@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import VisorBox from './VisorBox';
+import SubmitButton from '../scorm/SubmitButton';
 import VisorBoxSortable from './VisorBoxSortable';
 import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import VisorHeader from './VisorHeader';
@@ -11,6 +12,7 @@ export default class VisorCanvasDoc extends Component {
 
     render() {
         let titles = [];
+        console.log(this.props.exercises);
         let itemSelected = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         let isCV = !isView(this.props.currentView);
         if (itemSelected !== 0 && !isCV) {
@@ -79,25 +81,32 @@ export default class VisorCanvasDoc extends Component {
                                     if (!isSortableBox(box.id)) {
                                         return <VisorBox key={id}
                                             id={id}
+                                            exercises={(this.props.exercises && this.props.exercises.exercises) ? this.props.exercises.exercises[id] : undefined}
                                             boxes={this.props.boxes}
                                             changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
                                             currentView={this.props.currentView}
                                             fromScorm={this.props.fromScorm}
                                             toolbars={this.props.toolbars}
+                                            setAnswer={this.props.setAnswer}
                                             richElementsState={this.props.richElementsState}/>;
                                     }
                                     return <VisorBoxSortable key={id}
                                         id={id}
+                                        exercises={this.props.exercises}
                                         boxes={this.props.boxes}
                                         changeCurrentView={this.props.changeCurrentView}
                                         currentView={this.props.currentView}
                                         fromScorm={this.props.fromScorm}
                                         toolbars={this.props.toolbars}
+                                        setAnswer={this.props.setAnswer}
                                         richElementsState={this.props.richElementsState}/>;
 
                                 })}
                             </div>
                         </div>
+                    </div>
+                    <div className={"pageFooter"}>
+                        <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}}/>
                     </div>
                 </div>
             </Col>

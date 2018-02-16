@@ -45,15 +45,15 @@ export function MultipleAnswer(base) {
                 nBoxes: 3,
             };
         },
-        getRenderTemplate: function(state, props) {
+        getRenderTemplate: function(state, props = {}) {
 
             let answers = [];
             for (let i = 0; i < state.nBoxes; i++) {
                 answers.push(<div key={i + 1} className={"row"}>
                     <div className={"col-xs-2 h3"}>
                         {i + 1}
-                        <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={state.__score.correctAnswer.indexOf(i) > -1 } onClick={(e)=>{
-                            let newCorrectAnswer = Object.assign([], state.__score.correctAnswer);
+                        <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={(props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1)} onClick={(e)=>{
+                            let newCorrectAnswer = Object.assign([], props.exercises.correctAnswer);
                             let index = newCorrectAnswer.indexOf(i);
                             if (index === -1) {
                                 newCorrectAnswer.push(i);
@@ -61,7 +61,6 @@ export function MultipleAnswer(base) {
                                 newCorrectAnswer.splice(index, 1);
                             }
                             props.setCorrectAnswer(newCorrectAnswer);
-                            // base.setCorrectAnswer(newCorrectAnswer);
                         }}/>
                     </div>
                     <div className={"col-xs-10"}>

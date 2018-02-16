@@ -194,6 +194,16 @@ export const initialState = (config) => { return config.sections_have_content ?
             },
         },
         isBusy: "",
+        exercises: {
+            'se-1467887497411': {
+                id: 'se-1467887497411',
+                submitButton: true,
+                trackProgress: false,
+                attempted: false,
+                weight: 10,
+                exercises: {},
+            },
+        },
         fetchVishResults: { "results": [] },
     } }) :
     ({ present: {
@@ -559,5 +569,15 @@ export const initialState = (config) => { return config.sections_have_content ?
             },
         },
         isBusy: "",
+        exercises: {
+            'pa-1497983247795': {
+                id: 'pa-1497983247795',
+                submitButton: true,
+                trackProgress: false,
+                attempted: false,
+                weight: 10,
+                exercises: {},
+            },
+        },
         fetchVishResults: { "results": [] },
     } });};

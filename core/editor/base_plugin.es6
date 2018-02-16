@@ -395,13 +395,13 @@ export default function() {
 
                 let template = null;
                 if (this.getConfig().flavor !== "react") {
-                    template = descendant.getRenderTemplate(state, {});
-                    if(template !== null) {
+                    template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
+                    if(template !== null) { // TODO Revisar
                         template = html2json(template);
                         assignPluginContainerIds(template);
                     }
                 } else{
-                    template = descendant.getRenderTemplate(state, {});
+                    template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
                     assignPluginContainerIdsReact(template);
 
                 }
@@ -452,7 +452,6 @@ export default function() {
             }
         },
         update: function(oldState, name, value, sender, reason) {
-            console.log(oldState, name, value, sender, reason);
             state = oldState;
             id = sender || id;
             if (descendant.handleToolbar) {

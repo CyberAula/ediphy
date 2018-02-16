@@ -4,6 +4,7 @@ import VisorBox from './VisorBox';
 
 export default class VisorBoxSortable extends Component {
     render() {
+        console.log(this.props.exercises);
         let box = this.props.boxes[this.props.id];
         return (
             <div ref="sortableContainer"
@@ -32,11 +33,14 @@ export default class VisorBoxSortable extends Component {
                                                     if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
                                                         return (<VisorBox id={idBox}
                                                             key={ind}
+                                                            currentView={this.props.currentView}
                                                             boxes={this.props.boxes}
+                                                            exercises={(this.props.exercises && this.props.exercises.exercises) ? this.props.exercises.exercises[idBox] : undefined}
                                                             changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
                                                             currentViewSelected={this.props.currentViewSelected}
                                                             fromScorm={this.props.fromScorm}
                                                             toolbars={this.props.toolbars}
+                                                            setAnswer={this.props.setAnswer}
                                                             richElementsState={this.props.richElementsState}/>);
 
                                                     } else if (ind === container.children.length - 1) {

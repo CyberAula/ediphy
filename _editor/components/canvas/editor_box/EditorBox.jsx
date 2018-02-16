@@ -38,6 +38,7 @@ export default class EditorBox extends Component {
      * @returns {code} React rendered component
      */
     render() {
+        console.log(this.props.exercises);
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];
@@ -145,7 +146,14 @@ export default class EditorBox extends Component {
         }
         wholeBoxStyle.transform = wholeBoxStyle.WebkitTransform = wholeBoxStyle.MsTransform = rotate;
         // style.transform = style.WebkitTransform = style.MsTransform = rotate;
-        let props = { ...this.props, parentBox: this.props.boxes[this.props.id], setCorrectAnswer: (correctAnswer) => { this.props.setCorrectAnswer(this.props.id, correctAnswer);} };
+        let props = { ...this.props,
+            parentBox: this.props.boxes[this.props.id],
+            setCorrectAnswer: (correctAnswer) => {
+                if (this.props.exercises.correctAnswer !== correctAnswer) {
+                    this.props.setCorrectAnswer(this.props.id, correctAnswer, this.props.page);
+                }
+            },
+        };
         let content = toolbar.config.flavor === "react" ? (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
                 {Ediphy.Plugins.get(toolbar.config.name).getRenderTemplate(toolbar.state, props)}
