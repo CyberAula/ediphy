@@ -90,7 +90,24 @@ export default class ScormComponent extends Component {
         }
     }
     submitPage(page) {
-        console.log(page);
+        let exercises = JSON.parse(JSON.stringify(this.state.exercises));
+
+        let total = 0;
+        let points = 0;
+        let bx = exercises[page].exercises;
+        for (let ex in bx) {
+            total += bx[ex].weight;
+            console.log(JSON.stringify(bx[ex].correctAnswer), JSON.stringify(bx[ex].currentAnswer), JSON.stringify(bx[ex].currentAnswer) === JSON.stringify(bx[ex].correctAnswer));
+            if (JSON.stringify(bx[ex].correctAnswer) === JSON.stringify(bx[ex].currentAnswer)) {
+                points += bx[ex].weight;
+            }
+            bx[ex].attempted = true;
+
+        }
+
+        exercises[page].attempted = true;
+        exercises[page].score = points / total;
+        this.setState({ exercises });
     }
 
 }

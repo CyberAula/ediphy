@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import VisorBox from './VisorBox';
 import SubmitButton from '../scorm/SubmitButton';
+import Score from '../scorm/Score';
 import VisorBoxSortable from './VisorBoxSortable';
 import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import VisorHeader from './VisorHeader';
@@ -106,7 +107,9 @@ export default class VisorCanvasDoc extends Component {
                         </div>
                     </div>
                     <div className={"pageFooter"}>
-                        <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}}/>
+                        <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={this.props.exercises} />
+                        <Score exercises={this.props.exercises}/>
+
                     </div>
                 </div>
             </Col>

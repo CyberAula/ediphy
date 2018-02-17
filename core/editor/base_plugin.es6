@@ -186,6 +186,9 @@ export default function() {
                     state.url = initParams.url;
                 }
 
+                if(initParams.text) {
+                    state.__text = initParams.text;
+                }
                 if (needsXMLEdition) {
                     if (!state.__xml) {
                         state.__xml = null;

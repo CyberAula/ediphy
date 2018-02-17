@@ -11,11 +11,9 @@ export function MultipleAnswer() {
                     <div className={"row"}>
                         <div className={"col-xs-2 h3"}>
                             {i + 1}
-                            <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={ (props.exercises.currentAnswer && props.exercises.currentAnswer.indexOf(i) > -1)} onClick={(e)=>{
+                            <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={ (props.exercises.currentAnswer && (props.exercises.currentAnswer instanceof Array) && props.exercises.currentAnswer.indexOf(i) > -1)} onClick={(e)=>{
                                 props.setAnswer(e.target.value);
-                                console.log(props.exercises);
                                 let newCurrentAnswer = props.exercises.currentAnswer ? Object.assign([], props.exercises.currentAnswer) : [];
-                                console.log('handler', newCurrentAnswer, props.exercises.currentAnswer);
                                 let index = newCurrentAnswer.indexOf(i);
                                 if (index === -1) {
                                     newCurrentAnswer.push(i);

@@ -30,7 +30,7 @@ function exercisesReducer(state = {}, action = {}) {
                 id: action.payload.ids.id,
                 weight: 1,
                 correctAnswer: defaultCorrectAnswer,
-                currentAnswer: false,
+                currentAnswer: defaultCorrectAnswer,
             });
         }
         return state;
@@ -53,6 +53,8 @@ function singlePageReducer(state = {}, action = {}) {
             submitButton: true,
             trackProgress: false,
             attempted: false,
+            minForPass: 50,
+            score: 0,
             weight: 10,
             exercises: {},
         };

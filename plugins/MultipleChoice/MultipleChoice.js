@@ -67,7 +67,7 @@ export function MultipleChoice(base) {
             return <div className={"exercisePlugin"}><h1>Multiple Choice</h1>
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
-                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={"Pregunta"} plugin-data-default="BasicText" pluginContainer={"Pregunta"} />
+                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={"Pregunta"} plugin-data-default="BasicText" plugin-data-text="Aquí va el enunciado de la pregunta" pluginContainer={"Pregunta"} />
                     </div>
                 </div>
                 {answers}

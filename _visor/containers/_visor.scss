@@ -390,10 +390,33 @@ li > .selectedNavItemVisor {
   border: 3px solid $blueprimary;
   color: $blueprimary;
   font-size: 18px;
+  vertical-align: middle;
 }
 
 .pageFooter {
-  text-align: right;
+  text-align: center; //right;
   margin: 15px;
+  margin-bottom: 0px;
   bottom: 0px;
+  padding-bottom: 15px;
+  min-height: 150px;
+  line-height: 150px;
+
+}
+
+.pageScore {
+  text-align: center;
+  line-height: 2em;
+  color: $blueprimary;
+  font-size: 1.9em;
+  span {
+    font-size: 2.2em;
+  }
+}
+
+.scorePass {
+  color: green;
+}
+.scoreFail {
+  color: red;
 }

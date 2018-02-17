@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import VisorBox from './VisorBox';
 import SubmitButton from '../scorm/SubmitButton';
+import Score from '../scorm/Score';
 import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import VisorHeader from './VisorHeader';
 import { aspectRatio } from '../../../common/common_tools';
@@ -74,7 +75,7 @@ export default class VisorCanvasSli extends Component {
                             }}><i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
                         <VisorHeader titles={titles}
                             onShowTitle={()=>this.setState({ showTitle: true })}
-                            courseTitle={this.props.title}
+                            courseTitle={this.props.title}f
                             titleMode={itemSelected.titleMode}
                             navItems={this.props.navItems}
                             currentView={this.props.currentView}
@@ -103,7 +104,8 @@ export default class VisorCanvasSli extends Component {
                             aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSelected.customSize);
                         }} />
                         <div className={"pageFooter"}>
-                            <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}}/>
+                            <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={this.props.exercises} />
+                            <Score exercises={this.props.exercises}/>
                         </div>
                     </div>
                 </div>
