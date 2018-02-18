@@ -41,6 +41,7 @@ export default {
         'MultipleChoice',
         'MultipleAnswer',
         'FreeResponse',
+        'InputText',
         // 'ContainerJS',
         'GraficaD3',
     ],

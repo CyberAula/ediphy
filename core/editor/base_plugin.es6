@@ -229,29 +229,10 @@ export default function() {
             }.bind(this);
 
             return {
-                name: name,
-                displayName: displayName,
-                category: category,
-                callback: callback,
-                needsConfigModal: needsConfigModal,
-                needsConfirmation: needsConfirmation,
-                needsTextEdition: needsTextEdition,
-                extraTextConfig: extraTextConfig,
-                needsXMLEdition: needsXMLEdition,
-                aspectRatioButtonConfig: aspectRatioButtonConfig,
-                allowFloatingBox: allowFloatingBox,
-                icon: icon,
-                iconFromUrl: iconFromUrl,
-                isRich: isRich,
-                isComplex: isComplex,
-                marksType: marksType,
-                flavor: flavor,
-                needsPointerEventsAllowed: needsPointerEventsAllowed,
-                limitToOneInstance: limitToOneInstance,
-                initialWidth: initialWidth,
-                initialWidthSlide: initialWidthSlide,
-                initialHeightSlide: initialHeightSlide,
-                initialHeight: initialHeight,
+                name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition,
+                extraTextConfig, needsXMLEdition, aspectRatioButtonConfig, allowFloatingBox, icon,
+                iconFromUrl, isRich, isComplex, marksType, flavor, needsPointerEventsAllowed, limitToOneInstance,
+                initialWidth, initialWidthSlide, initialHeightSlide, initialHeight, defaultCorrectAnswer,
             };
         },
         getRenderTemplate: function(render_state, props) {

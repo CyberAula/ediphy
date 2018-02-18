@@ -25,7 +25,8 @@ function exercisesReducer(state = {}, action = {}) {
         let name = action.payload.config.name;
         let config = Ediphy.Plugins.get(name).getConfig();
         if (config && config.category === 'evaluation') {
-            let defaultCorrectAnswer = config.defaultCorrectAnswer || true;
+            let defaultCorrectAnswer = (config.defaultCorrectAnswer === null || config.defaultCorrectAnswer === undefined) ? true : config.defaultCorrectAnswer;
+            console.log(name, config, defaultCorrectAnswer, config.defaultCorrectAnswer);
             return changeProp(state, action.payload.ids.id, {
                 id: action.payload.ids.id,
                 weight: 1,
