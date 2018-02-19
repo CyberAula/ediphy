@@ -96,7 +96,7 @@ export default class CarouselButtons extends Component {
     */
     render() {
         return (
-            <div className="bottomGroup">
+            <div className="bottomGroup" style={{ display: this.props.carouselShow ? 'block' : 'none' }}>
                 <div className="bottomLine" />
                 <OverlayTrigger placement="top" overlay={(<Tooltip id="newFolderTooltip">{i18n.t('create new folder')}</Tooltip>)}>
                     <Button className="carouselButton"
@@ -288,4 +288,8 @@ CarouselButtons.propTypes = {
      * Removes a view
      */
     onNavItemDeleted: PropTypes.func.isRequired,
+    /**
+     * Index displayed indicator
+     */
+    carouselShow: PropTypes.bool.isRequired,
 };
