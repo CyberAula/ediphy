@@ -420,3 +420,19 @@ li > .selectedNavItemVisor {
 .scoreFail {
   color: red;
 }
+
+.hidden {
+  display: none;
+}
+.sli {
+  .pageFooter {
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    height: auto;
+    min-height:1px;
+    line-height: 100%;
+    width: auto;
+    //background-color: white;
+  }
+}

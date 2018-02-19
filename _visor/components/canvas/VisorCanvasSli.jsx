@@ -103,7 +103,7 @@ export default class VisorCanvasSli extends Component {
                         <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
                             aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSelected.customSize);
                         }} />
-                        <div className={"pageFooter"}>
+                        <div className={"pageFooter" + (!this.props.exercises || !this.props.exercises.exercises || Object.keys(this.props.exercises.exercises).length === 0 ? " hidden" : "")}>
                             <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={this.props.exercises} />
                             <Score exercises={this.props.exercises}/>
                         </div>

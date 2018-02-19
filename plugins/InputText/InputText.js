@@ -1,6 +1,5 @@
 import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
-import Answer from '../../core/scorm/components/editor/Answer';
 import './_inputText.scss';
 /* eslint-disable react/prop-types */
 
@@ -49,7 +48,7 @@ export function InputText(base) {
             let clickHandler = (e)=>{
                 props.setCorrectAnswer(e.target.value);
             };
-            return <span className={"exercisePlugin"}>
+            return <span className={"exercisePlugin inputTextPlugin"}>
                 <input type={state.type} className="inputText" name={props.id} value={props.exercises.correctAnswer} onChange={clickHandler}/>
                 <span className="dragHandleInputPlugin"><i className="material-icons">apps</i></span>
             </span>;

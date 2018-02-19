@@ -14,7 +14,6 @@ export default class VisorBox extends Component {
         }
     }
     render() {
-        console.log(this.props.exercises);
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];

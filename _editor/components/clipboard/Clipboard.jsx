@@ -250,7 +250,7 @@ export default class Clipboard extends Component {
                         noImage = retrieveImageFromClipboardAsBase64(event, (url) => {
                             if (url) {
                                 initialParams.url = url; // URLObj.createObjectURL(imageBlob);
-                                Ediphy.Plugins.get("BasicImage").getConfig().callback(initialParams, ADD_BOX);
+                                Ediphy.Plugins.get("HotspotImages").getConfig().callback(initialParams, ADD_BOX);
                                 return;
                             }
                         }

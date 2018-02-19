@@ -20,6 +20,7 @@ export default function() {
 
             basePlugin.create(Ediphy.Visor.Plugins[name]);
             basePlugin.init();
+            basePlugin.getLocales();
             pluginInstancesList[name] = basePlugin;
         },
     };

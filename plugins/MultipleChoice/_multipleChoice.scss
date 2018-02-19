@@ -1,5 +1,26 @@
-.radioQuiz {
-  margin-left: 12px !important;
-  transform: scale(1.4);
+@import "../../sass/general/_variables.scss";
+
+.multipleChoicePlugin {
+  .radioQuiz {
+    margin-left: 12px !important;
+    transform: scale(1.4);
+  }
+
+  .answerPlaceholder {
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-top: 7px;
+  }
+
+  .exerciseScore {
+    display: none;
+    text-align: right;
+  }
+  &.attempted  .exerciseScore{
+    display: block;
+    color: $blueprimary;
+    font-size: 10px;
+  }
+
 }
 

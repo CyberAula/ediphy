@@ -106,7 +106,8 @@ export default class VisorCanvasDoc extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className={"pageFooter"}>
+                    {console.log(this.props.exercises)}
+                    <div className={"pageFooter" + (!this.props.exercises || !this.props.exercises.exercises || Object.keys(this.props.exercises.exercises).length === 0 ? " hidden" : "")}>
                         <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={this.props.exercises} />
                         <Score exercises={this.props.exercises}/>
 

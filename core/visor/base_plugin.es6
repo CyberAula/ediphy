@@ -132,6 +132,14 @@ export default function() {
         getExtraFunctions: function() {
             return Object.keys(extraFunctions);
         },
+        getLocales: function() {
+            try {
+                let currentLanguage = Ediphy.i18n.language;
+                let texts = require('./../../plugins/' + this.getConfig().name + "/locales/" + currentLanguage);
+                Ediphy.i18n.addResourceBundle(currentLanguage, 'translation', texts, true, false);
+            } catch (e) {
+            }
+        },
         callExtraFunction: function(alias, fnAlias) {
             let element = $.find("[data-alias='" + alias + "']");
             if (element && extraFunctions && extraFunctions[fnAlias]) {

@@ -1,16 +1,39 @@
-.textAreaQuiz {
-   width:98%;
-  height: 200px !important;
-  margin: 10px 1%;
-  resize: none !important;
-  background-color: white;
-  border-radius: 0px;
-  box-shadow: none;
-  overflow:visible;
-}
-.textAreaQuiz[disabled] {
-  background-color: white;
-}
-.textAreaQuizVisor {
-  resize: vertical !important;
+@import "../../sass/general/_variables.scss";
+
+.freeResponsePlugin  {
+  .textAreaQuiz {
+    width:98%;
+    height: 200px !important;
+    margin: 10px 1%;
+    resize: none !important;
+    background-color: white;
+    border-radius: 0px;
+    box-shadow: none;
+    overflow:visible;
+    pointer-events: none;
+  }
+  .textAreaQuiz[disabled] {
+    background-color: white;
+  }
+  .textAreaQuizVisor {
+    resize: vertical !important;
+  }
+
+  .wholebox.selectedBox .textAreaQuiz {
+    pointer-events: none;
+  }
+
+  #visorAppContent .textAreaQuiz {
+    pointer-events: all;
+  }
+
+  .exerciseScore {
+    display: none;
+    text-align: right;
+  }
+  &.attempted  .exerciseScore{
+      display: block;
+      color: $blueprimary;
+      font-size: 10px;
+  }
 }

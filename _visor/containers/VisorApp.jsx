@@ -252,7 +252,7 @@ export default class Visor extends Component {
                 <div id="page-content-wrapper"
                     className={isSlide}
                     style={{ height: '100%' }}>
-                    <Grid fluid
+                    <Grid fluid id="visorAppContent"
                         style={{ height: '100%' }}>
                         <Row style={{ height: '100%' }}>
                             <Col lg={12} style={{ height: '100%' }}>

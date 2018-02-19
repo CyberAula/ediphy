@@ -4,7 +4,6 @@ import VisorBox from './VisorBox';
 
 export default class VisorBoxSortable extends Component {
     render() {
-        console.log(this.props.exercises);
         let box = this.props.boxes[this.props.id];
         return (
             <div ref="sortableContainer"

@@ -63,10 +63,12 @@ export default class ScormComponent extends Component {
     }
     onLoad(event) {
         let init = API.init();
-        let bookmark = (init && init.bookmark && init.bookmark !== '') ? init.bookmark : this.getFirstPage();
-        this.props.changeCurrentView(bookmark);
-        let initState = API.changeInitialState();
-        this.setState(initState);
+        if (init && this.props.fromScorm) {
+            let bookmark = (init && init.bookmark && init.bookmark !== '') ? init.bookmark : this.getFirstPage();
+            this.props.changeCurrentView(bookmark);
+            let initState = API.changeInitialState();
+            this.setState(initState);
+        }
     }
 
     onUnload(event) {
@@ -81,9 +83,7 @@ export default class ScormComponent extends Component {
         window.removeEventListener("onload", this.onLoad);
     }
     setAnswer(id, answer, page) {
-        console.log(answer, id, page, "SET_ANSWER_IN_VISOR");
         let exercises = JSON.parse(JSON.stringify(this.state.exercises));
-        console.log();
         if (exercises[page] && exercises[page].exercises[id]) {
             exercises[page].exercises[id].currentAnswer = answer;
             this.setState({ exercises });
@@ -91,16 +91,17 @@ export default class ScormComponent extends Component {
     }
     submitPage(page) {
         let exercises = JSON.parse(JSON.stringify(this.state.exercises));
-
         let total = 0;
         let points = 0;
         let bx = exercises[page].exercises;
         for (let ex in bx) {
             total += bx[ex].weight;
-            console.log(JSON.stringify(bx[ex].correctAnswer), JSON.stringify(bx[ex].currentAnswer), JSON.stringify(bx[ex].currentAnswer) === JSON.stringify(bx[ex].correctAnswer));
+            bx[ex].score = 0;
             if (JSON.stringify(bx[ex].correctAnswer) === JSON.stringify(bx[ex].currentAnswer)) {
                 points += bx[ex].weight;
+                bx[ex].score = bx[ex].weight;
             }
+
             bx[ex].attempted = true;
 
         }

@@ -1,6 +1,6 @@
 import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
-import Answer from '../../core/scorm/components/editor/Answer';
+import i18n from 'i18next';
 import './_multipleAnswer.scss';
 /* eslint-disable react/prop-types */
 
@@ -28,7 +28,7 @@ export function MultipleAnswer(base) {
                             icon: 'web',
                             buttons: {
                                 nBoxes: {
-                                    __name: "Número de cajas",
+                                    __name: i18n.t("Number"),
                                     type: 'number',
                                     value: base.getState().nBoxes,
                                     min: 1,
@@ -50,7 +50,7 @@ export function MultipleAnswer(base) {
             let answers = [];
             for (let i = 0; i < state.nBoxes; i++) {
                 answers.push(<div key={i + 1} className={"row"}>
-                    <div className={"col-xs-2 h3"}>
+                    <div className={"col-xs-2 answerPlaceholder"}>
                         {i + 1}
                         <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={(props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1)} onClick={(e)=>{
                             let newCorrectAnswer = Object.assign([], props.exercises.correctAnswer);
@@ -64,15 +64,16 @@ export function MultipleAnswer(base) {
                         }}/>
                     </div>
                     <div className={"col-xs-10"}>
-                        <PluginPlaceholder {...props} key={i + 1} plugin-data-display-name={"Respuesta " + (i + 1)} plugin-data-default="BasicText" pluginContainer={"Respuesta" + (i + 1)} />
+                        <PluginPlaceholder {...props} key={i + 1} plugin-data-display-name={i18n.t("MultipleAnswer.Answer") + " " + (i + 1)} plugin-data-default="BasicText" plugin-data-text={i18n.t("MultipleAnswer.Answer") + (i + 1)} pluginContainer={"Answer" + (i + 1)} />
                     </div>
                 </div>
                 );
             }
-            return <div className={"exercisePlugin"} ><h1>Multiple Answer</h1>
+            return <div className={"exercisePlugin multipleAnswerPlugin"}>
+                {/* <h1>Multiple Answer</h1>*/}
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
-                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={"Pregunta"} plugin-data-default="BasicText" pluginContainer={"Pregunta"} />
+                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={i18n.t("MultipleAnswer.Question")} plugin-data-default="BasicText" plugin-data-text={i18n.t("MultipleAnswer.Statement")} pluginContainer={"Question"} />
                     </div>
                 </div>
                 {answers}
