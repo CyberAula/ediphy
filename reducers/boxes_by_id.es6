@@ -49,7 +49,6 @@ function boxCreator(state, action) {
             // width = action.payload.initialParams.width;
         }
     }
-
     // sortableContainers for boxes inside this box (this is not EditorBoxSortable)
     let children = [];
     let sortableContainers = {};
