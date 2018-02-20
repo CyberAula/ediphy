@@ -66,13 +66,13 @@ export default class ViewToolbar extends Component {
                             display_title: {
                                 __name: i18n.t('course_title'),
                                 type: 'checkbox',
-                                checked: this.props.viewToolbars[id].courseTitle === 'expanded',
+                                checked: this.props.viewToolbars[id].courseTitle === 'reduced',
                                 autoManaged: false,
                             },
                             display_pagetitle: {
                                 __name: i18n.t('Title') + i18n.t('document'),
                                 type: 'checkbox',
-                                checked: this.props.viewToolbars[id].documentTitle === 'expanded',
+                                checked: this.props.viewToolbars[id].documentTitle === 'reduced',
                                 autoManaged: false,
                             },
                             pagetitle_name: {
@@ -85,7 +85,7 @@ export default class ViewToolbar extends Component {
                             display_pagesubtitle: {
                                 __name: i18n.t('subtitle'),
                                 type: 'checkbox',
-                                checked: this.props.viewToolbars[id].documentTitle === 'expanded',
+                                checked: this.props.viewToolbars[id].documentSubTitle === 'reduced',
                                 autoManaged: false,
                             },
                             pagesubtitle_name: {
@@ -107,20 +107,20 @@ export default class ViewToolbar extends Component {
             controls.main.accordions.header.buttons.display_breadcrumb = {
                 __name: i18n.t('Breadcrumb'),
                 type: 'checkbox',
-                checked: true,
+                checked: this.props.viewToolbars[id].breadcrumb === 'reduced',
                 autoManaged: false,
             };
             controls.main.accordions.header.buttons.display_pagenumber = {
                 __name: i18n.t('pagenumber'),
                 type: 'checkbox',
-                checked: false,
+                checked: this.props.viewToolbars[id].numPage === 'reduced',
                 autoManaged: false,
             };
             controls.main.accordions.header.buttons.pagenumber_name = {
                 __name: "custom_pagenum",
                 type: 'conditionalText',
                 associatedKey: 'display_pagenumber',
-                value: "",
+                value: this.props.viewToolbars[id].numPageContent,
                 autoManaged: false,
                 display: true,
             };

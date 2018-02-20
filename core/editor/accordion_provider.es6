@@ -813,19 +813,19 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
         break;
     case "custom_title":
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
-            documentTitle: value,
+            documentTitleContent: value,
         });
         break;
     // change page/slide title
     case "custom_subtitle":
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
-            documentSubTitle: value,
+            documentSubtitleContent: value,
         });
         break;
     // change page/slide title
     case "custom_pagenum":
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
-            numPage: value,
+            numPageContent: value,
         });
         break;
     // preview / export document
@@ -891,7 +891,7 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     case i18n.t('pagenumber'):
         let pagenumber = value ? 'reduced' : 'hidden';
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
-            pageNumber: pagenumber,
+            numPage: pagenumber,
         });
         break;
     default:

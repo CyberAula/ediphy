@@ -21,10 +21,10 @@ export default class EditorHeader extends Component {
             let docTitle = "";
             let subTitle = "";
             let pagenumber = "";
-            if (navItem !== undefined && navItem.id !== 0 && navItem.header) {
-                docTitle = toolbar.documentTitle !== "" && (toolbar.documentTitle !== navItem.name) ? toolbar.documentTitle : navItem.name;
-                subTitle = toolbar.documentSubTitle !== "" && (toolbar.documentSubTitle !== i18n.t('subtitle')) ? toolbar.documentSubTitle : i18n.t('subtitle');
-                pagenumber = toolbar.numPage !== "" ? toolbar.numPage : "";
+            if (navItem !== undefined && navItem.id !== 0 && toolbar) {
+                docTitle = toolbar.documentTitle !== "" && (toolbar.documentTitleContent !== navItem.name) ? toolbar.documentTitleContent : navItem.name;
+                subTitle = toolbar.documentSubTitle !== "" && (toolbar.documentSubtitleContent !== i18n.t('subtitle')) ? toolbar.documentSubtitleContent : i18n.t('subtitle');
+                pagenumber = toolbar.numPageContent !== "" ? toolbar.numPageContent : "";
             }
 
             let content;
@@ -92,7 +92,7 @@ export default class EditorHeader extends Component {
                                 <div className="cab">
 
                                     <div className="cabtabla_numero"
-                                        style={{ display: (toolbar.pageNumber === 'hidden') ? 'none' : 'block' }}
+                                        style={{ display: (toolbar.numPage === 'hidden') ? 'none' : 'block' }}
                                     >{pagenumber}</div>
 
                                     <div className="tit_ud_cap">

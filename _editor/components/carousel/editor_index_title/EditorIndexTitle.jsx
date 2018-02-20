@@ -39,9 +39,12 @@ export default class EditorIndexTitle extends Component {
                         onDoubleClick={e => {
                             this.setState({ editing: !this.state.editing });
                             if (this.state.editing) { /* Save changes to Redux state*/
-                                this.props.onNameChanged(this.props.id, { viewName: this.state.currentValue });
-
-                            // Synchronize current component state with Redux state when entering edition mode
+                                if(this.props.id === undefined) {
+                                    this.props.onNameChanged(this.props.id, { viewName: this.state.currentValue });
+                                } else {
+                                    this.props.onNameChanged("title", this.state.currentValue);
+                                }
+                                // Synchronize current component state with Redux state when entering edition mode
                             } else {
                                 this.setState({ currentValue: this.props.title });
                             }
