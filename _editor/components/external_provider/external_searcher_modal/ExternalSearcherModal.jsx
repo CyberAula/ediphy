@@ -95,10 +95,10 @@ export default class ExternalSearcherModal extends Component {
 
                     </Form>
                     <Form style={{ minHeight: 250 }}>
-                        {this.props.fetchResults.total_results ?
+                        {this.props.fetchResults.total_results_delivered ?
                             (
                                 <FormGroup>
-                                    <ControlLabel>{ this.props.fetchResults.total_results + " Resultados"}</ControlLabel>
+                                    <ControlLabel>{ this.props.fetchResults.total_results_delivered + " Resultados"}</ControlLabel>
                                     <br />
                                     {this.props.fetchResults.results.map((item, index) => {
                                         let border = this.state.itemSelected === index ? "solid orange 3px" : "solid transparent 3px";
@@ -131,14 +131,30 @@ export default class ExternalSearcherModal extends Component {
 
                 <Modal.Footer>
                     <Button onClick={e => {
+                        this.resetState();
                         this.props.onExternalSearcherToggled();
                     }}>{i18n.t("Cancel")}</Button>
                     <Button bsStyle="primary" onClick={e => {
                         this.props.onExternalSearcherToggled(this.state.resourceUrl);
+                        this.resetState();
                     }}>{i18n.t("global_config.Accept")}</Button>
                 </Modal.Footer>
             </Modal>
         );
+    }
+    componentWillUpdate(nextProps, nextState) {
+        if (nextProps.fetchResults.total_results_delivered && (nextProps.fetchResults.total_results_delivered !== this.props.fetchResults.total_results_delivered)) {
+            this.setState({
+                itemSelected: 0,
+                resourceUrl: nextProps.fetchResults.results[0].file_url,
+            });
+        }
+    }
+    resetState() {
+        this.setState({
+            itemSelected: 0,
+            resourceUrl: "",
+        });
     }
 }
 
