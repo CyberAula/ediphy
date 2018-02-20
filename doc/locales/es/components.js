@@ -164,6 +164,7 @@ let components = {
         "onTextEditorToggled": "Hace aparecer/desaparecer el CKEditor",
         "onRichMarksModalToggled": "Muestra/oculta el modal de añadir marcas",
         "onRichMarkUpdated": "Actualiza la marca",
+        "onTitleChanged": "Cambia el texto del título del curso",
     },
     "EditorCanvasSli": {
         "fromCV": "Si se renderiza el componente desde una vista contenida (true) o una normal (false)",
@@ -200,7 +201,7 @@ let components = {
         "onRichMarksModalToggled": "Muestra/oculta el modal de añadir marcas",
         "onRichMarkUpdated": "Actualiza la marca",
         "grid": "Indicador de si está activada la funcionalidad de snap to grid",
-
+        "onTitleChanged": "Cambia el texto del título del curso",
     },
     "CVInfo": {
         "navItems": "Objeto que contiene todas las vistas creadas, accesibles por su *id*",
@@ -219,6 +220,7 @@ let components = {
         "containedViews": "Objeto que contiene todas las vistas contenidas, accesibles por su *id*",
         "toolbars": "Objeto que contiene todas las toolbars, accesibles por el *id* de su caja/vista",
         "boxes": "Objeto que contiene todas las cajas creadas, accesibles por su *id*",
+        "onTitleChanged": "Cambia el texto del título del curso",
     },
     "EditorShortcuts": {
         "box": "Caja seleccionada",
@@ -286,6 +288,7 @@ let components = {
         "onNavItemExpanded": "Expande sección",
         "onNavItemDeleted": "Elimina vista/vista contenida",
         "onNavItemReordered": "Reordena elementos del índice",
+        "carouselShow": "Indicador de si el índice desplegado",
     },
     "CarouselHeader": {
         "carouselShow": "Indicador de si el índice desplegado",
@@ -405,8 +408,8 @@ let components = {
         "changeGlobalConfig": "Modifica la configuración global del curso",
         "undoDisabled": "Permite utilizar la funcionalidad de undo",
         "redoDisabled": "Permite utilizar la funcionalidad de redo",
-        "navItemsIds": "Array que contiene todas las vistas identificables por su *id*",
-        "navItems": "Objeto que contiene todas las vistas identificables por su *id*",
+        "navItemsIds": "Array de objetos que contiene todas las vistas creadas, identificadas por su *id*",
+        "navItems": "Objeto que contiene todas las vistas creadas, identificadas por su *id*",
         "onTitleChanged": "Modifica el título del curso",
         "containedViewSelected": "Identifica la vista contenida que se está editando",
         "navItemSelected": "Identifica la vista contenida que se está editando",
@@ -423,6 +426,12 @@ let components = {
         "serverModalOpen": "Ventana emergente que indica si la importación/exportación al servidor ha sido correcta",
         "onExternalCatalogToggled": "Abre el catálogo de recursos subidos al servidor",
         "setcat": "Cambia la categoría de plugins seleccionada",
+        "onNavItemAdded": "Añade vista",
+        "onNavItemsAdded": "Añade varias vistas",
+        "onIndexSelected": "Selecciona vista/vista contenida en el contexto del índice",
+        "onNavItemSelected": "Selecciona vista",
+        "onToolbarUpdated": "Actualiza la barra de herramientas",
+        "containedViews": "Objeto que contiene todas las vistas contenidas, accesibles por su *id*",
     },
     "ExternalCatalogModal": {
         "visible": "Indica si el modal está visible",
@@ -528,6 +537,20 @@ let components = {
         "mark": "Objeto marca del estado del plugin",
         "base": "Base del estado del plugin",
         "state": "Estado de la toolbar del plugin",
+    },
+    "NavActionButtons": {
+        "boxSelected": "Caja seleccionada en el editor",
+        "changeGlobalConfig": "Modifica la configuración global del curso",
+        "globalConfig": "Objeto que contine la configuración global del curso guardada en el estado de Redux",
+        "navItemSelected": "",
+        "onTextEditorToggled": "",
+        "redo": "",
+        "redoDisabled": "",
+        "save": "",
+        "serverModalOpen": "",
+        "undo": "",
+        "undoDisabled": "",
+        "visor": "",
     },
     "GridConfigurator": {
         "id": "Identificador del elemento del DOM",
