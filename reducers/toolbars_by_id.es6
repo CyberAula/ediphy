@@ -201,7 +201,6 @@ function createSizeButtons(controls, state, action, floatingBox) {
             units = "%";
             type = "text";
         }
-
     } else {
         let height = state.controls.main.accordions.__sortable.buttons.__height;
         type = height.type;
@@ -580,7 +579,6 @@ function toolbarReducer(state, action) {
     case UPDATE_TOOLBAR:
         newState = Utils.deepClone(state);
         let pl = action.payload;
-
         if (pl.value.__name) {
             if (pl.accordions.length > 1) {
                 newState.controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]].buttons[pl.name] = pl.value;
@@ -593,6 +591,12 @@ function toolbarReducer(state, action) {
         } else {
             newState.controls[pl.tab].accordions[pl.accordions[0]]
                 .buttons[pl.name][typeof pl.value === "boolean" ? "checked" : "value"] = pl.value;
+            if(pl.name === '__aspectRatio') {
+                // eslint-disable-next-line dot-notation
+                newState.controls[pl.tab].accordions[pl.accordions[0]].buttons['__height'].displayValue = 20;
+                // eslint-disable-next-line dot-notation
+                newState.controls[pl.tab].accordions[pl.accordions[0]].buttons['__height'].auto = false;
+            }
         }
 
         // Rebind callback functions because from not automanaged buttons
@@ -617,7 +621,6 @@ function toolbarReducer(state, action) {
                 }
             }
         }
-
         return newState;
     case SET_CORRECT_ANSWER: // TODO Borrar
         let newScoreState = JSON.parse(JSON.stringify(state));

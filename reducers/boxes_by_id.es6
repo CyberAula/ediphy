@@ -49,7 +49,6 @@ function boxCreator(state, action) {
             // width = action.payload.initialParams.width;
         }
     }
-
     // sortableContainers for boxes inside this box (this is not EditorBoxSortable)
     let children = [];
     let sortableContainers = {};
@@ -116,7 +115,7 @@ function boxReducer(state = {}, action = {}) {
                 "sortableContainers",
             ], [
                 (state.children.indexOf(action.payload.ids.container) !== -1) ? // if parent box contains container indicated
-                state.children : // nothing changes
+                    state.children : // nothing changes
                     [...state.children, action.payload.ids.container], // adds container to children
                 sortableContainersReducer(state.sortableContainers, action),
             ]
