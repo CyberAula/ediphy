@@ -19,13 +19,8 @@
     resize: vertical !important;
   }
 
-  .wholebox.selectedBox .textAreaQuiz {
-    pointer-events: none;
-  }
 
-  #visorAppContent .textAreaQuiz {
-    pointer-events: all;
-  }
+
 
   .exerciseScore {
     display: none;
@@ -36,4 +31,13 @@
       color: $blueprimary;
       font-size: 10px;
   }
+}
+
+.wholebox.selectedBox .textAreaQuiz {
+     pointer-events: none;
+   }
+
+
+#visorAppContent .textAreaQuiz {
+  pointer-events: all;
 }

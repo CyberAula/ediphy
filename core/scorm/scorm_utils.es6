@@ -72,6 +72,24 @@ export function setFinalScore(scores, visited, trackProgress) {
     return API.doCommit();
 }
 
+export function setSCORMScore(score, maxScore, visited) {
+    let sizeV = visited.length || 1;
+    let num = 0;
+    let sumV = visited.reduce((a, b) => a + (b === "completed" ? 1 : 0), 0);
+    let avgV = sumV / sizeV;
+    let thresholdSc = API.doGetValue("cmi.scaled_passing_score") || 0.5;
+    let thresholdV = API.doGetValue("cmi.completion_threshold") || 0.5;
+    let isPassed = true;
+    let isComplete = true;
+    /* Course is passed when the total score is greater than the threshold*/
+    isPassed = score / maxScore >= thresholdSc ? "passed" : "failed";
+    isComplete = avgV >= thresholdV ? "completed" : "incomplete";
+    setScore("objectives." + num + ".", 0, maxScore, score, score / maxScore, isComplete, isPassed);
+    setScore("", 0, maxScore, score, score / maxScore, isComplete, isPassed);
+    console.log(maxScore, score, score / maxScore);
+    return API.doCommit();
+}
+
 export function finish() {
 
     // if (!window.terminated) {

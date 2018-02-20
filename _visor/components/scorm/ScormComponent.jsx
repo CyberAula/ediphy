@@ -11,11 +11,18 @@ export default class ScormComponent extends Component {
             scores: [],
             visited: [],
             exercises: this.props.exercises,
+            totalScore: 0,
         };
         this.onUnload = this.onUnload.bind(this);
         this.onLoad = this.onLoad.bind(this);
         this.setAnswer = this.setAnswer.bind(this);
         this.submitPage = this.submitPage.bind(this);
+        this.totalWeight = 0;
+        console.log(this.props.exercises);
+        for (let e in this.props.exercises) {
+            console.log(e);
+            this.totalWeight += this.props.exercises[e].weight;
+        }
     }
     getFirstPage() {
         let navItems = this.props.navItemsIds || [];
@@ -34,8 +41,8 @@ export default class ScormComponent extends Component {
                 API.changeLocation(nextProps.currentView);
             }
             if(!isContainedView(this.props.currentView)) {
-                this.savePreviousAndUpdateState();
-                API.setFinalScore(this.state.scores, this.state.visited, this.props.globalConfig.trackProgress || false);
+                // this.savePreviousAndUpdateState();
+                // API.setFinalScore(this.state.scores, this.state.visited, this.props.globalConfig.trackProgress || false);
             }
         }
     }
@@ -73,10 +80,11 @@ export default class ScormComponent extends Component {
 
     onUnload(event) {
         if (!isContainedView(this.props.currentView)) {
-            this.savePreviousAndUpdateState();
+            // this.savePreviousAndUpdateState();
         }
-        API.setFinalScore(this.state.scores, this.state.visited, this.props.globalConfig.trackProgress || false);
+        // API.setFinalScore(this.state.scores, this.state.visited, this.props.globalConfig.trackProgress || false);
         API.finish();
+        console.log('FinalScore: ' + this.state.totalScore / this.totalWeight);
     }
     componentWillUnmount() {
         window.removeEventListener("beforeunload", this.onUnload);
@@ -107,8 +115,13 @@ export default class ScormComponent extends Component {
         }
 
         exercises[page].attempted = true;
-        exercises[page].score = points / total;
-        this.setState({ exercises });
+        let pageScore = points / total;
+        exercises[page].score = pageScore;
+
+        let totalScore = this.state.totalScore + pageScore * exercises[page].weight;
+        this.setState({ exercises, totalScore });
+        console.log(totalScore, this.totalWeight);
+        API.setSCORMScore(totalScore, this.totalWeight, this.state.visited);
     }
 
 }
