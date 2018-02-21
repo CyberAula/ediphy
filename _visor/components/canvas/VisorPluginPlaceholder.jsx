@@ -99,6 +99,10 @@ VisorPluginPlaceholder.propTypes = {
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
+     * Whether the app is in SCORM mode or not
+     */
+    fromScorm: PropTypes.bool,
+    /**
      * Diccionario que contiene todas las toolbars
      */
     toolbars: PropTypes.object.isRequired,

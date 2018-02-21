@@ -86,4 +86,20 @@ VisorBoxSortable.propTypes = {
      * Estado del plugin enriquecido en la transición
      */
     richElementsState: PropTypes.object,
+    /**
+   * Whether the app is in SCORM mode or not
+   */
+    fromScorm: PropTypes.bool,
+    /**
+   * Object containing all the exercises in the course
+   */
+    exercises: PropTypes.object.isRequired,
+    /**
+   * Function for submitting a page Quiz
+   */
+    setAnswer: PropTypes.func.isRequired,
+    /**
+   * Vista actual
+   */
+    currentView: PropTypes.any,
 };

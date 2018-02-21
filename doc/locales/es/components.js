@@ -259,6 +259,8 @@ let components = {
         "containedViews": "Objeto que contiene todas las vistas contenidas, accesibles por su *id*",
         "onRichMarksModalToggled": "Muestra/oculta el modal de añadir marcas",
         "onRichMarkUpdated": "Actualiza la marca",
+        "setCorrectAnswer": "Marca la respuesta correcta de un ejercicio",
+        "page": "Página actual",
     },
     "EditorIndexTitle": {
         "id": "Identificador único del elemento del índice seleccionado",

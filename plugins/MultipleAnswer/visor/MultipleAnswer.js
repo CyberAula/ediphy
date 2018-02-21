@@ -9,11 +9,15 @@ export function MultipleAnswer() {
             let attempted = props.exercises && props.exercises.attempted;
             let score = (props.exercises.score || 0) + "/" + (props.exercises.weight || 0);
             for (let i = 0; i < state.nBoxes; i++) {
+                let checked = (props.exercises.currentAnswer && (props.exercises.currentAnswer instanceof Array) && props.exercises.currentAnswer.indexOf(i) > -1);
+                let correctAnswer = (props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1);
+                let correct = attempted && correctAnswer;
+                let incorrect = attempted && !correctAnswer && checked;
                 content.push(
-                    <div className={"row"}>
+                    <div className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : "")}>
                         <div className={"col-xs-2 answerPlaceholder"}>
                             {i + 1}
-                            <input type="checkbox" disabled={attempted} className="checkQuiz" name={props.id} value={i} checked={ (props.exercises.currentAnswer && (props.exercises.currentAnswer instanceof Array) && props.exercises.currentAnswer.indexOf(i) > -1)} onClick={(e)=>{
+                            <input type="checkbox" disabled={attempted} className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
                                 props.setAnswer(e.target.value);
                                 let newCurrentAnswer = props.exercises.currentAnswer ? Object.assign([], props.exercises.currentAnswer) : [];
                                 let index = newCurrentAnswer.indexOf(i);
@@ -37,8 +41,9 @@ export function MultipleAnswer() {
                     <div className={"col-xs-12"}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Question"}/>
                     </div>
-                    {content}
+
                 </div>
+                {content}
                 <div className={"exerciseScore"}>{score}</div>
             </div>;
         },

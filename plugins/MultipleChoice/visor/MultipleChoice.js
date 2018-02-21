@@ -11,14 +11,17 @@ export function MultipleChoice() {
             let score = (props.exercises.score || 0) + "/" + (props.exercises.weight || 0);
 
             for (let i = 0; i < state.nBoxes; i++) {
+                let correct = attempted && props.exercises.correctAnswer === i; // && props.exercises.currentAnswer === i ;
+                let incorrect = attempted && (/* (props.exercises.correctAnswer === i && props.exercises.currentAnswer !== i)||*/(props.exercises.correctAnswer !== i && props.exercises.currentAnswer === i));
+                let checked = props.exercises.currentAnswer === i; //  (attempted && props.exercises.correctAnswer === i) || (!attempted && props.exercises.currentAnswer === i)
                 content.push(
-                    <div className={"row"}>
+                    <div className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : "")}>
                         <div className={"col-xs-2 answerPlaceholder"}>
                             {i + 1}
                             <input type="radio" disabled={attempted} className="radioQuiz" name={props.id}
-                                value={i} checked={ (props.exercises.currentAnswer === i)}
+                                value={i} checked={ checked}
                                 onChange={(e)=>{
-                                    props.setAnswer(parseInt(e.target.value));
+                                    props.setAnswer(parseInt(e.target.value, 10));
                                 }}/>
                         </div>
                         <div className={"col-xs-10"}>
@@ -34,8 +37,9 @@ export function MultipleChoice() {
                     <div className={"col-xs-12"}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Question"}/>
                     </div>
-                    {content}
+
                 </div>
+                {content}
                 <div className={"exerciseScore"}>{score}</div>
             </div>;
         },

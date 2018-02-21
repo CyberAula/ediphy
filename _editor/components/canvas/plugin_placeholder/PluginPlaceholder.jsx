@@ -144,7 +144,6 @@ export default class PluginPlaceholder extends Component {
                 let config = Ediphy.Plugins.get(name).getConfig();
                 let forbidden = isBox(parent) && config.isComplex; // && (parent !== this.props.boxSelected);
                 let newInd = this.getIndex(this.props.boxes, parent, container, e.dragEvent.clientX, e.dragEvent.clientY);
-                let page = this.props.pa;
                 let initialParams = {
                     parent: forbidden ? this.props.parentBox.parent : parent,
                     container: forbidden ? this.props.parentBox.container : container,
@@ -324,5 +323,12 @@ PluginPlaceholder.propTypes = {
     * Actualiza marca
      */
     onRichMarkUpdated: PropTypes.func.isRequired,
-
+    /**
+     * Sets the correct answer of an exercise
+     */
+    setCorrectAnswer: PropTypes.func.isRequired,
+    /**
+     * Current page
+     */
+    page: PropTypes.any,
 };

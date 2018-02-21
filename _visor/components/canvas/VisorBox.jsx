@@ -238,4 +238,12 @@ VisorBox.propTypes = {
      * Estado del plugin enriquecido en la transición
      */
     richElementsState: PropTypes.object,
+    /**
+   * Function for submitting a page Quiz
+   */
+    setAnswer: PropTypes.func.isRequired,
+    /**
+   * Vista actual
+   */
+    currentView: PropTypes.any,
 };

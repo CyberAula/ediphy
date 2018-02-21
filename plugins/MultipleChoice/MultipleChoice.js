@@ -47,12 +47,11 @@ export function MultipleChoice(base) {
         },
         getRenderTemplate: function(state, props = {}) {
             let answers = [];
-            console.log(state.__score.correctAnswer);
             for (let i = 0; i < state.nBoxes; i++) {
                 let clickHandler = (e)=>{
                     props.setCorrectAnswer(parseInt(e.target.value, 10));
                 };
-                answers.push(<div key={i + 1} className={"row"}>
+                answers.push(<div key={i + 1} className={"row answerRow"}>
                     <div className={"col-xs-2 answerPlaceholder"}>
                         {i + 1}
                         <input type="radio" className="radioQuiz" name={props.id} value={i} checked={props.exercises.correctAnswer === i /* ? 'checked' : 'unchecked'*/ }

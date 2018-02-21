@@ -13,7 +13,6 @@ export default class VisorCanvasDoc extends Component {
 
     render() {
         let titles = [];
-        console.log(this.props.exercises);
         let itemSelected = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         let isCV = !isView(this.props.currentView);
         if (itemSelected !== 0 && !isCV) {
@@ -106,7 +105,6 @@ export default class VisorCanvasDoc extends Component {
                             </div>
                         </div>
                     </div>
-                    {console.log(this.props.exercises)}
                     <div className={"pageFooter" + (!this.props.exercises || !this.props.exercises.exercises || Object.keys(this.props.exercises.exercises).length === 0 ? " hidden" : "")}>
                         <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={this.props.exercises} />
                         <Score exercises={this.props.exercises}/>
@@ -170,4 +168,20 @@ VisorCanvasDoc.propTypes = {
      *  Array de vistas
      */
     viewsArray: PropTypes.array,
+    /**
+   * Whether the app is in SCORM mode or not
+   */
+    fromScorm: PropTypes.bool,
+    /**
+   * Object containing all the exercises in the course
+   */
+    exercises: PropTypes.object.isRequired,
+    /**
+   * Function for submitting a page Quiz
+   */
+    submitPage: PropTypes.func.isRequired,
+    /**
+   * Function for submitting a page Quiz
+   */
+    setAnswer: PropTypes.func.isRequired,
 };

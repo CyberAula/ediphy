@@ -28,7 +28,7 @@ export function MultipleAnswer(base) {
                             icon: 'web',
                             buttons: {
                                 nBoxes: {
-                                    __name: i18n.t("Number"),
+                                    __name: i18n.t("MultipleAnswer.Number"),
                                     type: 'number',
                                     value: base.getState().nBoxes,
                                     min: 1,
@@ -49,10 +49,11 @@ export function MultipleAnswer(base) {
 
             let answers = [];
             for (let i = 0; i < state.nBoxes; i++) {
+                let checked = (props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1);
                 answers.push(<div key={i + 1} className={"row"}>
                     <div className={"col-xs-2 answerPlaceholder"}>
                         {i + 1}
-                        <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={(props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1)} onClick={(e)=>{
+                        <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
                             let newCorrectAnswer = Object.assign([], props.exercises.correctAnswer);
                             let index = newCorrectAnswer.indexOf(i);
                             if (index === -1) {

@@ -82,11 +82,10 @@ export function setSCORMScore(score, maxScore, visited) {
     let isPassed = true;
     let isComplete = true;
     /* Course is passed when the total score is greater than the threshold*/
-    isPassed = score / maxScore >= thresholdSc ? "passed" : "failed";
+    isPassed = (score / maxScore) >= thresholdSc ? "passed" : "failed";
     isComplete = avgV >= thresholdV ? "completed" : "incomplete";
     setScore("objectives." + num + ".", 0, maxScore, score, score / maxScore, isComplete, isPassed);
     setScore("", 0, maxScore, score, score / maxScore, isComplete, isPassed);
-    console.log(maxScore, score, score / maxScore);
     return API.doCommit();
 }
 

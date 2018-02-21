@@ -295,6 +295,7 @@ let es = {
         "show": "Mostrar",
         "show_subtitle": "Mostrar Subtítulo",
         "slide": "Diapositiva",
+        "Submit": "Terminar",
         "subtitle": "Subtítulo",
         "subtitle_hide": "Ocultar Subtítulo",
         "success_transaction": "La operación se ha realizado correctamente",

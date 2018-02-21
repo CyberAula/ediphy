@@ -18,9 +18,7 @@ export default class ScormComponent extends Component {
         this.setAnswer = this.setAnswer.bind(this);
         this.submitPage = this.submitPage.bind(this);
         this.totalWeight = 0;
-        console.log(this.props.exercises);
         for (let e in this.props.exercises) {
-            console.log(e);
             this.totalWeight += this.props.exercises[e].weight;
         }
     }
@@ -84,7 +82,6 @@ export default class ScormComponent extends Component {
         }
         // API.setFinalScore(this.state.scores, this.state.visited, this.props.globalConfig.trackProgress || false);
         API.finish();
-        console.log('FinalScore: ' + this.state.totalScore / this.totalWeight);
     }
     componentWillUnmount() {
         window.removeEventListener("beforeunload", this.onUnload);
@@ -120,7 +117,6 @@ export default class ScormComponent extends Component {
 
         let totalScore = this.state.totalScore + pageScore * exercises[page].weight;
         this.setState({ exercises, totalScore });
-        console.log(totalScore, this.totalWeight);
         API.setSCORMScore(totalScore, this.totalWeight, this.state.visited);
     }
 
@@ -144,4 +140,16 @@ ScormComponent.propTypes = {
      * Cambia la vista actual
      */
     changeCurrentView: PropTypes.func.isRequired,
+    /**
+      * Children components
+     */
+    children: PropTypes.object,
+    /**
+     * Whether the app is in SCORM mode or not
+     */
+    fromScorm: PropTypes.bool,
+    /**
+       * Object containing all the exercises in the course
+       */
+    exercises: PropTypes.object.isRequired,
 };

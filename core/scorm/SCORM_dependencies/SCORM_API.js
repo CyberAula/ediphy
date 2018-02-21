@@ -31,7 +31,7 @@
  *
  * @version 3.1.3
  */
-
+/* eslint-disable */
 export default function SCORM_API(options) {
     // Constructor ////////////
 
@@ -1398,3 +1398,4 @@ export default function SCORM_API(options) {
     // Self Initialize, note you could make this call outside, but later I decided to do it by default.
     this.init();
 }
+/* eslint-enable */

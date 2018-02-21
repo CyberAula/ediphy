@@ -3,7 +3,7 @@
  * Requires JQuery
  * @version 1.2
  */
-
+/* eslint-disable */
 function SCORM_Player(options) {
 
     let status = {};
@@ -545,3 +545,4 @@ function SCORM_Player(options) {
         }
     }
 }
+/* eslint-enable */

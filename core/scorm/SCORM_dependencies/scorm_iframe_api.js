@@ -2,7 +2,7 @@
  * SCORM Gateway
  * @version 1.0
  */
-
+/* eslint-disable */
 SCORM_IFRAME_API = (function(undefined) {
 
     let _initialized = false;
@@ -364,3 +364,4 @@ SCORM_IFRAME_API = (function(undefined) {
     };
 
 })();
+/* eslint-enable */

@@ -27,10 +27,19 @@ export function InputText(base) {
                             icon: 'web',
                             buttons: {
                                 type: {
-                                    __name: "Tipo de respuesta",
+                                    __name: i18n.t("InputText.answerType"),
                                     type: 'select',
                                     value: base.getState().type,
                                     options: ['text', 'number', 'color', 'datetime-local'],
+                                    autoManaged: false,
+                                },
+                                fontSize: {
+                                    __name: i18n.t("InputText.fontSize"),
+                                    type: 'range',
+                                    value: base.getState().fontSize,
+                                    min: 8,
+                                    max: 72,
+                                    step: 1,
                                     autoManaged: false,
                                 },
                             },
@@ -42,14 +51,16 @@ export function InputText(base) {
         getInitialState: function() {
             return {
                 type: 'text',
+                fontSize: 14,
             };
         },
         getRenderTemplate: function(state, props = {}) {
             let clickHandler = (e)=>{
                 props.setCorrectAnswer(e.target.value);
             };
+            let fs = state.fontSize + 'px';
             return <span className={"exercisePlugin inputTextPlugin"}>
-                <input type={state.type} className="inputText" name={props.id} value={props.exercises.correctAnswer} onChange={clickHandler}/>
+                <input type={state.type} style={{ fontSize: fs, lineHeight: fs }} className="inputText" name={props.id} value={props.exercises.correctAnswer} onChange={clickHandler}/>
                 <span className="dragHandleInputPlugin"><i className="material-icons">apps</i></span>
             </span>;
 

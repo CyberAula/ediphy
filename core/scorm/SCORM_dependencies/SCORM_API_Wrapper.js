@@ -1,5 +1,5 @@
 import SCORM_API from '../vendors/SCORM_API.js';
-
+/* eslint-disable */
 // SCORM Wrapper instance
 let scorm;
 
@@ -113,3 +113,4 @@ export function onExit() {
     // scorm.commit(); terminate will call commit
     scorm.terminate();
 }
+/* eslint-enable */

@@ -26,7 +26,6 @@ function exercisesReducer(state = {}, action = {}) {
         let config = Ediphy.Plugins.get(name).getConfig();
         if (config && config.category === 'evaluation') {
             let defaultCorrectAnswer = (config.defaultCorrectAnswer === null || config.defaultCorrectAnswer === undefined) ? true : config.defaultCorrectAnswer;
-            console.log(name, config, defaultCorrectAnswer, config.defaultCorrectAnswer);
             return changeProp(state, action.payload.ids.id, {
                 id: action.payload.ids.id,
                 weight: 1,
@@ -89,7 +88,6 @@ export default function(state = {}, action = {}) {
     case DELETE_BOX:
     case SET_CORRECT_ANSWER:
     case DELETE_SORTABLE_CONTAINER:
-        console.log(action.payload);
         return changeProp(state, action.payload.page, singlePageReducer(state[action.payload.page], action));
     case IMPORT_STATE:
         return action.payload.present.exercises || state;

@@ -9,9 +9,10 @@ export function InputText() {
             };
             let attempted = props.exercises && props.exercises.attempted;
             let score = (props.exercises.score || 0) + "/" + (props.exercises.weight || 0);
-
-            return <span className={"exercisePlugin inputTextPlugin" + (attempted ? " attempted" : "")}>
-                <input type={state.type} disabled={attempted} className="inputText" name={id} value={props.exercises.currentAnswer} onChange={clickHandler}/>
+            let correct = props.exercises.correctAnswer === props.exercises.currentAnswer;
+            let fs = state.fontSize + 'px';
+            return <span className={"exercisePlugin inputTextPlugin" + (attempted ? " attempted " : " ") + (correct ? "correct" : "incorrect")} >
+                <input type={state.type} disabled={attempted} style={{ fontSize: fs, lineHeight: fs }} className="inputText" name={id} value={props.exercises.currentAnswer} onChange={clickHandler}/>
                 <span className="exerciseScore">{score}</span>
             </span>;
         },

@@ -64,13 +64,31 @@
     margin-top: 7px;
   }
 
+  .answerRow {
+    margin: 0px;
+  }
+
   .exerciseScore {
     display: none;
     text-align: right;
   }
+
   &.attempted  .exerciseScore{
     display: block;
     color: $blueprimary;
     font-size: 10px;
+  }
+
+  &.attempted .answerRow {
+    margin-top: 2px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    &.correct {
+      border: 2px solid rgba(0,255,0,0.5);
+    }
+
+    &.incorrect {
+      border: 2px solid rgba(255,0,0,0.5);
+    }
   }
 }

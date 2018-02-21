@@ -196,4 +196,20 @@ VisorCanvasSli.propTypes = {
      *  Array de vistas
      */
     viewsArray: PropTypes.array,
+    /**
+     * Whether the app is in SCORM mode or not
+     */
+    fromScorm: PropTypes.bool,
+    /**
+     * Object containing all the exercises in the course
+     */
+    exercises: PropTypes.object.isRequired,
+    /**
+     * Function for submitting a page Quiz
+     */
+    submitPage: PropTypes.func.isRequired,
+    /**
+     * Function for submitting a page Quiz
+    */
+    setAnswer: PropTypes.func.isRequired,
 };

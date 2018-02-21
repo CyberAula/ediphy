@@ -193,7 +193,6 @@ export default class Visor extends Component {
         let toolbars = Ediphy.State.toolbarsById;
         let globalConfig = Ediphy.State.globalConfig;
         let exercises = Ediphy.State.exercises;
-        console.log(exercises);
         let title = globalConfig.title;
         let ratio = globalConfig.canvasRatio;
         let visorNav = globalConfig.visorNav;
@@ -267,16 +266,14 @@ export default class Visor extends Component {
                                     onClick={e => {this.setState({ toggledSidebar: !this.state.toggledSidebar });}}>
                                     <i className="material-icons">{toggleIcon}</i>
                                 </Button>) : null}
-
-                                { /* this.state.fromScorm*/ true ? (
-                                    <ScormComponent
-                                        navItemsIds={navItemsIds}
-                                        currentView={currentView}
-                                        globalConfig={globalConfig}
-                                        exercises={exercises}
-                                        changeCurrentView={(el)=>{this.changeCurrentView(el);}}>{visorContent}</ScormComponent>) :
-                                    (visorContent)
-                                }
+                                <ScormComponent
+                                    navItemsIds={navItemsIds}
+                                    currentView={currentView}
+                                    globalConfig={globalConfig}
+                                    exercises={exercises}
+                                    changeCurrentView={(el)=>{this.changeCurrentView(el);}}>
+                                    {visorContent}
+                                </ScormComponent>
                             </Col>
                         </Row>
                     </Grid>

@@ -28,6 +28,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+/* eslint-disable */
 function Local_API_SCORM_12(options) {
     // Constructor
 
@@ -666,3 +667,4 @@ function Local_API_SCORM_12(options) {
         }
     };
 }
+/* eslint-enable */
