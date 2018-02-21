@@ -144,7 +144,7 @@ class EditorApp extends Component {
                 <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
                     <EditorCarousel boxes={boxes}
                         globalConfig={globalConfig}
-                        onTitleChanged={(id, titleStr) => {this.dispatchAndSetState(changeGlobalConfig('title', titleStr));}}
+                        onTitleChanged={(id, titleStr) => {this.dispatchAndSetState(changeGlobalConfig(id, titleStr));}}
                         title={title}
                         containedViews={containedViews}
                         containedViewSelected={containedViewSelected}

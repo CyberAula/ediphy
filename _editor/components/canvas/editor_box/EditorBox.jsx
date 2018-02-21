@@ -13,6 +13,7 @@ import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import CKEDitorComponent from './CKEDitorComponent';
 const SNAP_DRAG = 5;
 const SNAP_SIZE = 2;
+import { toolbarFiller } from "../../../../core/editor/accordion_provider";
 
 /**
  * Ediphy Box component.
@@ -63,13 +64,14 @@ export default class EditorBox extends Component {
             textareaStyle.textAlign = "left";
             style.textAlign = "left";
         }
+        let container = this.props.boxesById[id].parent;
         let controls = apiPlugin.getToolbar();
-        style = { ...style, ...toolbar.style };
-        for (let tabKey in toolbar.controls) {
-            for (let accordionKey in toolbar.controls[tabKey].accordions) {
+        style = { ...style, ...controls.style };
+        for (let tabKey in controls) {
+            for (let accordionKey in controls[tabKey].accordions) {
                 let button;
-                for (let buttonKey in toolbar.controls[tabKey].accordions[accordionKey].buttons) {
-                    button = toolbar.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
+                for (let buttonKey in controls[tabKey].accordions[accordionKey].buttons) {
+                    button = controls[tabKey].accordions[accordionKey].buttons[buttonKey];
                     if (!button.isAttribute) {
                         if (button.autoManaged) {
                             if (buttonKey === 'className' && button.value) {
@@ -96,10 +98,10 @@ export default class EditorBox extends Component {
                         textareaStyle.color = button.value;
                     }
                 }
-                if (toolbar.controls[tabKey].accordions[accordionKey].accordions) {
-                    for (let accordionKey2 in toolbar.controls[tabKey].accordions[accordionKey].accordions) {
-                        for (let buttonKey in toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
-                            button = toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
+                if (controls[tabKey].accordions[accordionKey].accordions) {
+                    for (let accordionKey2 in controls[tabKey].accordions[accordionKey].accordions) {
+                        for (let buttonKey in controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
+                            button = controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
                             if (!button.isAttribute) {
                                 if (button.autoManaged) {
                                     if (buttonKey === 'className' && button.value) {
@@ -139,14 +141,16 @@ export default class EditorBox extends Component {
             cursor: vis ? 'inherit' : 'default', // esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
         };
 
+        toolbar = toolbarFiller(toolbar, id, apiPlugin.getState(), config, apiPlugin.getInitialState(), container, marks);
         let rotate = 'rotate(0deg)';
         if (!(this.props.markCreatorId && this.props.id === this.props.boxSelected)) {
-            if (toolbar.controls.main.accordions.__sortable.buttons.__rotate && toolbar.controls.main.accordions.__sortable.buttons.__rotate.value) {
+            if (controls.main.accordions.__sortable.buttons.__rotate && controls.main.accordions.__sortable.buttons.__rotate.value) {
                 rotate = 'rotate(' + toolbar.controls.main.accordions.__sortable.buttons.__rotate.value + 'deg)';
             }
         }
         wholeBoxStyle.transform = wholeBoxStyle.WebkitTransform = wholeBoxStyle.MsTransform = rotate;
         // style.transform = style.WebkitTransform = style.MsTransform = rotate;
+
         let props = { ...this.props, parentBox: this.props.boxes[this.props.id] };
         let content = toolbar.config.flavor === "react" ? (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>

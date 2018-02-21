@@ -39,11 +39,7 @@ export default class EditorIndexTitle extends Component {
                         onDoubleClick={e => {
                             this.setState({ editing: !this.state.editing });
                             if (this.state.editing) { /* Save changes to Redux state*/
-                                if(this.props.id === undefined) {
-                                    this.props.onNameChanged(this.props.id, { viewName: this.state.currentValue });
-                                } else {
-                                    this.props.onNameChanged("title", this.state.currentValue);
-                                }
+                                this.props.onNameChanged(this.props.id, { viewName: this.state.currentValue });
                                 // Synchronize current component state with Redux state when entering edition mode
                             } else {
                                 this.setState({ currentValue: this.props.title });
@@ -61,7 +57,11 @@ export default class EditorIndexTitle extends Component {
                         onKeyDown={e=> {
                             if (e.keyCode === 13) { // Enter Key
                                 this.setState({ editing: !this.state.editing });
-                                this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? { viewName: this.state.currentValue } : this.getDefaultValue());
+                                if(this.props.courseTitle) {
+                                    this.props.onNameChanged('title', this.state.currentValue);
+                                }else {
+                                    this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? { viewName: this.state.currentValue } : this.getDefaultValue());
+                                }
                             }
                             if (e.keyCode === 27) { // Escape key
                                 this.setState({ editing: !this.state.editing });

@@ -42,11 +42,12 @@ export default class EditorCanvasSli extends Component {
         let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
         let titles = [];
         if (itemSelected && itemSelected.id !== 0) {
-            titles.push(itemSelected.name);
+            let initialTitle = this.props.viewToolbars[itemSelected.id].viewName;
+            titles.push(initialTitle);
             if (!this.props.fromCV) {
                 let parent = itemSelected.parent;
                 while (parent !== 0) {
-                    titles.push(this.props.navItems[parent].name);
+                    titles.push(this.props.viewToolbars[parent].viewName);
                     parent = this.props.navItems[parent].parent;
                 }
             }

@@ -9,6 +9,23 @@ import React from "react";
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
 import ExternalProvider from "../../_editor/components/external_provider/external_provider/ExternalProvider";
 
+export function toolbarFiller(toolbar, id, state, config, initialParams, container, marks = null) {
+    if (isSortableBox(id)) {
+        toolbar.config.displayName = i18n.t('Container_');
+    }
+    if(!isSortableBox(id)) {
+        createSizeButtons(toolbar.controls, state, initialParams, !isSortableContainer(container));
+        createAliasButton(toolbar.controls, null);
+    }
+    if (toolbar.config && toolbar.config.aspectRatioButtonConfig) {
+        createAspectRatioButton(toolbar.controls, config);
+    }
+    if (toolbar.config && toolbar.config.isRich) {
+        createRichAccordions(toolbar.controls);
+    }
+    return toolbar;
+}
+
 export function createRichAccordions(controls) {
     if (!controls.main) {
         controls.main = {
@@ -130,15 +147,15 @@ export function createSizeButtons(controls, state, action, floatingBox) {
         }
         type = "number";
 
-        if (isSortableContainer(action.payload.ids.container) &&
-            isSortableBox(action.payload.ids.parent) && !action.payload.config.needsTextEdition) {
+        if (isSortableContainer(container) &&
+            isSortableBox(parent) && config.needsTextEdition) {
 
             displayValue = 25;
             value = 25;
             units = '%';
         }
 
-        let initialWidth = action.payload.initialParams.width;
+        let initialWidth = initialParams.width;
         if (initialWidth) {
             if (initialWidth === "auto") {
                 displayValue = "auto";
@@ -356,12 +373,7 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
 export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key, toolbar_props) {
     let button = accordion.buttons[buttonKey];
     let children = null;
-    let id;
-    if (toolbar_props.boxSelected === -1) {
-        id = toolbar_props.navItemSelected;
-    } else {
-        id = toolbar_props.box.id;
-    }
+    let id = toolbar_props.navItemSelected;
 
     let props = {
         key: ('child_' + key),
@@ -651,7 +663,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     if (button.type === 'conditionalText') {
         props.style.marginTop = '5px';
         props.style.marginBottom = '15px';
-
+        props.value = accordion.buttons[button.associatedKey].value;
         return React.createElement(
             FormGroup,
             {

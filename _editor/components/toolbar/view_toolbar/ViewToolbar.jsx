@@ -17,6 +17,9 @@ import { renderAccordion } from "../../../../core/editor/accordion_provider";
 export default class ViewToolbar extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+
+        };
     }
 
     /**
@@ -74,6 +77,7 @@ export default class ViewToolbar extends Component {
                                 type: 'checkbox',
                                 checked: this.props.viewToolbars[id].documentTitle === 'reduced',
                                 autoManaged: false,
+
                             },
                             pagetitle_name: {
                                 __name: "custom_title",
@@ -81,6 +85,7 @@ export default class ViewToolbar extends Component {
                                 associatedKey: 'display_pagetitle',
                                 autoManaged: false,
                                 display: true,
+                                value: this.props.viewToolbars[id].documentTitleContent,
                             },
                             display_pagesubtitle: {
                                 __name: i18n.t('subtitle'),
@@ -94,6 +99,7 @@ export default class ViewToolbar extends Component {
                                 associatedKey: 'display_pagesubtitle',
                                 autoManaged: false,
                                 display: true,
+                                value: this.props.viewToolbars[id].documentSubtitleContent,
                             },
 
                         },
@@ -145,7 +151,7 @@ export default class ViewToolbar extends Component {
             );
         }
         // when no plugin selected, but new navitem
-        let toolbar = this.props.viewToolbars[this.props.navItemSelected];
+        let toolbar = this.props.viewToolbars[id];
         return (
             <div id="wrap"
                 className="wrapper"

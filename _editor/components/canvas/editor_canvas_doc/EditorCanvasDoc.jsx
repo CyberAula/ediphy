@@ -21,11 +21,12 @@ export default class EditorCanvasDoc extends Component {
         let titles = [];
         let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
         if (itemSelected.id !== 0) {
-            titles.push(itemSelected.name);
+            let initialTitle = this.props.viewToolbars[itemSelected.id].viewName;
+            titles.push(initialTitle);
             if (!this.props.fromCV) {
                 let parent = itemSelected.parent;
                 while (parent !== 0) {
-                    titles.push(this.props.viewToolbars[parent].displayableTitle);
+                    titles.push(this.props.viewToolbars[parent].viewName);
                     parent = this.props.navItems[parent].parent;
                 }
             }
