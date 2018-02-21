@@ -303,43 +303,43 @@ export default class ImportFile extends Component {
 
 ImportFile.propTypes = {
     /**
-     * Indicates whether the import file modal should be shown or hidden
+     * Whether the import file modal should be shown or hidden
      */
     show: PropTypes.bool,
     /**
-     * Closes import file configuration modal
+     * Closes import file modal
      */
     close: PropTypes.func.isRequired,
     /**
-      *
+      * Add several views
       */
     onNavItemsAdded: PropTypes.func.isRequired,
     /**
-       *
-       */
+     * Select view/contained view in the index context
+     */
     onIndexSelected: PropTypes.func.isRequired,
     /**
-       *
-       */
+     * Select view
+     */
     onNavItemSelected: PropTypes.func.isRequired,
     /**
-       *
-       */
+     * Objects Array that contains all created views (identified by its *id*)
+     */
     navItemsIds: PropTypes.array.isRequired,
     /**
-       *
-       */
+     * Object that contains all created views (identified by its *id*)
+     */
     navItems: PropTypes.object.isRequired,
     /**
-       *
-       */
+     * Id of the selected page
+     */
     navItemSelected: PropTypes.any,
     /**
-       *
-       */
+     * Object that holds all the contained views in the project
+     */
     containedViews: PropTypes.object.isRequired,
     /**
-       *
-       */
+     * Id of the contained view selected
+     */
     containedViewSelected: PropTypes.any,
 };

@@ -102,15 +102,15 @@ NavDropdown.propTypes = {
      */
     export: PropTypes.func.isRequired,
     /**
-     * Identifies the contained view that is being edited
+     * Identifies the view that is being edited
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Opens the catalog with all the resources uploaded to the server
+     * Opens an external catalog with all the resources uploaded to the server
      */
     onExternalCatalogToggled: PropTypes.func.isRequired,
     /**
-     * Loads the changes from the remote server
+     * Load an specific course from the remote server
      */
     opens: PropTypes.func.isRequired,
     /**
@@ -126,15 +126,15 @@ NavDropdown.propTypes = {
      */
     serverModalOpen: PropTypes.func.isRequired,
     /**
-     * Shows/Hides the global configuration menu
+     * Shows/Hides the file import modal form
+     */
+    toggleImportFile: PropTypes.func.isRequired,
+    /**
+     * Shows/Hides the global course configuration modal form
      */
     toggleGlobalConfig: PropTypes.func.isRequired,
     /**
      * Enables the "undo" feature
      */
     undoDisabled: PropTypes.bool,
-    /**
-   * Toggle file import modal
-   */
-    toggleImportFile: PropTypes.func.isRequired,
 };

@@ -1247,7 +1247,7 @@ export default class PluginToolbar extends Component {
 
 PluginToolbar.propTypes = {
     /**
-   *
+   * Id of the selected page
    */
     navItemSelected: PropTypes.any,
     /**
@@ -1255,15 +1255,15 @@ PluginToolbar.propTypes = {
    */
     top: PropTypes.string,
     /**
-   *
+   * Id of the selected box
    */
     boxSelected: PropTypes.any,
     /**
-   *
+   * Object containing all the toolbars
    */
     toolbars: PropTypes.object.isRequired,
     /**
-   *
+   * Indicates whether the index has been expanded or not
    */
     carouselShow: PropTypes.bool,
     /**
@@ -1271,27 +1271,27 @@ PluginToolbar.propTypes = {
    */
     box: PropTypes.object,
     /**
-   *
+   * Callback for toggling the CKEDitor
    */
     onTextEditorToggled: PropTypes.func.isRequired,
     /**
-   *
+   * Changes columns distribution
    */
     onColsChanged: PropTypes.func.isRequired,
     /**
-   *
+   * Changes rows distribution
    */
     onRowsChanged: PropTypes.func.isRequired,
     /**
-   *
+   * Changes sortable container properties
    */
     onSortablePropsChanged: PropTypes.func.isRequired,
     /**
-   *
+   * Resizes sortable container
    */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
-   *
+   * Object that contains all created views (identified by its *id*)
    */
     navItems: PropTypes.object.isRequired,
     /**
