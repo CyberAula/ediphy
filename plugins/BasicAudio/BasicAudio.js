@@ -102,7 +102,7 @@ export function BasicAudio(base) {
         },
         getRenderTemplate: function(state, props) {
 
-            /*
+            /* Revisar:
           Autoplay cambia con la toolbar pero no actúa, cuando seleccionas reproducir automaticamente
           no lo hace. Ademas cuando le doy a Previsualizar state.autoplay pasa a ser undefined
           */
