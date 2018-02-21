@@ -371,5 +371,8 @@ EditorShortcuts.propTypes = {
      * Activa la funcionalidad de manipular el plugin con el ratón/dedo
      */
     pointerEventsCallback: PropTypes.func,
-
+    /**
+       * Selected page
+       */
+    navItemSelected: PropTypes.any,
 };
