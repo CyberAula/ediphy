@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 import FileInput from "../../common/file-input/FileInput";
-import pdflib from 'pdfjs-dist/webpack';
 import { ADD_BOX } from "../../../../common/actions";
 import { isContainedView, isSlide } from "../../../../common/utils";
 import { randomPositionGenerator } from "../../clipboard/clipboard.utils";
@@ -11,6 +10,14 @@ import { ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from "../../
 import Ediphy from "../../../../core/editor/main";
 // styles
 import './_ImportFile.scss';
+
+const pdflib = require('pdfjs-dist');
+const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.min');
+
+const pdfjsWorkerBlob = new Blob([pdfjsWorker]);
+const pdfjsWorkerBlobURL = URL.createObjectURL(pdfjsWorkerBlob);
+
+pdflib.PDFJS.workerSrc = pdfjsWorkerBlobURL;
 
 /**
  * Generic import file modal
@@ -37,6 +44,14 @@ export default class ImportFile extends Component {
         this.fileLoad = this.fileLoad.bind(this);
         this.ImportFile = this.ImportFile.bind(this);
         this.PreviewFile = this.PreviewFile.bind(this);
+    }
+
+    componentDidMount() {
+        require.ensure([], function() {
+            let worker;
+            worker = require('./pdf.worker.js');
+            // callback(worker.WorkerMessageHandler);
+        });
     }
     /**
      * Renders React component

@@ -11,6 +11,7 @@
   "scripts": {
     "build-production": "cat ediphy && webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors",
     "build": "cat ediphy && webpack --config webpack.prod.js",
+    "build-dev": "cat ediphy && webpack --config webpack.dev.js",
     "start": "cat ediphy && webpack-dev-server --open --colors --config webpack.dev.js",
     "bundle": "webpack && node bundle_script.js",
     "both": "npm run start-webpack & npm run watch-sass",
@@ -158,6 +159,7 @@
     "prismjs": "^1.11.0",
     "prop-types": "^15.6.0",
     "rc-color-picker": "^1.2.3",
+    "raw-loader": "0.5.1",
     "react": "^16.1.1",
     "react-addons-create-fragment": "^15.6.2",
     "react-bootstrap": "^0.31.5",

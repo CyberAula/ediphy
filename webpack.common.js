@@ -17,6 +17,10 @@ module.exports = {
                 exclude: [/node_modules/],
             },
             {
+                test: /pdf\.worker(\.min)?\.js$/,
+                use: 'raw-loader',
+            },
+            {
                 test: /\.es6$/,
                 exclude: /(node_modules|bower_components)/,
                 use: {
@@ -92,6 +96,9 @@ module.exports = {
             'window.jQuery': 'jquery',
         }, dependency_loader.getPluginProvider())), // Wraps module with variable and injects wherever it's needed
         new ZipBundlePlugin(), // Compile automatically zips
+        new webpack.NormalModuleReplacementPlugin(
+            /pdf\.worker(\.min)?\.js$/,
+            path.join(__dirname, 'node_modules', 'pdfjs-dist', 'build', 'pdf.worker.min.js')),
     ],
 };
 
