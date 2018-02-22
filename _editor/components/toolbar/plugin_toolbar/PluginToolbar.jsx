@@ -1251,7 +1251,7 @@ PluginToolbar.propTypes = {
    */
     navItemSelected: PropTypes.any,
     /**
-   *
+   * Toolbar top position
    */
     top: PropTypes.string,
     /**
@@ -1263,11 +1263,11 @@ PluginToolbar.propTypes = {
    */
     toolbars: PropTypes.object.isRequired,
     /**
-   * Indicates whether the index has been expanded or not
+   * Whether the index has been expanded or not
    */
     carouselShow: PropTypes.bool,
     /**
-   *
+   * Selected box
    */
     box: PropTypes.object,
     /**
@@ -1275,19 +1275,19 @@ PluginToolbar.propTypes = {
    */
     onTextEditorToggled: PropTypes.func.isRequired,
     /**
-   * Changes columns distribution
+   * Callback for change columns distribution
    */
     onColsChanged: PropTypes.func.isRequired,
     /**
-   * Changes rows distribution
+   * Callback for change rows distribution
    */
     onRowsChanged: PropTypes.func.isRequired,
     /**
-   * Changes sortable container properties
+   * Callback for change sortable container properties
    */
     onSortablePropsChanged: PropTypes.func.isRequired,
     /**
-   * Resizes sortable container
+   * Callback for resize sortable container
    */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
@@ -1295,67 +1295,67 @@ PluginToolbar.propTypes = {
    */
     navItems: PropTypes.object.isRequired,
     /**
-   *
+   * Callback for change the view background (color or image(slides))
    */
     onBackgroundChanged: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for toggling visibility or content on titles, subtitles, breadcrumbs
    */
     titleModeToggled: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for toggling navItem inclusion in the course
    */
     onNavItemToggled: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for edit contained view name
    */
     onContainedViewNameChanged: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for edit view name
    */
     onNavItemNameChanged: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for show/hide the rich marks modal
    */
     onRichMarksModalToggled: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for toggling edit mark
    */
     onRichMarkEditPressed: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for delete mark
    */
     onRichMarkDeleted: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for resizing a box
    */
     onBoxResized: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for updating toolbar
    */
     onToolbarUpdated: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for moving a box
    */
     onBoxMoved: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for vertically align a box (in a sortable container)
    */
     onVerticallyAlignBox: PropTypes.func.isRequired,
     /**
-   *
+   * Indicates if there is a current server operation
    */
     isBusy: PropTypes.any,
     /**
-   *
+   * Object containing all the resources search results
    */
     fetchResults: PropTypes.any,
     /**
-   *
+   * Callback for fetch Vish Resources
    */
     onFetchVishResources: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for upload Vish Resources
    */
     onUploadVishResource: PropTypes.func.isRequired,
 };
