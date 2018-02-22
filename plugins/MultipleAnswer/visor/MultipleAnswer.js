@@ -1,5 +1,6 @@
 import React from 'react';
 import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
+import { arrayContainsArray } from '../../../common/utils';
 /* eslint-disable react/prop-types */
 
 export function MultipleAnswer() {
@@ -36,7 +37,7 @@ export function MultipleAnswer() {
 
             }
 
-            return <div className={"exercisePlugin multipleAnswerPlugin" + (attempted ? " attempted" : "")}>{/* <h1>Multiple Answer</h1>*/}
+            return <div className={"exercisePlugin multipleAnswerPlugin" + (attempted ? " attempted " : " ") + (props.exercises.showFeedback ? "showFeedback" : "")}>{/* <h1>Multiple Answer</h1>*/}
                 <div className={"row"}>
                     <div className={"col-xs-12"}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Question"}/>
@@ -46,6 +47,9 @@ export function MultipleAnswer() {
                 {content}
                 <div className={"exerciseScore"}>{score}</div>
             </div>;
+        },
+        checkAnswer(current, correct) {
+            return Array.isArray(current) && Array.isArray(correct) && arrayContainsArray(correct, current) && (current.length === correct.length);
         },
     };
 }

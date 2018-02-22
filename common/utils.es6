@@ -258,6 +258,23 @@ function collectionHas(a, b) { // helper function (see below)
 }
 
 /**
+ * Function to see if an array contains all elments of the other
+ */
+export function arrayContainsArray(superset, subset) {
+
+    if (!Array.isArray(subset)) {
+        return false;
+    }
+
+    if (subset.length === 0) {
+        return false;
+    }
+    return subset.every(function(value) {
+        return (superset.indexOf(value) >= 0);
+    });
+}
+
+/**
  * Get descendants of duplicated boxes
  * @param descendants
  * @returns {{}}

@@ -27,6 +27,7 @@ function exercisesReducer(state = {}, action = {}) {
         if (config && config.category === 'evaluation') {
             let defaultCorrectAnswer = (config.defaultCorrectAnswer === null || config.defaultCorrectAnswer === undefined) ? true : config.defaultCorrectAnswer;
             return changeProp(state, action.payload.ids.id, {
+                name,
                 id: action.payload.ids.id,
                 weight: 1,
                 correctAnswer: defaultCorrectAnswer,

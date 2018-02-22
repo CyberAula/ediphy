@@ -102,7 +102,8 @@ export default class ScormComponent extends Component {
         for (let ex in bx) {
             total += bx[ex].weight;
             bx[ex].score = 0;
-            if (JSON.stringify(bx[ex].correctAnswer) === JSON.stringify(bx[ex].currentAnswer)) {
+            let plug = Ediphy.Visor.Plugins.get(bx[ex].name);
+            if (plug.checkAnswer(bx[ex].currentAnswer, bx[ex].correctAnswer)) {
                 points += bx[ex].weight;
                 bx[ex].score = bx[ex].weight;
             }

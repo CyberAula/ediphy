@@ -31,7 +31,7 @@ export function MultipleChoice() {
 
             }
 
-            return <div className={"exercisePlugin multipleChoicePlugin" + (attempted ? " attempted" : "")}>
+            return <div className={"exercisePlugin multipleChoicePlugin" + (attempted ? " attempted " : " ") + (props.exercises.showFeedback ? "showFeedback" : "")}>
                 {/* <h1>Multiple Choice</h1>*/}
                 <div className={"row"}>
                     <div className={"col-xs-12"}>
@@ -42,6 +42,9 @@ export function MultipleChoice() {
                 {content}
                 <div className={"exerciseScore"}>{score}</div>
             </div>;
+        },
+        checkAnswer(current, correct) {
+            return (current) === (correct);
         },
     };
 }

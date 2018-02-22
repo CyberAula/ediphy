@@ -60,8 +60,14 @@ export default function() {
                     id !== 'getConfigTemplate' &&
                     id !== 'getRenderTemplate') {
                     plugin[id] = descendant[id];
+                    console.log(plugin);
                 }
             });
+            if (!plugin.checkAnswer) {
+                plugin.checkAnswer = function(current, correct) {
+                    return JSON.stringify(current) === JSON.stringify(correct);
+                };
+            }
         },
         init: function() {
             if (descendant.init) {

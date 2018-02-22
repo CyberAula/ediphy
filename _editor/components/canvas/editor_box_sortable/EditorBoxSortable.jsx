@@ -526,15 +526,15 @@ EditorBoxSortable.propTypes = {
       */
     onRichMarkUpdated: PropTypes.func.isRequired,
     /**
-   * Object containing all exercises
-   */
+      * Object containing all exercises
+      */
     exercises: PropTypes.object,
     /**
-   * Function for setting the right answer of an exercise
-   */
+      * Function for setting the right answer of an exercise
+      */
     setCorrectAnswer: PropTypes.func.isRequired,
     /**
-   * Current page
-   */
+      * Current page
+      */
     page: PropTypes.any,
 };

@@ -8,7 +8,7 @@
    border-radius: 0px;
    border: 2px solid grey;
  }
-  &.attempted {
+  &.attempted.showFeedback {
     &.correct .inputText {
       border: 2px solid rgba(0,255,0,0.5);
     }

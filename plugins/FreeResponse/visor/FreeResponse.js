@@ -20,6 +20,9 @@ export function FreeResponse() {
                 </div>
             </div>;
         },
+        checkAnswer(current, correct) {
+            return JSON.stringify(current) === JSON.stringify(correct);
+        },
     };
 }
 /* eslint-enable react/prop-types */
