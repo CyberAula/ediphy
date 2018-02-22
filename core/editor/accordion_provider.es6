@@ -338,6 +338,7 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
                         width: buttonWidth,
                         marginRight: buttonMargin,
                     }}>
+
                     {renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], state, i, toolbar_props)}
 
                 </div>
@@ -374,7 +375,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     let button = accordion.buttons[buttonKey];
     let children = null;
     let id = toolbar_props.navItemSelected;
-
     let props = {
         key: ('child_' + key),
         id: ('page' + '_' + buttonKey),
@@ -523,7 +523,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         },
 
     };
-
     if (button.type === "color") {
         return React.createElement(
             FormGroup,
@@ -663,7 +662,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     if (button.type === 'conditionalText') {
         props.style.marginTop = '5px';
         props.style.marginBottom = '15px';
-        props.value = accordion.buttons[button.associatedKey].value;
+        props.value = accordion.buttons[buttonKey].value;
         return React.createElement(
             FormGroup,
             {
