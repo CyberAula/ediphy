@@ -64,8 +64,9 @@ export default class EditorBox extends Component {
             textareaStyle.textAlign = "left";
             style.textAlign = "left";
         }
-        let container = this.props.boxesById[id].parent;
+        let container = box.parent;
         let controls = apiPlugin.getToolbar();
+        let marks = this.props.marksById;
         style = { ...style, ...controls.style };
         for (let tabKey in controls) {
             for (let accordionKey in controls[tabKey].accordions) {
@@ -141,7 +142,7 @@ export default class EditorBox extends Component {
             cursor: vis ? 'inherit' : 'default', // esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
         };
 
-        toolbar = toolbarFiller(toolbar, id, apiPlugin.getState(), config, apiPlugin.getInitialState(), container, marks);
+        controls = toolbarFiller(controls, this.props.id, toolbar, config, apiPlugin.getState(), container, marks || []);
         let rotate = 'rotate(0deg)';
         if (!(this.props.markCreatorId && this.props.id === this.props.boxSelected)) {
             if (controls.main.accordions.__sortable.buttons.__rotate && controls.main.accordions.__sortable.buttons.__rotate.value) {
@@ -152,7 +153,7 @@ export default class EditorBox extends Component {
         // style.transform = style.WebkitTransform = style.MsTransform = rotate;
 
         let props = { ...this.props, parentBox: this.props.boxes[this.props.id] };
-        let content = toolbar.config.flavor === "react" ? (
+        let content = config.flavor === "react" ? (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
                 {Ediphy.Plugins.get(toolbar.pluginId).getRenderTemplate(toolbar.state, props)}
             </div>
@@ -253,7 +254,7 @@ export default class EditorBox extends Component {
                     }*/
                 }}
                 onDoubleClick={(e)=> {
-                    if(toolbar.config && toolbar.config.needsTextEdition && this.props.id === this.props.boxSelected) {
+                    if(config && config.needsTextEdition && this.props.id === this.props.boxSelected) {
                         this.props.onTextEditorToggled(this.props.id, true);
                     }
                 }}
@@ -356,7 +357,7 @@ export default class EditorBox extends Component {
         let toolbar = this.props.pluginToolbars[this.props.id];
 
         Ediphy.Plugins.get(toolbar.pluginId).forceUpdate(Object.assign({}, toolbar.state, {
-            __text: toolbar.config.extraTextConfig ? data : encodeURI(data),
+            __text: config.extraTextConfig ? data : encodeURI(data),
         }), this.props.id, EDIT_PLUGIN_TEXT);
     }
 
@@ -366,12 +367,14 @@ export default class EditorBox extends Component {
      */
     checkAspectRatioValue() {
         let toolbar = this.props.pluginToolbars[this.props.id];
+        let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
+        let config = apiPlugin.getConfig();
         let box = this.props.boxes[this.props.id];
         if (box && box.height && box.height === 'auto') {
             return true;
         }
-        if (toolbar.config.aspectRatioButtonConfig) {
-            let arb = toolbar.config.aspectRatioButtonConfig;
+        if (config.aspectRatioButtonConfig) {
+            let arb = config.aspectRatioButtonConfig;
             if (arb.location.length === 2) {
                 let comp = toolbar.controls[arb.location[0]].accordions[arb.location[1]].buttons.__aspectRatio;
                 if (comp) {
@@ -437,6 +440,8 @@ export default class EditorBox extends Component {
      */
     componentDidMount() {
         let toolbar = this.props.pluginToolbars[this.props.id];
+        let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
+        let config = apiPlugin.getConfig();
         let box = this.props.boxes[this.props.id];
         let container = box.container;
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
@@ -445,8 +450,8 @@ export default class EditorBox extends Component {
         offsetEl;
         let gridTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: (SNAP_DRAG / 2 + 1), offset: { x: leftO, y: topO } });
         let targets = this.props.grid ? [gridTarget] : [];
-        Ediphy.Plugins.get(toolbar.config.name).getConfig();
-        Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
+        Ediphy.Plugins.get(config.name).getConfig();
+        Ediphy.Plugins.get(config.name).afterRender(this.refs.content, toolbar.state);
         let dragRestrictionSelector = isSortableContainer(box.container) ? /* ".editorBoxSortableContainer, .drg" + box.container :*/"sortableContainerBox" : "parent";
         let resizeRestrictionSelector = isSortableContainer(box.container) ? ".editorBoxSortableContainer, .drg" + box.container : "parent";
         let canvas = this.props.containedViewSelected === 0 ?

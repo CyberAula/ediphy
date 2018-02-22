@@ -14,14 +14,14 @@ export function toolbarFiller(toolbar, id, state, config, initialParams, contain
         toolbar.config.displayName = i18n.t('Container_');
     }
     if(!isSortableBox(id)) {
-        createSizeButtons(toolbar.controls, state, initialParams, !isSortableContainer(container));
-        createAliasButton(toolbar.controls, null);
+        createSizeButtons(toolbar, state, initialParams, !isSortableContainer(container), container);
+        createAliasButton(toolbar, null);
     }
-    if (toolbar.config && toolbar.config.aspectRatioButtonConfig) {
-        createAspectRatioButton(toolbar.controls, config);
+    if (config && config.aspectRatioButtonConfig) {
+        createAspectRatioButton(toolbar, config);
     }
-    if (toolbar.config && toolbar.config.isRich) {
-        createRichAccordions(toolbar.controls);
+    if (config && config.isRich) {
+        createRichAccordions(toolbar);
     }
     return toolbar;
 }
@@ -108,7 +108,7 @@ export function createAliasButton(controls, state) {
     }
 }
 
-export function createSizeButtons(controls, state, action, floatingBox) {
+export function createSizeButtons(controls, state, initialParams, floatingBox, container) {
     if (!controls.main) {
         controls.main = {
             __name: "Main",
@@ -135,50 +135,50 @@ export function createSizeButtons(controls, state, action, floatingBox) {
     let type;
 
     // It means we are creating a new one, initial params can come
-    if (state === null) {
-        if (floatingBox) {
-            displayValue = 25;
-            value = 25;
-            units = "%";
-        } else {
-            displayValue = 25;
-            value = 25;
-            units = "%";
-        }
-        type = "number";
+    // if (state === null) {
+    if (floatingBox) {
+        displayValue = 25;
+        value = 25;
+        units = "%";
+    } else {
+        displayValue = 25;
+        value = 25;
+        units = "%";
+    }
+    type = "number";
 
-        if (isSortableContainer(container) &&
+    if (isSortableContainer(container) &&
             isSortableBox(parent) && config.needsTextEdition) {
 
-            displayValue = 25;
-            value = 25;
-            units = '%';
-        }
+        displayValue = 25;
+        value = 25;
+        units = '%';
+    }
 
-        let initialWidth = initialParams.width;
-        if (initialWidth) {
-            if (initialWidth === "auto") {
-                displayValue = "auto";
-                units = "%";
-                type = "text";
+    let initialWidth = initialParams.width;
+    if (initialWidth) {
+        if (initialWidth === "auto") {
+            displayValue = "auto";
+            units = "%";
+            type = "text";
+        } else {
+            displayValue = parseInt(initialWidth, 10);
+            value = parseInt(initialWidth, 10);
+            if (initialWidth.indexOf("px") !== -1) {
+                units = "px";
             } else {
-                displayValue = parseInt(initialWidth, 10);
-                value = parseInt(initialWidth, 10);
-                if (initialWidth.indexOf("px") !== -1) {
-                    units = "px";
-                } else {
-                    units = "%";
-                }
+                units = "%";
             }
         }
+    }
 
-    } else {
-        let width = state.controls.main.accordions.__sortable.buttons.__width;
+    /* } else {
+        let width = controls.main.accordions.__sortable.buttons.__width;
         displayValue = width.displayValue;
         value = width.value;
         units = width.units;
         type = width.type;
-    }
+    }*/
     controls.main.accordions.__sortable.buttons.__width = {
         __name: i18n.t('Width'),
         type: type,
@@ -189,36 +189,36 @@ export function createSizeButtons(controls, state, action, floatingBox) {
         auto: displayValue === "auto",
         autoManaged: true,
     };
-    if (state === null) {
-        let initialHeight = action.payload.initialParams.height;
-        if (initialHeight) {
-            if (initialHeight === "auto") {
-                displayValue = "auto";
-                units = "%";
-                type = "text";
-            } else {
-                displayValue = parseInt(initialHeight, 10);
-                value = parseInt(initialHeight, 10);
-                if (initialHeight.indexOf("px") !== -1) {
-                    units = "px";
-                } else {
-                    units = "%";
-                }
-            }
-        } else {
-            value = "20";
+    // if (state === null) {
+    let initialHeight = initialParams.height;
+    if (initialHeight) {
+        if (initialHeight === "auto") {
             displayValue = "auto";
             units = "%";
             type = "text";
+        } else {
+            displayValue = parseInt(initialHeight, 10);
+            value = parseInt(initialHeight, 10);
+            if (initialHeight.indexOf("px") !== -1) {
+                units = "px";
+            } else {
+                units = "%";
+            }
         }
-
     } else {
+        value = "20";
+        displayValue = "auto";
+        units = "%";
+        type = "text";
+    }
+
+    /* } else {
         let height = state.controls.main.accordions.__sortable.buttons.__height;
         type = height.type;
         displayValue = height.displayValue;
         value = height.value;
         units = height.units;
-    }
+    }*/
     controls.main.accordions.__sortable.buttons.__height = {
         __name: i18n.t('Height'),
         type: type,

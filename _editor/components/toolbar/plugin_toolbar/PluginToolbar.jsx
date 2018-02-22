@@ -49,9 +49,12 @@ export default class PluginToolbar extends Component {
      */
     render() {
         let toolbar = this.props.pluginToolbars[this.props.box.id];
+        let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
+        let config = apiPlugin.getConfig();
+        let controls = apiPlugin.getToolbar();
         // We define the extra buttons we need depending on plugin's configuration
         let textButton;
-        if (toolbar.config.needsTextEdition) {
+        if (config.needsTextEdition) {
             textButton = (
                 <div className="panel-body">
                     <Button key={'text'}
@@ -67,7 +70,7 @@ export default class PluginToolbar extends Component {
         }
 
         let configButton;
-        if (toolbar.config && toolbar.config.needsConfigModal) {
+        if (config && config.needsConfigModal) {
             configButton = (
                 <div className="panel-body">
                     <Button key={'config'}
@@ -91,25 +94,25 @@ export default class PluginToolbar extends Component {
                 }}>
                 <div className="pestana"
                     onClick={() => {
-                        this.setState({ open: !this.state.open });
+                        this.setState({ open: !this.props.open });
                     }}/>
                 <div id="tools"
                     style={{
-                        width: this.state.open ? '250px' : '40px',
+                        width: this.props.open ? '250px' : '40px',
                     }}
                     className="toolbox">
                     <OverlayTrigger placement="left"
                         overlay={
-                            <Tooltip className={this.state.open ? 'hidden' : ''}
+                            <Tooltip className={this.props.open ? 'hidden' : ''}
                                 id="tooltip_props">
                                 {i18n.t('Properties')}
                             </Tooltip>
                         }>
                         <div onClick={() => {
-                            this.setState({ open: !this.state.open });
+                            this.setState({ open: !this.props.open });
                         }}
                         style={{ display: 'block' }}
-                        className={this.state.open ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
+                        className={this.props.open ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
                             <div className="toolbarTitle">
                                 <i className="material-icons">settings</i>
                                 <span className="toolbarTitletxt">
@@ -117,14 +120,14 @@ export default class PluginToolbar extends Component {
                                 </span>
                             </div>
                             <div className="pluginTitleInToolbar">
-                                {toolbar.config.displayName || ""}
+                                {config.displayName || ""}
                             </div>
                         </div>
                     </OverlayTrigger>
-                    <div id="insidetools" style={{ display: this.state.open ? 'block' : 'none' }}>
+                    <div id="insidetools" style={{ display: this.props.open ? 'block' : 'none' }}>
                         <div className="toolbarTabs">
-                            {Object.keys(toolbar.controls).map((tabKey, index) => {
-                                let tab = toolbar.controls[tabKey];
+                            {Object.keys(controls).map((tabKey, index) => {
+                                let tab = controls[tabKey];
                                 return (
                                     <div key={'key_' + index} className="toolbarTab">
                                         <PanelGroup>
@@ -133,8 +136,9 @@ export default class PluginToolbar extends Component {
                                                     tab.accordions[accordionKey],
                                                     tabKey,
                                                     [accordionKey],
-                                                    toolbar.state,
-                                                    ind
+                                                    toolbar,
+                                                    ind,
+                                                    this.props
                                                 );
                                             })}
                                             {this.props.box.children.map((id, ind) => {
