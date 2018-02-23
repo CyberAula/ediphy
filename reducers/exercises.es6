@@ -33,6 +33,8 @@ function exercisesReducer(state = {}, action = {}) {
                 correctAnswer: defaultCorrectAnswer,
                 currentAnswer: defaultCorrectAnswer,
                 showFeedback: true,
+                attempted: false,
+                score: 0,
             });
         }
         return state;

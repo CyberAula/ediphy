@@ -185,39 +185,39 @@ EditorNavBar.propTypes = {
      * */
     setcat: PropTypes.func.isRequired,
     /**
-   *
-   */
+     * Adds a view
+     */
     onNavItemAdded: PropTypes.func.isRequired,
     /**
-   *
+   * Adds several views
    */
     onNavItemsAdded: PropTypes.func.isRequired,
     /**
-   *
+   * Select view/contained view in the index context
    */
     onIndexSelected: PropTypes.func.isRequired,
     /**
-   *
+   * Select view
    */
     onNavItemSelected: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for when updating toolbar
    */
     onToolbarUpdated: PropTypes.func.isRequired,
     /**
-   *
+   * Objects Array that contains all created views (identified by its *id*)
    */
     navItemsIds: PropTypes.array.isRequired,
     /**
-   *
+   * Object that contains all created views (identified by its *id*)
    */
     navItems: PropTypes.object.isRequired,
     /**
-   *
+   * Object that contains all created containedViews (identified by its *id*)
    */
     containedViews: PropTypes.object.isRequired,
     /**
-   *
+   * Contained view that is being edited
    */
     containedViewSelected: PropTypes.any,
 

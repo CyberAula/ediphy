@@ -8,9 +8,8 @@ export default class ScormComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            scores: [],
-            visited: [],
             exercises: this.props.exercises,
+            exerciseNums: API.getExerciseNums(this.props.exercises),
             totalScore: 0,
         };
         this.onUnload = this.onUnload.bind(this);
@@ -38,20 +37,10 @@ export default class ScormComponent extends Component {
             if(!isContainedView(nextProps.currentView)) {
                 API.changeLocation(nextProps.currentView);
             }
-            if(!isContainedView(this.props.currentView)) {
-                // this.savePreviousAndUpdateState();
-                // API.setFinalScore(this.state.scores, this.state.visited, this.props.globalConfig.trackProgress || false);
-            }
+
         }
     }
-    savePreviousAndUpdateState() {
-        let score = API.savePreviousResults(this.props.currentView, this.props.navItemsIds, this.props.globalConfig.trackProgress || false);
-        let previousScores = Object.assign([], this.state.scores);
-        previousScores[score.index] = score.score;
-        let previousVisited = Object.assign([], this.state.visited);
-        previousVisited[score.index] = score.visited;
-        this.setState({ scores: previousScores, visited: previousVisited }); // Careful with this pattern
-    }
+
     render() {
         const { children } = this.props;
 
@@ -68,19 +57,17 @@ export default class ScormComponent extends Component {
     }
     onLoad(event) {
         let init = API.init();
-        if (init && this.props.fromScorm) {
+        console.log('iniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiit', init);
+        if (init /* && this.props.fromScorm*/) {
+            console.log('inside');
             let bookmark = (init && init.bookmark && init.bookmark !== '') ? init.bookmark : this.getFirstPage();
             this.props.changeCurrentView(bookmark);
-            let initState = API.changeInitialState();
+            let initState = API.changeInitialState(this.state.exercises, this.state.exerciseNums);
             this.setState(initState);
         }
     }
 
     onUnload(event) {
-        if (!isContainedView(this.props.currentView)) {
-            // this.savePreviousAndUpdateState();
-        }
-        // API.setFinalScore(this.state.scores, this.state.visited, this.props.globalConfig.trackProgress || false);
         API.finish();
     }
     componentWillUnmount() {
@@ -106,19 +93,26 @@ export default class ScormComponent extends Component {
             if (plug.checkAnswer(bx[ex].currentAnswer, bx[ex].correctAnswer)) {
                 points += bx[ex].weight;
                 bx[ex].score = bx[ex].weight;
+                console.log(bx[ex].num);
+                API.setExerciseScore(bx[ex].num, bx[ex].weight, bx[ex].currentAnswer);
             }
-
             bx[ex].attempted = true;
-
         }
 
         exercises[page].attempted = true;
         let pageScore = points / total;
-        exercises[page].score = pageScore;
+        exercises[page].score = parseFloat(pageScore.toFixed(2));
 
-        let totalScore = this.state.totalScore + pageScore * exercises[page].weight;
+        let totalScore = parseFloat((this.state.totalScore + pageScore * exercises[page].weight).toFixed(2));
         this.setState({ exercises, totalScore });
-        API.setSCORMScore(totalScore, this.totalWeight, this.state.visited);
+        let visitedPctg = 0;
+        for (let p in exercises) {
+            if (exercises[p].attempted) {
+                visitedPctg += 1;
+            }
+        }
+        visitedPctg = visitedPctg / Object.keys(exercises).length;
+        API.setSCORMScore(totalScore, this.totalWeight, visitedPctg);
     }
 
 }

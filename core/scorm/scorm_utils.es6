@@ -13,17 +13,65 @@ export function init() {
     return { currentStatus: currentStatus, bookmark: bookmark };
 }
 
-export function changeInitialState() {
-    let length = API.doGetValue("cmi.objectives._count");
-    let scores = [];
-    let visited = [];
-    for (let i = 1; i < length; i++) {
-        let obj = API.doGetValue("cmi.objectives." + i + ".score.raw");
-        let comp = API.doGetValue("cmi.objectives." + i + ".completion_status");
-        scores.push(!obj || isNaN(obj) ? 0 : parseFloat(obj));
-        visited.push(comp);
+/**
+ * Assign a number to each exercise
+ * @param exercises
+ * @returns {Array} An array where each position is an object containing the page and the box which that index represents
+ */
+export function getExerciseNums(exercises) {
+    let list = [];
+    Object.keys(exercises).map((page, pageIndex)=>{
+        Object.keys(exercises[page].exercises).map((box, index)=>{
+            list.push({ page, box });
+        });
+
+    });
+    console.log(list);
+    return list;
+}
+
+/**
+ * Retrieve state saved by SCORM and apply it to EDiphy's model
+ * @param exercises
+ * @param nums
+ * @returns {{exercises, totalScore: number}}
+ */
+export function changeInitialState(exercises, nums) {
+    let length = nums.length; // API.doGetValue("cmi.objectives._count");
+    let updatedExercises = JSON.parse(JSON.stringify(exercises));
+    console.log(nums, exercises);
+    for (let i = 0; i < length; i++) {
+        let obj = API.doGetValue("cmi.objectives." + (i + 1) + ".score.raw");
+        let comp = API.doGetValue("cmi.objectives." + (i + 1) + ".completion_status");
+        let ans = API.doGetValue("cmi.interactions." + (i + 1) + ".learner_response");
+        console.log(i, nums[i], updatedExercises[nums[i].page].exercises[nums[i].box]);
+        updatedExercises[nums[i].page].exercises[nums[i].box].attempted = (comp === "completed");
+        updatedExercises[nums[i].page].exercises[nums[i].box].num = (i + 1);
+        if (comp === "completed") {
+            updatedExercises[nums[i].page].exercises[nums[i].box].score = obj;
+            updatedExercises[nums[i].page].exercises[nums[i].box].currentAnswer = ans;
+        }
+        console.log("GETTING SCORE FOR EXERCISE ", nums[i].box, i + 1, obj, comp);
+
+        console.log(updatedExercises[nums[i].page].exercises[nums[i].box]);
     }
-    return { scores: scores, visited: visited };
+
+    let totalScore = 0;
+    for (let p in updatedExercises) {
+        let attempted = false;
+        let pageScore = 0;
+        let page = updatedExercises[p];
+        for (let ex in page.exercises) {
+            let box = page.exercises[ex];
+            attempted = box.attempted;
+            pageScore += box.score;
+        }
+        page.attempted = attempted;
+        page.score = pageScore;
+        totalScore += page.score * page.weight;
+    }
+    console.log(updatedExercises);
+    return { exercises: updatedExercises, totalScore: parseFloat(totalScore.toFixed(2)) };
 }
 
 export function changeLocation(id) {
@@ -31,61 +79,21 @@ export function changeLocation(id) {
     return API.doCommit();
 }
 
-export function savePreviousResults(el, navsIds, trackProgress) {
-    let num = getPageNum(el, navsIds);
-    if (trackProgress) {
-        setScore("objectives." + num + ".", 0, 0, 0, 0, "completed", "passed");
-    } else {
-        setScore("objectives." + num + ".", 0, 1, 1, 1, "completed", "passed");
-    }
-
-    API.doCommit();
-    return { index: num - 1, score: 1, visited: "completed" };
-}
-
-export function setFinalScore(scores, visited, trackProgress) {
-    let sizeSc = scores.length || 1;
-    let sizeV = visited.length || 1;
+export function setSCORMScore(score, maxScore, attemptedPages) {
     let num = 0;
-    let sumSc = scores.reduce((a, b) => a + b, 0);
-    let sumV = visited.reduce((a, b) => a + (b === "completed" ? 1 : 0), 0);
-    let avgSc = sumSc / sizeSc;
-    let avgV = sumV / sizeV;
-    let thresholdSc = API.doGetValue("cmi.scaled_passing_score") || 0.8;
-    let thresholdV = API.doGetValue("cmi.completion_threshold") || 0.8;
-    let isPassed = true;
-    let isComplete = true;
-    if (trackProgress) {
-        /* Course is passed when more pages than threshold are viewed*/
-        let completed = avgV >= thresholdV;
-        isPassed = completed ? "passed" : "failed";
-        isComplete = completed ? "completed" : "incomplete";
-        setScore("objectives." + num + ".", 0, sizeV, sumV, avgV, isComplete, isPassed);
-        setScore("", 0, sizeV, sumV, avgV, isComplete, isPassed);
-    } else {
-        /* Course is passed when the total score is greater than the threshold*/
-        isPassed = avgSc >= thresholdSc ? "passed" : "failed";
-        isComplete = avgV >= thresholdV ? "completed" : "incomplete";
-        setScore("objectives." + num + ".", 0, sizeSc, sumSc, avgSc, isComplete, isPassed);
-        setScore("", 0, sizeSc, sumSc, avgSc, isComplete, isPassed);
-    }
-    return API.doCommit();
-}
-
-export function setSCORMScore(score, maxScore, visited) {
-    let sizeV = visited.length || 1;
-    let num = 0;
-    let sumV = visited.reduce((a, b) => a + (b === "completed" ? 1 : 0), 0);
-    let avgV = sumV / sizeV;
     let thresholdSc = API.doGetValue("cmi.scaled_passing_score") || 0.5;
     let thresholdV = API.doGetValue("cmi.completion_threshold") || 0.5;
     let isPassed = true;
     let isComplete = true;
     /* Course is passed when the total score is greater than the threshold*/
+    console.log("attemptedPages", attemptedPages);
     isPassed = (score / maxScore) >= thresholdSc ? "passed" : "failed";
-    isComplete = avgV >= thresholdV ? "completed" : "incomplete";
-    setScore("objectives." + num + ".", 0, maxScore, score, score / maxScore, isComplete, isPassed);
-    setScore("", 0, maxScore, score, score / maxScore, isComplete, isPassed);
+    isComplete = attemptedPages >= thresholdV ? "completed" : "incomplete";
+    let scoreRounded = parseFloat(score.toFixed(2));
+    let scoreScaled = parseFloat((score / maxScore).toFixed(2));
+    setScore("objectives." + num + ".", 0, maxScore, scoreRounded, scoreScaled, isComplete, isPassed);
+    setScore("", 0, maxScore, scoreRounded, scoreScaled, isComplete, isPassed);
+    console.log("SETTING SCORE total ", scoreRounded, maxScore, attemptedPages);
     return API.doCommit();
 }
 
@@ -105,16 +113,6 @@ export function finish() {
     // }
 }
 
-function countScore(id) {
-    return Config.sections_have_content || (!Config.sections_have_content && !isSection(id));
-}
-
-function getPageNum(el, navsIds) {
-    let newIds = navsIds.filter(countScore);
-    let num = newIds.indexOf(el) + 1;
-    return num;
-}
-
 function setScore(who, min, max, raw, scaled, completion_status, success_status) {
     API.doSetValue("cmi." + who + "score.scaled", scaled);
     API.doSetValue("cmi." + who + "score.min", min);
@@ -122,4 +120,16 @@ function setScore(who, min, max, raw, scaled, completion_status, success_status)
     API.doSetValue("cmi." + who + "score.raw", raw);
     API.doSetValue("cmi." + who + "completion_status", completion_status);
     API.doSetValue("cmi." + who + "success_status", success_status);
+    console.log("SETTING SCORE GLOBAL", scaled, raw, completion_status, success_status);
+    return API.doCommit();
 }
+
+export function setExerciseScore(who, score, answer) {
+    API.doSetValue("cmi.objectives." + who + ".score.raw", score);
+    API.doSetValue("cmi.objectives." + who + ".completion_status", "completed");
+    API.doSetValue("cmi.interactions." + who + ".learner_response", answer);
+    console.log("SETTING SCORE FOR EXERCISE ", who, score, answer);
+    return API.doCommit();
+
+}
+

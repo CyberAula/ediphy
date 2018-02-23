@@ -60,7 +60,6 @@ export default function() {
                     id !== 'getConfigTemplate' &&
                     id !== 'getRenderTemplate') {
                     plugin[id] = descendant[id];
-                    console.log(plugin);
                 }
             });
             if (!plugin.checkAnswer) {

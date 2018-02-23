@@ -74,11 +74,29 @@ export default class RadioButtonFormGroup extends Component {
  */
 RadioButtonFormGroup.propTypes = {
     // key: PropTypes.string,
+    /**
+     * Button name
+     */
     title: PropTypes.string.isRequired,
+    /**
+     * Button options
+     */
     options: PropTypes.array.isRequired,
+    /**
+     * Button value
+     */
     selected: PropTypes.any.isRequired,
+    /**
+     * Callback for give action to the button
+     */
     click: PropTypes.func.isRequired,
+    /**
+     * Button tooltips
+     */
     tooltips: PropTypes.arrayOf(PropTypes.string),
+    /**
+     * Button icons
+     */
     icons: PropTypes.arrayOf(PropTypes.string),
 };
 

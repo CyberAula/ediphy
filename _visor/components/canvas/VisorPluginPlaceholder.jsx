@@ -87,11 +87,11 @@ VisorPluginPlaceholder.propTypes = {
    */
     boxes: PropTypes.object.isRequired,
     /**
-   * Caja seleccionada
+   * Selected box
    */
     boxSelected: PropTypes.any,
     /**
-      * Nivel de caja seleccionado
+      * Box level selected
      */
     boxLevelSelected: PropTypes.any,
     /**
@@ -111,11 +111,11 @@ VisorPluginPlaceholder.propTypes = {
      */
     richElementsState: PropTypes.object,
     /**
-   * Id del contenedor
+   * Container id
    */
     idContainer: PropTypes.string.isRequired,
     /**
-   * Vista contenida seleccionada
+   * Selected view
    */
     currentViewSelected: PropTypes.string.isRequired,
 };

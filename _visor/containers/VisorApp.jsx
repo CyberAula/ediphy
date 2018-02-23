@@ -268,9 +268,12 @@ export default class Visor extends Component {
                                 </Button>) : null}
                                 <ScormComponent
                                     navItemsIds={navItemsIds}
+                                    containedViews={containedViews}
                                     currentView={currentView}
+                                    navItemsById={navItems}
                                     globalConfig={globalConfig}
                                     exercises={exercises}
+                                    fromScorm={this.state.fromScorm}
                                     changeCurrentView={(el)=>{this.changeCurrentView(el);}}>
                                     {visorContent}
                                 </ScormComponent>

@@ -426,11 +426,11 @@ RichMarksModal.propTypes = {
      */
     onRichMarkUpdated: PropTypes.func.isRequired,
     /**
-     * Muestra/oculta el modal
+     * Show/hide marks modal form
      */
     onRichMarksModalToggled: PropTypes.any.isRequired,
     /**
-      * Valor del cursor al crear la marca (coordenadas)
+      * Cursor value when creating mark (coordinates)
       */
     markCursorValue: PropTypes.any,
 };
