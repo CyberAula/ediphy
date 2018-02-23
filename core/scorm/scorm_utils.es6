@@ -39,17 +39,19 @@ export function getExerciseNums(exercises) {
 export function changeInitialState(exercises, nums) {
     let length = nums.length; // API.doGetValue("cmi.objectives._count");
     let updatedExercises = JSON.parse(JSON.stringify(exercises));
-    console.log(nums, exercises);
+    API.doSetValue("cmi.objectives." + (0) + ".id", 0);
     for (let i = 0; i < length; i++) {
+
+        let id = API.doSetValue("cmi.objectives." + (i + 1) + ".id", i + 1);
         let obj = API.doGetValue("cmi.objectives." + (i + 1) + ".score.raw");
         let comp = API.doGetValue("cmi.objectives." + (i + 1) + ".completion_status");
-        let ans = API.doGetValue("cmi.interactions." + (i + 1) + ".learner_response");
+        let ans = API.doGetValue("cmi.objectives." + (i + 1) + ".description");
         console.log(i, nums[i], updatedExercises[nums[i].page].exercises[nums[i].box]);
         updatedExercises[nums[i].page].exercises[nums[i].box].attempted = (comp === "completed");
         updatedExercises[nums[i].page].exercises[nums[i].box].num = (i + 1);
         if (comp === "completed") {
             updatedExercises[nums[i].page].exercises[nums[i].box].score = obj;
-            updatedExercises[nums[i].page].exercises[nums[i].box].currentAnswer = ans;
+            updatedExercises[nums[i].page].exercises[nums[i].box].currentAnswer = JSON.parse(ans);
         }
         console.log("GETTING SCORE FOR EXERCISE ", nums[i].box, i + 1, obj, comp);
 
@@ -57,20 +59,27 @@ export function changeInitialState(exercises, nums) {
     }
 
     let totalScore = 0;
+
     for (let p in updatedExercises) {
         let attempted = false;
         let pageScore = 0;
         let page = updatedExercises[p];
+        let totalExWeight = 0;
         for (let ex in page.exercises) {
             let box = page.exercises[ex];
             attempted = box.attempted;
-            pageScore += box.score;
+            pageScore += parseFloat(box.score * box.weight);
+            totalExWeight += box.weight;
         }
+        pageScore = pageScore / (totalExWeight || 1);
+        console.log("Total score for page " + p + ": " + pageScore);
         page.attempted = attempted;
         page.score = pageScore;
         totalScore += page.score * page.weight;
     }
     console.log(updatedExercises);
+    console.log("RETRIEVED TOTAL SCORE " + totalScore);
+    API.doCommit();
     return { exercises: updatedExercises, totalScore: parseFloat(totalScore.toFixed(2)) };
 }
 
@@ -127,7 +136,7 @@ function setScore(who, min, max, raw, scaled, completion_status, success_status)
 export function setExerciseScore(who, score, answer) {
     API.doSetValue("cmi.objectives." + who + ".score.raw", score);
     API.doSetValue("cmi.objectives." + who + ".completion_status", "completed");
-    API.doSetValue("cmi.interactions." + who + ".learner_response", answer);
+    API.doSetValue("cmi.objectives." + who + ".description", JSON.stringify(answer));
     console.log("SETTING SCORE FOR EXERCISE ", who, score, answer);
     return API.doCommit();
 
