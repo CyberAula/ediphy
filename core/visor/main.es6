@@ -143,47 +143,8 @@ export default {
                         JSZip.loadAsync(data).then(function(zip) {
                             let navs = state.navItemsById;
                             let navsIds = state.navItemsIds;
-                            // var sections = [];
-                            /* state.navItemsIds.map(function (page) {
-                                if(navs[page].hidden){
-                                    return;
-                                }
-
-                                if ( !Ediphy.Config.sections_have_content && (page.indexOf(ID_PREFIX_SECTION) !== -1)){
-                                    return;
-                                }
-
-                                var nombre = navs[page].id.replace(/\-/g,"\_");
-                                var unit;
-                                if(typeof navs[page].unitNumber === "undefined"){
-                                    unit = "blank";
-                                } else {
-                                    unit = navs[page].unitNumber;
-                                }
-                                var path = "unit" + unit + "/";
-
-                                //sections.push(path + nombre);
-                                if(Object.keys(navs[page].extraFiles).length !== 0){
-                                    for(var boxKey in navs[page].extraFiles){
-                                        $.ajax({
-                                            url: navs[page].extraFiles[boxKey],
-                                            async: false,
-                                            success: function (response, status, aj) {
-                                                zip.file(path + nombre + "_ejer.xml", aj.responseText);
-                                                state.toolbarsById[boxKey].state.__xml_path = nombre + "_ejer.xml";
-                                                state.toolbarsById[boxKey].state.isScorm = true;
-                                            },
-                                            error: function (aj, status) {
-                                                console.error("Error while downloading XML file");
-                                            }
-                                        });
-                                    }
-                                }
-                                var inner = parseEJS(Ediphy.Config.visor_ejs, page, state, true);
-                                //zip.file(path + nombre + ".html", inner);
-                            });*/
-                            // zip.file("index.html", Ediphy.Scorm.getIndex(navs));
-                            zip.file("imsmanifest.xml", Ediphy.Scorm.createSPAimsManifest(navsIds, navs, state.globalConfig));
+                            console.log(state);
+                            zip.file("imsmanifest.xml", Ediphy.Scorm.createSPAimsManifest(state.exercises, navs, state.globalConfig));
                             let page = 0;
                             if (state.navItemsIds && state.navItemsIds.length > 0) {
                                 if(!Ediphy.Config.sections_have_content) {

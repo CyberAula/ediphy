@@ -94,8 +94,9 @@ export default class ScormComponent extends Component {
                 points += bx[ex].weight;
                 bx[ex].score = bx[ex].weight;
                 console.log(bx[ex].num);
-                API.setExerciseScore(bx[ex].num, bx[ex].weight, bx[ex].currentAnswer);
+
             }
+            API.setExerciseScore(bx[ex].num, bx[ex].score, bx[ex].currentAnswer);
             bx[ex].attempted = true;
         }
 

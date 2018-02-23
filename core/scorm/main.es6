@@ -2,7 +2,7 @@ import Ediphy from '../editor/main';
 import { ID_PREFIX_SECTION } from '../../common/constants';
 import { isSection } from '../../common/utils';
 export default {
-    createSPAimsManifest: function(navsIds, sections, globalConfig) {
+    createSPAimsManifest: function(exercisesObj, sections, globalConfig) {
         let doc = document.implementation.createDocument("", "", null);
 
         // /     ROOT MANIFEST
@@ -30,7 +30,7 @@ export default {
         metadata = this.lomCreator(globalConfig, doc, metadata);
 
         // /       ORGANIZATION (USED DEFAULT)
-        let organizations = this.organizationsCreator(globalConfig, navsIds, sections, doc);
+        let organizations = this.organizationsCreator(globalConfig, exercisesObj, sections, doc);
 
         // /   RESOURCE ITEMS
         let resources = doc.createElement("resources");
@@ -627,27 +627,27 @@ export default {
         }
         return formatted;
     },
-    objCreator: function(navsIds, sections, doc) {
+    objCreator: function(exercises, sections, doc) {
         let objectives = doc.createElement("imsss:objectives");
         let primaryObjective = doc.createElement("imsss:primaryObjective");
         primaryObjective.setAttribute("objectiveID", "PRIMARYOBJ");
         primaryObjective.setAttribute("satisfiedByMeasure", "true");
         let minNorMeas = doc.createElement("imsss:minNormalizedMeasure");
-        let mnmTxt = doc.createTextNode(0.8);
+        let mnmTxt = doc.createTextNode(0.5);
         minNorMeas.appendChild(mnmTxt);
         primaryObjective.appendChild(minNorMeas);
         objectives.appendChild(primaryObjective);
-        for (let i = 0; i < navsIds.length; i++) {
-            let id = navsIds[i];
-            if (Ediphy.Config.sections_have_content || (!Ediphy.Config.sections_have_content && !isSection(id))) {
+        Object.keys(exercises).map((page, pageIndex)=>{
+            Object.keys(exercises[page].exercises).map((box, index)=>{
                 let newObjective = doc.createElement("imsss:objective");
-                newObjective.setAttribute("objectiveID", id);
+                newObjective.setAttribute("objectiveID", box);
                 objectives.appendChild(newObjective);
-            }
-        }
+            });
+
+        });
         return objectives;
     },
-    organizationsCreator: function(gc, navsIds, sections, doc) {
+    organizationsCreator: function(gc, exercisesObj, sections, doc) {
         let title = gc.title;
         let organizations = doc.createElement("organizations");
         organizations.setAttribute("default", "GING");
@@ -668,7 +668,7 @@ export default {
         root_title.appendChild(item_title);
         root_element.appendChild(root_title);
         let root_seq = doc.createElement("imsss:sequencing");
-        let objectives = this.objCreator(navsIds, sections, doc);
+        let objectives = this.objCreator(exercisesObj, sections, doc);
         root_seq.appendChild(objectives);
         let deliveryControls = doc.createElement("imsss:deliveryControls");
         deliveryControls.setAttribute("completionSetByContent", "true");
