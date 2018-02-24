@@ -24,16 +24,19 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", 
         } else if (h > w / ratio) {
             let newHeight = w / ratio;
             canvas.style.height = newHeight + "px";
-            if (parent/* && parent.offsetHeight - newHeight > 0*/) {
+            if (parent) {
                 canvas.style.marginTop = ((parent.offsetHeight - canvas.offsetHeight) / 2 - 5) + 'px';
             }
         }
-    } else {
+    } else if (customSize.width > parent.offsetWidth) {
+        canvas.style.height = (customSize.height / ratio) + 'px';
+        canvas.style.width = (customSize.width / ratio) + 'px';
+        canvas.style.marginTop = ((parent.offsetHeight - canvas.offsetHeight) / 2 - 5) + 'px';
+    } else{
         canvas.style.height = customSize.height + 'px';
         canvas.style.width = customSize.width + 'px';
-        if (parent/* && parent.offsetHeight - newHeight > 0*/) {
-            canvas.style.marginTop = ((parent.offsetHeight - canvas.offsetHeight) / 2 - 5) + 'px';
-        }
+        canvas.style.marginTop = '0px';
+        canvas.style.marginBottom = '10px';
     }
 }
 

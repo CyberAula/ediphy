@@ -184,11 +184,11 @@ NavActionButtons.propTypes = {
      */
     globalConfig: PropTypes.object.isRequired,
     /**
-     * Identifies the contained view that is being edited
+     * Identifies the view that is being edited
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Closes the current text edition
+     * Closes/opens the current text edition
      */
     onTextEditorToggled: PropTypes.func.isRequired,
     /**

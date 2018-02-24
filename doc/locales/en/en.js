@@ -33,7 +33,7 @@ let en = {
             "ReactRedux": "Built with React & Redux",
             "Github": "Visit the project on Github",
             "How": {
-                "Header": 'What is <span style="color:white;">EDiphy?</span>',
+                "Header": 'What is <span style="color:#333;">EDiphy?</span>',
                 "Subheader": "It is an open-source e-learning authoring tool fot creating educational resources of all kinds (slides, web documents...). It is a project developed in Javascript (ES6), along with tools such as Rect & Redux. We use yarn as our package manager and webpack as development server",
             },
             "Why": {

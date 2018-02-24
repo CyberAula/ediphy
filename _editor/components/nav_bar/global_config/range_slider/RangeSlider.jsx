@@ -148,11 +148,11 @@ RangeSlider.propTypes = {
      */
     step: PropTypes.number.isRequired,
     /**
-      * Clase a aplicar
+      * Class to apply
       */
     className: PropTypes.string,
     /**
-      * Estilo a aplicar
+      * Style to apply
       */
     style: PropTypes.object,
 };

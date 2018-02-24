@@ -50,7 +50,6 @@ export default class EditorBox extends Component {
 
         let textareaStyle = {
             height: (toolbar.showTextEditor ? '100%' : '100%'),
-            // border: 'dashed black 1px',
             display: (toolbar.showTextEditor ? 'block' : 'none'),
         };
         let attrs = {};
@@ -83,7 +82,6 @@ export default class EditorBox extends Component {
                     } else {
                         attrs['data-' + buttonKey] = button.value;
                     }
-
                     /* Unused */
                     if (buttonKey === 'fontSize') {
                         textareaStyle.fontSize = button.value;
@@ -125,7 +123,6 @@ export default class EditorBox extends Component {
 
         Object.assign(textareaStyle, style);
         textareaStyle.visibility = 'visible';
-
         let wholeBoxStyle = {
             position: box.position.type,
             left: box.position.x ? box.position.x : "",
@@ -415,7 +412,6 @@ export default class EditorBox extends Component {
         }
 
         if (box.resizable) {
-
             interact(node).resizable({ preserveAspectRatio: this.checkAspectRatioValue(), snap: snap, snapSize: snapSize });
         }
 
@@ -448,7 +444,9 @@ export default class EditorBox extends Component {
             document.getElementById('containedCanvas');
         interact.dynamicDrop(true);
         interact(ReactDOM.findDOMNode(this))
-        /*  .snap({
+
+            /* .snap({
+
                 actions: ['resizex', 'resizey', 'resizexy', 'resize', 'drag'],
                 mode: 'grid',
             })*/

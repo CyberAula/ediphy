@@ -65,6 +65,7 @@ export default class EditorCanvasDoc extends Component {
                         containedViews={this.props.containedViews}
                         toolbars={this.props.toolbars}
                         boxes={this.props.boxes}
+                        onTitleChanged={this.props.onTitleChanged}
                     />
                     <div className="outter canvaseditor" style={{ background: itemSelected.background, display: show ? 'block' : 'none' }}>
                         {/*
@@ -80,7 +81,7 @@ export default class EditorCanvasDoc extends Component {
 
                             <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                                 className={'innercanvas doc'}
-                                style={{ background: itemSelected.background, visibility: (show ? 'visible' : 'hidden') }}>
+                                style={{ background: itemSelected.background, visibility: (show ? 'visible' : 'hidden'), paddingBottom: '10px' }}>
 
                                 <br/>
 
@@ -295,4 +296,8 @@ EditorCanvasDoc.propTypes = {
    * Actualiza marca
    */
     onRichMarkUpdated: PropTypes.func.isRequired,
+    /**
+     * Cambia el texto del título del curso
+     */
+    onTitleChanged: PropTypes.func.isRequired,
 };

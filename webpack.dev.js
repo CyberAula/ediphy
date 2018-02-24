@@ -22,7 +22,7 @@ module.exports = merge.smart(common, {
     devtool: 'cheap-module-eval-source-map',
     watch: true,
     plugins: [
-        // new BundleAnalyzerPlugin(),
+        new BundleAnalyzerPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.LoaderOptionsPlugin({
             debug: true,

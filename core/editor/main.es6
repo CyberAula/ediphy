@@ -14,7 +14,7 @@ import i18n from './../../locales/i18n';
 const Config = process.env.DOC === "doc" ? NoServerConfig :
     process.env.NODE_ENV === "production" ? ProductionConfig : DevConfig;
 
-let InitialState = (config) => { return process.env.DOC === "doc" ? demoState :
+let InitialState = (config) => { return process.env.DOC === "doc" ? initialState(config) :
     process.env.NODE_ENV === "production" ? initialState(config) : initialState(config);
 };
 

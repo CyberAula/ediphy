@@ -865,7 +865,7 @@ export default class PluginToolbar extends Component {
                                 style: { width: '100%' },
                             },
                             React.createElement('div', {
-                                style: { backgroundImage: isURI ? 'url(' + props.value + ')' : 'none' },
+                                style: { backgroundImage: isURI ? 'url(' + props.value + ')' : 'none', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' },
                                 key: "inside_" + props.label,
                                 className: 'fileDrag_toolbar',
                             }, isURI ? null : [
@@ -883,9 +883,10 @@ export default class PluginToolbar extends Component {
         }
 
         if (button.type === "background_picker") {
+
             let isURI = (/data\:/).test(props.value.background);
             let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background);
-            let default_background = "rgb(255,255,255)";
+            let default_background = "#ffffff";
             let isSli = isSlide(this.props.navItems[this.props.navItemSelected].type);
 
             return React.createElement(
@@ -913,17 +914,12 @@ export default class PluginToolbar extends Component {
                                 style: { width: '100%' },
                             },
                             React.createElement('div', {
-                                style: { backgroundImage: isURI ? 'url(' + props.value.background + ')' : 'none' },
+                                style: { backgroundImage: isURI ? 'url(' + props.value.background + ')' : 'none', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' },
                                 key: "inside_" + props.label,
                                 className: 'fileDrag_toolbar',
                             }, isURI ? null : [
-                                React.createElement('span', { key: props.label + "1" }, i18n.t('FileInput.Drag')),
-                                React.createElement('span', { key: props.label + "2", className: "fileUploaded" }, [
-                                    React.createElement('i', {
-                                        key: 'icon_' + button.__name,
-                                        className: 'material-icons',
-                                    }, 'insert_drive_file'),
-                                ]),
+                                React.createElement('span', { key: props.label + "1", className: "uploadFile" }, i18n.t('FileInput.Drag') + i18n.t('FileInput.Drag_2') + i18n.t('FileInput.Click')),
+                                React.createElement('span', { key: props.label + "2", className: "fileUploaded" }),
                             ])
                         ),
                         React.createElement(
@@ -941,15 +937,11 @@ export default class PluginToolbar extends Component {
                                         onChange: props.onChange,
                                     }, null),
                             ]),
-                        (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: props.value.attr === 'full', onChange: props.onChange, value: 'full' }, 'full'),
-                        (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: props.value.attr === 'repeat', onChange: props.onChange, value: 'repeat' }, 'repeat'),
-                        (!isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display', checked: props.value.attr === 'centered', onChange: props.onChange, value: 'centered' }, 'centered'),
+                        (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: props.value.attr === 'full', onChange: props.onChange, value: 'full' }, i18n.t('background.cover')),
+                        (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: props.value.attr === 'repeat', onChange: props.onChange, value: 'repeat' }, i18n.t('background.repeat')),
+                        (!isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display', checked: props.value.attr === 'centered', onChange: props.onChange, value: 'centered' }, i18n.t('background.centered')),
                         ]
                     ),
-                    React.createElement(
-                        ControlLabel,
-                        { key: 'label_' + button.__name },
-                        i18n.t('background.reset_background')),
                     React.createElement(
                         Button, {
                             value: default_background,
@@ -957,7 +949,7 @@ export default class PluginToolbar extends Component {
                             onClick: props.onChange,
                             className: "toolbarButton",
                         },
-                        React.createElement("div", { key: props.label }, "Reset"),
+                        React.createElement("div", { key: props.label }, i18n.t('background.reset_background')),
                     ),
                 ]);
         }
@@ -1255,115 +1247,115 @@ export default class PluginToolbar extends Component {
 
 PluginToolbar.propTypes = {
     /**
-   *
+   * Id of the selected page
    */
     navItemSelected: PropTypes.any,
     /**
-   *
+   * Toolbar top position
    */
     top: PropTypes.string,
     /**
-   *
+   * Id of the selected box
    */
     boxSelected: PropTypes.any,
     /**
-   *
+   * Object containing all the toolbars
    */
     toolbars: PropTypes.object.isRequired,
     /**
-   *
+   * Whether the index has been expanded or not
    */
     carouselShow: PropTypes.bool,
     /**
-   *
+   * Selected box
    */
     box: PropTypes.object,
     /**
-   *
+   * Callback for toggling the CKEDitor
    */
     onTextEditorToggled: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for change columns distribution
    */
     onColsChanged: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for change rows distribution
    */
     onRowsChanged: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for change sortable container properties
    */
     onSortablePropsChanged: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for resize sortable container
    */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
-   *
+   * Object that contains all created views (identified by its *id*)
    */
     navItems: PropTypes.object.isRequired,
     /**
-   *
+   * Callback for change the view background (color or image(slides))
    */
     onBackgroundChanged: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for toggling visibility or content on titles, subtitles, breadcrumbs
    */
     titleModeToggled: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for toggling navItem inclusion in the course
    */
     onNavItemToggled: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for edit contained view name
    */
     onContainedViewNameChanged: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for edit view name
    */
     onNavItemNameChanged: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for show/hide the rich marks modal
    */
     onRichMarksModalToggled: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for toggling edit mark
    */
     onRichMarkEditPressed: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for delete mark
    */
     onRichMarkDeleted: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for resizing a box
    */
     onBoxResized: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for updating toolbar
    */
     onToolbarUpdated: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for moving a box
    */
     onBoxMoved: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for vertically align a box (in a sortable container)
    */
     onVerticallyAlignBox: PropTypes.func.isRequired,
     /**
-   *
+   * Indicates if there is a current server operation
    */
     isBusy: PropTypes.any,
     /**
-   *
+   * Object containing all the resources search results
    */
     fetchResults: PropTypes.any,
     /**
-   *
+   * Callback for fetch Vish Resources
    */
     onFetchVishResources: PropTypes.func.isRequired,
     /**
-   *
+   * Callback for upload Vish Resources
    */
     onUploadVishResource: PropTypes.func.isRequired,
 };

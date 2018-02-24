@@ -321,11 +321,11 @@ PluginRibbon.propTypes = {
       */
     category: PropTypes.string,
     /**
-      * Caja seleccionada
+      * Selected box
       */
     boxSelected: PropTypes.any,
     /**
-      * Cajas
+      * Object that contains the boxes
       */
     boxes: PropTypes.object,
 };
