@@ -31,6 +31,7 @@ export default {
     pluginList: [
         'BasicAudio',
         // 'BasicImage',
+        'BasicPDF',
         'BasicText',
         // 'BasicPlayer',
         'DataTable',
