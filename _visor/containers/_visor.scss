@@ -436,3 +436,31 @@ li > .selectedNavItemVisor {
     //background-color: white;
   }
 }
+
+.globalScore {
+  background-color: white;
+  width: 250px;
+  //height:100px;
+  text-align: center;
+  border: 1px solid grey;
+  position: fixed;
+  top:50px;
+  right: 40px;
+  h5 {
+    font-size: 20px;
+    word-wrap: normal;
+    word-break: keep-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin: 10px;
+  }
+  .scoreField {
+  margin-right: 10px;
+
+    font-size: 18px;
+  }
+  i {
+    vertical-align: bottom;
+    color: $blueprimary;
+  }
+}

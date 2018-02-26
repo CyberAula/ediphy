@@ -36,7 +36,6 @@ export default class VisorBoxSortable extends Component {
                                                             boxes={this.props.boxes}
                                                             exercises={(this.props.exercises && this.props.exercises.exercises) ? this.props.exercises.exercises[idBox] : undefined}
                                                             changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
-                                                            currentViewSelected={this.props.currentViewSelected}
                                                             fromScorm={this.props.fromScorm}
                                                             toolbars={this.props.toolbars}
                                                             setAnswer={this.props.setAnswer}
@@ -74,10 +73,6 @@ VisorBoxSortable.propTypes = {
      * Cambia la vista actual
      */
     changeCurrentView: PropTypes.func.isRequired,
-    /**
-     * Vista actual
-     */
-    currentViewSelected: PropTypes.any,
     /**
      * Diccionario que contiene todas las toolbars
      */

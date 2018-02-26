@@ -55,7 +55,10 @@ export * as VisorPluginPlaceholder_en from './files/en/VisorPluginPlaceholder.md
 export * as VisorNavSection_en from './files/en/VisorNavSection.md';
 export * as VisorPlayer_en from './files/en/VisorPlayer.md';
 export * as VisorSideNav_en from './files/en/VisorSideNav.md';
+export * as GlobalScore_en from './files/en/GlobalScore.md';
+export * as Score_en from './files/en/Score.md';
 export * as ScormComponent_en from './files/en/ScormComponent.md';
+export * as SubmitButton_en from './files/en/SubmitButton.md';
 export * as AutoSave_es from './files/es/AutoSave.md';
 export * as CKEDitorComponent_es from './files/es/CKEDitorComponent.md';
 export * as EditorBox_es from './files/es/EditorBox.md';
@@ -113,4 +116,7 @@ export * as VisorPluginPlaceholder_es from './files/es/VisorPluginPlaceholder.md
 export * as VisorNavSection_es from './files/es/VisorNavSection.md';
 export * as VisorPlayer_es from './files/es/VisorPlayer.md';
 export * as VisorSideNav_es from './files/es/VisorSideNav.md';
+export * as GlobalScore_es from './files/es/GlobalScore.md';
+export * as Score_es from './files/es/Score.md';
 export * as ScormComponent_es from './files/es/ScormComponent.md';
+export * as SubmitButton_es from './files/es/SubmitButton.md';

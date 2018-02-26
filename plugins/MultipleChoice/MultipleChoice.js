@@ -47,7 +47,8 @@ export function MultipleChoice(base) {
         },
         getRenderTemplate: function(state, props = {}) {
             let answers = [];
-            for (let i = 0; i < state.nBoxes; i++) {
+            console.log(base.getState(), state);
+            for (let i = 0; i < base.getState().nBoxes; i++) {
                 let clickHandler = (e)=>{
                     props.setCorrectAnswer(parseInt(e.target.value, 10));
                 };

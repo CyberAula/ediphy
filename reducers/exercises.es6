@@ -1,6 +1,5 @@
-import {
-    ADD_NAV_ITEM, DELETE_NAV_ITEM, ADD_BOX, DELETE_BOX, PASTE_BOX, SET_CORRECT_ANSWER, IMPORT_STATE,
-    DELETE_SORTABLE_CONTAINER,
+import { ADD_NAV_ITEM, DELETE_NAV_ITEM, ADD_BOX, DELETE_BOX, PASTE_BOX, SET_CORRECT_ANSWER, IMPORT_STATE,
+    DELETE_SORTABLE_CONTAINER, ADD_RICH_MARK,
 } from '../common/actions';
 
 import { isBox, existsAndIsViewOrContainedView, changeProp, deleteProp, deleteProps } from '../common/utils';
@@ -62,6 +61,17 @@ function singlePageReducer(state = {}, action = {}) {
             weight: 10,
             exercises: {},
         };
+    case ADD_RICH_MARK:
+        return {
+            id: action.payload.mark.connection.id,
+            submitButton: true,
+            trackProgress: false,
+            attempted: false,
+            minForPass: 50,
+            score: 0,
+            weight: 10,
+            exercises: {},
+        };
     case ADD_BOX:
     case PASTE_BOX:
     case SET_CORRECT_ANSWER:
@@ -78,6 +88,11 @@ export default function(state = {}, action = {}) {
     case ADD_NAV_ITEM:
         if(action.payload.hasContent) {
             return changeProp(state, action.payload.id, singlePageReducer(state[action.payload.id], action));
+        }
+        return state;
+    case ADD_RICH_MARK:
+        if (action.payload.mark.connection.id) {
+            return changeProp(state, action.payload.mark.connection.id, singlePageReducer(state[action.payload.mark.connection.id], action));
         }
         return state;
     case ADD_BOX:

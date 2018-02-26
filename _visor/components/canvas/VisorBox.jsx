@@ -170,7 +170,7 @@ export default class VisorBox extends Component {
                     toolbars: this.props.toolbars,
                     richElementsState: this.props.richElementsState,
                     changeCurrentView: this.props.changeCurrentView,
-                    currentViewSelected: this.props.currentViewSelected,
+                    currentView: this.props.currentView,
                 });
             } else {
                 component = markup.tag;
@@ -226,10 +226,6 @@ VisorBox.propTypes = {
      * Cambia la vista actual
      */
     changeCurrentView: PropTypes.func.isRequired,
-    /**
-     * Vista actual
-     */
-    currentViewSelected: PropTypes.any,
     /**
      * Diccionario que contiene todas las toolbars
      */

@@ -143,7 +143,6 @@ export default {
                         JSZip.loadAsync(data).then(function(zip) {
                             let navs = state.navItemsById;
                             let navsIds = state.navItemsIds;
-                            console.log(state);
                             zip.file("imsmanifest.xml", Ediphy.Scorm.createSPAimsManifest(state.exercises, navs, state.globalConfig));
                             let page = 0;
                             if (state.navItemsIds && state.navItemsIds.length > 0) {

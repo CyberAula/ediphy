@@ -121,7 +121,7 @@ export default class PluginPlaceholder extends Component {
             overlap: 'pointer',
             ondropactivate: (e) => {
                 if ((this.props.parentBox.id !== this.props.boxSelected && this.props.toolbars[this.props.boxSelected ] && !Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected ].config.name).getConfig().isComplex) ||
-                    (e.relatedTarget.className.indexOf("rib") !== -1 && !Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().isComplex)) {
+                    (e.relatedTarget.className.indexOf("rib") !== -1 && (!e.relatedTarget.getAttribute("name") || !Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().isComplex))) {
                     e.target.classList.add('drop-active');
                 }
             },
@@ -132,6 +132,8 @@ export default class PluginPlaceholder extends Component {
                 e.target.classList.remove("drop-target");
             },
             ondrop: function(e) {
+                e.dragEvent.stopPropagation();
+
                 let clone = document.getElementById('clone');
                 if (clone) {
                     clone.parentNode.removeChild(clone);

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { isContainedView, isPage, isSection } from '../../../common/utils';
 import Config from '../../../core/config';
 import * as API from './../../../core/scorm/scorm_utils';
+import GlobalScore from '../scorm/GlobalScore';
 
 export default class ScormComponent extends Component {
     constructor(props) {
@@ -11,6 +12,8 @@ export default class ScormComponent extends Component {
             exercises: this.props.exercises,
             exerciseNums: API.getExerciseNums(this.props.exercises),
             totalScore: 0,
+            userName: "Anonymous",
+            isPassed: "incomplete",
         };
         this.onUnload = this.onUnload.bind(this);
         this.onLoad = this.onLoad.bind(this);
@@ -43,13 +46,14 @@ export default class ScormComponent extends Component {
 
     render() {
         const { children } = this.props;
-
+        let scoreInfo = { userName: this.state.userName, totalScore: this.state.totalScore, totalWeight: this.totalWeight, isPassed: this.state.isPassed };
         let childrenWithProps = React.Children.map(children, child =>
             React.cloneElement(child, {
                 setAnswer: this.setAnswer,
                 submitPage: this.submitPage,
                 exercises: this.state.exercises[this.props.currentView] }));
-        return childrenWithProps;
+        return [...childrenWithProps, <GlobalScore scoreInfo={scoreInfo}/>];
+
     }
     componentDidMount() {
         window.addEventListener("load", this.onLoad);
@@ -57,12 +61,16 @@ export default class ScormComponent extends Component {
     }
     onLoad(event) {
         let init = API.init();
-        console.log('iniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiit', init);
         if (init /* && this.props.fromScorm*/) {
-            console.log('inside');
             let bookmark = (init && init.bookmark && init.bookmark !== '') ? init.bookmark : this.getFirstPage();
             this.props.changeCurrentView(bookmark);
             let initState = API.changeInitialState(this.state.exercises, this.state.exerciseNums);
+            initState.totalScore = init.totalScore;
+            initState.userName = init.userName;
+            initState.isPassed = init.isPassed;
+            initState.currentStatus = init.currentStatus;
+            initState.currentStatus = init.currentStatus;
+
             this.setState(initState);
         }
     }
@@ -93,7 +101,6 @@ export default class ScormComponent extends Component {
             if (plug.checkAnswer(bx[ex].currentAnswer, bx[ex].correctAnswer)) {
                 points += bx[ex].weight;
                 bx[ex].score = bx[ex].weight;
-                console.log(bx[ex].num);
 
             }
             API.setExerciseScore(bx[ex].num, bx[ex].score, bx[ex].currentAnswer);

@@ -223,7 +223,6 @@ export default class EditorCanvasSli extends Component {
                                 <span> {i18n.t('messages.instance_limit')} </span>
                             </Alert>);
                             this.setState({ alert: alert });
-                            event.dragEvent.stopPropagation();
                             return;
                         }
                     }
@@ -236,7 +235,7 @@ export default class EditorCanvasSli extends Component {
                         page: page,
                     };
                     config.callback(initialParams, ADD_BOX);
-                    event.dragEvent.stopPropagation();
+
                 } else {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
                     let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
@@ -249,6 +248,7 @@ export default class EditorCanvasSli extends Component {
                         clone.parentElement.removeChild(clone);
                     }
                 }
+                event.dragEvent.stopPropagation();
             }.bind(this),
             ondropdeactivate: function(event) {
                 event.target.classList.remove('drop-active');

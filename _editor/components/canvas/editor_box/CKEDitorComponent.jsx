@@ -71,20 +71,20 @@ export default class CKEDitorComponent extends Component {
             this.refs.textarea.focus();
 
             /* TODO Scale text
-            // buildPreview() is called every time "size" dropdowm is opened
-            CKEDITOR.style.prototype.buildPreviewOriginal = CKEDITOR.style.prototype.buildPreview;
-            CKEDITOR.style.prototype.buildPreview = function (label) {
-                var result = this.buildPreviewOriginal (label);
-                var match = /^(.*)font-size:(\d+)vh(.*)$/.exec (result);
-                if (match) {
-                    // apparently ckeditor uses iframe or something that breaks vh units
-                    // we shall use current window height to convert vh to px here
-                    var pixels = Math.round (0.01 * window.innerHeight * parseInt (match[2]));
-                    result = match[1] + 'font-size:' + pixels + 'px' + match[3];
-                }
-                return result;
-            };
-            */
+          // buildPreview() is called every time "size" dropdowm is opened
+          CKEDITOR.style.prototype.buildPreviewOriginal = CKEDITOR.style.prototype.buildPreview;
+          CKEDITOR.style.prototype.buildPreview = function (label) {
+              var result = this.buildPreviewOriginal (label);
+              var match = /^(.*)font-size:(\d+)vh(.*)$/.exec (result);
+              if (match) {
+                  // apparently ckeditor uses iframe or something that breaks vh units
+                  // we shall use current window height to convert vh to px here
+                  var pixels = Math.round (0.01 * window.innerHeight * parseInt (match[2]));
+                  result = match[1] + 'font-size:' + pixels + 'px' + match[3];
+              }
+              return result;
+          };
+          */
         }
         window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
 

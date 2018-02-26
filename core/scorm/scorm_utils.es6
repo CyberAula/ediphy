@@ -5,12 +5,15 @@ import { isSection } from '../../common/utils';
 export function init() {
     let result = API.doInitialize();
     let currentStatus = API.doGetValue("cmi.completion_status");
+    let isPassed = API.doGetValue("cmi.success_status");
+
     let bookmark = API.doGetValue("cmi.location");
     if (currentStatus !== 'completed') {
         currentStatus = "incomplete";
     }
-
-    return { currentStatus: currentStatus, bookmark: bookmark };
+    let totalScore = API.doGetValue("cmi.score.raw") || 0;
+    let userName = API.doGetValue("cmi.learner_name") || "Anonymous";
+    return { currentStatus, bookmark, totalScore, userName, isPassed };
 }
 
 /**
@@ -40,12 +43,16 @@ export function changeInitialState(exercises, nums) {
     let length = nums.length; // API.doGetValue("cmi.objectives._count");
     let updatedExercises = JSON.parse(JSON.stringify(exercises));
     API.doSetValue("cmi.objectives." + (0) + ".id", 0);
+    API.doSetValue("cmi.interactions." + (0) + ".id", 0);
     for (let i = 0; i < length; i++) {
 
         let id = API.doSetValue("cmi.objectives." + (i + 1) + ".id", i + 1);
+        let interaction = API.doSetValue("cmi.interactions." + (i + 1) + ".id", i + 1);
+        let type = API.doSetValue("cmi.interactions." + (i + 1) + ".type", "other");
         let obj = API.doGetValue("cmi.objectives." + (i + 1) + ".score.raw");
         let comp = API.doGetValue("cmi.objectives." + (i + 1) + ".completion_status");
-        let ans = API.doGetValue("cmi.objectives." + (i + 1) + ".description");
+        // let ans = API.doGetValue("cmi.objectives." + (i + 1) + ".description");
+        let ans = API.doGetValue("cmi.interactions." + (i + 1) + ".learner_response");
         console.log(i, nums[i], updatedExercises[nums[i].page].exercises[nums[i].box]);
         updatedExercises[nums[i].page].exercises[nums[i].box].attempted = (comp === "completed");
         updatedExercises[nums[i].page].exercises[nums[i].box].num = (i + 1);
@@ -136,8 +143,10 @@ function setScore(who, min, max, raw, scaled, completion_status, success_status)
 export function setExerciseScore(who, score, answer) {
     API.doSetValue("cmi.objectives." + who + ".score.raw", score);
     API.doSetValue("cmi.objectives." + who + ".completion_status", "completed");
-    API.doSetValue("cmi.objectives." + who + ".description", JSON.stringify(answer));
+    // API.doSetValue("cmi.objectives." + who + ".description", JSON.stringify(answer));
+    API.doSetValue("cmi.interactions." + who + ".learner_response", JSON.stringify(answer));
     console.log("SETTING SCORE FOR EXERCISE ", who, score, answer);
+    console.log('DONE');
     return API.doCommit();
 
 }

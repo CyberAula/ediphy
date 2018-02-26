@@ -107,6 +107,7 @@ export default class VisorCanvasSli extends Component {
                             <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={this.props.exercises} />
                             <Score exercises={this.props.exercises}/>
                         </div>
+
                     </div>
                 </div>
 

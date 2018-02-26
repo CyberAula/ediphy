@@ -49,7 +49,7 @@ export default class VisorPluginPlaceholder extends Component {
                                                 key={index}
                                                 boxes={this.props.boxes}
                                                 changeCurrentView={this.props.changeCurrentView}
-                                                currentViewSelected={this.props.currentViewSelected}
+                                                currentView={this.props.currentView}
                                                 toolbars={this.props.toolbars}
                                                 fromScorm={this.props.fromScorm}
                                                 richElementsState={this.props.richElementsState}/>);
@@ -117,5 +117,5 @@ VisorPluginPlaceholder.propTypes = {
     /**
    * Selected view
    */
-    currentViewSelected: PropTypes.string.isRequired,
+    currentView: PropTypes.string.isRequired,
 };

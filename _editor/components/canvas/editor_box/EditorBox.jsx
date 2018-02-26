@@ -215,14 +215,18 @@ export default class EditorBox extends Component {
         return (
             <div className={classes} id={'box-' + this.props.id} name={toolbar.config.name}
                 onClick={e => {
+                    console.log(e, e.target, e.relatedTarget, e.currentTarget, );
+                    console.log(document.getElementById('clone'));
                     if (this.props.boxSelected !== this.props.id &&
                       (box.level < 1 || box.level < this.props.boxLevelSelected || isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes))) {
+                        console.log('HERE');
                         this.props.onBoxSelected(this.props.id);
                         e.stopPropagation();
                     }
-                    if(box.level === 0) {
-                        e.stopPropagation();
-                    }
+                    /* if(box.level === 0) {
+                      e.stopPropagation();
+                    } */
+                    e.stopPropagation();
                     /* TODO Borrar?
 
                     // If there's no box selected and current's level is 0 (otherwise, it would select a deeper box)
@@ -253,6 +257,7 @@ export default class EditorBox extends Component {
                 onDoubleClick={(e)=> {
                     if(toolbar.config && toolbar.config.needsTextEdition && this.props.id === this.props.boxSelected) {
                         this.props.onTextEditorToggled(this.props.id, true);
+                        e.stopPropagation();
                     }
                 }}
                 style={wholeBoxStyle}>
