@@ -200,6 +200,13 @@ export const initialState = (config) => { return config.sections_have_content ?
             showTextEditor: false,
             pluginId: 'sortable_container',
             state: {},
+            structure: {
+                height: "",
+                width: "",
+                aspectRatio: true,
+                rotation: "",
+                position: "absolute",
+            },
             style: {
                 backgroundColor: "#ffffff",
                 borderColor: "#000000",

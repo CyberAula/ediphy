@@ -14,6 +14,7 @@ function toolbarCreator(state, action) {
         id: action.payload.ids.id,
         pluginId: action.payload.initialParams.name,
         state: action.payload.state || {},
+        structure: action.payload.structure || {},
         style: action.payload.style || {},
         showTextEditor: false,
     };
