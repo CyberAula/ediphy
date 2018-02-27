@@ -376,14 +376,14 @@ export default class EditorBox extends Component {
         if (config.aspectRatioButtonConfig) {
             let arb = config.aspectRatioButtonConfig;
             if (arb.location.length === 2) {
-                let comp = toolbar.controls[arb.location[0]].accordions[arb.location[1]].buttons.__aspectRatio;
+                let comp = toolbar.structure.aspectRatio;
                 if (comp) {
                     return comp.checked;
                 }
                 return false;
 
             }
-            let comp = toolbar.controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio;
+            let comp = toolbar.structure.aspectRatio;
             if (comp) {
                 return comp.checked;
             }

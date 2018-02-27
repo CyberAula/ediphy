@@ -26,6 +26,10 @@ export function toolbarFiller(toolbar, id, state, config, initialParams, contain
     return toolbar;
 }
 
+export function toolbarMapper(toolbar, action) {
+    return toolbar;
+}
+
 export function createRichAccordions(controls) {
     if (!controls.main) {
         controls.main = {
