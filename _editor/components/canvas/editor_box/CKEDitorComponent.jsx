@@ -79,8 +79,11 @@ export default class CKEDitorComponent extends Component {
             // Obtain the current selection & range
             if (myEditor) {
                 let range = myEditor.createRange();
-                range.moveToElementEditEnd(range.root);
-                myEditor.getSelection().selectRanges([range]);
+                if (range && range.root) {
+                    range.moveToElementEditEnd(range.root);
+                    myEditor.getSelection().selectRanges([range]);
+                }
+
             // $.event.trigger({ type : 'keypress' });
             }
 

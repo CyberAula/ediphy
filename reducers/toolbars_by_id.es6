@@ -481,7 +481,7 @@ function toolbarReducer(state, action) {
     case EDIT_RICH_MARK:
         return changeProp(state, "state", action.payload.state);
     case RESIZE_BOX:
-        newState = Utils.deepClone(state);
+        newState = JSON.parse(JSON.stringify(state));
         if (newState.controls.main.accordions.__sortable) {
             let buttons = newState.controls.main.accordions.__sortable.buttons;
             if (buttons.__height && buttons.__width) {
@@ -577,42 +577,42 @@ function toolbarReducer(state, action) {
             ]
         );
     case UPDATE_TOOLBAR:
-        newState = Utils.deepClone(state);
+        let tnewState = JSON.parse(JSON.stringify(state));
         let pl = action.payload;
         if (pl.value.__name) {
             if (pl.accordions.length > 1) {
-                newState.controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]].buttons[pl.name] = pl.value;
+                tnewState.controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]].buttons[pl.name] = pl.value;
             } else {
-                newState.controls[pl.tab].accordions[pl.accordions[0]].buttons[pl.name] = pl.value;
+                tnewState.controls[pl.tab].accordions[pl.accordions[0]].buttons[pl.name] = pl.value;
             }
         } else if (pl.accordions.length > 1) {
-            newState.controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]]
+            tnewState.controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]]
                 .buttons[pl.name][typeof pl.value === "boolean" ? "checked" : "value"] = pl.value;
         } else {
-            newState.controls[pl.tab].accordions[pl.accordions[0]]
+            tnewState.controls[pl.tab].accordions[pl.accordions[0]]
                 .buttons[pl.name][typeof pl.value === "boolean" ? "checked" : "value"] = pl.value;
             if(pl.name === '__aspectRatio') {
                 // eslint-disable-next-line dot-notation
-                newState.controls[pl.tab].accordions[pl.accordions[0]].buttons['__height'].displayValue = 20;
+                tnewState.controls[pl.tab].accordions[pl.accordions[0]].buttons['__height'].displayValue = 20;
                 // eslint-disable-next-line dot-notation
-                newState.controls[pl.tab].accordions[pl.accordions[0]].buttons['__height'].auto = false;
+                tnewState.controls[pl.tab].accordions[pl.accordions[0]].buttons['__height'].auto = false;
             }
         }
 
         // Rebind callback functions because from not automanaged buttons
-        for (let tabKey in newState.controls) {
-            for (let accordionKey in newState.controls[tabKey].accordions) {
+        for (let tabKey in tnewState.controls) {
+            for (let accordionKey in tnewState.controls[tabKey].accordions) {
                 let button;
-                for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].buttons) {
-                    button = newState.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
+                for (let buttonKey in tnewState.controls[tabKey].accordions[accordionKey].buttons) {
+                    button = tnewState.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
                     if (!button.autoManaged) {
                         button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
                     }
                 }
-                if (newState.controls[tabKey].accordions[accordionKey].accordions) {
-                    for (let accordionKey2 in newState.controls[tabKey].accordions[accordionKey].accordions) {
-                        for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
-                            button = newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
+                if (tnewState.controls[tabKey].accordions[accordionKey].accordions) {
+                    for (let accordionKey2 in tnewState.controls[tabKey].accordions[accordionKey].accordions) {
+                        for (let buttonKey in tnewState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
+                            button = tnewState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
                             if (!button.autoManaged) {
                                 button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
                             }
@@ -621,7 +621,7 @@ function toolbarReducer(state, action) {
                 }
             }
         }
-        return newState;
+        return tnewState;
     case SET_CORRECT_ANSWER: // TODO Borrar
         let newScoreState = JSON.parse(JSON.stringify(state));
         if (newScoreState.state && newScoreState.state.__score) {
