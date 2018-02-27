@@ -157,6 +157,7 @@ export function VirtualTour(base) {
                         id={id}
                         searchBox
                         update={(lat, lng, zoom, render)=>{
+                            console.log('cnaging state');
                             base.setState('config', { lat: lat, lng: lng, zoom: zoom });
                         }}>
                         {markElements}
