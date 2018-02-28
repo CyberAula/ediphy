@@ -38,7 +38,9 @@ export default class ScormComponent extends Component {
     componentWillReceiveProps(nextProps) {
         if (this.props.currentView !== nextProps.currentView) {
             if(!isContainedView(nextProps.currentView)) {
-                API.changeLocation(nextProps.currentView);
+                if(API.isConnected()) {
+                    API.changeLocation(nextProps.currentView);
+                }
             }
 
         }
@@ -60,7 +62,11 @@ export default class ScormComponent extends Component {
         window.addEventListener("beforeunload", this.onUnload);
     }
     onLoad(event) {
-        let init = API.init();
+        let scorm = new API.init(true, true);
+        if(!API.isConnected()) {
+            return;
+        }
+        let init = API.getInitialState();
         if (init /* && this.props.fromScorm*/) {
             let bookmark = (init && init.bookmark && init.bookmark !== '') ? init.bookmark : this.getFirstPage();
             this.props.changeCurrentView(bookmark);
@@ -70,13 +76,14 @@ export default class ScormComponent extends Component {
             initState.isPassed = init.isPassed;
             initState.currentStatus = init.currentStatus;
             initState.currentStatus = init.currentStatus;
-
             this.setState(initState);
         }
     }
 
     onUnload(event) {
-        API.finish();
+        if(API.isConnected()) {
+            API.finish();
+        }
     }
     componentWillUnmount() {
         window.removeEventListener("beforeunload", this.onUnload);
@@ -103,14 +110,15 @@ export default class ScormComponent extends Component {
                 bx[ex].score = bx[ex].weight;
 
             }
-            API.setExerciseScore(bx[ex].num, bx[ex].score, bx[ex].currentAnswer);
+            if(API.isConnected()) {
+                API.setExerciseScore(bx[ex].num, bx[ex].score, bx[ex].currentAnswer);
+            }
             bx[ex].attempted = true;
         }
 
         exercises[page].attempted = true;
         let pageScore = points / total;
         exercises[page].score = parseFloat(pageScore.toFixed(2));
-
         let totalScore = parseFloat((this.state.totalScore + pageScore * exercises[page].weight).toFixed(2));
         this.setState({ exercises, totalScore });
         let visitedPctg = 0;
@@ -120,7 +128,9 @@ export default class ScormComponent extends Component {
             }
         }
         visitedPctg = visitedPctg / Object.keys(exercises).length;
-        API.setSCORMScore(totalScore, this.totalWeight, visitedPctg);
+        if(API.isConnected()) {
+            API.setSCORMScore(totalScore, this.totalWeight, visitedPctg);
+        }
     }
 
 }

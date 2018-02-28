@@ -111,7 +111,6 @@ export default class CKEDitorComponent extends Component {
             }
             CKEDITOR.inlineAll();
             for (let editor in CKEDITOR.instances) {
-                console.log(editor, this.props.id);
                 if (this.props.toolbars[editor].state.__text) {
                     CKEDITOR.instances[editor].setData(decodeURI(this.props.toolbars[editor].state.__text));
                 }
