@@ -388,6 +388,12 @@ let components = {
         "onToggleFull": "Expande el índice para que ocupe el 100% del ancho",
         "onToggleWidth": "Modifica el ancho del índice",
     },
+    "ExportModal": {
+        "show": "Indica si se muestra el modal",
+        "export": "Función para exportar a HTML",
+        "scorm": "Función para exportar a SCORM",
+        "close": "Función para ocultar el modal",
+    },
     "FileInput": {
         "name": "Nombre para el input en el formulario",
         "disabled": "Input desactivado",
@@ -546,6 +552,7 @@ let components = {
         "serverModalOpen": "Modal que indica si la exportación/importación al servidor se realizó de forma satisfactoria o no",
         "toggleImportFile": "Muestra/Oculta el formulario modal de importación de ficheros",
         "toggleGlobalConfig": "Muestra/Oculta el formulario modal de configuración global del curso",
+        "toggleExport": "Muestra/Oculta el formulario modal de exportación del curso",
         "undoDisabled": "Activa/desactiva la funcionalidad: deshacer",
     },
     "PluginsMenu": {

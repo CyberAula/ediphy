@@ -66,7 +66,6 @@ export default class EditorNavBar extends Component {
                     onExternalCatalogToggled={this.props.onExternalCatalogToggled}
                     opens={this.props.opens}
                     save={this.props.save}
-                    scorm={this.props.scorm}
                     serverModalOpen={this.props.serverModalOpen}
                     toggleGlobalConfig={this.toggleGlobalConfig}
                     toggleImportFile={this.toggleImportFile}
@@ -88,7 +87,7 @@ export default class EditorNavBar extends Component {
                     containedViewSelected={this.props.containedViewSelected}
                     show={this.state.showImportFile}
                     close={this.toggleImportFile}/>
-                <ExportModal show={this.state.showExport} export={this.props.export} close={this.toggleExport} />
+                <ExportModal show={this.state.showExport} export={this.props.export} scorm={this.props.scorm} close={this.toggleExport} />
 
             </Col>
         );

@@ -20,26 +20,26 @@ export default class ExportModal extends Component {
    */
     render() {
         let exportFormats = [
-            { format: "SCORM 1.2", handler: ()=> {this.props.export(); alert("Exporting to SCORM 1.2");} },
-            { format: "SCORM 2004", handler: ()=> {this.props.export(); alert("Exporting to SCORM 2004");} },
+            { format: "SCORM 1.2", handler: ()=> {this.props.scorm(); alert("Exporting to SCORM 1.2");} },
+            { format: "SCORM 2004", handler: ()=> {this.props.scorm(); alert("Exporting to SCORM 2004");} },
             { format: "HTML", handler: ()=> {this.props.export(); alert("Exporting to HTML");} },
         ];
         return (
             <Modal className="pageModal"
                 show={this.props.show}
-                backdrop={'static'} bsSize="large"
-                aria-labelledby="contained-modal-title-lg"
+                backdrop={'static'} bsSize="small"
+                aria-labelledby="contained-modal-title-xs"
                 onHide={this.props.close}>
                 <Modal.Header closeButton>
-                    <Modal.Title><span id="previewTitle">{i18n.t('export_scorm')}</span></Modal.Title>
+                    <Modal.Title><span id="previewTitle">{i18n.t('messages.export_course')}</span></Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="exportoScormModalBody" style={{ overFlowY: 'auto' }}>
                     <Grid>
                         <form>
                             <Row>
-                                <Col xs={12} md={7} lg={7}>
+                                <Col xs={12}>
                                     <FormGroup >
-                                        <ControlLabel> {i18n.t("export_to")}</ControlLabel><br/>
+                                        <ControlLabel> {i18n.t("messages.export_to")}:</ControlLabel><br/>
                                         {exportFormats.map((format, i) => {
                                             return (<Radio name="radioGroup" className="radioExportScorm" checked={this.state.format === i}
                                                 onChange={e => {this.setState({ format: i });}}>
@@ -58,7 +58,7 @@ export default class ExportModal extends Component {
                     }}>{i18n.t("global_config.Discard")}</Button>
                     <Button bsStyle="primary" id="accept_export_to_scorm" onClick={e => {
                         exportFormats[this.state.format].handler(); e.preventDefault(); this.props.close();
-                    }}>{i18n.t("global_config.Accept")}</Button>{'   '}
+                    }}>{i18n.t("messages.export_course")}</Button>{'   '}
                 </Modal.Footer>
             </Modal>
         );
@@ -72,13 +72,13 @@ ExportModal.propTypes = {
    */
     show: PropTypes.bool,
     /**
-   * Configuration course dictionary. Object identical to Redux state ***globalConfig*** .
+   * Function for exporting the course to HTML
    */
-    globalConfig: PropTypes.object.isRequired,
+    export: PropTypes.func.isRequired,
     /**
-   * Saves new configuration
+   * Function for exporting the course to SCORM
    */
-    changeGlobalConfig: PropTypes.func.isRequired,
+    scorm: PropTypes.func.isRequired,
     /**
    * Closes course configuration modal
    */

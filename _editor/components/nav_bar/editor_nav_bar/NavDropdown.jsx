@@ -104,10 +104,7 @@ export default class NavDropdown extends Component {
 }
 
 NavDropdown.propTypes = {
-    /**
-     * Exports the course as HTML
-     */
-    export: PropTypes.func.isRequired,
+
     /**
      * Identifies the view that is being edited
      */
@@ -125,10 +122,6 @@ NavDropdown.propTypes = {
      */
     save: PropTypes.func.isRequired,
     /**
-     * Exports the course in SCORM format
-     */
-    scorm: PropTypes.func.isRequired,
-    /**
      * Popup that indicates whether the import/export to the server was successful or not
      */
     serverModalOpen: PropTypes.func.isRequired,
@@ -140,6 +133,10 @@ NavDropdown.propTypes = {
      * Shows/Hides the global course configuration modal form
      */
     toggleGlobalConfig: PropTypes.func.isRequired,
+    /**
+     * Shows/Hides the exportation modal form
+     */
+    toggleExport: PropTypes.func.isRequired,
     /**
      * Enables the "undo" feature
      */
