@@ -40,14 +40,14 @@ export default class NavDropdown extends Component {
                             {i18n.t('Save')}
                         </button>
                     </MenuItem>}
-                    <MenuItem disabled={this.props.undoDisabled} eventKey="0" key="0">
+                    <MenuItem disabled={this.props.undoDisabled} eventKey="1" key="1">
                         <button className="dropdownButton" title={i18n.t('messages.import_file')}
                             disabled={ false }
                             onClick={this.props.toggleImportFile}><i className="material-icons">file_upload</i>
                             {i18n.t('messages.import_file')}
                         </button>
                     </MenuItem>
-                    <MenuItem eventKey="1" key="1">
+                    {/*                    <MenuItem eventKey="1" key="1">
                         <button className="dropdownButton" title={i18n.t('messages.export_to_HTML')}
                             disabled={ (this.props.navItemSelected === 0) || this.props.undoDisabled}
                             onClick={() => this.props.export() }><i className="material-icons">file_download</i>
@@ -58,6 +58,13 @@ export default class NavDropdown extends Component {
                         <button className="dropdownButton" title={i18n.t('messages.export_to_SCORM')}
                             disabled={(this.props.navItemSelected === 0) || this.props.undoDisabled}
                             onClick={() => this.props.scorm() }><i className="material-icons">class</i>
+                            {i18n.t('messages.export_to_SCORM')}
+                        </button>
+                    </MenuItem>*/}
+                    <MenuItem eventKey="2" key="2">
+                        <button className="dropdownButton" title={i18n.t('messages.export')}
+                            disabled={(this.props.navItemSelected === 0) || this.props.undoDisabled}
+                            onClick={this.props.toggleExport}><i className="material-icons">file_download</i>
                             {i18n.t('messages.export_to_SCORM')}
                         </button>
                     </MenuItem>
