@@ -27,7 +27,7 @@ import { isSortableContainer, isCanvasElement, isContainedView, isSlide, isDocum
 import i18n from 'i18next';
 import './_pluginToolbar.scss';
 
-import { renderAccordion } from "../../../../core/editor/accordion_provider";
+import { renderAccordion, toolbarMapper } from "../../../../core/editor/accordion_provider";
 import FileInput from "../../common/file-input/FileInput";
 import PropTypes from 'prop-types';
 
@@ -52,6 +52,7 @@ export default class PluginToolbar extends Component {
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let config = apiPlugin.getConfig();
         let controls = apiPlugin.getToolbar();
+
         // We define the extra buttons we need depending on plugin's configuration
         let textButton;
         if (config.needsTextEdition) {
@@ -84,6 +85,8 @@ export default class PluginToolbar extends Component {
                 </div>
             );
         }
+
+        controls = toolbarMapper(controls, toolbar);
 
         return (
             <div id="wrap"
@@ -136,7 +139,7 @@ export default class PluginToolbar extends Component {
                                                     tab.accordions[accordionKey],
                                                     tabKey,
                                                     [accordionKey],
-                                                    toolbar,
+                                                    controls,
                                                     ind,
                                                     this.props
                                                 );

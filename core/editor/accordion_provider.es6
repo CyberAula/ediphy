@@ -26,8 +26,26 @@ export function toolbarFiller(toolbar, id, state, config, initialParams, contain
     return toolbar;
 }
 
-export function toolbarMapper(toolbar, action) {
-    return toolbar;
+export function toolbarMapper(controls, toolbar) {
+    if (Object.keys(toolbar.state).length > 0) {
+        Object.keys(toolbar.state).forEach((s)=>{
+            // avoid container ids
+            if(s.indexOf("__") === -1) {
+                controls.main.accordions.basic.buttons[s].value = toolbar.state[s];
+            }
+        });
+    }
+    if (Object.keys(toolbar.style).length > 0) {
+        Object.keys(toolbar.style).forEach((s) => {
+            controls.main.accordions.style.buttons[s].value = toolbar.style[s];
+        });
+    }
+    if (Object.keys(toolbar.structure).length > 0) {
+        Object.keys(toolbar.structure).forEach((s) => {
+            controls.main.accordions.structure.buttons[s].value = toolbar.style[s];
+        });
+    }
+    return controls;
 }
 
 export function createRichAccordions(controls) {
