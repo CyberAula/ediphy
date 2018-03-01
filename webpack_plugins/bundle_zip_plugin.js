@@ -1,4 +1,5 @@
 let fs = require("fs");
+let nodePath = require("path");
 let JSZip = require("jszip");
 let async = require("async");
 let dir = require('node-dir');
@@ -156,40 +157,21 @@ ZipBundlePlugin.prototype.apply = function(compiler) {
                     }
                 });
             },
-            function(callback) {
-                let path = "./dist/lib/scorm/scorm/";
-                fs.stat(path, function(err, stats) {
-                    if(err) {
-                        console.error("./dist/lib/scorm/scorm/ does not exist!");
-                        callback(null, "scorm");
-                    }else{
-                        dir.files(path, function(err, filelist) {
-                            if (err) {throw err;}
-                            async.each(filelist, function(elem, call) {
-                                scorm_12_zip.file(elem.replace("dist\/lib\/scorm\/", ""), fs.readFileSync("./" + elem));
-                                scorm_2004_zip.file(elem.replace("dist\/lib\/scorm\/", ""), fs.readFileSync("./" + elem));
-                                call();
-                            }, function(err, results) {
-                                callback(null, "scorm");
-                            });
-                        });
-                    }
-                });
-            },
+
             function(callback) {
                 let path = "./dist/lib/scorm/manifest_files_12/";
                 fs.stat(path, function(err, stats) {
                     if(err) {
-                        console.error("/dist/manifest_files_12/ does not exist!");
-                        callback(null, "manifest_files");
+                        console.error("/dist/lib/scorm/manifest_files_12/ does not exist!");
+                        callback(null, "manifest_files_12");
                     }else{
                         dir.files(path, function(err, filelist) {
                             if (err) {throw err;}
                             async.each(filelist, function(elem, call) {
-                              scorm_12_zip.file(elem.replace("dist\/lib\/scorm\/manifest_files_12/", ""), fs.readFileSync("./" + elem));
+                              scorm_12_zip.file(nodePath.basename(elem), fs.readFileSync("./" + elem));
                                 call();
                             }, function(err, results) {
-                                callback(null, "manifest_files");
+                                callback(null, "manifest_files_12");
                             });
                         });
                     }
@@ -199,16 +181,16 @@ ZipBundlePlugin.prototype.apply = function(compiler) {
             let path = "./dist/lib/scorm/manifest_files_2004/";
             fs.stat(path, function(err, stats) {
               if(err) {
-                console.error("/dist/manifest_files_2004/ does not exist!");
-                callback(null, "manifest_files");
+                console.error("/dist/lib/scorm/manifest_files_2004/ does not exist!");
+                callback(null, "manifest_files_2004");
               }else{
                 dir.files(path, function(err, filelist) {
                   if (err) {throw err;}
                   async.each(filelist, function(elem, call) {
-                    scorm_2004_zip.file(elem.replace("dist\/lib\/scorm\/manifest_files_2004/", ""), fs.readFileSync("./" + elem));
+                    scorm_2004_zip.file(nodePath.basename(elem), fs.readFileSync("./" + elem));
                     call();
                   }, function(err, results) {
-                    callback(null, "manifest_files");
+                    callback(null, "manifest_files_2004");
                   });
                 });
               }
