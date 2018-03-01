@@ -82,8 +82,10 @@ export function getExerciseNums(exercises) {
 export function changeInitialState(exercises, nums) {
     let length = nums.length; // API.doGetValue("cmi.objectives._count");
     let updatedExercises = JSON.parse(JSON.stringify(exercises));
-    scorm.setvalue("cmi.objectives." + (0) + ".id", 0);
-    scorm.setvalue("cmi.interactions." + (0) + ".id", 0);
+    scorm.setvalue("cmi.objectives." + 0 + ".id", 0);
+    scorm.setvalue("cmi.interactions." + 0 + ".id", 0);
+    scorm.setvalue("cmi.interactions." + 0 + ".type", "other");
+
     for (let i = 0; i < length; i++) {
 
         let id = scorm.setvalue("cmi.objectives." + (i + 1) + ".id", i + 1);

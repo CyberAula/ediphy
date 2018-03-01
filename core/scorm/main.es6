@@ -2,42 +2,53 @@ import Ediphy from '../editor/main';
 import { ID_PREFIX_SECTION } from '../../common/constants';
 import { isSection } from '../../common/utils';
 export default {
-    createSPAimsManifest: function(exercisesObj, sections, globalConfig) {
+    createSPAimsManifest: function(exercisesObj, sections, globalConfig, is2004) {
         let doc = document.implementation.createDocument("", "", null);
 
         // /     ROOT MANIFEST
         let manifest = doc.createElement("manifest");
         manifest.setAttribute("identifier", "com.ediphy.presentation");
         manifest.setAttribute("version", "1.0");
-        manifest.setAttribute("xmlns", "http://www.imsglobal.org/xsd/imscp_v1p1");
-        manifest.setAttribute("xmlns:adlcp", "http://www.adlnet.org/xsd/adlcp_v1p3");
-        manifest.setAttribute("xmlns:adlseq", "http://www.adlnet.org/xsd/adlseq_v1p3");
-        manifest.setAttribute("xmlns:adlnav", "http://www.adlnet.org/xsd/adlnav_v1p3");
-        manifest.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        manifest.setAttribute("xmlns:imsss", "http://www.imsglobal.org/xsd/imsss");
-        manifest.setAttribute("xsi:schemaLocation", "http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd");
+        if (is2004) {
+            manifest.setAttribute("xmlns", "http://www.imsglobal.org/xsd/imscp_v1p1");
+            manifest.setAttribute("xmlns:adlcp", "http://www.adlnet.org/xsd/adlcp_v1p3");
+            manifest.setAttribute("xmlns:adlseq", "http://www.adlnet.org/xsd/adlseq_v1p3");
+            manifest.setAttribute("xmlns:adlnav", "http://www.adlnet.org/xsd/adlnav_v1p3");
+            manifest.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+            manifest.setAttribute("xmlns:imsss", "http://www.imsglobal.org/xsd/imsss");
+            manifest.setAttribute("xsi:schemaLocation", "http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd");
 
-        // /      METADATA
-        let metadata = doc.createElement("metadata");
-        let schema = doc.createElement("schema");
+        } else {
+            manifest.setAttribute("xmlns", "http://www.imsproject.org/xsd/imscp_rootv1p1p2");
+            manifest.setAttribute("xmlns:adlcp", "http://www.adlnet.org/xsd/adlcp_rootv1p2");
+            manifest.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+            manifest.setAttribute("xsi:schemaLocation", "http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd");
+
+        }
+
         let schema_txt = doc.createTextNode("ADL SCORM");
+        let schema = doc.createElement("schema");
         schema.appendChild(schema_txt);
+
+        let metadata = doc.createElement("metadata");
         metadata.appendChild(schema);
+
         let schemaVersion = doc.createElement("schemaversion");
-        let schema_version_txt = doc.createTextNode("2004 3rd Edition");
+        let schema_version_txt = doc.createTextNode(is2004 ? "2004 4th Edition" : "1.2");
         schemaVersion.appendChild(schema_version_txt);
         metadata.appendChild(schemaVersion);
+
         metadata = this.lomCreator(globalConfig, doc, metadata);
 
         // /       ORGANIZATION (USED DEFAULT)
-        let organizations = this.organizationsCreator(globalConfig, exercisesObj, sections, doc);
+        let organizations = this.organizationsCreator(globalConfig, exercisesObj, sections, doc, is2004);
 
         // /   RESOURCE ITEMS
         let resources = doc.createElement("resources");
         let resource = doc.createElement("resource");
         resource.setAttribute("identifier", "resource_1");
         resource.setAttribute("type", "webcontent");
-        resource.setAttribute("adlcp:scormType", "sco");
+        resource.setAttribute((is2004 ? "adlcp:scormType" : "adlcp:scormtype"), "sco");
         resource.setAttribute("href", "dist/index.html");
         let file = doc.createElement("file");
         file.setAttribute("href", "dist/index.html");
@@ -52,7 +63,6 @@ export default {
         manifest.appendChild(resources);
 
         doc.appendChild(manifest);
-
         return (this.beautifyXML(new XMLSerializer().serializeToString(doc)));
     },
     lomCreator: function(gc, doc, metadata) {
@@ -647,7 +657,7 @@ export default {
         });
         return objectives;
     },
-    organizationsCreator: function(gc, exercisesObj, sections, doc) {
+    organizationsCreator: function(gc, exercisesObj, sections, doc, is2004) {
         let title = gc.title;
         let organizations = doc.createElement("organizations");
         organizations.setAttribute("default", "GING");
@@ -661,12 +671,19 @@ export default {
         organization.appendChild(title_org);
 
         let root_element = doc.createElement("item");
+
         root_element.setAttribute("identifierref", "resource_1");
         root_element.setAttribute("identifier", "item_1");
+        root_element.setAttribute("isvisible", "true");
         let root_title = doc.createElement("title");
-        let item_title = doc.createTextNode(title);
-        root_title.appendChild(item_title);
+        let root_title_text = doc.createTextNode(title);
+
+        root_title.appendChild(root_title_text);
         root_element.appendChild(root_title);
+        let mastery_score = doc.createElement("adlcp:masteryscore");
+        let mastery_score_text = doc.createTextNode("50");
+        mastery_score.appendChild(mastery_score_text);
+        root_element.appendChild(mastery_score);
         let root_seq = doc.createElement("imsss:sequencing");
         let objectives = this.objCreator(exercisesObj, sections, doc);
         root_seq.appendChild(objectives);
@@ -674,7 +691,9 @@ export default {
         deliveryControls.setAttribute("completionSetByContent", "true");
         deliveryControls.setAttribute("objectiveSetByContent", "true");
         root_seq.appendChild(deliveryControls);
-        root_element.appendChild(root_seq);
+        if (2 > 3/* is2004*/) {
+            root_element.appendChild(root_seq);
+        }
         organization.appendChild(root_element);
         let ims_org = doc.createElement("imsss:sequencing");
         let ims_controlMode = doc.createElement("imsss:controlMode");
@@ -687,129 +706,5 @@ export default {
     },
     santinize_id: function(str) {
         return str.replace(/\-/g, "\_");
-    },
-    createOldimsManifest: function(title, sections) {
-        let doc = document.implementation.createDocument("", "", null);
-
-        // /     ROOT MANIFEST
-        let manifest = doc.createElement("manifest");
-        manifest.setAttribute("xmlns", "http://www.imsproject.org/xsd/imscp_rootv1p1p2");
-        manifest.setAttribute("xmlns:adlcp", "http://www.adlnet.org/xsd/adlcp_rootv1p2");
-        manifest.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        manifest.setAttribute("identifier", "com.ediphy.presentation");
-        manifest.setAttribute("version", "1.0");
-        manifest.setAttribute("xsi:schemaLocation", "http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd");
-
-        // /      METADATA
-        let metadata = doc.createElement("metadata");
-        let schema = doc.createElement("schema");
-        let schema_txt = doc.createTextNode("ADL SCORM");
-        schema.appendChild(schema_txt);
-        metadata.appendChild(schema);
-
-        let schemaVersion = doc.createElement("schemaversion");
-        let schema_version_txt = doc.createTextNode("1.2");
-        schemaVersion.appendChild(schema_version_txt);
-        metadata.appendChild(schemaVersion);
-
-        // /       ORGANIZATION (USED DEFAULT)
-        let organizations = doc.createElement("organizations");
-        organizations.setAttribute("default", "defaultOrganization");
-        let organization = doc.createElement("organization");
-        organization.setAttribute("identifier", "defaultOrganization");
-
-        //        ORGANIZATION _TITLE
-        let title_org = doc.createElement("title");
-        let title_item_txt = doc.createTextNode(title);
-        title_org.appendChild(title_item_txt);
-        organization.appendChild(title_org);
-
-        // Create Organization Item Tree
-        let root_elements = sections[0].children;
-        // Resource XLM elements array
-        let resource_elements = [];
-
-        //        ORGANIZATION_ITEMS
-        for (let n = 0; n < root_elements.length; n ++) {
-            let root_section = root_elements[n];
-
-            if(!sections[root_section].hidden) {
-                let children_elements = [];
-
-                let root_element = doc.createElement("item");
-
-                root_element.setAttribute("identifier", this.santinize_id(root_section) + "_item");
-                if (Ediphy.Config.sections_have_content || root_section.indexOf(ID_PREFIX_SECTION) === -1) {
-                    root_element.setAttribute("identifierref", this.santinize_id(sections[root_section].id) + "_resource");
-                }
-
-                let root_element_title = doc.createElement("title");
-                let root_element_text = doc.createTextNode(sections[root_section].name);
-                root_element_title.appendChild(root_element_text);
-                root_element.appendChild(root_element_title);
-
-                let sections_copy = JSON.parse(JSON.stringify(sections));
-                children_elements = sections_copy[root_section].children;
-
-                let unit;
-                if(typeof sections[root_section].unitNumber === "undefined") {
-                    unit = "blank";
-                } else {
-                    unit = sections[root_section].unitNumber;
-                }
-                // Added root element for resource iteration
-                resource_elements.push({
-                    path: "unit" + unit + "/" + this.santinize_id(sections[root_section].id) + ".html",
-                    id: sections[root_section].id,
-                });
-
-                // Unit children Tree
-                while (children_elements.length !== 0) {
-                    let actual_child = children_elements.shift();
-                    let branch = this.xmlOrganizationBranch(actual_child, actual_child, sections_copy, doc, resource_elements);
-                    if(typeof branch !== "undefined") {
-                        root_element.appendChild(branch);
-                    }
-                }
-
-                // end children Tree
-                organization.appendChild(root_element);
-            }
-
-        }
-        // end of Organization Item Tree
-
-        organizations.appendChild(organization);
-
-        // /   RESOURCE ITEMS
-        let resources = doc.createElement("resources");
-        for (let i = 0; i < resource_elements.length; i++) {
-            if (!Ediphy.Config.sections_have_content && (resource_elements[i].id.indexOf(ID_PREFIX_SECTION) !== -1)) {
-
-            }
-            let resource = doc.createElement("resource");
-            resource.setAttribute("identifier", this.santinize_id(resource_elements[i].id) + "_resource");
-            resource.setAttribute("type", "webcontent");
-            resource.setAttribute("adlcp:scormtype", "sco");
-            resource.setAttribute("href", resource_elements[i].path);
-
-            let file = doc.createElement("file");
-            file.setAttribute("href", resource_elements[i].path);
-            resource.appendChild(file);
-
-            resources.appendChild(resource);
-            // End of pieze of code to iterate
-        }
-
-        // Common DATA
-
-        // / APPEND DATA
-        manifest.appendChild(metadata);
-        manifest.appendChild(organizations);
-        manifest.appendChild(resources);
-
-        doc.appendChild(manifest);
-
-        return (this.beautifyXML(new XMLSerializer().serializeToString(doc)));
     },
 };
