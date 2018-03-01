@@ -114,8 +114,10 @@ export default function(state = {}, action = {}) {
         newState = {
             ...state,
             [action.payload.id]: {
-                state: action.payload.state,
-                style: action.payload.style,
+                ...state[action.payload.id],
+                state: action.payload.state || state[action.payload.id].state,
+                structure: action.payload.structure || state[action.payload.id].structure,
+                style: action.payload.style || state[action.payload.id].style,
             },
         };
         return newState;

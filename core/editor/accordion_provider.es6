@@ -396,6 +396,7 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
 export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key, toolbar_props) {
     let button = accordion.buttons[buttonKey];
     let children = null;
+
     let id = (toolbar_props.boxSelected !== -1) ?
         toolbar_props.boxSelected :
         (toolbar_props.containedViewSelected !== 0) ?
@@ -403,6 +404,10 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             toolbar_props.navItemSelected;
 
     // get toolbar
+    let toolbar_plugin_state;
+    if(toolbar_props.boxSelected !== -1) {
+        toolbar_plugin_state = toolbar_props.pluginToolbars[toolbar_props.boxSelected];
+    }
     let props = {
         key: ('child_' + key),
         id: ('page' + '_' + buttonKey),
@@ -538,13 +543,13 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 }
             }
 
-            toolbar_props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+            // toolbar_props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
             if (!button.autoManaged) {
                 if (!button.callback) {
                     handlecanvasToolbar(button.__name, value, accordion, toolbar_props);
                 } else {
-                    button.callback(state, buttonKey, value, id, UPDATE_PLUGIN_TOOLBAR);
+                    button.callback(toolbar_plugin_state.state, buttonKey, value, id, UPDATE_PLUGIN_TOOLBAR);
                 }
 
             }
