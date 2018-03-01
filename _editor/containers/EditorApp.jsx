@@ -125,8 +125,8 @@ class EditorApp extends Component {
                         undo={() => {this.dispatchAndSetState(ActionCreators.undo());}}
                         redo={() => {this.dispatchAndSetState(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
-                        export={() => {Ediphy.Visor.exports(this.props.store.getState().present);}}
-                        scorm={() => {Ediphy.Visor.exportScorm(this.props.store.getState().present);}}
+                        export={() => {Ediphy.Visor.exportsHTML(this.props.store.getState().present);}}
+                        scorm={(is2004) => {Ediphy.Visor.exportScorm(this.props.store.getState().present, is2004);}}
                         save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present })); }}
                         category={this.state.pluginTab}
                         opens={() => {this.dispatchAndSetState(importStateAsync());}}

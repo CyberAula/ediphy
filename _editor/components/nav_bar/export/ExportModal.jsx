@@ -20,20 +20,20 @@ export default class ExportModal extends Component {
    */
     render() {
         let exportFormats = [
-            { format: "SCORM 1.2", handler: ()=> {this.props.scorm(); alert("Exporting to SCORM 1.2");} },
-            { format: "SCORM 2004", handler: ()=> {this.props.scorm(); alert("Exporting to SCORM 2004");} },
-            { format: "HTML", handler: ()=> {this.props.export(); alert("Exporting to HTML");} },
+            { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false);} },
+            { format: "SCORM 2004", handler: ()=> {this.props.scorm(true);} },
+            { format: "HTML", handler: ()=> {this.props.export();} },
         ];
         return (
-            <Modal className="pageModal"
+            <Modal className="pageModal exportoScormModalBody"
                 show={this.props.show}
-                backdrop={'static'} bsSize="small"
-                aria-labelledby="contained-modal-title-xs"
+                backdrop={'static'} bsSize="medium"
+                aria-labelledby="contained-modal-title-md"
                 onHide={this.props.close}>
                 <Modal.Header closeButton>
-                    <Modal.Title><span id="previewTitle">{i18n.t('messages.export_course')}</span></Modal.Title>
+                    <Modal.Title><span id="previewTitle"> {i18n.t('messages.export_course')}</span></Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="exportoScormModalBody" style={{ overFlowY: 'auto' }}>
+                <Modal.Body style={{ overFlowY: 'auto' }}>
                     <Grid>
                         <form>
                             <Row>
@@ -47,6 +47,8 @@ export default class ExportModal extends Component {
                                             </Radio>);
                                         })}
                                     </FormGroup>
+                                    <div className={"explanation"}>{i18n.t("SCORM Explanation")}</div>
+
                                 </Col>
                             </Row>
                         </form>

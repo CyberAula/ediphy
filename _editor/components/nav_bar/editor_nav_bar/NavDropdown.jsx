@@ -41,10 +41,10 @@ export default class NavDropdown extends Component {
                         </button>
                     </MenuItem>}
                     <MenuItem disabled={this.props.undoDisabled} eventKey="1" key="1">
-                        <button className="dropdownButton" title={i18n.t('messages.import_file')}
+                        <button className="dropdownButton" title={i18n.t('messages.import')}
                             disabled={ false }
                             onClick={this.props.toggleImportFile}><i className="material-icons">file_upload</i>
-                            {i18n.t('messages.import_file')}
+                            {i18n.t('messages.import')}
                         </button>
                     </MenuItem>
                     {/*                    <MenuItem eventKey="1" key="1">
@@ -63,9 +63,9 @@ export default class NavDropdown extends Component {
                     </MenuItem>*/}
                     <MenuItem eventKey="2" key="2">
                         <button className="dropdownButton" title={i18n.t('messages.export')}
-                            disabled={(this.props.navItemSelected === 0) || this.props.undoDisabled}
+                            disabled={this.props.navItemSelected === 0}
                             onClick={this.props.toggleExport}><i className="material-icons">file_download</i>
-                            {i18n.t('messages.export_to_SCORM')}
+                            {i18n.t('messages.export')}
                         </button>
                     </MenuItem>
                     <MenuItem disabled={false} eventKey="3" key="3">
