@@ -3,7 +3,7 @@ import { isContainedView, isSlide, isSortableBox, isSortableContainer } from "..
 import Select from "react-select";
 import { ControlLabel, FormControl, FormGroup, Panel, Radio } from "react-bootstrap";
 import RadioButtonFormGroup from "../../_editor/components/toolbar/radio_button_form_group/RadioButtonFormGroup";
-import { UPDATE_TOOLBAR } from "../../common/actions";
+import { UPDATE_PLUGIN_TOOLBAR } from "../../common/actions";
 import ToggleSwitch from "@trendmicro/react-toggle-switch/lib/index";
 import React from "react";
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
@@ -396,7 +396,13 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
 export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key, toolbar_props) {
     let button = accordion.buttons[buttonKey];
     let children = null;
-    let id = toolbar_props.navItemSelected;
+    let id = (toolbar_props.boxSelected !== -1) ?
+        toolbar_props.boxSelected :
+        (toolbar_props.containedViewSelected !== 0) ?
+            toolbar_props.containedViewSelected :
+            toolbar_props.navItemSelected;
+
+    // get toolbar
     let props = {
         key: ('child_' + key),
         id: ('page' + '_' + buttonKey),
@@ -418,7 +424,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             }
 
             if (!button.autoManaged && button.callback) {
-                button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
+                button.callback(state, buttonKey, value, id, UPDATE_PLUGIN_TOOLBAR);
             }
         },
         onChange: e => {
@@ -538,7 +544,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 if (!button.callback) {
                     handlecanvasToolbar(button.__name, value, accordion, toolbar_props);
                 } else {
-                    button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
+                    button.callback(state, buttonKey, value, id, UPDATE_PLUGIN_TOOLBAR);
                 }
 
             }

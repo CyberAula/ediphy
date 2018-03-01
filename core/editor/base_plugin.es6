@@ -438,6 +438,7 @@ export default function() {
             this.render(reason);
         },
         setState: function(key, value) {
+            // chose if modify here or after
             state[key] = value;
         },
         getState: function() {

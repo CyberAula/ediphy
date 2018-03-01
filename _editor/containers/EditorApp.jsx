@@ -14,7 +14,7 @@ import {
     deleteContainedView, selectContainedView,
     addRichMark, editRichMark, deleteRichMark,
     updateViewToolbar, updatePluginToolbar,
-    ADD_BOX, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR,
+    ADD_BOX, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_PLUGIN_TOOLBAR,
     addNavItems } from '../../common/actions';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../common/constants';
 import EditorCanvas from '../components/canvas/editor_canvas/EditorCanvas';
@@ -562,7 +562,7 @@ class EditorApp extends Component {
             case DELETE_CONTAINED_VIEW:
             case EDIT_PLUGIN_TEXT:
             case UPDATE_BOX:
-            case UPDATE_TOOLBAR:
+            case UPDATE_PLUGIN_TOOLBAR:
                 this.dispatchAndSetState(updateBox(
                     e.detail.ids.id || this.props.boxSelected,
                     e.detail.content,

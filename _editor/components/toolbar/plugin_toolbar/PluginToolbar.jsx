@@ -97,7 +97,7 @@ export default class PluginToolbar extends Component {
                 }}>
                 <div className="pestana"
                     onClick={() => {
-                        this.setState({ open: !this.props.open });
+                        this.props.toggleToolbar();
                     }}/>
                 <div id="tools"
                     style={{
@@ -112,7 +112,7 @@ export default class PluginToolbar extends Component {
                             </Tooltip>
                         }>
                         <div onClick={() => {
-                            this.setState({ open: !this.props.open });
+                            this.props.toggleToolbar();
                         }}
                         style={{ display: 'block' }}
                         className={this.props.open ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
