@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Section from './../section/Section';
 import EditorIndexTitle from '../editor_index_title/EditorIndexTitle';
-import { isPage, isSection, isSlide, isContainedView, calculateNewIdOrder } from '../../../../common/utils';
+import { isPage, isSection, isSlide, calculateNewIdOrder } from '../../../../common/utils';
 import i18n from 'i18next';
 import './_carouselList.scss';
 import iconPDF from './../../../../dist/images/file-pdf.svg';
@@ -169,39 +169,10 @@ export default class CarouselList extends Component {
             </div>
         );
     }
-
-    getParent() {
-        if (!this.props.indexSelected || this.props.indexSelected === -1) {
-            return { id: 0 };
-        }
-        // If the selected navItem is not a section, it cannot have children -> we return it's parent
-        if (isSection(this.props.indexSelected)) {
-            return this.props.navItems[this.props.indexSelected];
-        }
-        return this.props.navItems[this.props.navItems[this.props.indexSelected].parent] || this.props.navItems[0];
-    }
-
-    calculatePosition() {
-        let parent = this.getParent();
-        let ids = this.props.navItemsIds;
-        // If we are at top level, the new navItem it's always going to be in last position
-        if(parent.id === 0) {
-            return ids.length;
-        }
-
-        // Starting after item's parent, if level is the same or lower -> we found the place we want
-        for(let i = ids.indexOf(parent.id) + 1; i < ids.length; i++) {
-            if(ids[i]) {
-                if(this.props.navItems[ids[i]].level <= parent.level) {
-                    return i;
-                }
-            }
-        }
-
-        // If we arrive here it means we were adding a new child to the last navItem
-        return ids.length;
-    }
-
+    /**
+     * After component mounts
+     * Sets up jQuery sortable features on the index
+     */
     componentDidMount() {
         let list = jQuery(this.refs.sortableList);
         list.sortable({
@@ -285,9 +256,9 @@ CarouselList.propTypes = {
      */
     containedViewSelected: PropTypes.any,
     /**
-     * Array containing all created views, each identified by its *id*
+     * View/Contained view selected at the index
      */
-    navItemsIds: PropTypes.array.isRequired,
+    indexSelected: PropTypes.any,
     /**
      * Dictionary containing all created views, each one with its *id* as the key
      */
@@ -299,7 +270,7 @@ CarouselList.propTypes = {
     /**
      *  View/Contained view selected at the index
      */
-    indexSelected: PropTypes.any,
+    navItemsIds: PropTypes.array.isRequired,
     /**
      * Callback for adding a new box
      */
@@ -307,35 +278,35 @@ CarouselList.propTypes = {
     /**
      * Callback for selecting contained view
      */
-    onContainedViewSelected: PropTypes.func.isRequired,
+    onContainedViewNameChanged: PropTypes.func.isRequired,
     /**
      * Callback for renaming contained view
      */
-    onContainedViewNameChanged: PropTypes.func.isRequired,
+    onContainedViewSelected: PropTypes.func.isRequired,
     /**
      * Callback for renaming view
      */
-    onNavItemNameChanged: PropTypes.func.isRequired,
+    onIndexSelected: PropTypes.func.isRequired,
     /**
-     * Adds a view
+     * Adds a new view
      */
     onNavItemAdded: PropTypes.func.isRequired,
-    /**
-     * Selects view
-     */
-    onNavItemSelected: PropTypes.func.isRequired,
-    /**
-     * Selects view/contained view in the index context
-     */
-    onIndexSelected: PropTypes.func.isRequired,
     /**
      * Expands navItem (only for sections)
      */
     onNavItemExpanded: PropTypes.func.isRequired,
     /**
+     * Selects view/contained view in the index context
+     */
+    onNavItemNameChanged: PropTypes.func.isRequired,
+    /**
      * Callback for reordering navItems
      */
     onNavItemReordered: PropTypes.func.isRequired,
+    /**
+     * Selects a view
+     */
+    onNavItemSelected: PropTypes.func.isRequired,
     /**
      * Object containing all the pages' toolbars
      */
