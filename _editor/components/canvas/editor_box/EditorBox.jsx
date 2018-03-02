@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import MarkCreator from '../../rich_plugins/mark_creator/MarkCreator';
 import interact from 'interactjs';
-import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
-import { EDIT_PLUGIN_TEXT } from '../../../../common/actions';
-import { releaseClick, findBox } from '../../../../common/common_tools';
 import Ediphy from '../../../../core/editor/main';
-import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
+import { isSortableBox, isSortableContainer, isAncestorOrSibling } from '../../../../common/utils';
 import './_editorBox.scss';
-import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
-import CKEDitorComponent from './CKEDitorComponent';
 const SNAP_DRAG = 5;
 const SNAP_SIZE = 2;
 
@@ -271,8 +264,7 @@ export default class EditorBox extends Component {
                     pageType={this.props.pageType}
                     onRichMarksModalToggled={this.props.onRichMarksModalToggled} />
             </div>
-        );
-        /* <MarkCreator/>*/
+        ); /* <MarkCreator/>*/
     }
 
     /**
@@ -318,8 +310,7 @@ export default class EditorBox extends Component {
             if (prop.startsWith("on")) {
                 let value = props[prop];
                 if (typeof value === "string") {
-                    props[prop] = function() {
-                    };
+                    props[prop] = function() {};
                 }
             }
         });
@@ -874,11 +865,11 @@ EditorBox.propTypes = {
      */
     onBoxDropped: PropTypes.func.isRequired,
     /**
-     * Alínea la caja verticalmente
+     * Callback for when vertically aligning boxes inside a contianer
      */
     onVerticallyAlignBox: PropTypes.func.isRequired,
     /**
-     * Callback for when vertically aligning boxes inside a contianer
+     * Callback for when reordering boxes inside a contianer
      */
     onBoxesInsideSortableReorder: PropTypes.func.isRequired,
     /**
@@ -890,11 +881,11 @@ EditorBox.propTypes = {
      */
     onTextEditorToggled: PropTypes.func.isRequired,
     /**
-     * Indicates the page type that the box is at
+     * Page type the box is at
      */
     pageType: PropTypes.string.isRequired,
     /**
-      * Makes the rich marks modal appear/disappear
+      * Callback for toggling the Rich Marks Modal
       */
     onRichMarksModalToggled: PropTypes.func.isRequired,
     /**
