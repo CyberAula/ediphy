@@ -232,7 +232,7 @@ let en = {
             "edit_text": "Edit text",
             "erase_plugin": "Erase plugin",
             "erase_container": "Erase container",
-            "export": "Exportar...",
+            "export": "Export...",
             "export_course": "Export course",
             "export_to_HTML": "Export to HTML",
             "export_to_SCORM": "Export to SCORM",

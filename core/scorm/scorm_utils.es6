@@ -145,13 +145,15 @@ export function setSCORMScore(score, maxScore, attemptedPages) {
     let num = 0;
     let thresholdSc = scorm.getvalue("cmi.scaled_passing_score") || 0.5;
     let thresholdV = scorm.getvalue("cmi.completion_threshold") || 0.5;
+    thresholdSc = (thresholdSc > 1 ? (thresholdSc / 100) : thresholdSc);
+    thresholdV = thresholdV && !isNaN(parseFloat(thresholdV)) ? thresholdV : 0.5;
     let isPassed = true;
     let isComplete = true;
     /* Course is passed when the total score is greater than the threshold*/
 
-    isPassed = (score / maxScore) >= thresholdSc ? "passed" : "failed";
+    isPassed = ((score / maxScore) >= thresholdSc) ? "passed" : "failed";
     isComplete = attemptedPages >= thresholdV ? "completed" : "incomplete";
-    console.log(isPassed, isComplete);
+    console.log(thresholdSc, thresholdV, attemptedPages, score, maxScore, isPassed, isComplete);
     let scoreRounded = parseFloat(score.toFixed(2));
     let scoreScaled = parseFloat((score / maxScore).toFixed(2));
     setScore("objectives." + num + ".", 0, maxScore, scoreRounded, scoreScaled, isComplete, isPassed);

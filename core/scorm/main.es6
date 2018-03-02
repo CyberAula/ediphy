@@ -627,7 +627,10 @@ export default {
         let ims_controlMode = doc.createElement("imsss:controlMode");
         ims_controlMode.setAttribute("choice", "true");
         ims_controlMode.setAttribute("flow", "true");
-        organization.appendChild(ims_org);
+
+        if (is2004) {
+            organization.appendChild(ims_org);
+        }
 
         organizations.appendChild(organization);
         return organizations;
