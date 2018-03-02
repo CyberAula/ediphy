@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import interact from 'interactjs';
 import PropTypes from 'prop-types';
-import Ediphy from '../../../../core/editor/main';
 import MarkCreator from '../../rich_plugins/mark_creator/MarkCreator';
+import interact from 'interactjs';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
-import i18n from 'i18next';
-import { ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT, IMPORT_STATE } from '../../../../common/actions';
+import { EDIT_PLUGIN_TEXT } from '../../../../common/actions';
+import { releaseClick, findBox } from '../../../../common/common_tools';
+import Ediphy from '../../../../core/editor/main';
 import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
 import './_editorBox.scss';
+import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
+import CKEDitorComponent from './CKEDitorComponent';
 const SNAP_DRAG = 5;
 const SNAP_SIZE = 2;
 
