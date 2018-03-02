@@ -466,10 +466,10 @@ function Local_API_1484_11(options) {
     }
 
     function isPlainObject(o) {
-        if(type(o) !== "object" || o.nodeType || isWindow(o)) {
+        if(typeof(o) !== "object" || o.nodeType || (o instanceof Window)) {
             return false;
         }
-        return !(o.constructor && !hasOwn.call(o.constructor.prototype, "isPrototypeOf"));
+        return !(o.constructor && !hasOwnProperty.call(o.constructor.prototype, "isPrototypeOf"));
     }
 
     // Public

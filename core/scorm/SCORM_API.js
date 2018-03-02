@@ -750,7 +750,8 @@ export default function SCORM_API(options) {
                 if(ig) {
                     return 'false';
                 }
-
+                nn = nn.replace(/learner_response/, "student_response")
+                nn = nn.replace(/(cmi\.objectives\..*\.)(completion_status)/, "$1status")
                 // console.log("API Wrapper calles SCORM 1.2 with key " + nn);
                 v = lms.LMSGetValue(nn);
                 // console.log("SCORM 1.2 API responded with value " + v);
@@ -952,6 +953,8 @@ export default function SCORM_API(options) {
                     if (ig) {
                         return 'false';
                     }
+                    nn = nn.replace(/learner_response/, "student_response")
+                    nn = nn.replace(/(cmi\.objectives\..*\.)(completion_status)/, "$1status")
                     debug("SCORM 1.2 LMS SetValue with n: " + nn + " and v: " + v, 3);
                     s = lms.LMSSetValue(nn, v);
                 } else {

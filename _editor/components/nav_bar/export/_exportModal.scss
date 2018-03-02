@@ -1,3 +1,5 @@
+@import "../../../../sass/general/_variables.scss";
+
 .exportoScormModalBody {
   .radioExportScorm {
     display:block !important;
@@ -9,12 +11,14 @@
     }
   }
   .explanation {
-      color: #444;
+/*      color: #444;
       background-color: #f3f3f3;
-      padding: 10px;
+      padding: 10px;*/
+     color: #999;
   }
    .modal-body {
     font-size: 1em;
+     padding-bottom: 0px !important;
     .control-label {
       font-size: 1.2em !important;
     }

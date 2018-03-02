@@ -45,6 +45,7 @@ export default {
     exportsHTML: function(state) {
         let nav_names_used = {};
         let xhr = new XMLHttpRequest();
+        let zip_title = state.globalConfig.title || "Ediphy";
         xhr.open('GET', Ediphy.Config.visor_bundle, true);
         xhr.responseType = "arraybuffer";
         xhr.onreadystatechange = function(evt) {
@@ -80,7 +81,9 @@ export default {
                         }).then(function(zip) {
                             return zip.generateAsync({ type: "blob" });
                         }).then(function(blob) {
-                            FileSaver.saveAs(blob, "ediphyvisor.zip");
+                            // FileSaver.saveAs(blob, "ediphyvisor.zip");
+                            FileSaver.saveAs(blob, zip_title.toLowerCase().replace(/\s/g, '') + Math.round(+new Date() / 1000) + "_HTML.zip");
+
                         });
                     });
 
@@ -115,14 +118,18 @@ export default {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
 
-                    JSZipUtils.getBinaryContent(is2004 ? Ediphy.Config.scorm_zip_2004 : Ediphy.Config.scorm_zip_12, function(err, data) {
+                    JSZipUtils.getBinaryContent(is2004 ?
+                        Ediphy.Config.scorm_zip_2004 :
+                        Ediphy.Config.scorm_zip_12,
+                    function(err, data) {
                         if (err) {
                             throw err; // or handle err
                         }
                         JSZip.loadAsync(data).then(function(zip) {
                             let navs = state.navItemsById;
                             let navsIds = state.navItemsIds;
-                            zip.file("imsmanifest.xml", Ediphy.Scorm.createSPAimsManifest(state.exercises, navs, state.globalConfig, is2004));
+                            zip.file("imsmanifest.xml",
+                                Ediphy.Scorm.createSPAimsManifest(state.exercises, navs, state.globalConfig, is2004));
                             let page = 0;
                             if (state.navItemsIds && state.navItemsIds.length > 0) {
                                 if(!Ediphy.Config.sections_have_content) {

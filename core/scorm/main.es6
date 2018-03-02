@@ -1,6 +1,5 @@
 import Ediphy from '../editor/main';
 import { ID_PREFIX_SECTION } from '../../common/constants';
-import { isSection } from '../../common/utils';
 export default {
     createSPAimsManifest: function(exercisesObj, sections, globalConfig, is2004) {
         let doc = document.implementation.createDocument("", "", null);
@@ -513,7 +512,7 @@ export default {
     getIndex: function(navs) {
         return (new EJS({ url: Ediphy.Config.scorm_ejs }).render({ navs: navs }));
     },
-    xmlOrganizationBranch: function(root_child, actual_child, sections, doc, resource_elements) {
+    /* xmlOrganizationBranch: function(root_child, actual_child, sections, doc, resource_elements) {
         let branch_elements = [];
         if(sections[actual_child].children.length !== 0) {
             while(sections[actual_child].children.length > 0) {
@@ -583,7 +582,7 @@ export default {
             return element;
         }
         return "";
-    },
+    },*/
     beautifyXML: function(xml) {
         let reg = /(>)\s*(<)(\/*)/g; // updated Mar 30, 2015
         let wsexp = / *(.*) +\n/g;

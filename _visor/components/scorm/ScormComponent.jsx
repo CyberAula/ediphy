@@ -119,6 +119,7 @@ export default class ScormComponent extends Component {
         exercises[page].attempted = true;
         let pageScore = points / total;
         exercises[page].score = parseFloat(pageScore.toFixed(2));
+        console.log(this.state.totalScore, pageScore, exercises[page].weight, typeof(this.state.totalScore), typeof(pageScore), typeof(exercises[page].weight));
         let totalScore = parseFloat((this.state.totalScore + pageScore * exercises[page].weight).toFixed(2));
         this.setState({ exercises, totalScore });
         let visitedPctg = 0;
