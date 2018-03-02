@@ -75,7 +75,7 @@ function SCORM_Player(options) {
 
     // Public
 
-    this.loadScormContent = function(callback) {
+    this.loadScormContent = function(callback, currentIframe) {
         $(document).ready(function() {
             let timeoutToLoadScormContent = 500;
 
@@ -107,7 +107,7 @@ function SCORM_Player(options) {
 
             // Ensure that SCORM content is loaded although Iframe_API connection fails
             setTimeout(function() {
-                loadScormContentOnIframe(callback);
+                loadScormContentOnIframe(callback, currentIframe);
             }, timeoutToLoadScormContent);
         });
     };
@@ -124,19 +124,21 @@ function SCORM_Player(options) {
 
     // Private
 
-    function loadScormContentOnIframe(callback) {
+    function loadScormContentOnIframe(callback, currentIframe ) {
         if($("#scormcontent").length > 0) {
             // Already loaded
             return;
         }
-        let iframe = $('<iframe id="scormcontent" style="width:100%; height:100%; border: none" webkitAllowFullScreen="true" allowfullscreen="true" mozallowfullscreen="true"></iframe>');
+        let iframe = currentIframe || $('<iframe id="scormcontent" style="width:100%; height:100%; border: none" webkitAllowFullScreen="true" allowfullscreen="true" mozallowfullscreen="true"></iframe>');
         if(settings.NAVBAR === true) {
             $(iframe).css("height", "94%");
             $("body").append(createNavBar());
             loadNavBarEvents();
             updateNavBar();
         }
-        $("body").prepend(iframe);
+        if (!currentIframe) {
+            $("body").prepend(iframe);
+        }
 
         loadCurrentLo(callback);
     }

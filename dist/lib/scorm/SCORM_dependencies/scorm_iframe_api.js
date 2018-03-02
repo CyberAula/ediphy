@@ -364,4 +364,5 @@ SCORM_IFRAME_API = (function(undefined) {
     };
 
 })();
+
 /* eslint-enable */
