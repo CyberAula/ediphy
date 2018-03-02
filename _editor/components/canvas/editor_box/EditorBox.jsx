@@ -2,7 +2,14 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import interact from 'interactjs';
 import Ediphy from '../../../../core/editor/main';
-import { isSortableBox, isSortableContainer, isAncestorOrSibling } from '../../../../common/utils';
+import PropTypes from 'prop-types';
+import MarkCreator from '../../rich_plugins/mark_creator/MarkCreator';
+import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
+import { EDIT_PLUGIN_TEXT } from '../../../../common/actions';
+import { releaseClick, findBox } from '../../../../common/common_tools';
+import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
+import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
+import CKEDitorComponent from './CKEDitorComponent';
 import './_editorBox.scss';
 const SNAP_DRAG = 5;
 const SNAP_SIZE = 2;
@@ -209,32 +216,6 @@ export default class EditorBox extends Component {
                     if(box.level === 0) {
                         e.stopPropagation();
                     }
-                    /* TODO Borrar?
-
-                    // If there's no box selected and current's level is 0 (otherwise, it would select a deeper box)
-                    // or -1 (only EditorBoxSortable can have level -1)
-                    if((this.props.boxSelected === -1 || this.props.boxLevelSelected === -1) && box.level === 0) {
-                        this.props.onBoxSelected(this.props.id);
-                        e.stopPropagation();
-                        return;
-                    }
-                    // Last parent has to be the same, otherwise all boxes with same level would be selectable
-                    if(this.props.boxLevelSelected === box.level &&
-                 isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
-                        // if(this.props.boxLevelSelected === box.level) {
-                        if(e.nativeEvent.ctrlKey && box.children.length !== 0) {
-                            this.props.onBoxLevelIncreased();
-                        }else if(this.props.boxSelected !== this.props.id) {
-                            this.props.onBoxSelected(this.props.id);
-                        }
-                    }
-                    if(this.props.boxSelected !== -1 && this.props.boxLevelSelected === 0) {
-                        this.props.onBoxSelected(this.props.id);
-                        e.stopPropagation();
-                    }
-                    if(box.level === 0) {
-                        e.stopPropagation();
-                    }*/
                 }}
                 onDoubleClick={(e)=> {
                     if(toolbar.config && toolbar.config.needsTextEdition && this.props.id === this.props.boxSelected) {
