@@ -44,9 +44,11 @@ export default class GlobalConfig extends Component {
             version: this.props.globalConfig.version || '0.0.0',
             status: this.props.globalConfig.status || 'draft',
             context: this.props.globalConfig.context || 'school',
+            hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
             modifiedState: false,
             showAlert: false,
+
         };
         // Tag handling functions
         this.handleDelete = this.handleDelete.bind(this);
@@ -60,7 +62,8 @@ export default class GlobalConfig extends Component {
      * @returns {code}
      */
     render() {
-        const { title, author, canvasRatio, age, typicalLearningTime, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context } = this.state;
+        const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context } = this.state;
+        console.log(age);
         return (
             <Modal className="pageModal"
                 show={this.props.show}
@@ -240,6 +243,12 @@ export default class GlobalConfig extends Component {
                                                       onChange={e => {this.setState({typicalLearningTime: {h:typicalLearningTime.h, m:typicalLearningTime.m, s:e.target.value}})}}/>
                                         <InputGroup.Addon>s</InputGroup.Addon>
                                       </InputGroup>*/}
+                                    </FormGroup>
+
+                                    <FormGroup >
+                                        <ControlLabel className="inlineLabel">{i18n.t('global_config.hideGlobalScore')}</ControlLabel>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, hideGlobalScore: !this.state.hideGlobalScore });}} checked={hideGlobalScore}/>
+
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.context')}</ControlLabel><br/>

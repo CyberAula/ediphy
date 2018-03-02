@@ -98,6 +98,7 @@ let en = {
             },
             "difficulty": "Difficulty",
             "Discard": "Cancel",
+            "hideGlobalScore": "Hide global score",
             "keylist": {
                 "Art": "Art",
                 "Biology": "Biology",

@@ -27,7 +27,7 @@ export default class ExportModal extends Component {
         return (
             <Modal className="pageModal exportoScormModalBody"
                 show={this.props.show}
-                backdrop={'static'} bsSize="medium"
+                backdrop={'static'}
                 aria-labelledby="contained-modal-title-md"
                 onHide={this.props.close}>
                 <Modal.Header closeButton>
@@ -41,7 +41,7 @@ export default class ExportModal extends Component {
                                     <FormGroup >
                                         <ControlLabel> {i18n.t("messages.export_to")}:</ControlLabel><br/>
                                         {exportFormats.map((format, i) => {
-                                            return (<Radio name="radioGroup" className="radioExportScorm" checked={this.state.format === i}
+                                            return (<Radio key={i} name="radioGroup" className="radioExportScorm" checked={this.state.format === i}
                                                 onChange={e => {this.setState({ format: i });}}>
                                                 {format.format}<br/>
                                             </Radio>);

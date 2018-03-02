@@ -54,7 +54,7 @@ export default class ScormComponent extends Component {
                 setAnswer: this.setAnswer,
                 submitPage: this.submitPage,
                 exercises: this.state.exercises[this.props.currentView] }));
-        return [...childrenWithProps, <GlobalScore scoreInfo={scoreInfo}/>];
+        return [...childrenWithProps, this.props.globalConfig.hideGlobalScore ? null : <GlobalScore scoreInfo={scoreInfo}/>];
 
     }
     componentDidMount() {
