@@ -1,4 +1,3 @@
-
 module.exports = {
     "BasicAudio": {
         "Allow_fullscreen": "Permitir pantalla completa",
@@ -15,6 +14,9 @@ module.exports = {
         "padding": "Padding",
         "PluginName": "Reproductor Audio",
         "radius": "Radio",
+        "pos": "Momento",
         "source": "Origen",
+        "message_mark_percentage": "Ha introducido un valor incorrecto. Debe introducir un porcentaje entre 0 y 100. Ej. 45.66%",
+
     },
 };

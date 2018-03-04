@@ -136,7 +136,6 @@ export function EnrichedPlayer(base) {
             return { isWrong: false, value: value };
 
         },
-
     };
 }
 /* eslint-enable react/prop-types */

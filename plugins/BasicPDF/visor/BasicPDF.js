@@ -9,7 +9,7 @@ export function BasicPDF(base) {
                 name: 'BasicPDF',
                 flavor: "react",
                 displayName: i18n.t('BasicPDF.PluginName'),
-                category: "text",
+                category: 'objects',
                 aspectRatioButtonConfig: {
                     location: ["main", "__sortable"],
                     defaultValue: true,

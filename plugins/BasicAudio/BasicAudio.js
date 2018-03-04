@@ -1,4 +1,5 @@
 import React from 'react';
+import BasicAudioPluginEditor from './components/BasicAudioPluginEditor.js';
 import i18n from 'i18next';
 import ReactAudioPlayer from 'react-audio-player';
 
@@ -14,11 +15,9 @@ export function BasicAudio(base) {
                     location: ["main", "__sortable"],
                     defaultValue: true,
                 },
-                initialWidth: '480px',
-                initialHeight: "270px",
-                initialWidthSlide: '30%',
-                initialHeightSlide: '30%',
+                neddConfigModaL: false,
                 icon: 'play_circle_filled',
+                marksType: [{ name: i18n.t("BasicAudio.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" }],
             };
         },
         getToolbar: function() {
@@ -98,29 +97,44 @@ export function BasicAudio(base) {
             return {
                 url: 'http://www.music.helsinki.fi/tmt/opetus/uusmedia/esim/a2002011001-e02-128k.mp3',
                 autoplay: false,
-                // controls: true,
+                controls: true,
             };
         },
         getRenderTemplate: function(state, props) {
-
-            /* Revisar:
-          Autoplay cambia con la toolbar pero no actúa, cuando seleccionas reproducir automaticamente
-          no lo hace. Ademas cuando le doy a Previsualizar state.autoplay pasa a ser undefined
-          */
-
-            let aautoplay = state.autoplay;
             return (
                 <div style={{ height: "100%", width: "100%" }}>
-                    <ReactAudioPlayer
-                        autoplay={aautoplay}
-                        controls
-                        src={state.url}
-                    />
+                    <BasicAudioPluginEditor state={state}/>
                 </div>
             );
         },
         handleToolbar: function(name, value) {
             base.setState(name, value);
+        },
+
+        getDefaultMarkValue(state) {
+            return '50%';
+        },
+        parseRichMarkInput: function(...value) {
+            let parsed_value = (value[0] + 10) * 100 / value[2];
+            return parsed_value.toFixed(2) + "%";
+        },
+        handleToolbar: function(name, value) {
+            base.setState(name, value);
+        },
+        validateValueInput: function(value) {
+            let regex = /(^\d+(?:\.\d*)?%$)/g;
+            let match = regex.exec(value);
+            if (match && match.length === 2) {
+                let val = Math.round(parseFloat(match[1]) * 100) / 100;
+                if (isNaN(val) || val > 100) {
+                    return { isWrong: true, message: i18n.t("BasicAudio.message_mark_percentage") };
+                }
+                value = val + '%';
+            } else {
+                return { isWrong: true, message: i18n.t("BasicAudio.message_mark_percentage") };
+            }
+            return { isWrong: false, value: value };
+
         },
     };
 }
