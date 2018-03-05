@@ -8,6 +8,7 @@ import './_templatesModal.scss';
 import { isSection } from "../../../../common/utils";
 import Ediphy from "../../../../core/editor/main";
 import { ADD_BOX } from "../../../../common/actions";
+import TemplateThumbnail from "./TemplateThumbnail";
 
 export default class TemplatesModal extends Component {
     /**
@@ -53,20 +54,10 @@ export default class TemplatesModal extends Component {
                         {this.templates.map((item, index) => {
                             let border = this.state.itemSelected === index ? "solid orange 3px" : "solid #eee 1px";
                             return (
-                                <img key={index}
-                                    className="template_item"
-                                    style={{
-                                        border: border,
-                                        width: '120px',
-                                        height: '80px',
-                                    }}
-                                    src={item.image}
-                                    onClick={e => {
-                                        this.setState({
-                                            itemSelected: index,
-                                        });
-                                    }}
-                                />
+                                <TemplateThumbnail key={index} index={index} className="template_item" image={item.image}
+                                    style={{ position: 'relative', border: border, width: '120px', height: '80px' }}
+                                    onClick={e => { this.setState({ itemSelected: index });}}
+                                    boxes={item.boxes}/>
                             );
                         })}
                     </div>
@@ -142,6 +133,12 @@ export default class TemplatesModal extends Component {
                     position: position,
                     isDefaultPlugin: true,
                 };
+                if (item.toolbar.text) {
+                    initialParams.text = item.toolbar.text;
+                } else if (item.toolbar.url) {
+                    initialParams.url = item.toolbar.url;
+                }
+
                 config.callback(initialParams, ADD_BOX);
                 // this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, canvas.toDataURL("image/jpeg"));
             });

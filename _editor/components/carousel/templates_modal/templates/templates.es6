@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 export const templates = () => { return (
     [{
         "image": require("./img/T1.svg"),
@@ -11,7 +12,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "src": "https://farm8.staticflickr.com/7316/16374306268_ed24674dc3_b.jpg",
+                    "url": "https://farm8.staticflickr.com/7316/16374306268_ed24674dc3_b.jpg",
                 },
             },
             {
@@ -19,21 +20,23 @@ export const templates = () => { return (
                     "x": "30%",
                     "y": "10%",
                     "width": "60%",
-                    "height": "10%",
+                    "height": "15%",
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "text": "<h1>Título</h1>",
                 },
             },
             {
                 "box": {
                     "x": "30%",
-                    "y": "20%",
+                    "y": "25%",
                     "width": "60%",
                     "height": "30%",
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "text": "<p>Escribe aquí tu texto. Incluso puedes poner una lista</p><ul><li>Punto 1</li><li>Punto 2</li><li>Punto 3...</li></ul>",
                 },
             },
         ],
