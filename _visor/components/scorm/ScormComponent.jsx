@@ -8,12 +8,14 @@ import GlobalScore from '../scorm/GlobalScore';
 export default class ScormComponent extends Component {
     constructor(props) {
         super(props);
+        let { exNums, answers } = API.getExerciseNumsAndAnswers(this.props.exercises);
         this.state = {
             exercises: this.props.exercises,
-            exerciseNums: API.getExerciseNums(this.props.exercises),
+            exerciseNums: exNums,
             totalScore: 0,
             userName: "Anonymous",
             isPassed: "incomplete",
+            suspendData: answers,
         };
         this.onUnload = this.onUnload.bind(this);
         this.onLoad = this.onLoad.bind(this);
@@ -66,17 +68,10 @@ export default class ScormComponent extends Component {
         if(!API.isConnected()) {
             return;
         }
-        let init = API.getInitialState();
-        if (init /* && this.props.fromScorm*/) {
+        let init = API.getInitialState(this.state.exercises, this.state.exerciseNums, this.state.suspendData);
+        if (init) {
             let bookmark = (init && init.bookmark && init.bookmark !== '') ? init.bookmark : this.getFirstPage();
-            this.props.changeCurrentView(bookmark);
-            let initState = API.changeInitialState(this.state.exercises, this.state.exerciseNums);
-            initState.totalScore = init.totalScore;
-            initState.userName = init.userName;
-            initState.isPassed = init.isPassed;
-            initState.currentStatus = init.currentStatus;
-            initState.currentStatus = init.currentStatus;
-            this.setState(initState);
+            this.setState(init);
         }
     }
 
@@ -98,6 +93,7 @@ export default class ScormComponent extends Component {
     }
     submitPage(page) {
         let exercises = JSON.parse(JSON.stringify(this.state.exercises));
+        let suspendData = JSON.parse(JSON.stringify(this.state.suspendData));
         let total = 0;
         let points = 0;
         let bx = exercises[page].exercises;
@@ -105,23 +101,28 @@ export default class ScormComponent extends Component {
             total += bx[ex].weight;
             bx[ex].score = 0;
             let plug = Ediphy.Visor.Plugins.get(bx[ex].name);
-            if (plug.checkAnswer(bx[ex].currentAnswer, bx[ex].correctAnswer)) {
-                points += bx[ex].weight;
-                bx[ex].score = bx[ex].weight;
+            let checkAnswer = plug.checkAnswer(bx[ex].currentAnswer, bx[ex].correctAnswer);
+            if (checkAnswer) {
+                let exScore = bx[ex].weight;
+                if(checkAnswer instanceof number) {
+                    exScore = exScore * checkAnswer;
+                }
+                points += exScore;
+                bx[ex].score = exScore;
 
             }
             if(API.isConnected()) {
                 API.setExerciseScore(bx[ex].num, bx[ex].score, bx[ex].currentAnswer);
             }
+            suspendData[bx[ex].num - 1] = bx[ex].currentAnswer;
             bx[ex].attempted = true;
         }
 
         exercises[page].attempted = true;
         let pageScore = points / total;
         exercises[page].score = parseFloat(pageScore.toFixed(2));
-        console.log(this.state.totalScore, pageScore, exercises[page].weight, typeof(this.state.totalScore), typeof(pageScore), typeof(exercises[page].weight));
         let totalScore = parseFloat((this.state.totalScore + pageScore * exercises[page].weight).toFixed(2));
-        this.setState({ exercises, totalScore });
+        this.setState({ exercises, totalScore, suspendData });
         let visitedPctg = 0;
         for (let p in exercises) {
             if (exercises[p].attempted) {
@@ -130,7 +131,7 @@ export default class ScormComponent extends Component {
         }
         visitedPctg = visitedPctg / Object.keys(exercises).length;
         if(API.isConnected()) {
-            API.setSCORMScore(totalScore, this.totalWeight, visitedPctg);
+            API.setSCORMScore(totalScore, this.totalWeight, visitedPctg, suspendData);
         }
     }
 
