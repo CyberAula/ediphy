@@ -76,8 +76,7 @@ VisorPluginPlaceholder.propTypes = {
     /**
    * Nombre del contenedor de plugins
    */
-    pluginContainer: PropTypes.string.isRequired,
-
+    pluginContainer: PropTypes.string,
     /**
    * Identificador único de la caja padre
    */
@@ -85,7 +84,7 @@ VisorPluginPlaceholder.propTypes = {
     /**
    * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
    */
-    boxes: PropTypes.object.isRequired,
+    boxes: PropTypes.object,
     /**
    * Selected box
    */
@@ -97,7 +96,7 @@ VisorPluginPlaceholder.propTypes = {
     /**
      * Cambia la vista actual
      */
-    changeCurrentView: PropTypes.func.isRequired,
+    changeCurrentView: PropTypes.func,
     /**
      * Whether the app is in SCORM mode or not
      */
@@ -105,7 +104,7 @@ VisorPluginPlaceholder.propTypes = {
     /**
      * Diccionario que contiene todas las toolbars
      */
-    toolbars: PropTypes.object.isRequired,
+    toolbars: PropTypes.object,
     /**
      * Estado del plugin enriquecido en la transición
      */
@@ -113,9 +112,10 @@ VisorPluginPlaceholder.propTypes = {
     /**
    * Container id
    */
-    idContainer: PropTypes.string.isRequired,
+    idContainer: PropTypes.string,
     /**
    * Selected view
    */
-    currentView: PropTypes.string.isRequired,
+    currentView: PropTypes.string,
+
 };

@@ -163,11 +163,6 @@ export default class EditorBoxSortable extends Component {
                                                     this.props.onSortableContainerDeleted(idContainer, box.id);
                                                     e.stopPropagation();
                                                     this.setState({ show: false });
-                                                }}
-                                                onTap={e => {
-                                                    this.props.onSortableContainerDeleted(idContainer, box.id);
-                                                    e.stopPropagation();
-                                                    this.setState({ show: false });
                                                 }} >
                                                 {i18n.t("Accept")}
                                             </Button>

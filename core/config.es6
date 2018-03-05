@@ -45,7 +45,7 @@ export default {
         'InputText',
         // 'ContainerJS',
         'GraficaD3',
-        'ScormPackage',
+        // 'ScormPackage',
     ],
     availableLanguages: [
         'en',

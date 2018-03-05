@@ -1,5 +1,6 @@
 import React from 'react';
 import SCORM_API from '../../core/scorm/SCORM_API';
+/* eslint-disable react/prop-types */
 
 export default class ScormIframeWrapper extends React.Component {
     render() {
@@ -20,8 +21,9 @@ export default class ScormIframeWrapper extends React.Component {
         SCORM_Player.loadScormContent(function() {
             // SCORM content loaded
             if(window.LMS_CONFIG.debug_scorm_player) {
-                console.log("SCORM content succesfully loaded");
+                // console.log("SCORM content succesfully loaded");
             }
         }, document.getElementById("scormcontent"));
     }
 }
+/* eslint-enable react/prop-types */

@@ -242,6 +242,9 @@ export default class PluginRibbon extends Component {
         let cvslide = cv && isSlide(this.props.containedViewSelected.type);
         let cvdoc = cv && !isSlide(this.props.containedViewSelected.type);
         let config = Ediphy.Plugins.get(name).getConfig();
+        if (!config) {
+            return;
+        }
         let isBoxSelected = (this.props.boxSelected && isBox(this.props.boxSelected.id));
         if (isBoxSelected && isBox(this.props.boxSelected.parent) && config.isComplex) {
             this.setState({ alert: alert(i18n.t('messages.depth_limit')) });

@@ -63,7 +63,6 @@ export default class GlobalConfig extends Component {
      */
     render() {
         const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context } = this.state;
-        console.log(age);
         return (
             <Modal className="pageModal"
                 show={this.props.show}

@@ -1,6 +1,7 @@
 import React from 'react';
 import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
 import { arrayContainsArray } from '../../../common/utils';
+import { letterFromNumber } from '../../../common/common_tools';
 /* eslint-disable react/prop-types */
 
 export function MultipleAnswer() {
@@ -17,7 +18,7 @@ export function MultipleAnswer() {
                 content.push(
                     <div className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : "")}>
                         <div className={"col-xs-2 answerPlaceholder"}>
-                            {i + 1}
+                            {letterFromNumber(i)}
                             <input type="checkbox" disabled={attempted} className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
                                 props.setAnswer(e.target.value);
                                 let newCurrentAnswer = props.exercises.currentAnswer ? Object.assign([], props.exercises.currentAnswer) : [];

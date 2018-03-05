@@ -51,12 +51,13 @@ export default class ScormComponent extends Component {
     render() {
         const { children } = this.props;
         let scoreInfo = { userName: this.state.userName, totalScore: this.state.totalScore, totalWeight: this.totalWeight, isPassed: this.state.isPassed };
-        let childrenWithProps = React.Children.map(children, child =>
+        let childrenWithProps = React.Children.map(children, (child, i) =>
             React.cloneElement(child, {
+                key: i,
                 setAnswer: this.setAnswer,
                 submitPage: this.submitPage,
                 exercises: this.state.exercises[this.props.currentView] }));
-        return [...childrenWithProps, this.props.globalConfig.hideGlobalScore ? null : <GlobalScore scoreInfo={scoreInfo}/>];
+        return [...childrenWithProps, this.props.globalConfig.hideGlobalScore ? null : <GlobalScore key="-1" scoreInfo={scoreInfo}/>];
 
     }
     componentDidMount() {
@@ -71,6 +72,7 @@ export default class ScormComponent extends Component {
         let init = API.getInitialState(this.state.exercises, this.state.exerciseNums, this.state.suspendData);
         if (init) {
             let bookmark = (init && init.bookmark && init.bookmark !== '') ? init.bookmark : this.getFirstPage();
+            this.props.changeCurrentView(bookmark);
             this.setState(init);
         }
     }
@@ -104,18 +106,20 @@ export default class ScormComponent extends Component {
             let checkAnswer = plug.checkAnswer(bx[ex].currentAnswer, bx[ex].correctAnswer);
             if (checkAnswer) {
                 let exScore = bx[ex].weight;
-                if(checkAnswer instanceof number) {
+                if(checkAnswer instanceof Number) {
                     exScore = exScore * checkAnswer;
                 }
                 points += exScore;
                 bx[ex].score = exScore;
 
             }
-            if(API.isConnected()) {
-                API.setExerciseScore(bx[ex].num, bx[ex].score, bx[ex].currentAnswer);
-            }
-            suspendData[bx[ex].num - 1] = bx[ex].currentAnswer;
+
             bx[ex].attempted = true;
+            suspendData[bx[ex].num - 1] = {
+                a: bx[ex].currentAnswer,
+                s: bx[ex].score,
+                c: bx[ex].attempted ? "completed" : "incomplete" };
+
         }
 
         exercises[page].attempted = true;
@@ -159,10 +163,10 @@ ScormComponent.propTypes = {
       * Children components
      */
     children: PropTypes.object,
-    /**
-     * Whether the app is in SCORM mode or not
-     */
-    fromScorm: PropTypes.bool,
+    // /**
+    //  * Whether the app is in SCORM mode or not
+    //  */
+    // fromScorm: PropTypes.bool,
     /**
        * Object containing all the exercises in the course
        */

@@ -14,7 +14,7 @@ export function FreeResponse() {
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer="Question"/>
-                        <textarea autoCapitalize disabled={attempted} autoGrow spellCheck placeholder={"..."/* i18n.t('FreeResponse.Placeholder')*/} className="form-control textAreaQuiz textAreaQuizVisor"/>
+                        <textarea autoCapitalize="sentences" disabled={attempted} spellCheck placeholder={"..."/* i18n.t('FreeResponse.Placeholder')*/} className="form-control textAreaQuiz textAreaQuizVisor"/>
                         <div className={"exerciseScore"}>{score}</div>
                     </div>
                 </div>

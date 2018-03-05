@@ -79,11 +79,11 @@ export function getExerciseNumsAndAnswers(exercises) {
     Object.keys(exercises).map((page, pageIndex)=>{
         Object.keys(exercises[page].exercises).map((box, index)=>{
             list.push({ page, box });
-            defaultAnswers.push(exercises[page].exercises[box].defaultCorrectAnswer);
+            let boxObj = exercises[page].exercises[box];
+            defaultAnswers.push({ a: boxObj.defaultCorrectAnswer, s: 0, c: "incomplete" });
         });
 
     });
-
     return { exNums: list, answers: defaultAnswers };
 }
 
@@ -102,6 +102,7 @@ export function changeInitialState(exercises, nums, suspendDataCalculated) {
     let suspendData = scorm.getvalue("cmi.suspend_data");
     try {
         suspendData = JSON.parse(suspendData);
+
         if (!suspendData || !(suspendData instanceof Array) || suspendData.length === 0) {
             suspendData = suspendDataCalculated;
         }
@@ -113,21 +114,24 @@ export function changeInitialState(exercises, nums, suspendDataCalculated) {
         let id = scorm.setvalue("cmi.objectives." + (i + 1) + ".id", i + 1);
         let interaction = scorm.setvalue("cmi.interactions." + (i + 1) + ".id", i + 1);
         let type = scorm.setvalue("cmi.interactions." + (i + 1) + ".type", "performance");
-        let obj = scorm.getvalue("cmi.objectives." + (i + 1) + ".score.raw");
-        let comp = scorm.getvalue("cmi.objectives." + (i + 1) + ".completion_status");
+
+        let obj = suspendData[i].s;
+        let comp = suspendData[i].c;
+        // let obj = scorm.getvalue("cmi.objectives." + (i + 1) + ".score.raw");
+        // let comp = scorm.getvalue("cmi.objectives." + (i + 1) + ".completion_status");
         // let ans = scorm.getvalue("cmi.interactions." + (i + 1) + ".learner_response");
 
         updatedExercises[nums[i].page].exercises[nums[i].box].attempted = (comp === "completed");
         updatedExercises[nums[i].page].exercises[nums[i].box].num = (i + 1);
         if (comp === "completed") {
             if (suspendData && suspendData.length > i) {
-                updatedExercises[nums[i].page].exercises[nums[i].box].currentAnswer = suspendData[i];
+                updatedExercises[nums[i].page].exercises[nums[i].box].currentAnswer = suspendData[i].a;
             }
             updatedExercises[nums[i].page].exercises[nums[i].box].score = obj;
         }
 
     }
-    scorm.setvalue("cmi.suspend_data", suspendData);
+    // scorm.setvalue("cmi.suspend_data", JSON.stringify(suspendData));
     let totalScore = 0;
 
     for (let p in updatedExercises) {
@@ -186,7 +190,6 @@ export function finish() {
     scorm.setvalue("cmi.exit", "suspend");
     scorm.terminate();
     window.terminated = true;
-    // }
 }
 
 function setScore(who, min, max, raw, scaled, completion_status, success_status) {
@@ -200,13 +203,12 @@ function setScore(who, min, max, raw, scaled, completion_status, success_status)
     return commit();
 }
 
-export function setExerciseScore(who, score, answer) {
+/* export function setExerciseScore(who, score, answer) {
     scorm.setvalue("cmi.objectives." + who + ".score.raw", score);
     scorm.setvalue("cmi.objectives." + who + ".completion_status", "completed");
-    // API.doSetValue("cmi.objectives." + who + ".description", JSON.stringify(answer));
     scorm.setvalue("cmi.interactions." + who + ".learner_response", JSON.stringify(answer));
 
     return commit();
 
-}
+}*/
 

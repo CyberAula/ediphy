@@ -224,7 +224,7 @@ PluginPlaceholder.propTypes = {
     /**
      * Nombre del contenedor de plugins
      */
-    pluginContainer: PropTypes.string.isRequired,
+    pluginContainer: PropTypes.string,
     /**
      * Indicador de si se puede redimensionar el contenedor
      */
@@ -320,15 +320,15 @@ PluginPlaceholder.propTypes = {
     /**
     * Hace aparecer/desaparecer el modal de configuración de marcas
     */
-    onRichMarksModalToggled: PropTypes.func.isRequired,
+    onRichMarksModalToggled: PropTypes.func,
     /**
     * Actualiza marca
      */
-    onRichMarkUpdated: PropTypes.func.isRequired,
+    onRichMarkUpdated: PropTypes.func,
     /**
      * Sets the correct answer of an exercise
      */
-    setCorrectAnswer: PropTypes.func.isRequired,
+    setCorrectAnswer: PropTypes.func,
     /**
      * Current page
      */

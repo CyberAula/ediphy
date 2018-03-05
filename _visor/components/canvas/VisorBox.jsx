@@ -237,7 +237,7 @@ VisorBox.propTypes = {
     /**
    * Function for submitting a page Quiz
    */
-    setAnswer: PropTypes.func.isRequired,
+    setAnswer: PropTypes.func,
     /**
    * Vista actual
    */

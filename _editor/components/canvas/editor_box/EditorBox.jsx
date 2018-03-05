@@ -211,7 +211,6 @@ export default class EditorBox extends Component {
             }
         }
         wholeBoxStyle.verticalAlign = verticalAlign;
-
         return (
             <div className={classes} id={'box-' + this.props.id} name={toolbar.config.name}
                 onClick={e => {

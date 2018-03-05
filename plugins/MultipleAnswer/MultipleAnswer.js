@@ -2,6 +2,7 @@ import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import i18n from 'i18next';
 import './_multipleAnswer.scss';
+import { letterFromNumber } from '../../common/common_tools';
 /* eslint-disable react/prop-types */
 
 export function MultipleAnswer(base) {
@@ -52,7 +53,7 @@ export function MultipleAnswer(base) {
                 let checked = (props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1);
                 answers.push(<div key={i + 1} className={"row"}>
                     <div className={"col-xs-2 answerPlaceholder"}>
-                        {i + 1}
+                        {letterFromNumber(i)}
                         <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
                             let newCorrectAnswer = Object.assign([], props.exercises.correctAnswer);
                             let index = newCorrectAnswer.indexOf(i);

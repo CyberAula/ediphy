@@ -153,3 +153,11 @@ export function scrollElement(node, options) {
 export function findBox(id) {
     return document.getElementById('box-' + id);
 }
+
+export function letterFromNumber(ind) {
+    if (!isNaN(ind)) {
+        const abc = 'abcdefghijklmnopqrstuvwxyz';
+        return abc[ind % abc.length];
+    }
+    return ind;
+}

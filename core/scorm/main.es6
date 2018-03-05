@@ -619,9 +619,9 @@ export default {
         deliveryControls.setAttribute("completionSetByContent", "true");
         deliveryControls.setAttribute("objectiveSetByContent", "true");
         root_seq.appendChild(deliveryControls);
-        if (2 > 3/* is2004*/) {
+        /* if (is2004) {
             root_element.appendChild(root_seq);
-        }
+        } */
         organization.appendChild(root_element);
         let ims_org = doc.createElement("imsss:sequencing");
         let ims_controlMode = doc.createElement("imsss:controlMode");
