@@ -185,6 +185,7 @@ class EditorApp extends Component {
                         onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => this.dispatchAndSetState(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
                         onDisplayModeChanged={mode => this.dispatchAndSetState(changeDisplayMode(mode))}
                         containedViewsVisible={this.state.containedViewsVisible}
+                        onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
                         onContainedViewsExpand={()=>{
                             this.setState({ containedViewsVisible: !this.state.containedViewsVisible });
                         }}

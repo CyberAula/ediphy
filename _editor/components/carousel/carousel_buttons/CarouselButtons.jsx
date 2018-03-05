@@ -252,9 +252,11 @@ export default class CarouselButtons extends Component {
                 <TemplatesModal
                     show={this.state.showTemplates}
                     close={this.toggleTemplatesModal}
+                    navItems={this.props.navItems}
                     onNavItemAdded={this.props.onNavItemAdded}
                     onIndexSelected={this.props.onIndexSelected}
-                    parent={this.getParent().id}
+                    indexSelected={this.props.indexSelected}
+                    onToolbarUpdated={this.props.onToolbarUpdated}
                     calculatePosition={this.calculatePosition}/>
             </div>
         );

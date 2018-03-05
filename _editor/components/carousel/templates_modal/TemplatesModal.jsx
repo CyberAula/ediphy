@@ -4,6 +4,10 @@ import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup
 import { ID_PREFIX_PAGE, PAGE_TYPES } from "../../../../common/constants";
 import i18n from 'i18next';
 import { templates } from "./templates/templates";
+import './_templatesModal.scss';
+import { isSection } from "../../../../common/utils";
+import Ediphy from "../../../../core/editor/main";
+import { ADD_BOX } from "../../../../common/actions";
 
 export default class TemplatesModal extends Component {
     /**
@@ -35,33 +39,37 @@ export default class TemplatesModal extends Component {
                     <Modal.Title><span id="previewTitle">Elige una plantilla</span></Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="gcModalBody" style={{ overFlowY: 'auto' }}>
-                    <div id="empty"
-                        key="-1"
-                        style={{ background: '#eee', width: '120px', height: '80px', border: this.state.itemSelected === -1 ? "solid orange 3px" : "solid transparent 3px", padding: '30px 25px' }}
-                        onClick={e => {
-                            this.setState({
-                                itemSelected: -1,
-                            });
-                        }}
-                    />
-                    {this.templates.map((item, index) => {
-                        let border = this.state.itemSelected === index ? "solid orange 3px" : "solid transparent 3px";
-                        return (
-                            <img key={index}
-                                style={{
-                                    border: border,
-                                    width: '120px',
-                                    height: '80px',
-                                }}
-                                src={item.image}
-                                onClick={e => {
-                                    this.setState({
-                                        itemSelected: index,
-                                    });
-                                }}
-                            />
-                        );
-                    })}
+                    <div className="items_container">
+                        <div id="empty"
+                            className="template_item"
+                            key="-1"
+                            style={{ width: '120px', height: '80px', border: this.state.itemSelected === -1 ? "solid orange 3px" : "solid #eee 1px", padding: '30px 25px' }}
+                            onClick={e => {
+                                this.setState({
+                                    itemSelected: -1,
+                                });
+                            }}
+                        />
+                        {this.templates.map((item, index) => {
+                            let border = this.state.itemSelected === index ? "solid orange 3px" : "solid #eee 1px";
+                            return (
+                                <img key={index}
+                                    className="template_item"
+                                    style={{
+                                        border: border,
+                                        width: '120px',
+                                        height: '80px',
+                                    }}
+                                    src={item.image}
+                                    onClick={e => {
+                                        this.setState({
+                                            itemSelected: index,
+                                        });
+                                    }}
+                                />
+                            );
+                        })}
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button bsStyle="default" id="import_file_button" onClick={ e => {
@@ -75,35 +83,73 @@ export default class TemplatesModal extends Component {
         );
     }
     /**
-     * Close modal
+     * Get the parent of the currently selected navItem
+     * @returns {*}
      */
-    closeModal() {
-        this.props.close();
+    getParent() {
+        if (!this.props.indexSelected || this.props.indexSelected === -1) {
+            return { id: 0 };
+        }
+        // If the selected navItem is not a section, it cannot have children -> we return it's parent
+        if (isSection(this.props.indexSelected)) {
+            return this.props.navItems[this.props.indexSelected];
+        }
+        return this.props.navItems[this.props.navItems[this.props.indexSelected].parent] || this.props.navItems[0];
     }
+
     /**
      * Close modal
      */
+    closeModal() {
+        // reset state
+        this.setState({
+            itemSelected: -1,
+        });
+        this.props.close();
+    }
+    /**
+     * Add Slide
+     */
     AddNavItem(template) {
-        console.log(template);
-        let tempObj = templates[template];
-        let boxes = tempObj.boxes;
-        let newId = ID_PREFIX_PAGE + Date.now();
 
+        let newId = ID_PREFIX_PAGE + Date.now();
         this.props.onNavItemAdded(
             newId,
             i18n.t("slide"),
-            this.props.parent,
+            this.getParent().id,
             PAGE_TYPES.SLIDE,
             this.props.calculatePosition,
             "rgb(255,255,255)",
             0,
         );
-        if (template === -1) {
-            console.log("empty");
-        } else {
-            console.log("apply template");
-        }
+        if (template !== -1) {
+            let selectedTemplate = this.templates[template];
+            let boxes = selectedTemplate.boxes;
 
+            boxes.map((item, index) => {
+                let config = Ediphy.Plugins.get(item.toolbar.name).getConfig();
+                let position = {
+                    x: item.box.x,
+                    y: item.box.y,
+                    type: 'absolute',
+                };
+                let initialParams = {
+                    parent: newId,
+                    container: 0,
+                    col: 0, row: 0,
+                    width: item.box.width,
+                    height: item.box.height,
+                    position: position,
+                    isDefaultPlugin: true,
+                };
+                config.callback(initialParams, ADD_BOX);
+                // this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, canvas.toDataURL("image/jpeg"));
+            });
+        }
+        // reset state
+        this.setState({
+            itemSelected: -1,
+        });
         // this.props.onIndexSelected(newId);
         this.props.close();
     }
@@ -118,17 +164,21 @@ TemplatesModal.propTypes = {
      */
     close: PropTypes.func.isRequired,
     /**
+     * View/Contained view selected at the index
+     */
+    indexSelected: PropTypes.any,
+    /**
+     * Dictionary containing all created views, each one with its *id* as the key
+     */
+    navItems: PropTypes.object.isRequired,
+    /**
      *
      */
     onNavItemAdded: PropTypes.func.isRequired,
     /**
      *
      */
-    onIndexSelected: PropTypes.func.isRequired,
-    /**
-     *
-     */
-    parent: PropTypes.string.isRequired,
+    // onIndexSelected: PropTypes.func.isRequired,
     /**
      *
      */

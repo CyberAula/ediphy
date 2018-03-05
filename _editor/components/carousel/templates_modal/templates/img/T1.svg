@@ -7,5 +7,7 @@
 	<rect x="46.8" y="24.3" fill="#706F6F" width="47.1" height="3.8"/>
 	<rect x="46.8" y="30.5" fill="#B2B2B2" width="61.1" height="25.3"/>
 </g>
-<text transform="matrix(1 0 0 1 7.8005 53.2402)" fill="#B2B2B2" font-family="'MaterialIcons-Regular'" font-size="25.0048"></text>
+<g>
+	<path fill="#B2B2B2" d="M22.4,34.5L31.8,47h-23l6.3-8.4l4.7,6.3l1.7-1.2l-2.9-4L22.4,34.5z"/>
+</g>
 </svg>
