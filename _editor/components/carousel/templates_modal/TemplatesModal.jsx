@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
-import { ID_PREFIX_PAGE, PAGE_TYPES } from "../../../../../common/constants";
+import { ID_PREFIX_PAGE, PAGE_TYPES } from "../../../../common/constants";
 import i18n from 'i18next';
 import { templates } from "./templates/templates";
 
@@ -21,7 +21,7 @@ export default class TemplatesModal extends Component {
          * Component's initial state
          */
         this.state = {
-            itemSelected: 0,
+            itemSelected: -1,
         };
     }
     /**
@@ -85,7 +85,10 @@ export default class TemplatesModal extends Component {
      */
     AddNavItem(template) {
         console.log(template);
+        let tempObj = templates[template];
+        let boxes = tempObj.boxes;
         let newId = ID_PREFIX_PAGE + Date.now();
+
         this.props.onNavItemAdded(
             newId,
             i18n.t("slide"),
@@ -95,9 +98,13 @@ export default class TemplatesModal extends Component {
             "rgb(255,255,255)",
             0,
         );
-        // if (template !== -1){ console.log("apply template"); }
+        if (template === -1) {
+            console.log("empty");
+        } else {
+            console.log("apply template");
+        }
 
-        this.props.onIndexSelected(newId);
+        // this.props.onIndexSelected(newId);
         this.props.close();
     }
 }

@@ -1,8 +1,8 @@
 export const templates = () => { return (
     [{
-        "image": "../../../../../dist/images/T1.svg",
-        "boxes": {
-            "0": {
+        "image": require("./img/T1.svg"),
+        "boxes": [
+            {
                 "box": {
                     "x": "0",
                     "y": "0",
@@ -12,8 +12,7 @@ export const templates = () => { return (
                     "height": "100%",
                     "name": "HotspotImages",
                 },
-            },
-            "1": {
+            }, {
                 "box": {
                     "x": "30%",
                     "y": "10%",
@@ -24,6 +23,6 @@ export const templates = () => { return (
                     "name": "BasicText",
                 },
             },
-        },
+        ],
     }]);
 };

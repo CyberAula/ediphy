@@ -9,7 +9,7 @@ import { isSection, isContainedView } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
 
 import './_carouselButtons.scss';
-import TemplatesModal from "./templates_modal/TemplatesModal";
+import TemplatesModal from "../templates_modal/TemplatesModal";
 
 /**
  * Ediphy CarouselButtons Component
