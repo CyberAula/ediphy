@@ -1,5 +1,6 @@
-export const templates = {
-    "template1": {
+export const templates = () => { return (
+    [{
+        "image": "../../../../../dist/images/T1.svg",
         "boxes": {
             "0": {
                 "box": {
@@ -24,5 +25,5 @@ export const templates = {
                 },
             },
         },
-    },
+    }]);
 };

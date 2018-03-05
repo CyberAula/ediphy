@@ -3,8 +3,27 @@ import PropTypes from 'prop-types';
 import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import { ID_PREFIX_PAGE, PAGE_TYPES } from "../../../../../common/constants";
 import i18n from 'i18next';
+import { templates } from "./templates/templates";
 
 export default class TemplatesModal extends Component {
+    /**
+     * Constructor
+     */
+    constructor(props) {
+        super(props);
+        /**
+         * Index
+         * @type {number}
+         */
+        this.index = 0;
+        this.templates = templates();
+        /**
+         * Component's initial state
+         */
+        this.state = {
+            itemSelected: 0,
+        };
+    }
     /**
      * Renders React component
      * @returns {code}
@@ -16,14 +35,40 @@ export default class TemplatesModal extends Component {
                     <Modal.Title><span id="previewTitle">Elige una plantilla</span></Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="gcModalBody" style={{ overFlowY: 'auto' }}>
-                    <div style={{ width: '120px', height: '80px', border: '1px solid red', padding: '30px 25px' }}/>
+                    <div id="empty"
+                        key="-1"
+                        style={{ background: '#eee', width: '120px', height: '80px', border: this.state.itemSelected === -1 ? "solid orange 3px" : "solid transparent 3px", padding: '30px 25px' }}
+                        onClick={e => {
+                            this.setState({
+                                itemSelected: -1,
+                            });
+                        }}
+                    />
+                    {this.templates.map((item, index) => {
+                        let border = this.state.itemSelected === index ? "solid orange 3px" : "solid transparent 3px";
+                        return (
+                            <img key={index}
+                                style={{
+                                    border: border,
+                                    width: '120px',
+                                    height: '80px',
+                                }}
+                                src={item.image}
+                                onClick={e => {
+                                    this.setState({
+                                        itemSelected: index,
+                                    });
+                                }}
+                            />
+                        );
+                    })}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button bsStyle="default" id="import_file_button" onClick={ e => {
                         this.closeModal(); e.preventDefault();
                     }}>{i18n.t("importFile.footer.cancel")}</Button>
                     <Button bsStyle="primary" id="cancel_button" onClick={ (e) => {
-                        this.AddNavItem(); e.preventDefault();
+                        this.AddNavItem(this.state.itemSelected); e.preventDefault();
                     }}>{i18n.t("importFile.footer.ok")}</Button>
                 </Modal.Footer>
             </Modal>
@@ -38,7 +83,8 @@ export default class TemplatesModal extends Component {
     /**
      * Close modal
      */
-    AddNavItem() {
+    AddNavItem(template) {
+        console.log(template);
         let newId = ID_PREFIX_PAGE + Date.now();
         this.props.onNavItemAdded(
             newId,
@@ -49,6 +95,8 @@ export default class TemplatesModal extends Component {
             "rgb(255,255,255)",
             0,
         );
+        // if (template !== -1){ console.log("apply template"); }
+
         this.props.onIndexSelected(newId);
         this.props.close();
     }
