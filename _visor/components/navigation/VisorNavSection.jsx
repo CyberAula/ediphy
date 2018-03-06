@@ -34,28 +34,32 @@ export default class VisorNavSection extends Component {
                 </li>
 
                 { children.map(page => {
-                    let margin = this.props.navItemsById[page].level * 10 + 10 + "px";
-                    if (isSection(page)) {
-                        return (<VisorNavSection display={this.state.toggled}
-                            key={page}
-                            pageName={page}
-                            navItemSelected={this.props.navItemSelected}
-                            navItemsById={this.props.navItemsById}
-                            changeCurrentView={(pageNum) => {this.props.changeCurrentView(pageNum);}} />);
-                    }
-                    return (<li key={page}
-                        onClick={(e)=>{this.props.changeCurrentView(page);}}
-                        className={this.state.toggled ? "visorNavListEl" : "visorNavListEl hiddenNavVisor"}>
-                        <a style={{ paddingLeft: margin }}
-                            className={this.props.navItemSelected === page ? "indexElementTitle selectedNavItemVisor" : "indexElementTitle"}
-                            href="#">
-                            {(this.props.navItemsById[page].customSize === 0) ?
-                                <i className="material-icons">{isSlide(this.props.navItemsById[page].type) ? "slideshow" : "insert_drive_file"}</i>
-                                : <img className="svgIcon" src={iconPDF}/>}
-                            <span>{this.props.navItemsById[page].name}</span>
-                        </a>
-                    </li>);
+                    let pageObj = this.props.navItemsById[page];
+                    let margin = pageObj.level * 10 + 10 + "px";
+                    if (!pageObj.hidden) {
+                        if (isSection(page)) {
+                            return (<VisorNavSection display={this.state.toggled}
+                                key={page}
+                                pageName={page}
+                                navItemSelected={this.props.navItemSelected}
+                                navItemsById={this.props.navItemsById}
+                                changeCurrentView={(pageNum) => {this.props.changeCurrentView(pageNum);}} />);
+                        }
+                        return (<li key={page}
+                            onClick={(e)=>{this.props.changeCurrentView(page);}}
+                            className={this.state.toggled ? "visorNavListEl" : "visorNavListEl hiddenNavVisor"}>
+                            <a style={{ paddingLeft: margin }}
+                                className={this.props.navItemSelected === page ? "indexElementTitle selectedNavItemVisor" : "indexElementTitle"}
+                                href="#">
+                                {(this.props.navItemsById[page].customSize === 0) ?
+                                    <i className="material-icons">{isSlide(this.props.navItemsById[page].type) ? "slideshow" : "insert_drive_file"}</i>
+                                    : <img className="svgIcon" src={iconPDF}/>}
+                                <span>{this.props.navItemsById[page].name}</span>
+                            </a>
+                        </li>);
 
+                    }
+                    return null;
                 })
                 }
 

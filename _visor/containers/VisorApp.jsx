@@ -188,11 +188,17 @@ export default class Visor extends Component {
         let boxes = Ediphy.State.boxesById;
         let boxSelected = Ediphy.State.boxSelected;
         let navItems = Ediphy.State.navItemsById;
+        let exercises = {};
+        Object.keys(Ediphy.State.exercises).map((exercise, index)=>{
+            if (!navItems[exercise].hidden) {
+                exercises[exercise] = Ediphy.State.exercises[exercise];
+            }
+        });
         let navItemsIds = Ediphy.State.navItemsIds;
         let containedViews = Ediphy.State.containedViewsById;
         let toolbars = Ediphy.State.toolbarsById;
         let globalConfig = Ediphy.State.globalConfig;
-        let exercises = Ediphy.State.exercises;
+        // let exercises = Ediphy.State.exercises;
         let title = globalConfig.title;
         let ratio = globalConfig.canvasRatio;
         let visorNav = globalConfig.visorNav;
@@ -259,7 +265,7 @@ export default class Visor extends Component {
                                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
                                     currentViews={this.state.currentView}
                                     navItemsById={navItems}
-                                    navItemsIds={navItemsIds}/>) : null}
+                                    navItemsIds={navItemsIds.filter(nav=> {return !navItems[nav].hidden;})}/>) : null}
                                 {visorNav.sidebar ? (<Button id="visorNavButton"
                                     className={toggleColor}
                                     bsStyle="primary"
@@ -298,6 +304,7 @@ export default class Visor extends Component {
      * @param {string} element - current Element to go
      */
     changeCurrentView(element) {
+
         if (isContainedView(element)) {
             this.setState({ currentView: [this.getCurrentView(this.state.navItemSelected, this.state.containedViewSelected), element] });
         } else {
@@ -316,7 +323,11 @@ export default class Visor extends Component {
      * @param {string} NISelected - selected NavItem
      */
     getCurrentView(NIselected, CVselected) {
-        let currentView = (CVselected === 0) ? NIselected : CVselected;
+        let navItemSelected = 0;
+        if (Ediphy.State.navItemsById[NIselected] && !Ediphy.State.navItemsById[NIselected].hidden) {
+            navItemSelected = NIselected;
+        }
+        let currentView = (CVselected === 0) ? navItemSelected : CVselected;
         return currentView;
     }
 

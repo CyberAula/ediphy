@@ -18,9 +18,10 @@ export default class VisorSideNav extends Component {
                         <h1>{this.props.courseTitle}</h1>
                     </li>
                     {this.props.navItemsIds.map(page => {
-                        let level = this.props.navItemsById[page].level;
+                        let pageObj = this.props.navItemsById[page];
+                        let level = pageObj.level;
                         let marginPage = level * 10 + 10 + "px";
-                        if(level === 1) {
+                        if(level === 1 && !pageObj.hidden) {
                             if (isSection(page)) {
                                 return (<VisorNavSection display
                                     key={page}

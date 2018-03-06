@@ -16,7 +16,7 @@ export function MultipleAnswer() {
                 let correct = attempted && correctAnswer;
                 let incorrect = attempted && !correctAnswer && checked;
                 content.push(
-                    <div className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : "")}>
+                    <div key={i + 1} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : "")}>
                         <div className={"col-xs-2 answerPlaceholder"}>
                             {letterFromNumber(i)}
                             <input type="checkbox" disabled={attempted} className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
@@ -39,14 +39,14 @@ export function MultipleAnswer() {
             }
 
             return <div className={"exercisePlugin multipleAnswerPlugin" + (attempted ? " attempted " : " ") + (props.exercises.showFeedback ? "showFeedback" : "")}>{/* <h1>Multiple Answer</h1>*/}
-                <div className={"row"}>
+                <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Question"}/>
                     </div>
 
                 </div>
                 {content}
-                <div className={"exerciseScore"}>{score}</div>
+                <div key={-1} className={"exerciseScore"}>{score}</div>
             </div>;
         },
         checkAnswer(current, correct) {
