@@ -8,31 +8,31 @@ export default class TemplateThumbnail extends React.Component {
     }
 
     render() {
-        return <img className={this.props.className} style={this.props.style} src={this.props.image} onClick={this.props.onClick} />;
+        // return <img className={this.props.className} style={this.props.style} src={this.props.image} onClick={this.props.onClick} />;
         // Thumbnail generated via HTML instead of SVG
-        /*
+
         return (<div className={this.props.className} style={this.props.style} onClick={this.props.onClick}>
 
-            this.props.boxes.map((plugin, index)=>{
-                let {box, toolbar} = plugin;
-                let name = toolbar.name
+            {this.props.boxes.map((plugin, index)=>{
+                let { box, toolbar } = plugin;
+                let name = toolbar.name;
                 let config = Ediphy.Plugins.get(name).getConfig();
                 let icon = config.icon;
                 let iconFromUrl = config.iconFromUrl;
-                let lineHeight = (parseFloat(box.height)/100*80)+'px';
+                let lineHeight = (parseFloat(box.height) / 100 * 80) + 'px';
 
-                 return ( <div  key={index} style={{position: 'absolute',
+                return (<div key={index} style={{ position: 'absolute',
                     backgroundColor: 'grey',
                     top: box.y,
                     left: box.x,
                     width: box.width,
-                    height: box.height}}>
-                    <span style={{ verticalAlign: 'middle', lineHeight: lineHeight, display: 'inherit', textAlign: 'center'}}>
-                    {iconFromUrl ? <img src={icon} alt={name} />:<i className="material-icons"  >{icon}</i> }
+                    height: box.height }}>
+                    <span style={{ verticalAlign: 'middle', lineHeight: lineHeight, display: 'inherit', textAlign: 'center' }}>
+                        {iconFromUrl ? <img src={icon} alt={name} /> : <i className="material-icons" >{icon}</i> }
                     </span>
-                </div>)
-            })
-        </div>) */
+                </div>);
+            })}
+        </div>);
     }
 
 }
