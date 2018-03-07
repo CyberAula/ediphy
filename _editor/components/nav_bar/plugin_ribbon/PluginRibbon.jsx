@@ -30,6 +30,7 @@ export default class PluginRibbon extends Component {
             alert: null,
         };
         this.clickAddBox = this.clickAddBox.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
     }
 
     /**

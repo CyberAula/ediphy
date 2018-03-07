@@ -258,7 +258,7 @@ function createSizeButtons(controls, state, action, floatingBox) {
 
     // This will be commented until it's working correctly
     if (state === null) {
-        if (!floatingBox) {
+        /* if (!floatingBox) {
             controls.main.accordions.__sortable.buttons.__position = {
                 __name: i18n.t('Position'),
                 type: 'radio',
@@ -266,7 +266,7 @@ function createSizeButtons(controls, state, action, floatingBox) {
                 options: ['absolute', 'relative'],
                 autoManaged: true,
             };
-        }
+        }*/
 
     } else {
         // let hasPositionButton = action.payload.toolbar && action.payload.toolbar.main && action.payload.toolbar.main.accordions && action.payload.toolbar.main.accordions.__sortable && action.payload.toolbar.main.accordions.__sortable.buttons && action.payload.toolbar.main.accordions.__sortable.buttons.__position;

@@ -106,7 +106,9 @@ export default class PluginPlaceholder extends Component {
             </div>
         );
     }
-
+    isComplex(pluginName) {
+        return Ediphy.Plugins.get(pluginName).getConfig().isComplex;
+    }
     configureDropZone(node, selector, extraParams) {
         let alert = (msg)=>{return (<Alert className="pageModal"
             show
@@ -120,8 +122,16 @@ export default class PluginPlaceholder extends Component {
             accept: selector,
             overlap: 'pointer',
             ondropactivate: (e) => {
-                if ((this.props.parentBox.id !== this.props.boxSelected && this.props.toolbars[this.props.boxSelected ] && !Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected ].config.name).getConfig().isComplex) ||
-                    (e.relatedTarget.className.indexOf("rib") !== -1 && (!e.relatedTarget.getAttribute("name") || !Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().isComplex))) {
+
+                let pluginDraggingFromRibbonIsNotComplex = e.relatedTarget.className.indexOf("rib") === -1 || !e.relatedTarget.getAttribute("name") ||
+                  !this.isComplex(e.relatedTarget.getAttribute("name"));
+                let pluginDraggingFromCanvasIsNotComplex = e.relatedTarget.className.indexOf("rib") !== -1 || (this.props.toolbars[this.props.boxSelected ] &&
+                  this.props.toolbars[this.props.boxSelected ].config &&
+                  this.props.toolbars[this.props.boxSelected ].config.name &&
+                  !this.isComplex(this.props.toolbars[this.props.boxSelected ].config.name));
+                let notYourself = e.relatedTarget.className.indexOf("rib") !== -1 || this.props.parentBox.id !== this.props.boxSelected;
+
+                if (notYourself && pluginDraggingFromRibbonIsNotComplex && pluginDraggingFromCanvasIsNotComplex) {
                     e.target.classList.add('drop-active');
                 }
             },
@@ -145,14 +155,16 @@ export default class PluginPlaceholder extends Component {
                 let container = forbidden ? this.props.parentBox.container : this.idConvert(this.props.pluginContainer);
                 let config = Ediphy.Plugins.get(name).getConfig();
                 let forbidden = isBox(parent) && config.isComplex; // && (parent !== this.props.boxSelected);
-                let newInd = this.getIndex(this.props.boxes, parent, container, e.dragEvent.clientX, e.dragEvent.clientY);
+
                 let initialParams = {
                     parent: forbidden ? this.props.parentBox.parent : parent,
                     container: forbidden ? this.props.parentBox.container : container,
                     col: forbidden ? 0 : extraParams.i,
                     row: forbidden ? 0 : extraParams.j,
-                    index: newInd, page: this.props.page,
+                    page: this.props.page,
                 };
+                let newInd = initialParams.container === 0 ? undefined : this.getIndex(this.props.boxes, initialParams.parent, initialParams.container, e.dragEvent.clientX, e.dragEvent.clientY, forbidden, this.props.parentBox.id);
+                initialParams.index = newInd;
                 if (draggingFromRibbon) {
                     if (config.limitToOneInstance && instanceExists(config.name)) {
                         this.setState({ alert: alert(i18n.t('messages.instance_limit')) });
@@ -165,11 +177,9 @@ export default class PluginPlaceholder extends Component {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
                     // If box being dragged is dropped in a different column or row, change its value
                     if (this.props.parentBox.id !== this.props.boxSelected) {
-                        if (!forbidden) {
-                            initialParams.position = { type: 'relative', x: 0, y: 0 };
-                            this.props.onBoxDropped(boxDragged.id, initialParams.row, initialParams.col, initialParams.parent,
-                                initialParams.container, boxDragged.parent, boxDragged.container, initialParams.position, newInd);
-                        }
+                        initialParams.position = { type: 'relative', x: 0, y: 0 };
+                        this.props.onBoxDropped(boxDragged.id, initialParams.row, initialParams.col, initialParams.parent,
+                            initialParams.container, boxDragged.parent, boxDragged.container, initialParams.position, newInd);
                         return;
                     }
                 }
@@ -195,19 +205,22 @@ export default class PluginPlaceholder extends Component {
                     event.target.style.height = event.rect.height + 'px';
                 },
                 onend: (event) => {
-                    this.props.onSortableContainerResized(this.idConvert(this.props.pluginContainer), this.props.parentBox.id, parseInt(event.target.style.height, 10));
+                    // TODO Revew how to resize sortable containers
+                    // this.props.onSortableContainerResized(this.idConvert(this.props.pluginContainer), this.props.parentBox.id, parseInt(event.target.style.height, 10));
                     let toolbar = this.props.toolbars[this.props.parentBox.id];
-                    Ediphy.Plugins.get(toolbar.config.name).forceUpdate(toolbar.state, this.props.parentBox.id, RESIZE_SORTABLE_CONTAINER);
                 },
             });
     }
 
-    getIndex(boxes, parent, container, x, y) {
+    getIndex(boxes, parent, container, x, y, forbidden, currentBox) {
 
         let rc = document.elementFromPoint(x, y);
         let children = boxes[parent].sortableContainers[container].children;
         let bid = releaseClick(rc, 'box-');
-        let newInd = children.indexOf(rc);
+        let newInd = children.indexOf(bid);
+        if (forbidden) {
+            newInd = children.indexOf(currentBox);
+        }
         return newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
 
     }

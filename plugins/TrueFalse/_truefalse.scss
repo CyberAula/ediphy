@@ -1,0 +1,55 @@
+@import "../../sass/general/_variables.scss";
+
+.truefalsePlugin {
+  .radioQuiz {
+    //margin-left: 12px !important;
+    transform: scale(1.4);
+    margin: auto;
+
+  }
+
+  .answerPlaceholder {
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-top: 7px;
+  }
+
+  .col-xs-1 {
+    text-align: center;
+  }
+  .answerRow {
+    margin: 0px;
+  }
+  .TFRow {
+    margin: 0px;
+    border: 2px solid transparent;
+    font-size: 20px;
+  }
+  .exerciseScore {
+    display: none;
+    text-align: right;
+  }
+  &.attempted  .exerciseScore{
+    display: block;
+    color: $blueprimary;
+    font-size: 10px;
+  }
+
+  &.attempted.showFeedback .answerRow {
+    margin-top: 2px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+      &.correct {
+        border: 2px solid rgba(0,255,0,0.5);
+      }
+
+      &.incorrect {
+        border: 2px solid rgba(255,0,0,0.5);
+      }
+  }
+  .truefalse {
+    word-break: keep-all;
+  }
+
+}
+

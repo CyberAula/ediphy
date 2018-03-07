@@ -595,21 +595,23 @@ export default class EditorBox extends Component {
                     let disposition = { col: col || 0, row: row || 0 };
                     let containerHoverID = releaseClick(releaseClickEl, 'sc-');
                     // TODO Comentar?
-                    this.props.onBoxMoved(
-                        this.props.id,
-                        isSortableContainer(box.container) ? left : absoluteLeft,
-                        isSortableContainer(box.container) ? top : absoluteTop,
-                        this.props.boxes[this.props.id].position.type,
-                        box.parent,
-                        containerHoverID ? ('sc-' + containerHoverID) : containerId,
-                        disposition
-                    );
+                    if (box.container === 0) {
+                        this.props.onBoxMoved(
+                            this.props.id,
+                            isSortableContainer(box.container) ? left : absoluteLeft,
+                            isSortableContainer(box.container) ? top : absoluteTop,
+                            this.props.boxes[this.props.id].position.type,
+                            box.parent,
+                            containerHoverID ? ('sc-' + containerHoverID) : containerId,
+                            disposition
+                        );
+                    }
 
                     // Stuff to reorder boxes when position is relative
+                    /*
                     let hoverID = releaseClick(releaseClickEl, 'box-');
                     let boxOb = this.props.boxes[this.props.id];
                     if (boxOb && isSortableContainer(boxOb.container) && box.container === containerId) {
-
                         let children = this.props.boxes[boxOb.parent].sortableContainers[box.container].children;
                         if (children.indexOf(hoverID) !== -1) {
                             let newOrder = JSON.parse(JSON.stringify(children));
@@ -618,10 +620,11 @@ export default class EditorBox extends Component {
                                 return element === children[index];
                             });
                             if (!is_same) {
-                                this.props.onBoxesInsideSortableReorder(boxOb.parent, boxOb.container, newOrder);
+                                // this.props.onBoxesInsideSortableReorder(boxOb.parent, boxOb.container, newOrder);
                             }
                         }
                     }
+*/
 
                     event.stopPropagation();
 

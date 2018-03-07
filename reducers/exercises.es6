@@ -40,7 +40,11 @@ function exercisesReducer(state = {}, action = {}) {
     case SET_CORRECT_ANSWER:
         return changeProp(state, action.payload.id, singleExerciseReducer(state[action.payload.id], action));
     case DELETE_BOX:
-        return deleteProp(state, action.payload.id);
+        if (action.payload.id in state) {
+            return deleteProp(state, action.payload.id);
+        }
+        return state;
+
     case DELETE_SORTABLE_CONTAINER:
         return deleteProps(state, action.payload.children);
     default:
@@ -106,7 +110,12 @@ export default function(state = {}, action = {}) {
     case DELETE_BOX:
     case SET_CORRECT_ANSWER:
     case DELETE_SORTABLE_CONTAINER:
-        return changeProp(state, action.payload.page, singlePageReducer(state[action.payload.page], action));
+        if (action.payload.page) {
+            let page = action.payload.page.id ? action.payload.page.id : action.payload.page;
+            return changeProp(state, page, singlePageReducer(state[page], action));
+        }
+        return state;
+
     case IMPORT_STATE:
         return action.payload.present.exercises || state;
     default:

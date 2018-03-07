@@ -347,7 +347,7 @@ export default class EditorBoxSortable extends Component {
                         e.dragEvent.stopPropagation();
                     } else {
                         let boxDragged = this.props.boxes[this.props.boxSelected];
-                        if (boxDragged && ((this.props.id !== boxDragged.parent) || (extraParams.idContainer !== boxDragged.container) || (extraParams.j !== boxDragged.row) || (extraParams.i !== boxDragged.col))) {
+                        if (boxDragged) {// && ((this.props.id !== boxDragged.parent) || (extraParams.idContainer !== boxDragged.container) || (extraParams.j !== boxDragged.row) || (extraParams.i !== boxDragged.col))) {
                             this.props.onBoxDropped(this.props.boxSelected,
                                 extraParams.j,
                                 extraParams.i,

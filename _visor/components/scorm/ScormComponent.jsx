@@ -106,9 +106,11 @@ export default class ScormComponent extends Component {
             let checkAnswer = plug.checkAnswer(bx[ex].currentAnswer, bx[ex].correctAnswer);
             if (checkAnswer) {
                 let exScore = bx[ex].weight;
-                if(checkAnswer instanceof Number) {
-                    exScore = exScore * checkAnswer;
-                }
+                try {
+                    if(!isNaN(parseFloat(checkAnswer))) {
+                        exScore = exScore * checkAnswer;
+                    }
+                } catch(e) {}
                 points += exScore;
                 bx[ex].score = exScore;
 
