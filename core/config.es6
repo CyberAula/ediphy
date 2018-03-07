@@ -40,7 +40,7 @@ export default {
         'Webpage',
         'HotspotImages',
         // 'ContainerReact',
-        // 'MultipleChoice',
+        'MultipleChoice',
         // 'MultipleAnswer',
         // 'FreeResponse',
         // 'InputText',

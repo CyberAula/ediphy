@@ -42,20 +42,23 @@ export default class ScormComponent extends Component {
             if(!isContainedView(nextProps.currentView)) {
                 let currentView = nextProps.currentView;
                 setTimeout(()=>{
-
+                    console.log(nextProps, currentView, nextProps.currentView === currentView);
                     if(nextProps.currentView === currentView) {
-                        let ex = JSON.parse(JSON.stringify(this.state.exercises));
-                        if(API.isConnected()) {
-                            if (Object.keys(ex[currentView].exercises).length === 0) {
-                                ex[currentView].attempted = true;
-                                let visitPctg = this.calculateVisitPctg(ex);
+                        let exercises = JSON.parse(JSON.stringify(this.state.exercises));
+                        console.log(exercises);
+                        if (Object.keys(exercises[currentView].exercises).length === 0) {
+                            exercises[currentView].attempted = true;
+                            let visitPctg = this.calculateVisitPctg(exercises);
+                            console.log(currentView + " " + visitPctg);
+                            window.parent.alert(currentView + " " + visitPctg);
+                            this.setState({ exercises });
+                            if(API.isConnected()) {
                                 // API.savePageProgress()
-
                             }
-
                         }
+
                     }
-                }, 5000).bind(currentView);
+                }, 5000);
 
                 if(API.isConnected()) {
                     API.changeLocation(nextProps.currentView);
