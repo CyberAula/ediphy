@@ -40,8 +40,26 @@ export default class ScormComponent extends Component {
     componentWillReceiveProps(nextProps) {
         if (this.props.currentView !== nextProps.currentView) {
             if(!isContainedView(nextProps.currentView)) {
+                let currentView = nextProps.currentView;
+                setTimeout(()=>{
+
+                    if(nextProps.currentView === currentView) {
+                        let ex = JSON.parse(JSON.stringify(this.state.exercises));
+                        if(API.isConnected()) {
+                            if (Object.keys(ex[currentView].exercises).length === 0) {
+                                ex[currentView].attempted = true;
+                                let visitPctg = this.calculateVisitPctg(ex);
+                                // API.savePageProgress()
+
+                            }
+
+                        }
+                    }
+                }, 5000).bind(currentView);
+
                 if(API.isConnected()) {
                     API.changeLocation(nextProps.currentView);
+
                 }
             }
 
@@ -58,7 +76,7 @@ export default class ScormComponent extends Component {
                 submitPage: this.submitPage,
                 exercises: this.state.exercises[this.props.currentView] }));
         return [...childrenWithProps, this.props.globalConfig.hideGlobalScore ? null : null,
-        //  <GlobalScore key="-1" scoreInfo={scoreInfo}/>
+            <GlobalScore key="-1" scoreInfo={scoreInfo}/>,
         ];
 
     }
@@ -67,7 +85,9 @@ export default class ScormComponent extends Component {
         window.addEventListener("beforeunload", this.onUnload);
     }
     onLoad(event) {
-        let scorm = new API.init(true, true);
+        let DEBUG = Ediphy.Config.debug_scorm;
+        let scorm = new API.init(DEBUG, DEBUG);
+
         if(!API.isConnected()) {
             return;
         }
@@ -131,6 +151,12 @@ export default class ScormComponent extends Component {
         exercises[page].score = parseFloat(pageScore.toFixed(2));
         let totalScore = parseFloat((this.state.totalScore + pageScore * exercises[page].weight).toFixed(2));
         this.setState({ exercises, totalScore, suspendData });
+        let visitedPctg = this.calculateVisitPctg(exercises);
+        if(API.isConnected()) {
+            API.setSCORMScore(totalScore, this.totalWeight, visitedPctg, suspendData);
+        }
+    }
+    calculateVisitPctg(exercises) {
         let visitedPctg = 0;
         for (let p in exercises) {
             if (exercises[p].attempted) {
@@ -138,9 +164,7 @@ export default class ScormComponent extends Component {
             }
         }
         visitedPctg = visitedPctg / Object.keys(exercises).length;
-        if(API.isConnected()) {
-            API.setSCORMScore(totalScore, this.totalWeight, visitedPctg, suspendData);
-        }
+        return visitedPctg;
     }
 
 }

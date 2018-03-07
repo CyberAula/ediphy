@@ -24,6 +24,7 @@ export default {
         enable_catalog_modal: false,
     },
     publish_button: false,
+    debug_scorm: true,
     show_numbers_before_navitems: false,
     api_editor_url_change: false,
     open_button_enabled: true,

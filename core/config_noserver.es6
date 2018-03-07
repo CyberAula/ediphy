@@ -25,6 +25,7 @@ export default {
     },
     disable_save_button: true,
     publish_button: false,
+    debug_scorm: false,
     show_numbers_before_navitems: false,
     api_editor_url_change: false,
     open_button_enabled: false,
