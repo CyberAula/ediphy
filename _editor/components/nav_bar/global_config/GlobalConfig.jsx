@@ -44,7 +44,7 @@ export default class GlobalConfig extends Component {
             version: this.props.globalConfig.version || '0.0.0',
             status: this.props.globalConfig.status || 'draft',
             context: this.props.globalConfig.context || 'school',
-            hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
+            hideGlobalScore: this.props.globalConfig.hideGlobalScore || true,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
             modifiedState: false,
             showAlert: false,
@@ -244,11 +244,11 @@ export default class GlobalConfig extends Component {
                                       </InputGroup>*/}
                                     </FormGroup>
 
-                                    <FormGroup >
+                                    {/* <FormGroup >
                                         <ControlLabel className="inlineLabel">{i18n.t('global_config.hideGlobalScore')}</ControlLabel>
                                         <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, hideGlobalScore: !this.state.hideGlobalScore });}} checked={hideGlobalScore}/>
 
-                                    </FormGroup>
+                                    </FormGroup>*/}
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.context')}</ControlLabel><br/>
                                         <Select

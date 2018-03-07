@@ -11,6 +11,7 @@ export default class PluginsMenu extends Component {
      */
     constructor(props) {
         super(props);
+        this.state = { categories: [] };
     }
 
     /**
@@ -56,17 +57,33 @@ export default class PluginsMenu extends Component {
         return (
             <div className="pluginsMenu" onClick={()=> this.openPlugin("")}>
                 {categories.map((cat, ind)=>{
-                    return (<button key={ind}
-                        className={ this.props.hideTab === 'show' && this.props.category === cat.name ? 'navButtonPlug active' : 'navButtonPlug' }
-                        title={cat.displayName} disabled={false /* disablePlugins*/}
-                        onClick={(e) => { this.props.category === cat.name ? this.openPlugin('') : this.openPlugin(cat.name); e.stopPropagation();}}>
-                        <i className="material-icons showonresize">{cat.icon}</i><span className="hideonresize"> {cat.displayName}</span>
-                    </button>);
+                    if (this.state.categories.indexOf(cat.name) > -1) {
+                        return (<button key={ind}
+                            className={ this.props.hideTab === 'show' && this.props.category === cat.name ? 'navButtonPlug active' : 'navButtonPlug' }
+                            title={cat.displayName} disabled={false /* disablePlugins*/}
+                            onClick={(e) => { this.props.category === cat.name ? this.openPlugin('') : this.openPlugin(cat.name); e.stopPropagation();}}>
+                            <i className="material-icons showonresize">{cat.icon}</i><span className="hideonresize"> {cat.displayName}</span>
+                        </button>);
+                    }
+                    return null;
                 })}
 
                 <div className="togglePlugins"><i className="material-icons">widgets</i></div>
             </div>
         );
+    }
+
+    componentDidMount() {
+        // Only will show categories that have at least one plugin inside
+        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.addMenuButtons, e => {
+            let categories = [];
+            for (let plug in e.detail) {
+                if (categories.indexOf(e.detail[plug].category) === -1) {
+                    categories.push(e.detail[plug].category);
+                }
+            }
+            this.setState({ categories });
+        });
     }
 }
 
