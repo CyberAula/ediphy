@@ -9,10 +9,9 @@ export function init(debug = true, windowDebug = false) {
     return scorm;
 }
 
-export function getInitialState(exerciseObj, exerciseNums, suspendDataCalculated) {
+export function getInitialState(exerciseObj, exerciseNums, numPages, suspendDataCalculated) {
     let currentStatus = scorm.getvalue('cmi.completion_status');
     let isPassed = scorm.getvalue('cmi.success_status');
-
     let bookmark = scorm.getvalue('cmi.location');
 
     if (currentStatus !== 'completed') {
@@ -20,8 +19,8 @@ export function getInitialState(exerciseObj, exerciseNums, suspendDataCalculated
     }
     let userProfile = getUserProfile();
     let userName = userProfile ? userProfile.name : "Anonymous";
-    let { exercises, totalScore, suspendData } = changeInitialState(exerciseObj, exerciseNums, suspendDataCalculated);
-    return { currentStatus, bookmark, userName, isPassed, userProfile, exercises, totalScore, suspendData };
+    let { exercises, totalScore, suspendData, completionProgress } = changeInitialState(exerciseObj, exerciseNums, numPages, suspendDataCalculated);
+    return { currentStatus, bookmark, userName, isPassed, userProfile, exercises, totalScore, suspendData, completionProgress };
 }
 
 export function getAPIInstance() {
@@ -62,29 +61,20 @@ export function getUserProfile() {
  * @param exercises
  * @returns {Array} An array where each position is an object containing the page and the box which that index represents
  */
-export function getExerciseNums(exercises) {
-    let list = [];
-    Object.keys(exercises).map((page, pageIndex)=>{
-        Object.keys(exercises[page].exercises).map((box, index)=>{
-            list.push({ page, box });
+
+export function getExerciseNumsAndAnswers(initData) {
+    let exNums = [];
+    let exercises = [];
+    let pages = [];
+    Object.keys(initData).map((page, pageIndex)=>{
+        Object.keys(initData[page].exercises).map((box, index)=>{
+            exNums.push({ page, box });
+            let boxObj = initData[page].exercises[box];
+            exercises.push({ a: boxObj.defaultCorrectAnswer, s: 0, c: "incomplete" });
         });
-
+        pages.push(false);
     });
-    return list;
-}
-
-export function getExerciseNumsAndAnswers(exercises) {
-    let list = [];
-    let defaultAnswers = [];
-    Object.keys(exercises).map((page, pageIndex)=>{
-        Object.keys(exercises[page].exercises).map((box, index)=>{
-            list.push({ page, box });
-            let boxObj = exercises[page].exercises[box];
-            defaultAnswers.push({ a: boxObj.defaultCorrectAnswer, s: 0, c: "incomplete" });
-        });
-
-    });
-    return { exNums: list, answers: defaultAnswers };
+    return { exNums, exercises, pages };
 }
 
 /**
@@ -93,47 +83,40 @@ export function getExerciseNumsAndAnswers(exercises) {
  * @param nums
  * @returns {{exercises, totalScore: number}}
  */
-export function changeInitialState(exercises, nums, suspendDataCalculated) {
-    let length = nums.length; // API.doGetValue("cmi.objectives._count");
+export function changeInitialState(exercises, nums, numPages, suspendDataCalculated) {
+    let exLength = nums.length;
     let updatedExercises = JSON.parse(JSON.stringify(exercises));
-    scorm.setvalue("cmi.objectives." + 0 + ".id", 0);
-    scorm.setvalue("cmi.interactions." + 0 + ".id", 0);
-    scorm.setvalue("cmi.interactions." + 0 + ".type", "performance");
+
     let suspendData = scorm.getvalue("cmi.suspend_data");
     try {
         suspendData = JSON.parse(suspendData);
 
-        if (!suspendData || !(suspendData instanceof Array) || suspendData.length === 0) {
+        if (!suspendData || !(suspendData instanceof Object) || !suspendData.exercises || !suspendData.pages) {
             suspendData = suspendDataCalculated;
         }
     } catch (e) {
         suspendData = suspendDataCalculated;
     }
-    for (let i = 0; i < length; i++) {
 
-        let id = scorm.setvalue("cmi.objectives." + (i + 1) + ".id", i + 1);
-        let interaction = scorm.setvalue("cmi.interactions." + (i + 1) + ".id", i + 1);
-        let type = scorm.setvalue("cmi.interactions." + (i + 1) + ".type", "performance");
+    for (let i = 0; i < exLength; i++) {
 
-        let obj = suspendData[i].s;
-        let comp = suspendData[i].c;
-        // let obj = scorm.getvalue("cmi.objectives." + (i + 1) + ".score.raw");
-        // let comp = scorm.getvalue("cmi.objectives." + (i + 1) + ".completion_status");
-        // let ans = scorm.getvalue("cmi.interactions." + (i + 1) + ".learner_response");
+        let obj = suspendData.exercises[i].s;
+        let comp = suspendData.exercises[i].c;
 
         updatedExercises[nums[i].page].exercises[nums[i].box].attempted = (comp === "completed");
         updatedExercises[nums[i].page].exercises[nums[i].box].num = (i + 1);
         if (comp === "completed") {
-            if (suspendData && suspendData.length > i) {
-                updatedExercises[nums[i].page].exercises[nums[i].box].currentAnswer = suspendData[i].a;
+            if (suspendData && suspendData.exercises && suspendData.exercises.length > i) {
+                updatedExercises[nums[i].page].exercises[nums[i].box].currentAnswer = suspendData.exercises[i].a;
             }
             updatedExercises[nums[i].page].exercises[nums[i].box].score = obj;
         }
 
     }
-    // scorm.setvalue("cmi.suspend_data", JSON.stringify(suspendData));
-    let totalScore = 0;
 
+    let totalScore = 0;
+    let completionProgress = 0;
+    let i = 0;
     for (let p in updatedExercises) {
         let attempted = false;
         let pageScore = 0;
@@ -146,14 +129,24 @@ export function changeInitialState(exercises, nums, suspendDataCalculated) {
             totalExWeight += box.weight;
         }
         pageScore = pageScore / (totalExWeight || 1);
-
+        page.visited = suspendData.pages[i];
+        if (page.visited) {
+            if (Object.keys(page.exercises).length === 0) {
+                pageScore = 1;
+                attempted = true;
+            }
+        }
         page.attempted = attempted;
         page.score = pageScore;
+        completionProgress += attempted ? 1 : 0;
         totalScore += page.score * page.weight;
+        i++;
     }
-
+    completionProgress = completionProgress / (numPages || 1);
+    completionProgress = parseFloat(completionProgress.toFixed(2));
+    totalScore = parseFloat(totalScore.toFixed(2));
     commit();
-    return { exercises: updatedExercises, totalScore: parseFloat(totalScore.toFixed(2)), suspendData };
+    return { exercises: updatedExercises, totalScore, suspendData, completionProgress };
 }
 
 export function commit() {
@@ -165,7 +158,7 @@ export function changeLocation(id) {
     return commit();
 }
 
-export function setSCORMScore(score, maxScore, attemptedPages, suspendData) {
+export function setSCORMScore(score, maxScore, completionProgress, suspendData) {
     let num = 0;
     let thresholdSc = scorm.getvalue("cmi.scaled_passing_score") || 0.5;
     let thresholdV = scorm.getvalue("cmi.completion_threshold") || 0.5;
@@ -176,39 +169,41 @@ export function setSCORMScore(score, maxScore, attemptedPages, suspendData) {
     /* Course is passed when the total score is greater than the threshold*/
 
     isPassed = ((score / maxScore) >= thresholdSc) ? "passed" : "failed";
-    isComplete = attemptedPages >= thresholdV ? "completed" : "incomplete";
+    isComplete = completionProgress >= thresholdV ? "completed" : "incomplete";
     let scoreRounded = parseFloat(score.toFixed(2));
     let scoreScaled = parseFloat((score / maxScore).toFixed(2));
-    setScore("objectives." + num + ".", 0, maxScore, scoreRounded, scoreScaled, isComplete, isPassed);
-    setScore("", 0, maxScore, scoreRounded, scoreScaled, isComplete, isPassed);
+    setScore(0, maxScore, scoreRounded, scoreScaled, isComplete, isPassed);
     scorm.setvalue("cmi.suspend_data", JSON.stringify(suspendData));
     return commit();
 }
 
-export function finish() {
+export function savePageProgress(suspendData, completionProgress) {
+    let thresholdV = scorm.getvalue("cmi.completion_threshold") || 0.5;
+    thresholdV = thresholdV && !isNaN(parseFloat(thresholdV)) ? thresholdV : 0.5;
+    let isComplete = completionProgress >= thresholdV ? "completed" : "incomplete";
 
+    scorm.setvalue("cmi.suspend_data", JSON.stringify(suspendData));
+    scorm.setvalue("cmi.completion_status", isComplete);
+    return commit();
+}
+
+export function finish() {
+    let sc = scorm.getvalue("cmi.completion_status") + " ";
+    sc += scorm.getvalue("cmi.score.raw") + " ";
+    sc += scorm.getvalue("cmi.success_status") + " ";
+    console.log(sc);
     scorm.setvalue("cmi.exit", "suspend");
     scorm.terminate();
     window.terminated = true;
 }
 
-function setScore(who, min, max, raw, scaled, completion_status, success_status) {
-    scorm.setvalue("cmi." + who + "score.scaled", scaled);
-    scorm.setvalue("cmi." + who + "score.min", min);
-    scorm.setvalue("cmi." + who + "score.max", max);
-    scorm.setvalue("cmi." + who + "score.raw", raw);
-    scorm.setvalue("cmi." + who + "success_status", success_status);
-    scorm.setvalue("cmi." + who + "completion_status", completion_status);
+function setScore(min, max, raw, scaled, completion_status, success_status) {
+    scorm.setvalue("cmi.score.scaled", scaled);
+    scorm.setvalue("cmi.score.min", min);
+    scorm.setvalue("cmi.score.max", max);
+    scorm.setvalue("cmi.score.raw", raw);
+    scorm.setvalue("cmi.success_status", success_status);
+    scorm.setvalue("cmi.completion_status", completion_status);
 
     return commit();
 }
-
-/* export function setExerciseScore(who, score, answer) {
-    scorm.setvalue("cmi.objectives." + who + ".score.raw", score);
-    scorm.setvalue("cmi.objectives." + who + ".completion_status", "completed");
-    scorm.setvalue("cmi.interactions." + who + ".learner_response", JSON.stringify(answer));
-
-    return commit();
-
-}*/
-

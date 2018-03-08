@@ -37,7 +37,6 @@ export function MultipleChoice() {
                     <div className={"col-xs-12"}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Question"}/>
                     </div>
-
                 </div>
                 {content}
                 <div className={"exerciseScore"}>{score}</div>

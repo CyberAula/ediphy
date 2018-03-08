@@ -126,6 +126,7 @@ let en = {
                 "Add_tag": "Add keyword",
             },
             "language": "Language",
+            "minTimeProgress": "Minimum time per page",
             "no_lang": "Not specified",
             "prompt": "Would you like to save your changes?",
             "public_domain": "Public domain",

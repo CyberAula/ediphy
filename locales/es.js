@@ -124,6 +124,7 @@ let es = {
                 "Add_tag": "Añadir palabra clave",
             },
             "language": "Idioma",
+            "minTimeProgress": "Mínimo tiempo por página",
             "no_lang": "Sin especificar",
             "prompt": "¿Desea guardar los cambios antes de salir?",
             "public_domain": "Dominio público",

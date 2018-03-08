@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import iconPDF from './../../../dist/images/file-pdf.svg';
 import VisorNavSection from './VisorNavSection';
+import NavScore from '../scorm/NavScore';
 import { isSlide, isPage, isSection } from '../../../common/utils';
 
 export default class VisorSideNav extends Component {
@@ -14,9 +15,11 @@ export default class VisorSideNav extends Component {
         return(
             <div id="sidebar-wrapper">
                 <ul className="sidebar-nav">
-                    <li className="sidebar-brand">
+                    <li className="sidebar-brand" id="tituloCurso">
                         <h1>{this.props.courseTitle}</h1>
                     </li>
+                    <NavScore scoreInfo={this.props.scoreInfo}/>
+
                     {this.props.navItemsIds.map(page => {
                         let pageObj = this.props.navItemsById[page];
                         let level = pageObj.level;

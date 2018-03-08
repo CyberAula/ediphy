@@ -29,6 +29,7 @@ export default class Visor extends Component {
             backupElementStates: {},
             toggledSidebar: Ediphy.State.globalConfig.visorNav.sidebar ? Ediphy.State.globalConfig.visorNav.sidebar : (Ediphy.State.globalConfig.visorNav.sidebar === undefined),
             fromScorm: Ediphy.State.fromScorm,
+            scoreInfo: { userName: "Anonymous", totalScore: 0, totalWeight: 0, completionProgress: 0 },
         };
 
     }
@@ -253,6 +254,7 @@ export default class Visor extends Component {
                     currentViews={this.state.currentView}
                     navItemsById={navItems}
                     navItemsIds={navItemsIds}
+                    scoreInfo={this.state.scoreInfo}
                     toggled={this.state.toggledSidebar}/>
                 <div id="page-content-wrapper"
                     className={isSlide}
@@ -273,6 +275,7 @@ export default class Visor extends Component {
                                     <i className="material-icons">{toggleIcon}</i>
                                 </Button>) : null}
                                 <ScormComponent
+                                    updateScore={(scoreInfo)=>{this.setState({ scoreInfo });}}
                                     navItemsIds={navItemsIds}
                                     containedViews={containedViews}
                                     currentView={currentView}

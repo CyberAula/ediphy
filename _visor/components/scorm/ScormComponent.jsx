@@ -8,23 +8,37 @@ import GlobalScore from '../scorm/GlobalScore';
 export default class ScormComponent extends Component {
     constructor(props) {
         super(props);
-        let { exNums, answers } = API.getExerciseNumsAndAnswers(this.props.exercises);
+        let { exNums, exercises, pages } = API.getExerciseNumsAndAnswers(this.props.exercises);
         this.state = {
             exercises: this.props.exercises,
-            exerciseNums: exNums,
             totalScore: 0,
+            completionProgress: 0,
             userName: "Anonymous",
             isPassed: "incomplete",
-            suspendData: answers,
+            suspendData: { exercises, pages },
         };
         this.onUnload = this.onUnload.bind(this);
         this.onLoad = this.onLoad.bind(this);
         this.setAnswer = this.setAnswer.bind(this);
         this.submitPage = this.submitPage.bind(this);
+        this.timeProgress = this.timeProgress.bind(this);
         this.totalWeight = 0;
         for (let e in this.props.exercises) {
             this.totalWeight += this.props.exercises[e].weight;
         }
+        this.exerciseNums = exNums;
+        this.numPages = Object.keys(this.props.exercises).length;
+        this.timer = this.props.globalConfig.minTimeProgress;
+        if (this.timer && !isNaN(this.timer)) {
+            if (this.timer < 1) {
+                this.timer = 1;
+            } else if (this.timer > 500) {
+                this.timer = 500;
+            }
+        } else {
+            this.timer = 30;
+        }
+        this.timer *= 1000;
     }
     getFirstPage() {
         let navItems = this.props.navItemsIds || [];
@@ -39,39 +53,24 @@ export default class ScormComponent extends Component {
     }
     componentWillReceiveProps(nextProps) {
         if (this.props.currentView !== nextProps.currentView) {
-            if(!isContainedView(nextProps.currentView)) {
-                let currentView = nextProps.currentView;
-                setTimeout(()=>{
-                    console.log(nextProps, currentView, nextProps.currentView === currentView);
-                    if(nextProps.currentView === currentView) {
-                        let exercises = JSON.parse(JSON.stringify(this.state.exercises));
-                        console.log(exercises);
-                        if (Object.keys(exercises[currentView].exercises).length === 0) {
-                            exercises[currentView].attempted = true;
-                            let visitPctg = this.calculateVisitPctg(exercises);
-                            console.log(currentView + " " + visitPctg);
-                            window.parent.alert(currentView + " " + visitPctg);
-                            this.setState({ exercises });
-                            if(API.isConnected()) {
-                                // API.savePageProgress()
-                            }
-                        }
+            setTimeout(()=>{
+                if (this.props.currentView === nextProps.currentView) {
+                    this.timeProgress();
+                }
 
-                    }
-                }, 5000);
+            }, this.timer);
+            if(API.isConnected()) {
 
-                if(API.isConnected()) {
+                if(!isContainedView(nextProps.currentView)) {
                     API.changeLocation(nextProps.currentView);
-
                 }
             }
-
         }
     }
 
     render() {
         const { children } = this.props;
-        let scoreInfo = { userName: this.state.userName, totalScore: this.state.totalScore, totalWeight: this.totalWeight, isPassed: this.state.isPassed };
+        let scoreInfo = { userName: this.state.userName, totalScore: this.state.totalScore, totalWeight: this.totalWeight, isPassed: this.state.isPassed, completionProgress: this.state.completionProgress };
         let childrenWithProps = React.Children.map(children, (child, i) =>
             React.cloneElement(child, {
                 key: i,
@@ -91,18 +90,55 @@ export default class ScormComponent extends Component {
         let DEBUG = Ediphy.Config.debug_scorm;
         let scorm = new API.init(DEBUG, DEBUG);
 
-        if(!API.isConnected()) {
-            return;
+        if(API.isConnected()) {
+            let init = API.getInitialState(this.state.exercises, this.exerciseNums, this.numPages, this.state.suspendData);
+            let isFirst = false;
+            if (init) {
+                let bookmark = (init && init.bookmark && init.bookmark !== '') ? init.bookmark : this.getFirstPage();
+                this.props.changeCurrentView(bookmark);
+                this.setState(init);
+                isFirst = this.props.currentView === bookmark;
+                if (!isFirst) {
+                    return;
+                }
+
+            }
         }
-        let init = API.getInitialState(this.state.exercises, this.state.exerciseNums, this.state.suspendData);
-        if (init) {
-            let bookmark = (init && init.bookmark && init.bookmark !== '') ? init.bookmark : this.getFirstPage();
-            this.props.changeCurrentView(bookmark);
-            this.setState(init);
+        let scoreInfo = { userName: this.state.userName, totalScore: this.state.totalScore, totalWeight: this.totalWeight, completionProgress: this.state.completionProgress };
+        this.props.updateScore(scoreInfo);
+        setTimeout(()=>{
+            this.timeProgress();
+        }, this.timer);
+
+    }
+    timeProgress() {
+        let currentView = this.props.currentView;
+        let exercises = JSON.parse(JSON.stringify(this.state.exercises));
+        exercises[currentView].visited = true;
+
+        let suspendData = JSON.parse(JSON.stringify(this.state.suspendData));
+        let ind = Object.keys(this.state.exercises).indexOf(this.props.currentView);
+        suspendData.pages[ind] = true;
+        let completionProgress = this.calculateVisitPctg(suspendData.pages);
+        let totalScore = this.state.totalScore;
+        if (!this.state.exercises[currentView].visited && Object.keys(exercises[currentView].exercises).length === 0) {
+            exercises[currentView].attempted = true;
+            totalScore += exercises[currentView].weight;
         }
+
+        this.setState({ totalScore, suspendData, exercises, completionProgress });
+
+        if (API.isConnected()) {
+            API.setSCORMScore(totalScore, this.totalWeight, completionProgress, suspendData);
+
+        }
+        let scoreInfo = { userName: this.state.userName, totalScore, totalWeight: this.totalWeight, completionProgress };
+        this.props.updateScore(scoreInfo);
+
     }
 
     onUnload(event) {
+        console.log('DONE');
         if(API.isConnected()) {
             API.finish();
         }
@@ -142,31 +178,30 @@ export default class ScormComponent extends Component {
             }
 
             bx[ex].attempted = true;
-            suspendData[bx[ex].num - 1] = {
+            suspendData.exercises[bx[ex].num - 1] = {
                 a: bx[ex].currentAnswer,
                 s: bx[ex].score,
                 c: bx[ex].attempted ? "completed" : "incomplete" };
 
         }
-
         exercises[page].attempted = true;
         let pageScore = points / total;
         exercises[page].score = parseFloat(pageScore.toFixed(2));
         let totalScore = parseFloat((this.state.totalScore + pageScore * exercises[page].weight).toFixed(2));
-        this.setState({ exercises, totalScore, suspendData });
-        let visitedPctg = this.calculateVisitPctg(exercises);
+        let completionProgress = this.calculateVisitPctg(suspendData.pages);
+        this.setState({ exercises, totalScore, suspendData, completionProgress });
         if(API.isConnected()) {
-            API.setSCORMScore(totalScore, this.totalWeight, visitedPctg, suspendData);
+            API.setSCORMScore(totalScore, this.totalWeight, completionProgress, suspendData);
         }
+        let scoreInfo = { userName: this.state.userName, totalScore, totalWeight: this.totalWeight, completionProgress };
+        this.props.updateScore(scoreInfo);
     }
-    calculateVisitPctg(exercises) {
+    calculateVisitPctg(pages) {
         let visitedPctg = 0;
-        for (let p in exercises) {
-            if (exercises[p].attempted) {
-                visitedPctg += 1;
-            }
-        }
-        visitedPctg = visitedPctg / Object.keys(exercises).length;
+        visitedPctg = pages.reduce((old, act)=>{
+            return old + (act ? 1 : 0);
+        });
+        visitedPctg = visitedPctg / (pages.length || 1);
         return visitedPctg;
     }
 
@@ -191,7 +226,7 @@ ScormComponent.propTypes = {
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-      * Children components
+     * Children components
      */
     children: PropTypes.object,
     // /**
@@ -199,7 +234,7 @@ ScormComponent.propTypes = {
     //  */
     // fromScorm: PropTypes.bool,
     /**
-       * Object containing all the exercises in the course
-       */
+     * Object containing all the exercises in the course
+     */
     exercises: PropTypes.object.isRequired,
 };
