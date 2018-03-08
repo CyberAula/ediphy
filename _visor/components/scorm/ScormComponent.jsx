@@ -28,6 +28,17 @@ export default class ScormComponent extends Component {
         }
         this.exerciseNums = exNums;
         this.numPages = Object.keys(this.props.exercises).length;
+        this.timer = this.props.globalConfig.minTimeProgress;
+        if (this.timer && !isNaN(this.timer)) {
+            if (this.timer < 1) {
+                this.timer = 1;
+            } else if (this.timer > 500) {
+                this.timer = 500;
+            }
+        } else {
+            this.timer = 30;
+        }
+        this.timer *= 1000;
     }
     getFirstPage() {
         let navItems = this.props.navItemsIds || [];
@@ -47,7 +58,7 @@ export default class ScormComponent extends Component {
                     this.timeProgress();
                 }
 
-            }, 5000);
+            }, this.timer);
             if(API.isConnected()) {
 
                 if(!isContainedView(nextProps.currentView)) {
@@ -81,15 +92,13 @@ export default class ScormComponent extends Component {
 
         if(API.isConnected()) {
             let init = API.getInitialState(this.state.exercises, this.exerciseNums, this.numPages, this.state.suspendData);
-            console.log('onload', init);
             let isFirst = false;
             if (init) {
                 let bookmark = (init && init.bookmark && init.bookmark !== '') ? init.bookmark : this.getFirstPage();
                 this.props.changeCurrentView(bookmark);
                 this.setState(init);
                 isFirst = this.props.currentView === bookmark;
-                console.log(this.props.currentView, bookmark);
-                if (isFirst) {
+                if (!isFirst) {
                     return;
                 }
 
@@ -97,7 +106,7 @@ export default class ScormComponent extends Component {
         }
         setTimeout(()=>{
             this.timeProgress();
-        }, 5000);
+        }, this.timer);
 
     }
     timeProgress() {
@@ -111,12 +120,10 @@ export default class ScormComponent extends Component {
         let completionProgress = this.calculateVisitPctg(suspendData.pages);
         let totalScore = this.state.totalScore;
         if (!this.state.exercises[currentView].visited && Object.keys(exercises[currentView].exercises).length === 0) {
-            console.log('here no exercises');
             exercises[currentView].attempted = true;
             totalScore += exercises[currentView].weight;
         }
 
-        console.log('TOTALSCORE', totalScore);
         this.setState({ totalScore, suspendData, exercises, completionProgress });
 
         if (API.isConnected()) {
@@ -125,6 +132,7 @@ export default class ScormComponent extends Component {
     }
 
     onUnload(event) {
+        console.log('DONE');
         if(API.isConnected()) {
             API.finish();
         }

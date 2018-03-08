@@ -13,7 +13,7 @@ export default class GlobalScore extends Component {
                 <h6>
                     <span className="scoreField"> Score: </span>
                     <span className="scoreField"> {totalScore + "/" + totalWeight} points</span>
-                    <span className="scoreField">{parseFloat((totalScore / totalWeight) * 100).toFixed(2) + "%"}</span><br/>
+                    <span className="scoreField"> {parseFloat((totalScore / totalWeight) * 100).toFixed(2) + "%"} </span><br/>
                     <span className="scoreField"> Progress:  </span>
                     <span className="scoreField"> {parseFloat(completionProgress * 100).toFixed(2) + '%'} </span>
                 </h6>

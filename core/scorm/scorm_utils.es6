@@ -146,8 +146,7 @@ export function changeInitialState(exercises, nums, numPages, suspendDataCalcula
     completionProgress = parseFloat(completionProgress.toFixed(2));
     totalScore = parseFloat(totalScore.toFixed(2));
     commit();
-    let a = { exercises: updatedExercises, totalScore, suspendData, completionProgress };
-    return a;
+    return { exercises: updatedExercises, totalScore, suspendData, completionProgress };
 }
 
 export function commit() {
@@ -189,7 +188,10 @@ export function savePageProgress(suspendData, completionProgress) {
 }
 
 export function finish() {
-
+    let sc = scorm.getvalue("cmi.completion_status") + " ";
+    sc += scorm.getvalue("cmi.score.raw") + " ";
+    sc += scorm.getvalue("cmi.success_status") + " ";
+    console.log(sc);
     scorm.setvalue("cmi.exit", "suspend");
     scorm.terminate();
     window.terminated = true;
