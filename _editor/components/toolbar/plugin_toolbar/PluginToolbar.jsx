@@ -50,9 +50,15 @@ export default class PluginToolbar extends Component {
     render() {
         let toolbar = this.props.pluginToolbars[this.props.box.id];
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
-        let config = apiPlugin.getConfig();
-        let controls = apiPlugin.getToolbar();
-
+        let config;
+        let controls;
+        if(apiPlugin) {
+            config = apiPlugin.getConfig();
+            controls = apiPlugin.getToolbar();
+        } else {
+            config = {};
+            controls = {};
+        }
         // We define the extra buttons we need depending on plugin's configuration
         let textButton;
         if (config.needsTextEdition) {
@@ -85,9 +91,16 @@ export default class PluginToolbar extends Component {
                 </div>
             );
         }
-
-        controls = toolbarMapper(controls, toolbar);
-
+        if(apiPlugin) {
+            controls = toolbarMapper(controls, toolbar);
+        } else {
+            controls = {
+                main: {
+                    __name: "Main",
+                    accordions: {},
+                },
+            };
+        }
         return (
             <div id="wrap"
                 className="wrapper"
@@ -190,212 +203,6 @@ export default class PluginToolbar extends Component {
             </div>
         );
     }
-
-    /* Handlecanvas toolbar
-        case i18n.t('background.background'):
-            let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(value.background);
-            if(isColor) {
-                this.props.onBackgroundChanged(this.props.navItemSelected, value.background);
-            } else {
-                this.props.onBackgroundChanged(this.props.navItemSelected, value);
-            }
-            break;
-           */
-
-    /* if (button.type === 'image_file') {
-             if (e.target.files.length === 1) {
-                 let file = e.target.files[0];
-                 let reader = new FileReader();
-                 reader.onload = () => {
-                     let img = new Image();
-                     let data = reader.result;
-                     img.onload = () => {
-                         let canvas = document.createElement('canvas');
-                         let ctx = canvas.getContext('2d');
-                         ctx.drawImage(img, 0, 0, 1200, 1200);
-                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, canvas.toDataURL("image/jpeg"));
-                         if (!button.autoManaged) {
-                             if (!button.callback) {
-                                 this.handlecanvasToolbar(button.__name, data);
-                             } else {
-                                 button.callback(state, buttonKey, data, id, UPDATE_TOOLBAR);
-                             }
-                         }
-                     };
-                     img.src = data;
-                 };
-                 reader.readAsDataURL(file);
-                 return;
-             }
-             return;
-
-         }
-
-         if (button.type === 'background_picker') {
-             if(e.color) {
-                 value = { background: e.color, attr: 'full' };
-                 if (!value) {
-                     return;
-                 }
-             }
-
-             if(e.target && e.target.type === "radio") {
-                 value = { background: button.value.background, attr: e.target.value };
-             }
-
-             if(e.target && e.target.type === "text") {
-                 value = { background: e.target.value, attr: 'full' };
-             }
-
-             if(e.currentTarget && e.currentTarget.type === "button") {
-                 value = { background: e.currentTarget.value, attr: 'full' };
-             }
-             if (e.target && e.target.files) {
-                 if(e.target.files.length === 1) {
-                     let file = e.target.files[0];
-                     let reader = new FileReader();
-                     reader.onload = () => {
-                         let img = new Image();
-                         let data = reader.result;
-                         img.onload = () => {
-                             let canvas = document.createElement('canvas');
-                             let ctx = canvas.getContext('2d');
-                             ctx.drawImage(img, 0, 0, 1200, 1200);
-                             this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, { background: data, attr: 'full' });
-                             if (!button.autoManaged) {
-                                 if (!button.callback) {
-                                     this.handlecanvasToolbar(button.__name, { background: data, attr: 'full' });
-                                 } else {
-                                     button.callback(state, buttonKey, data, id, UPDATE_TOOLBAR);
-                                 }
-                             }
-                         };
-                         img.src = data;
-                     };
-
-                     reader.readAsDataURL(file);
-                     return;
-                 }
-                 return;
-             }
-
-         }*/
-
-    /*
-        if (button.type === "image_file") {
-            let isURI = (/data\:/).test(props.value);
-            return React.createElement(
-                FormGroup,
-                { key: button.__name }, [
-                    React.createElement(
-                        ControlLabel,
-                        { key: 'label_' + button.__name, value: button.value },
-                        button.__name),
-                    React.createElement('div', { key: 'container_' + button.__name, style: { display: 'block' } },
-                        React.createElement(
-                            FileInput, {
-                                key: 'fileinput_' + props.label,
-                                value: props.value,
-                                onChange: props.onChange,
-                                style: { width: '100%' },
-                            },
-                            React.createElement('div', {
-                                style: { backgroundImage: isURI ? 'url(' + props.value + ')' : 'none' },
-                                key: "inside_" + props.label,
-                                className: 'fileDrag_toolbar',
-                            }, isURI ? null : [
-                                React.createElement('span', { key: props.label + "1" }, i18n.t('FileInput.Drag')),
-                                React.createElement('span', { key: props.label + "2", className: "fileUploaded" }, [
-                                    React.createElement('i', {
-                                        key: 'icon_' + button.__name,
-                                        className: 'material-icons',
-                                    }, 'insert_drive_file'),
-                                ]),
-                            ])
-                        )
-                    ),
-                ]);
-        }
-
-        if (button.type === "background_picker") {
-            let isURI = (/data\:/).test(props.value.background);
-            let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background);
-            let default_background = "rgb(255,255,255)";
-            let isSli = isSlide(this.props.navItems[this.props.navItemSelected].type);
-
-            return React.createElement(
-                FormGroup,
-                { key: button.__name },
-                [
-                    React.createElement(
-                        ControlLabel,
-                        { key: 'label1_' + button.__name },
-                        i18n.t('background.background_color')),
-                    React.createElement(
-                        ColorPicker, { key: "cpicker_" + props.label, value: isColor ? props.value.background : default_background, onChange: props.onChange },
-                        []),
-                    isSli && React.createElement(
-                        ControlLabel,
-                        { key: 'label2_' + button.__name, value: button.value.background },
-                        i18n.t('background.background_image')),
-                    isSli && React.createElement('div',
-                        { key: 'container_' + button.__name, style: { display: 'block' } },
-                        [React.createElement(
-                            FileInput, {
-                                key: 'fileinput_' + props.label,
-                                value: props.value.background,
-                                onChange: props.onChange,
-                                style: { width: '100%' },
-                            },
-                            React.createElement('div', {
-                                style: { backgroundImage: isURI ? 'url(' + props.value.background + ')' : 'none' },
-                                key: "inside_" + props.label,
-                                className: 'fileDrag_toolbar',
-                            }, isURI ? null : [
-                                React.createElement('span', { key: props.label + "1" }, i18n.t('FileInput.Drag')),
-                                React.createElement('span', { key: props.label + "2", className: "fileUploaded" }, [
-                                    React.createElement('i', {
-                                        key: 'icon_' + button.__name,
-                                        className: 'material-icons',
-                                    }, 'insert_drive_file'),
-                                ]),
-                            ])
-                        ),
-                        React.createElement(
-                            FormGroup,
-                            { key: button.__name },
-                            [
-                                React.createElement(
-                                    ControlLabel,
-                                    { key: 'labelurlinput_' + button.__name },
-                                    i18n.t('background.background_input_url')),
-                                React.createElement(FormControl,
-                                    {
-                                        key: 'urlinput_' + props.label,
-                                        value: isURI || isColor ? '' : props.value.background,
-                                        onChange: props.onChange,
-                                    }, null),
-                            ]),
-                        (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: props.value.attr === 'full', onChange: props.onChange, value: 'full' }, 'full'),
-                        (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: props.value.attr === 'repeat', onChange: props.onChange, value: 'repeat' }, 'repeat'),
-                        (!isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display', checked: props.value.attr === 'centered', onChange: props.onChange, value: 'centered' }, 'centered'),
-                        ]
-                    ),
-                    React.createElement(
-                        ControlLabel,
-                        { key: 'label_' + button.__name },
-                        i18n.t('background.reset_background')),
-                    React.createElement(
-                        Button, {
-                            value: default_background,
-                            key: 'button_' + button.__name,
-                            onClick: props.onChange,
-                            className: "toolbarButton",
-                        },
-                        React.createElement("div", { key: props.label }, "Reset"),
-                    ),
-                ]);
-        }*/
 
 }
 
