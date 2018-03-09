@@ -9,21 +9,26 @@ import { isSlide, isPage, isSection } from '../../../common/utils';
 export default class VisorSideNav extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+
+        };
         this.calculateProgress = this.calculateProgress.bind(this);
     }
 
     render() {
         let navItemSelected = this.getCurrentNavItem(this.props.currentViews);
-        let navItsEx = Object.keys(this.props.exercises);
         let visited = this.props.scoreInfo.visited || [];
         let prog = this.calculateProgress();
+        let last = this.props.navItemsIds.length > 0 ? this.props.navItemsIds[this.props.navItemsIds.length - 1] : null;
+        let first = this.props.navItemsIds.length > 0 ? this.props.navItemsIds[0] : null;
+
         return(
             <div id="sidebar-wrapper">
                 <ul className="sidebar-nav">
                     <li className="sidebar-brand" id="tituloCurso">
                         <h1>{this.props.courseTitle}</h1>
                     </li>
-                    <NavScore scoreInfo={this.props.scoreInfo}/>
+                    <NavScore show={this.props.showScore} scoreInfo={this.props.scoreInfo}/>
 
                     {this.props.navItemsIds.map(page => {
                         let pageObj = this.props.navItemsById[page];
@@ -36,23 +41,21 @@ export default class VisorSideNav extends Component {
                                     pageName={page}
                                     navItemsById={this.props.navItemsById}
                                     navItemSelected={navItemSelected}
-                                    exercisesPages={navItsEx}
                                     progress={prog}
+                                    first={first} last={last}
                                     navItemsIds={this.props.navItemsIds}
                                     changeCurrentView={(pageNum) => {this.props.changeCurrentView(pageNum);}} />);
                             }
                             let isVisited = false;
-                            let indN = this.props.navItemsIds.indexOf(page);
-                            let first = indN === 0;
-                            let last = indN === this.props.navItemsIds.length - 1;
 
                             if (visited.length > 0) {
                                 isVisited = prog[page];
                             }
-                            return (<li key={page}
+
+                            return (<li key={page} id={'nav-' + page}
                                 onClick={(e)=>{this.props.changeCurrentView(page);}}
                                 className="visorNavListEl">
-                                <span className={"progressBall"}><ProgressBall isVisited={isVisited} isTop={first} isBottom={last} /> </span>
+                                <span className={"progressBall"}><ProgressBall isVisited={isVisited} isTop={first === page} isBottom={last === page} /> </span>
                                 <a style={{ paddingLeft: marginPage }}
                                     className={navItemSelected === page ? "indexElementTitle selectedNavItemVisor" : "indexElementTitle"}
                                     href="#">
@@ -101,16 +104,15 @@ export default class VisorSideNav extends Component {
             let children = this.props.navItemsById[nav].children.filter(child => {
                 return !this.props.navItemsById[child].hidden;
             });
-            console.log(children);
             children.map((child) => {
                 complete += (progress[child] ? 1 : 0);
             });
-            console.log('LENGTH', children.length, "COMPLETE", complete);
             complete = complete === children.length;
             progress[nav] = complete;
         });
         return progress;
     }
+
 }
 
 VisorSideNav.propTypes = {
@@ -134,4 +136,16 @@ VisorSideNav.propTypes = {
      * Array que contiene todas las vistas y vistas contenidas, accesibles por su *id*
      */
     navItemsIds: PropTypes.array.isRequired,
+    /**
+     * Exercises
+     */
+    exercises: PropTypes.object.isRequired,
+    /**
+     * Score information
+     */
+    scoreInfo: PropTypes.object.isRequired,
+    /**
+   * Show course's score
+   */
+    showScore: PropTypes.bool,
 };

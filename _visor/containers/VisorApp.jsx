@@ -251,6 +251,7 @@ export default class Visor extends Component {
                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
                     courseTitle={title}
                     show={visorNav.sidebar}
+                    showScore={!globalConfig.hideGlobalScore}
                     currentViews={this.state.currentView}
                     navItemsById={navItems}
                     navItemsIds={navItemsIds.filter(nav=> {return !navItems[nav].hidden;})}

@@ -96,7 +96,7 @@ let es = {
             },
             "difficulty": "Dificultad",
             "Discard": "Cancelar",
-            "hideGlobalScore": "Ocultar puntuación global",
+            "hideGlobalScore": "Mostrar puntuación global",
             "keylist": {
                 "Art": "Arte",
                 "Biology": "Biología",

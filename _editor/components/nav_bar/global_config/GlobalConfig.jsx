@@ -247,7 +247,7 @@ export default class GlobalConfig extends Component {
 
                                     <FormGroup >
                                         <ControlLabel className="inlineLabel">{i18n.t('global_config.hideGlobalScore')}</ControlLabel>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, hideGlobalScore: !this.state.hideGlobalScore });}} checked={hideGlobalScore}/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, hideGlobalScore: !this.state.hideGlobalScore });}} checked={!hideGlobalScore}/>
 
                                     </FormGroup>
                                     <FormGroup >

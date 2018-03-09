@@ -69,7 +69,9 @@ export default class ScormComponent extends Component {
     }
 
     render() {
-        const { children } = this.props;
+        const { children, globalConfig } = this.props;
+        console.log(globalConfig);
+
         let scoreInfo = { userName: this.state.userName, totalScore: this.state.totalScore, totalWeight: this.totalWeight, isPassed: this.state.isPassed, completionProgress: this.state.completionProgress };
         let childrenWithProps = React.Children.map(children, (child, i) =>
             React.cloneElement(child, {
@@ -78,7 +80,7 @@ export default class ScormComponent extends Component {
                 submitPage: this.submitPage,
                 exercises: this.state.exercises[this.props.currentView] }));
         return [...childrenWithProps, this.props.globalConfig.hideGlobalScore ? null : null,
-            <GlobalScore key="-1" scoreInfo={scoreInfo}/>,
+            <GlobalScore key="-1" scoreInfo={scoreInfo} show={!globalConfig.hideGlobalScore && !globalConfig.visorNav.sidebar}/>,
         ];
 
     }
@@ -138,7 +140,6 @@ export default class ScormComponent extends Component {
     }
 
     onUnload(event) {
-        console.log('DONE');
         if(API.isConnected()) {
             API.finish();
         }
@@ -218,7 +219,7 @@ ScormComponent.propTypes = {
      */
     currentView: PropTypes.any.isRequired,
     /**
-     * Configuración global del curso
+     * Course's global configuration
      */
     globalConfig: PropTypes.object.isRequired,
     /**
@@ -237,4 +238,8 @@ ScormComponent.propTypes = {
      * Object containing all the exercises in the course
      */
     exercises: PropTypes.object.isRequired,
+    /**
+      * Inform the rest of the application of the SCORM Information
+      */
+    updateScore: PropTypes.func.isRequired,
 };
