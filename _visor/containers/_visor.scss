@@ -157,6 +157,16 @@
     background-color: #ddd !important;
 }
 
+
+.progressBall {
+  display: inline-block;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  height: 36px;
+  width: 14px;
+  margin-left: 6px;
+ }
 /* Toggle Styles */
 .visorwrapper {
     padding-left: 0;

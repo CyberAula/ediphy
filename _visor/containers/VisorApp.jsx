@@ -253,8 +253,9 @@ export default class Visor extends Component {
                     show={visorNav.sidebar}
                     currentViews={this.state.currentView}
                     navItemsById={navItems}
-                    navItemsIds={navItemsIds}
+                    navItemsIds={navItemsIds.filter(nav=> {return !navItems[nav].hidden;})}
                     scoreInfo={this.state.scoreInfo}
+                    exercises={exercises}
                     toggled={this.state.toggledSidebar}/>
                 <div id="page-content-wrapper"
                     className={isSlide}

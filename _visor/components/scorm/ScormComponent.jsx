@@ -104,7 +104,7 @@ export default class ScormComponent extends Component {
 
             }
         }
-        let scoreInfo = { userName: this.state.userName, totalScore: this.state.totalScore, totalWeight: this.totalWeight, completionProgress: this.state.completionProgress };
+        let scoreInfo = { userName: this.state.userName, totalScore: this.state.totalScore, totalWeight: this.totalWeight, completionProgress: this.state.completionProgress, visited: this.state.suspendData.pages };
         this.props.updateScore(scoreInfo);
         setTimeout(()=>{
             this.timeProgress();
@@ -132,7 +132,7 @@ export default class ScormComponent extends Component {
             API.setSCORMScore(totalScore, this.totalWeight, completionProgress, suspendData);
 
         }
-        let scoreInfo = { userName: this.state.userName, totalScore, totalWeight: this.totalWeight, completionProgress };
+        let scoreInfo = { userName: this.state.userName, totalScore, totalWeight: this.totalWeight, completionProgress, visited: suspendData.pages };
         this.props.updateScore(scoreInfo);
 
     }
