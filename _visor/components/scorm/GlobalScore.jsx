@@ -35,4 +35,8 @@ GlobalScore.propTypes = {
    * Object containing all the global score information
    */
     scoreInfo: PropTypes.object.isRequired,
+    /**
+   * Show score
+   */
+    show: PropTypes.bool,
 };

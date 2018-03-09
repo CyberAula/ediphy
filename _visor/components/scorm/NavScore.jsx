@@ -33,5 +33,8 @@ NavScore.propTypes = {
    * Course score information
    */
     scoreInfo: PropTypes.object.isRequired,
-
+    /**
+   * Show score
+   */
+    show: PropTypes.bool,
 };
