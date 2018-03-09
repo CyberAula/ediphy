@@ -6,6 +6,7 @@ export function init(debug = true, windowDebug = false) {
     scorm = new API({ debug: debug, windowDebug: windowDebug, exit_type: "" });
     scorm.initialize();
     scorm.debug("Connected: " + scorm.API.isActive, 4);
+    scorm.setvalue("cmi.mode", "normal");
     return scorm;
 }
 
@@ -181,7 +182,7 @@ export function savePageProgress(suspendData, completionProgress) {
     let thresholdV = scorm.getvalue("cmi.completion_threshold") || 0.5;
     thresholdV = thresholdV && !isNaN(parseFloat(thresholdV)) ? thresholdV : 0.5;
     let isComplete = completionProgress >= thresholdV ? "completed" : "incomplete";
-
+    scorm.setvalue("cmi.mode", "normal");
     scorm.setvalue("cmi.suspend_data", JSON.stringify(suspendData));
     scorm.setvalue("cmi.completion_status", isComplete);
     return commit();
@@ -194,6 +195,7 @@ export function finish() {
 }
 
 function setScore(min, max, raw, scaled, completion_status, success_status) {
+    scorm.setvalue("cmi.mode", "normal");
     scorm.setvalue("cmi.score.scaled", scaled);
     scorm.setvalue("cmi.score.min", min);
     scorm.setvalue("cmi.score.max", max);

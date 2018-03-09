@@ -70,7 +70,6 @@ export default class ScormComponent extends Component {
 
     render() {
         const { children, globalConfig } = this.props;
-        console.log(globalConfig);
 
         let scoreInfo = { userName: this.state.userName, totalScore: this.state.totalScore, totalWeight: this.totalWeight, isPassed: this.state.isPassed, completionProgress: this.state.completionProgress };
         let childrenWithProps = React.Children.map(children, (child, i) =>
