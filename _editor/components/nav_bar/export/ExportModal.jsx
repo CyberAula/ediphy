@@ -23,6 +23,7 @@ export default class ExportModal extends Component {
             { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false);} },
             { format: "SCORM 2004", handler: ()=> {this.props.scorm(true);} },
             { format: "HTML", handler: ()=> {this.props.export();} },
+            { format: "PDF", handler: ()=> {this.props.export('PDF');} },
         ];
         return (
             <Modal className="pageModal exportoScormModalBody"
