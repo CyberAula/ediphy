@@ -24,7 +24,7 @@ export default function printToPDF(state) {
     let pdf = new jsPDF('p', 'pt', 'a4');
     pdf.deletePage(1);
     const SLIDE_BASE = 595;
-    const DOC_BASE = 1020;
+    const DOC_BASE = 600;
     const A4_RATIO = 1.4142;
     let addHTML = function(navs, last) {
 
