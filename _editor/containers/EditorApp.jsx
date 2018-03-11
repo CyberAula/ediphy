@@ -626,9 +626,11 @@ class EditorApp extends Component {
                     this.dispatchAndSetState(ActionCreators.redo());
                 }
             }
-            if (key = 80 && e.ctrlKey && e.shiftKey) {
+            if (key === 80 && e.ctrlKey && e.shiftKey) {
+                e.cancelBubble = true;
                 e.preventDefault();
-                e.stopPropagation();
+
+                e.stopImmediatePropagation();
                 printToPDF(this.props.store.getState().present);
             }
 

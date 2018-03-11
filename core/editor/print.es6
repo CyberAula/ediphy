@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import VisorCanvas from '../../_visor/components/canvas/VisorCanvas';
 import VisorContainedCanvas from '../../_visor/components/canvas/VisorContainedCanvas';
-import { isSection, isContainedView } from '../../common/utils';
+import { isSection, isContainedView, isSlide } from '../../common/utils';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 const pdflib = require('pdfjs-dist');
@@ -22,7 +22,7 @@ export default function printToPDF(state) {
     let globalConfig = state.globalConfig;
     let exercises = state.exercises;
     let title = globalConfig.title;
-    let ratio = globalConfig.canvasRatio;
+    let canvasRatio = globalConfig.canvasRatio;
 
     let notSections = state.navItemsIds.filter(nav=> {
         return !navItems[nav].hidden && (Ediphy.Config.sections_have_content || !isSection(nav));
@@ -30,15 +30,20 @@ export default function printToPDF(state) {
 
     let pdf;
 
-    notSections.map((page, i) => {
+    let addHTML = function(navs, last) {
 
-        let currentView = page;
-        let isSlide = isCV && containedViews[currentView] === "slide" ||
-            !isCV && navItems[currentView] === "slide" ?
-            "pcw_slide" : "pcw_doc";
-        let viewport = isSlide ? { width: 1200, height: 675 } : { width: 848, height: 1200 };
+        let currentView = navs[0];
+        let slide = ((isCV && isSlide(containedViews[currentView].type)) ||
+        (!isCV && isSlide(navItems[currentView].type)));
+        let slideClass = slide ? "pcw_slide" : "pcw_doc";
+        let viewport = slide ? { width: 595 * canvasRatio, height: 595 } : { width: 841, height: 595 };
+        if (slide && navItems[currentView] && navItems[currentView].customSize) {
+            viewport = navItems[currentView].customSize;
+        }
+        let i = notSections.length - navs.length;
+
         if (i === 0) {
-            pdf = new jsPDF(isSlide ? 'l' : 'p', 'pt', [viewport.width, viewport.height]);
+            pdf = new jsPDF(slide ? 'l' : 'p', 'pt', [viewport.width, viewport.height], false);
 
         } else {
             pdf.addPage(viewport.width, viewport.height);
@@ -46,50 +51,19 @@ export default function printToPDF(state) {
 
         let pageContainer = document.createElement('div');
         document.body.appendChild(pageContainer);
+
         pageContainer.id = "pageContainer_" + i;
         pageContainer.style.width = viewport.width + 'px';
-        pageContainer.style.height = viewport.height + 'px';
+        pageContainer.style.height = slide ? (viewport.height + 'px') : 'auto';
         let isCV = isContainedView(currentView);
-        let visorContent = !isContainedView(currentView) ? (
-            <VisorCanvas
-                boxes={boxes}
-                changeCurrentView={(element) => {}}
-                canvasRatio={ratio}
-                containedViews={containedViews}
-                currentView={currentView}
-                fromScorm={false}
-                navItems={navItems}
-                removeLastView={()=>{}}
-                richElementsState={ {}}
-                showCanvas={currentView.indexOf("cv-") === -1}
-                title={title}
-                toolbars={toolbars}
-                triggeredMarks={[]}
-                viewsArray={[currentView]}
-                setAnswer={()=>{}}
-                submitPage={()=>{}}
-                exercises={exercises[currentView]}
-            />) :
-            (<VisorContainedCanvas
-                boxes={boxes}
-                changeCurrentView={(element) => {}}
-                canvasRatio={ratio}
-                containedViews={containedViews}
-                currentView={currentView}
-                fromScorm={false}
-                navItems={navItems}
-                toolbars={toolbars}
-                title={title}
-                triggeredMarks={[]}
-                showCanvas={currentView.indexOf("cv-") !== -1}
-                removeLastView={()=>{}}
-                richElementsState={{}}
-                viewsArray={[currentView]}
-                setAnswer={()=>{}}
-                submitPage={()=>{}}
-                exercises={exercises[currentView]}
-            />);
-        let app = (<div id="page-content-wrapper" className={isSlide + " page-content-wrapper printApp"} style={{ height: '100%', backgroundColor: 'white' }}>
+        let props = {
+            boxes, changeCurrentView: (element) => { }, canvasRatio, containedViews,
+            currentView, navItems, toolbars, title, triggeredMarks: [],
+            showCanvas: (!isContainedView(currentView)), removeLastView: () => {}, richElementsState: {},
+            viewsArray: [currentView], setAnswer: () => {}, submitPage: () => {}, exercises: exercises[currentView],
+        };
+        let visorContent = !isCV ? (<VisorCanvas {...props} />) : (<VisorContainedCanvas {...props} />);
+        let app = (<div id="page-content-wrapper" className={slideClass + " page-content-wrapper printApp"} style={{ height: '100%', backgroundColor: 'white' }}>
             <Grid fluid id="visorAppContent" style={{ height: '100%' }}>
                 <Row style={{ height: '100%' }}>
                     <Col lg={12} style={{ height: '100%' }}>
@@ -100,21 +74,17 @@ export default function printToPDF(state) {
         </div>);
         ReactDOM.render((app), pageContainer);
 
-    });
-
-    let addHTML = function(navs, last) {
-        let pageContainer = document.getElementById('pageContainer_' + (notSections.length - navs.length));
         pdf.addHTML(pageContainer, { useCORS: true, pagesplit: true }, function() {
-            console.log(pageContainer, navs, last);
             if(last) {
                 pdf.save('web.pdf');
             } else {
-                addHTML(navs.slice(1), navs.length < 1);
+                addHTML(navs.slice(1), navs.length <= 2);
             }
-            // document.body.removeChild(pageContainer);
+            document.body.removeChild(pageContainer);
 
         });
     };
+    // document.getElementById('airlayer').style.width = "";
     if(notSections.length > 0) {
         addHTML(notSections, notSections.length === 1);
     }
