@@ -4,7 +4,6 @@ import VisorCanvas from '../../_visor/components/canvas/VisorCanvas';
 import VisorContainedCanvas from '../../_visor/components/canvas/VisorContainedCanvas';
 import { isSection, isContainedView, isSlide } from '../../common/utils';
 import { Grid, Row, Col } from 'react-bootstrap';
-// import * as jsPDF from 'jspdf'
 
 export default function printToPDF(state) {
     let navItemsIds = state.navItemsIds;
@@ -24,7 +23,7 @@ export default function printToPDF(state) {
     let pdf = new jsPDF('p', 'pt', 'a4');
     pdf.deletePage(1);
     const SLIDE_BASE = 595;
-    const DOC_BASE = 600;
+    const DOC_BASE = 1200;
     const A4_RATIO = 1.4142;
     let addHTML = function(navs, last) {
 
@@ -64,22 +63,7 @@ export default function printToPDF(state) {
             </Grid>
         </div>);
         ReactDOM.render((app), pageContainer);
-        /*        html2canvas(pageContainer, {
-            useCORS: true, pagesplit: true ,
-            onrendered: function(canvas) {
-                let imgData = canvas.toDataURL(
-                    'image/png', 1);
-                // var doc = new jsPDF('p', 'mm');
-                pdf.addImage(imgData, 'PNG', 1, 1);
-                if(last) {
-                    pdf.save('web.pdf');
-                } else {
-                    addHTML(navs.slice(1), navs.length <= 2);
-                }
-                document.body.removeChild(pageContainer);
 
-            }
-        });*/
         pdf.internal.scaleFactor = 1;
         pdf.addHTML(pageContainer, { useCORS: true, pagesplit: true, retina: true }, function() {
             if(last) {
@@ -90,6 +74,21 @@ export default function printToPDF(state) {
             document.body.removeChild(pageContainer);
 
         });
+        /*
+        html2canvas(pageContainer, {  useCORS: true, pagesplit: true ,  onrendered: function(canvas) {
+         let imgData = canvas.toDataURL(
+         'image/png', 1);
+         // var doc = new jsPDF('p', 'mm');
+         pdf.addImage(imgData, 'PNG', 1, 1);
+         if(last) {
+         pdf.save('web.pdf');
+         } else {
+         addHTML(navs.slice(1), navs.length <= 2);
+         }
+         document.body.removeChild(pageContainer);
+
+         }
+         });*/
     };
     // document.getElementById('airlayer').style.width = "";
     if(notSections.length > 0) {
