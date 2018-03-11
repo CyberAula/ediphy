@@ -430,8 +430,9 @@ function templateExerciseSCSS() {
 
 .${options.camelCaseName}Plugin {
   .radioQuiz {
-    margin-left: 12px !important;
+    margin-left: 14px !important;
     transform: scale(1.4);
+    margin-right: 4px;
   }
 
   .answerPlaceholder {

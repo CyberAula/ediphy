@@ -50,7 +50,10 @@ export function MultipleAnswer() {
             </div>;
         },
         checkAnswer(current, correct) {
-            return Array.isArray(current) && Array.isArray(correct) && arrayContainsArray(correct, current) && (current.length === correct.length);
+            if(Array.isArray(current) && Array.isArray(correct)) {
+                return (arrayContainsArray(correct, current) && (current.length === correct.length)) || (current.length === 0 && correct.length === 0);
+            }
+            return false;
         },
     };
 }

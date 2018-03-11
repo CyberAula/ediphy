@@ -62,18 +62,21 @@ export default function printToPDF(state) {
                 </Row>
             </Grid>
         </div>);
-        ReactDOM.render((app), pageContainer);
+        ReactDOM.render((app), pageContainer, (a)=>{
+            pdf.internal.scaleFactor = 1;
+            // setTimeout(function(){
+            pdf.addHTML(pageContainer, { useCORS: true, pagesplit: true, retina: true }, function() {
+                if(last) {
+                    pdf.save('web.pdf');
+                } else {
+                    addHTML(navs.slice(1), navs.length <= 2);
+                }
+                document.body.removeChild(pageContainer);
 
-        pdf.internal.scaleFactor = 1;
-        pdf.addHTML(pageContainer, { useCORS: true, pagesplit: true, retina: true }, function() {
-            if(last) {
-                pdf.save('web.pdf');
-            } else {
-                addHTML(navs.slice(1), navs.length <= 2);
-            }
-            document.body.removeChild(pageContainer);
-
+            });
+            // },10000);
         });
+
         /*
         html2canvas(pageContainer, {  useCORS: true, pagesplit: true ,  onrendered: function(canvas) {
          let imgData = canvas.toDataURL(
