@@ -4,14 +4,7 @@ import VisorCanvas from '../../_visor/components/canvas/VisorCanvas';
 import VisorContainedCanvas from '../../_visor/components/canvas/VisorContainedCanvas';
 import { isSection, isContainedView, isSlide } from '../../common/utils';
 import { Grid, Row, Col } from 'react-bootstrap';
-
-const pdflib = require('pdfjs-dist');
-const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.min');
-
-const pdfjsWorkerBlob = new Blob([pdfjsWorker]);
-const pdfjsWorkerBlobURL = URL.createObjectURL(pdfjsWorkerBlob);
-
-pdflib.PDFJS.workerSrc = pdfjsWorkerBlobURL;
+// import * as jsPDF from 'jspdf'
 
 export default function printToPDF(state) {
     let navItemsIds = state.navItemsIds;
@@ -28,30 +21,28 @@ export default function printToPDF(state) {
         return !navItems[nav].hidden && (Ediphy.Config.sections_have_content || !isSection(nav));
     });
 
-    let pdf;
-
+    let pdf = new jsPDF('p', 'pt', 'a4');
+    pdf.deletePage(1);
+    const SLIDE_BASE = 595;
+    const DOC_BASE = 1020;
+    const A4_RATIO = 1.4142;
     let addHTML = function(navs, last) {
 
         let currentView = navs[0];
         let slide = ((isCV && isSlide(containedViews[currentView].type)) ||
         (!isCV && isSlide(navItems[currentView].type)));
-        let slideClass = slide ? "pcw_slide" : "pcw_doc";
-        let viewport = slide ? { width: 595 * canvasRatio, height: 595 } : { width: 841, height: 595 };
+
+        let viewport = slide ? { width: SLIDE_BASE * canvasRatio, height: SLIDE_BASE } : { width: DOC_BASE, height: DOC_BASE * A4_RATIO };
         if (slide && navItems[currentView] && navItems[currentView].customSize) {
             viewport = navItems[currentView].customSize;
         }
         let i = notSections.length - navs.length;
 
-        if (i === 0) {
-            pdf = new jsPDF(slide ? 'l' : 'p', 'pt', [viewport.width, viewport.height], false);
-
-        } else {
-            pdf.addPage(viewport.width, viewport.height);
-        }
+        pdf.addPage(viewport.width, viewport.height);
 
         let pageContainer = document.createElement('div');
         document.body.appendChild(pageContainer);
-
+        let slideClass = slide ? "pcw_slide" : "pcw_doc";
         pageContainer.id = "pageContainer_" + i;
         pageContainer.style.width = viewport.width + 'px';
         pageContainer.style.height = slide ? (viewport.height + 'px') : 'auto';
@@ -66,15 +57,31 @@ export default function printToPDF(state) {
         let app = (<div id="page-content-wrapper" className={slideClass + " page-content-wrapper printApp"} style={{ height: '100%', backgroundColor: 'white' }}>
             <Grid fluid id="visorAppContent" style={{ height: '100%' }}>
                 <Row style={{ height: '100%' }}>
-                    <Col lg={12} style={{ height: '100%' }}>
+                    <Col lg={12} style={{ height: '100%', paddingLeft: 0, paddingRight: 0 }}>
                         {visorContent}
                     </Col>
                 </Row>
             </Grid>
         </div>);
         ReactDOM.render((app), pageContainer);
+        /*        html2canvas(pageContainer, {
+            useCORS: true, pagesplit: true ,
+            onrendered: function(canvas) {
+                let imgData = canvas.toDataURL(
+                    'image/png', 1);
+                // var doc = new jsPDF('p', 'mm');
+                pdf.addImage(imgData, 'PNG', 1, 1);
+                if(last) {
+                    pdf.save('web.pdf');
+                } else {
+                    addHTML(navs.slice(1), navs.length <= 2);
+                }
+                document.body.removeChild(pageContainer);
 
-        pdf.addHTML(pageContainer, { useCORS: true, pagesplit: true }, function() {
+            }
+        });*/
+        pdf.internal.scaleFactor = 1;
+        pdf.addHTML(pageContainer, { useCORS: true, pagesplit: true, retina: true }, function() {
             if(last) {
                 pdf.save('web.pdf');
             } else {
