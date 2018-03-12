@@ -55,8 +55,8 @@ export default class EditorBox extends Component {
             display: (toolbar.showTextEditor ? 'block' : 'none'),
         };
         let attrs = {};
-        let width;
-        let height;
+        let width = toolbar.structure.width;
+        let height = toolbar.structure.height;
         let classNames = "";
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let config = apiPlugin.getConfig();
@@ -68,7 +68,7 @@ export default class EditorBox extends Component {
         let controls = apiPlugin.getToolbar();
         let marks = this.props.marksById;
         style = { ...style, ...controls.style };
-        for (let tabKey in controls) {
+        /* for (let tabKey in controls) {
             for (let accordionKey in controls[tabKey].accordions) {
                 let button;
                 for (let buttonKey in controls[tabKey].accordions[accordionKey].buttons) {
@@ -89,7 +89,6 @@ export default class EditorBox extends Component {
                         attrs['data-' + buttonKey] = button.value;
                     }
 
-                    /* Unused */
                     if (buttonKey === 'fontSize') {
                         textareaStyle.fontSize = button.value;
                         if (button.units) {
@@ -126,7 +125,7 @@ export default class EditorBox extends Component {
                     }
                 }
             }
-        }
+        }*/
 
         Object.assign(textareaStyle, style);
         textareaStyle.visibility = 'visible';
@@ -142,11 +141,11 @@ export default class EditorBox extends Component {
             cursor: vis ? 'inherit' : 'default', // esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
         };
 
-        controls = toolbarFiller(controls, this.props.id, toolbar, config, apiPlugin.getState(), container, marks || []);
+        // controls = toolbarFiller(controls, this.props.id, toolbar, config, apiPlugin.getState(), container, marks || []);
         let rotate = 'rotate(0deg)';
         if (!(this.props.markCreatorId && this.props.id === this.props.boxSelected)) {
-            if (controls.main.accordions.__sortable.buttons.__rotate && controls.main.accordions.__sortable.buttons.__rotate.value) {
-                rotate = 'rotate(' + toolbar.controls.main.accordions.__sortable.buttons.__rotate.value + 'deg)';
+            if (toolbar.structure.rotation && toolbar.structure.rotation) {
+                rotate = 'rotate(' + toolbar.structure.rotation + 'deg)';
             }
         }
         wholeBoxStyle.transform = wholeBoxStyle.WebkitTransform = wholeBoxStyle.MsTransform = rotate;
@@ -206,13 +205,16 @@ export default class EditorBox extends Component {
             showOverlay = "initial";
         }*/
         let verticalAlign = "top";
+        /* TODO: do we use this?
         if (isSortableBox(box.container)) {
+
             if (toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign && toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value) {
                 verticalAlign = toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value;
             } else {
                 verticalAlign = 'top';
             }
         }
+        */
         wholeBoxStyle.verticalAlign = verticalAlign;
 
         return (

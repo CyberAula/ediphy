@@ -18,7 +18,7 @@ export function EnrichedPlayer(base) {
                 initialHeightSlide: '30%',
                 icon: "play_arrow",
                 aspectRatioButtonConfig: {
-                    location: ["main", "__sortable"],
+                    location: ["main", "structure"],
                     defaultValue: true,
                 },
                 marksType: [{ name: i18n.t("EnrichedPlayer.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" }],

@@ -27,7 +27,7 @@ import { isSortableContainer, isCanvasElement, isContainedView, isSlide, isDocum
 import i18n from 'i18next';
 import './_pluginToolbar.scss';
 
-import { renderAccordion, toolbarMapper } from "../../../../core/editor/accordion_provider";
+import { renderAccordion, toolbarMapper, toolbarFiller } from "../../../../core/editor/accordion_provider";
 import FileInput from "../../common/file-input/FileInput";
 import PropTypes from 'prop-types';
 
@@ -92,6 +92,7 @@ export default class PluginToolbar extends Component {
             );
         }
         if(apiPlugin) {
+            toolbarFiller(controls, this.props.box.id, toolbar, config, config, this.props.box.parent, null);
             controls = toolbarMapper(controls, toolbar);
         } else {
             controls = {

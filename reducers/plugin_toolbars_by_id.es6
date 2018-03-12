@@ -25,7 +25,13 @@ function toolbarCreator(state, action) {
             toolbar = { ...toolbar, toolbar_container };
         }
     }
-    structure = action.payload.structure;
+    structure = {
+        height: action.payload.initialParams.height || "25%",
+        width: action.payload.initialParams.width || "auto",
+        rotation: action.payload.initialParams.rotation || 0,
+        aspectRatio: true,
+        position: action.payload.id ? "relative" : "absolute",
+    };
 
     toolbar = {
         ...toolbar,

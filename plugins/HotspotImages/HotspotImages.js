@@ -19,7 +19,7 @@ export function HotspotImages(base) {
                 icon: 'image',
                 // initialWidth: '25%',
                 aspectRatioButtonConfig: {
-                    location: ["main", "__sortable"],
+                    location: ["main", "structure"],
                     defaultValue: true,
                 },
                 isRich: true,

@@ -17,7 +17,7 @@ export function BasicPlayer(base) {
                 initialWidthSlide: '30%',
                 initialHeightSlide: '30%',
                 aspectRatioButtonConfig: {
-                    location: ["main", "__sortable"],
+                    location: ["main", "structure"],
                     defaultValue: true,
                 },
             };
