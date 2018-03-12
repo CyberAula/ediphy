@@ -287,7 +287,7 @@ function singleSortableContainerReducer(state = {}, action = {}) {
     case DELETE_BOX:
         return changeProp(state, "children", state.children.filter(id => id !== action.payload.id));
     case DROP_BOX:
-        if (action.payload.oldContainer === action.payload.container && action.payload.index) {
+        if (action.payload.oldContainer === action.payload.container && action.payload.oldParent === action.payload.parent && action.payload.index) {
             let newCh = state.children.filter(id => id !== action.payload.id);
             newCh.splice(action.payload.index, 0, action.payload.id);
             return changeProp(state, "children", newCh);
@@ -447,7 +447,6 @@ export default function(state = {}, action = {}) {
             return changeProps(state, [action.payload.id, action.payload.oldParent], [boxReducer(state[action.payload.id], action), boxReducer(state[action.payload.oldParent], action)]);
         } // Old parent was a page or something else
         // We do nothing because boxes cannot change their parents to another page.
-
         return state;
         // return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
     case CHANGE_COLS:

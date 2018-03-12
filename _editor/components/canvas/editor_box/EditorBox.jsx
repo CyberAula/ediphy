@@ -217,8 +217,9 @@ export default class EditorBox extends Component {
                     if (this.props.boxSelected !== this.props.id &&
                       (box.level < 1 || box.level < this.props.boxLevelSelected || isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes))) {
                         this.props.onBoxSelected(this.props.id);
+                        e.stopPropagation();
                     }
-                    e.stopPropagation();
+
                 }}
                 onDoubleClick={(e)=> {
                     if(toolbar.config && toolbar.config.needsTextEdition && this.props.id === this.props.boxSelected) {
