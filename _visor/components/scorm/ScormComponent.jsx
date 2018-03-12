@@ -115,26 +115,30 @@ export default class ScormComponent extends Component {
     timeProgress() {
         let currentView = this.props.currentView;
         let exercises = JSON.parse(JSON.stringify(this.state.exercises));
-        exercises[currentView].visited = true;
-
-        let suspendData = JSON.parse(JSON.stringify(this.state.suspendData));
-        let ind = Object.keys(this.state.exercises).indexOf(this.props.currentView);
-        suspendData.pages[ind] = true;
-        let completionProgress = this.calculateVisitPctg(suspendData.pages);
-        let totalScore = this.state.totalScore;
         if (!this.state.exercises[currentView].visited && Object.keys(exercises[currentView].exercises).length === 0) {
+
+            exercises[currentView].visited = true;
+
+            let suspendData = JSON.parse(JSON.stringify(this.state.suspendData));
+            let ind = Object.keys(this.state.exercises).indexOf(this.props.currentView);
+            suspendData.pages[ind] = true;
+            let completionProgress = this.calculateVisitPctg(suspendData.pages);
+            let totalScore = this.state.totalScore;
+            // If we remove the next comments and instead comment the general if, we will track progress of the scorable pages separately from the exercises
+            // if (!this.state.exercises[currentView].visited && Object.keys(exercises[currentView].exercises).length === 0) {
             exercises[currentView].attempted = true;
             totalScore += exercises[currentView].weight;
+            // }
+
+            this.setState({ totalScore, suspendData, exercises, completionProgress });
+
+            if (API.isConnected()) {
+                API.setSCORMScore(totalScore, this.totalWeight, completionProgress, suspendData);
+
+            }
+            let scoreInfo = { userName: this.state.userName, totalScore, totalWeight: this.totalWeight, completionProgress, visited: suspendData.pages };
+            this.props.updateScore(scoreInfo);
         }
-
-        this.setState({ totalScore, suspendData, exercises, completionProgress });
-
-        if (API.isConnected()) {
-            API.setSCORMScore(totalScore, this.totalWeight, completionProgress, suspendData);
-
-        }
-        let scoreInfo = { userName: this.state.userName, totalScore, totalWeight: this.totalWeight, completionProgress, visited: suspendData.pages };
-        this.props.updateScore(scoreInfo);
 
     }
 
@@ -184,7 +188,11 @@ export default class ScormComponent extends Component {
                 c: bx[ex].attempted ? "completed" : "incomplete" };
 
         }
+        let ind = Object.keys(this.state.exercises).indexOf(this.props.currentView);
+        suspendData.pages[ind] = true;
+
         exercises[page].attempted = true;
+        exercises[page].visited = true;
         let pageScore = points / total;
         exercises[page].score = parseFloat(pageScore.toFixed(2));
         let totalScore = parseFloat((this.state.totalScore + pageScore * exercises[page].weight).toFixed(2));
@@ -193,7 +201,7 @@ export default class ScormComponent extends Component {
         if(API.isConnected()) {
             API.setSCORMScore(totalScore, this.totalWeight, completionProgress, suspendData);
         }
-        let scoreInfo = { userName: this.state.userName, totalScore, totalWeight: this.totalWeight, completionProgress };
+        let scoreInfo = { userName: this.state.userName, totalScore, totalWeight: this.totalWeight, completionProgress, visited: suspendData.pages };
         this.props.updateScore(scoreInfo);
     }
     calculateVisitPctg(pages) {
