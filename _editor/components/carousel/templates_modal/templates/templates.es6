@@ -12,7 +12,11 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "https://farm8.staticflickr.com/7316/16374306268_ed24674dc3_b.jpg",
+                    "url": "https://farm8.staticflickr.com/7287/9543740601_8bfde7ad9d_k.jpg",
+                },
+                "thumbnail": {
+                    "icon": "filter_hdr",
+                    "color": "#706F6F",
                 },
             },
             {
@@ -20,23 +24,31 @@ export const templates = () => { return (
                     "x": "30%",
                     "y": "10%",
                     "width": "60%",
-                    "height": "15%",
+                    "height": "12%",
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1>Título</h1>",
+                    "text": "<h1 class='no_margins'>Título</h1>",
+                },
+                "thumbnail": {
+                    "icon": "",
+                    "color": "#706F6F",
                 },
             },
             {
                 "box": {
                     "x": "30%",
-                    "y": "25%",
+                    "y": "30%",
                     "width": "60%",
-                    "height": "30%",
+                    "height": "40%",
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<p>Escribe aquí tu texto. Incluso puedes poner una lista</p><ul><li>Punto 1</li><li>Punto 2</li><li>Punto 3...</li></ul>",
+                    "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque diam urna, hendrerit porta sollicitudin nec, gravida quis massa. Aenean ac mi nulla. Phasellus ac dui consectetur, ultrices dui at, convallis quam. Quisque ac varius nibh. Pellentesque egestas, sem a placerat laoreet, enim lectus volutpat nisi, at vulputate tortor leo ac risus. Mauris pretium et enim eu faucibus. Vestibulum ornare odio eget eros ullamcorper, et iaculis libero venenatis. </p>",
+                },
+                "thumbnail": {
+                    "icon": "",
+                    "color": "#B2B2B2",
                 },
             },
         ],
