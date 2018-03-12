@@ -202,7 +202,7 @@
     width: 250px !important;
 }
 
-#page-content-wrapper {
+#page-content-wrapper, .page-content-wrapper {
     width: 100%;
     background-color: #9a9a9a;
     position: absolute;
@@ -212,9 +212,11 @@
     padding:0 !important;
  }
 
-.visorwrapper.toggled #page-content-wrapper {
+.visorwrapper.toggled {
+  #page-content-wrapper, .page-content-wrapper {
     position: absolute !important;
     margin-right: -250px !important;
+  }
 }
 
 /* Sidebar Styles */
@@ -334,13 +336,15 @@
     .visorwrapper.toggled #sidebar-wrapper {
         width: 250px !important;
     }
-    #page-content-wrapper {
+    #page-content-wrapper, .page-content-wrapper {
         position: relative;
         background-color: #9a9a9a;
     }
-    .visorwrapper.toggled #page-content-wrapper {
+    .visorwrapper.toggled{
+      #page-content-wrapper, .page-content-wrapper {
         position: relative !important;
         margin-right: 0 !important;
+      }
     }
 }
 
@@ -449,3 +453,6 @@ li > .selectedNavItemVisor {
   }
 }
 
+.printApp #airlayer{
+  height: 100%;
+}

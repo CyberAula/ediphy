@@ -38,12 +38,12 @@ import {
     hasExerciseBox,
 } from '../../common/plugins_inside_plugins';
 import Ediphy from '../../core/editor/main';
+import printToPDF from '../../core/editor/print';
 import { isSortableBox, isSection, isContainedView, isSortableContainer, getDuplicatedBoxesIds, getDescendantLinkedBoxes } from '../../common/utils';
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import PropTypes from 'prop-types';
 import { scrollElement, findBox } from '../../common/common_tools';
-
 /**
  * EditorApp. Main application component that renders everything else
  */
@@ -125,7 +125,12 @@ class EditorApp extends Component {
                         undo={() => {this.dispatchAndSetState(ActionCreators.undo());}}
                         redo={() => {this.dispatchAndSetState(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
-                        export={() => {Ediphy.Visor.exportsHTML(this.props.store.getState().present);}}
+                        export={(format) => {
+                            if(format === "PDF") {
+                                printToPDF(this.props.store.getState().present);
+                            } else {
+                                Ediphy.Visor.exportsHTML(this.props.store.getState().present);
+                            }}}
                         scorm={(is2004) => {Ediphy.Visor.exportScorm(this.props.store.getState().present, is2004);}}
                         save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present })); }}
                         category={this.state.pluginTab}
@@ -620,6 +625,13 @@ class EditorApp extends Component {
                 if (focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1) {
                     this.dispatchAndSetState(ActionCreators.redo());
                 }
+            }
+            if (key === 80 && e.ctrlKey && e.shiftKey) {
+                e.cancelBubble = true;
+                e.preventDefault();
+
+                e.stopImmediatePropagation();
+                printToPDF(this.props.store.getState().present);
             }
 
             // Supr

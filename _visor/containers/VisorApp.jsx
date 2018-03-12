@@ -259,7 +259,7 @@ export default class Visor extends Component {
                     exercises={exercises}
                     toggled={this.state.toggledSidebar}/>
                 <div id="page-content-wrapper"
-                    className={isSlide}
+                    className={isSlide + " page-content-wrapper"}
                     style={{ height: '100%' }}>
                     <Grid fluid id="visorAppContent"
                         style={{ height: '100%' }}>

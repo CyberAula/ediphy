@@ -51,7 +51,7 @@ export function MultipleAnswer(base) {
             let answers = [];
             for (let i = 0; i < state.nBoxes; i++) {
                 let checked = (props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1);
-                answers.push(<div key={i + 1} className={"row"}>
+                answers.push(<div key={i + 1} className={"row answerRow"}>
                     <div className={"col-xs-2 answerPlaceholder"}>
                         {letterFromNumber(i)}
                         <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
