@@ -13,7 +13,9 @@ export default function printToPDF(state) {
     let toolbars = state.toolbarsById;
     let globalConfig = state.globalConfig;
     let exercises = state.exercises;
-    let title = globalConfig.title;
+    let title = globalConfig.title || 'Ediphy';
+    let author = globalConfig.author || 'Ediphy';
+    let keywords = globalConfig.keywords;
     let canvasRatio = globalConfig.canvasRatio;
 
     let notSections = state.navItemsIds.filter(nav=> {
@@ -21,9 +23,16 @@ export default function printToPDF(state) {
     });
 
     let pdf = new jsPDF('p', 'pt', 'a4');
+
+    pdf.setProperties({
+        title: title,
+        author: author,
+        keywords: globalConfig.keywords.map(k=> k.text).join(", "),
+        creator: 'Ediphy',
+    });
     pdf.deletePage(1);
     const SLIDE_BASE = 595;
-    const DOC_BASE = 1200;
+    const DOC_BASE = 600;
     const A4_RATIO = 1.4142;
     let addHTML = function(navs, last) {
 
@@ -67,7 +76,7 @@ export default function printToPDF(state) {
             // setTimeout(function(){
             pdf.addHTML(pageContainer, { useCORS: true, pagesplit: true, retina: true }, function() {
                 if(last) {
-                    pdf.save((globalConfig.title || "Ediphy").split(" ").join("") + '.pdf');
+                    pdf.save(title.split(" ").join("") + '.pdf');
                 } else {
                     addHTML(navs.slice(1), navs.length <= 2);
                 }

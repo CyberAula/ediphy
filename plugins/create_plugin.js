@@ -247,7 +247,7 @@ module.exports = {
 }
 
 function visorTemplate() {
-    return`
+    return `
 import React from 'react';
 ${options.isRich ? `
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
