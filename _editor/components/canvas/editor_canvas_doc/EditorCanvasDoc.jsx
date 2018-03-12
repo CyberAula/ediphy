@@ -56,6 +56,7 @@ export default class EditorCanvasDoc extends Component {
                         this.setState({ showTitle: false });
                         e.stopPropagation();
                     }}>
+                    { /* {this.props.boxSelected} - ({(this.props.boxSelected && this.props.boxes[this.props.boxSelected]) ? this.props.boxes[this.props.boxSelected].level : '-'}) - {this.props.boxLevelSelected} */ }
                     <EditorHeader titles={titles}
                         onBoxSelected={this.props.onBoxSelected}
                         courseTitle={this.props.title}

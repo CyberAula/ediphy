@@ -14,7 +14,10 @@ export default class VisorCanvas extends Component {
     }
 
     componentDidUpdate() {
-        window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+        if (window.MathJax) {
+            window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+        }
+
     }
 
 }

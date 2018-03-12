@@ -7,7 +7,10 @@ import MarkCreator from '../../rich_plugins/mark_creator/MarkCreator';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import { EDIT_PLUGIN_TEXT } from '../../../../common/actions';
 import { releaseClick, findBox } from '../../../../common/common_tools';
-import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
+import {
+    isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView,
+    isBox,
+} from '../../../../common/utils';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import CKEDitorComponent from './CKEDitorComponent';
 import './_editorBox.scss';
@@ -214,12 +217,17 @@ export default class EditorBox extends Component {
         return (
             <div className={classes} id={'box-' + this.props.id} name={toolbar.config.name}
                 onClick={e => {
-                    if (this.props.boxSelected !== this.props.id &&
-                      (box.level < 1 || box.level < this.props.boxLevelSelected || isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes))) {
-                        this.props.onBoxSelected(this.props.id);
-                        e.stopPropagation();
+                    if (this.props.boxSelected !== this.props.id) {
+                        // Do not stop propagation if we are not allowed to select this box because of its level, so it selects the parent instead of itself
+                        if (!isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes) && isBox(box.parent)) {
+                            return;
+                        }
+                        // If it is a box inside another box, you are only allowed to select it if you have its parent box selected
+                        if (box.level < 1 || box.level < this.props.boxLevelSelected || isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
+                            this.props.onBoxSelected(this.props.id);
+                        }
                     }
-
+                    e.stopPropagation();
                 }}
                 onDoubleClick={(e)=> {
                     if(toolbar.config && toolbar.config.needsTextEdition && this.props.id === this.props.boxSelected) {

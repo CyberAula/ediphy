@@ -9,7 +9,7 @@ export default class VisorBox extends Component {
         this.borderSize = 2;
     }
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.toolbars[this.props.id].config.needsTextEdition) {
+        if(this.props.toolbars[this.props.id].config.needsTextEdition && window.MathJax) {
             window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
         }
     }

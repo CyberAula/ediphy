@@ -189,14 +189,15 @@ export default class Visor extends Component {
         let boxes = Ediphy.State.boxesById;
         let boxSelected = Ediphy.State.boxSelected;
         let navItems = Ediphy.State.navItemsById;
+        let navItemsIds = Ediphy.State.navItemsIds;
+        let containedViews = Ediphy.State.containedViewsById;
         let exercises = {};
         Object.keys(Ediphy.State.exercises).map((exercise, index)=>{
-            if (!navItems[exercise].hidden) {
+            if (containedViews[exercise] || (navItems[exercise] && !navItems[exercise].hidden)) {
                 exercises[exercise] = Ediphy.State.exercises[exercise];
             }
         });
-        let navItemsIds = Ediphy.State.navItemsIds;
-        let containedViews = Ediphy.State.containedViewsById;
+
         let toolbars = Ediphy.State.toolbarsById;
         let globalConfig = Ediphy.State.globalConfig;
         // let exercises = Ediphy.State.exercises;

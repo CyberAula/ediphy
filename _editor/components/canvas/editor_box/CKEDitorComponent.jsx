@@ -103,7 +103,9 @@ export default class CKEDitorComponent extends Component {
         };
         */
         }
-        window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+        if (window.MathJax) {
+            window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+        }
 
         if(prevProps.box.parent !== this.props.box.parent || prevProps.box.container !== this.props.box.container) {
             for (let instance in CKEDITOR.instances) {

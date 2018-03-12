@@ -67,7 +67,7 @@ export default function printToPDF(state) {
             // setTimeout(function(){
             pdf.addHTML(pageContainer, { useCORS: true, pagesplit: true, retina: true }, function() {
                 if(last) {
-                    pdf.save('web.pdf');
+                    pdf.save((globalConfig.title || "Ediphy").split(" ").join("") + '.pdf');
                 } else {
                     addHTML(navs.slice(1), navs.length <= 2);
                 }
