@@ -32,7 +32,7 @@ export default function printToPDF(state) {
     });
     pdf.deletePage(1);
     const SLIDE_BASE = 595;
-    const DOC_BASE = 600;
+    const DOC_BASE = 800;
     const A4_RATIO = 1.4142;
     let addHTML = function(navs, last) {
 
