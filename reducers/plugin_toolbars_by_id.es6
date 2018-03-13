@@ -14,11 +14,13 @@ function toolbarCreator(state, action) {
     let toolbar = {};
     if(isSortableBox(action.payload.ids.id)) {
         toolbar = {
-            id: action.payload.ids.id,
-            pluginId: "sortable_container",
-            state: {},
-            structure: {},
-            style: {},
+            [action.payload.ids.id]: {
+                id: action.payload.ids.id,
+                pluginId: "sortable_container",
+                state: {},
+                structure: {},
+                style: {},
+            },
         };
     } else {
         let pluginId = action.payload.initialParams.name;
@@ -35,8 +37,8 @@ function toolbarCreator(state, action) {
             }
         }
         structure = {
-            height: action.payload.initialParams.height || "25%",
-            width: action.payload.initialParams.width || "auto",
+            height: action.payload.initialParams.height || "auto",
+            width: action.payload.initialParams.width || "20%",
             rotation: action.payload.initialParams.rotation || 0,
             aspectRatio: true,
             position: action.payload.id ? "relative" : "absolute",
