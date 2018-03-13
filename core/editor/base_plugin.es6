@@ -242,12 +242,12 @@ export default function() {
         getRenderTemplate: function(render_state, props) {
             return descendant.getRenderTemplate(render_state, props);
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             let toolbar;
             // eslint-disable-next-line no-var
             var buttonKey;
             if (descendant.getToolbar) {
-                toolbar = descendant.getToolbar();
+                toolbar = descendant.getToolbar(state);
             }
             toolbar = defaultFor(toolbar, {});
 
@@ -397,7 +397,7 @@ export default function() {
                 if (template !== null) {
                     Ediphy.API.renderPlugin(
                         template,
-                        this.getToolbar(),
+                        this.getToolbar(state),
                         this.getConfig(),
                         state,
                         {
@@ -441,9 +441,9 @@ export default function() {
             // chose if modify here or after
             state[key] = value;
         },
-        getState: function() {
+        /* getState: function() {
             return state;
-        },
+        },*/
         registerExtraFunction: function() {
         },
     };

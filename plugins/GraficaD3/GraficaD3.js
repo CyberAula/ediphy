@@ -23,7 +23,7 @@ export function GraficaD3(base) {
                 initialHeightSlide: '60%',
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",

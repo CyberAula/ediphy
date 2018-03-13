@@ -54,7 +54,7 @@ export default class PluginToolbar extends Component {
         let controls;
         if(apiPlugin) {
             config = apiPlugin.getConfig();
-            controls = apiPlugin.getToolbar();
+            controls = apiPlugin.getToolbar(toolbar.state);
         } else {
             config = {};
             controls = {};

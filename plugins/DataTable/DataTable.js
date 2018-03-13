@@ -22,7 +22,7 @@ export function DataTable(base) {
                 initialHeightSlide: 'auto',
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",

@@ -42,7 +42,7 @@ export default class PluginConfigModal extends Component {
         if (nextState.disabledButton === true &&
             Ediphy.Plugins.get(this.state.pluginActive) !== undefined &&
             (Ediphy.Plugins.get(this.state.pluginActive).getConfig().needsConfirmation &&
-            !Ediphy.Plugins.get(this.state.pluginActive).getState().editing)) {
+            !this.props.state.editing)) {
             this.setState({ disabledButton: false });
         }
     }

@@ -24,7 +24,7 @@ export function EnrichedPlayer(base) {
                 marksType: [{ name: i18n.t("EnrichedPlayer.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" }],
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -36,13 +36,13 @@ export function EnrichedPlayer(base) {
                                 url: {
                                     __name: Ediphy.i18n.t('EnrichedPlayer.URL'),
                                     type: 'text',
-                                    value: base.getState().url,
+                                    value: state.url,
                                     autoManaged: false,
                                 },
                                 controls: {
                                     __name: Ediphy.i18n.t('EnrichedPlayer.Show_controls'),
                                     type: 'checkbox',
-                                    checked: base.getState().controls,
+                                    checked: state.controls,
                                     autoManaged: false,
                                 },
                             },

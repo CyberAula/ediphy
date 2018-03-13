@@ -15,7 +15,7 @@ export function Webpage(base) {
                 flavor: 'react',
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -27,7 +27,7 @@ export function Webpage(base) {
                                 url: {
                                     __name: '',
                                     type: 'text',
-                                    value: base.getState().url,
+                                    value: state.url,
                                     autoManaged: false,
                                 },
                             },

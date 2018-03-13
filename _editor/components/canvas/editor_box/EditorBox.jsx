@@ -65,9 +65,9 @@ export default class EditorBox extends Component {
             style.textAlign = "left";
         }
         let container = box.parent;
-        let controls = apiPlugin.getToolbar();
+        // let controls = apiPlugin.getToolbar();
         let marks = this.props.marksById;
-        style = { ...style, ...controls.style };
+        style = { ...style, ...toolbar.style };
         /* for (let tabKey in controls) {
             for (let accordionKey in controls[tabKey].accordions) {
                 let button;

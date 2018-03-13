@@ -349,7 +349,10 @@ class EditorApp extends Component {
                     visorVisible={this.state.visorVisible}
                     onVisibilityToggled={()=> this.setState({ visorVisible: !this.state.visorVisible })}
                     state={this.props.store.getState().present}/>
-                <PluginConfigModal />
+                <PluginConfigModal
+                    state={pluginToolbars[boxSelected] ? pluginToolbars[boxSelected].state : {}}
+                    updatePluginToolbar={(id, key, element, value) => this.dispatchAndSetState(updatePluginToolbar(id, key, element, value))}
+                />
                 {Ediphy.Config.external_providers.enable_catalog_modal &&
                 <ExternalCatalogModal images={imagesUploaded}
                     visible={this.state.catalogModal}

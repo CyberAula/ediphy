@@ -26,7 +26,7 @@ export function HotspotImages(base) {
                 marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#000001' }],
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -38,7 +38,7 @@ export function HotspotImages(base) {
                                 url: {
                                     __name: 'URL',
                                     type: 'external_provider',
-                                    value: base.getState().url,
+                                    value: state.url,
                                     accept: "image/*",
                                     autoManaged: false,
                                 },
@@ -147,7 +147,7 @@ export function HotspotImages(base) {
                 <div className="dropableRichZone">
                     <img className="basicImageClass" style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
                         e.target.onError = null;
-                        e.target.src = img; // Ediphy.Config.broken_link;
+                        e.target.src = img_broken; // Ediphy.Config.broken_link;
                     }}/>
                     {markElements}
                 </div>

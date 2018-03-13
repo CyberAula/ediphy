@@ -30,7 +30,7 @@ export function toolbarMapper(controls, toolbar) {
     if (Object.keys(toolbar.state).length > 0) {
         Object.keys(toolbar.state).forEach((s)=>{
             // avoid container ids
-            if(s.indexOf("__") === -1) {
+            if(s.indexOf("__") === -1 && (!!controls.main.accordions.basic && !!controls.main.accordions.basic.buttons && !!controls.main.accordions.basic.buttons[s])) {
                 controls.main.accordions.basic.buttons[s].value = toolbar.state[s];
             }
         });
@@ -429,7 +429,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             }
 
             if (!button.autoManaged && button.callback) {
-                button.callback(state, buttonKey, value, id, UPDATE_PLUGIN_TOOLBAR);
+                // button.callback(state, buttonKey, value, id, UPDATE_PLUGIN_TOOLBAR);
             }
         },
         onChange: e => {

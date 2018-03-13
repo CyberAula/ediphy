@@ -12,7 +12,7 @@ export function BasicText(base) {
                 icon: 'short_text',
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",

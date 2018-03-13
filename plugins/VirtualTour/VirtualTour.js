@@ -37,7 +37,7 @@ export function VirtualTour(base) {
                 limitToOneInstance: true,
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -166,7 +166,7 @@ export function VirtualTour(base) {
         handleToolbar: function(name, value) {
             base.setState(name, value);
         },
-        getDefaultMarkValue() {
+        getDefaultMarkValue(state) {
             let cfg = base.getState().config;
             return Math.round(cfg.lat * 100000) / 100000 + ',' + Math.round(cfg.lng * 100000) / 100000;
         },

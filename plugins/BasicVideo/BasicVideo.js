@@ -12,7 +12,7 @@ export function BasicVideo(base) {
                 icon: 'play_arrow',
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -24,19 +24,19 @@ export function BasicVideo(base) {
                                 url: {
                                     __name: Ediphy.i18n.t('BasicVideo.URL'),
                                     type: 'text',
-                                    value: base.getState().url,
+                                    value: state.url,
                                     autoManaged: false,
                                 },
                                 controls: {
                                     __name: Ediphy.i18n.t('BasicVideo.Show_controls'),
                                     type: 'checkbox',
-                                    checked: base.getState().controls,
+                                    checked: state.controls,
                                     autoManaged: false,
                                 },
                                 autoplay: {
                                     __name: Ediphy.i18n.t('BasicVideo.Autoplay'),
                                     type: 'checkbox',
-                                    checked: base.getState().autoplay,
+                                    checked: state.autoplay,
                                     autoManaged: false,
                                 },
                             },

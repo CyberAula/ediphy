@@ -16,7 +16,7 @@ export function Youtube(base) {
                 icon: 'slideshow',
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -28,7 +28,7 @@ export function Youtube(base) {
                                 url: {
                                     __name: Ediphy.i18n.t('Youtube.URL'),
                                     type: 'text',
-                                    value: base.getState().url,
+                                    value: state.url,
                                     autoManaged: false,
                                 },
                             },
