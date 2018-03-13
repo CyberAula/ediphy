@@ -113,7 +113,7 @@ class EditorApp extends Component {
                         onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                         onNavItemAdded={(id, name, parent, type, position, background, customSize, hasContent) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, background, customSize, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content))))}
                         onNavItemsAdded={(navs, parent)=> this.dispatchAndSetState(addNavItems(navs, parent))}
-                        onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
+                        onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateViewToolbar(id, tab, accordion, name, value))}
                         undoDisabled={undoDisabled}
                         redoDisabled={redoDisabled}
                         navItemsIds={navItemsIds}
@@ -408,7 +408,7 @@ class EditorApp extends Component {
                     onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                     onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
                     onSortablePropsChanged={(id, parent, prop, value) => this.dispatchAndSetState(changeSortableProps(id, parent, prop, value))}
-                    onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updatePluginToolbar(id, tab, accordion, name, value))}
+                    onToolbarUpdated={(id, tab, name, value) => this.dispatchAndSetState(updatePluginToolbar(id, tab, name, value))}
                     onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                     onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}
                     onRichMarksModalToggled={() => {

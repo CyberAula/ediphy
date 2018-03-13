@@ -121,9 +121,10 @@ export default function(state = {}, action = {}) {
             ...state,
             [action.payload.id]: {
                 ...state[action.payload.id],
-                state: action.payload.state || state[action.payload.id].state,
-                structure: action.payload.structure || state[action.payload.id].structure,
-                style: action.payload.style || state[action.payload.id].style,
+                [action.payload.tab]: {
+                    ...state[action.payload.id][action.payload.tab],
+                    [action.payload.name]: action.payload.value,
+                },
             },
         };
         return newState;

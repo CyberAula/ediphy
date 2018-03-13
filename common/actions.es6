@@ -227,8 +227,8 @@ export function importState(state) {
     return { type: IMPORT_STATE, payload: state };
 }
 
-export function updatePluginToolbar(id, elements) {
-    return { type: UPDATE_PLUGIN_TOOLBAR, payload: { id, ...elements } };
+export function updatePluginToolbar(id, tab, name, value) {
+    return { type: UPDATE_PLUGIN_TOOLBAR, payload: { id, tab, name, value } };
 }
 
 export function updateViewToolbar(id, elements) {

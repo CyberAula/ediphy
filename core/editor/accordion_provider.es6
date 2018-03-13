@@ -403,6 +403,9 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             toolbar_props.containedViewSelected :
             toolbar_props.navItemSelected;
 
+    let currentElement = accordionKeys[0] === "basic" ? "state" :
+        accordionKeys[0];
+
     // get toolbar
     let toolbar_plugin_state;
     if(toolbar_props.boxSelected !== -1) {
@@ -624,14 +627,12 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
             // toolbar_props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
-            if (!button.autoManaged) {
-                if (!button.callback) {
-                    handlecanvasToolbar(button.__name, value, accordion, toolbar_props);
-                } else {
-                    button.callback(toolbar_plugin_state.state, buttonKey, value, id, UPDATE_PLUGIN_TOOLBAR);
-                }
-
+            if (toolbar_props.boxSelected === -1) {
+                handlecanvasToolbar(button.__name, value, accordion, toolbar_props);
+            } else {
+                toolbar_props.onToolbarUpdated(id, currentElement, buttonKey, value);
             }
+
         },
 
     };
