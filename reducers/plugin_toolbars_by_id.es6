@@ -5,59 +5,54 @@ import {
     VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX, ADD_NAV_ITEM,
 } from '../common/actions';
 import Utils, {
-    changeProp, deleteProps,
+    changeProp, deleteProps, isSortableBox,
 } from '../common/utils';
 import i18n from 'i18next';
 
 function toolbarCreator(state, action) {
     let structure;
-    let pluginId = action.payload.initialParams.name;
     let toolbar = {};
-    if(action.payload.ids.container !== 0) {
-        if(state[action.payload.container]) {
-            let toolbar_container = {
-                id: action.payload.id.container,
-                pluginId: "sortableBox",
-                state: {},
-                structure: {},
-                style: {},
-            };
-            toolbar = { ...toolbar, toolbar_container };
-        }
-    }
-    structure = {
-        height: action.payload.initialParams.height || "25%",
-        width: action.payload.initialParams.width || "auto",
-        rotation: action.payload.initialParams.rotation || 0,
-        aspectRatio: true,
-        position: action.payload.id ? "relative" : "absolute",
-    };
-
-    toolbar = {
-        ...toolbar,
-        [action.payload.ids.id]:
-            {
-                id: action.payload.ids.id,
-                pluginId: pluginId,
-                state: action.payload.state || {},
-                structure: structure || {},
-                style: action.payload.style || {},
-                showTextEditor: false,
-            },
-    };
-
-    return toolbar;
-}
-
-function toolbarSortableContainer(state, action) {
-    let toolbar = {};
-    if(isDocument(action.payload.id)) {
+    if(isSortableBox(action.payload.ids.id)) {
         toolbar = {
-            id: action.payload.ids,
-            pluginId: "sortableContainer",
+            id: action.payload.ids.id,
+            pluginId: "sortable_container",
             state: {},
             structure: {},
             style: {},
+        };
+    } else {
+        let pluginId = action.payload.initialParams.name;
+        if(action.payload.ids.container !== 0) {
+            if(state[action.payload.container]) {
+                let toolbar_container = {
+                    id: action.payload.id.container,
+                    pluginId: "sortableBox",
+                    state: {},
+                    structure: {},
+                    style: {},
+                };
+                toolbar = { ...toolbar, toolbar_container };
+            }
+        }
+        structure = {
+            height: action.payload.initialParams.height || "25%",
+            width: action.payload.initialParams.width || "auto",
+            rotation: action.payload.initialParams.rotation || 0,
+            aspectRatio: true,
+            position: action.payload.id ? "relative" : "absolute",
+        };
+
+        toolbar = {
+            ...toolbar,
+            [action.payload.ids.id]:
+                {
+                    id: action.payload.ids.id,
+                    pluginId: pluginId,
+                    state: action.payload.state || {},
+                    structure: structure || {},
+                    style: action.payload.style || {},
+                    showTextEditor: false,
+                },
         };
     }
     return toolbar;
@@ -69,7 +64,7 @@ export default function(state = {}, action = {}) {
     case ADD_BOX:
         return { ...state, ...toolbarCreator(state, action) };
     case ADD_NAV_ITEM:
-        return changeProp(state, action.payload.id.boxes[0], toolbarSortableContainer(state, action));
+        // return changeProp(state, action.payload.id, toolbarSortableContainer(state, action));
     case DELETE_BOX:
         let children = action.payload.children ? action.payload.children : [];
         return deleteProps(state, children.concat(action.payload.id));
