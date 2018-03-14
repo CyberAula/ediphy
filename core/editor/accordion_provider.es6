@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { isContainedView, isSlide, isSortableBox, isSortableContainer } from "../../common/utils";
 import Select from "react-select";
-import { ControlLabel, FormControl, FormGroup, Panel, Radio } from "react-bootstrap";
+import { ControlLabel, Popover, FormControl, OverlayTrigger, FormGroup, Panel, Radio, InputGroup } from "react-bootstrap";
 import RadioButtonFormGroup from "../../_editor/components/toolbar/radio_button_form_group/RadioButtonFormGroup";
 import { UPDATE_PLUGIN_TOOLBAR } from "../../common/actions";
 import ToggleSwitch from "@trendmicro/react-toggle-switch/lib/index";
@@ -201,7 +201,7 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         units = width.units;
         type = width.type;
     }*/
-    controls.main.accordions.structure.buttons.width = {
+    controls.main.accordions.structure.buttons.bwidth = {
         __name: i18n.t('Width'),
         type: type,
         displayValue: displayValue,
@@ -241,7 +241,7 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         value = height.value;
         units = height.units;
     }*/
-    controls.main.accordions.structure.buttons.height = {
+    controls.main.accordions.structure.buttons.bheight = {
         __name: i18n.t('Height'),
         type: type,
         displayValue: displayValue,
@@ -423,22 +423,20 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             } else {
                 value = e.value;
             }
-            if (buttonKey === '__width' || buttonKey === '__height') {
-                let newButton = Object.assign({}, (buttonKey === '__width' ? accordion.buttons.__width : accordion.buttons.__height));
-                let otherButton = Object.assign({}, (buttonKey === '__height' ? accordion.buttons.__width : accordion.buttons.__height));
+            if (buttonKey === 'bwidth' || buttonKey === 'bheight') {
                 let type = e.target.type;
                 if (!type && e.target.classList.contains('toggle-switch---toggle---mncCu')) {
                     type = 'checkbox';
                 }
                 switch (type) {
                 case "checkbox":
-                    newButton.auto = !newButton.auto;
+                    /* newButton.auto = !newButton.auto;
                     newButton.displayValue = newButton.auto ? 'auto' : button.value;
                     newButton.type = newButton.auto ? 'text' : 'number';
-                    newButton.disabled = newButton.auto;
+                    newButton.disabled = newButton.auto;*/
                     break;
                 case "select-one":
-                    newButton.units = value;
+                    // newButton.units = value;
                     break;
 
                 default:
@@ -454,12 +452,12 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     let val;
                     if (newButton.units === "%") {
                         val = Math.min(Math.max(value, 0), 100);
-                        newButton.displayValue = val;
-                        newButton.value = val;
+                        /* newButton.displayValue = val;
+                        newButton.value = val;*/
                     } else if (newButton.units === "px") {
                         val = Math.max(value, 0);
-                        newButton.displayValue = val;
-                        newButton.value = val;
+                        /* newButton.displayValue = val;
+                        newButton.value = val;*/
                     }
                     break;
                 }
@@ -475,7 +473,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     return;
                 }
 
-                if (buttonKey === "__width") {
+                if (buttonKey === "bwidth") {
                     toolbar_props.onBoxResized(id, newButton, otherButton);
                 } else {
                     toolbar_props.onBoxResized(id, otherButton, newButton);
@@ -905,7 +903,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     }
 
     // If it's none of previous types (number, text, color, range, ...)
-    if (buttonKey === '__width' || buttonKey === '__height') {
+    if (buttonKey === 'bwidth' || buttonKey === 'bwidth') {
         let advancedPanel = (
             <FormGroup>
                 <ToggleSwitch label={i18n.t("Auto")}

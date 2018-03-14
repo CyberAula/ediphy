@@ -37,8 +37,10 @@ function toolbarCreator(state, action) {
             }
         }
         structure = {
-            height: action.payload.initialParams.height || "auto",
-            width: action.payload.initialParams.width || "20%",
+            bheight: action.payload.initialParams.height || "auto",
+            bwidth: action.payload.initialParams.width || "20%",
+            // bwidthUnit: "%",
+            // bHeightUnit: "px",
             rotation: action.payload.initialParams.rotation || 0,
             aspectRatio: true,
             position: action.payload.id ? "relative" : "absolute",
@@ -114,7 +116,7 @@ export default function(state = {}, action = {}) {
     case UPDATE_BOX:
         //   return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
     case UPDATE_PLUGIN_TOOLBAR:
-        newState = {
+        return {
             ...state,
             [action.payload.id]: {
                 ...state[action.payload.id],
@@ -124,9 +126,8 @@ export default function(state = {}, action = {}) {
                 },
             },
         };
-        return newState;
     case VERTICALLY_ALIGN_BOX:
-        newState = {
+        return {
             ...state,
             [action.payload.id]: {
                 style: {
@@ -134,7 +135,6 @@ export default function(state = {}, action = {}) {
                 },
             },
         };
-        return newState;
     case IMPORT_STATE:
         return action.payload.present.pluginToolbarsById || state;
     case PASTE_BOX:

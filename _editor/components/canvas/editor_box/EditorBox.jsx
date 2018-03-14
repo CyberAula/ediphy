@@ -55,8 +55,8 @@ export default class EditorBox extends Component {
             display: (toolbar.showTextEditor ? 'block' : 'none'),
         };
         let attrs = {};
-        let width = toolbar.structure.width;
-        let height = toolbar.structure.height;
+        let width = toolbar.structure.bwidth;
+        let height = toolbar.structure.bheight;
         let classNames = "";
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let config = apiPlugin.getConfig();
