@@ -19,7 +19,7 @@ export function InputText(base) {
                 defaultCorrectAnswer: "",
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -31,14 +31,14 @@ export function InputText(base) {
                                 type: {
                                     __name: i18n.t("InputText.answerType"),
                                     type: 'select',
-                                    value: base.getState().type,
+                                    value: state.type,
                                     options: ['text', 'number', 'color', 'datetime-local'],
                                     autoManaged: false,
                                 },
                                 fontSize: {
                                     __name: i18n.t("InputText.fontSize"),
                                     type: 'range',
-                                    value: base.getState().fontSize,
+                                    value: state.fontSize,
                                     min: 8,
                                     max: 72,
                                     step: 1,

@@ -41,9 +41,10 @@ export default class EditorShortcuts extends Component {
         let box = this.props.box;
         let toolbar = this.props.pluginToolbar;
 
-        if (!box || !toolbar) {
+        if (!box || !toolbar || toolbar.pluginId === "sortable_container") {
             return null;
         }
+        console.log(apiPlugin, toolbar, box);
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let config = apiPlugin.getConfig();
         console.log('shortcuts', toolbar, config, apiPlugin);

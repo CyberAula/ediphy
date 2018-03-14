@@ -19,7 +19,7 @@ export function TrueFalse(base) {
                 defaultCorrectAnswer: ["", "", ""],
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -31,7 +31,7 @@ export function TrueFalse(base) {
                                 nBoxes: {
                                     __name: i18n.t("TrueFalse.Number"),
                                     type: 'number',
-                                    value: base.getState().nBoxes,
+                                    value: state.nBoxes,
                                     min: 1,
                                     autoManaged: false,
                                 },

@@ -18,7 +18,7 @@ export function FreeResponse(base) {
                 defaultCorrectAnswer: true,
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
 
             };

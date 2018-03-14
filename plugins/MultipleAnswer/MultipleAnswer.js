@@ -19,7 +19,7 @@ export function MultipleAnswer(base) {
                 defaultCorrectAnswer: [],
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -31,7 +31,7 @@ export function MultipleAnswer(base) {
                                 nBoxes: {
                                     __name: i18n.t("MultipleAnswer.Number"),
                                     type: 'number',
-                                    value: base.getState().nBoxes,
+                                    value: state.nBoxes,
                                     min: 1,
                                     autoManaged: false,
                                 },

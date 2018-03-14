@@ -836,9 +836,10 @@ class EditorApp extends Component {
     buildPluginToolbar(detail) {
         let state = detail.state;
         let styles = {};
-        Object.keys(detail.toolbar.main.accordions.style.buttons).map((e) => {
+        // TODO Revisar
+        /* Object.keys(detail.toolbar.main.accordions.style.buttons).map((e) => {
             styles[e] = detail.toolbar.main.accordions.style.buttons[e].value;
-        });
+        });*/
 
         return { state, styles };
     }

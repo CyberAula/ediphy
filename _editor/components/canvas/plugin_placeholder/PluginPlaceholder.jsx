@@ -125,10 +125,9 @@ export default class PluginPlaceholder extends Component {
 
                 let pluginDraggingFromRibbonIsNotComplex = e.relatedTarget.className.indexOf("rib") === -1 || !e.relatedTarget.getAttribute("name") ||
                   !this.isComplex(e.relatedTarget.getAttribute("name"));
-                let pluginDraggingFromCanvasIsNotComplex = e.relatedTarget.className.indexOf("rib") !== -1 || (this.props.toolbars[this.props.boxSelected ] &&
-                  this.props.toolbars[this.props.boxSelected ].config &&
-                  this.props.toolbars[this.props.boxSelected ].config.name &&
-                  !this.isComplex(this.props.toolbars[this.props.boxSelected ].config.name));
+                let pluginDraggingFromCanvasIsNotComplex = e.relatedTarget.className.indexOf("rib") !== -1 || (this.props.pluginToolbars[this.props.boxSelected ] &&
+                  this.props.pluginToolbars[this.props.boxSelected ].pluginId &&
+                  !this.isComplex(this.props.pluginToolbars[this.props.boxSelected ].pluginId));
                 let notYourself = e.relatedTarget.className.indexOf("rib") !== -1 || this.props.parentBox.id !== this.props.boxSelected;
 
                 if (notYourself && pluginDraggingFromRibbonIsNotComplex && pluginDraggingFromCanvasIsNotComplex) {
@@ -150,7 +149,7 @@ export default class PluginPlaceholder extends Component {
                 }
                 // If element dragged is coming from PluginRibbon, create a new EditorBox
                 let draggingFromRibbon = e.relatedTarget.className.indexOf("rib") !== -1;
-                let name = (draggingFromRibbon) ? e.relatedTarget.getAttribute("name") : this.props.toolbars[this.props.boxSelected].config.name;
+                let name = (draggingFromRibbon) ? e.relatedTarget.getAttribute("name") : this.props.pluginToolbars[this.props.boxSelected].pluginId;
                 let parent = forbidden ? this.props.parentBox.parent : this.props.parentBox.id;
                 let container = forbidden ? this.props.parentBox.container : this.idConvert(this.props.pluginContainer);
                 let config = Ediphy.Plugins.get(name).getConfig();

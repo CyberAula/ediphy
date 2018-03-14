@@ -19,7 +19,7 @@ export function MultipleChoice(base) {
                 defaultCorrectAnswer: false,
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -31,7 +31,7 @@ export function MultipleChoice(base) {
                                 nBoxes: {
                                     __name: i18n.t("MultipleChoice.Number"),
                                     type: 'number',
-                                    value: base.getState().nBoxes,
+                                    value: state.nBoxes,
                                     min: 1,
                                     autoManaged: false,
                                 },
@@ -48,7 +48,6 @@ export function MultipleChoice(base) {
         },
         getRenderTemplate: function(state, props = {}) {
             let answers = [];
-            // console.log(base.getState(), state);
             for (let i = 0; i < state.nBoxes; i++) {
                 let clickHandler = (e)=>{
                     props.setCorrectAnswer(parseInt(e.target.value, 10));
