@@ -31,6 +31,7 @@ export default class Toolbar extends Component {
                 <PluginToolbar {...this.props}
                     open={this.state.open}
                     toggleToolbar={()=>this.toggleToolbar()}
+                    openConfigModal={this.props.openConfigModal}
                 />
         );
     }

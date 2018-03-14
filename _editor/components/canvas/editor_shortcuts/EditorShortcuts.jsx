@@ -39,11 +39,14 @@ export default class EditorShortcuts extends Component {
      */
     render() {
         let box = this.props.box;
-        let toolbar = this.props.toolbar;
+        let toolbar = this.props.pluginToolbar;
 
         if (!box || !toolbar) {
             return null;
         }
+        let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
+        let config = apiPlugin.getConfig();
+        console.log('shortcuts', toolbar, config, apiPlugin);
         let boxEl = findBox((box ? box.id : ''));
 
         return (
@@ -57,10 +60,10 @@ export default class EditorShortcuts extends Component {
                     top: this.state.top,
                     // width: this.state.width !== 0 ? this.state.width : "auto"
                 }}>
-                <div ref="innerContainer" style={{ display: "inline-block", minWidth: "150px" }}>
-                    <span className="namePlugin">{toolbar.config.displayName || ""}</span>
+                <div ref="innerContainer" style={{ display: "inline-block", minWidth: "150px", overflow: 'hidden', height: '37px' }}>
+                    <span className="namePlugin">{config.displayName || ""}</span>
                     {
-                        toolbar.config.isRich ?
+                        config.isRich ?
                             (<OverlayTrigger placement="top"
                                 overlay={
                                     <Tooltip id="richMark">{i18n.t('messages.add_new_mark')}</Tooltip>
@@ -83,29 +86,20 @@ export default class EditorShortcuts extends Component {
                                 }>
                                 <button className="editorTitleButton"
                                     onClick={(e) => {
-                                        let widthButton = JSON.parse(JSON.stringify(toolbar.controls.main.accordions.__sortable.buttons.__width));
-                                        if(widthButton.displayValue === 100 && widthButton.units === "%") {
-                                            if(toolbar.config.needsTextEdition) {
-                                                widthButton.displayValue = "auto";
-                                                widthButton.type = "text";
-                                                widthButton.auto = true;
+                                        if (toolbar && toolbar.structure) {
+                                            let currentWidth = toolbar.structure.width;
+                                            let currentHeight = toolbar.structure.height;
+                                            if(currentWidth === "100%") {
+                                                if(config.needsTextEdition) {
+                                                    currentWidth = "auto";
+                                                }else{
+                                                    currentWidth = '20%';
+                                                }
                                             }else{
-                                                widthButton.value = 20;
-                                                widthButton.displayValue = 20;
-                                                widthButton.type = "number";
-                                                widthButton.units = "%";
-                                                widthButton.auto = false;
+                                                currentWidth = '100%';
                                             }
-                                        }else{
-                                            widthButton.value = 100;
-                                            widthButton.displayValue = 100;
-                                            widthButton.type = "number";
-                                            widthButton.units = "%";
-                                            widthButton.auto = false;
+                                            this.props.onBoxResized(toolbar.id, currentWidth, currentHeight);
                                         }
-
-                                        this.props.onBoxResized(toolbar.id, widthButton);
-
                                     }}>
                                     <i className="material-icons">code</i>
                                 </button>
@@ -115,7 +109,7 @@ export default class EditorShortcuts extends Component {
                         )
                     }
                     {
-                        (toolbar && toolbar.config && toolbar.config.needsTextEdition) ? (
+                        (config && config.needsTextEdition) ? (
                             <OverlayTrigger placement="top"
                                 overlay={
                                     <Tooltip id="editartexto">
@@ -135,7 +129,7 @@ export default class EditorShortcuts extends Component {
                         )
                     }
                     {
-                        (toolbar && toolbar.config && toolbar.config.needsConfigModal) ? (
+                        (config && config.needsConfigModal) ? (
                             <OverlayTrigger placement="top"
                                 overlay={
                                     <Tooltip id="config">
@@ -144,7 +138,8 @@ export default class EditorShortcuts extends Component {
                                 }>
                                 <button id="open_conf" className={"editorTitleButton"}
                                     onClick={(e) => {
-                                        Ediphy.Plugins.get(toolbar.pluginId).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
+                                        // TODO Cambiar!
+                                        // Ediphy.Plugins.get(toolbar.pluginId).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
                                     }}>
                                     <i className="material-icons">build</i>
                                 </button>
@@ -154,7 +149,7 @@ export default class EditorShortcuts extends Component {
                         )
                     }
                     {
-                        (toolbar && toolbar.config && toolbar.config.needsPointerEventsAllowed) ? (
+                        (toolbar && config && config.needsPointerEventsAllowed) ? (
                             <OverlayTrigger placement="top"
                                 overlay={
                                     <Tooltip id="editartexto">
@@ -168,7 +163,7 @@ export default class EditorShortcuts extends Component {
                                         e.stopPropagation();
                                         let bool = boxEl.classList.contains('pointerEventsEnabled');
                                         if (this.props.pointerEventsCallback) {
-                                            this.props.pointerEventsCallback(bool ? 'enableAll' : 'disableAll', this.props.toolbar);
+                                            this.props.pointerEventsCallback(bool ? 'enableAll' : 'disableAll', ttoolbar);
                                         }
                                         bool && but ? but.classList.add('dtbSelected') : but.classList.remove('dtbSelected');
                                     }}>
@@ -187,7 +182,8 @@ export default class EditorShortcuts extends Component {
                         }>
                         <button className="editorTitleButton"
                             onClick={(e) => {
-                                this.props.onBoxDeleted(box.id, box.parent, box.container);
+                                let page = this.props.containedViewSelected === 0 ? this.props.navItemSelected : this.props.containedViewSelected;
+                                this.props.onBoxDeleted(box.id, box.parent, box.container, page && page.id ? page.id : 0);
                                 e.stopPropagation();
                             }}>
                             <i className="material-icons">delete</i>
@@ -232,6 +228,9 @@ export default class EditorShortcuts extends Component {
                 if (element) {
                     let elementRect = element.getBoundingClientRect();
                     width = boxRect.width < elementRect.width ? elementRect.width : boxRect.width;
+                    if ((left + elementRect.width + 15) > (canvasRect.width)) {
+                        left = (canvasRect.width) - (elementRect.width) - 15;
+                    }
                 } else {
                     width = box.getBoundingClientRect().width;
                 }
@@ -281,7 +280,7 @@ export default class EditorShortcuts extends Component {
                     let boxEl = findBox((this.props.box ? this.props.box.id : ''));
                     if (boxEl) {
                         if (this.props.pointerEventsCallback) {
-                            this.props.pointerEventsCallback('disableAll', this.props.toolbar);
+                            this.props.pointerEventsCallback('disableAll', this.props.pluginToolbar);
                         }
                         boxEl.classList.remove('pointerEventsEnabled');
                     }
@@ -318,7 +317,7 @@ export default class EditorShortcuts extends Component {
         if (boxEl) {
             let bool = boxEl.classList.contains('pointerEventsEnabled');
             if (this.props.pointerEventsCallback) {
-                this.props.pointerEventsCallback('disableAll', this.props.toolbar);
+                this.props.pointerEventsCallback('disableAll', this.props.pluginToolbar);
             }
             boxEl.classList.remove('pointerEventsEnabled');
         }
@@ -370,5 +369,8 @@ EditorShortcuts.propTypes = {
      * Activa la funcionalidad de manipular el plugin con el ratón/dedo
      */
     pointerEventsCallback: PropTypes.func,
-
+    /**
+       * Selected page
+       */
+    navItemSelected: PropTypes.any,
 };

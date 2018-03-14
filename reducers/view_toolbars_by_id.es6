@@ -1,7 +1,7 @@
 import {
     DELETE_CONTAINED_VIEW, ADD_NAV_ITEM,
     DELETE_NAV_ITEM, UPDATE_VIEW_TOOLBAR,
-    IMPORT_STATE, ADD_CONTAINED_VIEW,
+    IMPORT_STATE, ADD_CONTAINED_VIEW, ADD_NAV_ITEMS,
 } from '../common/actions';
 import i18n from 'i18next';
 import { changeProp, deleteProps, isDocument, isPage, isSection, isSlide } from "../common/utils";
@@ -50,6 +50,10 @@ export default function(state = {}, action = {}) {
     switch (action.type) {
     case ADD_NAV_ITEM:
         return changeProp(state, action.payload.id, toolbarElementCreator(state, action));
+    case ADD_NAV_ITEMS:
+        let ids = action.payload.navs.map(nav=> { return nav.id; });
+        let navs = action.payload.navs.map(nav=> { return toolbarElementCreator(state, { type: ADD_NAV_ITEM, payload: nav });});
+        return changeProps(state, [...ids], [...navs]);
     case ADD_CONTAINED_VIEW:
         return changeProp(state, action.payload.id, toolbarElementCreator(state, action));
     case DELETE_CONTAINED_VIEW:

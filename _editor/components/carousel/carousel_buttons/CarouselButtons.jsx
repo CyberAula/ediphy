@@ -96,7 +96,7 @@ export default class CarouselButtons extends Component {
     */
     render() {
         return (
-            <div className="bottomGroup">
+            <div className="bottomGroup" style={{ display: this.props.carouselShow ? 'block' : 'none' }}>
                 <div className="bottomLine" />
                 <OverlayTrigger placement="top" overlay={(<Tooltip id="newFolderTooltip">{i18n.t('create new folder')}</Tooltip>)}>
                     <Button className="carouselButton"
@@ -116,7 +116,7 @@ export default class CarouselButtons extends Component {
                                 this.props.onBoxAdded({
                                     parent: idnuevo,
                                     container: 0,
-                                    id: ID_PREFIX_SORTABLE_BOX + Date.now() },
+                                    id: ID_PREFIX_SORTABLE_BOX + Date.now(), page: idnuevo },
                                 false,
                                 false
                                 );
@@ -141,10 +141,13 @@ export default class CarouselButtons extends Component {
                                 i18n.t("page"),
                                 this.getParent().id,
                                 PAGE_TYPES.DOCUMENT,
-                                this.calculatePosition()
+                                this.calculatePosition(),
+                                "rgb(255,255,255)",
+                                0,
+
                             );
                             this.props.onBoxAdded(
-                                { parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now() },
+                                { parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now(), page: newId },
                                 false,
                                 false
                             );
@@ -224,8 +227,7 @@ export default class CarouselButtons extends Component {
                             name="popoverAcceptButton"
                             disabled={/* (isContainedView(this.props.indexSelected) && !this.canDeleteContainedView(this.props.indexSelected)) || */this.props.indexSelected === 0}
                             style={{ float: 'right' }}
-                            onClick={(e) =>
-                            {
+                            onClick={(e) => {
                                 if(this.props.indexSelected !== 0) {
                                     if (isContainedView(this.props.indexSelected) /* && this.canDeleteContainedView(this.props.indexSelected)*/) {
                                         this.props.onContainedViewDeleted(this.props.indexSelected);
@@ -233,11 +235,9 @@ export default class CarouselButtons extends Component {
                                         this.props.onNavItemDeleted(this.props.indexSelected);
                                     }
                                 }
-
                                 this.props.onIndexSelected(0);
-                                this.setState({ showOverlay: false });
-                            }
-                            }>
+                                this.setState({ showOverlay: false });}}>
+
                             {i18n.t("Accept")}
                         </Button>
                     </Popover>
@@ -288,4 +288,8 @@ CarouselButtons.propTypes = {
      * Removes a view
      */
     onNavItemDeleted: PropTypes.func.isRequired,
+    /**
+     * Index displayed indicator
+     */
+    carouselShow: PropTypes.bool.isRequired,
 };

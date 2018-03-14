@@ -64,6 +64,8 @@ export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 export const PASTE_BOX = 'PASTE_BOX';
 export const CHANGE_BOX_LAYER = 'CHANGE_BOX_LAYER';
 
+export const SET_CORRECT_ANSWER = 'SET_CORRECT_ANSWER';
+
 export function selectIndex(id) {
     return { type: INDEX_SELECT, payload: { id } };
 }
@@ -83,6 +85,7 @@ export function deleteContainedView(ids, boxes, parent) {
 export function addNavItem(id, name, parent, type, position, background, customSize, hasContent) {
     return { type: ADD_NAV_ITEM, payload: { id, name, parent, type, position, background, customSize, hasContent } };
 }
+
 export function addNavItems(navs, parent) {
     return { type: ADD_NAV_ITEMS, payload: { navs, parent } };
 }
@@ -136,8 +139,8 @@ export function updateBox(id, content, toolbar, state) {
     return { type: UPDATE_BOX, payload: { id, content, toolbar, state } };
 }
 
-export function deleteBox(id, parent, container, children, cvs) {
-    return { type: DELETE_BOX, payload: { id, parent, container, children, cvs } };
+export function deleteBox(id, parent, container, children, cvs, page) {
+    return { type: DELETE_BOX, payload: { id, parent, container, children, cvs, page } };
 }
 
 export function reorderSortableContainer(ids, parent) {
@@ -164,8 +167,8 @@ export function resizeSortableContainer(id, parent, height) {
     return { type: RESIZE_SORTABLE_CONTAINER, payload: { id, parent, height } };
 }
 
-export function deleteSortableContainer(id, parent, children, cvs) {
-    return { type: DELETE_SORTABLE_CONTAINER, payload: { id, parent, children, cvs } };
+export function deleteSortableContainer(id, parent, children, cvs, page) {
+    return { type: DELETE_SORTABLE_CONTAINER, payload: { id, parent, children, cvs, page } };
 }
 
 export function changeSortableProps(id, parent, prop, value) {
@@ -241,6 +244,10 @@ export function fetchVishResourcesSuccess(result) {
 
 export function uploadImage(url) {
     return { type: UPLOAD_IMAGE, payload: { url } };
+}
+
+export function setCorrectAnswer(id, correctAnswer, page) {
+    return { type: SET_CORRECT_ANSWER, payload: { id, correctAnswer, page } };
 }
 
 // Async actions

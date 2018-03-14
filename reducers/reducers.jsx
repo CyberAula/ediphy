@@ -21,6 +21,7 @@ import marksById from './marks_by_id';
 import pluginToolbarsById from './plugin_toolbars_by_id';
 import viewToolbarsById from './view_toolbars_by_id';
 import globalConfig from './global_config';
+import exercises from './exercises';
 
 function changeDisplayMode(state = "", action = {}) {
     switch (action.type) {
@@ -61,7 +62,7 @@ function imagesUploaded(state = [], action = {}) {
         return state;
     }
 }
-
+console.log(pluginToolbarsById);
 const GlobalState = undoable(combineReducers({
     globalConfig: globalConfig,
     imagesUploaded: imagesUploaded, // [img0, img1]
@@ -78,6 +79,7 @@ const GlobalState = undoable(combineReducers({
     displayMode: changeDisplayMode, // "list",
     pluginToolbarsById: pluginToolbarsById, // {0: toolbar0, 1: toolbar1}
     viewToolbarsById: viewToolbarsById,
+    exercises: exercises,
     isBusy: isBusy,
     fetchVishResults: fetchVishResults,
 }), {
@@ -95,7 +97,7 @@ const GlobalState = undoable(combineReducers({
         case TOGGLE_TEXT_EDITOR:
         case TOGGLE_TITLE_MODE:
         case UPDATE_NAV_ITEM_EXTRA_FILES:
-        // case UPDATE_BOX:
+        case UPDATE_BOX:
         // case ADD_RICH_MARK:
             return false;
         }
@@ -103,7 +105,7 @@ const GlobalState = undoable(combineReducers({
         if(action.type === ADD_BOX) {
             if(action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
                 return false;
-            }else if (isSortableBox(action.payload.ids.id)) {
+            } else if (isSortableBox(action.payload.ids.id)) {
                 return false;
             }
         }

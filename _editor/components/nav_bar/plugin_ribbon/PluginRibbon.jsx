@@ -30,6 +30,7 @@ export default class PluginRibbon extends Component {
             alert: null,
         };
         this.clickAddBox = this.clickAddBox.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
     }
 
     /**
@@ -242,6 +243,9 @@ export default class PluginRibbon extends Component {
         let cvslide = cv && isSlide(this.props.containedViewSelected.type);
         let cvdoc = cv && !isSlide(this.props.containedViewSelected.type);
         let config = Ediphy.Plugins.get(name).getConfig();
+        if (!config) {
+            return;
+        }
         let isBoxSelected = (this.props.boxSelected && isBox(this.props.boxSelected.id));
         if (isBoxSelected && isBox(this.props.boxSelected.parent) && config.isComplex) {
             this.setState({ alert: alert(i18n.t('messages.depth_limit')) });
@@ -271,6 +275,7 @@ export default class PluginRibbon extends Component {
             container: container,
             col: 0, row: 0,
             position: position,
+            page: cv ? this.props.containedViewSelected.id : (this.props.navItemSelected ? this.props.navItemSelected.id : 0),
         };
         if (!inASlide) {
             if (isBoxSelected) {
@@ -321,11 +326,11 @@ PluginRibbon.propTypes = {
       */
     category: PropTypes.string,
     /**
-      * Caja seleccionada
+      * Selected box
       */
     boxSelected: PropTypes.any,
     /**
-      * Cajas
+      * Object that contains the boxes
       */
     boxes: PropTypes.object,
 };

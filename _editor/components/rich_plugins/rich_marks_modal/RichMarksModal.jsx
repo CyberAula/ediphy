@@ -309,7 +309,7 @@ export default class RichMarksModal extends Component {
                         }
                         this.props.onRichMarkUpdated({ id: (current ? current.id : newMark), title, connectMode, connection, displayMode, value, color }, this.state.newSelected === "");
                         if(connectMode === 'new' && !this.props.toolbars[connection.id || connection] && this.state.newType === PAGE_TYPES.DOCUMENT) {
-                            this.props.onBoxAdded({ parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now() }, false, false);
+                            this.props.onBoxAdded({ parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now(), page: newId }, false, false);
                         }
                         this.props.onRichMarksModalToggled();
 
@@ -426,11 +426,11 @@ RichMarksModal.propTypes = {
      */
     onRichMarkUpdated: PropTypes.func.isRequired,
     /**
-     * Muestra/oculta el modal
+     * Show/hide marks modal form
      */
     onRichMarksModalToggled: PropTypes.any.isRequired,
     /**
-      * Valor del cursor al crear la marca (coordenadas)
+      * Cursor value when creating mark (coordinates)
       */
     markCursorValue: PropTypes.any,
 };

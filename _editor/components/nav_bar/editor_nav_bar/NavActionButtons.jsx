@@ -105,7 +105,7 @@ export default class NavActionButtons extends Component {
                 description: i18n.t('Preview'),
                 tooltip: i18n.t('messages.preview'),
                 display: true,
-                disabled: ((this.props.navItemSelected === 0 || (this.props.navItemSelected && !Ediphy.Config.sections_have_content && isSection(this.props.navItemSelected)))),
+                disabled: ((this.props.navItemSelected === 0 || (!this.props.navItems[this.props.navItemSelected] || this.props.navItems[this.props.navItemSelected].hidden) || (this.props.navItemSelected && !Ediphy.Config.sections_have_content && isSection(this.props.navItemSelected)))),
                 icon: 'visibility',
                 onClick: () => {
                     if (this.props.boxSelected !== 0) {
@@ -184,13 +184,17 @@ NavActionButtons.propTypes = {
      */
     globalConfig: PropTypes.object.isRequired,
     /**
-     * Identifies the contained view that is being edited
+     * Identifies the view that is being edited
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Closes the current text edition
+     * Closes/opens the current text edition
      */
     onTextEditorToggled: PropTypes.func.isRequired,
+    /**
+     * Object that contains all created views (identified by its *id*)
+     */
+    navItems: PropTypes.object.isRequired,
     /**
      * Re-applies the last change
      */

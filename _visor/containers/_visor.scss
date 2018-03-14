@@ -112,11 +112,13 @@
 }
 #previewTitle {
   background-color: transparent;
-  font-weight: bold;
+  //font-weight: bold;
 }
 
 /********************Sidebar*************************/
-
+#tituloCurso {
+  font-size: 16px;
+}
 #player {
   position:fixed;
   top: 0;
@@ -155,6 +157,16 @@
     background-color: #ddd !important;
 }
 
+
+.progressBall {
+  display: inline-block;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  height: 36px;
+  width: 14px;
+  margin-left: 6px;
+ }
 /* Toggle Styles */
 .visorwrapper {
     padding-left: 0;
@@ -190,7 +202,7 @@
     width: 250px !important;
 }
 
-#page-content-wrapper {
+#page-content-wrapper, .page-content-wrapper {
     width: 100%;
     background-color: #9a9a9a;
     position: absolute;
@@ -200,9 +212,11 @@
     padding:0 !important;
  }
 
-.visorwrapper.toggled #page-content-wrapper {
+.visorwrapper.toggled {
+  #page-content-wrapper, .page-content-wrapper {
     position: absolute !important;
     margin-right: -250px !important;
+  }
 }
 
 /* Sidebar Styles */
@@ -322,13 +336,15 @@
     .visorwrapper.toggled #sidebar-wrapper {
         width: 250px !important;
     }
-    #page-content-wrapper {
+    #page-content-wrapper, .page-content-wrapper {
         position: relative;
         background-color: #9a9a9a;
     }
-    .visorwrapper.toggled #page-content-wrapper {
+    .visorwrapper.toggled{
+      #page-content-wrapper, .page-content-wrapper {
         position: relative !important;
         margin-right: 0 !important;
+      }
     }
 }
 
@@ -381,4 +397,62 @@ li > .selectedNavItemVisor {
 }
 .cvBackButton {
    z-index:9999;
-} 
+}
+
+.submitButton {
+  background-color: white;
+  padding: 10px 40px;
+  border-radius: 25px;
+  border: 3px solid $blueprimary;
+  color: $blueprimary;
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+.pageFooter {
+  text-align: center; //right;
+  margin: 15px;
+  margin-bottom: 0px;
+  bottom: 0px;
+  padding-bottom: 15px;
+  min-height: 150px;
+  line-height: 150px;
+
+}
+
+.pageScore {
+  text-align: center;
+  line-height: 2em;
+  color: $blueprimary;
+  font-size: 1.9em;
+  span {
+    font-size: 2.2em;
+  }
+}
+
+.scorePass {
+  color: green;
+}
+.scoreFail {
+  color: red;
+}
+
+.hidden {
+  display: none;
+}
+.sli {
+  .pageFooter {
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    height: auto;
+    min-height:1px;
+    line-height: 100%;
+    width: auto;
+    //background-color: white;
+  }
+}
+
+.printApp #airlayer{
+  height: 100%;
+}

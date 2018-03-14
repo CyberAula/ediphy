@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 import FileInput from "../../common/file-input/FileInput";
-import pdflib from 'pdfjs-dist/webpack';
 import { ADD_BOX } from "../../../../common/actions";
 import { isContainedView, isSlide } from "../../../../common/utils";
 import { randomPositionGenerator } from "../../clipboard/clipboard.utils";
@@ -11,6 +10,14 @@ import { ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from "../../
 import Ediphy from "../../../../core/editor/main";
 // styles
 import './_ImportFile.scss';
+
+const pdflib = require('pdfjs-dist');
+const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.min');
+
+const pdfjsWorkerBlob = new Blob([pdfjsWorker]);
+const pdfjsWorkerBlobURL = URL.createObjectURL(pdfjsWorkerBlob);
+
+pdflib.PDFJS.workerSrc = pdfjsWorkerBlobURL;
 
 /**
  * Generic import file modal
@@ -37,6 +44,14 @@ export default class ImportFile extends Component {
         this.fileLoad = this.fileLoad.bind(this);
         this.ImportFile = this.ImportFile.bind(this);
         this.PreviewFile = this.PreviewFile.bind(this);
+    }
+
+    componentDidMount() {
+        require.ensure([], function() {
+            let worker;
+            worker = require('./pdf.worker.js');
+            // callback(worker.WorkerMessageHandler);
+        });
     }
     /**
      * Renders React component
@@ -196,10 +211,11 @@ export default class ImportFile extends Component {
 
     AddPlugins() {
         // insert image plugins
-        let cvSli = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected) && isSlide(this.props.containedViews[this.props.containedViewSelected].type);
-        let cvDoc = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected) && !isSlide(this.props.containedViews[this.props.containedViewSelected].type);
+        let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected);
+        let cvSli = cv && isSlide(this.props.containedViews[this.props.containedViewSelected].type);
+        let cvDoc = cv && !isSlide(this.props.containedViews[this.props.containedViewSelected].type);
         let inASlide = isSlide(this.props.navItemSelected.type) || cvSli;
-
+        let page = cv ? this.props.containedViewSelected : this.props.navItemSelected;
         for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
             let canvas = document.getElementById('can' + i);
             let dataURL = canvas.toDataURL("image/jpeg", 1.0);
@@ -209,19 +225,19 @@ export default class ImportFile extends Component {
                 let position = {
                     x: randomPositionGenerator(20, 40),
                     y: randomPositionGenerator(20, 40),
-                    type: 'absolute',
+                    type: 'absolute', page,
                 };
                 initialParams = {
                     parent: cvSli ? this.props.containedViewSelected : this.props.navItemSelected,
                     container: 0,
                     position: position,
-                    url: dataURL,
+                    url: dataURL, page,
                 };
             } else {
                 initialParams = {
                     parent: cvDoc ? this.props.containedViews[this.props.containedViewSelected].boxes[0] : this.props.navItems[this.props.navItemSelected].boxes[0],
                     container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
-                    url: dataURL,
+                    url: dataURL, page,
                 };
             }
             Ediphy.Plugins.get('HotspotImages').getConfig().callback(initialParams, ADD_BOX);
@@ -303,43 +319,43 @@ export default class ImportFile extends Component {
 
 ImportFile.propTypes = {
     /**
-     * Indicates whether the import file modal should be shown or hidden
+     * Whether the import file modal should be shown or hidden
      */
     show: PropTypes.bool,
     /**
-     * Closes import file configuration modal
+     * Closes import file modal
      */
     close: PropTypes.func.isRequired,
     /**
-      *
+      * Add several views
       */
     onNavItemsAdded: PropTypes.func.isRequired,
     /**
-       *
-       */
+     * Select view/contained view in the index context
+     */
     onIndexSelected: PropTypes.func.isRequired,
     /**
-       *
-       */
+     * Select view
+     */
     onNavItemSelected: PropTypes.func.isRequired,
     /**
-       *
-       */
+     * Objects Array that contains all created views (identified by its *id*)
+     */
     navItemsIds: PropTypes.array.isRequired,
     /**
-       *
-       */
+     * Object that contains all created views (identified by its *id*)
+     */
     navItems: PropTypes.object.isRequired,
     /**
-       *
-       */
+     * Id of the selected page
+     */
     navItemSelected: PropTypes.any,
     /**
-       *
-       */
+     * Object that holds all the contained views in the project
+     */
     containedViews: PropTypes.object.isRequired,
     /**
-       *
-       */
+     * Id of the contained view selected
+     */
     containedViewSelected: PropTypes.any,
 };

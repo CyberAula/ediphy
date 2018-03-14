@@ -72,23 +72,23 @@ export default class MarksList extends Component {
 }
 
 MarksList.propTypes = {
-    /*
-     * Objeto de marcas del estado del plugin
+    /**
+     *  State marks object
      */
     state: PropTypes.object.isRequired,
-    /*
-     * Diccionario que incluye las toolbars
+    /**
+     * Object including toolbars (identified by its *id*)
      */
     toolbars: PropTypes.object.isRequired,
-    /*
+    /**
      * Muestra/oculta el modal de edición de marcas
      */
     onRichMarksModalToggled: PropTypes.func.isRequired,
-    /*
+    /**
      * Comienza la edición de una marca
      */
     onRichMarkEditPressed: PropTypes.func.isRequired,
-    /*
+    /**
      * Borra una marca
      */
     onRichMarkDeleted: PropTypes.func.isRequired,

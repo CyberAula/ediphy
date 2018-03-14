@@ -11,6 +11,7 @@ export default class ReduxProvider extends Component {
         super(props);
         this.initialState = Ediphy.InitialState;
         this.store = this.configureStore();
+        console.log(this.initialState);
     }
 
     render() {
@@ -18,7 +19,7 @@ export default class ReduxProvider extends Component {
             <Provider store={this.store}>
                 <div style={{ height: '100%' }}>
                     <EditorApp id="app" store={this.store}/>
-                    <DevTools/>
+                    {/* <DevTools/>*/}
                 </div>
             </Provider>
         );

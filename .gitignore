@@ -25,6 +25,9 @@ doc/importMdFiles.es6
 nbproject
 dist/lib/scorm/scorm.zip
 dist/lib/visor/dist.zip
+dist/lib/scorm/scorm1.2.zip
+dist/lib/scorm/scorm2004.zip
+dist/lib/scorm/test/*
 .stylelintrc.json
 coverage
 yarn.lock

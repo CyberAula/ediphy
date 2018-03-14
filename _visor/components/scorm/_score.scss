@@ -1,0 +1,130 @@
+@import '../../../sass/general/variables.scss';
+
+
+.globalScore {
+  background-color: white;
+  width: 250px;
+  //height:100px;
+  text-align: center;
+  border: 2px solid grey;
+  position: fixed;
+  top:50px;
+  right: 40px;
+  &:hover {
+    opacity: 0.2;
+  }
+  #score {
+    margin:10px;
+    text-align: left;
+
+  }
+  #userName{
+
+    font-size: 18px;
+    text-align: left;
+    span {
+      word-wrap: normal;
+      height: 18px;
+      word-break: keep-all;
+      text-overflow: ellipsis;
+
+      overflow: hidden;
+    }
+    margin: 10px;
+
+  }
+  .scoreField {
+    margin-right: 10px;
+
+    font-size: 18px;
+  }
+  i {
+    vertical-align: bottom;
+    color: $blueprimary;
+    font-size: 18px;
+    margin-right:2px;
+
+  }
+
+  #progressbar {
+    display: block;
+    margin: 0px 12px;
+    position: relative;
+    background-color: #eaeaea;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 7px;
+    margin-bottom: 10px;
+  }
+
+  #currentprogress {
+    background-color: $blueprimary;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+  }
+  .progressField {
+    text-align: right;
+    display: block;
+    margin: 0px 10px;
+    font-size: 10px;
+    color: #777;
+  }
+}
+
+.navScore {
+  font-size: 12px;
+  #progressbar {
+    display: block;
+    margin: 0px 12px;
+    position: relative;
+    background-color: #444;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 7px;
+  }
+
+  #currentprogress {
+    background-color: $blueprimary;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+  }
+  .progressField {
+    text-align: right;
+    display: block;
+    margin: 0px 10px;
+    font-size:  8px;
+    color: #777;
+  }
+  i {
+    vertical-align: bottom;
+    color: $blueprimary;
+    font-size: 16px;
+    margin-right:2px;
+
+  }
+  #userName{
+
+     //font-size: 18px;
+     span {
+       word-wrap: normal;
+       height: 12px;
+       word-break: keep-all;
+       text-overflow: ellipsis;
+       text-align: left;
+       overflow: hidden;
+     }
+     margin: 10px;
+
+  }
+  .colScore {
+    padding-left: 10px;
+  }
+  .rowScore {
+    margin:0;
+  }
+
+}

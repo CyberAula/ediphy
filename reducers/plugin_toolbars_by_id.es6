@@ -87,16 +87,17 @@ export default function(state = {}, action = {}) {
     case DELETE_SORTABLE_CONTAINER:
         return deleteProps(state, action.payload.children);
     case RESIZE_BOX:
-        newState = {
+        console.log(action.payload);
+        return {
             ...state,
-            [action.payload.id]: {
+            [action.payload.id]: { ...state[action.payload.id], structure: { ...state[action.payload.id].structure,
                 height: action.payload.height,
                 width: action.payload.width,
             },
+            },
         };
-        return newState;
     case RESIZE_SORTABLE_CONTAINER:
-        newState = {
+        return {
             ...state,
             [action.payload.id]: {
                 style: {
@@ -104,15 +105,13 @@ export default function(state = {}, action = {}) {
                 },
             },
         };
-        return newState;
     case TOGGLE_TEXT_EDITOR:
-        newState = {
+        return {
             ...state,
             [action.payload.id]: {
                 showTextEditor: action.payload.value,
             },
         };
-        return newState;
     case UPDATE_BOX:
         //   return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
     case UPDATE_PLUGIN_TOOLBAR:
@@ -138,7 +137,7 @@ export default function(state = {}, action = {}) {
     case IMPORT_STATE:
         return action.payload.present.pluginToolbarsById || state;
     case PASTE_BOX:
-        return changeProp(state, action.payload.ids.id, action.payload.toolbar);
+        return changeProps(state, [action.payload.ids.id, ...Object.keys(action.payload.children)], [action.payload.toolbar, ...Object.keys(action.payload.children).map(k=>{return action.payload.children[k].toolbar;})]);
     default:
         return state;
     }

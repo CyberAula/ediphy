@@ -201,7 +201,7 @@ export const testState = { present:
                         },
                     },
                     "containedViews": [],
-                },*/
+ */
                 },
                 "bs-1511252985426": {
                     "id": "bs-1511252985426",

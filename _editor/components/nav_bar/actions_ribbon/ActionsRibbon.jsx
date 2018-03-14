@@ -125,7 +125,7 @@ export default class ActionsRibbon extends Component {
 
 ActionsRibbon.propTypes = {
     /**
-     * Id of the page selected
+     * Id of the selected page
      */
     navItemSelected: PropTypes.any,
     /**

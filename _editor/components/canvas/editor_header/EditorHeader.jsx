@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Breadcrumb, BreadcrumbItem } from 'react-bootstrap';
+import { Breadcrumb, BreadcrumbItem, FormControl } from 'react-bootstrap';
 import i18n from 'i18next';
 import './_editorHeader.scss';
 import CVInfo from "./CVInfo";
@@ -10,6 +10,22 @@ import CVInfo from "./CVInfo";
  *  It shows the current page's title
  */
 export default class EditorHeader extends Component {
+    /**
+     * Constructor
+     * @param props
+     */
+    constructor(props) {
+        super(props);
+        /**
+         * Component's initial state
+         */
+        this.state = {
+            editingTitle: false,
+            currentTitle: this.props.courseTitle,
+            editingNavTitle: false,
+            currentNavTitle: '',
+        };
+    }
     /**
      * Renders React Component
      * @returns {code}
@@ -97,8 +113,48 @@ export default class EditorHeader extends Component {
 
                                     <div className="tit_ud_cap">
                                         {/* Course title*/}
-                                        <h1
+                                        {!this.state.editingTitle ?
+                                            (<h1 onDoubleClick={e => {
+                                                this.setState({ editingTitle: !this.state.editingTitle });
+                                                if (this.state.editingTitle) { /* Save changes to Redux state*/
+                                                    this.props.onTitleChanged(this.props.courseTitle, this.state.currentTitle);
+                                                    // Synchronize current component state with Redux state when entering edition mode
+                                                } else {
+                                                    this.setState({ currentTitle: this.props.courseTitle });
+                                                }
+                                                e.stopPropagation();
+                                            }}
                                             style={{ display: (toolbar.courseTitle === 'hidden') ? 'none' : 'block' }}>{this.props.courseTitle}</h1>
+                                            ) :
+                                            (<FormControl
+                                                type="text"
+                                                ref="titleIndex"
+                                                className={"editCourseTitle"}
+                                                value={this.state.currentTitle}
+                                                autoFocus
+                                                onKeyDown={e=> {
+                                                    if (e.keyCode === 13) { // Enter Key
+                                                        this.setState({ editingTitle: !this.state.editingTitle });
+                                                        this.props.onTitleChanged(this.props.courseTitle, (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
+                                                    }
+                                                    if (e.keyCode === 27) { // Escape key
+                                                        this.setState({ editingTitle: !this.state.editingTitle });
+                                                    }
+                                                }}
+                                                onFocus={e => {
+                                                    /* Select all the content when enter edition mode*/
+                                                    e.target.setSelectionRange(0, e.target.value.length);
+
+                                                }}
+                                                onChange={e => {
+                                                    /* Save it on component state, not Redux*/
+                                                    this.setState({ currentTitle: e.target.value });
+                                                }}
+                                                onBlur={e => {
+                                                    /* Change to non-edition mode*/
+                                                    this.setState({ editingTitle: !this.state.editingTitle });
+                                                    this.props.onTitleChanged(this.props.courseTitle, (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
+                                                }} />)}
                                         {/* NavItem title */}
                                         <h2
                                             style={{ display: (toolbar.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}{this.props.containedView !== 0 ? (
@@ -107,6 +163,7 @@ export default class EditorHeader extends Component {
                                                     containedView={this.props.containedView}
                                                     viewtoolbars={this.props.viewToolbars}
                                                     boxes={this.props.boxes}/>) : null}</h2>
+
                                         {/* NavItem subtitle */}
                                         <h3
                                             style={{ display: (toolbar.documentSubTitle === 'hidden') ? 'none' : 'block' }}>{subTitle}</h3>
@@ -216,4 +273,8 @@ EditorHeader.propTypes = {
      * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
      */
     boxes: PropTypes.object.isRequired,
+    /**
+     * Cambia el título del curso
+     */
+    onTitleChanged: PropTypes.func.isRequired,
 };
