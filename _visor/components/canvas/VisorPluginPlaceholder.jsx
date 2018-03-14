@@ -49,8 +49,9 @@ export default class VisorPluginPlaceholder extends Component {
                                                 key={index}
                                                 boxes={this.props.boxes}
                                                 changeCurrentView={this.props.changeCurrentView}
-                                                currentViewSelected={this.props.currentViewSelected}
+                                                currentView={this.props.currentView}
                                                 toolbars={this.props.toolbars}
+                                                fromScorm={this.props.fromScorm}
                                                 richElementsState={this.props.richElementsState}/>);
 
                                         } else if (index === container.children.length - 1) {
@@ -75,8 +76,7 @@ VisorPluginPlaceholder.propTypes = {
     /**
    * Nombre del contenedor de plugins
    */
-    pluginContainer: PropTypes.string.isRequired,
-
+    pluginContainer: PropTypes.string,
     /**
    * Identificador único de la caja padre
    */
@@ -84,33 +84,38 @@ VisorPluginPlaceholder.propTypes = {
     /**
    * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
    */
-    boxes: PropTypes.object.isRequired,
+    boxes: PropTypes.object,
     /**
-   * Caja seleccionada
+   * Selected box
    */
     boxSelected: PropTypes.any,
     /**
-      * Nivel de caja seleccionado
+      * Box level selected
      */
     boxLevelSelected: PropTypes.any,
     /**
      * Cambia la vista actual
      */
-    changeCurrentView: PropTypes.func.isRequired,
+    changeCurrentView: PropTypes.func,
+    /**
+     * Whether the app is in SCORM mode or not
+     */
+    fromScorm: PropTypes.bool,
     /**
      * Diccionario que contiene todas las toolbars
      */
-    toolbars: PropTypes.object.isRequired,
+    toolbars: PropTypes.object,
     /**
      * Estado del plugin enriquecido en la transición
      */
     richElementsState: PropTypes.object,
     /**
-   * Id del contenedor
+   * Container id
    */
-    idContainer: PropTypes.string.isRequired,
+    idContainer: PropTypes.string,
     /**
-   * Vista contenida seleccionada
+   * Selected view
    */
-    currentViewSelected: PropTypes.string.isRequired,
+    currentView: PropTypes.string,
+
 };

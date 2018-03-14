@@ -57,6 +57,7 @@ export default class EditorCanvasDoc extends Component {
                         this.setState({ showTitle: false });
                         e.stopPropagation();
                     }}>
+                    { /* {this.props.boxSelected} - ({(this.props.boxSelected && this.props.boxes[this.props.boxSelected]) ? this.props.boxes[this.props.boxSelected].level : '-'}) - {this.props.boxLevelSelected} */ }
                     <EditorHeader titles={titles}
                         onBoxSelected={this.props.onBoxSelected}
                         courseTitle={this.props.title}
@@ -66,6 +67,7 @@ export default class EditorCanvasDoc extends Component {
                         containedViews={this.props.containedViews}
                         viewToolbars={this.props.viewToolbars}
                         boxes={this.props.boxes}
+                        onTitleChanged={this.props.onTitleChanged}
                     />
                     <div className="outter canvaseditor" style={{ background: itemSelected.background, display: show ? 'block' : 'none' }}>
                         {/*
@@ -81,7 +83,7 @@ export default class EditorCanvasDoc extends Component {
 
                             <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                                 className={'innercanvas doc'}
-                                style={{ background: itemSelected.background, visibility: (show ? 'visible' : 'hidden') }}>
+                                style={{ background: itemSelected.background, visibility: (show ? 'visible' : 'hidden'), paddingBottom: '10px' }}>
 
                                 <br/>
 
@@ -101,9 +103,11 @@ export default class EditorCanvasDoc extends Component {
                                     if (!isSortableBox(id)) {
                                         return <EditorBox key={id}
                                             id={id}
+                                            setCorrectAnswer={this.props.setCorrectAnswer}
                                             addMarkShortcut={this.props.addMarkShortcut}
                                             accordions={this.props.accordions}
                                             boxes={this.props.boxes}
+                                            page={itemSelected ? itemSelected.id : 0}
                                             boxSelected={this.props.boxSelected}
                                             boxLevelSelected={this.props.boxLevelSelected}
                                             containedViews={this.props.containedViews}
@@ -123,20 +127,24 @@ export default class EditorCanvasDoc extends Component {
                                             onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                             onTextEditorToggled={this.props.onTextEditorToggled}
                                             pluginToolbars={this.props.pluginToolbars}
+                                            exercises={itemSelected ? (this.props.exercises[itemSelected.id].exercises[id]) : undefined}
                                             onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                             pageType={itemSelected.type || 0}/>;
                                     }
                                     return <EditorBoxSortable key={id}
                                         id={id}
+                                        page={itemSelected ? itemSelected.id : 0}
                                         addMarkShortcut={this.props.addMarkShortcut}
                                         accordions={this.props.accordions}
                                         background={itemSelected.background}
+                                        setCorrectAnswer={this.props.setCorrectAnswer}
                                         boxes={this.props.boxes}
                                         boxSelected={this.props.boxSelected}
                                         boxLevelSelected={this.props.boxLevelSelected}
                                         containedViews={this.props.containedViews}
                                         containedViewSelected={this.props.containedViewSelected}
                                         pluginToolbars={this.props.pluginToolbars}
+                                        exercises={this.props.exercises}
                                         lastActionDispatched={this.props.lastActionDispatched}
                                         deleteMarkCreator={this.props.deleteMarkCreator}
                                         onRichMarkUpdated={this.props.onRichMarkUpdated}
@@ -169,6 +177,7 @@ export default class EditorCanvasDoc extends Component {
                     onTextEditorToggled={this.props.onTextEditorToggled}
                     onBoxResized={this.props.onBoxResized}
                     onBoxDeleted={this.props.onBoxDeleted}
+                    navItemSelected={this.props.navItemSelected}
                     lastActionDispatched={this.props.lastActionDispatched}
                     pointerEventsCallback={this.props.pluginToolbars[this.props.boxSelected] && this.props.pluginToolbars[this.props.boxSelected].config && this.props.pluginToolbars[this.props.boxSelected].config.name && Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name) ? Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
@@ -303,4 +312,17 @@ EditorCanvasDoc.propTypes = {
    * Actualiza marca
    */
     onRichMarkUpdated: PropTypes.func.isRequired,
+    /**
+     * Cambia el texto del título del curso
+     */
+    onTitleChanged: PropTypes.func.isRequired,
+    /**
+   * Object containing all exercises
+   */
+    exercises: PropTypes.object,
+    /**
+   * Function for setting the right answer of an exercise
+   */
+    setCorrectAnswer: PropTypes.func.isRequired,
+
 };

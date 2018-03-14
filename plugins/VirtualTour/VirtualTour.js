@@ -114,9 +114,13 @@ export function VirtualTour(base) {
             };
         },
         getRenderTemplate: function(state, props) {
+            if (!window.google) {
+                let src = "https://maps.google.com/maps/api/js?libraries=places&key=AIzaSyAOOAHADllUMGULOz5FQu3rIhM0RtwxP7Q";
+                $('<script>').attr('src', src).appendTo('head');
+            }
             let id = "map-" + props.id;
             let marks = state.__marks;
-            if (!window.google || !navigator.onLine) {
+            if (!window.google || !window.navigator.onLine) {
                 return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
                     <div className="middleAlign">
                         <i className="material-icons dark">signal_wifi_off</i><br/>
@@ -157,6 +161,7 @@ export function VirtualTour(base) {
                         id={id}
                         searchBox
                         update={(lat, lng, zoom, render)=>{
+                            // console.log('changing state');
                             base.setState('config', { lat: lat, lng: lng, zoom: zoom });
                         }}>
                         {markElements}
@@ -172,7 +177,7 @@ export function VirtualTour(base) {
         },
         parseRichMarkInput: function(...value) {
             let state = value[5];
-            if (!window.google || !navigator.onLine || !window.mapList[state.num]) {
+            if (!window.google || !window.navigator.onLine || !window.mapList[state.num]) {
                 return '0,0';
             }
             let clickX = value[0] + 12;
@@ -213,7 +218,7 @@ export function VirtualTour(base) {
             return { isWrong: false, value: value };
         },
         pointerEventsCallback: function(bool, toolbarState) {
-            if (!window.google || !navigator.onLine) {return;}
+            if (!window.google || !window.navigator.onLine) {return;}
             let num = toolbarState.num || (toolbarState.state ? toolbarState.state.num : 9999);
             if (window.mapList[num]) {
                 switch(bool) {

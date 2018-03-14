@@ -24,16 +24,19 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", 
         } else if (h > w / ratio) {
             let newHeight = w / ratio;
             canvas.style.height = newHeight + "px";
-            if (parent/* && parent.offsetHeight - newHeight > 0*/) {
+            if (parent) {
                 canvas.style.marginTop = ((parent.offsetHeight - canvas.offsetHeight) / 2 - 5) + 'px';
             }
         }
-    } else {
+    } else if (customSize.width > parent.offsetWidth) {
+        canvas.style.height = (customSize.height / ratio) + 'px';
+        canvas.style.width = (customSize.width / ratio) + 'px';
+        canvas.style.marginTop = ((parent.offsetHeight - canvas.offsetHeight) / 2 - 5) + 'px';
+    } else{
         canvas.style.height = customSize.height + 'px';
         canvas.style.width = customSize.width + 'px';
-        if (parent/* && parent.offsetHeight - newHeight > 0*/) {
-            canvas.style.marginTop = ((parent.offsetHeight - canvas.offsetHeight) / 2 - 5) + 'px';
-        }
+        canvas.style.marginTop = '0px';
+        canvas.style.marginBottom = '10px';
     }
 }
 
@@ -98,16 +101,22 @@ export function fullScreenListener(callback, set) {
  * @param name Prefix of the className of the parent we are looking for
  * @returns {*}
  */
-export function releaseClick(releaseClickEl, name) {
+export function releaseClick(releaseClickEl, name, isComplex) {
+    let isComp = isComplex;
     if (releaseClickEl && releaseClickEl.getAttribute) {
     // Get element that has been clicked
         let release = releaseClickEl.getAttribute('id') || "noid";
-        let counter = 7;
+        let counter = 12;
         // Check recursively the parent of the element clicked to check if any of them has the name that we are looking for
         while (release && release.indexOf(name) === -1 && counter > 0 && releaseClickEl.parentNode) {
             releaseClickEl = releaseClickEl.parentNode;
             if (releaseClickEl && releaseClickEl.getAttribute) {
                 release = releaseClickEl.getAttribute('id') || "noid";
+                if(release.indexOf(name) !== -1 && releaseClickEl.parentNode && isComp) {
+                    isComp = false;
+                    releaseClickEl = releaseClickEl.parentNode;
+                    release = releaseClickEl.getAttribute('id') || "noid";
+                }
             } else {
                 counter = 0;
                 break;
@@ -149,4 +158,12 @@ export function scrollElement(node, options) {
 
 export function findBox(id) {
     return document.getElementById('box-' + id);
+}
+
+export function letterFromNumber(ind) {
+    if (!isNaN(ind)) {
+        const abc = 'abcdefghijklmnopqrstuvwxyz';
+        return abc[ind % abc.length];
+    }
+    return ind;
 }

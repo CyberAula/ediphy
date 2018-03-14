@@ -279,7 +279,7 @@ MarkCreator.propTypes = {
      */
     pageType: PropTypes.string.isRequired,
     /**
-     * Muestra/oculta el modal de edición de marcas -- Show / Hide marks editing modal
+     * Show / Hide marks editing modal
      */
     onRichMarksModalToggled: PropTypes.func.isRequired,
 };

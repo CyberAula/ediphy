@@ -2,6 +2,7 @@ import { api, api_private } from '../api';
 import Visor from './main';
 import Scorm from '../scorm/main';
 import Config from '../config';
+import i18n from './../../locales/i18n';
 
 require('../../sass/style.scss');
 
@@ -19,6 +20,7 @@ window.Ediphy = {
     Visor: Visor,
     Scorm: Scorm,
     Config: Config,
+    i18n: i18n,
 };
 
 if (window.State) {

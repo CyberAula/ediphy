@@ -32,10 +32,13 @@ export default class VisorBoxSortable extends Component {
                                                     if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
                                                         return (<VisorBox id={idBox}
                                                             key={ind}
+                                                            currentView={this.props.currentView}
                                                             boxes={this.props.boxes}
+                                                            exercises={(this.props.exercises && this.props.exercises.exercises) ? this.props.exercises.exercises[idBox] : undefined}
                                                             changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
-                                                            currentViewSelected={this.props.currentViewSelected}
+                                                            fromScorm={this.props.fromScorm}
                                                             toolbars={this.props.toolbars}
+                                                            setAnswer={this.props.setAnswer}
                                                             richElementsState={this.props.richElementsState}/>);
 
                                                     } else if (ind === container.children.length - 1) {
@@ -71,10 +74,6 @@ VisorBoxSortable.propTypes = {
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     * Vista actual
-     */
-    currentViewSelected: PropTypes.any,
-    /**
      * Diccionario que contiene todas las toolbars
      */
     toolbars: PropTypes.object,
@@ -82,4 +81,20 @@ VisorBoxSortable.propTypes = {
      * Estado del plugin enriquecido en la transición
      */
     richElementsState: PropTypes.object,
+    /**
+   * Whether the app is in SCORM mode or not
+   */
+    fromScorm: PropTypes.bool,
+    /**
+   * Object containing all the exercises in the course
+   */
+    exercises: PropTypes.object.isRequired,
+    /**
+   * Function for submitting a page Quiz
+   */
+    setAnswer: PropTypes.func.isRequired,
+    /**
+   * Vista actual
+   */
+    currentView: PropTypes.any,
 };

@@ -56,6 +56,7 @@ export default class EditorCarousel extends Component {
                     onNavItemReordered={this.props.onNavItemReordered}
                     viewToolbars={this.props.viewToolbars} />
                 <CarouselButtons boxes={this.props.boxes}
+                    carouselShow={this.props.carouselShow}
                     containedViews={this.props.containedViews}
                     indexSelected={this.props.indexSelected}
                     navItems={this.props.navItems}

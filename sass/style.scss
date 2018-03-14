@@ -34,7 +34,7 @@ $material-font-path:  '../node_modules/material-design-icons-font/iconfont/';
 #colRight, #colLeft {
     @include animacion(max-width, 0.4s);
     @include animacion(all, 0.2s);
-    
+
 }
 */
 /*Left column with index*/
@@ -213,4 +213,20 @@ body {
 
 body {
     overflow:hidden;
+}
+
+.radio {
+    position: relative;
+    display: inline-block;
+    line-height: 1.7em;
+    margin: 5px 0;
+    input[type="radio"]{
+        margin-left: -25px;
+    }
+}
+
+.close {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 27px;
 }

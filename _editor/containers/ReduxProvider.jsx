@@ -11,6 +11,7 @@ export default class ReduxProvider extends Component {
         super(props);
         this.initialState = Ediphy.InitialState;
         this.store = this.configureStore();
+        console.log(this.initialState);
     }
 
     render() {

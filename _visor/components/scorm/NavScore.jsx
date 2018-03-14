@@ -1,0 +1,40 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+export default class NavScore extends React.Component {
+
+    render() {
+        let { userName, totalScore, totalWeight, isPassed, completionProgress } = this.props.scoreInfo;
+        let score = Math.round((totalScore / (totalWeight || 1)) * 10000) / 100 + "%";
+        let progress = Math.round(completionProgress * 10000) / 100 + '%';
+        if (this.props.show) {
+            return (
+                [<div key="component" className="scorePanel navScore">
+                    <h5 id="userName"><i className="material-icons">person</i>  <span>{userName}</span></h5>
+                    <div className="row rowScore">
+                        <div className="col-xs-6 colScore"><i className="material-icons">insert_chart</i> {totalScore + "/" + totalWeight}</div>
+                        <div className="col-xs-6 colScore"><i className="material-icons">pie_chart</i> {score}</div>
+                    </div>
+                    <span className="progressField"> {progress} </span>
+                    <div id="progressbar">
+                        <div id="currentprogress" style={{ width: progress }}/>
+                    </div>
+                </div>, <hr key="sep" style={{ borderTopColor: "#555" }}/>]
+            );
+        }
+        return null;
+
+    }
+
+}
+
+NavScore.propTypes = {
+    /**
+   * Course score information
+   */
+    scoreInfo: PropTypes.object.isRequired,
+    /**
+   * Show score
+   */
+    show: PropTypes.bool,
+};

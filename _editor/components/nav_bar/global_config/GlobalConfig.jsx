@@ -44,9 +44,12 @@ export default class GlobalConfig extends Component {
             version: this.props.globalConfig.version || '0.0.0',
             status: this.props.globalConfig.status || 'draft',
             context: this.props.globalConfig.context || 'school',
+            hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
+            minTimeProgress: this.props.globalConfig.minTimeProgress || 30,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
             modifiedState: false,
             showAlert: false,
+
         };
         // Tag handling functions
         this.handleDelete = this.handleDelete.bind(this);
@@ -60,7 +63,7 @@ export default class GlobalConfig extends Component {
      * @returns {code}
      */
     render() {
-        const { title, author, canvasRatio, age, typicalLearningTime, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context } = this.state;
+        const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context } = this.state;
         return (
             <Modal className="pageModal"
                 show={this.props.show}
@@ -218,7 +221,7 @@ export default class GlobalConfig extends Component {
                                                 value={typicalLearningTime.h}
                                                 min={0}
                                                 max={100}
-                                                placeholder="hour"
+                                                placeholder="h"
                                                 onChange={e => {this.setState({ modifiedState: true, typicalLearningTime: { h: e.target.value, m: typicalLearningTime.m, s: typicalLearningTime.s } });}}/>
                                             <InputGroup.Addon>h</InputGroup.Addon>
                                         </InputGroup>
@@ -227,7 +230,7 @@ export default class GlobalConfig extends Component {
                                                 value={typicalLearningTime.m}
                                                 min={0}
                                                 max={59}
-                                                placeholder="min"
+                                                placeholder="m"
                                                 onChange={e => {this.setState({ modifiedState: true, typicalLearningTime: { h: typicalLearningTime.h, m: e.target.value, s: typicalLearningTime.s } });}}/>
                                             <InputGroup.Addon>m</InputGroup.Addon>
                                         </InputGroup>{/*
@@ -236,11 +239,31 @@ export default class GlobalConfig extends Component {
                                                       value={typicalLearningTime.s}
                                                       min={0}
                                                       max={59}
-                                                      placeholder="sec"
+                                                      placeholder="s"
                                                       onChange={e => {this.setState({typicalLearningTime: {h:typicalLearningTime.h, m:typicalLearningTime.m, s:e.target.value}})}}/>
                                         <InputGroup.Addon>s</InputGroup.Addon>
                                       </InputGroup>*/}
                                     </FormGroup>
+
+                                    <FormGroup >
+                                        <ControlLabel className="inlineLabel">{i18n.t('global_config.hideGlobalScore')}</ControlLabel>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, hideGlobalScore: !this.state.hideGlobalScore });}} checked={!hideGlobalScore}/>
+
+                                    </FormGroup>
+                                    <FormGroup >
+                                        <ControlLabel>{i18n.t('global_config.minTimeProgress')}</ControlLabel><br/>
+                                        <InputGroup className="inputGroup">
+                                            <FormControl type="number"
+                                                value={minTimeProgress}
+                                                min={1}
+                                                max={500}
+                                                placeholder="s"
+                                                onChange={e => {this.setState({ modifiedState: true, minTimeProgress: e.target.value });}}/>
+                                            <InputGroup.Addon>s</InputGroup.Addon>
+                                        </InputGroup>
+
+                                    </FormGroup>
+
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.context')}</ControlLabel><br/>
                                         <Select

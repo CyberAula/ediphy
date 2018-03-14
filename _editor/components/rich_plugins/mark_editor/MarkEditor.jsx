@@ -256,11 +256,11 @@ MarkEditor.propTypes = {
      */
     state: PropTypes.object.isRequired,
     /**
-      * Callback al soltar la marca
+      * Callback when mark is dropped
       */
     onClickNHold: PropTypes.func,
     /**
-      * COmponentes que forman la marca
+      * Marks
       */
     children: PropTypes.any,
 };

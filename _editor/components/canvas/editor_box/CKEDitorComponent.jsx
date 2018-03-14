@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
+import { scrollElement, findBox } from '../../../../common/common_tools';
 
 export default class CKEDitorComponent extends Component {
     constructor(props) {
@@ -51,6 +52,7 @@ export default class CKEDitorComponent extends Component {
             }*/);
             if (toolbar.state.__text) {
                 editor.setData(decodeURI(toolbar.state.__text));
+
             }
         }
     }
@@ -70,23 +72,40 @@ export default class CKEDitorComponent extends Component {
         if (this.props.toolbars[this.props.id].showTextEditor && prevProps.toolbars[prevProps.id] && !prevProps.toolbars[prevProps.id].showTextEditor) {
             this.refs.textarea.focus();
 
+            // Focus cursor at end of content
+            // https://recalll.co/ask/v/topic/fckeditor-How-to-set-cursor-position-to-end-of-text-in-CKEditor/5541ec6304ce0209458b9107#59f908ff1126f4577eec64ec
+
+            let myEditor = CKEDITOR.instances[this.props.id];
+            // Obtain the current selection & range
+            if (myEditor) {
+                let range = myEditor.createRange();
+                if (range && range.root) {
+                    range.moveToElementEditEnd(range.root);
+                    myEditor.getSelection().selectRanges([range]);
+                }
+
+            // $.event.trigger({ type : 'keypress' });
+            }
+
             /* TODO Scale text
             // buildPreview() is called every time "size" dropdowm is opened
             CKEDITOR.style.prototype.buildPreviewOriginal = CKEDITOR.style.prototype.buildPreview;
             CKEDITOR.style.prototype.buildPreview = function (label) {
-                var result = this.buildPreviewOriginal (label);
-                var match = /^(.*)font-size:(\d+)vh(.*)$/.exec (result);
-                if (match) {
-                    // apparently ckeditor uses iframe or something that breaks vh units
-                    // we shall use current window height to convert vh to px here
-                    var pixels = Math.round (0.01 * window.innerHeight * parseInt (match[2]));
-                    result = match[1] + 'font-size:' + pixels + 'px' + match[3];
-                }
-                return result;
-            };
-            */
+            var result = this.buildPreviewOriginal (label);
+            var match = /^(.*)font-size:(\d+)vh(.*)$/.exec (result);
+            if (match) {
+                // apparently ckeditor uses iframe or something that breaks vh units
+                // we shall use current window height to convert vh to px here
+                var pixels = Math.round (0.01 * window.innerHeight * parseInt (match[2]));
+                result = match[1] + 'font-size:' + pixels + 'px' + match[3];
+            }
+            return result;
+        };
+        */
         }
-        window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+        if (window.MathJax) {
+            window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+        }
 
         if(prevProps.box.parent !== this.props.box.parent || prevProps.box.container !== this.props.box.container) {
             for (let instance in CKEDITOR.instances) {
@@ -98,9 +117,7 @@ export default class CKEDitorComponent extends Component {
                     CKEDITOR.instances[editor].setData(decodeURI(this.props.toolbars[editor].state.__text));
                 }
             }
-
         }
-
     }
     componentWillReceiveProps(nextProps) {
         if (this.props.boxSelected === this.props.id && nextProps.boxSelected !== nextProps.id) {
