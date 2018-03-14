@@ -252,43 +252,24 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         autoManaged: true,
     };
 
-    if (state === null) {
-        controls.main.accordions.structure.buttons.rotation = {
-            __name: i18n.t('Rotate'),
-            type: 'range',
-            value: 0,
-            min: 0,
-            max: 360,
-            autoManaged: false,
-        };
-
-    } else {
-        let hasButton = state.controls && state.controls.main && state.controls.main.accordions && state.controls.main.accordions.structure && state.controls.main.accordions.structure.buttons && state.controls.main.accordions.structure.buttons.__rotate;
-
-        if (hasButton) {
-            controls.main.accordions.structure.buttons.rotation = {
-                __name: i18n.t('Rotate'),
-                type: 'range',
-                value: state.controls.main.accordions.structure.buttons.rotation.value,
-                min: 0,
-                max: 360,
-                autoManaged: true,
-            };
-        }
-
-    }
+    controls.main.accordions.structure.buttons.rotation = {
+        __name: i18n.t('Rotate'),
+        type: 'range',
+        value: 0,
+        min: 0,
+        max: 360,
+        autoManaged: false,
+    };
 
     // This will be commented until it's working correctly
-    if (state === null) {
-        if (!floatingBox) {
-            controls.main.accordions.structure.buttons.__position = {
-                __name: i18n.t('Position'),
-                type: 'radio',
-                value: 'relative',
-                options: ['absolute', 'relative'],
-                autoManaged: true,
-            };
-        }
+    if (!floatingBox) {
+        controls.main.accordions.structure.buttons.__position = {
+            __name: i18n.t('Position'),
+            type: 'radio',
+            value: 'relative',
+            options: ['absolute', 'relative'],
+            autoManaged: true,
+        };
 
     } else {
         // let hasPositionButton = action.payload.toolbar && action.payload.toolbar.main && action.payload.toolbar.main.accordions && action.payload.toolbar.main.accordions.__sortable && action.payload.toolbar.main.accordions.__sortable.buttons && action.payload.toolbar.main.accordions.__sortable.buttons.__position;
@@ -402,6 +383,9 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         (toolbar_props.containedViewSelected !== 0) ?
             toolbar_props.containedViewSelected :
             toolbar_props.navItemSelected;
+
+    let currentElement = accordionKeys[0] === "basic" ? "state" :
+        accordionKeys[0];
 
     // get toolbar
     let toolbar_plugin_state;
@@ -624,14 +608,12 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
             // toolbar_props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
-            if (!button.autoManaged) {
-                if (!button.callback) {
-                    handlecanvasToolbar(button.__name, value, accordion, toolbar_props);
-                } else {
-                    button.callback(toolbar_plugin_state.state, buttonKey, value, id, UPDATE_PLUGIN_TOOLBAR);
-                }
-
+            if (toolbar_props.boxSelected === -1) {
+                handlecanvasToolbar(button.__name, value, accordion, toolbar_props);
+            } else {
+                toolbar_props.onToolbarUpdated(id, currentElement, buttonKey, value);
             }
+
         },
 
     };
