@@ -31,9 +31,11 @@ export default class EditorHeader extends Component {
      * @returns {code}
      */
     render() {
+        console.log(toolbar);
         if (this.props.navItem || this.props.containedView) {
             let navItem = this.props.containedView !== 0 ? this.props.containedView : this.props.navItem;
             let toolbar = (this.props.viewToolbars[navItem.id]) ? this.props.viewToolbars[navItem.id] : undefined;
+            console.log(toolbar);
             let docTitle = "";
             let subTitle = "";
             let pagenumber = "";
@@ -156,6 +158,7 @@ export default class EditorHeader extends Component {
                                                     this.props.onTitleChanged(this.props.courseTitle, (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
                                                 }} />)}
                                         {/* NavItem title */}
+                                        {console.log(toolbar)}
                                         <h2
                                             style={{ display: (toolbar.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}{this.props.containedView !== 0 ? (
                                                 <CVInfo containedViews={this.props.containedViews}

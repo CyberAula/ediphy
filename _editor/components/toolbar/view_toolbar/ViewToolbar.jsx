@@ -45,7 +45,7 @@ export default class ViewToolbar extends Component {
         if(isSection(id)) {
             doc_type = i18n.t('section');
         }
-
+        let viewToolbar = this.props.viewToolbars[id];
         let controls = {
             main: {
                 __name: "Main",
@@ -57,7 +57,7 @@ export default class ViewToolbar extends Component {
                             navitem_name: {
                                 __name: i18n.t('NavItem_name'),
                                 type: 'text',
-                                value: this.props.viewToolbars[id].viewName,
+                                value: viewToolbar.viewName,
                                 autoManaged: false,
                             },
                         },
@@ -69,13 +69,13 @@ export default class ViewToolbar extends Component {
                             display_title: {
                                 __name: i18n.t('course_title'),
                                 type: 'checkbox',
-                                checked: this.props.viewToolbars[id].courseTitle === 'reduced',
+                                checked: viewToolbar.courseTitle && viewToolbar.courseTitle !== 'hidden',
                                 autoManaged: false,
                             },
                             display_pagetitle: {
                                 __name: i18n.t('Title') + i18n.t('document'),
                                 type: 'checkbox',
-                                checked: this.props.viewToolbars[id].documentTitle === 'reduced',
+                                checked: viewToolbar.documentTitle && viewToolbar.documentTitle !== 'hidden',
                                 autoManaged: false,
 
                             },
@@ -85,12 +85,12 @@ export default class ViewToolbar extends Component {
                                 associatedKey: 'display_pagetitle',
                                 autoManaged: false,
                                 display: true,
-                                value: this.props.viewToolbars[id].documentTitleContent,
+                                value: viewToolbar.documentTitleContent,
                             },
                             display_pagesubtitle: {
                                 __name: i18n.t('subtitle'),
                                 type: 'checkbox',
-                                checked: this.props.viewToolbars[id].documentSubTitle === 'reduced',
+                                checked: viewToolbar.documentSubTitle && viewToolbar.documentSubTitle !== 'hidden',
                                 autoManaged: false,
                             },
                             pagesubtitle_name: {
@@ -99,7 +99,7 @@ export default class ViewToolbar extends Component {
                                 associatedKey: 'display_pagesubtitle',
                                 autoManaged: false,
                                 display: true,
-                                value: this.props.viewToolbars[id].documentSubtitleContent,
+                                value: viewToolbar.documentSubtitleContent,
                             },
 
                         },
@@ -113,20 +113,20 @@ export default class ViewToolbar extends Component {
             controls.main.accordions.header.buttons.display_breadcrumb = {
                 __name: i18n.t('Breadcrumb'),
                 type: 'checkbox',
-                checked: this.props.viewToolbars[id].breadcrumb === 'reduced',
+                checked: viewToolbar.breadcrumb !== 'hidden',
                 autoManaged: false,
             };
             controls.main.accordions.header.buttons.display_pagenumber = {
                 __name: i18n.t('pagenumber'),
                 type: 'checkbox',
-                checked: this.props.viewToolbars[id].numPage === 'reduced',
+                checked: viewToolbar.numPage !== 'hidden',
                 autoManaged: false,
             };
             controls.main.accordions.header.buttons.pagenumber_name = {
                 __name: "custom_pagenum",
                 type: 'conditionalText',
                 associatedKey: 'display_pagenumber',
-                value: this.props.viewToolbars[id].numPageContent,
+                value: viewToolbar.numPageContent,
                 autoManaged: false,
                 display: true,
             };
