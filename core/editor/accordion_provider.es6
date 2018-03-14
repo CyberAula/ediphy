@@ -40,11 +40,16 @@ export function toolbarMapper(controls, toolbar) {
             controls.main.accordions.style.buttons[s].value = toolbar.style[s];
         });
     }
-    /* if (Object.keys(toolbar.structure).length > 0) {
+    if (Object.keys(toolbar.structure).length > 0) {
         Object.keys(toolbar.structure).forEach((s) => {
-            controls.main.accordions.structure.buttons[s].value = toolbar.structure[s];
+            if(s !== "width" && s !== "height" && s !== "heightUnit" && s !== "widthUnit" && s !== "aspectRatio") {
+                controls.main.accordions.structure.buttons[s].value = toolbar.structure[s];
+            }
+            if (s === "aspectRatio") {
+                controls.main.accordions.structure.buttons[s].checked = toolbar.structure[s];
+            }
         });
-    }*/
+    }
     return controls;
 }
 
@@ -201,7 +206,7 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         units = width.units;
         type = width.type;
     }*/
-    controls.main.accordions.structure.buttons.bwidth = {
+    controls.main.accordions.structure.buttons.width = {
         __name: i18n.t('Width'),
         type: type,
         displayValue: displayValue,
@@ -241,7 +246,7 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         value = height.value;
         units = height.units;
     }*/
-    controls.main.accordions.structure.buttons.bheight = {
+    controls.main.accordions.structure.buttons.height = {
         __name: i18n.t('Height'),
         type: type,
         displayValue: displayValue,
@@ -263,7 +268,7 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
 
     // This will be commented until it's working correctly
     if (!floatingBox) {
-        controls.main.accordions.structure.buttons.__position = {
+        controls.main.accordions.structure.buttons.position = {
             __name: i18n.t('Position'),
             type: 'radio',
             value: 'relative',
@@ -423,20 +428,21 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             } else {
                 value = e.value;
             }
-            if (buttonKey === 'bwidth' || buttonKey === 'bheight') {
+            if (accordionKeys[0] === 'structure' && (buttonKey === 'width' || buttonKey === 'height' || buttonKey === "aspectRatio")) {
                 let type = e.target.type;
                 if (!type && e.target.classList.contains('toggle-switch---toggle---mncCu')) {
                     type = 'checkbox';
                 }
                 switch (type) {
                 case "checkbox":
-                    /* newButton.auto = !newButton.auto;
-                    newButton.displayValue = newButton.auto ? 'auto' : button.value;
-                    newButton.type = newButton.auto ? 'text' : 'number';
-                    newButton.disabled = newButton.auto;*/
+                    if(buttonKey === "aspectRatio") {
+                        toolbar_props.onBoxResized(id, { aspectRatio: !toolbar_plugin_state.structure.aspectRatio });
+                    } else {
+                        toolbar_props.onBoxResized(id, { [buttonKey]: toolbar_plugin_state.structure[buttonKey] === "auto" ? 100 : "auto" });
+                    }
                     break;
                 case "select-one":
-                    // newButton.units = value;
+                    toolbar_props.onBoxResized(id, { [buttonKey + "Unit"]: value });
                     break;
 
                 default:
@@ -450,37 +456,40 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                         value = parseInt(value, 10);
                     }
                     let val;
-                    if (newButton.units === "%") {
+                    if (button.units === "%") {
                         val = Math.min(Math.max(value, 0), 100);
-                        /* newButton.displayValue = val;
-                        newButton.value = val;*/
-                    } else if (newButton.units === "px") {
+                    } else if (button.units === "px") {
                         val = Math.max(value, 0);
-                        /* newButton.displayValue = val;
-                        newButton.value = val;*/
                     }
+
+                    let otherbutton = buttonKey === 'width' ? 'height' : 'width';
+                    /* if (accordion.buttons.aspectRatio && accordion.buttons.aspectRatio.checked) {
+                        val = val * value / value;
+                        if (!otherButton.auto) {
+                            otherButton.displayValue = otherButton.value;
+                        }
+                    }*/
+
+                    // If next values are going to be over 100%, prevent action
+                    if (toolbar_plugin_state.structure[buttonKey] !== "auto" && (toolbar_plugin_state.structure[buttonKey + "Unit"] === "%" && value > 100) || (toolbar_plugin_state.structure[otherbutton + "Unit"] === "%" && val > 100)) {
+                        return;
+                    }
+
+                    if (buttonKey === "width") {
+                        toolbar_props.onBoxResized(id, { width: value });
+                    }
+
+                    if (buttonKey === "height") {
+                        toolbar_props.onBoxResized(id, { height: value });
+                    }
+                    return;
+
                     break;
                 }
-                if (accordion.buttons.__aspectRatio && accordion.buttons.__aspectRatio.checked) {
-                    otherButton.value = otherButton.value * newButton.value / button.value;
-                    if (!otherButton.auto) {
-                        otherButton.displayValue = otherButton.value;
-                    }
-                }
 
-                // If next values are going to be over 100%, prevent action
-                if ((newButton.units === "%" && newButton.value > 100) || (otherButton.units === "%" && otherButton.value > 100)) {
-                    return;
-                }
-
-                if (buttonKey === "bwidth") {
-                    toolbar_props.onBoxResized(id, newButton, otherButton);
-                } else {
-                    toolbar_props.onBoxResized(id, otherButton, newButton);
-                }
                 return;
-
             }
+
             if (button.type === 'number') {
                 // If there's any problem when parsing (NaN) -> take min value if defined; otherwise take 0
                 if (!(value && value.length >= 1 && (value.charAt(value.length - 1) === '.' || value.charAt(value.length - 1) === ',' || value === 0))) {
@@ -903,11 +912,11 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     }
 
     // If it's none of previous types (number, text, color, range, ...)
-    if (buttonKey === 'bwidth' || buttonKey === 'bwidth') {
+    if (accordionKeys[0] === 'structure' && (buttonKey === 'width' || buttonKey === 'height')) {
         let advancedPanel = (
             <FormGroup>
                 <ToggleSwitch label={i18n.t("Auto")}
-                    checked={button.auto}
+                    checked={toolbar_plugin_state.structure[buttonKey] === "auto"}
                     onChange={props.onChange}/>
                 {i18n.t("Auto")} <br/>
                 {/* Disable px size in slides*/}
@@ -916,7 +925,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     (<div><br/>
                         <ControlLabel>{i18n.t("Units")}</ControlLabel>
                         <FormControl componentClass='select'
-                            value={button.units}
+                            value={toolbar_plugin_state.structure[buttonKey + "Unit"]}
                             onChange={props.onChange}>
                             <option value="px">{i18n.t("Pixels")}</option>
                             <option value="%">{i18n.t("Percentage")}</option>
@@ -924,13 +933,14 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             </FormGroup>
         );
 
-        props.value = button.auto ? 'auto' : button.value;
-        props.type = button.auto ? 'text' : 'number';
-        props.disabled = button.auto;
+        let auto = toolbar_plugin_state.structure[buttonKey] === "auto";
+        props.value = auto ? 'auto' : toolbar_plugin_state.structure[buttonKey];
+        props.type = auto ? 'text' : 'number';
+        props.disabled = auto;
         return (
             <FormGroup key={button.__name}>
                 <ControlLabel key={"label_" + button.__name}>
-                    {button.__name + (!button.auto ? " (" + button.units + ")" : "")}
+                    {button.__name + (!auto ? " (" + button.units + ")" : "")}
                 </ControlLabel>
                 <InputGroup>
                     <FormControl {...props} />

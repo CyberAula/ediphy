@@ -21,7 +21,6 @@ import EditorCanvas from '../components/canvas/editor_canvas/EditorCanvas';
 import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
 import EditorCarousel from '../components/carousel/editor_carousel/EditorCarousel';
 import PluginConfigModal from '../components/plugin_config_modal/PluginConfigModal';
-import PluginToolbar from '../components/toolbar/plugin_toolbar/PluginToolbar';
 import Visor from '../../_visor/containers/Visor';
 import ExternalCatalogModal from '../components/external_provider/ExternalCatalogModal';
 import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
@@ -416,7 +415,7 @@ class EditorApp extends Component {
                     onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
                     onColsChanged={(id, parent, distribution, boxesAffected) => this.dispatchAndSetState(changeCols(id, parent, distribution, boxesAffected))}
                     onRowsChanged={(id, parent, column, distribution, boxesAffected) => this.dispatchAndSetState(changeRows(id, parent, column, distribution, boxesAffected))}
-                    onBoxResized={(id, widthButton, heightButton) => this.dispatchAndSetState(resizeBox(id, widthButton, heightButton))}
+                    onBoxResized={(id, structure) => this.dispatchAndSetState(resizeBox(id, structure))}
                     onBoxMoved={(id, x, y, position, parent, container) => this.dispatchAndSetState(moveBox(id, x, y, position, parent, container))}
                     onVerticallyAlignBox={(id, verticalAlign) => this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
                     onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}

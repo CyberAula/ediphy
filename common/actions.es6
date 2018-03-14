@@ -131,8 +131,8 @@ export function moveBox(id, x, y, position, parent, container) {
     return { type: MOVE_BOX, payload: { id, x, y, position, parent, container } };
 }
 
-export function resizeBox(id, widthButton, heightButton) {
-    return { type: RESIZE_BOX, payload: { id, widthButton, heightButton } };
+export function resizeBox(id, structure) {
+    return { type: RESIZE_BOX, payload: { id, structure } };
 }
 
 export function updateBox(id, content, toolbar, state) {

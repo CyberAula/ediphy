@@ -37,10 +37,10 @@ function toolbarCreator(state, action) {
             }
         }
         structure = {
-            bheight: action.payload.initialParams.height || "auto",
-            bwidth: action.payload.initialParams.width || "20%",
-            // bwidthUnit: "%",
-            // bHeightUnit: "px",
+            height: action.payload.initialParams.height || "auto",
+            width: action.payload.initialParams.width || "20",
+            widthUnit: "%",
+            heightUnit: "px",
             rotation: action.payload.initialParams.rotation || 0,
             aspectRatio: true,
             position: action.payload.id ? "relative" : "absolute",
@@ -87,13 +87,14 @@ export default function(state = {}, action = {}) {
     case DELETE_SORTABLE_CONTAINER:
         return deleteProps(state, action.payload.children);
     case RESIZE_BOX:
-        console.log(action.payload);
         return {
             ...state,
-            [action.payload.id]: { ...state[action.payload.id], structure: { ...state[action.payload.id].structure,
-                height: action.payload.height,
-                width: action.payload.width,
-            },
+            [action.payload.id]: {
+                ...state[action.payload.id],
+                structure: {
+                    ...state[action.payload.id].structure,
+                    ...action.payload.structure,
+                },
             },
         };
     case RESIZE_SORTABLE_CONTAINER:

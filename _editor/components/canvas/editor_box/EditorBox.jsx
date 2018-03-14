@@ -57,8 +57,10 @@ export default class EditorBox extends Component {
             display: (toolbar.showTextEditor ? 'block' : 'none'),
         };
         let attrs = {};
-        let width = toolbar.structure.bwidth;
-        let height = toolbar.structure.bheight;
+        let width = toolbar.structure.width;
+        let height = toolbar.structure.height;
+        let widthUnit = toolbar.structure.widthUnit;
+        let heightUnit = toolbar.structure.heightUnit;
         let classNames = "";
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let config = apiPlugin.getConfig();
@@ -135,8 +137,8 @@ export default class EditorBox extends Component {
             position: box.position.type,
             left: box.position.x ? box.position.x : "",
             top: box.position.y ? box.position.y : "",
-            width: width,
-            height: height,
+            width: width !== "auto" ? width + widthUnit : "auto",
+            height: height !== "auto" ? height + heightUnit : "auto",
             touchAction: 'none',
             msTouchAction: 'none',
             cursor: vis ? 'inherit' : 'default', // esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
