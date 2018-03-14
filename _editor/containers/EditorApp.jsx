@@ -85,6 +85,7 @@ class EditorApp extends Component {
             catalogModal: false,
             lastAction: "",
             grid: false,
+            pluginConfigModal: false,
             accordions: {},
         };
         this.onRichMarkUpdated = this.onRichMarkUpdated.bind(this);
@@ -350,8 +351,11 @@ class EditorApp extends Component {
                     onVisibilityToggled={()=> this.setState({ visorVisible: !this.state.visorVisible })}
                     state={this.props.store.getState().present}/>
                 <PluginConfigModal
-                    state={pluginToolbars[boxSelected] ? pluginToolbars[boxSelected].state : {}}
-                    updatePluginToolbar={(id, key, element, value) => this.dispatchAndSetState(updatePluginToolbar(id, key, element, value))}
+                    id={this.state.pluginConfigModal}
+                    name={pluginToolbars[this.state.pluginConfigModal] ? pluginToolbars[this.state.pluginConfigModal].pluginId : ""}
+                    state={pluginToolbars[this.state.pluginConfigModal] ? pluginToolbars[this.state.pluginConfigModal].state : {}}
+                    closeConfigModal={()=>{ this.setState({ pluginConfigModal: false }); } }
+                    updatePluginToolbar={(id, state) => this.dispatchAndSetState(updateBox(id, "", pluginToolbars[this.state.pluginConfigModal], state))}
                 />
                 {Ediphy.Config.external_providers.enable_catalog_modal &&
                 <ExternalCatalogModal images={imagesUploaded}
@@ -382,6 +386,7 @@ class EditorApp extends Component {
                 <Toolbar top={(60 + ribbonHeight) + 'px'}
                     accordions={this.state.accordions}
                     pluginToolbars={pluginToolbars}
+                    openConfigModal={(id)=>{ this.setState({ pluginConfigModal: id }); } }
                     viewToolbars={viewToolbars}
                     box={boxes[boxSelected]}
                     boxSelected={boxSelected}

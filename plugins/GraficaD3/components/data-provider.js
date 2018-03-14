@@ -28,9 +28,9 @@ export default class DataProvider extends React.Component {
     confirmButton() {
         let empty = false;
         outerloop:
-        for (let i = 0; i < this.state.dataProvided.length; i++) {
-            for (let o = 0; o < this.state.dataProvided.length; o++) {
-                if(this.state.dataProvided[i][o] === "") {
+        for (let i = 0; i < this.props.dataProvided.length; i++) {
+            for (let o = 0; o < this.props.dataProvided.length; o++) {
+                if(this.props.dataProvided[i][o] === "") {
                     let alertComp = (<Alert className="pageModal" show hasHeader closeButton onClose={()=>{this.setState({ alert: null });}}>
                         <span> {i18n.t("GraficaD3.alert_msg")} </span>
                     </Alert>);
@@ -41,13 +41,13 @@ export default class DataProvider extends React.Component {
             }
         }
         if (typeof this.props.dataChanged === 'function' && !empty) {
-            this.props.dataChanged({ dataProvided: this.state.dataProvided });
+            this.props.dataChanged({ dataProvided: this.props.dataProvided });
         }
     }
 
     deleteCols(col) {
         if (col > -1) {
-            let newData = this.state.dataProvided.slice(0);
+            let newData = this.props.dataProvided.slice(0);
             newData.splice(col, 1);
             this.setState({ dataProvided: newData });
         }
@@ -55,7 +55,7 @@ export default class DataProvider extends React.Component {
 
     colsChanged(event) {
         let colNumber = parseInt(event.target.value, 10);
-        let newData = this.state.dataProvided.slice(0);
+        let newData = this.props.dataProvided.slice(0);
         let rowLength = newData[0].length;
 
         if (colNumber !== newData.length && colNumber > 0) {
@@ -76,7 +76,7 @@ export default class DataProvider extends React.Component {
     }
 
     deleteRows(row) {
-        let newData = this.state.dataProvided.slice(0);
+        let newData = this.props.dataProvided.slice(0);
         for(let n in newData) {
             newData[n].splice(row + 1, 1);
         }
@@ -86,7 +86,7 @@ export default class DataProvider extends React.Component {
 
     rowsChanged(event) {
         let rowNumber = parseInt(event.target.value, 10);
-        let newData = this.state.dataProvided.slice(0);
+        let newData = this.props.dataProvided.slice(0);
         if (rowNumber !== newData[0].length && rowNumber > 0) {
             if (rowNumber > newData[0].length) {
                 let rowAmount = rowNumber - newData[0].length;
@@ -105,7 +105,7 @@ export default class DataProvider extends React.Component {
 
     keyChanged(event) {
         let pos = parseInt(event.target.name, 10);
-        let newData = this.state.dataProvided.slice(0);
+        let newData = this.props.dataProvided.slice(0);
 
         newData[pos][0] = event.target.value;
         this.setState({ dataProvided: newData });
@@ -176,11 +176,12 @@ export default class DataProvider extends React.Component {
         let pos = event.target.name.split(" ");
         let row = parseInt(pos[1], 10) + 1;
         let col = parseInt(pos[0], 10);
-        let newData = this.state.dataProvided.slice(0);
+        let newData = this.props.dataProvided.slice(0);
 
         if (typeof event.target.value !== "undefined"/* && !isNaN(parseInt(event.target.value)) */) {
             newData[col][row] = event.target.value;
             this.setState({ dataProvided: newData });
+            this.props.dataChanged;
         }
     }
 
@@ -193,7 +194,7 @@ export default class DataProvider extends React.Component {
                         <FileInput onChange={this.fileChanged} className="fileInput" accept=".csv,.json">
                             <div className="fileDrag">
                                 <span style={{ display: this.state.name ? 'none' : 'block' }}><i className="material-icons">ic_file_upload</i><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b>{ i18n.t('FileInput.Click_2') }</span>
-                                <span className="fileUploaded" style={{ display: this.state.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.state.name || '' }</span>
+                                <span className="fileUploaded" style={{ display: this.props.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.props.name || '' }</span>
                             </div>
                         </FileInput>
                     </FormGroup>
@@ -209,14 +210,14 @@ export default class DataProvider extends React.Component {
                             {i18n.t("GraficaD3.data_cols")}
                         </Col>
                         <Col xs={3}>
-                            <FormControl type="number" name="cols" value={this.state.dataProvided.length} onChange={this.colsChanged}/>
+                            <FormControl type="number" name="cols" value={this.props.dataProvided.length} onChange={this.colsChanged}/>
                         </Col>
 
                         <Col componentClass={ControlLabel} xs={1}>
                             {i18n.t("GraficaD3.data_rows")}
                         </Col>
                         <Col xs={3}>
-                            <FormControl type="number" name="rows" value={this.state.dataProvided[0].length} onChange={this.rowsChanged}/>
+                            <FormControl type="number" name="rows" value={this.props.dataProvided[0].length} onChange={this.rowsChanged}/>
                         </Col>
                         <Col xs={3}>
                             <Button className="btn btn-primary" onClick={this.confirmButton} style={{ marginTop: '0px' }}>{i18n.t("GraficaD3.confirm")}</Button>
@@ -224,7 +225,7 @@ export default class DataProvider extends React.Component {
                     </FormGroup>
                     <div style={{ marginTop: '10px', overflowX: 'auto' }}>
                         <div style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
-                            {this.state.dataProvided.map((x, i) => {
+                            {this.props.dataProvided.map((x, i) => {
                                 return(
                                     <FormControl.Static key={i + 1} style={{ display: 'table-cell', padding: '8px', textAlign: 'center' }} />
                                 );
@@ -237,25 +238,25 @@ export default class DataProvider extends React.Component {
                                         return(
                                             <th key={i + 1}>
                                                 <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}}>clear</i>
-                                                <FormControl type="text" name={i} value={this.state.dataProvided[i][0]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
+                                                <FormControl type="text" name={i} value={this.props.dataProvided[i][0]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
                                             </th>
                                         );
                                     })}
                                 </tr>
                             </thead>
                             <tbody style={{ backgroundColor: '#f2f2f2' }}>
-                                {this.state.dataProvided[0].map((x, i) => {
-                                    if(i === this.state.dataProvided[0].length - 1) {
+                                {this.props.dataProvided[0].map((x, i) => {
+                                    if(i === this.props.dataProvided[0].length - 1) {
                                         return true;
                                     }
 
                                     return (
                                         <tr key={i + 1}>
-                                            {this.state.dataProvided.map((q, o) => {
+                                            {this.props.dataProvided.map((q, o) => {
                                                 return(
                                                     <td key={o + 1}>
                                                         <i className="material-icons clearRow" onClick={()=>{this.deleteRows(i);}}>clear</i>
-                                                        <FormControl type="text" name={o + " " + i} value={this.state.dataProvided[o][i + 1]} onChange={this.dataChanged}/>
+                                                        <FormControl type="text" name={o + " " + i} value={this.props.dataProvided[o][i + 1]} onChange={this.dataChanged}/>
 
                                                     </td>
                                                 );

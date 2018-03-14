@@ -83,7 +83,9 @@ export default class PluginToolbar extends Component {
                     <Button key={'config'}
                         className='toolbarButton'
                         onClick={() => {
-                            Ediphy.Plugins.get(toolbar.pluginId).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
+                            console.log(toolbar.id);
+                            this.props.openConfigModal(toolbar.id);
+                            // Ediphy.Plugins.get(toolbar.pluginId).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
                         }}>
                         <i className="toolbarIcons material-icons">build</i>
                         {i18n.t('open_conf')}

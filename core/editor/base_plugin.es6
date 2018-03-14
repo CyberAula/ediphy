@@ -204,12 +204,12 @@ export default function() {
                     if (descendant.getConfig().initialHeight) {
                         initialParams.height = floatingBox && descendant.getConfig().initialHeightSlide ? descendant.getConfig().initialHeightSlide : descendant.getConfig().initialHeight;
                     }
-
-                    if (needsConfigModal) {
-                        this.openConfigModal(reason, state);
-                    } else {
-                        this.render(reason);
-                    }
+                    //
+                    // if (needsConfigModal) {
+                    //     this.openConfigModal(reason, state);
+                    // } else {
+                    this.render(reason);
+                    // }
                 }
             }.bind(this);
 
@@ -321,6 +321,18 @@ export default function() {
                     }
                 }.bind(this));
             }
+        },
+        getConfigTemplate: function(state, update) {
+            if (!descendant.getConfigTemplate) {
+                if (this.getConfig().needsConfigModal) {
+                    // eslint-disable-next-line no-console
+                    console.error(this.getConfig().name + " has not defined getConfigTemplate method");
+                    return null;
+                }
+                return null;
+            }
+            return descendant.getConfigTemplate(state, update);
+
         },
         configModalNeedsUpdate: function() {
             Ediphy.API.configModalNeedsUpdate();
