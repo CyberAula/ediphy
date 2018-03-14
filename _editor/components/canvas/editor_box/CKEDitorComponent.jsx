@@ -41,15 +41,18 @@ export default class CKEDitorComponent extends Component {
 
     componentDidMount() {
         let toolbar = this.props.toolbars[this.props.id];
-        if (toolbar.config && toolbar.config.needsTextEdition) {
+        console.log(toolbar);
+        let config = Ediphy.Plugins.get(toolbar.pluginId).getConfig();
+        if (config && config.needsTextEdition) {
             CKEDITOR.disableAutoInline = true;
-            for (let key in toolbar.config.extraTextConfig) {
+            /* for (let key in config.extraTextConfig) {
                 CKEDITOR.config[key] += toolbar.config.extraTextConfig[key] + ",";
-            }
+            }*/
             // TODO Scale text
             let editor = CKEDITOR.inline(this.refs.textarea /* , {
                 fontSize_sizes: '1/1vh;2/2vh;3/3vh;4/4vh;5/5vh;6/6vh;'
             }*/);
+            console.log(CKEDITOR.instances, editor);
             if (toolbar.state.__text) {
                 editor.setData(decodeURI(toolbar.state.__text));
 

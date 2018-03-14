@@ -175,20 +175,22 @@ export default function() {
                     if (!state.__text) {
                         state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
                     }
+
                     if (!descendant.getRenderTemplate) {
                         descendant.getRenderTemplate = function(stateObj, props) {
                             return stateObj.__text;
                         };
                     }
+
                 }
 
                 if(initParams.url) {
                     state.url = initParams.url;
                 }
 
-                if(initParams.text) {
+                /* if(initParams.text) {
                     state.__text = initParams.text;
-                }
+                }*/
                 if (needsXMLEdition) {
                     if (!state.__xml) {
                         state.__xml = null;
@@ -226,6 +228,7 @@ export default function() {
                     this.render(reason);
                     // }
                 }
+
             }.bind(this);
 
             return {

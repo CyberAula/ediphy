@@ -5,7 +5,7 @@ import {
     VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX, ADD_NAV_ITEM,
 } from '../common/actions';
 import Utils, {
-    changeProp, deleteProps, isSortableBox,
+    changeProps, deleteProps, isSortableBox,
 } from '../common/utils';
 import i18n from 'i18next';
 
@@ -106,11 +106,10 @@ export default function(state = {}, action = {}) {
             },
         };
     case TOGGLE_TEXT_EDITOR:
+        let idCaller = action.payload.id || action.payload.caller;
         return {
             ...state,
-            [action.payload.id]: {
-                showTextEditor: action.payload.value,
-            },
+            [idCaller]: { ...state[idCaller], showTextEditor: action.payload.value },
         };
     case UPDATE_BOX:
         //   return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));

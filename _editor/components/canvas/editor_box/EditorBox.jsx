@@ -251,6 +251,7 @@ export default class EditorBox extends Component {
                 {/* The previous line was changed for the next one in order to make the box grow when text grows while editing.
                  To disable this, you also have to change the textareastyle to an absolute position div, and remove the float property*/}
                 {toolbar.showTextEditor ? null : content }
+                {console.log(toolbar)}
                 {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxes[this.props.id]}
                     style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.pluginToolbars} id={this.props.id}
                     onBlur={this.blurTextarea}/> : null}
@@ -340,8 +341,9 @@ export default class EditorBox extends Component {
     blurTextarea(data) {
         this.props.onTextEditorToggled(this.props.id, false);
         let toolbar = this.props.pluginToolbars[this.props.id];
-
-        Ediphy.Plugins.get(toolbar.pluginId).forceUpdate(Object.assign({}, toolbar.state, {
+        let plugin = Ediphy.Plugins.get(toolbar.pluginId);
+        let config = plugin.getConfig();
+        plugin.forceUpdate(Object.assign({}, toolbar.state, {
             __text: config.extraTextConfig ? data : encodeURI(data),
         }), this.props.id, EDIT_PLUGIN_TEXT);
     }

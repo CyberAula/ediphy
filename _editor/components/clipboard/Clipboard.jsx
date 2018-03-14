@@ -129,7 +129,8 @@ export default class Clipboard extends Component {
      */
     pasteBox(data, ids, isTargetSlide, index) {
         let pluginName = data.toolbar.pluginId;
-        let limitToOneInstance = data.toolbar.config.limitToOneInstance;
+        let config = Ediphy.Plugins.get(pluginName).getConfig();
+        let limitToOneInstance = config.limitToOneInstance;
         let alertMsg = (msg) => { return (<Alert className="pageModal" key="alert" show hasHeader backdrop={false}
             title={ <span><i className="material-icons alert-warning" >warning</i>{ i18n.t("messages.alert") }</span> }
             closeButton onClose={()=>{this.setState({ alert: null });}}>
@@ -327,21 +328,26 @@ export default class Clipboard extends Component {
             newToolbar.state.__marks = newMarks;
         }
         if (isTargetSlide !== isOriginSlide) {
-            let config = Ediphy.Plugins.get(newtoolbar.pluginId).getConfig();
+            let config = Ediphy.Plugins.get(newToolbar.pluginId).getConfig();
             if (isTargetSlide) {
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.units = "%";
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.value =
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.displayValue = parseFloat(config.initialWidthSlide);
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.units = "%";
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.value =
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.displayValue = parseFloat(config.initialHeightSlide);
+                // TODO width VS bwidth?
+                newToolbar.structure.width = config.initialWidthSlide;
+                newToolbar.structure.height = config.initialHeightSlide;
+                // newToolbar.controls.main.accordions.__sortable.buttons.__width.units = "%";
+                // newToolbar.controls.main.accordions.__sortable.buttons.__width.value =
+                // newToolbar.controls.main.accordions.__sortable.buttons.__width.displayValue = parseFloat();
+                // newToolbar.controls.main.accordions.__sortable.buttons.__height.units = "%";
+                // newToolbar.controls.main.accordions.__sortable.buttons.__height.value =
+                // newToolbar.controls.main.accordions.__sortable.buttons.__height.displayValue = parseFloat(config.initialHeightSlide);
             } else {
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.value =
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.displayValue = parseFloat(config.initialHeight);
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.units = config.initialHeight.indexOf('px') !== -1 ? "px" : "%";
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.value =
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.displayValue = parseFloat(config.initialWidth);
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.units = config.initialWidth.indexOf('px') !== -1 ? "px" : "%";
+                newToolbar.structure.width = config.initialWidth;
+                newToolbar.structure.height = config.initialHeight;
+                // newToolbar.controls.main.accordions.__sortable.buttons.__height.value =
+                // newToolbar.controls.main.accordions.__sortable.buttons.__height.displayValue = parseFloat(config.initialHeight);
+                // newToolbar.controls.main.accordions.__sortable.buttons.__height.units = config.initialHeight.indexOf('px') !== -1 ? "px" : "%";
+                // newToolbar.controls.main.accordions.__sortable.buttons.__width.value =
+                // newToolbar.controls.main.accordions.__sortable.buttons.__width.displayValue = parseFloat(config.initialWidth);
+                // newToolbar.controls.main.accordions.__sortable.buttons.__width.units = config.initialWidth.indexOf('px') !== -1 ? "px" : "%";
             }
         }
         return newToolbar;

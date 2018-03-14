@@ -546,7 +546,7 @@ class EditorApp extends Component {
                 e.detail.ids.id = (this.severalBoxes !== 0) ? ID_PREFIX_BOX + this.severalBoxes++ : ID_PREFIX_BOX + Date.now() + this.index++;
 
                 let pt = this.buildPluginToolbar(e.detail);
-
+                console.log(pt);
                 this.dispatchAndSetState(addBox(
                     {
                         parent: e.detail.ids.parent,
@@ -837,6 +837,7 @@ class EditorApp extends Component {
         let state = detail.state;
         let styles = {};
         // TODO Revisar
+        console.log(detail.toolbar);
         /* Object.keys(detail.toolbar.main.accordions.style.buttons).map((e) => {
             styles[e] = detail.toolbar.main.accordions.style.buttons[e].value;
         });*/

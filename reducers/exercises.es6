@@ -22,7 +22,7 @@ function exercisesReducer(state = {}, action = {}) {
     case ADD_BOX:
     case PASTE_BOX:
         console.log(action.payload);
-        let name = action.type === 'ADD_BOX' ? action.payload.initialParams.name : action.payload.toolbar.config.name;
+        let name = action.type === 'ADD_BOX' ? action.payload.initialParams.name : action.payload.toolbar.pluginId;
         let config = Ediphy.Plugins.get(name).getConfig();
         if (config && config.category === 'evaluation') {
             let defaultCorrectAnswer = (config.defaultCorrectAnswer === null || config.defaultCorrectAnswer === undefined) ? true : config.defaultCorrectAnswer;
