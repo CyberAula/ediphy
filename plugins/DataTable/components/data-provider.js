@@ -232,7 +232,7 @@ export default class DataProvider extends React.Component {
         let pos = event.target.name.split(" ");
         let row = pos[0];
         let col = pos[1];
-        let data = this.props.state.data;
+        let data = this.state.data;
         let newvalue = event.target.value === "" || event.target.value === null ? "" : event.target.value;
         let newRow = {};
         newRow[col] = newvalue;
@@ -251,8 +251,8 @@ export default class DataProvider extends React.Component {
                             {/* <span style={{ marginLeft: '10px' }}>*/}
                             {/* <label className="control-label">{ Ediphy.i18n.t('FileDialog') + ':   ' } </label> { this.state.name || '' }</span>*/}
                             <div className="fileDrag">
-                                <span style={{ display: this.props.state.name ? 'none' : 'block' }}><i className="material-icons">ic_file_upload</i><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b>{ i18n.t('FileInput.Click_2') }</span>
-                                <span className="fileUploaded" style={{ display: this.props.state.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.props.state.name || '' }</span>
+                                <span style={{ display: this.props.name ? 'none' : 'block' }}><i className="material-icons">ic_file_upload</i><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b>{ i18n.t('FileInput.Click_2') }</span>
+                                <span className="fileUploaded" style={{ display: this.props.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.props.name || '' }</span>
                             </div>
                         </FileInput>
                     </FormGroup>
@@ -296,7 +296,7 @@ export default class DataProvider extends React.Component {
                                         return(
                                             <th key={i + 1}>
                                                 <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}}>clear</i>
-                                                <FormControl type="text" name={i} value={this.props.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
+                                                <FormControl type="text" name={i} value={this.props.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
                                             </th>
                                         );
                                     })}
@@ -313,7 +313,7 @@ export default class DataProvider extends React.Component {
                                                     <td key={o + 1}>
                                                         {o === 0 ? (<i className="material-icons clearRow" onClick={()=>{this.deleteRows(i);}}>clear</i>) : null}
 
-                                                        <FormControl type="text" name={i + " " + this.props.state.keys[o]} value={this.props.state.data[i][this.props.state.keys[o]] } onChange={this.dataChanged}/>
+                                                        <FormControl type="text" name={i + " " + this.props.keys[o]} value={this.props.data[i][this.props.keys[o]] } onChange={this.dataChanged}/>
 
                                                     </td>
                                                 );
@@ -328,6 +328,5 @@ export default class DataProvider extends React.Component {
             </div>
         );
     }
-
 }
 /* eslint-enable react/prop-types */

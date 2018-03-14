@@ -74,7 +74,7 @@ export default class Config extends React.Component {
     }
 
     optionsChanged(options) {
-        this.props.updateState({ ...this.props.state, options: options });
+        this.props.updateState({ ...this.props.state, options });
     }
 
     editButtonClicked() {
@@ -97,8 +97,7 @@ export default class Config extends React.Component {
                             valueKeys={valueKeys}/>
                         }
                         {!editing &&
-                        <ChartOptions options={options} optionsChanged={this.optionsChanged}
-                            keys={keys} valueKeys={valueKeys}/>
+                        <ChartOptions options={options} optionsChanged={this.optionsChanged} keys={keys} valueKeys={valueKeys}/>
                         }
                     </Col>
                     <div className="col-xs-12 col-lg-7" ref="chartContainer" style={{ padding: '0px' }}>
