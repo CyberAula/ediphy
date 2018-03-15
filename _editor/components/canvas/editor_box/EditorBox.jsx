@@ -71,6 +71,7 @@ export default class EditorBox extends Component {
         let container = box.parent;
         // let controls = apiPlugin.getToolbar();
         let marks = this.props.marksById;
+        console.log(toolbar.style);
         style = { ...style, ...toolbar.style };
         /* for (let tabKey in controls) {
             for (let accordionKey in controls[tabKey].accordions) {

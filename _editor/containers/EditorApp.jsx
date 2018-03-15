@@ -837,10 +837,11 @@ class EditorApp extends Component {
         let styles = {};
         // TODO Revisar
         console.log(detail.toolbar);
-        /* Object.keys(detail.toolbar.main.accordions.style.buttons).map((e) => {
-            styles[e] = detail.toolbar.main.accordions.style.buttons[e].value;
-        });*/
-
+        try {
+            Object.keys(detail.toolbar.main.accordions.style.buttons).map((e) => {
+                styles[e] = detail.toolbar.main.accordions.style.buttons[e].value;
+            });
+        } catch(e) {console.error(e);}
         return { state, styles };
     }
 
