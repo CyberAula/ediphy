@@ -15,7 +15,7 @@ export default class MarksList extends Component {
                     {i18n.t("marks.add_mark")}
                 </Button>
                 <br/>
-                {
+                {this.props.state !== undefined &&
                     Object.keys(this.props.state).map(id => {
                         let mark = this.props.state[id];
                         let name = mark.connection;

@@ -6,6 +6,7 @@ import RadioButtonFormGroup from "../../_editor/components/toolbar/radio_button_
 import { UPDATE_PLUGIN_TOOLBAR } from "../../common/actions";
 import ToggleSwitch from "@trendmicro/react-toggle-switch/lib/index";
 import React from "react";
+import MarksList from "../../_editor/components/rich_plugins/marks_list/MarksList";
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
 import ExternalProvider from "../../_editor/components/external_provider/external_provider/ExternalProvider";
 
@@ -21,7 +22,7 @@ export function toolbarFiller(toolbar, id, state, config, initialParams, contain
         createAspectRatioButton(toolbar, config);
     }
     if (config && config.isRich) {
-        // createRichAccordions(toolbar);
+        createRichAccordions(toolbar);
     }
     return toolbar;
 }
@@ -362,11 +363,11 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
     if (accordion.key === 'marks_list') {
         children.push(
             <MarksList key="marks_list"
-                state={state.__marks}
-                toolbars={this.props.toolbars}
-                onRichMarksModalToggled={this.props.onRichMarksModalToggled}
-                onRichMarkEditPressed={this.props.onRichMarkEditPressed}
-                onRichMarkDeleted={this.props.onRichMarkDeleted}/>
+                state={toolbar_props.marks}
+                toolbars={state}
+                onRichMarksModalToggled={toolbar_props.onRichMarksModalToggled}
+                onRichMarkEditPressed={toolbar_props.onRichMarkEditPressed}
+                onRichMarkDeleted={toolbar_props.onRichMarkDeleted}/>
         );
     }
 
@@ -944,7 +945,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         return (
             <FormGroup key={button.__name}>
                 <ControlLabel key={"label_" + button.__name}>
-                    {button.__name + (!auto ? " (" + button.units + ")" : "")}
+                    {button.__name + (!auto ? " (" + toolbar_plugin_state.structure[buttonKey + "Unit"] + ")" : "")}
                 </ControlLabel>
                 <InputGroup>
                     <FormControl {...props} />
