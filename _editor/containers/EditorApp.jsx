@@ -276,7 +276,7 @@ class EditorApp extends Component {
                                 onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id, boxes[id]))}
                                 onBoxLevelIncreased={() => this.dispatchAndSetState(increaseBoxLevel())}
                                 onBoxMoved={(id, x, y, position, parent, container) => this.dispatchAndSetState(moveBox(id, x, y, position, parent, container))}
-                                onBoxResized={(id, widthButton, heightButton) => this.dispatchAndSetState(resizeBox(id, widthButton, heightButton))}
+                                onBoxResized={(id, structure) => this.dispatchAndSetState(resizeBox(id, structure))}
                                 onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                                 onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
                                 onRichMarkUpdated={(box, state, mark)=>{this.dispatchAndSetState(editRichMark(box, state, mark));}}
@@ -336,7 +336,7 @@ class EditorApp extends Component {
                                 onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id, boxes[id]))}
                                 onBoxLevelIncreased={() => this.dispatchAndSetState(increaseBoxLevel())}
                                 onBoxMoved={(id, x, y, position, parent, container) => this.dispatchAndSetState(moveBox(id, x, y, position, parent, container))}
-                                onBoxResized={(id, widthButton, heightButton) => this.dispatchAndSetState(resizeBox(id, widthButton, heightButton))}
+                                onBoxResized={(id, structure) => this.dispatchAndSetState(resizeBox(id, structure))}
                                 onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                                 onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
                                 onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}

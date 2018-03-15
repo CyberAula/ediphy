@@ -359,9 +359,11 @@ export default class EditorBox extends Component {
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let config = apiPlugin.getConfig();
         let box = this.props.boxes[this.props.id];
-        if (box && box.height && box.height === 'auto') {
+        if (box && toolbar && toolbar.structure && (toolbar.structure.aspectRatio === true
+            || toolbar.structure.height === 'auto' || toolbar.structure.width === 'auto')) {
             return true;
         }
+
         if (config.aspectRatioButtonConfig) {
             let arb = config.aspectRatioButtonConfig;
             if (arb.location.length === 2) {
@@ -725,38 +727,38 @@ export default class EditorBox extends Component {
                     }
                     // Calculate new button values
                     let target = event.target;
-                    let widthButton = Object.assign({}, this.props.pluginToolbars[this.props.id].controls.main.accordions.__sortable.buttons.__width);
-                    let heightButton = Object.assign({}, this.props.pluginToolbars[this.props.id].controls.main.accordions.__sortable.buttons.__height);
+                    let structure = this.props.pluginToolbars[this.props.id].structure;
+                    let widthButton = Object.assign({}, { value: structure.width, units: structure.widthUnit });
+                    let heightButton = Object.assign({}, { value: structure.height, units: structure.heightUnit });
 
                     // Units can be either % or px
                     if (widthButton.units === "%") {
                         let newWidth = Math.min(Math.floor(parseFloat(target.style.width) / target.parentElement.offsetWidth * 100), 100);
                         // Update display value if it's not "auto"
-                        if (widthButton.displayValue !== "auto") {
-                            widthButton.displayValue = newWidth;
+                        if (widthButton.value !== "auto") {
+                            widthButton.value = newWidth;
                         }
                         widthButton.value = newWidth;
                     } else {
-                        if (widthButton.displayValue !== "auto") {
-                            widthButton.displayValue = parseFloat(target.style.width);
+                        if (widthButton.value !== "auto") {
+                            widthButton.value = parseFloat(target.style.width);
                         }
                         widthButton.value = parseFloat(target.style.width);
                     }
 
                     if (heightButton.units === "%") {
                         let newHeight = Math.min(Math.floor(parseFloat(target.style.height) / target.parentElement.offsetHeight * 100), 100);
-                        if (heightButton.displayValue !== "auto") {
-                            heightButton.displayValue = newHeight;
+                        if (heightButton.value !== "auto") {
+                            heightButton.value = newHeight;
                             heightButton.value = newHeight;
                         }
-                    } else if (heightButton.displayValue !== "auto") {
-                        heightButton.displayValue = parseFloat(target.style.height);
+                    } else if (heightButton.value !== "auto") {
                         heightButton.value = parseFloat(target.style.height);
                     }
 
-                    target.style.width = widthButton.displayValue === 'auto' ? 'auto' : widthButton.value + widthButton.units;
-                    target.style.height = heightButton.displayValue === 'auto' ? 'auto' : heightButton.value + heightButton.units;
-                    this.props.onBoxResized(this.props.id, widthButton, heightButton);
+                    target.style.width = widthButton.value === 'auto' ? 'auto' : widthButton.value + widthButton.units;
+                    target.style.height = heightButton.value === 'auto' ? 'auto' : heightButton.value + heightButton.units;
+                    this.props.onBoxResized(this.props.id, { width: widthButton.value, widthUnit: widthButton.units, height: heightButton.value, heightUnit: heightButton.units });
 
                     if (box.position.x !== target.style.left || box.position.y !== target.style.top) {
                         target.style.left = (parseFloat(target.style.left) / 100 * target.parentElement.offsetWidth + parseFloat(target.getAttribute('data-x'))) * 100 / target.parentElement.offsetWidth + '%';

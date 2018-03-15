@@ -43,10 +43,14 @@ export function toolbarMapper(controls, toolbar) {
     if (Object.keys(toolbar.structure).length > 0) {
         Object.keys(toolbar.structure).forEach((s) => {
             if(s !== "width" && s !== "height" && s !== "heightUnit" && s !== "widthUnit" && s !== "aspectRatio") {
-                controls.main.accordions.structure.buttons[s].value = toolbar.structure[s];
+                if (controls.main.accordions.structure.buttons[s]) {
+                    controls.main.accordions.structure.buttons[s].value = toolbar.structure[s];
+                }
             }
             if (s === "aspectRatio") {
-                controls.main.accordions.structure.buttons[s].checked = toolbar.structure[s];
+                if (controls.main.accordions.structure.buttons[s]) {
+                    controls.main.accordions.structure.buttons[s].checked = toolbar.structure[s];
+                }
             }
         });
     }
@@ -268,19 +272,19 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
 
     // This will be commented until it's working correctly
     if (!floatingBox) {
-        controls.main.accordions.structure.buttons.position = {
+        /* controls.main.accordions.structure.buttons.position = {
             __name: i18n.t('Position'),
             type: 'radio',
             value: 'relative',
             options: ['absolute', 'relative'],
             autoManaged: true,
-        };
+        };*/
 
     } else {
         // let hasPositionButton = action.payload.toolbar && action.payload.toolbar.main && action.payload.toolbar.main.accordions && action.payload.toolbar.main.accordions.__sortable && action.payload.toolbar.main.accordions.__sortable.buttons && action.payload.toolbar.main.accordions.__sortable.buttons.__position;
         let hasPositionButton = state.controls && state.controls.main && state.controls.main.accordions && state.controls.main.accordions.structure && state.controls.main.accordions.structure.buttons && state.controls.main.accordions.structure.buttons.__position;
 
-        if (!floatingBox && hasPositionButton) {
+        if (floatingBox && hasPositionButton) {
             controls.main.accordions.structure.buttons.position = {
                 __name: i18n.t('Position'),
                 type: 'radio',

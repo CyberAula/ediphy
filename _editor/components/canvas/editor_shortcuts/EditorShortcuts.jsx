@@ -89,17 +89,19 @@ export default class EditorShortcuts extends Component {
                                     onClick={(e) => {
                                         if (toolbar && toolbar.structure) {
                                             let currentWidth = toolbar.structure.width;
-                                            let currentHeight = toolbar.structure.height;
-                                            if(currentWidth === "100%") {
+                                            let currentWidthUnit = toolbar.structure.widthUnit;
+                                            if(currentWidth === "100" && currentWidthUnit === '%') {
                                                 if(config.needsTextEdition) {
                                                     currentWidth = "auto";
                                                 }else{
-                                                    currentWidth = '20%';
+                                                    currentWidth = '20';
+                                                    currentWidthUnit = '%';
                                                 }
                                             }else{
-                                                currentWidth = '100%';
+                                                currentWidth = '100';
+                                                currentWidthUnit = '%';
                                             }
-                                            this.props.onBoxResized(toolbar.id, currentWidth, currentHeight);
+                                            this.props.onBoxResized(toolbar.id, { width: currentWidth, widthUnit: currentWidthUnit });
                                         }
                                     }}>
                                     <i className="material-icons">code</i>
