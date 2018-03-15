@@ -97,6 +97,7 @@ export default class EditorCanvasSli extends Component {
                             viewToolbars={this.props.viewToolbars}
                             boxes={this.props.boxes}
                             onTitleChanged={this.props.onTitleChanged}
+                            onViewTitleChanged={this.props.onViewTitleChanged}
                         />
 
                         {/* {this.props.fromCV ?  (<button className="btnOverBar cvBackButton" style={{margin: "10px 0px 0px 10px"}}

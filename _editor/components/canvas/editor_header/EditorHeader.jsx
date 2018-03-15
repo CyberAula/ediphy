@@ -157,8 +157,12 @@ export default class EditorHeader extends Component {
                                                     this.setState({ editingTitle: !this.state.editingTitle });
                                                     this.props.onTitleChanged(this.props.courseTitle, (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
                                                 }} />)}
-                                        {/* NavItem title */}
-                                        {console.log(toolbar)}
+                                        {/* NavItem title */
+                                            // @Lourdes Para cambiar los títulos
+                                            // Acción a utilizar: this.props.onViewTitleChanged(id /*id de la view*/, {documentTitleContent: title} /*Nuevo título*/)
+                                            // En el segundo argumento puedes poner un objeto con todas las key-values a cambiar
+                                            // Por ejemplo si quieres cambiar también en subtítulo puedes poner {documentSubtitleContent: "jljljl"}
+                                        }
                                         <h2
                                             style={{ display: (toolbar.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}{this.props.containedView !== 0 ? (
                                                 <CVInfo containedViews={this.props.containedViews}

@@ -27,6 +27,10 @@ function toolbarElementCreator(state, action, isContainedView = false) {
     }
     let pagetitle = i18n.t('Title') + doc_type;
 
+    if(isDocument(type)) {
+        doc_type = i18n.t('Page');
+    }
+
     let toolbar = {
         id: id,
         breadcrumb: 'reduced',
