@@ -216,7 +216,7 @@ export default class EditorBox extends Component {
         }*/
         let verticalAlign = "top";
         /* TODO: do we use this?
-        if (isSortableBox(box.container)) {
+   if (isSortableBox(box.container)) {
 
             if (toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign && toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value) {
                 verticalAlign = toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value;

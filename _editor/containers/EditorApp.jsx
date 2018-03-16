@@ -98,7 +98,7 @@ class EditorApp extends Component {
     render() {
         const { dispatch, boxes, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, imagesUploaded, indexSelected, exercises,
-            undoDisabled, redoDisabled, displayMode, isBusy, pluginToolbars, viewToolbars, globalConfig, fetchVishResults } = this.props;
+            undoDisabled, redoDisabled, displayMode, isBusy, pluginToolbars, viewToolbars, marksById, globalConfig, fetchVishResults } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
         let canvasRatio = globalConfig.canvasRatio;
@@ -254,6 +254,7 @@ class EditorApp extends Component {
                                 canvasRatio={canvasRatio}
                                 boxSelected={boxSelected}
                                 boxLevelSelected={boxLevelSelected}
+                                marks={marksById}
                                 navItems={navItems}
                                 navItemSelected={navItems[navItemSelected]}
                                 containedViews={containedViews}
@@ -305,6 +306,7 @@ class EditorApp extends Component {
                                 grid={this.state.grid}
                                 boxSelected={boxSelected}
                                 canvasRatio={canvasRatio}
+                                marks={marksById}
                                 exercises={exercises}
                                 boxLevelSelected={boxLevelSelected}
                                 navItems={navItems}
@@ -383,6 +385,7 @@ class EditorApp extends Component {
                     markCursorValue={this.state.markCursorValue}
                     containedViewSelected={containedViewSelected}
                     containedViews={containedViews}
+                    marks={marksById}
                     navItems={navItems}
                     navItemsIds={navItemsIds}
                     visible={this.state.richMarksVisible}
@@ -410,6 +413,7 @@ class EditorApp extends Component {
                     navItems={containedViewSelected !== 0 ? containedViews : navItems}
                     carouselShow={this.state.carouselShow}
                     isBusy={isBusy}
+                    marks={marksById}
                     fetchResults={fetchVishResults}
                     titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
                     onContainedViewNameChanged={(id, titleStr) => this.dispatchAndSetState(changeContainedViewName(id, titleStr))}
