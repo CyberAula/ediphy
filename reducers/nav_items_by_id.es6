@@ -320,14 +320,15 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
         });
         return changeProps(itemsReordered, descendantsToUpdate, newDescendants);
     case DELETE_NAV_ITEM:
-        for (let cv in state) {
+        let navState = JSON.parse(JSON.stringify(state));
+        for (let cv in navState) {
             for (let box in action.payload.boxes) {
-                if (state[cv].linkedBoxes && state[cv].linkedBoxes[action.payload.boxes[box]]) {
-                    delete state[cv].linkedBoxes[action.payload.boxes[box]];
+                if (navState[cv].linkedBoxes && navState[cv].linkedBoxes[action.payload.boxes[box]]) {
+                    delete navState[cv].linkedBoxes[action.payload.boxes[box]];
                 }
             }
         }
-        let stateWithNavItemsDeleted = deleteProps(state, action.payload.ids);
+        let stateWithNavItemsDeleted = deleteProps(navState, action.payload.ids);
         return changeProp(stateWithNavItemsDeleted, action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
     case TOGGLE_NAV_ITEM:
         // If parent is already hidden, do nothing

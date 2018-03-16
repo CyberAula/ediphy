@@ -2,6 +2,7 @@ import Ediphy from './main';
 import ReactDOM from 'react-dom';
 import { isSortableContainer } from '../../common/utils';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
+import { UPDATE_BOX } from '../../common/actions';
 let html2json = require('html2json').html2json;
 
 export default function() {
@@ -101,7 +102,7 @@ export default function() {
         },
         getConfig: function() {
             let name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig, needsPointerEventsAllowed,
-                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isComplex, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance, initialWidth, initialHeight, initialWidthSlide, initialHeightSlide;
+                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isComplex, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance, initialWidth, initialHeight, initialWidthSlide, initialHeightSlide, defaultCorrectAnswer;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
                 name = cfg.name;
@@ -126,6 +127,7 @@ export default function() {
                 initialWidthSlide = cfg.initialWidthSlide;
                 initialHeightSlide = cfg.initialHeightSlide;
                 initialHeight = cfg.initialHeight;
+                defaultCorrectAnswer = cfg.defaultCorrectAnswer;
             }
 
             name = defaultFor(name, 'PluginName', "Plugin name not assigned");
@@ -148,6 +150,7 @@ export default function() {
             initialWidthSlide = defaultFor(initialWidthSlide, initialWidth);
             initialHeight = defaultFor(initialHeight, '25');
             initialHeightSlide = defaultFor(initialHeightSlide, initialHeight);
+            defaultCorrectAnswer = defaultFor(defaultCorrectAnswer, false);
 
             if (aspectRatioButtonConfig) {
                 aspectRatioButtonConfig.name = Ediphy.i18n.t("Aspect_ratio");
@@ -183,6 +186,9 @@ export default function() {
                     state.url = initParams.url;
                 }
 
+                if(initParams.text) {
+                    state.__text = initParams.text;
+                }
                 if (needsXMLEdition) {
                     if (!state.__xml) {
                         state.__xml = null;
@@ -194,9 +200,18 @@ export default function() {
                         state.__marks = {};
                     }
                 }
+                if(category === 'evaluation') {
+                    if (!state.__score) {
+                        state.__score = {
+                            score: 1,
+                            correctAnswer: defaultCorrectAnswer,
+
+                        };
+                    }
+                }
                 initialParams = initParams;
                 initialParams.name = descendant.getConfig().name;
-                if (initialParams && Object.keys(initialParams).length !== 0) {
+                if (initialParams && Object.keys(initialParams) && Object.keys(initialParams).length > 1) {
                     let floatingBox = !isSortableContainer(initialParams.container);
                     if (descendant.getConfig().initialWidth) {
                         initialParams.width = floatingBox && descendant.getConfig().initialWidthSlide ? descendant.getConfig().initialWidthSlide : descendant.getConfig().initialWidth;
@@ -214,29 +229,10 @@ export default function() {
             }.bind(this);
 
             return {
-                name: name,
-                displayName: displayName,
-                category: category,
-                callback: callback,
-                needsConfigModal: needsConfigModal,
-                needsConfirmation: needsConfirmation,
-                needsTextEdition: needsTextEdition,
-                extraTextConfig: extraTextConfig,
-                needsXMLEdition: needsXMLEdition,
-                aspectRatioButtonConfig: aspectRatioButtonConfig,
-                allowFloatingBox: allowFloatingBox,
-                icon: icon,
-                iconFromUrl: iconFromUrl,
-                isRich: isRich,
-                isComplex: isComplex,
-                marksType: marksType,
-                flavor: flavor,
-                needsPointerEventsAllowed: needsPointerEventsAllowed,
-                limitToOneInstance: limitToOneInstance,
-                initialWidth: initialWidth,
-                initialWidthSlide: initialWidthSlide,
-                initialHeightSlide: initialHeightSlide,
-                initialHeight: initialHeight,
+                name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition,
+                extraTextConfig, needsXMLEdition, aspectRatioButtonConfig, allowFloatingBox, icon,
+                iconFromUrl, isRich, isComplex, marksType, flavor, needsPointerEventsAllowed, limitToOneInstance,
+                initialWidth, initialWidthSlide, initialHeightSlide, initialHeight, defaultCorrectAnswer,
             };
         },
         getRenderTemplate: function(render_state, props) {
@@ -383,13 +379,13 @@ export default function() {
 
                 let template = null;
                 if (this.getConfig().flavor !== "react") {
-                    template = descendant.getRenderTemplate(state, {});
-                    if(template !== null) {
+                    template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
+                    if(template !== null) { // TODO Revisar
                         template = html2json(template);
                         assignPluginContainerIds(template);
                     }
                 } else{
-                    template = descendant.getRenderTemplate(state, {});
+                    template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
                     assignPluginContainerIdsReact(template);
 
                 }
@@ -404,6 +400,7 @@ export default function() {
                             id: id,
                             parent: initialParams.parent,
                             container: initialParams.container,
+                            page: initialParams.page,
                         },
                         {
                             position: initialParams.position,
@@ -413,6 +410,7 @@ export default function() {
                             height: initialParams.height,
                             isDefaultPlugin: defaultFor(initialParams.isDefaultPlugin, false),
                             index: initialParams.index,
+
                         },
                         reason
                     );
@@ -426,6 +424,15 @@ export default function() {
             state = oldState;
             if (descendant.afterRender) {
                 descendant.afterRender(element, oldState);
+            }
+        },
+        setCorrectAnswer: function(answer) {
+            if (state.__score) {
+                let score = JSON.parse(JSON.stringify(state.__score));
+                score.correctAnswer = answer;
+                state.__score = score;
+                this.render('UPDATE_TOOLBAR');
+
             }
         },
         update: function(oldState, name, value, sender, reason) {

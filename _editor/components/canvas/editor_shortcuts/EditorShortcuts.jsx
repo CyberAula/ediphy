@@ -57,7 +57,7 @@ export default class EditorShortcuts extends Component {
                     top: this.state.top,
                     // width: this.state.width !== 0 ? this.state.width : "auto"
                 }}>
-                <div ref="innerContainer" style={{ display: "inline-block", minWidth: "150px" }}>
+                <div ref="innerContainer" style={{ display: "inline-block", minWidth: "150px", overflow: 'hidden', height: '37px' }}>
                     <span className="namePlugin">{toolbar.config.displayName || ""}</span>
                     {
                         toolbar.config.isRich ?
@@ -187,7 +187,8 @@ export default class EditorShortcuts extends Component {
                         }>
                         <button className="editorTitleButton"
                             onClick={(e) => {
-                                this.props.onBoxDeleted(box.id, box.parent, box.container);
+                                let page = this.props.containedViewSelected === 0 ? this.props.navItemSelected : this.props.containedViewSelected;
+                                this.props.onBoxDeleted(box.id, box.parent, box.container, page && page.id ? page.id : 0);
                                 e.stopPropagation();
                             }}>
                             <i className="material-icons">delete</i>
@@ -232,6 +233,9 @@ export default class EditorShortcuts extends Component {
                 if (element) {
                     let elementRect = element.getBoundingClientRect();
                     width = boxRect.width < elementRect.width ? elementRect.width : boxRect.width;
+                    if ((left + elementRect.width + 15) > (canvasRect.width)) {
+                        left = (canvasRect.width) - (elementRect.width) - 15;
+                    }
                 } else {
                     width = box.getBoundingClientRect().width;
                 }
@@ -370,5 +374,8 @@ EditorShortcuts.propTypes = {
      * Activa la funcionalidad de manipular el plugin con el ratón/dedo
      */
     pointerEventsCallback: PropTypes.func,
-
+    /**
+       * Selected page
+       */
+    navItemSelected: PropTypes.any,
 };

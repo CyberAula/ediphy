@@ -105,6 +105,7 @@ export default class EditorBoxSortable extends Component {
                                                                 addMarkShortcut={this.props.addMarkShortcut}
                                                                 deleteMarkCreator={this.props.deleteMarkCreator}
                                                                 onRichMarkUpdated={this.props.onRichMarkUpdated}
+                                                                exercises={(this.props.page && this.props.exercises[this.props.page]) ? (this.props.exercises[this.props.page].exercises[idBox]) : undefined}
                                                                 markCreatorId={this.props.markCreatorId}
                                                                 onBoxAdded={this.props.onBoxAdded}
                                                                 onBoxSelected={this.props.onBoxSelected}
@@ -117,6 +118,8 @@ export default class EditorBoxSortable extends Component {
                                                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                                                 onTextEditorToggled={this.props.onTextEditorToggled}
                                                                 onRichMarksModalToggled={this.props.onRichMarksModalToggled}
+                                                                page={this.props.page}
+                                                                setCorrectAnswer={this.props.setCorrectAnswer}
                                                                 pageType={this.props.pageType}/>);
 
                                                         } else if (ind === container.children.length - 1) {
@@ -157,11 +160,6 @@ export default class EditorBoxSortable extends Component {
                                             <Button className="popoverButton"
                                                 style={{ float: 'right' }}
                                                 onClick={e => {
-                                                    this.props.onSortableContainerDeleted(idContainer, box.id);
-                                                    e.stopPropagation();
-                                                    this.setState({ show: false });
-                                                }}
-                                                onTap={e => {
                                                     this.props.onSortableContainerDeleted(idContainer, box.id);
                                                     e.stopPropagation();
                                                     this.setState({ show: false });
@@ -330,6 +328,7 @@ export default class EditorBoxSortable extends Component {
                         return;
                     }
                 }
+                let page = this.props.page;
                 if (dropArea === 'cell') {
                     // If element dragged is coming from PluginRibbon, create a new EditorBox
                     if (draggingFromRibbon) {
@@ -341,13 +340,14 @@ export default class EditorBoxSortable extends Component {
                             col: extraParams.i,
                             row: extraParams.j,
                             index: newInd,
+                            page: page,
                         };
 
                         Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                         e.dragEvent.stopPropagation();
                     } else {
                         let boxDragged = this.props.boxes[this.props.boxSelected];
-                        if (boxDragged && ((this.props.id !== boxDragged.parent) || (extraParams.idContainer !== boxDragged.container) || (extraParams.j !== boxDragged.row) || (extraParams.i !== boxDragged.col))) {
+                        if (boxDragged) {// && ((this.props.id !== boxDragged.parent) || (extraParams.idContainer !== boxDragged.container) || (extraParams.j !== boxDragged.row) || (extraParams.i !== boxDragged.col))) {
                             this.props.onBoxDropped(this.props.boxSelected,
                                 extraParams.j,
                                 extraParams.i,
@@ -372,6 +372,7 @@ export default class EditorBoxSortable extends Component {
                             parent: this.props.id,
                             container: e.target.getAttribute("data-id"),
                             index: newInd,
+                            page,
 
                         };
                     } else if (dropArea === 'newContainer') {
@@ -379,6 +380,7 @@ export default class EditorBoxSortable extends Component {
                             parent: this.props.id,
                             container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
                             index: newInd,
+                            page,
                         };
                     }
 
@@ -518,4 +520,16 @@ EditorBoxSortable.propTypes = {
       * Callback for updating the Rich Marks Modal
       */
     onRichMarkUpdated: PropTypes.func.isRequired,
+    /**
+      * Object containing all exercises
+      */
+    exercises: PropTypes.object,
+    /**
+      * Function for setting the right answer of an exercise
+      */
+    setCorrectAnswer: PropTypes.func.isRequired,
+    /**
+      * Current page
+      */
+    page: PropTypes.any,
 };

@@ -7,7 +7,7 @@ import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import { EDIT_PLUGIN_TEXT } from '../../../../common/actions';
 import { releaseClick, findBox } from '../../../../common/common_tools';
 import Ediphy from '../../../../core/editor/main';
-import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
+import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView, isBox } from '../../../../common/utils';
 import './_editorBox.scss';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import CKEDitorComponent from './CKEDitorComponent';
@@ -142,7 +142,14 @@ export default class EditorBox extends Component {
         }
         wholeBoxStyle.transform = wholeBoxStyle.WebkitTransform = wholeBoxStyle.MsTransform = rotate;
         // style.transform = style.WebkitTransform = style.MsTransform = rotate;
-        let props = { ...this.props, parentBox: this.props.boxes[this.props.id] };
+        let props = { ...this.props,
+            parentBox: this.props.boxes[this.props.id],
+            setCorrectAnswer: (correctAnswer) => {
+                if (this.props.exercises.correctAnswer !== correctAnswer) {
+                    this.props.setCorrectAnswer(this.props.id, correctAnswer, this.props.page);
+                }
+            },
+        };
         let content = toolbar.config.flavor === "react" ? (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
                 {Ediphy.Plugins.get(toolbar.config.name).getRenderTemplate(toolbar.state, props)}
@@ -204,22 +211,25 @@ export default class EditorBox extends Component {
             }
         }
         wholeBoxStyle.verticalAlign = verticalAlign;
-
         return (
             <div className={classes} id={'box-' + this.props.id} name={toolbar.config.name}
                 onClick={e => {
-                    if (this.props.boxSelected !== this.props.id &&
-                      (box.level < 1 || box.level < this.props.boxLevelSelected || isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes))) {
-                        this.props.onBoxSelected(this.props.id);
-                        e.stopPropagation();
+                    if (this.props.boxSelected !== this.props.id) {
+                        // Do not stop propagation if we are not allowed to select this box because of its level, so it selects the parent instead of itself
+                        if (!isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes) && isBox(box.parent)) {
+                            return;
+                        }
+                        // If it is a box inside another box, you are only allowed to select it if you have its parent box selected
+                        if (box.level < 1 || box.level < this.props.boxLevelSelected || isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
+                            this.props.onBoxSelected(this.props.id);
+                        }
                     }
-                    if(box.level === 0) {
-                        e.stopPropagation();
-                    }
+                    e.stopPropagation();
                 }}
                 onDoubleClick={(e)=> {
                     if(toolbar.config && toolbar.config.needsTextEdition && this.props.id === this.props.boxSelected) {
                         this.props.onTextEditorToggled(this.props.id, true);
+                        e.stopPropagation();
                     }
                 }}
                 style={wholeBoxStyle}>
@@ -591,21 +601,23 @@ export default class EditorBox extends Component {
                     let disposition = { col: col || 0, row: row || 0 };
                     let containerHoverID = releaseClick(releaseClickEl, 'sc-');
                     // TODO Comentar?
-                    this.props.onBoxMoved(
-                        this.props.id,
-                        isSortableContainer(box.container) ? left : absoluteLeft,
-                        isSortableContainer(box.container) ? top : absoluteTop,
-                        this.props.boxes[this.props.id].position.type,
-                        box.parent,
-                        containerHoverID ? ('sc-' + containerHoverID) : containerId,
-                        disposition
-                    );
+                    if (box.container === 0) {
+                        this.props.onBoxMoved(
+                            this.props.id,
+                            isSortableContainer(box.container) ? left : absoluteLeft,
+                            isSortableContainer(box.container) ? top : absoluteTop,
+                            this.props.boxes[this.props.id].position.type,
+                            box.parent,
+                            containerHoverID ? ('sc-' + containerHoverID) : containerId,
+                            disposition
+                        );
+                    }
 
                     // Stuff to reorder boxes when position is relative
+                    /*
                     let hoverID = releaseClick(releaseClickEl, 'box-');
                     let boxOb = this.props.boxes[this.props.id];
                     if (boxOb && isSortableContainer(boxOb.container) && box.container === containerId) {
-
                         let children = this.props.boxes[boxOb.parent].sortableContainers[box.container].children;
                         if (children.indexOf(hoverID) !== -1) {
                             let newOrder = JSON.parse(JSON.stringify(children));
@@ -614,10 +626,11 @@ export default class EditorBox extends Component {
                                 return element === children[index];
                             });
                             if (!is_same) {
-                                this.props.onBoxesInsideSortableReorder(boxOb.parent, boxOb.container, newOrder);
+                                // this.props.onBoxesInsideSortableReorder(boxOb.parent, boxOb.container, newOrder);
                             }
                         }
                     }
+*/
 
                     event.stopPropagation();
 
@@ -873,4 +886,16 @@ EditorBox.propTypes = {
       * Snap to grid flag
       */
     grid: PropTypes.bool,
+    /**
+       * Object containing all exercises
+       */
+    exercises: PropTypes.object,
+    /**
+       * Function for setting the right answer of an exercise
+       */
+    setCorrectAnswer: PropTypes.func.isRequired,
+    /**
+       * Current page
+       */
+    page: PropTypes.any,
 };

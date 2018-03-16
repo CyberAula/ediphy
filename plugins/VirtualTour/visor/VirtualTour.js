@@ -10,7 +10,11 @@ window.mapsVisor = [];
 export function VirtualTour(base) {
     return {
         getRenderTemplate: function(state, id) {
-            if (!window.google || !navigator.onLine) {
+            if (!window.google) {
+                let src = "https://maps.google.com/maps/api/js?libraries=places&key=AIzaSyAOOAHADllUMGULOz5FQu3rIhM0RtwxP7Q";
+                $('<script>').attr('src', src).appendTo('head');
+            }
+            if (!window.google || !window.navigator.onLine) {
                 return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
                     <div className="middleAlign">
                         <i className="material-icons dark">signal_wifi_off</i><br/>

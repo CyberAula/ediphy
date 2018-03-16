@@ -8,7 +8,8 @@ import PluginsMenu from './PluginsMenu.jsx';
 import './_navBar.scss';
 import screenfull from 'screenfull';
 import ImportFile from "../import_file/ImportFile";
-
+import { selectNavItem } from "../../../../common/actions";
+import ExportModal from '../export/ExportModal';
 /**
  * Upper navigation bar component
  */
@@ -25,6 +26,7 @@ export default class EditorNavBar extends Component {
         this.state = {
             showGlobalConfig: false,
             showImportFile: false,
+            showExport: false,
             isFullScreenOn: screenfull.isFullscreen,
         };
 
@@ -33,6 +35,7 @@ export default class EditorNavBar extends Component {
          */
         this.toggleGlobalConfig = this.toggleGlobalConfig.bind(this);
         this.toggleImportFile = this.toggleImportFile.bind(this);
+        this.toggleExport = this.toggleExport.bind(this);
     }
 
     /**
@@ -49,6 +52,7 @@ export default class EditorNavBar extends Component {
                     changeGlobalConfig={this.props.changeGlobalConfig}
                     globalConfig={this.props.globalConfig}
                     navItemSelected={this.props.navItemSelected}
+                    navItems={this.props.navItems}
                     onTextEditorToggled={this.props.onTextEditorToggled}
                     redo={this.props.redo}
                     redoDisabled={this.props.redoDisabled}
@@ -57,15 +61,15 @@ export default class EditorNavBar extends Component {
                     undo={this.props.undo}
                     undoDisabled={this.props.undoDisabled}
                     visor={this.props.visor} />
-                <NavDropdown export={this.props.export}
+                <NavDropdown /* export={this.props.export}*/
                     navItemSelected={this.props.navItemSelected}
                     onExternalCatalogToggled={this.props.onExternalCatalogToggled}
                     opens={this.props.opens}
                     save={this.props.save}
-                    scorm={this.props.scorm}
                     serverModalOpen={this.props.serverModalOpen}
                     toggleGlobalConfig={this.toggleGlobalConfig}
                     toggleImportFile={this.toggleImportFile}
+                    toggleExport={this.toggleExport}
                     undoDisabled={this.props.undoDisabled} />
                 <GlobalConfig show={this.state.showGlobalConfig}
                     globalConfig={this.props.globalConfig}
@@ -83,6 +87,7 @@ export default class EditorNavBar extends Component {
                     containedViewSelected={this.props.containedViewSelected}
                     show={this.state.showImportFile}
                     close={this.toggleImportFile}/>
+                <ExportModal show={this.state.showExport} export={this.props.export} scorm={this.props.scorm} close={this.toggleExport} />
 
             </Col>
         );
@@ -102,6 +107,14 @@ export default class EditorNavBar extends Component {
     toggleImportFile() {
         this.setState((prevState, props) => ({
             showImportFile: !prevState.showImportFile,
+        }));
+    }
+    /**
+       * Shows/Hides the Export course modal
+       */
+    toggleExport() {
+        this.setState((prevState, props) => ({
+            showExport: !prevState.showExport,
         }));
     }
 }

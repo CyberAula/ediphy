@@ -56,6 +56,7 @@ export default class EditorCanvasDoc extends Component {
                         this.setState({ showTitle: false });
                         e.stopPropagation();
                     }}>
+                    { /* {this.props.boxSelected} - ({(this.props.boxSelected && this.props.boxes[this.props.boxSelected]) ? this.props.boxes[this.props.boxSelected].level : '-'}) - {this.props.boxLevelSelected} */ }
                     <EditorHeader titles={titles}
                         onBoxSelected={this.props.onBoxSelected}
                         courseTitle={this.props.title}
@@ -101,8 +102,10 @@ export default class EditorCanvasDoc extends Component {
                                     if (!isSortableBox(id)) {
                                         return <EditorBox key={id}
                                             id={id}
+                                            setCorrectAnswer={this.props.setCorrectAnswer}
                                             addMarkShortcut={this.props.addMarkShortcut}
                                             boxes={this.props.boxes}
+                                            page={itemSelected ? itemSelected.id : 0}
                                             boxSelected={this.props.boxSelected}
                                             boxLevelSelected={this.props.boxLevelSelected}
                                             containedViews={this.props.containedViews}
@@ -122,18 +125,22 @@ export default class EditorCanvasDoc extends Component {
                                             onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                             onTextEditorToggled={this.props.onTextEditorToggled}
                                             toolbars={this.props.toolbars}
+                                            exercises={itemSelected ? (this.props.exercises[itemSelected.id].exercises[id]) : undefined}
                                             onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                             pageType={itemSelected.type || 0}/>;
                                     }
                                     return <EditorBoxSortable key={id}
                                         id={id}
+                                        page={itemSelected ? itemSelected.id : 0}
                                         addMarkShortcut={this.props.addMarkShortcut}
                                         background={itemSelected.background}
+                                        setCorrectAnswer={this.props.setCorrectAnswer}
                                         boxes={this.props.boxes}
                                         boxSelected={this.props.boxSelected}
                                         boxLevelSelected={this.props.boxLevelSelected}
                                         containedViews={this.props.containedViews}
                                         containedViewSelected={this.props.containedViewSelected}
+                                        exercises={this.props.exercises}
                                         toolbars={this.props.toolbars}
                                         lastActionDispatched={this.props.lastActionDispatched}
                                         deleteMarkCreator={this.props.deleteMarkCreator}
@@ -166,6 +173,7 @@ export default class EditorCanvasDoc extends Component {
                     onTextEditorToggled={this.props.onTextEditorToggled}
                     onBoxResized={this.props.onBoxResized}
                     onBoxDeleted={this.props.onBoxDeleted}
+                    navItemSelected={this.props.navItemSelected}
                     lastActionDispatched={this.props.lastActionDispatched}
                     pointerEventsCallback={this.props.toolbars[this.props.boxSelected] && this.props.toolbars[this.props.boxSelected].config && this.props.toolbars[this.props.boxSelected].config.name && Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name) ? Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
@@ -300,4 +308,13 @@ EditorCanvasDoc.propTypes = {
      * Cambia el texto del título del curso
      */
     onTitleChanged: PropTypes.func.isRequired,
+    /**
+   * Object containing all exercises
+   */
+    exercises: PropTypes.object,
+    /**
+   * Function for setting the right answer of an exercise
+   */
+    setCorrectAnswer: PropTypes.func.isRequired,
+
 };

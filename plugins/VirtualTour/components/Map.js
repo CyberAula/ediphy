@@ -1,7 +1,8 @@
-
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import GoogleMapReact from 'google-map-react';
+
 import SearchBox from './SearchBox';
 import { Gmaps } from 'react-gmaps';
 import { findParentBySelector } from '../../../common/utils';
@@ -57,7 +58,7 @@ export default class Map extends React.Component {
                     id={this.props.id}
                     placeholder={this.props.placeholder}
                     onPlacesChanged={(places) => {
-                        this.props.update(places.lat, places.lng, 15, true);
+                        // this.props.update(places.lat, places.lng, 15, true);
 
                     }}/> : null}
 
@@ -75,7 +76,7 @@ Map.propTypes = {
     /**
    * Plugin state
    */
-    state: PropTypes.obj.isRequired,
+    state: PropTypes.object.isRequired,
     /**
    * Box id
    */

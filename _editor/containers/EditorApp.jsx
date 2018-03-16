@@ -13,7 +13,7 @@ import {
     exportStateAsync, importStateAsync, importState, changeGlobalConfig,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
-    addRichMark, editRichMark, deleteRichMark,
+    addRichMark, editRichMark, deleteRichMark, setCorrectAnswer,
     ADD_BOX, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR,
     addNavItems } from '../../common/actions';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../common/constants';
@@ -38,12 +38,12 @@ import {
     hasExerciseBox,
 } from '../../common/plugins_inside_plugins';
 import Ediphy from '../../core/editor/main';
+import printToPDF from '../../core/editor/print';
 import { isSortableBox, isSection, isContainedView, isSortableContainer, getDuplicatedBoxesIds, getDescendantLinkedBoxes } from '../../common/utils';
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import PropTypes from 'prop-types';
 import { scrollElement, findBox } from '../../common/common_tools';
-
 /**
  * EditorApp. Main application component that renders everything else
  */
@@ -95,7 +95,7 @@ class EditorApp extends Component {
      */
     render() {
         const { dispatch, boxes, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
-            containedViews, containedViewSelected, imagesUploaded, indexSelected,
+            containedViews, containedViewSelected, imagesUploaded, indexSelected, exercises,
             undoDisabled, redoDisabled, displayMode, isBusy, toolbars, globalConfig, fetchVishResults } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
@@ -125,8 +125,13 @@ class EditorApp extends Component {
                         undo={() => {this.dispatchAndSetState(ActionCreators.undo());}}
                         redo={() => {this.dispatchAndSetState(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
-                        export={() => {Ediphy.Visor.exports(this.props.store.getState().present);}}
-                        scorm={() => {Ediphy.Visor.exportScorm(this.props.store.getState().present);}}
+                        export={(format) => {
+                            if(format === "PDF") {
+                                printToPDF(this.props.store.getState().present);
+                            } else {
+                                Ediphy.Visor.exportsHTML(this.props.store.getState().present);
+                            }}}
+                        scorm={(is2004) => {Ediphy.Visor.exportScorm(this.props.store.getState().present, is2004);}}
                         save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present })); }}
                         category={this.state.pluginTab}
                         opens={() => {this.dispatchAndSetState(importStateAsync());}}
@@ -222,7 +227,7 @@ class EditorApp extends Component {
                                 toolbars={toolbars}
                                 onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                 onBoxPasted={(ids, box, toolbar, children, index)=>this.dispatchAndSetState(pasteBox(ids, box, toolbar, children, index))}
-                                onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
+                                onBoxDeleted={(id, parent, container, page)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews, page));}}
                                 ribbonHeight={ribbonHeight + 'px'}/>
                         </Row>
 
@@ -252,6 +257,7 @@ class EditorApp extends Component {
                                 toolbars={toolbars}
                                 title={title}
                                 markCreatorId={this.state.markCreatorVisible}
+                                setCorrectAnswer={(id, correctAnswer, page) => { this.dispatchAndSetState(setCorrectAnswer(id, correctAnswer, page));}}
                                 onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                 addMarkShortcut= {(mark) => {
                                     let state = JSON.parse(JSON.stringify(toolbars[boxSelected].state));
@@ -262,6 +268,7 @@ class EditorApp extends Component {
                                     this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
                                 }}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
+                                exercises={exercises}
                                 lastActionDispatched={this.state.lastAction}
                                 onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id, boxes[id]))}
                                 onBoxLevelIncreased={() => this.dispatchAndSetState(increaseBoxLevel())}
@@ -272,7 +279,7 @@ class EditorApp extends Component {
                                 onRichMarkUpdated={(box, state, mark)=>{this.dispatchAndSetState(editRichMark(box, state, mark));}}
                                 onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
                                 onBoxDropped={(id, row, col, parent, container, oldParent, oldContainer, position, index) => this.dispatchAndSetState(dropBox(id, row, col, parent, container, oldParent, oldContainer, position, index))}
-                                onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
+                                onBoxDeleted={(id, parent, container, page)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/, page));}}
                                 onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
                                 onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
                                 onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
@@ -290,10 +297,12 @@ class EditorApp extends Component {
                                 grid={this.state.grid}
                                 boxSelected={boxSelected}
                                 canvasRatio={canvasRatio}
+                                exercises={exercises}
                                 boxLevelSelected={boxLevelSelected}
                                 navItems={navItems}
                                 navItemSelected={navItems[navItemSelected]}
                                 containedViews={containedViews}
+                                setCorrectAnswer={(id, correctAnswer, page) => { this.dispatchAndSetState(setCorrectAnswer(id, correctAnswer, page));}}
                                 containedViewSelected={containedViews[containedViewSelected] || 0}
                                 markCreatorId={this.state.markCreatorVisible}
                                 addMarkShortcut= {(mark) => {
@@ -327,7 +336,7 @@ class EditorApp extends Component {
                                 onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
                                 onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
                                 onBoxDropped={(id, row, col, parent, container, oldParent, oldContainer, position, index) => this.dispatchAndSetState(dropBox(id, row, col, parent, container, oldParent, oldContainer, position, index))}
-                                onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
+                                onBoxDeleted={(id, parent, container, page)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/, page));}}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}
                                 onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
                                 onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
@@ -398,7 +407,7 @@ class EditorApp extends Component {
                     onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
                     onSortablePropsChanged={(id, parent, prop, value) => this.dispatchAndSetState(changeSortableProps(id, parent, prop, value))}
                     onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
-                    onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
+                    // onBoxDeleted={(id, parent, container, page)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/, page));}}
                     onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}
                     onRichMarksModalToggled={() => {
                         this.setState({ richMarksVisible: !this.state.richMarksVisible });
@@ -501,7 +510,7 @@ class EditorApp extends Component {
                 parsePluginContainers(e.detail.content, newPluginState);
                 e.detail.state.__pluginContainerIds = newPluginState;
             } else {
-                let content = Ediphy.Plugins.get(e.detail.config.name).getRenderTemplate(e.detail.state, {});
+                let content = Ediphy.Plugins.get(e.detail.config.name).getRenderTemplate(e.detail.state, { exercises: { correctAnswer: true } });
                 parsePluginContainersReact(content, newPluginState);
                 e.detail.state.__pluginContainerIds = newPluginState;
             }
@@ -523,6 +532,7 @@ class EditorApp extends Component {
                         parent: e.detail.ids.parent,
                         id: e.detail.ids.id,
                         container: e.detail.ids.container,
+                        page: e.detail.ids.page,
                     },
                     true,
                     !isSortableContainer(e.detail.ids.container),
@@ -536,7 +546,7 @@ class EditorApp extends Component {
                     if (e.detail.config.flavor !== "react") {
                         addDefaultContainerPlugins(e.detail, e.detail.content, this.props.boxes);
                     } else {
-                        let content = Ediphy.Plugins.get(e.detail.config.name).getRenderTemplate(e.detail.state, {});
+                        let content = Ediphy.Plugins.get(e.detail.config.name).getRenderTemplate(e.detail.state, { exercises: { correctAnswer: true } });
                         addDefaultContainerPluginsReact(e.detail, content, this.props.boxes);
                     }
                     let boxCreated = findBox(e.detail.ids.id);
@@ -617,6 +627,13 @@ class EditorApp extends Component {
                     this.dispatchAndSetState(ActionCreators.redo());
                 }
             }
+            if (key === 80 && e.ctrlKey && e.shiftKey) {
+                e.cancelBubble = true;
+                e.preventDefault();
+
+                e.stopImmediatePropagation();
+                printToPDF(this.props.store.getState().present);
+            }
 
             // Supr
             else if (key === 46) {
@@ -627,7 +644,7 @@ class EditorApp extends Component {
                         let toolbar = this.props.toolbars[this.props.boxSelected];
                         if (!toolbar.showTextEditor) {
                             let bx = this.getDescendantBoxes(this.props.boxes[this.props.boxSelected]);
-                            this.dispatchAndSetState(deleteBox(box.id, box.parent, box.container, bx, this.props.boxes[this.props.boxSelected].containedViews/* , this.getDescendantContainedViews(box)*/));
+                            this.dispatchAndSetState(deleteBox(box.id, box.parent, box.container, bx, this.props.boxes[this.props.boxSelected].containedViews/* , this.getDescendantContainedViews(box)*/, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected));
                         }
                     }
                 }
@@ -780,6 +797,7 @@ class EditorApp extends Component {
     onSortableContainerDeleted(id, parent) {
         let boxes = this.props.boxes;
         let containedViews = this.props.containedViews;
+        let page = this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
         let descBoxes = this.getDescendantBoxesFromContainer(boxes[parent], id);
         let cvs = {};
         for (let b in descBoxes) {
@@ -792,7 +810,7 @@ class EditorApp extends Component {
                 }
             }
         }
-        this.dispatchAndSetState(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/));
+        this.dispatchAndSetState(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/, page));
     }
 
 }
@@ -814,6 +832,7 @@ function mapStateToProps(state) {
         redoDisabled: state.future.length === 0,
         displayMode: state.present.displayMode,
         toolbars: state.present.toolbarsById,
+        exercises: state.present.exercises,
         isBusy: state.present.isBusy,
         fetchVishResults: state.present.fetchVishResults,
     };
@@ -836,6 +855,7 @@ EditorApp.propTypes = {
     redoDisabled: PropTypes.bool,
     displayMode: PropTypes.string,
     toolbars: PropTypes.object.isRequired,
+    exercises: PropTypes.object,
     isBusy: PropTypes.any,
     fetchVishResults: PropTypes.any,
     dispatch: PropTypes.func.isRequired,

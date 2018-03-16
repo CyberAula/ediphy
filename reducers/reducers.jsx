@@ -19,6 +19,7 @@ import navItemsIds from './nav_items_ids';
 import navItemSelected from './nav_item_selected';
 import toolbarsById from './toolbars_by_id';
 import globalConfig from './global_config';
+import exercises from './exercises';
 
 function changeDisplayMode(state = "", action = {}) {
     switch (action.type) {
@@ -74,6 +75,7 @@ const GlobalState = undoable(combineReducers({
     containedViewSelected: containedViewSelected, // 0
     displayMode: changeDisplayMode, // "list",
     toolbarsById: toolbarsById, // {0: toolbar0, 1: toolbar1}
+    exercises: exercises,
     isBusy: isBusy,
     fetchVishResults: fetchVishResults,
 }), {
@@ -91,7 +93,7 @@ const GlobalState = undoable(combineReducers({
         case TOGGLE_TEXT_EDITOR:
         case TOGGLE_TITLE_MODE:
         case UPDATE_NAV_ITEM_EXTRA_FILES:
-        // case UPDATE_BOX:
+        case UPDATE_BOX:
         // case ADD_RICH_MARK:
             return false;
         }

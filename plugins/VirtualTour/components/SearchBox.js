@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { FormGroup, InputGroup, Glyphicon, FormControl } from 'react-bootstrap';
 export default class SearchBox extends React.Component {
     constructor(props) {

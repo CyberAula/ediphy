@@ -122,7 +122,7 @@ export default class CarouselButtons extends Component {
                                 this.props.onBoxAdded({
                                     parent: idnuevo,
                                     container: 0,
-                                    id: ID_PREFIX_SORTABLE_BOX + Date.now() },
+                                    id: ID_PREFIX_SORTABLE_BOX + Date.now(), page: idnuevo },
                                 false,
                                 false
                                 );
@@ -153,7 +153,7 @@ export default class CarouselButtons extends Component {
 
                             );
                             this.props.onBoxAdded(
-                                { parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now() },
+                                { parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now(), page: newId },
                                 false,
                                 false
                             );
