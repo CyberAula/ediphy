@@ -5,14 +5,14 @@ import { Button, OverlayTrigger, Popover, Tooltip, Overlay } from 'react-bootstr
 import interact from 'interactjs';
 import Alert from './../../common/alert/Alert';
 import EditorBox from '../editor_box/EditorBox';
-import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import { ADD_BOX } from '../../../../common/actions';
 import { isSortableBox, isBox } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 
 import './_editorBoxSortable.scss';
-import { instanceExists, releaseClick, findBox } from '../../../../common/common_tools';
+import { instanceExists, releaseClick, findBox, createBox } from '../../../../common/common_tools';
 
 /**
  * EditorBoxSortable Component
@@ -310,6 +310,7 @@ export default class EditorBoxSortable extends Component {
                 if (clone) {
                     clone.parentNode.removeChild(clone);
                 }
+                let name = e.relatedTarget.getAttribute("name");
                 let newInd = extraParams ? this.getNewIndex(e.dragEvent.clientX, e.dragEvent.clientY, this.props.id, extraParams.idContainer) : 0;
                 if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
                     if (draggingFromRibbon && instanceExists(e.relatedTarget.getAttribute("name"))) {
@@ -333,7 +334,6 @@ export default class EditorBoxSortable extends Component {
                     // If element dragged is coming from PluginRibbon, create a new EditorBox
                     if (draggingFromRibbon) {
                         // Check if there is a limit in the number of plugin instances
-
                         let initialParams = {
                             parent: this.props.id,
                             container: extraParams.idContainer,
@@ -341,9 +341,9 @@ export default class EditorBoxSortable extends Component {
                             row: extraParams.j,
                             index: newInd,
                             page: page,
+                            id: (ID_PREFIX_BOX + Date.now()),
                         };
-
-                        Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                        createBox(initialParams, name, false, this.props.onBoxAdded, this.props.boxes);
                         e.dragEvent.stopPropagation();
                     } else {
                         let boxDragged = this.props.boxes[this.props.boxSelected];
@@ -383,9 +383,11 @@ export default class EditorBoxSortable extends Component {
                             page,
                         };
                     }
-
-                    Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                    initialParams.id = (ID_PREFIX_BOX + Date.now());
+                    initialParams.name = name;
+                    createBox(initialParams, name, false, this.props.onBoxAdded, this.props.boxes);
                     e.dragEvent.stopPropagation();
+
                 }
 
             }.bind(this),

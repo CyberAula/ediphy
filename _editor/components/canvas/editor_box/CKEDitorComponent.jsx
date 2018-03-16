@@ -41,7 +41,6 @@ export default class CKEDitorComponent extends Component {
 
     componentDidMount() {
         let toolbar = this.props.toolbars[this.props.id];
-        console.log(toolbar);
         let config = Ediphy.Plugins.get(toolbar.pluginId).getConfig();
         if (config && config.needsTextEdition) {
             CKEDITOR.disableAutoInline = true;
@@ -52,7 +51,6 @@ export default class CKEDitorComponent extends Component {
             let editor = CKEDITOR.inline(this.refs.textarea /* , {
                 fontSize_sizes: '1/1vh;2/2vh;3/3vh;4/4vh;5/5vh;6/6vh;'
             }*/);
-            console.log(CKEDITOR.instances, editor);
             if (toolbar.state.__text) {
                 editor.setData(decodeURI(toolbar.state.__text));
 

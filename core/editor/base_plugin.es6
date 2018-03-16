@@ -44,20 +44,25 @@ export default function() {
 
     let assignPluginContainerIdsReact = function(temp) {
         if (temp.props && temp.props.children) {
-            if(temp.props.children instanceof Array) {
+            if (temp.props.children instanceof Array) {
                 for (let i = 0; i < temp.props.children.length; i++) {
                     assignPluginContainerIdsReact(temp.props.children[i]);
                 }
             } else {
                 assignPluginContainerIdsReact(temp.props.children);
             }
+        }
 
+        if (temp instanceof Array) {
+            for (let i = 0; i < temp.length; i++) {
+                assignPluginContainerIdsReact(temp[i]);
+            }
         }
         if (temp.type && temp.type === PluginPlaceholder) {
             if (!state.__pluginContainerIds) {
                 state.__pluginContainerIds = {};
             }
-            let key = temp.props['plugin-data-key'];
+            let key = temp.props.pluginContainer;
             if (!key) {
             } else if (state.__pluginContainerIds[key]) {
                 temp.props.pluginContainer = state.__pluginContainerIds[key].id;
@@ -65,8 +70,8 @@ export default function() {
                 temp.props['plugin-data-height'] = state.__pluginContainerIds[key].height;
             }
         }
-    };
 
+    };
     let plugin = {
         create: function(obj) {
             descendant = obj;
@@ -99,6 +104,99 @@ export default function() {
                 Ediphy.i18n.addResourceBundle(currentLanguage, 'translation', texts, true, false);
             } catch (e) {
             }
+        },
+        getInitialParams: function(initParams) {
+            state = {};
+            let config = this.getConfig();
+            if (descendant.getInitialState) {
+                state = descendant.getInitialState();
+            }
+            if (config.needsTextEdition) {
+                if(initParams.text) {
+                    state.__text = initParams.text;
+                }
+
+                if (!state.__text) {
+                    state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
+                }
+
+                if (!descendant.getRenderTemplate) {
+                    descendant.getRenderTemplate = function(stateObj, props) {
+                        return stateObj.__text;
+                    };
+                }
+
+            }
+            if(initParams.url) {
+                state.url = initParams.url;
+            }
+
+            /* if(initParams.text) {
+              state.__text = initParams.text;
+          }*/
+            if (config.needsXMLEdition) {
+                if (!state.__xml) {
+                    state.__xml = null;
+                    state.__size = null;
+                }
+            }
+            /* if(isRich) {
+              if(!state.__marks) {
+                  state.__marks = {};
+              }
+          }*/
+            if(config.category === 'evaluation') {
+                if (!state.__score) {
+                    state.__score = {
+                        score: 1,
+                        correctAnswer: config.defaultCorrectAnswer,
+
+                    };
+                }
+            }
+            let params = { ...initParams };
+            params.name = config.name;
+            params.isDefaultPlugin = defaultFor(initParams.isDefaultPlugin, false);
+            if (params && Object.keys(params) && Object.keys(params).length > 1) {
+                let floatingBox = !isSortableContainer(params.container);
+                if (config.initialWidth) {
+                    params.width = floatingBox && config.initialWidthSlide ? config.initialWidthSlide : config.initialWidth;
+                }
+                if (descendant.getConfig().initialHeight) {
+                    params.height = floatingBox && config.initialHeightSlide ? config.initialHeightSlide : config.initialHeight;
+                }
+                console.log(params.width, params.height);
+                //
+                // if (needsConfigModal) {
+                //     this.openConfigModal(reason, state);
+                // } else {
+
+                let template = null;
+                if (config.flavor !== "react") {
+                    template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
+                    if(template !== null) { // TODO Revisar
+                        template = html2json(template);
+                        assignPluginContainerIds(template);
+                    }
+                } else{
+                    template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
+                    assignPluginContainerIdsReact(template);
+
+                }
+                if (template !== null) {
+                    return {
+                        template,
+                        initialParams: params,
+                        config: this.getConfig(),
+                        toolbar: this.getToolbar(state),
+                        state,
+                    };
+
+                }
+
+            // }
+            }
+
         },
         getConfig: function() {
             let name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig, needsPointerEventsAllowed,
@@ -386,7 +484,6 @@ export default function() {
             // RESIZE_SORTABLE_CONTAINER,
             // EDIT_PLUGIN_TEXT,
             // UPDATE_NAV_ITEM_EXTRA_FILES
-
             if (!descendant.getRenderTemplate) {
                 // eslint-disable-next-line no-console
                 console.error(this.getConfig().name + " has not defined getRenderTemplate method");
@@ -400,6 +497,7 @@ export default function() {
                         assignPluginContainerIds(template);
                     }
                 } else{
+
                     template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
                     assignPluginContainerIdsReact(template);
 

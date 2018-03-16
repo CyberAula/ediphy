@@ -31,11 +31,9 @@ export default class EditorHeader extends Component {
      * @returns {code}
      */
     render() {
-        console.log(toolbar);
         if (this.props.navItem || this.props.containedView) {
             let navItem = this.props.containedView !== 0 ? this.props.containedView : this.props.navItem;
             let toolbar = (this.props.viewToolbars[navItem.id]) ? this.props.viewToolbars[navItem.id] : undefined;
-            console.log(toolbar);
             let docTitle = "";
             let subTitle = "";
             let pagenumber = "";
@@ -158,7 +156,7 @@ export default class EditorHeader extends Component {
                                                     this.props.onTitleChanged(this.props.courseTitle, (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
                                                 }} />)}
                                         {/* NavItem title */
-                                            // @Lourdes Para cambiar los títulos
+                                            // TODO @Lourdes Para cambiar los títulos
                                             // Acción a utilizar: this.props.onViewTitleChanged(id /*id de la view*/, {documentTitleContent: title} /*Nuevo título*/)
                                             // En el segundo argumento puedes poner un objeto con todas las key-values a cambiar
                                             // Por ejemplo si quieres cambiar también en subtítulo puedes poner {documentSubtitleContent: "jljljl"}

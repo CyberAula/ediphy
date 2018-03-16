@@ -9,11 +9,12 @@ import EditorHeader from '../editor_header/EditorHeader';
 import interact from 'interactjs';
 import { ADD_BOX, changeGlobalConfig, changeNavItemName } from '../../../../common/actions';
 import { isSortableBox } from '../../../../common/utils';
-import { aspectRatio, instanceExists } from '../../../../common/common_tools';
+import { aspectRatio, createBox, instanceExists } from '../../../../common/common_tools';
 import Ediphy from '../../../../core/editor/main';
 import ReactResizeDetector from 'react-resize-detector';
 import i18n from 'i18next';
 import { SnapGrid } from './SnapGrid';
+import { ID_PREFIX_BOX } from '../../../../common/constants';
 /**
  * EditorCanvasSli component
  * Canvas component to display slides
@@ -216,6 +217,13 @@ export default class EditorCanvasSli extends Component {
                     type: 'absolute',
                 };
                 if (event.relatedTarget.classList.contains('rib')) {
+                    let name = event.relatedTarget.getAttribute("name");
+                    let apiPlugin = Ediphy.Plugins.get(name);
+                    if (!apiPlugin) {
+                        return;
+                    }
+                    let config = apiPlugin.getConfig();
+
                     if (config.limitToOneInstance) {
                         if (instanceExists(event.relatedTarget.getAttribute("name"))) {
                             let alert = (<Alert className="pageModal"
@@ -233,13 +241,14 @@ export default class EditorCanvasSli extends Component {
                     }
                     let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
                     let page = itemSelected.id;
-                    let initialParams = {
+                    let ids = {
                         parent: page,
                         container: 0,
                         position: position,
+                        id: (ID_PREFIX_BOX + Date.now()),
                         page: page,
                     };
-                    config.callback(initialParams, ADD_BOX);
+                    createBox(ids, name, true, this.props.onBoxAdded, this.props.boxes);
 
                 } else {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
@@ -261,7 +270,6 @@ export default class EditorCanvasSli extends Component {
             },
         });
         aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas', this.props.navItemSelected.customSize);
-        // console.log(this.props.navItemSelected.customSize);
     }
 
     /**

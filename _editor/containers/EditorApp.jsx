@@ -106,7 +106,8 @@ class EditorApp extends Component {
             <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }}>
                 <Row className="navBar">
                     {this.state.alert}
-                    <EditorNavBar hideTab={this.state.hideTab}
+                    <EditorNavBar hideTab={this.state.hideTab} boxes={boxes}
+                        onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                         globalConfig={globalConfig}
                         changeGlobalConfig={(prop, value) => {this.dispatchAndSetState(changeGlobalConfig(prop, value));}}
                         onIndexSelected={(id) => this.dispatchAndSetState(selectIndex(id))}
@@ -229,6 +230,7 @@ class EditorApp extends Component {
                                 pluginToolbars={pluginToolbars}
                                 onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                 onBoxPasted={(ids, box, toolbar, children, index)=>this.dispatchAndSetState(pasteBox(ids, box, toolbar, children, index))}
+                                onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 onBoxDeleted={(id, parent, container, page)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews, page));}}
                                 ribbonHeight={ribbonHeight + 'px'}/>
                         </Row>
@@ -238,6 +240,7 @@ class EditorApp extends Component {
                                 boxSelected={boxes[boxSelected]}
                                 navItemSelected={navItems[navItemSelected]}
                                 navItems={navItems}
+                                onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 containedViewSelected={containedViews[containedViewSelected] || containedViewSelected }
                                 category={this.state.pluginTab}
                                 hideTab={this.state.hideTab}
@@ -547,7 +550,6 @@ class EditorApp extends Component {
                 e.detail.ids.id = (this.severalBoxes !== 0) ? ID_PREFIX_BOX + this.severalBoxes++ : ID_PREFIX_BOX + Date.now() + this.index++;
 
                 let pt = this.buildPluginToolbar(e.detail);
-                console.log(pt);
                 this.dispatchAndSetState(addBox(
                     {
                         parent: e.detail.ids.parent,
@@ -563,12 +565,16 @@ class EditorApp extends Component {
                     pt.structure,
                     e.detail.initialParams
                 ));
+                // TODO BORRAR
+
+                /** *** *****/
+                let newBoxes = [];
                 setTimeout(()=> {
                     if (e.detail.config.flavor !== "react") {
-                        addDefaultContainerPlugins(e.detail, e.detail.content, this.props.boxes);
+                        addDefaultContainerPlugins(e.detail, e.detail.content, this.props.boxes, newBoxes);
                     } else {
                         let content = Ediphy.Plugins.get(e.detail.config.name).getRenderTemplate(e.detail.state, { exercises: { correctAnswer: true } });
-                        addDefaultContainerPluginsReact(e.detail, content, this.props.boxes);
+                        addDefaultContainerPluginsReact(e.detail, content, this.props.boxes, newBoxes);
                     }
                     let boxCreated = findBox(e.detail.ids.id);
                     scrollElement(boxCreated);
@@ -838,7 +844,6 @@ class EditorApp extends Component {
         let state = detail.state;
         let styles = {};
         // TODO Revisar
-        console.log(detail.toolbar);
         try {
             Object.keys(detail.toolbar.main.accordions.style.buttons).map((e) => {
                 styles[e] = detail.toolbar.main.accordions.style.buttons[e].value;

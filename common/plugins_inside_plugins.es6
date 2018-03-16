@@ -1,7 +1,8 @@
 import PluginPlaceholder from '../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import { isSortableContainer } from './utils';
-import { ID_PREFIX_SORTABLE_CONTAINER } from './constants';
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from './constants';
 import { ADD_BOX } from './actions';
+import { createBox } from './common_tools';
 
 /**
  *
@@ -151,17 +152,17 @@ export function hasExerciseBox(navItemId, navItems, state, boxes) {
     return false;
 }
 
-export function addDefaultContainerPlugins(eventDetails, obj, boxes) {
+export function addDefaultContainerPlugins(ids, obj, boxes) {
 
     if (obj.child) {
         for (let i = 0; i < obj.child.length; i++) {
-            addDefaultContainerPlugins(eventDetails, obj.child[i], boxes);
+            addDefaultContainerPlugins(ids, obj.child[i], boxes);
         }
     }
     if (obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
         let idContainer = isSortableContainer(obj.attr['plugin-container']) ? obj.attr['plugin-container'] : ID_PREFIX_SORTABLE_CONTAINER + obj.props.pluginContainer;
 
-        let plug_children = boxes[eventDetails.ids.id].sortableContainers[idContainer];
+        let plug_children = boxes[ids.id].sortableContainers[idContainer];
         if (plug_children && plug_children.children && plug_children.children.length === 0) {
             obj.attr['plugin-data-default'].split(",").map(name => {
                 if (!Ediphy.Plugins.get(name)) {
@@ -171,10 +172,10 @@ export function addDefaultContainerPlugins(eventDetails, obj, boxes) {
                 }
 
                 let initParams = {
-                    parent: eventDetails.ids.id,
+                    parent: ids.id,
                     container: idContainer,
                     isDefaultPlugin: true,
-
+                    id: ID_PREFIX_BOX + Date.now(),
                 };
 
                 let config = Ediphy.Plugins.get(name).getConfig();
@@ -187,44 +188,44 @@ export function addDefaultContainerPlugins(eventDetails, obj, boxes) {
         }
     }
 }
-export function addDefaultContainerPluginsReact(eventDetails, obj, boxes) {
+export function addDefaultContainerPluginsReact(params, obj, boxes, newBoxes) {
     if (obj instanceof Array) {
         for (let i = 0; i < obj.length; i++) {
-            addDefaultContainerPluginsReact(eventDetails, obj[i], boxes);
+            addDefaultContainerPluginsReact(params, obj[i], boxes, newBoxes);
         }
     }
     if (obj.props && obj.props.children) {
         if (obj.props.children && obj.props.children instanceof Array) {
             for (let i = 0; i < obj.props.children.length; i++) {
-                addDefaultContainerPluginsReact(eventDetails, obj.props.children[i], boxes);
+                addDefaultContainerPluginsReact(params, obj.props.children[i], boxes, newBoxes);
             }
         } else if (obj.props.children) {
-            addDefaultContainerPluginsReact(eventDetails, obj.props.children, boxes);
+            addDefaultContainerPluginsReact(params, obj.props.children, boxes, newBoxes);
         }
     }
     if (obj.type && obj.type === PluginPlaceholder && obj.props['plugin-data-default']) {
         let idContainer = isSortableContainer(obj.props.pluginContainer) ? obj.props.pluginContainer : ID_PREFIX_SORTABLE_CONTAINER + obj.props.pluginContainer;
-        let plug_children = boxes[eventDetails.ids.id].sortableContainers[idContainer];
-        if (plug_children && plug_children.children && plug_children.children.length === 0) {
+        // let plug_children = boxes[params.ids.id].sortableContainers[idContainer];
+        if (true/* plug_children && plug_children.children && plug_children.children.length === 0*/) {
             obj.props['plugin-data-default'].split(",").map(name => {
                 if (!Ediphy.Plugins.get(name)) {
                     // eslint-disable-next-line no-console
                     console.error("Plugin " + name + " does not exist");
                     return;
                 }
-                let initParams = {
-                    parent: eventDetails.ids.id,
+                let ids = {
+                    parent: params.id,
+                    page: params.page,
                     container: idContainer,
                     isDefaultPlugin: true,
-
                 };
 
                 let config = Ediphy.Plugins.get(name).getConfig();
                 if (obj.props['plugin-data-text'] && config.needsTextEdition) {
-                    initParams.text = obj.props['plugin-data-text'];
+                    ids.text = obj.props['plugin-data-text'];
                 }
+                newBoxes.push({ name, ids });
 
-                config.callback(initParams, ADD_BOX);
             });
         }
     }

@@ -36,11 +36,39 @@ function toolbarCreator(state, action) {
                 toolbar = { ...toolbar, toolbar_container };
             }
         }
+        let initialWidth = 20;
+        let widthUnit = "%";
+        if (action.payload.initialParams.width) {
+            let parsed = parseFloat(action.payload.initialParams.width);
+            if (!isNaN(parsed)) {
+                initialWidth = parsed;
+                if (action.payload.initialParams.width.toString().indexOf("px") > -1) {
+                    widthUnit = "px";
+                }
+            } else if (action.payload.initialParams.width === 'auto') {
+                initialWidth = 'auto';
+            }
+        }
+
+        let initialHeight = "auto";
+        let heightUnit = "px";
+        if (action.payload.initialParams.height && action.payload.initialParams.height !== 'auto') {
+            let parsed = parseFloat(action.payload.initialParams.height);
+            if (!isNaN(parsed)) {
+                initialHeight = parsed;
+                if (action.payload.initialParams.height.toString().indexOf("%") > -1) {
+                    heightUnit = "%";
+                }
+            } else if (action.payload.initialParams.height === 'auto') {
+                initialHeight = 'auto';
+            }
+        }
+
         structure = {
-            height: action.payload.initialParams.height || "auto",
-            width: action.payload.initialParams.width || "20",
-            widthUnit: "%",
-            heightUnit: "px",
+            height: initialHeight,
+            width: initialWidth,
+            widthUnit: widthUnit,
+            heightUnit: heightUnit,
             rotation: action.payload.initialParams.rotation || 0,
             aspectRatio: true,
             position: action.payload.id ? "relative" : "absolute",

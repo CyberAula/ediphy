@@ -1,4 +1,10 @@
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
+import {
+    addDefaultContainerPlugins, addDefaultContainerPluginsReact,
+    parsePluginContainers, parsePluginContainersReact,
+} from './plugins_inside_plugins';
+import { ID_PREFIX_BOX } from './constants';
+let html2json = require('html2json').html2json;
 
 export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", customSize = 0) {
     // change ratio to the global ratio store in the app
@@ -166,4 +172,42 @@ export function letterFromNumber(ind) {
         return abc[ind % abc.length];
     }
     return ind;
+}
+
+export function createBox(ids, name, slide, addBox, boxes) {
+    console.log(ids, name, slide, addBox, boxes);
+    let apiPlugin = Ediphy.Plugins.get(name);
+    if (!apiPlugin) {
+        return;
+    }
+    let { initialParams, template, config, toolbar, state } = apiPlugin.getInitialParams(ids);
+    let styles = {};
+    try {
+        if (toolbar.main && toolbar.main.accordions && toolbar.main.accordions.style) {
+            Object.keys(toolbar.main.accordions.style.buttons).map((e) => {
+                styles[e] = toolbar.main.accordions.style.buttons[e].value;
+            });
+        }
+    } catch(e) { console.error(e); }
+
+    let newBoxes = [];
+    let newPluginState = {};
+    if (state.__pluginContainerIds) {
+        if (config.flavor !== "react") {
+            addDefaultContainerPlugins(ids, template, boxes, newBoxes);
+            parsePluginContainers(template, newPluginState);
+        } else {
+            addDefaultContainerPluginsReact(ids, template, boxes, newBoxes);
+            parsePluginContainersReact(template, newPluginState);
+        }
+        state.__pluginContainerIds = newPluginState;
+    }
+    addBox(ids, true, slide, template, styles, state, undefined, initialParams);
+    let basePrefix = ID_PREFIX_BOX + Date.now();
+    newBoxes.map((box, ind) => {
+        box.ids.id = basePrefix + ind;
+        createBox(box.ids, box.name, false, addBox, boxes);
+    });
+    let boxCreated = findBox(ids.id);
+    scrollElement(boxCreated);
 }

@@ -9,9 +9,9 @@ import './_pluginRibbon.scss';
 import { isSortableBox, isSlide, isBox, isContainedView, isSortableContainer } from '../../../../common/utils';
 import { ADD_BOX } from "../../../../common/actions";
 import Alert from './../../common/alert/Alert';
-import { ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import { randomPositionGenerator } from './../../clipboard/clipboard.utils';
-import { instanceExists, releaseClick } from '../../../../common/common_tools';
+import { createBox, instanceExists, releaseClick } from '../../../../common/common_tools';
 
 /**
  * Plugin ribbon inside toolbar
@@ -273,8 +273,9 @@ export default class PluginRibbon extends Component {
         let initialParams = {
             parent: parent,
             container: container,
-            col: 0, row: 0,
+            name,
             position: position,
+            id: ID_PREFIX_BOX + Date.now(),
             page: cv ? this.props.containedViewSelected.id : (this.props.navItemSelected ? this.props.navItemSelected.id : 0),
         };
         if (!inASlide) {
@@ -284,11 +285,11 @@ export default class PluginRibbon extends Component {
                     let children = this.props.boxes[initialParams.parent].sortableContainers[initialParams.container].children;
                     newInd = children.indexOf(this.props.boxSelected.id) + 1;
                     newInd = newInd === 0 ? 1 : ((newInd === 0 || newInd >= children.length) ? (children.length) : newInd);
-                    initialParams.index = newInd;
+                    initialParams.index = newInd; initialParams.col = 0; initialParams.row = 0;
                 }
             }
         }
-        config.callback(initialParams, ADD_BOX);
+        createBox(initialParams, name, inASlide, this.props.onBoxAdded, this.props.boxes);
         event.stopPropagation();
         event.preventDefault();
 

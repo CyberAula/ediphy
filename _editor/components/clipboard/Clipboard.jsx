@@ -7,7 +7,7 @@ import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_RICH_MARK } from
 import { ADD_BOX } from '../../../common/actions';
 import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent } from './clipboard.utils';
 import i18n from 'i18next';
-import { instanceExists, scrollElement, findBox } from '../../../common/common_tools';
+import { instanceExists, scrollElement, findBox, createBox } from '../../../common/common_tools';
 /**
  * Component for managing the clipboard
  */
@@ -233,6 +233,7 @@ export default class Clipboard extends Component {
                     event.preventDefault();
                     let imageBlob;
                     let initialParams = {
+                        id: ID_PREFIX_BOX + Date.now(),
                         parent: parent, //
                         container: container,
                         row: row,
@@ -251,7 +252,7 @@ export default class Clipboard extends Component {
                         noImage = retrieveImageFromClipboardAsBase64(event, (url) => {
                             if (url) {
                                 initialParams.url = url; // URLObj.createObjectURL(imageBlob);
-                                Ediphy.Plugins.get("HotspotImages").getConfig().callback(initialParams, ADD_BOX);
+                                createBox(initialParams, "HotspotImages", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
                                 return;
                             }
                         }
@@ -262,8 +263,8 @@ export default class Clipboard extends Component {
                     }
                     if (noImage) {
                         initialParams.text = getCKEDITORAdaptedContent(event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"));
+                        createBox(initialParams, "BasicText", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
 
-                        Ediphy.Plugins.get("BasicText").getConfig().callback(initialParams, ADD_BOX);
                     }
                 }
             }

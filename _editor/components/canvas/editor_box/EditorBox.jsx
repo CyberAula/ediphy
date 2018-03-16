@@ -71,7 +71,6 @@ export default class EditorBox extends Component {
         let container = box.parent;
         // let controls = apiPlugin.getToolbar();
         let marks = this.props.marksById;
-        console.log(toolbar.style);
         style = { ...style, ...toolbar.style };
         /* for (let tabKey in controls) {
             for (let accordionKey in controls[tabKey].accordions) {
@@ -254,7 +253,6 @@ export default class EditorBox extends Component {
                 {/* The previous line was changed for the next one in order to make the box grow when text grows while editing.
                  To disable this, you also have to change the textareastyle to an absolute position div, and remove the float property*/}
                 {toolbar.showTextEditor ? null : content }
-                {console.log(toolbar)}
                 {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxes[this.props.id]}
                     style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.pluginToolbars} id={this.props.id}
                     onBlur={this.blurTextarea}/> : null}

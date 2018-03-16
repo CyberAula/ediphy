@@ -6,10 +6,11 @@ import FileInput from "../../common/file-input/FileInput";
 import { ADD_BOX } from "../../../../common/actions";
 import { isContainedView, isSlide } from "../../../../common/utils";
 import { randomPositionGenerator } from "../../clipboard/clipboard.utils";
-import { ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from "../../../../common/constants";
+import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from '../../../../common/constants';
 import Ediphy from "../../../../core/editor/main";
 // styles
 import './_ImportFile.scss';
+import { createBox } from '../../../../common/common_tools';
 
 const pdflib = require('pdfjs-dist');
 const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.min');
@@ -240,7 +241,9 @@ export default class ImportFile extends Component {
                     url: dataURL, page,
                 };
             }
-            Ediphy.Plugins.get('HotspotImages').getConfig().callback(initialParams, ADD_BOX);
+            initialParams.id = ID_PREFIX_BOX + Date.now();
+            createBox(initialParams, "HotspotImages", inASlide, this.props.onBoxAdded, this.props.boxes);
+
         }
 
     }

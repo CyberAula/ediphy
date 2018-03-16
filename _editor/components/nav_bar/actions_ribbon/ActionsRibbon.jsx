@@ -95,6 +95,7 @@ export default class ActionsRibbon extends Component {
                         toolbars={this.props.pluginToolbars}
                         onTextEditorToggled={this.props.onTextEditorToggled}
                         onBoxPasted={this.props.onBoxPasted}
+                        onBoxAdded={this.props.onBoxAdded}
                         onBoxDeleted={this.props.onBoxDeleted} >
                         { clipboardActions.map((act, ind)=>{
                             return button(act, ind);
