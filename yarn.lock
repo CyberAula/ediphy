@@ -7488,6 +7488,10 @@ react-transition-group@^2.2.0, react-transition-group@^2.2.1:
     prop-types "^15.5.8"
     warning "^3.0.0"
 
+react-wavesurfer@^0.8.6:
+  version "0.8.6"
+  resolved "https://registry.yarnpkg.com/react-wavesurfer/-/react-wavesurfer-0.8.6.tgz#da05f3f501e566a63853f9babec45a5251111538"
+
 react@>=15.5, react@^16.1.1:
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
@@ -9201,6 +9205,10 @@ watchpack@^1.4.0:
     async "^2.1.2"
     chokidar "^1.7.0"
     graceful-fs "^4.1.2"
+
+wavesurfer.js@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-1.4.0.tgz#4dba66098e736615d963fa85c7476fbd7e09c565"
 
 wbuf@^1.1.0, wbuf@^1.7.2:
   version "1.7.2"

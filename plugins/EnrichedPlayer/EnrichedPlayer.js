@@ -112,9 +112,11 @@ export function EnrichedPlayer(base) {
             );
         },
         getDefaultMarkValue(state) {
+            console.log("getDefaultMarkValue");
             return '50%';
         },
         parseRichMarkInput: function(...value) {
+            console.log("parseRichMarkInput");
             let parsed_value = (value[0] + 10) * 100 / value[2];
             return parsed_value.toFixed(2) + "%";
         },
@@ -122,6 +124,7 @@ export function EnrichedPlayer(base) {
             base.setState(name, value);
         },
         validateValueInput: function(value) {
+            console.log("validateValueInput");
             let regex = /(^\d+(?:\.\d*)?%$)/g;
             let match = regex.exec(value);
             if (match && match.length === 2) {

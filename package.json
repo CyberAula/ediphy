@@ -177,6 +177,7 @@
     "react-select": "^1.0.0-rc.10",
     "react-tag-input": "^4.7.2",
     "react-transition-group": "^2.2.1",
+    "react-wavesurfer": "^0.8.6",
     "recharts": "^1.0.0-beta.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
@@ -184,6 +185,7 @@
     "screenfull": "^3.3.2",
     "scroll-into-view-if-needed": "^1.4.0",
     "typeface-source-sans-pro": "0.0.44",
-    "typeface-ubuntu": "0.0.44"
+    "typeface-ubuntu": "0.0.44",
+    "wavesurfer.js": "1.4.0"
   }
 }

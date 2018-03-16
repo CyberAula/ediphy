@@ -9,14 +9,15 @@ export function BasicAudio(base) {
             return {
                 name: 'BasicAudio',
                 flavor: "react",
+                isRich: true, // para poner marcas
                 displayName: i18n.t('BasicAudio.PluginName'),
                 category: "multimedia",
+                neddConfigModaL: false, // con esto no ponemos dimensiones iniciales
+                icon: 'play_circle_filled',
                 aspectRatioButtonConfig: {
                     location: ["main", "__sortable"],
                     defaultValue: true,
                 },
-                neddConfigModaL: false,
-                icon: 'play_circle_filled',
                 marksType: [{ name: i18n.t("BasicAudio.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" }],
             };
         },
@@ -101,9 +102,10 @@ export function BasicAudio(base) {
             };
         },
         getRenderTemplate: function(state, props) {
+            // EnrichedPlayer pasa tb base y props
             return (
                 <div style={{ height: "100%", width: "100%" }}>
-                    <BasicAudioPluginEditor state={state}/>
+                    <BasicAudioPluginEditor style={{ width: "100%", height: "100%" }} state={state}/>
                 </div>
             );
         },
@@ -112,16 +114,16 @@ export function BasicAudio(base) {
         },
 
         getDefaultMarkValue(state) {
+            console.log("getDefaultMarkValue");
             return '50%';
         },
         parseRichMarkInput: function(...value) {
+            console.log("parseRichMarkInput");
             let parsed_value = (value[0] + 10) * 100 / value[2];
             return parsed_value.toFixed(2) + "%";
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
         validateValueInput: function(value) {
+            console.log("validateValueInput");
             let regex = /(^\d+(?:\.\d*)?%$)/g;
             let match = regex.exec(value);
             if (match && match.length === 2) {
