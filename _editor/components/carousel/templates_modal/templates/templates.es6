@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 export const templates = () => { return (
     [{
-        "image": require("./img/T1.svg"),
+        "name": "template1",
         "boxes": [
             {
                 "box": {
@@ -52,5 +52,75 @@ export const templates = () => { return (
                 },
             },
         ],
-    }]);
+    },
+    {
+        "name": "template2",
+        "boxes": [
+            {
+                "box": {
+                    "x": "3%",
+                    "y": "5%",
+                    "width": "45%",
+                    "height": "43%",
+                },
+                "toolbar": {
+                    "name": "HotspotImages",
+                    "url": "https://farm8.staticflickr.com/7287/9543740601_8bfde7ad9d_k.jpg",
+                },
+                "thumbnail": {
+                    "icon": "",
+                    "color": "#706F6F",
+                },
+            },
+            {
+                "box": {
+                    "x": "51%",
+                    "y": "5%",
+                    "width": "45%",
+                    "height": "43%",
+                },
+                "toolbar": {
+                    "name": "HotspotImages",
+                    "url": "https://farm8.staticflickr.com/7287/9543740601_8bfde7ad9d_k.jpg",
+                },
+                "thumbnail": {
+                    "icon": "",
+                    "color": "#706F6F",
+                },
+            },
+            {
+                "box": {
+                    "x": "3%",
+                    "y": "52%",
+                    "width": "45%",
+                    "height": "43%",
+                },
+                "toolbar": {
+                    "name": "HotspotImages",
+                    "url": "https://farm8.staticflickr.com/7287/9543740601_8bfde7ad9d_k.jpg",
+                },
+                "thumbnail": {
+                    "icon": "",
+                    "color": "#706F6F",
+                },
+            },
+            {
+                "box": {
+                    "x": "51%",
+                    "y": "52%",
+                    "width": "45%",
+                    "height": "43%",
+                },
+                "toolbar": {
+                    "name": "HotspotImages",
+                    "url": "https://farm8.staticflickr.com/7287/9543740601_8bfde7ad9d_k.jpg",
+                },
+                "thumbnail": {
+                    "icon": "",
+                    "color": "#706F6F",
+                },
+            },
+        ],
+    },
+    ]);
 };
