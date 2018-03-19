@@ -141,15 +141,22 @@ export default function(state = {}, action = {}) {
             [idCaller]: { ...state[idCaller], showTextEditor: action.payload.value },
         };
     case UPDATE_BOX:
+        return state;
         //   return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
     case UPDATE_PLUGIN_TOOLBAR:
+        let newValues = {};
+        if (action.payload.name instanceof Array) {
+            action.payload.name.map((name, ind) => { newValues[name] = action.payload.value[ind];});
+        } else {
+            newValues[action.payload.name] = action.payload.value;
+        }
         return {
             ...state,
             [action.payload.id]: {
                 ...state[action.payload.id],
-                [action.payload.tab]: {
-                    ...state[action.payload.id][action.payload.tab],
-                    [action.payload.name]: action.payload.value,
+                [action.payload.accordion]: {
+                    ...state[action.payload.id][action.payload.accordion],
+                    ...newValues,
                 },
             },
         };

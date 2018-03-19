@@ -24,7 +24,7 @@ export function MultipleAnswer(base) {
                 main: {
                     __name: "Main",
                     accordions: {
-                        _general: {
+                        basic: {
                             __name: "General",
                             icon: 'web',
                             buttons: {

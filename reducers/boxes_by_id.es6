@@ -5,7 +5,7 @@ import Utils, {
 import {
     ADD_BOX, MOVE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, ADD_RICH_MARK,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
-    DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE, PASTE_BOX,
+    DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE, PASTE_BOX, UPDATE_PLUGIN_TOOLBAR,
 } from '../common/actions';
 import { ID_PREFIX_BOX } from '../common/constants';
 
@@ -206,6 +206,36 @@ function boxReducer(state = {}, action = {}) {
         return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
     case RESIZE_SORTABLE_CONTAINER:
         return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
+    case UPDATE_PLUGIN_TOOLBAR:
+        let newSortableContainers = {};
+        let newChildren = [];
+        if (action.payload.name instanceof Array && action.payload.name.indexOf("__pluginContainerIds") > -1) {
+            for (let containerKey in action.payload.value[1]) {
+                let container = action.payload.value[1][containerKey];
+                // if not found -> create new one; otherwise copy existing
+                if (!state.sortableContainers[container.id]) {
+                    newSortableContainers[container.id] = sortableContainerCreator(containerKey, [], container.height);
+                } else {
+                    newSortableContainers[container.id] = Utils.deepClone(state.sortableContainers[container.id]);
+                }
+                newChildren.push(container.id);
+            }
+
+            // return state;
+            return changeProps(
+                state,
+                [
+                    /* "content",
+                  "children",*/
+                    "sortableContainers",
+                ], [
+                    /* action.payload.content,
+                  newChildren,*/
+                    newSortableContainers,
+                ]
+            );
+        }
+        return state;
     case UPDATE_BOX:
         // sortableContainers for boxes inside this box (this is not EditorBoxSortable) (***** only working with PLUGIN inside PLUGIN)
         let sortableContainers = {};
@@ -416,6 +446,7 @@ export default function(state = {}, action = {}) {
     case RESIZE_SORTABLE_CONTAINER:
         return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
     case UPDATE_BOX:
+    case UPDATE_PLUGIN_TOOLBAR:
         return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
     case ADD_RICH_MARK:
         // If rich mark is connected to a contained view (new or existing), mark.connection will include this information;

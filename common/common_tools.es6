@@ -175,7 +175,6 @@ export function letterFromNumber(ind) {
 }
 
 export function createBox(ids, name, slide, addBox, boxes) {
-    console.log(ids, name, slide, addBox, boxes);
     let apiPlugin = Ediphy.Plugins.get(name);
     if (!apiPlugin) {
         return;

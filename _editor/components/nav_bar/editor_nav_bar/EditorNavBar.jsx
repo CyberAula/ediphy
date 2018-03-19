@@ -83,7 +83,7 @@ export default class EditorNavBar extends Component {
                     onNavItemsAdded={this.props.onNavItemsAdded}
                     onIndexSelected={this.props.onIndexSelected}
                     onNavItemSelected={this.props.onNavItemSelected}
-                    onToolbarUpdated={this.props.onToolbarUpdated}
+                    // onToolbarUpdated={this.props.onToolbarUpdated}
                     navItemsIds={this.props.navItemsIds}
                     navItems={this.props.navItems}
                     containedViews={this.props.containedViews}

@@ -28,14 +28,16 @@ export function toolbarFiller(toolbar, id, state, config, initialParams, contain
 }
 
 export function toolbarMapper(controls, toolbar) {
-    if (Object.keys(toolbar.state).length > 0) {
+    console.log(controls);
+    /* if (Object.keys(toolbar.state).length > 0) {
         Object.keys(toolbar.state).forEach((s)=>{
             // avoid container ids
             if(s.indexOf("__") === -1 && (!!controls.main.accordions.basic && !!controls.main.accordions.basic.buttons && !!controls.main.accordions.basic.buttons[s])) {
                 controls.main.accordions.basic.buttons[s].value = toolbar.state[s];
             }
         });
-    }
+    }*/
+
     if (Object.keys(toolbar.style).length > 0) {
         Object.keys(toolbar.style).forEach((s) => {
             controls.main.accordions.style.buttons[s].value = toolbar.style[s];
@@ -394,9 +396,10 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             toolbar_props.containedViewSelected :
             toolbar_props.navItemSelected;
 
-    let currentElement = accordionKeys[0] === "basic" ? "state" :
-        accordionKeys[0];
-
+    /* let currentElement = (accordionKeys[0] === "basic") ? "state" :
+        accordionKeys[0];*/
+    console.log(accordionKeys, 'accordionKeys');
+    let currentElement = (["structure", "style", "z__extra", "__marks_list"].indexOf(accordionKeys[0]) === -1) ? "state" : accordionKeys[0];
     // get toolbar
     let toolbar_plugin_state;
     if(toolbar_props.boxSelected !== -1) {
@@ -433,7 +436,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             } else {
                 value = e.value;
             }
-            if (accordionKeys[0] === 'structure' && (buttonKey === 'width' || buttonKey === 'height' || buttonKey === "aspectRatio")) {
+            if (currentElement === 'structure' && (buttonKey === 'width' || buttonKey === 'height' || buttonKey === "aspectRatio")) {
                 let type = e.target.type;
                 if (!type && e.target.classList.contains('toggle-switch---toggle---mncCu')) {
                     type = 'checkbox';
@@ -512,7 +515,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             if (button.type === 'radio') {
                 value = button.options[value];
                 if (buttonKey === '__position') {
-                    toolbar_props.onToolbarUpdated(id, tabKey, accordionKeys, '__position', value);
+                    toolbar_props.onToolbarUpdated(id, tabKey, currentElement, '__position', value);
                     let parentId = toolbar_props.box.parent;
                     let containerId = toolbar_props.box.container;
                     toolbar_props.onBoxMoved(id, 0, 0, value, parentId, containerId);
@@ -534,7 +537,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                             let canvas = document.createElement('canvas');
                             let ctx = canvas.getContext('2d');
                             ctx.drawImage(img, 0, 0, 1200, 1200);
-                            this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, canvas.toDataURL("image/jpeg"));
+                            this.props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, canvas.toDataURL("image/jpeg"));
                             if (!button.autoManaged) {
                                 if (!button.callback) {
                                     this.handlecanvasToolbar(button.__name, data);
@@ -582,7 +585,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                 let canvas = document.createElement('canvas');
                                 let ctx = canvas.getContext('2d');
                                 ctx.drawImage(img, 0, 0, 1200, 1200);
-                                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, { background: data, attr: 'full' });
+                                this.props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, { background: data, attr: 'full' });
                                 if (!button.autoManaged) {
                                     if (!button.callback) {
                                         this.handlecanvasToolbar(button.__name, { background: data, attr: 'full' });
@@ -623,7 +626,8 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             if (toolbar_props.boxSelected === -1) {
                 handlecanvasToolbar(button.__name, value, accordion, toolbar_props);
             } else {
-                toolbar_props.onToolbarUpdated(id, currentElement, buttonKey, value);
+                console.log(id, currentElement, buttonKey, value);
+                toolbar_props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, value);
             }
 
         },

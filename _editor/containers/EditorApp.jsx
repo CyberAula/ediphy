@@ -39,7 +39,10 @@ import {
 } from '../../common/plugins_inside_plugins';
 import Ediphy from '../../core/editor/main';
 import printToPDF from '../../core/editor/print';
-import { isSortableBox, isSection, isContainedView, isSortableContainer, getDuplicatedBoxesIds, getDescendantLinkedBoxes } from '../../common/utils';
+import {
+    isSortableBox, isSection, isContainedView, isSortableContainer, getDuplicatedBoxesIds,
+    getDescendantLinkedBoxes, isBox,
+} from '../../common/utils';
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import PropTypes from 'prop-types';
@@ -88,6 +91,7 @@ class EditorApp extends Component {
             accordions: {},
         };
         this.onRichMarkUpdated = this.onRichMarkUpdated.bind(this);
+        this.toolbarUpdated = this.toolbarUpdated.bind(this);
         this.onSortableContainerDeleted = this.onSortableContainerDeleted.bind(this);
     }
 
@@ -114,7 +118,7 @@ class EditorApp extends Component {
                         onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                         onNavItemAdded={(id, name, parent, type, position, background, customSize, hasContent) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, background, customSize, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content))))}
                         onNavItemsAdded={(navs, parent)=> this.dispatchAndSetState(addNavItems(navs, parent))}
-                        onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateViewToolbar(id, tab, accordion, name, value))}
+                        onToolbarUpdated={this.onToolbarUpdated}
                         undoDisabled={undoDisabled}
                         redoDisabled={redoDisabled}
                         navItemsIds={navItemsIds}
@@ -431,7 +435,7 @@ class EditorApp extends Component {
                     onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                     onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
                     onSortablePropsChanged={(id, parent, prop, value) => this.dispatchAndSetState(changeSortableProps(id, parent, prop, value))}
-                    onToolbarUpdated={(id, tab, name, value) => this.dispatchAndSetState(updatePluginToolbar(id, tab, name, value))}
+                    onToolbarUpdated={this.toolbarUpdated}
                     onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                     onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}
                     onRichMarksModalToggled={() => {
@@ -683,6 +687,33 @@ class EditorApp extends Component {
 
         }.bind(this);
 
+    }
+
+    toolbarUpdated(id, tab, accordion, name, value) {
+        console.log(id, tab, accordion, name, value);
+        if (isBox(id) || isSortableBox(id)) {
+            let toolbar = this.props.pluginToolbars[id];
+            let pluginAPI = Ediphy.Plugins.get(toolbar.pluginId);
+            let config = pluginAPI.getConfig();
+            if (config.isComplex && accordion === 'state') {
+                let newPluginState = JSON.parse(JSON.stringify(toolbar.state));
+                newPluginState[name] = value;
+                let pluginContainerIds = newPluginState.__pluginContainerIds;
+                if (config.flavor !== "react") {
+                    let content = pluginAPI.getRenderTemplate(newPluginState);
+                    parsePluginContainers(content, pluginContainerIds);
+                } else {
+                    let content = pluginAPI.getRenderTemplate(newPluginState, { exercises: { correctAnswer: true } });
+                    parsePluginContainersReact(content, pluginContainerIds);
+                }
+
+                this.dispatchAndSetState(updatePluginToolbar(id, tab, accordion, [name, "__pluginContainerIds"], [value, pluginContainerIds]));
+                return;
+            }
+            this.dispatchAndSetState(updatePluginToolbar(id, tab, accordion, name, value));
+        } else {
+            this.dispatchAndSetState(updateViewToolbar(id, tab, accordion, name, value));
+        }
     }
 
     /**
