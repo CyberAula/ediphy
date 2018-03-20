@@ -28,7 +28,7 @@ export default class TemplateThumbnail extends React.Component {
                     width: box.width,
                     height: box.height }}>
                     <span style={{ verticalAlign: 'middle', lineHeight: lineHeight, display: 'inherit', textAlign: 'center' }}>
-                        <i className="material-icons" >{thumbnail.icon}</i>
+                        <i className="material-icons" style={{ color: thumbnail.icon_color, padding: '3px 2px' }} >{thumbnail.icon}</i>
                     </span>
                 </div>);
             })}

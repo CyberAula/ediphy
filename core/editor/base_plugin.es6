@@ -213,7 +213,7 @@ export default function() {
                 initialParams.name = descendant.getConfig().name;
                 if (initialParams && Object.keys(initialParams) && Object.keys(initialParams).length > 1) {
                     let floatingBox = !isSortableContainer(initialParams.container);
-                    if (descendant.getConfig().initialWidth) {
+                    if (descendant.getConfig().initialWidth && !initParams.width) {
                         initialParams.width = floatingBox && descendant.getConfig().initialWidthSlide ? descendant.getConfig().initialWidthSlide : descendant.getConfig().initialWidth;
                     }
                     if (descendant.getConfig().initialHeight) {
