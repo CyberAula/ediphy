@@ -1,6 +1,15 @@
 import React from 'react';
 import i18n from 'i18next';
-import { Document, Page } from 'react-pdf';
+const pdflib = require('pdfjs-dist');
+const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.js');
+
+const pdfjsWorkerBlob = new Blob([pdfjsWorker]);
+const pdfjsWorkerBlobURL = URL.createObjectURL(pdfjsWorkerBlob);
+pdflib.PDFJS.workerSrc = pdfjsWorkerBlobURL;
+import { setOptions, Document, Page } from 'react-pdf';
+setOptions({
+    workerSrc: pdflib.PDFJS.workerSrc,
+});
 
 export function BasicPDF(base) {
     return {
@@ -91,7 +100,7 @@ export function BasicPDF(base) {
         },
         getInitialState: function() {
             return {
-                url: 'http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf',
+                url: 'https://media.readthedocs.org/pdf/flask-cors/latest/flask-cors.pdf',
                 numPages: null,
                 pageNumber: 1,
             };

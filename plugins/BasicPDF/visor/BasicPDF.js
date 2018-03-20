@@ -1,6 +1,15 @@
 import React from 'react';
 import i18n from 'i18next';
-import { Document, Page } from 'react-pdf';
+const pdflib = require('pdfjs-dist');
+const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.js');
+
+const pdfjsWorkerBlob = new Blob([pdfjsWorker]);
+const pdfjsWorkerBlobURL = URL.createObjectURL(pdfjsWorkerBlob);
+pdflib.PDFJS.workerSrc = pdfjsWorkerBlobURL;
+import { setOptions, Document, Page } from 'react-pdf/dist/entry';
+setOptions({
+    workerSrc: pdflib.PDFJS.workerSrc,
+});
 
 export function BasicPDF(base) {
     return {
@@ -105,7 +114,7 @@ export function BasicPDF(base) {
             return (
 
                 <div>
-                    <Document file = {state.url}>
+                    <Document file={state.url}>
                         <Page
                             pageNumber={state.pageNumber}
                         />

@@ -12,13 +12,11 @@ import Ediphy from "../../../../core/editor/main";
 import './_ImportFile.scss';
 
 const pdflib = require('pdfjs-dist');
-const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.min');
+const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.js');
 
 const pdfjsWorkerBlob = new Blob([pdfjsWorker]);
 const pdfjsWorkerBlobURL = URL.createObjectURL(pdfjsWorkerBlob);
-
 pdflib.PDFJS.workerSrc = pdfjsWorkerBlobURL;
-
 /**
  * Generic import file modal
  */
