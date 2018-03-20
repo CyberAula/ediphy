@@ -1,6 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import ReactAudioPlayer from 'react-audio-player';
+import screenfull from 'screenfull';
 
 const pdflib = require('pdfjs-dist');
 const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.js');
@@ -13,18 +13,22 @@ setOptions({
     workerSrc: pdflib.PDFJS.workerSrc,
 });
 
-export default class BasicAudioPlugin extends React.Component {
+export default class BasicAudioPluginEditor extends React.Component {
     constructor(props) {
         super(props);
     }
 
     render() {
+
         return (
             <div>
                 <Document file = {this.props.state.url}>
-                    <Page pageNumber={this.props.state.pageNumber}/>
+                    <Page
+                        pageNumber={this.props.state.pageNumber}
+                    />
                 </Document>
             </div>
         );
+
     }
 }

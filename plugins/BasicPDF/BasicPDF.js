@@ -1,5 +1,6 @@
 import React from 'react';
 import i18n from 'i18next';
+import BasicPDFPluginEditor from './components/BasicPDFPluginEditor.js';
 const pdflib = require('pdfjs-dist');
 const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.js');
 
@@ -112,13 +113,8 @@ export function BasicPDF(base) {
         getRenderTemplate: function(state) {
 
             return (
-
-                <div>
-                    <Document file = {state.url}>
-                        <Page
-                            pageNumber={state.pageNumber}
-                        />
-                    </Document>
+                <div style={{ height: "100%", width: "100%" }}>
+                    <BasicPDFPluginEditor style={{ width: "100%", height: "100%" }} state={state}/>
                 </div>
             );
         },
