@@ -12,6 +12,13 @@ export function isView(id) {
     return isPage(id) || isSection(id);
 }
 
+export function existsAndIsViewOrContainedView(id) {
+    if (id) {
+        return isView(id) || isContainedView(id);
+    }
+    return false;
+}
+
 export function isPage(id) {
     return id.length && id.indexOf(ID_PREFIX_PAGE) !== -1;
 }
@@ -248,6 +255,23 @@ function collectionHas(a, b) { // helper function (see below)
         }
     }
     return false;
+}
+
+/**
+ * Function to see if an array contains all elments of the other
+ */
+export function arrayContainsArray(superset, subset) {
+
+    if (!Array.isArray(subset)) {
+        return false;
+    }
+
+    if (subset.length === 0) {
+        return false;
+    }
+    return subset.every(function(value) {
+        return (superset.indexOf(value) >= 0);
+    });
 }
 
 /**

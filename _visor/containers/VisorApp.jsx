@@ -29,6 +29,7 @@ export default class Visor extends Component {
             backupElementStates: {},
             toggledSidebar: Ediphy.State.globalConfig.visorNav.sidebar ? Ediphy.State.globalConfig.visorNav.sidebar : (Ediphy.State.globalConfig.visorNav.sidebar === undefined),
             fromScorm: Ediphy.State.fromScorm,
+            scoreInfo: { userName: "Anonymous", totalScore: 0, totalWeight: 0, completionProgress: 0 },
         };
 
     }
@@ -190,8 +191,16 @@ export default class Visor extends Component {
         let navItems = Ediphy.State.navItemsById;
         let navItemsIds = Ediphy.State.navItemsIds;
         let containedViews = Ediphy.State.containedViewsById;
+        let exercises = {};
+        Object.keys(Ediphy.State.exercises).map((exercise, index)=>{
+            if (containedViews[exercise] || (navItems[exercise] && !navItems[exercise].hidden)) {
+                exercises[exercise] = Ediphy.State.exercises[exercise];
+            }
+        });
+
         let toolbars = Ediphy.State.toolbarsById;
         let globalConfig = Ediphy.State.globalConfig;
+        // let exercises = Ediphy.State.exercises;
         let title = globalConfig.title;
         let ratio = globalConfig.canvasRatio;
         let visorNav = globalConfig.visorNav;
@@ -202,7 +211,40 @@ export default class Visor extends Component {
         let isSlide = isCV && containedViews[this.getLastCurrentViewElement()] === "slide" ||
         !isCV && navItems[this.getLastCurrentViewElement()] === "slide" ?
             "pcw_slide" : "pcw_doc";
-
+        let currentView = this.getLastCurrentViewElement();
+        let visorContent = !isContainedView(currentView) ? (
+            <VisorCanvas
+                boxes={boxes}
+                changeCurrentView={(element) => {this.changeCurrentView(element);}}
+                canvasRatio={ratio}
+                containedViews={containedViews}
+                currentView={currentView}
+                fromScorm={this.state.fromScorm}
+                navItems={navItems}
+                removeLastView={()=>{this.removeLastView();}}
+                richElementsState={this.state.richElementState}
+                showCanvas={currentView.indexOf("cv-") === -1}
+                title={title}
+                toolbars={toolbars}
+                triggeredMarks={this.state.triggeredMarks}
+                viewsArray={this.state.currentView}
+            />) :
+            (<VisorContainedCanvas
+                boxes={boxes}
+                changeCurrentView={(element) => {this.changeCurrentView(element);}}
+                canvasRatio={ratio}
+                containedViews={containedViews}
+                currentView={currentView}
+                fromScorm={this.state.fromScorm}
+                navItems={navItems}
+                toolbars={toolbars}
+                title={title}
+                triggeredMarks={this.state.triggeredMarks}
+                showCanvas={currentView.indexOf("cv-") !== -1}
+                removeLastView={()=>{this.removeLastView();}}
+                richElementsState={this.state.richElementState}
+                viewsArray={this.state.currentView}
+            />);
         return (
             <div id="app"
                 className={wrapperClasses} >
@@ -210,75 +252,49 @@ export default class Visor extends Component {
                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
                     courseTitle={title}
                     show={visorNav.sidebar}
+                    showScore={!globalConfig.hideGlobalScore}
                     currentViews={this.state.currentView}
                     navItemsById={navItems}
-                    navItemsIds={navItemsIds}
+                    navItemsIds={navItemsIds.filter(nav=> {return !navItems[nav].hidden;})}
+                    scoreInfo={this.state.scoreInfo}
+                    exercises={exercises}
                     toggled={this.state.toggledSidebar}/>
                 <div id="page-content-wrapper"
-                    className={isSlide}
+                    className={isSlide + " page-content-wrapper"}
                     style={{ height: '100%' }}>
-                    <Grid fluid
+                    <Grid fluid id="visorAppContent"
                         style={{ height: '100%' }}>
                         <Row style={{ height: '100%' }}>
                             <Col lg={12} style={{ height: '100%' }}>
-                                { !isContainedView(this.getLastCurrentViewElement()) ? (<VisorPlayer show={visorNav.player}
+                                { !isContainedView(currentView) ? (<VisorPlayer show={visorNav.player}
                                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
                                     currentViews={this.state.currentView}
                                     navItemsById={navItems}
-                                    navItemsIds={navItemsIds}/>) : null}
+                                    navItemsIds={navItemsIds.filter(nav=> {return !navItems[nav].hidden;})}/>) : null}
                                 {visorNav.sidebar ? (<Button id="visorNavButton"
                                     className={toggleColor}
                                     bsStyle="primary"
                                     onClick={e => {this.setState({ toggledSidebar: !this.state.toggledSidebar });}}>
                                     <i className="material-icons">{toggleIcon}</i>
                                 </Button>) : null}
-
-                                { !isContainedView(this.getLastCurrentViewElement()) ?
-                                    (<VisorCanvas
-                                        boxes={boxes}
-                                        changeCurrentView={(element) => {this.changeCurrentView(element);}}
-                                        canvasRatio={ratio}
-                                        containedViews={containedViews}
-                                        currentView={this.getLastCurrentViewElement()}
-                                        navItems={navItems}
-                                        removeLastView={()=>{this.removeLastView();}}
-                                        richElementsState={this.state.richElementState}
-                                        showCanvas={this.getLastCurrentViewElement().indexOf("cv-") === -1}
-                                        title={title}
-                                        toolbars={toolbars}
-                                        triggeredMarks={this.state.triggeredMarks}
-                                        viewsArray={this.state.currentView}
-                                    />) :
-                                    (<VisorContainedCanvas
-                                        boxes={boxes}
-                                        changeCurrentView={(element) => {this.changeCurrentView(element);}}
-                                        canvasRatio={ratio}
-                                        containedViews={containedViews}
-                                        currentView={this.getLastCurrentViewElement()}
-                                        navItems={navItems}
-                                        toolbars={toolbars}
-                                        title={title}
-                                        triggeredMarks={this.state.triggeredMarks}
-                                        showCanvas={this.getLastCurrentViewElement().indexOf("cv-") !== -1}
-                                        removeLastView={()=>{this.removeLastView();}}
-                                        richElementsState={this.state.richElementState}
-                                        viewsArray={this.state.currentView}
-                                    />)
-                                }
+                                <ScormComponent
+                                    updateScore={(scoreInfo)=>{this.setState({ scoreInfo });}}
+                                    navItemsIds={navItemsIds}
+                                    containedViews={containedViews}
+                                    currentView={currentView}
+                                    navItemsById={navItems}
+                                    globalConfig={globalConfig}
+                                    exercises={exercises}
+                                    fromScorm={this.state.fromScorm}
+                                    changeCurrentView={(el)=>{this.changeCurrentView(el);}}>
+                                    {visorContent}
+                                </ScormComponent>
                             </Col>
                         </Row>
                     </Grid>
                 </div>
-                {this.state.fromScorm ? (
-                    <ScormComponent
-                        navItemsIds={navItemsIds}
-                        currentView={this.getLastCurrentViewElement()}
-                        globalConfig={globalConfig}
-                        changeCurrentView={(el)=>{this.changeCurrentView(el);}}
-                    />) : (null)}
-            </div>
+            </div>);
 
-        );
     }
 
     /**
@@ -294,6 +310,7 @@ export default class Visor extends Component {
      * @param {string} element - current Element to go
      */
     changeCurrentView(element) {
+
         if (isContainedView(element)) {
             this.setState({ currentView: [this.getCurrentView(this.state.navItemSelected, this.state.containedViewSelected), element] });
         } else {
@@ -312,7 +329,11 @@ export default class Visor extends Component {
      * @param {string} NISelected - selected NavItem
      */
     getCurrentView(NIselected, CVselected) {
-        let currentView = (CVselected === 0) ? NIselected : CVselected;
+        let navItemSelected = 0;
+        if (Ediphy.State.navItemsById[NIselected] && !Ediphy.State.navItemsById[NIselected].hidden) {
+            navItemSelected = NIselected;
+        }
+        let currentView = (CVselected === 0) ? navItemSelected : CVselected;
         return currentView;
     }
 

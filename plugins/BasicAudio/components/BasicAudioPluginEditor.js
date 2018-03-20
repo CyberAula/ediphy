@@ -99,8 +99,7 @@ export default class BasicAudioPluginEditor extends React.Component {
             let color = marks[id].color;
             // repasar MarkEditor
             return(
-                <MarkEditor
-                    key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} state={this.props.state} base={this.props.base}>
+                <MarkEditor onRichMarkUpdated={this.props.onRichMarkUpdated} key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} state={this.props.state} base={this.props.base}>
                     <a key={id} href="#">
                         <div style={{ width: "4px", height: "8px", background: color || "#17CFC8" }}>
                             <OverlayTrigger key={id} text={title} placement="top" overlay={<Tooltip id={id}>{title}</Tooltip>}>

@@ -40,14 +40,14 @@ export default class NavDropdown extends Component {
                             {i18n.t('Save')}
                         </button>
                     </MenuItem>}
-                    <MenuItem disabled={this.props.undoDisabled} eventKey="0" key="0">
-                        <button className="dropdownButton" title={i18n.t('messages.import_file')}
+                    <MenuItem disabled={this.props.undoDisabled} eventKey="1" key="1">
+                        <button className="dropdownButton" title={i18n.t('messages.import')}
                             disabled={ false }
                             onClick={this.props.toggleImportFile}><i className="material-icons">file_upload</i>
-                            {i18n.t('messages.import_file')}
+                            {i18n.t('messages.import')}
                         </button>
                     </MenuItem>
-                    <MenuItem eventKey="1" key="1">
+                    {/*                    <MenuItem eventKey="1" key="1">
                         <button className="dropdownButton" title={i18n.t('messages.export_to_HTML')}
                             disabled={ (this.props.navItemSelected === 0) || this.props.undoDisabled}
                             onClick={() => this.props.export() }><i className="material-icons">file_download</i>
@@ -59,6 +59,13 @@ export default class NavDropdown extends Component {
                             disabled={(this.props.navItemSelected === 0) || this.props.undoDisabled}
                             onClick={() => this.props.scorm() }><i className="material-icons">class</i>
                             {i18n.t('messages.export_to_SCORM')}
+                        </button>
+                    </MenuItem>*/}
+                    <MenuItem eventKey="2" key="2">
+                        <button className="dropdownButton" title={i18n.t('messages.export')}
+                            disabled={this.props.navItemSelected === 0}
+                            onClick={this.props.toggleExport}><i className="material-icons">file_download</i>
+                            {i18n.t('messages.export')}
                         </button>
                     </MenuItem>
                     <MenuItem disabled={false} eventKey="3" key="3">
@@ -97,10 +104,7 @@ export default class NavDropdown extends Component {
 }
 
 NavDropdown.propTypes = {
-    /**
-     * Exports the course as HTML
-     */
-    export: PropTypes.func.isRequired,
+
     /**
      * Identifies the view that is being edited
      */
@@ -118,10 +122,6 @@ NavDropdown.propTypes = {
      */
     save: PropTypes.func.isRequired,
     /**
-     * Exports the course in SCORM format
-     */
-    scorm: PropTypes.func.isRequired,
-    /**
      * Popup that indicates whether the import/export to the server was successful or not
      */
     serverModalOpen: PropTypes.func.isRequired,
@@ -133,6 +133,10 @@ NavDropdown.propTypes = {
      * Shows/Hides the global course configuration modal form
      */
     toggleGlobalConfig: PropTypes.func.isRequired,
+    /**
+     * Shows/Hides the exportation modal form
+     */
+    toggleExport: PropTypes.func.isRequired,
     /**
      * Enables the "undo" feature
      */

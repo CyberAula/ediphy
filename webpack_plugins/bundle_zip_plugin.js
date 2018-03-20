@@ -1,11 +1,13 @@
 let fs = require("fs");
+let nodePath = require("path");
 let JSZip = require("jszip");
 let async = require("async");
 let dir = require('node-dir');
 let UglifyJS = require('uglify-js');
 
 let visor_zip = new JSZip();
-let scorm_zip = new JSZip();
+let scorm_2004_zip = new JSZip();
+let scorm_12_zip = new JSZip();
 
 function ZipBundlePlugin() {
     this.startTime = Date.now();
@@ -32,7 +34,8 @@ ZipBundlePlugin.prototype.apply = function(compiler) {
                             if (err) {throw err;}
                             async.each(filelist, function(elem, call) {
                                 visor_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
-                                scorm_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
+                                scorm_2004_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
+                                scorm_12_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
                                 call();
                             }, function(err, results) {
                                 callback(null, "css");
@@ -52,7 +55,8 @@ ZipBundlePlugin.prototype.apply = function(compiler) {
                             if (err) {throw err;}
                             async.each(filelist, function(elem, call) {
                                 visor_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
-                                scorm_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
+                                scorm_2004_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
+                                scorm_12_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
                                 call();
                             }, function(err, results) {
                                 callback(null, "js");
@@ -72,7 +76,8 @@ ZipBundlePlugin.prototype.apply = function(compiler) {
                             if (err) {throw err;}
                             async.each(filelist, function(elem, call) {
                                 visor_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
-                                scorm_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
+                                scorm_2004_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
+                                scorm_12_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
                                 call();
                             }, function(err, results) {
                                 callback(null, "images");
@@ -93,10 +98,13 @@ ZipBundlePlugin.prototype.apply = function(compiler) {
                             async.each(filelist, function(elem, call) {
                                 if(process.argv.indexOf('-p') !== -1 && elem.indexOf(".js") !== -1 && !(elem.indexOf("parseXML.js") !== -1 || elem.indexOf("jsLoader.js") !== -1)) {
                                     visor_zip.file(purgeRoot(elem), UglifyJS.minify("./" + elem).code);
-                                    scorm_zip.file(purgeRoot(elem), UglifyJS.minify("./" + elem).code);
+                                    scorm_2004_zip.file(purgeRoot(elem), UglifyJS.minify("./" + elem).code);
+                                    scorm_2004_zip.file(purgeRoot(elem), UglifyJS.minify("./" + elem).code);
+                                    scorm_12_zip.file(purgeRoot(elem), UglifyJS.minify("./" + elem).code);
                                 } else {
                                     visor_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
-                                    scorm_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
+                                    scorm_2004_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
+                                    scorm_12_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
                                 }
                                 call();
                             }, function(err, results) {
@@ -118,7 +126,8 @@ ZipBundlePlugin.prototype.apply = function(compiler) {
                             filelist.splice(filelist.indexOf("dist/js/visor-bundle.js.map"), 1);
                             async.each(filelist, function(elem, call) {
                                 visor_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
-                                scorm_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
+                                scorm_2004_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
+                                scorm_12_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
                                 call();
                             }, function(err, results) {
                                 callback(null, "js");
@@ -138,7 +147,8 @@ ZipBundlePlugin.prototype.apply = function(compiler) {
                             if (err) {throw err;}
                             async.each(filelist, function(elem, call) {
                                 visor_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
-                                scorm_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
+                                scorm_2004_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
+                                scorm_12_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
                                 call();
                             }, function(err, results) {
                                 callback(null, "exercises");
@@ -147,44 +157,45 @@ ZipBundlePlugin.prototype.apply = function(compiler) {
                     }
                 });
             },
+
             function(callback) {
-                let path = "./dist/lib/scorm/scorm/";
+                let path = "./dist/lib/scorm/manifest_files_12/";
                 fs.stat(path, function(err, stats) {
                     if(err) {
-                        console.error("./dist/lib/scorm/scorm/ does not exist!");
-                        callback(null, "scorm");
+                        console.error("/dist/lib/scorm/manifest_files_12/ does not exist!");
+                        callback(null, "manifest_files_12");
                     }else{
                         dir.files(path, function(err, filelist) {
                             if (err) {throw err;}
                             async.each(filelist, function(elem, call) {
-                                scorm_zip.file(elem.replace("dist\/lib\/scorm\/", ""), fs.readFileSync("./" + elem));
+                              scorm_12_zip.file(nodePath.basename(elem), fs.readFileSync("./" + elem));
                                 call();
                             }, function(err, results) {
-                                callback(null, "scorm");
+                                callback(null, "manifest_files_12");
                             });
                         });
                     }
                 });
             },
-            function(callback) {
-                let path = "./dist/lib/scorm/manifest_files/";
-                fs.stat(path, function(err, stats) {
-                    if(err) {
-                        console.error("/dist/manifest_files/ does not exist!");
-                        callback(null, "manifest_files");
-                    }else{
-                        dir.files(path, function(err, filelist) {
-                            if (err) {throw err;}
-                            async.each(filelist, function(elem, call) {
-                                scorm_zip.file(elem.replace("dist\/lib\/scorm\/manifest_files/", ""), fs.readFileSync("./" + elem));
-                                call();
-                            }, function(err, results) {
-                                callback(null, "manifest_files");
-                            });
-                        });
-                    }
+          function(callback) {
+            let path = "./dist/lib/scorm/manifest_files_2004/";
+            fs.stat(path, function(err, stats) {
+              if(err) {
+                console.error("/dist/lib/scorm/manifest_files_2004/ does not exist!");
+                callback(null, "manifest_files_2004");
+              }else{
+                dir.files(path, function(err, filelist) {
+                  if (err) {throw err;}
+                  async.each(filelist, function(elem, call) {
+                    scorm_2004_zip.file(nodePath.basename(elem), fs.readFileSync("./" + elem));
+                    call();
+                  }, function(err, results) {
+                    callback(null, "manifest_files_2004");
+                  });
                 });
-            },
+              }
+            });
+          },
             // Write visor
             function(callback) {
                 visor_zip.generateAsync({ type: "nodebuffer" }).then(function(content) {
@@ -194,11 +205,19 @@ ZipBundlePlugin.prototype.apply = function(compiler) {
 
                 });
             },
-            // Write scorm
+          // Write scorm 2004
+          function(callback) {
+            scorm_2004_zip.generateAsync({ type: "nodebuffer" }).then(function(content) {
+              fs.writeFile("./dist/lib/scorm/scorm2004.zip", content, function(err) {});
+              console.log("Ended scorm2004.zip bundle");
+              callback();
+            });
+          },
+            // Write scorm 1.2
             function(callback) {
-                scorm_zip.generateAsync({ type: "nodebuffer" }).then(function(content) {
-                    fs.writeFile("./dist/lib/scorm/scorm.zip", content, function(err) {});
-                    console.log("Ended scorm.zip bundle");
+              scorm_12_zip.generateAsync({ type: "nodebuffer" }).then(function(content) {
+                    fs.writeFile("./dist/lib/scorm/scorm1.2.zip", content, function(err) {});
+                    console.log("Ended scorm1.2.zip bundle");
                     callback();
                 });
             }], function(err, results) {

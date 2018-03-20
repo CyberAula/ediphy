@@ -12,7 +12,7 @@ export function BasicAudio(base) {
                 isRich: true, // para poner marcas
                 displayName: i18n.t('BasicAudio.PluginName'),
                 category: "multimedia",
-                neddConfigModaL: false, // con esto no ponemos dimensiones iniciales
+                needConfigModal: false, // con esto no ponemos dimensiones iniciales
                 icon: 'play_circle_filled',
                 aspectRatioButtonConfig: {
                     location: ["main", "__sortable"],
@@ -101,11 +101,12 @@ export function BasicAudio(base) {
                 controls: true,
             };
         },
-        getRenderTemplate: function(state, props) {
+        getRenderTemplate: function(state, props = {}) {
             // EnrichedPlayer pasa tb base y props
+            console.log(state, props);
             return (
                 <div style={{ height: "100%", width: "100%" }}>
-                    <BasicAudioPluginEditor style={{ width: "100%", height: "100%" }} state={state}/>
+                    <BasicAudioPluginEditor style={{ width: "100%", height: "100%" }} base={base} onRichMarkUpdated={props.onRichMarkUpdated} state={state}/>
                 </div>
             );
         },

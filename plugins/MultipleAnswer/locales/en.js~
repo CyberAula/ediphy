@@ -1,0 +1,6 @@
+module.exports = {
+    "MultipleChoice": {
+        "PluginName": "Quiz",
+        "content_box_name": "Content ",
+    },
+};

@@ -74,7 +74,7 @@ export default class Clipboard extends Component {
         let fromPlugin = this.copyListener(event);
         if (fromPlugin) {
             let box = this.props.boxes[this.props.boxSelected];
-            this.props.onBoxDeleted(box.id, box.parent, box.container);
+            this.props.onBoxDeleted(box.id, box.parent, box.container, this.currentPage());
         }
     }
     /**
@@ -106,7 +106,7 @@ export default class Clipboard extends Component {
             isTargetSlide = container === 0;
             newInd = this.getIndex(parent, container);
         }
-        let ids = { id, parent, container };
+        let ids = { id, parent, container, page: page ? page.id : 0 };
         this.pasteBox(data, ids, isTargetSlide, newInd);
     }
 
@@ -208,7 +208,7 @@ export default class Clipboard extends Component {
                     newInd = this.getIndex(parent, container);
                 }
 
-                let ids = { id, parent, container, row, col };
+                let ids = { id, parent, container, row, col, page: page ? page.id : 0 };
                 // Copied data is an EditorBox
                 if (data && data.box && data.toolbar) {
                     // Focus is outside a text box
@@ -237,6 +237,7 @@ export default class Clipboard extends Component {
                         row: row,
                         col: col,
                         index: newInd,
+                        page: page ? page.id : 0,
                         position: isTargetSlide ? {
                             type: "absolute",
                             x: randomPositionGenerator(20, 40),

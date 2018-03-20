@@ -105,6 +105,7 @@ export default class EditorBoxSortable extends Component {
                                                                 addMarkShortcut={this.props.addMarkShortcut}
                                                                 deleteMarkCreator={this.props.deleteMarkCreator}
                                                                 onRichMarkUpdated={this.props.onRichMarkUpdated}
+                                                                exercises={(this.props.page && this.props.exercises[this.props.page]) ? (this.props.exercises[this.props.page].exercises[idBox]) : undefined}
                                                                 markCreatorId={this.props.markCreatorId}
                                                                 onBoxAdded={this.props.onBoxAdded}
                                                                 onBoxSelected={this.props.onBoxSelected}
@@ -117,6 +118,8 @@ export default class EditorBoxSortable extends Component {
                                                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                                                 onTextEditorToggled={this.props.onTextEditorToggled}
                                                                 onRichMarksModalToggled={this.props.onRichMarksModalToggled}
+                                                                page={this.props.page}
+                                                                setCorrectAnswer={this.props.setCorrectAnswer}
                                                                 pageType={this.props.pageType}/>);
 
                                                         } else if (ind === container.children.length - 1) {
@@ -157,11 +160,6 @@ export default class EditorBoxSortable extends Component {
                                             <Button className="popoverButton"
                                                 style={{ float: 'right' }}
                                                 onClick={e => {
-                                                    this.props.onSortableContainerDeleted(idContainer, box.id);
-                                                    e.stopPropagation();
-                                                    this.setState({ show: false });
-                                                }}
-                                                onTap={e => {
                                                     this.props.onSortableContainerDeleted(idContainer, box.id);
                                                     e.stopPropagation();
                                                     this.setState({ show: false });
@@ -330,6 +328,7 @@ export default class EditorBoxSortable extends Component {
                         return;
                     }
                 }
+                let page = this.props.page;
                 if (dropArea === 'cell') {
                     // If element dragged is coming from PluginRibbon, create a new EditorBox
                     if (draggingFromRibbon) {
@@ -341,13 +340,14 @@ export default class EditorBoxSortable extends Component {
                             col: extraParams.i,
                             row: extraParams.j,
                             index: newInd,
+                            page: page,
                         };
 
                         Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                         e.dragEvent.stopPropagation();
                     } else {
                         let boxDragged = this.props.boxes[this.props.boxSelected];
-                        if (boxDragged && ((this.props.id !== boxDragged.parent) || (extraParams.idContainer !== boxDragged.container) || (extraParams.j !== boxDragged.row) || (extraParams.i !== boxDragged.col))) {
+                        if (boxDragged) {// && ((this.props.id !== boxDragged.parent) || (extraParams.idContainer !== boxDragged.container) || (extraParams.j !== boxDragged.row) || (extraParams.i !== boxDragged.col))) {
                             this.props.onBoxDropped(this.props.boxSelected,
                                 extraParams.j,
                                 extraParams.i,
@@ -372,6 +372,7 @@ export default class EditorBoxSortable extends Component {
                             parent: this.props.id,
                             container: e.target.getAttribute("data-id"),
                             index: newInd,
+                            page,
 
                         };
                     } else if (dropArea === 'newContainer') {
@@ -379,6 +380,7 @@ export default class EditorBoxSortable extends Component {
                             parent: this.props.id,
                             container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
                             index: newInd,
+                            page,
                         };
                     }
 
@@ -415,39 +417,39 @@ export default class EditorBoxSortable extends Component {
 
 EditorBoxSortable.propTypes = {
     /**
-     * Identificador único de la caja
+     * Box unique identifier
      */
     id: PropTypes.string.isRequired,
     /**
-     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     * Object that holds  all the boxes, (identified by its ID)
      */
     boxes: PropTypes.object.isRequired,
     /**
-     * Caja seleccionada en el momento. Si no hay ninguna, -1
+     *  Box selected. If there is none selected the value is, -1
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * Nivel de profundidad de caja seleccionada (sólo para plugins dentro de plugins)
+     * Depth level of the selected box. Used when there are plugins inside plugins
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Object that holds all the contained views in the project (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Vista contenida seleccionada identificada por su *id*
+     * Selected contained view
      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
-     * Diccionario que contiene todas las cajas y vistas creadas , accesibles por su *id*
+     * Object containing all the toolbars (identified by its ID)
      */
     toolbars: PropTypes.object.isRequired,
     /**
-     * Última acción realizada en Redux
+     * Last action dispatched in Redux
      */
     lastActionDispatched: PropTypes.any.isRequired,
     /**
-     * Añade una marca a la caja
+     * Callback for when adding a mark
      */
     addMarkShortcut: PropTypes.func.isRequired,
     /**
@@ -455,67 +457,79 @@ EditorBoxSortable.propTypes = {
      */
     deleteMarkCreator: PropTypes.func.isRequired,
     /**
-     * Identificador de la caja en la que se va a crear una marca
+     * Identifier of the box that is currently in process of creating a mark
      */
     markCreatorId: PropTypes.any.isRequired,
     /**
-     * Añade una caja
+     * Callback for when adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
-     * Selecciona la caja
+     * Selects a box
      */
     onBoxSelected: PropTypes.func.isRequired,
     /**
-     * Aumenta el nivel de profundidad de selección (plugins dentro de plugins)
+     * Icreases box level selected
      */
     onBoxLevelIncreased: PropTypes.func.isRequired,
     /**
-     * Mueve la caja
+     * Callback for when moving a box
      */
     onBoxMoved: PropTypes.func.isRequired,
     /**
-     * Redimensiona la caja
+     * Callback for when resizing a box
      */
     onBoxResized: PropTypes.func.isRequired,
     /**
-     * Suelta la caja en una zona de un EditorBoxSortable
+     * Callback for when dropping a box
      */
     onBoxDropped: PropTypes.func.isRequired,
     /**
-     * Alínea la caja verticalmente
+     * Callback for when vertically aligning boxes inside a contianer
      */
     onVerticallyAlignBox: PropTypes.func.isRequired,
     /**
-     * Reordena las cajas dentro de su contenedor
+     * Callback for when reordering boxes inside a contianer
      */
     onBoxesInsideSortableReorder: PropTypes.func.isRequired,
     /**
-     * Borra un contenedor
+     * Callabck for when deleting a sortable container
      */
     onSortableContainerDeleted: PropTypes.func.isRequired,
     /**
-     * Reordena los contenedores
+     * Callabck for when reordering sortable containers
      */
     onSortableContainerReordered: PropTypes.func.isRequired,
     /**
-     * Redimensiona un contenedor
+     * Callabck for when resizing a sortable container
      */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
-     * Hace aparecer/desaparecer el CKEditor
+     * Callback for toggling the CKEDitor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
     /**
-     * Indica el tipo de página en el que se encuentra la caja
+     * Page type the box is at
      */
     pageType: PropTypes.string.isRequired,
     /**
-      * Hace aparecer/desaparecer el modal de configuración de marcas
+      * Callback for toggling the Rich Marks Modal
       */
     onRichMarksModalToggled: PropTypes.func.isRequired,
     /**
-      * Actualiza marca
+      * Callback for updating the Rich Marks Modal
       */
     onRichMarkUpdated: PropTypes.func.isRequired,
+    /**
+      * Object containing all exercises
+      */
+    exercises: PropTypes.object,
+    /**
+      * Function for setting the right answer of an exercise
+      */
+    setCorrectAnswer: PropTypes.func.isRequired,
+    /**
+      * Current page
+      */
+    page: PropTypes.any,
 };

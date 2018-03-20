@@ -121,6 +121,7 @@ export default class EditorCanvasSli extends Component {
                             return <EditorBox key={id}
                                 id={id}
                                 grid={gridOn}
+                                page={itemSelected ? itemSelected.id : 0}
                                 addMarkShortcut={this.props.addMarkShortcut}
                                 boxes={this.props.boxes}
                                 boxSelected={this.props.boxSelected}
@@ -135,6 +136,7 @@ export default class EditorCanvasSli extends Component {
                                 onBoxSelected={this.props.onBoxSelected}
                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                 onBoxMoved={this.props.onBoxMoved}
+                                exercises={itemSelected ? (this.props.exercises[itemSelected.id].exercises[id]) : undefined}
                                 onBoxResized={this.props.onBoxResized}
                                 onRichMarkUpdated={this.props.onRichMarkUpdated}
                                 onSortableContainerResized={this.props.onSortableContainerResized}
@@ -143,6 +145,7 @@ export default class EditorCanvasSli extends Component {
                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                 onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                 onTextEditorToggled={this.props.onTextEditorToggled}
+                                setCorrectAnswer={this.props.setCorrectAnswer}
                                 pageType={itemSelected.type || 0}
                             />;
 
@@ -157,6 +160,7 @@ export default class EditorCanvasSli extends Component {
                 <EditorShortcuts
                     box={this.props.boxes[this.props.boxSelected]}
                     containedViewSelected={this.props.containedViewSelected}
+                    navItemSelected={this.props.navItemSelected}
                     isContained={this.props.fromCV}
                     onTextEditorToggled={this.props.onTextEditorToggled}
                     onBoxResized={this.props.onBoxResized}
@@ -219,18 +223,19 @@ export default class EditorCanvasSli extends Component {
                                 <span> {i18n.t('messages.instance_limit')} </span>
                             </Alert>);
                             this.setState({ alert: alert });
-                            event.dragEvent.stopPropagation();
                             return;
                         }
                     }
-
+                    let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
+                    let page = itemSelected.id;
                     let initialParams = {
-                        parent: this.props.fromCV ? this.props.containedViewSelected.id : this.props.navItemSelected.id,
+                        parent: page,
                         container: 0,
                         position: position,
+                        page: page,
                     };
                     config.callback(initialParams, ADD_BOX);
-                    event.dragEvent.stopPropagation();
+
                 } else {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
                     let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
@@ -243,6 +248,7 @@ export default class EditorCanvasSli extends Component {
                         clone.parentElement.removeChild(clone);
                     }
                 }
+                event.dragEvent.stopPropagation();
             }.bind(this),
             ondropdeactivate: function(event) {
                 event.target.classList.remove('drop-active');
@@ -403,4 +409,13 @@ EditorCanvasSli.propTypes = {
      * Cambia el texto del título del curso
      */
     onTitleChanged: PropTypes.func.isRequired,
+    /**
+   * Object containing all exercises
+   */
+    exercises: PropTypes.object,
+    /**
+   * Function for setting the right answer of an exercise
+   */
+    setCorrectAnswer: PropTypes.func.isRequired,
+
 };

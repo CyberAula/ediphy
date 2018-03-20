@@ -9,7 +9,7 @@ export default class VisorBox extends Component {
         this.borderSize = 2;
     }
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.toolbars[this.props.id].config.needsTextEdition) {
+        if(this.props.toolbars[this.props.id].config.needsTextEdition && window.MathJax) {
             window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
         }
     }
@@ -87,11 +87,15 @@ export default class VisorBox extends Component {
         }
         // style.transform = style.WebkitTransform = style.MsTransform = rotate;
 
-        /* TODO: Reasign object if is rich to have marks as property box.content.props*/
+        /* TODO: Reassign object if it's rich to have marks as property box.content.props*/
 
-        let props = { ...this.props, parentBox: this.props.boxes[this.props.id] };
+        let props = { ...this.props, parentBox: this.props.boxes[this.props.id], setAnswer: (correctAnswer) => {
+            this.props.setAnswer(this.props.id, correctAnswer, this.props.currentView);
+        } };
         let content = toolbar.config.flavor === "react" ? (
-            <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>{Ediphy.Visor.Plugins[toolbar.config.name].getRenderTemplate(toolbar.state, box.id, props)}</div>
+            <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
+                {Ediphy.Visor.Plugins[toolbar.config.name].getRenderTemplate(toolbar.state, box.id, props)}
+            </div>
         ) : (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
                 {this.renderChildren(Ediphy.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0, this.props.id), 0)}
@@ -166,7 +170,7 @@ export default class VisorBox extends Component {
                     toolbars: this.props.toolbars,
                     richElementsState: this.props.richElementsState,
                     changeCurrentView: this.props.changeCurrentView,
-                    currentViewSelected: this.props.currentViewSelected,
+                    currentView: this.props.currentView,
                 });
             } else {
                 component = markup.tag;
@@ -223,10 +227,6 @@ VisorBox.propTypes = {
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     * Vista actual
-     */
-    currentViewSelected: PropTypes.any,
-    /**
      * Diccionario que contiene todas las toolbars
      */
     toolbars: PropTypes.object,
@@ -234,4 +234,12 @@ VisorBox.propTypes = {
      * Estado del plugin enriquecido en la transición
      */
     richElementsState: PropTypes.object,
+    /**
+   * Function for submitting a page Quiz
+   */
+    setAnswer: PropTypes.func,
+    /**
+   * Vista actual
+   */
+    currentView: PropTypes.any,
 };
