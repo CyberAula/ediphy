@@ -86,6 +86,17 @@
   version "9.4.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.6.tgz#d8176d864ee48753d053783e4e463aec86b8d82e"
 
+"BasicAudio@file:plugins/BasicAudio":
+  version "0.1.1"
+  dependencies:
+    react-wavesurfer "^0.8.6"
+    wavesurfer.js "2.4.0"
+
+"BasicPDF@file:plugins/BasicPDF":
+  version "0.1.1"
+  dependencies:
+    react-pdf "^2.5.3"
+
 "BasicPlayer@file:plugins/BasicPlayer":
   version "0.1.0"
   dependencies:
@@ -9206,9 +9217,9 @@ watchpack@^1.4.0:
     chokidar "^1.7.0"
     graceful-fs "^4.1.2"
 
-wavesurfer.js@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-1.4.0.tgz#4dba66098e736615d963fa85c7476fbd7e09c565"
+wavesurfer.js@2.4.0:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-2.0.5.tgz#a82aea796836faf4708b87a5e9ebeaf1b9013d65"
 
 wbuf@^1.1.0, wbuf@^1.7.2:
   version "1.7.2"
