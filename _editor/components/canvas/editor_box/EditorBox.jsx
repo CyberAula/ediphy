@@ -441,7 +441,7 @@ export default class EditorBox extends Component {
         let targets = this.props.grid ? [gridTarget] : [];
         Ediphy.Plugins.get(config.name).getConfig();
         Ediphy.Plugins.get(config.name).afterRender(this.refs.content, toolbar.state);
-        let dragRestrictionSelector = isSortableContainer(box.container) ? /* ".editorBoxSortableContainer, .drg" + box.container :*/"sortableContainerBox" : "parent";
+        let dragRestrictionSelector = isSortableContainer(box.container) ? /* ".editorBoxSortableContainer, .drg" + box.container :*/"#airlayer" : "parent";
         let resizeRestrictionSelector = isSortableContainer(box.container) ? ".editorBoxSortableContainer, .drg" + box.container : "parent";
         let canvas = this.props.containedViewSelected === 0 ?
             document.getElementById('canvas') :
@@ -468,6 +468,7 @@ export default class EditorBox extends Component {
                     distance: 5,
                     interval: 10,
                 },
+                ignoreFrom: 'input, textarea, .textAreaStyle,  a, .pointerEventsEnabled',
                 onstart: (event) => {
                     event.stopPropagation();
                     if (this.props.boxSelected !== this.props.id) {
@@ -658,7 +659,6 @@ export default class EditorBox extends Component {
 
                 },
             })
-            .ignoreFrom('input, textarea, .textAreaStyle,  a, .pointerEventsEnabled')
             .resizable({
                 snap: { targets: targets },
                 snapSize: { targets: [

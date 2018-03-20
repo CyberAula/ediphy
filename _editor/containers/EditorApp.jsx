@@ -597,6 +597,12 @@ class EditorApp extends Component {
             case EDIT_PLUGIN_TEXT:
             case UPDATE_BOX:
             case UPDATE_PLUGIN_TOOLBAR:
+                console.log(
+                    e.detail.ids.id || this.props.boxSelected,
+                    e.detail.content,
+                    e.detail.toolbar,
+                    e.detail.state
+                );
                 this.dispatchAndSetState(updateBox(
                     e.detail.ids.id || this.props.boxSelected,
                     e.detail.content,
