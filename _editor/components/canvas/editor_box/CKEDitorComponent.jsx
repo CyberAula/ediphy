@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
-import { scrollElement, findBox } from '../../../../common/common_tools';
+import { scrollElement, findBox, blurCKEditor } from '../../../../common/common_tools';
 
 export default class CKEDitorComponent extends Component {
     constructor(props) {
@@ -11,22 +11,7 @@ export default class CKEDitorComponent extends Component {
     }
 
     onBlur() {
-        if (CKEDITOR.instances[this.props.id]) {
-            CKEDITOR.instances[this.props.id].focusManager.blur(true);
-            let data = CKEDITOR.instances[this.props.id].getData();
-            if (data.length === 0) {
-                data = i18n.t("text_here");
-                CKEDITOR.instances[this.props.id].setData(data);
-            }
-            this.props.onBlur(data);
-            let airlayer = document.getElementById("airlayer");
-            if (airlayer) {
-                airlayer.focus();
-            } else {
-                document.body.focus();
-            }
-
-        }
+        blurCKEditor(this.props.id, this.props.onBlur);
     }
 
     render() {
@@ -132,6 +117,8 @@ export default class CKEDitorComponent extends Component {
                 let initString = "<p>" + i18n.t("text_here") + "</p>\n";
                 if(CKstring === initString) {
                     CKEDITOR.instances[nextProps.id].setData("");
+                } else {
+                    CKEDITOR.instances[nextProps.id].setData(decodeURI(nextProps.toolbars[nextProps.id].state.__text));
                 }
                 /* let textArea = document.getElementById(nextProps.id);
                 if (textArea) {textArea.focus();}*/

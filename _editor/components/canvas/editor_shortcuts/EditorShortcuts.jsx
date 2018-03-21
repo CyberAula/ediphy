@@ -6,7 +6,7 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { UPDATE_BOX } from '../../../../common/actions';
 import i18n from 'i18next';
 import { isSortableBox, isSortableContainer } from '../../../../common/utils';
-import { findBox } from '../../../../common/common_tools';
+import { blurCKEditor, findBox } from '../../../../common/common_tools';
 
 /**
  * EditorShortcuts component
@@ -119,7 +119,8 @@ export default class EditorShortcuts extends Component {
                                 }>
                                 <button className="editorTitleButton"
                                     onClick={(e) => {
-                                        this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
+                                        blurCKEditor(toolbar.id, (text, content)=>{
+                                            this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, text, content);});
                                         e.stopPropagation();
                                     }}>
                                     <i className="material-icons">mode_edit</i>

@@ -17,6 +17,7 @@ import './_editorBox.scss';
 const SNAP_DRAG = 5;
 const SNAP_SIZE = 2;
 import { toolbarFiller } from "../../../../core/editor/accordion_provider";
+let html2json = require('html2json').html2json;
 
 /**
  * Ediphy Box component.
@@ -339,14 +340,8 @@ export default class EditorBox extends Component {
     /**
      * Blurs text area and saves data
      */
-    blurTextarea(data) {
-        this.props.onTextEditorToggled(this.props.id, false);
-        let toolbar = this.props.pluginToolbars[this.props.id];
-        let plugin = Ediphy.Plugins.get(toolbar.pluginId);
-        let config = plugin.getConfig();
-        plugin.forceUpdate(Object.assign({}, toolbar.state, {
-            __text: config.extraTextConfig ? data : encodeURI(data),
-        }), this.props.id, EDIT_PLUGIN_TEXT);
+    blurTextarea(text, data) {
+        this.props.onTextEditorToggled(this.props.id, false, text, data);
     }
 
     /**

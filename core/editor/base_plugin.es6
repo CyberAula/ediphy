@@ -154,6 +154,7 @@ export default function() {
                     };
                 }
             }
+            let template = null;
             let params = { ...initParams };
             params.name = config.name;
             params.isDefaultPlugin = defaultFor(initParams.isDefaultPlugin, false);
@@ -171,7 +172,6 @@ export default function() {
                 //     this.openConfigModal(reason, state);
                 // } else {
 
-                let template = null;
                 if (config.flavor !== "react") {
                     template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
                     if(template !== null) { // TODO Revisar
@@ -183,19 +183,16 @@ export default function() {
                     assignPluginContainerIdsReact(template);
 
                 }
-                if (template !== null) {
-                    return {
-                        template,
-                        initialParams: params,
-                        config: this.getConfig(),
-                        toolbar: this.getToolbar(state),
-                        state,
-                    };
-
-                }
 
             // }
             }
+            return {
+                template,
+                initialParams: params,
+                config: this.getConfig(),
+                toolbar: this.getToolbar(state),
+                state,
+            };
 
         },
         getConfig: function() {
@@ -364,9 +361,9 @@ export default function() {
                         if(button.type === "radio" || button.type === "select") {
                             button.options = defaultFor(button.options, []);
                         }
-                        if (!button.callback && !button.autoManaged) {
+                        /* if (!button.callback && !button.autoManaged) {
                             button.callback = this.update.bind(this);
-                        }
+                        }*/
                     }
                     if (accordions[accordionKey].accordions || accordions[accordionKey].order) {
                         let accordions2 = defaultFor(accordions[accordionKey].accordions, {}, "Property accordions in accordion '" + accordionKey + "' not found");
@@ -387,9 +384,9 @@ export default function() {
                                 if(button.type === "radio" || button.type === "select") {
                                     button.options = defaultFor(button.options, []);
                                 }
-                                if (!button.callback && !button.autoManaged) {
+                                /* if (!button.callback && !button.autoManaged) {
                                     button.callback = this.update.bind(this);
-                                }
+                                }*/
                             }
                         }
                     }
@@ -468,69 +465,7 @@ export default function() {
         postParseRichMarkInput(mark_id, value) {
             Ediphy.API.editRichMark(mark_id, value);
         },
-        forceUpdate: function(oldState, sender, reason) {
-            state = oldState;
-            id = sender ? sender : id;
-            this.render(reason);
-        },
-        render: function(reason) {
-            // Posible reasons:
-            // ADD_BOX,
-            // ADD_RICH_MARK,
-            // EDIT_RICH_MARK,
-            // DELETE_RICH_MARK,
-            // UPDATE_TOOLBAR,
-            // UPDATE_BOX,
-            // RESIZE_SORTABLE_CONTAINER,
-            // EDIT_PLUGIN_TEXT,
-            // UPDATE_NAV_ITEM_EXTRA_FILES
-            if (!descendant.getRenderTemplate) {
-                // eslint-disable-next-line no-console
-                console.error(this.getConfig().name + " has not defined getRenderTemplate method");
-            } else {
 
-                let template = null;
-                if (this.getConfig().flavor !== "react") {
-                    template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
-                    if(template !== null) { // TODO Revisar
-                        template = html2json(template);
-                        assignPluginContainerIds(template);
-                    }
-                } else{
-
-                    template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
-                    assignPluginContainerIdsReact(template);
-
-                }
-
-                if (template !== null) {
-                    Ediphy.API.renderPlugin(
-                        template,
-                        this.getToolbar(state),
-                        this.getConfig(),
-                        state,
-                        {
-                            id: id,
-                            parent: initialParams.parent,
-                            container: initialParams.container,
-                            page: initialParams.page,
-                        },
-                        {
-                            name: this.getConfig().name,
-                            position: initialParams.position,
-                            row: initialParams.row,
-                            col: initialParams.col,
-                            width: initialParams.width,
-                            height: initialParams.height,
-                            isDefaultPlugin: defaultFor(initialParams.isDefaultPlugin, false),
-                            index: initialParams.index,
-
-                        },
-                        reason
-                    );
-                }
-            }
-        },
         editRichMark: function(boxId, mark, value) {
             Ediphy.API.editRichMark(boxId, mark, value);
         },
@@ -539,23 +474,6 @@ export default function() {
             if (descendant.afterRender) {
                 descendant.afterRender(element, oldState);
             }
-        },
-        setCorrectAnswer: function(answer) {
-            if (state.__score) {
-                let score = JSON.parse(JSON.stringify(state.__score));
-                score.correctAnswer = answer;
-                state.__score = score;
-                this.render('UPDATE_TOOLBAR');
-
-            }
-        },
-        update: function(oldState, name, value, sender, reason) {
-            state = oldState;
-            id = sender || id;
-            if (descendant.handleToolbar) {
-                descendant.handleToolbar(name, value);
-            }
-            this.render(reason);
         },
         setState: function(key, value) {
             // chose if modify here or after

@@ -208,7 +208,7 @@ export default class EditorBoxSortable extends Component {
      */
     componentDidUpdate(prevProps, prevState) {
         this.props.boxes[this.props.id].children.map(id => {
-            this.configureResizable(this.refs[id]);
+            // this.configureResizable(this.refs[id]);
         });
     }
     /**
@@ -220,14 +220,13 @@ export default class EditorBoxSortable extends Component {
         // this.configureDropZone(".editorBoxSortableContainer", "existingContainer", ".rib");
 
         this.props.boxes[this.props.id].children.map(id => {
-            this.configureResizable(this.refs[id]);
+            // this.configureResizable(this.refs[id]);
         });
 
         let list = jQuery(this.refs.sortableContainer);
         list.sortable({
             handle: '.drag-handle',
             start: (event, ui) => {
-
                 // Hide EditorShortcuts
                 let bar = this.props.containedViewSelected === 0 ?
                     document.getElementById('editorBoxIcons') :

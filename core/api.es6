@@ -24,22 +24,6 @@ export function api() {
         changeView: function(id) {
             Ediphy.API_Private.emit(Ediphy.API_Private.events.changeView, { id: id });
         },
-        renderPlugin: function(html, toolbar, config, state, ids, initialParams, reason) {
-            if(!reason) {
-                // eslint-disable-next-line no-console
-                console.warn("No reason given");
-            }
-            Ediphy.API_Private.emit(Ediphy.API_Private.events.render, {
-                content: html,
-                toolbar: toolbar,
-                config: config,
-                state: state,
-                ids: ids,
-                initialParams: initialParams,
-                reason: reason,
-
-            });
-        },
     };
 }
 
@@ -49,9 +33,6 @@ export function api_private() {
         events: {
             addMenuButtons: {
                 emit: 'addMenuButtons',
-            },
-            render: {
-                emit: 'render',
             },
             markTriggered: {
                 emit: 'markTriggered',

@@ -398,7 +398,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
     /* let currentElement = (accordionKeys[0] === "basic") ? "state" :
         accordionKeys[0];*/
-    console.log(accordionKeys, 'accordionKeys');
     let currentElement = (["structure", "style", "z__extra", "__marks_list"].indexOf(accordionKeys[0]) === -1) ? "state" : accordionKeys[0];
     // get toolbar
     let toolbar_plugin_state;
@@ -626,7 +625,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             if (toolbar_props.boxSelected === -1) {
                 handlecanvasToolbar(button.__name, value, accordion, toolbar_props);
             } else {
-                console.log(id, currentElement, buttonKey, value);
                 toolbar_props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, value);
             }
 

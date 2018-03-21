@@ -30,6 +30,7 @@ import './_pluginToolbar.scss';
 import { renderAccordion, toolbarMapper, toolbarFiller } from "../../../../core/editor/accordion_provider";
 import FileInput from "../../common/file-input/FileInput";
 import PropTypes from 'prop-types';
+import { blurCKEditor } from '../../../../common/common_tools';
 
 /**
  * Toolbar component for configuring boxes or pages
@@ -67,7 +68,8 @@ export default class PluginToolbar extends Component {
                     <Button key={'text'}
                         className={toolbar.showTextEditor ? 'toolbarButton textediting' : 'toolbarButton'}
                         onClick={() => {
-                            this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
+                            blurCKEditor(toolbar.id, (text, content)=>{
+                                this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, text, content);});
                         }}>
                         <i className="toolbarIcons material-icons">mode_edit</i>
                         {i18n.t("edit_text")}
@@ -83,7 +85,6 @@ export default class PluginToolbar extends Component {
                     <Button key={'config'}
                         className='toolbarButton'
                         onClick={() => {
-                            console.log(toolbar.id);
                             this.props.openConfigModal(toolbar.id);
                             // Ediphy.Plugins.get(toolbar.pluginId).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
                         }}>
