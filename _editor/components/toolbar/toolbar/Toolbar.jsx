@@ -40,6 +40,7 @@ export default class Toolbar extends Component {
             toolbar = <ViewToolbar {...this.props}
                 open={this.state.open}
                 exercises={exercises}
+                onScoreConfig={(id, button, value, page) => {this.props.onScoreConfig(id, button, value, this.props.navItemSelected);}}
                 toggleToolbar={()=>this.toggleToolbar()} />;
 
             title = (this.props.viewToolbars[this.props.navItemSelected].viewName || "");
@@ -48,6 +49,7 @@ export default class Toolbar extends Component {
             toolbar = <PluginToolbar {...this.props}
                 open={this.state.open}
                 exercises={exercises}
+                onScoreConfig={(id, button, value, page) => {this.props.onScoreConfig(id, button, value, this.props.navItemSelected);}}
                 toggleToolbar={()=>this.toggleToolbar()}
                 openConfigModal={this.props.openConfigModal} />;
             let tb = this.props.pluginToolbars[this.props.box.id];

@@ -38,6 +38,7 @@ export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
 export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
 export const SET_BUSY = 'SET_BUSY';
 
+export const CONFIG_SCORE = 'CONFIG_SCORE';
 export const UPDATE_PLUGIN_TOOLBAR = 'UPDATE_PLUGIN_TOOLBAR';
 export const UPDATE_VIEW_TOOLBAR = 'UPDATE_VIEW_TOOLBAR';
 
@@ -236,6 +237,10 @@ export function updatePluginToolbar(id, tab, accordion, name, value) {
 
 export function updateViewToolbar(id, elements) {
     return { type: UPDATE_VIEW_TOOLBAR, payload: { id, ...elements } };
+}
+
+export function configScore(id, button, value, page) {
+    return { type: CONFIG_SCORE, payload: { id, button, value, page } };
 }
 
 export function fetchVishResourcesSuccess(result) {
