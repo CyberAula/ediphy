@@ -843,8 +843,11 @@ class EditorApp extends Component {
 
     onRichMarkUpdated(mark, createNew) {
         let boxSelected = this.props.boxSelected;
-        let toolbar = this.props.pluginToolbars[boxSelected];
-        let state = JSON.parse(JSON.stringify(toolbar.state));
+        let mark_exist = this.props.marks[mark.id] !== undefined;
+        if (mark_exist) {
+
+        }
+
         let oldConnection = state.__marks[mark.id] ? state.__marks[mark.id].connection : 0;
         state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
         let newConnection = mark.connection;
