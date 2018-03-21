@@ -200,21 +200,12 @@ export default class EditorBoxSortable extends Component {
         );
     }
 
-    /**
-     * After component updates
-     * Sets up interact resizable features
-     * @param prevProps React previous props
-     * @param prevState React previous state
-     */
     componentDidUpdate(prevProps, prevState) {
         this.props.boxes[this.props.id].children.map(id => {
             // this.configureResizable(this.refs[id]);
         });
     }
-    /**
-     * After component mounts
-     * Sets up interact sortable and resizable features
-     */
+
     componentDidMount() {
         this.configureDropZone(ReactDOM.findDOMNode(this), "newContainer", ".rib");
         // this.configureDropZone(".editorBoxSortableContainer", "existingContainer", ".rib");
@@ -260,10 +251,6 @@ export default class EditorBoxSortable extends Component {
         });
     }
 
-    /**
-     * Sets up interact resizable features.
-     * @param item Node that will be made resizable
-     */
     configureResizable(item) {
         interact(item).resizable({
             enabled: this.props.id === this.props.boxSelected && item.style.height !== "auto",
@@ -283,13 +270,6 @@ export default class EditorBoxSortable extends Component {
         });
     }
 
-    /**
-     * Sets up interact dropzone features
-     * @param node Node that accepts dragged items
-     * @param dropArea Denomination of the dropArea (cell, newContainer, existingContainer)
-     * @param selector Selector of the elements accepted in the dropzone
-     * @param extraParams Additional info, such as row and column
-     */
     configureDropZone(node, dropArea, selector, extraParams) {
         interact(node).dropzone({
             accept: selector,
@@ -346,7 +326,7 @@ export default class EditorBoxSortable extends Component {
                         e.dragEvent.stopPropagation();
                     } else {
                         let boxDragged = this.props.boxes[this.props.boxSelected];
-                        if (boxDragged) {// && ((this.props.id !== boxDragged.parent) || (extraParams.idContainer !== boxDragged.container) || (extraParams.j !== boxDragged.row) || (extraParams.i !== boxDragged.col))) {
+                        if (boxDragged) {
                             this.props.onBoxDropped(this.props.boxSelected,
                                 extraParams.j,
                                 extraParams.i,
@@ -405,10 +385,6 @@ export default class EditorBoxSortable extends Component {
         return newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
     }
 
-    /**
-     * Before component unmounts
-     * Unset interact listeners
-     */
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();
         interact(".editorBoxSortableContainer").unset();

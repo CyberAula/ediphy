@@ -10,13 +10,11 @@ import {
     toggleTextEditor, toggleTitleMode, pasteBox, changeBoxLayer,
     changeDisplayMode,
     exportStateAsync, importStateAsync, importState, changeGlobalConfig,
-    fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
+    fetchVishResourcesAsync, uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
     addRichMark, editRichMark, deleteRichMark, setCorrectAnswer,
     updateViewToolbar, updatePluginToolbar,
-    ADD_BOX, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_PLUGIN_TOOLBAR,
     addNavItems } from '../../common/actions';
-import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../common/constants';
 import EditorCanvas from '../components/canvas/editor_canvas/EditorCanvas';
 import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
 import EditorCarousel from '../components/carousel/editor_carousel/EditorCarousel';
@@ -33,44 +31,25 @@ import AutoSave from '../components/autosave/AutoSave';
 import Alert from '../components/common/alert/Alert';
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
 import i18n from 'i18next';
-import {
-    addDefaultContainerPluginsReact, parsePluginContainers, parsePluginContainersReact, addDefaultContainerPlugins,
-    hasExerciseBox,
-} from '../../common/plugins_inside_plugins';
+import { parsePluginContainers, parsePluginContainersReact, hasExerciseBox } from '../../common/plugins_inside_plugins';
 import Ediphy from '../../core/editor/main';
 import printToPDF from '../../core/editor/print';
 import {
-    isSortableBox, isSection, isContainedView, isSortableContainer, getDuplicatedBoxesIds,
+    isSortableBox, isSection, isContainedView,
     getDescendantLinkedBoxes, isBox,
 } from '../../common/utils';
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import PropTypes from 'prop-types';
-import { scrollElement, findBox } from '../../common/common_tools';
+
 /**
  * EditorApp. Main application component that renders everything else
  */
 class EditorApp extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
     constructor(props) {
         super(props);
-        /**
-         * Plugin index. It means that it will start in the first category available (text)
-         * @type {number}
-         */
         this.index = 0;
-        /**
-         * @TODO Comment
-         * @type {number}
-         */
         this.severalBoxes = 0;
-        /**
-         * Component's initial state
-         * @type {{alert: null, pluginTab: string, hideTab: string, visorVisible: boolean, xmlEditorVisible: boolean, richMarksVisible: boolean, markCreatorVisible: boolean, containedViewsVisible: boolean, currentRichMark: null, carouselShow: boolean, carouselFull: boolean, serverModal: boolean, catalogModal: boolean, lastAction: string}}
-         */
         this.state = {
             alert: null,
             pluginTab: '',
@@ -96,10 +75,6 @@ class EditorApp extends Component {
         this.onSortableContainerDeleted = this.onSortableContainerDeleted.bind(this);
     }
 
-    /**
-     * Renders React Component
-     * @returns {code}
-     */
     render() {
         const { dispatch, boxes, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, imagesUploaded, indexSelected, exercises,
@@ -190,7 +165,6 @@ class EditorApp extends Component {
                                 navItems[id].boxes.map(boxId => {
                                     boxesRemoving.push(boxId);
                                     boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
-                                    // containedRemoving = containedRemoving.concat(this.getDescendantContainedViews(boxes[boxId]));
                                 });
                             });
                             let marksRemoving = getDescendantLinkedBoxes(viewRemoving, navItems) || [];
@@ -419,6 +393,7 @@ class EditorApp extends Component {
                     carouselShow={this.state.carouselShow}
                     isBusy={isBusy}
                     marks={marksById}
+                    exercises={exercises}
                     fetchResults={fetchVishResults}
                     titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}
                     onContainedViewNameChanged={(id, titleStr) => dispatch(changeContainedViewName(id, titleStr))}
@@ -634,11 +609,6 @@ class EditorApp extends Component {
         }
     }
 
-    /**
-     * Views that hang from the given view
-     * @param view
-     * @returns {Array}
-     */
     getDescendantViews(view) {
         let selected = [];
 
@@ -651,11 +621,6 @@ class EditorApp extends Component {
         return selected;
     }
 
-    /**
-     * Children boxes of a given box
-     * @param box
-     * @returns {Array}
-     */
     getDescendantBoxes(box) {
         let selected = [];
 
@@ -666,23 +631,9 @@ class EditorApp extends Component {
                 selected = selected.concat(this.getDescendantBoxes(this.props.boxes[bx]));
             }
         }
-        /* for (let i = 0; i < box.containedViews.length; i++) {
-            let cv = box.containedViews[i];
-            for (let j = 0; j < this.props.containedViews[cv].boxes.length; j++) {
-                let bx = this.props.containedViews[cv].boxes[j];
-                selected.push(bx);
-                selected = selected.concat(this.getDescendantBoxes(this.props.boxes[bx]));
-            }
-        }*/
         return selected;
     }
 
-    /**
-     * Children boxes of a given container
-     * @param box
-     * @param container
-     * @returns {Array}
-     */
     getDescendantBoxesFromContainer(box, container) {
         let selected = [];
 
@@ -703,11 +654,6 @@ class EditorApp extends Component {
         return selected;
     }
 
-    /**
-     * Get descendant contained views from a given box
-     * @param box
-     * @returns {Array}
-     */
     getDescendantContainedViews(box) {
         let selected = [];
 
@@ -728,13 +674,6 @@ class EditorApp extends Component {
         return selected;
     }
 
-    /**
-
-     * ContainerJS's linked contained views
-     * @param box EditorBoxSortable
-     * @param container SortableContainer
-     * @returns {Array}
-     */
     getDescendantContainedViewsFromContainer(box, container) {
         let selected = [];
 

@@ -9,10 +9,6 @@ import { isSortableBox, isBox, isCanvasElement, isContainedView } from '../../..
  *  It shows the current contained view's origin (page, plugin and mark)
  */
 export default class CVInfo extends Component {
-    /**
-     * Renders React Component
-     * @returns {code}
-     */
     render() {
         let cvList = [];
         for (let id in this.props.containedView.parent) {

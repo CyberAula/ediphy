@@ -20,25 +20,13 @@ import { ID_PREFIX_BOX } from '../../../../common/constants';
  * Canvas component to display slides
  */
 export default class EditorCanvasSli extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
     constructor(props) {
         super(props);
-        /**
-         * Component's initial state
-         * @type {{showTitle: boolean, alert: null}}
-         */
         this.state = {
             alert: null,
         };
     }
 
-    /**
-     * Renders React component
-     * @returns {code}
-     */
     render() {
         let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
         let titles = [];
@@ -101,11 +89,6 @@ export default class EditorCanvasSli extends Component {
                             onViewTitleChanged={this.props.onViewTitleChanged}
                         />
 
-                        {/* {this.props.fromCV ?  (<button className="btnOverBar cvBackButton" style={{margin: "10px 0px 0px 10px"}}
-                                 onClick={e => {
-                                     this.props.onContainedViewSelected(0);
-                                     e.stopPropagation();
-                                 }}><i className="material-icons">undo</i></button>):(<br/>)}*/}
                         <br/>
 
                         <div style={{
@@ -154,9 +137,6 @@ export default class EditorCanvasSli extends Component {
                             />;
 
                         })}
-                        {/* A JSX comment
-                        {boxes.length === 0 ? (<div className="dragContentHere" style={{backgroundColor: 'transparent', border:0}}>{i18n.t("messages.drag_content")}</div>):(<span></span>)}
-                        */}
                     </div>
                     <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', this.props.fromCV ? 'containedCanvas' : 'canvas', this.props.navItemSelected.customSize);
                     }} />
@@ -178,10 +158,6 @@ export default class EditorCanvasSli extends Component {
         );
     }
 
-    /**
-     * After component mounts
-     * Set up interact in order to enable dragging boxes
-     */
     componentDidMount() {
         interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).dropzone({
             accept: '.floatingEditorBox, .dnd',
@@ -272,19 +248,10 @@ export default class EditorCanvasSli extends Component {
         aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas', this.props.navItemSelected.customSize);
     }
 
-    /**
-     * Before component unmounts
-     * Unset interact
-     */
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).unset();
     }
 
-    /**
-     * Before component updates
-     * Set aspect ratio acccording to current window size
-     * @param nextProps
-     */
     componentWillUpdate(nextProps) {
         if (this.props.canvasRatio !== nextProps.canvasRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
             window.canvasRatio = nextProps.canvasRatio;

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import EditorCanvasSli from '../editor_canvas_sli/EditorCanvasSli';
 import EditorCanvasDoc from '../editor_canvas_doc/EditorCanvasDoc';
-import { REORDER_SORTABLE_CONTAINER, REORDER_BOXES } from '../../../../common/actions';
 import { isSlide } from '../../../../common/utils';
 
 import './_canvas.scss';
@@ -12,29 +11,16 @@ import './_canvas.scss';
  *
  */
 export default class EditorCanvas extends Component {
-    /**
-     * Constructor
-     * @param props React component props
-     */
     constructor(props) {
         super(props);
     }
 
-    /**
-     * Renders React Component
-     * @returns {code} React rendered component
-     */
     render() {
         return (!this.props.navItemSelected || !this.props.navItemSelected.type || isSlide(this.props.navItemSelected.type)) ?
             (<EditorCanvasSli fromCV={false} {...this.props} />) :
             (<EditorCanvasDoc fromCV={false} {...this.props} />);
     }
 
-    /**
-     * Before component receives props
-     * Scrolls to top when the user changes to a different page
-     * @param nextProps
-     */
     componentWillReceiveProps(nextProps) {
 
         if (this.props.navItemSelected && this.props.navItemSelected.id &&

@@ -10,15 +10,8 @@ import CVInfo from "./CVInfo";
  *  It shows the current page's title
  */
 export default class EditorHeader extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
     constructor(props) {
         super(props);
-        /**
-         * Component's initial state
-         */
         this.state = {
             editingTitle: false,
             currentTitle: this.props.courseTitle,
@@ -26,10 +19,6 @@ export default class EditorHeader extends Component {
             currentNavTitle: '',
         };
     }
-    /**
-     * Renders React Component
-     * @returns {code}
-     */
     render() {
         if (this.props.navItem || this.props.containedView) {
             let navItem = this.props.containedView !== 0 ? this.props.containedView : this.props.navItem;

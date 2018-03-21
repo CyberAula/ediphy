@@ -120,8 +120,6 @@ export default class CKEDitorComponent extends Component {
                 } else {
                     CKEDITOR.instances[nextProps.id].setData(decodeURI(nextProps.toolbars[nextProps.id].state.__text));
                 }
-                /* let textArea = document.getElementById(nextProps.id);
-                if (textArea) {textArea.focus();}*/
 
             }
         }

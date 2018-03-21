@@ -8,15 +8,7 @@ import EditorHeader from '../editor_header/EditorHeader';
 import Ediphy from '../../../../core/editor/main';
 import { isSortableBox } from '../../../../common/utils';
 
-/**
- * EditorCanvasDoc component
- * Canvas component to display documents
- */
 export default class EditorCanvasDoc extends Component {
-    /**
-     * Renders React Component
-     * @returns {code}
-     */
     render() {
         let titles = [];
         let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
@@ -41,11 +33,40 @@ export default class EditorCanvasDoc extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
-        /* let isSection = this.props.navItemSelected.id.toString().indexOf('se') !== -1;
-        let contentAllowedInSections = Ediphy.Config.sections_have_content;
-        let showCanvas = (!isSection || (isSection && contentAllowedInSections));*/
         let boxes = itemSelected ? itemSelected.boxes : [];
         let show = itemSelected && itemSelected.id !== 0;
+
+        let commonProps = {
+            addMarkShortcut: this.props.addMarkShortcut,
+            accordions: this.props.accordions,
+            background: itemSelected.background,
+            setCorrectAnswer: this.props.setCorrectAnswer,
+            boxes: this.props.boxes,
+            boxSelected: this.props.boxSelected,
+            boxLevelSelected: this.props.boxLevelSelected,
+            containedViews: this.props.containedViews,
+            containedViewSelected: this.props.containedViewSelected,
+            pluginToolbars: this.props.pluginToolbars,
+            lastActionDispatched: this.props.lastActionDispatched,
+            deleteMarkCreator: this.props.deleteMarkCreator,
+            onRichMarkUpdated: this.props.onRichMarkUpdated,
+            markCreatorId: this.props.markCreatorId,
+            onBoxAdded: this.props.onBoxAdded,
+            onBoxSelected: this.props.onBoxSelected,
+            onBoxLevelIncreased: this.props.onBoxLevelIncreased,
+            onBoxMoved: this.props.onBoxMoved,
+            onBoxResized: this.props.onBoxResized,
+            onBoxesInsideSortableReorder: this.props.onBoxesInsideSortableReorder,
+            onSortableContainerResized: this.props.onSortableContainerResized,
+            onSortableContainerDeleted: this.props.onSortableContainerDeleted,
+            onSortableContainerReordered: this.props.onSortableContainerReordered,
+            onRichMarksModalToggled: this.props.onRichMarksModalToggled,
+            onBoxDropped: this.props.onBoxDropped,
+            onVerticallyAlignBox: this.props.onVerticallyAlignBox,
+            onTextEditorToggled: this.props.onTextEditorToggled,
+            pageType: itemSelected.type || 0,
+        };
+
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasDocClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
@@ -71,13 +92,6 @@ export default class EditorCanvasDoc extends Component {
                         onTitleChanged={this.props.onTitleChanged}
                     />
                     <div className="outter canvaseditor" style={{ background: itemSelected.background, display: show ? 'block' : 'none' }}>
-                        {/*
-                    {this.props.fromCV ?  (<button className="btnOverBar cvBackButton" style={{margin: "10px 0px 0px 10px"}}
-                             onClick={e => {
-                                 this.props.onContainedViewSelected(0);
-                                 e.stopPropagation();
-                             }}><i className="material-icons">undo</i></button>):(<br/>)}
-                     */}
                         <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
                             className={'doc_air'}
                             style={{ background: itemSelected.background, visibility: (show ? 'visible' : 'hidden') }}>
@@ -88,82 +102,13 @@ export default class EditorCanvasDoc extends Component {
 
                                 <br/>
 
-                                {/*  <div id={this.props.fromCV ? "contained_canvas_boxes" : "canvas_boxes"}
-                                    style={{
-                                        width: "100%",
-                                        background: "black",
-                                        height: overlayHeight,
-                                        position: "absolute",
-                                        top: 0,
-                                        opacity: 0.4,
-                                        display: (this.props.boxLevelSelected > 0) ? "block" : "none",
-                                        visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse",
-                                    }} />*/}
                                 {boxes.map(id => {
                                     let box = boxes[id];
                                     if (!isSortableBox(id)) {
-                                        return <EditorBox key={id}
-                                            id={id}
-                                            setCorrectAnswer={this.props.setCorrectAnswer}
-                                            addMarkShortcut={this.props.addMarkShortcut}
-                                            accordions={this.props.accordions}
-                                            boxes={this.props.boxes}
-                                            page={itemSelected ? itemSelected.id : 0}
-                                            boxSelected={this.props.boxSelected}
-                                            boxLevelSelected={this.props.boxLevelSelected}
-                                            containedViews={this.props.containedViews}
-                                            containedViewSelected={this.props.containedViewSelected}
-                                            deleteMarkCreator={this.props.deleteMarkCreator}
-                                            lastActionDispatched={this.props.lastActionDispatched}
-                                            markCreatorId={this.props.markCreatorId}
-                                            onBoxAdded={this.props.onBoxAdded}
-                                            onBoxSelected={this.props.onBoxSelected}
-                                            onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                            onBoxMoved={this.props.onBoxMoved}
-                                            onBoxResized={this.props.onBoxResized}
-                                            onRichMarkUpdated={this.props.onRichMarkUpdated}
-                                            onSortableContainerResized={this.props.onSortableContainerResized}
-                                            onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                                            onBoxDropped={this.props.onBoxDropped}
-                                            onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                            onTextEditorToggled={this.props.onTextEditorToggled}
-                                            pluginToolbars={this.props.pluginToolbars}
-                                            exercises={itemSelected ? (this.props.exercises[itemSelected.id].exercises[id]) : undefined}
-                                            onRichMarksModalToggled={this.props.onRichMarksModalToggled}
-                                            pageType={itemSelected.type || 0}/>;
+                                        return <EditorBox key={id} id={id} {...commonProps} exercises={itemSelected ? (this.props.exercises[itemSelected.id].exercises[id]) : undefined} />;
                                     }
-                                    return <EditorBoxSortable key={id}
-                                        id={id}
-                                        page={itemSelected ? itemSelected.id : 0}
-                                        addMarkShortcut={this.props.addMarkShortcut}
-                                        accordions={this.props.accordions}
-                                        background={itemSelected.background}
-                                        setCorrectAnswer={this.props.setCorrectAnswer}
-                                        boxes={this.props.boxes}
-                                        boxSelected={this.props.boxSelected}
-                                        boxLevelSelected={this.props.boxLevelSelected}
-                                        containedViews={this.props.containedViews}
-                                        containedViewSelected={this.props.containedViewSelected}
-                                        pluginToolbars={this.props.pluginToolbars}
-                                        exercises={this.props.exercises}
-                                        lastActionDispatched={this.props.lastActionDispatched}
-                                        deleteMarkCreator={this.props.deleteMarkCreator}
-                                        onRichMarkUpdated={this.props.onRichMarkUpdated}
-                                        markCreatorId={this.props.markCreatorId}
-                                        onBoxAdded={this.props.onBoxAdded}
-                                        onBoxSelected={this.props.onBoxSelected}
-                                        onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                        onBoxMoved={this.props.onBoxMoved}
-                                        onBoxResized={this.props.onBoxResized}
-                                        onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                                        onSortableContainerResized={this.props.onSortableContainerResized}
-                                        onSortableContainerDeleted={this.props.onSortableContainerDeleted}
-                                        onSortableContainerReordered={this.props.onSortableContainerReordered}
-                                        onRichMarksModalToggled={this.props.onRichMarksModalToggled}
-                                        onBoxDropped={this.props.onBoxDropped}
-                                        onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                        onTextEditorToggled={this.props.onTextEditorToggled}
-                                        pageType={itemSelected.type || 0}/>;
+                                    return <EditorBoxSortable key={id} {...commonProps}
+                                        id={id} exercises={this.props.exercises} page={itemSelected ? itemSelected.id : 0} />;
 
                                 })}
                             </div>
