@@ -48,6 +48,7 @@ export const FETCH_VISH_RESOURCES_SUCCESS = "FETCH_VISH_RESOURCES_SUCCESS";
 
 export const ADD_RICH_MARK = 'ADD_RICH_MARK';
 export const EDIT_RICH_MARK = 'EDIT_RICH_MARK';
+export const MOVE_RICH_MARK = 'MOVE_RICH_MARK';
 export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
 
 export const ADD_CONTAINED_VIEW = 'ADD_CONTAINED_VIEW';
@@ -188,6 +189,10 @@ export function reorderBoxes(parent, container, order) {
 
 export function addRichMark(parent, mark, state) {
     return { type: ADD_RICH_MARK, payload: { parent, mark, state } };
+}
+
+export function moveRichMark(mark, value) {
+    return { type: MOVE_RICH_MARK, payload: { mark, value } };
 }
 
 export function editRichMark(parent, state, mark, oldConnection, newConnection) {

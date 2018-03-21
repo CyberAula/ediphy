@@ -49,7 +49,7 @@ export default class EditorCanvasDoc extends Component {
             pluginToolbars: this.props.pluginToolbars,
             lastActionDispatched: this.props.lastActionDispatched,
             deleteMarkCreator: this.props.deleteMarkCreator,
-            onRichMarkUpdated: this.props.onRichMarkUpdated,
+            onRichMarkMoved: this.props.onRichMarkMoved,
             markCreatorId: this.props.markCreatorId,
             onBoxAdded: this.props.onBoxAdded,
             onBoxSelected: this.props.onBoxSelected,

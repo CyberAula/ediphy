@@ -218,9 +218,7 @@ export default class MarkEditor extends Component {
             if (boxParent) {
                 let boxId = findParentBySelector(myself, '.wholebox').id.replace("box-", "");
                 // base.editRichMark(boxId, id, value);
-                let newState = JSON.parse(JSON.stringify(base.getState()));
-                newState.__marks = marks;
-                component.props.onRichMarkUpdated(boxId, newState, id);
+                component.props.onRichMarkMoved(id, value);
                 // base.setState('__marks', marks);
                 // base.render('EDIT_RICH_MARK');
             }

@@ -12,7 +12,7 @@ import {
     exportStateAsync, importStateAsync, importState, changeGlobalConfig,
     fetchVishResourcesAsync, uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
-    addRichMark, editRichMark, deleteRichMark, setCorrectAnswer,
+    addRichMark, editRichMark, moveRichMark, deleteRichMark, setCorrectAnswer,
     updateViewToolbar, updatePluginToolbar,
     addNavItems } from '../../common/actions';
 import EditorCanvas from '../components/canvas/editor_canvas/EditorCanvas';
@@ -78,7 +78,7 @@ class EditorApp extends Component {
     render() {
         const { dispatch, boxes, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, imagesUploaded, indexSelected, exercises,
-            undoDisabled, redoDisabled, displayMode, isBusy, pluginToolbars, viewToolbars, marksById, lastActionDispatched, globalConfig, fetchVishResults } = this.props;
+            undoDisabled, redoDisabled, displayMode, isBusy, pluginToolbars, viewToolbars, marks, lastActionDispatched, globalConfig, fetchVishResults } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
         let canvasRatio = globalConfig.canvasRatio;
@@ -233,7 +233,7 @@ class EditorApp extends Component {
                                 canvasRatio={canvasRatio}
                                 boxSelected={boxSelected}
                                 boxLevelSelected={boxLevelSelected}
-                                marks={marksById}
+                                marks={marks}
                                 navItems={navItems}
                                 navItemSelected={navItems[navItemSelected]}
                                 containedViews={containedViews}
@@ -261,8 +261,8 @@ class EditorApp extends Component {
                                 onBoxMoved={(id, x, y, position, parent, container) => dispatch(moveBox(id, x, y, position, parent, container))}
                                 onBoxResized={(id, structure) => dispatch(resizeBox(id, structure))}
                                 onSortableContainerResized={(id, parent, height) => dispatch(resizeSortableContainer(id, parent, height))}
-                                onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
-                                onRichMarkUpdated={(box, state, mark)=>{dispatch(editRichMark(box, state, mark));}}
+                                onSortableContainerDeleted={(id, parent) => this.onSortableContainerDeleted(id, parent)}
+                                moveRichMark={(id, value)=> dispatch(moveRichMark(id, value))}
                                 onSortableContainerReordered={(ids, parent) => dispatch(reorderSortableContainer(ids, parent))}
                                 onBoxDropped={(id, row, col, parent, container, oldParent, oldContainer, position, index) => dispatch(dropBox(id, row, col, parent, container, oldParent, oldContainer, position, index))}
                                 onBoxDeleted={(id, parent, container, page)=> {let bx = this.getDescendantBoxes(boxes[id]); dispatch(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/, page));}}
@@ -285,7 +285,7 @@ class EditorApp extends Component {
                                 grid={this.state.grid}
                                 boxSelected={boxSelected}
                                 canvasRatio={canvasRatio}
-                                marks={marksById}
+                                marks={marks}
                                 exercises={exercises}
                                 boxLevelSelected={boxLevelSelected}
                                 navItems={navItems}
@@ -314,7 +314,7 @@ class EditorApp extends Component {
                                 }}
                                 pluginToolbars={pluginToolbars}
                                 viewToolbars={viewToolbars}
-                                onRichMarkUpdated={(box, state, mark)=>{dispatch(editRichMark(box, state, mark));}}
+                                moveRichMark={(id, value)=> dispatch(moveRichMark(id, value))}
                                 titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}
                                 lastActionDispatched={lastActionDispatched}
                                 onContainedViewSelected={id => dispatch(selectContainedView(id))}
@@ -364,7 +364,7 @@ class EditorApp extends Component {
                     markCursorValue={this.state.markCursorValue}
                     containedViewSelected={containedViewSelected}
                     containedViews={containedViews}
-                    marks={marksById}
+                    marks={marks}
                     navItems={navItems}
                     navItemsIds={navItemsIds}
                     visible={this.state.richMarksVisible}
@@ -372,6 +372,7 @@ class EditorApp extends Component {
                     defaultValueMark={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).getConfig().defaultMarkValue : 0}
                     validateValueInput={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).validateValueInput : null}
                     onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
+                    onRichMarkAdded={(mark, view, viewToolbar)=> dispatch(addRichMark(mark, view, viewToolbar))}
                     onRichMarkUpdated={this.onRichMarkUpdated}
                     onRichMarksModalToggled={() => {
                         this.setState({ richMarksVisible: !this.state.richMarksVisible });
@@ -392,7 +393,7 @@ class EditorApp extends Component {
                     navItems={containedViewSelected !== 0 ? containedViews : navItems}
                     carouselShow={this.state.carouselShow}
                     isBusy={isBusy}
-                    marks={marksById}
+                    marks={marks}
                     exercises={exercises}
                     fetchResults={fetchVishResults}
                     titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}
@@ -707,12 +708,7 @@ class EditorApp extends Component {
             state.__marks[mark.id].connection = mark.connection.id;
         }
 
-        if (!this.state.currentRichMark && createNew) {
-            this.props.dispatch(addRichMark(boxSelected, mark, state));
-        } else {
-            this.props.dispatch(editRichMark(boxSelected, state, mark, oldConnection, newConnection));
-
-        }
+        this.props.dispatch(editRichMark(boxSelected, state, mark, oldConnection, newConnection));
 
     }
 
@@ -796,6 +792,7 @@ EditorApp.propTypes = {
     boxSelected: PropTypes.any,
     boxLevelSelected: PropTypes.any,
     indexSelected: PropTypes.any,
+    marks: PropTypes.object,
     navItemsIds: PropTypes.array.isRequired,
     navItems: PropTypes.object.isRequired,
     navItemSelected: PropTypes.any,

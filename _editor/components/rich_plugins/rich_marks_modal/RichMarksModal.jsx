@@ -308,8 +308,8 @@ export default class RichMarksModal extends Component {
                             connection = ReactDOM.findDOMNode(this.refs.externalSelected).value;
                             break;
                         }
-                        if(this.props.marks[newMark] !== undefined) {
-                            this.props.addRichMark(markState);
+                        if(this.props.marks[newMark] === undefined) {
+                            this.props.onRichMarkAdded(markState.mark, markState.view, markState.viewToolbar);
                         } else{
                             this.props.updateRichMark(markState);
                         }
