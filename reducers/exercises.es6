@@ -21,7 +21,6 @@ function exercisesReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
     case PASTE_BOX:
-        console.log(action.payload);
         let name = action.type === 'ADD_BOX' ? action.payload.initialParams.name : action.payload.toolbar.pluginId;
         let config = Ediphy.Plugins.get(name).getConfig();
         if (config && config.category === 'evaluation') {

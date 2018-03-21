@@ -138,10 +138,14 @@ export default function(state = {}, action = {}) {
         let idCaller = action.payload.id || action.payload.caller;
         return {
             ...state,
-            [idCaller]: { ...state[idCaller], showTextEditor: action.payload.value },
+            [idCaller]: { ...state[idCaller],
+                showTextEditor: action.payload.value },
         };
     case UPDATE_BOX:
-        return state;
+        return {
+            ...state,
+            [action.payload.id]: { ...state[action.payload.id],
+                state: action.payload.state } };
         //   return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
     case UPDATE_PLUGIN_TOOLBAR:
         let newValues = {};

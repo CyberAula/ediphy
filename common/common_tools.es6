@@ -5,7 +5,7 @@ import {
 } from './plugins_inside_plugins';
 import { ID_PREFIX_BOX } from './constants';
 let html2json = require('html2json').html2json;
-
+import i18n from 'i18next';
 export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", customSize = 0) {
     // change ratio to the global ratio store in the app
     let ratio = ratioparam;
@@ -209,4 +209,23 @@ export function createBox(ids, name, slide, addBox, boxes) {
     });
     let boxCreated = findBox(ids.id);
     scrollElement(boxCreated);
+}
+
+export function blurCKEditor(id, callback) {
+    if (CKEDITOR.instances[id]) {
+        CKEDITOR.instances[id].focusManager.blur(true);
+        let data = CKEDITOR.instances[id].getData();
+        if (data.length === 0) {
+            data = i18n.t("text_here");
+            CKEDITOR.instances[id].setData((data));
+        }
+        callback(encodeURI(data), html2json(encodeURI(data)));
+        let airlayer = document.getElementById("airlayer");
+        if (airlayer) {
+            airlayer.focus();
+        } else {
+            document.body.focus();
+        }
+
+    }
 }

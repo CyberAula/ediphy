@@ -56,7 +56,7 @@ export default class AutoSave extends Component {
                 this.setState({ displaySave: false });
             }, 2000);
         }
-
+        console.log('autosave0', nextProps.lastAction);
         if (this.state.modifiedState === false) {
             switch(nextProps.lastAction) {
             case CHANGE_DISPLAY_MODE:

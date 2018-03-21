@@ -9,8 +9,8 @@ import { isAncestorOrSibling, isBox, isSortableContainer } from '../../../../com
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 import './_pluginPlaceHolder.scss';
-import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
-import { instanceExists, releaseClick, findBox } from '../../../../common/common_tools';
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
+import { instanceExists, releaseClick, findBox, createBox } from '../../../../common/common_tools';
 
 export default class PluginPlaceholder extends Component {
     constructor(props) {
@@ -161,6 +161,7 @@ export default class PluginPlaceholder extends Component {
                     col: forbidden ? 0 : extraParams.i,
                     row: forbidden ? 0 : extraParams.j,
                     page: this.props.page,
+                    id: ID_PREFIX_BOX + Date.now(),
                 };
                 let newInd = initialParams.container === 0 ? undefined : this.getIndex(this.props.boxes, initialParams.parent, initialParams.container, e.dragEvent.clientX, e.dragEvent.clientY, forbidden, this.props.parentBox.id);
                 initialParams.index = newInd;
@@ -169,7 +170,7 @@ export default class PluginPlaceholder extends Component {
                         this.setState({ alert: alert(i18n.t('messages.instance_limit')) });
                         return;
                     }
-                    config.callback(initialParams, ADD_BOX);
+                    createBox(initialParams, name, false, this.props.onBoxAdded, this.props.boxes);
 
                 } else {
 

@@ -14,39 +14,23 @@ import {
     Panel,
 } from 'react-bootstrap';
 import GridConfigurator from '../grid_configurator/GridConfigurator.jsx';
-import RadioButtonFormGroup from '../radio_button_form_group/RadioButtonFormGroup.jsx';
-import Select from 'react-select';
-import ExternalProvider from '../../external_provider/external_provider/ExternalProvider';
-import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
 import Ediphy from '../../../../core/editor/main';
-import ColorPicker from './../../common/color-picker/ColorPicker';
-import ToggleSwitch from '@trendmicro/react-toggle-switch';
 import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
 import { UPDATE_TOOLBAR, UPDATE_BOX } from '../../../../common/actions';
-import { isSortableContainer, isCanvasElement, isContainedView, isSlide, isDocument } from '../../../../common/utils';
 import i18n from 'i18next';
 import './_pluginToolbar.scss';
-
 import { renderAccordion, toolbarMapper, toolbarFiller } from "../../../../core/editor/accordion_provider";
-import FileInput from "../../common/file-input/FileInput";
 import PropTypes from 'prop-types';
+import { blurCKEditor } from '../../../../common/common_tools';
 
 /**
  * Toolbar component for configuring boxes or pages
  */
 export default class PluginToolbar extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
     constructor(props) {
         super(props);
     }
 
-    /**
-     * Render React component
-     * @returns {code}
-     */
     render() {
         let toolbar = this.props.pluginToolbars[this.props.box.id];
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
@@ -67,7 +51,8 @@ export default class PluginToolbar extends Component {
                     <Button key={'text'}
                         className={toolbar.showTextEditor ? 'toolbarButton textediting' : 'toolbarButton'}
                         onClick={() => {
-                            this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
+                            blurCKEditor(toolbar.id, (text, content)=>{
+                                this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, text, content);});
                         }}>
                         <i className="toolbarIcons material-icons">mode_edit</i>
                         {i18n.t("edit_text")}
@@ -83,7 +68,6 @@ export default class PluginToolbar extends Component {
                     <Button key={'config'}
                         className='toolbarButton'
                         onClick={() => {
-                            console.log(toolbar.id);
                             this.props.openConfigModal(toolbar.id);
                             // Ediphy.Plugins.get(toolbar.pluginId).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
                         }}>
@@ -94,8 +78,9 @@ export default class PluginToolbar extends Component {
             );
         }
         if(apiPlugin) {
-            toolbarFiller(controls, this.props.box.id, toolbar, config, config, this.props.box.parent, null);
+            toolbarFiller(controls, this.props.box.id, toolbar, config, config, this.props.box.parent, null, this.props.exercises);
             controls = toolbarMapper(controls, toolbar);
+
         } else {
             controls = {
                 main: {

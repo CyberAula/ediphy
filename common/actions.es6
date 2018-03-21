@@ -202,8 +202,8 @@ export function selectContainedView(id) {
     return { type: SELECT_CONTAINED_VIEW, payload: { id } };
 }
 
-export function toggleTextEditor(caller, value) {
-    return { type: TOGGLE_TEXT_EDITOR, payload: { caller, value } };
+export function toggleTextEditor(id, value, text, content) {
+    return { type: TOGGLE_TEXT_EDITOR, payload: { id, value, text, content } };
 }
 
 export function pasteBox(ids, box, toolbar, children, index) {

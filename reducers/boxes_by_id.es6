@@ -5,7 +5,7 @@ import Utils, {
 import {
     ADD_BOX, MOVE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, ADD_RICH_MARK,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
-    DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE, PASTE_BOX, UPDATE_PLUGIN_TOOLBAR,
+    DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE, PASTE_BOX, UPDATE_PLUGIN_TOOLBAR, TOGGLE_TEXT_EDITOR,
 } from '../common/actions';
 import { ID_PREFIX_BOX } from '../common/constants';
 
@@ -122,6 +122,7 @@ function boxReducer(state = {}, action = {}) {
         );
     case ADD_RICH_MARK:
         return changeProp(state, "containedViews", [...state.containedViews, action.payload.mark.connection.id || action.payload.mark.connection]);
+
     case CHANGE_COLS:
         if (action.payload.parent === state.id) {
             return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
@@ -236,6 +237,7 @@ function boxReducer(state = {}, action = {}) {
             );
         }
         return state;
+
     case UPDATE_BOX:
         // sortableContainers for boxes inside this box (this is not EditorBoxSortable) (***** only working with PLUGIN inside PLUGIN)
         let sortableContainers = {};
@@ -446,6 +448,7 @@ export default function(state = {}, action = {}) {
     case RESIZE_SORTABLE_CONTAINER:
         return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
     case UPDATE_BOX:
+    case TOGGLE_TEXT_EDITOR:
     case UPDATE_PLUGIN_TOOLBAR:
         return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
     case ADD_RICH_MARK:

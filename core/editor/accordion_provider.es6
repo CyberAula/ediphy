@@ -10,7 +10,7 @@ import MarksList from "../../_editor/components/rich_plugins/marks_list/MarksLis
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
 import ExternalProvider from "../../_editor/components/external_provider/external_provider/ExternalProvider";
 
-export function toolbarFiller(toolbar, id, state, config, initialParams, container, marks = null) {
+export function toolbarFiller(toolbar, id, state, config, initialParams, container, marks = null, exercises = {}) {
     if (isSortableBox(id)) {
         toolbar.config.displayName = i18n.t('Container_');
     }
@@ -23,6 +23,10 @@ export function toolbarFiller(toolbar, id, state, config, initialParams, contain
     }
     if (config && config.isRich) {
         createRichAccordions(toolbar);
+    }
+
+    if (config && config.category === 'evaluation') {
+        // createScoreAccordions(toolbar, state, exercises);
     }
     return toolbar;
 }
@@ -84,6 +88,38 @@ export function createRichAccordions(controls) {
     }
 }
 
+export function createScoreAccordions(controls, state, exercises) {
+    console.log('EXERCISES', exercises);
+    if (!controls.main) {
+        controls.main = {
+            __name: "Main",
+            accordions: {
+
+            },
+        };
+    }
+    if (!controls.main.accordions.score) {
+        controls.main.accordions.__score = {
+            key: '__score',
+            __name: i18n.t("Toolbar de score"),
+            icon: 'school',
+            buttons: {},
+        };
+    }
+    let buttons = Object.assign({}, controls.main.accordions.__score.buttons || {}, {
+        weight: {
+            __name: "wEIGHT",
+            __defaultField: true,
+            type: "number",
+            value: 1,
+            min: 0,
+        },
+
+    });
+
+    controls.main.accordions.__score.buttons = buttons;
+
+}
 export function createAspectRatioButton(controls, config) {
     let arb = config.aspectRatioButtonConfig;
     let button = {
@@ -398,7 +434,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
     /* let currentElement = (accordionKeys[0] === "basic") ? "state" :
         accordionKeys[0];*/
-    console.log(accordionKeys, 'accordionKeys');
     let currentElement = (["structure", "style", "z__extra", "__marks_list"].indexOf(accordionKeys[0]) === -1) ? "state" : accordionKeys[0];
     // get toolbar
     let toolbar_plugin_state;
@@ -626,7 +661,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             if (toolbar_props.boxSelected === -1) {
                 handlecanvasToolbar(button.__name, value, accordion, toolbar_props);
             } else {
-                console.log(id, currentElement, buttonKey, value);
                 toolbar_props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, value);
             }
 

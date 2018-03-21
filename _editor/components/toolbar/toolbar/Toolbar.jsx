@@ -6,30 +6,25 @@ import { isCanvasElement } from "../../../../common/utils";
 import Ediphy from "../../../../core/editor/main";
 
 export default class Toolbar extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
     constructor(props) {
         super(props);
 
-        /**
-         * Component's initial state
-         * @type {{open: boolean}}
-         */
         this.state = {
             open: false,
         };
     }
 
     render() {
+        console.log(this.props.exercises);
         return(
             (this.props.boxSelected === -1 && isCanvasElement(this.props.navItemSelected, Ediphy.Config.sections_have_content)) ?
                 <ViewToolbar {...this.props}
                     open={this.state.open}
+                    exercises={this.props.exercises[this.props.navItemSelected]}
                     toggleToolbar={()=>this.toggleToolbar()}/> :
                 <PluginToolbar {...this.props}
                     open={this.state.open}
+                    exercises={this.props.exercises[this.props.boxSelected]}
                     toggleToolbar={()=>this.toggleToolbar()}
                     openConfigModal={this.props.openConfigModal}
                 />

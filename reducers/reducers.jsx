@@ -22,6 +22,7 @@ import pluginToolbarsById from './plugin_toolbars_by_id';
 import viewToolbarsById from './view_toolbars_by_id';
 import globalConfig from './global_config';
 import exercises from './exercises';
+import lastActionDispatched from './lastActionDispatched';
 
 function changeDisplayMode(state = "", action = {}) {
     switch (action.type) {
@@ -62,8 +63,8 @@ function imagesUploaded(state = [], action = {}) {
         return state;
     }
 }
-console.log(pluginToolbarsById);
 const GlobalState = undoable(combineReducers({
+    lastActionDispatched: lastActionDispatched,
     globalConfig: globalConfig,
     imagesUploaded: imagesUploaded, // [img0, img1]
     boxesById: boxesById, // {0: box0, 1: box1}
@@ -97,7 +98,7 @@ const GlobalState = undoable(combineReducers({
         case TOGGLE_TEXT_EDITOR:
         case TOGGLE_TITLE_MODE:
         case UPDATE_NAV_ITEM_EXTRA_FILES:
-        case UPDATE_BOX:
+        // case UPDATE_BOX:
         // case ADD_RICH_MARK:
             return false;
         }

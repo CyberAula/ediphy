@@ -9,7 +9,7 @@ export function Webpage(base) {
                 category: 'objects',
                 icon: 'public',
                 initialWidth: '70%',
-                initialHeight: "300px",
+                initialHeight: "500px",
                 initialWidthSlide: '70%',
                 initialHeightSlide: '60%',
                 flavor: 'react',
