@@ -255,44 +255,9 @@ export default class RichMarksModal extends Component {
                         // CV name
                         let name = title || nextAvailName(i18n.t('contained_view'), this.props.containedViews);
                         // Mark name
-                        title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.pluginToolbar.state.__marks, 'title');
-                        switch (connectMode) {
-                        case "new":
-                            connection = current && current.connection && current.connectMode === 'new' ?
-                                current.connection :
-                                {
-                                    id: newId,
-                                    parent: { [this.props.boxSelected]: [newMark] },
-                                    name: name,
-                                    boxes: [],
-                                    type: this.state.newType,
-                                    extraFiles: {},
-                                    background: {
-                                        background: 'rgb(255,255,255)',
-                                        attr: 'full',
-                                    },
-                                    header: {
-                                        elementContent: {
-                                            documentTitle: name,
-                                            documentSubTitle: '',
-                                            numPage: '' },
-                                        display: {
-                                            courseTitle: 'hidden',
-                                            documentTitle: 'expanded',
-                                            documentSubTitle: 'hidden',
-                                            breadcrumb: "reduced",
-                                            pageNumber: "hidden" },
-                                    },
-                                };
+                        title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.marks, 'title');
+                        let markState;
 
-                            break;
-                        case "existing":
-                            connection = selected.id || this.props.navItemSelected;
-                            break;
-                        case "external":
-                            connection = ReactDOM.findDOMNode(this.refs.externalSelected).value;
-                            break;
-                        }
                         let displayMode = this.state.displayMode;
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
                         // First of all we need to check if the plugin creator has provided a function to check if the input value is allowed
@@ -307,10 +272,52 @@ export default class RichMarksModal extends Component {
                                 value = val.value;
                             }
                         }
-                        this.props.onRichMarkUpdated({ id: (current ? current.id : newMark), title, connectMode, connection, displayMode, value, color }, this.state.newSelected === "");
+
+                        switch (connectMode) {
+                        case "new":
+                            markState = {
+                                mark: {
+                                    id: newMark,
+                                    origin: { [this.props.boxSelected]: [newMark] },
+                                    title: title,
+                                    color: color,
+                                    connectMode: connectMode,
+                                    displayMode: this.state.displayMode,
+                                    value: value,
+                                },
+                                view: {
+                                    info: "new",
+                                    type: this.state.newType,
+                                    id: newId,
+                                    parent: { [this.props.boxSelected]: [newMark] },
+                                    name: name,
+                                    boxes: [],
+                                    extraFiles: {},
+                                },
+                                viewToolbar: {
+                                    id: newId,
+                                    doc_type: this.state.newType,
+                                    viewName: name,
+                                },
+                            };
+                            break;
+                        case "existing":
+                            connection = selected.id || this.props.navItemSelected;
+                            break;
+                        case "external":
+                            connection = ReactDOM.findDOMNode(this.refs.externalSelected).value;
+                            break;
+                        }
+                        if(this.props.marks[newMark] !== undefined) {
+                            this.props.addRichMark(markState);
+                        } else{
+                            this.props.updateRichMark(markState);
+                        }
+
+                        /* this.props.onRichMarkUpdated({ id: (current ? current.id : newMark), title, connectMode, connection, displayMode, value, color }, this.state.newSelected === "");
                         if(connectMode === 'new' && !this.props.toolbars[connection.id || connection] && this.state.newType === PAGE_TYPES.DOCUMENT) {
                             this.props.onBoxAdded({ parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now(), page: newId }, false, false);
-                        }
+                        }*/
                         this.props.onRichMarksModalToggled();
 
                     }}>Save changes</Button>
