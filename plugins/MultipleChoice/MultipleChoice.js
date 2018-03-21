@@ -24,8 +24,8 @@ export function MultipleChoice(base) {
                 main: {
                     __name: "Main",
                     accordions: {
-                        _general: {
-                            __name: "General",
+                        __score: {
+                            __name: "Puntuación",
                             icon: 'web',
                             buttons: {
                                 nBoxes: {

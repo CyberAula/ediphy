@@ -11,6 +11,7 @@ import ColorPicker from "../../_editor/components/common/color-picker/ColorPicke
 import ExternalProvider from "../../_editor/components/external_provider/external_provider/ExternalProvider";
 
 export function toolbarFiller(toolbar, id, state, config, initialParams, container, marks = null, exercises = {}) {
+
     if (isSortableBox(id)) {
         toolbar.config.displayName = i18n.t('Container_');
     }
@@ -32,7 +33,6 @@ export function toolbarFiller(toolbar, id, state, config, initialParams, contain
 }
 
 export function toolbarMapper(controls, toolbar) {
-    console.log(controls);
     /* if (Object.keys(toolbar.state).length > 0) {
         Object.keys(toolbar.state).forEach((s)=>{
             // avoid container ids
@@ -88,7 +88,7 @@ export function createRichAccordions(controls) {
     }
 }
 
-export function createScoreAccordions(controls, state, exercises) {
+export function createScoreAccordions(controls = {}, state, exercises) {
     if (!controls.main) {
         controls.main = {
             __name: "Main",
@@ -97,7 +97,7 @@ export function createScoreAccordions(controls, state, exercises) {
             },
         };
     }
-    if (!controls.main.accordions.score) {
+    if (!controls.main.accordions.__score) {
         controls.main.accordions.__score = {
             key: '__score',
             __name: i18n.t("Puntuación"),
@@ -108,7 +108,7 @@ export function createScoreAccordions(controls, state, exercises) {
     let buttons = Object.assign({}, controls.main.accordions.__score.buttons || {}, {
         weight: {
             __name: i18n.t("Valoración máxima (puntos)"),
-            // __defaultField: true,
+            __defaultField: true,
             type: "number",
             value: exercises.weight,
             min: 0,
@@ -575,7 +575,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                             toolbar_props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, canvas.toDataURL("image/jpeg"));
                             if (!button.autoManaged) {
                                 if (!button.callback) {
-                                    this.handlecanvasToolbar(button.__name, data);
+                                    this.handlecanvasToolbar(buttonKey, data);
                                 } /* else {
                                     button.callback(state, buttonKey, data, id, UPDATE_TOOLBAR);
                                 }*/
@@ -623,7 +623,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                 toolbar_props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, { background: data, attr: 'full' });
                                 if (!button.autoManaged) {
                                     if (!button.callback) {
-                                        this.handlecanvasToolbar(button.__name, { background: data, attr: 'full' });
+                                        this.handlecanvasToolbar(buttonKey, { background: data, attr: 'full' });
                                     } else {
                                         button.callback(state, buttonKey, data, id, UPDATE_TOOLBAR);
                                     }
@@ -659,15 +659,14 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             // toolbar_props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
             if (toolbar_props.boxSelected === -1) {
-                handlecanvasToolbar(button.__name, value, accordion, toolbar_props);
-            } else {
-                console.log(toolbar_props, currentElement);
-                if (currentElement === '__score') {
-                    toolbar_props.onScoreConfig(id, buttonKey, value);
-                } else {
-                    toolbar_props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, value);
+                handlecanvasToolbar(buttonKey, value, accordion, toolbar_props, buttonKey);
+            } else if (currentElement === '__score') {
+                toolbar_props.onScoreConfig(id, buttonKey, value);
+                if (!button.__defaultField) {
+                    toolbar_props.onToolbarUpdated(id, tabKey, 'state', buttonKey, value);
                 }
-
+            } else {
+                toolbar_props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, value);
             }
 
         },
@@ -1088,49 +1087,51 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
             toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, value);
         }
         break;
-    case "custom_title":
+    case "pagetitle_name":
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
             documentTitleContent: value,
         });
         break;
     // change page/slide title
-    case "custom_subtitle":
+    case "pagesubtitle_name":
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
             documentSubtitleContent: value,
         });
         break;
     // change page/slide title
-    case "custom_pagenum":
+    case "pagenumber_name":
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
             numPageContent: value,
         });
         break;
     // preview / export document
-    case i18n.t('display_page'):
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected);
+    case 'page_display':
+        toolbar_props.onNavItemToggled(toolbar_props.navItemSelected);
+
         break;
     // change document(navitem) name
-    case i18n.t('NavItem_name'):
-        if (isContainedView(toolbar_props.navItemSelected)) {
-            toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, { viewName: value });
-        } else {
-            toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, { viewName: value });
-        }
+    case 'navitem_name':
+        // if (isContainedView(toolbar_props.navItemSelected)) {
+        //     toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, { viewName: value });
+        // } else {
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, { viewName: value });
+        // }
         break;
         // display - course title
-    case i18n.t('course_title'):
+    case 'display_title':
         let courseTitle = value ? 'reduced' : 'hidden';
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
             courseTitle: courseTitle,
         });
         break; // display - page title
-    case i18n.t('Title') + i18n.t('document'):
+    case 'display_pagetitle':
         let docTitle = value ? 'reduced' : 'hidden';
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
             documentTitle: docTitle,
         });
         break;
-    // display - page title
+    // display - page title*
+        /** ******************************Necesarias??******************************/
     case i18n.t('Title') + i18n.t('page'):
         let pageTitle = value ? 'reduced' : 'hidden';
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
@@ -1150,27 +1151,30 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
             documentTitle: sectionTitle,
         });
         break;
+        /** ***********************************************************************/
     // display - subtitle
-    case i18n.t('subtitle'):
+    case 'display_pagesubtitle':
         let subTitle = value ? 'reduced' : 'hidden';
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
             documentSubTitle: subTitle,
         });
         break;
     // display - breadcrumb
-    case i18n.t('Breadcrumb'):
+    case 'display_breadcrumb':
         let breadcrumb = value ? 'reduced' : 'hidden';
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
             breadcrumb: breadcrumb,
         });
         break;
     // display - pagenumber
-    case i18n.t('pagenumber'):
+    case 'display_pagenumber':
         let pagenumber = value ? 'reduced' : 'hidden';
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
             numPage: pagenumber,
         });
         break;
+    case 'weight':
+        toolbar_props.onScoreConfig(toolbar_props.navItemSelected, 'weight', value);
     default:
         break;
     }

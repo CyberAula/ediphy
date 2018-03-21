@@ -9,13 +9,13 @@ export default class ViewToolbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
         };
     }
 
     render() {
         let id = this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
-        let type = this.props.containedViewSelected !== 0 ? this.props.containedViews[this.props.containedViewSelected].type : this.props.navItems[this.props.navItemSelected];
+        let pageObj = this.props.containedViewSelected !== 0 ? this.props.containedViews[this.props.containedViewSelected] : this.props.navItems[this.props.navItemSelected];
+        let type = pageObj.type;
         let isContainedView = this.props.containedViewSelected !== 0;
         let doc_type = '';
         if (isPage(id)) {
@@ -92,6 +92,19 @@ export default class ViewToolbar extends Component {
                         },
 
                     },
+                    __score: {
+                        __name: i18n.t('Score'),
+                        icon: 'school',
+                        buttons: {
+                            weight: {
+                                __name: i18n.t('Weight'),
+                                type: 'number',
+                                min: 0,
+                                __defaultField: true,
+                                value: this.props.exercises.weight,
+                            },
+                        },
+                    },
                 },
             },
         };
@@ -122,7 +135,7 @@ export default class ViewToolbar extends Component {
             controls.main.accordions.basic.buttons.page_display = {
                 __name: i18n.t('display_page'),
                 type: 'checkbox',
-                checked: true,
+                checked: !pageObj.hidden,
                 autoManaged: false };
         }
 

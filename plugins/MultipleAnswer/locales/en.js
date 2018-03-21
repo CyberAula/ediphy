@@ -5,6 +5,6 @@ module.exports = {
         "Statement": "This is a Multiple Choice question with multiple possible correct answers. You can write here the question statement",
         "Question": "Question",
         "Answer": "Answer",
-        "Number": "Number",
+        "Number": "Number of answers",
     },
 };

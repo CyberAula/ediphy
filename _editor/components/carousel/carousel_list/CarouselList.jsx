@@ -12,27 +12,15 @@ import iconPDF from './../../../../dist/images/file-pdf.svg';
  * List of all the course's views and contained views
  */
 export default class CarouselList extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
     constructor(props) {
         super(props);
 
-        /**
-         * Component's initial state
-         * @type {{showSortableItems: boolean, showContainedViews: boolean}}
-         */
         this.state = {
             showSortableItems: true,
             showContainedViews: true,
         };
     }
 
-    /**
-     * Calculates how much height is available for the view list, depending on the expanded sections
-     * @returns {*}
-     */
     getContentHeight() {
         if(!this.state.showSortableItems && !this.state.showContainedViews) {
             return("50px");
@@ -45,10 +33,6 @@ export default class CarouselList extends Component {
 
     }
 
-    /**
-     * Renders React Component
-     * @returns {code}
-     */
     render() {
         let containedViewsIncluded = Object.keys(this.props.containedViews).length > 0;
 
@@ -186,10 +170,6 @@ export default class CarouselList extends Component {
         );
     }
 
-    /** *
-     * Get navItem's parent
-     * @returns {*}
-     */
     getParent() {
         if (!this.props.indexSelected || this.props.indexSelected === -1) {
             return { id: 0 };
@@ -201,10 +181,6 @@ export default class CarouselList extends Component {
         return this.props.navItems[this.props.navItems[this.props.indexSelected].parent] || this.props.navItems[0];
     }
 
-    /**
-     * Calculate navItem's position on index
-     * @returns {*}
-     */
     calculatePosition() {
         let parent = this.getParent();
         let ids = this.props.navItemsIds;
@@ -226,10 +202,6 @@ export default class CarouselList extends Component {
         return ids.length;
     }
 
-    /**
-     * After component mounts
-     * Sets up jQuery sortable features on the index
-     */
     componentDidMount() {
         let list = jQuery(this.refs.sortableList);
         list.sortable({
@@ -290,10 +262,6 @@ export default class CarouselList extends Component {
         });
     }
 
-    /**
-     * Before the component unmounts
-     * Unset jQuery sortable features
-     */
     componentWillUnmount() {
         jQuery(this.refs.sortableList).sortable("destroy");
     }

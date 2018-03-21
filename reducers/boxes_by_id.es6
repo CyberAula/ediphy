@@ -115,7 +115,7 @@ function boxReducer(state = {}, action = {}) {
                 "sortableContainers",
             ], [
                 (state.children.indexOf(action.payload.ids.container) !== -1) ? // if parent box contains container indicated
-                state.children : // nothing changes
+                    state.children : // nothing changes
                     [...state.children, action.payload.ids.container], // adds container to children
                 sortableContainersReducer(state.sortableContainers, action),
             ]
