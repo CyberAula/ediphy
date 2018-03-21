@@ -26,7 +26,7 @@ export function toolbarFiller(toolbar, id, state, config, initialParams, contain
     }
 
     if (config && config.category === 'evaluation') {
-        // createScoreAccordions(toolbar, state, exercises);
+        createScoreAccordions(toolbar, state, exercises);
     }
     return toolbar;
 }
@@ -89,7 +89,6 @@ export function createRichAccordions(controls) {
 }
 
 export function createScoreAccordions(controls, state, exercises) {
-    console.log('EXERCISES', exercises);
     if (!controls.main) {
         controls.main = {
             __name: "Main",
