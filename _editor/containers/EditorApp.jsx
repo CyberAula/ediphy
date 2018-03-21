@@ -8,7 +8,7 @@ import {
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeBackground, changeSortableProps,
     reorderBoxes, verticallyAlignBox, selectIndex,
     toggleTextEditor, toggleTitleMode, pasteBox, changeBoxLayer,
-    changeDisplayMode,
+    changeDisplayMode, configScore,
     exportStateAsync, importStateAsync, importState, changeGlobalConfig,
     fetchVishResourcesAsync, uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
@@ -413,6 +413,7 @@ class EditorApp extends Component {
                     onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
                     onSortablePropsChanged={(id, parent, prop, value) => dispatch(changeSortableProps(id, parent, prop, value))}
                     onToolbarUpdated={this.toolbarUpdated}
+                    onScoreConfig={(id, button, value, page)=>{dispatch(configScore(id, button, value, page));}}
                     onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); dispatch(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                     onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}
                     onRichMarksModalToggled={() => {

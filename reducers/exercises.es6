@@ -1,5 +1,6 @@
-import { ADD_NAV_ITEM, ADD_NAV_ITEMS, DELETE_NAV_ITEM, ADD_BOX, DELETE_BOX, PASTE_BOX, SET_CORRECT_ANSWER, IMPORT_STATE,
-    DELETE_SORTABLE_CONTAINER, ADD_RICH_MARK,
+import {
+    ADD_NAV_ITEM, ADD_NAV_ITEMS, DELETE_NAV_ITEM, ADD_BOX, DELETE_BOX, PASTE_BOX, SET_CORRECT_ANSWER, IMPORT_STATE,
+    DELETE_SORTABLE_CONTAINER, ADD_RICH_MARK, CONFIG_SCORE,
 } from '../common/actions';
 
 import { isBox, existsAndIsViewOrContainedView, changeProp, changeProps, deleteProp, deleteProps } from '../common/utils';
@@ -12,6 +13,8 @@ function singleExerciseReducer(state = {}, action = {}) {
             newScoreState.correctAnswer = action.payload.correctAnswer;
         }
         return newScoreState;
+    case CONFIG_SCORE:
+        return Object.assign({}, state, { [action.payload.button]: action.payload.value });
     default:
         return state;
     }
@@ -38,6 +41,7 @@ function exercisesReducer(state = {}, action = {}) {
         }
         return state;
     case SET_CORRECT_ANSWER:
+    case CONFIG_SCORE:
         return changeProp(state, action.payload.id, singleExerciseReducer(state[action.payload.id], action));
     case DELETE_BOX:
         if (action.payload.id in state) {
@@ -82,6 +86,11 @@ function singlePageReducer(state = {}, action = {}) {
     case DELETE_BOX:
     case DELETE_SORTABLE_CONTAINER:
         return changeProp(state, "exercises", exercisesReducer(state.exercises, action));
+    case CONFIG_SCORE:
+        if (isBox(action.payload.id)) {
+            return changeProp(state, "exercises", exercisesReducer(state.exercises, action));
+        }
+        return Object.assign({}, state, { [action.payload.button]: action.payload.value });
     default:
         return state;
     }
@@ -123,7 +132,8 @@ export default function(state = {}, action = {}) {
             return changeProp(state, page, singlePageReducer(state[page], action));
         }
         return state;
-
+    case CONFIG_SCORE:
+        return changeProp(state, action.payload.page, singlePageReducer(state[action.payload.page], action));
     case IMPORT_STATE:
         return action.payload.present.exercises || state;
     default:

@@ -1,17 +1,8 @@
 import React, { Component } from 'react';
 import i18n from 'i18next';
-import {
-    isCanvasElement, isContainedView, isDocument, isPage, isSection, isSlide,
-    isSortableContainer,
-} from "../../../../common/utils";
-import { Tooltip, FormControl, OverlayTrigger, Popover, InputGroup, FormGroup, Radio, ControlLabel, Checkbox, Button, PanelGroup, Panel } from "react-bootstrap";
-import { UPDATE_BOX, UPDATE_TOOLBAR } from "../../../../common/actions";
-import Select from "react-select";
-import ColorPicker from "../../common/color-picker/ColorPicker";
-import RadioButtonFormGroup from "../radio_button_form_group/RadioButtonFormGroup";
-import ToggleSwitch from "@trendmicro/react-toggle-switch/lib/index";
+import { isCanvasElement, isDocument, isPage, isSection, isSlide } from "../../../../common/utils";
+import { PanelGroup, Panel } from "react-bootstrap";
 import Ediphy from "../../../../core/editor/main";
-import ExternalProvider from "../../external_provider/external_provider/ExternalProvider";
 import { renderAccordion } from "../../../../core/editor/accordion_provider";
 
 export default class ViewToolbar extends Component {
@@ -22,10 +13,6 @@ export default class ViewToolbar extends Component {
         };
     }
 
-    /**
-     * Render React component
-     * @returns {code}
-     */
     render() {
         let id = this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
         let type = this.props.containedViewSelected !== 0 ? this.props.containedViews[this.props.containedViewSelected].type : this.props.navItems[this.props.navItemSelected];
@@ -140,83 +127,29 @@ export default class ViewToolbar extends Component {
         }
 
         if (!isCanvasElement(this.props.navItemSelected, Ediphy.Config.sections_have_content)) {
-            return (
-                <div id="wrap"
-                    className="wrapper hiddenWrapper"
-                    style={{
-                        top: this.props.top,
-                    }}>
-                    <div id="tools" className="toolbox"/>
-                </div>
-            );
+            return (null);
         }
         // when no plugin selected, but new navitem
         let toolbar = this.props.viewToolbars[id];
-        return (
-            <div id="wrap"
-                className="wrapper"
-                style={{
-                    right: '0px',
-                    top: this.props.top,
-                }}>
-                <div className="pestana"
-                    onClick={() => {
-                        this.props.toggleToolbar();
-                    }}/>
-                <div id="tools"
-                    style={{
-                        width: this.props.open ? '250px' : '40px',
-                    }}
-                    className="toolbox">
-                    <OverlayTrigger placement="left"
-                        overlay={
-                            <Tooltip className={this.props.open ? 'hidden' : ''}
-                                id="tooltip_props">
-                                {i18n.t('Properties')}
-                            </Tooltip>
-                        }>
-                        <div onClick={() => {
-                            this.props.toggleToolbar();
-                        }}
-                        style={{ display: this.props.carouselShow ? 'block' : 'block' }}
-                        className={this.props.open ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
-                            <div className="toolbarTitle">
-                                <i className="material-icons">settings</i>
-                                <span className="toolbarTitletxt">
-                                    {i18n.t('Properties')}
-                                </span>
-                            </div>
-                            <div className="pluginTitleInToolbar">
-                                {this.props.viewToolbars[id].displayableTitle || ""}
-                            </div>
-                        </div>
-                    </OverlayTrigger>
-                    <div id="insidetools" style={{ display: this.props.open ? 'block' : 'none' }}>
-                        <div className="toolbarTabs">
-                            {Object.keys(controls).map((tabKey, index) => {
-                                let tab = controls[tabKey];
-                                return (
-                                    <div key={'key_' + index} className="toolbarTab">
-                                        <PanelGroup>
-                                            {Object.keys(tab.accordions).sort().map((accordionKey, ind) => {
-                                                return renderAccordion(
-                                                    tab.accordions[accordionKey],
-                                                    tabKey,
-                                                    [accordionKey],
-                                                    toolbar,
-                                                    ind,
-                                                    this.props
-                                                );
-                                            })}
-                                        </PanelGroup>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
+        return Object.keys(controls).map((tabKey, index) => {
+            let tab = controls[tabKey];
+            return (
+                <div key={'key_' + index} className="toolbarTab">
+                    <PanelGroup>
+                        {Object.keys(tab.accordions).sort().map((accordionKey, ind) => {
+                            return renderAccordion(
+                                tab.accordions[accordionKey],
+                                tabKey,
+                                [accordionKey],
+                                toolbar,
+                                ind,
+                                this.props
+                            );
+                        })}
+                    </PanelGroup>
                 </div>
-            </div>
-        );
+            );
+        });
     }
 
 }

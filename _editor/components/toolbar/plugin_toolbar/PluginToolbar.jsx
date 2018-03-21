@@ -1,14 +1,5 @@
 import React, { Component } from 'react';
 import {
-    Tooltip,
-    FormControl,
-    OverlayTrigger,
-    Popover,
-    InputGroup,
-    FormGroup,
-    Radio,
-    ControlLabel,
-    Checkbox,
     Button,
     PanelGroup,
     Panel,
@@ -31,6 +22,10 @@ export default class PluginToolbar extends Component {
         super(props);
     }
 
+    /**
+     * Render React component
+     * @returns {code}
+     */
     render() {
         let toolbar = this.props.pluginToolbars[this.props.box.id];
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
@@ -89,107 +84,61 @@ export default class PluginToolbar extends Component {
                 },
             };
         }
-        return (
-            <div id="wrap"
-                className="wrapper"
-                style={{
-                    right: '0px',
-                    top: this.props.top,
-                }}>
-                <div className="pestana"
-                    onClick={() => {
-                        this.props.toggleToolbar();
-                    }}/>
-                <div id="tools"
-                    style={{
-                        width: this.props.open ? '250px' : '40px',
-                    }}
-                    className="toolbox">
-                    <OverlayTrigger placement="left"
-                        overlay={
-                            <Tooltip className={this.props.open ? 'hidden' : ''}
-                                id="tooltip_props">
-                                {i18n.t('Properties')}
-                            </Tooltip>
-                        }>
-                        <div onClick={() => {
-                            this.props.toggleToolbar();
-                        }}
-                        style={{ display: 'block' }}
-                        className={this.props.open ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
-                            <div className="toolbarTitle">
-                                <i className="material-icons">settings</i>
-                                <span className="toolbarTitletxt">
-                                    {i18n.t('Properties')}
-                                </span>
-                            </div>
-                            <div className="pluginTitleInToolbar">
-                                {config.displayName || ""}
-                            </div>
-                        </div>
-                    </OverlayTrigger>
-                    <div id="insidetools" style={{ display: this.props.open ? 'block' : 'none' }}>
-                        <div className="toolbarTabs">
-                            {Object.keys(controls).map((tabKey, index) => {
-                                let tab = controls[tabKey];
+        return Object.keys(controls).map((tabKey, index) => {
+            let tab = controls[tabKey];
+            return (
+                <div key={'key_' + index} className="toolbarTab">
+                    <PanelGroup>
+                        {Object.keys(tab.accordions).sort().map((accordionKey, ind) => {
+                            return renderAccordion(
+                                tab.accordions[accordionKey],
+                                tabKey,
+                                [accordionKey],
+                                controls,
+                                ind,
+                                this.props
+                            );
+                        })}
+                        {this.props.box.children.map((id, ind) => {
+                            let container = this.props.box.sortableContainers[id];
+                            if (tabKey === "main") {
                                 return (
-                                    <div key={'key_' + index} className="toolbarTab">
-                                        <PanelGroup>
-                                            {Object.keys(tab.accordions).sort().map((accordionKey, ind) => {
-                                                return renderAccordion(
-                                                    tab.accordions[accordionKey],
-                                                    tabKey,
-                                                    [accordionKey],
-                                                    controls,
-                                                    ind,
-                                                    this.props
-                                                );
-                                            })}
-                                            {this.props.box.children.map((id, ind) => {
-                                                let container = this.props.box.sortableContainers[id];
-                                                if (tabKey === "main") {
-                                                    return (
-                                                        <Panel key={'panel_' + id}
-                                                            className="panelPluginToolbar"
-                                                            collapsible
-                                                            onEnter={(panel) => {
-                                                                panel.parentNode.classList.add("extendedPanel");
-                                                            }}
-                                                            onExited={(panel) => {
-                                                                panel.parentNode.classList.remove("extendedPanel");
-                                                            }}
-                                                            header={
-                                                                <span>
-                                                                    <i className="toolbarIcons material-icons">web_asset</i>
-                                                                    {(toolbar.state.__pluginContainerIds && toolbar.state.__pluginContainerIds[container.key].name) ?
-                                                                        toolbar.state.__pluginContainerIds[container.key].name :
-                                                                        (i18n.t('Block') + ' ' + (ind + 1))
-                                                                    }
-                                                                </span>
-                                                            }>
-                                                            <GridConfigurator id={id}
-                                                                parentId={this.props.box.id}
-                                                                container={container}
-                                                                onColsChanged={this.props.onColsChanged}
-                                                                onRowsChanged={this.props.onRowsChanged}
-                                                                sortableProps={this.props.box.sortableContainers[id]}
-                                                                onSortablePropsChanged={this.props.onSortablePropsChanged}
-                                                                onSortableContainerResized={this.props.onSortableContainerResized}/>
-                                                        </Panel>);
+                                    <Panel key={'panel_' + id}
+                                        className="panelPluginToolbar"
+                                        collapsible
+                                        onEnter={(panel) => {
+                                            panel.parentNode.classList.add("extendedPanel");
+                                        }}
+                                        onExited={(panel) => {
+                                            panel.parentNode.classList.remove("extendedPanel");
+                                        }}
+                                        header={
+                                            <span>
+                                                <i className="toolbarIcons material-icons">web_asset</i>
+                                                {(toolbar.state.__pluginContainerIds && toolbar.state.__pluginContainerIds[container.key].name) ?
+                                                    toolbar.state.__pluginContainerIds[container.key].name :
+                                                    (i18n.t('Block') + ' ' + (ind + 1))
                                                 }
-                                                return null;
-                                            })}
-                                        </PanelGroup>
-                                        {textButton}
-                                        {configButton}
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
+                                            </span>
+                                        }>
+                                        <GridConfigurator id={id}
+                                            parentId={this.props.box.id}
+                                            container={container}
+                                            onColsChanged={this.props.onColsChanged}
+                                            onRowsChanged={this.props.onRowsChanged}
+                                            sortableProps={this.props.box.sortableContainers[id]}
+                                            onSortablePropsChanged={this.props.onSortablePropsChanged}
+                                            onSortableContainerResized={this.props.onSortableContainerResized}/>
+                                    </Panel>);
+                            }
+                            return null;
+                        })}
+                    </PanelGroup>
+                    {textButton}
+                    {configButton}
                 </div>
-            </div>
-        );
+            );
+        });
     }
 
 }
