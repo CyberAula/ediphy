@@ -100,14 +100,14 @@ export function createScoreAccordions(controls = {}, state, exercises) {
     if (!controls.main.accordions.__score) {
         controls.main.accordions.__score = {
             key: '__score',
-            __name: i18n.t("Puntuación"),
+            __name: i18n.t("Score"),
             icon: 'school',
             buttons: {},
         };
     }
     let buttons = Object.assign({}, controls.main.accordions.__score.buttons || {}, {
         weight: {
-            __name: i18n.t("Valoración máxima (puntos)"),
+            __name: i18n.t("Weight"), // Valoración máxima (puntos)
             __defaultField: true,
             type: "number",
             value: exercises.weight,
@@ -348,6 +348,7 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
     if (accordionKeys[0] === 'z__extra') {
         return null;
     }
+
     let props = {
         key: key,
         className: "panelPluginToolbar",

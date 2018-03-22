@@ -37,7 +37,7 @@ export default class ViewToolbar extends Component {
             main: {
                 __name: "Main",
                 accordions: { // define accordions for section
-                    basic: {
+                    __basic: {
                         __name: "Generales",
                         icon: 'settings',
                         buttons: {
@@ -49,7 +49,7 @@ export default class ViewToolbar extends Component {
                             },
                         },
                     },
-                    header: {
+                    __header: {
                         __name: i18n.t('Header'),
                         icon: 'format_color_text',
                         buttons: {
@@ -109,20 +109,20 @@ export default class ViewToolbar extends Component {
             },
         };
 
-        if (!isContainedView && controls && controls.main && controls.main.accordions.header && controls.main.accordions.header.buttons) {
-            controls.main.accordions.header.buttons.display_breadcrumb = {
+        if (!isContainedView && controls && controls.main && controls.main.accordions.__header && controls.main.accordions.__header.buttons) {
+            controls.main.accordions.__header.buttons.display_breadcrumb = {
                 __name: i18n.t('Breadcrumb'),
                 type: 'checkbox',
                 checked: viewToolbar.breadcrumb !== 'hidden',
                 autoManaged: false,
             };
-            controls.main.accordions.header.buttons.display_pagenumber = {
+            controls.main.accordions.__header.buttons.display_pagenumber = {
                 __name: i18n.t('pagenumber'),
                 type: 'checkbox',
                 checked: viewToolbar.numPage !== 'hidden',
                 autoManaged: false,
             };
-            controls.main.accordions.header.buttons.pagenumber_name = {
+            controls.main.accordions.__header.buttons.pagenumber_name = {
                 __name: "custom_pagenum",
                 type: 'conditionalText',
                 associatedKey: 'display_pagenumber',
@@ -131,8 +131,8 @@ export default class ViewToolbar extends Component {
                 display: true,
             };
         }
-        if (!isContainedView && controls && controls.main && controls.main.accordions.basic && controls.main.accordions.basic.buttons) {
-            controls.main.accordions.basic.buttons.page_display = {
+        if (!isContainedView && controls && controls.main && controls.main.accordions.__basic && controls.main.accordions.__basic.buttons) {
+            controls.main.accordions.__basic.buttons.page_display = {
                 __name: i18n.t('display_page'),
                 type: 'checkbox',
                 checked: !pageObj.hidden,
@@ -144,6 +144,7 @@ export default class ViewToolbar extends Component {
         }
         // when no plugin selected, but new navitem
         let toolbar = this.props.viewToolbars[id];
+
         return Object.keys(controls).map((tabKey, index) => {
             let tab = controls[tabKey];
             return (

@@ -185,21 +185,19 @@ export default class Visor extends Component {
         if (window.State) {
             Ediphy.State = window.State;
         }
-
+        let { boxSelected, navItemsIds, globalConfig } = Ediphy.State;
         let boxes = Ediphy.State.boxesById;
-        let boxSelected = Ediphy.State.boxSelected;
-        let navItems = Ediphy.State.navItemsById;
-        let navItemsIds = Ediphy.State.navItemsIds;
         let containedViews = Ediphy.State.containedViewsById;
+        let navItems = Ediphy.State.navItemsById;
         let viewToolbars = Ediphy.State.viewToolbarsById;
+        let pluginToolbars = Ediphy.State.pluginToolbarsById;
+
         let exercises = {};
         Object.keys(Ediphy.State.exercises).map((exercise, index)=>{
             if (containedViews[exercise] || (navItems[exercise] && !navItems[exercise].hidden)) {
                 exercises[exercise] = Ediphy.State.exercises[exercise];
             }
         });
-        let globalConfig = Ediphy.State.globalConfig;
-        // let exercises = Ediphy.State.exercises;
         let title = globalConfig.title;
         let ratio = globalConfig.canvasRatio;
         let visorNav = globalConfig.visorNav;
@@ -224,7 +222,8 @@ export default class Visor extends Component {
                 richElementsState={this.state.richElementState}
                 showCanvas={currentView.indexOf("cv-") === -1}
                 title={title}
-                toolbars={toolbars}
+                viewToolbars={viewToolbars}
+                pluginToolbars={pluginToolbars}
                 triggeredMarks={this.state.triggeredMarks}
                 viewsArray={this.state.currentView}
             />) :
@@ -236,7 +235,8 @@ export default class Visor extends Component {
                 currentView={currentView}
                 fromScorm={this.state.fromScorm}
                 navItems={navItems}
-                toolbars={toolbars}
+                viewToolbars={viewToolbars}
+                pluginToolbars={pluginToolbars}
                 title={title}
                 triggeredMarks={this.state.triggeredMarks}
                 showCanvas={currentView.indexOf("cv-") !== -1}
@@ -255,6 +255,7 @@ export default class Visor extends Component {
                     currentViews={this.state.currentView}
                     navItemsById={navItems}
                     navItemsIds={navItemsIds.filter(nav=> {return !navItems[nav].hidden;})}
+                    viewToolbars={viewToolbars}
                     scoreInfo={this.state.scoreInfo}
                     exercises={exercises}
                     toggled={this.state.toggledSidebar}/>

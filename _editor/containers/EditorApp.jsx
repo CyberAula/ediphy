@@ -255,6 +255,7 @@ class EditorApp extends Component {
                                 }}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
                                 exercises={exercises}
+                                openConfigModal={(id)=>{ this.setState({ pluginConfigModal: id }); } }
                                 lastActionDispatched={lastActionDispatched}
                                 onBoxSelected={(id) => dispatch(selectBox(id, boxes[id]))}
                                 onBoxLevelIncreased={() => dispatch(increaseBoxLevel())}
@@ -294,6 +295,7 @@ class EditorApp extends Component {
                                 setCorrectAnswer={(id, correctAnswer, page) => { dispatch(setCorrectAnswer(id, correctAnswer, page));}}
                                 containedViewSelected={containedViews[containedViewSelected] || 0}
                                 markCreatorId={this.state.markCreatorVisible}
+                                openConfigModal={(id)=>{ this.setState({ pluginConfigModal: id }); } }
                                 addMarkShortcut= {(mark) => {
                                     let toolbar = pluginToolbars[boxSelected];
                                     let state = JSON.parse(JSON.stringify(toolbar.state));
@@ -745,12 +747,15 @@ class EditorApp extends Component {
     }
     onTextEditorToggled(caller, value, text, content) {
         let pluginToolbar = this.props.pluginToolbars[caller];
-        let state = Object.assign({}, pluginToolbar.state, { __text: text });
-        let toolbar = Ediphy.Plugins.get(pluginToolbar.pluginId).getToolbar(state);
+        if(pluginToolbar) {
 
-        this.props.dispatch(toggleTextEditor(caller, value));
-        if (!value && text && content) {
-            this.props.dispatch(updateBox(caller, content, toolbar, state));
+            let state = Object.assign({}, pluginToolbar.state, { __text: text });
+            let toolbar = Ediphy.Plugins.get(pluginToolbar.pluginId).getToolbar(state);
+
+            this.props.dispatch(toggleTextEditor(caller, value));
+            if (!value && text && content) {
+                this.props.dispatch(updateBox(caller, content, toolbar, state));
+            }
         }
 
     }

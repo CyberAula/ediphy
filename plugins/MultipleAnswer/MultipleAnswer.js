@@ -25,7 +25,7 @@ export function MultipleAnswer(base) {
                     __name: "Main",
                     accordions: {
                         __score: {
-                            __name: "Puntuación",
+                            __name: i18n.t('Score'),
                             icon: 'web',
                             buttons: {
                                 nBoxes: {

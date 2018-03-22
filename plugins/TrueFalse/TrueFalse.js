@@ -24,8 +24,8 @@ export function TrueFalse(base) {
                 main: {
                     __name: "Main",
                     accordions: {
-                        _general: {
-                            __name: "General",
+                        __score: {
+                            __name: i18n.t('Score'),
                             icon: 'web',
                             buttons: {
                                 nBoxes: {

@@ -127,6 +127,7 @@ export default class EditorShortcuts extends Component {
                                 <button id="open_conf" className={"editorTitleButton"}
                                     onClick={(e) => {
                                         // TODO Cambiar!
+                                        this.props.openConfigModal(toolbar.id);
                                         // Ediphy.Plugins.get(toolbar.pluginId).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
                                     }}>
                                     <i className="material-icons">build</i>

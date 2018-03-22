@@ -199,7 +199,7 @@ export default class PluginPlaceholder extends Component {
     componentDidMount() {
         interact(ReactDOM.findDOMNode(this))
             .resizable({
-                enabled: this.props.resizable,
+                enabled: false, // this.props.resizable,
                 edges: { left: false, right: false, bottom: true, top: false },
                 onmove: (event) => {
                     event.target.style.height = event.rect.height + 'px';
@@ -207,8 +207,8 @@ export default class PluginPlaceholder extends Component {
                 onend: (event) => {
                     // TODO Revew how to resize sortable containers
                     let toolbar = this.props.pluginToolbars[this.props.parentBox.id];
-                    // this.props.onSortableContainerResized(this.idConvert(this.props.pluginContainer), this.props.parentBox.id, parseInt(event.target.style.height, 10));
-                    // Ediphy.Plugins.get(toolbar.pluginId).forceUpdate(toolbar.state, this.props.parentBox.id, RESIZE_SORTABLE_CONTAINER);
+                    this.props.onSortableContainerResized(this.idConvert(this.props.pluginContainer), this.props.parentBox.id, parseInt(event.target.style.height, 10));
+                    Ediphy.Plugins.get(toolbar.pluginId).forceUpdate(toolbar.state, this.props.parentBox.id, RESIZE_SORTABLE_CONTAINER);
                 },
             });
     }

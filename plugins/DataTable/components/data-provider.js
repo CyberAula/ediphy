@@ -311,9 +311,9 @@ export default class DataProvider extends React.Component {
                                             {Array.apply(0, Array(this.state.cols)).map((q, o) => {
                                                 return(
                                                     <td key={o + 1}>
-                                                        {o === 0 ? (<i className="material-icons clearRow" onClick={()=>{this.deleteRows(i);}}>clear</i>) : null}
+                                                        {o === 0 ? (<i className="material-icons clearRow" style={{ float: 'left' }} onClick={()=>{this.deleteRows(i);}}>clear</i>) : null}
 
-                                                        <FormControl type="text" name={i + " " + this.props.keys[o]} value={this.props.data[i][this.props.keys[o]] } onChange={this.dataChanged}/>
+                                                        <FormControl type="text" style={{ width: 'calc(100% - 30px)' }} name={i + " " + this.props.keys[o]} value={this.props.data[i][this.props.keys[o]] } onChange={this.dataChanged}/>
 
                                                     </td>
                                                 );

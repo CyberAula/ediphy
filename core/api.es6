@@ -8,13 +8,6 @@ export function api() {
         configModalNeedsUpdate: function() {
             Ediphy.API_Private.emit(Ediphy.API_Private.events.configModalNeedsUpdate, {});
         },
-        openConfig: function(name, reason) {
-            let promise = new Promise(function(resolve) {
-                Ediphy.API_Private.listenAnswer(Ediphy.API_Private.events.openConfig, resolve);
-            });
-            Ediphy.API_Private.emit(Ediphy.API_Private.events.openConfig, { name: name, reason: reason });
-            return promise;
-        },
         editRichMark: function(box, mark, value) {
             Ediphy.API_Private.emit(Ediphy.API_Private.events.editRichMark, { box: box, id: mark, value: value });
         },
@@ -46,10 +39,6 @@ export function api_private() {
             },
             configModalNeedsUpdate: {
                 emit: 'needsUpdate',
-            },
-            openConfig: {
-                emit: 'openConfig',
-                answer: 'openConfig_back',
             },
             getPluginsInView: {
                 emit: 'getPluginsInView',

@@ -37,6 +37,7 @@ export default function() {
 
                     Ediphy.Visor.Plugins.add(id);
                 } catch (e) {
+                    console.error(e);
                 }
             });
         },

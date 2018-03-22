@@ -16,10 +16,12 @@ export default class VisorCanvasDoc extends Component {
         let itemSelected = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         let isCV = !isView(this.props.currentView);
         if (itemSelected !== 0 && !isCV) {
-            titles.push(itemSelected.name);
+            let title = this.props.viewToolbars[this.props.currentView].viewName;
+            titles.push(title);
             let parent = itemSelected.parent;
             while (parent !== 0) {
-                titles.push(this.props.navItems[parent].name);
+                let title2 = this.props.viewToolbars[parent].viewName;
+                titles.push(title2);
                 parent = this.props.navItems[parent].parent;
             }
             titles.reverse();
@@ -60,6 +62,7 @@ export default class VisorCanvasDoc extends Component {
                         titleMode={itemSelected.titleMode}
                         navItems={this.props.navItems}
                         currentView={this.props.currentView}
+                        viewToolbar={this.props.viewToolbars[this.props.currentView]}
                         containedViews={this.props.containedViews}
                         showButton/>
                     <div className="outter canvasvisor">
@@ -86,7 +89,7 @@ export default class VisorCanvasDoc extends Component {
                                             changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
                                             currentView={this.props.currentView}
                                             fromScorm={this.props.fromScorm}
-                                            toolbars={this.props.toolbars}
+                                            toolbars={this.props.pluginToolbars}
                                             setAnswer={this.props.setAnswer}
                                             richElementsState={this.props.richElementsState}/>;
                                     }
@@ -97,7 +100,7 @@ export default class VisorCanvasDoc extends Component {
                                         changeCurrentView={this.props.changeCurrentView}
                                         currentView={this.props.currentView}
                                         fromScorm={this.props.fromScorm}
-                                        toolbars={this.props.toolbars}
+                                        toolbars={this.props.pluginToolbars}
                                         setAnswer={this.props.setAnswer}
                                         richElementsState={this.props.richElementsState}/>;
 

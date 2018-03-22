@@ -389,6 +389,7 @@ export default class GlobalConfig extends Component {
 
         let clone = element.cloneNode(true);
         let style = clone.style;
+        style.width = '600px';
         style.position = 'relative';
         style.top = window.innerHeight + 'px';
         style.left = 0;
@@ -456,6 +457,8 @@ export default class GlobalConfig extends Component {
             version: this.props.globalConfig.version || '0.0.0',
             status: this.props.globalConfig.status || 'draft',
             context: this.props.globalConfig.context || 'school',
+            hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
+            minTimeProgress: this.props.globalConfig.minTimeProgress || 30,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
             modifiedState: false,
         });

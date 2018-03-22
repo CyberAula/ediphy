@@ -169,7 +169,7 @@ export default function() {
                 console.log(params.width, params.height);
                 //
                 // if (needsConfigModal) {
-                //     this.openConfigModal(reason, state);
+                //     Do stuff
                 // } else {
 
                 if (config.flavor !== "react") {
@@ -393,28 +393,6 @@ export default function() {
                 }
             }
             return toolbar;
-        },
-        openConfigModal: function(reason, oldState, sender) {
-            state = oldState;
-            id = sender;
-
-            if (!descendant.getConfigTemplate) {
-                if (this.getConfig().needsConfigModal) {
-                    // eslint-disable-next-line no-console
-                    console.error(this.getConfig().name + " has not defined getConfigTemplate method");
-                }
-            } else {
-                Ediphy.API.openConfig(this.getConfig().name, reason).then(function(div) {
-                    if(this.getConfig().flavor !== 'react') {
-                        let template = descendant.getConfigTemplate(oldState, div);
-                        if(template) {
-                            div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]ediphy[$]/g, "Ediphy.Plugins.get('" + this.getConfig().name + "')");
-                        }
-                    } else {
-                        ReactDOM.render(descendant.getConfigTemplate(oldState), div);
-                    }
-                }.bind(this));
-            }
         },
         getConfigTemplate: function(state, update) {
             if (!descendant.getConfigTemplate) {

@@ -142,6 +142,7 @@ export default class EditorCanvasSli extends Component {
                     }} />
                 </div>
                 <EditorShortcuts
+                    openConfigModal={this.props.openConfigModal}
                     box={this.props.boxes[this.props.boxSelected]}
                     containedViewSelected={this.props.containedViewSelected}
                     navItemSelected={this.props.navItemSelected}

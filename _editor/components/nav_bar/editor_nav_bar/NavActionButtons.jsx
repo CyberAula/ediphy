@@ -10,23 +10,14 @@ import { isSection } from '../../../../common/utils';
  * Action buttons in the editor's navbar
  */
 export default class NavActionButtons extends Component {
-    /**
-     * Constructor
-     */
     constructor(props) {
         super(props);
 
-        /**
-         * Component's initial state
-         */
         this.state = {
             isFullScreenOn: screenfull.isFullscreen,
 
         };
 
-        /**
-         * Binded function
-         */
         this.checkFullScreen = this.checkFullScreen.bind(this);
         this.getButtons = this.getButtons.bind(this);
     }
@@ -108,9 +99,9 @@ export default class NavActionButtons extends Component {
                 disabled: ((this.props.navItemSelected === 0 || (!this.props.navItems[this.props.navItemSelected] || this.props.navItems[this.props.navItemSelected].hidden) || (this.props.navItemSelected && !Ediphy.Config.sections_have_content && isSection(this.props.navItemSelected)))),
                 icon: 'visibility',
                 onClick: () => {
-                    if (this.props.boxSelected !== 0) {
+                    /* if (this.props.boxSelected !== 0) {
                         this.props.onTextEditorToggled(this.props.boxSelected, false);
-                    }
+                    }*/
                     this.props.visor();
                 },
             },

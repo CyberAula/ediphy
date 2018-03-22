@@ -15,15 +15,9 @@ import ExportModal from '../export/ExportModal';
  * Upper navigation bar component
  */
 export default class EditorNavBar extends Component {
-    /**
-     * Constructor
-     */
     constructor(props) {
         super(props);
 
-        /**
-         * Component's initial state
-         */
         this.state = {
             showGlobalConfig: false,
             showImportFile: false,
@@ -31,18 +25,11 @@ export default class EditorNavBar extends Component {
             isFullScreenOn: screenfull.isFullscreen,
         };
 
-        /**
-         * Binded function
-         */
         this.toggleGlobalConfig = this.toggleGlobalConfig.bind(this);
         this.toggleImportFile = this.toggleImportFile.bind(this);
         this.toggleExport = this.toggleExport.bind(this);
     }
 
-    /**
-     * Render React Component
-     * @returns {code}
-     */
     render() {
         return (
             <Col id="iconBar">

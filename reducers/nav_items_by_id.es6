@@ -11,7 +11,7 @@ import { changeProp, changeProps, deleteProp, deleteProps, isView, isSlide, isDo
 function navItemCreator(state = {}, action = {}) {
     return {
         id: action.payload.id,
-        name: action.payload.name,
+        // name: action.payload.name,
         isExpanded: true,
         parent: action.payload.parent,
         children: [],

@@ -32,7 +32,7 @@ export function InputText(base) {
                                     __name: i18n.t("InputText.answerType"),
                                     type: 'select',
                                     value: state.type,
-                                    options: ['text', 'number', 'color', 'datetime-local'],
+                                    options: ['text', 'number'],
                                     autoManaged: false,
                                 },
                                 fontSize: {

@@ -79,6 +79,18 @@ export const testState = { present:
                     },
                 },
             },
+            exercises: {
+                'pa-1511252955865': {
+                    id: 'pa-1511252955865',
+                    submitButton: true,
+                    trackProgress: false,
+                    attempted: false,
+                    weight: 10,
+                    minForPass: 50,
+                    exercises: {},
+                    score: 0,
+                },
+            },
             boxesById: {
                 'bo-1511252957954': {
                     children: [],

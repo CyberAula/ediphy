@@ -236,7 +236,6 @@ export const initialState = (config) => { return config.sections_have_content ?
         viewToolbarsById: {
             "se-1467887497411": {
                 id: "se-1467887497411",
-                hidden: false,
                 viewName: i18n.t('Section'),
                 breadcrumb: 'reduced',
                 courseTitle: 'hidden',
@@ -250,7 +249,6 @@ export const initialState = (config) => { return config.sections_have_content ?
             },
             "pa-1497983247795": {
                 id: "pa-1497983247795",
-                hidden: false,
                 viewName: i18n.t('Page'),
                 breadcrumb: 'reduced',
                 courseTitle: 'hidden',

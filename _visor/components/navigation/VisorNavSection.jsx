@@ -15,7 +15,7 @@ export default class VisorNavSection extends Component {
     render() {
         let children = this.props.navItemsById[this.props.pageName].children;
         let marginUl = (this.props.navItemsById[this.props.pageName].level * 10 + 11) + "px";
-        let name = this.props.navItemsById[this.props.pageName].name;
+        let name = this.props.viewToolbars[this.props.pageName].viewName;
         let classes = this.props.display ? "visorNavListEl" : "visorNavListEl hiddenNavVisor";
         let isSectionVisited = this.props.progress[this.props.pageName];
 
@@ -31,6 +31,7 @@ export default class VisorNavSection extends Component {
                         progress={this.props.progress}
                         navItemsById={this.props.navItemsById}
                         navItemsIds={this.props.navItemsIds}
+                        viewToolbars={this.props.viewToolbars}
                         first={this.props.first} last={this.props.last}
                         changeCurrentView={(pageNum) => {this.props.changeCurrentView(pageNum);}} />);
                 }
@@ -47,7 +48,7 @@ export default class VisorNavSection extends Component {
                         {(this.props.navItemsById[page].customSize === 0) ?
                             <i className="material-icons">{isSlide(this.props.navItemsById[page].type) ? "slideshow" : "insert_drive_file"}</i>
                             : <img className="svgIcon" src={iconPDF}/>}
-                        <span>{this.props.navItemsById[page].name}</span>
+                        <span>{this.props.viewToolbars[page].viewName}</span>
                     </a>
                 </li>);
 
@@ -67,7 +68,7 @@ export default class VisorNavSection extends Component {
                     <span className={"progressBall"}><ProgressBall isTop={this.props.pageName === this.props.first} isBottom={this.props.pageName === last} isVisited={isSectionVisited}/></span>
                     <a className={this.props.navItemSelected === this.props.pageName ? "indexElementTitle selectedNavItemVisor" : "indexElementTitle  "} style={{ paddingLeft: marginUl }} href="#">
                         {this.state.toggled ?
-                            (<i onClick={(e)=>{this.setState({ toggled: !this.state.toggled });}} className="material-icons">keyboard_arrow_down</i>) : (<i onClick={(e)=>{this.setState({ toggled: !this.state.toggled });}} className="material-icons">keyboard_arrow_right</i>)}
+                            (<i onClick={(e)=>{this.setState({ toggled: !this.state.toggled });}} className="material-icons arrowSection">keyboard_arrow_down</i>) : (<i onClick={(e)=>{this.setState({ toggled: !this.state.toggled });}} className="material-icons arrowSection">keyboard_arrow_right</i>)}
 
                         <span> {name} </span>
                     </a>

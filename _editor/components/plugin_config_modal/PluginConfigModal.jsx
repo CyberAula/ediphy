@@ -65,7 +65,7 @@ export default class PluginConfigModal extends Component {
                 bsSize="large"
                 show={this.props.id}
                 onHide={()=>{ this.setState({ show: false, reason: null }); }}>
-                <Modal.Header closeButton>
+                <Modal.Header /* closeButton*/>
                     <Modal.Title>{i18n.t("plugin_config")}</Modal.Title>
                 </Modal.Header>
 
