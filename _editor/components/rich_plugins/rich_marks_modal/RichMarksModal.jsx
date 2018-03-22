@@ -278,8 +278,9 @@ export default class RichMarksModal extends Component {
                             markState = {
                                 mark: {
                                     id: newMark,
-                                    origin: { [this.props.boxSelected]: [newMark] },
+                                    origin: this.props.boxSelected,
                                     title: title,
+                                    connection: newId,
                                     color: color,
                                     connectMode: connectMode,
                                     displayMode: this.state.displayMode,
@@ -289,7 +290,7 @@ export default class RichMarksModal extends Component {
                                     info: "new",
                                     type: this.state.newType,
                                     id: newId,
-                                    parent: { [this.props.boxSelected]: [newMark] },
+                                    parent: this.props.boxSelected,
                                     name: name,
                                     boxes: [],
                                     extraFiles: {},
