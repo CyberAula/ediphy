@@ -118,5 +118,8 @@ VisorNavSection.propTypes = {
    * Calculated completed pages
    */
     progress: PropTypes.object,
-
+    /**
+   * View toolbars
+   */
+    viewToolbars: PropTypes.object,
 };

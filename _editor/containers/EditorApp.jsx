@@ -587,7 +587,6 @@ class EditorApp extends Component {
     }
 
     toolbarUpdated(id, tab, accordion, name, value) {
-        console.log(id, tab, accordion, name, value);
         if (isBox(id) || isSortableBox(id)) {
             let toolbar = this.props.pluginToolbars[id];
             let pluginAPI = Ediphy.Plugins.get(toolbar.pluginId);

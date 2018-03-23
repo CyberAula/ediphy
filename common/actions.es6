@@ -346,7 +346,6 @@ export function importStateAsync() {
             })
             .then(result => {
                 // eslint-disable-next-line no-console
-                console.log(result);
                 dispatch(importState(JSON.parse(result)));
                 return true;
             })

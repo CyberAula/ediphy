@@ -187,7 +187,9 @@ export function createBox(ids, name, slide, addBox, boxes) {
                 styles[e] = toolbar.main.accordions.style.buttons[e].value;
             });
         }
-    } catch(e) { console.error(e); }
+    } catch(e) {
+        console.error(e);
+    }
 
     let newBoxes = [];
     let newPluginState = {};

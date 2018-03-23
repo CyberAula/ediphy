@@ -49,7 +49,6 @@ export default class PluginConfigModal extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (!this.props.id && nextProps.id) {
-            console.log(nextProps.id);
             this.setState({ pluginState: nextProps.state });
         }
     }
@@ -58,7 +57,6 @@ export default class PluginConfigModal extends Component {
      * @returns {code}
      */
     render() {
-        console.log(this.props, Ediphy.Plugins.get(this.props.name));
         return (
             <Modal className="pageModal pluginconfig"
                 backdrop="static"

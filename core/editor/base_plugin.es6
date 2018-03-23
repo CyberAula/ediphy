@@ -166,7 +166,6 @@ export default function() {
                 if (descendant.getConfig().initialHeight) {
                     params.height = floatingBox && config.initialHeightSlide ? config.initialHeightSlide : config.initialHeight;
                 }
-                console.log(params.width, params.height);
                 //
                 // if (needsConfigModal) {
                 //     Do stuff
@@ -336,12 +335,12 @@ export default function() {
         getRenderTemplate: function(render_state, props) {
             return descendant.getRenderTemplate(render_state, props);
         },
-        getToolbar: function(state) {
+        getToolbar: function(toolbarState) {
             let toolbar;
             // eslint-disable-next-line no-var
             var buttonKey;
             if (descendant.getToolbar) {
-                toolbar = descendant.getToolbar(state);
+                toolbar = descendant.getToolbar(toolbarState);
             }
             toolbar = defaultFor(toolbar, {});
 
@@ -394,7 +393,7 @@ export default function() {
             }
             return toolbar;
         },
-        getConfigTemplate: function(state, update) {
+        getConfigTemplate: function(configState, update) {
             if (!descendant.getConfigTemplate) {
                 if (this.getConfig().needsConfigModal) {
                     // eslint-disable-next-line no-console
@@ -403,7 +402,7 @@ export default function() {
                 }
                 return null;
             }
-            return descendant.getConfigTemplate(state, update);
+            return descendant.getConfigTemplate(configState, update);
 
         },
         configModalNeedsUpdate: function() {

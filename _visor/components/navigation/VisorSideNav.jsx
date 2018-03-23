@@ -149,4 +149,8 @@ VisorSideNav.propTypes = {
    * Show course's score
    */
     showScore: PropTypes.bool,
+    /**
+     * View toolbars
+     */
+    viewToolbars: PropTypes.object,
 };

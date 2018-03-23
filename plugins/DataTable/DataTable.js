@@ -124,7 +124,6 @@ export function DataTable(base) {
 
         },
         getConfigTemplate: function(extState, updateState) {
-            console.log(extState, updateState);
             return (
                 <Config state={extState} updateState={updateState} />
             );

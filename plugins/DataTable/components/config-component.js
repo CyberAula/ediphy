@@ -79,7 +79,6 @@ export default class Config extends React.Component {
     }
 
     optionsChanged(newOptions) {
-        console.log('newOptions', newOptions);
         let options = { ...this.props.state.options, ...newOptions, key: Math.random() };
         this.props.updateState({ ...this.props.state, options });
     }

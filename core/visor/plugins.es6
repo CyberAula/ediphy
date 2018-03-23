@@ -5,7 +5,6 @@ export default function() {
     let pluginInstancesList = {};
     return {
         get: function(name) {
-            console.log(pluginInstancesList[name]);
             return pluginInstancesList[name];
         },
         getAll: function() {

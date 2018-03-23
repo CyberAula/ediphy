@@ -31,7 +31,6 @@ export default class ChartOptions extends React.Component {
         }*/
     }
     render() {
-        console.log(this.props);
         return (
             <div>
                 <h4>{i18n.t("DataTable.header.options")}</h4>

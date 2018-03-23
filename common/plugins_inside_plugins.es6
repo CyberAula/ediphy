@@ -205,28 +205,28 @@ export function addDefaultContainerPluginsReact(params, obj, boxes, newBoxes) {
     }
     if (obj.type && obj.type === PluginPlaceholder && obj.props['plugin-data-default']) {
         let idContainer = isSortableContainer(obj.props.pluginContainer) ? obj.props.pluginContainer : ID_PREFIX_SORTABLE_CONTAINER + obj.props.pluginContainer;
-        // let plug_children = boxes[params.ids.id].sortableContainers[idContainer];
-        if (true/* plug_children && plug_children.children && plug_children.children.length === 0*/) {
-            obj.props['plugin-data-default'].split(",").map(name => {
-                if (!Ediphy.Plugins.get(name)) {
-                    // eslint-disable-next-line no-console
-                    console.error("Plugin " + name + " does not exist");
-                    return;
-                }
-                let ids = {
-                    parent: params.id,
-                    page: params.page,
-                    container: idContainer,
-                    isDefaultPlugin: true,
-                };
+        // let plug_children = boxes[params.id].sortableContainers[idContainer];
+        // if ( plug_children && plug_children.children && plug_children.children.length === 0) {
+        obj.props['plugin-data-default'].split(",").map(name => {
+            if (!Ediphy.Plugins.get(name)) {
+                // eslint-disable-next-line no-console
+                console.error("Plugin " + name + " does not exist");
+                return;
+            }
+            let ids = {
+                parent: params.id,
+                page: params.page,
+                container: idContainer,
+                isDefaultPlugin: true,
+            };
 
-                let config = Ediphy.Plugins.get(name).getConfig();
-                if (obj.props['plugin-data-text'] && config.needsTextEdition) {
-                    ids.text = obj.props['plugin-data-text'];
-                }
-                newBoxes.push({ name, ids });
+            let config = Ediphy.Plugins.get(name).getConfig();
+            if (obj.props['plugin-data-text'] && config.needsTextEdition) {
+                ids.text = obj.props['plugin-data-text'];
+            }
+            newBoxes.push({ name, ids });
 
-            });
-        }
+        });
+        // }
     }
 }

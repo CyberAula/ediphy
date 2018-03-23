@@ -36,7 +36,6 @@ export default class ChartOptions extends React.Component {
     componentWillUpdate(nextProps, nextState) {
         if(nextState !== this.state) {
             if (typeof this.props.optionsChanged === 'function') {
-                // console.log(this.state);
                 this.props.optionsChanged({
                     type: nextState.type,
                     x: nextState.x,
