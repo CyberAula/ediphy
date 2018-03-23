@@ -21,7 +21,7 @@ export default class TableComponent extends React.Component {
         let prop = keys.indexOf(options.initialSort) !== -1 ? options.initialSort : (keys && keys.length > 0 ? keys[0] : 0);
         return (
             <div className={"tableContainer theme-" + options.theme}>
-                <DataTable key={Math.random()}
+                <DataTable key={options.key || 0}
                     keys="name"
                     columns={cols}
                     initialData={data}

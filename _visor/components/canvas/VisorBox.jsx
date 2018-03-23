@@ -9,7 +9,9 @@ export default class VisorBox extends Component {
         this.borderSize = 2;
     }
     componentDidUpdate(prevProps, prevState) {
-        let config = Ediphy.Plugins.get(this.props.toolbars[this.props.id].pluginId).getConfig();
+        let toolbar = this.props.toolbars[this.props.id];
+        let pluginAPI = Ediphy.Visor.Plugins[toolbar.pluginId];
+        let config = pluginAPI.getConfig(toolbar.pluginId);
         if(config.needsTextEdition && window.MathJax) {
             window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
         }
@@ -18,8 +20,8 @@ export default class VisorBox extends Component {
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];
-        let config = Ediphy.Plugins.get(toolbar.pluginId).getConfig();
-
+        let pluginAPI = Ediphy.Visor.Plugins[toolbar.pluginId];
+        let config = pluginAPI.getConfig(toolbar.pluginId);
         let style = {};
 
         let attrs = {};
@@ -32,51 +34,6 @@ export default class VisorBox extends Component {
         if (toolbar.state.__text) {
             style.textAlign = "left";
         }
-        /*
-        for (let tabKey in toolbar.controls) {
-            for (let accordionKey in toolbar.controls[tabKey].accordions) {
-                let button;
-                for (let buttonKey in toolbar.controls[tabKey].accordions[accordionKey].buttons) {
-                    button = toolbar.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
-                    if (!button.isAttribute) {
-                        if (button.autoManaged) {
-                            if (buttonKey === 'className' && button.value) {
-                                classNames += button.value;
-                            } else if (buttonKey === '__width') {
-                                width = button.displayValue + (button.type === "number" ? button.units : "");
-                            } else if (buttonKey === '__height') {
-                                height = button.displayValue + (button.type === "number" ? button.units : "");
-                            } else {
-                                style[buttonKey] = button.value;
-                            }
-                        }
-                    } else {
-                        attrs['data-' + buttonKey] = button.value;
-                    }
-
-                }
-                if (toolbar.controls[tabKey].accordions[accordionKey].accordions) {
-                    for (let accordionKey2 in toolbar.controls[tabKey].accordions[accordionKey].accordions) {
-                        for (let buttonKey in toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
-                            button = toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
-                            if (!button.isAttribute) {
-                                if (button.autoManaged) {
-                                    if (buttonKey === 'className' && button.value) {
-                                        classNames += button.value;
-                                    } else {
-                                        style[buttonKey] = button.value;
-                                    }
-                                }
-                            } else {
-                                attrs['data-' + buttonKey] = button.value;
-                            }
-
-                        }
-                    }
-                }
-            }
-        }
-*/
 
         // pass currentState  of component if exists
         if(this.props.richElementsState && this.props.richElementsState[box.id] !== undefined) {
@@ -87,7 +44,9 @@ export default class VisorBox extends Component {
         if (toolbar.structure.rotation && toolbar.structure.rotation) {
             rotate = 'rotate(' + toolbar.structure.rotation + 'deg)';
         }
-        // style.transform = style.WebkitTransform = style.MsTransform = rotate;
+
+        style.transform = style.WebkitTransform = style.MsTransform = rotate;
+        style = { ...style, ...toolbar.style };
 
         /* TODO: Reassign object if it's rich to have marks as property box.content.props*/
 
@@ -96,7 +55,7 @@ export default class VisorBox extends Component {
         } };
         let content = config.flavor === "react" ? (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {Ediphy.Visor.Plugins[toolbar.pluginId].getRenderTemplate(toolbar.state, box.id, props)}
+                {pluginAPI.getRenderTemplate(toolbar.state, box.id, props)}
             </div>
         ) : (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
@@ -119,8 +78,8 @@ export default class VisorBox extends Component {
             position: box.position.type,
             left: box.position.x ? box.position.x : "",
             top: box.position.y ? box.position.y : "",
-            width: width,
-            height: height,
+            width: width !== "auto" ? (width + widthUnit) : "auto",
+            height: height !== "auto" ? (height + heightUnit) : "auto",
             verticalAlign: verticalAlign,
         };
 

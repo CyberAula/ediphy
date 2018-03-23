@@ -29,7 +29,7 @@ export default class Config extends React.Component {
                         {!editing && <div>
                             <h4>{i18n.t("DataTable.header.preview")}</h4><br/>
                             <div style={{ marginRight: '-10px', marginLeft: '0px' }} ref="chartContainer" id="chartContainer">
-                                <TableComponent data={data} options={options} key={1} />
+                                <TableComponent data={data} options={options} key={Math.random()}/>
                             </div>
                         </div>}
                         {!editing && <div id="previewOverlay"/>}
@@ -80,7 +80,7 @@ export default class Config extends React.Component {
 
     optionsChanged(newOptions) {
         console.log('newOptions', newOptions);
-        let options = { ...this.props.state.options, ...newOptions };
+        let options = { ...this.props.state.options, ...newOptions, key: Math.random() };
         this.props.updateState({ ...this.props.state, options });
     }
 
