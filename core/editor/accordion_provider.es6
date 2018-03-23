@@ -257,6 +257,8 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         value: value,
         step: 5,
         units: units,
+        min: 0,
+        max: units === '%' ? 100 : 100000,
         auto: displayValue === "auto",
         autoManaged: true,
     };
@@ -297,6 +299,8 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         value: value,
         step: 5,
         units: units,
+        min: 0,
+        max: units === '%' ? 100 : 100000,
         auto: displayValue === "auto",
         autoManaged: true,
     };
@@ -335,16 +339,18 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         }
 
     }
+
+    console.log(controls);
 }
 
 /**
-     * Render toolbar accordion
-     * @param accordion Name of the accordion
-     * @param tabKey Unique key of the tab
-     * @param accordionKeys Unique keys of the accordion
-     * @param state Toolbar state
-     * @param key Current key
-     */
+ * Render toolbar accordion
+ * @param accordion Name of the accordion
+ * @param tabKey Unique key of the tab
+ * @param accordionKeys Unique keys of the accordion
+ * @param state Toolbar state
+ * @param key Current key
+ */
 export function renderAccordion(accordion, tabKey, accordionKeys, state, key, toolbar_props) {
     if (accordionKeys[0] === 'z__extra') {
         return null;
@@ -442,6 +448,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     if(toolbar_props.boxSelected !== -1) {
         toolbar_plugin_state = toolbar_props.pluginToolbars[toolbar_props.boxSelected];
     }
+    console.log(button.max, button.__name);
     let props = {
         key: ('child_' + key),
         id: ('page' + '_' + buttonKey),
@@ -985,6 +992,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         let auto = toolbar_plugin_state.structure[buttonKey] === "auto";
         props.value = auto ? 'auto' : toolbar_plugin_state.structure[buttonKey];
         props.type = auto ? 'text' : 'number';
+        props.max = toolbar_plugin_state.structure[buttonKey + "Unit"] === '%' ? 100 : 100000;
         props.disabled = auto;
         return (
             <FormGroup key={button.__name}>

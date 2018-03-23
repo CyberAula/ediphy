@@ -99,7 +99,7 @@ export default class ViewToolbar extends Component {
                             weight: {
                                 __name: i18n.t('Weight'),
                                 type: 'number',
-                                min: 0,
+                                min: 1,
                                 __defaultField: true,
                                 value: this.props.exercises.weight,
                             },
