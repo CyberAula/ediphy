@@ -188,8 +188,8 @@ export function reorderBoxes(parent, container, order) {
     return { type: REORDER_BOXES, payload: { parent, container, order } };
 }
 
-export function addRichMark(parent, mark, state) {
-    return { type: ADD_RICH_MARK, payload: { parent, mark, state } };
+export function addRichMark(mark, view, toolbar) {
+    return { type: ADD_RICH_MARK, payload: { mark, view, toolbar } };
 }
 
 export function moveRichMark(mark, value) {

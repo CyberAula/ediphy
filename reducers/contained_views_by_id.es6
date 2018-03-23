@@ -140,11 +140,11 @@ export default function(state = {}, action = {}) {
     case ADD_RICH_MARK:
         // If rich mark is connected to a new contained view, mark.connection will include this information;
         // otherwise, it's just the id/url and we're not interested
-        if (action.payload.mark.connectMode === 'existing' && isContainedView(action.payload.mark.connection)) {
-            return changeProp(state, action.payload.mark.connection, singleContainedViewReducer(state[action.payload.mark.connection], action));
+        if (action.payload.mark.connectMode === 'existing' && isContainedView(action.payload.view.id)) {
+            return changeProp(state, action.payload.view.id, singleContainedViewReducer(state[action.payload.view.id], action));
         }
-        if (action.payload.mark.connection.id) {
-            return changeProp(state, action.payload.mark.connection.id, action.payload.mark.connection);
+        if (action.payload.mark.connection) {
+            return changeProp(state, action.payload.mark.connection, action.payload.mark.connection);
         }
         return state;
     case DELETE_BOX:

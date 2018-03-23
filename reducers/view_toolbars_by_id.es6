@@ -1,5 +1,6 @@
 import {
     DELETE_CONTAINED_VIEW, ADD_NAV_ITEM,
+    ADD_RICH_MARK,
     DELETE_NAV_ITEM, UPDATE_VIEW_TOOLBAR,
     IMPORT_STATE, ADD_CONTAINED_VIEW, ADD_NAV_ITEMS,
 } from '../common/actions';
@@ -9,8 +10,8 @@ import Utils from "../common/utils";
 
 function toolbarElementCreator(state, action, isContainedView = false) {
     let doc_type;
-    let id = isContainedView ? action.payload.mark.connection.id : action.payload.id;
-    let type = isContainedView ? action.payload.mark.connection.type : action.payload.type;
+    let id = isContainedView ? action.payload.mark.connection : action.payload.id;
+    let type = isContainedView ? action.payload.mark.connectMode : action.payload.type;
     if (isPage(id)) {
         doc_type = i18n.t('page');
     }
@@ -58,8 +59,10 @@ export default function(state = {}, action = {}) {
         let ids = action.payload.navs.map(nav=> { return nav.id; });
         let navs = action.payload.navs.map(nav=> { return toolbarElementCreator(state, { type: ADD_NAV_ITEM, payload: nav });});
         return changeProps(state, [...ids], [...navs]);
+    case ADD_RICH_MARK:
+        return changeProp(state, action.payload.view.id, toolbarElementCreator(state, action));
     case ADD_CONTAINED_VIEW:
-        return changeProp(state, action.payload.id, toolbarElementCreator(state, action));
+        return changeProp(state, action.payload.id, toolbarElementCreator(state, action.view));
     case DELETE_CONTAINED_VIEW:
         return deleteProps(state, action.payload.ids);
     case DELETE_NAV_ITEM:

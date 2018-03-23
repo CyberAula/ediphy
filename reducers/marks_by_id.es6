@@ -8,7 +8,7 @@ export default function(state = {}, action = {}) {
     let newState;
     switch(action.type) {
     case ADD_RICH_MARK:
-        newState = changeProp(state, action.payload.id, { ...action.payload });
+        newState = changeProp(state, action.payload.id, { ...action.payload.mark });
         return newState;
     case DELETE_BOX:
         newState = { ...state };
