@@ -106,10 +106,7 @@ export function BasicPDF(base) {
                 pageNumber: 1,
             };
         },
-        /*    onDocumentLoad = ({ numPages }) => {
-          this.setSate({ numPages });
-        },
-*/
+
         getRenderTemplate: function(state) {
 
             return (

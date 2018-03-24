@@ -16,15 +16,31 @@ setOptions({
 export default class BasicAudioPluginEditor extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            numPages: null,
+            pageNumber: 3,
+        };
+        /*  this.onDocumentLoad = ({ numPages }) => {
+          this.props.setSate({numPages});
+        }*/
+        this.onDocumentLoad = this.onDocumentLoad.bind(this);
+    }
+
+    onDocumentLoad(numPages) {
+        this.setState({
+            numPages: numPages,
+        });
     }
 
     render() {
-
+    //    const { pageNumber, numPages } = this.props.state;
         return (
             <div>
-                <Document file = {this.props.state.url}>
+                <Document
+                    file = {this.props.state.url}
+                    onLoadSuccess={this.onDocumentLoad}>
                     <Page
-                        pageNumber={this.props.state.pageNumber}
+                        pageNumber={this.state.pageNumber}
                     />
                 </Document>
             </div>

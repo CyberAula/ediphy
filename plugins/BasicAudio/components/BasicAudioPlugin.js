@@ -21,9 +21,7 @@ export default class BasicAudioPlugin extends React.Component {
     render() {
         return (
             <div>
-                <Document file = {this.props.state.url}>
-                    <Page pageNumber={this.props.state.pageNumber}/>
-                </Document>
+                INACABADO
             </div>
         );
     }
