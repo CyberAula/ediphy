@@ -32,10 +32,8 @@ export default class BasicAudioPlugin extends React.Component {
     buttonNext() {
         console.log(this.state.numPages);
         if(this.state.pageNumber === this.state.numPages) {
-            console.log("No puedes hacer Next");
         }
         else{
-            console.log("Si puedes hacer next");
             this.setState({
                 pageNumber: this.state.pageNumber + 1,
             });
@@ -43,10 +41,8 @@ export default class BasicAudioPlugin extends React.Component {
     }
     buttonBack() {
         if(this.state.pageNumber === 1) {
-            console.log("No puedes hacer back");
         }
         else{
-            console.log("si puedes hacer back");
             this.setState({
                 pageNumber: this.state.pageNumber - 1,
             });
@@ -55,7 +51,7 @@ export default class BasicAudioPlugin extends React.Component {
 
     render() {
         return (
-            <div>
+            <div style={{ width: "100%", height: "100%" }}>
                 <button>
                     {this.state.pageNumber} of of {this.state.numPages}
                 </button>
@@ -65,10 +61,10 @@ export default class BasicAudioPlugin extends React.Component {
                 <button onClick={this.buttonBack}>
                     Back
                 </button>
-                <Document
+                <Document style={{ width: "100%", height: "100%" }}
                     file = {this.props.state.url}
                     onLoadSuccess={this.onDocumentLoad}>
-                    <Page
+                    <Page style={{ width: "100%", height: "100%" }}
                         pageNumber={this.state.pageNumber}
                     />
                 </Document>
