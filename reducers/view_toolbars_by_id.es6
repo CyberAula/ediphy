@@ -5,7 +5,7 @@ import {
     IMPORT_STATE, ADD_CONTAINED_VIEW, ADD_NAV_ITEMS,
 } from '../common/actions';
 import i18n from 'i18next';
-import { changeProp, deleteProps, isDocument, isPage, isSection, isSlide } from "../common/utils";
+import { changeProp, deleteProps, isDocument, isPage, isSection, isSlide, isContainedView } from "../common/utils";
 import Utils from "../common/utils";
 
 function toolbarElementCreator(state, action, isContainedView = false) {
@@ -60,7 +60,7 @@ export default function(state = {}, action = {}) {
         let navs = action.payload.navs.map(nav=> { return toolbarElementCreator(state, { type: ADD_NAV_ITEM, payload: nav });});
         return changeProps(state, [...ids], [...navs]);
     case ADD_RICH_MARK:
-        return changeProp(state, action.payload.view.id, toolbarElementCreator(state, action));
+        return changeProp(state, action.payload.view.id, toolbarElementCreator(state, action, isContainedView(action.payload.mark.connection)));
     case ADD_CONTAINED_VIEW:
         return changeProp(state, action.payload.id, toolbarElementCreator(state, action.view));
     case DELETE_CONTAINED_VIEW:

@@ -13,7 +13,7 @@ import './_ImportFile.scss';
 import { createBox } from '../../../../common/common_tools';
 
 const pdflib = require('pdfjs-dist');
-const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.min');
+const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.js');
 
 const pdfjsWorkerBlob = new Blob([pdfjsWorker]);
 const pdfjsWorkerBlobURL = URL.createObjectURL(pdfjsWorkerBlob);

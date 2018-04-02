@@ -156,7 +156,7 @@
     "jszip": "^3.1.5",
     "jszip-utils": "^0.0.2",
     "material-design-icons-font": "^2.2.3",
-    "pdfjs-dist": "^2.0.267",
+    "pdfjs-dist": "2.0.305",
     "prismjs": "^1.11.0",
     "prop-types": "^15.6.0",
     "rc-color-picker": "^1.2.3",

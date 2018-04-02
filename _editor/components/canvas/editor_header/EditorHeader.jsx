@@ -156,6 +156,7 @@ export default class EditorHeader extends Component {
                                                     navItems={this.props.navItems}
                                                     containedView={this.props.containedView}
                                                     viewtoolbars={this.props.viewToolbars}
+                                                    marks={this.props.marks}
                                                     boxes={this.props.boxes}/>) : null}</h2>
 
                                         {/* NavItem subtitle */}

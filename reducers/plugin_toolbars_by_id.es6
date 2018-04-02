@@ -1,5 +1,5 @@
 import {
-    ADD_BOX, DELETE_BOX, DELETE_CONTAINED_VIEW,
+    ADD_BOX, ADD_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW,
     DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER,
     TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_PLUGIN_TOOLBAR,
     VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX, ADD_NAV_ITEM,
@@ -96,6 +96,8 @@ export default function(state = {}, action = {}) {
     case ADD_BOX:
         return { ...state, ...toolbarCreator(state, action) };
     case ADD_NAV_ITEM:
+    case ADD_RICH_MARK:
+        return state;
         // return changeProp(state, action.payload.id, toolbarSortableContainer(state, action));
     case DELETE_BOX:
         let children = action.payload.children ? action.payload.children : [];

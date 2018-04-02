@@ -3,11 +3,11 @@ import Utils, {
     isBox,
 } from '../common/utils';
 import {
-    ADD_BOX, MOVE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, ADD_RICH_MARK,
+    ADD_BOX, ADD_NAT_ITEM, ADD_RICH_MARK, MOVE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE, PASTE_BOX, UPDATE_PLUGIN_TOOLBAR, TOGGLE_TEXT_EDITOR,
 } from '../common/actions';
-import { ID_PREFIX_BOX } from '../common/constants';
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX } from '../common/constants';
 
 function boxCreator(state, action) {
     let position;
@@ -115,7 +115,7 @@ function boxReducer(state = {}, action = {}) {
                 "sortableContainers",
             ], [
                 (state.children.indexOf(action.payload.ids.container) !== -1) ? // if parent box contains container indicated
-                state.children : // nothing changes
+                    state.children : // nothing changes
                     [...state.children, action.payload.ids.container], // adds container to children
                 sortableContainersReducer(state.sortableContainers, action),
             ]
@@ -355,6 +355,9 @@ function sortableContainersReducer(state = {}, action = {}) {
                 singleSortableContainerReducer(state[action.payload.ids.container], action) :
                 sortableContainerCreator(action.payload.ids.container, [action.payload.ids.id])
         );
+    case ADD_NAT_ITEM:
+    case ADD_RICH_MARK:
+        return state;
     case CHANGE_COLS:
         return changeProp(state, action.payload.id, singleSortableContainerReducer(state[action.payload.id], action));
     case CHANGE_ROWS:
@@ -454,6 +457,10 @@ export default function(state = {}, action = {}) {
     case ADD_RICH_MARK:
         // If rich mark is connected to a contained view (new or existing), mark.connection will include this information;
         // otherwise, it's just the id/url and we're not interested
+        if(action.payload.id) {
+            let id = ID_PREFIX_SORTABLE_BOX + Date.now();
+            return changeProp(state, id, { parent: newId, container: 0, id: id, page: newId });
+        }
         if (action.payload.mark.id || isContainedView(action.payload.view.id)) {
             return changeProp(state, action.payload.view.parent, boxReducer(state[action.payload.view.parent], action));
         }

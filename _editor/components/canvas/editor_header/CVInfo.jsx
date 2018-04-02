@@ -11,16 +11,16 @@ import { isSortableBox, isBox, isCanvasElement, isContainedView } from '../../..
 export default class CVInfo extends Component {
     render() {
         let cvList = [];
-        for (let id in this.props.containedView.parent) {
-            if (this.props.toolbars[id]) {
+        for (let id in this.props.containedViews.parent) {
+            if (this.props.viewtoolbars[id]) {
                 let el = this.props.boxes[id];
                 let from = "unknown";
                 let markName = "";
-                if (this.props.toolbars[id].state && this.props.toolbars[id].state.__marks) {
+                if (this.props.viewtoolbars[id].state && this.props.marks[id]) {
                     let at = '@';
-                    for (let mark in this.props.toolbars[id].state.__marks) {
-                        if (this.props.toolbars[id].state.__marks[mark].connection === this.props.containedView.id) {
-                            markName += this.props.toolbars[id].state.__marks[mark].title + ', ';
+                    for (let mark in this.props.marks[id]) {
+                        if (this.props.marks[id].connection === this.props.containedView.id) {
+                            markName += this.props.marks[mark].title + ', ';
                         }
                     }
                     markName = markName.slice(0, markName.length - 2) + " " + at + " ";

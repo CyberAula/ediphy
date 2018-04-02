@@ -80,6 +80,8 @@ export default function(state = {}, action = {}) {
                 singleContainedViewReducer(state[action.payload.ids.parent], action));
         }
         return state;
+    case ADD_RICH_MARK:
+        return changeProp(state, action.payload.view.id, action.payload.view);
     case CHANGE_BOX_LAYER:
         if (action.payload.container === 0 && isContainedView(action.payload.parent)) {
             return changeProp(state, action.payload.parent, singleContainedViewReducer(state[action.payload.parent], action));
