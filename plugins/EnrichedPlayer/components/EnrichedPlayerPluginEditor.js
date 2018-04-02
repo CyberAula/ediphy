@@ -78,12 +78,11 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
     render() {
 
         let marks = this.props.state.__marks;
-
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;
             let title = marks[id].title;
             let color = marks[id].color;
-
+            console.log(id);
             return(
                 <MarkEditor key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} onRichMarkUpdated={this.props.props.onRichMarkUpdated} state={this.props.state} base={this.props.base}>
                     <a key={id} href="#">

@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import BasicAudioPluginEditor from './components/BasicAudioPluginEditor.js';
 import i18n from 'i18next';
-import ReactAudioPlayer from 'react-audio-player';
+require('./BasicAudio.scss');
 
 export function BasicAudio(base) {
     return {
@@ -12,7 +12,10 @@ export function BasicAudio(base) {
                 isRich: true, // para poner marcas
                 displayName: i18n.t('BasicAudio.PluginName'),
                 category: "multimedia",
-                needConfigModal: false, // con esto no ponemos dimensiones iniciales
+                initialWidth: '400px',
+                initialHeight: "35px",
+                initialWidthSlide: '30%',
+                initialHeightSlide: '30%',
                 icon: 'play_circle_filled',
                 aspectRatioButtonConfig: {
                     location: ["main", "__sortable"],
@@ -29,7 +32,7 @@ export function BasicAudio(base) {
                         basic: {
                             __name: i18n.t('BasicAudio.Audio'),
                             icon: 'link',
-                            buttons: {
+                            buttons: {// Audio
                                 url: {
                                     __name: Ediphy.i18n.t('BasicAudio.URL'),
                                     type: 'text',
@@ -97,13 +100,12 @@ export function BasicAudio(base) {
         getInitialState: function() {
             return {
                 url: 'http://www.music.helsinki.fi/tmt/opetus/uusmedia/esim/a2002011001-e02-128k.mp3',
-                autoplay: false,
+                autoplay: false, // esto no esta en enrichedplayer
                 controls: true,
             };
         },
-        getRenderTemplate: function(state, props = {}) {
-            // EnrichedPlayer pasa tb base y props
-            console.log(state, props);
+        getRenderTemplate: function(state, props) {
+            // state base props, eso es lo que pasa enriquedplayer y no pasa las marks
             return (
                 <div style={{ height: "100%", width: "100%" }}>
                     <BasicAudioPluginEditor style={{ width: "100%", height: "100%" }} base={base} onRichMarkUpdated={props.onRichMarkUpdated} state={state}/>
@@ -130,11 +132,11 @@ export function BasicAudio(base) {
             if (match && match.length === 2) {
                 let val = Math.round(parseFloat(match[1]) * 100) / 100;
                 if (isNaN(val) || val > 100) {
-                    return { isWrong: true, message: i18n.t("BasicAudio.message_mark_percentage") };
+                    return { isWrong: true, message: i18n.t("EnrichedPlayer.message_mark_percentage") };
                 }
                 value = val + '%';
             } else {
-                return { isWrong: true, message: i18n.t("BasicAudio.message_mark_percentage") };
+                return { isWrong: true, message: i18n.t("EnrichedPlayer.message_mark_percentage") };
             }
             return { isWrong: false, value: value };
 

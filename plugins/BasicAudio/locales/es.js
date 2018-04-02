@@ -4,7 +4,7 @@ module.exports = {
         "Show_controls": "Mostrar controles",
         "Autoplay": "Reproducción automática",
         "URL": "URL",
-        "Audio": "Audio",
+        "Audio": "Audhtdthfhfhio",
         "background_color": "Color de fondo",
         "border_color": "Color de borde",
         "border_size": "Grosor de borde",
