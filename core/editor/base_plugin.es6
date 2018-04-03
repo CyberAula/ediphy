@@ -424,6 +424,12 @@ export default function() {
             if(descendant.getDefaultMarkValue) {
                 return descendant.getDefaultMarkValue();
             }
+            if (descendant.getConfig() && descendant.getConfig().marksType) {
+                let markType = descendant.getConfig().marksType;
+                if (markType && markType.length > 0 && markType[0] && markType[0].default) {
+                    return markType[0].default;
+                }
+            }
             return undefined;
         },
         pointerEventsCallback: function(bool, toolbarState) {

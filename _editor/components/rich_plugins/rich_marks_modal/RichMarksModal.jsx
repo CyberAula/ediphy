@@ -96,8 +96,9 @@ export default class RichMarksModal extends Component {
         }
 
         let currentNavItemType = this.props.navItems[this.props.navItemSelected].type;
-        let defaultMarkValue = this.props.pluginToolbar && this.props.pluginToolbar.config && this.props.plugintoolbar.pluginId ? Ediphy.Plugins.get(this.props.plugintoolbar.pluginId).getDefaultMarkValue() : '';
-        let pluginType = this.props.pluginToolbar && this.props.pluginToolbar.config ? this.props.pluginToolbar.config.displayName : 'Plugin';
+        let plugin = (this.props.pluginToolbar && this.props.pluginToolbar.pluginId && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId)) ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId) : undefined;
+        let defaultMarkValue = plugin ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getDefaultMarkValue(this.props.pluginToolbar.state) : '';
+        let pluginType = (this.props.pluginToolbar && this.props.pluginToolbar.config) ? this.props.pluginToolbar.config.displayName : 'Plugin';
         return (
             <Modal className="pageModal richMarksModal" backdrop bsSize="large" show={this.props.visible}>
                 <Modal.Header>
@@ -261,8 +262,8 @@ export default class RichMarksModal extends Component {
                         let displayMode = this.state.displayMode;
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
                         // First of all we need to check if the plugin creator has provided a function to check if the input value is allowed
-                        if(this.props.validateValueInput) {
-                            let val = this.props.validateValueInput(value);
+                        if(plugin && plugin.validateValueInput) {
+                            let val = plugin.validateValueInput(value);
                             // If the value is not allowed, we show an alert with the predefined message and we abort the Save operation
                             if (val && val.isWrong) {
                                 this.setState({ showAlert: true, alertMsg: (val.message ? val.message : i18n.t("mark_input")) });

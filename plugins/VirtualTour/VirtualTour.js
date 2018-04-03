@@ -171,7 +171,8 @@ export function VirtualTour(base) {
             base.setState(name, value);
         },
         getDefaultMarkValue(state) {
-            let cfg = base.getState().config;
+            console.log(state);
+            let cfg = state.config;
             return Math.round(cfg.lat * 100000) / 100000 + ',' + Math.round(cfg.lng * 100000) / 100000;
         },
         parseRichMarkInput: function(...value) {
