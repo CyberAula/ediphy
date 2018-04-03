@@ -205,10 +205,11 @@ class EditorApp extends Component {
                                 boxSelected={boxSelected}
                                 boxes={boxes}
                                 navItems={navItems}
+                                marks={marks}
                                 containedViews={containedViews}
                                 pluginToolbars={pluginToolbars}
                                 onTextEditorToggled={this.onTextEditorToggled}
-                                onBoxPasted={(ids, box, toolbar, children, index)=>dispatch(pasteBox(ids, box, toolbar, children, index))}
+                                onBoxPasted={(ids, box, toolbar, children, index, marks)=>dispatch(pasteBox(ids, box, toolbar, children, index, marks))}
                                 onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 onBoxDeleted={(id, parent, container, page)=> {let bx = this.getDescendantBoxes(boxes[id]); dispatch(deleteBox(id, parent, container, bx, boxes[id].containedViews, page));}}
                                 ribbonHeight={ribbonHeight + 'px'}/>

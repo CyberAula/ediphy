@@ -37,6 +37,7 @@ export default class Clipboard extends Component {
     copyData() {
         let box = this.props.boxes[this.props.boxSelected];
         let toolbar = this.props.toolbars[this.props.boxSelected];
+
         let childBoxes = {};
         let childToolbars = {};
         if (box.sortableContainers) {
@@ -48,7 +49,17 @@ export default class Clipboard extends Component {
                 }
             }
         }
-        return { box, toolbar, childBoxes, childToolbars };
+        let marks = {};
+        for (let id in this.props.marks) {
+            let mark = this.props.marks[id];
+            if (mark.origin === this.props.boxSelected) {
+                marks[id] = mark;
+            }
+            if (Object.keys(childBoxes).indexOf(mark.origin) > -1) {
+                marks[id] = mark;
+            }
+        }
+        return { box, toolbar, marks, childBoxes, childToolbars };
     }
     /**
      * Copy action listener
@@ -150,6 +161,8 @@ export default class Clipboard extends Component {
         let transformedBox = this.transformBox(data.box, ids, isTargetSlide, data.box.resizable);
         let transformedToolbar = this.transformToolbar(data.toolbar, ids, isTargetSlide, data.box.resizable);
         let transformedChildren = {};
+        let marks = data.marks;
+        let newMarks = {};
         if (data.childBoxes && data.childToolbars) {
             for (let bid in transformedBox.newIds) {
                 let idsChild = { id: transformedBox.newIds[bid], parent: ids.id, container: data.childBoxes[bid].container };
@@ -158,7 +171,18 @@ export default class Clipboard extends Component {
                 transformedChildren[transformedBox.newIds[bid]] = { box: transformedBoxChild.newBox, toolbar: transformedToolbarChild };
             }
         }
-        this.props.onBoxPasted(ids, transformedBox.newBox, transformedToolbar, transformedChildren, index);
+        console.log(transformedBox.newIds);
+        for (let mark in marks) {
+            let newId = marks[mark].id + "_1";
+            let newMark = { ...marks[mark],
+                origin: transformedBox.newIds[marks[mark].origin] || ids.id,
+                id: newId };
+            if ((isContainedView(newMark.connection) && this.props.containedViews[newMark.connection]) || (isView(newMark.connection) && this.props.navItems[newMark.connection]) || newMark.connetMode === 'external') {
+                newMarks[newId] = newMark;
+            }
+        }
+
+        this.props.onBoxPasted(ids, transformedBox.newBox, transformedToolbar, transformedChildren, index, newMarks);
 
     }
 
@@ -312,7 +336,7 @@ export default class Clipboard extends Component {
      */
     transformToolbar(toolbar, ids, isTargetSlide, isOriginSlide) {
         let newToolbar = Object.assign({}, toolbar, { id: ids.id });
-        if (newToolbar.state && newToolbar.state.__marks) {
+        /* if (newToolbar.state && newToolbar.state.__marks) {
             let newMarks = {};
             for (let mark in newToolbar.state.__marks) {
                 let newId = mark + "_1";
@@ -327,7 +351,7 @@ export default class Clipboard extends Component {
                 }
             }
             newToolbar.state.__marks = newMarks;
-        }
+        }*/
         if (isTargetSlide !== isOriginSlide) {
             let config = Ediphy.Plugins.get(newToolbar.pluginId).getConfig();
             if (isTargetSlide) {
