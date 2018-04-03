@@ -340,7 +340,6 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
 
     }
 
-    console.log(controls);
 }
 
 /**
@@ -449,7 +448,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     if(toolbar_props.boxSelected !== -1) {
         toolbar_plugin_state = toolbar_props.pluginToolbars[toolbar_props.boxSelected];
     }
-    console.log(button.max, button.__name);
     let props = {
         key: ('child_' + key),
         id: ('page' + '_' + buttonKey),

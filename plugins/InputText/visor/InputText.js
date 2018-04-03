@@ -3,7 +3,7 @@ import React from 'react';
 
 export function InputText() {
     return {
-        getRenderTemplate: function(state, id, props) {
+        getRenderTemplate: function(state, props) {
             let clickHandler = (e)=>{
                 props.setAnswer(e.target.value);
             };
@@ -12,7 +12,7 @@ export function InputText() {
             let correct = props.exercises.correctAnswer === props.exercises.currentAnswer;
             let fs = state.fontSize + 'px';
             return <span className={"exercisePlugin inputTextPlugin" + (attempted ? " attempted " : " ") + (correct ? "correct " : "incorrect ") + (props.exercises.showFeedback ? "showFeedback" : "") }>
-                <input type={state.type} disabled={attempted} style={{ fontSize: fs, lineHeight: fs }} className="inputText" name={id} value={props.exercises.currentAnswer} onChange={clickHandler}/>
+                <input type={state.type} disabled={attempted} style={{ fontSize: fs, lineHeight: fs }} className="inputText" name={props.id} value={props.exercises.currentAnswer} onChange={clickHandler}/>
                 <span className="exerciseScore">{score}</span>
             </span>;
         },

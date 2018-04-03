@@ -6,7 +6,7 @@ import { letterFromNumber } from '../../../common/common_tools';
 
 export function MultipleChoice() {
     return {
-        getRenderTemplate: function(state, id, props) {
+        getRenderTemplate: function(state, props) {
             let content = [];
             let attempted = props.exercises && props.exercises.attempted;
             let score = (props.exercises.score || 0) + "/" + (props.exercises.weight || 0);

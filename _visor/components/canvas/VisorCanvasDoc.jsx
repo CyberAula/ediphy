@@ -43,6 +43,9 @@ export default class VisorCanvasDoc extends Component {
         );
 
         let animationType = isCV ? "animation-zoom" : ""; // "animation-slide";
+
+        let marks = {};
+
         return (
 
             <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={animationType}
@@ -82,7 +85,8 @@ export default class VisorCanvasDoc extends Component {
                                 {boxes.map(id => {
                                     let box = this.props.boxes[id];
                                     if (!isSortableBox(box.id)) {
-                                        return <VisorBox key={id}
+                                        return null;
+                                        /* return <VisorBox key={id}
                                             id={id}
                                             exercises={(this.props.exercises && this.props.exercises.exercises) ? this.props.exercises.exercises[id] : undefined}
                                             boxes={this.props.boxes}
@@ -91,7 +95,8 @@ export default class VisorCanvasDoc extends Component {
                                             fromScorm={this.props.fromScorm}
                                             toolbars={this.props.pluginToolbars}
                                             setAnswer={this.props.setAnswer}
-                                            richElementsState={this.props.richElementsState}/>;
+                                            marks={marks}
+                                            richElementsState={this.props.richElementsState}/>;*/
                                     }
                                     return <VisorBoxSortable key={id}
                                         id={id}
@@ -102,6 +107,7 @@ export default class VisorCanvasDoc extends Component {
                                         fromScorm={this.props.fromScorm}
                                         toolbars={this.props.pluginToolbars}
                                         setAnswer={this.props.setAnswer}
+                                        marks={this.props.marks}
                                         richElementsState={this.props.richElementsState}/>;
 
                                 })}

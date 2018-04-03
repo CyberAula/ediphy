@@ -5,9 +5,10 @@ import img from './../../../dist/images/broken_link.png';
 
 export function HotspotImages(base) {
     return {
-        getRenderTemplate: function(state, id) {
-            let marks = state.__marks;
-            let box_id = id;
+        getRenderTemplate: function(state, props) {
+            console.log(state, props);
+            let marks = props.marks || {};
+            let box_id = props.id;
 
             let markElements = Object.keys(marks).map((e) =>{
 

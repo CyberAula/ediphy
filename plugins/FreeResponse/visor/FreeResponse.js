@@ -7,7 +7,7 @@ import i18n from 'i18next';
 
 export function FreeResponse() {
     return {
-        getRenderTemplate: function(state, id, props) {
+        getRenderTemplate: function(state, props) {
             let attempted = props.exercises && props.exercises.attempted;
             let score = (props.exercises.score || 0) + "/" + (props.exercises.weight || 0);
             return <div className={"exercisePlugin freeResponsePlugin " + (attempted ? " attempted" : "")} > {/* <h1>Free Response</h1>*/}

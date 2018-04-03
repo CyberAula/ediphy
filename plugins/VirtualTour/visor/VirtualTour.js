@@ -9,7 +9,7 @@ window.mapsVisor = [];
 
 export function VirtualTour(base) {
     return {
-        getRenderTemplate: function(state, id) {
+        getRenderTemplate: function(state, props) {
             if (!window.google) {
                 let src = "https://maps.google.com/maps/api/js?libraries=places&key=AIzaSyAOOAHADllUMGULOz5FQu3rIhM0RtwxP7Q";
                 $('<script>').attr('src', src).appendTo('head');
@@ -23,8 +23,8 @@ export function VirtualTour(base) {
                 </div>);
             }
 
-            let marks = state.__marks;
-            let box_id = id;
+            let marks = props.marks || {};
+            let box_id = props.id;
 
             let markElements = Object.keys(marks).map((e) =>{
                 let Mark = ({ key, text }) => (

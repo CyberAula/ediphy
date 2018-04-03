@@ -106,7 +106,8 @@ export default class EditorCanvasDoc extends Component {
                                 {boxes.map(id => {
                                     let box = boxes[id];
                                     if (!isSortableBox(id)) {
-                                        return <EditorBox key={id} id={id} {...commonProps} exercises={itemSelected ? (this.props.exercises[itemSelected.id].exercises[id]) : undefined} />;
+                                        return null;
+                                        // return <EditorBox key={id} id={id} {...commonProps} exercises={itemSelected ? (this.props.exercises[itemSelected.id].exercises[id]) : undefined} />;
                                     }
                                     return <EditorBoxSortable key={id} {...commonProps}
                                         id={id} exercises={this.props.exercises} page={itemSelected ? itemSelected.id : 0} />;

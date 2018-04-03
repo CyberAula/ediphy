@@ -31,7 +31,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
             triggerArray.forEach(function(e) {
                 if ((parseFloat(e.value) / 100).toFixed(3) < parseFloat(nextState.played).toFixed(3)) {
                     let toBeTriggered = triggerArray;
-                    triggerMark(sudo.props.box_id, e.value, true);
+                    triggerMark(sudo.props.props.id, e.value, true);
                     toBeTriggered.splice(e, 1);
                     sudo.setState({ toBeTriggered: toBeTriggered });
                 }
@@ -123,7 +123,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
     render() {
 
-        let marks = this.props.state.__marks;
+        let marks = this.props.props.marks || {};
 
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;

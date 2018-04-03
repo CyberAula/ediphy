@@ -103,6 +103,7 @@ export default class EditorBox extends Component {
 
         let props = { ...this.props,
             marks: marks,
+            allMarks: this.props.marks,
             parentBox: this.props.boxes[this.props.id],
             setCorrectAnswer: (correctAnswer) => {
                 if (this.props.exercises.correctAnswer !== correctAnswer) {
@@ -367,7 +368,7 @@ export default class EditorBox extends Component {
             document.getElementById('canvas') :
             document.getElementById('containedCanvas');
         interact.dynamicDrop(true);
-        interact(ReactDOM.findDOMNode(this))
+        interact(ReactDOM.findDOMNode(this)).ignoreFrom('input, textarea, .textAreaStyle,  a, .pointerEventsEnabled, .markeditor')
             .draggable({
                 snap: {
                     targets: targets,
@@ -384,7 +385,7 @@ export default class EditorBox extends Component {
                     distance: 5,
                     interval: 10,
                 },
-                ignoreFrom: 'input, textarea, .textAreaStyle,  a, .pointerEventsEnabled',
+                ignoreFrom: 'input, textarea, .textAreaStyle,  a, .pointerEventsEnabled, .markeditor',
                 onstart: (event) => {
                     event.stopPropagation();
                     if (this.props.boxSelected !== this.props.id) {

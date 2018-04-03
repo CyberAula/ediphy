@@ -52,6 +52,7 @@ export default class VisorPluginPlaceholder extends Component {
                                                 currentView={this.props.currentView}
                                                 toolbars={this.props.toolbars}
                                                 fromScorm={this.props.fromScorm}
+                                                marks={this.props.allMarks}
                                                 richElementsState={this.props.richElementsState}/>);
 
                                         } else if (index === container.children.length - 1) {

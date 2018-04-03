@@ -49,13 +49,18 @@ export default class VisorBox extends Component {
         style = { ...style, ...toolbar.style };
 
         /* TODO: Reassign object if it's rich to have marks as property box.content.props*/
-
-        let props = { ...this.props, parentBox: this.props.boxes[this.props.id], setAnswer: (correctAnswer) => {
+        let marks = {};
+        Object.keys(this.props.marks || {}).forEach(mark =>{
+            if(this.props.marks[mark].origin === this.props.id) {
+                marks[mark] = this.props.marks[mark];
+            }
+        });
+        let props = { ...this.props, parentBox: this.props.boxes[this.props.id], marks, allMarks: this.props.marks, setAnswer: (correctAnswer) => {
             this.props.setAnswer(this.props.id, correctAnswer, this.props.currentView);
         } };
         let content = config.flavor === "react" ? (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {pluginAPI.getRenderTemplate(toolbar.state, box.id, props)}
+                {pluginAPI.getRenderTemplate(toolbar.state, props)}
             </div>
         ) : (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>

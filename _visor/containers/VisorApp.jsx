@@ -198,6 +198,8 @@ export default class Visor extends Component {
                 exercises[exercise] = Ediphy.State.exercises[exercise];
             }
         });
+        let marks = Ediphy.State.marksById;
+        console.log('ediphymarks', marks);
         let title = globalConfig.title;
         let ratio = globalConfig.canvasRatio;
         let visorNav = globalConfig.visorNav;
@@ -222,6 +224,7 @@ export default class Visor extends Component {
                 richElementsState={this.state.richElementState}
                 showCanvas={currentView.indexOf("cv-") === -1}
                 title={title}
+                marks={marks}
                 viewToolbars={viewToolbars}
                 pluginToolbars={pluginToolbars}
                 triggeredMarks={this.state.triggeredMarks}
@@ -238,6 +241,7 @@ export default class Visor extends Component {
                 viewToolbars={viewToolbars}
                 pluginToolbars={pluginToolbars}
                 title={title}
+                marks={marks}
                 triggeredMarks={this.state.triggeredMarks}
                 showCanvas={currentView.indexOf("cv-") !== -1}
                 removeLastView={()=>{this.removeLastView();}}

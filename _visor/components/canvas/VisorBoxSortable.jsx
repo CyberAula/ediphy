@@ -38,6 +38,7 @@ export default class VisorBoxSortable extends Component {
                                                             changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
                                                             fromScorm={this.props.fromScorm}
                                                             toolbars={this.props.toolbars}
+                                                            marks={this.props.marks}
                                                             setAnswer={this.props.setAnswer}
                                                             richElementsState={this.props.richElementsState}/>);
 

@@ -79,12 +79,14 @@ export default class PluginPlaceholder extends Component {
                                                 onBoxSelected={this.props.onBoxSelected}
                                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                 onBoxMoved={this.props.onBoxMoved}
+                                                onRichMarkMoved={this.props.onRichMarkMoved}
                                                 onBoxResized={this.props.onBoxResized}
                                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                                 onBoxAdded={this.props.onBoxAdded}
                                                 page={this.props.page}
                                                 pageType={this.props.pageType}
+                                                marks={this.props.allMarks}
                                                 containedViews={this.props.containedViews}
                                                 onBoxDropped={this.props.onBoxDropped}
                                                 onRichMarkUpdated={this.props.onRichMarkUpdated}

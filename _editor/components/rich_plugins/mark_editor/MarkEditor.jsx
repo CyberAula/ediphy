@@ -105,11 +105,11 @@ export default class MarkEditor extends Component {
                 onTouchStart={this.start}
                 onMouseUp={()=>{this.end();}}
                 onMouseEnter={(e)=>{
-                    this.props.base.pointerEventsCallback('mouseenter', this.props.base.getState());
+                    this.props.base.pointerEventsCallback('mouseenter', this.props.state);
                 }}
                 onMouseLeave={(e)=>{
                     let bool = findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled');
-                    this.props.base.pointerEventsCallback('mouseleave_' + (bool && !this.state.editing ? 'true' : 'false'), this.props.base.getState());
+                    this.props.base.pointerEventsCallback('mouseleave_' + (bool && !this.state.editing ? 'true' : 'false'), this.props.state);
                     this.mouseLeave(e);
                 }}
                 onTouchCancel={this.end}
@@ -149,6 +149,7 @@ export default class MarkEditor extends Component {
 
         let base = this.props.base;
         let toolbarState = this.props.state;
+        let marks = this.props.marks;
         let parseRichMarkInput = base.parseRichMarkInput;
         let editing = this.state.editing;
         const id = this.props.mark;
@@ -169,9 +170,9 @@ export default class MarkEditor extends Component {
                 overlay.remove();
             }
             dropableElement.classList.remove('rich_overlay');
-            /* if(component) {
+            if(component) {
                 component.setState({ editing: false });
-            }*/
+            }
         };
 
         let clickOutside = function(e) {
@@ -190,21 +191,21 @@ export default class MarkEditor extends Component {
             exitFunction();
             event.preventDefault();
         };
+        let onRichMarkMoved = this.props.onRichMarkMoved;
+        console.log(this.props);
         let mouseup = function(event) {
             if (event.which === 3) {
                 exitFunction();
                 return;
             }
             const square = this.getClientRects()[0];
-            let marks = JSON.parse(JSON.stringify(toolbarState.__marks));
+            console.log(marks);
             const x = event.clientX - square.left - cursor_x_offset;// event.offsetX;
             const y = event.clientY - square.top - cursor_y_offset;// event.offsetY;
             const width = square.right - square.left;
             const height = square.bottom - square.top;
             const value = parseRichMarkInput(x, y, width, height, [], toolbarState);
-            if (marks[id]) {
-                marks[id].value = value;
-            }
+
             document.body.style.cursor = 'default';
             boxStyle.classList.remove('norotate');
             document.documentElement.removeEventListener('mouseup', clickOutside, true);
@@ -215,13 +216,13 @@ export default class MarkEditor extends Component {
                 component.setState({ editing: false });
             }
             let boxParent = findParentBySelector(myself, '.wholebox');
+            console.log(boxParent);
             if (boxParent) {
-                let boxId = findParentBySelector(myself, '.wholebox').id.replace("box-", "");
-                // base.editRichMark(boxId, id, value);
-                component.props.onRichMarkMoved(id, value);
-                // base.setState('__marks', marks);
-                // base.render('EDIT_RICH_MARK');
+                onRichMarkMoved(id, value);
+            } else{
+                component.forceUpdate();
             }
+            // onRichMarkMoved(id, value);
             overlay.removeEventListener('mouseup', mouseup);
 
         };
