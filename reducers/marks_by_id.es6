@@ -39,8 +39,13 @@ export default function(state = {}, action = {}) {
             },
         };
     case EDIT_RICH_MARK:
-        newState = changeProp(state, action.payload.id, action.payload);
-        return newState;
+        return {
+            ...state,
+            [action.payload.id]: {
+                ...state[action.payload.id],
+                ...action.payload.mark.mark,
+            },
+        };
     case PASTE_BOX:
 
         // let newMarks = action.payload.

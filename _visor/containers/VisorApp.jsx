@@ -389,13 +389,13 @@ export default class Visor extends Component {
     isTriggereableMark(mark, triggerable_marks) {
         let isAnyTriggereableMark = false;
         triggerable_marks.forEach(triggereable_mark=> {
-            if (triggereable_mark.currentState === 'PENDING' && triggereable_mark.value === mark.value && triggereable_mark.box_id === mark.id) {
+            if (triggereable_mark.currentState === 'PENDING' && triggereable_mark.value === mark.value && triggereable_mark.origin === mark.id) {
                 if (!isAnyTriggereableMark) {
                     isAnyTriggereableMark = triggereable_mark;
                 }
             }
 
-            if (!mark.stateElement && triggereable_mark.value === mark.value && triggereable_mark.box_id === mark.id) {
+            if (!mark.stateElement && triggereable_mark.value === mark.value && triggereable_mark.origin === mark.id) {
                 if (!isAnyTriggereableMark) {
                     isAnyTriggereableMark = triggereable_mark;
                     isAnyTriggereableMark.currentState = "PENDING";
@@ -454,14 +454,14 @@ export default class Visor extends Component {
         if(triggeredMarks.length > 0) {
             if(!triggered_event.stateElement) {
                 triggeredMarks.forEach(element=>{
-                    if(element.currentState !== 'DONE' || triggered_event.id !== element.box_id) {
+                    if(element.currentState !== 'DONE' || triggered_event.id !== element.origin) {
                         clean_array.push(element);
                     }
                 });
 
             } else {
                 triggeredMarks.forEach(element =>{
-                    if(element.currentState !== "DONE" || element.value === triggered_event.value || element.box_id !== triggered_event.id) {
+                    if(element.currentState !== "DONE" || element.value === triggered_event.value || element.origin !== triggered_event.id) {
                         clean_array.push(element);
                     }
                 });
@@ -496,14 +496,14 @@ export default class Visor extends Component {
         let previously_triggered_marks = this.state.triggeredMarks;
         if(previously_triggered_marks.length === 0) {
             marks.forEach(mark_element=>{
-                if(mark_element.value === triggered_event.value && mark_element.box_id === triggered_event.id) {
+                if(mark_element.value === triggered_event.value && mark_element.origin === triggered_event.id) {
                     state_marks.push({
                         currentState: "PENDING",
                         viewOrigin: this.state.currentView[this.state.currentView.length - 1],
                         id: mark_element.id,
                         value: mark_element.value,
                         connection: mark_element.connection,
-                        box_id: mark_element.box_id,
+                        origin: mark_element.origin,
                         connectMode: mark_element.connectMode,
                     });
                 }
@@ -515,19 +515,19 @@ export default class Visor extends Component {
             marks.forEach(triggered_mark=>{
                 let is_different = true;
                 for(let n in state_marks) {
-                    if(state_marks[n].value === triggered_mark.value && state_marks[n].box_id === triggered_event.id) {
+                    if(state_marks[n].value === triggered_mark.value && state_marks[n].origin === triggered_event.id) {
                         is_different = false;
                     }
                 }
 
-                if(is_different && triggered_event.value === triggered_mark.value && triggered_event.id === triggered_mark.box_id) {
+                if(is_different && triggered_event.value === triggered_mark.value && triggered_event.id === triggered_mark.origin) {
                     state_marks.push({
                         currentState: "PENDING",
                         viewOrigin: this.state.currentView[this.state.currentView.length - 1],
                         id: triggered_mark.id,
                         value: triggered_mark.value,
                         connection: triggered_mark.connection,
-                        box_id: triggered_mark.box_id,
+                        origin: triggered_mark.origin,
                         connectMode: triggered_mark.connectMode,
                     });
                 }
@@ -547,12 +547,9 @@ export default class Visor extends Component {
 
         let boxes = this.getAllRichDescendantBoxes(currentView);
         let marks = [];
-        boxes.forEach(box=>{
-            Object.keys(Ediphy.State.toolbarsById[box].state.__marks).map(mark_element=>{
-                let mark_box = Ediphy.State.toolbarsById[box].state.__marks[mark_element];
-                mark_box.box_id = box;
-                marks.push(mark_box);
-            });
+        Object.keys(Ediphy.State.marksById).forEach(mark=>{
+            boxes.includes(Ediphy.State.marksById[mark].origin);
+            marks.push(Ediphy.State.marksById[mark]);
         });
         return marks;
     }
@@ -634,7 +631,7 @@ export default class Visor extends Component {
         });
 
         newBoxes.forEach(final=>{
-            if(Ediphy.State.toolbarsById[final] && Ediphy.State.toolbarsById[final].config && Ediphy.State.toolbarsById[final].config.isRich) {
+            if(Ediphy.State.pluginToolbarsById[final] && Ediphy.State.pluginToolbarsById[final].pluginId && Ediphy.State.pluginToolbarsById[final].pluginId !== "sortable_container" && Ediphy.Visor.Plugins[Ediphy.State.pluginToolbarsById[final].pluginId].getConfig().isRich) {
                 richBoxes.push(final);
             }
         });
@@ -649,7 +646,7 @@ export default class Visor extends Component {
      */
     getActualBoxesStates(backup, current) {
         let nextState = backup;
-        nextState[this.state.triggeredMarks[0].box_id] = current[this.state.triggeredMarks[0].box_id];
+        nextState[this.state.triggeredMarks[0].origin] = current[this.state.triggeredMarks[0].origin];
         return nextState;
     }
 

@@ -196,8 +196,8 @@ export function moveRichMark(mark, value) {
     return { type: MOVE_RICH_MARK, payload: { mark, value } };
 }
 
-export function editRichMark(parent, state, mark, oldConnection, newConnection) {
-    return { type: EDIT_RICH_MARK, payload: { parent, state, mark, oldConnection, newConnection } };
+export function editRichMark(id, mark) {
+    return { type: EDIT_RICH_MARK, payload: { id, mark } };
 }
 
 export function deleteRichMark(id, parent, cvid, state) {

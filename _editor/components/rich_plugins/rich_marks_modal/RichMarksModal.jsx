@@ -313,7 +313,7 @@ export default class RichMarksModal extends Component {
                         if(this.props.marks[newMark] === undefined) {
                             this.props.onRichMarkAdded(markState.mark, markState.view, markState.viewToolbar);
                         } else{
-                            this.props.updateRichMark(markState);
+                            this.props.onRichMarkUpdated(newMark, markState);
                         }
 
                         /* this.props.onRichMarkUpdated({ id: (current ? current.id : newMark), title, connectMode, connection, displayMode, value, color }, this.state.newSelected === "");
