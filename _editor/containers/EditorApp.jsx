@@ -242,6 +242,7 @@ class EditorApp extends Component {
                                 pluginToolbars={pluginToolbars}
                                 viewToolbars={viewToolbars}
                                 title={title}
+                                onRichMarkMoved={(mark, value)=>dispatch(moveRichMark(mark, value))}
                                 markCreatorId={this.state.markCreatorVisible}
                                 onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 setCorrectAnswer={(id, correctAnswer, page) => { dispatch(setCorrectAnswer(id, correctAnswer, page));}}
@@ -375,7 +376,7 @@ class EditorApp extends Component {
                     validateValueInput={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).validateValueInput : null}
                     onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                     onRichMarkAdded={(mark, view, viewToolbar)=> dispatch(addRichMark(mark, view, viewToolbar))}
-                    onRichMarkUpdated={this.onRichMarkUpdated}
+                    onRichMarkUpdated={(id, mark) => dispatch(editRichMark(id, mark))}
                     onRichMarksModalToggled={() => {
                         this.setState({ richMarksVisible: !this.state.richMarksVisible });
                         if(this.state.richMarksVisible) {
@@ -428,11 +429,10 @@ class EditorApp extends Component {
                         this.setState({ currentRichMark: mark });
                     }}
                     onRichMarkDeleted={id => {
-                        let toolbar = toolbars[boxSelected];
-                        let state = JSON.parse(JSON.stringify(toolbar.state));
-                        let cvid = state.__marks[id].connection;
+                        let toolbar = pluginToolbars[boxSelected];
+                        let cvid = marks[id].connection;
 
-                        delete state.__marks[id];
+                        delete marks[id];
                         // This checks if the deleted mark leaves an orphan contained view, and displays a message asking if the user would like to delete it as well
                         if (isContainedView(cvid)) {
                             let thiscv = containedViews[cvid];
