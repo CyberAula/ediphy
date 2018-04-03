@@ -3,7 +3,7 @@ import {
     DELETE_SORTABLE_CONTAINER, ADD_RICH_MARK, CONFIG_SCORE,
 } from '../common/actions';
 
-import { isBox, existsAndIsViewOrContainedView, changeProp, changeProps, deleteProp, deleteProps } from '../common/utils';
+import { isBox, existsAndIsViewOrContainedView, changeProp, changeProps, deleteProp, deleteProps, isContainedView } from '../common/utils';
 
 function singleExerciseReducer(state = {}, action = {}) {
     switch (action.type) {
@@ -71,7 +71,7 @@ function singlePageReducer(state = {}, action = {}) {
         };
     case ADD_RICH_MARK:
         return {
-            id: action.payload.mark.connection.id,
+            id: action.payload.mark.connection,
             submitButton: true,
             trackProgress: false,
             attempted: false,
@@ -112,8 +112,8 @@ export default function(state = {}, action = {}) {
             [...navs]
         );
     case ADD_RICH_MARK:
-        if (action.payload.mark.connection.id) {
-            return changeProp(state, action.payload.mark.connection.id, singlePageReducer(state[action.payload.mark.connection.id], action));
+        if (isContainedView(action.payload.mark.connection)) {
+            return changeProp(state, action.payload.mark.connection, singlePageReducer(state[action.payload.mark.connection], action));
         }
         return state;
     case ADD_BOX:
