@@ -70,7 +70,13 @@ export default class EditorBox extends Component {
         }
         let container = box.parent;
         // let controls = apiPlugin.getToolbar();
-        let marks = this.props.marksById;
+        let marks = {};
+        Object.keys(this.props.marks || {}).forEach(mark =>{
+            if(this.props.marks[mark].origin === this.props.id) {
+                marks[mark] = this.props.marks[mark];
+            }
+        });
+
         style = { ...style, ...toolbar.style };
 
         Object.assign(textareaStyle, style);
@@ -96,6 +102,7 @@ export default class EditorBox extends Component {
         // style.transform = style.WebkitTransform = style.MsTransform = rotate;
 
         let props = { ...this.props,
+            marks: marks,
             parentBox: this.props.boxes[this.props.id],
             setCorrectAnswer: (correctAnswer) => {
                 if (this.props.exercises.correctAnswer !== correctAnswer) {

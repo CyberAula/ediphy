@@ -119,7 +119,7 @@ export function VirtualTour(base) {
                 $('<script>').attr('src', src).appendTo('head');
             }
             let id = "map-" + props.id;
-            let marks = state.__marks;
+            let marks = props.marks || {};
             if (!window.google || !window.navigator.onLine) {
                 return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
                     <div className="middleAlign">
@@ -130,7 +130,7 @@ export function VirtualTour(base) {
             }
 
             let Mark = ({ idKey, title, color }) => (
-                <MarkEditor time={1.5} mark={idKey} base={base} onRichMarkUpdated={props.onRichMarkUpdated} state={state}>
+                <MarkEditor time={1.5} mark={idKey} base={base} onRichMarkMoved={props.onRichMarkMoved} state={state}>
                     <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
                         <a className="mapMarker" href="#">
                             <i style={{ color: color }} key="i" className="material-icons">room</i>

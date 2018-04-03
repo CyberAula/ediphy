@@ -18,6 +18,9 @@ export default class MarksList extends Component {
                 {this.props.state !== undefined &&
                     Object.keys(this.props.state).map(id => {
                         let mark = this.props.state[id];
+                        if(this.props.box_id !== mark.origin) {
+                            return;
+                        }
                         let name = mark.connection;
                         let color = mark.color || '#337ab7';
                         let widthScroll = Math.max(mark.title.length / 11 * 100, 100);
