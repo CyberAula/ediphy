@@ -39,6 +39,7 @@ export default class EditorCanvasDoc extends Component {
         let commonProps = {
             addMarkShortcut: this.props.addMarkShortcut,
             accordions: this.props.accordions,
+            marks: this.props.marks,
             background: itemSelected.background,
             setCorrectAnswer: this.props.setCorrectAnswer,
             boxes: this.props.boxes,

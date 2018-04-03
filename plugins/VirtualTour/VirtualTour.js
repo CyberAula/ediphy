@@ -119,7 +119,7 @@ export function VirtualTour(base) {
                 $('<script>').attr('src', src).appendTo('head');
             }
             let id = "map-" + props.id;
-            let marks = state.__marks;
+            let marks = props.marks || {};
             if (!window.google || !window.navigator.onLine) {
                 return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
                     <div className="middleAlign">

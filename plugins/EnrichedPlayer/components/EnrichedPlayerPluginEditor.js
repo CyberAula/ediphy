@@ -77,7 +77,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
 
     render() {
 
-        let marks = this.props.state.__marks;
+        let marks = this.props.marks || {};
 
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;

@@ -115,6 +115,7 @@ export default class EditorCanvasSli extends Component {
                                 containedViews={this.props.containedViews}
                                 containedViewSelected={this.props.containedViewSelected}
                                 accordions={this.props.accordions}
+                                marks={this.props.marks}
                                 pluginToolbars={this.props.pluginToolbars}
                                 lastActionDispatched={this.props.lastActionDispatched}
                                 deleteMarkCreator={this.props.deleteMarkCreator}
