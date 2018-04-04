@@ -74,9 +74,11 @@ export default class EditorCanvasDoc extends Component {
 
                 <div className="scrollcontainer"
                     style={{ backgroundColor: show ? itemSelected.background : 'transparent', display: show ? 'block' : 'none' }}
-                    onClick={e => {
-                        this.props.onBoxSelected(-1);
-                        this.setState({ showTitle: false });
+                    onMouseDown={e => {
+                        if (e.target == e.currentTarget) {
+                            this.props.onBoxSelected(-1);
+                            this.setState({ showTitle: false });
+                        }
                         e.stopPropagation();
                     }}>
                     { /* {this.props.boxSelected} - ({(this.props.boxSelected && this.props.boxes[this.props.boxSelected]) ? this.props.boxes[this.props.boxSelected].level : '-'}) - {this.props.boxLevelSelected} */ }

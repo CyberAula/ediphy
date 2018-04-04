@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { isSortableContainer } from '../../common/utils';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import { UPDATE_BOX } from '../../common/actions';
+import { getCKEDITORAdaptedContent } from '../../_editor/components/clipboard/clipboard.utils';
 let html2json = require('html2json').html2json;
 
 export default function() {
@@ -120,7 +121,7 @@ export default function() {
                 if (!state.__text) {
                     state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
                 }
-                state.__text = encodeURI(state.__text);
+                state.__text = getCKEDITORAdaptedContent(state.__text);
                 if (!descendant.getRenderTemplate) {
                     descendant.getRenderTemplate = function(stateObj, { exercises: { correctAnswer: [] } }) {
                         return stateObj.__text;
@@ -155,8 +156,11 @@ export default function() {
                     };
                 }
             }
+
+            let toolbar = this.getToolbar(state);
             let template = null;
             let params = { ...initParams };
+            params.aspectRatio = !!toolbar.aspectRatioButtonConfig;
             params.name = config.name;
             params.isDefaultPlugin = defaultFor(initParams.isDefaultPlugin, false);
             console.log(params);
@@ -188,11 +192,12 @@ export default function() {
 
             // }
             }
+
             return {
                 template,
                 initialParams: params,
                 config: this.getConfig(),
-                toolbar: this.getToolbar(state),
+                toolbar,
                 state,
             };
 
