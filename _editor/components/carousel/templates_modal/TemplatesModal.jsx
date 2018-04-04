@@ -113,7 +113,6 @@ export default class TemplatesModal extends Component {
      * Add Slide
      */
     AddNavItem(template) {
-
         let newId = ID_PREFIX_PAGE + Date.now();
         this.props.onNavItemAdded(
             newId,
@@ -123,6 +122,7 @@ export default class TemplatesModal extends Component {
             this.props.calculatePosition,
             "rgb(255,255,255)",
             0,
+            template !== -1,
         );
         if (template !== -1) {
             let selectedTemplate = this.templates[template];
