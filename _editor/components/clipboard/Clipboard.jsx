@@ -286,7 +286,7 @@ export default class Clipboard extends Component {
                         console.log(err);
                     }
                     if (noImage) {
-                        initialParams.text = getCKEDITORAdaptedContent(event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"));
+                        initialParams.text = (event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"));
                         createBox(initialParams, "BasicText", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
 
                     }
@@ -354,10 +354,13 @@ export default class Clipboard extends Component {
         }*/
         if (isTargetSlide !== isOriginSlide) {
             let config = Ediphy.Plugins.get(newToolbar.pluginId).getConfig();
+            console.log(config);
             if (isTargetSlide) {
                 // TODO width VS bwidth?
-                newToolbar.structure.width = config.initialWidthSlide;
-                newToolbar.structure.height = config.initialHeightSlide;
+                newToolbar.structure.width = parseFloat(config.initialWidthSlide || config.initialWidth) || "25";
+                newToolbar.structure.height = parseFloat(config.initialHeightSlide || config.initialHeight) || "auto";
+                newToolbar.structure.widthUnit = "%";
+                newToolbar.structure.heightUnit = "%";
                 // newToolbar.controls.main.accordions.__sortable.buttons.__width.units = "%";
                 // newToolbar.controls.main.accordions.__sortable.buttons.__width.value =
                 // newToolbar.controls.main.accordions.__sortable.buttons.__width.displayValue = parseFloat();
@@ -365,8 +368,11 @@ export default class Clipboard extends Component {
                 // newToolbar.controls.main.accordions.__sortable.buttons.__height.value =
                 // newToolbar.controls.main.accordions.__sortable.buttons.__height.displayValue = parseFloat(config.initialHeightSlide);
             } else {
-                newToolbar.structure.width = config.initialWidth;
-                newToolbar.structure.height = config.initialHeight;
+                newToolbar.structure.width = parseFloat(config.initialWidth) || "25";
+                newToolbar.structure.widthUnit = config.initialWidth.indexOf('px') !== -1 ? "px" : "%";
+                newToolbar.structure.height = parseFloat(config.initialHeight) || "auto";
+                newToolbar.structure.heightUnit = config.initialHeight.indexOf('px') !== -1 ? "px" : "%";
+
                 // newToolbar.controls.main.accordions.__sortable.buttons.__height.value =
                 // newToolbar.controls.main.accordions.__sortable.buttons.__height.displayValue = parseFloat(config.initialHeight);
                 // newToolbar.controls.main.accordions.__sortable.buttons.__height.units = config.initialHeight.indexOf('px') !== -1 ? "px" : "%";

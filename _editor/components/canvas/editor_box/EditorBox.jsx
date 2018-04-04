@@ -128,13 +128,13 @@ export default class EditorBox extends Component {
                     boxSizing: 'content-box',
                 }} />
                 <div style={{ display: box.resizable ? 'initial' : 'none' }}>
-                    <div className="helpersResizable"
+                    <div className="helpersResizable" onClick={(e)=>{e.stopPropagation();}}
                         style={{ left: -cornerSize / 2, top: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'nw-resize' : 'move') }} />
-                    <div className="helpersResizable"
+                    <div className="helpersResizable" onClick={(e)=>{e.stopPropagation();}}
                         style={{ right: -cornerSize / 2, top: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'ne-resize' : 'move') }} />
-                    <div className="helpersResizable"
+                    <div className="helpersResizable" onClick={(e)=>{e.stopPropagation();}}
                         style={{ left: -cornerSize / 2, bottom: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'sw-resize' : 'move') }} />
-                    <div className="helpersResizable"
+                    <div className="helpersResizable" onClick={(e)=>{e.stopPropagation();}}
                         style={{ right: -cornerSize / 2, bottom: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'se-resize' : 'move') }} />
                 </div>
             </div>

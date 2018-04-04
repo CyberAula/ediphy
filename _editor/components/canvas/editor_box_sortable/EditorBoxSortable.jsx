@@ -42,18 +42,17 @@ export default class EditorBoxSortable extends Component {
         let box = this.props.boxes[this.props.id];
         return (
             <div className="editorBoxSortable"
-                onClick={e => {
-                    if(box.children.length !== 0) {
-                        this.props.onBoxSelected(this.props.id);
+                onMouseDown={e => {
+                    if (e.target == e.currentTarget || e.target.classList.contains('colDist-j')) {
+                        if(box.children.length !== 0) {
+                            this.props.onBoxSelected(this.props.id);
+                        }
                     }
                     e.stopPropagation();
                 }}>
                 <div ref="sortableContainer"
                     className={(this.props.id === this.props.boxSelected && box.children.length > 0) ? ' selectedBox sortableContainerBox' : ' sortableContainerBox'}
-                    style={{
-                        position: 'relative',
-                        boxSizing: 'border-box',
-                    }}>
+                    style={{ position: 'relative', boxSizing: 'border-box' }}>
                     {this.state.alert}
                     {box.children.map((idContainer, index)=> {
                         let container = box.sortableContainers[idContainer];
