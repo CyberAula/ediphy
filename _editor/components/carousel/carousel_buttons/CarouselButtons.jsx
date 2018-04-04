@@ -9,6 +9,7 @@ import { isSection, isContainedView } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
 
 import './_carouselButtons.scss';
+import TemplatesModal from "../templates_modal/TemplatesModal";
 
 /**
  * Ediphy CarouselButtons Component
@@ -28,7 +29,12 @@ export default class CarouselButtons extends Component {
          */
         this.state = {
             showOverlay: false,
+            showTemplates: false,
         };
+        /**
+        * Binded function
+        */
+        this.toggleTemplatesModal = this.toggleTemplatesModal.bind(this);
     }
 
     /**
@@ -161,17 +167,18 @@ export default class CarouselButtons extends Component {
                         name="newSlide"
                         disabled={isContainedView(this.props.indexSelected)}
                         onClick={e => {
-                            let newId = ID_PREFIX_PAGE + Date.now();
-                            this.props.onNavItemAdded(
-                                newId,
-                                i18n.t("slide"),
-                                this.getParent().id,
-                                PAGE_TYPES.SLIDE,
-                                this.calculatePosition(),
-                                "rgb(255,255,255)",
-                                0,
-                            );
-                            this.props.onIndexSelected(newId);
+                            this.toggleTemplatesModal();
+                            // let newId = ID_PREFIX_PAGE + Date.now();
+                            // this.props.onNavItemAdded(
+                            //     newId,
+                            //     i18n.t("slide"),
+                            //     this.getParent().id,
+                            //     PAGE_TYPES.SLIDE,
+                            //     this.calculatePosition(),
+                            //     "rgb(255,255,255)",
+                            //     0,
+                            // );
+                            // this.props.onIndexSelected(newId);
                         }}><i className="material-icons">slideshow</i>
                     </Button>
                 </OverlayTrigger>
@@ -242,8 +249,27 @@ export default class CarouselButtons extends Component {
                         </Button>
                     </Popover>
                 </Overlay>
+                <TemplatesModal
+                    show={this.state.showTemplates}
+                    close={this.toggleTemplatesModal}
+                    navItems={this.props.navItems}
+                    boxes={this.props.boxes}
+                    onNavItemAdded={this.props.onNavItemAdded}
+                    onIndexSelected={this.props.onIndexSelected}
+                    indexSelected={this.props.indexSelected}
+                    onToolbarUpdated={this.props.onToolbarUpdated}
+                    onBoxAdded={this.props.onBoxAdded}
+                    calculatePosition={this.calculatePosition}/>
             </div>
         );
+    }
+    /**
+     * Shows/Hides the Import file modal
+     */
+    toggleTemplatesModal() {
+        this.setState((prevState, props) => ({
+            showTemplates: !prevState.showTemplates,
+        }));
     }
 }
 

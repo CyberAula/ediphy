@@ -34,13 +34,13 @@ function toolbarElementCreator(state, action, isContainedView = false) {
 
     let toolbar = {
         id: id,
-        breadcrumb: 'reduced',
+        breadcrumb: action.payload.hideTitles ? 'hidden' : 'reduced',
         doc_type: type,
         viewName: doc_type,
         courseTitle: 'hidden',
         documentSubtitle: 'hidden',
         documentSubtitleContent: '',
-        documentTitle: 'expanded',
+        documentTitle: action.payload.hideTitles ? 'hidden' : 'expanded',
         documentTitleContent: pagetitle,
         numPage: '',
         customSize: 0,

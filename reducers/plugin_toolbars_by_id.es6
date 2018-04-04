@@ -50,6 +50,7 @@ function toolbarCreator(state, action) {
             }
         }
 
+        console.log(action.payload);
         let initialHeight = "auto";
         let heightUnit = "px";
         if (action.payload.initialParams.height && action.payload.initialParams.height !== 'auto') {
@@ -70,7 +71,7 @@ function toolbarCreator(state, action) {
             widthUnit: widthUnit,
             heightUnit: heightUnit,
             rotation: action.payload.initialParams.rotation || 0,
-            aspectRatio: true,
+            aspectRatio: action.payload.initialParams.aspectRatio || false,
             position: action.payload.id ? "relative" : "absolute",
         };
 

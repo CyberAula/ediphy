@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import interact from 'interactjs';
-import Ediphy from '../../../../core/editor/main';
 import PropTypes from 'prop-types';
 import MarkCreator from '../../rich_plugins/mark_creator/MarkCreator';
+import interact from 'interactjs';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import { EDIT_PLUGIN_TEXT } from '../../../../common/actions';
 import { releaseClick, findBox } from '../../../../common/common_tools';
-import {
-    isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView,
-    isBox,
-} from '../../../../common/utils';
+import Ediphy from '../../../../core/editor/main';
+import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView, isBox } from '../../../../common/utils';
+import './_editorBox.scss';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import CKEDitorComponent from './CKEDitorComponent';
-import './_editorBox.scss';
 const SNAP_DRAG = 5;
 const SNAP_SIZE = 2;
 let html2json = require('html2json').html2json;
@@ -131,13 +128,13 @@ export default class EditorBox extends Component {
                     boxSizing: 'content-box',
                 }} />
                 <div style={{ display: box.resizable ? 'initial' : 'none' }}>
-                    <div className="helpersResizable"
+                    <div className="helpersResizable" onClick={(e)=>{e.stopPropagation();}}
                         style={{ left: -cornerSize / 2, top: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'nw-resize' : 'move') }} />
-                    <div className="helpersResizable"
+                    <div className="helpersResizable" onClick={(e)=>{e.stopPropagation();}}
                         style={{ right: -cornerSize / 2, top: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'ne-resize' : 'move') }} />
-                    <div className="helpersResizable"
+                    <div className="helpersResizable" onClick={(e)=>{e.stopPropagation();}}
                         style={{ left: -cornerSize / 2, bottom: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'sw-resize' : 'move') }} />
-                    <div className="helpersResizable"
+                    <div className="helpersResizable" onClick={(e)=>{e.stopPropagation();}}
                         style={{ right: -cornerSize / 2, bottom: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'se-resize' : 'move') }} />
                 </div>
             </div>
@@ -368,7 +365,7 @@ export default class EditorBox extends Component {
             document.getElementById('canvas') :
             document.getElementById('containedCanvas');
         interact.dynamicDrop(true);
-        interact(ReactDOM.findDOMNode(this)).ignoreFrom('input, textarea, .textAreaStyle,  a, .pointerEventsEnabled, .markeditor')
+        interact(ReactDOM.findDOMNode(this))
             .draggable({
                 snap: {
                     targets: targets,

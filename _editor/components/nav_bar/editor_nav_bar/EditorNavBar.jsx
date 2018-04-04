@@ -10,7 +10,6 @@ import screenfull from 'screenfull';
 import ImportFile from "../import_file/ImportFile";
 import { selectNavItem } from "../../../../common/actions";
 import ExportModal from '../export/ExportModal';
-
 /**
  * Upper navigation bar component
  */

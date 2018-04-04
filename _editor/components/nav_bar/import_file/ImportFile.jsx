@@ -12,6 +12,7 @@ import Ediphy from "../../../../core/editor/main";
 import './_ImportFile.scss';
 import { createBox } from '../../../../common/common_tools';
 
+// PDF Library conf.
 const pdflib = require('pdfjs-dist');
 const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.js');
 
@@ -51,7 +52,6 @@ export default class ImportFile extends Component {
         require.ensure([], function() {
             let worker;
             worker = require('./pdf.worker.js');
-            // callback(worker.WorkerMessageHandler);
         });
     }
     /**

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { isSortableContainer } from '../../common/utils';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import { UPDATE_BOX } from '../../common/actions';
+import { getCKEDITORAdaptedContent } from '../../_editor/components/clipboard/clipboard.utils';
 let html2json = require('html2json').html2json;
 
 export default function() {
@@ -111,6 +112,7 @@ export default function() {
             if (descendant.getInitialState) {
                 state = descendant.getInitialState();
             }
+            console.log(config);
             if (config.needsTextEdition) {
                 if(initParams.text) {
                     state.__text = initParams.text;
@@ -119,9 +121,9 @@ export default function() {
                 if (!state.__text) {
                     state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
                 }
-
+                state.__text = getCKEDITORAdaptedContent(state.__text);
                 if (!descendant.getRenderTemplate) {
-                    descendant.getRenderTemplate = function(stateObj, props) {
+                    descendant.getRenderTemplate = function(stateObj, { exercises: { correctAnswer: [] } }) {
                         return stateObj.__text;
                     };
                 }
@@ -154,16 +156,20 @@ export default function() {
                     };
                 }
             }
+
+            let toolbar = this.getToolbar(state);
             let template = null;
             let params = { ...initParams };
+            params.aspectRatio = !!toolbar.aspectRatioButtonConfig;
             params.name = config.name;
             params.isDefaultPlugin = defaultFor(initParams.isDefaultPlugin, false);
+            console.log(params);
             if (params && Object.keys(params) && Object.keys(params).length > 1) {
                 let floatingBox = !isSortableContainer(params.container);
-                if (config.initialWidth) {
+                if (config.initialWidth && !initParams.width) {
                     params.width = floatingBox && config.initialWidthSlide ? config.initialWidthSlide : config.initialWidth;
                 }
-                if (descendant.getConfig().initialHeight) {
+                if (config.initialHeight && !initParams.height) {
                     params.height = floatingBox && config.initialHeightSlide ? config.initialHeightSlide : config.initialHeight;
                 }
                 //
@@ -173,6 +179,7 @@ export default function() {
 
                 if (config.flavor !== "react") {
                     template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
+                    console.log(template);
                     if(template !== null) { // TODO Revisar
                         template = html2json(template);
                         assignPluginContainerIds(template);
@@ -185,11 +192,12 @@ export default function() {
 
             // }
             }
+
             return {
                 template,
                 initialParams: params,
                 config: this.getConfig(),
-                toolbar: this.getToolbar(state),
+                toolbar,
                 state,
             };
 
@@ -240,9 +248,9 @@ export default function() {
             needsXMLEdition = defaultFor(needsXMLEdition, false);
             needsPointerEventsAllowed = defaultFor(needsPointerEventsAllowed, false);
             limitToOneInstance = defaultFor(limitToOneInstance, false);
-            initialWidth = defaultFor(initialWidth, '25');
+            initialWidth = defaultFor(initialWidth, '25%');
             initialWidthSlide = defaultFor(initialWidthSlide, initialWidth);
-            initialHeight = defaultFor(initialHeight, '25');
+            initialHeight = defaultFor(initialHeight, 'auto');
             initialHeightSlide = defaultFor(initialHeightSlide, initialHeight);
             defaultCorrectAnswer = defaultFor(defaultCorrectAnswer, false);
 
@@ -256,7 +264,7 @@ export default function() {
                 aspectRatioButtonConfig.defaultValue = defaultFor(aspectRatioButtonConfig.defaultValue, "unchecked");
             }
 
-            callback = function(initParams, reason) {
+            /* callback = function(initParams, reason) {
                 state = {};
                 if (descendant.getInitialState) {
                     state = descendant.getInitialState();
@@ -282,20 +290,20 @@ export default function() {
                     state.url = initParams.url;
                 }
 
-                /* if(initParams.text) {
-                    state.__text = initParams.text;
-                }*/
+                //  if(initParams.text) {
+                //     state.__text = initParams.text;
+                // }
                 if (needsXMLEdition) {
                     if (!state.__xml) {
                         state.__xml = null;
                         state.__size = null;
                     }
                 }
-                /* if(isRich) {
-                    if(!state.__marks) {
-                        state.__marks = {};
-                    }
-                }*/
+                //  if(isRich) {
+                //     if(!state.__marks) {
+                //         state.__marks = {};
+                //     }
+                // }
                 if(category === 'evaluation') {
                     if (!state.__score) {
                         state.__score = {
@@ -309,7 +317,7 @@ export default function() {
                 initialParams.name = descendant.getConfig().name;
                 if (initialParams && Object.keys(initialParams) && Object.keys(initialParams).length > 1) {
                     let floatingBox = !isSortableContainer(initialParams.container);
-                    if (descendant.getConfig().initialWidth) {
+                    if (descendant.getConfig().initialWidth && !initParams.width) {
                         initialParams.width = floatingBox && descendant.getConfig().initialWidthSlide ? descendant.getConfig().initialWidthSlide : descendant.getConfig().initialWidth;
                     }
                     if (descendant.getConfig().initialHeight) {
@@ -323,7 +331,7 @@ export default function() {
                     // }
                 }
 
-            }.bind(this);
+            }.bind(this);*/
 
             return {
                 name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition,

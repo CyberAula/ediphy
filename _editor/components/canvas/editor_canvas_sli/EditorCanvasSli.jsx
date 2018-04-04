@@ -63,9 +63,12 @@ export default class EditorCanvasSli extends Component {
                     style={{ margin: 'auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
                     <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                         ref="slideDropZone"
-                        onClick={e => {
-                            this.props.onBoxSelected(-1);
-                            this.setState({ showTitle: false });
+                        onMouseDown={e => {
+                            if (e.target == e.currentTarget) {
+                                this.props.onBoxSelected(-1);
+                                this.setState({ showTitle: false });
+                            }
+
                             e.stopPropagation();
                         }}
                         className={'innercanvas sli'}
