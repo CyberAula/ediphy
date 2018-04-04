@@ -51,6 +51,12 @@ export default class TemplatesModal extends Component {
                                     itemSelected: -1,
                                 });
                             }}
+                            onDoubleClick={e => {
+                                this.setState({
+                                    itemSelected: -1,
+                                });
+                                this.AddNavItem(-1);
+                            }}
                         />
                         {this.templates.map((item, index) => {
                             let border = this.state.itemSelected === index ? "solid orange 3px" : "solid #eee 1px";
@@ -58,6 +64,10 @@ export default class TemplatesModal extends Component {
                                 <TemplateThumbnail key={index} index={index} className="template_item" image={item.image}
                                     style={{ position: 'relative', border: border, width: '120px', height: '80px' }}
                                     onClick={e => { this.setState({ itemSelected: index });}}
+                                    onDoubleClick={e => {
+                                        this.setState({ itemSelected: index });
+                                        this.AddNavItem(index);
+                                    }}
                                     boxes={item.boxes}/>
                             );
                         })}
@@ -132,7 +142,9 @@ export default class TemplatesModal extends Component {
                     width: item.box.width,
                     height: item.box.height,
                     position: position,
+                    name: item.toolbar.name,
                     isDefaultPlugin: true,
+                    page: newId,
                 };
                 if (item.toolbar.text) {
                     initialParams.text = item.toolbar.text;

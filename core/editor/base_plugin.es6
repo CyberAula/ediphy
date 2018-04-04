@@ -122,7 +122,7 @@ export default function() {
                 }
                 state.__text = encodeURI(state.__text);
                 if (!descendant.getRenderTemplate) {
-                    descendant.getRenderTemplate = function(stateObj, props) {
+                    descendant.getRenderTemplate = function(stateObj, { exercises: { correctAnswer: [] } }) {
                         return stateObj.__text;
                     };
                 }
