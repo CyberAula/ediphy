@@ -160,10 +160,10 @@ export default function() {
             params.isDefaultPlugin = defaultFor(initParams.isDefaultPlugin, false);
             if (params && Object.keys(params) && Object.keys(params).length > 1) {
                 let floatingBox = !isSortableContainer(params.container);
-                if (config.initialWidth) {
+                if (config.initialWidth && !initParams.width) {
                     params.width = floatingBox && config.initialWidthSlide ? config.initialWidthSlide : config.initialWidth;
                 }
-                if (descendant.getConfig().initialHeight) {
+                if (config.initialHeight && !initParams.height) {
                     params.height = floatingBox && config.initialHeightSlide ? config.initialHeightSlide : config.initialHeight;
                 }
                 //
@@ -309,7 +309,7 @@ export default function() {
                 initialParams.name = descendant.getConfig().name;
                 if (initialParams && Object.keys(initialParams) && Object.keys(initialParams).length > 1) {
                     let floatingBox = !isSortableContainer(initialParams.container);
-                    if (descendant.getConfig().initialWidth) {
+                    if (descendant.getConfig().initialWidth && !initParams.width) {
                         initialParams.width = floatingBox && descendant.getConfig().initialWidthSlide ? descendant.getConfig().initialWidthSlide : descendant.getConfig().initialWidth;
                     }
                     if (descendant.getConfig().initialHeight) {
