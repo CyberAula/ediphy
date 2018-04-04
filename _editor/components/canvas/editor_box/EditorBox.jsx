@@ -365,7 +365,7 @@ export default class EditorBox extends Component {
             document.getElementById('canvas') :
             document.getElementById('containedCanvas');
         interact.dynamicDrop(true);
-        interact(ReactDOM.findDOMNode(this)).ignoreFrom('input, textarea, .textAreaStyle,  a, .pointerEventsEnabled, .markeditor')
+        interact(ReactDOM.findDOMNode(this))
             .draggable({
                 snap: {
                     targets: targets,
