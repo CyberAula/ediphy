@@ -122,7 +122,6 @@ function boxReducer(state = {}, action = {}) {
         );
     case ADD_RICH_MARK:
         return changeProp(state, "containedViews", [...state.containedViews, action.payload.mark.connection]);
-
     case CHANGE_COLS:
         if (action.payload.parent === state.id) {
             return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
@@ -457,10 +456,6 @@ export default function(state = {}, action = {}) {
     case ADD_RICH_MARK:
         // If rich mark is connected to a contained view (new or existing), mark.connection will include this information;
         // otherwise, it's just the id/url and we're not interested
-        if(action.payload.id) {
-            let id = ID_PREFIX_SORTABLE_BOX + Date.now();
-            return changeProp(state, id, { parent: newId, container: 0, id: id, page: newId });
-        }
         if (action.payload.mark.id || isContainedView(action.payload.view.id)) {
             return changeProp(state, action.payload.view.parent, boxReducer(state[action.payload.view.parent], action));
         }
