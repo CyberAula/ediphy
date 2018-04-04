@@ -111,6 +111,7 @@ export default function() {
             if (descendant.getInitialState) {
                 state = descendant.getInitialState();
             }
+            console.log(config);
             if (config.needsTextEdition) {
                 if(initParams.text) {
                     state.__text = initParams.text;
@@ -119,7 +120,7 @@ export default function() {
                 if (!state.__text) {
                     state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
                 }
-
+                state.__text = encodeURI(state.__text);
                 if (!descendant.getRenderTemplate) {
                     descendant.getRenderTemplate = function(stateObj, props) {
                         return stateObj.__text;
@@ -158,6 +159,7 @@ export default function() {
             let params = { ...initParams };
             params.name = config.name;
             params.isDefaultPlugin = defaultFor(initParams.isDefaultPlugin, false);
+            console.log(params);
             if (params && Object.keys(params) && Object.keys(params).length > 1) {
                 let floatingBox = !isSortableContainer(params.container);
                 if (config.initialWidth && !initParams.width) {
@@ -173,6 +175,7 @@ export default function() {
 
                 if (config.flavor !== "react") {
                     template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
+                    console.log(template);
                     if(template !== null) { // TODO Revisar
                         template = html2json(template);
                         assignPluginContainerIds(template);
@@ -240,9 +243,9 @@ export default function() {
             needsXMLEdition = defaultFor(needsXMLEdition, false);
             needsPointerEventsAllowed = defaultFor(needsPointerEventsAllowed, false);
             limitToOneInstance = defaultFor(limitToOneInstance, false);
-            initialWidth = defaultFor(initialWidth, '25');
+            initialWidth = defaultFor(initialWidth, '25%');
             initialWidthSlide = defaultFor(initialWidthSlide, initialWidth);
-            initialHeight = defaultFor(initialHeight, '25');
+            initialHeight = defaultFor(initialHeight, 'auto');
             initialHeightSlide = defaultFor(initialHeightSlide, initialHeight);
             defaultCorrectAnswer = defaultFor(defaultCorrectAnswer, false);
 
@@ -256,7 +259,7 @@ export default function() {
                 aspectRatioButtonConfig.defaultValue = defaultFor(aspectRatioButtonConfig.defaultValue, "unchecked");
             }
 
-            callback = function(initParams, reason) {
+            /* callback = function(initParams, reason) {
                 state = {};
                 if (descendant.getInitialState) {
                     state = descendant.getInitialState();
@@ -282,20 +285,20 @@ export default function() {
                     state.url = initParams.url;
                 }
 
-                /* if(initParams.text) {
-                    state.__text = initParams.text;
-                }*/
+                //  if(initParams.text) {
+                //     state.__text = initParams.text;
+                // }
                 if (needsXMLEdition) {
                     if (!state.__xml) {
                         state.__xml = null;
                         state.__size = null;
                     }
                 }
-                /* if(isRich) {
-                    if(!state.__marks) {
-                        state.__marks = {};
-                    }
-                }*/
+                //  if(isRich) {
+                //     if(!state.__marks) {
+                //         state.__marks = {};
+                //     }
+                // }
                 if(category === 'evaluation') {
                     if (!state.__score) {
                         state.__score = {
@@ -323,7 +326,7 @@ export default function() {
                     // }
                 }
 
-            }.bind(this);
+            }.bind(this);*/
 
             return {
                 name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition,

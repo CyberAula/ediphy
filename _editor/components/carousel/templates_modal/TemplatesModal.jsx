@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
-import { ID_PREFIX_PAGE, PAGE_TYPES } from "../../../../common/constants";
+import { ID_PREFIX_BOX, ID_PREFIX_PAGE, PAGE_TYPES } from '../../../../common/constants';
 import i18n from 'i18next';
 import { templates } from "./templates/templates";
 import './_templatesModal.scss';
@@ -125,7 +125,7 @@ export default class TemplatesModal extends Component {
                     type: 'absolute',
                 };
                 let initialParams = {
-                    id: Date.now() + "_" + index,
+                    id: ID_PREFIX_BOX + Date.now() + "_" + index,
                     parent: newId,
                     container: 0,
                     col: 0, row: 0,
