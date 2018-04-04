@@ -47,6 +47,7 @@ export function MultipleChoice(base) {
             };
         },
         getRenderTemplate: function(state, props = {}) {
+            console.log(props);
             let answers = [];
             for (let i = 0; i < state.nBoxes; i++) {
                 let clickHandler = (e)=>{

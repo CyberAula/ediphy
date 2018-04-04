@@ -230,8 +230,8 @@ export const templates = () => { return (
                     "height": "60%",
                 },
                 "toolbar": {
-                    "name": "EnrichedPlayer",
-                    "url": "https://www.youtube.com/watch?v=BV5P_V2Yyrc",
+                    "name": "MultipleChoice",
+                    // "url": "https://www.youtube.com/watch?v=BV5P_V2Yyrc",
                 },
                 "thumbnail": {
                     "icon": "play_circle_outline",

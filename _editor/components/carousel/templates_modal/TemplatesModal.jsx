@@ -132,7 +132,9 @@ export default class TemplatesModal extends Component {
                     width: item.box.width,
                     height: item.box.height,
                     position: position,
+                    name: item.toolbar.name,
                     isDefaultPlugin: true,
+                    page: newId,
                 };
                 if (item.toolbar.text) {
                     initialParams.text = item.toolbar.text;
