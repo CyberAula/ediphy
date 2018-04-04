@@ -262,7 +262,7 @@ export default class RichMarksModal extends Component {
                         let displayMode = this.state.displayMode;
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
                         // First of all we need to check if the plugin creator has provided a function to check if the input value is allowed
-                        if(plugin && plugin.validateValueInput) {
+                        if (plugin && plugin.validateValueInput) {
                             let val = plugin.validateValueInput(value);
                             // If the value is not allowed, we show an alert with the predefined message and we abort the Save operation
                             if (val && val.isWrong) {
@@ -304,10 +304,41 @@ export default class RichMarksModal extends Component {
                             };
                             break;
                         case "existing":
-                            connection = selected.id || this.props.navItemSelected;
+                            markState = {
+                                mark: {
+                                    id: newMark,
+                                    origin: this.props.boxSelected,
+                                    title: title,
+                                    connection: newId,
+                                    color: color,
+                                    connectMode: connectMode,
+                                    displayMode: this.state.displayMode,
+                                    value: value,
+                                },
+                                view: {
+                                    info: "new",
+                                    type: this.state.newType,
+                                    id: newId,
+                                    parent: this.props.boxSelected,
+                                    name: name,
+                                    boxes: [],
+                                    extraFiles: {},
+                                },
+                            };
                             break;
                         case "external":
-                            connection = ReactDOM.findDOMNode(this.refs.externalSelected).value;
+                            markState = {
+                                mark: {
+                                    id: newMark,
+                                    origin: this.props.boxSelected,
+                                    title: title,
+                                    connection: ReactDOM.findDOMNode(this.refs.externalSelected).value,
+                                    color: color,
+                                    connectMode: connectMode,
+                                    displayMode: this.state.displayMode,
+                                    value: value,
+                                },
+                            };
                             break;
                         }
                         if(this.props.marks[newMark] === undefined) {
