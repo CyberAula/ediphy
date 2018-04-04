@@ -6,7 +6,6 @@ import img from './../../../dist/images/broken_link.png';
 export function HotspotImages(base) {
     return {
         getRenderTemplate: function(state, props) {
-            console.log(state, props);
             let marks = props.marks || {};
             let box_id = props.id;
 

@@ -202,10 +202,6 @@ EditorNavBar.propTypes = {
    */
     onNavItemSelected: PropTypes.func.isRequired,
     /**
-   * Callback for when updating toolbar
-   */
-    onToolbarUpdated: PropTypes.func.isRequired,
-    /**
    * Objects Array that contains all created views (identified by its *id*)
    */
     navItemsIds: PropTypes.array.isRequired,

@@ -167,10 +167,6 @@ ActionsRibbon.propTypes = {
      */
     onBoxLayerChanged: PropTypes.any,
     /**
-      * Array of toolbars
-      */
-    toolbars: PropTypes.any,
-    /**
       * Callback for text edition
       */
     onTextEditorToggled: PropTypes.any,

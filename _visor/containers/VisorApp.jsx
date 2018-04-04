@@ -199,7 +199,6 @@ export default class Visor extends Component {
             }
         });
         let marks = Ediphy.State.marksById;
-        console.log('ediphymarks', marks);
         let title = globalConfig.title;
         let ratio = globalConfig.canvasRatio;
         let visorNav = globalConfig.visorNav;

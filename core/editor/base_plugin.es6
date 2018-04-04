@@ -112,7 +112,6 @@ export default function() {
             if (descendant.getInitialState) {
                 state = descendant.getInitialState();
             }
-            console.log(config);
             if (config.needsTextEdition) {
                 if(initParams.text) {
                     state.__text = initParams.text;
@@ -163,7 +162,6 @@ export default function() {
             params.aspectRatio = !!toolbar.aspectRatioButtonConfig;
             params.name = config.name;
             params.isDefaultPlugin = defaultFor(initParams.isDefaultPlugin, false);
-            console.log(params);
             if (params && Object.keys(params) && Object.keys(params).length > 1) {
                 let floatingBox = !isSortableContainer(params.container);
                 if (config.initialWidth && !initParams.width) {
@@ -179,7 +177,6 @@ export default function() {
 
                 if (config.flavor !== "react") {
                     template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
-                    console.log(template);
                     if(template !== null) { // TODO Revisar
                         template = html2json(template);
                         assignPluginContainerIds(template);

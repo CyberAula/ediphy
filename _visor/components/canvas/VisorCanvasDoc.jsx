@@ -170,10 +170,6 @@ VisorCanvasDoc.propTypes = {
      */
     title: PropTypes.any,
     /**
-     * Diccionario que contiene todas las toolbars
-     */
-    toolbars: PropTypes.object,
-    /**
      *  Array de vistas
      */
     viewsArray: PropTypes.array,

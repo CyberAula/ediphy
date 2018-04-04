@@ -257,7 +257,6 @@ export default class CarouselButtons extends Component {
                     onNavItemAdded={this.props.onNavItemAdded}
                     onIndexSelected={this.props.onIndexSelected}
                     indexSelected={this.props.indexSelected}
-                    onToolbarUpdated={this.props.onToolbarUpdated}
                     onBoxAdded={this.props.onBoxAdded}
                     calculatePosition={this.calculatePosition}/>
             </div>

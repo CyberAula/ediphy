@@ -79,6 +79,7 @@ class EditorApp extends Component {
         const { dispatch, boxes, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, imagesUploaded, indexSelected, exercises,
             undoDisabled, redoDisabled, displayMode, isBusy, pluginToolbars, viewToolbars, marks, lastActionDispatched, globalConfig, fetchVishResults } = this.props;
+        console.log(viewToolbars);
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
         let canvasRatio = globalConfig.canvasRatio;
@@ -281,7 +282,7 @@ class EditorApp extends Component {
                                         this.setState({ currentRichMark: null, value: null });
                                     }
                                 }}
-                                onViewTitleChanged={(id, titles)=>{dispatch(id, titles);}}
+                                onViewTitleChanged={(id, titles)=>{dispatch(updateViewToolbar(id, titles));}}
                                 onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}/>
                             <ContainedCanvas boxes={boxes}
@@ -334,7 +335,7 @@ class EditorApp extends Component {
                                 onBoxDeleted={(id, parent, container, page)=> {let bx = this.getDescendantBoxes(boxes[id]); dispatch(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/, page));}}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}
                                 onVerticallyAlignBox={(id, verticalAlign)=>dispatch(verticallyAlignBox(id, verticalAlign))}
-                                onViewTitleChanged={(id, titles)=>{dispatch(id, titles);}}
+                                onViewTitleChanged={(id, titles)=>{dispatch(updateViewToolbar(id, titles));}}
                                 onTextEditorToggled={this.onTextEditorToggled}
                                 onBoxesInsideSortableReorder={(parent, container, order) => {dispatch(reorderBoxes(parent, container, order));}}
                                 showCanvas={(containedViewSelected !== 0)}/>
@@ -743,6 +744,7 @@ class EditorApp extends Component {
             Object.keys(detail.toolbar.main.accordions.style.buttons).map((e) => {
                 styles[e] = detail.toolbar.main.accordions.style.buttons[e].value;
             });
+            // eslint-disable-next-line no-console
         } catch(e) {console.error(e);}
         return { state, styles };
     }

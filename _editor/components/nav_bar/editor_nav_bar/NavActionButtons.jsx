@@ -163,10 +163,6 @@ export default class NavActionButtons extends Component {
 
 NavActionButtons.propTypes = {
     /**
-     * Selected box in the editor
-     */
-    boxSelected: PropTypes.any.isRequired,
-    /**
      * Modifies the course's global configuration
      */
     changeGlobalConfig: PropTypes.func.isRequired,
@@ -178,10 +174,6 @@ NavActionButtons.propTypes = {
      * Identifies the view that is being edited
      */
     navItemSelected: PropTypes.any.isRequired,
-    /**
-     * Closes/opens the current text edition
-     */
-    onTextEditorToggled: PropTypes.func.isRequired,
     /**
      * Object that contains all created views (identified by its *id*)
      */

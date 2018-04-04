@@ -43,7 +43,7 @@ export default class EditorBoxSortable extends Component {
         return (
             <div className="editorBoxSortable"
                 onMouseDown={e => {
-                    if (e.target == e.currentTarget || e.target.classList.contains('colDist-j')) {
+                    if (e.target === e.currentTarget || e.target.classList.contains('colDist-j')) {
                         if(box.children.length !== 0) {
                             this.props.onBoxSelected(this.props.id);
                         }
@@ -499,6 +499,10 @@ EditorBoxSortable.propTypes = {
       */
     onRichMarkUpdated: PropTypes.func.isRequired,
     /**
+     * Callback for moving marks
+     */
+    onRichMarkMoved: PropTypes.func.isRequired,
+    /**
       * Object containing all exercises
       */
     exercises: PropTypes.object,
@@ -510,4 +514,8 @@ EditorBoxSortable.propTypes = {
       * Current page
       */
     page: PropTypes.any,
+    /**
+     * Object containing box marks
+     */
+    marks: PropTypes.object,
 };

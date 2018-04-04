@@ -64,7 +64,7 @@ export default class EditorCanvasSli extends Component {
                     <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                         ref="slideDropZone"
                         onMouseDown={e => {
-                            if (e.target == e.currentTarget) {
+                            if (e.target === e.currentTarget) {
                                 this.props.onBoxSelected(-1);
                                 this.setState({ showTitle: false });
                             }
@@ -203,7 +203,7 @@ export default class EditorCanvasSli extends Component {
                     if (!apiPlugin) {
                         return;
                     }
-                    let config = apiPlugin.getConfig();
+                    config = apiPlugin.getConfig();
 
                     if (config.limitToOneInstance) {
                         if (instanceExists(event.relatedTarget.getAttribute("name"))) {
@@ -390,10 +390,6 @@ EditorCanvasSli.propTypes = {
       * Hace aparecer/desaparecer el modal de configuración de marcas
       */
     onRichMarksModalToggled: PropTypes.func.isRequired,
-    /**
-      * Actualiza marca
-      */
-    onRichMarkUpdated: PropTypes.func.isRequired,
     /**
      * Cambia el texto del título del curso
      */
