@@ -11,7 +11,7 @@ export default class TemplateThumbnail extends React.Component {
         // return <img className={this.props.className} style={this.props.style} src={this.props.image} onClick={this.props.onClick} />;
         // Thumbnail generated via HTML instead of SVG
 
-        return (<div className={this.props.className} style={this.props.style} onClick={this.props.onClick}>
+        return (<div className={this.props.className} style={this.props.style} onClick={this.props.onClick} onDoubleClick={this.props.onDoubleClick}>
 
             {this.props.boxes.map((plugin, index)=>{
                 let { box, thumbnail } = plugin;
