@@ -74,7 +74,7 @@ EditorCanvas.propTypes = {
      */
     title: PropTypes.string.isRequired,
     /**
-     * Diccionario que contiene todas las istas creadas , accesibles por su *id*
+     * Diccionario que contiene todas las listas creadas , accesibles por su *id*
      */
     viewToolbars: PropTypes.object.isRequired,
     /**
