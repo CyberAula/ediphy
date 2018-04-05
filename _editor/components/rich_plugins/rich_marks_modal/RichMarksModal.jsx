@@ -252,7 +252,7 @@ export default class RichMarksModal extends Component {
                         let newMark = current && current.id ? current.id : ID_PREFIX_RICH_MARK + Date.now();
                         let connectMode = this.state.connectMode;
                         let color = this.state.color || marksType.defaultColor || '#222222';
-                        let connection;
+                        let connection = selected.id;
                         // CV name
                         let name = title || nextAvailName(i18n.t('contained_view'), this.props.containedViews);
                         // Mark name
@@ -310,7 +310,7 @@ export default class RichMarksModal extends Component {
                                     id: newMark,
                                     origin: this.props.boxSelected,
                                     title: title,
-                                    connection: newId,
+                                    connection: connection,
                                     color: color,
                                     connectMode: connectMode,
                                     displayMode: this.state.displayMode,

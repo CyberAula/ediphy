@@ -11,16 +11,23 @@ import { isSortableBox, isBox, isCanvasElement, isContainedView } from '../../..
 export default class CVInfo extends Component {
     render() {
         let cvList = [];
-        for (let id in this.props.containedViews.parent) {
-            if (this.props.viewToolbars[id]) {
-                let el = this.props.boxes[id];
+        let marks = this.props.marks;
+        let containedView = this.props.containedView;
+        let mark_views = Object.keys(marks).map(mark => {
+            if(marks[mark].connection === containedView.id) {
+                return marks[mark].id;
+            }
+        }).filter(item => typeof item === 'string');
+        for (let id in containedView.parent) {
+            if (marks[id]) {
+                let el = this.props.boxes[marks[id].origin];
                 let from = "unknown";
                 let markName = "";
-                if (this.props.viewToolbars[id].state && this.props.marks[id]) {
+                if (mark_views.includes(id)) {
                     let at = '@';
-                    for (let mark in this.props.marks[id]) {
-                        if (this.props.marks[id].connection === this.props.containedView.id) {
-                            markName += this.props.marks[mark].title + ', ';
+                    for (let mark in mark_views) {
+                        if (marks[mark_views[mark]].connection === containedView.id) {
+                            markName += marks[mark_views[mark]].title + ', ';
                         }
                     }
                     markName = markName.slice(0, markName.length - 2) + " " + at + " ";
@@ -28,17 +35,17 @@ export default class CVInfo extends Component {
 
                 if (isSortableBox(el.parent)) {
                     let origin = this.props.boxes[el.parent].parent;
-                    from = isContainedView(origin) ? this.props.containedViews[origin].name : this.props.navItems[origin].name;
+                    from = this.props.viewToolbars[origin].viewName;
                 } else if (isBox(el.parent)) {
                     let origin = this.props.boxes[this.props.boxes[el.parent].parent].parent;
-                    from = isContainedView(origin) ? this.props.containedViews[origin].name : this.props.navItems[origin].name;
+                    from = this.props.viewToolbars[origin].viewName;
 
                 } else if (isCanvasElement(el.parent)) {
-                    from = isContainedView(el.parent) ? this.props.containedViews[el.parent].name : this.props.navItems[el.parent].name;
+                    from = this.props.viewToolbars[el.parent].viewName;
                 } else {
                     break;
                 }
-                cvList.push(<span className="cvList" key={id}>{markName}<b>{this.props.viewToolbars[id].config.displayName}</b> { ' (' + from + ')'}</span>);
+                cvList.push(<span className="cvList" key={id}>{markName}<b>{this.props.viewToolbars[containedView.id].viewName}</b> { ' (' + from + ')'}</span>);
             }
         }
 

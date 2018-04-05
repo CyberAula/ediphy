@@ -82,11 +82,10 @@ export default function(state = {}, action = {}) {
         return state;
     case ADD_RICH_MARK:
         let view = action.payload.view;
-        if (view.connectMode === "new") {
-            view.connectMode = "existing";
+        if (action.payload.mark.connectMode === "new") {
+            return changeProp(state, action.payload.view.id, view);
         }
-
-        return changeProp(state, action.payload.view.id, view);
+        return state;
     case CHANGE_BOX_LAYER:
         if (action.payload.container === 0 && isContainedView(action.payload.parent)) {
             return changeProp(state, action.payload.parent, singleContainedViewReducer(state[action.payload.parent], action));

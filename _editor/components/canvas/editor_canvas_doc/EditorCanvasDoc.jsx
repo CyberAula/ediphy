@@ -87,6 +87,7 @@ export default class EditorCanvasDoc extends Component {
                         courseTitle={this.props.title}
                         navItem={this.props.navItemSelected}
                         navItems={this.props.navItems}
+                        marks={this.props.marks}
                         containedView={this.props.containedViewSelected}
                         containedViews={this.props.containedViews}
                         viewToolbars={this.props.viewToolbars}

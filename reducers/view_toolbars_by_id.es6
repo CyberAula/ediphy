@@ -11,7 +11,7 @@ import Utils from "../common/utils";
 function toolbarElementCreator(state, action, containedView = false) {
     let doc_type;
     let id = containedView ? action.payload.mark.connection : action.payload.id;
-    let type = containedView ? action.payload.toolbar.doc_type : action.payload.type;
+    let type = containedView ? action.payload.view.type : action.payload.type;
 
     if (isPage(id)) {
         doc_type = i18n.t('page');
@@ -61,7 +61,10 @@ export default function(state = {}, action = {}) {
         let navs = action.payload.navs.map(nav=> { return toolbarElementCreator(state, { type: ADD_NAV_ITEM, payload: nav });});
         return changeProps(state, [...ids], [...navs]);
     case ADD_RICH_MARK:
-        return changeProp(state, action.payload.view.id, toolbarElementCreator(state, action, isContainedView(action.payload.mark.connection)));
+        if(action.payload.mark.connectMode === "new") {
+            return changeProp(state, action.payload.view.id, toolbarElementCreator(state, action, isContainedView(action.payload.mark.connection)));
+        }
+        return state;
     case ADD_CONTAINED_VIEW:
         return changeProp(state, action.payload.id, toolbarElementCreator(state, action.view));
     case DELETE_CONTAINED_VIEW:
