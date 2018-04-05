@@ -336,4 +336,12 @@ EditorShortcuts.propTypes = {
        * Selected page
        */
     navItemSelected: PropTypes.any,
+    /**
+     * Object containing all the plugins' toolbars
+     */
+    pluginToolbar: PropTypes.object,
+    /**
+     * Function that opens a configuration modal
+     */
+    openConfigModal: PropTypes.func.isRequired,
 };

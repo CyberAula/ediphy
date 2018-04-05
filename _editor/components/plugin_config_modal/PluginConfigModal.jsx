@@ -120,7 +120,7 @@ PluginConfigModal.propTypes = {
     /**
      *
      */
-    id: PropTypes.string.isRequired,
+    id: PropTypes.any.isRequired,
     /**
      *
      */
@@ -128,11 +128,11 @@ PluginConfigModal.propTypes = {
     /**
      *
      */
-    state: PropTypes.string.isRequired,
+    state: PropTypes.object.isRequired,
     /**
      *
      */
-    closeConfigModal: PropTypes.bool,
+    closeConfigModal: PropTypes.func,
     /**
      *
      */

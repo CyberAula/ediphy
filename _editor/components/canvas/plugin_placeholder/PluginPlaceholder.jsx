@@ -335,9 +335,13 @@ PluginPlaceholder.propTypes = {
     */
     onRichMarksModalToggled: PropTypes.func,
     /**
-    * Actualiza marca
+     * Function that updates a mark
      */
     onRichMarkUpdated: PropTypes.func,
+    /**
+     * Function that moves a mark
+     */
+    onRichMarkMoved: PropTypes.func,
     /**
      * Sets the correct answer of an exercise
      */
@@ -346,4 +350,8 @@ PluginPlaceholder.propTypes = {
      * Current page
      */
     page: PropTypes.any,
+    /**
+     * Object containing all the marks in the course
+     */
+    allMarks: PropTypes.object,
 };

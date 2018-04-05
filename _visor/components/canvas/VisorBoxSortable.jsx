@@ -103,4 +103,8 @@ VisorBoxSortable.propTypes = {
     * All marks
     */
     marks: PropTypes.object,
+    /**
+     * Function that triggers a mark
+     */
+    onMarkClicked: PropTypes.func,
 };

@@ -269,10 +269,6 @@ EditorCanvasDoc.propTypes = {
    */
     onRichMarksModalToggled: PropTypes.func.isRequired,
     /**
-   * Callback for updating box marks
-   */
-    onRichMarkUpdated: PropTypes.func.isRequired,
-    /**
      * Callback for moving marks
      */
     onRichMarkMoved: PropTypes.func.isRequired,

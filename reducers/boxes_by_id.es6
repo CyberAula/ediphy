@@ -480,7 +480,7 @@ export default function(state = {}, action = {}) {
         // If rich mark is connected to a contained view (new or existing), mark.connection will include this information;
         // otherwise, it's just the id/url and we're not interested
         if ((action.payload.mark.id || isContainedView(action.payload.view.id)) && (action.payload.mark.connectMode === "new" || action.payload.mark.connectMode === "existing")) {
-            let newState = {
+            let newBoxState = {
                 ...state,
                 [action.payload.mark.origin]: {
                     ...state[action.payload.mark.origin],
@@ -488,8 +488,8 @@ export default function(state = {}, action = {}) {
                 },
             };
             if(action.payload.mark.connectMode === "new" && action.payload.view.type === "document") {
-                newState = {
-                    ...newState,
+                newBoxState = {
+                    ...newBoxState,
                     [action.payload.view.boxes[0]]: {
                         parent: action.payload.view.id,
                         id: action.payload.view.boxes[0],
@@ -509,7 +509,7 @@ export default function(state = {}, action = {}) {
 
                 };
             }
-            return newState;
+            return newBoxState;
         }
         return state;
     case REORDER_BOXES:

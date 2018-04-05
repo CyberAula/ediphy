@@ -316,6 +316,7 @@ class EditorApp extends Component {
                                     }
                                 }}
                                 pluginToolbars={pluginToolbars}
+                                onRichMarkMoved={(mark, value)=>dispatch(moveRichMark(mark, value))}
                                 viewToolbars={viewToolbars}
                                 moveRichMark={(id, value)=> dispatch(moveRichMark(id, value))}
                                 titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}
@@ -783,5 +784,5 @@ EditorApp.propTypes = {
     fetchVishResults: PropTypes.any,
     dispatch: PropTypes.func.isRequired,
     store: PropTypes.any,
-    lastActionDispatched: PropTypes.object,
+    lastActionDispatched: PropTypes.string,
 };

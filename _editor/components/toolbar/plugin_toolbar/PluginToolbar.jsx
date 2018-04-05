@@ -168,4 +168,16 @@ PluginToolbar.propTypes = {
    * Callback for resize sortable container
    */
     onSortableContainerResized: PropTypes.func.isRequired,
+    /**
+     * Callback for opening global configuration modal
+     */
+    openConfigModal: PropTypes.func,
+    /**
+     * Plugin toolbars
+     */
+    pluginToolbars: PropTypes.object,
+    /**
+     * Object containing all exercises
+     */
+    exercises: PropTypes.object,
 };

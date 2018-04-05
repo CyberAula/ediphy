@@ -126,4 +126,8 @@ EditorIndexTitle.propTypes = {
      * Cambia el título del elemento seleccionado
      */
     onNameChanged: PropTypes.func.isRequired,
+    /**
+     * Course title
+     */
+    courseTitle: PropTypes.any,
 };

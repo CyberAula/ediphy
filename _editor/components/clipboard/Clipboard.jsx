@@ -12,9 +12,6 @@ import { instanceExists, scrollElement, findBox, createBox } from '../../../comm
  * Component for managing the clipboard
  */
 export default class Clipboard extends Component {
-    /**
-     * Constructor
-     */
     constructor(props) {
         super(props);
         this.state = {
@@ -475,5 +472,13 @@ Clipboard.propTypes = {
      * Children components
      */
     children: PropTypes.any,
+    /**
+     * Object containing all marks
+     */
+    marks: PropTypes.object,
+    /**
+     * Function for creating a new box
+     */
+    onBoxAdded: PropTypes.func.isRequired,
 };
 

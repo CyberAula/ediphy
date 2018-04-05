@@ -25,10 +25,6 @@ pdflib.PDFJS.workerSrc = pdfjsWorkerBlobURL;
  * Generic import file modal
  */
 export default class ImportFile extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
     constructor(props) {
         super(props);
         this.state = {
@@ -361,4 +357,12 @@ ImportFile.propTypes = {
      * Id of the contained view selected
      */
     containedViewSelected: PropTypes.any,
+    /**
+     * Object that contains the boxes
+     */
+    boxes: PropTypes.object,
+    /**
+     * Function for creating a new box
+     */
+    onBoxAdded: PropTypes.func.isRequired,
 };

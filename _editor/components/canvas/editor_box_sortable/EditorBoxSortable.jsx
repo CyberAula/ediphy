@@ -103,7 +103,6 @@ export default class EditorBoxSortable extends Component {
                                                                 lastActionDispatched={this.props.lastActionDispatched}
                                                                 addMarkShortcut={this.props.addMarkShortcut}
                                                                 deleteMarkCreator={this.props.deleteMarkCreator}
-                                                                onRichMarkUpdated={this.props.onRichMarkUpdated}
                                                                 exercises={(this.props.page && this.props.exercises[this.props.page]) ? (this.props.exercises[this.props.page].exercises[idBox]) : undefined}
                                                                 markCreatorId={this.props.markCreatorId}
                                                                 marks={this.props.marks}
@@ -494,10 +493,6 @@ EditorBoxSortable.propTypes = {
       * Callback for toggling the Rich Marks Modal
       */
     onRichMarksModalToggled: PropTypes.func.isRequired,
-    /**
-      * Callback for updating the Rich Marks Modal
-      */
-    onRichMarkUpdated: PropTypes.func.isRequired,
     /**
      * Callback for moving marks
      */

@@ -17,6 +17,7 @@ export default class CVInfo extends Component {
             if(marks[mark].connection === containedView.id) {
                 return marks[mark].id;
             }
+            return 0;
         }).filter(item => typeof item === 'string');
         for (let id in containedView.parent) {
             if (marks[id]) {
@@ -63,21 +64,9 @@ export default class CVInfo extends Component {
 
 CVInfo.propTypes = {
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
-     */
-    navItems: PropTypes.object.isRequired,
-    /**
      * Vista contenida actual, identificada por su *id*
      */
     containedView: PropTypes.any.isRequired,
-    /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
-     */
-    containedViews: PropTypes.object.isRequired,
-    /**
-     * Object containing all the navitem toolbars (by navitem ID)
-     */
-    viewToolbars: PropTypes.object.isRequired,
     /**
      * Object containing box marks
      */
@@ -86,4 +75,9 @@ CVInfo.propTypes = {
      * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
      */
     boxes: PropTypes.object.isRequired,
+    /**
+     * View toolbars
+     */
+    viewToolbars: PropTypes.object,
+
 };

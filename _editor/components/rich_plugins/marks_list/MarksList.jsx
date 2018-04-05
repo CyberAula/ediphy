@@ -19,7 +19,7 @@ export default class MarksList extends Component {
                     Object.keys(this.props.state).map(id => {
                         let mark = this.props.state[id];
                         if(this.props.box_id !== mark.origin) {
-                            return;
+                            return null;
                         }
                         let name = mark.connection;
                         let color = mark.color || '#337ab7';
@@ -28,7 +28,7 @@ export default class MarksList extends Component {
                             name = this.props.toolbars[mark.connection.id || mark.connection] ?
                                 this.props.toolbars[mark.connection.id || mark.connection].controls.main.accordions.basic.buttons.navitem_name.value :
                                 mark.connection;
-                        } catch(e) { }
+                        } catch(e) { return null;}
                         return (
                             <div className="markListBox" key={id}>
                                 {mark.connection ? (
@@ -75,6 +75,10 @@ export default class MarksList extends Component {
 }
 
 MarksList.propTypes = {
+    /**
+     * Id of the box to which the marks belong
+     */
+    box_id: PropTypes.any,
     /**
      *  State marks object
      */

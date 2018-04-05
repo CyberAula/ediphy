@@ -336,4 +336,8 @@ PluginRibbon.propTypes = {
       * Object that contains the boxes
       */
     boxes: PropTypes.object,
+    /**
+     * Function for creating a new box
+     */
+    onBoxAdded: PropTypes.func.isRequired,
 };
