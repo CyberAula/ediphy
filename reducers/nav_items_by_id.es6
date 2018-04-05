@@ -15,7 +15,7 @@ function navItemCreator(state = {}, action = {}) {
         isExpanded: true,
         parent: action.payload.parent,
         children: [],
-        boxes: [],
+        boxes: action.payload.type === "document" ? [action.payload.sortable_id] : [],
         linkedBoxes: {},
         level: state[action.payload.parent].level + 1,
         type: action.payload.type,

@@ -3,7 +3,7 @@ import Utils, {
     isBox,
 } from '../common/utils';
 import {
-    ADD_BOX, ADD_NAT_ITEM, ADD_RICH_MARK, MOVE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX,
+    ADD_BOX, ADD_NAV_ITEM, ADD_RICH_MARK, MOVE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE, PASTE_BOX, UPDATE_PLUGIN_TOOLBAR, TOGGLE_TEXT_EDITOR,
 } from '../common/actions';
@@ -354,7 +354,7 @@ function sortableContainersReducer(state = {}, action = {}) {
                 singleSortableContainerReducer(state[action.payload.ids.container], action) :
                 sortableContainerCreator(action.payload.ids.container, [action.payload.ids.id])
         );
-    case ADD_NAT_ITEM:
+    case ADD_NAV_ITEM:
     case ADD_RICH_MARK:
         return state;
     case CHANGE_COLS:
@@ -422,6 +422,29 @@ export default function(state = {}, action = {}) {
         }
 
         return changeProp(state, action.payload.ids.id, boxCreator(state, action));
+    case ADD_NAV_ITEM:
+        if(action.payload.type === "document") {
+            return {
+                ...state,
+                [action.payload.sortable_id]: {
+                    parent: action.payload.id,
+                    id: action.payload.sortable_id,
+                    container: 0,
+                    level: -1,
+                    col: 0,
+                    row: 0,
+                    position: { type: "relative", x: 0, y: 0 },
+                    draggable: false,
+                    resizable: false,
+                    showTextEditor: false,
+                    fragment: {},
+                    children: [],
+                    sortableContainers: {},
+                    containedViews: [],
+                },
+            };
+        }
+        return state;
     case PASTE_BOX:
         let ids = Object.keys(action.payload.children);
         let bx = ids.map(k => {return action.payload.children[k].box;});
@@ -457,7 +480,36 @@ export default function(state = {}, action = {}) {
         // If rich mark is connected to a contained view (new or existing), mark.connection will include this information;
         // otherwise, it's just the id/url and we're not interested
         if (action.payload.mark.id || isContainedView(action.payload.view.id)) {
-            return changeProp(state, action.payload.view.parent, boxReducer(state[action.payload.view.parent], action));
+            let newState = {
+                ...state,
+                [action.payload.mark.origin]: {
+                    ...state[action.payload.mark.origin],
+                    containedViews: state[action.payload.mark.origin].containedViews.push(action.payload.view.id),
+                },
+            };
+            if(action.payload.mark.connectMode === "new" && action.payload.view.type === "document") {
+                newState = {
+                    ...newState,
+                    [action.payload.view.boxes[0]]: {
+                        parent: action.payload.view.id,
+                        id: action.payload.view.boxes[0],
+                        container: 0,
+                        level: -1,
+                        col: 0,
+                        row: 0,
+                        position: { type: "relative", x: 0, y: 0 },
+                        draggable: false,
+                        resizable: false,
+                        showTextEditor: false,
+                        fragment: {},
+                        children: [],
+                        sortableContainers: {},
+                        containedViews: [],
+                    },
+
+                };
+            }
+            return newState;
         }
         return state;
     case REORDER_BOXES:

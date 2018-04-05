@@ -118,6 +118,7 @@ export default class CarouselButtons extends Component {
                                 PAGE_TYPES.SECTION,
                                 this.calculatePosition()
                             );
+                            /*
                             if(Ediphy.Config.sections_have_content) {
                                 this.props.onBoxAdded({
                                     parent: idnuevo,
@@ -127,6 +128,7 @@ export default class CarouselButtons extends Component {
                                 false
                                 );
                             }
+                            */
 
                             e.stopPropagation();
 
@@ -150,12 +152,9 @@ export default class CarouselButtons extends Component {
                                 this.calculatePosition(),
                                 "rgb(255,255,255)",
                                 0,
-
-                            );
-                            this.props.onBoxAdded(
-                                { parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now(), page: newId },
                                 false,
-                                false
+                                false,
+                                ID_PREFIX_SORTABLE_BOX + Date.now(),
                             );
                         }}><i className="material-icons">insert_drive_file</i></Button>
                 </OverlayTrigger>

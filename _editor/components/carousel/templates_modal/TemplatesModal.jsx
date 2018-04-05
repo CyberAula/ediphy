@@ -123,6 +123,7 @@ export default class TemplatesModal extends Component {
             "rgb(255,255,255)",
             0,
             template !== -1,
+            false
         );
         if (template !== -1) {
             let selectedTemplate = this.templates[template];

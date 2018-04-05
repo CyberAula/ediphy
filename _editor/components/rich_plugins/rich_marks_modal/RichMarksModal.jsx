@@ -273,6 +273,7 @@ export default class RichMarksModal extends Component {
                                 value = val.value;
                             }
                         }
+                        let sortable_id = ID_PREFIX_SORTABLE_BOX + Date.now();
 
                         switch (connectMode) {
                         case "new":
@@ -291,9 +292,9 @@ export default class RichMarksModal extends Component {
                                     info: "new",
                                     type: this.state.newType,
                                     id: newId,
-                                    parent: this.props.boxSelected,
+                                    parent: { [newMark]: this.props.boxSelected },
                                     name: name,
-                                    boxes: [],
+                                    boxes: this.state.newType === "document" ? [sortable_id] : [],
                                     extraFiles: {},
                                 },
                                 viewToolbar: {

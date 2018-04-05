@@ -84,8 +84,8 @@ export function deleteContainedView(ids, boxes, parent) {
     return { type: DELETE_CONTAINED_VIEW, payload: { ids, boxes, parent } };
 }
 
-export function addNavItem(id, name, parent, type, position, background, customSize, hideTitles, hasContent) {
-    return { type: ADD_NAV_ITEM, payload: { id, name, parent, type, position, background, customSize, hideTitles, hasContent } };
+export function addNavItem(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) {
+    return { type: ADD_NAV_ITEM, payload: { id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id } };
 }
 
 export function addNavItems(navs, parent) {

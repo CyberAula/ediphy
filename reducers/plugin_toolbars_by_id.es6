@@ -97,7 +97,62 @@ export default function(state = {}, action = {}) {
     case ADD_BOX:
         return { ...state, ...toolbarCreator(state, action) };
     case ADD_NAV_ITEM:
+        if(action.payload.type === "document") {
+            return {
+                ...state,
+                [action.payload.sortable_id]: {
+                    id: action.payload.sortable_id,
+                    pluginId: "sortable_container",
+                    showTextEditor: false,
+                    state: {},
+                    structure: {
+                        aspectRatio: true,
+                        height: "",
+                        position: "absolute",
+                        rotation: "",
+                        width: "",
+                    },
+                    style: {
+                        backgroundColor: "#ffffff",
+                        boderWidth: 0,
+                        borderColor: "#000000",
+                        borderRadius: 0,
+                        borderStyle: "solid",
+                        opacity: 1,
+                        padding: 0,
+                    },
+                },
+            };
+        }
+        return state;
     case ADD_RICH_MARK:
+        if(action.payload.mark.connectMode === "new" && action.payload.view.type === "document") {
+            return {
+                ...state,
+                [action.payload.view.boxes[0]]: {
+                    id: action.payload.view.boxes[0],
+                    pluginId: "sortable_container",
+                    showTextEditor: false,
+                    state: {},
+                    structure: {
+                        aspectRatio: true,
+                        height: "",
+                        position: "absolute",
+                        rotation: "",
+                        width: "",
+                    },
+                    style: {
+                        backgroundColor: "#ffffff",
+                        boderWidth: 0,
+                        borderColor: "#000000",
+                        borderRadius: 0,
+                        borderStyle: "solid",
+                        opacity: 1,
+                        padding: 0,
+                    },
+                },
+            };
+        }
         return state;
         // return changeProp(state, action.payload.id, toolbarSortableContainer(state, action));
     case DELETE_BOX:

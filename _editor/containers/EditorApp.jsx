@@ -92,7 +92,7 @@ class EditorApp extends Component {
                         changeGlobalConfig={(prop, value) => {dispatch(changeGlobalConfig(prop, value));}}
                         onIndexSelected={(id) => dispatch(selectIndex(id))}
                         onNavItemSelected={id => dispatch(selectNavItem(id))}
-                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content))))}
+                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
                         onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
                         onToolbarUpdated={this.onToolbarUpdated}
                         undoDisabled={undoDisabled}
@@ -154,7 +154,7 @@ class EditorApp extends Component {
                             dispatch(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
                         }}
                         onNavItemNameChanged={(id, titleStr) => dispatch(updateViewToolbar(id, titleStr))}
-                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content))))}
+                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
                         onNavItemSelected={id => dispatch(selectNavItem(id))}
                         onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
                         onNavItemDeleted={(navsel) => {
