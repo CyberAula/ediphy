@@ -10,8 +10,8 @@ import Utils from "../common/utils";
 
 function toolbarElementCreator(state, action, containedView = false) {
     let doc_type;
-    let id = isContainedView ? action.payload.mark.connection : action.payload.id;
-    let type = isContainedView ? action.payload.toolbar.doc_type : action.payload.type;
+    let id = containedView ? action.payload.mark.connection : action.payload.id;
+    let type = containedView ? action.payload.toolbar.doc_type : action.payload.type;
 
     if (isPage(id)) {
         doc_type = i18n.t('page');
