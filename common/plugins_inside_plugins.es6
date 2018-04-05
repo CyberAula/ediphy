@@ -109,6 +109,7 @@ export function parsePluginContainers(obj, state) {
                 } else {
                     obj.attr.style.height = height;
                 }
+
                 if (obj.attr.style.minHeight) {
                     delete obj.attr.style.minHeight;
                 }

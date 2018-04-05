@@ -205,4 +205,16 @@ VisorCanvasSli.propTypes = {
      * Function for submitting a page Quiz
     */
     setAnswer: PropTypes.func.isRequired,
+    /**
+     * Pages toolbars
+     */
+    viewToolbars: PropTypes.object,
+    /**
+     * All marks
+     */
+    marks: PropTypes.object,
+    /**
+    * Boxes toolbars
+    */
+    pluginToolbars: PropTypes.object,
 };

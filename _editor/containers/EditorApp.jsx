@@ -79,7 +79,6 @@ class EditorApp extends Component {
         const { dispatch, boxes, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, imagesUploaded, indexSelected, exercises,
             undoDisabled, redoDisabled, displayMode, isBusy, pluginToolbars, viewToolbars, marks, lastActionDispatched, globalConfig, fetchVishResults } = this.props;
-        console.log(viewToolbars);
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
         let canvasRatio = globalConfig.canvasRatio;
@@ -549,7 +548,8 @@ class EditorApp extends Component {
             let key = e.keyCode ? e.keyCode : e.which;
             // Checks what element has the cursor focus currently
             let focus = document.activeElement.className;
-            let notText = focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1;
+            let notText = !document.activeElement.type && focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1;
+
             // Ctrl + Z
             if (key === 90 && e.ctrlKey) {
                 if (notText) {
@@ -817,4 +817,5 @@ EditorApp.propTypes = {
     fetchVishResults: PropTypes.any,
     dispatch: PropTypes.func.isRequired,
     store: PropTypes.any,
+    lastActionDispatched: PropTypes.object,
 };

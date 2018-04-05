@@ -57,7 +57,7 @@ function boxCreator(state, action) {
         if (pluginContainers) {
             for (let key in pluginContainers) {
                 children.push(pluginContainers[key].id);
-                sortableContainers[pluginContainers[key].id] = sortableContainerCreator(key, [], pluginContainers[key].height);
+                sortableContainers[pluginContainers[key].id] = sortableContainerCreator(key, [], pluginContainers[key].height, action.payload.ids.parent);
             }
         }
     }
@@ -83,7 +83,7 @@ function boxCreator(state, action) {
     };
 }
 
-function sortableContainerCreator(key = "", children = [], height = "auto") {
+function sortableContainerCreator(key = "", children = [], height = "auto", parent) {
     return {
         children: children,
         style: {
@@ -92,7 +92,7 @@ function sortableContainerCreator(key = "", children = [], height = "auto") {
             borderWidth: '0px',
             borderStyle: 'solid',
             opacity: '1',
-            textAlign: 'center',
+            textAlign: isBox(parent) ? 'center' : 'left',
             className: '',
         },
         height: height,
@@ -115,7 +115,7 @@ function boxReducer(state = {}, action = {}) {
                 "sortableContainers",
             ], [
                 (state.children.indexOf(action.payload.ids.container) !== -1) ? // if parent box contains container indicated
-                    state.children : // nothing changes
+                state.children : // nothing changes
                     [...state.children, action.payload.ids.container], // adds container to children
                 sortableContainersReducer(state.sortableContainers, action),
             ]
@@ -214,7 +214,7 @@ function boxReducer(state = {}, action = {}) {
                 let container = action.payload.value[1][containerKey];
                 // if not found -> create new one; otherwise copy existing
                 if (!state.sortableContainers[container.id]) {
-                    newSortableContainers[container.id] = sortableContainerCreator(containerKey, [], container.height);
+                    newSortableContainers[container.id] = sortableContainerCreator(containerKey, [], container.height, action.payload.id);
                 } else {
                     newSortableContainers[container.id] = Utils.deepClone(state.sortableContainers[container.id]);
                 }
@@ -246,7 +246,7 @@ function boxReducer(state = {}, action = {}) {
                 let container = action.payload.state.__pluginContainerIds[containerKey];
                 // if not found -> create new one; otherwise copy existing
                 if (!state.sortableContainers[container.id]) {
-                    sortableContainers[container.id] = sortableContainerCreator(containerKey, [], container.height);
+                    sortableContainers[container.id] = sortableContainerCreator(containerKey, [], container.height, action.payload.id);
                 } else {
                     sortableContainers[container.id] = Utils.deepClone(state.sortableContainers[container.id]);
                 }
@@ -352,7 +352,7 @@ function sortableContainersReducer(state = {}, action = {}) {
             action.payload.ids.container,
             state[action.payload.ids.container] ?
                 singleSortableContainerReducer(state[action.payload.ids.container], action) :
-                sortableContainerCreator(action.payload.ids.container, [action.payload.ids.id])
+                sortableContainerCreator(action.payload.ids.container, [action.payload.ids.id], "auto", action.payload.ids.id)
         );
     case ADD_NAT_ITEM:
     case ADD_RICH_MARK:

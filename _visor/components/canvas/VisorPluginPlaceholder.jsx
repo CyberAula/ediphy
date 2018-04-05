@@ -118,5 +118,8 @@ VisorPluginPlaceholder.propTypes = {
    * Selected view
    */
     currentView: PropTypes.string,
-
+    /**
+    * All marks
+    */
+    allMarks: PropTypes.object,
 };

@@ -8,10 +8,10 @@ import i18n from 'i18next';
 import { changeProp, deleteProps, isDocument, isPage, isSection, isSlide, isContainedView } from "../common/utils";
 import Utils from "../common/utils";
 
-function toolbarElementCreator(state, action, isContainedView = false) {
+function toolbarElementCreator(state, action, containedView = false) {
     let doc_type;
-    let id = isContainedView ? action.payload.mark.connection : action.payload.id;
-    let type = isContainedView ? action.payload.mark.connectMode : action.payload.type;
+    let id = containedView ? action.payload.mark.connection : action.payload.id;
+    let type = containedView ? action.payload.mark.connectMode : action.payload.type;
     if (isPage(id)) {
         doc_type = i18n.t('page');
     }

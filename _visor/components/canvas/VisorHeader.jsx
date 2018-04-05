@@ -96,4 +96,8 @@ VisorHeader.propTypes = {
      * Vista actual
      */
     currentView: PropTypes.any,
+    /**
+    * Page toolbar
+    */
+    viewToolbar: PropTypes.object,
 };
