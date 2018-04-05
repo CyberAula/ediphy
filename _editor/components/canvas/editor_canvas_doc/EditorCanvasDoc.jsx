@@ -140,6 +140,10 @@ export default class EditorCanvasDoc extends Component {
 
 EditorCanvasDoc.propTypes = {
     /**
+     * Object containing every accordion by id
+     */
+    accordions: PropTypes.object.isRequired,
+    /**
      * Si se renderiza el componente desde una vista contenida (true) o una normal (false)
      */
     fromCV: PropTypes.bool,
@@ -199,6 +203,10 @@ EditorCanvasDoc.propTypes = {
      * Identificador de la caja en la que se va a crear una marca
      */
     markCreatorId: PropTypes.any.isRequired,
+    /**
+     * Object containing box marks
+     */
+    marks: PropTypes.object,
     /**
      * Oculta/muestra el overlay de creación de marcas
      */
@@ -260,17 +268,29 @@ EditorCanvasDoc.propTypes = {
    */
     onRichMarksModalToggled: PropTypes.func.isRequired,
     /**
-   * Actualiza marca
+   * Callback for updating box marks
    */
     onRichMarkUpdated: PropTypes.func.isRequired,
     /**
-     * Cambia el texto del título del curso
+     * Callback for moving marks
+     */
+    onRichMarkMoved: PropTypes.func.isRequired,
+    /**
+     * Callback for modify navitem title and subtitle
+     */
+    onViewTitleChanged: PropTypes.func.isRequired,
+    /**
+     * Callback for modify course title
      */
     onTitleChanged: PropTypes.func.isRequired,
     /**
    * Object containing all exercises
    */
     exercises: PropTypes.object,
+    /**
+     * Callback for opening global configuration modal
+     */
+    openConfigModal: PropTypes.func,
     /**
    * Function for setting the right answer of an exercise
    */

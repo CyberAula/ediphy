@@ -10,7 +10,6 @@ export default class Chart extends React.Component {
         let data = this.props.dataProcessed;
         let options = this.props.options;
         let ymap = options.y.map((y)=>{ return y;});
-
         switch (options.type) {
         case "line":
             if(ymap.length === 1) {
@@ -43,10 +42,10 @@ export default class Chart extends React.Component {
             );
 
         case "area":
+            console.log(options);
             return (
                 <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart
-                        data={data}>
+                    <AreaChart data={data}>
                         <defs>
                             {options.y.map((y, o) => {
                                 return(

@@ -195,7 +195,7 @@ export default class EditorHeader extends Component {
                                             <CVInfo containedViews={this.props.containedViews}
                                                 navItems={this.props.navItems}
                                                 containedView={this.props.containedView}
-                                                viewtoolbars={this.props.viewToolbars}
+                                                viewToolbars={this.props.viewToolbars}
                                                 marks={this.props.marks}
                                                 boxes={this.props.boxes}/> : null
                                         }
@@ -347,7 +347,19 @@ EditorHeader.propTypes = {
      */
     boxes: PropTypes.object.isRequired,
     /**
-     * Cambia el título del curso
+     * Callback for modify course title
      */
     onTitleChanged: PropTypes.func.isRequired,
+    /**
+     * Callback for modify navitem title and subtitle
+     */
+    onViewTitleChanged: PropTypes.func.isRequired,
+    /**
+     * Object containing all the navitem toolbars (by navitem ID)
+     */
+    viewToolbars: PropTypes.object.isRequired,
+    /**
+     * Object containing box marks
+     */
+    marks: PropTypes.object,
 };

@@ -12,11 +12,11 @@ export default class CVInfo extends Component {
     render() {
         let cvList = [];
         for (let id in this.props.containedViews.parent) {
-            if (this.props.viewtoolbars[id]) {
+            if (this.props.viewToolbars[id]) {
                 let el = this.props.boxes[id];
                 let from = "unknown";
                 let markName = "";
-                if (this.props.viewtoolbars[id].state && this.props.marks[id]) {
+                if (this.props.viewToolbars[id].state && this.props.marks[id]) {
                     let at = '@';
                     for (let mark in this.props.marks[id]) {
                         if (this.props.marks[id].connection === this.props.containedView.id) {
@@ -68,9 +68,13 @@ CVInfo.propTypes = {
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Diccionario que contiene todas las toolbars, accesibles por el *id* de su caja/vista
+     * Object containing all the navitem toolbars (by navitem ID)
      */
     viewToolbars: PropTypes.object.isRequired,
+    /**
+     * Object containing box marks
+     */
+    marks: PropTypes.object,
     /**
      * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
      */
