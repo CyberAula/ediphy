@@ -33,6 +33,7 @@ export default class CVInfo extends Component {
                     markName = markName.slice(0, markName.length - 2) + " " + at + " ";
                 }
 
+                let parentName;
                 if (isSortableBox(el.parent)) {
                     let origin = this.props.boxes[el.parent].parent;
                     from = this.props.viewToolbars[origin].viewName;
@@ -45,7 +46,7 @@ export default class CVInfo extends Component {
                 } else {
                     break;
                 }
-                cvList.push(<span className="cvList" key={id}>{markName}<b>{this.props.viewToolbars[containedView.id].viewName}</b> { ' (' + from + ')'}</span>);
+                cvList.push(<span className="cvList" key={id}>{markName}<b>{this.props.pluginToolbars[el.id].pluginId}</b> { ' (' + from + ')'}</span>);
             }
         }
 
