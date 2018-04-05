@@ -31,6 +31,15 @@
       color: $blueprimary;
       font-size: 10px;
   }
+  .feedbackRow {
+    padding:10px;
+    margin:0;
+    .feedback {
+      background-color: $blueprimarytransparent;
+      margin:0;
+
+    }
+  }
 }
 
 .wholebox.selectedBox .textAreaQuiz {

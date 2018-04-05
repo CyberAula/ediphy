@@ -104,7 +104,6 @@ class EditorApp extends Component {
                         containedViewSelected={containedViewSelected}
                         navItemSelected={navItemSelected}
                         boxSelected={boxSelected}
-                        onTextEditorToggled={this.onTextEditorToggled}
                         undo={() => {dispatch(ActionCreators.undo());}}
                         redo={() => {dispatch(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
@@ -209,8 +208,7 @@ class EditorApp extends Component {
                                 marks={marks}
                                 containedViews={containedViews}
                                 pluginToolbars={pluginToolbars}
-                                onTextEditorToggled={this.onTextEditorToggled}
-                                onBoxPasted={(ids, box, toolbar, children, index, marks)=>dispatch(pasteBox(ids, box, toolbar, children, index, marks))}
+                                onBoxPasted={(ids, box, toolbar, children, index, markList)=>dispatch(pasteBox(ids, box, toolbar, children, index, markList))}
                                 onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 onBoxDeleted={(id, parent, container, page)=> {let bx = this.getDescendantBoxes(boxes[id]); dispatch(deleteBox(id, parent, container, bx, boxes[id].containedViews, page));}}
                                 ribbonHeight={ribbonHeight + 'px'}/>
@@ -337,6 +335,7 @@ class EditorApp extends Component {
                                 onViewTitleChanged={(id, titles)=>{dispatch(updateViewToolbar(id, titles));}}
                                 onTextEditorToggled={this.onTextEditorToggled}
                                 onBoxesInsideSortableReorder={(parent, container, order) => {dispatch(reorderBoxes(parent, container, order));}}
+                                onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
                                 showCanvas={(containedViewSelected !== 0)}/>
                         </Row>
                     </Col>
@@ -514,7 +513,7 @@ class EditorApp extends Component {
 
         Ediphy.Plugins.loadButtons();
 
-        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.getPluginsInView, e => {
+        /* Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.getPluginsInView, e => {
             let plugins = {};
             let ids = [];
             let view = e.detail.view ? e.detail.view : this.props.navItemSelected;
@@ -525,7 +524,6 @@ class EditorApp extends Component {
             });
 
             ids.map(id => {
-                let toolbar = this.props.toolbars[id];
                 if (e.detail.getAliasedPlugins) {
                     if (!isSortableBox(id)) {
                         let button = toolbar.controls.main.accordions.z__extra.buttons.alias;
@@ -543,7 +541,7 @@ class EditorApp extends Component {
 
             Ediphy.API_Private.answer(Ediphy.API_Private.events.getPluginsInView, plugins);
         });
-
+*/
         window.onkeyup = function(e) {
             let key = e.keyCode ? e.keyCode : e.which;
             // Checks what element has the cursor focus currently

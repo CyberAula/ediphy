@@ -11,7 +11,7 @@ import Utils from "../common/utils";
 function toolbarElementCreator(state, action, containedView = false) {
     let doc_type;
     let id = containedView ? action.payload.mark.connection : action.payload.id;
-    let type = containedView ? action.payload.mark.connectMode : action.payload.type;
+    let type = containedView ? action.payload.view.type : action.payload.type;
     if (isPage(id)) {
         doc_type = i18n.t('page');
     }

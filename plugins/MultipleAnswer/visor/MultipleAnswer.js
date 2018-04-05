@@ -10,6 +10,7 @@ export function MultipleAnswer() {
             let content = [];
             let attempted = props.exercises && props.exercises.attempted;
             let score = (props.exercises.score || 0) + "/" + (props.exercises.weight || 0);
+            let showFeedback = attempted && state.showFeedback;
             for (let i = 0; i < state.nBoxes; i++) {
                 let checked = (props.exercises.currentAnswer && (props.exercises.currentAnswer instanceof Array) && props.exercises.currentAnswer.indexOf(i) > -1);
                 let correctAnswer = (props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1);
@@ -46,6 +47,11 @@ export function MultipleAnswer() {
 
                 </div>
                 {content}
+                <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
+                    <div className={"col-xs-12 feedback"}>
+                        <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
+                    </div>
+                </div>
                 <div key={-1} className={"exerciseScore"}>{score}</div>
             </div>;
         },

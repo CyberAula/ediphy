@@ -50,6 +50,14 @@
   .truefalse {
     word-break: keep-all;
   }
+  .feedbackRow {
+    padding:10px;
+    margin:0;
+    .feedback {
+      background-color: $blueprimarytransparent;
+      margin:0;
 
+    }
+  }
 }
 

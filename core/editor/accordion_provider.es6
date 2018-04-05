@@ -682,7 +682,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     if (button.type === "color") {
         return React.createElement(
             FormGroup,
-            { key: button.__name },
+            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
             [
                 React.createElement(
                     ControlLabel,
@@ -731,7 +731,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 props.componentClass = 'select';
                 return React.createElement(
                     FormGroup,
-                    { key: button.__name },
+                    { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
                     [
                         React.createElement(
                             ControlLabel,
@@ -752,7 +752,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             props.placeholder = "No has elegido ninguna opción";
             return React.createElement(
                 FormGroup,
-                { key: button.__name },
+                { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
                 [
                     React.createElement(
                         ControlLabel,
@@ -767,6 +767,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         }
 
         if (button.type === 'radio') {
+            props.style = props.style ? { ...props.style, style: { display: button.hide ? 'none' : 'block' } } : { style: { display: button.hide ? 'none' : 'block' } };
             button.options.map((radio, index) => {
                 if (!children) {
                     children = [];
@@ -791,6 +792,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     title: button.__name,
                     options: button.options,
                     selected: button.value,
+                    style: { display: button.hide ? 'none' : 'block' },
                     click: (option) => {
                         toolbar_props.onVerticallyAlignBox(toolbar_props.boxSelected, option);
                     },
@@ -806,7 +808,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         delete props.style.width;
         return React.createElement(
             FormGroup,
-            { key: (button.__name) },
+            { key: (button.__name), style: { display: button.hide ? 'none' : 'block' } },
             [React.createElement(
                 ToggleSwitch,
                 props,
@@ -823,17 +825,20 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             FormGroup,
             {
                 key: button.__name,
-                style: { display: accordion.buttons[button.associatedKey].checked ? "block" : "none" },
+                style: { display: (accordion.buttons[button.associatedKey].checked ? "block" : "none") },
             },
-            [
-                React.createElement(
-                    "span",
-                    { key: 'output_span' + button.__name, className: 'rangeOutput' },
-                    button.type === "range" ? button.value : null),
-                React.createElement(
-                    FormControl,
-                    props,
-                    null),
+            [button.displayName ? React.createElement(
+                ControlLabel,
+                { key: 'label_' + button.__name },
+                button.__name) : null,
+            React.createElement(
+                "span",
+                { key: 'output_span' + button.__name, className: 'rangeOutput' },
+                button.actualType === "range" ? button.value : null),
+            React.createElement(
+                FormControl,
+                props,
+                null),
             ]
         );
     }
@@ -842,7 +847,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         let isURI = (/data\:/).test(props.value);
         return React.createElement(
             FormGroup,
-            { key: button.__name }, [
+            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } }, [
                 React.createElement(
                     ControlLabel,
                     { key: 'label_' + button.__name, value: button.value },
@@ -881,7 +886,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
         return React.createElement(
             FormGroup,
-            { key: button.__name },
+            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
             [
                 React.createElement(
                     ControlLabel,
@@ -919,7 +924,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     ),
                     React.createElement(
                         FormGroup,
-                        { key: button.__name },
+                        { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
                         [
                             React.createElement(
                                 ControlLabel,
@@ -969,7 +974,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     // If it's none of previous types (number, text, color, range, ...)
     if (accordionKeys[0] === 'structure' && (buttonKey === 'width' || buttonKey === 'height')) {
         let advancedPanel = (
-            <FormGroup>
+            <FormGroup style= {{ display: button.hide ? 'none' : 'block' }}>
                 <ToggleSwitch label={i18n.t("Auto")}
                     checked={toolbar_plugin_state.structure[buttonKey] === "auto"}
                     onChange={props.onChange}/>
@@ -994,7 +999,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         props.max = toolbar_plugin_state.structure[buttonKey + "Unit"] === '%' ? 100 : 100000;
         props.disabled = auto;
         return (
-            <FormGroup key={button.__name}>
+            <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
                 <ControlLabel key={"label_" + button.__name}>
                     {button.__name + (!auto ? " (" + toolbar_plugin_state.structure[buttonKey + "Unit"] + ")" : "")}
                 </ControlLabel>
@@ -1022,7 +1027,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         props.className = "rangeInput";
         return React.createElement(
             FormGroup,
-            { key: button.__name },
+            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
             [
                 React.createElement(
                     ControlLabel,
@@ -1041,7 +1046,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     }
     return React.createElement(
         FormGroup,
-        { key: button.__name },
+        { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
         [
             React.createElement(
                 ControlLabel,

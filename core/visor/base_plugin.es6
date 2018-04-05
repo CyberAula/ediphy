@@ -63,7 +63,7 @@ export default function() {
                 }
             });
             if (!plugin.checkAnswer) {
-                plugin.checkAnswer = function(current, correct) {
+                plugin.checkAnswer = function(current, correct, state) {
                     return JSON.stringify(current) === JSON.stringify(correct);
                 };
             }

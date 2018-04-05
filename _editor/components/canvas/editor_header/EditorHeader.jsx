@@ -24,6 +24,7 @@ export default class EditorHeader extends Component {
     render() {
         if (this.props.navItem || this.props.containedView) {
             let navItem = this.props.containedView !== 0 ? this.props.containedView : this.props.navItem;
+            console.log(navItem);
             let toolbar = (this.props.viewToolbars[navItem.id]) ? this.props.viewToolbars[navItem.id] : undefined;
             let docTitle = "";
             let subTitle = "";
@@ -151,7 +152,7 @@ export default class EditorHeader extends Component {
                                             (<h2 onDoubleClick={e => {
                                                 this.setState({ editingNavTitle: !this.state.editingNavTitle });
                                                 if (this.state.editingNavTitle) { /* Save changes to Redux state*/
-                                                    this.props.onViewTitleChanged(this.props.navItem.id, { documentTitleContent: this.state.currentNavTitle });
+                                                    this.props.onViewTitleChanged(navItem.id, { documentTitleContent: this.state.currentNavTitle });
                                                     // Synchronize current component state with Redux state when entering edition mode
                                                 } else {
                                                     this.setState({ currentNavTitle: docTitle });
@@ -169,7 +170,7 @@ export default class EditorHeader extends Component {
                                                 onKeyDown={e=> {
                                                     if (e.keyCode === 13) { // Enter Key
                                                         this.setState({ editingNavTitle: !this.state.editingNavTitle });
-                                                        this.props.onViewTitleChanged(this.props.navItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
+                                                        this.props.onViewTitleChanged(navItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
                                                     }
                                                     if (e.keyCode === 27) { // Escape key
                                                         this.setState({ editingNavTitle: !this.state.editingNavTitle });
@@ -187,7 +188,7 @@ export default class EditorHeader extends Component {
                                                 onBlur={e => {
                                                     /* Change to non-edition mode*/
                                                     this.setState({ editingNavTitle: !this.state.editingNavTitle });
-                                                    this.props.onViewTitleChanged(this.props.navItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
+                                                    this.props.onViewTitleChanged(navItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
                                                 }} />)}
                                         {/* Info CV */}
                                         {this.props.containedView !== 0 ?
@@ -203,7 +204,7 @@ export default class EditorHeader extends Component {
                                             (<h3 onDoubleClick={e => {
                                                 this.setState({ editingNavSubTitle: !this.state.editingNavSubTitle });
                                                 if (this.state.editingNavSubTitle) { /* Save changes to Redux state*/
-                                                    this.props.onViewTitleChanged(this.props.navItem.id, { documentSubtitleContent: this.state.currentNavSubTitle });
+                                                    this.props.onViewTitleChanged(navItem.id, { documentSubtitleContent: this.state.currentNavSubTitle });
                                                     // Synchronize current component state with Redux state when entering edition mode
                                                 } else {
                                                     this.setState({ currentNavSubTitle: subTitle });
@@ -221,7 +222,7 @@ export default class EditorHeader extends Component {
                                                 onKeyDown={e=> {
                                                     if (e.keyCode === 13) { // Enter Key
                                                         this.setState({ editingNavSubTitle: !this.state.editingNavSubTitle });
-                                                        this.props.onViewTitleChanged(this.props.navItem.id, { documentSubtitleContent: (this.state.currentNavSubTitle.length > 0) ? this.state.currentNavSubTitle : this.getDefaultValue() });
+                                                        this.props.onViewTitleChanged(navItem.id, { documentSubtitleContent: (this.state.currentNavSubTitle.length > 0) ? this.state.currentNavSubTitle : this.getDefaultValue() });
                                                     }
                                                     if (e.keyCode === 27) { // Escape key
                                                         this.setState({ editingNavSubTitle: !this.state.editingNavSubTitle });
@@ -239,7 +240,7 @@ export default class EditorHeader extends Component {
                                                 onBlur={e => {
                                                     /* Change to non-edition mode*/
                                                     this.setState({ editingNavSubTitle: !this.state.editingNavSubTitle });
-                                                    this.props.onViewTitleChanged(this.props.navItem.id, { documentSubtitleContent: (this.state.currentNavSubTitle.length > 0) ? this.state.currentNavSubTitle : this.getDefaultValue() });
+                                                    this.props.onViewTitleChanged(navItem.id, { documentSubtitleContent: (this.state.currentNavSubTitle.length > 0) ? this.state.currentNavSubTitle : this.getDefaultValue() });
                                                 }} />)}
                                         {/* <h3
                                             style={{ display: (toolbar.documentSubtitle === 'hidden') ? 'none' : 'block' }}>{subTitle}</h3> */}

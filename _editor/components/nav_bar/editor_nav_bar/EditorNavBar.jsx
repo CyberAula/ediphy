@@ -40,7 +40,6 @@ export default class EditorNavBar extends Component {
                     globalConfig={this.props.globalConfig}
                     navItemSelected={this.props.navItemSelected}
                     navItems={this.props.navItems}
-                    onTextEditorToggled={this.props.onTextEditorToggled}
                     redo={this.props.redo}
                     redoDisabled={this.props.redoDisabled}
                     save={this.props.save}
@@ -137,10 +136,7 @@ EditorNavBar.propTypes = {
      * Caja seleccionada
      */
     boxSelected: PropTypes.any.isRequired,
-    /**
-     * Cierra la edición de texto en curso
-     */
-    onTextEditorToggled: PropTypes.func.isRequired,
+
     /**
      * Deshace el último cambio
      */

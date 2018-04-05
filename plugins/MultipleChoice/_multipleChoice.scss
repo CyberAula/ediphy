@@ -30,6 +30,7 @@
 
   &.attempted.showFeedback .answerRow {
     margin-top: 2px;
+
     border: 2px solid transparent;
     border-radius: 5px;
       &.correct {
@@ -40,8 +41,14 @@
         border: 2px solid rgba(255,0,0,0.5);
       }
   }
+  .feedbackRow {
+    padding:10px;
+    margin:0;
+    .feedback {
+      background-color: $blueprimarytransparent;
+      margin:0;
 
-
-
+    }
+  }
 }
 

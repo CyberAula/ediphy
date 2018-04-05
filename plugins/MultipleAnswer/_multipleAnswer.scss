@@ -93,4 +93,14 @@
       border: 2px solid rgba(255,0,0,0.5);
     }
   }
+  .feedbackRow {
+    padding:10px 20px;
+    margin:0;
+    .feedback {
+      background-color: $blueprimarytransparent;
+      margin:0;
+      padding:0
+
+    }
+  }
 }

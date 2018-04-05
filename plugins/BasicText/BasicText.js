@@ -24,7 +24,7 @@ export function BasicText(base) {
                                 padding: {
                                     __name: Ediphy.i18n.t('BasicText.padding'),
                                     type: 'number',
-                                    value: 10,
+                                    value: 7,
                                     min: 0,
                                     max: 100,
                                 },

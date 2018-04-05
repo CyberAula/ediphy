@@ -288,6 +288,7 @@ export default class Visor extends Component {
                                     navItemsById={navItems}
                                     globalConfig={globalConfig}
                                     exercises={exercises}
+                                    pluginToolbars={pluginToolbars}
                                     fromScorm={this.state.fromScorm}
                                     changeCurrentView={(el)=>{this.changeCurrentView(el);}}>
                                     {visorContent}
