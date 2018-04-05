@@ -118,9 +118,6 @@ export function EnrichedPlayer(base) {
             let parsed_value = (value[0] + 10) * 100 / value[2];
             return parsed_value.toFixed(2) + "%";
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
         validateValueInput: function(value) {
             let regex = /(^\d+(?:\.\d*)?%$)/g;
             let match = regex.exec(value);

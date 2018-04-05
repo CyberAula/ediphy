@@ -108,6 +108,7 @@ export default class VisorCanvasDoc extends Component {
                                         toolbars={this.props.pluginToolbars}
                                         setAnswer={this.props.setAnswer}
                                         marks={this.props.marks}
+                                        onMarkClicked={this.props.onMarkClicked}
                                         richElementsState={this.props.richElementsState}/>;
 
                                 })}

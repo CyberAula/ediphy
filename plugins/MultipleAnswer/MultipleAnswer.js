@@ -93,9 +93,6 @@ export function MultipleAnswer(base) {
             </div>;
 
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
     };
 }
 /* eslint-enable react/prop-types */

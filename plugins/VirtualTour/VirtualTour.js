@@ -167,9 +167,6 @@ export function VirtualTour(base) {
                     </Map>
                 </div>);
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
         getDefaultMarkValue(state) {
             let cfg = state.config;
             return Math.round(cfg.lat * 100000) / 100000 + ',' + Math.round(cfg.lng * 100000) / 100000;

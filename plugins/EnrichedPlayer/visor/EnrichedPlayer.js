@@ -7,7 +7,7 @@ export function EnrichedPlayer(base) {
         getRenderTemplate: function(state, props) {
             return (
                 <div style={{ width: "100%", height: "100%" }}>
-                    <EnrichedPlayerPlugin style={{ width: "100%", height: "100%" }} state={state} props={props} triggerMark={base.triggerMark} />
+                    <EnrichedPlayerPlugin style={{ width: "100%", height: "100%" }} state={state} props={props} />
                 </div>
             );
         },

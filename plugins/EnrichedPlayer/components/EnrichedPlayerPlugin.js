@@ -25,8 +25,8 @@ export default class EnrichedPlayerPlugin extends React.Component {
         if(nextState.played !== this.state.played) {
             let sudo = this;
 
-            let marks = this.props.marks || {};
-            let triggerMark = this.props.triggerMark;
+            let marks = this.props.props.marks || {};
+            let triggerMark = this.props.props.onMarkClicked;
             let triggerArray = this.state.toBeTriggered;
             triggerArray.forEach(function(e) {
                 if ((parseFloat(e.value) / 100).toFixed(3) < parseFloat(nextState.played).toFixed(3)) {

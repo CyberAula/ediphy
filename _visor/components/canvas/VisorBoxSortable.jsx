@@ -39,6 +39,7 @@ export default class VisorBoxSortable extends Component {
                                                             fromScorm={this.props.fromScorm}
                                                             toolbars={this.props.toolbars}
                                                             marks={this.props.marks}
+                                                            onMarkClicked={this.props.onMarkClicked}
                                                             setAnswer={this.props.setAnswer}
                                                             richElementsState={this.props.richElementsState}/>);
 

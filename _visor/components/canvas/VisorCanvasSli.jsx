@@ -99,6 +99,7 @@ export default class VisorCanvasSli extends Component {
                                 toolbars={this.props.pluginToolbars}
                                 marks={this.props.marks}
                                 setAnswer={this.props.setAnswer}
+                                onMarkClicked={this.props.onMarkClicked}
                                 richElementsState={this.props.richElementsState}/>;
 
                         })}

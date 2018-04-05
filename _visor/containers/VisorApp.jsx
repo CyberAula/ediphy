@@ -31,69 +31,7 @@ export default class Visor extends Component {
             fromScorm: Ediphy.State.fromScorm,
             scoreInfo: { userName: "Anonymous", totalScore: 0, totalWeight: 0, completionProgress: 0 },
         };
-
-    }
-
-    componentWillUnmount() {
-        Ediphy.API_Private.cleanListener(Ediphy.API_Private.events.markTriggered);
-    }
-    componentWillMount() {
-        // Get the event received check if exist and modify the state
-        // Add a queue of marks fired [{id: value, CurrentState: PENDING, TRIGGERED, HOLD, DONE}] or array
-        // Whenever the mark is ready trigger it
-        this.mountFunction();
-    }
-
-    mountFunction() {
-        let richElementsState = this.state.richElementState;
-
-        // Marks Global Listener
-        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.markTriggered, e=>{
-            let marks = this.getAllMarks();
-            let triggered_event = e.detail;
-            let triggered_marks = this.getTriggeredMarks(marks, triggered_event);
-
-            // clearMark | If actual Triggered Mark have passed e.detail.value and actual value is different or actual element doesn't need to clear the value
-            triggered_marks = this.clearTriggeredValues(triggered_event, triggered_marks);
-
-            // Just try to trigger if mark exists
-            if(this.containsMarkValue(marks, triggered_event.value)) {
-                // And is triggereable (not pending)
-                let isTriggerable = this.isTriggereableMark(triggered_event, triggered_marks);
-                if(isTriggerable) {
-                    triggered_marks = this.putMarksOnHold(triggered_marks, triggered_event);
-                    // If mark is storable (if make any sense to store to render something different like a video) do it else, don't
-                    if(triggered_event.stateElement) {
-                        if(this.isNotInStateElement(triggered_event, this.state.richElementState)) {
-                            let new_mark = {};
-                            new_mark[triggered_event.id] = triggered_event.value;
-                            this.setState({
-                                triggeredMarks: triggered_marks,
-                                richElementState: Object.assign({}, richElementsState, new_mark),
-                            });
-                        }
-
-                    }else{
-                        triggered_marks.forEach((mark, index)=>{
-                            if(mark.id === isTriggerable.id) {
-                                triggered_marks[index] = isTriggerable;
-                            }
-                        });
-                        this.setState({ triggeredMarks: triggered_marks });
-
-                    }
-                }
-            } else if(triggered_event.stateElement) {
-
-                let backupElementStates = this.state.backupElementStates;
-                let new_mark = {};
-                new_mark[triggered_event.id] = triggered_event.value;
-                this.setState({
-                    backupElementStates: Object.assign({}, backupElementStates, new_mark),
-                });
-            }
-
-        });
+        this.onMarkClicked = this.onMarkClicked.bind(this);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -185,20 +123,17 @@ export default class Visor extends Component {
         if (window.State) {
             Ediphy.State = window.State;
         }
-        let { boxSelected, navItemsIds, globalConfig } = Ediphy.State;
-        let boxes = Ediphy.State.boxesById;
-        let containedViews = Ediphy.State.containedViewsById;
+        let { boxSelected, navItemsIds, globalConfig, containedViewsById, boxesById, marksById } = Ediphy.State;
         let navItems = Ediphy.State.navItemsById;
         let viewToolbars = Ediphy.State.viewToolbarsById;
         let pluginToolbars = Ediphy.State.pluginToolbarsById;
 
         let exercises = {};
         Object.keys(Ediphy.State.exercises).map((exercise, index)=>{
-            if (containedViews[exercise] || (navItems[exercise] && !navItems[exercise].hidden)) {
+            if (containedViewsById[exercise] || (navItems[exercise] && !navItems[exercise].hidden)) {
                 exercises[exercise] = Ediphy.State.exercises[exercise];
             }
         });
-        let marks = Ediphy.State.marksById;
         let title = globalConfig.title;
         let ratio = globalConfig.canvasRatio;
         let visorNav = globalConfig.visorNav;
@@ -206,47 +141,30 @@ export default class Visor extends Component {
         let toggleIcon = this.state.toggledSidebar ? "keyboard_arrow_left" : "keyboard_arrow_right";
         let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";
         let isCV = isContainedView(this.state.currentView);
-        let isSlide = isCV && containedViews[this.getLastCurrentViewElement()] === "slide" ||
+        let isSlide = isCV && containedViewsById[this.getLastCurrentViewElement()] === "slide" ||
         !isCV && navItems[this.getLastCurrentViewElement()] === "slide" ?
             "pcw_slide" : "pcw_doc";
         let currentView = this.getLastCurrentViewElement();
+        let canvasProps = {
+            boxes: boxesById,
+            changeCurrentView: (element) => {this.changeCurrentView(element);},
+            canvasRatio: ratio,
+            containedViews: containedViewsById,
+            currentView: currentView,
+            fromScorm: this.state.fromScorm,
+            navItems: navItems,
+            removeLastView: ()=>{this.removeLastView(); },
+            richElementsState: this.state.richElementState,
+            title: title,
+            marks: marksById,
+            viewToolbars: viewToolbars,
+            pluginToolbars: pluginToolbars,
+            onMarkClicked: this.onMarkClicked,
+            triggeredMarks: this.state.triggeredMarks,
+            viewsArray: this.state.currentView,
+        };
         let visorContent = !isContainedView(currentView) ? (
-            <VisorCanvas
-                boxes={boxes}
-                changeCurrentView={(element) => {this.changeCurrentView(element);}}
-                canvasRatio={ratio}
-                containedViews={containedViews}
-                currentView={currentView}
-                fromScorm={this.state.fromScorm}
-                navItems={navItems}
-                removeLastView={()=>{this.removeLastView();}}
-                richElementsState={this.state.richElementState}
-                showCanvas={currentView.indexOf("cv-") === -1}
-                title={title}
-                marks={marks}
-                viewToolbars={viewToolbars}
-                pluginToolbars={pluginToolbars}
-                triggeredMarks={this.state.triggeredMarks}
-                viewsArray={this.state.currentView}
-            />) :
-            (<VisorContainedCanvas
-                boxes={boxes}
-                changeCurrentView={(element) => {this.changeCurrentView(element);}}
-                canvasRatio={ratio}
-                containedViews={containedViews}
-                currentView={currentView}
-                fromScorm={this.state.fromScorm}
-                navItems={navItems}
-                viewToolbars={viewToolbars}
-                pluginToolbars={pluginToolbars}
-                title={title}
-                marks={marks}
-                triggeredMarks={this.state.triggeredMarks}
-                showCanvas={currentView.indexOf("cv-") !== -1}
-                removeLastView={()=>{this.removeLastView();}}
-                richElementsState={this.state.richElementState}
-                viewsArray={this.state.currentView}
-            />);
+            <VisorCanvas {...canvasProps} showCanvas />) : (<VisorContainedCanvas {...canvasProps} />);
         return (
             <div id="app"
                 className={wrapperClasses} >
@@ -283,7 +201,7 @@ export default class Visor extends Component {
                                 <ScormComponent
                                     updateScore={(scoreInfo)=>{this.setState({ scoreInfo });}}
                                     navItemsIds={navItemsIds}
-                                    containedViews={containedViews}
+                                    containedViews={containedViewsById}
                                     currentView={currentView}
                                     navItemsById={navItems}
                                     globalConfig={globalConfig}
@@ -357,6 +275,53 @@ export default class Visor extends Component {
             }
         });
         return exists;
+    }
+
+    onMarkClicked(id, value, stateElement) {
+        let richElementsState = this.state.richElementState;
+        let marks = this.getAllMarks();
+        let triggered_event = { id, value, stateElement };
+        let triggered_marks = this.getTriggeredMarks(marks, triggered_event);
+
+        // clearMark | If actual Triggered Mark have passed e.detail.value and actual value is different or actual element doesn't need to clear the value
+        triggered_marks = this.clearTriggeredValues(triggered_event, triggered_marks);
+
+        // Just try to trigger if mark exists
+        if(this.containsMarkValue(marks, triggered_event.value)) {
+        // And is triggereable (not pending)
+            let isTriggerable = this.isTriggereableMark(triggered_event, triggered_marks);
+            if(isTriggerable) {
+                triggered_marks = this.putMarksOnHold(triggered_marks, triggered_event);
+                // If mark is storable (if make any sense to store to render something different like a video) do it else, don't
+                if(triggered_event.stateElement) {
+                    if(this.isNotInStateElement(triggered_event, this.state.richElementState)) {
+                        let new_mark = {};
+                        new_mark[triggered_event.id] = triggered_event.value;
+                        this.setState({
+                            triggeredMarks: triggered_marks,
+                            richElementState: Object.assign({}, richElementsState, new_mark),
+                        });
+                    }
+
+                }else{
+                    triggered_marks.forEach((mark, index)=>{
+                        if(mark.id === isTriggerable.id) {
+                            triggered_marks[index] = isTriggerable;
+                        }
+                    });
+                    this.setState({ triggeredMarks: triggered_marks });
+
+                }
+            }
+        } else if(triggered_event.stateElement) {
+
+            let backupElementStates = this.state.backupElementStates;
+            let new_mark = {};
+            new_mark[triggered_event.id] = triggered_event.value;
+            this.setState({
+                backupElementStates: Object.assign({}, backupElementStates, new_mark),
+            });
+        }
     }
 
     /**

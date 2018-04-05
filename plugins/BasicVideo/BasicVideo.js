@@ -105,9 +105,6 @@ export function BasicVideo(base) {
             return "<video " + (state.controls && state.controls !== "on" ? "controls='true' " : "") + (state.autoplay ? " autoPlay " : "") + " style=\"width: 100%; height: 100%; z-index:0;\" src=\"" + state.url + "\"  class=\"basicVideoClass\"></video>";
 
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
     };
 }
 /* eslint-enable react/prop-types */

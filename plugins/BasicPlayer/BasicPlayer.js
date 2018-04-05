@@ -109,9 +109,6 @@ export function BasicPlayer(base) {
                 </div>
             );
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
 
     };
 }

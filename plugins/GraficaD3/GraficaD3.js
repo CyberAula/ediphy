@@ -127,9 +127,6 @@ export function GraficaD3(base) {
         chartTypeChange: function(elements) {
             base.setState("chartType", elements[0].id);
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
 
     };
 }

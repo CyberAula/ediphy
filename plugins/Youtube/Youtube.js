@@ -92,13 +92,6 @@ export function Youtube(base) {
         getRenderTemplate: function(state) {
             return "<iframe  class=\"basicImageClass\"  style=\"width: 100%; height: 100%; z-index:0;\" src=\"" + this.parseURL(state.url) + "\" frameBorder=\"0\" allowFullScreen ></iframe>";
         },
-        handleToolbar: function(name, value) {
-            if (name === 'url') {
-                base.setState(name, base.parseURL(value));
-            } else {
-                base.setState(name, value);
-            }
-        },
         parseURL: function(url) {
             if (url === '') {
                 return url;

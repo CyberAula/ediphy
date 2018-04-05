@@ -510,38 +510,6 @@ class EditorApp extends Component {
         if (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' && ediphy_editor_json && ediphy_editor_json !== 'undefined') {
             this.props.dispatch(importState(JSON.parse(ediphy_editor_json)));
         }
-
-        Ediphy.Plugins.loadButtons();
-
-        /* Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.getPluginsInView, e => {
-            let plugins = {};
-            let ids = [];
-            let view = e.detail.view ? e.detail.view : this.props.navItemSelected;
-
-            this.props.navItems[view].boxes.map(id => {
-                ids.push(id);
-                ids = ids.concat(this.getDescendantBoxes(this.props.boxes[id]));
-            });
-
-            ids.map(id => {
-                if (e.detail.getAliasedPlugins) {
-                    if (!isSortableBox(id)) {
-                        let button = toolbar.controls.main.accordions.z__extra.buttons.alias;
-                        if (button.value.length !== 0) {
-                            if (!plugins[toolbar.pluginId]) {
-                                plugins[toolbar.pluginId] = [];
-                            }
-                            plugins[toolbar.pluginId].push(button.value);
-                        }
-                    }
-                } else if (plugins[toolbar.pluginId]) {
-                    plugins[toolbar.pluginId] = true;
-                }
-            });
-
-            Ediphy.API_Private.answer(Ediphy.API_Private.events.getPluginsInView, plugins);
-        });
-*/
         window.onkeyup = function(e) {
             let key = e.keyCode ? e.keyCode : e.which;
             // Checks what element has the cursor focus currently
