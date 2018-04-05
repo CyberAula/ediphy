@@ -138,9 +138,6 @@ export function DataTable(base) {
             };
             reader.readAsText(file);
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
 
     };
 }

@@ -17,11 +17,14 @@ export default class EditorHeader extends Component {
             currentTitle: this.props.courseTitle,
             editingNavTitle: false,
             currentNavTitle: '',
+            editingNavSubTitle: false,
+            currentNavSubTitle: '',
         };
     }
     render() {
         if (this.props.navItem || this.props.containedView) {
             let navItem = this.props.containedView !== 0 ? this.props.containedView : this.props.navItem;
+            console.log(navItem);
             let toolbar = (this.props.viewToolbars[navItem.id]) ? this.props.viewToolbars[navItem.id] : undefined;
             let docTitle = "";
             let subTitle = "";
@@ -144,24 +147,103 @@ export default class EditorHeader extends Component {
                                                     this.setState({ editingTitle: !this.state.editingTitle });
                                                     this.props.onTitleChanged(this.props.courseTitle, (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
                                                 }} />)}
-                                        {/* NavItem title */
-                                            // TODO @Lourdes Para cambiar los títulos
-                                            // Acción a utilizar: this.props.onViewTitleChanged(id /*id de la view*/, {documentTitleContent: title} /*Nuevo título*/)
-                                            // En el segundo argumento puedes poner un objeto con todas las key-values a cambiar
-                                            // Por ejemplo si quieres cambiar también en subtítulo puedes poner {documentSubtitleContent: "jljljl"}
-                                        }
-                                        <h2
-                                            style={{ display: (toolbar.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}{this.props.containedView !== 0 ? (
-                                                <CVInfo containedViews={this.props.containedViews}
-                                                    navItems={this.props.navItems}
-                                                    containedView={this.props.containedView}
-                                                    viewtoolbars={this.props.viewToolbars}
-                                                    marks={this.props.marks}
-                                                    boxes={this.props.boxes}/>) : null}</h2>
+                                        {/* NavItem title */}
+                                        {!this.state.editingNavTitle ?
+                                            (<h2 onDoubleClick={e => {
+                                                this.setState({ editingNavTitle: !this.state.editingNavTitle });
+                                                if (this.state.editingNavTitle) { /* Save changes to Redux state*/
+                                                    this.props.onViewTitleChanged(navItem.id, { documentTitleContent: this.state.currentNavTitle });
+                                                    // Synchronize current component state with Redux state when entering edition mode
+                                                } else {
+                                                    this.setState({ currentNavTitle: docTitle });
+                                                }
+                                                e.stopPropagation();
+                                            }}
+                                            style={{ display: (toolbar.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}</h2>
+                                            ) :
+                                            (<FormControl
+                                                type="text"
+                                                ref="titleNavIndex"
+                                                className={"editNavTitle"}
+                                                value={this.state.currentNavTitle}
+                                                autoFocus
+                                                onKeyDown={e=> {
+                                                    if (e.keyCode === 13) { // Enter Key
+                                                        this.setState({ editingNavTitle: !this.state.editingNavTitle });
+                                                        this.props.onViewTitleChanged(navItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
+                                                    }
+                                                    if (e.keyCode === 27) { // Escape key
+                                                        this.setState({ editingNavTitle: !this.state.editingNavTitle });
+                                                    }
+                                                }}
+                                                onFocus={e => {
+                                                    /* Select all the content when enter edition mode*/
+                                                    e.target.setSelectionRange(0, e.target.value.length);
 
+                                                }}
+                                                onChange={e => {
+                                                    /* Save it on component state, not Redux*/
+                                                    this.setState({ currentNavTitle: e.target.value });
+                                                }}
+                                                onBlur={e => {
+                                                    /* Change to non-edition mode*/
+                                                    this.setState({ editingNavTitle: !this.state.editingNavTitle });
+                                                    this.props.onViewTitleChanged(navItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
+                                                }} />)}
+                                        {/* Info CV */}
+                                        {this.props.containedView !== 0 ?
+                                            <CVInfo containedViews={this.props.containedViews}
+                                                navItems={this.props.navItems}
+                                                containedView={this.props.containedView}
+                                                viewToolbars={this.props.viewToolbars}
+                                                marks={this.props.marks}
+                                                boxes={this.props.boxes}/> : null
+                                        }
                                         {/* NavItem subtitle */}
-                                        <h3
+                                        {!this.state.editingNavSubTitle ?
+                                            (<h3 onDoubleClick={e => {
+                                                this.setState({ editingNavSubTitle: !this.state.editingNavSubTitle });
+                                                if (this.state.editingNavSubTitle) { /* Save changes to Redux state*/
+                                                    this.props.onViewTitleChanged(navItem.id, { documentSubtitleContent: this.state.currentNavSubTitle });
+                                                    // Synchronize current component state with Redux state when entering edition mode
+                                                } else {
+                                                    this.setState({ currentNavSubTitle: subTitle });
+                                                }
+                                                e.stopPropagation();
+                                            }}
                                             style={{ display: (toolbar.documentSubTitle === 'hidden') ? 'none' : 'block' }}>{subTitle}</h3>
+                                            ) :
+                                            (<FormControl
+                                                type="text"
+                                                ref="SubtitleNavIndex"
+                                                className={"editNavSubTitle"}
+                                                value={this.state.currentNavSubTitle}
+                                                autoFocus
+                                                onKeyDown={e=> {
+                                                    if (e.keyCode === 13) { // Enter Key
+                                                        this.setState({ editingNavSubTitle: !this.state.editingNavSubTitle });
+                                                        this.props.onViewTitleChanged(navItem.id, { documentSubtitleContent: (this.state.currentNavSubTitle.length > 0) ? this.state.currentNavSubTitle : this.getDefaultValue() });
+                                                    }
+                                                    if (e.keyCode === 27) { // Escape key
+                                                        this.setState({ editingNavSubTitle: !this.state.editingNavSubTitle });
+                                                    }
+                                                }}
+                                                onFocus={e => {
+                                                    /* Select all the content when enter edition mode*/
+                                                    e.target.setSelectionRange(0, e.target.value.length);
+
+                                                }}
+                                                onChange={e => {
+                                                    /* Save it on component state, not Redux*/
+                                                    this.setState({ currentNavSubTitle: e.target.value });
+                                                }}
+                                                onBlur={e => {
+                                                    /* Change to non-edition mode*/
+                                                    this.setState({ editingNavSubTitle: !this.state.editingNavSubTitle });
+                                                    this.props.onViewTitleChanged(navItem.id, { documentSubtitleContent: (this.state.currentNavSubTitle.length > 0) ? this.state.currentNavSubTitle : this.getDefaultValue() });
+                                                }} />)}
+                                        {/* <h3
+                                            style={{ display: (toolbar.documentSubtitle === 'hidden') ? 'none' : 'block' }}>{subTitle}</h3> */}
 
                                         {/* breadcrumb */}
                                         <div className="contenido"
@@ -261,15 +343,23 @@ EditorHeader.propTypes = {
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Diccionario que contiene todas las toolbars, accesibles por el *id* de su caja/vista
-     */
-    toolbars: PropTypes.object.isRequired,
-    /**
      * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
      */
     boxes: PropTypes.object.isRequired,
     /**
-     * Cambia el título del curso
+     * Callback for modify course title
      */
     onTitleChanged: PropTypes.func.isRequired,
+    /**
+     * Callback for modify navitem title and subtitle
+     */
+    onViewTitleChanged: PropTypes.func.isRequired,
+    /**
+     * Object containing all the navitem toolbars (by navitem ID)
+     */
+    viewToolbars: PropTypes.object.isRequired,
+    /**
+     * Object containing box marks
+     */
+    marks: PropTypes.object,
 };

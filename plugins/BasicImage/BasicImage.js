@@ -122,9 +122,6 @@ export function BasicImage(base) {
             </div>);
 
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
         imageClick: function() {
             /* alert("Miaua!");*/
         },

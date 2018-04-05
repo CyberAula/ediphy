@@ -104,7 +104,6 @@ class EditorApp extends Component {
                         containedViewSelected={containedViewSelected}
                         navItemSelected={navItemSelected}
                         boxSelected={boxSelected}
-                        onTextEditorToggled={this.onTextEditorToggled}
                         undo={() => {dispatch(ActionCreators.undo());}}
                         redo={() => {dispatch(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
@@ -209,8 +208,7 @@ class EditorApp extends Component {
                                 marks={marks}
                                 containedViews={containedViews}
                                 pluginToolbars={pluginToolbars}
-                                onTextEditorToggled={this.onTextEditorToggled}
-                                onBoxPasted={(ids, box, toolbar, children, index, marks)=>dispatch(pasteBox(ids, box, toolbar, children, index, marks))}
+                                onBoxPasted={(ids, box, toolbar, children, index, markList)=>dispatch(pasteBox(ids, box, toolbar, children, index, markList))}
                                 onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 onBoxDeleted={(id, parent, container, page)=> {let bx = this.getDescendantBoxes(boxes[id]); dispatch(deleteBox(id, parent, container, bx, boxes[id].containedViews, page));}}
                                 ribbonHeight={ribbonHeight + 'px'}/>
@@ -281,7 +279,7 @@ class EditorApp extends Component {
                                         this.setState({ currentRichMark: null, value: null });
                                     }
                                 }}
-                                onViewTitleChanged={(id, titles)=>{dispatch(id, titles);}}
+                                onViewTitleChanged={(id, titles)=>{dispatch(updateViewToolbar(id, titles));}}
                                 onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}/>
                             <ContainedCanvas boxes={boxes}
@@ -334,9 +332,10 @@ class EditorApp extends Component {
                                 onBoxDeleted={(id, parent, container, page)=> {let bx = this.getDescendantBoxes(boxes[id]); dispatch(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/, page));}}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}
                                 onVerticallyAlignBox={(id, verticalAlign)=>dispatch(verticallyAlignBox(id, verticalAlign))}
-                                onViewTitleChanged={(id, titles)=>{dispatch(id, titles);}}
+                                onViewTitleChanged={(id, titles)=>{dispatch(updateViewToolbar(id, titles));}}
                                 onTextEditorToggled={this.onTextEditorToggled}
                                 onBoxesInsideSortableReorder={(parent, container, order) => {dispatch(reorderBoxes(parent, container, order));}}
+                                onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
                                 showCanvas={(containedViewSelected !== 0)}/>
                         </Row>
                     </Col>
@@ -511,44 +510,12 @@ class EditorApp extends Component {
         if (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' && ediphy_editor_json && ediphy_editor_json !== 'undefined') {
             this.props.dispatch(importState(JSON.parse(ediphy_editor_json)));
         }
-
-        Ediphy.Plugins.loadButtons();
-
-        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.getPluginsInView, e => {
-            let plugins = {};
-            let ids = [];
-            let view = e.detail.view ? e.detail.view : this.props.navItemSelected;
-
-            this.props.navItems[view].boxes.map(id => {
-                ids.push(id);
-                ids = ids.concat(this.getDescendantBoxes(this.props.boxes[id]));
-            });
-
-            ids.map(id => {
-                let toolbar = this.props.toolbars[id];
-                if (e.detail.getAliasedPlugins) {
-                    if (!isSortableBox(id)) {
-                        let button = toolbar.controls.main.accordions.z__extra.buttons.alias;
-                        if (button.value.length !== 0) {
-                            if (!plugins[toolbar.pluginId]) {
-                                plugins[toolbar.pluginId] = [];
-                            }
-                            plugins[toolbar.pluginId].push(button.value);
-                        }
-                    }
-                } else if (plugins[toolbar.pluginId]) {
-                    plugins[toolbar.pluginId] = true;
-                }
-            });
-
-            Ediphy.API_Private.answer(Ediphy.API_Private.events.getPluginsInView, plugins);
-        });
-
         window.onkeyup = function(e) {
             let key = e.keyCode ? e.keyCode : e.which;
             // Checks what element has the cursor focus currently
             let focus = document.activeElement.className;
-            let notText = focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1;
+            let notText = !document.activeElement.type && focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1;
+
             // Ctrl + Z
             if (key === 90 && e.ctrlKey) {
                 if (notText) {
@@ -743,6 +710,7 @@ class EditorApp extends Component {
             Object.keys(detail.toolbar.main.accordions.style.buttons).map((e) => {
                 styles[e] = detail.toolbar.main.accordions.style.buttons[e].value;
             });
+            // eslint-disable-next-line no-console
         } catch(e) {console.error(e);}
         return { state, styles };
     }
@@ -815,4 +783,5 @@ EditorApp.propTypes = {
     fetchVishResults: PropTypes.any,
     dispatch: PropTypes.func.isRequired,
     store: PropTypes.any,
+    lastActionDispatched: PropTypes.object,
 };

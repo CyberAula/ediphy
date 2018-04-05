@@ -53,6 +53,7 @@ export default class VisorPluginPlaceholder extends Component {
                                                 toolbars={this.props.toolbars}
                                                 fromScorm={this.props.fromScorm}
                                                 marks={this.props.allMarks}
+                                                onMarkClicked={this.props.onMarkClicked}
                                                 richElementsState={this.props.richElementsState}/>);
 
                                         } else if (index === container.children.length - 1) {
@@ -118,5 +119,8 @@ VisorPluginPlaceholder.propTypes = {
    * Selected view
    */
     currentView: PropTypes.string,
-
+    /**
+    * All marks
+    */
+    allMarks: PropTypes.object,
 };

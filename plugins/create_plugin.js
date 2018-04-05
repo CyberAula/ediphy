@@ -195,9 +195,7 @@ export function ${options.name}(base) {
             </div>);
 
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
+         
         ${options.isRich ? `
         parseRichMarkInput: function(...value) {
             let x = (value[0] + 12) * 100 / value[2];
@@ -360,9 +358,7 @@ export function ${options.name}(base) {
             </div>;
 
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
+         
     };
 }
 /* eslint-enable react/prop-types */

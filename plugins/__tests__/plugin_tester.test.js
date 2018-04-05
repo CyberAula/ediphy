@@ -74,12 +74,6 @@ plugin_folders.forEach((plugin)=>{
             });
         }
 
-        if (current_plugin.hasOwnProperty('handleToolbar')) {
-            test(plugin.split("plugins/")[1] + 'plugin has handleToolbar and is valid', () => {
-                expect(current_plugin.handleToolbar).toBeTruthy();
-            });
-        }
-
         if (current_plugin.hasOwnProperty('init')) {
             test(plugin.split("plugins/")[1] + 'plugin has init and is valid', () => {
                 expect(current_plugin.init).toBeTruthy();

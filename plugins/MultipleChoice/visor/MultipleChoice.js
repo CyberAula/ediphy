@@ -10,7 +10,7 @@ export function MultipleChoice() {
             let content = [];
             let attempted = props.exercises && props.exercises.attempted;
             let score = (props.exercises.score || 0) + "/" + (props.exercises.weight || 0);
-
+            let showFeedback = attempted && state.showFeedback;
             for (let i = 0; i < state.nBoxes; i++) {
                 let correct = attempted && props.exercises.correctAnswer === i; // && props.exercises.currentAnswer === i ;
                 let incorrect = attempted && (/* (props.exercises.correctAnswer === i && props.exercises.currentAnswer !== i)||*/(props.exercises.correctAnswer !== i && props.exercises.currentAnswer === i));
@@ -39,6 +39,11 @@ export function MultipleChoice() {
                     </div>
                 </div>
                 {content}
+                <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
+                    <div className={"col-xs-12 feedback"}>
+                        <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
+                    </div>
+                </div>
                 <div className={"exerciseScore"}>{score}</div>
             </div>;
         },

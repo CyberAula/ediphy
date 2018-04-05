@@ -85,7 +85,7 @@ export function GraficaD3(base) {
 
             return {
                 dataProvided: [["First column", 1, 0], ["Second column", 0, 1]],
-                dataProcessed: {},
+                dataProcessed: [["First column", 1, 0], ["Second column", 0, 1]],
                 editing: true,
                 options: {
                     type: "area",
@@ -126,9 +126,6 @@ export function GraficaD3(base) {
         },
         chartTypeChange: function(elements) {
             base.setState("chartType", elements[0].id);
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
         },
 
     };

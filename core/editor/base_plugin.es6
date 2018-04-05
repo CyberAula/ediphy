@@ -83,7 +83,6 @@ export default function() {
                     idKey !== 'getToolbar' &&
                     idKey !== 'getSections' &&
                     idKey !== 'getInitialState' &&
-                    idKey !== 'handleToolbar' &&
                     idKey !== 'afterRender' &&
                     idKey !== 'getConfigTemplate' &&
                     idKey !== 'getRenderTemplate' &&
@@ -112,7 +111,6 @@ export default function() {
             if (descendant.getInitialState) {
                 state = descendant.getInitialState();
             }
-            console.log(config);
             if (config.needsTextEdition) {
                 if(initParams.text) {
                     state.__text = initParams.text;
@@ -163,7 +161,6 @@ export default function() {
             params.aspectRatio = !!toolbar.aspectRatioButtonConfig;
             params.name = config.name;
             params.isDefaultPlugin = defaultFor(initParams.isDefaultPlugin, false);
-            console.log(params);
             if (params && Object.keys(params) && Object.keys(params).length > 1) {
                 let floatingBox = !isSortableContainer(params.container);
                 if (config.initialWidth && !initParams.width) {
@@ -179,7 +176,6 @@ export default function() {
 
                 if (config.flavor !== "react") {
                     template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
-                    console.log(template);
                     if(template !== null) { // TODO Revisar
                         template = html2json(template);
                         assignPluginContainerIds(template);
@@ -264,75 +260,6 @@ export default function() {
                 aspectRatioButtonConfig.defaultValue = defaultFor(aspectRatioButtonConfig.defaultValue, "unchecked");
             }
 
-            /* callback = function(initParams, reason) {
-                state = {};
-                if (descendant.getInitialState) {
-                    state = descendant.getInitialState();
-                }
-                if (needsTextEdition) {
-                    if(initParams.text) {
-                        state.__text = initParams.text;
-                    }
-
-                    if (!state.__text) {
-                        state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
-                    }
-
-                    if (!descendant.getRenderTemplate) {
-                        descendant.getRenderTemplate = function(stateObj, props) {
-                            return stateObj.__text;
-                        };
-                    }
-
-                }
-
-                if(initParams.url) {
-                    state.url = initParams.url;
-                }
-
-                //  if(initParams.text) {
-                //     state.__text = initParams.text;
-                // }
-                if (needsXMLEdition) {
-                    if (!state.__xml) {
-                        state.__xml = null;
-                        state.__size = null;
-                    }
-                }
-                //  if(isRich) {
-                //     if(!state.__marks) {
-                //         state.__marks = {};
-                //     }
-                // }
-                if(category === 'evaluation') {
-                    if (!state.__score) {
-                        state.__score = {
-                            score: 1,
-                            correctAnswer: defaultCorrectAnswer,
-
-                        };
-                    }
-                }
-                initialParams = initParams;
-                initialParams.name = descendant.getConfig().name;
-                if (initialParams && Object.keys(initialParams) && Object.keys(initialParams).length > 1) {
-                    let floatingBox = !isSortableContainer(initialParams.container);
-                    if (descendant.getConfig().initialWidth && !initParams.width) {
-                        initialParams.width = floatingBox && descendant.getConfig().initialWidthSlide ? descendant.getConfig().initialWidthSlide : descendant.getConfig().initialWidth;
-                    }
-                    if (descendant.getConfig().initialHeight) {
-                        initialParams.height = floatingBox && descendant.getConfig().initialHeightSlide ? descendant.getConfig().initialHeightSlide : descendant.getConfig().initialHeight;
-                    }
-                    //
-                    // if (needsConfigModal) {
-                    //     this.openConfigModal(reason, state);
-                    // } else {
-                    this.render(reason);
-                    // }
-                }
-
-            }.bind(this);*/
-
             return {
                 name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition,
                 extraTextConfig, needsXMLEdition, aspectRatioButtonConfig, allowFloatingBox, icon,
@@ -413,9 +340,6 @@ export default function() {
             return descendant.getConfigTemplate(configState, update);
 
         },
-        configModalNeedsUpdate: function() {
-            Ediphy.API.configModalNeedsUpdate();
-        },
         getRichMarkInput: function(setMark) {
             if(descendant.getRichMarkInput) {
                 descendant.getRichMarkInput(state, setMark);
@@ -453,13 +377,7 @@ export default function() {
             }
             return undefined;
         },
-        postParseRichMarkInput(mark_id, value) {
-            Ediphy.API.editRichMark(mark_id, value);
-        },
 
-        editRichMark: function(boxId, mark, value) {
-            Ediphy.API.editRichMark(boxId, mark, value);
-        },
         afterRender: function(element, oldState) {
             state = oldState;
             if (descendant.afterRender) {

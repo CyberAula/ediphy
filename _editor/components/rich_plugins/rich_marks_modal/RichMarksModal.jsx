@@ -431,10 +431,6 @@ RichMarksModal.propTypes = {
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Diccionario que contiene las toolbars
-     */
-    pluginToolbars: PropTypes.object.isRequired,
-    /**
      * Vista contenida seleccionada
      */
     containedViewSelected: PropTypes.any.isRequired,
@@ -454,14 +450,6 @@ RichMarksModal.propTypes = {
      * Marca en edición
      */
     currentRichMark: PropTypes.any,
-    /**
-     * Valida si el valor introducido es correcto
-     */
-    validateValueInput: PropTypes.func,
-    /**
-     * Añade una caja
-     */
-    onBoxAdded: PropTypes.func.isRequired,
     /**
      * Actualiza la marca
      */

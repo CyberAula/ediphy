@@ -16,24 +16,12 @@ import TemplatesModal from "../templates_modal/TemplatesModal";
  * Buttons at the bottom of the carousel, that allow creating new views and removing existing ones
  */
 export default class CarouselButtons extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
     constructor(props) {
         super(props);
-
-        /**
-         * Component's initial state
-         * @type {{showOverlay: boolean}}
-         */
         this.state = {
             showOverlay: false,
             showTemplates: false,
         };
-        /**
-        * Binded function
-        */
         this.toggleTemplatesModal = this.toggleTemplatesModal.bind(this);
     }
 
@@ -253,10 +241,9 @@ export default class CarouselButtons extends Component {
                     close={this.toggleTemplatesModal}
                     navItems={this.props.navItems}
                     boxes={this.props.boxes}
-                    onNavItemAdded={this.props.onNavItemAdded}
+                    onNavItemAdded={(id, name, type, color, num, extra)=> {this.props.onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra);}}
                     onIndexSelected={this.props.onIndexSelected}
                     indexSelected={this.props.indexSelected}
-                    onToolbarUpdated={this.props.onToolbarUpdated}
                     onBoxAdded={this.props.onBoxAdded}
                     calculatePosition={this.calculatePosition}/>
             </div>

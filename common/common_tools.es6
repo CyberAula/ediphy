@@ -179,7 +179,6 @@ export function createBox(ids, name, slide, addBox, boxes) {
     if (!apiPlugin) {
         return;
     }
-    console.log(ids);
     let { initialParams, template, config, toolbar, state } = apiPlugin.getInitialParams(ids);
     let styles = {};
     try {
@@ -189,6 +188,7 @@ export function createBox(ids, name, slide, addBox, boxes) {
             });
         }
     } catch(e) {
+        // eslint-disable-next-line no-console
         console.error(e);
     }
 

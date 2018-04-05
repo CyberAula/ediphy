@@ -192,14 +192,12 @@ export default class MarkEditor extends Component {
             event.preventDefault();
         };
         let onRichMarkMoved = this.props.onRichMarkMoved;
-        console.log(this.props);
         let mouseup = function(event) {
             if (event.which === 3) {
                 exitFunction();
                 return;
             }
             const square = this.getClientRects()[0];
-            console.log(marks);
             const x = event.clientX - square.left - cursor_x_offset;// event.offsetX;
             const y = event.clientY - square.top - cursor_y_offset;// event.offsetY;
             const width = square.right - square.left;
@@ -216,7 +214,6 @@ export default class MarkEditor extends Component {
                 component.setState({ editing: false });
             }
             let boxParent = findParentBySelector(myself, '.wholebox');
-            console.log(boxParent);
             if (boxParent) {
                 onRichMarkMoved(id, value);
             } else{

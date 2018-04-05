@@ -202,4 +202,8 @@ VisorBox.propTypes = {
    * Vista actual
    */
     currentView: PropTypes.any,
+    /**
+    * All marks
+    */
+    marks: PropTypes.object,
 };

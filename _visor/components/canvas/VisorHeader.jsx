@@ -93,19 +93,11 @@ VisorHeader.propTypes = {
      */
     courseTitle: PropTypes.string.isRequired,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
-     */
-    navItems: PropTypes.object.isRequired,
-    /**
      * Vista actual
      */
     currentView: PropTypes.any,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
-     */
-    containedViews: PropTypes.object.isRequired,
-    /**
-      * Current nav Item
-      */
-    navItem: PropTypes.object,
+    * Page toolbar
+    */
+    viewToolbar: PropTypes.object,
 };

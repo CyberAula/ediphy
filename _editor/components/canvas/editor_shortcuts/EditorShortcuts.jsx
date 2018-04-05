@@ -329,10 +329,6 @@ EditorShortcuts.propTypes = {
      */
     onBoxResized: PropTypes.func.isRequired,
     /**
-     * Toolbar seleccionada
-     */
-    toolbar: PropTypes.object,
-    /**
      * Activa la funcionalidad de manipular el plugin con el ratón/dedo
      */
     pointerEventsCallback: PropTypes.func,

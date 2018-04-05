@@ -64,7 +64,7 @@ export default class EditorCanvasSli extends Component {
                     <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                         ref="slideDropZone"
                         onMouseDown={e => {
-                            if (e.target == e.currentTarget) {
+                            if (e.target === e.currentTarget) {
                                 this.props.onBoxSelected(-1);
                                 this.setState({ showTitle: false });
                             }
@@ -203,7 +203,7 @@ export default class EditorCanvasSli extends Component {
                     if (!apiPlugin) {
                         return;
                     }
-                    let config = apiPlugin.getConfig();
+                    config = apiPlugin.getConfig();
 
                     if (config.limitToOneInstance) {
                         if (instanceExists(event.relatedTarget.getAttribute("name"))) {
@@ -266,6 +266,10 @@ export default class EditorCanvasSli extends Component {
     }
 }
 EditorCanvasSli.propTypes = {
+    /**
+     * Object containing every accordion by id
+     */
+    accordions: PropTypes.object.isRequired,
     /**
      * Si se renderiza el componente desde una vista contenida (true) o una normal (false)
      */
@@ -335,6 +339,10 @@ EditorCanvasSli.propTypes = {
      */
     markCreatorId: PropTypes.any.isRequired,
     /**
+     * Object containing box marks
+     */
+    marks: PropTypes.object,
+    /**
      * Oculta/muestra el overlay de creación de marcas
      */
     onMarkCreatorToggled: PropTypes.func.isRequired,
@@ -391,13 +399,17 @@ EditorCanvasSli.propTypes = {
       */
     onRichMarksModalToggled: PropTypes.func.isRequired,
     /**
-      * Actualiza marca
-      */
-    onRichMarkUpdated: PropTypes.func.isRequired,
+     * Callback for moving marks
+     */
+    onRichMarkMoved: PropTypes.func.isRequired,
     /**
-     * Cambia el texto del título del curso
+     * Callback for modify course title
      */
     onTitleChanged: PropTypes.func.isRequired,
+    /**
+     * Callback for modify navitem title and subtitle
+     */
+    onViewTitleChanged: PropTypes.func.isRequired,
     /**
    * Object containing all exercises
    */
@@ -406,5 +418,9 @@ EditorCanvasSli.propTypes = {
    * Function for setting the right answer of an exercise
    */
     setCorrectAnswer: PropTypes.func.isRequired,
+    /**
+     * Callback for opening global configuration modal
+     */
+    openConfigModal: PropTypes.func,
 
 };

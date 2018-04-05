@@ -171,7 +171,6 @@ export default class Clipboard extends Component {
                 transformedChildren[transformedBox.newIds[bid]] = { box: transformedBoxChild.newBox, toolbar: transformedToolbarChild };
             }
         }
-        console.log(transformedBox.newIds);
         for (let mark in marks) {
             let newId = marks[mark].id + "_1";
             let newMark = { ...marks[mark],
@@ -354,7 +353,6 @@ export default class Clipboard extends Component {
         }*/
         if (isTargetSlide !== isOriginSlide) {
             let config = Ediphy.Plugins.get(newToolbar.pluginId).getConfig();
-            console.log(config);
             if (isTargetSlide) {
                 // TODO width VS bwidth?
                 newToolbar.structure.width = parseFloat(config.initialWidthSlide || config.initialWidth) || "25";

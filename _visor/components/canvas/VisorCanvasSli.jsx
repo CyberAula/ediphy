@@ -99,6 +99,7 @@ export default class VisorCanvasSli extends Component {
                                 toolbars={this.props.pluginToolbars}
                                 marks={this.props.marks}
                                 setAnswer={this.props.setAnswer}
+                                onMarkClicked={this.props.onMarkClicked}
                                 richElementsState={this.props.richElementsState}/>;
 
                         })}
@@ -186,10 +187,6 @@ VisorCanvasSli.propTypes = {
      */
     title: PropTypes.any,
     /**
-     * Diccionario que contiene todas las toolbars
-     */
-    toolbars: PropTypes.object,
-    /**
      *  Array de vistas
      */
     viewsArray: PropTypes.array,
@@ -209,4 +206,16 @@ VisorCanvasSli.propTypes = {
      * Function for submitting a page Quiz
     */
     setAnswer: PropTypes.func.isRequired,
+    /**
+     * Pages toolbars
+     */
+    viewToolbars: PropTypes.object,
+    /**
+     * All marks
+     */
+    marks: PropTypes.object,
+    /**
+    * Boxes toolbars
+    */
+    pluginToolbars: PropTypes.object,
 };

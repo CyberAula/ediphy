@@ -91,9 +91,6 @@ export function Webpage(base) {
         getRenderTemplate: function(state) {
             return (<iframe style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none', border: '1px solid grey' }} src={state.url}/>);
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
     };
 }
 

@@ -47,12 +47,9 @@ export default function(state = {}, action = {}) {
             },
         };
     case PASTE_BOX:
-
         // let newMarks = action.payload.
-
         // newState = changeProp(state, )
         // return state;
-        console.log(action.payload);
         return { ...state, ...action.payload.marks };
     default:
         return state;

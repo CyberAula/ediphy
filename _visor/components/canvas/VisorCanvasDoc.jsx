@@ -108,6 +108,7 @@ export default class VisorCanvasDoc extends Component {
                                         toolbars={this.props.pluginToolbars}
                                         setAnswer={this.props.setAnswer}
                                         marks={this.props.marks}
+                                        onMarkClicked={this.props.onMarkClicked}
                                         richElementsState={this.props.richElementsState}/>;
 
                                 })}
@@ -170,10 +171,6 @@ VisorCanvasDoc.propTypes = {
      */
     title: PropTypes.any,
     /**
-     * Diccionario que contiene todas las toolbars
-     */
-    toolbars: PropTypes.object,
-    /**
      *  Array de vistas
      */
     viewsArray: PropTypes.array,
@@ -193,4 +190,16 @@ VisorCanvasDoc.propTypes = {
    * Function for submitting a page Quiz
    */
     setAnswer: PropTypes.func.isRequired,
+    /**
+     * Pages toolbars
+     */
+    viewToolbars: PropTypes.object,
+    /**
+     * All marks
+     */
+    marks: PropTypes.object,
+    /**
+     * Boxes toolbars
+     */
+    pluginToolbars: PropTypes.object,
 };

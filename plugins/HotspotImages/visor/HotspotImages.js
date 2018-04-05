@@ -6,7 +6,6 @@ import img from './../../../dist/images/broken_link.png';
 export function HotspotImages(base) {
     return {
         getRenderTemplate: function(state, props) {
-            console.log(state, props);
             let marks = props.marks || {};
             let box_id = props.id;
 
@@ -17,7 +16,7 @@ export function HotspotImages(base) {
                 let color = marks[e].color;
 
                 return(
-                    <a key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width: '24px', height: '26px' }} onClick={()=>{this.onMarkClicked(box_id, marks[e].value);}} href="#">
+                    <a key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width: '24px', height: '26px' }} onClick={()=>{props.onMarkClicked(box_id, marks[e].value);}} href="#">
                         <OverlayTrigger placement="top" overlay={<Tooltip positionLeft="-12" id={e}>{title}</Tooltip>}>
                             <i key="i" style={{ width: "100%", height: "100%", position: 'absolute', top: '-26px', left: '-12px', color: color }} className="material-icons">room</i>
                         </OverlayTrigger>
@@ -34,9 +33,7 @@ export function HotspotImages(base) {
                     {markElements}
                 </div>);
         },
-        onMarkClicked(element, value) {
-            base.triggerMark(element, value, false);
-        },
+
     };
 }
 /* eslint-enable react/prop-types */

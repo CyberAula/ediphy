@@ -129,96 +129,98 @@ export default class PluginRibbon extends Component {
      * Set interact and other listeners
      */
     componentDidMount() {
-        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.addMenuButtons, e => {
-            this.setState({ buttons: this.state.buttons.concat(e.detail) });
+        // letEdiphy.Plugins.loadButtons();
+        // Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.addMenuButtons, e => {
+        //     console.log(e.detail)
+        this.setState({ buttons: this.state.buttons.concat(Ediphy.Plugins.getPluginConfigs()) });
 
-            const holder = ReactDOM.findDOMNode(this.refs.holder);
-            holder.addEventListener('mousewheel', this.handleScroll);
+        const holder = ReactDOM.findDOMNode(this.refs.holder);
+        holder.addEventListener('mousewheel', this.handleScroll);
 
-            let container;
+        let container;
 
-            if (this.props.containedViewSelected !== 0) {
-                container = "containedCanvas";
-            } else {
-                container = "canvas";
-            }
-            let elContainer = document.getElementById(container);
-            interact.dynamicDrop(true);
-            interact(".rib")
-                .draggable({
-                    inertia: true,
-                    onstart: function(event) {
-                        changeOverflow(true);
-                        let original = event.target;
-                        let parent = original.parentNode;
-                        let dw = original.offsetWidth;
-                        let clone = original.cloneNode(true),
-                            x = (parseFloat(original.getAttribute('data-x') - dw, 10) || 0),
-                            y = (parseFloat(original.getAttribute('data-y'), 10) || 0);
-                        clone.setAttribute("id", "clone");
-                        clone.setAttribute('data-x', x);
-                        clone.setAttribute('data-y', y);
-                        parent.appendChild(clone);
-                        // translate the element
-                        clone.style.webkitTransform =
+        if (this.props.containedViewSelected !== 0) {
+            container = "containedCanvas";
+        } else {
+            container = "canvas";
+        }
+        let elContainer = document.getElementById(container);
+        interact.dynamicDrop(true);
+        interact(".rib")
+            .draggable({
+                inertia: true,
+                onstart: function(event) {
+                    changeOverflow(true);
+                    let original = event.target;
+                    let parent = original.parentNode;
+                    let dw = original.offsetWidth;
+                    let clone = original.cloneNode(true),
+                        x = (parseFloat(original.getAttribute('data-x') - dw, 10) || 0),
+                        y = (parseFloat(original.getAttribute('data-y'), 10) || 0);
+                    clone.setAttribute("id", "clone");
+                    clone.setAttribute('data-x', x);
+                    clone.setAttribute('data-y', y);
+                    parent.appendChild(clone);
+                    // translate the element
+                    clone.style.webkitTransform =
                         clone.style.transform =
                             'translate(' + (x) + 'px, ' + (y) + 'px)';
-                        clone.style.position = 'absolute';
-                    },
-                    onmove: (event) => {
-                        let target = document.getElementById('clone'),
-                            // keep the dragged position in the data-x/data-y attributes
+                    clone.style.position = 'absolute';
+                },
+                onmove: (event) => {
+                    let target = document.getElementById('clone'),
+                        // keep the dragged position in the data-x/data-y attributes
 
-                            x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx,
-                            y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
+                        x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx,
+                        y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
 
                         // translate the element
-                        target.style.webkitTransform =
+                    target.style.webkitTransform =
                         target.style.transform =
                             'translate(' + (x) + 'px, ' + (y) + 'px)';
-                        target.style.zIndex = '9999';
-                        target.classList.add('ribdrag');
+                    target.style.zIndex = '9999';
+                    target.classList.add('ribdrag');
 
-                        // update the position attributes
-                        target.setAttribute('data-x', x);
-                        target.setAttribute('data-y', y);
+                    // update the position attributes
+                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-y', y);
 
-                    },
-                    onend: (event) => {
-                        changeOverflow(false);
-                        let original = event.target;
-                        let parent = original.parentNode;
-                        let dw = original.offsetWidth;
-                        let clone = document.getElementById('clone');
-                        if (clone) {
-                            let name = clone.getAttribute('name');
-                            let target = clone,
-                                x = 0,
-                                y = 0;
-                            target.style.webkitTransform =
+                },
+                onend: (event) => {
+                    changeOverflow(false);
+                    let original = event.target;
+                    let parent = original.parentNode;
+                    let dw = original.offsetWidth;
+                    let clone = document.getElementById('clone');
+                    if (clone) {
+                        let name = clone.getAttribute('name');
+                        let target = clone,
+                            x = 0,
+                            y = 0;
+                        target.style.webkitTransform =
                             target.style.transform =
                               'translate(' + (x) + 'px, ' + y + 'px)';
 
-                            target.style.zIndex = '9999';
-                            target.style.position = 'relative';
-                            target.classList.remove('ribdrag');
+                        target.style.zIndex = '9999';
+                        target.style.position = 'relative';
+                        target.classList.remove('ribdrag');
 
-                            target.setAttribute('data-x', x);
-                            target.setAttribute('data-y', y);
+                        target.setAttribute('data-x', x);
+                        target.setAttribute('data-y', y);
 
-                            parent.removeChild(clone);
+                        parent.removeChild(clone);
 
-                            let releaseClickEl = document.elementFromPoint(event.clientX, event.clientY);
-                            let rib = releaseClick(releaseClickEl, "ribbon");
+                        let releaseClickEl = document.elementFromPoint(event.clientX, event.clientY);
+                        let rib = releaseClick(releaseClickEl, "ribbon");
 
-                            if(rib === 'List') {
-                                this.clickAddBox(event, name);
-                            }
+                        if(rib === 'List') {
+                            this.clickAddBox(event, name);
                         }
-                        event.stopPropagation();
-                    },
-                });
-        });
+                    }
+                    event.stopPropagation();
+                },
+            });
+        // });
     }
 
     /**

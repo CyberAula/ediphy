@@ -35,6 +35,11 @@ export function TrueFalse(base) {
                                     min: 1,
                                     autoManaged: false,
                                 },
+                                showFeedback: {
+                                    __name: i18n.t("MultipleChoice.ShowFeedback"),
+                                    type: 'checkbox',
+                                    checked: state.showFeedback,
+                                },
                             },
                         },
                     },
@@ -44,6 +49,7 @@ export function TrueFalse(base) {
         getInitialState: function() {
             return {
                 nBoxes: 3,
+                showFeedback: true,
             };
         },
         getRenderTemplate: function(state, props = {}) {
@@ -85,11 +91,13 @@ export function TrueFalse(base) {
                     <div className={"col-xs-1 "}>T</div><div className={"col-xs-1"}>F</div><div className={"col-xs-10"} />
                 </div>
                 {answers}
+                <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
+                    <div className={"col-xs-12 feedback"}>
+                        <PluginPlaceholder {...props} key="-2" plugin-data-display-name={i18n.t("TrueFalse.Feedback")} plugin-data-default="BasicText" plugin-data-text={i18n.t("TrueFalse.FeedbackMsg")} pluginContainer={"Feedback"} />
+                    </div>
+                </div>
             </div>;
 
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
         },
     };
 }

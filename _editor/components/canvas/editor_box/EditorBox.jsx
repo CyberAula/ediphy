@@ -751,6 +751,10 @@ EditorBox.propTypes = {
      */
     markCreatorId: PropTypes.any.isRequired,
     /**
+     * Object containing box marks
+     */
+    marks: PropTypes.object,
+    /**
      * Callback for when adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
@@ -775,15 +779,15 @@ EditorBox.propTypes = {
      */
     onBoxDropped: PropTypes.func.isRequired,
     /**
-     * Callback for when vertically aligning boxes inside a contianer
+     * Callback for when vertically aligning boxes inside a container
      */
     onVerticallyAlignBox: PropTypes.func.isRequired,
     /**
-     * Callback for when reordering boxes inside a contianer
+     * Callback for when reordering boxes inside a container
      */
     onBoxesInsideSortableReorder: PropTypes.func.isRequired,
     /**
-     * Callabck for when resizing a sortable container
+     * Callback for when resizing a sortable container
      */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**

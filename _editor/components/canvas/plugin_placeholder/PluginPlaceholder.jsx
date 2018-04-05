@@ -242,10 +242,6 @@ PluginPlaceholder.propTypes = {
      */
     pluginContainer: PropTypes.string,
     /**
-     * Indicador de si se puede redimensionar el contenedor
-     */
-    resizable: PropTypes.bool,
-    /**
      * Identificador único de la caja padre
      */
     parentBox: PropTypes.any,

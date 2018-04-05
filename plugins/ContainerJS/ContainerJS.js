@@ -43,9 +43,6 @@ export function ContainerJS(base) {
             template += "</div>";
             return template;
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
     };
 }
 /* eslint-enable react/prop-types */

@@ -84,20 +84,6 @@ export default class TemplatesModal extends Component {
             </Modal>
         );
     }
-    /**
-     * Get the parent of the currently selected navItem
-     * @returns {*}
-     */
-    getParent() {
-        if (!this.props.indexSelected || this.props.indexSelected === -1) {
-            return { id: 0 };
-        }
-        // If the selected navItem is not a section, it cannot have children -> we return it's parent
-        if (isSection(this.props.indexSelected)) {
-            return this.props.navItems[this.props.indexSelected];
-        }
-        return this.props.navItems[this.props.navItems[this.props.indexSelected].parent] || this.props.navItems[0];
-    }
 
     /**
      * Close modal
@@ -114,12 +100,13 @@ export default class TemplatesModal extends Component {
      */
     AddNavItem(template) {
         let newId = ID_PREFIX_PAGE + Date.now();
+
         this.props.onNavItemAdded(
             newId,
             i18n.t("slide"),
-            this.getParent().id,
+            // this.getParent().id,// Calculated in CarrouselButtons
             PAGE_TYPES.SLIDE,
-            this.props.calculatePosition,
+            // this.props.calculatePosition(), // Calculated in CarrouselButtons
             "rgb(255,255,255)",
             0,
             template !== -1,

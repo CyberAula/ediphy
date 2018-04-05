@@ -11,17 +11,6 @@ export default function() {
         getAll: function() {
             return pluginInstancesList;
         },
-        getPluginsInCurrentView: function(getAliasedPlugins) {
-            return this.getPluginsInView(null, getAliasedPlugins);
-        },
-        getPluginsInView: function(view, getAliasedPlugins) {
-            let promise = new Promise(function(resolve) {
-                Ediphy.API_Private.listenAnswer(Ediphy.API_Private.events.getPluginsInView, resolve);
-            });
-            Ediphy.API_Private.emit(Ediphy.API_Private.events.getPluginsInView, { view, getAliasedPlugins });
-
-            return promise;
-        },
         loadAll: function() {
 
             Ediphy.Config.pluginList.map(id => {
@@ -40,8 +29,8 @@ export default function() {
                 }
             });
         },
-        loadButtons: function() {
-            Ediphy.API.addMenuButtons(pluginConfigs);
+        getPluginConfigs: function() {
+            return pluginConfigs;
         },
     };
 }

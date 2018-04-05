@@ -94,7 +94,6 @@ export default class ActionsRibbon extends Component {
                         containedViews={this.props.containedViews}
                         toolbars={this.props.pluginToolbars}
                         marks={this.props.marks}
-                        onTextEditorToggled={this.props.onTextEditorToggled}
                         onBoxPasted={this.props.onBoxPasted}
                         onBoxAdded={this.props.onBoxAdded}
                         onBoxDeleted={this.props.onBoxDeleted} >
@@ -166,14 +165,6 @@ ActionsRibbon.propTypes = {
       * Callback for changing box layers
      */
     onBoxLayerChanged: PropTypes.any,
-    /**
-      * Array of toolbars
-      */
-    toolbars: PropTypes.any,
-    /**
-      * Callback for text edition
-      */
-    onTextEditorToggled: PropTypes.any,
     /**
       * Callback for pasting a box
      */

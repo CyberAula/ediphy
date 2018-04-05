@@ -145,26 +145,6 @@ export default class PluginToolbar extends Component {
 
 PluginToolbar.propTypes = {
     /**
-   * Id of the selected page
-   */
-    navItemSelected: PropTypes.any,
-    /**
-   * Toolbar top position
-   */
-    top: PropTypes.string,
-    /**
-   * Id of the selected box
-   */
-    boxSelected: PropTypes.any,
-    /**
-   * Object containing all the toolbars
-   */
-    toolbars: PropTypes.object.isRequired,
-    /**
-   * Whether the index has been expanded or not
-   */
-    carouselShow: PropTypes.bool,
-    /**
    * Selected box
    */
     box: PropTypes.object,
@@ -188,72 +168,4 @@ PluginToolbar.propTypes = {
    * Callback for resize sortable container
    */
     onSortableContainerResized: PropTypes.func.isRequired,
-    /**
-   * Object that contains all created views (identified by its *id*)
-   */
-    navItems: PropTypes.object.isRequired,
-    /**
-   * Callback for change the view background (color or image(slides))
-   */
-    onBackgroundChanged: PropTypes.func.isRequired,
-    /**
-   * Callback for toggling visibility or content on titles, subtitles, breadcrumbs
-   */
-    titleModeToggled: PropTypes.func.isRequired,
-    /**
-   * Callback for toggling navItem inclusion in the course
-   */
-    onNavItemToggled: PropTypes.func.isRequired,
-    /**
-   * Callback for edit contained view name
-   */
-    onContainedViewNameChanged: PropTypes.func.isRequired,
-    /**
-   * Callback for edit view name
-   */
-    onNavItemNameChanged: PropTypes.func.isRequired,
-    /**
-   * Callback for show/hide the rich marks modal
-   */
-    onRichMarksModalToggled: PropTypes.func.isRequired,
-    /**
-   * Callback for toggling edit mark
-   */
-    onRichMarkEditPressed: PropTypes.func.isRequired,
-    /**
-   * Callback for delete mark
-   */
-    onRichMarkDeleted: PropTypes.func.isRequired,
-    /**
-   * Callback for resizing a box
-   */
-    onBoxResized: PropTypes.func.isRequired,
-    /**
-   * Callback for updating toolbar
-   */
-    onToolbarUpdated: PropTypes.func.isRequired,
-    /**
-   * Callback for moving a box
-   */
-    onBoxMoved: PropTypes.func.isRequired,
-    /**
-   * Callback for vertically align a box (in a sortable container)
-   */
-    onVerticallyAlignBox: PropTypes.func.isRequired,
-    /**
-   * Indicates if there is a current server operation
-   */
-    isBusy: PropTypes.any,
-    /**
-   * Object containing all the resources search results
-   */
-    fetchResults: PropTypes.any,
-    /**
-   * Callback for fetch Vish Resources
-   */
-    onFetchVishResources: PropTypes.func.isRequired,
-    /**
-   * Callback for upload Vish Resources
-   */
-    onUploadVishResource: PropTypes.func.isRequired,
 };

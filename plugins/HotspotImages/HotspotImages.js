@@ -153,9 +153,6 @@ export function HotspotImages(base) {
                 </div>
             );
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
         parseRichMarkInput: function(...value) {
             let x = (value[0] + 12) * 100 / value[2];
             let y = (value [1] + 26) * 100 / value[3];

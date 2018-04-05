@@ -10,7 +10,7 @@ export function TrueFalse() {
             let content = [];
             let attempted = props.exercises && props.exercises.attempted;
             let score = (props.exercises.score || 0) + "/" + (props.exercises.weight || 0);
-
+            let showFeedback = attempted && state.showFeedback;
             for (let i = 0; i < state.nBoxes; i++) {
                 let correct = attempted && props.exercises.correctAnswer[i] === props.exercises.currentAnswer[i];
                 let incorrect = attempted && !correct;
@@ -56,6 +56,11 @@ export function TrueFalse() {
                     <div className={"col-xs-1 "}>T</div><div className={"col-xs-1"}>F</div><div className={"col-xs-10"} />
                 </div>
                 {content}
+                <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
+                    <div className={"col-xs-12 feedback"}>
+                        <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
+                    </div>
+                </div>
                 <div className={"exerciseScore"}>{score}</div>
             </div>;
         },

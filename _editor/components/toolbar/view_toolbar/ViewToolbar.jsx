@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import i18n from 'i18next';
 import { isCanvasElement, isDocument, isPage, isSection, isSlide } from "../../../../common/utils";
 import { PanelGroup, Panel } from "react-bootstrap";
@@ -71,7 +72,7 @@ export default class ViewToolbar extends Component {
                                 type: 'conditionalText',
                                 associatedKey: 'display_pagetitle',
                                 autoManaged: false,
-                                display: true,
+                                display: false,
                                 value: viewToolbar.documentTitleContent,
                             },
                             display_pagesubtitle: {
@@ -85,7 +86,7 @@ export default class ViewToolbar extends Component {
                                 type: 'conditionalText',
                                 associatedKey: 'display_pagesubtitle',
                                 autoManaged: false,
-                                display: true,
+                                display: false,
                                 value: viewToolbar.documentSubtitleContent,
                             },
 
@@ -128,7 +129,8 @@ export default class ViewToolbar extends Component {
                 associatedKey: 'display_pagenumber',
                 value: viewToolbar.numPageContent,
                 autoManaged: false,
-                display: true,
+                display: false,
+
             };
         }
         if (!isContainedView && controls && controls.main && controls.main.accordions.__basic && controls.main.accordions.__basic.buttons) {
@@ -167,3 +169,28 @@ export default class ViewToolbar extends Component {
     }
 
 }
+
+ViewToolbar.propTypes = {
+
+    navItems: PropTypes.object.isRequired,
+    /**
+   * Vista  seleccionada identificada por su *id*
+   */
+    navItemSelected: PropTypes.any.isRequired,
+    /**
+   * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+   */
+    containedViews: PropTypes.object.isRequired,
+    /**
+   * Vista contenida seleccionada identificada por su *id*
+   */
+    containedViewSelected: PropTypes.any.isRequired,
+    /**
+   * Object containing all the exercises
+   */
+    exercises: PropTypes.object,
+    /**
+     * Page toolbars
+    */
+    viewToolbars: PropTypes.object,
+};
