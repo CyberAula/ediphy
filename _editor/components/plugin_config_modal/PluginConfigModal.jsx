@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Modal, Button, Row } from 'react-bootstrap';
 import Ediphy from '../../../core/editor/main';
 import i18n from 'i18next';
+import PluginRibbon from "../nav_bar/plugin_ribbon/PluginRibbon";
+import { updateBox } from "../../../common/actions";
+import PropTypes from "prop-types";
 /**
  * Configuration modal for plugins that require it
  */
@@ -113,3 +116,25 @@ export default class PluginConfigModal extends Component {
         });*/
     }
 }
+PluginConfigModal.propTypes = {
+    /**
+     *
+     */
+    id: PropTypes.string.isRequired,
+    /**
+     *
+     */
+    name: PropTypes.string.isRequired,
+    /**
+     *
+     */
+    state: PropTypes.string.isRequired,
+    /**
+     *
+     */
+    closeConfigModal: PropTypes.bool,
+    /**
+     *
+     */
+    updatePluginToolbar: PropTypes.func.isRequired,
+};
