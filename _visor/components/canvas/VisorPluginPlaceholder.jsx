@@ -123,4 +123,8 @@ VisorPluginPlaceholder.propTypes = {
     * All marks
     */
     allMarks: PropTypes.object,
+    /**
+     * Function that triggers a mark
+     */
+    onMarkClicked: PropTypes.func,
 };

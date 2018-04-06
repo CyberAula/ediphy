@@ -7,10 +7,6 @@ import Alert from '../../common/alert/Alert';
 import Clipboard from '../../clipboard/Clipboard';
 import { isSlide, isBox, isSortableBox } from '../../../../common/utils';
 export default class ActionsRibbon extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
     constructor(props) {
         super(props);
         this.state = {
@@ -173,5 +169,16 @@ ActionsRibbon.propTypes = {
       * Callback for deleting a box
       */
     onBoxDeleted: PropTypes.any,
-
+    /**
+     * Object containing all plugins' toolbars
+     */
+    pluginToolbars: PropTypes.object,
+    /**
+     * Object containing all marks
+     */
+    marks: PropTypes.object,
+    /**
+     * Function for creating a new box
+     */
+    onBoxAdded: PropTypes.func.isRequired,
 };

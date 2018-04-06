@@ -2,7 +2,7 @@ import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import './_multipleChoice.scss';
 import i18n from 'i18next';
-import { letterFromNumber } from '../../common/common_tools';
+import { letterFromNumber, getRandomColor } from '../../common/common_tools';
 /* eslint-disable react/prop-types */
 
 export function MultipleChoice(base) {
@@ -25,8 +25,8 @@ export function MultipleChoice(base) {
                     __name: "Main",
                     accordions: {
                         __score: {
-                            __name: i18n.t('Score'),
-                            icon: 'web',
+                            __name: i18n.t('configuration'),
+                            icon: 'build',
                             buttons: {
                                 nBoxes: {
                                     __name: i18n.t("MultipleChoice.Number"),
@@ -39,6 +39,57 @@ export function MultipleChoice(base) {
                                     __name: i18n.t("MultipleChoice.ShowFeedback"),
                                     type: 'checkbox',
                                     checked: state.showFeedback,
+                                },
+                            },
+                        },
+                        style: {
+                            __name: Ediphy.i18n.t('HotspotImages.box_style'),
+                            icon: 'palette',
+                            buttons: {
+                                padding: {
+                                    __name: Ediphy.i18n.t('HotspotImages.padding'),
+                                    type: 'number',
+                                    value: 10,
+                                    min: 0,
+                                    max: 100,
+                                },
+                                backgroundColor: {
+                                    __name: Ediphy.i18n.t('HotspotImages.background_color'),
+                                    type: 'color',
+                                    value: '#ffffff',
+                                },
+                                borderWidth: {
+                                    __name: Ediphy.i18n.t('HotspotImages.border_size'),
+                                    type: 'number',
+                                    value: 1,
+                                    min: 0,
+                                    max: 10,
+                                },
+                                borderStyle: {
+                                    __name: Ediphy.i18n.t('HotspotImages.border_style'),
+                                    type: 'select',
+                                    value: 'solid',
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
+                                },
+                                borderColor: {
+                                    __name: Ediphy.i18n.t('HotspotImages.border_color'),
+                                    type: 'color',
+                                    value: '#dbdbdb',
+                                },
+                                borderRadius: {
+                                    __name: Ediphy.i18n.t('HotspotImages.radius'),
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    max: 50,
+                                },
+                                opacity: {
+                                    __name: Ediphy.i18n.t('HotspotImages.opacity'),
+                                    type: 'range',
+                                    value: 1,
+                                    min: 0,
+                                    max: 1,
+                                    step: 0.01,
                                 },
                             },
                         },
@@ -60,7 +111,7 @@ export function MultipleChoice(base) {
                 };
                 answers.push(<div key={i + 1} className={"row answerRow"}>
                     <div className={"col-xs-2 answerPlaceholder"}>
-                        {letterFromNumber(i)}
+                        <div className={"answer_letter"} >{letterFromNumber(i)}</div>
                         <input type="radio" className="radioQuiz" name={props.id} value={i} checked={props.exercises.correctAnswer === i /* ? 'checked' : 'unchecked'*/ }
                             onChange={clickHandler} />
                     </div>

@@ -12,15 +12,8 @@ import TemplateThumbnail from "./TemplateThumbnail";
 import { createBox } from "../../../../common/common_tools";
 
 export default class TemplatesModal extends Component {
-    /**
-     * Constructor
-     */
     constructor(props) {
         super(props);
-        /**
-         * Index
-         * @type {number}
-         */
         this.index = 0;
         this.templates = templates();
         /**
@@ -30,10 +23,6 @@ export default class TemplatesModal extends Component {
             itemSelected: -1,
         };
     }
-    /**
-     * Renders React component
-     * @returns {code}
-     */
     render() {
         return (
             <Modal className="pageModal" id="TemplatesModal" show={this.props.show}>
@@ -160,23 +149,15 @@ TemplatesModal.propTypes = {
      */
     close: PropTypes.func.isRequired,
     /**
-     * View/Contained view selected at the index
-     */
-    indexSelected: PropTypes.any,
-    /**
-     * Dictionary containing all created views, each one with its *id* as the key
-     */
-    navItems: PropTypes.object.isRequired,
-    /**
-     *
+     * Function for adding a new view
      */
     onNavItemAdded: PropTypes.func.isRequired,
     /**
-     *
+     *  Object contianing all the boxes
      */
-    // onIndexSelected: PropTypes.func.isRequired,
+    boxes: PropTypes.object.isRequired,
     /**
-     *
+     * Function for adding a new box
      */
-    calculatePosition: PropTypes.func.isRequired,
+    onBoxAdded: PropTypes.func.isRequired,
 };

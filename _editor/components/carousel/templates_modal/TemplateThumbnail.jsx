@@ -43,6 +43,10 @@ TemplateThumbnail.propTypes = {
      */
     className: PropTypes.string,
     /**
+     * Array that contains the boxes  for the template
+     */
+    boxes: PropTypes.array,
+    /**
      * Style object
      */
     style: PropTypes.object,
@@ -50,4 +54,8 @@ TemplateThumbnail.propTypes = {
      * Click callback
      */
     onClick: PropTypes.func,
+    /**
+     * Double Click callback
+     */
+    onDoubleClick: PropTypes.func,
 };

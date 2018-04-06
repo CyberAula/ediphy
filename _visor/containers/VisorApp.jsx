@@ -242,7 +242,6 @@ export default class Visor extends Component {
                     richElementState: this.getActualBoxesStates(this.state.backupElementStates, this.state.richElementState) });
             }
         }
-        this.mountFunction();
 
     }
 

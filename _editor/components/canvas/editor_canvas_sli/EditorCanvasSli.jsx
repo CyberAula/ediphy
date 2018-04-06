@@ -129,6 +129,7 @@ export default class EditorCanvasSli extends Component {
                                 onBoxSelected={this.props.onBoxSelected}
                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                 onBoxMoved={this.props.onBoxMoved}
+                                onToolbarUpdated={this.props.onToolbarUpdated}
                                 exercises={itemSelected ? (this.props.exercises[itemSelected.id].exercises[id]) : undefined}
                                 onBoxResized={this.props.onBoxResized}
                                 onRichMarkMoved={this.props.onRichMarkMoved}
@@ -424,5 +425,8 @@ EditorCanvasSli.propTypes = {
      * Callback for opening global configuration modal
      */
     openConfigModal: PropTypes.func,
-
+    /**
+   * Function that updates the toolbar of a view
+   */
+    onToolbarUpdated: PropTypes.func,
 };

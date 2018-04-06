@@ -4,6 +4,7 @@ import ViewToolbar from '../view_toolbar/ViewToolbar';
 import PluginToolbar from '../plugin_toolbar/PluginToolbar';
 import { isCanvasElement } from "../../../../common/utils";
 import Ediphy from "../../../../core/editor/main";
+import PropTypes from 'prop-types';
 import {
     Tooltip,
     FormControl,
@@ -117,3 +118,45 @@ export default class Toolbar extends Component {
         this.setState({ open: !this.state.open });
     }
 }
+Toolbar.propTypes = {
+    /**
+     * Selected box
+     */
+    boxSelected: PropTypes.any,
+    /**
+     * View selected
+     */
+    navItemSelected: PropTypes.any,
+    /**
+     * Function for configuring the scoring settings of a page or exercise
+     */
+    onScoreConfig: PropTypes.func,
+    /**
+     * View toolbars
+     */
+    viewToolbars: PropTypes.object,
+    /**
+     * Callback for opening global configuration modal
+     */
+    openConfigModal: PropTypes.func,
+    /**
+     * Plugin toolbars
+     */
+    pluginToolbars: PropTypes.object,
+    /**
+     * Object containing the current box
+     */
+    box: PropTypes.object,
+    /**
+     * Top position
+     */
+    top: PropTypes.string,
+    /**
+     * Whether or not it should be toggled or visible
+     */
+    carouselShow: PropTypes.bool,
+    /**
+     * Object containing all exercises
+     */
+    exercises: PropTypes.object,
+};

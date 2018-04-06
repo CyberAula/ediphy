@@ -242,6 +242,7 @@ class EditorApp extends Component {
                                 pluginToolbars={pluginToolbars}
                                 viewToolbars={viewToolbars}
                                 title={title}
+                                onToolbarUpdated={this.toolbarUpdated}
                                 onRichMarkMoved={(mark, value)=>dispatch(moveRichMark(mark, value))}
                                 markCreatorId={this.state.markCreatorVisible}
                                 onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
@@ -288,6 +289,7 @@ class EditorApp extends Component {
                                 boxSelected={boxSelected}
                                 canvasRatio={canvasRatio}
                                 marks={marks}
+                                onToolbarUpdated={this.toolbarUpdated}
                                 exercises={exercises}
                                 boxLevelSelected={boxLevelSelected}
                                 navItems={navItems}
@@ -316,6 +318,7 @@ class EditorApp extends Component {
                                     }
                                 }}
                                 pluginToolbars={pluginToolbars}
+                                onRichMarkMoved={(mark, value)=>dispatch(moveRichMark(mark, value))}
                                 viewToolbars={viewToolbars}
                                 moveRichMark={(id, value)=> dispatch(moveRichMark(id, value))}
                                 titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}
@@ -769,5 +772,5 @@ EditorApp.propTypes = {
     fetchVishResults: PropTypes.any,
     dispatch: PropTypes.func.isRequired,
     store: PropTypes.any,
-    lastActionDispatched: PropTypes.object,
+    lastActionDispatched: PropTypes.string,
 };

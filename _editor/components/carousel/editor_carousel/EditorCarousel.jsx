@@ -174,5 +174,12 @@ EditorCarousel.propTypes = {
       * Configuración global
       */
     globalConfig: PropTypes.object,
-
+    /**
+     * Object containing all the pages' toolbars
+     */
+    viewToolbars: PropTypes.object,
+    /**
+     * Function that updates the toolbar of a view
+     */
+    onToolbarUpdated: PropTypes.func,
 };

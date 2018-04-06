@@ -218,4 +218,8 @@ VisorCanvasSli.propTypes = {
     * Boxes toolbars
     */
     pluginToolbars: PropTypes.object,
+    /**
+     * Function that triggers a mark
+     */
+    onMarkClicked: PropTypes.func,
 };

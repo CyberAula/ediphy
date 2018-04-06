@@ -336,4 +336,8 @@ CarouselList.propTypes = {
      * Reordena elementos del índice
      */
     onNavItemReordered: PropTypes.func.isRequired,
+    /**
+     * Object containing all the pages' toolbars
+     */
+    viewToolbars: PropTypes.object,
 };

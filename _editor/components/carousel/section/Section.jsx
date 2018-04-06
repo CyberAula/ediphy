@@ -253,5 +253,8 @@ Section.propTypes = {
      * Reordena los elementos del índice
      */
     onNavItemReordered: PropTypes.func.isRequired,
-
+    /**
+     * Object containing all the pages' toolbars
+     */
+    viewToolbars: PropTypes.object,
 };

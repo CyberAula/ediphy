@@ -103,7 +103,6 @@ export default class EditorBoxSortable extends Component {
                                                                 lastActionDispatched={this.props.lastActionDispatched}
                                                                 addMarkShortcut={this.props.addMarkShortcut}
                                                                 deleteMarkCreator={this.props.deleteMarkCreator}
-                                                                onRichMarkUpdated={this.props.onRichMarkUpdated}
                                                                 exercises={(this.props.page && this.props.exercises[this.props.page]) ? (this.props.exercises[this.props.page].exercises[idBox]) : undefined}
                                                                 markCreatorId={this.props.markCreatorId}
                                                                 marks={this.props.marks}
@@ -112,6 +111,7 @@ export default class EditorBoxSortable extends Component {
                                                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                                 onRichMarkMoved={this.props.onRichMarkMoved}
                                                                 onBoxMoved={this.props.onBoxMoved}
+                                                                onToolbarUpdated={this.props.onToolbarUpdated}
                                                                 onBoxResized={this.props.onBoxResized}
                                                                 onBoxDropped={this.props.onBoxDropped}
                                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
@@ -495,10 +495,6 @@ EditorBoxSortable.propTypes = {
       */
     onRichMarksModalToggled: PropTypes.func.isRequired,
     /**
-      * Callback for updating the Rich Marks Modal
-      */
-    onRichMarkUpdated: PropTypes.func.isRequired,
-    /**
      * Callback for moving marks
      */
     onRichMarkMoved: PropTypes.func.isRequired,
@@ -518,4 +514,8 @@ EditorBoxSortable.propTypes = {
      * Object containing box marks
      */
     marks: PropTypes.object,
+    /**
+   * Function that updates the toolbar of a view
+   */
+    onToolbarUpdated: PropTypes.func,
 };

@@ -24,7 +24,6 @@ export default class EditorHeader extends Component {
     render() {
         if (this.props.navItem || this.props.containedView) {
             let navItem = this.props.containedView !== 0 ? this.props.containedView : this.props.navItem;
-            console.log(navItem);
             let toolbar = (this.props.viewToolbars[navItem.id]) ? this.props.viewToolbars[navItem.id] : undefined;
             let docTitle = "";
             let subTitle = "";
@@ -324,10 +323,6 @@ EditorHeader.propTypes = {
      */
     onBoxSelected: PropTypes.func.isRequired,
     /**
-     * Título del curso
-     */
-    courseTitle: PropTypes.string.isRequired,
-    /**
      * Página actual, identificada por su *id*
      */
     navItem: PropTypes.any,
@@ -344,7 +339,7 @@ EditorHeader.propTypes = {
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     *  Object contianing all the boxes
      */
     boxes: PropTypes.object.isRequired,
     /**
@@ -363,4 +358,9 @@ EditorHeader.propTypes = {
      * Object containing box marks
      */
     marks: PropTypes.object,
+    /**
+     * Course title
+     */
+    courseTitle: PropTypes.string,
+
 };

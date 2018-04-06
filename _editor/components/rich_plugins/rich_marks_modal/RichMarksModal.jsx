@@ -447,11 +447,15 @@ RichMarksModal.propTypes = {
      */
     visible: PropTypes.any.isRequired,
     /**
-     * Marca en edición
+     * Mark currently being edited
      */
     currentRichMark: PropTypes.any,
     /**
-     * Actualiza la marca
+     * Creates a new mark
+     */
+    onRichMarkAdded: PropTypes.func.isRequired,
+    /**
+     * Updates a mark
      */
     onRichMarkUpdated: PropTypes.func.isRequired,
     /**
@@ -462,4 +466,8 @@ RichMarksModal.propTypes = {
       * Cursor value when creating mark (coordinates)
       */
     markCursorValue: PropTypes.any,
+    /**
+     * Object containing all the marks
+     */
+    marks: PropTypes.object,
 };

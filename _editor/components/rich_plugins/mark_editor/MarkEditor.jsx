@@ -12,16 +12,8 @@ import './_mark_editor.scss';
 *
 */
 export default class MarkEditor extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
     constructor(props) {
         super(props);
-        /**
-         * Component's initial state
-         * @type {{holding: boolean, start: number, ended: boolean}}
-         */
         this.state = {
             holding: false,
             start: 0,
@@ -259,4 +251,12 @@ MarkEditor.propTypes = {
       * Marks
       */
     children: PropTypes.any,
+    /**
+     * Marks object
+     */
+    marks: PropTypes.any,
+    /**
+     * Function to move a mark
+     */
+    onRichMarkMoved: PropTypes.func,
 };

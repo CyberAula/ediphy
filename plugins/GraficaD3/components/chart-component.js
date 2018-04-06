@@ -42,7 +42,6 @@ export default class Chart extends React.Component {
             );
 
         case "area":
-            console.log(options);
             return (
                 <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={data}>

@@ -84,6 +84,7 @@ export default class PluginPlaceholder extends Component {
                                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                                 onBoxAdded={this.props.onBoxAdded}
+                                                onToolbarUpdated={this.props.onToolbarUpdated}
                                                 page={this.props.page}
                                                 pageType={this.props.pageType}
                                                 marks={this.props.allMarks}
@@ -335,9 +336,13 @@ PluginPlaceholder.propTypes = {
     */
     onRichMarksModalToggled: PropTypes.func,
     /**
-    * Actualiza marca
+     * Function that updates a mark
      */
     onRichMarkUpdated: PropTypes.func,
+    /**
+     * Function that moves a mark
+     */
+    onRichMarkMoved: PropTypes.func,
     /**
      * Sets the correct answer of an exercise
      */
@@ -346,4 +351,12 @@ PluginPlaceholder.propTypes = {
      * Current page
      */
     page: PropTypes.any,
+    /**
+     * Object containing all the marks in the course
+     */
+    allMarks: PropTypes.object,
+    /**
+   * Function that updates the toolbar of a view
+   */
+    onToolbarUpdated: PropTypes.func,
 };

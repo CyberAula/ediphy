@@ -105,7 +105,7 @@ VisorNavSection.propTypes = {
     /**
    * List of all the course navItems in order
    */
-    navItemsIds: PropTypes.object.isRequired,
+    navItemsIds: PropTypes.array.isRequired,
     /**
    * First navitem visible
    */
