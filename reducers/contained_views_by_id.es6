@@ -36,18 +36,14 @@ function singleContainedViewReducer(state = {}, action = {}) {
     case CHANGE_BACKGROUND:
         return changeProp(state, "background", action.payload.background);
     case DELETE_RICH_MARK:
-        let previousParents = JSON.parse(JSON.stringify(state.parent));
-        let oldMarks = previousParents[action.payload.parent];
-        let ind = oldMarks.indexOf(action.payload.id);
-        if (ind > -1) {
-            oldMarks.splice(ind, 1);
-            if (oldMarks.length === 0) {
-                delete previousParents[action.payload.parent];
-            } else {
-                previousParents[action.payload.parent] = oldMarks;
+        if ((action.payload.mark.connectMode === "new" || action.payload.mark.connectMode === "existing") && state[action.payload.mark.connection]) {
+            let newParent = { ...state[action.payload.mark.connection].parent };
+            if(newParent[action.payload.mark.id]) {
+                delete newParent[action.payload.mark.id];
+                return changeProp(state, "parent", newParent);
             }
         }
-        return changeProp(state, "parent", previousParents);
+        return state;
     case DELETE_BOX:
         let modState = JSON.parse(JSON.stringify(state));
         delete modState.parent[action.payload.id];
@@ -84,6 +80,18 @@ export default function(state = {}, action = {}) {
         let view = action.payload.view;
         if (action.payload.mark.connectMode === "new") {
             return changeProp(state, action.payload.view.id, view);
+        }
+        if (action.payload.mark.connectMode === "existing") {
+            return {
+                ...state,
+                [action.payload.mark.connection]: {
+                    ...state[action.payload.mark.connection],
+                    parent: {
+                        ...state[action.payload.mark.connection].parent,
+                        [action.payload.mark.id]: action.payload.mark.origin,
+                    },
+                },
+            };
         }
         return state;
     case CHANGE_BOX_LAYER:

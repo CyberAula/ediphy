@@ -194,6 +194,7 @@ export default class EditorHeader extends Component {
                                             <CVInfo containedViews={this.props.containedViews}
                                                 navItems={this.props.navItems}
                                                 containedView={this.props.containedView}
+                                                pluginToolbars={this.props.pluginToolbars}
                                                 viewToolbars={this.props.viewToolbars}
                                                 marks={this.props.marks}
                                                 boxes={this.props.boxes}/> : null

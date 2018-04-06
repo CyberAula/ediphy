@@ -78,19 +78,30 @@ function singleNavItemReducer(state = {}, action = {}) {
             );
         }
         return stateWithoutBox;
-    case DELETE_RICH_MARK:
-        let previousParents = JSON.parse(JSON.stringify(state.linkedBoxes));
-        let oldMarks = previousParents[action.payload.parent];
-        let ind = oldMarks.indexOf(action.payload.id);
-        if (ind > -1) {
-            oldMarks.splice(ind, 1);
-            if (oldMarks.length === 0) {
-                delete previousParents[action.payload.parent];
-            } else {
-                previousParents[action.payload.parent] = oldMarks;
-            }
+    case ADD_RICH_MARK:
+    case EDIT_RICH_MARK:
+        if(action.payload.mark.connectMode === "existing" && state[action.payload.mark.connection]) {
+            return {
+                ...state,
+                [state[action.payload.mark.connection]]: {
+                    ...state[action.payload.mark.connection],
+                    linkedBoxes: {
+                        ...state[action.payload.mark.connection].linkedBoxes,
+                        [action.payload.id]: action.payload.origin,
+                    },
+                },
+            };
         }
-        return changeProp(state, "linkedBoxes", previousParents);
+        return state;
+    case DELETE_RICH_MARK:
+        if(action.payload.mark.connectMode === "existing" && state[action.payload.mark.connection]) {
+            let lb = {
+                ...state[action.payload.mark.connection].linkedBoxes,
+            };
+            delete lb[action.payload.mark.id];
+            return changeProp(state, "linkedBoxes", lb);
+        }
+        return state;
     case EXPAND_NAV_ITEM:
         return changeProp(state, "isExpanded", action.payload.value);
     case DELETE_NAV_ITEM:

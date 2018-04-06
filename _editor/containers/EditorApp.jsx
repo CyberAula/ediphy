@@ -435,59 +435,45 @@ class EditorApp extends Component {
                         this.setState({ currentRichMark: mark });
                     }}
                     onRichMarkDeleted={id => {
-                        let toolbar = pluginToolbars[boxSelected];
-                        let cvid = marks[id].connection;
 
-                        delete marks[id];
+                        let cvid = marks[id].connection;
                         // This checks if the deleted mark leaves an orphan contained view, and displays a message asking if the user would like to delete it as well
+
                         if (isContainedView(cvid)) {
                             let thiscv = containedViews[cvid];
-                            if(thiscv && Object.keys(thiscv.parent).indexOf(boxSelected) !== -1) {
-                                let remainingMarks = [];
-                                for (let linkedbox in thiscv.parent) {
-                                    if (toolbars[linkedbox] && toolbars[linkedbox].state && toolbars[linkedbox].state.__marks) {
-                                        for (let i in toolbars[linkedbox].state.__marks) {
-                                            let mark = toolbars[linkedbox].state.__marks[i];
-                                            if (mark.connection === cvid) {
-                                                remainingMarks.push(cvid);
+
+                            if (Object.keys(thiscv.parent).length === 1) {
+                                let confirmText = i18n.t("messages.confirm_delete_CV_also_1") + containedViews[cvid].name + i18n.t("messages.confirm_delete_CV_also_2");
+                                let alertComponent = (<Alert className="pageModal"
+                                    show
+                                    hasHeader
+                                    title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
+                                    acceptButtonText={i18n.t("messages.OK")}
+
+                                    closeButton onClose={(bool)=>{
+                                        dispatch(deleteRichMark(marks[id]));
+                                        if (bool) {
+                                            let deleteAlsoCV = document.getElementById('deleteAlsoCv').classList.toString().indexOf('checked') > 0;
+                                            if(deleteAlsoCV) {
+                                                let boxesRemoving = [];
+                                                containedViews[cvid].boxes.map(boxId => {
+                                                    boxesRemoving.push(boxId);
+                                                    boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
+                                                });
+
+                                                dispatch(deleteContainedView([cvid], boxesRemoving, thiscv.parent));
                                             }
                                         }
-                                    }
-                                }
-
-                                if (remainingMarks.length === 1) {
-                                    let confirmText = i18n.t("messages.confirm_delete_CV_also_1") + containedViews[cvid].name + i18n.t("messages.confirm_delete_CV_also_2");
-                                    let alertComponent = (<Alert className="pageModal"
-                                        show
-                                        hasHeader
-                                        title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
-                                        acceptButtonText={i18n.t("messages.OK")}
-
-                                        closeButton onClose={(bool)=>{
-
-                                            if (bool) {
-                                                dispatch(deleteRichMark(id, boxSelected, cvid, state));
-                                                let deleteAlsoCV = document.getElementById('deleteAlsoCv').classList.toString().indexOf('checked') > 0;
-                                                if(deleteAlsoCV) {
-                                                    let boxesRemoving = [];
-                                                    containedViews[cvid].boxes.map(boxId => {
-                                                        boxesRemoving.push(boxId);
-                                                        boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
-                                                    });
-
-                                                    dispatch(deleteContainedView([cvid], boxesRemoving, thiscv.parent));
-                                                }
-                                            }
-                                            this.setState({ alert: null });}}>
-                                        <span> {confirmText} </span><br/>
-                                        <ToggleSwitch id="deleteAlsoCv" />
-                                        {i18n.t("messages.confirm_delete_cv_as_well")}
-                                    </Alert>);
-                                    this.setState({ alert: alertComponent });
-                                }
+                                        this.setState({ alert: null });}}>
+                                    <span> {confirmText} </span><br/>
+                                    <ToggleSwitch id="deleteAlsoCv" />
+                                    {i18n.t("messages.confirm_delete_cv_as_well")}
+                                </Alert>);
+                                this.setState({ alert: alertComponent });
                             }
+                        } else {
+                            dispatch(deleteRichMark(marks[id]));
                         }
-
                     }}
                     onUploadVishResource={(query) => dispatch(uploadVishResourceAsync(query))}
                     onFetchVishResources={(query) => dispatch(fetchVishResourcesAsync(query))}

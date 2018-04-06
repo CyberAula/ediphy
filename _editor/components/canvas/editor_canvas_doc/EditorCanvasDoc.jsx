@@ -62,6 +62,7 @@ export default class EditorCanvasDoc extends Component {
                         marks={this.props.marks}
                         containedView={this.props.containedViewSelected}
                         containedViews={this.props.containedViews}
+                        pluginToolbars={this.props.pluginToolbars}
                         viewToolbars={this.props.viewToolbars}
                         boxes={this.props.boxes}
                         onViewTitleChanged={this.props.onViewTitleChanged}

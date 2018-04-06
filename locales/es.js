@@ -31,6 +31,7 @@ let es = {
         "Container_": "Contenedor",
         "col_dist": "Distribución de columnas",
         "col_number": "Nº columnas",
+        "configuration": "Configuración",
         "contained_view": "Vista Contenida",
         "CONTAINED_VIEWS": "VISTAS CONTENIDAS",
         "contained_view_popover": "Esta vista enlaza desde:",

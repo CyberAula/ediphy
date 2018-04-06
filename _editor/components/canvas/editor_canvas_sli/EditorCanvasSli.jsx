@@ -85,6 +85,7 @@ export default class EditorCanvasSli extends Component {
                             navItem={this.props.navItemSelected}
                             navItems={this.props.navItems}
                             marks={this.props.marks}
+                            pluginToolbars={this.props.pluginToolbars}
                             containedView={this.props.containedViewSelected}
                             containedViews={this.props.containedViews}
                             viewToolbars={this.props.viewToolbars}
