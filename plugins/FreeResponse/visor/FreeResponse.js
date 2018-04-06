@@ -15,7 +15,7 @@ export function FreeResponse() {
             return <div className={"exercisePlugin freeResponsePlugin " + (attempted ? " attempted" : "")} > {/* <h1>Free Response</h1>*/}
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
-                        <VisorPluginPlaceholder {...props} key="0" pluginContainer="Question"/>
+                        <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Question"}/>
                         <textarea autoCapitalize="sentences" disabled={attempted} spellCheck placeholder={"..."/* i18n.t('FreeResponse.Placeholder')*/} onChange={e=>{ props.setAnswer(e.target.value);}} className="form-control textAreaQuiz textAreaQuizVisor"/>
                         <div className={"exerciseScore"}>{score}</div>
                     </div>

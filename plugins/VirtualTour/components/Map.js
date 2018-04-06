@@ -23,7 +23,7 @@ export default class Map extends React.Component {
         let { lat, lng, zoom } = config;
         let center = { lat: lat, lng: lng };
         return(
-            <div id={this.props.id} key={this.props.id} className="dropableRichZone" style={{ width: '100%', height: '100%' }}>
+            <div id={this.props.id} key={"map-" + this.props.id} className="dropableRichZone" style={{ width: '100%', height: '100%' }}>
                 <GoogleMapReact center={center}
                     draggable={ !!(this.state.draggable) } key={'map_' + this.props.id}
                     zoom={zoom}
@@ -47,7 +47,7 @@ export default class Map extends React.Component {
                     }}
                     onGoogleApiLoaded={({ map, maps }) => {
                         map.setOptions({ draggable: this ? findParentBySelector(ReactDOM.findDOMNode(this), '.wholebox') : true, mapTypeControl: false, zoomControl: false });
-                        window.mapList[num] = map;
+                        window.mapList[this.props.id] = map;
                     }}
                     resetBoundsOnResize
                     yesIWantToUseGoogleMapApiInternals>

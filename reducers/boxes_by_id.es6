@@ -57,7 +57,7 @@ function boxCreator(state, action) {
         if (pluginContainers) {
             for (let key in pluginContainers) {
                 children.push(pluginContainers[key].id);
-                sortableContainers[pluginContainers[key].id] = sortableContainerCreator(key, [], pluginContainers[key].height, action.payload.ids.parent);
+                sortableContainers[pluginContainers[key].id] = sortableContainerCreator(key, [], pluginContainers[key].height, action.payload.ids.id);
             }
         }
     }
@@ -92,7 +92,7 @@ function sortableContainerCreator(key = "", children = [], height = "auto", pare
             borderWidth: '0px',
             borderStyle: 'solid',
             opacity: '1',
-            textAlign: isBox(parent) ? 'center' : 'left',
+            textAlign: isBox(parent) ? 'left' : 'center',
             className: '',
         },
         height: height,
@@ -352,7 +352,7 @@ function sortableContainersReducer(state = {}, action = {}) {
             action.payload.ids.container,
             state[action.payload.ids.container] ?
                 singleSortableContainerReducer(state[action.payload.ids.container], action) :
-                sortableContainerCreator(action.payload.ids.container, [action.payload.ids.id], "auto", action.payload.ids.id)
+                sortableContainerCreator(action.payload.ids.container, [action.payload.ids.id], "auto", action.payload.ids.parent)
         );
     case ADD_NAV_ITEM:
     case ADD_RICH_MARK:

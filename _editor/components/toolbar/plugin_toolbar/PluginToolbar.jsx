@@ -86,6 +86,8 @@ export default class PluginToolbar extends Component {
         }
         return Object.keys(controls).map((tabKey, index) => {
             let tab = controls[tabKey];
+            let children = this.props.box.children ? this.props.box.children.sort() : [];
+            console.log(children, this.props.box.children);
             return (
                 <div key={'key_' + index} className="toolbarTab">
                     <PanelGroup>
@@ -99,7 +101,7 @@ export default class PluginToolbar extends Component {
                                 this.props
                             );
                         })}
-                        {this.props.box.children.map((id, ind) => {
+                        { children.map((id, ind) => {
                             let container = this.props.box.sortableContainers[id];
                             if (tabKey === "main") {
                                 return (
