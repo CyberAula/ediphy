@@ -25,7 +25,7 @@ export function FreeResponse(base) {
                     accordions: {
                         __score: {
                             __name: i18n.t('Score'),
-                            icon: 'web',
+                            icon: 'build',
                             buttons: {
                                 showFeedback: {
                                     __name: i18n.t("FreeResponse.ShowFeedback"),

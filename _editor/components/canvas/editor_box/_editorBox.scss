@@ -109,11 +109,12 @@
 .wholebox, .wholeboxvisor{
     display: inline-block;
     word-break: break-word;
-    // word-break: break-all;
     border: $boxborderwidth solid transparent;
     vertical-align:top;
     word-wrap: break-word;
-    //border: none;
+    .boxStyle{
+      overflow: visible;
+    }
 
 }
 

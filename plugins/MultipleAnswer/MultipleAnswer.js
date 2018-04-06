@@ -25,8 +25,8 @@ export function MultipleAnswer(base) {
                     __name: "Main",
                     accordions: {
                         __score: {
-                            __name: i18n.t('Score'),
-                            icon: 'web',
+                            __name: i18n.t('configuration'),
+                            icon: 'build',
                             buttons: {
                                 nBoxes: {
                                     __name: i18n.t("MultipleAnswer.Number"),
@@ -39,6 +39,57 @@ export function MultipleAnswer(base) {
                                     __name: i18n.t("MultipleAnswer.ShowFeedback"),
                                     type: 'checkbox',
                                     checked: state.showFeedback,
+                                },
+                            },
+                        },
+                        style: {
+                            __name: Ediphy.i18n.t('HotspotImages.box_style'),
+                            icon: 'palette',
+                            buttons: {
+                                padding: {
+                                    __name: Ediphy.i18n.t('HotspotImages.padding'),
+                                    type: 'number',
+                                    value: 10,
+                                    min: 0,
+                                    max: 100,
+                                },
+                                backgroundColor: {
+                                    __name: Ediphy.i18n.t('HotspotImages.background_color'),
+                                    type: 'color',
+                                    value: '#ffffff',
+                                },
+                                borderWidth: {
+                                    __name: Ediphy.i18n.t('HotspotImages.border_size'),
+                                    type: 'number',
+                                    value: 1,
+                                    min: 0,
+                                    max: 10,
+                                },
+                                borderStyle: {
+                                    __name: Ediphy.i18n.t('HotspotImages.border_style'),
+                                    type: 'select',
+                                    value: 'solid',
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
+                                },
+                                borderColor: {
+                                    __name: Ediphy.i18n.t('HotspotImages.border_color'),
+                                    type: 'color',
+                                    value: '#dbdbdb',
+                                },
+                                borderRadius: {
+                                    __name: Ediphy.i18n.t('HotspotImages.radius'),
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    max: 50,
+                                },
+                                opacity: {
+                                    __name: Ediphy.i18n.t('HotspotImages.opacity'),
+                                    type: 'range',
+                                    value: 1,
+                                    min: 0,
+                                    max: 1,
+                                    step: 0.01,
                                 },
                             },
                         },
@@ -59,7 +110,7 @@ export function MultipleAnswer(base) {
                 let checked = (props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1);
                 answers.push(<div key={i + 1} className={"row answerRow"}>
                     <div className={"col-xs-2 answerPlaceholder"}>
-                        {letterFromNumber(i)}
+                        <div className={"answer_letter"}>{letterFromNumber(i)}</div>
                         <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
                             let newCorrectAnswer = Object.assign([], props.exercises.correctAnswer);
                             let index = newCorrectAnswer.indexOf(i);

@@ -28,6 +28,7 @@ let en = {
             "to": "to",
             "msg": "These actions are not available. Use the keyboard shortcuts:",
         },
+        "configuration": "Configuration",
         "Container_": "Container",
         "contained_view": "Contained View",
         "CONTAINED_VIEWS": "CONTAINED VIEWS",

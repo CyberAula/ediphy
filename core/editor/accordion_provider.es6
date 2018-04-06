@@ -101,14 +101,14 @@ export function createScoreAccordions(controls = {}, state, exercises) {
     if (!controls.main.accordions.__score) {
         controls.main.accordions.__score = {
             key: '__score',
-            __name: i18n.t("Score"),
-            icon: 'school',
+            __name: i18n.t("configuration"),
+            icon: 'timeline',
             buttons: {},
         };
     }
     let buttons = Object.assign({}, controls.main.accordions.__score.buttons || {}, {
         weight: {
-            __name: i18n.t("Weight"), // Valoración máxima (puntos)
+            __name: i18n.t("Score"), // Valoración máxima (puntos)
             __defaultField: true,
             type: "number",
             value: exercises.weight,
