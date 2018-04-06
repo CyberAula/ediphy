@@ -80,5 +80,8 @@ CVInfo.propTypes = {
      * View toolbars
      */
     viewToolbars: PropTypes.object,
-
+    /**
+   * Plugin toolbars
+   */
+    pluginToolbars: PropTypes.object,
 };

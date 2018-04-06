@@ -35,11 +35,11 @@ export default class EditorShortcuts extends Component {
         let boxEl = findBox((box ? box.id : ''));
         let nBoxes = [{
             i18nKey: 'AddBox',
-            icon: 'add_box',
+            icon: 'arrow_downward',
             callback: ()=>{ this.props.onToolbarUpdated(box.id, "main", "state", 'nBoxes', toolbar.state.nBoxes + 1);},
         }, {
             i18nKey: 'RemoveBox',
-            icon: 'indeterminate_check_box',
+            icon: 'arrow_upward',
             callback: ()=>{if (toolbar.state.nBoxes > 1) {this.props.onToolbarUpdated(box.id, "main", "state", 'nBoxes', toolbar.state.nBoxes - 1);}},
         }];
         return (

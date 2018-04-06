@@ -55,9 +55,12 @@ export function MultipleAnswer() {
                 <div key={-1} className={"exerciseScore"}>{score}</div>
             </div>;
         },
-        checkAnswer(current, correct) {
-            if(Array.isArray(current) && Array.isArray(correct)) {
-                return (arrayContainsArray(correct, current) && (current.length === correct.length)) || (current.length === 0 && correct.length === 0);
+        checkAnswer(current, correct, state) {
+            let correctSanitized = correct.filter((c)=>{
+                return (c < state.nBoxes);
+            });
+            if(Array.isArray(current) && Array.isArray(correctSanitized)) {
+                return (arrayContainsArray(correctSanitized, current) && (current.length === correctSanitized.length)) || (current.length === 0 && correctSanitized.length === 0);
             }
             return false;
         },

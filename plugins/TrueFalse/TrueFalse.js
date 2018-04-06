@@ -57,11 +57,12 @@ export function TrueFalse(base) {
             for (let i = 0; i < state.nBoxes; i++) {
                 let clickHandler = (index, value)=>{
                     if(props.exercises && props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array)) {
-                        let newAnswer = props.exercises.correctAnswer.map((ans, ind)=>{
+                        let nBoxes = Array(state.nBoxes).fill("");
+                        let newAnswer = nBoxes.map((ans, ind)=>{
                             if (index === ind) {
                                 return value;
                             }
-                            return ans;
+                            return props.exercises.correctAnswer[ind];
                         });
                         props.setCorrectAnswer(newAnswer);
                     }

@@ -3,7 +3,7 @@
   .checkQuiz {
     //margin-bottom: -2px !important;
     //margin-left: 10px !important;
-    margin: 0 5px 0 20px;
+    margin: 4px 5px 0 20px;
     appearance: none;
     -webkit-appearance: none;
     background-color: white;
@@ -14,6 +14,7 @@
     display: inline-block;
     position: relative;
     cursor: pointer;
+    height:20px;
   }
   .checkQuiz:checked {
     background-color: white;

@@ -112,13 +112,16 @@ export function MultipleAnswer(base) {
                     <div className={"col-xs-2 answerPlaceholder"}>
                         <div className={"answer_letter"}>{letterFromNumber(i)}</div>
                         <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
-                            let newCorrectAnswer = Object.assign([], props.exercises.correctAnswer);
+                            let newCorrectAnswer = props.exercises.correctAnswer.filter((c)=>{
+                                return (c < answers.length);
+                            });
                             let index = newCorrectAnswer.indexOf(i);
                             if (index === -1) {
                                 newCorrectAnswer.push(i);
                             } else {
                                 newCorrectAnswer.splice(index, 1);
                             }
+
                             props.setCorrectAnswer(newCorrectAnswer);
                         }}/>
                     </div>
