@@ -111,6 +111,7 @@ export default class EditorBoxSortable extends Component {
                                                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                                 onRichMarkMoved={this.props.onRichMarkMoved}
                                                                 onBoxMoved={this.props.onBoxMoved}
+                                                                onToolbarUpdated={this.props.onToolbarUpdated}
                                                                 onBoxResized={this.props.onBoxResized}
                                                                 onBoxDropped={this.props.onBoxDropped}
                                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
@@ -513,4 +514,8 @@ EditorBoxSortable.propTypes = {
      * Object containing box marks
      */
     marks: PropTypes.object,
+    /**
+   * Function that updates the toolbar of a view
+   */
+    onToolbarUpdated: PropTypes.func,
 };

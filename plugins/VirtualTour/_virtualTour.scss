@@ -10,6 +10,7 @@
 }
 .pointerEventsEnabled .virtualMap {
   pointer-events: all !important ;
+  touch-action: manipulation !important;
 }
 
 .dropableRichZone.rich_overlay  {
@@ -34,6 +35,10 @@
 
 .wholeboxvisor .virtualMap {
   pointer-events: all !important;
+}
+
+.wholebox[name="VirtualTour"]{
+  //touch-action: manipulation !important;
 }
 
 a.mapMarker {

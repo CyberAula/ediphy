@@ -84,6 +84,7 @@ export default class PluginPlaceholder extends Component {
                                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                                 onBoxAdded={this.props.onBoxAdded}
+                                                onToolbarUpdated={this.props.onToolbarUpdated}
                                                 page={this.props.page}
                                                 pageType={this.props.pageType}
                                                 marks={this.props.allMarks}
@@ -354,4 +355,8 @@ PluginPlaceholder.propTypes = {
      * Object containing all the marks in the course
      */
     allMarks: PropTypes.object,
+    /**
+   * Function that updates the toolbar of a view
+   */
+    onToolbarUpdated: PropTypes.func,
 };

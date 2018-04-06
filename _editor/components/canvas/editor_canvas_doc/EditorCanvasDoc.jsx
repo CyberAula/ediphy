@@ -36,35 +36,7 @@ export default class EditorCanvasDoc extends Component {
         let boxes = itemSelected ? itemSelected.boxes : [];
         let show = itemSelected && itemSelected.id !== 0;
 
-        let commonProps = {
-            addMarkShortcut: this.props.addMarkShortcut,
-            accordions: this.props.accordions,
-            marks: this.props.marks,
-            background: itemSelected.background,
-            setCorrectAnswer: this.props.setCorrectAnswer,
-            boxes: this.props.boxes,
-            boxSelected: this.props.boxSelected,
-            boxLevelSelected: this.props.boxLevelSelected,
-            containedViews: this.props.containedViews,
-            containedViewSelected: this.props.containedViewSelected,
-            pluginToolbars: this.props.pluginToolbars,
-            lastActionDispatched: this.props.lastActionDispatched,
-            deleteMarkCreator: this.props.deleteMarkCreator,
-            onRichMarkMoved: this.props.onRichMarkMoved,
-            markCreatorId: this.props.markCreatorId,
-            onBoxAdded: this.props.onBoxAdded,
-            onBoxSelected: this.props.onBoxSelected,
-            onBoxLevelIncreased: this.props.onBoxLevelIncreased,
-            onBoxMoved: this.props.onBoxMoved,
-            onBoxResized: this.props.onBoxResized,
-            onBoxesInsideSortableReorder: this.props.onBoxesInsideSortableReorder,
-            onSortableContainerResized: this.props.onSortableContainerResized,
-            onSortableContainerDeleted: this.props.onSortableContainerDeleted,
-            onSortableContainerReordered: this.props.onSortableContainerReordered,
-            onRichMarksModalToggled: this.props.onRichMarksModalToggled,
-            onBoxDropped: this.props.onBoxDropped,
-            onVerticallyAlignBox: this.props.onVerticallyAlignBox,
-            onTextEditorToggled: this.props.onTextEditorToggled,
+        let commonProps = { ...this.props,
             pageType: itemSelected.type || 0,
         };
 
@@ -292,5 +264,8 @@ EditorCanvasDoc.propTypes = {
    * Function for setting the right answer of an exercise
    */
     setCorrectAnswer: PropTypes.func.isRequired,
-
+    /**
+   * Function that updates the toolbar of a view
+   */
+    onToolbarUpdated: PropTypes.func,
 };

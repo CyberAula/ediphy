@@ -25,10 +25,10 @@ export default class Map extends React.Component {
         return(
             <div id={this.props.id} key={this.props.id} className="dropableRichZone" style={{ width: '100%', height: '100%' }}>
                 <GoogleMapReact center={center}
-                    draggable={Boolean(this.state.draggable)} key={'map_' + this.props.id}
+                    draggable={ !!(this.state.draggable) } key={'map_' + this.props.id}
                     zoom={zoom}
                     options={{
-                        draggable: this.state.draggable,
+                        draggable: (this.state.draggable),
                         panControl: true,
                         disableDoubleClickZoom: this.state.disableDoubleClickZoom,
                         scrollwheel: true,
@@ -39,14 +39,14 @@ export default class Map extends React.Component {
                             style: window.google.maps.ZoomControlStyle.SMALL,
                         } : null,
                     }}
-                    onChildMouseEnter={() => {let bool = findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled'); this.setState({ draggable: false, disableDoubleClickZoom: true, controls: bool });}}
+                    onChildMouseEnter={() => {let bool = findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled'); this.setState({ draggable: bool, disableDoubleClickZoom: true, controls: bool });}}
                     onChildMouseLeave={() => {let bool = findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled'); this.setState({ draggable: bool, disableDoubleClickZoom: !bool, controls: bool });}}
                     onChange={e => {
                         this.props.update(e.center.lat, e.center.lng, e.zoom, false);
 
                     }}
                     onGoogleApiLoaded={({ map, maps }) => {
-                        map.setOptions({ draggable: false, mapTypeControl: false, zoomControl: false });
+                        map.setOptions({ draggable: this ? findParentBySelector(ReactDOM.findDOMNode(this), '.wholebox') : true, mapTypeControl: false, zoomControl: false });
                         window.mapList[num] = map;
                     }}
                     resetBoundsOnResize
@@ -66,7 +66,6 @@ export default class Map extends React.Component {
 
         );
     }
-
 }
 Map.propTypes = {
     /**
