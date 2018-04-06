@@ -165,4 +165,8 @@ EditorCanvas.propTypes = {
      * Whether or not the grid is activated for slides
      */
     grid: PropTypes.bool,
+    /**
+   * Function that updates the toolbar of a view
+   */
+    onToolbarUpdated: PropTypes.func,
 };

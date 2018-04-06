@@ -161,7 +161,9 @@ export function VirtualTour(base) {
                         id={id}
                         searchBox
                         update={(lat, lng, zoom, render)=>{
-                            base.setState('config', { lat: lat, lng: lng, zoom: zoom });
+                            // if (state.config.lat.toPrecision(4) !== lat.toPrecision(4) || state.config.lng.toPrecision(4) !== lng.toPrecision(4) || state.config.zoom.toPrecision(4) !== zoom) {
+                            props.update('config', { lat, lng, zoom });
+                            // }
                         }}>
                         {markElements}
                     </Map>
@@ -214,27 +216,7 @@ export function VirtualTour(base) {
             return { isWrong: false, value: value };
         },
         pointerEventsCallback: function(bool, toolbarState) {
-            if (!window.google || !window.navigator.onLine) {return;}
-            let num = toolbarState.num || (toolbarState.state ? toolbarState.state.num : 9999);
-            if (window.mapList[num]) {
-                switch(bool) {
-                case 'mouseenter':
-                    window.mapList[num].setOptions({ draggable: false });
-                    return;
-                case 'mouseleave_true':
-                    window.mapList[num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
-                    return;
-                case 'mouseleave_false':
-                    window.mapList[num].setOptions({ draggable: false });
-                    return;
-                case 'disableAll':
-                    window.mapList[num].setOptions({ draggable: false, mapTypeControl: false, zoomControl: false });
-                    return;
-                case 'enableAll':
-                    window.mapList[num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
-                    return;
-                }
-            }
+            return;
         },
 
     };

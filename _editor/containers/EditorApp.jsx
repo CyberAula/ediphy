@@ -242,6 +242,7 @@ class EditorApp extends Component {
                                 pluginToolbars={pluginToolbars}
                                 viewToolbars={viewToolbars}
                                 title={title}
+                                onToolbarUpdated={this.toolbarUpdated}
                                 onRichMarkMoved={(mark, value)=>dispatch(moveRichMark(mark, value))}
                                 markCreatorId={this.state.markCreatorVisible}
                                 onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
@@ -288,6 +289,7 @@ class EditorApp extends Component {
                                 boxSelected={boxSelected}
                                 canvasRatio={canvasRatio}
                                 marks={marks}
+                                onToolbarUpdated={this.toolbarUpdated}
                                 exercises={exercises}
                                 boxLevelSelected={boxLevelSelected}
                                 navItems={navItems}

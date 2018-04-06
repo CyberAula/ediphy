@@ -101,6 +101,9 @@ export default class EditorBox extends Component {
         let props = { ...this.props,
             marks: marks,
             allMarks: this.props.marks,
+            update: (key, value) => {
+                this.props.onToolbarUpdated(this.props.id, "main", "state", key, value);
+            },
             parentBox: this.props.boxes[this.props.id],
             setCorrectAnswer: (correctAnswer) => {
                 if (this.props.exercises.correctAnswer !== correctAnswer) {
@@ -818,4 +821,8 @@ EditorBox.propTypes = {
        * Current page
        */
     page: PropTypes.any,
+    /**
+    * Function that updates the toolbar of a view
+    */
+    onToolbarUpdated: PropTypes.func,
 };
