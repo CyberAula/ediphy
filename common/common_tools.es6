@@ -210,8 +210,11 @@ export function createBox(ids, name, slide, addBox, boxes) {
         box.ids.id = basePrefix + ind;
         createBox(box.ids, box.name, false, addBox, boxes);
     });
-    let boxCreated = findBox(ids.id);
-    scrollElement(boxCreated);
+    setTimeout(()=>{
+        let boxCreated = findBox(ids.id);
+        scrollElement(boxCreated);
+    }, 40);
+
 }
 
 export function blurCKEditor(id, callback) {

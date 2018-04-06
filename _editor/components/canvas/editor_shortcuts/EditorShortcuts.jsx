@@ -173,9 +173,8 @@ export default class EditorShortcuts extends Component {
                     }
                     {
                         (toolbar && toolbar.state && toolbar.state.nBoxes) ? (
-
                             nBoxes.map((nBox, i)=>{ return (
-                                <OverlayTrigger placement="top"
+                                <OverlayTrigger key={i} placement="top"
                                     overlay={
                                         <Tooltip id="editartexto">
                                             {i18n.t('messages.' + nBox.i18nKey)}

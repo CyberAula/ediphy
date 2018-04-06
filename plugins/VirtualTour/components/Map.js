@@ -79,7 +79,7 @@ Map.propTypes = {
     /**
    * Box id
    */
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
     /**
    * Whether or not it has a search box
    */
