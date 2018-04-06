@@ -185,7 +185,6 @@ export default class MarkEditor extends Component {
         };
         let onRichMarkMoved = this.props.onRichMarkMoved;
         let boxId = this.props.boxId;
-        console.log(boxId);
         let mouseup = function(event) {
             if (event.which === 3) {
                 exitFunction();
@@ -261,4 +260,8 @@ MarkEditor.propTypes = {
      * Function to move a mark
      */
     onRichMarkMoved: PropTypes.func,
+    /**
+   * Id of the box
+   */
+    boxId: PropTypes.any,
 };

@@ -176,7 +176,6 @@ export function VirtualTour(base) {
             if (!window.google || !window.navigator.onLine || !window.mapList[value[6] || state.num]) {
                 return '0,0';
             }
-            console.log(value[6]);
             let clickX = value[0] + 12;
             let clickY = value[1] + 26;
             let latCenter = state.config.lat;

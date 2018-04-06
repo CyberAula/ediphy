@@ -582,7 +582,6 @@ class EditorApp extends Component {
                 this.props.dispatch(updatePluginToolbar(id, tab, accordion,
                     [name, "__pluginContainerIds"],
                     [value, pluginContainerIds]));
-                console.log(pluginContainerIds);
                 if (Object.keys(toolbar.state.__pluginContainerIds).length < Object.keys(pluginContainerIds).length) {
                     for (let s in pluginContainerIds) {
                         if (!toolbar.state.__pluginContainerIds[s]) {

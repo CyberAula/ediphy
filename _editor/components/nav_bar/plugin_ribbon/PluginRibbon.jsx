@@ -129,9 +129,6 @@ export default class PluginRibbon extends Component {
      * Set interact and other listeners
      */
     componentDidMount() {
-        // letEdiphy.Plugins.loadButtons();
-        // Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.addMenuButtons, e => {
-        //     console.log(e.detail)
         this.setState({ buttons: this.state.buttons.concat(Ediphy.Plugins.getPluginConfigs()) });
 
         const holder = ReactDOM.findDOMNode(this.refs.holder);
@@ -220,7 +217,6 @@ export default class PluginRibbon extends Component {
                     event.stopPropagation();
                 },
             });
-        // });
     }
 
     /**
