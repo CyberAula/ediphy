@@ -200,8 +200,8 @@ export function editRichMark(id, mark) {
     return { type: EDIT_RICH_MARK, payload: { id, mark } };
 }
 
-export function deleteRichMark(id, parent, cvid, state) {
-    return { type: DELETE_RICH_MARK, payload: { id, parent, cvid, state } };
+export function deleteRichMark(mark) {
+    return { type: DELETE_RICH_MARK, payload: { mark } };
 }
 
 export function selectContainedView(id) {
