@@ -16,9 +16,11 @@ export default function(state = {}, action = {}) {
         return newState;
     case DELETE_BOX:
         newState = { ...state };
-        let marks = Object.keys(state).map((mark)=>{
-            return action.payload.id === mark.parent;
-        });
+        let marks = Object.keys(newState).map((mark)=>{
+            if(action.payload.id === newState[mark].origin) {
+                return mark;
+            }
+        }).filter(r=> r !== undefined);
         marks.forEach((mark)=>{
             delete newState[mark];
         });

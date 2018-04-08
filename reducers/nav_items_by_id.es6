@@ -80,7 +80,7 @@ function singleNavItemReducer(state = {}, action = {}) {
         return stateWithoutBox;
     case ADD_RICH_MARK:
     case EDIT_RICH_MARK:
-        if(action.payload.mark.connectMode === "existing" && state[action.payload.mark.connection]) {
+        if((action.payload.mark.connectMode === "existing" || action.payload.mark.connectMode === "new") && state[action.payload.mark.connection]) {
             return {
                 ...state,
                 [state[action.payload.mark.connection]]: {
@@ -350,7 +350,7 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
     case TOGGLE_TITLE_MODE:
         return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
     case ADD_RICH_MARK:
-        if (action.payload && action.payload.mark && action.payload.mark.connectMode === 'existing' && action.payload.mark.connection) {
+        if (action.payload && action.payload.mark && (action.payload.mark.connectMode === 'existing' || action.payload.mark.connectMode === 'new') && action.payload.mark.connection) {
             if (!isContainedView(action.payload.mark.connection)) {
                 return changeProp(state, action.payload.mark.connection, singleNavItemReducer(state[action.payload.mark.connection], action));
 

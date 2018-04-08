@@ -165,7 +165,16 @@ export default function(state = {}, action = {}) {
         let modState = JSON.parse(JSON.stringify(state));
         // Delete parent reference for contained views that linked to the deleted box
         for (let cv in action.payload.cvs) {
-            delete modState[action.payload.cvs[cv]].parent[action.payload.id];
+            if(modState[action.payload.cvs[cv]]) {
+                let inverted_parents = Object.keys(modState[action.payload.cvs[cv]].parent).map(mark=>{
+                    if (modState[action.payload.cvs[cv]].parent[mark] === action.payload.id) {
+                        return mark;
+                    }
+                }).filter(ele=> ele !== null);
+                inverted_parents.forEach(e=>{
+                    delete modState[action.payload.cvs[cv]].parent[e];
+                });
+            }
         }
         // If the deleted box's parent is a contained view, delete it from the boxes array
         if (isContainedView(action.payload.parent)) {
