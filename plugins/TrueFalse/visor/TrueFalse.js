@@ -16,11 +16,13 @@ export function TrueFalse() {
                 let incorrect = attempted && !correct;
                 let clickHandler = (index, value)=>{
                     if(props.exercises && props.exercises.currentAnswer && (props.exercises.currentAnswer instanceof Array)) {
-                        let newAnswer = props.exercises.currentAnswer.map((ans, ind)=>{
+
+                        let nBoxes = Array(state.nBoxes).fill("");
+                        let newAnswer = nBoxes.map((ans, ind)=>{
                             if (index === ind) {
                                 return value;
                             }
-                            return ans;
+                            return props.exercises.currentAnswer[ind];
                         });
                         props.setAnswer(newAnswer);
                     }
@@ -64,8 +66,8 @@ export function TrueFalse() {
                 <div className={"exerciseScore"}>{score}</div>
             </div>;
         },
-        checkAnswer(current, correct) {
-            let total = current.length || 1;
+        checkAnswer(current, correct, state) {
+            let total = Math.min(state.nBoxes || 1, correct ? correct.length : 1);
             let score = 0;
             for (let q in current) {
                 if (current[q] === correct[q]) {

@@ -9,11 +9,17 @@ window.mapsVisor = [];
 
 export function VirtualTour(base) {
     return {
-        getRenderTemplate: function(state, props) {
+        init: function() {
             if (!window.google) {
                 let src = "https://maps.google.com/maps/api/js?libraries=places&key=AIzaSyAOOAHADllUMGULOz5FQu3rIhM0RtwxP7Q";
                 $('<script>').attr('src', src).appendTo('head');
             }
+        },
+        getRenderTemplate: function(state, props) {
+            // if (!window.google) {
+            //     let src = "https://maps.google.com/maps/api/js?libraries=places&key=AIzaSyAOOAHADllUMGULOz5FQu3rIhM0RtwxP7Q";
+            //     $('<script>').attr('src', src).appendTo('head');
+            // }
             if (!window.google || !window.navigator.onLine) {
                 return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
                     <div className="middleAlign">

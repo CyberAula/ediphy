@@ -33,7 +33,15 @@ export default class EditorShortcuts extends Component {
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let config = apiPlugin.getConfig();
         let boxEl = findBox((box ? box.id : ''));
-
+        let nBoxes = [{
+            i18nKey: 'AddBox',
+            icon: 'arrow_downward',
+            callback: ()=>{ this.props.onToolbarUpdated(box.id, "main", "state", 'nBoxes', toolbar.state.nBoxes + 1);},
+        }, {
+            i18nKey: 'RemoveBox',
+            icon: 'arrow_upward',
+            callback: ()=>{if (toolbar.state.nBoxes > 1) {this.props.onToolbarUpdated(box.id, "main", "state", 'nBoxes', toolbar.state.nBoxes - 1);}},
+        }];
         return (
             <div id={this.props.isContained ? "contained_editorBoxIcons" : "editorBoxIcons"}
                 className=""
@@ -160,7 +168,28 @@ export default class EditorShortcuts extends Component {
                                 </button>
                             </OverlayTrigger>
                         ) : (
-                            <span />
+                            null
+                        )
+                    }
+                    {
+                        (toolbar && toolbar.state && toolbar.state.nBoxes) ? (
+                            nBoxes.map((nBox, i)=>{ return (
+                                <OverlayTrigger key={i} placement="top"
+                                    overlay={
+                                        <Tooltip id="editartexto">
+                                            {i18n.t('messages.' + nBox.i18nKey)}
+                                        </Tooltip>
+                                    }>
+                                    <button id="pebutton" className={"editorTitleButton"}
+                                        onClick={(e) => {
+                                            nBox.callback();
+                                            e.stopPropagation();
+                                        }}>
+                                        <i className="material-icons">{nBox.icon}</i>
+                                    </button>
+                                </OverlayTrigger>);})
+                        ) : (
+                            null
                         )
                     }
                     <OverlayTrigger placement="top"
@@ -344,4 +373,8 @@ EditorShortcuts.propTypes = {
      * Function that opens a configuration modal
      */
     openConfigModal: PropTypes.func.isRequired,
+    /**
+   * Function for updating the box's toolbar
+   */
+    onToolbarUpdated: PropTypes.func.isRequired,
 };

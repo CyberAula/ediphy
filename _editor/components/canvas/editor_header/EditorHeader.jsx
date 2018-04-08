@@ -362,5 +362,8 @@ EditorHeader.propTypes = {
      * Course title
      */
     courseTitle: PropTypes.string,
-
+    /**
+       * Plugin toolbars
+       */
+    pluginToolbars: PropTypes.object,
 };

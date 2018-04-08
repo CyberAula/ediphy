@@ -34,7 +34,7 @@ export function VirtualTour(base) {
                     defaultColor: '#000002',
                 }],
                 needsPointerEventsAllowed: true,
-                limitToOneInstance: true,
+                // limitToOneInstance: true,
             };
         },
         getToolbar: function(state) {
@@ -118,7 +118,7 @@ export function VirtualTour(base) {
                 let src = "https://maps.google.com/maps/api/js?libraries=places&key=AIzaSyAOOAHADllUMGULOz5FQu3rIhM0RtwxP7Q";
                 $('<script>').attr('src', src).appendTo('head');
             }
-            let id = "map-" + props.id;
+            let id = props.id;
             let marks = props.marks || {};
             if (!window.google || !window.navigator.onLine) {
                 return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
@@ -130,7 +130,7 @@ export function VirtualTour(base) {
             }
 
             let Mark = ({ idKey, title, color }) => (
-                <MarkEditor time={1.5} mark={idKey} base={base} onRichMarkMoved={props.onRichMarkMoved} state={state}>
+                <MarkEditor time={1.5} boxId={id} mark={idKey} base={base} onRichMarkMoved={props.onRichMarkMoved} state={state}>
                     <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
                         <a className="mapMarker" href="#">
                             <i style={{ color: color }} key="i" className="material-icons">room</i>
@@ -148,12 +148,10 @@ export function VirtualTour(base) {
                 } else {
                     position = [0, 0];
                 }
-                return (<Mark key={idKey} idKey={idKey} title={title} color={color} lat={position[0]} lng={position[1]}/>);
+                return (<Mark key={idKey} idBox={props.id} idKey={idKey} title={title} color={color} lat={position[0]} lng={position[1]}/>);
 
             });
 
-            window.num = state.num;
-            let num = state.num;
             return (
                 <div className="virtualMap" onDragLeave={e=>{e.stopPropagation();}}>
                     <Map placeholder={i18n.t("VirtualTour.Search")}
@@ -161,9 +159,9 @@ export function VirtualTour(base) {
                         id={id}
                         searchBox
                         update={(lat, lng, zoom, render)=>{
-                            // if (state.config.lat.toPrecision(4) !== lat.toPrecision(4) || state.config.lng.toPrecision(4) !== lng.toPrecision(4) || state.config.zoom.toPrecision(4) !== zoom) {
-                            props.update('config', { lat, lng, zoom });
-                            // }
+                            if (state.config.lat.toPrecision(4) !== lat.toPrecision(4) || state.config.lng.toPrecision(4) !== lng.toPrecision(4) || state.config.zoom.toPrecision(4) !== zoom) {
+                                props.update('config', { lat, lng, zoom });
+                            }
                         }}>
                         {markElements}
                     </Map>
@@ -175,7 +173,7 @@ export function VirtualTour(base) {
         },
         parseRichMarkInput: function(...value) {
             let state = value[5];
-            if (!window.google || !window.navigator.onLine || !window.mapList[state.num]) {
+            if (!window.google || !window.navigator.onLine || !window.mapList[value[6] || state.num]) {
                 return '0,0';
             }
             let clickX = value[0] + 12;
@@ -186,7 +184,7 @@ export function VirtualTour(base) {
             let num = state.num;
 
             let maps = window.google.maps;
-            let map = window.mapList[state.num];
+            let map = window.mapList[value[6] || state.num];
             let topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
             let bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
             let scale = Math.pow(2, map.getZoom());

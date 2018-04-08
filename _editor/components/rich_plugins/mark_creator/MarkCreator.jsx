@@ -91,13 +91,15 @@ export default class MarkCreator extends Component {
                 if (thisBox) {
                     thisBox.style.cursor = cursorStyle;
                 }
+                let markCreatorId = this.props.markCreatorId;
 
                 document.body.style.cursor = cursorStyle;
                 // overlay.parentNode.style.cursor = cursorStyle;
-
+                let boxSelected = nextProps.boxSelected;
                 /* OVERLAY */
 
                 let component = this;
+
                 let parseRichMarkInput = this.props.parseRichMarkInput;
                 let toolbarState = this.props.toolbar.state;
 
@@ -122,8 +124,7 @@ export default class MarkCreator extends Component {
                     let height = square.bottom - square.top;
 
                     let richMarkValues = [];
-                    let value = parseRichMarkInput(x, y, width, height, richMarkValues, toolbarState);
-
+                    let value = parseRichMarkInput(x, y, width, height, richMarkValues, toolbarState, boxSelected);
                     component.setState({ value: value });
                     component.props.onRichMarksModalToggled(value);
                     component.exitFunction();

@@ -29,7 +29,7 @@ export default class SearchBox extends React.Component {
                 let lat = Math.round(geom.lat() * 100000) / 100000;
                 let lng = Math.round(geom.lng() * 100000) / 100000;
                 let num = this.props.num;
-                let map = window.mapList[num];
+                let map = window.mapList[this.props.id];
                 map.fitBounds(places[0].geometry.viewport);
                 map.setCenter(new google.maps.LatLng(lat, lng));
                 this.props.onPlacesChanged({ map: this.props.id, lat: lat, lng: lng });

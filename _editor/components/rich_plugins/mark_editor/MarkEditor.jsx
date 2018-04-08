@@ -184,6 +184,7 @@ export default class MarkEditor extends Component {
             event.preventDefault();
         };
         let onRichMarkMoved = this.props.onRichMarkMoved;
+        let boxId = this.props.boxId;
         let mouseup = function(event) {
             if (event.which === 3) {
                 exitFunction();
@@ -194,7 +195,7 @@ export default class MarkEditor extends Component {
             const y = event.clientY - square.top - cursor_y_offset;// event.offsetY;
             const width = square.right - square.left;
             const height = square.bottom - square.top;
-            const value = parseRichMarkInput(x, y, width, height, [], toolbarState);
+            const value = parseRichMarkInput(x, y, width, height, [], toolbarState, boxId);
 
             document.body.style.cursor = 'default';
             boxStyle.classList.remove('norotate');
@@ -259,4 +260,8 @@ MarkEditor.propTypes = {
      * Function to move a mark
      */
     onRichMarkMoved: PropTypes.func,
+    /**
+   * Id of the box
+   */
+    boxId: PropTypes.any,
 };

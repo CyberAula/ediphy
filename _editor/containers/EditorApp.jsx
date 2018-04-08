@@ -41,6 +41,8 @@ import {
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import PropTypes from 'prop-types';
+import { ID_PREFIX_BOX } from '../../common/constants';
+import { createBox } from '../../common/common_tools';
 
 /**
  * EditorApp. Main application component that renders everything else
@@ -549,19 +551,44 @@ class EditorApp extends Component {
             let toolbar = this.props.pluginToolbars[id];
             let pluginAPI = Ediphy.Plugins.get(toolbar.pluginId);
             let config = pluginAPI.getConfig();
+
             if (config.isComplex && accordion === 'state') {
                 let newPluginState = JSON.parse(JSON.stringify(toolbar.state));
                 newPluginState[name] = value;
                 let pluginContainerIds = newPluginState.__pluginContainerIds;
+                let defaultBoxes = {};
                 if (config.flavor !== "react") {
                     let content = pluginAPI.getRenderTemplate(newPluginState);
                     parsePluginContainers(content, pluginContainerIds);
                 } else {
                     let content = pluginAPI.getRenderTemplate(newPluginState, { exercises: { correctAnswer: true } });
-                    parsePluginContainersReact(content, pluginContainerIds);
+                    parsePluginContainersReact(content, pluginContainerIds, defaultBoxes);
                 }
 
-                this.props.dispatch(updatePluginToolbar(id, tab, accordion, [name, "__pluginContainerIds"], [value, pluginContainerIds]));
+                this.props.dispatch(updatePluginToolbar(id, tab, accordion,
+                    [name, "__pluginContainerIds"],
+                    [value, pluginContainerIds]));
+                if (Object.keys(toolbar.state.__pluginContainerIds).length < Object.keys(pluginContainerIds).length) {
+                    for (let s in pluginContainerIds) {
+                        if (!toolbar.state.__pluginContainerIds[s]) {
+                            if (defaultBoxes[s]) {
+                                let page = this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
+                                createBox({
+                                    parent: id,
+                                    page,
+                                    container: s,
+                                    isDefaultPlugin: true,
+                                    text: defaultBoxes[s].__text,
+                                    id: ID_PREFIX_BOX + Date.now(),
+                                    draggable: true,
+                                    resizable: this.props.boxes[id].resizable,
+                                }, defaultBoxes[s].type, false,
+                                (ids, draggable, resizable, content, style, state, structure, initialParams)=>{this.props.dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams));},
+                                this.props.boxes);
+                            }
+                        }
+                    }
+                } // Delete if it's the other way around?
                 return;
             }
             this.props.dispatch(updatePluginToolbar(id, tab, accordion, name, value));

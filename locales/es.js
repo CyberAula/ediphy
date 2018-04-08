@@ -207,6 +207,8 @@ let es = {
         },
         "messages": {
             "add_new_mark": "Añadir nueva marca",
+            "AddBox": "Añade una nueva caja",
+            "RemoveBox": "Borra una caja",
             "adjust_to_document": "Ajustar al documento",
             "alert": "Alerta",
             "align_bottom": "La parte inferior del elemento se alinea con la parte inferior del elemento más bajo de la línea",

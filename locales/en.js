@@ -209,6 +209,8 @@ let en = {
         },
         "messages": {
             "add_new_mark": "Add new mark",
+            "AddBox": "Add new box",
+            "RemoveBox": "Delete one box",
             "adjust_to_document": "Adjust to document",
             "alert": "Alert",
             "align_bottom": "The bottom of the element is aligned with the lowest element on the line",

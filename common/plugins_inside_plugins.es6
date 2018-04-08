@@ -9,21 +9,21 @@ import { createBox } from './common_tools';
  * @param obj
  * @param state
  */
-export function parsePluginContainersReact(obj, state) {
+export function parsePluginContainersReact(obj, state, defaultBoxes = {}) {
     if (obj instanceof Array) {
         for (let i = 0; i < obj.length; i++) {
-            parsePluginContainersReact(obj[i], state);
+            parsePluginContainersReact(obj[i], state, defaultBoxes);
         }
     }
     if (obj.props && obj.props.children) {
         if (obj.props.children && obj.props.children instanceof Array) {
             for (let i = 0; i < obj.props.children.length; i++) {
                 if (obj.props.children.length > 1) {
-                    parsePluginContainersReact(obj.props.children[i], state);
+                    parsePluginContainersReact(obj.props.children[i], state, defaultBoxes);
                 }
             }
         } else if (obj.props.children) {
-            parsePluginContainersReact(obj.props.children, state);
+            parsePluginContainersReact(obj.props.children, state, defaultBoxes);
         }
     }
 
@@ -64,12 +64,20 @@ export function parsePluginContainersReact(obj, state) {
             if (!newProps['plugin-data-height']) {
                 newProps['plugin-data-height'] = newProps['plugin-data-initial-height'] || (newProps.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto");
             }
+
             if (obj.props.pluginContainer && !state[obj.props.pluginContainer]) {
                 state[newProps.pluginContainer] = {
                     id: newProps.pluginContainer,
                     name: newProps['plugin-data-display-name'] || newProps.pluginContainer,
                     height: newProps['plugin-data-height'],
                 };
+                if (newProps['plugin-data-default']) {
+                    defaultBoxes[newProps.pluginContainer] = { type: newProps['plugin-data-default'] };
+                    if (newProps['plugin-data-text']) {
+                        defaultBoxes[newProps.pluginContainer].__text = newProps['plugin-data-text'];
+                    }
+                }
+
             }
         }
     }

@@ -137,7 +137,11 @@ export default class Clipboard extends Component {
      */
     pasteBox(data, ids, isTargetSlide, index) {
         let pluginName = data.toolbar.pluginId;
-        let config = Ediphy.Plugins.get(pluginName).getConfig();
+        let plug = Ediphy.Plugins.get(pluginName);
+        if (!plug) {
+            return;
+        }
+        let config = plug.getConfig();
         let limitToOneInstance = config.limitToOneInstance;
         let alertMsg = (msg) => { return (<Alert className="pageModal" key="alert" show hasHeader backdrop={false}
             title={ <span><i className="material-icons alert-warning" >warning</i>{ i18n.t("messages.alert") }</span> }
