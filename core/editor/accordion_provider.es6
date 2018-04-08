@@ -879,10 +879,10 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     }
 
     if (button.type === "background_picker") {
-        let isURI = (/data\:/).test(props.value.background);
-        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background);
+        let isURI = (/data\:/).test(props.value);
+        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value);
         let default_background = "rgb(255,255,255)";
-        let isSli = isSlide(this.props.navItems[this.props.navItemSelected].type);
+        let isSli = isSlide(toolbar_props.navItems[toolbar_props.navItemSelected].type);
 
         return React.createElement(
             FormGroup,
@@ -893,23 +893,23 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     { key: 'label1_' + button.__name },
                     i18n.t('background.background_color')),
                 React.createElement(
-                    ColorPicker, { key: "cpicker_" + props.label, value: isColor ? props.value.background : default_background, onChange: props.onChange },
+                    ColorPicker, { key: "cpicker_" + props.label, value: isColor ? props.value : default_background, onChange: props.onChange },
                     []),
                 isSli && React.createElement(
                     ControlLabel,
-                    { key: 'label2_' + button.__name, value: button.value.background },
+                    { key: 'label2_' + button.__name, value: button.value },
                     i18n.t('background.background_image')),
                 isSli && React.createElement('div',
                     { key: 'container_' + button.__name, style: { display: 'block' } },
                     [React.createElement(
                         FileInput, {
                             key: 'fileinput_' + props.label,
-                            value: props.value.background,
+                            value: props.value,
                             onChange: props.onChange,
                             style: { width: '100%' },
                         },
                         React.createElement('div', {
-                            style: { backgroundImage: isURI ? 'url(' + props.value.background + ')' : 'none' },
+                            style: { backgroundImage: isURI ? 'url(' + props.value + ')' : 'none' },
                             key: "inside_" + props.label,
                             className: 'fileDrag_toolbar',
                         }, isURI ? null : [
@@ -933,7 +933,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                             React.createElement(FormControl,
                                 {
                                     key: 'urlinput_' + props.label,
-                                    value: isURI || isColor ? '' : props.value.background,
+                                    value: isURI || isColor ? '' : props.value,
                                     onChange: props.onChange,
                                 }, null),
                         ]),

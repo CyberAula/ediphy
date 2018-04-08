@@ -93,6 +93,18 @@ export default class ViewToolbar extends Component {
                         },
 
                     },
+                    /* background: {
+                        __name: "Fondo",
+                        icon: "crop_original",
+                        buttons: {
+                            background: {
+                                __name: i18n.t('background.background'),
+                                type: 'background_picker',
+                                value: viewToolbar.background || { background: "rgb(255,255,255)", attr: "full" },
+                                autoManaged: false,
+                            },
+                        },
+                    },*/
                     __score: {
                         __name: i18n.t('Score'),
                         icon: 'school',

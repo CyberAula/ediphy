@@ -45,7 +45,9 @@ function toolbarElementCreator(state, action, containedView = false) {
         documentTitleContent: pagetitle,
         numPage: '',
         customSize: 0,
+        aspectRatio: true,
         background: "rgb(255,255,255)",
+        backgroundAttr: "",
     };
 
     return toolbar;
