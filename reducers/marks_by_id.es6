@@ -20,6 +20,7 @@ export default function(state = {}, action = {}) {
             if(action.payload.id === newState[mark].origin) {
                 return mark;
             }
+            return undefined;
         }).filter(r=> r !== undefined);
         marks.forEach((mark)=>{
             delete newState[mark];
