@@ -34,6 +34,7 @@ export default class ViewToolbar extends Component {
             doc_type = i18n.t('section');
         }
         let viewToolbar = this.props.viewToolbars[id];
+        console.log(viewToolbar);
         let controls = {
             main: {
                 __name: "Main",
@@ -93,18 +94,18 @@ export default class ViewToolbar extends Component {
                         },
 
                     },
-                    /* background: {
+                    __background: {
                         __name: "Fondo",
                         icon: "crop_original",
                         buttons: {
                             background: {
                                 __name: i18n.t('background.background'),
                                 type: 'background_picker',
-                                value: viewToolbar.background || { background: "rgb(255,255,255)", attr: "full" },
+                                value: { background: viewToolbar.background, background_attr: "full" } || { background: "#ffffff", background_attr: "full" },
                                 autoManaged: false,
                             },
                         },
-                    },*/
+                    },
                     __score: {
                         __name: i18n.t('Score'),
                         icon: 'school',

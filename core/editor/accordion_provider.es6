@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { isContainedView, isSlide, isSortableBox, isSortableContainer } from "../../common/utils";
 import Select from "react-select";
-import { ControlLabel, Popover, FormControl, OverlayTrigger, FormGroup, Panel, Radio, InputGroup } from "react-bootstrap";
+import { ControlLabel, Popover, FormControl, OverlayTrigger, Button, FormGroup, Panel, Radio, InputGroup } from "react-bootstrap";
 import RadioButtonFormGroup from "../../_editor/components/toolbar/radio_button_form_group/RadioButtonFormGroup";
 import { UPDATE_PLUGIN_TOOLBAR } from "../../common/actions";
 import ToggleSwitch from "@trendmicro/react-toggle-switch/lib/index";
@@ -627,14 +627,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                 let canvas = document.createElement('canvas');
                                 let ctx = canvas.getContext('2d');
                                 ctx.drawImage(img, 0, 0, 1200, 1200);
-                                toolbar_props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, { background: data, attr: 'full' });
-                                if (!button.autoManaged) {
-                                    if (!button.callback) {
-                                        this.handlecanvasToolbar(buttonKey, { background: data, attr: 'full' });
-                                    } else {
-                                        button.callback(state, buttonKey, data, id, UPDATE_TOOLBAR);
-                                    }
-                                }
+                                this.handlecanvasToolbar(buttonKey, { background: data, background_attr: 'full' });
                             };
                             img.src = data;
                         };
@@ -879,11 +872,11 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     }
 
     if (button.type === "background_picker") {
-        let isURI = (/data\:/).test(props.value);
-        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value);
+        let isURI = (/data\:/).test(props.value.background);
+        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background);
         let default_background = "rgb(255,255,255)";
         let isSli = isSlide(toolbar_props.navItems[toolbar_props.navItemSelected].type);
-
+        console.log(isColor, props.value);
         return React.createElement(
             FormGroup,
             { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
@@ -893,7 +886,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     { key: 'label1_' + button.__name },
                     i18n.t('background.background_color')),
                 React.createElement(
-                    ColorPicker, { key: "cpicker_" + props.label, value: isColor ? props.value : default_background, onChange: props.onChange },
+                    ColorPicker, { key: "cpicker_" + props.label, value: (isColor && props.value) ? props.value.background : default_background, onChange: props.onChange },
                     []),
                 isSli && React.createElement(
                     ControlLabel,
@@ -909,7 +902,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                             style: { width: '100%' },
                         },
                         React.createElement('div', {
-                            style: { backgroundImage: isURI ? 'url(' + props.value + ')' : 'none' },
+                            style: { backgroundImage: (isURI && props.value) ? 'url(' + props.value.background + ')' : 'none' },
                             key: "inside_" + props.label,
                             className: 'fileDrag_toolbar',
                         }, isURI ? null : [
@@ -933,13 +926,13 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                             React.createElement(FormControl,
                                 {
                                     key: 'urlinput_' + props.label,
-                                    value: isURI || isColor ? '' : props.value,
+                                    value: (isURI || isColor || props.value) ? '' : props.value.background,
                                     onChange: props.onChange,
                                 }, null),
                         ]),
-                    (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: props.value.attr === 'full', onChange: props.onChange, value: 'full' }, 'full'),
-                    (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: props.value.attr === 'repeat', onChange: props.onChange, value: 'repeat' }, 'repeat'),
-                    (!isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display', checked: props.value.attr === 'centered', onChange: props.onChange, value: 'centered' }, 'centered'),
+                    (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: props.value.background_attr === 'full', onChange: props.onChange, value: 'full' }, 'full'),
+                    (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: props.value.background_attr === 'repeat', onChange: props.onChange, value: 'repeat' }, 'repeat'),
+                    (!isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display', checked: props.value.background_attr === 'centered', onChange: props.onChange, value: 'centered' }, 'centered'),
                     ]
                 ),
                 React.createElement(
@@ -954,8 +947,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                         className: "toolbarButton",
                     },
                     React.createElement("div", { key: props.label }, "Reset"),
-                ),
-            ]);
+                )]);
     }
 
     if (button.type === "external_provider") {
@@ -1093,9 +1085,9 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     switch (name) {
     // change page/slide title
     case i18n.t('background.background'):
-        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(value.background);
+        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(value);
         if(isColor) {
-            toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, value.background);
+            toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, value);
         } else {
             toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, value);
         }
