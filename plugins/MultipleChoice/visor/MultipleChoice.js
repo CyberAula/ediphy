@@ -18,7 +18,7 @@ export function MultipleChoice() {
                 content.push(
                     <div key={i + 1} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : "")}>
                         <div className={"col-xs-2 answerPlaceholder"}>
-                            <div className={"answer_letter"} >{letterFromNumber(i)}</div>
+                            <div className={"answer_letter"} >{state.letters ? letterFromNumber(i) : (i + 1)}</div>
                             <input type="radio" disabled={attempted} className="radioQuiz" name={props.id}
                                 value={i} checked={ checked}
                                 onChange={(e)=>{

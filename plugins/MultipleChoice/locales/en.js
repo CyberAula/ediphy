@@ -9,5 +9,6 @@ module.exports = {
         "FeedbackMsg": "Here you can provide some feedback about the answer",
         "ShowFeedback": "Show feedback",
         "Number": "Number  of answers",
+        "ShowLettersInsteadOfNumbers": "Show letters instead of numbers",
     },
 };

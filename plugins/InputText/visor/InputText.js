@@ -19,7 +19,7 @@ export function InputText() {
         checkAnswer(current, correct, state) {
 
             if (state.type === 'text') {
-                let answers = (correct && correct.split) ? correct.split("//") : "";
+                let answers = (correct && correct.split) ? correct.split("//") : [""];
                 let user = current;
                 let sanitizedAnswers = answers;
                 if (state.characters) {

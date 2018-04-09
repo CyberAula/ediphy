@@ -40,6 +40,11 @@ export function MultipleChoice(base) {
                                     type: 'checkbox',
                                     checked: state.showFeedback,
                                 },
+                                letters: {
+                                    __name: i18n.t("MultipleChoice.ShowLettersInsteadOfNumbers"),
+                                    type: 'checkbox',
+                                    checked: state.letters,
+                                },
                             },
                         },
                         style: {
@@ -101,6 +106,7 @@ export function MultipleChoice(base) {
             return {
                 nBoxes: 3,
                 showFeedback: true,
+                letters: true,
             };
         },
         getRenderTemplate: function(state, props = {}) {
@@ -111,7 +117,7 @@ export function MultipleChoice(base) {
                 };
                 answers.push(<div key={i + 1} className={"row answerRow"}>
                     <div className={"col-xs-2 answerPlaceholder"}>
-                        <div className={"answer_letter"} >{letterFromNumber(i)}</div>
+                        <div className={"answer_letter"} >{state.letters ? letterFromNumber(i) : (i + 1)}</div>
                         <input type="radio" className="radioQuiz" name={props.id} value={i} checked={props.exercises.correctAnswer === i /* ? 'checked' : 'unchecked'*/ }
                             onChange={clickHandler} />
                     </div>

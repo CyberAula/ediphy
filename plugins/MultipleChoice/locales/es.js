@@ -9,5 +9,6 @@ module.exports = {
         "ShowFeedback": "Mostrar explicación",
         "Answer": "Respuesta",
         "Number": "Número de respuestas",
+        "ShowLettersInsteadOfNumbers": "Mostrar letra en vez de nº",
     },
 };

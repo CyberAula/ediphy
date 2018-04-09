@@ -40,6 +40,11 @@ export function MultipleAnswer(base) {
                                     type: 'checkbox',
                                     checked: state.showFeedback,
                                 },
+                                letters: {
+                                    __name: i18n.t("MultipleAnswer.ShowLettersInsteadOfNumbers"),
+                                    type: 'checkbox',
+                                    checked: state.letters,
+                                },
                             },
                         },
                         style: {
@@ -101,6 +106,7 @@ export function MultipleAnswer(base) {
             return {
                 nBoxes: 3,
                 showFeedback: true,
+                letters: true,
             };
         },
         getRenderTemplate: function(state, props = {}) {
@@ -110,7 +116,7 @@ export function MultipleAnswer(base) {
                 let checked = (props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1);
                 answers.push(<div key={i + 1} className={"row answerRow"}>
                     <div className={"col-xs-2 answerPlaceholder"}>
-                        <div className={"answer_letter"}>{letterFromNumber(i)}</div>
+                        <div className={"answer_letter"}>{state.letters ? letterFromNumber(i) : (i + 1)}</div>
                         <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
                             let newCorrectAnswer = props.exercises.correctAnswer.filter((c)=>{
                                 return (c < answers.length);

@@ -565,7 +565,7 @@ class EditorApp extends Component {
                     parsePluginContainersReact(content, pluginContainerIds, defaultBoxes);
                 }
 
-                if (Object.keys(toolbar.state.__pluginContainerIds).length < Object.keys(pluginContainerIds).length) {
+                if (toolbar.state.__pluginContainerIds && (Object.keys(toolbar.state.__pluginContainerIds).length < Object.keys(pluginContainerIds).length)) {
                     for (let s in pluginContainerIds) {
                         if (!toolbar.state.__pluginContainerIds[s]) {
                             if (defaultBoxes[s]) {
@@ -589,7 +589,7 @@ class EditorApp extends Component {
                             }
                         }
                     }
-                } else if (Object.keys(toolbar.state.__pluginContainerIds).length > Object.keys(pluginContainerIds).length) {
+                } else if (toolbar.state.__pluginContainerIds && (Object.keys(toolbar.state.__pluginContainerIds).length > Object.keys(pluginContainerIds).length)) {
                     for (let s in toolbar.state.__pluginContainerIds) {
                         if (!pluginContainerIds[s]) {
                             if (this.props.boxes[id].sortableContainers[s].children) {
