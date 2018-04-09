@@ -53,11 +53,13 @@ export default class Alert extends Component {
                 <Modal.Footer>
                     { this.props.cancelButton ? (
                         <Button bsStyle={this.props.bsStyle || 'default'}
+                            name='cancelButton'
                             className="popupFooterButton"
                             onClick={e=>{this.props.onClose(false);}}>
                             { this.props.cancelButtonText || i18n.t('messages.Cancel') }
                         </Button>) : null }
                     <Button bsStyle={this.props.bsStyle || 'primary'}
+                        name='okButton'
                         className="popupFooterButton"
                         onClick={e=>{this.props.onClose(true);}}>
                         { this.props.acceptButtonText || i18n.t('messages.OK') }
