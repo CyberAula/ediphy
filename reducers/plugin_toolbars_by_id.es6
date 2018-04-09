@@ -211,7 +211,7 @@ export default function(state = {}, action = {}) {
         } else {
             newValues[action.payload.name] = action.payload.value;
         }
-        return {
+        let updatedState = {
             ...state,
             [action.payload.id]: {
                 ...state[action.payload.id],
@@ -221,6 +221,10 @@ export default function(state = {}, action = {}) {
                 },
             },
         };
+        for (let b in action.payload.deletedBoxes) {
+            delete updatedState[action.payload.deletedBoxes[b]];
+        }
+        return updatedState;
     case VERTICALLY_ALIGN_BOX:
         return {
             ...state,

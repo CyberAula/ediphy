@@ -213,24 +213,24 @@ function boxReducer(state = {}, action = {}) {
             for (let containerKey in action.payload.value[1]) {
                 let container = action.payload.value[1][containerKey];
                 // if not found -> create new one; otherwise copy existing
-                if (!state.sortableContainers[container.id]) {
+                if (!state.sortableContainers[container.id] && action.payload.value[1][containerKey]) {
                     newSortableContainers[container.id] = sortableContainerCreator(containerKey, [], container.height, action.payload.id);
                 } else {
                     newSortableContainers[container.id] = Utils.deepClone(state.sortableContainers[container.id]);
                 }
-                newChildren.push(container.id);
+                newChildren.push(containerKey);
             }
 
             // return state;
             return changeProps(
                 state,
                 [
-                    /* "content",
-                  "children",*/
+                    /* "content",*/
+                    "children",
                     "sortableContainers",
                 ], [
-                    /* action.payload.content,
-                  newChildren,*/
+                    /* action.payload.content,*/
+                    newChildren,
                     newSortableContainers,
                 ]
             );
@@ -475,7 +475,11 @@ export default function(state = {}, action = {}) {
     case UPDATE_BOX:
     case TOGGLE_TEXT_EDITOR:
     case UPDATE_PLUGIN_TOOLBAR:
-        return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
+        let updatedState = JSON.parse(JSON.stringify(state));
+        for (let b in action.payload.deletedBoxes) {
+            delete updatedState[action.payload.deletedBoxes[b]];
+        }
+        return changeProp(updatedState, action.payload.id, boxReducer(updatedState[action.payload.id], action));
     case ADD_RICH_MARK:
         // If rich mark is connected to a contained view (new or existing), mark.connection will include this information;
         // otherwise, it's just the id/url and we're not interested

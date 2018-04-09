@@ -237,35 +237,11 @@ export default function(state = {}, action = {}) {
         if (isContainedView(action.payload.ids.parent)) {
             newState = changeProp(newState, action.payload.ids.parent, singleContainedViewReducer(newState[action.payload.ids.parent], action));
         }
-        if (action.payload.toolbar && action.payload.toolbar.state && action.payload.toolbar.state.__marks) {
-            let marks = action.payload.toolbar.state.__marks;
+        if (action.payload.marks) {
+            let marks = action.payload.marks;
             for (let mark in marks) {
                 if (isContainedView(marks[mark].connection)) {
-                    if (newState[marks[mark].connection]) {
-                        if (!newState[marks[mark].connection].parent[action.payload.ids.id]) {
-                            newState[marks[mark].connection].parent[action.payload.ids.id] = [];
-                        }
-                        newState[marks[mark].connection].parent[action.payload.ids.id].push(mark);
-
-                    }
-                }
-            }
-        }
-        if(action.payload.children) {
-            let ids = Object.keys(action.payload.children);
-
-            for (let id in ids) {
-                let marks = action.payload.children[ids[id]].toolbar.state.__marks;
-                for (let mark in marks) {
-                    if (isContainedView(marks[mark].connection)) {
-                        if (newState[marks[mark].connection]) {
-                            if (!newState[marks[mark].connection].parent[ids[id]]) {
-                                newState[marks[mark].connection].parent[ids[id]] = [];
-                            }
-                            newState[marks[mark].connection].parent[ids[id]].push(mark);
-
-                        }
-                    }
+                    newState[marks[mark].connection].parent[mark] = marks[mark].origin;
                 }
             }
         }

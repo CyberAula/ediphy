@@ -19,36 +19,36 @@ export default class CVInfo extends Component {
             }
             return 0;
         }).filter(item => typeof item === 'string');
+        let boxMarks = {};
         for (let id in containedView.parent) {
-            if (marks[id]) {
-                let el = this.props.boxes[marks[id].origin];
-                let from = "unknown";
-                let markName = "";
-                if (mark_views.includes(id)) {
-                    let at = '@';
-                    for (let mark in mark_views) {
-                        if (marks[mark_views[mark]].connection === containedView.id) {
-                            markName += marks[mark_views[mark]].title + ', ';
-                        }
-                    }
-                    markName = markName.slice(0, markName.length - 2) + " " + at + " ";
-                }
-
-                let parentName;
-                if (isSortableBox(el.parent)) {
-                    let origin = this.props.boxes[el.parent].parent;
-                    from = this.props.viewToolbars[origin].viewName;
-                } else if (isBox(el.parent)) {
-                    let origin = this.props.boxes[this.props.boxes[el.parent].parent].parent;
-                    from = this.props.viewToolbars[origin].viewName;
-
-                } else if (isCanvasElement(el.parent)) {
-                    from = this.props.viewToolbars[el.parent].viewName;
-                } else {
-                    break;
-                }
-                cvList.push(<span className="cvList" key={id}>{markName}<b>{this.props.pluginToolbars[el.id].pluginId}</b> { ' (' + from + ')'}</span>);
+            boxMarks[containedView.parent[id]] = [...(boxMarks[containedView.parent[id]] || []), id];
+        }
+        let at = '@';
+        for (let box in boxMarks) {
+            let el = this.props.boxes[box];
+            let from = "unknown";
+            let markName = "";
+            for (let m in boxMarks[box]) {
+                markName += marks[boxMarks[box][m]].title + ', ';
             }
+            markName = markName.slice(0, markName.length - 2) + " " + at + " ";
+            let parentName;
+            if (isSortableBox(el.parent)) {
+                let origin = this.props.boxes[el.parent].parent;
+                from = this.props.viewToolbars[origin].viewName;
+            } else if (isBox(el.parent)) {
+                let origin = this.props.boxes[this.props.boxes[el.parent].parent].parent;
+                from = this.props.viewToolbars[origin].viewName;
+
+            } else if (isCanvasElement(el.parent)) {
+                from = this.props.viewToolbars[el.parent].viewName;
+            } else {
+                break;
+            }
+            let pluginName = Ediphy.Plugins.get(this.props.pluginToolbars[el.id].pluginId).getConfig().displayName;
+            cvList.push(<span className="cvList"
+                key={box}>{markName}<b>{pluginName}</b> {' (' + from + ')'}</span>);
+
         }
 
         return (<OverlayTrigger placement="bottom" overlay={

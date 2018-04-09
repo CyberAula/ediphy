@@ -34,7 +34,6 @@ export default class ViewToolbar extends Component {
             doc_type = i18n.t('section');
         }
         let viewToolbar = this.props.viewToolbars[id];
-        console.log(viewToolbar);
         let controls = {
             main: {
                 __name: "Main",

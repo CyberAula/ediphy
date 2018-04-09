@@ -6,6 +6,7 @@ import RadioButtonFormGroup from "../../_editor/components/toolbar/radio_button_
 import { UPDATE_PLUGIN_TOOLBAR } from "../../common/actions";
 import ToggleSwitch from "@trendmicro/react-toggle-switch/lib/index";
 import React from "react";
+import FileInput from "../../_editor/components/common/file-input/FileInput";
 import MarksList from "../../_editor/components/rich_plugins/marks_list/MarksList";
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
 import ExternalProvider from "../../_editor/components/external_provider/external_provider/ExternalProvider";
@@ -876,7 +877,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background);
         let default_background = "rgb(255,255,255)";
         let isSli = isSlide(toolbar_props.navItems[toolbar_props.navItemSelected].type);
-        console.log(isColor, props.value);
         return React.createElement(
             FormGroup,
             { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },

@@ -551,11 +551,11 @@ class EditorApp extends Component {
             let toolbar = this.props.pluginToolbars[id];
             let pluginAPI = Ediphy.Plugins.get(toolbar.pluginId);
             let config = pluginAPI.getConfig();
-
+            let deletedBoxes = [];
             if (config.isComplex && accordion === 'state') {
                 let newPluginState = JSON.parse(JSON.stringify(toolbar.state));
                 newPluginState[name] = value;
-                let pluginContainerIds = newPluginState.__pluginContainerIds;
+                let pluginContainerIds = {};// newPluginState.__pluginContainerIds;
                 let defaultBoxes = {};
                 if (config.flavor !== "react") {
                     let content = pluginAPI.getRenderTemplate(newPluginState);
@@ -565,14 +565,14 @@ class EditorApp extends Component {
                     parsePluginContainersReact(content, pluginContainerIds, defaultBoxes);
                 }
 
-                this.props.dispatch(updatePluginToolbar(id, tab, accordion,
-                    [name, "__pluginContainerIds"],
-                    [value, pluginContainerIds]));
                 if (Object.keys(toolbar.state.__pluginContainerIds).length < Object.keys(pluginContainerIds).length) {
                     for (let s in pluginContainerIds) {
                         if (!toolbar.state.__pluginContainerIds[s]) {
                             if (defaultBoxes[s]) {
                                 let page = this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
+                                this.props.dispatch(updatePluginToolbar(id, tab, accordion,
+                                    [name, "__pluginContainerIds"],
+                                    [value, pluginContainerIds]));
                                 createBox({
                                     parent: id,
                                     page,
@@ -585,13 +585,25 @@ class EditorApp extends Component {
                                 }, defaultBoxes[s].type, false,
                                 (ids, draggable, resizable, content, style, state, structure, initialParams)=>{this.props.dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams));},
                                 this.props.boxes);
+                                return;
                             }
                         }
                     }
-                } // Delete if it's the other way around?
+                } else if (Object.keys(toolbar.state.__pluginContainerIds).length > Object.keys(pluginContainerIds).length) {
+                    for (let s in toolbar.state.__pluginContainerIds) {
+                        if (!pluginContainerIds[s]) {
+                            if (this.props.boxes[id].sortableContainers[s].children) {
+                                deletedBoxes = deletedBoxes.concat(this.props.boxes[id].sortableContainers[s].children);
+                            }
+                        }
+                    }
+                }
+                this.props.dispatch(updatePluginToolbar(id, tab, accordion,
+                    [name, "__pluginContainerIds"],
+                    [value, pluginContainerIds], deletedBoxes));
                 return;
             }
-            this.props.dispatch(updatePluginToolbar(id, tab, accordion, name, value));
+            this.props.dispatch(updatePluginToolbar(id, tab, accordion, name, value, deletedBoxes));
         } else {
             this.props.dispatch(updateViewToolbar(id, tab, accordion, name, value));
         }
