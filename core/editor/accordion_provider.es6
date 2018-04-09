@@ -581,13 +581,13 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                             let ctx = canvas.getContext('2d');
                             ctx.drawImage(img, 0, 0, 1200, 1200);
                             toolbar_props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, canvas.toDataURL("image/jpeg"));
-                            if (!button.autoManaged) {
+                            /* if (!button.autoManaged) {
                                 if (!button.callback) {
                                     this.handlecanvasToolbar(buttonKey, data);
                                 } /* else {
                                     button.callback(state, buttonKey, data, id, UPDATE_TOOLBAR);
-                                }*/
-                            }
+                                }
+                            }*/
                         };
                         img.src = data;
                     };
@@ -628,7 +628,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                 let canvas = document.createElement('canvas');
                                 let ctx = canvas.getContext('2d');
                                 ctx.drawImage(img, 0, 0, 1200, 1200);
-                                this.handlecanvasToolbar(buttonKey, { background: data, background_attr: 'full' });
+                                handlecanvasToolbar(buttonKey, value, accordion, toolbar_props);
                             };
                             img.src = data;
                         };
@@ -1084,7 +1084,7 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     let toolbar = accordions;
     switch (name) {
     // change page/slide title
-    case i18n.t('background.background'):
+    case "background":
         let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(value);
         if(isColor) {
             toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, value);

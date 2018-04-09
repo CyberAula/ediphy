@@ -40,12 +40,13 @@ export default class EditorCanvasDoc extends Component {
             pageType: itemSelected.type || 0,
         };
 
+        let toolbar = this.props.viewToolbars[itemSelected.id];
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasDocClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
 
                 <div className="scrollcontainer"
-                    style={{ backgroundColor: show ? itemSelected.background : 'transparent', display: show ? 'block' : 'none' }}
+                    style={{ backgroundColor: show ? toolbar.background : 'transparent', display: show ? 'block' : 'none' }}
                     onMouseDown={e => {
                         if (e.target === e.currentTarget) {
                             this.props.onBoxSelected(-1);
@@ -68,14 +69,14 @@ export default class EditorCanvasDoc extends Component {
                         onViewTitleChanged={this.props.onViewTitleChanged}
                         onTitleChanged={this.props.onTitleChanged}
                     />
-                    <div className="outter canvaseditor" style={{ background: itemSelected.background, display: show ? 'block' : 'none' }}>
+                    <div className="outter canvaseditor" style={{ background: toolbar.background, display: show ? 'block' : 'none' }}>
                         <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
                             className={'doc_air'}
-                            style={{ background: itemSelected.background, visibility: (show ? 'visible' : 'hidden') }}>
+                            style={{ background: toolbar.background, visibility: (show ? 'visible' : 'hidden') }}>
 
                             <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                                 className={'innercanvas doc'}
-                                style={{ background: itemSelected.background, visibility: (show ? 'visible' : 'hidden'), paddingBottom: '10px' }}>
+                                style={{ background: toolbar.background, visibility: (show ? 'visible' : 'hidden'), paddingBottom: '10px' }}>
 
                                 <br/>
 

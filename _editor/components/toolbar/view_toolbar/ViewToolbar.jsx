@@ -100,7 +100,7 @@ export default class ViewToolbar extends Component {
                             background: {
                                 __name: i18n.t('background.background'),
                                 type: 'background_picker',
-                                value: { background: viewToolbar.background, background_attr: "full" } || { background: "#ffffff", background_attr: "full" },
+                                value: { background: viewToolbar.background, background_attr: viewToolbar.background_attr } || { background: "#ffffff", background_attr: "full" },
                                 autoManaged: false,
                             },
                         },

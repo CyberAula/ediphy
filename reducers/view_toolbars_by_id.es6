@@ -33,11 +33,13 @@ function toolbarElementCreator(state, action, containedView = false) {
         doc_type = i18n.t('Page');
     }
 
+    let name = containedView ? action.payload.toolbar.viewName : doc_type;
+
     let toolbar = {
         id: id,
         breadcrumb: action.payload.hideTitles ? 'hidden' : 'reduced',
         doc_type: type,
-        viewName: doc_type,
+        viewName: name,
         courseTitle: 'hidden',
         documentSubTitle: 'hidden',
         documentSubtitleContent: 'Subtítulo',

@@ -155,7 +155,7 @@ export default class CarouselList extends Component {
                                         <i style={{ marginRight: '10px' }} className="material-icons">{isSlide(this.props.containedViews[id].type) ? "slideshow" : "insert_drive_file"}</i>
                                         <EditorIndexTitle
                                             id={id}
-                                            title={this.props.containedViews[id].name}
+                                            title={this.props.viewToolbars[id].viewName}
                                             index={1}
                                             hidden={false}
                                             onNameChanged={this.props.onContainedViewNameChanged} />

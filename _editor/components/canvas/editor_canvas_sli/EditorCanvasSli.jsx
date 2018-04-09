@@ -49,11 +49,11 @@ export default class EditorCanvasSli extends Component {
             actualHeight = parseInt(maincontent.scrollHeight, 10);
             actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
         }
-
+        let toolbar = this.props.viewToolbars[itemSelected.id];
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
-        let backgroundIsUri = (/data\:/).test(itemSelected.background);
-        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(itemSelected.background);
+        let backgroundIsUri = (/data\:/).test(toolbar.background);
+        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(toolbar.background);
         let gridOn = this.props.grid && ((this.props.containedViewSelected !== 0) === this.props.fromCV);
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
@@ -72,11 +72,11 @@ export default class EditorCanvasSli extends Component {
                             e.stopPropagation();
                         }}
                         className={'innercanvas sli'}
-                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: isColor ? itemSelected.background : '',
-                            backgroundImage: (!isColor && itemSelected.background) ? 'url(' + itemSelected.background.background + ')' : '',
-                            backgroundSize: (itemSelected.background && (itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'repeat')) ? 'auto 100%' : 'cover',
-                            backgroundRepeat: (itemSelected.background && (itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'full')) ? 'no-repeat' : 'repeat',
-                            backgroundPosition: (itemSelected.background && (itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'full')) ? 'center center' : '0% 0%' }}>
+                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: isColor ? toolbar.background : '',
+                            backgroundImage: (!isColor && toolbar.background) ? 'url(' + itemSelected.background.background + ')' : '',
+                            backgroundSize: (toolbar.background && (toolbar.background.attr === 'centered' || toolbar.background.attr === 'repeat')) ? 'auto 100%' : 'cover',
+                            backgroundRepeat: (toolbar.background && (toolbar.background.attr === 'centered' || toolbar.background.attr === 'full')) ? 'no-repeat' : 'repeat',
+                            backgroundPosition: (toolbar.background && (toolbar.background.attr === 'centered' || toolbar.background.attr === 'full')) ? 'center center' : '0% 0%' }}>
                         {this.state.alert}
                         {gridOn ? <SnapGrid key={this.props.fromCV}/> : null}
                         <EditorHeader titles={titles}

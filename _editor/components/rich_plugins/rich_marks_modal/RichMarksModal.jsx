@@ -293,7 +293,7 @@ export default class RichMarksModal extends Component {
                                     type: this.state.newType,
                                     id: newId,
                                     parent: { [newMark]: this.props.boxSelected },
-                                    name: name,
+                                    // name: name,
                                     boxes: this.state.newType === "document" ? [sortable_id] : [],
                                     extraFiles: {},
                                 },
