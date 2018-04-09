@@ -1,5 +1,6 @@
 @import "../../sass/general/_variables.scss";
 .multipleAnswerPlugin {
+  padding: 10px;
   .checkQuiz {
     //margin-bottom: -2px !important;
     //margin-left: 10px !important;
@@ -57,10 +58,10 @@
   .answerPlaceholder {
     display: flex;
     font-size: 24px;
-    margin: 5px;
+    margin: 5px 10px;
     text-align: right;
     color: $blueprimarydark;
-    padding-right: 0;
+    padding: 0;
     width: auto;
     .answer_letter{
       color: white;
@@ -69,13 +70,17 @@
       width: 30px;
       height: 30px;
       text-align: center;
+      font-weight: 100;
+      text-transform: uppercase;
+      padding: 4px 0;
+      font-size: 20px;
     }
   }
 
   .answerRow {
     margin: 0;
     .col-xs-10{
-      margin: 5px 0;
+      margin: 2px 0;
       padding: 0;
       width: 75%;
     }
@@ -97,21 +102,24 @@
     border: 2px solid transparent;
     border-radius: 5px;
     &.correct {
-      border: 2px solid rgba(0,255,0,0.5);
+      border: 1px solid $detailgreen;
+      background-color: $detailgreentransparent;
     }
-
     &.incorrect {
-      border: 2px solid rgba(255,0,0,0.5);
+      border: 1px solid $lightred;
+      background-color: $lightredtransparent;
     }
   }
   .feedbackRow {
-    padding:10px 20px;
-    margin:0;
+    padding: 10px 0;
+    margin: 0;
     .feedback {
       background-color: $blueprimarytransparent;
-      margin:0;
-      padding:0
-
+      margin: 0;
+      padding: 0;
+      border: 1px solid $blueprimary;
+      color: $blueprimary;
+      border-radius: 3px;
     }
   }
 }

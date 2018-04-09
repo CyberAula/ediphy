@@ -34,12 +34,12 @@ export default class EditorShortcuts extends Component {
         let config = apiPlugin.getConfig();
         let boxEl = findBox((box ? box.id : ''));
         let nBoxes = [{
-            i18nKey: 'AddBox',
-            icon: 'arrow_downward',
+            i18nKey: 'add_answer',
+            icon: 'playlist_add',
             callback: ()=>{ this.props.onToolbarUpdated(box.id, "main", "state", 'nBoxes', toolbar.state.nBoxes + 1);},
         }, {
-            i18nKey: 'RemoveBox',
-            icon: 'arrow_upward',
+            i18nKey: 'remove_answer',
+            icon: 'delete_sweep',
             callback: ()=>{if (toolbar.state.nBoxes > 1) {this.props.onToolbarUpdated(box.id, "main", "state", 'nBoxes', toolbar.state.nBoxes - 1);}},
         }];
         return (

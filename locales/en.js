@@ -209,8 +209,8 @@ let en = {
         },
         "messages": {
             "add_new_mark": "Add new mark",
+            "add_answer": "Add answer",
             "AddBox": "Add new box",
-            "RemoveBox": "Delete one box",
             "adjust_to_document": "Adjust to document",
             "alert": "Alert",
             "align_bottom": "The bottom of the element is aligned with the lowest element on the line",
@@ -257,6 +257,8 @@ let en = {
             "preview": "Show a preliminary view",
             "publish": "Makes the course available for the public",
             "redo": "Redo the last action",
+            "RemoveBox": "Delete one box",
+            "remove_answer": "Remove answer",
             "save_changes": "Save changes",
             "saving": "Saving...",
             "undo": "Undo the last action",

@@ -25,8 +25,8 @@ export function TrueFalse(base) {
                     __name: "Main",
                     accordions: {
                         __score: {
-                            __name: i18n.t('Score'),
-                            icon: 'web',
+                            __name: i18n.t('configuration'),
+                            icon: 'build',
                             buttons: {
                                 nBoxes: {
                                     __name: i18n.t("TrueFalse.Number"),
@@ -39,6 +39,57 @@ export function TrueFalse(base) {
                                     __name: i18n.t("MultipleChoice.ShowFeedback"),
                                     type: 'checkbox',
                                     checked: state.showFeedback,
+                                },
+                            },
+                        },
+                        style: {
+                            __name: Ediphy.i18n.t('HotspotImages.box_style'),
+                            icon: 'palette',
+                            buttons: {
+                                padding: {
+                                    __name: Ediphy.i18n.t('HotspotImages.padding'),
+                                    type: 'number',
+                                    value: 10,
+                                    min: 0,
+                                    max: 100,
+                                },
+                                backgroundColor: {
+                                    __name: Ediphy.i18n.t('HotspotImages.background_color'),
+                                    type: 'color',
+                                    value: '#ffffff',
+                                },
+                                borderWidth: {
+                                    __name: Ediphy.i18n.t('HotspotImages.border_size'),
+                                    type: 'number',
+                                    value: 1,
+                                    min: 0,
+                                    max: 10,
+                                },
+                                borderStyle: {
+                                    __name: Ediphy.i18n.t('HotspotImages.border_style'),
+                                    type: 'select',
+                                    value: 'solid',
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
+                                },
+                                borderColor: {
+                                    __name: Ediphy.i18n.t('HotspotImages.border_color'),
+                                    type: 'color',
+                                    value: '#dbdbdb',
+                                },
+                                borderRadius: {
+                                    __name: Ediphy.i18n.t('HotspotImages.radius'),
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    max: 50,
+                                },
+                                opacity: {
+                                    __name: Ediphy.i18n.t('HotspotImages.opacity'),
+                                    type: 'range',
+                                    value: 1,
+                                    min: 0,
+                                    max: 1,
+                                    step: 0.01,
                                 },
                             },
                         },
@@ -89,8 +140,13 @@ export function TrueFalse(base) {
                     </div>
                 </div>
                 <div className={"row TFRow"} key={0}>
-                    <div className={"col-xs-1 "}>T</div><div className={"col-xs-1"}>F</div><div className={"col-xs-10"} />
-                </div>
+                    <div className={"col-xs-1"}>
+                        <i className="material-icons true">done</i>
+                    </div>
+                    <div className={"col-xs-1"}>
+                        <i className="material-icons false">clear</i>
+                    </div>
+                    <div className={"col-xs-10"} /></div>
                 {answers}
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
                     <div className={"col-xs-12 feedback"}>

@@ -81,7 +81,7 @@ export function InputText(base) {
             let fs = state.fontSize + 'px';
             return <div className={"exercisePlugin inputTextPlugin"} >
                 <input type={state.type} style={{ fontSize: fs, lineHeight: fs, height: fs }} className="inputText" name={props.id} value={props.exercises.correctAnswer} onChange={clickHandler}/>
-                <div className="dragHandleInputPlugin" style={{ lineHeight: fs, height: fs, width: fs }}><i className="material-icons">apps</i></div>
+                <div className="dragHandleInputPlugin" style={{ lineHeight: fs, height: fs, width: fs }}><i className="material-icons">reorder</i></div>
             </div>;
 
         },

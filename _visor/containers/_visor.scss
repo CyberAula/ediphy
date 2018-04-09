@@ -373,11 +373,11 @@ li > .selectedNavItemVisor {
 
 
 .visorwrapper #containedCanvas {
-  min-height: 100% !important;  
+  min-height: 100% !important;
 }
 
 .visorwrapper #containedCanvas #airlayer{
-  //min-height: 100vh ;  
+  //min-height: 100vh ;
 }
 
 .indexElementTitle {
@@ -386,12 +386,8 @@ li > .selectedNavItemVisor {
     white-space: nowrap;
     display: inline-block;
     padding-right: 10px;
-    
-}
-// .visorwrapper #containedCanvas {
-//   min-height: 100%;  
-// }
 
+}
 .doc, .sli, #maincontent, #airlayer {
   overflow: visible;
 }
@@ -400,10 +396,10 @@ li > .selectedNavItemVisor {
 }
 
 .submitButton {
-  background-color: white;
-  padding: 10px 40px;
-  border-radius: 25px;
-  border: 3px solid $blueprimary;
+  background-color: $blueprimarytransparent;
+  padding: 5px 25px;
+  border-radius: 0;
+  border: 2px solid $blueprimary;
   color: $blueprimary;
   font-size: 18px;
   vertical-align: middle;
@@ -425,6 +421,9 @@ li > .selectedNavItemVisor {
   line-height: 2em;
   color: $blueprimary;
   font-size: 1.9em;
+  position: absolute;
+  right: 20px;
+  top: 50px;
   span {
     font-size: 2.2em;
   }
@@ -442,13 +441,16 @@ li > .selectedNavItemVisor {
 }
 .sli {
   .pageFooter {
-    bottom: 0;
+    top: 0;
     right: 0;
     position: absolute;
     height: auto;
     min-height:1px;
     line-height: 100%;
     width: auto;
+    .pageScore{
+      position: static;
+    }
     //background-color: white;
   }
 }

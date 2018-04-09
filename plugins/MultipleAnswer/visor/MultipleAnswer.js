@@ -19,7 +19,7 @@ export function MultipleAnswer() {
                 content.push(
                     <div key={i + 1} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : "")}>
                         <div className={"col-xs-2 answerPlaceholder"}>
-                            {letterFromNumber(i)}
+                            <div className={"answer_letter"} >{letterFromNumber(i)}</div>
                             <input type="checkbox" disabled={attempted} className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
                                 props.setAnswer(e.target.value);
                                 let newCurrentAnswer = props.exercises.currentAnswer ? Object.assign([], props.exercises.currentAnswer) : [];

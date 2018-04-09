@@ -3,13 +3,11 @@
 .inputTextPlugin {
   height:auto;
  .inputText {
-   //margin-top: 7.5px;
-   //margin-bottom: 1.5px;
    pointer-events: none;
    border-radius: 0px;
    min-height: 29px;
-   border: 2px solid $blueprimary;
-   //vertical-align: top;
+   //border: 2px solid $blueprimary;
+   border: 1px solid #ccc;
    padding: 0px 2px;
  }
   &.attempted.showFeedback {
@@ -30,8 +28,8 @@
    min-height: 29px;
    min-width: 29px;
    display:inline-block;
-   border: 2px solid $blueprimary;
-   background-color: $blueprimary;
+   //border: 2px solid $blueprimary;
+   //background-color: $blueprimary;
    vertical-align: top;
  }
   .exerciseScore {

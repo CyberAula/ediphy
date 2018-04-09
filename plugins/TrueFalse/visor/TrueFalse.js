@@ -55,7 +55,9 @@ export function TrueFalse() {
 
                 </div>
                 <div className={"row TFRow"} key={0}>
-                    <div className={"col-xs-1 "}>T</div><div className={"col-xs-1"}>F</div><div className={"col-xs-10"} />
+                    <div className={"col-xs-1 "}><i className="material-icons true">done</i></div>
+                    <div className={"col-xs-1"}><i className="material-icons false">clear</i></div>
+                    <div className={"col-xs-10"} />
                 </div>
                 {content}
                 <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>

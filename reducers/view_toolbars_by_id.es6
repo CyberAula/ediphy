@@ -61,7 +61,7 @@ export default function(state = {}, action = {}) {
     case ADD_NAV_ITEMS:
         let ids = action.payload.navs.map(nav=> { return nav.id; });
         let navs = action.payload.navs.map(nav=> { return toolbarElementCreator(state, { type: ADD_NAV_ITEM, payload: nav });});
-        return changeProps(state, [...ids], [...navs]);
+        return changeProp(state, [...ids], [...navs]);
     case ADD_RICH_MARK:
         if(action.payload.mark.connectMode === "new") {
             return changeProp(state, action.payload.view.id, toolbarElementCreator(state, action, isContainedView(action.payload.mark.connection)));
