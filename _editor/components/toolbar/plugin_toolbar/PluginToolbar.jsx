@@ -86,7 +86,7 @@ export default class PluginToolbar extends Component {
         }
         return Object.keys(controls).map((tabKey, index) => {
             let tab = controls[tabKey];
-            let children = this.props.box.children ? this.props.box.children.sort() : [];
+            let children = this.props.box.children ? [...this.props.box.children].sort() : [];
             return (
                 <div key={'key_' + index} className="toolbarTab">
                     <PanelGroup>
