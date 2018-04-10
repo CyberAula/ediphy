@@ -8,7 +8,7 @@ import { Col, Button } from 'react-bootstrap';
 import EditorHeader from '../editor_header/EditorHeader';
 import interact from 'interactjs';
 import { ADD_BOX, changeGlobalConfig, changeNavItemName } from '../../../../common/actions';
-import { isSortableBox } from '../../../../common/utils';
+import { isSlide, isSortableBox } from '../../../../common/utils';
 import { aspectRatio, createBox, instanceExists } from '../../../../common/common_tools';
 import Ediphy from '../../../../core/editor/main';
 import ReactResizeDetector from 'react-resize-detector';
@@ -237,7 +237,7 @@ export default class EditorCanvasSli extends Component {
                 } else {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
                     let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
-                    if (boxDragged.parent !== itemSelected.id) {
+                    if (boxDragged.parent !== itemSelected.id && (itemSelected.id !== boxDragged.parent || !isSlide(itemSelected.id))) {
                         this.props.onBoxDropped(this.props.boxSelected,
                             0, 0, itemSelected.id, 0, boxDragged.parent, boxDragged.container, position);
                     }

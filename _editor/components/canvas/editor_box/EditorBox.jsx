@@ -449,7 +449,7 @@ export default class EditorBox extends Component {
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('editorBoxIcons') :
                         document.getElementById('contained_editorBoxIcons');
-                    bar.classList.add('hidden');
+                    if (bar) {bar.classList.add('hidden');}
 
                     // Level has to be the same to drag a box, unless a sortableContainer is selected, then it should allow level 0 boxes
                     if ((box.level - this.props.boxLevelSelected) === 0 || (box.level === 0 && this.props.boxLevelSelected < 1)) {
@@ -575,11 +575,11 @@ export default class EditorBox extends Component {
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('editorBoxIcons') :
                         document.getElementById('contained_editorBoxIcons');
-                    bar.classList.add('hidden');
+                    if (bar) {bar.classList.add('hidden');}
 
                     // Append textbox with actual size
                     let sb = document.getElementsByClassName('selectedBox');
-                    if (sb && ('box-' + this.props.boxSelected) === sb[0].getAttribute('id')) {
+                    if (sb && sb[0] && ('box-' + this.props.boxSelected) === sb[0].getAttribute('id') && !document.getElementById('sizing')) {
                         let span = document.createElement("span");
                         span.setAttribute("id", "sizing");
                         let t = document.createTextNode(" ");
