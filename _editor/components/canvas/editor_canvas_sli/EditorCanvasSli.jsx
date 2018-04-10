@@ -161,7 +161,6 @@ export default class EditorCanvasSli extends Component {
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
                     accordions={this.props.accordions}
                     pluginToolbar={this.props.pluginToolbars[this.props.boxSelected]}/>
-
             </Col>
         );
     }

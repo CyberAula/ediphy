@@ -99,13 +99,13 @@ export function FreeResponse(base) {
             return <div className={"exercisePlugin freeResponsePlugin"} > {/* <h1>Free Response</h1>*/}
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
-                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={i18n.t('FreeResponse.Question') } plugin-data-default="BasicText" plugin-data-text={i18n.t("FreeResponse.Statement")} pluginContainer={'Question'} />
+                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={i18n.t('FreeResponse.Question') } plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("FreeResponse.Statement") + '</p>'} pluginContainer={'Question'} />
                         <textarea disabled className="form-control textAreaQuiz" placeholder={i18n.t('FreeResponse.PlaceholderEditor')}/>
                     </div>
                 </div>
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
                     <div className={"col-xs-12 feedback"}>
-                        <PluginPlaceholder {...props} key="-2" plugin-data-display-name={i18n.t("FreeResponse.Feedback")} plugin-data-default="BasicText" plugin-data-text={i18n.t("FreeResponse.FeedbackMsg")} pluginContainer={"Feedback"} />
+                        <PluginPlaceholder {...props} key="-2" plugin-data-display-name={i18n.t("FreeResponse.Feedback")} plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("FreeResponse.FeedbackMsg") + '</p>'} pluginContainer={"Feedback"} />
                     </div>
                 </div>
             </div>;

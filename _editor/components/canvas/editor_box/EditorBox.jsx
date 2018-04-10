@@ -572,11 +572,13 @@ export default class EditorBox extends Component {
                 edges: { left: true, right: true, bottom: true, top: true },
                 onstart: (event) => {
                     // Hide EditorShortcuts
+                    if (this.props.boxSelected !== this.props.id) {
+                        return;
+                    }
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('editorBoxIcons') :
                         document.getElementById('contained_editorBoxIcons');
                     if (bar) {bar.classList.add('hidden');}
-
                     // Append textbox with actual size
                     let sb = document.getElementsByClassName('selectedBox');
                     if (sb && sb[0] && ('box-' + this.props.boxSelected) === sb[0].getAttribute('id') && !document.getElementById('sizing')) {

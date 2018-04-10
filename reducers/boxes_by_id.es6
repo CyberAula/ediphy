@@ -318,7 +318,7 @@ function singleSortableContainerReducer(state = {}, action = {}) {
     case DELETE_BOX:
         return changeProp(state, "children", state.children.filter(id => id !== action.payload.id));
     case DROP_BOX:
-        if (action.payload.oldContainer === action.payload.container && action.payload.oldParent === action.payload.parent && action.payload.index) {
+        if (action.payload.oldContainer === action.payload.container && action.payload.oldParent === action.payload.parent && (action.payload.index || action.payload.index === 0)) {
             let newCh = state.children.filter(id => id !== action.payload.id);
             newCh.splice(action.payload.index, 0, action.payload.id);
             return changeProp(state, "children", newCh);
@@ -326,7 +326,7 @@ function singleSortableContainerReducer(state = {}, action = {}) {
         if (state.key === action.payload.oldContainer && action.payload.currentBoxReducer === action.payload.oldParent) {
             return changeProp(state, "children", state.children.filter(id => id !== action.payload.id));
         } else if (state.key === action.payload.container && action.payload.currentBoxReducer === action.payload.parent) {
-            if (action.payload.index) {
+            if (action.payload.index || action.payload.index === 0) {
                 let newOrder = [...state.children];
                 newOrder.splice(action.payload.index, 0, action.payload.id);
                 return changeProp(state, "children", newOrder);
