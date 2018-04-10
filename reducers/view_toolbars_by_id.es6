@@ -34,7 +34,8 @@ function toolbarElementCreator(state, action, containedView = false) {
     }
 
     let name = action.payload.name ? action.payload.name : containedView ? action.payload.toolbar.viewName : doc_type;
-
+    let background = action.payload.background ? action.payload.background.background : "rgb(255,255,255)";
+    let backgroundAttr = action.payload.background ? action.payload.background.backgroundAttr : "";
     let toolbar = {
         id: id,
         breadcrumb: action.payload.hideTitles ? 'hidden' : 'reduced',
@@ -48,8 +49,8 @@ function toolbarElementCreator(state, action, containedView = false) {
         numPage: '',
         customSize: 0,
         aspectRatio: true,
-        background: action.payload.background.background || "rgb(255,255,255)",
-        backgroundAttr: action.payload.backgroundAttr || "",
+        background: background,
+        backgroundAttr: backgroundAttr,
     };
 
     return toolbar;

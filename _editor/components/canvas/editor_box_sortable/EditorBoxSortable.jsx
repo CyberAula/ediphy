@@ -229,12 +229,14 @@ export default class EditorBoxSortable extends Component {
                 }
             },
             stop: (event, ui) => {
+
                 let indexes = [];
                 let children = list[0].children;
                 for (let i = 0; i < children.length; i++) {
                     indexes.push(children[i].getAttribute("data-id"));
                 }
                 if (indexes.length !== 0) {
+                    console.log(indexes);
                     this.props.onSortableContainerReordered(indexes, this.props.id);
 
                 }
