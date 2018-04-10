@@ -222,7 +222,7 @@ export function blurCKEditor(id, callback) {
         CKEDITOR.instances[id].focusManager.blur(true);
         let data = CKEDITOR.instances[id].getData();
         if (data.length === 0) {
-            data = i18n.t("text_here");
+            data = '<p>' + i18n.t("text_here") + '</p>';
             CKEDITOR.instances[id].setData((data));
         }
         callback(encodeURI(data), html2json(encodeURI(data)));

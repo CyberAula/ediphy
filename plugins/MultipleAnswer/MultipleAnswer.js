@@ -132,7 +132,7 @@ export function MultipleAnswer(base) {
                         }}/>
                     </div>
                     <div className={"col-xs-10"}>
-                        <PluginPlaceholder {...props} key={i + 1} plugin-data-display-name={i18n.t("MultipleAnswer.Answer") + " " + (i + 1)} plugin-data-default="BasicText" plugin-data-text={i18n.t("MultipleAnswer.Answer") + (i + 1)} pluginContainer={"Answer" + (i + 1)} />
+                        <PluginPlaceholder {...props} key={i + 1} plugin-data-display-name={i18n.t("MultipleAnswer.Answer") + " " + (i + 1)} plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("MultipleAnswer.Answer") + (i + 1) + '</p>'} pluginContainer={"Answer" + (i + 1)} />
                     </div>
                 </div>
                 );
@@ -141,13 +141,13 @@ export function MultipleAnswer(base) {
                 {/* <h1>Multiple Answer</h1>*/}
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
-                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={i18n.t("MultipleAnswer.Question")} plugin-data-default="BasicText" plugin-data-text={i18n.t("MultipleAnswer.Statement")} pluginContainer={"Question"} />
+                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={i18n.t("MultipleAnswer.Question")} plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("MultipleAnswer.Statement") + '</p>'} pluginContainer={"Question"} />
                     </div>
                 </div>
                 {answers}
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
                     <div className={"col-xs-12 feedback"}>
-                        <PluginPlaceholder {...props} key="-2" plugin-data-display-name={i18n.t("MultipleAnswer.Feedback")} plugin-data-default="BasicText" plugin-data-text={i18n.t("MultipleAnswer.FeedbackMsg")} pluginContainer={"Feedback"} />
+                        <PluginPlaceholder {...props} key="-2" plugin-data-display-name={i18n.t("MultipleAnswer.Feedback")} plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("MultipleAnswer.FeedbackMsg") + '</p>'} pluginContainer={"Feedback"} />
                     </div>
                 </div>
             </div>;

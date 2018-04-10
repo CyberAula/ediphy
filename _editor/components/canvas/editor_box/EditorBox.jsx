@@ -362,7 +362,7 @@ export default class EditorBox extends Component {
         let targets = this.props.grid ? [gridTarget] : [];
         Ediphy.Plugins.get(config.name).getConfig();
         Ediphy.Plugins.get(config.name).afterRender(this.refs.content, toolbar.state);
-        let dragRestrictionSelector = isSortableContainer(box.container) ? ".scrollcontainer" : "parent";
+        let dragRestrictionSelector = ".parentRestrict"; // isSortableContainer(box.container) ? ".scrollcontainer" : "parent";
         let resizeRestrictionSelector = isSortableContainer(box.container) ? ".editorBoxSortableContainer, .drg" + box.container : "parent";
         let canvas = this.props.containedViewSelected === 0 ?
             document.getElementById('canvas') :
@@ -449,7 +449,7 @@ export default class EditorBox extends Component {
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('editorBoxIcons') :
                         document.getElementById('contained_editorBoxIcons');
-                    bar.classList.add('hidden');
+                    if (bar) {bar.classList.add('hidden');}
 
                     // Level has to be the same to drag a box, unless a sortableContainer is selected, then it should allow level 0 boxes
                     if ((box.level - this.props.boxLevelSelected) === 0 || (box.level === 0 && this.props.boxLevelSelected < 1)) {
@@ -572,14 +572,16 @@ export default class EditorBox extends Component {
                 edges: { left: true, right: true, bottom: true, top: true },
                 onstart: (event) => {
                     // Hide EditorShortcuts
+                    if (this.props.boxSelected !== this.props.id) {
+                        return;
+                    }
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('editorBoxIcons') :
                         document.getElementById('contained_editorBoxIcons');
-                    bar.classList.add('hidden');
-
+                    if (bar) {bar.classList.add('hidden');}
                     // Append textbox with actual size
                     let sb = document.getElementsByClassName('selectedBox');
-                    if (sb && ('box-' + this.props.boxSelected) === sb[0].getAttribute('id')) {
+                    if (sb && sb[0] && ('box-' + this.props.boxSelected) === sb[0].getAttribute('id') && !document.getElementById('sizing')) {
                         let span = document.createElement("span");
                         span.setAttribute("id", "sizing");
                         let t = document.createTextNode(" ");

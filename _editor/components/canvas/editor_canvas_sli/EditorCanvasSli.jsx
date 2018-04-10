@@ -8,7 +8,7 @@ import { Col, Button } from 'react-bootstrap';
 import EditorHeader from '../editor_header/EditorHeader';
 import interact from 'interactjs';
 import { ADD_BOX, changeGlobalConfig, changeNavItemName } from '../../../../common/actions';
-import { isSortableBox } from '../../../../common/utils';
+import { isSlide, isSortableBox } from '../../../../common/utils';
 import { aspectRatio, createBox, instanceExists } from '../../../../common/common_tools';
 import Ediphy from '../../../../core/editor/main';
 import ReactResizeDetector from 'react-resize-detector';
@@ -59,7 +59,7 @@ export default class EditorCanvasSli extends Component {
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
                 <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
-                    className={'slide_air'}
+                    className={'slide_air parentRestrict'}
                     style={{ margin: 'auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
                     <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                         ref="slideDropZone"
@@ -161,7 +161,6 @@ export default class EditorCanvasSli extends Component {
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
                     accordions={this.props.accordions}
                     pluginToolbar={this.props.pluginToolbars[this.props.boxSelected]}/>
-
             </Col>
         );
     }
@@ -237,7 +236,7 @@ export default class EditorCanvasSli extends Component {
                 } else {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
                     let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
-                    if (boxDragged.parent !== itemSelected.id) {
+                    if (boxDragged.parent !== itemSelected.id && (itemSelected.id !== boxDragged.parent || !isSlide(itemSelected.id))) {
                         this.props.onBoxDropped(this.props.boxSelected,
                             0, 0, itemSelected.id, 0, boxDragged.parent, boxDragged.container, position);
                     }

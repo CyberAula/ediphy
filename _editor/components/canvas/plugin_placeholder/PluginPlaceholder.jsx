@@ -225,7 +225,7 @@ export default class PluginPlaceholder extends Component {
         if (forbidden) {
             newInd = children.indexOf(currentBox);
         }
-        return newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
+        return newInd === 0 ? 0 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
 
     }
     idConvert(id) {
