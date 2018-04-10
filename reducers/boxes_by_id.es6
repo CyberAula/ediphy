@@ -422,6 +422,14 @@ export default function(state = {}, action = {}) {
         }
 
         return changeProp(state, action.payload.ids.id, boxCreator(state, action));
+    case REORDER_SORTABLE_CONTAINER:
+        return {
+            ...state,
+            [action.payload.parent]: {
+                ...state[action.payload.parent],
+                children: [].concat(action.payload.ids),
+            },
+        };
     case ADD_NAV_ITEM:
         if(action.payload.type === "document") {
             return {
@@ -580,8 +588,6 @@ export default function(state = {}, action = {}) {
     case DELETE_NAV_ITEM:
         // TODO: Delete linked marks
         return deleteProps(state, action.payload.boxes);
-    case REORDER_SORTABLE_CONTAINER:
-        return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
     case IMPORT_STATE:
         return action.payload.present.boxesById || state;
 
