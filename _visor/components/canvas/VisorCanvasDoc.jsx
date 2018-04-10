@@ -45,12 +45,12 @@ export default class VisorCanvasDoc extends Component {
         let animationType = isCV ? "animation-zoom" : ""; // "animation-slide";
 
         let marks = {};
-
+        let toolbar = this.props.viewToolbars[this.props.currentView];
         return (
 
             <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={animationType}
                 style={{ display: 'initial', padding: '0', width: '100%' }}>
-                <div className="scrollcontainer" style={{ background: itemSelected.background }}>
+                <div className="scrollcontainer" style={{ background: toolbar.background }}>
                     {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
                         <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
                             onClick={a => {
