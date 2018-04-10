@@ -362,7 +362,7 @@ export default class EditorBox extends Component {
         let targets = this.props.grid ? [gridTarget] : [];
         Ediphy.Plugins.get(config.name).getConfig();
         Ediphy.Plugins.get(config.name).afterRender(this.refs.content, toolbar.state);
-        let dragRestrictionSelector = isSortableContainer(box.container) ? ".scrollcontainer" : "parent";
+        let dragRestrictionSelector = ".parentRestrict"; // isSortableContainer(box.container) ? ".scrollcontainer" : "parent";
         let resizeRestrictionSelector = isSortableContainer(box.container) ? ".editorBoxSortableContainer, .drg" + box.container : "parent";
         let canvas = this.props.containedViewSelected === 0 ?
             document.getElementById('canvas') :

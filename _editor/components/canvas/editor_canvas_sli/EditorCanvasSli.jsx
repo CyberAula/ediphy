@@ -59,7 +59,7 @@ export default class EditorCanvasSli extends Component {
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
                 <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
-                    className={'slide_air'}
+                    className={'slide_air parentRestrict'}
                     style={{ margin: 'auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
                     <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                         ref="slideDropZone"
