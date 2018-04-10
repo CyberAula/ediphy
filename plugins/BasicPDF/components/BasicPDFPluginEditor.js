@@ -26,17 +26,15 @@ export default class BasicAudioPluginEditor extends React.Component {
         this.onDocumentLoad = this.onDocumentLoad.bind(this);
     }
 
-    onDocumentLoad(numPages) {
-        this.setState({
-            numPages: numPages,
-        });
+    onDocumentLoad({ numPages }) {
+        this.setState({ numPages });
     }
 
     render() {
     //    const { pageNumber, numPages } = this.props.state;
         return (
             <div>
-                <Document style={{ height: "100%", width: "100%" }}
+                <Document key={this.props.state.url} style={{ height: "100%", width: "100%" }}
                     file = {this.props.state.url}
                     onLoadSuccess={this.onDocumentLoad}>
                     <Page style={{ height: "100%", width: "100%" }}

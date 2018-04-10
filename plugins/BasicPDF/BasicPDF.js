@@ -24,10 +24,10 @@ export function BasicPDF(base) {
                     location: ["main", "__sortable"],
                     defaultValue: true,
                 },
-                initialWidth: '480px',
-                initialHeight: "270px",
+                initialWidth: 'auto',
+                initialHeight: "auto",
                 initialWidthSlide: '30%',
-                initialHeightSlide: '30%',
+                initialHeightSlide: '70%',
                 icon: 'description',
 
             };

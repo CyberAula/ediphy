@@ -53,7 +53,7 @@ export default class BasicAudioPlugin extends React.Component {
         return (
             <div style={{ width: "100%", height: "100%" }}>
                 <button>
-                    {this.state.pageNumber} of of {this.state.numPages}
+                    {this.state.pageNumber} of {this.state.numPages}
                 </button>
                 <button onClick={this.buttonNext}>
                     Next
