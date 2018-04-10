@@ -181,9 +181,10 @@ export default class ImportFile extends Component {
                 id: newId,
                 name: hasCustomSize ? (i18n.t('page') + i + " PDF") : i18n.t('slide'),
                 parent: 0,
+                hideTitles: true,
                 type: PAGE_TYPES.SLIDE,
                 position: this.props.navItemsIds.length + navs.length,
-                background: { background: dataURL, attr: 'centered' },
+                background: { background: dataURL, backgroundAttr: 'centered' },
                 customSize,
             };
             navs.push(nav);

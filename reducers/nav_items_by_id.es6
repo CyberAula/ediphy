@@ -24,7 +24,7 @@ function navItemCreator(state = {}, action = {}) {
             state[action.payload.parent].unitNumber),
         hidden: state[action.payload.parent].hidden,
         extraFiles: {},
-        background: action.payload.background,
+        // background: action.payload.background,
         customSize: action.payload.customSize,
     };
 }

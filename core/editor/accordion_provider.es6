@@ -600,22 +600,22 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
             if (button.type === 'background_picker') {
                 if(e.color) {
-                    value = { background: e.color, attr: 'full' };
+                    value = { background: e.color, backgroundAttr: 'full' };
                     if (!value) {
                         return;
                     }
                 }
 
                 if(e.target && e.target.type === "radio") {
-                    value = { background: button.value.background, attr: e.target.value };
+                    value = { background: button.value.background, backgroundAttr: e.target.value };
                 }
 
                 if(e.target && e.target.type === "text") {
-                    value = { background: e.target.value, attr: 'full' };
+                    value = { background: e.target.value, backgroundAttr: 'full' };
                 }
 
                 if(e.currentTarget && e.currentTarget.type === "button") {
-                    value = { background: e.currentTarget.value, attr: 'full' };
+                    value = { background: e.currentTarget.value, backgroundAttr: 'full' };
                 }
                 if (e.target && e.target.files) {
                     if(e.target.files.length === 1) {
@@ -628,7 +628,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                 let canvas = document.createElement('canvas');
                                 let ctx = canvas.getContext('2d');
                                 ctx.drawImage(img, 0, 0, 1200, 1200);
-                                handlecanvasToolbar(buttonKey, value, accordion, toolbar_props);
+                                handlecanvasToolbar(buttonKey, { background: data, backgroundAttr: 'full' }, accordion, toolbar_props);
                             };
                             img.src = data;
                         };
@@ -930,9 +930,9 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                     onChange: props.onChange,
                                 }, null),
                         ]),
-                    (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: props.value.background_attr === 'full', onChange: props.onChange, value: 'full' }, 'full'),
-                    (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: props.value.background_attr === 'repeat', onChange: props.onChange, value: 'repeat' }, 'repeat'),
-                    (!isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display', checked: props.value.background_attr === 'centered', onChange: props.onChange, value: 'centered' }, 'centered'),
+                    (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: props.value.backgroundAttr === 'full', onChange: props.onChange, value: 'full' }, 'full'),
+                    (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: props.value.backgroundAttr === 'repeat', onChange: props.onChange, value: 'repeat' }, 'repeat'),
+                    (!isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display', checked: props.value.backgroundAttr === 'centered', onChange: props.onChange, value: 'centered' }, 'centered'),
                     ]
                 ),
                 React.createElement(

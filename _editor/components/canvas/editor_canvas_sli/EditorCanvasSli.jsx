@@ -73,10 +73,10 @@ export default class EditorCanvasSli extends Component {
                         }}
                         className={'innercanvas sli'}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: isColor ? toolbar.background : '',
-                            backgroundImage: (!isColor && toolbar.background) ? 'url(' + itemSelected.background.background + ')' : '',
-                            backgroundSize: (toolbar.background && (toolbar.background.attr === 'centered' || toolbar.background.attr === 'repeat')) ? 'auto 100%' : 'cover',
-                            backgroundRepeat: (toolbar.background && (toolbar.background.attr === 'centered' || toolbar.background.attr === 'full')) ? 'no-repeat' : 'repeat',
-                            backgroundPosition: (toolbar.background && (toolbar.background.attr === 'centered' || toolbar.background.attr === 'full')) ? 'center center' : '0% 0%' }}>
+                            backgroundImage: (!isColor && toolbar.background) ? 'url(' + toolbar.background + ')' : '',
+                            backgroundSize: (toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'repeat')) ? 'auto 100%' : 'cover',
+                            backgroundRepeat: (toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full')) ? 'no-repeat' : 'repeat',
+                            backgroundPosition: (toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full')) ? 'center center' : '0% 0%' }}>
                         {this.state.alert}
                         {gridOn ? <SnapGrid key={this.props.fromCV}/> : null}
                         <EditorHeader titles={titles}

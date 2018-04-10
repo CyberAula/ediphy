@@ -246,6 +246,8 @@ export const initialState = (config) => { return config.sections_have_content ?
                 numPage: 'hidden',
                 numPageContent: '',
                 background: "rgb(255,255,255)",
+                backgroundAttr: "",
+                aspectRatio: "",
             },
             "pa-1497983247795": {
                 id: "pa-1497983247795",
@@ -259,6 +261,8 @@ export const initialState = (config) => { return config.sections_have_content ?
                 numPage: 'hidden',
                 numPageContent: '',
                 background: "rgb(255,255,255)",
+                backgroundAttr: "",
+                aspectRatio: "",
             },
         },
         isBusy: "",

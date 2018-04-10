@@ -33,7 +33,7 @@ function toolbarElementCreator(state, action, containedView = false) {
         doc_type = i18n.t('Page');
     }
 
-    let name = containedView ? action.payload.toolbar.viewName : doc_type;
+    let name = action.payload.name ? action.payload.name : containedView ? action.payload.toolbar.viewName : doc_type;
 
     let toolbar = {
         id: id,
@@ -48,8 +48,8 @@ function toolbarElementCreator(state, action, containedView = false) {
         numPage: '',
         customSize: 0,
         aspectRatio: true,
-        background: "rgb(255,255,255)",
-        backgroundAttr: "",
+        background: action.payload.background.background || "rgb(255,255,255)",
+        backgroundAttr: action.payload.backgroundAttr || "",
     };
 
     return toolbar;
@@ -61,9 +61,11 @@ export default function(state = {}, action = {}) {
     case ADD_NAV_ITEM:
         return changeProp(state, action.payload.id, toolbarElementCreator(state, action));
     case ADD_NAV_ITEMS:
-        let ids = action.payload.navs.map(nav=> { return nav.id; });
-        let navs = action.payload.navs.map(nav=> { return toolbarElementCreator(state, { type: ADD_NAV_ITEM, payload: nav });});
-        return changeProp(state, [...ids], [...navs]);
+        let nav_items = {};
+        action.payload.navs.forEach(nav => {
+            nav_items[nav.id] = toolbarElementCreator(state, { type: ADD_NAV_ITEM, payload: nav });
+        });
+        return { ...state, ...nav_items };
     case ADD_RICH_MARK:
         if(action.payload.mark.connectMode === "new") {
             return changeProp(state, action.payload.view.id, toolbarElementCreator(state, action, isContainedView(action.payload.mark.connection)));
