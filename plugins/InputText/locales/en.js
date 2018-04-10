@@ -5,6 +5,7 @@ module.exports = {
         "fontSize": "Font size",
         "answerType": "Answer type",
         "Precision": "Allowed error",
+        "Placeholder": "Enter the expected answer",
         "Characters": "Ignore case and special characters",
         "General": "Advanced",
     },

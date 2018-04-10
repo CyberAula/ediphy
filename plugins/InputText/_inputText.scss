@@ -6,30 +6,29 @@
    pointer-events: none;
    border-radius: 0px;
    min-height: 29px;
-   //border: 2px solid $blueprimary;
+   margin-right: 3px;
    border: 1px solid #ccc;
    padding: 0px 2px;
  }
   &.attempted.showFeedback {
     &.correct .inputText {
-      border: 2px solid rgba(0,255,0,0.5);
+      border: 2px solid $detailgreen;
     }
 
     &.incorrect  .inputText{
-      border: 2px solid rgba(255,0,0,0.5);
+      border: 2px solid $lightred;
     }
   }
 
  .dragHandleInputPlugin {
+   padding: 2px 0;
    .material-icons {
      vertical-align: middle;
-     color: #2c2c2c;
+     color: $grismedio;
    }
    min-height: 29px;
    min-width: 29px;
    display:inline-block;
-   //border: 2px solid $blueprimary;
-   //background-color: $blueprimary;
    vertical-align: top;
  }
   .exerciseScore {

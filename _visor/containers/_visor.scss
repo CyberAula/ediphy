@@ -419,8 +419,9 @@ li > .selectedNavItemVisor {
 .pageScore {
   text-align: center;
   line-height: 2em;
-  color: $blueprimary;
-  font-size: 1.9em;
+  font-size: 1.5em;
+  padding: 5px 15px;
+  border-radius: 3px;
   position: absolute;
   right: 20px;
   top: 50px;
@@ -430,11 +431,16 @@ li > .selectedNavItemVisor {
 }
 
 .scorePass {
-  color: green;
+  color: $detailgreen;
+  border: 1px solid $detailgreen;
+  background-color: $detailgreentransparent;
 }
 .scoreFail {
-  color: red;
+  color: $lightred;
+  border: 1px solid $lightred;
+  background-color: $lightredtransparent;
 }
+
 
 .hidden {
   display: none;
@@ -451,7 +457,6 @@ li > .selectedNavItemVisor {
     .pageScore{
       position: static;
     }
-    //background-color: white;
   }
 }
 

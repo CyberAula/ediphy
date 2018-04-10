@@ -43,6 +43,7 @@ export function TrueFalse() {
                         <div className={"col-xs-10"}>
                             <VisorPluginPlaceholder {...props} key={i + 1} pluginContainer={"Answer" + i} />
                         </div>
+                        <i className={ "material-icons " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")} style={{ display: (correct || incorrect) ? "block" : "none" }}>{(correct ? "done " : "clear")}</i>
                     </div>);
 
             }

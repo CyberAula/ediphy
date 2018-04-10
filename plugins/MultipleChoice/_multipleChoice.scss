@@ -34,6 +34,15 @@
       padding: 0;
       width: 75%;
     }
+    i{
+      margin: 7px -15px;
+      &.correct{
+        color: $detailgreen;
+      }
+      &.incorrect{
+        color: $lightred;
+      }
+    }
   }
   .exerciseScore {
     display: none;
@@ -48,16 +57,11 @@
   &.attempted.showFeedback .answerRow {
     margin-top: 2px;
     padding: 0;
-    border: 2px solid transparent;
-    border-radius: 3px;
-
       &.correct {
-        border: 1px solid $detailgreen;
         background-color: $detailgreentransparent;
       }
 
       &.incorrect {
-        border: 1px solid $lightred;
         background-color: $lightredtransparent;
       }
   }

@@ -301,6 +301,7 @@ let es = {
         "Rotate": "Rotar (º)",
         "Save": "Guardar",
         "Score": "Puntuación",
+        "Score_feedback": "Tu puntuación es",
         "SCORM Explanation": "Un paquete SCORM es un conjunto de archivos que se empaquetan conforme a un estándar para objetos de aprendizaje. Los paquetes SCORM son ficheros zip que pueden ser integrados en cualquier plataforma de aprendizaje que soporte el estándar (Moodle, Blackboard, …) y que pueden ser utilizados para la presentación de contenidos multimedia y como herramientas de evaluación. Por tanto, puedes integrar tu Excursión Virtual en Moodle y otras plataformas de aprendizaje descargándola como SCORM.",
         "Search_in_ViSH": "Buscar en ViSH",
         "Searching": "Buscando...",

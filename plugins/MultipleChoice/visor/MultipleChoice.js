@@ -16,7 +16,7 @@ export function MultipleChoice() {
                 let incorrect = attempted && (/* (props.exercises.correctAnswer === i && props.exercises.currentAnswer !== i)||*/(props.exercises.correctAnswer !== i && props.exercises.currentAnswer === i));
                 let checked = props.exercises.currentAnswer === i; //  (attempted && props.exercises.correctAnswer === i) || (!attempted && props.exercises.currentAnswer === i)
                 content.push(
-                    <div key={i + 1} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : "")}>
+                    <div key={i + 1} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")}>
                         <div className={"col-xs-2 answerPlaceholder"}>
                             <div className={"answer_letter"} >{state.letters ? letterFromNumber(i) : (i + 1)}</div>
                             <input type="radio" disabled={attempted} className="radioQuiz" name={props.id}
@@ -28,6 +28,7 @@ export function MultipleChoice() {
                         <div className={"col-xs-10"}>
                             <VisorPluginPlaceholder {...props} key={i + 1} pluginContainer={"Answer" + i} />
                         </div>
+                        <i className={ "material-icons " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")} style={{ display: (correct || incorrect) ? "block" : "none" }}>{(correct ? "done " : "clear")}</i>
                     </div>);
 
             }

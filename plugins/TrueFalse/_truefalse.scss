@@ -38,6 +38,15 @@
   .answerRow {
     margin: 0 15px;
     display: flex;
+    i{
+      margin: 7px -15px;
+      &.correct{
+        color: $detailgreen;
+      }
+      &.incorrect{
+        color: $lightred;
+      }
+    }
   }
   .exerciseScore {
     display: none;
@@ -51,14 +60,10 @@
 
   &.attempted.showFeedback .answerRow {
     margin-top: 2px;
-    border: 2px solid transparent;
-    border-radius: 5px;
     &.correct {
-      border: 1px solid $detailgreen;
       background-color: $detailgreentransparent;
     }
     &.incorrect {
-      border: 1px solid $lightred;
       background-color: $lightredtransparent;
     }
   }

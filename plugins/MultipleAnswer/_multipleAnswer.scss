@@ -2,8 +2,6 @@
 .multipleAnswerPlugin {
   padding: 10px;
   .checkQuiz {
-    //margin-bottom: -2px !important;
-    //margin-left: 10px !important;
     margin: 4px 5px 0 20px;
     appearance: none;
     -webkit-appearance: none;
@@ -84,6 +82,15 @@
       padding: 0;
       width: 75%;
     }
+    i{
+      margin: 7px -15px;
+      &.correct{
+        color: $detailgreen;
+      }
+      &.incorrect{
+        color: $lightred;
+      }
+    }
   }
 
   .exerciseScore {
@@ -100,13 +107,10 @@
   &.attempted.showFeedback .answerRow {
     margin-top: 2px;
     border: 2px solid transparent;
-    border-radius: 5px;
     &.correct {
-      border: 1px solid $detailgreen;
       background-color: $detailgreentransparent;
     }
     &.incorrect {
-      border: 1px solid $lightred;
       background-color: $lightredtransparent;
     }
   }

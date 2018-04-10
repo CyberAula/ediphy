@@ -302,6 +302,7 @@ let en = {
         "row_number": "Number of rows in col ",
         "Save": "Save",
         "Score": "Score",
+        "Score_feedback": "Your score is",
         "SCORM Explanation": "A SCORM package is a collection of files which are packaged according to an agreed standard for learning objects. SCORM packages are zip files that can be integrated in any LMS (Learning Management System) that supports the standard (Moodle, Blackboard, …) and that can be used for presenting multimedia content and as assessment tools. Thus, you can integrate your Virtual Excursion in Moodle and other LMSs by downloading it as SCORM.",
         "Search_in_ViSH": "Search in ViSH",
         "Searching": "Searching...",
