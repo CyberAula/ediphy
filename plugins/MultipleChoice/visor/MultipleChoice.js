@@ -9,7 +9,9 @@ export function MultipleChoice() {
         getRenderTemplate: function(state, props) {
             let content = [];
             let attempted = props.exercises && props.exercises.attempted;
-            let score = (props.exercises.score || 0) + "/" + (props.exercises.weight || 0);
+            let score = props.exercises.score || 0;
+            score = Math.round(score * 100) / 100;
+            score = (score) + "/" + (props.exercises.weight || 0);
             let showFeedback = attempted && state.showFeedback;
             for (let i = 0; i < state.nBoxes; i++) {
                 let correct = attempted && props.exercises.correctAnswer === i; // && props.exercises.currentAnswer === i ;
@@ -25,7 +27,7 @@ export function MultipleChoice() {
                                     props.setAnswer(parseInt(e.target.value, 10));
                                 }}/>
                         </div>
-                        <div className={"col-xs-10"}>
+                        <div className={"col-xs-10"} onClick={(e)=>{props.setAnswer(parseInt(i, 10));}}>
                             <VisorPluginPlaceholder {...props} key={i + 1} pluginContainer={"Answer" + i} />
                         </div>
                         <i className={ "material-icons " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")} style={{ display: (correct || incorrect) ? "block" : "none" }}>{(correct ? "done " : "clear")}</i>

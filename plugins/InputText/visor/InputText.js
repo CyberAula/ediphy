@@ -8,7 +8,9 @@ export function InputText() {
                 props.setAnswer(e.target.value);
             };
             let attempted = props.exercises && props.exercises.attempted;
-            let score = (props.exercises.score || 0) + "/" + (props.exercises.weight || 0);
+            let score = props.exercises.score || 0;
+            score = Math.round(score * 100) / 100;
+            score = (score) + "/" + (props.exercises.weight || 0);
             let correct = this.checkAnswer(props.exercises.currentAnswer, props.exercises.correctAnswer, state);
             let fs = state.fontSize + 'px';
             return <span className={"exercisePlugin inputTextPlugin" + (attempted ? " attempted " : " ") + (correct ? "correct " : "incorrect ") + (props.exercises.showFeedback ? "showFeedback" : "") }>

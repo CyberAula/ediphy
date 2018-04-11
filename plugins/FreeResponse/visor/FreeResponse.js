@@ -9,9 +9,10 @@ export function FreeResponse() {
     return {
         getRenderTemplate: function(state, props) {
             let attempted = props.exercises && props.exercises.attempted;
-            let score = (props.exercises.score || 0) + "/" + (props.exercises.weight || 0);
+            let score = props.exercises.score || 0;
+            score = Math.round(score * 100) / 100;
+            score = (score) + "/" + (props.exercises.weight || 0);
             let showFeedback = attempted && state.showFeedback;
-
             return <div className={"exercisePlugin freeResponsePlugin " + (attempted ? " attempted" : "")} > {/* <h1>Free Response</h1>*/}
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
