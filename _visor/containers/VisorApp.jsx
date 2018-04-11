@@ -164,7 +164,7 @@ export default class Visor extends Component {
             viewsArray: this.state.currentView,
         };
         let visorContent = !isContainedView(currentView) ? (
-            <VisorCanvas {...canvasProps} showCanvas />) : (<VisorContainedCanvas {...canvasProps} />);
+            <VisorCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") === -1} />) : (<VisorContainedCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") !== -1} />);
         return (
             <div id="app"
                 className={wrapperClasses} >
