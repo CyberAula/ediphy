@@ -199,6 +199,7 @@ export default function(state = {}, action = {}) {
                 showTextEditor: action.payload.value },
         };
     case UPDATE_BOX:
+
         return {
             ...state,
             [action.payload.id]: { ...state[action.payload.id],
