@@ -99,9 +99,10 @@ export function BasicAudio(base) {
         },
         getInitialState: function() {
             return {
-                url: 'http://www.music.helsinki.fi/tmt/opetus/uusmedia/esim/a2002011001-e02-128k.mp3',
+                url: 'sample.mp3', // 'http://www.music.helsinki.fi/tmt/opetus/uusmedia/esim/a2002011001-e02-128k.mp3',
                 autoplay: false, // esto no esta en enrichedplayer
                 controls: true,
+
             };
         },
         getRenderTemplate: function(state, props) {
