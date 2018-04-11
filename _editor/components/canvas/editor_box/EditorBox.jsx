@@ -569,6 +569,7 @@ export default class EditorBox extends Component {
                 restrict: {
                     restriction: resizeRestrictionSelector,
                 },
+                allowFrom: '.helpersResizable',
                 edges: { left: true, right: true, bottom: true, top: true },
                 onstart: (event) => {
                     // Hide EditorShortcuts
