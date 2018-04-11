@@ -208,9 +208,10 @@ class EditorApp extends Component {
                                 boxes={boxes}
                                 navItems={navItems}
                                 marks={marks}
+                                exercises={exercises}
                                 containedViews={containedViews}
                                 pluginToolbars={pluginToolbars}
-                                onBoxPasted={(ids, box, toolbar, children, index, markList)=>dispatch(pasteBox(ids, box, toolbar, children, index, markList))}
+                                onBoxPasted={(ids, box, toolbar, children, index, markList, score)=>dispatch(pasteBox(ids, box, toolbar, children, index, markList, score))}
                                 onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 onBoxDeleted={(id, parent, container, page)=> {let bx = this.getDescendantBoxes(boxes[id]); dispatch(deleteBox(id, parent, container, bx, boxes[id].containedViews, page));}}
                                 ribbonHeight={ribbonHeight + 'px'}/>

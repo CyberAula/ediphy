@@ -212,8 +212,8 @@ export function toggleTextEditor(id, value, text, content) {
     return { type: TOGGLE_TEXT_EDITOR, payload: { id, value, text, content } };
 }
 
-export function pasteBox(ids, box, toolbar, children, index, marks) {
-    return { type: PASTE_BOX, payload: { ids, box, toolbar, children, index, marks } };
+export function pasteBox(ids, box, toolbar, children, index, marks, score) {
+    return { type: PASTE_BOX, payload: { ids, box, toolbar, children, index, marks, score } };
 }
 
 export function toggleTitleMode(id, titles) {

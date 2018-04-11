@@ -34,6 +34,12 @@ export default class Clipboard extends Component {
     copyData() {
         let box = this.props.boxes[this.props.boxSelected];
         let toolbar = this.props.toolbars[this.props.boxSelected];
+        let itemSelected = this.currentPage();
+        let score;
+        if (itemSelected.id) {
+            let exercisePage = this.props.exercises[itemSelected.id];
+            score = exercisePage.exercises[this.props.boxSelected];
+        }
 
         let childBoxes = {};
         let childToolbars = {};
@@ -56,7 +62,7 @@ export default class Clipboard extends Component {
                 marks[id] = mark;
             }
         }
-        return { box, toolbar, marks, childBoxes, childToolbars };
+        return { box, toolbar, marks, childBoxes, childToolbars, score };
     }
     /**
      * Copy action listener
@@ -182,7 +188,7 @@ export default class Clipboard extends Component {
             }
         }
 
-        this.props.onBoxPasted(ids, transformedBox.newBox, transformedToolbar, transformedChildren, index, newMarks);
+        this.props.onBoxPasted(ids, transformedBox.newBox, transformedToolbar, transformedChildren, index, newMarks, data.score);
 
     }
 
@@ -484,5 +490,9 @@ Clipboard.propTypes = {
      * Function for creating a new box
      */
     onBoxAdded: PropTypes.func.isRequired,
+    /**
+       * Object containing all exercises
+       */
+    exercises: PropTypes.object,
 };
 

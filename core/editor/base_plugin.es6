@@ -150,6 +150,7 @@ export default function() {
                     state.__score = {
                         score: 1,
                         correctAnswer: config.defaultCorrectAnswer,
+                        currentAnswer: config.defaultCurrentAnswer,
 
                     };
                 }
@@ -200,7 +201,7 @@ export default function() {
         },
         getConfig: function() {
             let name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig, needsPointerEventsAllowed,
-                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isComplex, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance, initialWidth, initialHeight, initialWidthSlide, initialHeightSlide, defaultCorrectAnswer;
+                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isComplex, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance, initialWidth, initialHeight, initialWidthSlide, initialHeightSlide, defaultCorrectAnswer, defaultCurrentAnswer;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
                 name = cfg.name;
@@ -226,6 +227,7 @@ export default function() {
                 initialHeightSlide = cfg.initialHeightSlide;
                 initialHeight = cfg.initialHeight;
                 defaultCorrectAnswer = cfg.defaultCorrectAnswer;
+                defaultCurrentAnswer = cfg.defaultCurrentAnswer;
             }
 
             name = defaultFor(name, 'PluginName', "Plugin name not assigned");
@@ -249,6 +251,7 @@ export default function() {
             initialHeight = defaultFor(initialHeight, 'auto');
             initialHeightSlide = defaultFor(initialHeightSlide, initialHeight);
             defaultCorrectAnswer = defaultFor(defaultCorrectAnswer, false);
+            defaultCurrentAnswer = defaultFor(defaultCurrentAnswer, defaultCorrectAnswer);
 
             if (aspectRatioButtonConfig) {
                 aspectRatioButtonConfig.name = Ediphy.i18n.t("Aspect_ratio");
@@ -264,7 +267,7 @@ export default function() {
                 name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition,
                 extraTextConfig, needsXMLEdition, aspectRatioButtonConfig, allowFloatingBox, icon,
                 iconFromUrl, isRich, isComplex, marksType, flavor, needsPointerEventsAllowed, limitToOneInstance,
-                initialWidth, initialWidthSlide, initialHeightSlide, initialHeight, defaultCorrectAnswer,
+                initialWidth, initialWidthSlide, initialHeightSlide, initialHeight, defaultCorrectAnswer, defaultCurrentAnswer,
             };
         },
         getRenderTemplate: function(render_state, props) {

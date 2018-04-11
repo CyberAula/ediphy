@@ -28,12 +28,13 @@ function exercisesReducer(state = {}, action = {}) {
         let config = Ediphy.Plugins.get(name).getConfig();
         if (config && config.category === 'evaluation') {
             let defaultCorrectAnswer = (config.defaultCorrectAnswer === null || config.defaultCorrectAnswer === undefined) ? true : config.defaultCorrectAnswer;
-            return changeProp(state, action.payload.ids.id, {
+            let defaultCurrentAnswer = (config.defaultCurrentAnswer === null || config.defaultCurrentAnswer === undefined) ? true : config.defaultCurrentAnswer;
+            return changeProp(state, action.payload.ids.id, action.payload.score ? { ...action.payload.score, id: action.payload.ids.id } : {
                 name,
                 id: action.payload.ids.id,
                 weight: 1,
                 correctAnswer: defaultCorrectAnswer,
-                currentAnswer: defaultCorrectAnswer,
+                currentAnswer: defaultCurrentAnswer,
                 showFeedback: true,
                 attempted: false,
                 score: 0,
