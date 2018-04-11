@@ -166,6 +166,12 @@ export default class RichMarksModal extends Component {
                                     onChange={e => {
                                         this.setState({ connectMode: "external" });
                                     }}>{i18n.t("marks.external_url")}</Radio>
+                                <Radio value="popup"
+                                    name="connect_mode"
+                                    checked={this.state.connectMode === "popup"}
+                                    onChange={e => {
+                                        this.setState({ connectMode: "popup" });
+                                    }}>{'PopUp'}</Radio>
 
                             </Col>
                         </FormGroup>
@@ -201,6 +207,12 @@ export default class RichMarksModal extends Component {
                                     type="text"
                                     defaultValue={current && this.state.connectMode === "external" ? current.connection : "http://vishub.org/"}
                                     placeholder="URL"/>
+                            </FormGroup>
+                            <FormGroup style={{ display: this.state.connectMode === "popup" ? "initial" : "none" }}>
+                                <FormControl ref="popupSelected"
+                                    type="textarea"
+                                    defaultValue={current && this.state.connectMode === "popup" ? current.connection : ""}
+                                    placeholder="Escribe el texto que quieres que aparezca al hacer click"/>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -328,6 +340,20 @@ export default class RichMarksModal extends Component {
                             };
                             break;
                         case "external":
+                            markState = {
+                                mark: {
+                                    id: newMark,
+                                    origin: this.props.boxSelected,
+                                    title: title,
+                                    connection: ReactDOM.findDOMNode(this.refs.externalSelected).value,
+                                    color: color,
+                                    connectMode: connectMode,
+                                    displayMode: this.state.displayMode,
+                                    value: value,
+                                },
+                            };
+                            break;
+                        case "popup":
                             markState = {
                                 mark: {
                                     id: newMark,
