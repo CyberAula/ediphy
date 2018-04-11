@@ -237,7 +237,6 @@ export default class EditorBoxSortable extends Component {
                 }
                 if (indexes.length !== 0) {
                     this.props.onSortableContainerReordered(indexes, this.props.id);
-
                 }
                 list.sortable('cancel');
                 // Unhide EditorShortcuts

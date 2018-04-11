@@ -376,5 +376,5 @@ EditorShortcuts.propTypes = {
     /**
    * Function for updating the box's toolbar
    */
-    onToolbarUpdated: PropTypes.func.isRequired,
+    onToolbarUpdated: PropTypes.func,
 };
