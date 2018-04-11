@@ -141,7 +141,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "https://farm8.staticflickr.com/7287/9543740601_8bfde7ad9d_k.jpg",
+                    "url": "https://c1.staticflickr.com/3/2115/2218182207_2bd5cac7bb_b.jpg",
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -158,7 +158,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "https://farm8.staticflickr.com/7287/9543740601_8bfde7ad9d_k.jpg",
+                    "url": "http://www.climatechangenews.com/files/2017/01/Jungle_Congo_800.jpg",
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -175,7 +175,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "https://farm8.staticflickr.com/7287/9543740601_8bfde7ad9d_k.jpg",
+                    "url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Desierto_Salvador_Dal%C3%AD%2C_Bolivia.jpg",
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -192,7 +192,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "https://farm8.staticflickr.com/7287/9543740601_8bfde7ad9d_k.jpg",
+                    "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Pradera._Colonia_Suiza%2C_Uruguay.jpg",
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",

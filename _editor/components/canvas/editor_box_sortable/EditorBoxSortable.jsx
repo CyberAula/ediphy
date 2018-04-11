@@ -236,9 +236,7 @@ export default class EditorBoxSortable extends Component {
                     indexes.push(children[i].getAttribute("data-id"));
                 }
                 if (indexes.length !== 0) {
-                    console.log(indexes);
                     this.props.onSortableContainerReordered(indexes, this.props.id);
-
                 }
                 list.sortable('cancel');
                 // Unhide EditorShortcuts
