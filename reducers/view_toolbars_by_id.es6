@@ -49,8 +49,8 @@ function toolbarElementCreator(state, action, containedView = false) {
         numPage: '',
         customSize: 0,
         aspectRatio: true,
-        background: background,
-        backgroundAttr: backgroundAttr,
+        background: background || "rgb(255,255,255)",
+        backgroundAttr: backgroundAttr || "",
     };
 
     return toolbar;

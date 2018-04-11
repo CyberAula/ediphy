@@ -4,6 +4,7 @@ import i18n from 'i18next';
 import { isCanvasElement, isDocument, isPage, isSection, isSlide } from "../../../../common/utils";
 import { PanelGroup, Panel } from "react-bootstrap";
 import Ediphy from "../../../../core/editor/main";
+import './_viewToolbar.scss';
 import { renderAccordion } from "../../../../core/editor/accordion_provider";
 
 export default class ViewToolbar extends Component {
