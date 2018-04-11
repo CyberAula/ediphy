@@ -11,19 +11,45 @@ export default class BasicAudioPlugin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            volume: 0.8,
-            duration: 0,
-            played: 0,
-            seeking: false,
-            fullscreen: false,
-            controls: true,
+            // audioFile: '',
+            playing: false,
             pos: 0,
+            volume: 0.5,
+            audioRate: 1,
+            controls: true,
         };
-        this.handlePosChange = this.handlePosChange.bind(this);
+        this.handleAudioRateChange = this.handleAudioRateChange.bind(this);
     }
 
     handleTogglePlay() {
-        this.setState({ playing: !this.state.playing });
+        console.log("le has dado a play/pause");
+        this.setState({
+            playing: !this.state.playing,
+        });
+    }
+
+    handlePosChange(e) {
+        this.setState({
+            pos: e.originalArgs ? e.originalArgs[0] : +e.target.value,
+        });
+    }
+
+    handleReady() {
+        this.setState({
+            pos: 5,
+        });
+    }
+
+    handleVolumeChange(e) {
+        this.setState({
+            volume: +e.target.value,
+        });
+    }
+
+    handleAudioRateChange(e) {
+        this.setState({
+            audioRate: +e.target.value,
+        });
     }
 
     onClickFullscreen() {
@@ -35,40 +61,6 @@ export default class BasicAudioPlugin extends React.Component {
         this.setState({ fullscreen: !this.state.fullscreen });
     }
 
-    setVolume(e) {
-        this.setState({ volume: parseFloat(e.target.value) });
-    }
-
-    setPlaybackRate(e) {
-        this.setState({ playbackRate: parseFloat(e.target.value) });
-    }
-
-    onSeekMouseDown() {
-        this.setState({ seeking: true });
-    }
-
-    onSeekChange(e) {
-        this.setState({ played: (e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width });
-    }
-
-    onSeekMouseUp(e) {
-        if(e.target.className.indexOf('progress-player-input') !== -1) {
-            this.setState({ seeking: false });
-        }
-        this.player.seekTo((e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width);
-    }
-
-    onProgress(state) {
-        // We only want to update time slider if we are not currently seeking
-        if (!this.state.seeking) {
-            this.setState(state);
-        }
-    }
-
-    getDuration() {
-        return this.state.duration;
-    }
-
     componentWillReceiveProps(nextProps) {
         if(nextProps.state.controls === true && this.state.controls !== this.props.state.controls) {
             this.setState({ controls: true });
@@ -77,14 +69,17 @@ export default class BasicAudioPlugin extends React.Component {
         }
     }
 
-    // necesario para solucioonar incoherencias entre API de WebAudio y MediaElement
-    handlePosChange(e) {
-        this.setState({
-            pos: e.originalArgs[0],
-        });
-    }
-
     render() {
+
+        const waveOptions = {
+            scrollParent: true,
+            height: 140,
+            progressColor: '#6c718c',
+            waveColor: '#c4c8dc',
+            normalize: true,
+            barWidth: 4,
+            audioRate: this.state.audioRate,
+        };
 
         let marks = this.props.state.__marks;
         let markElements = Object.keys(marks).map((id) =>{
@@ -104,22 +99,14 @@ export default class BasicAudioPlugin extends React.Component {
         return (
             <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "auto" }}>
                 <ReactWavesurfer
-                    ref={player => { this.player = player; }}
-                    style={{ width: "100%", height: "100%" }}
-                    height="100%"
-                    width="100%"
-                    fileConfig={{ attributes: { poster: img } }}
-                    volume={this.state.volume}
-                    onPlay={() => this.setState({ playing: true })}
-                    onPause={() => this.setState({ playing: false })}
-                    onEnded={() => this.setState({ playing: false })}
-                    onProgress={this.onProgress.bind(this)}
-                    onDuration={duration => this.setState({ duration })}
-
                     audioFile={this.props.state.url}
                     pos={this.state.pos}
-                    onPosChange={this.handlePosChange}
+                    onPosChange={this.handlePosChange.bind(this)}
                     playing={this.state.playing}
+
+                    volume={this.state.volume}
+                    options={waveOptions}
+                    onReady={this.handleReady.bind(this)}
                 />
 
                 {(this.props.state.controls) && (
@@ -130,7 +117,7 @@ export default class BasicAudioPlugin extends React.Component {
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
                             {markElements}
                         </div>
-                        <input className="volume-audio-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
+                        <input className="volume-audio-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.handleVolumeChange.bind(this)} />
                         <button className="fullscreen-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
                     </div>
                 )}

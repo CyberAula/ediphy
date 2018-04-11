@@ -91,7 +91,6 @@ export default class BasicAudioPluginEditor extends React.Component {
         let marks = this.props.state.__marks;
         let markElements = Object.keys(marks).map((id) =>{
             // aqui solo entra cuando le das a save changes que es cuando da error
-            console.log("render");
             let value = marks[id].value;
             let title = marks[id].title;
             let color = marks[id].color;

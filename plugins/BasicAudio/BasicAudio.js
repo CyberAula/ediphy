@@ -13,7 +13,7 @@ export function BasicAudio(base) {
                 displayName: i18n.t('BasicAudio.PluginName'),
                 category: "multimedia",
                 initialWidth: '400px',
-                initialHeight: "35px",
+                initialHeight: "50px",
                 initialWidthSlide: '30%',
                 initialHeightSlide: '30%',
                 icon: 'play_circle_filled',
@@ -117,16 +117,13 @@ export function BasicAudio(base) {
         },
 
         getDefaultMarkValue(state) {
-            console.log("getDefaultMarkValue");
             return '50%';
         },
         parseRichMarkInput: function(...value) {
-            console.log("parseRichMarkInput");
             let parsed_value = (value[0] + 10) * 100 / value[2];
             return parsed_value.toFixed(2) + "%";
         },
         validateValueInput: function(value) {
-            console.log("validateValueInput");
             let regex = /(^\d+(?:\.\d*)?%$)/g;
             let match = regex.exec(value);
             if (match && match.length === 2) {
