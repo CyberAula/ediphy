@@ -6,7 +6,6 @@ import i18n from 'i18next';
 /* eslint-disable react/prop-types */
 
 export default class DataProvider extends React.Component {
-
     constructor(props) {
         super(props);
         let rows = this.props.data.length;
@@ -108,7 +107,11 @@ export default class DataProvider extends React.Component {
         }
     }
     keyChanged(event) {
-        console.log(event);
+        let pos = event.target.name;
+        let keys = this.state.keys.slice();
+        let newvalue = event.target.value === "" || event.target.value === null ? "" : event.target.value;
+        keys[pos] = newvalue;
+        this.setState({ keys: keys });
     }
     csvToState(csv) {
         let lines = csv.split("\n");
