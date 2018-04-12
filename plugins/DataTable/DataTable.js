@@ -90,12 +90,12 @@ export function DataTable(base) {
             };
         },
         getInitialState: function() {
-            let data = [{ Name: "John Doe", Age: 16, Country: "USA" },
-                { Name: "Mary Smith", Age: 23, Country: "Canada" },
-                { Name: "Marion  Gilbert", Age: 18, Country: "Australia" },
-                { Name: "Bruce Johnson", Age: 21, Country: "UK" },
-                { Name: "Ronald Armstrong", Age: 31, Country: "Ireland" },
-                { Name: "Brianna Reardown", Age: 37, Country: "Malta" }];
+            let data = [["John Doe", 16, "USA"],
+                ["Mary Smith", 23, "Canada"],
+                ["Marion  Gilbert", 18, "Australia"],
+                ["Bruce Johnson", 21, "UK"],
+                ["Ronald Armstrong", 31, "Ireland"],
+                ["Brianna Reardown", 37, "Malta"]];
             let keys = ["Name", "Age", "Country"];
 
             return {
@@ -119,7 +119,7 @@ export function DataTable(base) {
         },
         getRenderTemplate: function(state) {
             return (
-                <TableComponent data={state.data} options={state.options} />
+                <TableComponent data={state.data} keys={state.keys} options={state.options} />
             );
 
         },

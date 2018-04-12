@@ -29,7 +29,7 @@ export default class Config extends React.Component {
                         {!editing && <div>
                             <h4>{i18n.t("DataTable.header.preview")}</h4><br/>
                             <div style={{ marginRight: '-10px', marginLeft: '0px' }} ref="chartContainer" id="chartContainer">
-                                <TableComponent data={data} options={options} key={Math.random()}/>
+                                <TableComponent data={data} keys={keys} options={options} key={Math.random()}/>
                             </div>
                         </div>}
                         {!editing && <div id="previewOverlay"/>}
@@ -51,29 +51,10 @@ export default class Config extends React.Component {
 
     dataChanged(values) {
         let { data, keys, options } = this.setOptions(values.data, values.keys);
-        this.props.updateState({ ...this.props.state, data, keys: keys, options, editing: false });
+        this.props.updateState({ ...this.props.state, data, keys, options, editing: false });
     }
 
     setOptions(data, keys) {
-        let nKeys = [];
-        for (let i = 0; i < keys.length; i++) {
-            let value = keys[i];
-            nKeys[i] = {};
-            nKeys[i].value = value;
-            nKeys[i].notNumber = true;
-        }
-
-        for (let o = 0; o < data.length; o++) {
-            let row = data[o];
-            for (let i = 0; i < keys.length; i++) {
-                let key = nKeys[i];
-                data[o][keys[i]] = isNaN(data[o][keys[i]]) || typeof(data[o][keys[i]]) === "boolean" || data[o][keys[i]] === "" || data[o][keys[i]] === null ? data[o][keys[i]] : parseFloat(data[o][keys[i]]);
-                if(key.notNumber) {
-                    nKeys[i].notNumber = isNaN(row[key.value]) || typeof(row[key.value]) === "boolean" || row[key.value] === "";
-                }
-            }
-        }
-
         let options = this.props.state.options;
         return { data, keys, options };
     }
