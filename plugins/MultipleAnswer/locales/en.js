@@ -10,5 +10,6 @@ module.exports = {
         "ShowFeedback": "Show feedback",
         "Number": "Number of answers",
         "ShowLettersInsteadOfNumbers": "Show letters instead of numbers",
+        "AllowPartialScore": "Allow partial score",
     },
 };
