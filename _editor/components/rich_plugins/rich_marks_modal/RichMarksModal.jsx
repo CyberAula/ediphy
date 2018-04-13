@@ -171,12 +171,13 @@ export default class RichMarksModal extends Component {
                                     checked={this.state.connectMode === "popup"}
                                     onChange={e => {
                                         this.setState({ connectMode: "popup" });
-                                    }}>{'PopUp'}</Radio>
+                                    }}>{i18n.t("marks.popup")}</Radio>
 
                             </Col>
                         </FormGroup>
                         <Col xs={5} md={3}>
                             <FormGroup style={{ display: this.state.connectMode === "new" ? "initial" : "none" }}>
+                                <ControlLabel>{i18n.t("marks.new_content_label")}</ControlLabel>
                                 <FormControl componentClass="select"
                                     defaultValue={this.state.newType}
                                     style={{
@@ -195,24 +196,26 @@ export default class RichMarksModal extends Component {
                                 </span>
                             </FormGroup>
                             <FormGroup style={{ display: this.state.connectMode === "existing" ? "initial" : "none" }}>
+                                <ControlLabel>{i18n.t("marks.existing_content_label")}</ControlLabel>
                                 {this.state.connectMode === "existing" && <FormControl componentClass="select" onChange={e=>{this.setState({ existingSelected: e.target.value });}}>
                                     {this.returnAllViews(this.props).map(view=>{
-                                        return <option key={view.id} value={view.id}>{view.label}</option>;
+                                        return <option key={view.id} value={view.id}>{this.props.viewToolbars[view.id].viewName}</option>;
                                     })}
                                 </FormControl>}
                             </FormGroup>
 
                             <FormGroup style={{ display: this.state.connectMode === "external" ? "initial" : "none" }}>
+                                <ControlLabel>{i18n.t("marks.external_url_label")}</ControlLabel>
                                 <FormControl ref="externalSelected"
                                     type="text"
                                     defaultValue={current && this.state.connectMode === "external" ? current.connection : "http://vishub.org/"}
                                     placeholder="URL"/>
                             </FormGroup>
                             <FormGroup style={{ display: this.state.connectMode === "popup" ? "initial" : "none" }}>
-                                <FormControl ref="popupSelected"
-                                    type="textarea"
+                                <ControlLabel>{i18n.t("marks.popup_label")}</ControlLabel>
+                                <FormControl ref="popupSelected" componentClass="textarea"
                                     defaultValue={current && this.state.connectMode === "popup" ? current.connection : ""}
-                                    placeholder="Escribe el texto que quieres que aparezca al hacer click"/>
+                                    placeholder={i18n.t("marks.popup_placeholder")}/>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -359,7 +362,7 @@ export default class RichMarksModal extends Component {
                                     id: newMark,
                                     origin: this.props.boxSelected,
                                     title: title,
-                                    connection: ReactDOM.findDOMNode(this.refs.externalSelected).value,
+                                    connection: ReactDOM.findDOMNode(this.refs.popupSelected).value,
                                     color: color,
                                     connectMode: connectMode,
                                     displayMode: this.state.displayMode,
@@ -426,7 +429,7 @@ export default class RichMarksModal extends Component {
             if(props.containedViewSelected === cv) {
                 return;
             }
-
+            console.log(props.containedViews[cv].name);
             viewNames.push({ label: props.containedViews[cv].name, id: props.containedViews[cv].id });
         });
         return viewNames;

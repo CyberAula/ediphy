@@ -370,6 +370,7 @@ class EditorApp extends Component {
                     pluginToolbar={pluginToolbars[boxSelected]}
                     navItemSelected={navItemSelected}
                     pluginToolbars={pluginToolbars}
+                    viewToolbars={viewToolbars}
                     markCursorValue={this.state.markCursorValue}
                     containedViewSelected={containedViewSelected}
                     containedViews={containedViews}
