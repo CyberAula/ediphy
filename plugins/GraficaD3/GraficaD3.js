@@ -82,10 +82,9 @@ export function GraficaD3(base) {
             };
         },
         getInitialState: function() {
-
             return {
-                dataProvided: [["First column", 1, 0], ["Second column", 0, 1]],
-                dataProcessed: [["First column", 1, 0], ["Second column", 0, 1]],
+                dataProvided: [["First column", "Second Column"], [0, 1], [1, 0]],
+                dataProcessed: [["First column", "Second Column"], [0, 1], [1, 0]],
                 editing: true,
                 options: {
                     type: "area",

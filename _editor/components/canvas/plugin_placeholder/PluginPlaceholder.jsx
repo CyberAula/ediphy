@@ -175,7 +175,7 @@ export default class PluginPlaceholder extends Component {
                     }
                     createBox(initialParams, name, false, this.props.onBoxAdded, this.props.boxes);
 
-                } else if (!config.isComplex && (initialParams.container !== 0)) {
+                } else if (!(config.isComplex && (initialParams.container === 0))) {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
                     // If box being dragged is dropped in a different column or row, change its value
                     if (this.props.parentBox.id !== this.props.boxSelected) {

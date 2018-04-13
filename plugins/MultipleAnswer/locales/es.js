@@ -10,5 +10,6 @@ module.exports = {
         "Answer": "Respuesta",
         "Number": "Número de respuestas",
         "ShowLettersInsteadOfNumbers": "Mostrar letra en vez de nº",
+        "AllowPartialScore": "Permitir aciertos parciales",
     },
 };

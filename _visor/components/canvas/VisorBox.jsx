@@ -55,9 +55,11 @@ export default class VisorBox extends Component {
                 marks[mark] = this.props.marks[mark];
             }
         });
-        let props = { ...this.props, parentBox: this.props.boxes[this.props.id], marks, allMarks: this.props.marks, setAnswer: (correctAnswer) => {
-            this.props.setAnswer(this.props.id, correctAnswer, this.props.currentView);
-        } };
+        let props = { ...this.props, parentBox: this.props.boxes[this.props.id], marks,
+            allMarks: this.props.marks,
+            setAnswer: (correctAnswer) => {
+                this.props.setAnswer(this.props.id, correctAnswer, this.props.currentView);
+            } };
         let content = config.flavor === "react" ? (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
                 {pluginAPI.getRenderTemplate(toolbar.state, props)}

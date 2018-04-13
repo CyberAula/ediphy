@@ -9,7 +9,9 @@ export function TrueFalse() {
         getRenderTemplate: function(state, props) {
             let content = [];
             let attempted = props.exercises && props.exercises.attempted;
-            let score = (props.exercises.score || 0) + "/" + (props.exercises.weight || 0);
+            let score = props.exercises.score || 0;
+            score = Math.round(score * 100) / 100;
+            score = (score) + "/" + (props.exercises.weight || 0);
             let showFeedback = attempted && state.showFeedback;
             for (let i = 0; i < state.nBoxes; i++) {
                 let correct = attempted && props.exercises.correctAnswer[i] === props.exercises.currentAnswer[i];

@@ -16,7 +16,8 @@ export function MultipleChoice(base) {
                 initialWidth: '60%',
                 flavor: 'react',
                 isComplex: true,
-                defaultCorrectAnswer: false,
+                defaultCorrectAnswer: 0,
+                defaultCurrentAnswer: false,
             };
         },
         getToolbar: function(state) {

@@ -9,8 +9,21 @@ export function MultipleAnswer() {
         getRenderTemplate: function(state, props) {
             let content = [];
             let attempted = props.exercises && props.exercises.attempted;
-            let score = (props.exercises.score || 0) + "/" + (props.exercises.weight || 0);
+            let score = props.exercises.score || 0;
+            score = Math.round(score * 100) / 100;
+            score = (score) + "/" + (props.exercises.weight || 0);
             let showFeedback = attempted && state.showFeedback;
+
+            let setAnswer = (i) => {
+                let newCurrentAnswer = props.exercises.currentAnswer ? Object.assign([], props.exercises.currentAnswer) : [];
+                let index = newCurrentAnswer.indexOf(i);
+                if (index === -1) {
+                    newCurrentAnswer.push(i);
+                } else {
+                    newCurrentAnswer.splice(index, 1);
+                }
+                props.setAnswer(newCurrentAnswer);
+            };
             for (let i = 0; i < state.nBoxes; i++) {
                 let checked = (props.exercises.currentAnswer && (props.exercises.currentAnswer instanceof Array) && props.exercises.currentAnswer.indexOf(i) > -1);
                 let correctAnswer = (props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1);
@@ -21,18 +34,11 @@ export function MultipleAnswer() {
                         <div className={"col-xs-2 answerPlaceholder"}>
                             <div className={"answer_letter"} >{state.letters ? letterFromNumber(i) : (i + 1)}</div>
                             <input type="checkbox" disabled={attempted} className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
-                                props.setAnswer(e.target.value);
-                                let newCurrentAnswer = props.exercises.currentAnswer ? Object.assign([], props.exercises.currentAnswer) : [];
-                                let index = newCurrentAnswer.indexOf(i);
-                                if (index === -1) {
-                                    newCurrentAnswer.push(i);
-                                } else {
-                                    newCurrentAnswer.splice(index, 1);
-                                }
-                                props.setAnswer(newCurrentAnswer);
+                                // props.setAnswer(e.target.value);
+                                setAnswer(i);
                             }}/>
                         </div>
-                        <div className={"col-xs-10"}>
+                        <div className={"col-xs-10"} onClick={(e)=>{setAnswer(i);}}>
                             <VisorPluginPlaceholder {...props} key={i + 1} pluginContainer={"Answer" + (i + 1)} />
                         </div>
                         <i className={ "material-icons " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")} style={{ display: (correct || incorrect) ? "block" : "none" }}>{(correct ? "done " : "clear")}</i>
@@ -60,9 +66,20 @@ export function MultipleAnswer() {
             let correctSanitized = correct.filter((c)=>{
                 return (c < state.nBoxes);
             });
-            if(Array.isArray(current) && Array.isArray(correctSanitized)) {
+            if (state.allowPartialScore) {
+                let score = 0;
+                if (Array.isArray(current) && Array.isArray(correctSanitized)) {
+                    for (let i = 0; i < state.nBoxes; i++) {
+                        let isCorrect = correctSanitized.indexOf(i) === -1 && current.indexOf(i) === -1;
+                        isCorrect = isCorrect || (correctSanitized.indexOf(i) > -1 && current.indexOf(i) > -1);
+                        score = score + (isCorrect ? 1 : 0);
+                    }
+                    return score / (state.nBoxes || 1);
+                }
+            } else if (Array.isArray(current) && Array.isArray(correctSanitized)) {
                 return (arrayContainsArray(correctSanitized, current) && (current.length === correctSanitized.length)) || (current.length === 0 && correctSanitized.length === 0);
             }
+
             return false;
         },
     };

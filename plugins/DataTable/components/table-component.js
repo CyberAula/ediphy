@@ -9,16 +9,17 @@ export default class TableComponent extends React.Component {
         let data = this.props.data;
         let options = this.props.options;
         let keys = Object.keys(this.props.data[0]);
+        let realKeys = this.props.keys;
         let cols = [];
-        keys.map(key =>{
-            cols.push({ title: key, prop: key });
+        keys.forEach(key =>{
+            cols.push({ title: realKeys[key], prop: key });
         });
         options.pageLengthOptions = [5, 10, 100];
         options.pageLengthOptions = options.pageLengthOptions.filter(a => a <= data.length);
         if (!isNaN(options.initialPageLength) && options.pageLengthOptions.indexOf(options.initialPageLength) === -1) {
             options.pageLengthOptions = this.insert(options.initialPageLength, options.pageLengthOptions);
         }
-        let prop = keys.indexOf(options.initialSort) !== -1 ? options.initialSort : (keys && keys.length > 0 ? keys[0] : 0);
+        let prop = realKeys.indexOf(options.initialSort) !== -1 ? realKeys.indexOf(options.initialSort) : 0;
         return (
             <div className={"tableContainer theme-" + options.theme}>
                 <DataTable key={options.key || 0}

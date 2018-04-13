@@ -569,6 +569,7 @@ export default class EditorBox extends Component {
                 restrict: {
                     restriction: resizeRestrictionSelector,
                 },
+                margin: 2,
                 allowFrom: '.helpersResizable',
                 edges: { left: true, right: true, bottom: true, top: true },
                 onstart: (event) => {

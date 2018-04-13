@@ -90,6 +90,7 @@ export default class ActionsRibbon extends Component {
                         containedViews={this.props.containedViews}
                         toolbars={this.props.pluginToolbars}
                         marks={this.props.marks}
+                        exercises={this.props.exercises}
                         onBoxPasted={this.props.onBoxPasted}
                         onBoxAdded={this.props.onBoxAdded}
                         onBoxDeleted={this.props.onBoxDeleted} >
