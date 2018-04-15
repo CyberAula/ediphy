@@ -8,10 +8,11 @@ import i18n from 'i18next';
 export default class DataProvider extends React.Component {
     constructor(props) {
         super(props);
-        let rows = this.props.dataProvided.length;
-        let cols = this.props.dataProvided.length === 0 ? 2 : Object.keys(this.props.dataProvided[0]).length;
+
         let data = this.props.dataProvided.slice();
-        let keys = data.splice(0, 1);
+        let keys = data.splice(0, 1)[0];
+        let rows = data.length;
+        let cols = data[0].length;
         this.confirmButton = this.confirmButton.bind(this);
         this.deleteCols = this.deleteCols.bind(this);
         this.colsChanged = this.colsChanged.bind(this);
@@ -109,7 +110,11 @@ export default class DataProvider extends React.Component {
         }
     }
     keyChanged(event) {
-        console.log(event);
+        let pos = event.target.name;
+        let keys = this.state.keys.slice();
+        let newvalue = event.target.value === "" || event.target.value === null ? "" : event.target.value;
+        keys[pos] = newvalue;
+        this.setState({ keys: keys });
     }
     csvToState(csv) {
         let lines = csv.split("\n");
@@ -208,14 +213,14 @@ export default class DataProvider extends React.Component {
                             {i18n.t("GraficaD3.data_cols")}
                         </Col>
                         <Col xs={3}>
-                            <FormControl type="number" name="cols" value={this.state.data.length} onChange={this.colsChanged}/>
+                            <FormControl type="number" name="cols" value={this.state.cols} onChange={this.colsChanged}/>
                         </Col>
 
                         <Col componentClass={ControlLabel} xs={1}>
                             {i18n.t("GraficaD3.data_rows")}
                         </Col>
                         <Col xs={3}>
-                            <FormControl type="number" name="rows" value={this.state.data[0].length} onChange={this.rowsChanged}/>
+                            <FormControl type="number" name="rows" value={this.state.rows} onChange={this.rowsChanged}/>
                         </Col>
                         <Col xs={3}>
                             <Button className="btn btn-primary" onClick={this.confirmButton} style={{ marginTop: '0px' }}>{i18n.t("GraficaD3.confirm")}</Button>
@@ -223,7 +228,7 @@ export default class DataProvider extends React.Component {
                     </FormGroup>
                     <div style={{ marginTop: '10px', overflowX: 'auto' }}>
                         <div style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
-                            {this.state.data.map((x) => {
+                            {Array.apply(0, Array(this.state.cols)).map((x) => {
                                 return(
                                     <FormControl.Static key={x} style={{ display: 'table-cell', padding: '8px', textAlign: 'center' }} />
                                 );
