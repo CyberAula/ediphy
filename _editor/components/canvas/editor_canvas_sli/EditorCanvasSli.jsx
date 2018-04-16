@@ -52,8 +52,8 @@ export default class EditorCanvasSli extends Component {
         let toolbar = this.props.viewToolbars[itemSelected.id];
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
-        let backgroundIsUri = (/data\:/).test(toolbar.background);
-        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(toolbar.background);
+        let backgroundIsUri = toolbar && (/data\:/).test(toolbar.background);
+        let isColor = toolbar && (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(toolbar.background);
         let gridOn = this.props.grid && ((this.props.containedViewSelected !== 0) === this.props.fromCV);
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
@@ -73,10 +73,10 @@ export default class EditorCanvasSli extends Component {
                         }}
                         className={'innercanvas sli'}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: isColor ? toolbar.background : '',
-                            backgroundImage: (!isColor && toolbar.background) ? 'url(' + toolbar.background + ')' : '',
-                            backgroundSize: (toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'repeat')) ? 'auto 100%' : 'cover',
-                            backgroundRepeat: (toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full')) ? 'no-repeat' : 'repeat',
-                            backgroundPosition: (toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full')) ? 'center center' : '0% 0%' }}>
+                            backgroundImage: (!isColor && toolbar && toolbar.background) ? 'url(' + toolbar.background + ')' : '',
+                            backgroundSize: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'repeat')) ? 'auto 100%' : 'cover',
+                            backgroundRepeat: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full')) ? 'no-repeat' : 'repeat',
+                            backgroundPosition: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full')) ? 'center center' : '0% 0%' }}>
                         {this.state.alert}
                         {gridOn ? <SnapGrid key={this.props.fromCV}/> : null}
                         <EditorHeader titles={titles}

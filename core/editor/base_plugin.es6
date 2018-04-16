@@ -303,7 +303,7 @@ export default function() {
                         }*/
                     }
                     if (accordions[accordionKey].accordions || accordions[accordionKey].order) {
-                        let accordions2 = defaultFor(accordions[accordionKey].accordions, {}, "Property accordions in accordion '" + accordionKey + "' not found");
+                        let accordions2 = defaultFor(accordions[accordionKey].accordions, {});
                         accordions[accordionKey].accordions = accordions2;
                         accordions[accordionKey].order = defaultFor(accordions[accordionKey].order, [], "Property order in accordion '" + accordionKey + "' not found");
                         if (accordions[accordionKey].order.length !== (Object.keys(buttons).length + Object.keys(accordions2).length)) {

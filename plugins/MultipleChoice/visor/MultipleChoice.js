@@ -51,7 +51,11 @@ export function MultipleChoice() {
             </div>;
         },
         checkAnswer(current, correct) {
-            return (current) === (correct);
+            if (!isNaN(current)) {
+                return (current) === (correct);
+            }
+            return false;
+
         },
     };
 }

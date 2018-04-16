@@ -36,8 +36,7 @@ export default class VisorCanvasDoc extends Component {
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = isCV ? this.props.containedViews[this.props.currentView].boxes || [] : this.props.navItems[this.props.currentView].boxes || [];
-        let thisView = this.props.viewsArray && this.props.viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(this.props.viewsArray[this.props.viewsArray.length - 2]) ? this.props.containedViews[this.props.viewsArray[this.props.viewsArray.length - 2]].name : this.props.navItems[this.props.viewsArray[this.props.viewsArray.length - 2]].name)) : i18n.t('messages.go_back');
-
+        let thisView = this.props.viewsArray && this.props.viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(this.props.viewsArray[this.props.viewsArray.length - 2]) ? this.props.viewToolbars[this.props.viewsArray[this.props.viewsArray.length - 2]].viewName : this.props.viewToolbars[this.props.viewsArray[this.props.viewsArray.length - 2]].viewName)) : i18n.t('messages.go_back');
         const tooltip = (
             <Tooltip id="tooltip">{thisView}</Tooltip>
         );
@@ -74,9 +73,6 @@ export default class VisorCanvasDoc extends Component {
                             style={{ background: itemSelected.background, visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                             <div id={isCV ? "contained_maincontent" : "maincontent"}
-                                onClick={e => {
-                                    this.setState({ showTitle: false });
-                                }}
                                 className={'innercanvas doc'}
                                 style={{ background: itemSelected.background, visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
