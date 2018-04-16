@@ -31,9 +31,6 @@ export default class DataProvider extends React.Component {
             error: false,
         };
     }
-    /**
-     * TODO Revisar
-     * */
     confirmButton() {
         let empty = false;
         if (typeof this.props.dataChanged === 'function' && !empty) {

@@ -38,11 +38,13 @@ export default class Config extends React.Component {
 
     setOptions(keys, values) {
         let dataObject = [];
-        for (let o = 0; o < values.length; o++) {
-            for (let i = 0; i < keys.length; i++) {
+        for (let i = 0; i < keys.length; i++) {
+            let object = { name: keys[i] };
+            for (let o = 0; o < values.length; o++) {
                 let value = isNaN(values[o][i]) || typeof(values[o][i]) === "boolean" || values[o][i] === "" || values[o][i] === null ? values[o][i] : parseFloat(values[o][i], 10);
-                dataObject.push({ name: keys[i], value: value });
+                object[o] = value;
             }
+            dataObject.push(object);
         }
 
         let options = JSON.parse(JSON.stringify(this.props.state.options));
