@@ -57,9 +57,6 @@ export default class VisorCanvasSli extends Component {
                     style={{ margin: '0 auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                     <div id={isCV ? "contained_maincontent" : "maincontent"}
-                        onClick={e => {
-                            this.setState({ showTitle: false });
-                        }}
                         className={'innercanvas sli'}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'),
                             background: isColor ? toolbar.background : '',
@@ -78,7 +75,7 @@ export default class VisorCanvasSli extends Component {
                             }}><i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
                         <VisorHeader titles={titles}
                             onShowTitle={()=>this.setState({ showTitle: true })}
-                            courseTitle={this.props.title}f
+                            courseTitle={this.props.title}
                             titleMode={itemSelected.titleMode}
                             navItems={this.props.navItems}
                             currentView={this.props.currentView}

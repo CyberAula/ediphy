@@ -17,7 +17,7 @@ export default class Chart extends React.Component {
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart
                             data={data}>
-                            <XAxis dataKey={options.x} name={options.x} /* tickCount={data ? data.length : 5}*/ />
+                            <XAxis dataKey="name" /* tickCount={data ? data.length : 5}*/ />
                             <YAxis />
                             <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                             <Tooltip />
@@ -31,7 +31,7 @@ export default class Chart extends React.Component {
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                         data={data}>
-                        <XAxis dataKey={options.x} name={options.x} /* tickCount={data ? data.length : 5}*/ />
+                        <XAxis dataKey="name" /* tickCount={data ? data.length : 5}*/ />
                         <YAxis />
                         <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                         <Tooltip />

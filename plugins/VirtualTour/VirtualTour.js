@@ -10,8 +10,10 @@ window.mapList = [];
 export function VirtualTour(base) {
     return {
         init: function() {
-            let src = "https://maps.google.com/maps/api/js?libraries=places&key=AIzaSyAOOAHADllUMGULOz5FQu3rIhM0RtwxP7Q";
-            $('<script>').attr('src', src).appendTo('head');
+            if (!window.google) {
+                let src = "https://maps.google.com/maps/api/js?libraries=places&key=AIzaSyAOOAHADllUMGULOz5FQu3rIhM0RtwxP7Q";
+                $('<script>').attr('src', src).appendTo('head');
+            }
         },
         getConfig: function() {
             return {

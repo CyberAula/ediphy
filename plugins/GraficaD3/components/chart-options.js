@@ -21,6 +21,8 @@ export default class ChartOptions extends React.Component {
         this.ringColorChanged = this.ringColorChanged.bind(this);
 
         this.state = {
+            dataProcessed: this.props.dataProcessed,
+            values: this.props.values,
             gridX: this.props.options.gridX,
             gridY: this.props.options.gridY,
             rings: this.props.options.rings,
@@ -28,24 +30,8 @@ export default class ChartOptions extends React.Component {
             x: this.props.options.x,
             y: this.props.options.y,
             keys: this.props.keys,
-            valueKeys: this.props.valueKeys,
         };
 
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-        if(nextState !== this.state) {
-            if (typeof this.props.optionsChanged === 'function') {
-                this.props.optionsChanged({
-                    type: nextState.type,
-                    x: nextState.x,
-                    y: nextState.y,
-                    gridX: nextState.gridX,
-                    gridY: nextState.gridY,
-                    rings: nextState.rings,
-                });
-            }
-        }
     }
 
     typeChanged(event) {
@@ -212,8 +198,8 @@ export default class ChartOptions extends React.Component {
                                             </FormControl.Static>
                                         </Col>
                                         <Col xs={7}>
-                                            <FormControl componentClass="select" placeholder={this.state.valueKeys[0]} name={i} value={y.key} onChange={this.yKeyChanged}>
-                                                {this.state.valueKeys.map((x, w) => {
+                                            <FormControl componentClass="select" placeholder={this.state.values[0]} name={i} value={y.key} onChange={this.yKeyChanged}>
+                                                {this.state.values.map((x, w) => {
                                                     return(
                                                         <option key={w + 1} value={x}>{x}</option>
                                                     );
@@ -281,8 +267,8 @@ export default class ChartOptions extends React.Component {
                                             {i18n.t("GraficaD3.value")}
                                         </Col>
                                         <Col xs={6}>
-                                            <FormControl componentClass="select" placeholder={this.state.valueKeys[0]} name={i} value={ring.value} onChange={this.ringValueChanged}>
-                                                {this.state.valueKeys.map((key, r) => {
+                                            <FormControl componentClass="select" placeholder={this.state.values[0]} name={i} value={ring.value} onChange={this.ringValueChanged}>
+                                                {this.state.values.map((key, r) => {
                                                     return(
                                                         <option key={r + 1} value={key}>{key}</option>
                                                     );

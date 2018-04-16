@@ -95,7 +95,7 @@ export default class CarouselButtons extends Component {
                 <OverlayTrigger placement="top" overlay={(<Tooltip id="newFolderTooltip">{i18n.t('create new folder')}</Tooltip>)}>
                     <Button className="carouselButton"
                         name="newFolder"
-                        disabled={ !this.props.indexSelected || this.props.indexSelected === -1 || isContainedView(this.props.indexSelected) || this.props.navItems[this.props.indexSelected].level >= 10}
+                        disabled={ this.props.indexSelected === -1 || isContainedView(this.props.indexSelected) || this.props.navItems[this.props.indexSelected].level >= 10}
                         onClick={e => {
 
                             let idnuevo = ID_PREFIX_SECTION + Date.now();
