@@ -52,7 +52,7 @@ export default class Config extends React.Component {
     }
 
     optionsChanged(options) {
-        // this.props.updateState({ ...this.props.state, options });
+        this.props.updateState({ ...this.props.state, options });
     }
 
     editButtonClicked() {

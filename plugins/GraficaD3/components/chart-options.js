@@ -31,13 +31,13 @@ export default class ChartOptions extends React.Component {
     }
 
     typeChanged(event) {
-        this.setState({ type: event.target.value });
+        this.props.soptionsChanged({ type: event.target.value });
     }
 
     colorChanged(event) {
         let y = this.state.y;
         y[event.target.name].color = event.target.value;
-        this.setState({ y: y });
+        this.props.optionsChanged({ y: y });
     }
 
     yAxisChanged(event) {
@@ -53,25 +53,25 @@ export default class ChartOptions extends React.Component {
         } else {
             yAxis = yAxis.slice(0, number);
         }
-        this.setState({ y: yAxis });
+        this.props.optionsChanged({ y: yAxis });
     }
 
     xKeyChanged(event) {
-        this.setState({ x: event.target.value });
+        this.props.optionsChanged({ x: event.target.value });
     }
 
     yGridChanged(event) {
-        this.setState({ gridY: event.target.checked });
+        this.props.optionsChanged({ gridY: event.target.checked });
     }
 
     xGridChanged(event) {
-        this.setState({ gridX: event.target.checked });
+        this.props.optionsChanged({ gridX: event.target.checked });
     }
 
     yKeyChanged(event) {
         let y = this.state.y;
         y[event.target.name].key = event.target.value;
-        this.setState({ y: y });
+        this.props.optionsChanged({ y: y });
     }
 
     /* ringsNumberChanged(event) {
