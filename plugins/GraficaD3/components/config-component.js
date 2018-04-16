@@ -14,6 +14,12 @@ export default class Config extends React.Component {
         this.setOptions = this.setOptions.bind(this);
         this.optionsChanged = this.optionsChanged.bind(this);
         this.editButtonClicked = this.editButtonClicked.bind(this);
+        this.state = {
+            dataProcessed: {},
+            keys: [],
+            values: [],
+            options: {},
+        };
     }
 
     componentDidMount() {
@@ -22,59 +28,29 @@ export default class Config extends React.Component {
     }
 
     dataChanged(values) {
-        this.props.updateState({ ...this.props.state, editing: false, dataProvided: values.keys.slice().concat(values.data.slice()) });
+        this.props.updateState({ ...this.props.state, editing: false, dataProvided: [values.keys].slice().concat(values.data.slice()) });
         /* CONVERSOR BETWEEN OLD AND NEW */
         let keys = values.keys.slice();
-        let oldObjectStructure = new Array(values.dataProvided[0].length - 1);
-        for(let n = 0; n < oldObjectStructure.length; n++) {
-            oldObjectStructure[n] = {};
-        }
-        values.dataProvided.slice(0).forEach((array, indx)=>{
-            for(let n = 1; n < array.length; n++) {
-                oldObjectStructure[n - 1][array[0]] = array[n];
-            }
-        });
-        /* CONVERSOR BETWEEN OLD AND NEW */
+        let data = values.data.slice();
 
-        this.setOptions(oldObjectStructure, keys);
-        // this.updateChart();
+        this.setOptions(keys, data);
     }
 
-    setOptions(dataProcessed, keys) {
-        let nKeys = [];
-        for (let i = 0; i < keys.length; i++) {
-            let value = keys[i];
-            nKeys[i] = {};
-            nKeys[i].value = value;
-            nKeys[i].notNumber = true;
-        }
-
-        for (let o = 0; o < dataProcessed.length; o++) {
-            let row = dataProcessed[o];
+    setOptions(keys, values) {
+        let dataObject = [];
+        for (let o = 0; o < values.length; o++) {
             for (let i = 0; i < keys.length; i++) {
-                let key = nKeys[i];
-                dataProcessed[o][keys[i]] = isNaN(dataProcessed[o][keys[i]]) || typeof(dataProcessed[o][keys[i]]) === "boolean" || dataProcessed[o][keys[i]] === "" || dataProcessed[o][keys[i]] === null ? dataProcessed[o][keys[i]] : parseFloat(dataProcessed[o][keys[i]], 10);
-                if (key.notNumber) {
-                    nKeys[i].notNumber = isNaN(row[key.value]) || typeof(row[key.value]) === "boolean" || row[key.value] === "";
-                }
+                let value = isNaN(values[o][i]) || typeof(values[o][i]) === "boolean" || values[o][i] === "" || values[o][i] === null ? values[o][i] : parseFloat(values[o][i], 10);
+                dataObject.push({ name: keys[i], value: value });
             }
         }
 
-        let valueKeys = [];
-        for (let key of nKeys) {
-            if (!key.notNumber) {
-                valueKeys.push(key.value);
-            }
-        }
         let options = JSON.parse(JSON.stringify(this.props.state.options));
-        options.x = keys[0];
-        options.y = [{ key: valueKeys[0], color: "#17CFC8" }];
-        options.rings = [{ name: keys[0], value: valueKeys[0], color: "#17CFC8" }];
-        this.props.updateState({ ...this.props.state, dataProcessed: dataProcessed, keys: keys, valueKeys: valueKeys, options: options });
+        this.setState({ ...this.props.state, dataProcessed: dataObject, keys: keys, values: values, options: options });
     }
 
     optionsChanged(options) {
-        this.props.updateState({ ...this.props.state, options });
+        // this.props.updateState({ ...this.props.state, options });
     }
 
     editButtonClicked() {
@@ -97,14 +73,14 @@ export default class Config extends React.Component {
                             valueKeys={valueKeys}/>
                         }
                         {!editing &&
-                        <ChartOptions options={options} optionsChanged={this.optionsChanged} keys={keys} valueKeys={valueKeys}/>
+                        <ChartOptions dataProcessed={this.state.dataProcessed} options={this.state.options} keys={this.state.keys} values={this.state.values} optionsChanged={this.optionsChanged}/>
                         }
                     </Col>
                     <div className="col-xs-12 col-lg-7" ref="chartContainer" style={{ padding: '0px' }}>
                         {!editing &&
                         <div style={{ height: '300px', width: '95%' }}>
                             <h4>Previsualización</h4>
-                            <Chart dataProcessed={dataProcessed} options={options} width={this.state.chartWidth}
+                            <Chart dataProcessed={this.state.dataProcessed} options={this.state.options} keys={this.state.keys} values={this.state.values} width={this.state.chartWidth}
                                 key={2}/>
                         </div>
                         }
