@@ -22,9 +22,9 @@ export default class Config extends React.Component {
     }
 
     dataChanged(values) {
-        this.props.updateState({ ...this.props.state, editing: false, dataProvided: values.dataProvided.slice(0) });
+        this.props.updateState({ ...this.props.state, editing: false, dataProvided: values.keys.slice().concat(values.data.slice()) });
         /* CONVERSOR BETWEEN OLD AND NEW */
-        let keys = values.dataProvided.slice(0).map((x)=>{return x[0];});
+        let keys = values.keys.slice();
         let oldObjectStructure = new Array(values.dataProvided[0].length - 1);
         for(let n = 0; n < oldObjectStructure.length; n++) {
             oldObjectStructure[n] = {};
