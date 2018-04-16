@@ -2,6 +2,7 @@ import React from "react";
 import i18n from 'i18next';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MarkEditor from '../../_editor/components/rich_plugins/mark_editor/MarkEditor';
+import Mark from '../../_editor/components/rich_plugins/mark/Mark';
 import img_broken from './../../dist/images/broken_link.png';
 import img_placeholder from './../../dist/images/placeholder.svg';
 /* eslint-disable react/prop-types */
@@ -117,14 +118,8 @@ export function HotspotImages(base) {
         },
         getRenderTemplate: function(state, props) {
             let marks = props.marks || {};
-            let Mark = ({ idKey, title, style, color }) => (
-                <MarkEditor style={style} time={1.5} onRichMarkMoved={props.onRichMarkMoved} mark={idKey} base={base} marks={marks} state={state}>
-                    <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
-                        <a className="mapMarker" href="#">
-                            <i key="i" style={{ color: color }} className="material-icons">room</i>
-                        </a>
-                    </OverlayTrigger>
-                </MarkEditor>);
+            // let Mark = ({ idKey, title, style, color }) => (
+            //     );
 
             let markElements = Object.keys(marks).map((id) =>{
                 let value = marks[id].value;
@@ -137,10 +132,11 @@ export function HotspotImages(base) {
                 } else{
                     position = [0, 0];
                 }
-
-                return (<Mark key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} idKey={id} title={title} />);
-
-                // return(<a key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} href="#"><i style={{ width: "100%", height: "100%", top: '-26px', position: 'absolute', left: '-12px' }} className="material-icons">room</i></a>);
+                return (
+                    <MarkEditor key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} time={1.5} onRichMarkMoved={props.onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
+                        <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} idKey={id} title={title} />
+                    </MarkEditor>
+                );
             });
 
             return (

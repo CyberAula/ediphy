@@ -1,8 +1,8 @@
 import React from "react";
 import i18n from 'i18next';
 import Map from './components/Map';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MarkEditor from "../../_editor/components/rich_plugins/mark_editor/MarkEditor";
+import Mark from '../../_editor/components/rich_plugins/mark/Mark';
 require('./_virtualTour.scss');
 window.mapList = [];
 /* eslint-disable react/prop-types */
@@ -128,16 +128,6 @@ export function VirtualTour(base) {
                     </div>
                 </div>);
             }
-
-            let Mark = ({ idKey, title, color }) => (
-                <MarkEditor time={1.5} boxId={id} mark={idKey} base={base} onRichMarkMoved={props.onRichMarkMoved} state={state}>
-                    <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
-                        <a className="mapMarker" href="#">
-                            <i style={{ color: color }} key="i" className="material-icons">room</i>
-                        </a>
-                    </OverlayTrigger>
-                </MarkEditor>);
-
             let markElements = Object.keys(marks).map((idKey) => {
                 let value = marks[idKey].value;
                 let title = marks[idKey].title;
@@ -148,7 +138,10 @@ export function VirtualTour(base) {
                 } else {
                     position = [0, 0];
                 }
-                return (<Mark key={idKey} idBox={props.id} idKey={idKey} title={title} color={color} lat={position[0]} lng={position[1]}/>);
+                return (
+                    <MarkEditor key={idKey} time={1.5} boxId={id} mark={idKey} base={base} onRichMarkMoved={props.onRichMarkMoved} state={state} lat={position[0]} lng={position[1]}>
+                        <Mark idBox={props.id} idKey={idKey} title={title} color={color} />
+                    </MarkEditor>);
 
             });
 

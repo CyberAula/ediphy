@@ -429,7 +429,6 @@ export default class RichMarksModal extends Component {
             if(props.containedViewSelected === cv) {
                 return;
             }
-            console.log(props.containedViews[cv].name);
             viewNames.push({ label: props.containedViews[cv].name, id: props.containedViews[cv].id });
         });
         return viewNames;
@@ -499,4 +498,8 @@ RichMarksModal.propTypes = {
      * Object containing all the marks
      */
     marks: PropTypes.object,
+    /**
+     * Object containing all the viewTollbars
+     */
+    viewToolbars: PropTypes.object,
 };
