@@ -22,7 +22,7 @@ export default class TableComponent extends React.Component {
         let prop = realKeys.indexOf(options.initialSort) !== -1 ? realKeys.indexOf(options.initialSort) : 0;
         return (
             <div className={"tableContainer theme-" + options.theme}>
-                <DataTable key={options.key || 0}
+                <DataTable
                     keys="name"
                     columns={cols}
                     initialData={data}
@@ -63,6 +63,7 @@ export default class TableComponent extends React.Component {
 
     }
     componentDidMount() {
+
     }
 
 }

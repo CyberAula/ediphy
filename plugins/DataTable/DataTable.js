@@ -31,12 +31,13 @@ export function DataTable(base) {
                             __name: i18n.t("DataTable.style"),
                             icon: "palette",
                             order: [
+                                "opacity",
                                 "padding",
                                 "borderWidth",
                                 "borderStyle",
                                 "borderColor",
                                 "borderRadius",
-                                "opacity",
+
                             ],
                             buttons: {
                                 padding: {

@@ -182,4 +182,8 @@ ActionsRibbon.propTypes = {
      * Function for creating a new box
      */
     onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * Object containing all the exercises
+     */
+    exercises: PropTypes.object.isRequired,
 };

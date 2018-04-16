@@ -24,7 +24,7 @@ export default function() {
             basePlugin.init();
             basePlugin.getConfig = () => { return config; };
             basePlugin.getLocales();
-            basePlugin.init();
+            // basePlugin.init();
             pluginInstancesList[name] = basePlugin;
         },
     };
