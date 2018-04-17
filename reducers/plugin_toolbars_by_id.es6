@@ -5,7 +5,7 @@ import {
     VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX, ADD_NAV_ITEM,
 } from '../common/actions';
 import Utils, {
-    changeProps, deleteProps, isSortableBox,
+    changeProps, deleteProps, isSortableBox, isPage,
 } from '../common/utils';
 import i18n from 'i18next';
 
@@ -51,7 +51,7 @@ function toolbarCreator(state, action) {
         }
 
         let initialHeight = "auto";
-        let heightUnit = "px";
+        let heightUnit = isPage(action.payload.ids.parent) ? "%" : "px";
         if (action.payload.initialParams.height && action.payload.initialParams.height !== 'auto') {
             let parsed = parseFloat(action.payload.initialParams.height);
             if (!isNaN(parsed)) {

@@ -507,23 +507,27 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     } else {
                         value = parseInt(value, 10);
                     }
-                    let val;
-                    if (button.units === "%") {
-                        val = Math.min(Math.max(value, 0), 100);
-                    } else if (button.units === "px") {
-                        val = Math.max(value, 0);
+                    if (toolbar_plugin_state.structure[buttonKey + "Unit"] === "%") {
+                        value = Math.min(Math.max(value, 0), 100);
+                    } else if (toolbar_plugin_state.structure[buttonKey + "Unit"] === "px") {
+                        value = Math.max(value, 0);
                     }
 
-                    let otherbutton = buttonKey === 'width' ? 'height' : 'width';
-                    /* if (accordion.buttons.aspectRatio && accordion.buttons.aspectRatio.checked) {
-                        val = val * value / value;
-                        if (!otherButton.auto) {
-                            otherButton.displayValue = otherButton.value;
+                    let otherButton = buttonKey === 'width' ? 'height' : 'width';
+                    if (toolbar_plugin_state.structure.aspectRatio) {
+                        let otherValue = (toolbar_plugin_state.structure[otherButton] * value / toolbar_plugin_state.structure[buttonKey]).toFixed(3);
+                        if (toolbar_plugin_state.structure[otherButton] !== "auto") {
+                            if((toolbar_plugin_state.structure[buttonKey + "Unit"] === "%" && value > 100) || (toolbar_plugin_state.structure[otherButton + "Unit"] === "%" && otherValue > 100)) {
+                                return;
+                            }
+
+                            toolbar_props.onBoxResized(id, { [buttonKey]: value, [otherButton]: otherValue });
+
                         }
-                    }*/
+                    }
 
                     // If next values are going to be over 100%, prevent action
-                    if (toolbar_plugin_state.structure[buttonKey] !== "auto" && (toolbar_plugin_state.structure[buttonKey + "Unit"] === "%" && value > 100) || (toolbar_plugin_state.structure[otherbutton + "Unit"] === "%" && val > 100)) {
+                    if (toolbar_plugin_state.structure[buttonKey] !== "auto" && (toolbar_plugin_state.structure[buttonKey + "Unit"] === "%" && value > 100) || (toolbar_plugin_state.structure[otherButton + "Unit"] === "%" && toolbar_plugin_state.structure[otherButton] > 100)) {
                         return;
                     }
 

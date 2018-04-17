@@ -159,7 +159,7 @@ export default function() {
             let toolbar = this.getToolbar(state);
             let template = null;
             let params = { ...initParams };
-            params.aspectRatio = !!toolbar.aspectRatioButtonConfig;
+            params.aspectRatio = !!config.aspectRatioButtonConfig;
             params.name = config.name;
             params.isDefaultPlugin = defaultFor(initParams.isDefaultPlugin, false);
             if (params && Object.keys(params) && Object.keys(params).length > 1) {
