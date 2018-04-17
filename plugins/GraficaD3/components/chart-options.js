@@ -20,8 +20,7 @@ export default class ChartOptions extends React.Component {
 
         this.state = {
             dataProcessed: this.props.dataProcessed,
-            values: this.props.values,
-            keys: this.props.keys,
+            values: this.props.dataProvided.slice(1, this.props.dataProvided.length),
         };
 
     }

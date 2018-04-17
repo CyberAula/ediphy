@@ -74,7 +74,7 @@ export default class Config extends React.Component {
                         <DataProvider dataProvided={dataProvided} dataChanged={this.dataChanged}/>
                         }
                         {!editing &&
-                        <ChartOptions dataProcessed={dataProcessed} options={options} keys={this.state.keys} values={this.state.values} optionsChanged={this.optionsChanged}/>
+                        <ChartOptions dataProcessed={dataProcessed} options={options} dataProvided={dataProvided} optionsChanged={this.optionsChanged}/>
                         }
                     </Col>
                     <div className="col-xs-12 col-lg-7" ref="chartContainer" style={{ padding: '0px' }}>
