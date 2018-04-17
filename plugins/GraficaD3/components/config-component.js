@@ -15,10 +15,10 @@ export default class Config extends React.Component {
         this.optionsChanged = this.optionsChanged.bind(this);
         this.editButtonClicked = this.editButtonClicked.bind(this);
         this.state = {
-            dataProcessed: {},
+            dataProcessed: [],
             keys: [],
             values: [],
-            options: {},
+            options: this.props.options,
         };
     }
 
@@ -28,31 +28,31 @@ export default class Config extends React.Component {
     }
 
     dataChanged(values) {
-        this.props.updateState({ ...this.props.state, editing: false, dataProvided: [values.keys].slice().concat(values.data.slice()) });
-        /* CONVERSOR BETWEEN OLD AND NEW */
+        let dataObject = [];
         let keys = values.keys.slice();
         let data = values.data.slice();
-
-        this.setOptions(keys, data);
-    }
-
-    setOptions(keys, values) {
-        let dataObject = [];
         for (let i = 0; i < keys.length; i++) {
             let object = { name: keys[i] };
-            for (let o = 0; o < values.length; o++) {
-                let value = isNaN(values[o][i]) || typeof(values[o][i]) === "boolean" || values[o][i] === "" || values[o][i] === null ? values[o][i] : parseFloat(values[o][i], 10);
+            for (let o = 0; o < data.length; o++) {
+                let value = isNaN(data[o][i]) || typeof(data[o][i]) === "boolean" || data[o][i] === "" || data[o][i] === null ? data[o][i] : parseFloat(data[o][i], 10);
                 object[o] = value;
             }
             dataObject.push(object);
         }
 
+        this.props.updateState({ ...this.props.state, editing: false, dataProvided: [values.keys].slice().concat(values.data.slice()), dataProcessed: dataObject });
+        /* CONVERSOR BETWEEN OLD AND NEW */
+
+        this.setOptions(keys, data, dataObject);
+    }
+
+    setOptions(keys, values, dataObject) {
         let options = JSON.parse(JSON.stringify(this.props.state.options));
         this.setState({ ...this.props.state, dataProcessed: dataObject, keys: keys, values: values, options: options });
     }
 
     optionsChanged(options) {
-        this.props.updateState({ ...this.props.state, options });
+        this.props.updateState({ ...this.props.state, options: { ...this.props.state.options, ...options } });
     }
 
     editButtonClicked() {
@@ -60,7 +60,7 @@ export default class Config extends React.Component {
     }
 
     render() {
-        let { dataProcessed, dataProvided, keys, editing, valueKeys, options } = this.props.state;
+        let { dataProcessed, dataProvided, editing, options } = this.props.state;
         return (
             <Grid>
                 <Row>
@@ -71,18 +71,17 @@ export default class Config extends React.Component {
                             className="btn-primary">{i18n.t("GraficaD3.edit")}</Button>
                         }
                         {editing &&
-                        <DataProvider dataProvided={dataProvided} dataChanged={this.dataChanged} keys={keys}
-                            valueKeys={valueKeys}/>
+                        <DataProvider dataProvided={dataProvided} dataChanged={this.dataChanged}/>
                         }
                         {!editing &&
-                        <ChartOptions dataProcessed={this.state.dataProcessed} options={this.state.options} keys={this.state.keys} values={this.state.values} optionsChanged={this.optionsChanged}/>
+                        <ChartOptions dataProcessed={dataProcessed} options={options} keys={this.state.keys} values={this.state.values} optionsChanged={this.optionsChanged}/>
                         }
                     </Col>
                     <div className="col-xs-12 col-lg-7" ref="chartContainer" style={{ padding: '0px' }}>
                         {!editing &&
                         <div style={{ height: '300px', width: '95%' }}>
                             <h4>Previsualización</h4>
-                            <Chart dataProcessed={this.state.dataProcessed} options={this.state.options} keys={this.state.keys} values={this.state.values} width={this.state.chartWidth}
+                            <Chart dataProcessed={dataProcessed} options={options} keys={this.state.keys} values={this.state.values} width={this.state.chartWidth}
                                 key={2}/>
                         </div>
                         }

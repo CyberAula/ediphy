@@ -88,18 +88,13 @@ export function GraficaD3(base) {
                 editing: true,
                 options: {
                     type: "area",
-                    x: "",
-                    y: [{
-                        key: "",
+                    graphs: [{
+                        row: 0,
+                        name: "Example",
                         color: "#ff7f0e",
                     }],
                     gridX: true,
                     gridY: true,
-                    rings: [{
-                        name: "",
-                        value: "",
-                        color: "#ff7f0e",
-                    }],
                 },
             };
         },

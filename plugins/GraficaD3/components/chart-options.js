@@ -10,55 +10,59 @@ export default class ChartOptions extends React.Component {
 
         this.typeChanged = this.typeChanged.bind(this);
         this.colorChanged = this.colorChanged.bind(this);
-        this.yAxisChanged = this.yAxisChanged.bind(this);
-        this.xKeyChanged = this.xKeyChanged.bind(this);
         this.xGridChanged = this.xGridChanged.bind(this);
         this.yKeyChanged = this.yKeyChanged.bind(this);
         this.yGridChanged = this.yGridChanged.bind(this);
+        this.colorChanged = this.colorChanged.bind(this);
+        this.graphsChanged = this.graphsChanged.bind(this);
+        this.rowChanged = this.rowChanged.bind(this);
+        this.rowNameChanged = this.rowNameChanged.bind(this);
 
         this.state = {
             dataProcessed: this.props.dataProcessed,
             values: this.props.values,
-            gridX: this.props.options.gridX,
-            gridY: this.props.options.gridY,
-            rings: this.props.options.rings,
-            type: this.props.options.type,
-            x: this.props.options.x,
-            y: this.props.options.y,
             keys: this.props.keys,
         };
 
     }
 
     typeChanged(event) {
-        this.props.soptionsChanged({ type: event.target.value });
+        this.props.optionsChanged({ type: event.target.value });
     }
 
     colorChanged(event) {
-        let y = this.state.y;
-        y[event.target.name].color = event.target.value;
-        this.props.optionsChanged({ y: y });
+        let graph = this.props.options.graphs.slice();
+        graph[event.target.name].color = event.target.value;
+        this.props.optionsChanged({ graphs: graph });
     }
 
-    yAxisChanged(event) {
-        let yAxis = this.state.y;
+    randomColor() {
+        return `#${Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, 0)}`;
+    }
+
+    graphsChanged(event) {
+        let graphs = this.props.options.graphs.slice();
         let number = event.target.value;
-        if(number > yAxis.length) {
-            for (let i = yAxis.length; i < number; i++) {
-                yAxis[i] = {
-                    key: "",
-                    color: "#17CFC8",
-                };
+        let rows = this.props.values.length;
+        if(number > graphs.length) {
+            if(number <= rows) {
+                for (let i = graphs.length; i < number; i++) {
+                    graphs[i] = {
+                        row: i,
+                        name: "Fila " + i,
+                        color: this.randomColor(),
+                    };
+                }
             }
-        } else {
-            yAxis = yAxis.slice(0, number);
+        } else if (number >= 1) {
+            graphs = graphs.slice(0, number);
         }
-        this.props.optionsChanged({ y: yAxis });
+        this.props.optionsChanged({ graphs: graphs });
     }
 
-    xKeyChanged(event) {
+    /* xKeyChanged(event) {
         this.props.optionsChanged({ x: event.target.value });
-    }
+    }*/
 
     yGridChanged(event) {
         this.props.optionsChanged({ gridY: event.target.checked });
@@ -74,40 +78,19 @@ export default class ChartOptions extends React.Component {
         this.props.optionsChanged({ y: y });
     }
 
-    /* ringsNumberChanged(event) {
-        let rings = this.state.rings;
-        let number = event.target.value;
-        if(number > rings.length) {
-            for (let i = rings.length; i < number; i++) {
-                rings[i] = {
-                    name: this.state.keys[0],
-                    value: this.state.valueKeys[0],
-                    color: "#17CFC8",
-                };
-            }
-        } else {
-            rings = rings.slice(0, number);
-        }
-        this.setState({ rings: rings });
+    rowChanged(event) {
+        let number = event.target.name;
+        let graphs = this.props.options.graphs.slice();
+        graphs[number].row = event.target.value;
+        this.props.optionsChanged({ graphs: graphs });
     }
 
-    ringNameChanged(event) {
-        let rings = this.state.rings;
-        rings[event.target.name].name = event.target.value;
-        this.setState({ rings: rings });
+    rowNameChanged(event) {
+        let number = event.target.name;
+        let graphs = this.props.options.graphs.slice();
+        graphs[number].name = event.target.value;
+        this.props.optionsChanged({ graphs: graphs });
     }
-
-    ringValueChanged(event) {
-        let rings = this.state.rings;
-        rings[event.target.name].value = event.target.value;
-        this.setState({ rings: rings });
-    }
-
-    ringColorChanged(event) {
-        let rings = this.state.rings;
-        rings[event.target.name].color = event.target.value;
-        this.setState({ rings: rings });
-    }*/
 
     render() {
         return (
@@ -122,7 +105,7 @@ export default class ChartOptions extends React.Component {
                                 </FormControl.Static>
                             </Col>
                             <Col xs={7}>
-                                <FormControl componentClass="select" placeholder="line" value={this.state.type} onChange={this.typeChanged}>
+                                <FormControl componentClass="select" placeholder="line" value={this.props.options.type} onChange={this.typeChanged}>
                                     <option value="line">{i18n.t("GraficaD3.types.line")}</option>
                                     <option value="area">{i18n.t("GraficaD3.types.area")}</option>
                                     <option value="bar">{i18n.t("GraficaD3.types.bar")}</option>
@@ -137,11 +120,11 @@ export default class ChartOptions extends React.Component {
                                 </FormControl.Static>
                             </Col>
                             <Col xs={6}>
-                                <Checkbox checked={this.state.gridX} onChange={this.xGridChanged} />
+                                <Checkbox checked={this.props.options.gridX} onChange={this.xGridChanged} />
                                 {i18n.t("GraficaD3.horizontal")}
                             </Col>
                             <Col xs={6}>
-                                <Checkbox checked={this.state.gridY} onChange={this.yGridChanged} />
+                                <Checkbox checked={this.props.options.gridY} onChange={this.yGridChanged} />
                                 {i18n.t("GraficaD3.vertical")}
                             </Col>
                         </FormGroup>
@@ -151,56 +134,49 @@ export default class ChartOptions extends React.Component {
                         <FormGroup>
                             <Col xs={5}>
                                 <FormControl.Static>
-                                    {i18n.t("GraficaD3.axes_h")}
+                                    Numero de Gráficas
                                 </FormControl.Static>
                             </Col>
                             <Col xs={7}>
-                                <FormControl componentClass="select" placeholder={this.state.keys[0]} value={this.state.x} onChange={this.xKeyChanged}>
-                                    {this.state.keys.map((x, i) => {
-                                        return(
-                                            <option key={i + 1} value={x}>{x}</option>
-                                        );
-                                    })}
-                                </FormControl>
-                            </Col>
-                        </FormGroup>
-                        <FormGroup>
-                            <Col xs={5}>
-                                <FormControl.Static>
-                                    {i18n.t("GraficaD3.axes_v")}
-                                </FormControl.Static>
-                            </Col>
-                            <Col xs={7}>
-                                <FormControl type="number" value={this.state.y.length} onChange={this.yAxisChanged}/>
+                                <FormControl type="number" value={this.props.options.graphs.length} onChange={this.graphsChanged}/>
                             </Col>
                         </FormGroup>
 
-                        {this.state.y.map((y, i) => {
+                        {this.props.options.graphs.map((y, i) => {
                             return(
-
                                 <div key={i + 1}>
                                     <hr />
                                     <FormGroup>
                                         <Col xs={12}>
                                             <h5>
-                                                {i18n.t("GraficaD3.axis") + ' ' + i}
+                                                {i18n.t("GraficaD3.point") + ' ' + i}
                                             </h5>
                                         </Col>
                                     </FormGroup>
                                     <FormGroup>
                                         <Col xs={5}>
                                             <FormControl.Static>
-                                                {i18n.t("GraficaD3.key") + ' ' }
+                                                {i18n.t("GraficaD3.Fila") + ' ' + i}
                                             </FormControl.Static>
                                         </Col>
                                         <Col xs={7}>
-                                            <FormControl componentClass="select" placeholder={this.state.values[0]} name={i} value={y.key} onChange={this.yKeyChanged}>
+                                            <FormControl componentClass="select" placeholder={"Fila 0"} name={i} value={this.props.options.graphs[i].row} onChange={this.rowChanged}>
                                                 {this.state.values.map((x, w) => {
                                                     return(
-                                                        <option key={w + 1} value={x}>{x}</option>
+                                                        <option key={w + 1} value={w}>{"Fila " + w}</option>
                                                     );
                                                 })}
                                             </FormControl>
+                                        </Col>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Col xs={5}>
+                                            <FormControl.Static>
+                                                {"Nombre de Fila"}
+                                            </FormControl.Static>
+                                        </Col>
+                                        <Col xs={7}>
+                                            <FormControl type="text" name={i} value={this.props.options.graphs[i].name} onChange={this.rowNameChanged}/>
                                         </Col>
                                     </FormGroup>
                                     <FormGroup>
@@ -210,7 +186,7 @@ export default class ChartOptions extends React.Component {
                                             </FormControl.Static>
                                         </Col>
                                         <Col xs={7}>
-                                            <FormControl type="color" name={i} value={y.color} onChange={this.colorChanged}/>
+                                            <FormControl type="color" name={i} value={this.props.options.graphs[i].color} onChange={this.colorChanged}/>
                                         </Col>
                                     </FormGroup>
                                 </div>
@@ -219,73 +195,6 @@ export default class ChartOptions extends React.Component {
 
                     </Form>
                     }
-                    {/* this.state.type === 'pie' &&
-                    <Form horizontal>
-                        <FormGroup>
-                            <Col componentClass={ControlLabel} xs={4}>
-                                <FormControl.Static>
-                                    {i18n.t("GraficaD3.rings")}
-                                </FormControl.Static>
-                            </Col>
-                            <Col xs={6}>
-                                <FormControl type="number" value={this.state.rings.length} onChange={this.ringsNumberChanged}/>
-                            </Col>
-
-                        </FormGroup>
-
-                        {this.state.rings.map((ring, i) => {
-                            return(
-                                <div key={i + 1}>
-                                    <FormGroup>
-                                        <Col componentClass={ControlLabel} xs={6}>
-                                            <FormControl.Static>
-                                                {i18n.t("GraficaD3.ring") + ' ' + (i + 1)}
-                                            </FormControl.Static>
-                                        </Col>
-                                    </FormGroup>
-
-                                    <FormGroup>
-                                        <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
-                                            {i18n.t("GraficaD3.name")}
-                                        </Col>
-                                        <Col xs={6}>
-                                            <FormControl componentClass="select" placeholder="select" name={i} value={ring.name} onChange={this.ringNameChanged}>
-                                                {this.state.keys.map((key, n) => {
-                                                    return(
-                                                        <option key={n + 1} value={key}>{key}</option>
-                                                    );
-                                                })}
-                                            </FormControl>
-                                        </Col>
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
-                                            {i18n.t("GraficaD3.value")}
-                                        </Col>
-                                        <Col xs={6}>
-                                            <FormControl componentClass="select" placeholder={this.state.values[0]} name={i} value={ring.value} onChange={this.ringValueChanged}>
-                                                {this.state.values.map((key, r) => {
-                                                    return(
-                                                        <option key={r + 1} value={key}>{key}</option>
-                                                    );
-                                                })}
-                                            </FormControl>
-                                        </Col>
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
-                                            {i18n.t("GraficaD3.color")}
-                                        </Col>
-                                        <Col xs={6}>
-                                            <FormControl type="color" name={i} value={ring.color} onChange={this.ringColorChanged}/>
-                                        </Col>
-                                    </FormGroup>
-                                </div>
-                            );
-                        })}
-                    </Form>
-
-                    */}
                 </div>
             </div>
         );

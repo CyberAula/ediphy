@@ -230,7 +230,7 @@ export default class DataProvider extends React.Component {
                         <div style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
                             {Array.apply(0, Array(this.state.cols)).map((x, i) => {
                                 return(
-                                    <FormControl.Static key={i + 1} style={{ display: 'table-cell', padding: '8px', textAlign: 'center' }} />
+                                    <FormControl.Static key={i} style={{ display: 'table-cell', padding: '8px', textAlign: 'center' }} />
                                 );
                             })}
                         </div>
@@ -241,7 +241,7 @@ export default class DataProvider extends React.Component {
                                         return(
                                             <th key={i + 1}>
                                                 <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}}>clear</i>
-                                                <FormControl type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
+                                                <FormControl key={"form_" + i} type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
                                             </th>
                                         );
                                     })}
@@ -258,7 +258,7 @@ export default class DataProvider extends React.Component {
                                                     <td key={o + 1}>
                                                         {o === 0 ? (<i className="material-icons clearRow" style={{ float: 'left' }} onClick={()=>{this.deleteRows(i);}}>clear</i>) : null}
 
-                                                        <FormControl type="text" style={{ width: 'calc(100% - 30px)' }} name={i + " " + o} value={this.state.data[i][o] } onChange={this.dataChanged}/>
+                                                        <FormControl key={"ele_" + i + " " + o} type="text" style={{ width: 'calc(100% - 30px)' }} name={i + " " + o} value={this.state.data[i][o] } onChange={this.dataChanged}/>
 
                                                     </td>
                                                 );

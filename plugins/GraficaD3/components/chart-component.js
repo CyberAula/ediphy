@@ -7,12 +7,19 @@ export default class Chart extends React.Component {
 
     }
     render() {
-        let data = this.props.dataProcessed;
+        let data = this.props.dataProcessed.slice();
         let options = this.props.options;
-        let ymap = [0, 1]; // here is the key
+        options.graphs.forEach(graph=>{
+            data.forEach((element, i)=>{
+                let newData = { ...data[i] };
+                newData = { ...newData, [graph.name]: element[graph.row] };
+                delete newData[graph.row];
+                data[i] = newData;
+            });
+        });
         switch (options.type) {
         case "line":
-            if(ymap.length === 1) {
+            if(options.graphs.length === 1) {
                 return (
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart
@@ -22,7 +29,7 @@ export default class Chart extends React.Component {
                             <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                             <Tooltip />
                             <Legend />
-                            <Line key={1} type="monotone" dataKey={0} stroke="#000000" fillOpacity={1} />
+                            <Line key={1} type="monotone" dataKey={options.graphs[0].name} stroke={options.graphs[0].color} fillOpacity={1} />
                         </LineChart>
                     </ResponsiveContainer>
                 );
@@ -36,7 +43,7 @@ export default class Chart extends React.Component {
                         <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                         <Tooltip />
                         <Legend />
-                        {ymap.map((y, o) => <Line key={o + 1} type="monotone" dataKey={o} stroke={y.color} fillOpacity={1} />)}
+                        {options.graphs.map((y, o) => <Line key={o + 1} type="monotone" dataKey={y.name} stroke={y.color} fillOpacity={1} />)}
                     </LineChart>
                 </ResponsiveContainer>
             );
@@ -46,7 +53,7 @@ export default class Chart extends React.Component {
                 <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={data}>
                         <defs>
-                            {options.y.map((y, o) => {
+                            {options.graphs.map((y, o) => {
                                 return(
                                     <linearGradient key={o + 1} id={"colorUv" + o} x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor={y.color} stopOpacity={0.8}/>
@@ -55,26 +62,26 @@ export default class Chart extends React.Component {
                                 );
                             })}
                         </defs>
-                        <XAxis dataKey={options.x} name={options.x} />
+                        <XAxis dataKey="name" />
                         <YAxis/>
                         <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                         <Tooltip />
-                        {ymap.map((y, o) => <Area key={o + 1} type="monotone" dataKey={o} stroke={y.color} fillOpacity={1} fill={"url(#colorUv" + o + ")"}/>)}
+                        {options.graphs.map((y, o) => <Area key={o + 1} type="monotone" dataKey={y.name} stroke={y.color} fillOpacity={1} fill={"url(#colorUv" + o + ")"}/>)}
                     </AreaChart>
                 </ResponsiveContainer>
             );
         case "bar":
-            if(ymap.length === 1) {
+            if(options.graphs.length === 1) {
                 return (
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             data={data}>
-                            <XAxis dataKey={options.x} name={options.x}/>
+                            <XAxis dataKey="name"/>
                             <YAxis/>
                             <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                             <Tooltip/>
                             <Legend />
-                            <Bar key={1} dataKey={options.y[0].key} fill={options.y[0].color} scaleY={1} />
+                            <Bar key={1} dataKey={options.graphs[0].name} fill={options.graphs[0].color} scaleY={1} />
                         </BarChart>
                     </ResponsiveContainer>
                 );
@@ -83,12 +90,12 @@ export default class Chart extends React.Component {
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                         data={data}>
-                        <XAxis dataKey={options.x} name={options.x}/>
+                        <XAxis dataKey="name"/>
                         <YAxis/>
                         <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                         <Tooltip/>
                         <Legend />
-                        {ymap.map((y, o) =><Bar key={o + 1} dataKey={y.key} fill={y.color} scaleY={1} />)}
+                        {options.graphs.map((y, o) =><Bar key={o + 1} dataKey={y.name} fill={y.color} scaleY={1} />)}
                     </BarChart>
                 </ResponsiveContainer>
             );
@@ -130,7 +137,7 @@ export default class Chart extends React.Component {
                         <CartesianGrid
                             horizontal
                             vertical={options.xGrid} />
-                        {options.y.map((y, o) => {
+                        {options.graphs.map((y, o) => {
                             return(
                                 <Line key={o + 1} type="monotone"
                                     dataKey={y.key}
