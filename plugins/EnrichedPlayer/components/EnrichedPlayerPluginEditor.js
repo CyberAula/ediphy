@@ -2,7 +2,6 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 import Mark from './../../../_editor/components/rich_plugins/mark/Mark';
 import img from './../../../dist/images/broken_link.png';
