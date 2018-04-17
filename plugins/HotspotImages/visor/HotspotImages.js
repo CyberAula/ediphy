@@ -14,13 +14,14 @@ export function HotspotImages(base) {
                 let title = marks[e].title;
                 let color = marks[e].color;
                 let isPopUp = marks[e].connectMode === "popup";
+                let isVisor = true;
                 return(
                     <div key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width: '24px', height: '26px' }}>
                         <Mark color={color}
                             idKey={e}
                             title={title}
                             isPopUp={isPopUp}
-                            isVisor="true"
+                            isVisor={isVisor}
                             markConnection={marks[e].connection}
                             markValue={marks[e].value}
                             boxID={box_id}

@@ -1,6 +1,6 @@
 import React from "react";
 import GoogleMapReact from 'google-map-react';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import Mark from '../../../_editor/components/rich_plugins/mark/Mark';
 import i18n from 'i18next';
 require('./../_virtualTour.scss');
 
@@ -16,10 +16,6 @@ export function VirtualTour(base) {
             }
         },
         getRenderTemplate: function(state, props) {
-            // if (!window.google) {
-            //     let src = "https://maps.google.com/maps/api/js?libraries=places&key=AIzaSyAOOAHADllUMGULOz5FQu3rIhM0RtwxP7Q";
-            //     $('<script>').attr('src', src).appendTo('head');
-            // }
             if (!window.google || !window.navigator.onLine) {
                 return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
                     <div className="middleAlign">
@@ -33,16 +29,22 @@ export function VirtualTour(base) {
             let box_id = props.id;
 
             let markElements = Object.keys(marks).map((e) =>{
-                let Mark = ({ key, text }) => (
-                    <OverlayTrigger placement="top" overlay={<Tooltip id={e}>{text}</Tooltip>}>
-                        <a className="mapMarker" onClick={()=>{props.onMarkClicked(box_id, marks[e].value);}}href="#">
-                            <i style={{ color: marks[e].color }} key="i" className="material-icons">room</i>
-                        </a>
-                    </OverlayTrigger>);
-
                 let position = marks[e].value.split(',');
-                return (<Mark key={e} text={marks[e].title} lat={position[0]} lng={position[1]}/>);
-
+                let title = marks[e].title;
+                let color = marks[e].color;
+                let isPopUp = marks[e].connectMode === "popup";
+                let isVisor = true;
+                return(
+                    <Mark key={e} lat={position[0]} lng={position[1]} color={color}
+                        idKey={e}
+                        title={title}
+                        isPopUp={isPopUp}
+                        isVisor={isVisor}
+                        markConnection={marks[e].connection}
+                        markValue={marks[e].value}
+                        boxID={box_id}
+                        onMarkClicked={props.onMarkClicked}/>
+                );
             });
             let lat = state.config.lat && parseFloat(state.config.lat) ? parseFloat(state.config.lat) : 0;
             let lng = state.config.lng && parseFloat(state.config.lng) ? parseFloat(state.config.lng) : 0;

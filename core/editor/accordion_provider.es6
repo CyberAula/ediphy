@@ -875,7 +875,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     if (button.type === "background_picker") {
         let isURI = (/data\:/).test(props.value.background);
         let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background);
-        let default_background = "rgb(255,255,255)";
+        let default_background = "#ffffff";
         let isSli = isSlide(toolbar_props.navItems[id].type);
         let background_attr = toolbar_props.viewToolbars[id].backgroundAttr;
         return React.createElement(

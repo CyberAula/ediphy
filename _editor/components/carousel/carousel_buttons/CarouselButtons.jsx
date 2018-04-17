@@ -138,7 +138,7 @@ export default class CarouselButtons extends Component {
                                 this.getParent().id,
                                 PAGE_TYPES.DOCUMENT,
                                 this.calculatePosition(),
-                                "rgb(255,255,255)",
+                                "#ffffff",
                                 0,
                                 false,
                                 false,

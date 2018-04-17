@@ -34,7 +34,7 @@ function toolbarElementCreator(state, action, containedView = false) {
     }
 
     let name = action.payload.name ? action.payload.name : containedView ? action.payload.toolbar.viewName : doc_type;
-    let background = action.payload.background ? action.payload.background.background : "rgb(255,255,255)";
+    let background = action.payload.background ? action.payload.background.background : "#ffffff";
     let backgroundAttr = action.payload.background ? action.payload.background.backgroundAttr : "";
     let toolbar = {
         id: id,
@@ -50,7 +50,7 @@ function toolbarElementCreator(state, action, containedView = false) {
         numPageContent: action.payload.position,
         customSize: 0,
         aspectRatio: true,
-        background: background || "rgb(255,255,255)",
+        background: background || "#ffffff",
         backgroundAttr: backgroundAttr || "",
     };
 

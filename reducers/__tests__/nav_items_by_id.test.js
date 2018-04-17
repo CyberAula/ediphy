@@ -77,7 +77,7 @@ describe('# nav_items_by_id reducer', ()=>{
             const newSection = { boxes: [],
                 children: [],
                 extraFiles: {},
-                background: "rgb(255,255,255)",
+                background: "#ffffff",
                 header: {
                     display: {
                         breadcrumb: "reduced",
@@ -142,7 +142,7 @@ describe('# nav_items_by_id reducer', ()=>{
                 level: 2,
                 linkedBoxes: {},
                 name: "Página",
-                background: "rgb(255,255,255)",
+                background: "#ffffff",
                 parent: "se-1467887497411",
                 type: "document",
                 "unitNumber": 1 };
