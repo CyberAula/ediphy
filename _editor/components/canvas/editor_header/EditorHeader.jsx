@@ -99,7 +99,7 @@ export default class EditorHeader extends Component {
                                 <div className="cab">
 
                                     <div className="cabtabla_numero"
-                                        style={{ display: (toolbar.numPage === 'hidden') ? 'none' : 'block' }}
+                                        style={{ display: (toolbar.numPage === 'hidden' || !pagenumber) ? 'none' : 'block' }}
                                     >{pagenumber}</div>
 
                                     <div className="tit_ud_cap">

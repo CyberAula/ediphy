@@ -1,6 +1,6 @@
 import React from "react";
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import img from './../../../dist/images/broken_link.png';
+import Mark from '../../../_editor/components/rich_plugins/mark/Mark';
 /* eslint-disable react/prop-types */
 
 export function HotspotImages(base) {
@@ -10,17 +10,22 @@ export function HotspotImages(base) {
             let box_id = props.id;
 
             let markElements = Object.keys(marks).map((e) =>{
-
                 let position = marks[e].value.split(',');
                 let title = marks[e].title;
                 let color = marks[e].color;
-
+                let isPopUp = marks[e].connectMode === "popup";
+                let isVisor = true;
                 return(
-                    <a key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width: '24px', height: '26px' }} onClick={()=>{props.onMarkClicked(box_id, marks[e].value);}} href="#">
-                        <OverlayTrigger placement="top" overlay={<Tooltip positionLeft="-12" id={e}>{title}</Tooltip>}>
-                            <i key="i" style={{ width: "100%", height: "100%", position: 'absolute', top: '-26px', left: '-12px', color: color }} className="material-icons">room</i>
-                        </OverlayTrigger>
-                    </a>
+                    <div key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width: '24px', height: '26px' }}>
+                        <Mark color={color}
+                            idKey={e}
+                            title={title}
+                            isPopUp={isPopUp}
+                            isVisor={isVisor}
+                            markConnection={marks[e].connection}
+                            markValue={marks[e].value}
+                            boxID={box_id}
+                            onMarkClicked={props.onMarkClicked}/></div>
                 );
             });
 

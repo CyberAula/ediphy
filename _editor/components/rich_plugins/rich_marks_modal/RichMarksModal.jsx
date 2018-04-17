@@ -166,11 +166,18 @@ export default class RichMarksModal extends Component {
                                     onChange={e => {
                                         this.setState({ connectMode: "external" });
                                     }}>{i18n.t("marks.external_url")}</Radio>
+                                <Radio value="popup"
+                                    name="connect_mode"
+                                    checked={this.state.connectMode === "popup"}
+                                    onChange={e => {
+                                        this.setState({ connectMode: "popup" });
+                                    }}>{i18n.t("marks.popup")}</Radio>
 
                             </Col>
                         </FormGroup>
                         <Col xs={5} md={3}>
                             <FormGroup style={{ display: this.state.connectMode === "new" ? "initial" : "none" }}>
+                                <ControlLabel>{i18n.t("marks.new_content_label")}</ControlLabel>
                                 <FormControl componentClass="select"
                                     defaultValue={this.state.newType}
                                     style={{
@@ -189,18 +196,26 @@ export default class RichMarksModal extends Component {
                                 </span>
                             </FormGroup>
                             <FormGroup style={{ display: this.state.connectMode === "existing" ? "initial" : "none" }}>
+                                <ControlLabel>{i18n.t("marks.existing_content_label")}</ControlLabel>
                                 {this.state.connectMode === "existing" && <FormControl componentClass="select" onChange={e=>{this.setState({ existingSelected: e.target.value });}}>
                                     {this.returnAllViews(this.props).map(view=>{
-                                        return <option key={view.id} value={view.id}>{view.label}</option>;
+                                        return <option key={view.id} value={view.id}>{this.props.viewToolbars[view.id].viewName}</option>;
                                     })}
                                 </FormControl>}
                             </FormGroup>
 
                             <FormGroup style={{ display: this.state.connectMode === "external" ? "initial" : "none" }}>
+                                <ControlLabel>{i18n.t("marks.external_url_label")}</ControlLabel>
                                 <FormControl ref="externalSelected"
                                     type="text"
                                     defaultValue={current && this.state.connectMode === "external" ? current.connection : "http://vishub.org/"}
                                     placeholder="URL"/>
+                            </FormGroup>
+                            <FormGroup style={{ display: this.state.connectMode === "popup" ? "initial" : "none" }}>
+                                <ControlLabel>{i18n.t("marks.popup_label")}</ControlLabel>
+                                <FormControl ref="popupSelected" componentClass="textarea"
+                                    defaultValue={current && this.state.connectMode === "popup" ? current.connection : ""}
+                                    placeholder={i18n.t("marks.popup_placeholder")}/>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -341,6 +356,20 @@ export default class RichMarksModal extends Component {
                                 },
                             };
                             break;
+                        case "popup":
+                            markState = {
+                                mark: {
+                                    id: newMark,
+                                    origin: this.props.boxSelected,
+                                    title: title,
+                                    connection: ReactDOM.findDOMNode(this.refs.popupSelected).value,
+                                    color: color,
+                                    connectMode: connectMode,
+                                    displayMode: this.state.displayMode,
+                                    value: value,
+                                },
+                            };
+                            break;
                         }
                         if(this.props.marks[newMark] === undefined) {
                             this.props.onRichMarkAdded(markState.mark, markState.view, markState.viewToolbar);
@@ -400,7 +429,6 @@ export default class RichMarksModal extends Component {
             if(props.containedViewSelected === cv) {
                 return;
             }
-
             viewNames.push({ label: props.containedViews[cv].name, id: props.containedViews[cv].id });
         });
         return viewNames;
@@ -470,4 +498,8 @@ RichMarksModal.propTypes = {
      * Object containing all the marks
      */
     marks: PropTypes.object,
+    /**
+     * Object containing all the viewTollbars
+     */
+    viewToolbars: PropTypes.object,
 };

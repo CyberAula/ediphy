@@ -2,6 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
+import Mark from './../../../_editor/components/rich_plugins/mark/Mark';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import img from './../../../dist/images/broken_link.png';
 /* eslint-disable react/prop-types */
@@ -131,13 +132,10 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let color = marks[id].color;
 
             return(
-                <OverlayTrigger key={id} text={title} placement="top" overlay={<Tooltip id={id}>{title}</Tooltip>}>
-                    <a key={id} style={{ left: value, position: "absolute" }} href="#">
-                        <div style={{ width: "4px", height: "8px", background: color || "#17CFC8" }}>
-                            <i className="material-icons" style={{ color: color || "#17CFC8", position: "relative", top: "-24px", left: "-10px" }}>room</i>
-                        </div>
-                    </a>
-                </OverlayTrigger>);
+                <div key={id} className="videoMark" style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
+                    <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }} color={color || "#17CFC8"} idKey={id} title={title} />
+                </div>
+            );
         });
 
         return (
@@ -166,8 +164,8 @@ export default class EnrichedPlayerPlugin extends React.Component {
                             onChange={this.onSeekChange.bind(this)}
                             onMouseUp={this.onSeekMouseUp.bind(this)}
                         >
-                            <div className="fakeProgress" />
-                            <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
+                            <div className="fakeProgress" style={{ top: "0" }} />
+                            <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%", top: "0" }} />
                             {markElements}
                         </div>
                         <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />

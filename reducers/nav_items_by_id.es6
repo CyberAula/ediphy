@@ -11,7 +11,6 @@ import { changeProp, changeProps, deleteProp, deleteProps, isView, isSlide, isDo
 function navItemCreator(state = {}, action = {}) {
     return {
         id: action.payload.id,
-        // name: action.payload.name,
         isExpanded: true,
         parent: action.payload.parent,
         children: [],
@@ -19,12 +18,8 @@ function navItemCreator(state = {}, action = {}) {
         linkedBoxes: {},
         level: state[action.payload.parent].level + 1,
         type: action.payload.type,
-        unitNumber: (action.payload.parent === 0 ?
-            state[action.payload.parent].children.length + 1 :
-            state[action.payload.parent].unitNumber),
         hidden: state[action.payload.parent].hidden,
         extraFiles: {},
-        // background: action.payload.background,
         customSize: action.payload.customSize,
     };
 }
@@ -115,15 +110,10 @@ function singleNavItemReducer(state = {}, action = {}) {
                     "parent",
                     "hidden",
                     "level",
-                    "unitNumber",
                 ], [
                     action.payload.newParent.id,
                     state.hidden, // action.payload.newParent.hidden,
                     action.payload.newParent.level + 1,
-                    // If navItem is going to be level 1, unitNumber should not change
-                    action.payload.newParent.level === 0 ?
-                        state.unitNumber :
-                        action.payload.newParent.unitNumber,
                 ]
             );
         }

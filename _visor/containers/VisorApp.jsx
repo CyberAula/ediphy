@@ -25,6 +25,7 @@ export default class Visor extends Component {
         this.state = {
             currentView: [this.getCurrentView(Ediphy.State.navItemSelected, Ediphy.State.containedViewSelected)], /* This is the actual view rendering*/
             triggeredMarks: [],
+            showpop: false,
             richElementState: {},
             backupElementStates: {},
             toggledSidebar: Ediphy.State.globalConfig.visorNav.sidebar ? Ediphy.State.globalConfig.visorNav.sidebar : (Ediphy.State.globalConfig.visorNav.sidebar === undefined),
@@ -78,6 +79,13 @@ export default class Visor extends Component {
                     triggeredMarks: shiftExternal,
                 });
 
+            } else if(newMark.connectMode === "popup") {
+                let shiftPop = nextState.triggeredMarks;
+                shiftPop.shift();
+                this.setState({
+                    showpop: !this.state.showpop,
+                    triggeredMarks: shiftPop,
+                });
             }
         }
 
@@ -291,7 +299,7 @@ export default class Visor extends Component {
             let isTriggerable = this.isTriggereableMark(triggered_event, triggered_marks);
             if(isTriggerable) {
                 triggered_marks = this.putMarksOnHold(triggered_marks, triggered_event);
-                // If mark is storable (if make any sense to store to render something different like a video) do it else, don't
+                // If mark is storable (if make any sense to store to render something different like a video) do it, else don't
                 if(triggered_event.stateElement) {
                     if(this.isNotInStateElement(triggered_event, this.state.richElementState)) {
                         let new_mark = {};
@@ -301,7 +309,6 @@ export default class Visor extends Component {
                             richElementState: Object.assign({}, richElementsState, new_mark),
                         });
                     }
-
                 }else{
                     triggered_marks.forEach((mark, index)=>{
                         if(mark.id === isTriggerable.id) {
@@ -309,7 +316,6 @@ export default class Visor extends Component {
                         }
                     });
                     this.setState({ triggeredMarks: triggered_marks });
-
                 }
             }
         } else if(triggered_event.stateElement) {
