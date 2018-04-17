@@ -555,7 +555,6 @@ class EditorApp extends Component {
         bx.map(box=>{
             cvs = [...cvs, ...this.props.boxes[box].containedViews];
         });
-        console.log(cvs);
         this.props.dispatch(deleteBox(id,
             parent,
             container,

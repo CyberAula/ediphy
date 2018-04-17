@@ -12,7 +12,7 @@ export default class Mark extends Component {
                 placement="top"
                 overlay={this.props.isPopUp ? PopoverMark : ToolTipDefault }
                 trigger={ this.props.isPopUp ? "click" : ['hover', 'focus']} rootClose>
-                <a className="mapMarker" href="#" onClick={this.props.isVisor ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
+                <a className="mapMarker" href="#" onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
                     <i key="i" style={{ color: this.props.color }} className="material-icons">room</i>
                 </a>
             </OverlayTrigger>
@@ -49,6 +49,10 @@ Mark.propTypes = {
      * Mark Value to determine what click-mark do
      */
     markValue: PropTypes.any,
+    /**
+     * Check if noTrigger mark
+     */
+    noTrigger: PropTypes.bool,
     /**
      * Mark title
      */
