@@ -82,22 +82,13 @@ export default class RichMarksModal extends Component {
         function getRichMarkInput(value) {
             richMarkValue = value;
         }
-
         let current = this.props.currentRichMark;
-
         let selected = this.state.existingSelected && (this.props.containedViews[this.state.existingSelected] || this.props.navItems[this.state.existingSelected]) ? (isContainedView(this.state.existingSelected) ? { label: this.props.containedViews[this.state.existingSelected].name, id: this.state.existingSelected } :
             { label: this.props.navItems[this.state.existingSelected].name, id: this.state.existingSelected }) : this.returnAllViews(this.props)[0] || [];
         let newSelected = "";
-
-        // if (this.props.containedViews[this.state.newSelected]) {
-        //    newSelected = this.props.containedViews[this.state.newSelected].name;
-        // } else if (this.props.navItems[this.state.newSelected]) {
-        //    newSelected = this.props.navItems[this.state.newSelected].name;
-        // }
         if (this.props.viewToolbars[this.state.newSelected] !== undefined) {
             newSelected = this.props.viewToolbars[this.state.newSelected].viewName;
         }
-        console.log(this.props);
         let currentNavItemType = this.props.navItems[this.props.navItemSelected].type;
         let plugin = (this.props.pluginToolbar && this.props.pluginToolbar.pluginId && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId)) ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId) : undefined;
         let defaultMarkValue = plugin ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getDefaultMarkValue(this.props.pluginToolbar.state) : '';
@@ -135,12 +126,7 @@ export default class RichMarksModal extends Component {
                                     color={this.state.color || marksType.defaultColor}
                                     onChange={e=>{this.setState({ color: e.color });}}
                                     mode="RGB" />
-
-                                {/* <FormControl ref="color"
-                                    type="color"
-                                    value={this.state.color || marksType.defaultColor}
-                                    onChange={e=>{this.setState({ color: e.target.value });}}
-                                />*/}<br/>
+                                <br/>
                             </Col>
                         </FormGroup>
                     </Row>
