@@ -20,6 +20,9 @@ export default function(state = {}, action = {}) {
             if(action.payload.id === newState[mark].origin) {
                 return mark;
             }
+            if (action.payload.children.indexOf(newState[mark].origin) > -1) {
+                return mark;
+            }
             return undefined;
         }).filter(r=> r !== undefined);
         marks.forEach((mark)=>{

@@ -74,6 +74,7 @@ class EditorApp extends Component {
         this.onTextEditorToggled = this.onTextEditorToggled.bind(this);
         this.onRichMarkUpdated = this.onRichMarkUpdated.bind(this);
         this.toolbarUpdated = this.toolbarUpdated.bind(this);
+        this.onBoxDeleted = this.onBoxDeleted.bind(this);
         this.onSortableContainerDeleted = this.onSortableContainerDeleted.bind(this);
     }
 
@@ -213,7 +214,7 @@ class EditorApp extends Component {
                                 pluginToolbars={pluginToolbars}
                                 onBoxPasted={(ids, box, toolbar, children, index, markList, score)=>dispatch(pasteBox(ids, box, toolbar, children, index, markList, score))}
                                 onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
-                                onBoxDeleted={(id, parent, container, page)=> {let bx = this.getDescendantBoxes(boxes[id]); dispatch(deleteBox(id, parent, container, bx, boxes[id].containedViews, page));}}
+                                onBoxDeleted={this.onBoxDeleted}
                                 ribbonHeight={ribbonHeight + 'px'}/>
                         </Row>
 
@@ -271,7 +272,7 @@ class EditorApp extends Component {
                                 moveRichMark={(id, value)=> dispatch(moveRichMark(id, value))}
                                 onSortableContainerReordered={(ids, parent) => dispatch(reorderSortableContainer(ids, parent))}
                                 onBoxDropped={(id, row, col, parent, container, oldParent, oldContainer, position, index) => dispatch(dropBox(id, row, col, parent, container, oldParent, oldContainer, position, index))}
-                                onBoxDeleted={(id, parent, container, page)=> {let bx = this.getDescendantBoxes(boxes[id]); dispatch(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/, page));}}
+                                onBoxDeleted={this.onBoxDeleted}
                                 onContainedViewSelected={id => dispatch(selectContainedView(id))}
                                 onVerticallyAlignBox={(id, verticalAlign)=>dispatch(verticallyAlignBox(id, verticalAlign))}
                                 onTextEditorToggled={this.onTextEditorToggled}
@@ -335,7 +336,7 @@ class EditorApp extends Component {
                                 onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
                                 onSortableContainerReordered={(ids, parent) => dispatch(reorderSortableContainer(ids, parent))}
                                 onBoxDropped={(id, row, col, parent, container, oldParent, oldContainer, position, index) => dispatch(dropBox(id, row, col, parent, container, oldParent, oldContainer, position, index))}
-                                onBoxDeleted={(id, parent, container, page)=> {let bx = this.getDescendantBoxes(boxes[id]); dispatch(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/, page));}}
+                                onBoxDeleted={this.onBoxDeleted}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}
                                 onVerticallyAlignBox={(id, verticalAlign)=>dispatch(verticallyAlignBox(id, verticalAlign))}
                                 onViewTitleChanged={(id, titles)=>{dispatch(updateViewToolbar(id, titles));}}
@@ -425,7 +426,7 @@ class EditorApp extends Component {
                     onSortablePropsChanged={(id, parent, prop, value) => dispatch(changeSortableProps(id, parent, prop, value))}
                     onToolbarUpdated={this.toolbarUpdated}
                     onScoreConfig={(id, button, value, page)=>{dispatch(configScore(id, button, value, page));}}
-                    onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); dispatch(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
+                    onBoxDeleted={this.onBoxDeleted}
                     onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}
                     onRichMarksModalToggled={() => {
                         this.setState({ richMarksVisible: !this.state.richMarksVisible });
@@ -537,8 +538,9 @@ class EditorApp extends Component {
                         let box = this.props.boxes[this.props.boxSelected];
                         let toolbar = this.props.pluginToolbars[this.props.boxSelected];
                         if (!toolbar.showTextEditor) {
-                            let bx = this.getDescendantBoxes(this.props.boxes[this.props.boxSelected]);
-                            this.props.dispatch(deleteBox(box.id, box.parent, box.container, bx, this.props.boxes[this.props.boxSelected].containedViews/* , this.getDescendantContainedViews(box)*/, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected));
+                            // let bx = this.getDescendantBoxes(this.props.boxes[this.props.boxSelected]);
+                            this.onBoxDeleted(box.id, box.parent, box.container, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected);
+                            // this.props.dispatch(deleteBox(box.id, box.parent, box.container, bx, this.props.boxes[this.props.boxSelected].containedViews/* , this.getDescendantContainedViews(box)*/, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected));
                         }
                     }
                 }
@@ -547,7 +549,20 @@ class EditorApp extends Component {
         }.bind(this);
 
     }
-
+    onBoxDeleted(id, parent, container, page) {
+        let bx = this.getDescendantBoxes(this.props.boxes[id]);
+        let cvs = [...this.props.boxes[id].containedViews];
+        bx.map(box=>{
+            cvs = [...cvs, ...this.props.boxes[box].containedViews];
+        });
+        console.log(cvs);
+        this.props.dispatch(deleteBox(id,
+            parent,
+            container,
+            bx,
+            cvs,
+            page));
+    }
     toolbarUpdated(id, tab, accordion, name, value) {
         if (isBox(id) || isSortableBox(id)) {
             let toolbar = this.props.pluginToolbars[id];
