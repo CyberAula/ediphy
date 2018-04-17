@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, FormGroup, FormControl, ControlLabel, Col, Checkbox, Radio } from "react-bootstrap";
-
+import { getRandomColor } from "../../../common/common_tools";
 import i18n from 'i18next';
 /* eslint-disable react/prop-types */
 
@@ -35,21 +35,17 @@ export default class ChartOptions extends React.Component {
         this.props.optionsChanged({ graphs: graph });
     }
 
-    randomColor() {
-        return `#${Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, 0)}`;
-    }
-
     graphsChanged(event) {
         let graphs = this.props.options.graphs.slice();
         let number = event.target.value;
-        let rows = this.props.values.length;
+        let rows = this.state.values.length;
         if(number > graphs.length) {
             if(number <= rows) {
                 for (let i = graphs.length; i < number; i++) {
                     graphs[i] = {
                         row: i,
-                        name: "Fila " + i,
-                        color: this.randomColor(),
+                        name: i18n.t("GraficaD3.Row") + " " + i,
+                        color: getRandomColor(),
                     };
                 }
             }
@@ -58,10 +54,6 @@ export default class ChartOptions extends React.Component {
         }
         this.props.optionsChanged({ graphs: graphs });
     }
-
-    /* xKeyChanged(event) {
-        this.props.optionsChanged({ x: event.target.value });
-    }*/
 
     yGridChanged(event) {
         this.props.optionsChanged({ gridY: event.target.checked });
@@ -133,7 +125,7 @@ export default class ChartOptions extends React.Component {
                         <FormGroup>
                             <Col xs={5}>
                                 <FormControl.Static>
-                                    Numero de Gráficas
+                                    {i18n.t("GraficaD3.number_graphs")}
                                 </FormControl.Static>
                             </Col>
                             <Col xs={7}>
@@ -148,21 +140,21 @@ export default class ChartOptions extends React.Component {
                                     <FormGroup>
                                         <Col xs={12}>
                                             <h5>
-                                                {i18n.t("GraficaD3.point") + ' ' + i}
+                                                {i18n.t("GraficaD3.Graph") + ' ' + i}
                                             </h5>
                                         </Col>
                                     </FormGroup>
                                     <FormGroup>
                                         <Col xs={5}>
                                             <FormControl.Static>
-                                                {i18n.t("GraficaD3.Fila") + ' ' + i}
+                                                {i18n.t("GraficaD3.Row") + ' ' + i}
                                             </FormControl.Static>
                                         </Col>
                                         <Col xs={7}>
-                                            <FormControl componentClass="select" placeholder={"Fila 0"} name={i} value={this.props.options.graphs[i].row} onChange={this.rowChanged}>
+                                            <FormControl componentClass="select" placeholder={i18n.t("GraficaD3.Row") + 0} name={i} value={this.props.options.graphs[i].row} onChange={this.rowChanged}>
                                                 {this.state.values.map((x, w) => {
                                                     return(
-                                                        <option key={w + 1} value={w}>{"Fila " + w}</option>
+                                                        <option key={w + 1} value={w}>{ i18n.t("GraficaD3.Row") + " " + w}</option>
                                                     );
                                                 })}
                                             </FormControl>
@@ -171,7 +163,7 @@ export default class ChartOptions extends React.Component {
                                     <FormGroup>
                                         <Col xs={5}>
                                             <FormControl.Static>
-                                                {"Nombre de Fila"}
+                                                {i18n.t("GraficaD3.row_name")}
                                             </FormControl.Static>
                                         </Col>
                                         <Col xs={7}>

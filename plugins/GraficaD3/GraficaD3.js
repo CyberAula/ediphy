@@ -91,7 +91,7 @@ export function GraficaD3(base) {
                     graphs: [{
                         row: 0,
                         name: "Example",
-                        color: "#ff7f0e",
+                        color: "#332ef0",
                     }],
                     gridX: true,
                     gridY: true,

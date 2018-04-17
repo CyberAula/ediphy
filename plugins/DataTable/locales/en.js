@@ -19,6 +19,7 @@ module.exports = {
         "y_grid": "Y axis grid",
         "line_color": "Line color",
         "file": "Choose File",
+        "Graph": "Graph",
         "edit": "Edit",
         "options": {
             "ascending": "Ascending",
@@ -52,6 +53,8 @@ module.exports = {
         "confirm": "Confirm",
         "fill_in": "Or fill in a table",
         "show": "Show",
+        "Row": "Row",
+        "row_name": "Row name",
         "header": {
             "options": "Table options",
             "origin": "Data origin",

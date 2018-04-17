@@ -80,7 +80,7 @@ export default class Config extends React.Component {
                     <div className="col-xs-12 col-lg-7" ref="chartContainer" style={{ padding: '0px' }}>
                         {!editing &&
                         <div style={{ height: '300px', width: '95%' }}>
-                            <h4>Previsualización</h4>
+                            <h4>{i18n.t("GraficaD3.preview")}</h4>
                             <Chart dataProcessed={dataProcessed} options={options} keys={this.state.keys} values={this.state.values} width={this.state.chartWidth}
                                 key={2}/>
                         </div>
