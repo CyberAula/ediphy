@@ -84,7 +84,7 @@ export function GraficaD3(base) {
         getInitialState: function() {
             return {
                 dataProvided: [["First column", "Second Column"], [0, 1], [1, 0]],
-                dataProcessed: [["First column", "Second Column"], [0, 1], [1, 0]],
+                dataProcessed: [{ name: "First Column", 0: 0, 1: 1 }, { name: "Second Column", 0: 1, 1: 0 }],
                 editing: true,
                 options: {
                     type: "area",

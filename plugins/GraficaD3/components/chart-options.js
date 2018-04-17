@@ -15,10 +15,6 @@ export default class ChartOptions extends React.Component {
         this.xGridChanged = this.xGridChanged.bind(this);
         this.yKeyChanged = this.yKeyChanged.bind(this);
         this.yGridChanged = this.yGridChanged.bind(this);
-        this.ringsNumberChanged = this.ringsNumberChanged.bind(this);
-        this.ringNameChanged = this.ringNameChanged.bind(this);
-        this.ringValueChanged = this.ringValueChanged.bind(this);
-        this.ringColorChanged = this.ringColorChanged.bind(this);
 
         this.state = {
             dataProcessed: this.props.dataProcessed,
@@ -35,13 +31,13 @@ export default class ChartOptions extends React.Component {
     }
 
     typeChanged(event) {
-        this.setState({ type: event.target.value });
+        this.props.soptionsChanged({ type: event.target.value });
     }
 
     colorChanged(event) {
         let y = this.state.y;
         y[event.target.name].color = event.target.value;
-        this.setState({ y: y });
+        this.props.optionsChanged({ y: y });
     }
 
     yAxisChanged(event) {
@@ -57,28 +53,28 @@ export default class ChartOptions extends React.Component {
         } else {
             yAxis = yAxis.slice(0, number);
         }
-        this.setState({ y: yAxis });
+        this.props.optionsChanged({ y: yAxis });
     }
 
     xKeyChanged(event) {
-        this.setState({ x: event.target.value });
+        this.props.optionsChanged({ x: event.target.value });
+    }
+
+    yGridChanged(event) {
+        this.props.optionsChanged({ gridY: event.target.checked });
     }
 
     xGridChanged(event) {
-        this.setState({ gridX: event.target.checked });
+        this.props.optionsChanged({ gridX: event.target.checked });
     }
 
     yKeyChanged(event) {
         let y = this.state.y;
         y[event.target.name].key = event.target.value;
-        this.setState({ y: y });
+        this.props.optionsChanged({ y: y });
     }
 
-    yGridChanged(event) {
-        this.setState({ gridY: event.target.checked });
-    }
-
-    ringsNumberChanged(event) {
+    /* ringsNumberChanged(event) {
         let rings = this.state.rings;
         let number = event.target.value;
         if(number > rings.length) {
@@ -111,7 +107,7 @@ export default class ChartOptions extends React.Component {
         let rings = this.state.rings;
         rings[event.target.name].color = event.target.value;
         this.setState({ rings: rings });
-    }
+    }*/
 
     render() {
         return (
@@ -223,7 +219,7 @@ export default class ChartOptions extends React.Component {
 
                     </Form>
                     }
-                    {this.state.type === 'pie' &&
+                    {/* this.state.type === 'pie' &&
                     <Form horizontal>
                         <FormGroup>
                             <Col componentClass={ControlLabel} xs={4}>
@@ -289,7 +285,7 @@ export default class ChartOptions extends React.Component {
                         })}
                     </Form>
 
-                    }
+                    */}
                 </div>
             </div>
         );

@@ -179,11 +179,11 @@ export default class Clipboard extends Component {
             }
         }
         for (let mark in marks) {
-            let newId = marks[mark].id + "_1";
+            let newId = marks[mark].id + Date.now() + "_1";
             let newMark = { ...marks[mark],
                 origin: transformedBox.newIds[marks[mark].origin] || ids.id,
                 id: newId };
-            if ((isContainedView(newMark.connection) && this.props.containedViews[newMark.connection]) || (isView(newMark.connection) && this.props.navItems[newMark.connection]) || newMark.connetMode === 'external') {
+            if ((isContainedView(newMark.connection) && this.props.containedViews[newMark.connection]) || (isView(newMark.connection) && this.props.navItems[newMark.connection]) || newMark.connectMode === 'external') {
                 newMarks[newId] = newMark;
             }
         }
@@ -307,11 +307,12 @@ export default class Clipboard extends Component {
     transformBox(box, ids, isTargetSlide, isOriginSlide) {
         let newIds = {};
         let newContainerBoxes = {};
+        let ind = 0;
         if (box.sortableContainers) {
             newContainerBoxes = JSON.parse(JSON.stringify(box.sortableContainers));
             for (let sc in newContainerBoxes) {
                 for (let b in newContainerBoxes[sc].children) {
-                    let newID = newContainerBoxes[sc].children[b] + Date.now();
+                    let newID = ID_PREFIX_BOX + Date.now() + '_' + ind++;
                     newIds[newContainerBoxes[sc].children[b]] = newID;
                     newContainerBoxes[sc].children[b] = newID;
                 }

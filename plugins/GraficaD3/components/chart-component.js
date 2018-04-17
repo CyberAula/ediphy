@@ -9,7 +9,7 @@ export default class Chart extends React.Component {
     render() {
         let data = this.props.dataProcessed;
         let options = this.props.options;
-        let ymap = options.y.map((y)=>{ return y;});
+        let ymap = [0, 1]; // here is the key
         switch (options.type) {
         case "line":
             if(ymap.length === 1) {
@@ -22,7 +22,7 @@ export default class Chart extends React.Component {
                             <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                             <Tooltip />
                             <Legend />
-                            <Line key={1} type="monotone" dataKey={options.y[0].key} stroke={options.y[0].color} fillOpacity={1} />
+                            <Line key={1} type="monotone" dataKey={0} stroke="#000000" fillOpacity={1} />
                         </LineChart>
                     </ResponsiveContainer>
                 );
@@ -36,7 +36,7 @@ export default class Chart extends React.Component {
                         <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                         <Tooltip />
                         <Legend />
-                        {ymap.map((y, o) => <Line key={o + 1} type="monotone" dataKey={y.key} stroke={y.color} fillOpacity={1} />)}
+                        {ymap.map((y, o) => <Line key={o + 1} type="monotone" dataKey={o} stroke={y.color} fillOpacity={1} />)}
                     </LineChart>
                 </ResponsiveContainer>
             );
@@ -59,7 +59,7 @@ export default class Chart extends React.Component {
                         <YAxis/>
                         <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                         <Tooltip />
-                        {ymap.map((y, o) => <Area key={o + 1} type="monotone" dataKey={y.key} stroke={y.color} fillOpacity={1} fill={"url(#colorUv" + o + ")"}/>)}
+                        {ymap.map((y, o) => <Area key={o + 1} type="monotone" dataKey={o} stroke={y.color} fillOpacity={1} fill={"url(#colorUv" + o + ")"}/>)}
                     </AreaChart>
                 </ResponsiveContainer>
             );
