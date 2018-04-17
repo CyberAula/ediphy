@@ -67,14 +67,6 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
         return this.state.duration;
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //    if(nextProps.state.controls === true && this.state.controls !== this.props.state.controls) {
-    //        this.setState({ controls: true });
-    //    } else if (nextProps.state.controls === false && this.state.controls !== this.props.state.controls) {
-    //        this.setState({ controls: false });
-    //    }
-    // }
-
     render() {
 
         let marks = this.props.props.marks || {};

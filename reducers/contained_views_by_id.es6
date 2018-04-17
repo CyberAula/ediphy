@@ -170,6 +170,9 @@ export default function(state = {}, action = {}) {
                     if (modState[action.payload.cvs[cv]].parent[mark] === action.payload.id) {
                         return mark;
                     }
+                    if (action.payload.children.indexOf(modState[action.payload.cvs[cv]].parent[mark]) > -1) {
+                        return mark;
+                    }
                     return null;
                 }).filter(ele=> ele !== null);
                 inverted_parents.forEach(e=>{

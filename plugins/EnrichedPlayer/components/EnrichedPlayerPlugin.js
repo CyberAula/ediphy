@@ -19,6 +19,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
             controls: true,
             toBeTriggered: [],
             triggering: false,
+            initialPoint: 0,
         };
     }
 
@@ -61,7 +62,13 @@ export default class EnrichedPlayerPlugin extends React.Component {
             this.setState({ initialPoint: parseFloat(this.props.state.currentState) / 100 });
         }
     }
-
+    componentDidMount() {
+        if((this.player !== undefined) && (this.state.initialPoint !== 0)) {
+            this.player.seekTo(this.state.initialPoint);
+            this.setState({ playing: true });
+            // this.setState({ initialPoint: 0, seeking: false });
+        }
+    }
     playPause() {
         this.setState({ playing: !this.state.playing });
     }
@@ -92,19 +99,17 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     onSeekMouseUp(e) {
-
         if(e.target.className.indexOf('progress-player-input') !== -1) {
             this.setState({ seeking: false });
         }
-        this.player.seekTo((e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width);
-
+        // console.log((e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width);
+        if(e.target.className !== "videoMark") {
+            this.player.seekTo((e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width);
+        }
     }
 
     onProgress(state) {
-        // if (!this.state.seeking) {
         this.setState(state);
-        // }
-
     }
 
     componentWillReceiveProps(nextProps) {
@@ -112,13 +117,6 @@ export default class EnrichedPlayerPlugin extends React.Component {
             this.setState({ controls: true });
         } else if (nextProps.state.controls === false && this.state.controls !== this.props.state.controls) {
             this.setState({ controls: false });
-        }
-    }
-
-    componentDidMount() {
-        if(this.player !== undefined && this.state.initialPoint !== undefined) {
-            this.player.seekTo(this.state.initialPoint);
-            this.setState({ initialPoint: undefined });
         }
     }
 
@@ -130,10 +128,11 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let value = marks[id].value;
             let title = marks[id].title;
             let color = marks[id].color;
-
+            let noTrigger = true;
+            let isVisor = true;
             return(
                 <div key={id} className="videoMark" style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
-                    <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }} color={color || "#17CFC8"} idKey={id} title={title} />
+                    <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }} color={color || "#17CFC8"} idKey={id} title={title} isVisor={isVisor} noTrigger={noTrigger}/>
                 </div>
             );
         });
@@ -162,12 +161,12 @@ export default class EnrichedPlayerPlugin extends React.Component {
                             // value={this.state.played}
                             onMouseDown={this.onSeekMouseDown.bind(this)}
                             onChange={this.onSeekChange.bind(this)}
-                            onMouseUp={this.onSeekMouseUp.bind(this)}
-                        >
+                            onMouseUp={this.onSeekMouseUp.bind(this)}>
                             <div className="fakeProgress" style={{ top: "0" }} />
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%", top: "0" }} />
                             {markElements}
                         </div>
+
                         <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
                         <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
                     </div>)}
