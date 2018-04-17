@@ -51,13 +51,6 @@ export function EnrichedPlayer(base) {
                             __name: Ediphy.i18n.t('EnrichedPlayer.box_style'),
                             icon: 'palette',
                             buttons: {
-                                padding: {
-                                    __name: Ediphy.i18n.t('EnrichedPlayer.padding'),
-                                    type: 'number',
-                                    value: 0,
-                                    min: 0,
-                                    max: 100,
-                                },
                                 borderWidth: {
                                     __name: Ediphy.i18n.t('EnrichedPlayer.border_size'),
                                     type: 'number',

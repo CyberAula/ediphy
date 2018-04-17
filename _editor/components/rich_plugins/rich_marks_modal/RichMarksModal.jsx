@@ -89,12 +89,15 @@ export default class RichMarksModal extends Component {
             { label: this.props.navItems[this.state.existingSelected].name, id: this.state.existingSelected }) : this.returnAllViews(this.props)[0] || [];
         let newSelected = "";
 
-        if (this.props.containedViews[this.state.newSelected]) {
-            newSelected = this.props.containedViews[this.state.newSelected].name;
-        } else if (this.props.navItems[this.state.newSelected]) {
-            newSelected = this.props.navItems[this.state.newSelected].name;
+        // if (this.props.containedViews[this.state.newSelected]) {
+        //    newSelected = this.props.containedViews[this.state.newSelected].name;
+        // } else if (this.props.navItems[this.state.newSelected]) {
+        //    newSelected = this.props.navItems[this.state.newSelected].name;
+        // }
+        if (this.props.viewToolbars[this.state.newSelected] !== undefined) {
+            newSelected = this.props.viewToolbars[this.state.newSelected].viewName;
         }
-
+        console.log(this.props);
         let currentNavItemType = this.props.navItems[this.props.navItemSelected].type;
         let plugin = (this.props.pluginToolbar && this.props.pluginToolbar.pluginId && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId)) ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId) : undefined;
         let defaultMarkValue = plugin ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getDefaultMarkValue(this.props.pluginToolbar.state) : '';
@@ -142,6 +145,14 @@ export default class RichMarksModal extends Component {
                         </FormGroup>
                     </Row>
                     <Row>
+                        <Col xs={4} md={2} />
+                        <Col xs={6} md={5}>
+                            <div style={{ display: this.state.newSelected === "" ? "none" : "initial" }}>
+                                {i18n.t("marks.hover_message")} <strong>{newSelected}</strong>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>
                         <FormGroup>
                             <Col xs={4} md={2}>
                                 <ControlLabel>{i18n.t("marks.link_to")}</ControlLabel>
@@ -176,12 +187,14 @@ export default class RichMarksModal extends Component {
                             </Col>
                         </FormGroup>
                         <Col xs={5} md={3}>
-                            <FormGroup style={{ display: this.state.connectMode === "new" ? "initial" : "none" }}>
-                                <ControlLabel>{i18n.t("marks.new_content_label")}</ControlLabel>
+                            <FormGroup style={{ display: this.state.connectMode === "new" ? "block" : "none" }}>
+                                <ControlLabel style={{
+                                    display: this.state.newSelected === "" ? "initial" : "none",
+                                }}>{i18n.t("marks.new_content_label")}</ControlLabel>
                                 <FormControl componentClass="select"
                                     defaultValue={this.state.newType}
                                     style={{
-                                        display: /* this.state.newType === PAGE_TYPES.SLIDE || this.state.newType === PAGE_TYPES.DOCUMENT*/ this.state.newSelected === "" ? "initial" : "none",
+                                        display: this.state.newSelected === "" ? "initial" : "none",
                                     }}
                                     onChange={e => {
                                         this.setState({ newType: e.nativeEvent.target.value });
@@ -189,11 +202,7 @@ export default class RichMarksModal extends Component {
                                     <option value={PAGE_TYPES.DOCUMENT}>{i18n.t("marks.new_document")}</option>
                                     <option value={PAGE_TYPES.SLIDE}>{i18n.t("marks.new_slide")}</option>
                                 </FormControl>
-                                <span style={{
-                                    display: this.state.newSelected === "" ? "none" : "initial",
-                                }}>
-                                    {i18n.t("marks.hover_message")} {newSelected}
-                                </span>
+
                             </FormGroup>
                             <FormGroup style={{ display: this.state.connectMode === "existing" ? "initial" : "none" }}>
                                 <ControlLabel>{i18n.t("marks.existing_content_label")}</ControlLabel>
@@ -243,7 +252,13 @@ export default class RichMarksModal extends Component {
                             {/* Input need to have certain label like richValue*/}
                             <Col xs={4} md={2}>
                                 <ControlLabel>{marksType.name ? marksType.name : i18n.t("marks.value")}</ControlLabel><br/>
-                                <ControlLabel style={{ color: 'grey', fontWeight: 'lighter', marginTop: '-5px' }}>{this.props.pluginToolbar && this.props.pluginToolbar.config && this.props.pluginToolbar.config.marksType && this.props.pluginToolbar.config.marksType[0] && this.props.pluginToolbar.config.marksType[0].format ? this.props.pluginToolbar.config.marksType[0].format : "x,y"}</ControlLabel>
+                                <ControlLabel style={{ color: 'grey', fontWeight: 'lighter', marginTop: '-5px' }}>
+                                    {(this.props.pluginToolbar && this.props.pluginToolbar.config &&
+                                    this.props.pluginToolbar.config.marksType &&
+                                    this.props.pluginToolbar.config.marksType[0] &&
+                                    this.props.pluginToolbar.config.marksType[0].format) ?
+                                        this.props.pluginToolbar.config.marksType[0].format : "x,y"}
+                                </ControlLabel>
 
                             </Col>
                             <Col xs={8} md={6}>

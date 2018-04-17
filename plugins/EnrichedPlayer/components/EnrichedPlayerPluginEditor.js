@@ -16,7 +16,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
             played: 0,
             seeking: false,
             fullscreen: false,
-            controls: true,
+            // controls: this.props.state.controls || true,
         };
     }
 
@@ -67,13 +67,13 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
         return this.state.duration;
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.state.controls === true && this.state.controls !== this.props.state.controls) {
-            this.setState({ controls: true });
-        } else if (nextProps.state.controls === false && this.state.controls !== this.props.state.controls) {
-            this.setState({ controls: false });
-        }
-    }
+    // componentWillReceiveProps(nextProps) {
+    //    if(nextProps.state.controls === true && this.state.controls !== this.props.state.controls) {
+    //        this.setState({ controls: true });
+    //    } else if (nextProps.state.controls === false && this.state.controls !== this.props.state.controls) {
+    //        this.setState({ controls: false });
+    //    }
+    // }
 
     render() {
 
@@ -109,7 +109,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                     onProgress={this.onProgress.bind(this)}
                     onDuration={duration => this.setState({ duration })}
                 />
-                {(this.state.controls) && (
+                {this.props.state.controls ?
                     <div className="player-media-controls" style={{ pointerEvents: 'none' }}>
                         <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
                         <div className="progress-player-input dropableRichZone" style={{ height: "20px", position: "relative", bottom: '5px' }}>
@@ -119,7 +119,14 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                         </div>
                         <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
                         <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
-                    </div>)}
+                    </div> :
+                    <div className="player-media-controls" style={{ pointerEvents: 'none' }}>
+                        <div className="progress-player-input dropableRichZone" style={{ height: "20px", position: "relative", bottom: '5px' }}>
+                            <div className="fakeProgress" />
+                            <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
+                            {markElements}
+                        </div>
+                    </div>}
             </div>
         );
     }
