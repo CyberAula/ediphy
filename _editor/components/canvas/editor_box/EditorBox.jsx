@@ -280,7 +280,7 @@ export default class EditorBox extends Component {
         let config = apiPlugin.getConfig();
         let box = this.props.boxes[this.props.id];
         if (box && toolbar && toolbar.structure && (toolbar.structure.aspectRatio === true
-            || toolbar.structure.height === 'auto' || toolbar.structure.width === 'auto')) {
+        /* &&( toolbar.structure.height === 'auto' || toolbar.structure.width === 'auto')*/)) {
             return true;
         }
 

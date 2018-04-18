@@ -538,9 +538,7 @@ class EditorApp extends Component {
                         let box = this.props.boxes[this.props.boxSelected];
                         let toolbar = this.props.pluginToolbars[this.props.boxSelected];
                         if (!toolbar.showTextEditor) {
-                            // let bx = this.getDescendantBoxes(this.props.boxes[this.props.boxSelected]);
                             this.onBoxDeleted(box.id, box.parent, box.container, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected);
-                            // this.props.dispatch(deleteBox(box.id, box.parent, box.container, bx, this.props.boxes[this.props.boxSelected].containedViews/* , this.getDescendantContainedViews(box)*/, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected));
                         }
                     }
                 }
