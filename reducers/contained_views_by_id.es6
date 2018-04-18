@@ -81,18 +81,18 @@ export default function(state = {}, action = {}) {
         if (action.payload.mark.connectMode === "new") {
             return changeProp(state, action.payload.view.id, view);
         }
-        if (action.payload.mark.connectMode === "existing") {
-            return {
-                ...state,
-                [action.payload.mark.connection]: {
-                    ...state[action.payload.mark.connection],
-                    parent: {
-                        ...state[action.payload.mark.connection].parent,
-                        [action.payload.mark.id]: action.payload.mark.origin,
-                    },
-                },
-            };
-        }
+        // if (action.payload.mark.connectMode === "existing") {
+        //     return {
+        //         ...state,
+        //         [action.payload.mark.connection]: {
+        //             ...state[action.payload.mark.connection],
+        //             parent: {
+        //                 ...state[action.payload.mark.connection].parent,
+        //                 [action.payload.mark.id]: action.payload.mark.origin,
+        //             },
+        //         },
+        //     };
+        // }
         return state;
     case CHANGE_BOX_LAYER:
         if (action.payload.container === 0 && isContainedView(action.payload.parent)) {
