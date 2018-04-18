@@ -77,7 +77,7 @@ export default class PluginConfigModal extends Component {
                                 Ediphy.API_Private.answer(Ediphy.API_Private.events.openConfig, c);
                             }
                         }} />*/}
-                        {this.props.id ? Ediphy.Plugins.get(this.props.name).getConfigTemplate(this.state.pluginState, (pluginState)=>{this.setState({ pluginState });}) : null}
+                        {this.props.id ? Ediphy.Plugins.get(this.props.name).getConfigTemplate(this.props.id, this.state.pluginState, (pluginState)=>{this.setState({ pluginState });}) : null}
                     </Row>
                     <div id="plugin_config_info" />
                 </Modal.Body>

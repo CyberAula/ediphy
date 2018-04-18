@@ -11,9 +11,10 @@ export function navView(state) {
         isExpanded: true,
         children: [],
         boxes: [],
+        customSize: 0,
         linkedBoxes: {},
         level: 1,
-        type: action.payload.type,
+        type: "document",
         unitNumber: 1,
         hidden: false,
         extraFiles: {},
@@ -65,6 +66,7 @@ export function containedView(state) {
     let containedViewsDefault = {
         name: i18n.t('contained_view'),
         boxes: [],
+        info: "new",
         type: PAGE_TYPES.SLIDE,
         extraFiles: {},
     };
@@ -110,28 +112,12 @@ export function globalConfig(state) {
  * @param recieved state
  * @returns fixed state with new fields that didn't exist before
  */
-export function toolbarPlugin(state) {
+export function pluginToolbars(state) {
     let toolbarPluginDefault = {
-        config: {
-            allowFloatingBox: true,
-            aspectRatioButtonConfig: {},
-            flavor: "react",
-            icon: "image",
-            iconFromUrl: false,
-            initialHeight: "25",
-            initialHeightSlide: "25",
-            initialWidth: "25",
-            initialWidthSlide: "25",
-            isRich: false,
-            limitToOneInstance: false,
-            needsConfigModal: false,
-            needsConfirmation: false,
-            needsPointerEventsAllowed: false,
-            needsTextEdition: false,
-            needsXMLEdition: false,
-        },
-        tabs: ['main'],
+        showTextEditor: false,
         state: {},
+        structure: {},
+        style: {},
     };
     let newState = {};
     state.forEach((element) => { newState.push(deepmerge(toolbarPluginDefault, element));});
@@ -147,17 +133,20 @@ export function marks(state) {
  * @param recieved state
  * @returns fixed state with new fields that didn't exist before
  */
-export function toolbarView(state) {
+export function viewToolbars(state) {
     let toolbarViewDefault = {
-        tabs: ['main'],
-        state: {
-            header: i18n.t('document'),
-            display_title: false,
-            display_pagetitle: true,
-            pagetitle_name: { value: "", display: true },
-            display_pagesubtitle: { value: "", display: true },
-            pagesubtitle_name: { value: "", display: true },
-        },
+        aspectRatio: false,
+        background: "#ffffff",
+        backgroundAttr: "",
+        breacrumb: "reduced",
+        courseTitle: "hidden",
+        documentSubtitle: "hidden",
+        documentSubitleContent: i18n.t("subtitle"),
+        documentTitle: "expanded",
+        documentTitleContent: i18n.t("title"),
+        numPage: "hidden",
+        numPageContent: "",
+        viewName: "Page",
     };
 
     let newState = {};

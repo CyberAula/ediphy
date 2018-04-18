@@ -81,8 +81,8 @@ export default class Config extends React.Component {
                         {!editing &&
                         <div style={{ height: '300px', width: '95%' }}>
                             <h4>{i18n.t("GraficaD3.preview")}</h4>
-                            <Chart dataProcessed={dataProcessed} options={options} keys={this.state.keys} values={this.state.values} width={this.state.chartWidth}
-                                key={2}/>
+                            <Chart fromConfig id={this.props.id} dataProcessed={dataProcessed} options={options} keys={this.state.keys} values={this.state.values} width={this.state.chartWidth}
+                            />
                         </div>
                         }
                     </div>

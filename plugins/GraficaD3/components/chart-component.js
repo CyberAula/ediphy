@@ -21,8 +21,8 @@ export default class Chart extends React.Component {
         case "line":
             if(options.graphs.length === 1) {
                 return (
-                    <ResponsiveContainer width="100%" height="100%">
-                        <LineChart
+                    <ResponsiveContainer width="100%" height="100%" key={this.props.id}>
+                        <LineChart key={'chart' + this.props.id}
                             data={data}>
                             <XAxis dataKey="name" /* tickCount={data ? data.length : 5}*/ />
                             <YAxis />
@@ -35,8 +35,8 @@ export default class Chart extends React.Component {
                 );
             }
             return (
-                <ResponsiveContainer width="100%" height="100%">
-                    <LineChart
+                <ResponsiveContainer width="100%" height="100%" key={this.props.id}>
+                    <LineChart key={'chart' + this.props.id}
                         data={data}>
                         <XAxis dataKey="name" /* tickCount={data ? data.length : 5}*/ />
                         <YAxis />
@@ -50,14 +50,14 @@ export default class Chart extends React.Component {
 
         case "area":
             return (
-                <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={data}>
+                <ResponsiveContainer width="100%" height="100%" key={this.props.id}>
+                    <AreaChart data={data} key={'chart' + this.props.id}>
                         <defs>
                             {options.graphs.map((y, o) => {
                                 return(
-                                    <linearGradient key={o + 1} id={"colorUv" + o} x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor={y.color} stopOpacity={0.8}/>
-                                        <stop offset="95%" stopColor={y.color} stopOpacity={0}/>
+                                    <linearGradient key={o + 1} id={(this.props.fromConfig ? "config_" : "") + this.props.id + "_colorUv" + o} x1="0" y1="0" x2="0" y2="1">
+                                        <stop key={this.props.id + '_' + o + '_' + 1} offset="5%" stopColor={y.color} stopOpacity={0.8}/>
+                                        <stop key={this.props.id + '_' + o + '_' + 2} offset="95%" stopColor={y.color} stopOpacity={0}/>
                                     </linearGradient>
                                 );
                             })}
@@ -66,15 +66,15 @@ export default class Chart extends React.Component {
                         <YAxis/>
                         <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                         <Tooltip />
-                        {options.graphs.map((y, o) => <Area key={o + 1} type="monotone" dataKey={y.name} stroke={y.color} fillOpacity={1} fill={"url(#colorUv" + o + ")"}/>)}
+                        {options.graphs.map((y, o) => <Area key={o + 1} type="monotone" dataKey={y.name} stroke={y.color} fillOpacity={1} fill={"url(#" + (this.props.fromConfig ? "config_" : "") + this.props.id + "_colorUv" + o + ")"}/>)}
                     </AreaChart>
                 </ResponsiveContainer>
             );
         case "bar":
             if(options.graphs.length === 1) {
                 return (
-                    <ResponsiveContainer width="100%" height="100%">
-                        <BarChart
+                    <ResponsiveContainer width="100%" height="100%" key={this.props.id}>
+                        <BarChart key={'chart' + this.props.id}
                             data={data}>
                             <XAxis dataKey="name"/>
                             <YAxis/>
@@ -87,8 +87,8 @@ export default class Chart extends React.Component {
                 );
             }
             return (
-                <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
+                <ResponsiveContainer width="100%" height="100%" key={this.props.id}>
+                    <BarChart key={'chart' + this.props.id}
                         data={data}>
                         <XAxis dataKey="name"/>
                         <YAxis/>
@@ -117,8 +117,8 @@ export default class Chart extends React.Component {
             }
 
             return (
-                <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
+                <ResponsiveContainer width="100%" height="100%" key={this.props.id}>
+                    <PieChart key={'chart' + this.props.id}>
                         <Tooltip />
                         {rings.map((ring, o) => {
                             return(
@@ -130,8 +130,8 @@ export default class Chart extends React.Component {
             );
         default:
             return (
-                <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={data}>
+                <ResponsiveContainer width="100%" height="100%" key={this.props.id}>
+                    <LineChart data={data} key={'chart' + this.props.id}>
                         <XAxis dataKey={options.x} name={options.x}/>
                         <YAxis/>
                         <CartesianGrid
