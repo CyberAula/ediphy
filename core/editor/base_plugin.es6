@@ -331,7 +331,7 @@ export default function() {
             }
             return toolbar;
         },
-        getConfigTemplate: function(configState, update) {
+        getConfigTemplate: function(idBox, configState, update) {
             if (!descendant.getConfigTemplate) {
                 if (this.getConfig().needsConfigModal) {
                     // eslint-disable-next-line no-console
@@ -340,7 +340,7 @@ export default function() {
                 }
                 return null;
             }
-            return descendant.getConfigTemplate(configState, update);
+            return descendant.getConfigTemplate(idBox, configState, update);
 
         },
         getRichMarkInput: function(setMark) {

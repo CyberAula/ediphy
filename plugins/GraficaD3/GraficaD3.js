@@ -98,15 +98,15 @@ export function GraficaD3(base) {
                 },
             };
         },
-        getRenderTemplate: function(state) {
+        getRenderTemplate: function(state, props) {
             return (
-                <Chart dataProcessed={state.dataProcessed} options={state.options} />
+                <Chart id={props.id} dataProcessed={state.dataProcessed} options={state.options} />
             );
 
         },
-        getConfigTemplate: function(extState, updateState) {
+        getConfigTemplate: function(id, state, updateState) {
             return (
-                <Config state={extState} updateState={updateState} />
+                <Config id={id} state={state} updateState={updateState} />
             );
         },
         fileChanged: function(event) {
