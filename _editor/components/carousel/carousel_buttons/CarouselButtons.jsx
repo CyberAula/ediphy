@@ -78,7 +78,6 @@ export default class CarouselButtons extends Component {
             let boxDoesntExistAnyMore = parent && !boxes[parent];
             let deletedMark = parent && boxes[parent] && boxes[parent].containedViews && boxes[parent].containedViews.indexOf(id) === -1;
             return boxDoesntExistAnyMore || deletedMark;
-
         }
 
         return false;

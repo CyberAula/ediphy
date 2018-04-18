@@ -319,7 +319,6 @@ export default class Visor extends Component {
                 }
             }
         } else if(triggered_event.stateElement) {
-
             let backupElementStates = this.state.backupElementStates;
             let new_mark = {};
             new_mark[triggered_event.id] = triggered_event.value;

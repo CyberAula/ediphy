@@ -441,7 +441,6 @@ class EditorApp extends Component {
 
                         let cvid = marks[id].connection;
                         // This checks if the deleted mark leaves an orphan contained view, and displays a message asking if the user would like to delete it as well
-
                         if (isContainedView(cvid)) {
                             let thiscv = containedViews[cvid];
 
@@ -451,11 +450,11 @@ class EditorApp extends Component {
                                     show
                                     hasHeader
                                     title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
+                                    cancelButton
                                     acceptButtonText={i18n.t("messages.OK")}
-
-                                    closeButton onClose={(bool)=>{
-                                        dispatch(deleteRichMark(marks[id]));
+                                    onClose={(bool)=>{
                                         if (bool) {
+                                            dispatch(deleteRichMark(marks[id]));
                                             let deleteAlsoCV = document.getElementById('deleteAlsoCv').classList.toString().indexOf('checked') > 0;
                                             if(deleteAlsoCV) {
                                                 let boxesRemoving = [];
@@ -466,10 +465,12 @@ class EditorApp extends Component {
 
                                                 dispatch(deleteContainedView([cvid], boxesRemoving, thiscv.parent));
                                             }
+                                        } else {
+
                                         }
                                         this.setState({ alert: null });}}>
                                     <span> {confirmText} </span><br/>
-                                    <ToggleSwitch id="deleteAlsoCv" />
+                                    <ToggleSwitch id="deleteAlsoCv" style={{ margin: '10px' }}/>
                                     {i18n.t("messages.confirm_delete_cv_as_well")}
                                 </Alert>);
                                 this.setState({ alert: alertComponent });

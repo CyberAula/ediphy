@@ -2,7 +2,7 @@ import {
     ADD_RICH_MARK, DELETE_BOX, MOVE_RICH_MARK, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, EDIT_RICH_MARK,
     PASTE_BOX,
 } from '../common/actions';
-import { changeProp, changeProps, deleteProps, isDocument, isPage, isSection, isSlide } from "../common/utils";
+import { deleteProp, changeProp, changeProps, deleteProps, isDocument, isPage, isSection, isSlide } from "../common/utils";
 
 export default function(state = {}, action = {}) {
     let newState;
@@ -61,8 +61,8 @@ export default function(state = {}, action = {}) {
         }
         return state;
     case DELETE_RICH_MARK:
-        newState = deleteProps(state, action.payload.mark.id);
-        return state;
+        newState = deleteProp(state, action.payload.mark.id);
+        return newState;
     case MOVE_RICH_MARK:
         return {
             ...state,

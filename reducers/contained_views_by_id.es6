@@ -138,8 +138,8 @@ export default function(state = {}, action = {}) {
         }
         return editState;
     case DELETE_RICH_MARK:
-        if(isContainedView(action.payload.cvid)) {
-            return changeProp(state, action.payload.cvid, singleContainedViewReducer(state[action.payload.cvid], action));
+        if(isContainedView(action.payload.mark.connection)) {
+            return changeProp(state, action.payload.mark.connection, singleContainedViewReducer(state[action.payload.mark.connection], action));
         }
         return state;
     case DROP_BOX:

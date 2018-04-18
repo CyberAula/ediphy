@@ -33,7 +33,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
             triggerArray.forEach(function(e) {
                 if ((parseFloat(e.value) / 100).toFixed(3) < parseFloat(nextState.played).toFixed(3)) {
                     let toBeTriggered = triggerArray;
-                    triggerMark(sudo.props.props.id, e.value, true);
+                    triggerMark(sudo.props.props.id, e.value, false);
                     toBeTriggered.splice(e, 1);
                     sudo.setState({ toBeTriggered: toBeTriggered });
                 }
@@ -128,11 +128,19 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let value = marks[id].value;
             let title = marks[id].title;
             let color = marks[id].color;
+            let isPopUp = marks[id].connectMode === "popup";
             let noTrigger = true;
             let isVisor = true;
             return(
                 <div key={id} className="videoMark" style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
-                    <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }} color={color || "#17CFC8"} idKey={id} title={title} isVisor={isVisor} noTrigger={noTrigger}/>
+                    <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }}
+                        color={color || "#17CFC8"}
+                        idKey={id}
+                        title={title}
+                        isVisor={isVisor}
+                        isPopUp={isPopUp}
+                        markConnection={marks[id].connection}
+                        noTrigger={noTrigger}/>
                 </div>
             );
         });

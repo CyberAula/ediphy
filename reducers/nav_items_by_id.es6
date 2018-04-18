@@ -89,6 +89,7 @@ function singleNavItemReducer(state = {}, action = {}) {
         }
         return state;
     case DELETE_RICH_MARK:
+        console.log("entra nav");
         if(action.payload.mark.connectMode === "existing" && state[action.payload.mark.connection]) {
             let lb = {
                 ...state[action.payload.mark.connection].linkedBoxes,
@@ -375,8 +376,9 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
         }
         return editState;
     case DELETE_RICH_MARK:
-        if(!isContainedView(action.payload.cvid) && isView(action.payload.cvid)) {
-            return changeProp(state, action.payload.cvid, singleNavItemReducer(state[action.payload.cvid], action));
+        console.log(action.payload.mark);
+        if(!isContainedView(action.payload.mark.connection) && isView(action.payload.mark.connection)) {
+            return changeProp(state, action.payload.mark.connection, singleNavItemReducer(state[action.payload.mark.connection], action));
         }
         return state;
     case UPDATE_NAV_ITEM_EXTRA_FILES:
