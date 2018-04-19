@@ -5,7 +5,10 @@ import {
     IMPORT_STATE, ADD_CONTAINED_VIEW, ADD_NAV_ITEMS,
 } from '../common/actions';
 import i18n from 'i18next';
-import { changeProp, deleteProps, isDocument, isPage, isSection, isSlide, isContainedView } from "../common/utils";
+import {
+    changeProp, deleteProps, isDocument, isPage, isSection, isSlide, isContainedView,
+    nextAvailName,
+} from '../common/utils';
 import Utils from "../common/utils";
 
 function toolbarElementCreator(state, action, containedView = false) {
@@ -34,6 +37,7 @@ function toolbarElementCreator(state, action, containedView = false) {
     }
 
     let name = action.payload.name ? action.payload.name : containedView ? action.payload.toolbar.viewName : doc_type;
+    // name =nextAvailName(name, state, 'viewName');
     let background = action.payload.background ? action.payload.background.background : "#ffffff";
     let backgroundAttr = action.payload.background ? action.payload.background.backgroundAttr : "";
     let toolbar = {
@@ -61,6 +65,7 @@ export default function(state = {}, action = {}) {
     let newState;
     switch (action.type) {
     case ADD_NAV_ITEM:
+
         return changeProp(state, action.payload.id, toolbarElementCreator(state, action));
     case ADD_NAV_ITEMS:
         let nav_items = {};

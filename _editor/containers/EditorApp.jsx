@@ -443,6 +443,7 @@ class EditorApp extends Component {
                         // This checks if the deleted mark leaves an orphan contained view, and displays a message asking if the user would like to delete it as well
                         if (isContainedView(cvid)) {
                             let thiscv = containedViews[cvid];
+                            console.log(thiscv);
                             if (Object.keys(thiscv.parent).length === 1) {
                                 let confirmText = i18n.t("messages.confirm_delete_CV_also_1") + viewToolbars[cvid].viewName + i18n.t("messages.confirm_delete_CV_also_2");
                                 let alertComponent = (<Alert className="pageModal"
@@ -473,10 +474,11 @@ class EditorApp extends Component {
                                     {i18n.t("messages.confirm_delete_cv_as_well")}
                                 </Alert>);
                                 this.setState({ alert: alertComponent });
+                                return;
                             }
-                        } else {
-                            dispatch(deleteRichMark(marks[id]));
+
                         }
+                        dispatch(deleteRichMark(marks[id]));
                     }}
                     onUploadVishResource={(query) => dispatch(uploadVishResourceAsync(query))}
                     onFetchVishResources={(query) => dispatch(fetchVishResourcesAsync(query))}

@@ -270,7 +270,7 @@ export default class RichMarksModal extends Component {
                         let color = this.state.color || marksType.defaultColor || '#222222';
                         let connection = selected.id;
                         // CV name
-                        let name = title || nextAvailName(i18n.t('contained_view'), this.props.containedViews);
+                        let name = title || nextAvailName(i18n.t('contained_view'), this.props.viewToolbars, 'viewName');
                         // Mark name
                         title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.marks, 'title');
                         let markState;
