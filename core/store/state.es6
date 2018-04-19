@@ -251,7 +251,7 @@ export const initialState = (config) => { return config.sections_have_content ?
             },
             "pa-1497983247795": {
                 id: "pa-1497983247795",
-                viewName: i18n.t('page') + " " + 1,
+                viewName: i18n.t('page'),
                 breadcrumb: 'reduced',
                 courseTitle: 'hidden',
                 documentSubTitle: 'hidden',
