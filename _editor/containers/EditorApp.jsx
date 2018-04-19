@@ -110,13 +110,13 @@ class EditorApp extends Component {
                         undo={() => {dispatch(ActionCreators.undo());}}
                         redo={() => {dispatch(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
-                        export={(format) => {
+                        export={(format, callback) => {
                             if(format === "PDF") {
-                                printToPDF(this.props.store.getState().present);
+                                printToPDF(this.props.store.getState().present, callback);
                             } else {
-                                Ediphy.Visor.exportsHTML(this.props.store.getState().present);
+                                Ediphy.Visor.exportsHTML(this.props.store.getState().present, callback);
                             }}}
-                        scorm={(is2004) => {Ediphy.Visor.exportScorm(this.props.store.getState().present, is2004);}}
+                        scorm={(is2004, callback) => {Ediphy.Visor.exportScorm(this.props.store.getState().present, is2004, callback);}}
                         save={() => {dispatch(exportStateAsync({ present: this.props.store.getState().present })); }}
                         category={this.state.pluginTab}
                         opens={() => {dispatch(importStateAsync());}}
@@ -443,7 +443,6 @@ class EditorApp extends Component {
                         // This checks if the deleted mark leaves an orphan contained view, and displays a message asking if the user would like to delete it as well
                         if (isContainedView(cvid)) {
                             let thiscv = containedViews[cvid];
-                            console.log(thiscv);
                             if (Object.keys(thiscv.parent).length === 1) {
                                 let confirmText = i18n.t("messages.confirm_delete_CV_also_1") + viewToolbars[cvid].viewName + i18n.t("messages.confirm_delete_CV_also_2");
                                 let alertComponent = (<Alert className="pageModal"

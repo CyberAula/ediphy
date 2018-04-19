@@ -5,12 +5,13 @@ import VisorContainedCanvas from '../../_visor/components/canvas/VisorContainedC
 import { isSection, isContainedView, isSlide } from '../../common/utils';
 import { Grid, Row, Col } from 'react-bootstrap';
 
-export default function printToPDF(state) {
+export default function printToPDF(state, callback) {
     let navItemsIds = state.navItemsIds;
     let navItems = state.navItemsById;
     let boxes = state.boxesById;
     let containedViews = state.containedViewsById;
-    let toolbars = state.toolbarsById;
+    let viewToolbars = state.viewToolbarsById;
+    let pluginToolbars = state.pluginToolbarsById;
     let globalConfig = state.globalConfig;
     let exercises = state.exercises;
     let title = globalConfig.title || 'Ediphy';
@@ -57,7 +58,7 @@ export default function printToPDF(state) {
         let isCV = isContainedView(currentView);
         let props = {
             boxes, changeCurrentView: (element) => { }, canvasRatio, containedViews,
-            currentView, navItems, toolbars, title, triggeredMarks: [],
+            currentView, navItems, viewToolbars, pluginToolbars, title, triggeredMarks: [],
             showCanvas: (!isContainedView(currentView)), removeLastView: () => {}, richElementsState: {},
             viewsArray: [currentView], setAnswer: () => {}, submitPage: () => {}, exercises: exercises[currentView],
         };
@@ -73,17 +74,17 @@ export default function printToPDF(state) {
         </div>);
         ReactDOM.render((app), pageContainer, (a)=>{
             pdf.internal.scaleFactor = 1;
-            // setTimeout(function(){
-            pdf.addHTML(pageContainer, { useCORS: true, pagesplit: true, retina: true }, function() {
-                if(last) {
-                    pdf.save(title.split(" ").join("") + '.pdf');
-                } else {
-                    addHTML(navs.slice(1), navs.length <= 2);
-                }
-                document.body.removeChild(pageContainer);
-
-            });
-            // },10000);
+            setTimeout(function() {
+                pdf.addHTML(pageContainer, { useCORS: true, pagesplit: true, retina: true }, function() {
+                    if(last) {
+                        pdf.save(title.split(" ").join("") + '.pdf');
+                    } else {
+                        addHTML(navs.slice(1), navs.length <= 2);
+                    }
+                    document.body.removeChild(pageContainer);
+                    callback();
+                });
+            }, 10000);
         });
 
         /*

@@ -22,10 +22,12 @@ export default function() {
                     plugin.getLocales();
                     pluginInstancesList[id] = plugin;
                     pluginConfigs.push(plugin.getConfig());
-                    plugin.getConfig().callback({}, 'INIT');
+                    // plugin.getConfig().callback({}, 'INIT');
 
                     Ediphy.Visor.Plugins.add(id);
                 } catch (e) {
+                    // eslint-disable-next-line no-console
+                    console.error(e);
                 }
             });
         },

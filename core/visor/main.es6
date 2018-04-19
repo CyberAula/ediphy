@@ -42,7 +42,7 @@ let parseEJS = function(path, page, state, fromScorm) {
 
 export default {
     Plugins: Plugins(),
-    exportsHTML: function(state) {
+    exportsHTML: function(state, callback) {
         let nav_names_used = {};
         let xhr = new XMLHttpRequest();
         let zip_title = state.globalConfig.title || "Ediphy";
@@ -54,6 +54,7 @@ export default {
 
                     JSZipUtils.getBinaryContent(Ediphy.Config.visor_zip, function(err, data) {
                         if (err) {
+                            callback();
                             throw err; // or handle err
                         }
                         JSZip.loadAsync(data).then(function(zip) {
@@ -83,7 +84,7 @@ export default {
                         }).then(function(blob) {
                             // FileSaver.saveAs(blob, "ediphyvisor.zip");
                             FileSaver.saveAs(blob, zip_title.toLowerCase().replace(/\s/g, '') + Math.round(+new Date() / 1000) + "_HTML.zip");
-
+                            callback();
                         });
                     });
 
@@ -109,7 +110,7 @@ export default {
             fromScorm: false,
         });
     },
-    exportScorm: function(state, is2004) {
+    exportScorm: function(state, is2004, callback) {
         let zip_title;
         let xhr = new XMLHttpRequest();
         xhr.open('GET', Ediphy.Config.visor_bundle, true);
@@ -123,6 +124,7 @@ export default {
                         Ediphy.Config.scorm_zip_12,
                     function(err, data) {
                         if (err) {
+                            callback();
                             throw err; // or handle err
                         }
                         JSZip.loadAsync(data).then(function(zip) {
@@ -156,6 +158,7 @@ export default {
                             return zip.generateAsync({ type: "blob" });
                         }).then(function(blob) {
                             FileSaver.saveAs(blob, zip_title.toLowerCase().replace(/\s/g, '') + Math.round(+new Date() / 1000) + (is2004 ? "_2004" : "_1.2") + ".zip");
+                            callback();
                         });
                     });
                 }
