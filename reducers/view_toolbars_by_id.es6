@@ -94,7 +94,7 @@ export default function(state = {}, action = {}) {
         };
         return newState;
     case IMPORT_STATE:
-        return action.payload.present.pluginToolbarsById || state;
+        return action.payload.present.viewToolbarsById || state;
     default:
         return state;
     }
