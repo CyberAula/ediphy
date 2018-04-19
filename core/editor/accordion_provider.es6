@@ -410,7 +410,7 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
         children.push(
             <MarksList key="marks_list"
                 state={toolbar_props.marks}
-                toolbars={state}
+                viewToolbars={toolbar_props.viewToolbars}
                 box_id={toolbar_props.box.id}
                 onRichMarksModalToggled={toolbar_props.onRichMarksModalToggled}
                 onRichMarkEditPressed={toolbar_props.onRichMarkEditPressed}
