@@ -1,6 +1,6 @@
 import {
     ADD_NAV_ITEM, ADD_NAV_ITEMS, DELETE_NAV_ITEM, ADD_BOX, DELETE_BOX, PASTE_BOX, SET_CORRECT_ANSWER, IMPORT_STATE,
-    DELETE_SORTABLE_CONTAINER, ADD_RICH_MARK, CONFIG_SCORE,
+    DELETE_SORTABLE_CONTAINER, ADD_RICH_MARK, CONFIG_SCORE, EDIT_RICH_MARK,
 } from '../common/actions';
 
 import { isBox, existsAndIsViewOrContainedView, changeProp, changeProps, deleteProp, deleteProps, isContainedView } from '../common/utils';
@@ -71,8 +71,9 @@ function singlePageReducer(state = {}, action = {}) {
             exercises: {},
         };
     case ADD_RICH_MARK:
+    case EDIT_RICH_MARK:
         return {
-            id: action.payload.mark.connection,
+            id: action.type === ADD_RICH_MARK ? action.payload.mark.connection : action.payload.mark.mark.connection,
             submitButton: true,
             trackProgress: false,
             attempted: false,
@@ -113,8 +114,13 @@ export default function(state = {}, action = {}) {
             [...navs]
         );
     case ADD_RICH_MARK:
-        if (isContainedView(action.payload.mark.connection)) {
+        if (isContainedView(action.payload.mark.connection) && !state[action.payload.mark.connection]) {
             return changeProp(state, action.payload.mark.connection, singlePageReducer(state[action.payload.mark.connection], action));
+        }
+        return state;
+    case EDIT_RICH_MARK:
+        if (isContainedView(action.payload.mark.mark.connection) && !state[action.payload.mark.mark.connection]) {
+            return changeProp(state, action.payload.mark.mark.connection, singlePageReducer(state[action.payload.mark.markconnection], action));
         }
         return state;
     case ADD_BOX:
