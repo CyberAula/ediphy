@@ -24,7 +24,7 @@ pdflib.PDFJS.workerSrc = pdfjsWorkerBlobURL;
 /**
  * Generic import file modal
  */
-export default class ImportFile extends Component {
+export default class ImportFileModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -40,7 +40,7 @@ export default class ImportFile extends Component {
         this.AddPlugins = this.AddPlugins.bind(this);
         this.AddAsNavItem = this.AddAsNavItem.bind(this);
         this.fileLoad = this.fileLoad.bind(this);
-        this.importFile = this.importFile.bind(this);
+        this.ImportFile = this.ImportFile.bind(this);
         this.PreviewFile = this.PreviewFile.bind(this);
     }
 
@@ -49,120 +49,91 @@ export default class ImportFile extends Component {
             let worker;
             worker = require('./pdf.worker.js');
         });
-        if(this.props.url) {
-            let loadingTask = pdflib.getDocument(this.props.url);
-            loadingTask.promise.then((pdfDocument) =>{
-                let numPages = pdfDocument.numPages;
-                this.setState({
-                    FileURL: this.props.url,
-                    FileLoaded: true,
-                    FileName: this.props.url,
-                    FilePages: numPages,
-                    FileType: '(.pdf)',
-                    ImportAs: 'Custom' });
-                // Request pages
-                let page;
-                for (let i = 1; i <= numPages; i++) {
-                    page = pdfDocument.getPage(i).then((pdfPage) =>{
-                        // Display page on the existing canvas with 100% scale.
-                        let viewport = pdfPage.getViewport(1.0);
-                        let canvas = document.createElement('canvas');
-                        document.body.appendChild(canvas);
-                        canvas.id = "can" + i;
-                        canvas.style.visibility = "hidden";
-                        canvas.width = viewport.width;
-                        canvas.height = viewport.height;
-                        let ctx = canvas.getContext('2d');
-                        let renderTask = pdfPage.render({
-                            canvasContext: ctx,
-                            viewport: viewport,
-                        });
-                        if (i === 1) {
-                            renderTask.promise.then(() => {
-                                this.PreviewFile(i);
-                            });
-                        }
-                        return renderTask.promise;
-                    });
-                }
-                return page;
-            }).catch(function(reason) {
-                // eslint-disable-next-line no-console
-                console.error('Error: ' + reason);
-            });
-        }
-
     }
     /**
      * Renders React component
      * @returns {code}
      */
     render() {
-        return (<div>
-            <form>
-                <div className="fileLoaded" style={{ display: 'block' }}>
-                    <h2>{i18n.t("Preview")}</h2>
-                </div>
-                <Row style={{ display: 'block' }}>
-                    <Col xs={12} md={6} lg={6}>
-                        <img id='FilePreview' />
-                    </Col>
-                    <Col xs={12} md={6} lg={6}>
-                        <FormGroup>
-                            <ControlLabel>{i18n.t("importFile.pages.title")}</ControlLabel>
-                            <Radio name="radioPages" inline onChange={e => {this.setState({ PagesFrom: 1, PagesTo: this.state.FilePages });}}>
-                                {i18n.t("importFile.pages.whole_file")} ({ this.state.FilePages })
-                            </Radio>
-                            <Radio name="radioPages" inline defaultChecked>
-                                <FormGroup >
-                                    <InputGroup className="inputGroup">
-                                        <InputGroup.Addon>{i18n.t("importFile.pages.from")}</InputGroup.Addon>
-                                        <FormControl type="number"
-                                            style={{ minWidth: '55px' }}
-                                            value={ this.state.PagesFrom }
-                                            min={1}
-                                            max={this.state.FilePages}
-                                            onChange={e => {this.setState({ PagesFrom: e.target.value });}}/>
-                                    </InputGroup>
-                                    <InputGroup className="inputGroup">
-                                        <InputGroup.Addon>{i18n.t("importFile.pages.to")}</InputGroup.Addon>
-                                        <FormControl type="number"
-                                            style={{ minWidth: '55px' }}
-                                            value={this.state.PagesTo}
-                                            min={1}
-                                            max={this.state.FilePages}
-                                            onChange={e => {this.setState({ PagesTo: e.target.value });}}/>
-                                    </InputGroup>
+        return (
+            <Modal className="pageModal" id="ImportFileModal"
+                show={this.props.show}>
+                <Modal.Header>
+                    <Modal.Title><span id="previewTitle">{i18n.t("importFile.title")}<span className="highlight">{this.state.FileName}</span></span></Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="gcModalBody" style={{ overFlowY: 'auto' }}>
+                    <form>
+                        <FileInput onChange={ this.fileLoad } className="fileInput" accept=".pdf">
+                            <div className="fileDrag" style={{ display: this.state.FileLoaded ? 'none' : 'block' }}>
+                                <span><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b></span>
+                            </div>
+                        </FileInput>
+                        <div className="fileLoaded" style={{ display: this.state.FileLoaded ? 'block' : 'none' }}>
+                            <h2>{i18n.t("Preview")}</h2>
+                        </div>
+                        <Row style={{ display: this.state.FileLoaded ? 'block' : 'none' }}>
+                            <Col xs={12} md={6} lg={6}>
+                                <img id='FilePreview' />
+                            </Col>
+                            <Col xs={12} md={6} lg={6}>
+                                <FormGroup>
+                                    <ControlLabel>{i18n.t("importFile.pages.title")}</ControlLabel>
+                                    <Radio name="radioPages" inline onChange={e => {this.setState({ PagesFrom: 1, PagesTo: this.state.FilePages });}}>
+                                        {i18n.t("importFile.pages.whole_file")} ({ this.state.FilePages })
+                                    </Radio>
+                                    <Radio name="radioPages" inline defaultChecked>
+                                        <FormGroup >
+                                            <InputGroup className="inputGroup">
+                                                <InputGroup.Addon>{i18n.t("importFile.pages.from")}</InputGroup.Addon>
+                                                <FormControl type="number"
+                                                    style={{ minWidth: '55px' }}
+                                                    value={ this.state.PagesFrom }
+                                                    min={1}
+                                                    max={this.state.FilePages}
+                                                    onChange={e => {this.setState({ PagesFrom: e.target.value });}}/>
+                                            </InputGroup>
+                                            <InputGroup className="inputGroup">
+                                                <InputGroup.Addon>{i18n.t("importFile.pages.to")}</InputGroup.Addon>
+                                                <FormControl type="number"
+                                                    style={{ minWidth: '55px' }}
+                                                    value={this.state.PagesTo}
+                                                    min={1}
+                                                    max={this.state.FilePages}
+                                                    onChange={e => {this.setState({ PagesTo: e.target.value });}}/>
+                                            </InputGroup>
+                                        </FormGroup>
+                                    </Radio>
                                 </FormGroup>
-                            </Radio>
-                        </FormGroup>
-                        <FormGroup>
-                            <ControlLabel>{i18n.t("importFile.importAs.title")}</ControlLabel>
-                            <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'SliBackground' });}} >
-                                {i18n.t("importFile.importAs.slideBackground")}
-                            </Radio>
-                            <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'Image' });}}>
-                                {i18n.t("importFile.importAs.images")}
-                            </Radio>
-                            <Radio name="radioImport" inline defaultChecked onChange={e => {this.setState({ ImportAs: 'Custom' });}}>
-                                {i18n.t("importFile.importAs.customSize")}
-                            </Radio>
-                        </FormGroup>
-                    </Col>
-                </Row>
+                                <FormGroup>
+                                    <ControlLabel>{i18n.t("importFile.importAs.title")}</ControlLabel>
+                                    <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'SliBackground' });}} >
+                                        {i18n.t("importFile.importAs.slideBackground")}
+                                    </Radio>
+                                    <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'Image' });}}>
+                                        {i18n.t("importFile.importAs.images")}
+                                    </Radio>
+                                    <Radio name="radioImport" inline defaultChecked onChange={e => {this.setState({ ImportAs: 'Custom' });}}>
+                                        {i18n.t("importFile.importAs.customSize")}
+                                    </Radio>
+                                </FormGroup>
+                            </Col>
+                        </Row>
 
-            </form>
-            <Button bsStyle="default" id="import_file_button" onClick={ e => {
-                this.closeModal(); e.preventDefault();
-            }}>{i18n.t("importFile.footer.cancel")}</Button>
-            <Button bsStyle="primary" id="cancel_button" onClick={ (e) => {
-                this.importFile(e); e.preventDefault();
-            }}>{i18n.t("importFile.footer.ok")}</Button>
-        </div>
+                    </form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button bsStyle="default" id="import_file_button" onClick={ e => {
+                        this.closeModal(); e.preventDefault();
+                    }}>{i18n.t("importFile.footer.cancel")}</Button>
+                    <Button bsStyle="primary" id="cancel_button" onClick={ (e) => {
+                        this.ImportFile(e); e.preventDefault();
+                    }}>{i18n.t("importFile.footer.ok")}</Button>
+                </Modal.Footer>
+            </Modal>
         );
     }
 
-    importFile() {
+    ImportFile() {
         switch(this.state.FileType) {
         case '(.pdf)':
             switch(this.state.ImportAs) {
@@ -275,14 +246,15 @@ export default class ImportFile extends Component {
     }
 
     fileLoad(event) {
+        let process = this;
         let file = event.target.files[0];
         let pdfURL = URL.createObjectURL(file);
 
         if (file.type === 'application/pdf') {
             let loadingTask = pdflib.getDocument(pdfURL);
-            loadingTask.promise.then((pdfDocument)=> {
+            loadingTask.promise.then(function(pdfDocument) {
                 let numPages = pdfDocument.numPages;
-                this.setState({
+                process.setState({
                     FileURL: pdfURL,
                     FileLoaded: true,
                     FileName: file.name,
@@ -292,7 +264,7 @@ export default class ImportFile extends Component {
                 // Request pages
                 let page;
                 for (let i = 1; i <= numPages; i++) {
-                    page = pdfDocument.getPage(i).then((pdfPage) =>{
+                    page = pdfDocument.getPage(i).then(function(pdfPage) {
                         // Display page on the existing canvas with 100% scale.
                         let viewport = pdfPage.getViewport(1.0);
                         let canvas = document.createElement('canvas');
@@ -308,7 +280,7 @@ export default class ImportFile extends Component {
                         });
                         if (i === 1) {
                             renderTask.promise.then(() => {
-                                this.PreviewFile(i);
+                                process.PreviewFile(i);
                             });
                         }
                         return renderTask.promise;
@@ -345,7 +317,7 @@ export default class ImportFile extends Component {
     }
 }
 
-ImportFile.propTypes = {
+ImportFileModal.propTypes = {
     /**
      * Whether the import file modal should be shown or hidden
      */

@@ -7,7 +7,7 @@ import NavDropdown from './NavDropdown.jsx';
 import PluginsMenu from './PluginsMenu.jsx';
 import './_navBar.scss';
 import screenfull from 'screenfull';
-import ImportFile from "../import_file/ImportFile";
+import ImportFileModal from "../import_file/ImportFileModal";
 import { selectNavItem } from "../../../../common/actions";
 import ExportModal from '../export/ExportModal';
 /**
@@ -62,7 +62,7 @@ export default class EditorNavBar extends Component {
                     globalConfig={this.props.globalConfig}
                     changeGlobalConfig={this.props.changeGlobalConfig}
                     close={this.toggleGlobalConfig} />
-                <ImportFile navItemSelected={this.props.navItemSelected}
+                <ImportFileModal navItemSelected={this.props.navItemSelected}
                     boxes={this.props.boxes}
                     onBoxAdded={this.props.onBoxAdded}
                     onNavItemAdded={this.props.onNavItemAdded}

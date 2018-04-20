@@ -93,7 +93,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                     width="100%"
                     url={this.props.state.url}
                     playing={this.state.playing}
-                    fileConfig={{ attributes: { poster: img } }}
+                    // fileConfig={{ attributes: { poster: img } }}
                     volume={this.state.volume}
                     onPlay={() => this.setState({ playing: true })}
                     onPause={() => this.setState({ playing: false })}

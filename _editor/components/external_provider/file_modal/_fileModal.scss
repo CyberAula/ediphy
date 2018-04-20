@@ -8,7 +8,7 @@
       display: -ms-flexbox;
       display:         flex;
     }
-    #categoryColumn {
+    #menuColumn {
       background-color: $lightestgrey;
       .listGroupItem {
         border-radius: 0px !important;
@@ -28,20 +28,121 @@
         margin-bottom: -10px;
       }
       .myFile {
-        height:100px;
+        &.hidden {
+          display: none;
+        }
+        height: 130px;
         .myFileContent {
           background-color: $blueprimary;
           width:100%;
-          height: 100%;
+          height: 70%;
           overflow:hidden;
           padding: 10px;
           text-align: center;
+          border-width: 5px;
+          background-position: center;
+          background-size: cover;
+          &.active {
+            border-color: yellow !important;
+          }
+
+        }
+        .ellipsis {
+          width:100%;
+          display:block;
+          height: 30%;
+          overflow: hidden; /* 1 */
+          white-space: nowrap; /* 2 */
+          text-overflow: ellipsis; /* 3 */
+          //direction: rtl;
+          text-align: center;
+          font-size: 13px;
+          vertical-align: middle;
+          line-height: calc(130px * 0.3);
         }
         padding:5px;
       }
       .myFilesRow {
-        margin: 0px;
+        margin: -5px;
+        .empty {
+          text-align: center;
+          height: 60px;
+          line-height: 60px;
+          color: grey;
+        }
+      }
+      .form-group .Select {
+        border: 1px solid #ccc;
+        &:focus, .is-focused {
+          border-color: #66afe9;
+          outline: 0;
+          -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+          -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+
+        }
+        .Select-control {
+          border: one;
+        }
+      }
+      hr.fileModalFooter {
+        margin-bottom: 0px;
+      }
+      .footerFile {
+        float:left;
+        margin-left: -15px;
+        top: 5px;
+        font-size: 16px;
+        display: inline-block;
+        i {
+          color: $blueprimary;
+          vertical-align: middle;
+        }
+      }
+      #sideBar {
+        background-color: rgba(200, 200, 200, 0.9);
+        height: 100%;
+        width: 0px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        -moz-transition: width 0.5s ease;
+        -webkit-transition:  width 0.5s ease;
+        -o-transition: width 0.5s ease;
+        transition: width 0.5s ease;
+        z-index: 9999;
+        #pdfContent {
+          width: calc(100% - 30px);
+          display: inline-block;
+        }
+        #wrapper {
+          height: 100%;
+        }
+        &.showBar {
+          width: 100%;
+          overflow: hidden;
+        }
+
+        #sideArrow {
+          height: 100%;
+          width: 30px;
+          background-color: grey;
+          color: white;
+          display:inline-block;
+          button {
+            background-color: transparent;
+            margin:auto;
+            border: none;
+            box-shadow: none;
+            vertical-align: middle;
+            text-align: center;
+            display: inline-block;
+            height: 100%;
+            width: 100%;
+          }
+        }
       }
     }
+
   }
 }

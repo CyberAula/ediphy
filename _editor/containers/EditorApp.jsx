@@ -44,7 +44,7 @@ import 'typeface-source-sans-pro';
 import PropTypes from 'prop-types';
 import { ID_PREFIX_BOX } from '../../common/constants';
 import { createBox } from '../../common/common_tools';
-import { FileModal } from '../components/external_provider/file_modal/FileModal';
+import FileModal from '../components/external_provider/file_modal/FileModal';
 
 /**
  * EditorApp. Main application component that renders everything else
@@ -88,6 +88,7 @@ class EditorApp extends Component {
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
         let canvasRatio = globalConfig.canvasRatio;
+        let disabled = (navItemSelected === 0 && containedViewSelected === 0) || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
         return (
             <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }}>
                 <Row className="navBar">
@@ -101,11 +102,11 @@ class EditorApp extends Component {
                         onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
                         onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
                         onToolbarUpdated={this.onToolbarUpdated}
+                        onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
                         undoDisabled={undoDisabled}
                         redoDisabled={redoDisabled}
                         navItemsIds={navItemsIds}
                         navItems={navItems}
-                        onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
                         containedViews={containedViews}
                         containedViewSelected={containedViewSelected}
                         navItemSelected={navItemSelected}
@@ -223,7 +224,7 @@ class EditorApp extends Component {
                         </Row>
 
                         <Row id="ribbonRow" style={{ top: '-1px', left: (this.state.carouselShow ? '15px' : '147px') }}>
-                            <PluginRibbon disabled={navItemSelected === 0 || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected)) || hasExerciseBox(navItemSelected, navItems, this.state, boxes)} // ADD condition navItemSelected There are extrafiles
+                            <PluginRibbon disabled={disabled}
                                 boxSelected={boxes[boxSelected]}
                                 navItemSelected={navItems[navItemSelected]}
                                 navItems={navItems}
@@ -488,10 +489,25 @@ class EditorApp extends Component {
                     toggleFileUpload={(accepted)=>{this.setState({ showFileUpload: accepted });}}
                     updateViewToolbar={(id, toolbar)=> dispatch(updateViewToolbar(id, toolbar))}
                 />
-                <FileModal visible={this.state.showFileUpload}
+                <FileModal visible={this.state.showFileUpload} disabled={disabled}
+                    onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
+                    boxSelected={boxSelected}
+                    boxes={boxes}
+                    isBusy={isBusy}
+                    fetchResults={fetchVishResults}
+                    navItemsIds={navItemsIds}
+                    navItems={navItems}
+                    onNavItemSelected={id => dispatch(selectNavItem(id))}
+                    containedViews={containedViews}
+                    containedViewSelected={containedViewSelected}
+                    navItemSelected={navItemSelected}
                     filesUploaded={filesUploaded}
+                    onIndexSelected={(id) => dispatch(selectIndex(id))}
+                    onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
+                    onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
                     onUploadVishResource={(query, keywords) => dispatch(uploadVishResourceAsync(query, keywords))}
                     onUploadEdiphyResource={(file, keywords)=>dispatch(uploadEdiphyResourceAsync(file, keywords))}
+                    onFetchVishResources={(query) => dispatch(fetchVishResourcesAsync(query))}
                     close={()=>{this.setState({ showFileUpload: false });}}/>
 
             </Grid>
