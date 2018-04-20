@@ -19,7 +19,6 @@ export default class EnrichedPlayerPlugin extends React.Component {
             controls: true,
             toBeTriggered: [],
             triggering: false,
-            initialPoint: 0,
         };
     }
 
@@ -33,7 +32,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
             triggerArray.forEach(function(e) {
                 if ((parseFloat(e.value) / 100).toFixed(3) < parseFloat(nextState.played).toFixed(3)) {
                     let toBeTriggered = triggerArray;
-                    triggerMark(sudo.props.props.id, e.value, false);
+                    triggerMark(sudo.props.props.id, e.value, true);
                     toBeTriggered.splice(e, 1);
                     sudo.setState({ toBeTriggered: toBeTriggered });
                 }
@@ -63,10 +62,9 @@ export default class EnrichedPlayerPlugin extends React.Component {
         }
     }
     componentDidMount() {
-        if((this.player !== undefined) && (this.state.initialPoint !== 0)) {
+        if(this.player !== undefined && this.state.initialPoint !== undefined) {
             this.player.seekTo(this.state.initialPoint);
-            this.setState({ playing: true });
-            // this.setState({ initialPoint: 0, seeking: false });
+            this.setState({ initialPoint: undefined, playing: true });
         }
     }
     playPause() {
@@ -101,15 +99,15 @@ export default class EnrichedPlayerPlugin extends React.Component {
     onSeekMouseUp(e) {
         if(e.target.className.indexOf('progress-player-input') !== -1) {
             this.setState({ seeking: false });
-        }
-        // console.log((e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width);
-        if(e.target.className !== "videoMark") {
             this.player.seekTo((e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width);
         }
     }
 
     onProgress(state) {
+        // if (!this.state.seeking) {
         this.setState(state);
+        // }
+
     }
 
     componentWillReceiveProps(nextProps) {

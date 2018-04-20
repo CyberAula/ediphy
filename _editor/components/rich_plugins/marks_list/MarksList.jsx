@@ -33,7 +33,7 @@ export default class MarksList extends Component {
                                 name = this.props.viewToolbars[mark.connection].viewName;
                                 break;
                             case "external":
-                                name = mark.connection;
+                                name = mark.connection.length > 25 ? (mark.connection.substring(0, 25) + '...') : mark.connection;
                                 break;
                             case "popup":
                                 name = "PopUp";
