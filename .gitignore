@@ -32,3 +32,4 @@ dist/lib/scorm/test/*
 coverage
 yarn.lock
 ediphy_server/public/*
+!ediphy_server/public/.gitkeep
