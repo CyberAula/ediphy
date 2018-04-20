@@ -1,6 +1,6 @@
 import {
     ADD_RICH_MARK, DELETE_BOX, MOVE_RICH_MARK, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, EDIT_RICH_MARK,
-    PASTE_BOX,
+    PASTE_BOX, IMPORT_STATE,
 } from '../common/actions';
 import { deleteProp, changeProp, changeProps, deleteProps, isDocument, isPage, isSection, isSlide } from "../common/utils";
 
@@ -84,6 +84,8 @@ export default function(state = {}, action = {}) {
         // newState = changeProp(state, )
         // return state;
         return { ...state, ...action.payload.marks };
+    case IMPORT_STATE:
+        return action.payload.present.marksById || state;
     default:
         return state;
     }
