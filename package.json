@@ -18,6 +18,7 @@
     "start-webpack": "webpack-dev-server --progress",
     "watch-sass": "node-sass -w sass/style.scss -o dist/css/compiledsass.css",
     "test": "jest --colors --watch",
+    "test:reducers": "jest /reducers/* --colors --watch",
     "test:verbose": "jest --watch --colors --verbose || true",
     "test:coverage": "jest --watch --colors --coverage --verbose || true",
     "eslint": "eslint . --fix --ext .js,.jsx,.es6",
@@ -45,7 +46,7 @@
       "node_modules"
     ],
     "moduleNameMapper": {
-      "\\.(ejs)$": "<rootDir>/core/api.es6",
+      "\\.(ejs)$": "<rootDir>/common/__mocks__/ejsMock.js",
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/common/__mocks__/fileMock.js",
       "\\.(css|scss|less)$": "<rootDir>/common/__mocks__/styleMock.js"
     },

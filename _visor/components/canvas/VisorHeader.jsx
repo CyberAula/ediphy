@@ -66,7 +66,7 @@ export default class VisorHeader extends Component {
                                 {/* NavItem title */}
                                 <h2 style={{ display: (element.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}</h2>
                                 {/* NavItem subtitle */}
-                                <h3 style={{ display: (element.documentSubTitle === 'hidden') ? 'none' : 'block' }}>{subTitle}</h3>
+                                <h3 style={{ display: (element.documentSubtitle === 'hidden') ? 'none' : 'block' }}>{subTitle}</h3>
                                 {/* breadcrumb */}
                                 <div className="contenido" style={{ display: (element.breadcrumb === 'hidden') ? 'none' : 'block' }}>
                                     { content }

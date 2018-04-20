@@ -25,8 +25,8 @@ describe('# boxes_by_id reducer', () => {
     describe('handle ADD_BOX', () => {
 
         test('If added box in an existing sortableContainer (if is in a document)', () => {
-            createdbox.container = 'sc-1511443052922';
-            createdbox.parent = 'bs-1511252985426';
+            createdbox.container = 'sc-1524225237703';
+            createdbox.parent = 'bs-1497983247797';
             createdbox.position.type = 'relative';
             createdbox.resizable = false;
 
@@ -34,7 +34,7 @@ describe('# boxes_by_id reducer', () => {
                 type: ActionTypes.ADD_BOX,
                 payload: {
                     ids:
-                        { parent: 'bs-1511252985426', id: 'bo-1511443052929', container: 'sc-1511443052922' },
+                        { parent: 'bs-1497983247797', id: 'bo-1511443052929', container: 'sc-1524225237703' },
                     draggable: true,
                     resizable: false,
                     content: '',
@@ -48,7 +48,7 @@ describe('# boxes_by_id reducer', () => {
             const newState = JSON.parse(JSON.stringify(state));
 
             // state modications
-            newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].children = ["bo-1511443052925", "bo-1511443052967", "bo-1511443052929"];
+            newState['bs-1497983247797'].sortableContainers['sc-1524225237703'].children = ["bo-1524225237703", "bo-1511443052929"];
             newState['bo-1511443052929'] = createdbox;
 
             expect(action.payload.ids.container !== 0).toBeTruthy();
@@ -87,18 +87,18 @@ describe('# boxes_by_id reducer', () => {
             const action = {
                 type: ActionTypes.MOVE_BOX,
                 payload: {
-                    id: 'bo-1511252970033',
+                    id: 'bo-1524225237703',
                     x: '29.42%',
                     y: '29.26%',
-                    position: 'absolute',
+                    position: 'relative',
                     parent: 'pa-1511252955865',
                     container: 0,
                 },
             };
 
             const newstate = JSON.parse(JSON.stringify(state));
-            newstate['bo-1511252970033'].position.x = action.payload.x;
-            newstate['bo-1511252970033'].position.y = action.payload.y;
+            newstate['bo-1524225237703'].position.x = action.payload.x;
+            newstate['bo-1524225237703'].position.y = action.payload.y;
 
             expect(boxes_by_id(state, action)).toEqual(newstate);
         });
@@ -109,14 +109,14 @@ describe('# boxes_by_id reducer', () => {
             const action = {
                 type: ActionTypes.RESIZE_SORTABLE_CONTAINER,
                 payload: {
-                    id: 'sc-1511443052922',
-                    parent: 'bs-1511252985426',
+                    id: 'sc-1524225237703',
+                    parent: 'bs-1497983247797',
                     height: 500,
                 },
             };
 
             const newState = JSON.parse(JSON.stringify(state));
-            newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].height = action.payload.height;
+            newState['bs-1497983247797'].sortableContainers['sc-1524225237703'].height = action.payload.height;
 
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
@@ -162,7 +162,7 @@ describe('# boxes_by_id reducer', () => {
             const action = {
                 type: ActionTypes.ADD_RICH_MARK,
                 payload: {
-                    parent: 'bo-1511252970033',
+                    parent: 'bo-1524225237703',
                     mark: {
                         id: "rm-1511786135103",
                         title: "new mark",
@@ -172,7 +172,9 @@ describe('# boxes_by_id reducer', () => {
                         value: "30.95,49.15",
                         color: "#222222",
                     },
-                    state: {},
+                    view: {
+
+                    },
                 },
             };
             expect(boxes_by_id(state, action)).toEqual(state);
@@ -232,14 +234,14 @@ describe('# boxes_by_id reducer', () => {
             const action = {
                 type: ActionTypes.REORDER_BOXES,
                 payload: {
-                    parent: 'bs-1511252985426',
-                    container: 'sc-1511443052922',
+                    parent: 'bs-1497983247797',
+                    container: 'sc-1524225237703',
                     order: ['bo-1511443052967', 'bo-1511443052925'],
                 },
             };
 
             const newState = JSON.parse(JSON.stringify(state));
-            newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].children = action.payload.order;
+            newState['bs-1497983247797'].sortableContainers['sc-1511443052922'].children = action.payload.order;
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
@@ -250,13 +252,13 @@ describe('# boxes_by_id reducer', () => {
                 type: ActionTypes.CHANGE_SORTABLE_PROPS,
                 payload: {
                     id: 'sc-1511443052922',
-                    parent: 'bs-1511252985426',
+                    parent: 'bs-1497983247797',
                     prop: 'borderWidth',
                     value: '2px',
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].style[action.payload.prop] = action.payload.value;
+            newState['bs-1497983247797'].sortableContainers['sc-1524225237703'].style[action.payload.prop] = action.payload.value;
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
@@ -266,16 +268,16 @@ describe('# boxes_by_id reducer', () => {
             const action = {
                 type: ActionTypes.CHANGE_COLS,
                 payload: {
-                    id: 'sc-1511443052922',
-                    parent: 'bs-1511252985426',
+                    id: 'sc-1524225237703',
+                    parent: 'bs-1497983247797',
                     distribution: [50, 50],
                     boxesAffected: ['bo-1511443052925', 'bo-1511443052967'],
 
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].colDistribution = action.payload.distribution;
-            newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].cols = [[100], [100]];
+            newState['bs-1497983247797'].sortableContainers['sc-1524225237703'].colDistribution = action.payload.distribution;
+            newState['bs-1497983247797'].sortableContainers['sc-1524225237703'].cols = [[100], [100]];
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
@@ -285,15 +287,15 @@ describe('# boxes_by_id reducer', () => {
             const action = {
                 type: ActionTypes.CHANGE_ROWS,
                 payload: {
-                    id: 'sc-1511443052922',
-                    parent: 'bs-1511252985426',
+                    id: 'sc-1524225237703',
+                    parent: 'bs-1497983247797',
                     column: 0,
                     distribution: [50, 50],
                     boxesAffected: ['bo-1511443052925', 'bo-1511443052967'],
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].cols[action.payload.column] = action.payload.distribution;
+            newState['bs-1497983247797'].sortableContainers['sc-1524225237703'].cols[action.payload.column] = action.payload.distribution;
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
@@ -306,10 +308,10 @@ describe('# boxes_by_id reducer', () => {
                     id: 'bo-1511443052925',
                     row: 0,
                     col: 1,
-                    container: 'sc-1511443052922',
-                    parent: 'bs-1511252985426',
-                    oldParent: 'bs-1511252985426',
-                    oldContainer: 'sc-1511443052922',
+                    container: 'sc-1524225237703',
+                    parent: 'bs-1497983247797',
+                    oldParent: 'bs-1497983247797',
+                    oldContainer: 'sc-1524225237703',
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
@@ -325,16 +327,16 @@ describe('# boxes_by_id reducer', () => {
                     row: 0,
                     col: 0,
                     container: 'sc-1511443052923',
-                    parent: 'bs-1511252985426',
-                    oldParent: 'bs-1511252985426',
-                    oldContainer: 'sc-1511443052922',
+                    parent: 'bs-1497983247797',
+                    oldParent: 'bs-1497983247797',
+                    oldContainer: 'sc-1524225237703',
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            newState['bo-1511443052925'].parent = 'bs-1511252985426';
+            newState['bo-1511443052925'].parent = 'bs-1497983247797';
             newState['bo-1511443052925'].container = 'sc-1511443052923',
-            newState['bs-1511252985426'].sortableContainers['sc-1511443052923'].children.push('bo-1511443052925');
-            newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].children = ["bo-1511443052967"];
+            newState['bs-1497983247797'].sortableContainers['sc-1511443052923'].children.push('bo-1511443052925');
+            newState['bs-1497983247797'].sortableContainers['sc-1524225237703'].children = ["bo-1511443052967"];
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
         // TODO Plugins inside plugins
@@ -346,15 +348,15 @@ describe('# boxes_by_id reducer', () => {
                 type: ActionTypes.DELETE_BOX,
                 payload: {
                     id: 'bo-1511443052925',
-                    parent: 'bs-1511252985426',
-                    container: 'sc-1511443052922',
+                    parent: 'bs-1497983247797',
+                    container: 'sc-1524225237703',
                     children: [],
                     cvs: [],
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
             delete newState['bo-1511443052925'];
-            newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].children = ['bo-1511443052967'];
+            newState['bs-1497983247797'].sortableContainers['sc-1524225237703'].children = ['bo-1511443052967'];
 
             expect(isSortableContainer(action.payload.container)).toBeTruthy();
             expect(boxes_by_id(state, action)).toEqual(newState);
@@ -400,8 +402,8 @@ describe('# boxes_by_id reducer', () => {
             const action = {
                 type: ActionTypes.DELETE_SORTABLE_CONTAINER,
                 payload: {
-                    id: 'sc-1511443052922',
-                    parent: 'bs-1511252985426',
+                    id: 'sc-1524225237703',
+                    parent: 'bs-1497983247797',
                     children: ["bo-1511443052925", "bo-1511443052967"],
                     cvs: '',
                 },
@@ -411,8 +413,8 @@ describe('# boxes_by_id reducer', () => {
             delete newState['bo-1511443052925'];
             delete newState['bo-1511443052967'];
             // delete sortable from page
-            delete newState['bs-1511252985426'].sortableContainers['sc-1511443052922'];
-            newState['bs-1511252985426'].children = ['sc-1511443052923'];
+            delete newState['bs-1497983247797'].sortableContainers['sc-1524225237703'];
+            newState['bs-1497983247797'].children = ['sc-1511443052923'];
 
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
@@ -441,12 +443,12 @@ describe('# boxes_by_id reducer', () => {
             const action = {
                 type: ActionTypes.REORDER_SORTABLE_CONTAINER,
                 payload: {
-                    ids: ['sc-1511443052923', 'sc-1511443052922'],
-                    parent: 'bs-1511252985426',
+                    ids: ['sc-1511443052923', 'sc-1524225237703'],
+                    parent: 'bs-1497983247797',
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            newState['bs-1511252985426'].children = action.payload.ids;
+            newState['bs-1497983247797'].children = action.payload.ids;
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
@@ -516,9 +518,9 @@ describe('# boxes_by_id reducer', () => {
                     "sortableContainers": {},
                     "containedViews": [],
                 },
-                "bs-1511252985426": {
-                    "id": "bs-1511252985426",
-                    "parent": "pa-1511252985426",
+                "bs-1497983247797": {
+                    "id": "bs-1497983247797",
+                    "parent": "pa-1497983247797",
                     "container": 0,
                     "level": -1,
                     "col": 0,
@@ -528,9 +530,9 @@ describe('# boxes_by_id reducer', () => {
                     "resizable": false,
                     "showTextEditor": false,
                     "fragment": {},
-                    "children": ["sc-1511443052922", "sc-1511443052923"],
+                    "children": ["sc-1524225237703", "sc-1511443052923"],
                     "sortableContainers": {
-                        "sc-1511443052922": {
+                        "sc-1524225237703": {
                             "children": ["bo-1511443052925", "bo-1511443052967"],
                             "colDistribution": [100],
                             "cols": [[100], [100]],
@@ -602,8 +604,8 @@ describe('# boxes_by_id reducer', () => {
                 },
                 'bo-1511443052925': {
                     "id": 'bo-1511443052925',
-                    "parent": 'bs-1511252985426',
-                    "container": 'sc-1511443052922',
+                    "parent": 'bs-1497983247797',
+                    "container": 'sc-1524225237703',
                     "level": 0,
                     "col": 0,
                     "row": 0,
@@ -619,8 +621,8 @@ describe('# boxes_by_id reducer', () => {
                 },
                 'bo-1511443052967': {
                     "id": 'bo-1511443052967',
-                    "parent": 'bs-1511252985426',
-                    "container": 'sc-1511443052922',
+                    "parent": 'bs-1497983247797',
+                    "container": 'sc-1524225237703',
                     "level": 0,
                     "col": 0,
                     "row": 0,

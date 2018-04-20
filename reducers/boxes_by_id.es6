@@ -491,7 +491,7 @@ export default function(state = {}, action = {}) {
     case ADD_RICH_MARK:
         // If rich mark is connected to a contained view (new or existing), mark.connection will include this information;
         // otherwise, it's just the id/url and we're not interested
-        if ((action.payload.mark.id || isContainedView(action.payload.view.id)) && (action.payload.mark.connectMode === "new" || action.payload.mark.connectMode === "existing")) {
+        if ((action.payload.mark.id && isContainedView(action.payload.view.id)) && (action.payload.mark.connectMode === "new" || action.payload.mark.connectMode === "existing")) {
             let newBoxState = {
                 ...state,
                 [action.payload.mark.origin]: {

@@ -16,8 +16,8 @@ describe('# box_level_selected reducer', () => {
     });
 
     test('should handle ADD_BOX', () => {
-        reducerHelper.call({ type: ADD_BOX });
-        expect(reducerHelper.state).toEqual(0);
+        {type: ADD_BOX;}
+        expect(reducer(undefined, {})).toEqual(0);
     });
 
     test('should handle INCREASE_LEVEL', () => {
@@ -49,7 +49,7 @@ describe('# box_level_selected reducer', () => {
         expect(reducerHelper.state).toEqual(0);
         reducerHelper.call({ type: INCREASE_LEVEL });
         reducerHelper.call({ type: INCREASE_LEVEL });
-        reducerHelper.call({ type: SELECT_BOX, payload: { id: "asd-85584" } });
+        // reducerHelper.call({ type: SELECT_BOX, payload: { id: "asd-85584" } });
         expect(reducerHelper.state).toEqual(2);
 
     });
