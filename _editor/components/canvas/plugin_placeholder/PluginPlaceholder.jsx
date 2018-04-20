@@ -261,7 +261,6 @@ PluginPlaceholder.propTypes = {
      * Diccionario que contiene todos los valores de cajas, accesibles por su *id*
      */
     pluginToolbars: PropTypes.object.isRequired,
-
     /**
      * Última acción de Redux realizada
      */
@@ -315,23 +314,23 @@ PluginPlaceholder.propTypes = {
       */
     addMarkShortcut: PropTypes.func,
     /**
-       * Función que oculta el overlay de creación de marcas
-       */
+     * Función que oculta el overlay de creación de marcas
+     */
     deleteMarkCreator: PropTypes.func,
     /**
-      * Añade una caja
+      * Callback for adding a box
       */
     onBoxAdded: PropTypes.func,
     /**
-       * Indica el tipo de página en el que se encuentra la caja
-       */
+     *  View type
+     */
     pageType: PropTypes.string,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Object containing all contained views (by id)
      */
     containedViews: PropTypes.object,
     /**
-    * Hace aparecer/desaparecer el modal de configuración de marcas
+    *  Callback for toggling rich marks modal creator
     */
     onRichMarksModalToggled: PropTypes.func,
     /**

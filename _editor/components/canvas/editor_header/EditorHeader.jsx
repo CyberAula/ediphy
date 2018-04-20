@@ -315,27 +315,27 @@ export default class EditorHeader extends Component {
 
 EditorHeader.propTypes = {
     /**
-     * Array que contiene el título desglosado de la página. Ej: `['Sección 1'. 'Página 1']`
+     * Object containing view titles
      */
     titles: PropTypes.array.isRequired,
     /**
-     * Selecciona caja
+     * Callback for selecting a box
      */
     onBoxSelected: PropTypes.func.isRequired,
     /**
-     * Página actual, identificada por su *id*
+     * Current view (by ID)
      */
     navItem: PropTypes.any,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
     /**
-     * Vista contenida actual, identificada por su *id*
+     * Current contained view (by ID)
      */
     containedView: PropTypes.any,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Object containing all contained views (by id)
      */
     containedViews: PropTypes.object.isRequired,
     /**

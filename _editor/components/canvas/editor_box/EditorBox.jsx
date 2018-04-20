@@ -818,8 +818,8 @@ EditorBox.propTypes = {
        */
     exercises: PropTypes.object,
     /**
-       * Function for setting the right answer of an exercise
-       */
+    * Function for setting the right answer of an exercise
+    */
     setCorrectAnswer: PropTypes.func.isRequired,
     /**
        * Current page
