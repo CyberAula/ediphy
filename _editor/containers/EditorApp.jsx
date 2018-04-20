@@ -14,7 +14,8 @@ import {
     deleteContainedView, selectContainedView, changeContainedViewName,
     addRichMark, editRichMark, moveRichMark, deleteRichMark, setCorrectAnswer,
     updateViewToolbar, updatePluginToolbar,
-    addNavItems } from '../../common/actions';
+    addNavItems, uploadEdiphyResourceAsync,
+} from '../../common/actions';
 import EditorCanvas from '../components/canvas/editor_canvas/EditorCanvas';
 import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
 import EditorCarousel from '../components/carousel/editor_carousel/EditorCarousel';
@@ -43,6 +44,7 @@ import 'typeface-source-sans-pro';
 import PropTypes from 'prop-types';
 import { ID_PREFIX_BOX } from '../../common/constants';
 import { createBox } from '../../common/common_tools';
+import { FileModal } from '../components/external_provider/file_modal/FileModal';
 
 /**
  * EditorApp. Main application component that renders everything else
@@ -70,6 +72,7 @@ class EditorApp extends Component {
             grid: false,
             pluginConfigModal: false,
             accordions: {},
+            showFileUpload: "*",
         };
         this.onTextEditorToggled = this.onTextEditorToggled.bind(this);
         this.onRichMarkUpdated = this.onRichMarkUpdated.bind(this);
@@ -80,7 +83,7 @@ class EditorApp extends Component {
 
     render() {
         const { dispatch, boxes, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
-            containedViews, containedViewSelected, imagesUploaded, indexSelected, exercises,
+            containedViews, containedViewSelected, filesUploaded, indexSelected, exercises,
             undoDisabled, redoDisabled, displayMode, isBusy, pluginToolbars, viewToolbars, marks, lastActionDispatched, globalConfig, fetchVishResults } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
@@ -121,6 +124,7 @@ class EditorApp extends Component {
                         category={this.state.pluginTab}
                         opens={() => {dispatch(importStateAsync());}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
+                        toggleFileUpload={()=>{this.setState({ showFileUpload: "*" });}}
                         onExternalCatalogToggled={() => this.setState({ catalogModal: true })}
                         setcat={(category) => {this.setState({ pluginTab: category, hideTab: 'show' });}}/>
                     {Ediphy.Config.autosave_time > 1000 &&
@@ -364,7 +368,7 @@ class EditorApp extends Component {
                     updatePluginToolbar={(id, state) => dispatch(updateBox(id, "", pluginToolbars[this.state.pluginConfigModal], state))}
                 />
                 {Ediphy.Config.external_providers.enable_catalog_modal &&
-                <ExternalCatalogModal images={imagesUploaded}
+                <ExternalCatalogModal images={filesUploaded}
                     visible={this.state.catalogModal}
                     onExternalCatalogToggled={() => this.setState({ catalogModal: !this.state.catalogModal })}/>}
                 <RichMarksModal boxSelected={boxSelected}
@@ -481,8 +485,14 @@ class EditorApp extends Component {
                     }}
                     onUploadVishResource={(query) => dispatch(uploadVishResourceAsync(query))}
                     onFetchVishResources={(query) => dispatch(fetchVishResourcesAsync(query))}
+                    toggleFileUpload={(accepted)=>{this.setState({ showFileUpload: accepted });}}
                     updateViewToolbar={(id, toolbar)=> dispatch(updateViewToolbar(id, toolbar))}
                 />
+                <FileModal visible={this.state.showFileUpload}
+                    filesUploaded={filesUploaded}
+                    onUploadVishResource={(query, keywords) => dispatch(uploadVishResourceAsync(query, keywords))}
+                    onUploadEdiphyResource={(file, keywords)=>dispatch(uploadEdiphyResourceAsync(file, keywords))}
+                    close={()=>{this.setState({ showFileUpload: false });}}/>
 
             </Grid>
         );
@@ -777,7 +787,7 @@ class EditorApp extends Component {
 function mapStateToProps(state) {
     return {
         globalConfig: state.present.globalConfig,
-        imagesUploaded: state.present.imagesUploaded,
+        filesUploaded: state.present.filesUploaded,
         boxes: state.present.boxesById,
         boxSelected: state.present.boxSelected,
         boxLevelSelected: state.present.boxLevelSelected,
@@ -805,7 +815,7 @@ export default connect(mapStateToProps)(EditorApp);
 
 EditorApp.propTypes = {
     globalConfig: PropTypes.object.isRequired,
-    imagesUploaded: PropTypes.any,
+    filesUploaded: PropTypes.any,
     boxes: PropTypes.object.isRequired,
     boxSelected: PropTypes.any,
     boxLevelSelected: PropTypes.any,

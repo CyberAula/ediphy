@@ -97,6 +97,13 @@ export default class NavDropdown extends Component {
                                 {i18n.t('Open')}
                             </button>
                         </MenuItem>]}
+                    <MenuItem eventKey="6" key="6">
+                        <button className="dropdownButton"
+                            onClick={this.props.toggleFileUpload}>
+                            <i className="material-icons">attach_file</i>
+                            {i18n.t('FileModal')}
+                        </button>
+                    </MenuItem>
                 </Dropdown.Menu>
             </Dropdown>
         );
@@ -113,6 +120,10 @@ NavDropdown.propTypes = {
      * Opens an external catalog with all the resources uploaded to the server
      */
     onExternalCatalogToggled: PropTypes.func.isRequired,
+    /**
+      * Callback for opening the file upload modal
+      */
+    toggleFileUpload: PropTypes.func.isRequired,
     /**
      * Load an specific course from the remote server
      */

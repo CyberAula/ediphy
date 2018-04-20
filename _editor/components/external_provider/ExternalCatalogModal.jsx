@@ -31,7 +31,7 @@ export default class ExternalCatalogModal extends Component {
                         <FormGroup>
                             {(this.props.state || this.props.images.length !== 0) ? this.props.images.map((item, index) => {
                                 return (
-                                    <img key={index} src={item} className={'catalogImage'} />
+                                    <img key={index} src={item.url} className={'catalogImage'} />
                                 );
                             }) : <div className="alert alert-info">{i18n.t("Uploaded_Images_No")}</div>}
                         </FormGroup>

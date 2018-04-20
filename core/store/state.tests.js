@@ -31,7 +31,7 @@ export const testState = { present:
                 difficulty: 'easy',
             },
             displayMode: "list",
-            imagesUploaded: [],
+            filesUploaded: [],
             indexSelected: -1,
             navItemsById: {
                 0: {

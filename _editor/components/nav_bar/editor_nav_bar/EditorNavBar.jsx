@@ -56,6 +56,7 @@ export default class EditorNavBar extends Component {
                     toggleGlobalConfig={this.toggleGlobalConfig}
                     toggleImportFile={this.toggleImportFile}
                     toggleExport={this.toggleExport}
+                    toggleFileUpload={this.props.toggleFileUpload}
                     undoDisabled={this.props.undoDisabled} />
                 <GlobalConfig show={this.state.showGlobalConfig}
                     globalConfig={this.props.globalConfig}
@@ -136,7 +137,6 @@ EditorNavBar.propTypes = {
      * Caja seleccionada
      */
     boxSelected: PropTypes.any.isRequired,
-
     /**
      * Deshace el último cambio
      */
@@ -177,6 +177,10 @@ EditorNavBar.propTypes = {
      * Abre el catálogo de recursos subidos al servidor
      */
     onExternalCatalogToggled: PropTypes.func.isRequired,
+    /**
+      * Callback for opening the file upload modal
+      */
+    toggleFileUpload: PropTypes.func.isRequired,
     /**
      * Cambia la categoría de plugins seleccionada
      * */

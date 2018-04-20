@@ -31,3 +31,4 @@ dist/lib/scorm/test/*
 .stylelintrc.json
 coverage
 yarn.lock
+ediphy_server/public/*
