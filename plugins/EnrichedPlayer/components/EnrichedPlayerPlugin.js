@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
-import Mark from './../../../_editor/components/rich_plugins/mark/Mark';
+import Mark from '../../../common/components/mark/Mark';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import img from './../../../dist/images/broken_link.png';
 /* eslint-disable react/prop-types */

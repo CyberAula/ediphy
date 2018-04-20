@@ -1,6 +1,6 @@
 import React from "react";
 import img from './../../../dist/images/broken_link.png';
-import Mark from '../../../_editor/components/rich_plugins/mark/Mark';
+import Mark from '../../../common/components/mark/Mark';
 /* eslint-disable react/prop-types */
 
 export function HotspotImages(base) {
