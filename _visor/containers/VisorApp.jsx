@@ -82,6 +82,8 @@ export default class Visor extends Component {
             } else if(newMark.connectMode === "popup") {
                 let shiftPop = nextState.triggeredMarks;
                 shiftPop.shift();
+                let markpop = document.getElementById('mark-' + newMark.id);
+                if (markpop) { markpop.focus();}
                 this.setState({
                     showpop: !this.state.showpop,
                     triggeredMarks: shiftPop,

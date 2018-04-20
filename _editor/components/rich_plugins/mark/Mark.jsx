@@ -15,7 +15,7 @@ export default class Mark extends Component {
                 placement="top"
                 overlay={this.props.isPopUp ? PopoverMark : ToolTipDefault }
                 trigger={triggerType} rootClose>
-                <a className="mapMarker" href="#" onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
+                <a id={'mark-' + this.props.idKey} className="mapMarker" href="#" onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
                     <i key="i" style={{ color: this.props.color }} className="material-icons">room</i>
                 </a>
             </OverlayTrigger>
