@@ -201,12 +201,12 @@ export default class MarkCreator extends Component {
             header: {
                 elementContent: {
                     documentTitle: pageName,
-                    documentSubTitle: '',
+                    documentSubtitle: '',
                     numPage: '' },
                 display: {
                     courseTitle: 'hidden',
                     documentTitle: 'expanded',
-                    documentSubTitle: 'hidden',
+                    documentSubtitle: 'hidden',
                     breadcrumb: "hidden",
                     pageNumber: "hidden" },
             },

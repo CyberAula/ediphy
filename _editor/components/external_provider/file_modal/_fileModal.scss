@@ -10,40 +10,71 @@
     }
     #menuColumn {
       background-color: $lightestgrey;
-      .listGroupItem {
-        border-radius: 0px !important;
-        background-color: transparent;
-        border: none;
-        &.active {
-          color: $blueprimary;
+      border-right: 1px solid grey;
+      .list-group {
+        margin: 0px -15px;
+        .listGroupItem {
+          height:60px;
+          border-radius: 0px !important;
+          background-color: transparent;
+          border: none;
+          text-align: center;
+          .fileMenuIcon {
+            width: auto;
+            max-width: 100%;
+            max-height: 24px;
+          }
+          .fileMenuName {
+            width:100%;
+            text-align: left;
+          }
+          &.active {
+            background-color: #bbb;
+          }
         }
       }
+
     }
 
     #contentColumn {
+
       h5 {
         color: $blueprimary;
         font-size: 16px;
         margin-top: 15px;
         margin-bottom: -10px;
+        height: 30px;
+        .fileMenuIcon {
+          width: auto;
+          max-width: 100px;
+          max-height: 24px;
+        }
       }
       .myFile {
         &.hidden {
           display: none;
         }
-        height: 130px;
+        height: 160px;
         .myFileContent {
-          background-color: $blueprimary;
           width:100%;
           height: 70%;
           overflow:hidden;
           padding: 10px;
           text-align: center;
-          border-width: 5px;
+          border-width: 3px;
+          background-color: #ddd;
+          border-color: transparent;
           background-position: center;
           background-size: cover;
+          transition: all 0.2s ease;
           &.active {
-            border-color: yellow !important;
+            border-color: orange !important;
+          }
+          &:hover {
+            transform: scale(0.95);
+          }
+          i {
+            font-size: 40px;
           }
 
         }
@@ -66,7 +97,7 @@
         margin: -5px;
         .empty {
           text-align: center;
-          height: 60px;
+          height: 85px;
           line-height: 60px;
           color: grey;
         }

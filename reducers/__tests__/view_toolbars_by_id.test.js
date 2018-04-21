@@ -5,7 +5,7 @@ import i18n from "i18next";
 
 const state = testState.present.viewToolbarsById;
 
-describe('# plugin_toolbars_by_id reducer', ()=>{
+describe('# view_toolbars_by_id reducer', ()=>{
     describe('DEFAULT', ()=>{
         test('Should return test.state as default', () => {
             expect(view_toolbars_by_id(state, {})).toEqual(state);
@@ -15,17 +15,24 @@ describe('# plugin_toolbars_by_id reducer', ()=>{
     describe('handle ADD_NAV_ITEM', ()=>{
         test('If nav item added', () => {
             const action = { type: ActionTypes.ADD_NAV_ITEM,
-                payload: { id: 'pa-1511252985429', type: 'document' } };
+                payload: { id: 'pa-1511252985429', type: 'document', name: i18n.t('Title') + i18n.t('document') } };
             let newState = { ...state,
                 "pa-1511252985429": {
+                    "aspectRatio": true,
+                    "background": "#ffffff",
+                    "backgroundAttr": "",
                     "breadcrumb": "reduced",
                     "courseTitle": "hidden",
+                    "customSize": 0,
+                    "numPage": "hidden",
                     "doc_type": 'document',
+                    "viewName": i18n.t('Title') + i18n.t('document'),
+                    "numPageContent": "",
                     "documentSubtitle": "hidden",
-                    "documentSubtitleContent": "",
+                    "documentSubtitleContent": i18n.t("subtitle"),
                     "documentTitle": "expanded",
                     "documentTitleContent": i18n.t('Title') + i18n.t('document'),
-                    "id": "pa-1511252985429", "numPage": "",
+                    "id": "pa-1511252985429",
                 },
             };
             expect(view_toolbars_by_id(state, action)).toEqual(newState);
@@ -76,39 +83,57 @@ describe('# plugin_toolbars_by_id reducer', ()=>{
             let action = {
                 type: ActionTypes.UPDATE_VIEW_TOOLBAR,
                 payload: {
-                    id: "pa-1511252955865",
+                    id: "pa-1497983247795",
                     viewName: "NewName",
                 },
             };
 
             let newState = {
-                "pa-1511252955865": {
-                    id: "pa-1511252955865",
-                    hidden: false,
+                "pa-1497983247795": {
+                    aspectRatio: "",
+                    background: "#ffffff",
+                    backgroundAttr: "",
+                    id: "pa-1497983247795",
                     viewName: "NewName",
                     breadcrumb: 'reduced',
-                    displayableTitle: "Documento",
                     courseTitle: 'hidden',
                     documentSubtitle: 'hidden',
-                    documentSubtitleContent: '',
+                    documentSubtitleContent: 'Subtítulo',
                     documentTitle: 'expanded',
-                    documentTitleContent: '',
+                    documentTitleContent: "Título Documento",
                     numPage: 'hidden',
                     numPageContent: '',
                 },
-                'cv-1511252975055': {
-                    id: "cv-1511252975055",
-                    hidden: false,
-                    viewName: "Page",
+                'cv-1524225239825': {
+                    id: "cv-1524225239825",
+                    customSize: 0,
+                    aspectRatio: true,
+                    background: "#ffffff",
+                    backgroundAttr: "",
+                    doc_type: "document",
+                    documentSubtitle: "hidden",
+                    documentSubtitleContent: "Subtítulo",
+                    documentTitle: "expanded",
+                    documentTitleContent: "Título Documento",
+                    viewName: "Vista Contenida 1",
                     breadcrumb: 'reduced',
-                    displayableTitle: "Documento: vita contenida",
                     courseTitle: 'hidden',
-                    pageSubtitle: 'hidden',
-                    pageSubtitleContent: '',
-                    pageTitle: 'expanded',
-                    pageTitleContent: '',
                     numPage: 'hidden',
-                    numPageContent: '',
+                },
+                "se-1467887497411": {
+                    aspectRatio: "",
+                    background: "#ffffff",
+                    backgroundAttr: "",
+                    breadcrumb: "reduced",
+                    courseTitle: "hidden",
+                    documentSubtitle: "hidden",
+                    documentSubtitleContent: "Subtítulo",
+                    documentTitle: "expanded",
+                    documentTitleContent: "Section",
+                    id: "se-1467887497411",
+                    numPage: "hidden",
+                    numPageContent: "1",
+                    viewName: "Section",
                 },
             };
 
@@ -128,36 +153,58 @@ describe('# plugin_toolbars_by_id reducer', ()=>{
                 type: ActionTypes.IMPORT_STATE,
                 payload: {
                     present: {
-                        pluginToolbarsById: {
-                            "pa-15112529552323": {
-                                id: "pa-15112529552323",
-                                breadcrumb: 'reduced',
-                                displayableTitle: "Documento",
-                                courseTitle: 'hidden',
-                                documentSubtitle: 'hidden',
-                                documentSubtitleContent: '',
-                                documentTitle: 'expanded',
-                                documentTitleContent: '',
-                                numPage: 'hidden',
-                                numPageContent: '',
+                        viewToolbarsById: {
+                            "se-1467887497411": {
+                                "id": "se-1467887497411",
+                                "viewName": "Section",
+                                "breadcrumb": "reduced",
+                                "courseTitle": "hidden",
+                                "documentSubtitle": "hidden",
+                                "documentSubtitleContent": "Subtítulo",
+                                "documentTitle": "expanded",
+                                "documentTitleContent": "Section",
+                                "numPage": "hidden",
+                                "numPageContent": "1",
+                                "background": "#ffffff",
+                                "backgroundAttr": "",
+                                "aspectRatio": "",
                             },
-                            'cv-15112529523155': {
-                                id: "cv-15112529523155",
-                                breadcrumb: 'reduced',
-                                displayableTitle: "Documento: vita contenida",
-                                courseTitle: 'hidden',
-                                pageSubtitle: 'hidden',
-                                pageSubtitleContent: '',
-                                pageTitle: 'expanded',
-                                pageTitleContent: '',
-                                numPage: 'hidden',
-                                numPageContent: '',
+                            "pa-1497983247795": {
+                                "id": "pa-1497983247795",
+                                "viewName": "Página",
+                                "breadcrumb": "reduced",
+                                "courseTitle": "hidden",
+                                "documentSubtitle": "hidden",
+                                "documentSubtitleContent": "Subtítulo",
+                                "documentTitle": "expanded",
+                                "documentTitleContent": "Título Documento",
+                                "numPage": "hidden",
+                                "numPageContent": "",
+                                "background": "#ffffff",
+                                "backgroundAttr": "",
+                                "aspectRatio": "",
+                            },
+                            "cv-1524225239825": {
+                                "id": "cv-1524225239825",
+                                "breadcrumb": "reduced",
+                                "doc_type": "document",
+                                "viewName": "Vista Contenida 1",
+                                "courseTitle": "hidden",
+                                "documentSubtitle": "hidden",
+                                "documentSubtitleContent": "Subtítulo",
+                                "documentTitle": "expanded",
+                                "documentTitleContent": "Título Documento",
+                                "numPage": "hidden",
+                                "customSize": 0,
+                                "aspectRatio": true,
+                                "background": "#ffffff",
+                                "backgroundAttr": "",
                             },
                         },
                     },
                 },
             };
-            let newState = action.payload.present.pluginToolbarsById;
+            let newState = action.payload.present.viewToolbarsById;
             expect(view_toolbars_by_id(state, action)).toEqual(newState);
         });
     });

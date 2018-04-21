@@ -82,12 +82,12 @@ describe('# nav_items_by_id reducer', ()=>{
                     display: {
                         breadcrumb: "reduced",
                         courseTitle: "hidden",
-                        documentSubTitle: "hidden",
+                        documentSubtitle: "hidden",
                         documentTitle: "expanded",
                         pageNumber: "hidden",
                     },
                     elementContent: {
-                        documentSubTitle: "",
+                        documentSubtitle: "",
                         documentTitle: "",
                         numPage: "",
                     },
@@ -126,12 +126,12 @@ describe('# nav_items_by_id reducer', ()=>{
                     display: {
                         breadcrumb: "reduced",
                         courseTitle: "hidden",
-                        documentSubTitle: "hidden",
+                        documentSubtitle: "hidden",
                         documentTitle: "expanded",
                         pageNumber: "hidden",
                     },
                     elementContent: {
-                        documentSubTitle: "",
+                        documentSubtitle: "",
                         documentTitle: "",
                         numPage: "",
                     },
@@ -334,13 +334,13 @@ describe('# nav_items_by_id reducer', ()=>{
                     titles: {
                         elementContent: {
                             documentTitle: "",
-                            documentSubTitle: "",
+                            documentSubtitle: "",
                             numPage: "",
                         },
                         display: {
                             courseTitle: "reduced",
                             documentTitle: "expanded",
-                            documentSubTitle: "hidden",
+                            documentSubtitle: "hidden",
                             breadcrumb: "reduced",
                             pageNumber: "hidden",
                         },

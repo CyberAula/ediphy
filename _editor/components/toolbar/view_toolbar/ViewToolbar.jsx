@@ -79,7 +79,7 @@ export default class ViewToolbar extends Component {
                             display_pagesubtitle: {
                                 __name: i18n.t('subtitle'),
                                 type: 'checkbox',
-                                checked: viewToolbar.documentSubTitle && viewToolbar.documentSubTitle !== 'hidden',
+                                checked: viewToolbar.documentSubtitle && viewToolbar.documentSubtitle !== 'hidden',
                                 autoManaged: false,
                             },
                             pagesubtitle_name: {

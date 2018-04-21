@@ -98,6 +98,7 @@ export default class ImportFile extends Component {
      * @returns {code}
      */
     render() {
+        console.log(this.state);
         return (<div className="pdfFileDialog">
             <form>
                 <div className="fileLoaded" style={{ display: 'block' }}>
@@ -131,7 +132,7 @@ export default class ImportFile extends Component {
                                             value={this.state.PagesTo}
                                             min={1}
                                             max={this.state.FilePages}
-                                            onChange={e => {this.setState({ PagesTo: e.target.value });}}/>
+                                            onChange={e => {console.log(e); this.setState({ PagesTo: e.target.value });}}/>
                                     </InputGroup>
                                 </FormGroup>
                             </Radio>

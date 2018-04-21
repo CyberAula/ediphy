@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
-import Mark from './../../../_editor/components/rich_plugins/mark/Mark';
+import Mark from '../../../common/components/mark/Mark';
 import img from './../../../dist/images/broken_link.png';
 /* eslint-disable react/prop-types */
 

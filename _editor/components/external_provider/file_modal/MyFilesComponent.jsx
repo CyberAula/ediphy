@@ -98,7 +98,7 @@ export default class MyFilesComponent extends React.Component {
             </Row>
             <Row className="myFilesRow" onClick={e=>{this.props.onElementSelected(undefined, undefined, undefined);}}>
                 {files.map((file, i)=>{
-                    return (<Col key={i} className={"myFile" + (file.hide ? ' hidden' : '')} xs={12} sm={6} md={4} lg={2}>
+                    return (<Col key={i} className={"myFile" + (file.hide ? ' hidden' : '')} xs={12} sm={6} md={4} lg={3}>
                         <Button style={{ backgroundImage: file.type === 'image' ? ("url(" + file.url + ")") : "" }} onClick={(e)=>{
                             this.props.onElementSelected(file.name, file.url, file.type);
                             e.stopPropagation();

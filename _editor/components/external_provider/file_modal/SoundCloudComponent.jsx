@@ -4,6 +4,8 @@ import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from '
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
+
+import placeholder from './logos/soundcloud_placeholder.png';
 export default class SoundCloudComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -41,7 +43,7 @@ export default class SoundCloudComponent extends React.Component {
                                 let border = item.url === this.props.elementSelected ? "solid orange 3px" : "solid transparent 3px";
                                 return (<div>
                                     <img key={index}
-                                        src={item.thumbnail}
+                                        src={item.thumbnail || placeholder}
                                         className={'soundCloudSong'}
                                         style={{
                                             border: border,

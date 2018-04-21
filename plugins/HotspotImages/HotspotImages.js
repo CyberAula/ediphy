@@ -2,7 +2,7 @@ import React from "react";
 import i18n from 'i18next';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MarkEditor from '../../_editor/components/rich_plugins/mark_editor/MarkEditor';
-import Mark from '../../_editor/components/rich_plugins/mark/Mark';
+import Mark from '../../common/components/mark/Mark';
 import img_broken from './../../dist/images/broken_link.png';
 import img_placeholder from './../../dist/images/placeholder.svg';
 /* eslint-disable react/prop-types */

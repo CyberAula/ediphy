@@ -1,6 +1,6 @@
 import React from "react";
 import GoogleMapReact from 'google-map-react';
-import Mark from '../../../_editor/components/rich_plugins/mark/Mark';
+import Mark from '../../../common/components/mark/Mark';
 import i18n from 'i18next';
 require('./../_virtualTour.scss');
 

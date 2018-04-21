@@ -306,13 +306,13 @@ describe('# contained_views_by_id reducer', ()=>{
                     titles: {
                         elementContent: {
                             documentTitle: "prueba",
-                            documentSubTitle: "",
+                            documentSubtitle: "",
                             numPage: "",
                         },
                         display: {
                             courseTitle: "reduced",
                             documentTitle: "expanded",
-                            documentSubTitle: "hidden",
+                            documentSubtitle: "hidden",
                             breadcrumb: "reduced",
                             pageNumber: "hidden",
                         },

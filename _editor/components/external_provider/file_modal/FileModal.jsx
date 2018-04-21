@@ -12,7 +12,11 @@ import { isContainedView, isSlide, isBox, isSortableBox, isView, isSortableConta
 import { instanceExists, scrollElement, findBox, createBox } from '../../../../common/common_tools';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_RICH_MARK } from '../../../../common/constants';
 import { randomPositionGenerator } from '../../clipboard/clipboard.utils';
-
+import VISHIcon from './logos/vish.svg';
+import FlickrIcon from './logos/flickrsvg.svg';
+import EuropeanaIcon from './logos/europeanaalt.svg';
+import YoutubeIcon from './logos/youtube.svg';
+import SoundCloudIcon from './logos/soundcloud_logo_0.png';
 export default class FileModal extends React.Component {
     constructor(props) {
         super(props);
@@ -40,14 +44,16 @@ export default class FileModal extends React.Component {
 
                 <Modal.Body>
                     <Row className="row-eq-height">
-                        <Col xs={12} md={2} id="menuColumn">
+                        <Col xs={12} sm={4} md={3} lg={2} id="menuColumn">
                             <ListGroup>
                                 {
                                     menus.map((cat, i)=>{
                                         if (cat.show) {
                                             return <ListGroupItem active={this.state.menu === i} key={i}
                                                 onClick={()=>this.clickHandler(i)}
-                                                className={"listGroupItem"}>{cat.name}</ListGroupItem>;
+                                                className={"listGroupItem"}>
+                                                {cat.icon ? <img className="fileMenuIcon" src={cat.icon} alt=""/> :
+                                                    <span className="fileMenuName">{cat.name}</span> }</ListGroupItem>;
                                         }
                                         return null;
 
@@ -55,8 +61,8 @@ export default class FileModal extends React.Component {
                                 }
                             </ListGroup>
                         </Col>
-                        <Col xs={12} md={10} id="contentColumn" >
-                            <h5>{menus[this.state.menu].name}</h5>
+                        <Col xs={12} sm={8} md={9} lg={10} id="contentColumn" >
+                            <h5>{menus[this.state.menu].icon ? <img className="fileMenuIcon" src={menus[this.state.menu].icon } alt=""/> : menus[this.state.menu].name}</h5>
                             <hr />
                             {React.createElement(menus[this.state.menu].component, menus[this.state.menu].props || {}, null)}
                             <hr className="fileModalFooter"/>
@@ -105,7 +111,6 @@ export default class FileModal extends React.Component {
         return [
             { // TODO Add icons
                 name: 'My Files',
-                icon: '',
                 show: true,
                 component: MyFilesComponent,
                 props: {
@@ -130,7 +135,7 @@ export default class FileModal extends React.Component {
             },
             {
                 name: 'VISH',
-                icon: '',
+                icon: VISHIcon,
                 show: (allowedMIME === "*" || allowedMIME.match('image')),
                 component: SearchVishComponent,
                 props: { ...commonProps,
@@ -140,7 +145,7 @@ export default class FileModal extends React.Component {
             },
             {
                 name: 'Flickr',
-                icon: '',
+                icon: FlickrIcon,
                 show: (allowedMIME === "*" || allowedMIME.match('image')),
                 component: FlickrComponent,
                 props: { ...commonProps,
@@ -148,7 +153,7 @@ export default class FileModal extends React.Component {
             },
             {
                 name: 'Europeana',
-                icon: '',
+                icon: EuropeanaIcon,
                 show: (allowedMIME === "*" || allowedMIME.match('image')),
                 component: EuropeanaComponent,
                 props: { ...commonProps,
@@ -156,14 +161,14 @@ export default class FileModal extends React.Component {
             },
             {
                 name: 'Youtube',
-                icon: '',
+                icon: YoutubeIcon,
                 show: (allowedMIME === "*" || allowedMIME.match('video')),
                 component: YoutubeComponent,
                 props: { ...commonProps },
             },
             {
                 name: 'SoundCloud',
-                icon: '',
+                icon: SoundCloudIcon,
                 show: (allowedMIME === "*" || allowedMIME.match('video')),
                 component: SoundCloudComponent,
                 props: { ...commonProps },

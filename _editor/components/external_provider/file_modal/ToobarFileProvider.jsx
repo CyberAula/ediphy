@@ -28,15 +28,18 @@ export default class ToolbarFileProvider extends Component {
      * @returns {XML}
      */
     render() {
+        let bckg = (this.props.value !== undefined ? this.props.value : this.props.formControlProps.value);
+        // bckg = bckg instanceof Object ? '' : bckg;
+        let props = { ...this.props.formControlProps, value: bckg, label: this.props.label || this.props.formControlProps.label || 'URL' };
         return (<FormGroup>
-            <ControlLabel>{this.props.formControlProps.label}</ControlLabel>
-            <FormControl {...this.props.formControlProps} onChange={e => {
-                this.props.formControlProps.onChange(e);
+            <ControlLabel>{props.label}</ControlLabel>
+            <FormControl {...props} onChange={e => {
+                props.onChange(e);
             }}/>
             <Button className={'toolbarButton'}
                 onClick={() => {
                     this.setState({ open: true });
-                    this.props.openModal(this.props.id, this.props.accept);
+                    this.props.openModal(props.id, props.accept);
                 }}>{i18n.t('Importar')}</Button>
         </FormGroup>);
     }
@@ -46,6 +49,7 @@ export default class ToolbarFileProvider extends Component {
             nextProps.id === nextProps.fileModalResult.id
             && nextProps.fileModalResult.value &&
             this.state.open && this.props.fileModalResult.value !== nextProps.fileModalResult.value) {
+            console.log(22222);
             this.props.formControlProps.onChange({ value: nextProps.fileModalResult.value });
             this.setState({ open: false });
         }
