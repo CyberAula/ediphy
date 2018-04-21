@@ -4,7 +4,7 @@ import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from '
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
-export default class YoutubeComponent extends React.Component {
+export default class SoundCloudComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -42,7 +42,7 @@ export default class YoutubeComponent extends React.Component {
                                 return (<div>
                                     <img key={index}
                                         src={item.thumbnail}
-                                        className={'youtubeVideo'}
+                                        className={'soundCloudSong'}
                                         style={{
                                             border: border,
                                         }}
@@ -66,25 +66,30 @@ export default class YoutubeComponent extends React.Component {
     }
 
     onSearch(text) {
-        fetch(encodeURI('https://www.googleapis.com/youtube/v3/search?part=id,snippet&maxResults=20&q=' + text + '&key=AIzaSyAMOw9ufNTZAlg5Xvcht9PhnBYjlY0c9z8&videoEmbeddable=true&type=video'))
+        const BASE = 'https://api.soundcloud.com/tracks?client_id=bb5aebd03b5d55670ba8fa5b5c3a3da5&q=' + text + '&format=json';
+        fetch(encodeURI(BASE))
             .then(res => res.text()
-            ).then(videosStr => {
-                let videos = JSON.parse(videosStr);
-                console.log(videos, videos.items);
-                if (videos.items) {
-                    let results = videos.items.map(video => {
+            ).then(audioStr => {
+                console.log(audioStr);
+                let songs = JSON.parse(audioStr);
+                console.log(songs);
+                if (songs) {
+                    let results = songs.map(song=>{
                         return {
-                            title: video.snippet.title,
-                            url: "https://www.youtube.com/embed/" + (video.id ? video.id.videoId : ''),
-                            thumbnail: (video.snippet && video.snippet.thumbnails && video.snippet.thumbnails.default && video.snippet.thumbnails.default.url) ? video.snippet.thumbnails.default.url : "",
+                            title: song.title,
+                            url: song.stream_url,
+                            thumbnail: song.artwork_url, // TODO Add default
                         };
                     });
+
                     this.setState({ results });
                 }
+            }).catch(e=>{
+                console.error(e);
             });
     }
 }
-YoutubeComponent.propTypes = {
+SoundCloudComponent.propTypes = {
     /**
      * Selected Element
      */

@@ -110,6 +110,14 @@ export default class SearchVishComponent extends React.Component {
 }
 SearchVishComponent.propTypes = {
     /**
+     * Selected Element
+     */
+    elementSelected: PropTypes.any,
+    /**
+     * Select element callback
+     */
+    onElementSelected: PropTypes.func.isRequired,
+    /**
      * Resultados obtenidos de la búsqueda en el proveedor externo
      * */
     fetchResults: PropTypes.object,

@@ -4,7 +4,7 @@ import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from '
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
-export default class YoutubeComponent extends React.Component {
+export default class EuropeanaComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -39,17 +39,18 @@ export default class YoutubeComponent extends React.Component {
                             <br />
                             {this.state.results.map((item, index) => {
                                 let border = item.url === this.props.elementSelected ? "solid orange 3px" : "solid transparent 3px";
-                                return (<div>
+                                return (
                                     <img key={index}
-                                        src={item.thumbnail}
-                                        className={'youtubeVideo'}
+                                        src={item.url}
+                                        className={'catalogImage'}
                                         style={{
                                             border: border,
                                         }}
+                                        title={item.title}
                                         onClick={e => {
-                                            this.props.onElementSelected(item.title, item.url, 'video');
+                                            this.props.onElementSelected(item.title, item.url, 'image');
                                         }}
-                                    /><span>{item.title}</span></div>
+                                    />
                                 );
                             })}
                         </FormGroup>
@@ -66,25 +67,28 @@ export default class YoutubeComponent extends React.Component {
     }
 
     onSearch(text) {
-        fetch(encodeURI('https://www.googleapis.com/youtube/v3/search?part=id,snippet&maxResults=20&q=' + text + '&key=AIzaSyAMOw9ufNTZAlg5Xvcht9PhnBYjlY0c9z8&videoEmbeddable=true&type=video'))
+        const BASE = 'https://www.europeana.eu/api/v2/search.json?wskey=ZDcCZqSZ5&query=' + text + '&qf=TYPE:IMAGE&profile=RICH&media=true&rows=100&qf=IMAGE_SIZE:small';
+        fetch(encodeURI(BASE))
             .then(res => res.text()
-            ).then(videosStr => {
-                let videos = JSON.parse(videosStr);
-                console.log(videos, videos.items);
-                if (videos.items) {
-                    let results = videos.items.map(video => {
+            ).then(imgStr => {
+                let imgs = JSON.parse(imgStr);
+                if (imgs && imgs.items) {
+                    let results = imgs.items.map(img=>{
                         return {
-                            title: video.snippet.title,
-                            url: "https://www.youtube.com/embed/" + (video.id ? video.id.videoId : ''),
-                            thumbnail: (video.snippet && video.snippet.thumbnails && video.snippet.thumbnails.default && video.snippet.thumbnails.default.url) ? video.snippet.thumbnails.default.url : "",
+                            title: img.title[0],
+                            url: img.edmIsShownBy,
                         };
                     });
+
                     this.setState({ results });
                 }
+            }).catch(e=>{
+                console.error(e);
             });
     }
 }
-YoutubeComponent.propTypes = {
+
+EuropeanaComponent.propTypes = {
     /**
      * Selected Element
      */

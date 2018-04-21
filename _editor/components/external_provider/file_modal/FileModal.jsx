@@ -4,7 +4,10 @@ import { Modal, Button, Row, Col, ListGroupItem, ListGroup } from 'react-bootstr
 import './_fileModal.scss';
 import MyFilesComponent from './MyFilesComponent';
 import SearchVishComponent from './SearchVishComponent';
+import SoundCloudComponent from './SoundCloudComponent';
 import YoutubeComponent from './YoutubeComponent';
+import EuropeanaComponent from './EuropeanaComponent';
+import FlickrComponent from './FlickrComponent';
 import { isContainedView, isSlide, isBox, isSortableBox, isView, isSortableContainer } from '../../../../common/utils';
 import { instanceExists, scrollElement, findBox, createBox } from '../../../../common/common_tools';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_RICH_MARK } from '../../../../common/constants';
@@ -136,10 +139,33 @@ export default class FileModal extends React.Component {
                 },
             },
             {
+                name: 'Flickr',
+                icon: '',
+                show: (allowedMIME === "*" || allowedMIME.match('image')),
+                component: FlickrComponent,
+                props: { ...commonProps,
+                },
+            },
+            {
+                name: 'Europeana',
+                icon: '',
+                show: (allowedMIME === "*" || allowedMIME.match('image')),
+                component: EuropeanaComponent,
+                props: { ...commonProps,
+                },
+            },
+            {
                 name: 'Youtube',
                 icon: '',
                 show: (allowedMIME === "*" || allowedMIME.match('video')),
                 component: YoutubeComponent,
+                props: { ...commonProps },
+            },
+            {
+                name: 'SoundCloud',
+                icon: '',
+                show: (allowedMIME === "*" || allowedMIME.match('video')),
+                component: SoundCloudComponent,
                 props: { ...commonProps },
             },
         ];
@@ -201,7 +227,7 @@ export default class FileModal extends React.Component {
                         action: ()=>{
                             if (this.props.fileModalResult && !this.props.fileModalResult.id) {
                                 initialParams.url = this.state.element;
-                                createBox(initialParams, "EnrchedPlayer", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                createBox(initialParams, "EnrichedPlayer", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
                                 this.props.close();
                             } else {
                                 this.props.close({ id: this.props.fileModalResult.id, value: this.state.element });
@@ -220,7 +246,7 @@ export default class FileModal extends React.Component {
                         action: ()=>{
                             if (this.props.fileModalResult && !this.props.fileModalResult.id) {
                                 initialParams.url = this.state.element;
-                                createBox(initialParams, "EnrchedPlayer", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                createBox(initialParams, "EnrichedPlayer", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
                                 this.props.close();
                             } else {
                                 this.props.close({ id: this.props.fileModalResult.id, value: this.state.element });
