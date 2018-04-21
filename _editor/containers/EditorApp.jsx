@@ -73,6 +73,7 @@ class EditorApp extends Component {
             pluginConfigModal: false,
             accordions: {},
             showFileUpload: "*",
+            fileModalResult: { id: undefined, value: undefined },
         };
         this.onTextEditorToggled = this.onTextEditorToggled.bind(this);
         this.onRichMarkUpdated = this.onRichMarkUpdated.bind(this);
@@ -125,7 +126,7 @@ class EditorApp extends Component {
                         category={this.state.pluginTab}
                         opens={() => {dispatch(importStateAsync());}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
-                        toggleFileUpload={()=>{this.setState({ showFileUpload: "*" });}}
+                        toggleFileUpload={()=>{this.setState({ showFileUpload: "*", fileModalResult: { id: undefined, value: undefined } });}}
                         onExternalCatalogToggled={() => this.setState({ catalogModal: true })}
                         setcat={(category) => {this.setState({ pluginTab: category, hideTab: 'show' });}}/>
                     {Ediphy.Config.autosave_time > 1000 &&
@@ -484,9 +485,10 @@ class EditorApp extends Component {
                         }
                         dispatch(deleteRichMark(marks[id]));
                     }}
+                    fileModalResult={this.state.fileModalResult}
+                    openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept });}}
                     onUploadVishResource={(query) => dispatch(uploadVishResourceAsync(query))}
                     onFetchVishResources={(query) => dispatch(fetchVishResourcesAsync(query))}
-                    toggleFileUpload={(accepted)=>{this.setState({ showFileUpload: accepted });}}
                     updateViewToolbar={(id, toolbar)=> dispatch(updateViewToolbar(id, toolbar))}
                 />
                 <FileModal visible={this.state.showFileUpload} disabled={disabled}
@@ -495,6 +497,7 @@ class EditorApp extends Component {
                     boxes={boxes}
                     isBusy={isBusy}
                     fetchResults={fetchVishResults}
+                    fileModalResult={this.state.fileModalResult}
                     navItemsIds={navItemsIds}
                     navItems={navItems}
                     onNavItemSelected={id => dispatch(selectNavItem(id))}
@@ -508,7 +511,7 @@ class EditorApp extends Component {
                     onUploadVishResource={(query, keywords) => dispatch(uploadVishResourceAsync(query, keywords))}
                     onUploadEdiphyResource={(file, keywords)=>dispatch(uploadEdiphyResourceAsync(file, keywords))}
                     onFetchVishResources={(query) => dispatch(fetchVishResourcesAsync(query))}
-                    close={()=>{this.setState({ showFileUpload: false });}}/>
+                    close={(fileModalResult)=>{this.setState({ fileModalResult: fileModalResult ? fileModalResult : { id: undefined, value: undefined }, showFileUpload: false });}} />
 
             </Grid>
         );

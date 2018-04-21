@@ -56,7 +56,7 @@ export default class ImportFileModal extends Component {
      */
     render() {
         return (
-            <Modal className="pageModal" id="ImportFileModal"
+            <Modal className="pageModal pdfFileDialog" id="ImportFileModal"
                 show={this.props.show}>
                 <Modal.Header>
                     <Modal.Title><span id="previewTitle">{i18n.t("importFile.title")}<span className="highlight">{this.state.FileName}</span></span></Modal.Title>

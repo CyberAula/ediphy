@@ -71,7 +71,6 @@ export default class SearchVishComponent extends React.Component {
                                 <ControlLabel>{ this.props.fetchResults.total_results_delivered + " Resultados"}</ControlLabel>
                                 <br />
                                 {this.props.fetchResults.results.map((item, index) => {
-                                    console.log(item);
                                     let border = item.file_url === this.props.elementSelected ? "solid orange 3px" : "solid transparent 3px";
                                     return (
                                         <img key={index}

@@ -98,7 +98,7 @@ export default class ImportFile extends Component {
      * @returns {code}
      */
     render() {
-        return (<div>
+        return (<div className="pdfFileDialog">
             <form>
                 <div className="fileLoaded" style={{ display: 'block' }}>
                     <h2>{i18n.t("Preview")}</h2>
@@ -148,16 +148,19 @@ export default class ImportFile extends Component {
                                 {i18n.t("importFile.importAs.customSize")}
                             </Radio>
                         </FormGroup>
+                        <div className="import_file_buttons">
+                            <Button bsStyle="default" className="import_file_buttons" id="import_file_button" onClick={ e => {
+                                this.closeModal(); e.preventDefault();
+                            }}>{i18n.t("importFile.footer.cancel")}</Button>
+                            <Button bsStyle="primary" className="import_file_buttons" id="cancel_button" onClick={ (e) => {
+                                this.importFile(e); e.preventDefault();
+                            }}>{i18n.t("importFile.footer.ok")}</Button>
+                        </div>
                     </Col>
                 </Row>
 
             </form>
-            <Button bsStyle="default" id="import_file_button" onClick={ e => {
-                this.closeModal(); e.preventDefault();
-            }}>{i18n.t("importFile.footer.cancel")}</Button>
-            <Button bsStyle="primary" id="cancel_button" onClick={ (e) => {
-                this.importFile(e); e.preventDefault();
-            }}>{i18n.t("importFile.footer.ok")}</Button>
+
         </div>
         );
     }
@@ -196,7 +199,7 @@ export default class ImportFile extends Component {
             PagesTo: 1,
         });
 
-        this.props.close();
+        this.closeModal(true);
     }
 
     AddAsNavItem(hasCustomSize) {
@@ -325,11 +328,13 @@ export default class ImportFile extends Component {
     /**
      * Close modal
      */
-    closeModal() {
+    closeModal(bool) {
         // delete canvas preview util
         for (let i = 1; i <= this.state.FilePages; i++) {
             let canvas = document.getElementById('can' + i);
-            document.body.removeChild(canvas);
+            if(canvas) {
+                document.body.removeChild(canvas);
+            }
         }
         this.setState({
             FileLoaded: false,
@@ -341,7 +346,7 @@ export default class ImportFile extends Component {
             PagesTo: 1,
         });
 
-        this.props.close();
+        this.props.close(bool);
     }
 }
 

@@ -100,23 +100,37 @@
         }
       }
       #sideBar {
-        background-color: rgba(200, 200, 200, 0.9);
+        background-color: white;
         height: 100%;
         width: 0px;
         position: absolute;
-        top: 0;
         right: 0;
         -moz-transition: width 0.5s ease;
         -webkit-transition:  width 0.5s ease;
         -o-transition: width 0.5s ease;
         transition: width 0.5s ease;
+        top: 0px;
         z-index: 9999;
         #pdfContent {
+          padding: 20px;
           width: calc(100% - 30px);
           display: inline-block;
+          margin-left: 40px;
+
+          .import_file_buttons {
+            text-align: right;
+            margin:5px;
+            button {
+              margin: 5px;
+            }
+
+          }
         }
         #wrapper {
           height: 100%;
+          overflow-y:auto;
+          overflow-x: hidden;
+
         }
         &.showBar {
           width: 100%;
@@ -127,6 +141,7 @@
           height: 100%;
           width: 30px;
           background-color: grey;
+          position:absolute;
           color: white;
           display:inline-block;
           button {

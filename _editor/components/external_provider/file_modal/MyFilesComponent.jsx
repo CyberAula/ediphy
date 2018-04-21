@@ -41,7 +41,6 @@ export default class MyFilesComponent extends React.Component {
             for (let e in extensions) {
                 let ext = extensions[e];
                 if (file.mimetype.match(ext.value)) {
-                    console.log(2);
                     type = ext.value;
                     icon = ext.icon;
                 }
@@ -55,7 +54,16 @@ export default class MyFilesComponent extends React.Component {
             return { ...file, type, icon, hide: true };
         });
         files.reverse();
-
+        let currentExtension = this.props.show === "*" ? this.state.extensionFilter : this.props.show;
+        currentExtension = currentExtension === '*' ? '' : currentExtension;
+        let aux = currentExtension;
+        for (let e in extensions) {
+            let ext = extensions[e];
+            if (currentExtension.match(ext.value)) {
+                aux = ext.value;
+            }
+        }
+        currentExtension = aux;
         return(<div>
             <ExternalDropzone ref="dropZone" accept={this.props.show} callback={this.dropHandler}/>
             {this.state.file ? <FormGroup >
@@ -81,7 +89,7 @@ export default class MyFilesComponent extends React.Component {
                         <ControlLabel>{i18n.t('Extensions')}:</ControlLabel><br/>
                         <Select
                             name="form-field-extensions"
-                            value={this.props.show === "*" ? this.state.extensionFilter : this.props.show}
+                            value={currentExtension}
                             disabled = {this.props.show !== "*"}
                             options={extensions}
                             onChange={e => {this.setState({ extensionFilter: e.value });}} />
@@ -105,7 +113,7 @@ export default class MyFilesComponent extends React.Component {
             <div id="sideBar" className={this.props.pdfSelected ? "showBar" : ""}>
                 {this.props.pdfSelected ? (<div id="wrapper">
                     <div id="sideArrow">
-                        <button onClick={this.props.closeSideBar}><i className="material-icons">keyboard_arrow_right</i></button>
+                        <button onClick={()=>{this.props.closeSideBar();}}><i className="material-icons">keyboard_arrow_right</i></button>
                     </div>
                     <div id="pdfContent">
                         <ImportFile navItemSelected={this.props.navItemSelected}

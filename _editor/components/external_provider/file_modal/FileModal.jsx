@@ -39,7 +39,17 @@ export default class FileModal extends React.Component {
                     <Row className="row-eq-height">
                         <Col xs={12} md={2} id="menuColumn">
                             <ListGroup>
-                                {menus.filter(cat=>cat.show).map((cat, i)=>{ return <ListGroupItem active={this.state.menu === i} key={i} onClick={()=>this.clickHandler(i)} className={"listGroupItem"}>{cat.name}</ListGroupItem>; })}
+                                {
+                                    menus.map((cat, i)=>{
+                                        if (cat.show) {
+                                            return <ListGroupItem active={this.state.menu === i} key={i}
+                                                onClick={()=>this.clickHandler(i)}
+                                                className={"listGroupItem"}>{cat.name}</ListGroupItem>;
+                                        }
+                                        return null;
+
+                                    })
+                                }
                             </ListGroup>
                         </Col>
                         <Col xs={12} md={10} id="contentColumn" >
@@ -75,6 +85,11 @@ export default class FileModal extends React.Component {
         this.setState({ menu, element: undefined, index: undefined, type: undefined });
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.visible !== this.props.visible && this.props.fileModalResult.id !== nextProps.fileModalResult.id) {
+            this.setState({ menu: 0, element: undefined, index: undefined, type: undefined });
+        }
+    }
     /**
      * Left side options
      */
@@ -94,7 +109,7 @@ export default class FileModal extends React.Component {
                     ...commonProps,
                     show: allowedMIME,
                     pdfSelected: this.state.pdfSelected,
-                    closeSideBar: ()=>{this.setState({ pdfSelected: false });},
+                    closeSideBar: (closeAlsoModal)=>{this.setState({ pdfSelected: false }); if (closeAlsoModal) {this.props.close();}},
                     filesUploaded: this.props.filesUploaded,
                     onUploadVishResource: this.props.onUploadVishResource,
                     onUploadEdiphyResource: this.props.onUploadEdiphyResource,
@@ -120,13 +135,13 @@ export default class FileModal extends React.Component {
                     fetchResults: this.props.fetchResults,
                 },
             },
-            /* {
+            {
                 name: 'Youtube',
                 icon: '',
                 show: (allowedMIME === "*" || allowedMIME.match('video')),
                 component: YoutubeComponent,
                 props: { ...commonProps },
-            },*/
+            },
         ];
     }
     /**
@@ -139,11 +154,7 @@ export default class FileModal extends React.Component {
     }
 
     handlers(type) {
-        let page = this.currentPage();
-        let ids = {};
-        let initialParams = {};
-        let isTargetSlide = false;
-        let download = {
+        let download = { // Forces browser download
             title: 'Download',
             disabled: !this.state.element,
             action: ()=>{
@@ -154,6 +165,125 @@ export default class FileModal extends React.Component {
                 anchor.click();
             },
         };
+        let page = this.currentPage();
+        let { initialParams, isTargetSlide } = this.initialParams(page);
+        switch(type) {
+        case 'image' :
+            return{
+                icon: 'image',
+                buttons: [
+                    {
+                        title: 'Insert',
+                        disabled: !page || this.props.disabled || !this.state.element || !this.state.type,
+                        action: ()=>{
+                            if (this.state.element) {
+                                if (this.props.fileModalResult && !this.props.fileModalResult.id) {
+                                    initialParams.url = this.state.element;
+                                    createBox(initialParams, "HotspotImages", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                    this.props.close();
+                                } else {
+                                    this.props.close({ id: this.props.fileModalResult.id, value: this.state.element });
+                                }
+                            }
+
+                        },
+                    },
+                    download,
+                ],
+            };
+        case 'video' :
+            return {
+                icon: 'play_arrow',
+                buttons: [
+                    {
+                        title: 'Insert',
+                        disabled: !page || this.props.disabled || !this.state.element || !this.state.type,
+                        action: ()=>{
+                            if (this.props.fileModalResult && !this.props.fileModalResult.id) {
+                                initialParams.url = this.state.element;
+                                createBox(initialParams, "EnrchedPlayer", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                this.props.close();
+                            } else {
+                                this.props.close({ id: this.props.fileModalResult.id, value: this.state.element });
+                            }
+                        },
+                    },
+                    download,
+                ] };
+        case 'audio' :
+            return {
+                icon: 'audiotrack',
+                buttons: [
+                    {
+                        title: 'Insert',
+                        disabled: !page || this.props.disabled || !this.state.element || !this.state.type,
+                        action: ()=>{
+                            if (this.props.fileModalResult && !this.props.fileModalResult.id) {
+                                initialParams.url = this.state.element;
+                                createBox(initialParams, "EnrchedPlayer", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                this.props.close();
+                            } else {
+                                this.props.close({ id: this.props.fileModalResult.id, value: this.state.element });
+                            }
+                        },
+                    },
+                    download,
+                ] };
+        case 'pdf' :
+            return {
+                icon: 'picture_as_pdf',
+                buttons: [
+                    {
+                        title: 'Insert',
+                        disabled: !page || this.props.disabled || !this.state.element || !this.state.type || (this.props.fileModalResult && this.props.fileModalResult.id),
+                        action: ()=>{ // Open side view
+                            if (this.state.element) {
+                                this.setState({ pdfSelected: true });
+                            }
+                        },
+                    },
+                    download,
+                ] };
+        case 'csvAUNNOFUNCIONA' :
+            return {
+                icon: 'view_agenda',
+                buttons: [
+                    {
+                        title: 'Insert',
+                        disabled: !page || this.props.disabled || !this.state.element || !this.state.type || (this.props.fileModalResult && this.props.fileModalResult.id),
+                        action: ()=>{
+                            if (this.state.element) {
+                                // TODO Crear Gráfica/Datatable
+                            }
+                            this.props.close();
+                        },
+                    },
+                    download,
+                ] };
+        default :
+            return {
+                icon: 'attach_file',
+                buttons: [
+                    download,
+                ] };
+        }
+    }
+
+    getIndex(parent, container) {
+        let newInd;
+        if(isSortableContainer(container)) {
+            let children = this.props.boxes[parent].sortableContainers[container].children;
+            newInd = children.indexOf(this.props.boxSelected) + 1;
+            newInd = newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
+        }
+        return newInd;
+    }
+
+    initialParams(page) {
+        let ids = {};
+        let initialParams;
+        let isTargetSlide = false;
+
         if (page) {
             let containerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
             let id = ID_PREFIX_BOX + Date.now();
@@ -189,109 +319,8 @@ export default class FileModal extends React.Component {
                 } : { type: 'relative', x: "0%", y: "0%" },
             };
         }
-        switch(type) {
-        case 'image' :
-            return{
-                icon: 'image',
-                buttons: [
-                    {
-                        title: 'Insert',
-                        disabled: !page || this.props.disabled || !this.state.element || !this.state.type,
-                        action: ()=>{
-                            if (this.state.element) {
-                                initialParams.url = this.state.element; // URLObj.createObjectURL(imageBlob);
-                                createBox(initialParams, "HotspotImages", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
-                            }
-                            this.props.close();
-                        },
-                    },
-                    download,
-                ],
-            };
-        case 'video' :
-            return {
-                icon: 'play_arrow',
-                buttons: [
-                    {
-                        title: 'Insert',
-                        disabled: !page || this.props.disabled || !this.state.element || !this.state.type,
-                        action: ()=>{
-                            if (this.state.element) {
-                                initialParams.url = this.state.element; // URLObj.createObjectURL(imageBlob);
-                                createBox(initialParams, "EnrichedPlayer", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
-                            }
-                            this.props.close();
-                        },
-                    },
-                    download,
-                ] };
-        case 'audio' :
-            return {
-                icon: 'audiotrack',
-                buttons: [
-                    {
-                        title: 'Insert',
-                        disabled: !page || this.props.disabled || !this.state.element || !this.state.type,
-                        action: ()=>{
-                            if (this.state.element) {
-                                initialParams.url = this.state.element; // URLObj.createObjectURL(imageBlob);
-                                // TODO Plugin Sonia
-                                createBox(initialParams, "EnrichedPlayer", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
-                            }
-                            this.props.close();
-                        },
-                    },
-                    download,
-                ] };
-        case 'pdf' :
-            return {
-                icon: 'picture_as_pdf',
-                buttons: [
-                    {
-                        title: 'Insert',
-                        disabled: !page || this.props.disabled || !this.state.element || !this.state.type,
-                        action: ()=>{
-                            if (this.state.element) {
-                                this.setState({ pdfSelected: true });
-                            }
-                        },
-                    },
-                    download,
-                ] };
-        case 'csvAUNNOFUNCIONA' :
-            return {
-                icon: 'view_agenda',
-                buttons: [
-                    {
-                        title: 'Insert',
-                        disabled: !page || this.props.disabled || !this.state.element || !this.state.type,
-                        action: ()=>{
-                            if (this.state.element) {
 
-                                // TODO Crear Gráfica/Datatable
-                            }
-                            this.props.close();
-                        },
-                    },
-                    download,
-                ] };
-        default :
-            return {
-                icon: 'attach_file',
-                buttons: [
-                    download,
-                ] };
-        }
-    }
-
-    getIndex(parent, container) {
-        let newInd;
-        if(isSortableContainer(container)) {
-            let children = this.props.boxes[parent].sortableContainers[container].children;
-            newInd = children.indexOf(this.props.boxSelected) + 1;
-            newInd = newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
-        }
-        return newInd;
+        return { initialParams, isTargetSlide };
     }
 
 }

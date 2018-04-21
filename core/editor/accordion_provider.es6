@@ -10,6 +10,7 @@ import FileInput from "../../_editor/components/common/file-input/FileInput";
 import MarksList from "../../_editor/components/rich_plugins/marks_list/MarksList";
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
 import ExternalProvider from "../../_editor/components/external_provider/external_provider/ExternalProvider";
+import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/ToobarFileProvider";
 /* eslint-disable react/prop-types */
 
 export function toolbarFiller(toolbar, id, state, config, initialParams, container, marks = null, exercises = {}) {
@@ -956,7 +957,17 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     }
 
     if (button.type === "external_provider") {
-        return React.createElement(ExternalProvider, {
+        console.log(button.type);
+        return React.createElement(ToolbarFileProvider, {
+            id: toolbar_props.boxSelected,
+            key: button.__name,
+            formControlProps: props,
+            openModal: toolbar_props.openFileModal,
+            fileModalResult: toolbar_props.fileModalResult,
+            onChange: props.onChange,
+            accept: button.accept,
+        }, null);
+        /* return React.createElement(ExternalProvider, {
             key: button.__name,
             formControlProps: props,
             isBusy: toolbar_props.isBusy,
@@ -965,7 +976,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             onUploadVishResource: toolbar_props.onUploadVishResource,
             onChange: props.onChange,
             accept: button.accept,
-        }, null);
+        }, null);*/
     }
 
     // If it's none of previous types (number, text, color, range, ...)
