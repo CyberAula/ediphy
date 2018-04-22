@@ -26,10 +26,10 @@ export default class ActionsRibbon extends Component {
      * @returns {code}
      */
     render() {
-        let onClick = (e)=>{this.setState({ clipboardAlert: !this.state.clipboardAlert });};
-
+        let onClick = (e)=>{this.setState({ clipboardAlert: !this.state.clipboardAlert }); return true;};
+        // TODO document.queryCommandSupported(act.key)
         let clipboardActions = [
-            { key: "copy", disabled: !(this.props.boxSelected && isBox(this.props.boxSelected)), icon: "content_copy", i18nkey: "clipboard.copy", onClick: onClick },
+            { key: "copy", disabled: !(this.props.boxSelected && isBox(this.props.boxSelected)), icon: "content_copy", i18nkey: "clipboard.copy", onClick: ()=> {} },
             { key: "cut", disabled: !(this.props.boxSelected && isBox(this.props.boxSelected)), icon: "content_cut", i18nkey: "clipboard.cut", onClick: onClick },
             { key: "paste", disabled: false, icon: "content_paste", i18nkey: "clipboard.paste", onClick: onClick },
             { key: "duplicate", disabled: !(this.props.boxSelected && isBox(this.props.boxSelected)), icon: "content_copy", i18nkey: "clipboard.duplicate", onClick: ()=> {} },
@@ -65,7 +65,7 @@ export default class ActionsRibbon extends Component {
                 className={(act.key === "Grid" && this.props.grid) ? "ActionBtn active" : "ActionBtn"}
                 disabled={act.disabled}
                 name={act.key}
-                onClick={act.onClick}>
+                onClick={ act.onClick }>
                 <i className="material-icons">{act.icon}</i>
                 <span className="hideonresize">{ i18n.t(act.i18nkey) }</span>
             </button>;

@@ -109,8 +109,8 @@ export default class FileModal extends React.Component {
             elementSelected: this.state.element,
         };
         return [
-            { // TODO Add icons
-                name: 'My Files',
+            {
+                name: <span><i className="material-icons">file_upload</i>{'My Files'}</span>,
                 show: true,
                 component: MyFilesComponent,
                 props: {

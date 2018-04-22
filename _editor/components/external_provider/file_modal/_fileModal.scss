@@ -19,17 +19,32 @@
           background-color: transparent;
           border: none;
           text-align: center;
+          &:first-child {
+            font-size: 16px;
+            font-weight: bold;
+            color: $blueprimary;
+            &.active {
+              //color: white;
+            }
+            i {
+              font-size: 16px;
+              vertical-align: middle;
+              margin-right: 3px;
+              color: $darkest;
+            }
+          }
+
           .fileMenuIcon {
             width: auto;
             max-width: 100%;
-            max-height: 24px;
+            max-height: 21px;
           }
           .fileMenuName {
             width:100%;
             text-align: left;
           }
           &.active {
-            background-color: #bbb;
+            background-color: #ddd;
           }
         }
       }
@@ -44,6 +59,13 @@
         margin-top: 15px;
         margin-bottom: -10px;
         height: 30px;
+        line-height: 30px;
+        i {
+          font-size: 20px;
+          vertical-align: middle;
+          color: $darkest;
+          margin-right: 5px;
+        }
         .fileMenuIcon {
           width: auto;
           max-width: 100px;

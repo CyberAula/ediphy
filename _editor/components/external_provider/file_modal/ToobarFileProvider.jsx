@@ -30,7 +30,7 @@ export default class ToolbarFileProvider extends Component {
     render() {
         let bckg = (this.props.value !== undefined ? this.props.value : this.props.formControlProps.value);
         // bckg = bckg instanceof Object ? '' : bckg;
-        let props = { ...this.props.formControlProps, value: bckg, label: this.props.label || this.props.formControlProps.label || 'URL' };
+        let props = { ...this.props.formControlProps, value: bckg, label: (this.props.label || this.props.formControlProps.label || 'URL') };
         return (<FormGroup>
             <ControlLabel>{props.label}</ControlLabel>
             <FormControl {...props} onChange={e => {
@@ -39,7 +39,7 @@ export default class ToolbarFileProvider extends Component {
             <Button className={'toolbarButton'}
                 onClick={() => {
                     this.setState({ open: true });
-                    this.props.openModal(props.id, props.accept);
+                    this.props.openModal(this.props.id, this.props.accept);
                 }}>{i18n.t('Importar')}</Button>
         </FormGroup>);
     }
