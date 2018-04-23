@@ -31,12 +31,14 @@ export default class DataProvider extends React.Component {
             error: false,
         };
     }
+
     confirmButton() {
         let empty = false;
         if (typeof this.props.dataChanged === 'function' && !empty) {
             this.props.dataChanged({ data: this.state.data, keys: this.state.keys });
         }
     }
+
     deleteCols(col) {
         let cols = this.state.cols - 1;
         let keys = this.state.keys.slice();
@@ -49,6 +51,7 @@ export default class DataProvider extends React.Component {
 
         this.setState({ cols: cols, keys: keys, data: data });
     }
+
     dataChanged(event) {
         let pos = event.target.name.split(" ");
         let row = pos[0];
@@ -58,6 +61,7 @@ export default class DataProvider extends React.Component {
         data[row][col] = newvalue;
         this.setState({ data: data });
     }
+
     colsChanged(event) {
         let pre = this.state.cols;
         let value = parseInt(event.target.value, 10);
@@ -83,12 +87,14 @@ export default class DataProvider extends React.Component {
             this.setState({ keys: keys, data: data, cols: value });
         }
     }
+
     deleteRows(row) {
         let rows = this.state.rows - 1;
         let data = this.state.data.slice();
         data.splice(row, 1);
         this.setState({ rows: rows, data: data });
     }
+
     rowsChanged(event) {
         let pre = this.state.rows;
         let value = parseInt(event.target.value, 10);
@@ -106,6 +112,7 @@ export default class DataProvider extends React.Component {
             this.setState({ keys: keys, data: data, rows: value });
         }
     }
+
     keyChanged(event) {
         let pos = event.target.name;
         let keys = this.state.keys.slice();
@@ -113,26 +120,26 @@ export default class DataProvider extends React.Component {
         keys[pos] = newvalue;
         this.setState({ keys: keys });
     }
+
     csvToState(csv) {
         let lines = csv.split("\n");
 
         let result = [];
 
         let headers = lines[0].split(",");
-
+        // console.log(lines, headers);
         for(let i = 1; i < lines.length; i++) {
-
-            let obj = Array(lines.length);
+            let obj = Array(headers.length);
             let currentline = lines[i].split(",");
-
             for (let j = 0; j < headers.length; j++) {
                 obj[j] = "" + currentline[j];
             }
             result.push(obj);
         }
-
+        console.log(result);
         return result;
     }
+
     validateJson(json) {
         let data = {};
         if(json.length === 0) {
@@ -157,11 +164,13 @@ export default class DataProvider extends React.Component {
         this.setState({ error: false });
         return true;
     }
+
     compareKeys(a, b) {
         a = a.sort().toString();
         b = b.sort().toString();
         return a === b;
     }
+
     fileChanged(event) {
         let files = event.target.files;
         let file = files[0];
@@ -171,6 +180,7 @@ export default class DataProvider extends React.Component {
             let data = reader.result;
             if(file.name.split('.').pop() === "csv") {
                 data = this.csvToState(data);
+                console.log(data);
                 /* } else if(file.name.split('.').pop() === "json") {
                     data = JSON.parse(data);*/
             } else {
@@ -180,9 +190,10 @@ export default class DataProvider extends React.Component {
                 this.setState({ alert: alertComp });
                 return;
             }
-            this.setState({ name: file.name });
+            this.setState({ name: file.name, data: data, rows: data.length, cols: data[0].length });
             // this.validateJson(data);
         }.bind(this);
+
         reader.readAsBinaryString(file);
     }
     render() {
@@ -198,6 +209,7 @@ export default class DataProvider extends React.Component {
                             </div>
                         </FileInput>
                     </FormGroup>
+                    {/*
                     <FormGroup>
                         <Col componentClass={ControlLabel} xs={4}>
                             <FormControl.Static>
@@ -205,6 +217,7 @@ export default class DataProvider extends React.Component {
                             </FormControl.Static>
                         </Col>
                     </FormGroup>
+                    */}
                     <FormGroup>
                         <Col componentClass={ControlLabel} xs={2}>
                             {i18n.t("GraficaD3.data_cols")}
@@ -224,13 +237,16 @@ export default class DataProvider extends React.Component {
                         </Col>
                     </FormGroup>
                     <div style={{ marginTop: '10px', overflowX: 'auto' }}>
+                        {/*
                         <div style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
                             {Array.apply(0, Array(this.state.cols)).map((x) => {
+
                                 return(
                                     <FormControl.Static key={x} style={{ display: 'table-cell', padding: '8px', textAlign: 'center' }} />
                                 );
                             })}
                         </div>
+                        */}
                         <table className="table bordered hover" >
                             <thead>
                                 <tr>
@@ -253,9 +269,7 @@ export default class DataProvider extends React.Component {
                                                 return(
                                                     <td key={o + 1}>
                                                         {o === 0 ? (<i className="material-icons clearRow" style={{ float: 'left' }} onClick={()=>{this.deleteRows(i);}}>clear</i>) : null}
-
                                                         <FormControl type="text" style={{ width: 'calc(100% - 30px)' }} name={i + " " + o} value={this.state.data[i][o] } onChange={this.dataChanged}/>
-
                                                     </td>
                                                 );
                                             })}
