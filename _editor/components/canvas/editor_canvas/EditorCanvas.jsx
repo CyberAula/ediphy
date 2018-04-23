@@ -59,131 +59,131 @@ export default class EditorCanvas extends Component {
 
 EditorCanvas.propTypes = {
     /**
-     * Relación de aspecto para diapositivas
+     * Slides aspect ratio
      */
     canvasRatio: PropTypes.number.isRequired,
     /**
-     * Indicador de si se muestra el canvas (tiene qu haber un navItem seleccionado)
+     * Canvas show flag in current selected view
      */
     showCanvas: PropTypes.bool,
     /**
-     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     * Object containing every existing box (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
-     * Caja seleccionada en el momento. Si no hay ninguna, -1
+     * Current Box selected. If there isn't, -1
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * Nivel de profundidad de caja seleccionada (sólo para plugins dentro de plugins)
+     * Selected box level (only plugins inside plugins)
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     * Object containing every view (by id)
      */
     navItems: PropTypes.object.isRequired,
     /**
-     * Vista  seleccionada identificada por su *id*
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Object containing every contained view (by id)
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Vista contenida seleccionada identificada por su *id*
+     * Selected contained view (by ID)
      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
-     * Título del curso
+     * Course title
      */
     title: PropTypes.string.isRequired,
     /**
-     * Diccionario que contiene todas las listas creadas , accesibles por su *id*
+     * Object containing every view toolbar (by id)
      */
     viewToolbars: PropTypes.object.isRequired,
     /**
-     * Diccionario que contiene todos los valores de cajas, accesibles por su *id*
+     * Object containing every plugin toolbar (by id)
      */
     pluginToolbars: PropTypes.object.isRequired,
     /**
-     * Diccionario que contiene todos los valores de cajas, accesibles por su *id*
+     * Object containing every accordion (by id)
      */
     accordions: PropTypes.object.isRequired,
     /**
-     * Última acción realizada en Redux
+     * Last action dispatched in Redux
      */
     lastActionDispatched: PropTypes.any.isRequired,
     /**
-     * Añade una marca a la caja
+     * Callback for adding a mark shortcut
      */
     addMarkShortcut: PropTypes.func.isRequired,
     /**
-     * Función que oculta el overlay de creación de marcas
+     * Callback for deleting mark creator overlay
      */
     deleteMarkCreator: PropTypes.func.isRequired,
     /**
-     * Identificador de la caja en la que se va a crear una marca
+     * Identifier of the box that is creating a mark
      */
     markCreatorId: PropTypes.any.isRequired,
     /**
-     * Oculta/muestra el overlay de creación de marcas
+     * Callback for toggling creation mark overlay
      */
     onMarkCreatorToggled: PropTypes.func.isRequired,
     /**
-     * Añade una caja
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
-    * Borra una caja
+    * Callback for deleting a box
     */
     onBoxDeleted: PropTypes.func.isRequired,
     /**
-     * Selecciona la caja
+     * Callback for selecting a box
      */
     onBoxSelected: PropTypes.func.isRequired,
     /**
-     * Aumenta el nivel de profundidad de selección (plugins dentro de plugins)
+     * Callback for increasing box level selected
      */
     onBoxLevelIncreased: PropTypes.func.isRequired,
     /**
-     * Mueve la caja
+     * Callback for moving a box
      */
     onBoxMoved: PropTypes.func.isRequired,
     /**
-     * Redimensiona la caja
+     * Callback for resizing a box
      */
     onBoxResized: PropTypes.func.isRequired,
     /**
-     * Suelta la caja en una zona de un EditorBoxSortable
+     * Callback for dropping a box
      */
     onBoxDropped: PropTypes.func.isRequired,
     /**
-     * Alínea la caja verticalmente
+     * Callback for vertically aligning boxes inside a container
      */
     onVerticallyAlignBox: PropTypes.func.isRequired,
     /**
-     * Reordena las cajas dentro de su contenedor
+     * Callback for reordering boxes inside a container
      */
     onBoxesInsideSortableReorder: PropTypes.func.isRequired,
     /**
-     * Borra un contenedor
+     * Callback for deleting a sortable container
      */
     onSortableContainerDeleted: PropTypes.func.isRequired,
     /**
-     * Reordena los contenedores
+     * Callback for reordering sortable containers
      */
     onSortableContainerReordered: PropTypes.func.isRequired,
     /**
-     * Redimensiona un contenedor
+     * Callback for resizing a sortable container
      */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
-     * Selecciona una vista contenida
+     * Callback for selecting contained view
      */
     onContainedViewSelected: PropTypes.func.isRequired,
     /**
-     * Hace aparecer/desaparecer el CKEditor
+     * Callback for toggling the CKEditor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
     /**

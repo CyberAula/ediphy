@@ -65,7 +65,7 @@ export default class CVInfo extends Component {
 
 CVInfo.propTypes = {
     /**
-     * Vista contenida actual, identificada por su *id*
+     * Current contained view (by ID)
      */
     containedView: PropTypes.any.isRequired,
     /**
@@ -73,7 +73,7 @@ CVInfo.propTypes = {
      */
     marks: PropTypes.object,
     /**
-     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     *  Object containing every existing box (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**

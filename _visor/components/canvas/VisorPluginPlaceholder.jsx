@@ -76,15 +76,15 @@ export default class VisorPluginPlaceholder extends Component {
 
 VisorPluginPlaceholder.propTypes = {
     /**
-   * Nombre del contenedor de plugins
+   * Plugins container name
    */
     pluginContainer: PropTypes.string,
     /**
-   * Identificador único de la caja padre
+   * Unique identifier of the parent box
    */
     parentBox: PropTypes.any,
     /**
-   * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+   * Object containing every existing box (by id)
    */
     boxes: PropTypes.object,
     /**

@@ -431,7 +431,7 @@ EditorBoxSortable.propTypes = {
      */
     addMarkShortcut: PropTypes.func.isRequired,
     /**
-     * Función que oculta el overlay de creación de marcas
+     * Callback for deleting mark creator overlay
      */
     deleteMarkCreator: PropTypes.func.isRequired,
     /**
@@ -447,7 +447,7 @@ EditorBoxSortable.propTypes = {
      */
     onBoxSelected: PropTypes.func.isRequired,
     /**
-     * Icreases box level selected
+     * Increases box level selected
      */
     onBoxLevelIncreased: PropTypes.func.isRequired,
     /**
@@ -463,27 +463,27 @@ EditorBoxSortable.propTypes = {
      */
     onBoxDropped: PropTypes.func.isRequired,
     /**
-     * Callback for when vertically aligning boxes inside a contianer
+     * Callback for when vertically aligning boxes inside a container
      */
     onVerticallyAlignBox: PropTypes.func.isRequired,
     /**
-     * Callback for when reordering boxes inside a contianer
+     * Callback for when reordering boxes inside a container
      */
     onBoxesInsideSortableReorder: PropTypes.func.isRequired,
     /**
-     * Callabck for when deleting a sortable container
+     * Callback for when deleting a sortable container
      */
     onSortableContainerDeleted: PropTypes.func.isRequired,
     /**
-     * Callabck for when reordering sortable containers
+     * Callback for when reordering sortable containers
      */
     onSortableContainerReordered: PropTypes.func.isRequired,
     /**
-     * Callabck for when resizing a sortable container
+     * Callback for when resizing a sortable container
      */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
-     * Callback for toggling the CKEDitor
+     * Callback for toggling the CKEditor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
     /**

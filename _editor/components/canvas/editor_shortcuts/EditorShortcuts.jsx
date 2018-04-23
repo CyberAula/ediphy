@@ -330,40 +330,40 @@ export default class EditorShortcuts extends Component {
 
 EditorShortcuts.propTypes = {
     /**
-     * Caja seleccionada
+     * Selected box
      */
     box: PropTypes.any,
     /**
-     * Vista contenida seleccionada
+     * Selected contained view (by ID)
      */
     containedViewSelected: PropTypes.any,
     /**
-     * Si se renderiza el componente desde una vista contenida (true) o una normal (false)
+     * Check if component is rendered from contained view
      */
     isContained: PropTypes.bool,
     /**
-     * Hace aparecer/desaparecer el CKEditor
+     * Callback for toggling CKEditor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
     /**
-     * Muestra/oculta el overlay de creación de marcas
+     * Callback for toggling creation mark overlay
      */
     onMarkCreatorToggled: PropTypes.func.isRequired,
     /**
-     * Borra una caja
+     * Callback for deleting a box
      */
     onBoxDeleted: PropTypes.func.isRequired,
     /**
-     * Redimensiona una caja
+     * Callback for resizing a box
      */
     onBoxResized: PropTypes.func.isRequired,
     /**
-     * Activa la funcionalidad de manipular el plugin con el ratón/dedo
+     *  Callback for enabling pointer events
      */
     pointerEventsCallback: PropTypes.func,
     /**
-       * Selected page
-       */
+     * Selected page
+     */
     navItemSelected: PropTypes.any,
     /**
      * Object containing all the plugins' toolbars
