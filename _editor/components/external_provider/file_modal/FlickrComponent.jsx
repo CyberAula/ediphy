@@ -18,11 +18,10 @@ export default class FlickrComponent extends React.Component {
                 <FormGroup>
                     <Col md={4}>
                         <ControlLabel>{i18n.t("vish_search_terms")}</ControlLabel>
-                        <FormControl ref="query" type="text"/>
+                        <FormControl autoFocus ref="query" type="text"/>
                     </Col>
                     <Col md={2}>
                         <Button type="submit" className="btn-primary" onClick={(e) => {
-
                             this.onSearch(ReactDOM.findDOMNode(this.refs.query).value);
                             e.preventDefault();
                         }}>{i18n.t("vish_search_button")}

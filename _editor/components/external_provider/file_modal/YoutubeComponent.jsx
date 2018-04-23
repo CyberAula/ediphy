@@ -18,7 +18,7 @@ export default class YoutubeComponent extends React.Component {
                 <FormGroup>
                     <Col md={4}>
                         <ControlLabel>{i18n.t("vish_search_terms")}</ControlLabel>
-                        <FormControl ref="query" type="text"/>
+                        <FormControl autoFocus ref="query" type="text"/>
                     </Col>
                     <Col md={2}>
                         <Button type="submit" className="btn-primary" onClick={(e) => {
@@ -38,12 +38,15 @@ export default class YoutubeComponent extends React.Component {
                             <ControlLabel>{ this.state.results.length + " Resultados"}</ControlLabel>
                             <br />
                             {this.state.results.map((item, index) => {
-                                let border = item.url === this.props.elementSelected ? "solid orange 3px" : "solid transparent 3px";
+                                let border = item.url === this.props.elementSelected ? "solid orange 3px" : "solid white 3px";
                                 return (<div>
                                     <img key={index}
                                         src={item.thumbnail}
                                         className={'youtubeVideo'}
                                         style={{
+                                            width: '126px',
+                                            height: '96px',
+                                            backgroundColor: '#ddd',
                                             border: border,
                                         }}
                                         onClick={e => {
@@ -70,7 +73,6 @@ export default class YoutubeComponent extends React.Component {
             .then(res => res.text()
             ).then(videosStr => {
                 let videos = JSON.parse(videosStr);
-                console.log(videos, videos.items);
                 if (videos.items) {
                     let results = videos.items.map(video => {
                         return {

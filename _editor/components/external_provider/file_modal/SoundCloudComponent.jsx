@@ -20,7 +20,7 @@ export default class SoundCloudComponent extends React.Component {
                 <FormGroup>
                     <Col md={4}>
                         <ControlLabel>{i18n.t("vish_search_terms")}</ControlLabel>
-                        <FormControl ref="query" type="text"/>
+                        <FormControl autoFocus ref="query" type="text"/>
                     </Col>
                     <Col md={2}>
                         <Button type="submit" className="btn-primary" onClick={(e) => {
@@ -46,6 +46,9 @@ export default class SoundCloudComponent extends React.Component {
                                         src={item.thumbnail || placeholder}
                                         className={'soundCloudSong'}
                                         style={{
+                                            width: '100px',
+                                            height: '100px',
+                                            backgroundColor: '#ddd',
                                             border: border,
                                         }}
                                         onClick={e => {

@@ -135,11 +135,20 @@
 
         }
         .Select-control {
-          border: one;
+          border: none;
         }
+      }
+      .form-group #filterInput {
+        height: 38px;
       }
       hr.fileModalFooter {
         margin-bottom: 0px;
+      }
+      .inputSearch {
+        cursor: pointer;
+      }
+      .hiddenButton {
+        display: none;
       }
       .footerFile {
         float:left;
@@ -214,3 +223,5 @@
 
   }
 }
+
+
