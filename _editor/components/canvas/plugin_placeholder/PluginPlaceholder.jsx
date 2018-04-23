@@ -238,83 +238,83 @@ export default class PluginPlaceholder extends Component {
 
 PluginPlaceholder.propTypes = {
     /**
-     * Nombre del contenedor de plugins
+     * Plugins container name
      */
     pluginContainer: PropTypes.string,
     /**
-     * Identificador único de la caja padre
+     * Unique identifier of the parent box
      */
     parentBox: PropTypes.any,
     /**
-     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     * Object containing every existing box (by id)
      */
     boxes: PropTypes.object,
     /**
-     * Caja seleccionada
+     * Current Box selected. If there isn't, -1
      */
     boxSelected: PropTypes.any,
     /**
-     * Nivel de caja seleccionado
+     * Selected box level (only plugins inside plugins)
      */
     boxLevelSelected: PropTypes.any,
     /**
-     * Diccionario que contiene todos los valores de cajas, accesibles por su *id*
+     * Object containing every plugin toolbar (by id)
      */
     pluginToolbars: PropTypes.object.isRequired,
     /**
-     * Última acción de Redux realizada
+     * Last action dispatched in Redux
      */
     lastActionDispatched: PropTypes.any,
     /**
-     * Selecciona una caja
+     * Callback for selecting a box
      */
     onBoxSelected: PropTypes.func,
     /**
-     * Aumenta de nivel de profundidad de selección (plugins dentro de plugins)
+     * Callback for increasing box level selected (only plugins inside plugins)
      */
     onBoxLevelIncreased: PropTypes.func,
     /**
-     * Vista contenida seleccionanda
+     * Selected contained view (by ID)
      */
     containedViewSelected: PropTypes.any,
     /**
-     * Mueve una caja
+     * Callback for moving a box
      */
     onBoxMoved: PropTypes.func,
     /**
-     * Redimensiona una caja
+     * Callback for resizing a box
      */
     onBoxResized: PropTypes.func,
     /**
-     * Redimensiona contenedor sortable
+     * Callback for resizing a sortable container
      */
     onSortableContainerResized: PropTypes.func,
     /**
-     * Suelta caja
+     * Callback for dropping a box
      */
     onBoxDropped: PropTypes.func,
     /**
-     * Alinea verticalmente una caja
+     * Callback for vertically aligning boxes inside a container
      */
     onVerticallyAlignBox: PropTypes.func,
     /**
-     * Reordena las cajas de un contenedor
+     * Callback for reordering boxes inside a container
      */
     onBoxesInsideSortableReorder: PropTypes.func,
     /**
-     * Activa/Desactiva la edición de texto
+     * Callback for toggling CKEditor
      */
     onTextEditorToggled: PropTypes.func,
     /**
-      * Identificador de la caja en la que se va a crear una marca
+      * Identifier of the box that is creating a mark
       */
     markCreatorId: PropTypes.any,
     /**
-      * Añade una marca a la caja
+      * Callback for adding a mark shortcut
       */
     addMarkShortcut: PropTypes.func,
     /**
-     * Función que oculta el overlay de creación de marcas
+     * Callback for deleting mark creator overlay
      */
     deleteMarkCreator: PropTypes.func,
     /**
