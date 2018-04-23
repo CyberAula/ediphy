@@ -270,7 +270,7 @@ export default class RichMarksModal extends Component {
                         let color = this.state.color || marksType.defaultColor || '#222222';
                         let connection = selected.id;
                         // CV name
-                        let name = title || nextAvailName(i18n.t('contained_view'), this.props.viewToolbars, 'viewName');
+                        let name = connectMode === "existing" ? this.props.viewToolbars[connection].viewName : nextAvailName(i18n.t('contained_view'), this.props.viewToolbars, 'viewName');
                         // Mark name
                         title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.marks, 'title');
                         let markState;
@@ -375,7 +375,7 @@ export default class RichMarksModal extends Component {
                         if(this.props.marks[newMark] === undefined) {
                             this.props.onRichMarkAdded(markState.mark, markState.view, markState.viewToolbar);
                         } else{
-                            this.props.onRichMarkUpdated(newMark, markState);
+                            this.props.onRichMarkUpdated(markState.mark, markState.view, markState.viewToolbar);
                         }
 
                         /* this.props.onRichMarkUpdated({ id: (current ? current.id : newMark), title, connectMode, connection, displayMode, value, color }, this.state.newSelected === "");

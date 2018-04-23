@@ -18,30 +18,46 @@ describe('# marks_by_id reducer', ()=>{
             const action = {
                 type: ActionTypes.ADD_RICH_MARK,
                 payload: {
-                    parent: 'bo-1511252970033',
-                    id: "rm-1511252975055",
-                    title: "new mark",
-                    connectMode: "existing",
-                    connection: "pa-1511252955865",
-                    displayMode: "navigate",
-                    value: "30.95,49.15",
-                    color: "#222222",
-                    oldConnection: 'cv-1511252975055',
-                    newConnection: 'pa-1511252955865',
+                    "mark": {
+                        "id": "rm-1524481518690",
+                        "origin": "bo-1524479992144",
+                        "title": "Nueva marca 3",
+                        "connection": "cv-1524481518690",
+                        "color": "#222222",
+                        "connectMode": "new",
+                        "displayMode": "navigate",
+                        "value": "50,50",
+                    },
+                    "view": {
+                        "info": "new",
+                        "type": "document",
+                        "id": "cv-1524481518690",
+                        "parent": {
+                            "rm-1524481518690": "bo-1524479992144",
+                        },
+                        "boxes": [
+                            "bs-1524481518690",
+                        ],
+                        "extraFiles": {},
+                    },
+                    "viewToolbar": {
+                        "id": "cv-1524481518690",
+                        "doc_type": "document",
+                        "viewName": "Vista Contenida 3",
+                    },
                 },
             };
+
             let newState = JSON.parse(JSON.stringify(state));
-            newState["rm-1511252975055"] = {
-                parent: 'bo-1511252970033',
-                id: "rm-1511252975055",
-                title: "new mark",
-                connectMode: "existing",
-                connection: "pa-1511252955865",
-                displayMode: "navigate",
-                value: "30.95,49.15",
-                color: "#222222",
-                oldConnection: 'cv-1511252975055',
-                newConnection: 'pa-1511252955865',
+            newState["rm-1524481518690"] = {
+                "id": "rm-1524481518690",
+                "origin": "bo-1524479992144",
+                "title": "Nueva marca 3",
+                "connection": "cv-1524481518690",
+                "color": "#222222",
+                "connectMode": "existing",
+                "displayMode": "navigate",
+                "value": "50,50",
             };
             expect(marks_by_id(state, action)).toEqual(newState);
         });
@@ -112,16 +128,9 @@ describe('# marks_by_id reducer', ()=>{
             const action = {
                 type: ActionTypes.DELETE_RICH_MARK,
                 payload: {
-                    parent: 'bo-1511252970033',
-                    id: "rm-1511252975055",
-                    title: "new mark",
-                    connectMode: "existing",
-                    connection: "pa-1511252955865",
-                    displayMode: "navigate",
-                    value: "30.95,49.15",
-                    color: "#222222",
-                    oldConnection: 'cv-1511252975055',
-                    newConnection: 'pa-1511252955865',
+                    mark: {
+                        id: "rm-1511252975055",
+                    },
                 },
             };
             let newState = JSON.parse(JSON.stringify(state));

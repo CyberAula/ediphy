@@ -73,7 +73,7 @@ function singlePageReducer(state = {}, action = {}) {
     case ADD_RICH_MARK:
     case EDIT_RICH_MARK:
         return {
-            id: action.type === ADD_RICH_MARK ? action.payload.mark.connection : action.payload.mark.mark.connection,
+            id: action.type === ADD_RICH_MARK ? action.payload.mark.connection : action.payload.mark.connection,
             submitButton: true,
             trackProgress: false,
             attempted: false,
@@ -119,8 +119,8 @@ export default function(state = {}, action = {}) {
         }
         return state;
     case EDIT_RICH_MARK:
-        if (isContainedView(action.payload.mark.mark.connection) && !state[action.payload.mark.mark.connection]) {
-            return changeProp(state, action.payload.mark.mark.connection, singlePageReducer(state[action.payload.mark.markconnection], action));
+        if (isContainedView(action.payload.mark.connection) && !state[action.payload.mark.connection]) {
+            return changeProp(state, action.payload.mark.connection, singlePageReducer(state[action.payload.mark.connection], action));
         }
         return state;
     case ADD_BOX:

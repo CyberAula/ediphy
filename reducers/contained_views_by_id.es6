@@ -79,19 +79,21 @@ export default function(state = {}, action = {}) {
     case ADD_RICH_MARK:
         let view = action.payload.view;
         if (action.payload.mark.connectMode === "new") {
-            return changeProp(state, action.payload.view.id, view);
+            return changeProp(state, view.id, view);
         }
         if (action.payload.mark.connectMode === "existing") {
-            return {
-                ...state,
-                [action.payload.mark.connection]: {
-                    ...state[action.payload.mark.connection],
-                    parent: {
-                        ...state[action.payload.mark.connection].parent,
-                        [action.payload.mark.id]: action.payload.mark.origin,
+            if(isContainedView(action.payload.mark.connection)) {
+                return {
+                    ...state,
+                    [action.payload.mark.connection]: {
+                        ...state[action.payload.mark.connection],
+                        parent: {
+                            ...state[action.payload.mark.connection].parent,
+                            [action.payload.mark.id]: action.payload.mark.origin,
+                        },
                     },
-                },
-            };
+                };
+            }
         }
         return state;
     case CHANGE_BOX_LAYER:
@@ -100,43 +102,53 @@ export default function(state = {}, action = {}) {
         }
         return state;
     case CHANGE_BACKGROUND:
-        if(isContainedView(action.payload.id)) {
+        if (isContainedView(action.payload.id)) {
             return changeProp(state, action.payload.id, singleContainedViewReducer(state[action.payload.id], action));
         }
         return state;
     case EDIT_RICH_MARK:
+        let oldCv = "";
+        let newParents = {};
+        Object.keys(state).forEach(cv=>{
+            if(Object.keys(state[cv].parent).includes(action.payload.mark.id)) {
+                oldCv = state[cv].id;
+            }
+        });
+        if(oldCv !== "") {
+            newParents = state[oldCv].parent;
+            delete newParents[action.payload.mark.id];
+            newState = {
+                ...state,
+                [oldCv]: {
+                    ...state[oldCv],
+                    parent: newParents,
+                },
+            };
+        }
+
         // This means we are only editing the position of the mark by dragging, so this reducer is not interested
-        if(!action.payload.mark || !action.payload.newConnection) {
-            return state;
-        }
-        let editState = JSON.parse(JSON.stringify(state));
-
-        // If the old connection is a contained view, we need to remove the mark from its parent list
-        if (isContainedView(action.payload.oldConnection)) {
-            if (editState[action.payload.oldConnection] && editState[action.payload.oldConnection].parent[action.payload.parent]) {
-                let ind = editState[action.payload.oldConnection].parent[action.payload.parent].indexOf(action.payload.mark.id || action.payload.mark);
-                if (ind > -1) {
-                    editState[action.payload.oldConnection].parent[action.payload.parent].splice(ind, 1);
-                    if (editState[action.payload.oldConnection].parent[action.payload.parent].length === 0) {
-                        delete editState[action.payload.oldConnection].parent[action.payload.parent];
-                    }
-                }
+        if (action.payload.mark.connectMode === "new") {
+            return {
+                ...newState,
+                [action.payload.view.id]: action.payload.view,
+            };
+        } else if (action.payload.mark.mark.connectMode === "existing") {
+            if (isContainedView(action.payload.mark.connection)) {
+                return {
+                    ...newState,
+                    [action.payload.mark.connection]: {
+                        ...newState[action.payload.mark.connection],
+                        parent: {
+                            ...newState[action.payload.mark.connection].parent,
+                            [action.payload.mark.id]: action.payload.mark.origin,
+                        },
+                    },
+                };
             }
-        }
-        // If the new connection is a contained view, we need to include the mark from its parent list
+            return newState;
 
-        if (isContainedView(action.payload.newConnection)) {
-            if (editState[action.payload.newConnection]) {
-                if(Object.keys(editState[action.payload.newConnection].parent).indexOf(action.payload.parent) === -1) {
-                    editState[action.payload.newConnection].parent[action.payload.parent] = [action.payload.mark.id || action.payload.mark];
-                } else {
-                    editState[action.payload.newConnection].parent[action.payload.parent].push(action.payload.mark.id || action.payload.mark);
-                }
-            } else if (action.payload.mark.connection.id) {
-                editState = changeProp(editState, action.payload.mark.connection.id, action.payload.mark.connection);
-            }
         }
-        return editState;
+        return state;
     case DELETE_RICH_MARK:
         if(isContainedView(action.payload.mark.connection)) {
             return changeProp(state, action.payload.mark.connection, singleContainedViewReducer(state[action.payload.mark.connection], action));
@@ -149,16 +161,6 @@ export default function(state = {}, action = {}) {
             return changeProp(state, action.payload.oldParent, singleContainedViewReducer(state[action.payload.oldParent], action));
         } else if (isContainedView(action.payload.parent) && !isContainedView(action.payload.oldParent)) {
             return changeProp(state, action.payload.parent, singleContainedViewReducer(state[action.payload.parent], action));
-        }
-        return state;
-    case ADD_RICH_MARK:
-        // If rich mark is connected to a new contained view, mark.connection will include this information;
-        // otherwise, it's just the id/url and we're not interested
-        if (action.payload.mark.connectMode === 'existing' && isContainedView(action.payload.view.id)) {
-            return changeProp(state, action.payload.view.id, singleContainedViewReducer(state[action.payload.view.id], action));
-        }
-        if (action.payload.mark.connection) {
-            return changeProp(state, action.payload.mark.connection, action.payload.mark.connection);
         }
         return state;
     case DELETE_BOX:
@@ -196,8 +198,9 @@ export default function(state = {}, action = {}) {
 
         for (let cv in state) {
             for (let box in action.payload.boxes) {
-                if (state[cv].parent[action.payload.boxes[box]]) {
-                    delete state[cv].parent[action.payload.boxes[box]];
+                let parents = Object.keys(state[cv].parent).reduce((obj, key) => (obj[state[cv].parent[key]] = key, obj), {});
+                if (parents[action.payload.boxes[box]]) {
+                    delete state[cv].parent[parents[action.payload.boxes[box]]];
                 }
             }
         }
