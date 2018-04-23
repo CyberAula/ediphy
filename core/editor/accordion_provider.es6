@@ -1166,7 +1166,7 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     case 'display_pagesubtitle':
         let subTitle = value ? 'reduced' : 'hidden';
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
-            documentSubTitle: subTitle,
+            documentSubtitle: subTitle,
         });
         break;
     // display - breadcrumb

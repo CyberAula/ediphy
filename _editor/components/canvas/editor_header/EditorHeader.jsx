@@ -30,7 +30,7 @@ export default class EditorHeader extends Component {
             let pagenumber = "";
             if (navItem !== undefined && navItem.id !== 0 && toolbar) {
                 docTitle = toolbar.documentTitle !== "" && (toolbar.documentTitleContent !== navItem.name) ? toolbar.documentTitleContent : navItem.name;
-                subTitle = toolbar.documentSubTitle !== "" && (toolbar.documentSubtitleContent !== i18n.t('subtitle')) ? toolbar.documentSubtitleContent : i18n.t('subtitle');
+                subTitle = toolbar.documentSubtitle !== "" && (toolbar.documentSubtitleContent !== i18n.t('subtitle')) ? toolbar.documentSubtitleContent : i18n.t('subtitle');
                 pagenumber = toolbar.numPageContent !== "" ? toolbar.numPageContent : "";
             }
 
@@ -211,7 +211,7 @@ export default class EditorHeader extends Component {
                                                 }
                                                 e.stopPropagation();
                                             }}
-                                            style={{ display: (toolbar.documentSubTitle === 'hidden') ? 'none' : 'block' }}>{subTitle}</h3>
+                                            style={{ display: (toolbar.documentSubtitle === 'hidden') ? 'none' : 'block' }}>{subTitle}</h3>
                                             ) :
                                             (<FormControl
                                                 type="text"
