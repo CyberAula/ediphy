@@ -112,6 +112,7 @@ export default class PluginRibbon extends Component {
         }
         interact(".rib")
             .draggable({
+                enabled: !this.props.disabled,
                 autoScroll: {
                     container: document.getElementById(container),
                     margin: 50,
@@ -145,6 +146,7 @@ export default class PluginRibbon extends Component {
         interact.dynamicDrop(true);
         interact(".rib")
             .draggable({
+                enabled: !this.props.disabled,
                 inertia: true,
                 onstart: function(event) {
                     changeOverflow(true);

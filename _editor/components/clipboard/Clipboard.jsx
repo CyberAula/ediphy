@@ -5,7 +5,7 @@ import Alert from '../common/alert/Alert';
 import { isContainedView, isSlide, isBox, isSortableBox, isView, isSortableContainer } from '../../../common/utils';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_RICH_MARK } from '../../../common/constants';
 import { ADD_BOX } from '../../../common/actions';
-import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent } from './clipboard.utils';
+import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent, isURL, copyText } from './clipboard.utils';
 import i18n from 'i18next';
 import { instanceExists, scrollElement, findBox, createBox } from '../../../common/common_tools';
 /**
@@ -17,6 +17,7 @@ export default class Clipboard extends Component {
         this.state = {
             alert: null,
         };
+        this.copyButtonListener = this.copyButtonListener.bind(this);
         this.copyListener = this.copyListener.bind(this);
         this.pasteListener = this.pasteListener.bind(this);
         this.cutListener = this.cutListener.bind(this);
@@ -81,6 +82,31 @@ export default class Clipboard extends Component {
         }
         return false;
     }
+
+    /**
+     * Copy Button
+     * @param event
+     * @returns {boolean}
+     */
+    copyButtonListener(event) {
+        let activeElement = document.activeElement;
+        console.log(activeElement);
+        if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
+            if (!this.containsCKEDitorText(activeElement) || (this.props.boxes[this.props.boxSelected] && !this.props.boxes[this.props.boxSelected].showTextEditor)) {
+                console.log('here');
+                return copyText(this.copyData());
+            }
+            try {
+                console.log(2);
+                document.execCommand('copy');
+                return true;
+            } catch(e) {
+                return false;
+            }
+
+        }
+        return false;
+    }
     /**
      * Cut action listener
      */
@@ -136,6 +162,7 @@ export default class Clipboard extends Component {
         } else if (key === 86 && event.ctrlKey && event.shiftKey) {
             this.pasteListener(event, true);
         }
+        return true;
     }
 
     /**
@@ -197,7 +224,7 @@ export default class Clipboard extends Component {
      */
     containsCKEDitorText(activeElement) {
         let focus = activeElement.classList;
-        return (focus.contains('form-control') || focus.contains('cke_editable') || focus.contains('textAreaStyle') || activeElement.tagName === 'TEXTAREA');
+        return (focus.contains('form-control') || focus.contains('cke_editable') || focus.contains('textAreaStyle') || activeElement.tagName === 'TEXTAREA' || activeElement.tagName === 'INPUT');
     }
 
     /**
@@ -293,6 +320,9 @@ export default class Clipboard extends Component {
                     }
                     if (noImage) {
                         initialParams.text = (event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"));
+                        if (isURL(initialParams.text)) {
+                            initialParams.text = '<a href="' + initialParams.text + '">' + initialParams.text + '</a>';
+                        }
                         createBox(initialParams, "BasicText", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
 
                     }
@@ -343,22 +373,6 @@ export default class Clipboard extends Component {
      */
     transformToolbar(toolbar, ids, isTargetSlide, isOriginSlide) {
         let newToolbar = Object.assign({}, toolbar, { id: ids.id });
-        /* if (newToolbar.state && newToolbar.state.__marks) {
-            let newMarks = {};
-            for (let mark in newToolbar.state.__marks) {
-                let newId = mark + "_1";
-                if (newToolbar.state.__marks[mark].connection) {
-                    if ((isContainedView(newToolbar.state.__marks[mark].connection) &&
-                    this.props.containedViews[newToolbar.state.__marks[mark].connection]) ||
-                        (isView(newToolbar.state.__marks[mark].connection) &&
-                        this.props.navItems[newToolbar.state.__marks[mark].connection]) ||
-                        newToolbar.state.__marks[mark].connetMode === 'external') {
-                        newMarks[newId] = Object.assign({}, newToolbar.state.__marks[mark], { id: newId });
-                    }
-                }
-            }
-            newToolbar.state.__marks = newMarks;
-        }*/
         if (isTargetSlide !== isOriginSlide) {
             let config = Ediphy.Plugins.get(newToolbar.pluginId).getConfig();
             if (isTargetSlide) {
@@ -367,24 +381,12 @@ export default class Clipboard extends Component {
                 newToolbar.structure.height = parseFloat(config.initialHeightSlide || config.initialHeight) || "auto";
                 newToolbar.structure.widthUnit = "%";
                 newToolbar.structure.heightUnit = "%";
-                // newToolbar.controls.main.accordions.__sortable.buttons.__width.units = "%";
-                // newToolbar.controls.main.accordions.__sortable.buttons.__width.value =
-                // newToolbar.controls.main.accordions.__sortable.buttons.__width.displayValue = parseFloat();
-                // newToolbar.controls.main.accordions.__sortable.buttons.__height.units = "%";
-                // newToolbar.controls.main.accordions.__sortable.buttons.__height.value =
-                // newToolbar.controls.main.accordions.__sortable.buttons.__height.displayValue = parseFloat(config.initialHeightSlide);
             } else {
                 newToolbar.structure.width = parseFloat(config.initialWidth) || "25";
                 newToolbar.structure.widthUnit = config.initialWidth.indexOf('px') !== -1 ? "px" : "%";
                 newToolbar.structure.height = parseFloat(config.initialHeight) || "auto";
                 newToolbar.structure.heightUnit = config.initialHeight.indexOf('px') !== -1 ? "px" : "%";
 
-                // newToolbar.controls.main.accordions.__sortable.buttons.__height.value =
-                // newToolbar.controls.main.accordions.__sortable.buttons.__height.displayValue = parseFloat(config.initialHeight);
-                // newToolbar.controls.main.accordions.__sortable.buttons.__height.units = config.initialHeight.indexOf('px') !== -1 ? "px" : "%";
-                // newToolbar.controls.main.accordions.__sortable.buttons.__width.value =
-                // newToolbar.controls.main.accordions.__sortable.buttons.__width.displayValue = parseFloat(config.initialWidth);
-                // newToolbar.controls.main.accordions.__sortable.buttons.__width.units = config.initialWidth.indexOf('px') !== -1 ? "px" : "%";
             }
         }
         return newToolbar;
@@ -427,12 +429,12 @@ export default class Clipboard extends Component {
      * Renders React Component
      */
     render() {
-        let props = {
-            onClick: this.duplicateBox,
-        };
-        let childrenWithProps = React.Children.map(this.props.children, function(child) {
+        let childrenWithProps = React.Children.map(this.props.children, (child) =>{
             if (React.isValidElement(child) && child.props.name === "duplicate") {
-                return React.cloneElement(child, props);
+                return React.cloneElement(child, { onClick: this.duplicateBox });
+            }
+            if (React.isValidElement(child) && child.props.name === "copy") {
+                return React.cloneElement(child, { onClick: this.copyButtonListener });
             }
             return child;
         });

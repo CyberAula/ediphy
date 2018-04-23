@@ -4,6 +4,7 @@ import i18n from 'i18next';
 export const testState = {
     "present": {
         "lastActionDispatched": "SELECT_BOX",
+        "filesUploaded": [],
         "globalConfig": {
             "title": "Ediphy",
             "canvasRatio": 1.7777777777777777,
@@ -31,7 +32,6 @@ export const testState = {
             "structure": "linear",
             "difficulty": "easy",
         },
-        "imagesUploaded": [],
         "boxesById": {
             "bs-1497983247797": {
                 "id": "bs-1497983247797",

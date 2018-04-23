@@ -35,8 +35,9 @@ export function EnrichedPlayer(base) {
                             buttons: {
                                 url: {
                                     __name: Ediphy.i18n.t('EnrichedPlayer.URL'),
-                                    type: 'text',
+                                    type: 'external_provider',
                                     value: state.url,
+                                    accept: "video/*",
                                     autoManaged: false,
                                 },
                                 controls: {

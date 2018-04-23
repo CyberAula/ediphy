@@ -174,7 +174,7 @@ export default class EditorBoxSortable extends Component {
                                             </Button>
                                         </Popover>
                                     </Overlay>
-                                    <OverlayTrigger placement="top" overlay={
+                                    <OverlayTrigger placement="top" container={this} overlay={
                                         <Tooltip id="deleteTooltip">{i18n.t('delete')}
                                         </Tooltip>}>
                                         <Button

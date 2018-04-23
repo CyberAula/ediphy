@@ -5,7 +5,7 @@ import {
     TOGGLE_TEXT_EDITOR,
     DELETE_RICH_MARK, ADD_RICH_MARK, DELETE_CONTAINED_VIEW,
     TOGGLE_TITLE_MODE, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPDATE_BOX,
-    UPLOAD_IMAGE, SELECT_CONTAINED_VIEW,
+    UPLOAD_FILE, SELECT_CONTAINED_VIEW,
 } from '../common/actions';
 import { isSortableBox } from '../common/utils';
 import boxesById from './boxes_by_id';
@@ -40,7 +40,7 @@ function isBusy(state = "", action = {}) {
     case SET_BUSY:
         return action.payload;
     case IMPORT_STATE:
-        return action.payload.present.isBusy || state;
+        return /* action.payload.present.isBusy ||*/ state;
     default:
         return state;
     }
@@ -55,10 +55,12 @@ function fetchVishResults(state = { results: [] }, action = {}) {
     }
 }
 
-function imagesUploaded(state = [], action = {}) {
+function filesUploaded(state = [], action = {}) {
     switch(action.type) {
-    case UPLOAD_IMAGE:
-        return state.concat(action.payload.url);
+    case UPLOAD_FILE:
+        return state.concat(action.payload);
+    case IMPORT_STATE:
+        return action.payload.present.filesUploaded || state;
     default:
         return state;
     }
@@ -66,7 +68,7 @@ function imagesUploaded(state = [], action = {}) {
 const GlobalState = undoable(combineReducers({
     lastActionDispatched: lastActionDispatched,
     globalConfig: globalConfig,
-    imagesUploaded: imagesUploaded, // [img0, img1]
+    filesUploaded: filesUploaded, // [img0, img1]
     boxesById: boxesById, // {0: box0, 1: box1}
     boxSelected: boxSelected, // 0
     boxLevelSelected: boxLevelSelected, // 0

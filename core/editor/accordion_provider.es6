@@ -10,6 +10,7 @@ import FileInput from "../../_editor/components/common/file-input/FileInput";
 import MarksList from "../../_editor/components/rich_plugins/marks_list/MarksList";
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
 import ExternalProvider from "../../_editor/components/external_provider/external_provider/ExternalProvider";
+import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/ToobarFileProvider";
 /* eslint-disable react/prop-types */
 
 export function toolbarFiller(toolbar, id, state, config, initialParams, container, marks = null, exercises = {}) {
@@ -617,7 +618,9 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 if(e.target && e.target.type === "text") {
                     value = { background: e.target.value, backgroundAttr: 'full' };
                 }
-
+                if(e.value) {
+                    value = { background: e.value };
+                }
                 if(e.currentTarget && e.currentTarget.type === "button") {
                     value = { background: e.currentTarget.value, backgroundAttr: 'full' };
                 }
@@ -900,7 +903,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 isSli && React.createElement('div',
                     { key: 'container_' + button.__name, style: { display: 'block' } },
                     [React.createElement(
-                        FileInput, {
+                        FileInput, { // TODO
                             key: 'fileinput_' + props.label,
                             value: props.value,
                             onChange: props.onChange,
@@ -924,16 +927,27 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                         FormGroup,
                         { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
                         [
-                            React.createElement(
+                            /* React.createElement(
                                 ControlLabel,
                                 { key: 'labelurlinput_' + button.__name },
-                                i18n.t('background.background_input_url')),
-                            React.createElement(FormControl,
+                                i18n.t('background.background_input_url')),*/
+                            React.createElement(ToolbarFileProvider, {
+                                id: toolbar_props.navItemSelected,
+                                key: button.__name,
+                                formControlProps: props,
+                                label: 'URL',
+                                value: (isURI || isColor || (props.value && props.value.match && !props.value.match('http'))) ? '' : props.value.background,
+                                openModal: toolbar_props.openFileModal,
+                                fileModalResult: toolbar_props.fileModalResult,
+                                onChange: props.onChange,
+                                accept: "image/*",
+                            }, null),
+                            /* React.createElement(FormControl,
                                 {
                                     key: 'urlinput_' + props.label,
                                     value: (isURI || isColor || props.value) ? '' : props.value.background,
                                     onChange: props.onChange,
-                                }, null),
+                                }, null),*/
                         ]),
                     (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: background_attr === 'full', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'full' }, i18n.t('background.cover')),
                     (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: background_attr === 'repeat', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'repeat' }, i18n.t('background.repeat')),
@@ -956,7 +970,17 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     }
 
     if (button.type === "external_provider") {
-        return React.createElement(ExternalProvider, {
+        console.log(button.type);
+        return React.createElement(ToolbarFileProvider, {
+            id: toolbar_props.boxSelected,
+            key: button.__name,
+            formControlProps: props,
+            openModal: toolbar_props.openFileModal,
+            fileModalResult: toolbar_props.fileModalResult,
+            onChange: props.onChange,
+            accept: button.accept,
+        }, null);
+        /* return React.createElement(ExternalProvider, {
             key: button.__name,
             formControlProps: props,
             isBusy: toolbar_props.isBusy,
@@ -965,7 +989,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             onUploadVishResource: toolbar_props.onUploadVishResource,
             onChange: props.onChange,
             accept: button.accept,
-        }, null);
+        }, null);*/
     }
 
     // If it's none of previous types (number, text, color, range, ...)

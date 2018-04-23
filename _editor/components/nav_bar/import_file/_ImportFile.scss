@@ -8,7 +8,8 @@
   .modal-dialog{
     min-width: 780px;
   }
-  .gcModalBody{
+}
+.gcModalBody, .pdfFileDialog{
     h2{
       font-size: 1.1em;
       font-weight: bold;
@@ -25,4 +26,5 @@
       }
     }
   }
-}
+
+

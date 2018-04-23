@@ -13,6 +13,20 @@ import './_canvas.scss';
 export default class EditorCanvas extends Component {
     constructor(props) {
         super(props);
+
+        this.dropListener = (ev) => {
+            // console.log(ev.dataTransfer.files[0]);
+            // ev.preventDefault();
+            if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
+
+            } else {
+                ev.preventDefault();
+            }
+        };
+        this.dragListener = (ev) => {
+            // document.body.addClass('dragging');
+            ev.preventDefault();
+        };
     }
 
     render() {
@@ -28,6 +42,17 @@ export default class EditorCanvas extends Component {
           this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
             document.getElementById('maincontent').scrollTop = 0;
         }
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('dragover', this.dragListener);
+        document.removeEventListener('drop', this.dropListener);
+    }
+
+    componentDidMount() {
+        document.addEventListener('dragover', this.dragListener);
+        document.addEventListener('drop', this.dropListener);
+
     }
 
 }
