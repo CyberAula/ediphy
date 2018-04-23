@@ -137,7 +137,19 @@ export default class DataProvider extends React.Component {
             result.push(obj);
         }
         console.log(result);
-        return result;
+        return { headers, result };
+    }
+
+    jsonToState(json) {
+        json = JSON.parse(json);
+        let headers = [];
+        let data = [];
+        if (this.validateJson(json)) {
+            headers = Object.keys(json[0]);
+            data = json.map(r=>Object.values(r));
+            return { headers, data };
+        }
+        return false;
     }
 
     validateJson(json) {
@@ -174,15 +186,22 @@ export default class DataProvider extends React.Component {
     fileChanged(event) {
         let files = event.target.files;
         let file = files[0];
-
+        console.log(file);
         let reader = new FileReader();
         reader.onload = function() {
             let data = reader.result;
+            let headers = (data[0]) ? new Array(data[0].length) : [];
             if(file.name.split('.').pop() === "csv") {
-                data = this.csvToState(data);
+                let csv = this.csvToState(data);
+                data = csv.result;
+                headers = csv.headers;
                 console.log(data);
-                /* } else if(file.name.split('.').pop() === "json") {
-                    data = JSON.parse(data);*/
+            } else if(file.name.split('.').pop() === "json") {
+                let json = this.jsonToState(data);
+                if (!json) {return;}
+                data = json.data;
+                headers = json.headers;
+
             } else {
                 let alertComp = (<Alert className="pageModal" show hasHeader closeButton onClose={()=>{this.setState({ alert: null });}}>
                     <span> {i18n.t("DataTable.file_msg")} </span>
@@ -190,7 +209,7 @@ export default class DataProvider extends React.Component {
                 this.setState({ alert: alertComp });
                 return;
             }
-            this.setState({ name: file.name, data: data, rows: data.length, cols: data[0].length });
+            this.setState({ name: file.name, data: data, rows: data.length, cols: data[0].length, keys: headers });
             // this.validateJson(data);
         }.bind(this);
 

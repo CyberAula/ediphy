@@ -122,7 +122,7 @@ export default class DataProvider extends React.Component {
 
         for(let i = 1; i < lines.length; i++) {
 
-            let obj = Array(lines.length);
+            let obj = Array(headers.length);
             let currentline = lines[i].split(",");
 
             for (let j = 0; j < headers.length; j++) {
@@ -131,7 +131,19 @@ export default class DataProvider extends React.Component {
             result.push(obj);
         }
 
-        return result;
+        return { headers, result };
+    }
+
+    jsonToState(json) {
+        json = JSON.parse(json);
+        let headers = [];
+        let data = [];
+        if (this.validateJson(json)) {
+            headers = Object.keys(json[0]);
+            data = json.map(r=>Object.values(r));
+            return { headers, data };
+        }
+        return false;
     }
     validateJson(json) {
         let data = {};
@@ -152,9 +164,10 @@ export default class DataProvider extends React.Component {
             }
             cols = Object.keys(row);
         }
-        this.setState({ cols: cols.length, rows: json.length, data: json, keys: cols, x: cols[0] });
+        console.log(json);
+        /* this.setState({ cols: cols.length, rows: json.length, data: json, keys: cols, x: cols[0] });
 
-        this.setState({ error: false });
+        this.setState({ error: false });*/
         return true;
     }
     compareKeys(a, b) {
@@ -169,10 +182,18 @@ export default class DataProvider extends React.Component {
         let reader = new FileReader();
         reader.onload = function() {
             let data = reader.result;
+            let headers = (data[0]) ? new Array(data[0].length) : [];
             if(file.name.split('.').pop() === "csv") {
-                data = this.csvToState(data);
-            /* } else if(file.name.split('.').pop() === "json") {
-                data = JSON.parse(data);*/
+                let csv = this.csvToState(data);
+                data = csv.result;
+                headers = csv.headers;
+                console.log(data);
+            } else if(file.name.split('.').pop() === "json") {
+                let json = this.jsonToState(data);
+                if (!json) {return;}
+                data = json.data;
+                headers = json.headers;
+
             } else {
                 let alertComp = (<Alert className="pageModal" show hasHeader closeButton onClose={()=>{this.setState({ alert: null });}}>
                     <span> {i18n.t("DataTable.file_msg")} </span>
@@ -180,7 +201,7 @@ export default class DataProvider extends React.Component {
                 this.setState({ alert: alertComp });
                 return;
             }
-            this.setState({ name: file.name });
+            this.setState({ name: file.name, data: data, rows: data.length, cols: data[0].length, keys: headers });
             // this.validateJson(data);
         }.bind(this);
         reader.readAsBinaryString(file);
