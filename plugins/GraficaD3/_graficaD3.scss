@@ -17,10 +17,12 @@
     cursor: pointer;
 }
 .clearRow{
-     color: #bbb;
-     position: absolute;
-    right: 0;
+    color: white;
+    position: absolute;
+    right: 36px;
     cursor: pointer;
+    background-color: gray;
+    padding: 5px;
  }
 
 .recharts-default-tooltip{

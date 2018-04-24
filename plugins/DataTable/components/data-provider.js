@@ -258,7 +258,7 @@ export default class DataProvider extends React.Component {
                                                     <td key={o + 1}>
                                                         {o === 0 ? (<i className="material-icons clearRow" style={{ float: 'left' }} onClick={()=>{this.deleteRows(i);}}>clear</i>) : null}
 
-                                                        <FormControl key={"ele_" + i + " " + o} type="text" style={{ width: 'calc(100% - 30px)' }} name={i + " " + o} value={this.state.data[i][o] } onChange={this.dataChanged}/>
+                                                        <FormControl key={"ele_" + i + " " + o} type="text" style={{ width: '100%' }} name={i + " " + o} value={this.state.data[i][o] } onChange={this.dataChanged}/>
 
                                                     </td>
                                                 );
