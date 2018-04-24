@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
-import Ediphy from '../../../../core/editor/main';
+import Ediphy from '../../../../../core/editor/main';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
-export default class YoutubeComponent extends React.Component {
+
+import placeholder from './logos/soundcloud_placeholder.png';
+export default class SoundCloudComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,7 +20,7 @@ export default class YoutubeComponent extends React.Component {
                 <FormGroup>
                     <Col md={4}>
                         <ControlLabel>{i18n.t("vish_search_terms")}</ControlLabel>
-                        <FormControl ref="query" type="text"/>
+                        <FormControl autoFocus ref="query" type="text"/>
                     </Col>
                     <Col md={2}>
                         <Button type="submit" className="btn-primary" onClick={(e) => {
@@ -41,9 +43,12 @@ export default class YoutubeComponent extends React.Component {
                                 let border = item.url === this.props.elementSelected ? "solid orange 3px" : "solid transparent 3px";
                                 return (<div>
                                     <img key={index}
-                                        src={item.thumbnail}
-                                        className={'youtubeVideo'}
+                                        src={item.thumbnail || placeholder}
+                                        className={'soundCloudSong'}
                                         style={{
+                                            width: '100px',
+                                            height: '100px',
+                                            backgroundColor: '#ddd',
                                             border: border,
                                         }}
                                         onClick={e => {
@@ -66,25 +71,30 @@ export default class YoutubeComponent extends React.Component {
     }
 
     onSearch(text) {
-        fetch(encodeURI('https://www.googleapis.com/youtube/v3/search?part=id,snippet&maxResults=20&q=' + text + '&key=AIzaSyAMOw9ufNTZAlg5Xvcht9PhnBYjlY0c9z8&videoEmbeddable=true&type=video'))
+        const BASE = 'https://api.soundcloud.com/tracks?client_id=bb5aebd03b5d55670ba8fa5b5c3a3da5&q=' + text + '&format=json';
+        fetch(encodeURI(BASE))
             .then(res => res.text()
-            ).then(videosStr => {
-                let videos = JSON.parse(videosStr);
-                console.log(videos, videos.items);
-                if (videos.items) {
-                    let results = videos.items.map(video => {
+            ).then(audioStr => {
+                console.log(audioStr);
+                let songs = JSON.parse(audioStr);
+                console.log(songs);
+                if (songs) {
+                    let results = songs.map(song=>{
                         return {
-                            title: video.snippet.title,
-                            url: "https://www.youtube.com/embed/" + (video.id ? video.id.videoId : ''),
-                            thumbnail: (video.snippet && video.snippet.thumbnails && video.snippet.thumbnails.default && video.snippet.thumbnails.default.url) ? video.snippet.thumbnails.default.url : "",
+                            title: song.title,
+                            url: song.stream_url,
+                            thumbnail: song.artwork_url, // TODO Add default
                         };
                     });
+
                     this.setState({ results });
                 }
+            }).catch(e=>{
+                console.error(e);
             });
     }
 }
-YoutubeComponent.propTypes = {
+SoundCloudComponent.propTypes = {
     /**
      * Selected Element
      */

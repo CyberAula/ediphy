@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
-import Ediphy from '../../../../core/editor/main';
+import Ediphy from '../../../../../core/editor/main';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
-export default class EuropeanaComponent extends React.Component {
+export default class FlickrComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,11 +18,10 @@ export default class EuropeanaComponent extends React.Component {
                 <FormGroup>
                     <Col md={4}>
                         <ControlLabel>{i18n.t("vish_search_terms")}</ControlLabel>
-                        <FormControl ref="query" type="text"/>
+                        <FormControl autoFocus ref="query" type="text"/>
                     </Col>
                     <Col md={2}>
                         <Button type="submit" className="btn-primary" onClick={(e) => {
-
                             this.onSearch(ReactDOM.findDOMNode(this.refs.query).value);
                             e.preventDefault();
                         }}>{i18n.t("vish_search_button")}
@@ -67,28 +66,47 @@ export default class EuropeanaComponent extends React.Component {
     }
 
     onSearch(text) {
-        const BASE = 'https://www.europeana.eu/api/v2/search.json?wskey=ZDcCZqSZ5&query=' + text + '&qf=TYPE:IMAGE&profile=RICH&media=true&rows=100&qf=IMAGE_SIZE:small';
-        fetch(encodeURI(BASE))
-            .then(res => res.text()
-            ).then(imgStr => {
-                let imgs = JSON.parse(imgStr);
-                if (imgs && imgs.items) {
-                    let results = imgs.items.map(img=>{
-                        return {
-                            title: img.title[0],
-                            url: img.edmIsShownBy,
-                        };
-                    });
 
-                    this.setState({ results });
+        let flickrURL = "http://api.flickr.com/services/feeds/photos_public.gne?tags=" + encodeURI(text) + "&tagmode=any&format=json&jsoncallback=?";
+        $.getJSON(flickrURL, (imgs)=>{
+            try{
+                console.log(imgs);
+                if (imgs) {
+                    if (imgs && imgs.items) {
+                        let results = imgs.items.map(img=>{
+                            return {
+                                title: img.title,
+                                url: img.media.m,
+                            };
+                        });
+                        this.setState({ results });
+                    }
                 }
-            }).catch(e=>{
-                console.error(e);
-            });
+            } catch (e) {console.error(e);}
+
+        });
+
+        /*        fetch(encodeURI(BASE) )
+        .then(res => res.text()
+        ).then(imgStr => {
+            console.log(imgStr)
+        let imgs = JSON.parse(imgStr)
+        if (imgs && imgs.items) {
+            let results = imgs.items.map(img=>{
+                return {
+                    title: img.title,
+                    url: img.media.m,
+                }
+            })
+
+            this.setState({results})
+        }
+    }).catch(e=>{
+        console.error(e)
+    });*/
     }
 }
-
-EuropeanaComponent.propTypes = {
+FlickrComponent.propTypes = {
     /**
      * Selected Element
      */

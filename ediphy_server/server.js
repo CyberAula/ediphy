@@ -75,7 +75,7 @@ app.post('/upload',  upload.single('file'), function (req, res, next) {
   // res.setHeader('Content-Type', 'application/json');
   let name = req.file.originalname || req.file.filename;
   let url = req.protocol + "://" + (req.headers.host) + "/" + req.file.filename;
-  let mimetype = req.file.mimetype;
+  let mimetype = req.file.mimetype && req.file.mimetype !== '' ? req.file.mimetype : path.extname(req.file.originalname);
   if (req.file && req.file.filename) {
     res.send(JSON.stringify({ name, url, mimetype }));
   }

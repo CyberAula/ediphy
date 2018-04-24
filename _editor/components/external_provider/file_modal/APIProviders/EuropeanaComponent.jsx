@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
-import Ediphy from '../../../../core/editor/main';
+import { Modal, FormControl, Col, Form, FormGroup, InputGroup, Glyphicon, ControlLabel, Button } from 'react-bootstrap';
+import Ediphy from '../../../../../core/editor/main';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
-
-import placeholder from './logos/soundcloud_placeholder.png';
-export default class SoundCloudComponent extends React.Component {
+export default class EuropeanaComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,10 +18,20 @@ export default class SoundCloudComponent extends React.Component {
                 <FormGroup>
                     <Col md={4}>
                         <ControlLabel>{i18n.t("vish_search_terms")}</ControlLabel>
-                        <FormControl ref="query" type="text"/>
+                        {/* <FormControl ref="query" type="text"/>*/}
+                        <InputGroup>
+                            <FormControl autoFocus ref="query" type="text" />
+                            <InputGroup.Addon className="inputSearch" onClick={(e) => {
+
+                                this.onSearch(ReactDOM.findDOMNode(this.refs.query).value);
+                                e.preventDefault();
+                            }}>
+                                <Glyphicon glyph="search" />
+                            </InputGroup.Addon>
+                        </InputGroup>
                     </Col>
                     <Col md={2}>
-                        <Button type="submit" className="btn-primary" onClick={(e) => {
+                        <Button type="submit" className="btn-primary hiddenButton" onClick={(e) => {
 
                             this.onSearch(ReactDOM.findDOMNode(this.refs.query).value);
                             e.preventDefault();
@@ -41,17 +49,18 @@ export default class SoundCloudComponent extends React.Component {
                             <br />
                             {this.state.results.map((item, index) => {
                                 let border = item.url === this.props.elementSelected ? "solid orange 3px" : "solid transparent 3px";
-                                return (<div>
+                                return (
                                     <img key={index}
-                                        src={item.thumbnail || placeholder}
-                                        className={'soundCloudSong'}
+                                        src={item.url}
+                                        className={'catalogImage'}
                                         style={{
                                             border: border,
                                         }}
+                                        title={item.title}
                                         onClick={e => {
-                                            this.props.onElementSelected(item.title, item.url, 'video');
+                                            this.props.onElementSelected(item.title, item.url, 'image');
                                         }}
-                                    /><span>{item.title}</span></div>
+                                    />
                                 );
                             })}
                         </FormGroup>
@@ -68,19 +77,16 @@ export default class SoundCloudComponent extends React.Component {
     }
 
     onSearch(text) {
-        const BASE = 'https://api.soundcloud.com/tracks?client_id=bb5aebd03b5d55670ba8fa5b5c3a3da5&q=' + text + '&format=json';
+        const BASE = 'https://www.europeana.eu/api/v2/search.json?wskey=ZDcCZqSZ5&query=' + text + '&qf=TYPE:IMAGE&profile=RICH&media=true&rows=100&qf=IMAGE_SIZE:small';
         fetch(encodeURI(BASE))
             .then(res => res.text()
-            ).then(audioStr => {
-                console.log(audioStr);
-                let songs = JSON.parse(audioStr);
-                console.log(songs);
-                if (songs) {
-                    let results = songs.map(song=>{
+            ).then(imgStr => {
+                let imgs = JSON.parse(imgStr);
+                if (imgs && imgs.items) {
+                    let results = imgs.items.map(img=>{
                         return {
-                            title: song.title,
-                            url: song.stream_url,
-                            thumbnail: song.artwork_url, // TODO Add default
+                            title: img.title[0],
+                            url: img.edmIsShownBy,
                         };
                     });
 
@@ -91,7 +97,8 @@ export default class SoundCloudComponent extends React.Component {
             });
     }
 }
-SoundCloudComponent.propTypes = {
+
+EuropeanaComponent.propTypes = {
     /**
      * Selected Element
      */

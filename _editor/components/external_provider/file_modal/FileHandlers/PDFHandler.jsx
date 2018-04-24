@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import i18n from 'i18next';
-import FileInput from "../../common/file-input/FileInput";
-import { ADD_BOX } from "../../../../common/actions";
-import { isContainedView, isSlide } from "../../../../common/utils";
-import { randomPositionGenerator } from "../../clipboard/clipboard.utils";
-import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from '../../../../common/constants';
-import Ediphy from "../../../../core/editor/main";
+import FileInput from "../../../common/file-input/FileInput";
+import { ADD_BOX } from "../../../../../common/actions";
+import { isContainedView, isSlide } from "../../../../../common/utils";
+import { randomPositionGenerator } from "../../../clipboard/clipboard.utils";
+import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from '../../../../../common/constants';
+import Ediphy from "../../../../../core/editor/main";
 // styles
 import './_ImportFile.scss';
-import { createBox } from '../../../../common/common_tools';
+import { createBox } from '../../../../../common/common_tools';
 
 // PDF Library conf.
 const pdflib = require('pdfjs-dist');
@@ -24,7 +24,7 @@ pdflib.PDFJS.workerSrc = pdfjsWorkerBlobURL;
 /**
  * Generic import file modal
  */
-export default class ImportFile extends Component {
+export default class PDFHandler extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -351,7 +351,7 @@ export default class ImportFile extends Component {
     }
 }
 
-ImportFile.propTypes = {
+PDFHandler.propTypes = {
     /**
      * Whether the import file modal should be shown or hidden
      */

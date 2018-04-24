@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import i18n from 'i18next';
 import { Button, Row, Col, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import Select from 'react-select';
-import ExternalDropzone from '../external_uploader_modal/ExternalDropzone';
+import ExternalDropzone from '../../external_uploader_modal/ExternalDropzone';
 import { WithContext as ReactTags } from 'react-tag-input';
-import './../../nav_bar/global_config/_reactTags.scss';
-import './_fileModal.scss';
-import ImportFile from '../../nav_bar/import_file/ImportFile';
+import '../../../nav_bar/global_config/_reactTags.scss';
+import ImportFile from '../FileHandlers/PDFHandler';
 export default class MyFilesComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -31,7 +30,8 @@ export default class MyFilesComponent extends React.Component {
             { label: "Image", value: 'image', icon: 'image' },
             { label: "Audio", value: 'audio', icon: 'audiotrack' },
             { label: "Video", value: 'video', icon: 'play_arrow' },
-            { label: "Datos", value: 'csv', icon: 'view_agenda' },
+            { label: "CSV", value: 'csv', icon: 'view_agenda' },
+            { label: "JSON", value: 'json', icon: 'view_agenda' },
             { label: "PDF", value: 'pdf', icon: 'picture_as_pdf' },
         ];
         let empty = true;
@@ -66,22 +66,25 @@ export default class MyFilesComponent extends React.Component {
         currentExtension = aux;
         return(<div>
             <ExternalDropzone ref="dropZone" accept={this.props.show} callback={this.dropHandler}/>
-            {this.state.file ? <FormGroup >
-                <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
-                <ReactTags tags={keywords}
-                    placeholder={i18n.t('global_config.keyw.Add_tag')}
-                    delimiters={[188, 13]}
-                    handleDelete={this.handleDelete}
-                    handleAddition={this.handleAddition}
-                    handleDrag={this.handleDrag} />
-            </FormGroup> : null}
-            <Button disabled={!this.state.file} onClick={this.uploadHandler}>UPLOAD</Button>
+            {this.state.file ? <div>
+                <FormGroup >
+                    <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
+                    <ReactTags tags={keywords}
+                        placeholder={i18n.t('global_config.keyw.Add_tag')}
+                        delimiters={[188, 13]}
+                        handleDelete={this.handleDelete}
+                        handleAddition={this.handleAddition}
+                        handleDrag={this.handleDrag} />
+                </FormGroup>
+                <Button disabled={!this.state.file} onClick={this.uploadHandler}>UPLOAD</Button>
+            </div> : null}
+
             <hr/>
             <Row>
                 <Col key="filter" xs={12} md={6}>
                     <FormGroup >
                         <ControlLabel>{i18n.t('Filter')}:</ControlLabel><br/>
-                        <FormControl type="text" value={this.state.filter} placeholder="" onChange={e => {this.setState({ filter: e.target.value });}}/>
+                        <FormControl type="text" value={this.state.filter} placeholder="..." id="filterInput" autoFocus onChange={e => {this.setState({ filter: e.target.value });}}/>
                     </FormGroup>
                 </Col>
                 <Col key="extfilter" xs={12} md={6}>
@@ -94,6 +97,7 @@ export default class MyFilesComponent extends React.Component {
                             options={extensions}
                             onChange={e => {this.setState({ extensionFilter: e.value });}} />
                     </FormGroup>
+
                 </Col>
             </Row>
             <Row className="myFilesRow" onClick={e=>{this.props.onElementSelected(undefined, undefined, undefined);}}>
@@ -155,6 +159,8 @@ export default class MyFilesComponent extends React.Component {
     uploadHandler() {
         let keywordsArray = this.state.keywords.map(key=>{return key.text;});
         let keywords = keywordsArray.join(",");
+        console.log(this.state.file, this.state);
+
         if(process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') { // VISH production
             this.props.onUploadVishResource(this.state.file, keywords);
         } else if (process.env.DOC === 'doc') { // Docs

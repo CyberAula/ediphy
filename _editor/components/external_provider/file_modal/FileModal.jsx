@@ -2,21 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, Row, Col, ListGroupItem, ListGroup } from 'react-bootstrap';
 import './_fileModal.scss';
-import MyFilesComponent from './MyFilesComponent';
-import SearchVishComponent from './SearchVishComponent';
-import SoundCloudComponent from './SoundCloudComponent';
-import YoutubeComponent from './YoutubeComponent';
-import EuropeanaComponent from './EuropeanaComponent';
-import FlickrComponent from './FlickrComponent';
-import { isContainedView, isSlide, isBox, isSortableBox, isView, isSortableContainer } from '../../../../common/utils';
-import { instanceExists, scrollElement, findBox, createBox } from '../../../../common/common_tools';
-import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_RICH_MARK } from '../../../../common/constants';
-import { randomPositionGenerator } from '../../clipboard/clipboard.utils';
-import VISHIcon from './logos/vish.svg';
-import FlickrIcon from './logos/flickrsvg.svg';
-import EuropeanaIcon from './logos/europeanaalt.svg';
-import YoutubeIcon from './logos/youtube.svg';
-import SoundCloudIcon from './logos/soundcloud_logo_0.png';
+import { isContainedView, isSortableContainer } from '../../../../common/utils';
+import FileHandlers from './FileHandlers/FileHandlers';
+import APIProviders from './APIProviders/APIProviders';
+
 export default class FileModal extends React.Component {
     constructor(props) {
         super(props);
@@ -28,37 +17,32 @@ export default class FileModal extends React.Component {
             type: undefined,
             pdfSelected: false,
         };
-        this.menus = this.menus.bind(this);
-        this.handlers = this.handlers.bind(this);
         this.getIndex = this.getIndex.bind(this);
         this.currentPage = this.currentPage.bind(this);
     }
     render() {
-        let menus = this.menus();
-        let handler = this.handlers(this.state.type);
+        let menus = APIProviders(this); // Retrieves all API providers
+        let handler = FileHandlers(this); // Retrieves all file-handling actions
         return(
             <Modal className="pageModal fileModal" backdrop bsSize="large" show={this.props.visible} onHide={this.props.close}>
                 <Modal.Header closeButton>
-                    <Modal.Title><i style={{ fontSize: '18px' }} className="material-icons">attach_file</i> {"Insertar contenido" }</Modal.Title>
+                    <Modal.Title><i style={{ fontSize: '18px' }} className="material-icons">attach_file</i> {"Importar contenido" }</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
                     <Row className="row-eq-height">
                         <Col xs={12} sm={4} md={3} lg={2} id="menuColumn">
                             <ListGroup>
-                                {
-                                    menus.map((cat, i)=>{
-                                        if (cat.show) {
-                                            return <ListGroupItem active={this.state.menu === i} key={i}
-                                                onClick={()=>this.clickHandler(i)}
-                                                className={"listGroupItem"}>
-                                                {cat.icon ? <img className="fileMenuIcon" src={cat.icon} alt=""/> :
-                                                    <span className="fileMenuName">{cat.name}</span> }</ListGroupItem>;
-                                        }
-                                        return null;
-
-                                    })
-                                }
+                                {menus.map((cat, i)=>{
+                                    if (cat.show) {
+                                        return <ListGroupItem active={this.state.menu === i} key={i}
+                                            onClick={()=>this.clickHandler(i)}
+                                            className={"listGroupItem"}>
+                                            {cat.icon ? <img className="fileMenuIcon" src={cat.icon} alt=""/> : <span className="fileMenuName">{cat.name}</span> }
+                                        </ListGroupItem>;
+                                    }
+                                    return null;
+                                })}
                             </ListGroup>
                         </Col>
                         <Col xs={12} sm={8} md={9} lg={10} id="contentColumn" >
@@ -99,82 +83,7 @@ export default class FileModal extends React.Component {
             this.setState({ menu: 0, element: undefined, index: undefined, type: undefined });
         }
     }
-    /**
-     * Left side options
-     */
-    menus() {
-        let allowedMIME = this.props.visible || "";
-        let commonProps = {
-            onElementSelected: (name, element, type) => { this.setState({ name, element, type }); },
-            elementSelected: this.state.element,
-        };
-        return [
-            {
-                name: <span><i className="material-icons">file_upload</i>{'My Files'}</span>,
-                show: true,
-                component: MyFilesComponent,
-                props: {
-                    ...commonProps,
-                    show: allowedMIME,
-                    pdfSelected: this.state.pdfSelected,
-                    closeSideBar: (closeAlsoModal)=>{this.setState({ pdfSelected: false }); if (closeAlsoModal) {this.props.close();}},
-                    filesUploaded: this.props.filesUploaded,
-                    onUploadVishResource: this.props.onUploadVishResource,
-                    onUploadEdiphyResource: this.props.onUploadEdiphyResource,
-                    onNavItemsAdded: this.props.onNavItemsAdded,
-                    onIndexSelected: this.props.onIndexSelected,
-                    onNavItemSelected: this.props.onNavItemSelected,
-                    navItemsIds: this.props.navItemsIds,
-                    navItems: this.props.navItems,
-                    navItemSelected: this.props.navItemSelected,
-                    containedViews: this.props.containedViews,
-                    containedViewSelected: this.props.containedViewSelected,
-                    boxes: this.props.boxes,
-                    onBoxAdded: this.props.onBoxAdded,
-                },
-            },
-            {
-                name: 'VISH',
-                icon: VISHIcon,
-                show: (allowedMIME === "*" || allowedMIME.match('image')),
-                component: SearchVishComponent,
-                props: { ...commonProps,
-                    onFetchVishResources: this.props.onFetchVishResources,
-                    fetchResults: this.props.fetchResults,
-                },
-            },
-            {
-                name: 'Flickr',
-                icon: FlickrIcon,
-                show: (allowedMIME === "*" || allowedMIME.match('image')),
-                component: FlickrComponent,
-                props: { ...commonProps,
-                },
-            },
-            {
-                name: 'Europeana',
-                icon: EuropeanaIcon,
-                show: (allowedMIME === "*" || allowedMIME.match('image')),
-                component: EuropeanaComponent,
-                props: { ...commonProps,
-                },
-            },
-            {
-                name: 'Youtube',
-                icon: YoutubeIcon,
-                show: (allowedMIME === "*" || allowedMIME.match('video')),
-                component: YoutubeComponent,
-                props: { ...commonProps },
-            },
-            {
-                name: 'SoundCloud',
-                icon: SoundCloudIcon,
-                show: (allowedMIME === "*" || allowedMIME.match('video')),
-                component: SoundCloudComponent,
-                props: { ...commonProps },
-            },
-        ];
-    }
+
     /**
      * Calculates current page (nav or cv)
      */
@@ -182,122 +91,6 @@ export default class FileModal extends React.Component {
         return isContainedView(this.props.containedViewSelected) ?
             this.props.containedViews[this.props.containedViewSelected] :
             (this.props.navItemSelected !== 0 ? this.props.navItems[this.props.navItemSelected] : null);
-    }
-
-    handlers(type) {
-        let download = { // Forces browser download
-            title: 'Download',
-            disabled: !this.state.element,
-            action: ()=>{
-                let anchor = document.createElement('a');
-                anchor.href = this.state.element;
-                anchor.target = '_blank';
-                anchor.download = this.state.name;
-                anchor.click();
-            },
-        };
-        let page = this.currentPage();
-        let { initialParams, isTargetSlide } = this.initialParams(page);
-        switch(type) {
-        case 'image' :
-            return{
-                icon: 'image',
-                buttons: [
-                    {
-                        title: 'Insert',
-                        disabled: !page || this.props.disabled || !this.state.element || !this.state.type,
-                        action: ()=>{
-                            if (this.state.element) {
-                                if (this.props.fileModalResult && !this.props.fileModalResult.id) {
-                                    initialParams.url = this.state.element;
-                                    createBox(initialParams, "HotspotImages", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
-                                    this.props.close();
-                                } else {
-                                    this.props.close({ id: this.props.fileModalResult.id, value: this.state.element });
-                                }
-                            }
-
-                        },
-                    },
-                    download,
-                ],
-            };
-        case 'video' :
-            return {
-                icon: 'play_arrow',
-                buttons: [
-                    {
-                        title: 'Insert',
-                        disabled: !page || this.props.disabled || !this.state.element || !this.state.type,
-                        action: ()=>{
-                            if (this.props.fileModalResult && !this.props.fileModalResult.id) {
-                                initialParams.url = this.state.element;
-                                createBox(initialParams, "EnrichedPlayer", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
-                                this.props.close();
-                            } else {
-                                this.props.close({ id: this.props.fileModalResult.id, value: this.state.element });
-                            }
-                        },
-                    },
-                    download,
-                ] };
-        case 'audio' :
-            return {
-                icon: 'audiotrack',
-                buttons: [
-                    {
-                        title: 'Insert',
-                        disabled: !page || this.props.disabled || !this.state.element || !this.state.type,
-                        action: ()=>{
-                            if (this.props.fileModalResult && !this.props.fileModalResult.id) {
-                                initialParams.url = this.state.element;
-                                createBox(initialParams, "EnrichedPlayer", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
-                                this.props.close();
-                            } else {
-                                this.props.close({ id: this.props.fileModalResult.id, value: this.state.element });
-                            }
-                        },
-                    },
-                    download,
-                ] };
-        case 'pdf' :
-            return {
-                icon: 'picture_as_pdf',
-                buttons: [
-                    {
-                        title: 'Insert',
-                        disabled: !page || this.props.disabled || !this.state.element || !this.state.type || (this.props.fileModalResult && this.props.fileModalResult.id),
-                        action: ()=>{ // Open side view
-                            if (this.state.element) {
-                                this.setState({ pdfSelected: true });
-                            }
-                        },
-                    },
-                    download,
-                ] };
-        case 'csvAUNNOFUNCIONA' :
-            return {
-                icon: 'view_agenda',
-                buttons: [
-                    {
-                        title: 'Insert',
-                        disabled: !page || this.props.disabled || !this.state.element || !this.state.type || (this.props.fileModalResult && this.props.fileModalResult.id),
-                        action: ()=>{
-                            if (this.state.element) {
-                                // TODO Crear Gráfica/Datatable
-                            }
-                            this.props.close();
-                        },
-                    },
-                    download,
-                ] };
-        default :
-            return {
-                icon: 'attach_file',
-                buttons: [
-                    download,
-                ] };
-        }
     }
 
     getIndex(parent, container) {
@@ -308,50 +101,6 @@ export default class FileModal extends React.Component {
             newInd = newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
         }
         return newInd;
-    }
-
-    initialParams(page) {
-        let ids = {};
-        let initialParams;
-        let isTargetSlide = false;
-
-        if (page) {
-            let containerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
-            let id = ID_PREFIX_BOX + Date.now();
-            isTargetSlide = isSlide(page.type);
-            let parent = isTargetSlide ? page.id : page.boxes[0];
-            let row = 0;
-            let col = 0;
-            let container = isTargetSlide ? 0 : containerId;
-            let newInd;
-            if (this.props.boxSelected && this.props.boxes[this.props.boxSelected] && isBox(this.props.boxSelected)) {
-                parent = this.props.boxes[this.props.boxSelected].parent;
-                container = this.props.boxes[this.props.boxSelected].container;
-                isTargetSlide = container === 0;
-                row = this.props.boxes[this.props.boxSelected].row;
-                col = this.props.boxes[this.props.boxSelected].col;
-                newInd = this.getIndex(parent, container);
-            }
-
-            ids = { id, parent, container, row, col, page: page ? page.id : 0 };
-            // Copied data is an EditorBox
-            initialParams = {
-                id: ID_PREFIX_BOX + Date.now(),
-                parent: parent, //
-                container: container,
-                row: row,
-                col: col,
-                index: newInd,
-                page: page ? page.id : 0,
-                position: isTargetSlide ? {
-                    type: "absolute",
-                    x: randomPositionGenerator(20, 40),
-                    y: randomPositionGenerator(20, 40),
-                } : { type: 'relative', x: "0%", y: "0%" },
-            };
-        }
-
-        return { initialParams, isTargetSlide };
     }
 
 }

@@ -10,7 +10,7 @@ import FileInput from "../../_editor/components/common/file-input/FileInput";
 import MarksList from "../../_editor/components/rich_plugins/marks_list/MarksList";
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
 import ExternalProvider from "../../_editor/components/external_provider/external_provider/ExternalProvider";
-import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/ToobarFileProvider";
+import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/APIProviders/ToobarFileProvider";
 /* eslint-disable react/prop-types */
 
 export function toolbarFiller(toolbar, id, state, config, initialParams, container, marks = null, exercises = {}) {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
-import Ediphy from '../../../../core/editor/main';
+import Ediphy from '../../../../../core/editor/main';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
 
@@ -13,11 +13,11 @@ export default class SearchVishComponent extends React.Component {
                     <FormGroup>
                         <Col md={4}>
                             <ControlLabel>{i18n.t("vish_search_terms")}</ControlLabel>
-                            <FormControl ref="query" type="text"/>
+                            <FormControl autoFocus ref="query" type="text"/>
                         </Col>
                         <Col md={3}>
                             <ControlLabel>{i18n.t("vish_search_by_type")}</ControlLabel>
-                            <FormControl ref="type" componentClass="select">
+                            <FormControl autoFocus ref="type" componentClass="select">
                                 <option value="Picture">{i18n.t("vish_search_types.Picture")}</option>
                                 {/*
                                  <option value="Resource">All</option>
@@ -49,6 +49,7 @@ export default class SearchVishComponent extends React.Component {
                             </FormControl>
                         </Col>
                         <Col md={2}>
+                            <br/>
                             <Button type="submit" className="btn-primary" onClick={(e) => {
                                 let url = encodeURI(Ediphy.Config.search_vish_url +
                                     "?q=" + ReactDOM.findDOMNode(this.refs.query).value +

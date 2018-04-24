@@ -1,7 +1,6 @@
 import React from "react";
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col } from "react-bootstrap";
-import FileInput from '../../../_editor/components/common/file-input/FileInput';
-import Alert from '../../../_editor/components/common/alert/Alert';
+import ToolbarFileProvider from '../../../_editor/components/external_provider/file_modal/APIProviders/ToobarFileProvider';
 import i18n from 'i18next';
 /* eslint-disable react/prop-types */
 
@@ -16,8 +15,6 @@ export default class DataProvider extends React.Component {
         this.deleteRows = this.deleteRows.bind(this);
         this.rowsChanged = this.rowsChanged.bind(this);
         this.keyChanged = this.keyChanged.bind(this);
-        this.validateJson = this.validateJson.bind(this);
-        this.fileChanged = this.fileChanged.bind(this);
         this.dataChanged = this.dataChanged.bind(this);
 
         this.state = {
@@ -113,93 +110,22 @@ export default class DataProvider extends React.Component {
         keys[pos] = newvalue;
         this.setState({ keys: keys });
     }
-    csvToState(csv) {
-        let lines = csv.split("\n");
 
-        let result = [];
-
-        let headers = lines[0].split(",");
-
-        for(let i = 1; i < lines.length; i++) {
-
-            let obj = Array(lines.length);
-            let currentline = lines[i].split(",");
-
-            for (let j = 0; j < headers.length; j++) {
-                obj[j] = "" + currentline[j];
-            }
-            result.push(obj);
-        }
-
-        return result;
-    }
-    validateJson(json) {
-        let data = {};
-        if(json.length === 0) {
-            this.setState({ error: true });
-            return false;
-        }
-        let cols = Object.keys(json[0]);
-        if(cols.length === 0) {
-            this.setState({ error: true, file: false });
-            return false;
-        }
-        for(let row of json) {
-
-            if(!this.compareKeys(cols, Object.keys(row))) {
-                this.setState({ error: true, file: false });
-                return false;
-            }
-            cols = Object.keys(row);
-        }
-        this.setState({ cols: cols.length, rows: json.length, data: json, keys: cols, x: cols[0] });
-
-        this.setState({ error: false });
-        return true;
-    }
-    compareKeys(a, b) {
-        a = a.sort().toString();
-        b = b.sort().toString();
-        return a === b;
-    }
-    fileChanged(event) {
-        let files = event.target.files;
-        let file = files[0];
-
-        let reader = new FileReader();
-        reader.onload = function() {
-            let data = reader.result;
-            if(file.name.split('.').pop() === "csv") {
-                data = this.csvToState(data);
-            /* } else if(file.name.split('.').pop() === "json") {
-                data = JSON.parse(data);*/
-            } else {
-                let alertComp = (<Alert className="pageModal" show hasHeader closeButton onClose={()=>{this.setState({ alert: null });}}>
-                    <span> {i18n.t("DataTable.file_msg")} </span>
-                </Alert>);
-                this.setState({ alert: alertComp });
-                return;
-            }
-            this.setState({ name: file.name });
-            // this.validateJson(data);
-        }.bind(this);
-        reader.readAsBinaryString(file);
-    }
     render() {
+        let props = this.props.props;
+        console.log(this.props, props);
         return (
             <div id="datatable_config_modal">
                 { this.state.alert }
                 <Form horizontal style={{ padding: "16px" }}>
                     <FormGroup>
-                        <FileInput onChange={this.fileChanged} className="fileInput" accept=".csv,.json">
-                            {/* <Button className="btn btn-primary" style={{ marginTop: '0px' }}>{ Ediphy.i18n.t('FileDialog') }</Button>*/}
-                            {/* <span style={{ marginLeft: '10px' }}>*/}
-                            {/* <label className="control-label">{ Ediphy.i18n.t('FileDialog') + ':   ' } </label> { this.state.name || '' }</span>*/}
-                            <div className="fileDrag">
-                                <span style={{ display: this.props.name ? 'none' : 'block' }}><i className="material-icons">ic_file_upload</i><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b>{ i18n.t('FileInput.Click_2') }</span>
-                                <span className="fileUploaded" style={{ display: this.props.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.props.name || '' }</span>
-                            </div>
-                        </FileInput>
+                        <ToolbarFileProvider
+                            id={this.props.id}
+                            openModal={props.openFileModal}
+                            fileModalResult={props.fileModalResult}
+                            onChange={ (target)=>{this.setState({ ...target.value });}}
+                            accept={"csv"}
+                        />
                     </FormGroup>
                     <FormGroup>
                         <Col componentClass={ControlLabel} xs={4}>

@@ -364,6 +364,8 @@ class EditorApp extends Component {
                     state={this.props.store.getState().present}/>
                 <PluginConfigModal
                     id={this.state.pluginConfigModal}
+                    fileModalResult={this.state.fileModalResult}
+                    openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept });}}
                     name={pluginToolbars[this.state.pluginConfigModal] ? pluginToolbars[this.state.pluginConfigModal].pluginId : ""}
                     state={pluginToolbars[this.state.pluginConfigModal] ? pluginToolbars[this.state.pluginConfigModal].state : {}}
                     closeConfigModal={()=>{ this.setState({ pluginConfigModal: false }); } }
@@ -505,6 +507,7 @@ class EditorApp extends Component {
                     containedViewSelected={containedViewSelected}
                     navItemSelected={navItemSelected}
                     filesUploaded={filesUploaded}
+                    pluginToolbars={pluginToolbars}
                     onIndexSelected={(id) => dispatch(selectIndex(id))}
                     onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
                     onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
