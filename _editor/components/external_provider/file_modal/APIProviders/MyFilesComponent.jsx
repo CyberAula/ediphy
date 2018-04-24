@@ -30,7 +30,8 @@ export default class MyFilesComponent extends React.Component {
             { label: "Image", value: 'image', icon: 'image' },
             { label: "Audio", value: 'audio', icon: 'audiotrack' },
             { label: "Video", value: 'video', icon: 'play_arrow' },
-            { label: "Datos", value: 'csv', icon: 'view_agenda' },
+            { label: "CSV", value: 'csv', icon: 'view_agenda' },
+            { label: "JSON", value: 'json', icon: 'view_agenda' },
             { label: "PDF", value: 'pdf', icon: 'picture_as_pdf' },
         ];
         let empty = true;
@@ -96,6 +97,7 @@ export default class MyFilesComponent extends React.Component {
                             options={extensions}
                             onChange={e => {this.setState({ extensionFilter: e.value });}} />
                     </FormGroup>
+
                 </Col>
             </Row>
             <Row className="myFilesRow" onClick={e=>{this.props.onElementSelected(undefined, undefined, undefined);}}>
@@ -151,12 +153,19 @@ export default class MyFilesComponent extends React.Component {
         }
     }
     dropHandler(file) {
+        if (!file.type) {
+            console.log(file);
+            let splitted = file.name.split('.');
+            file.type = splitted[splitted.length - 1];
+        }
         this.setState({ file });
     }
 
     uploadHandler() {
         let keywordsArray = this.state.keywords.map(key=>{return key.text;});
         let keywords = keywordsArray.join(",");
+        console.log(this.state.file, this.state);
+
         if(process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') { // VISH production
             this.props.onUploadVishResource(this.state.file, keywords);
         } else if (process.env.DOC === 'doc') { // Docs

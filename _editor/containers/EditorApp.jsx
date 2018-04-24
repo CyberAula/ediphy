@@ -507,6 +507,7 @@ class EditorApp extends Component {
                     containedViewSelected={containedViewSelected}
                     navItemSelected={navItemSelected}
                     filesUploaded={filesUploaded}
+                    pluginToolbars={pluginToolbars}
                     onIndexSelected={(id) => dispatch(selectIndex(id))}
                     onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
                     onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}

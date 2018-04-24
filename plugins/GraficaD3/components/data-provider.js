@@ -1,8 +1,8 @@
 import React from "react";
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col } from "react-bootstrap";
-import FileInput from '../../../_editor/components/common/file-input/FileInput';
-import Alert from '../../../_editor/components/common/alert/Alert';
 import i18n from 'i18next';
+import ToolbarFileProvider from '../../../_editor/components/external_provider/file_modal/APIProviders/ToobarFileProvider';
+
 /* eslint-disable react/prop-types */
 
 export default class DataProvider extends React.Component {
@@ -19,9 +19,8 @@ export default class DataProvider extends React.Component {
         this.deleteRows = this.deleteRows.bind(this);
         this.rowsChanged = this.rowsChanged.bind(this);
         this.keyChanged = this.keyChanged.bind(this);
-        this.validateJson = this.validateJson.bind(this);
-        this.fileChanged = this.fileChanged.bind(this);
         this.dataChanged = this.dataChanged.bind(this);
+        this.processInput = this.processInput.bind(this);
 
         this.state = {
             cols: cols,
@@ -121,122 +120,31 @@ export default class DataProvider extends React.Component {
         this.setState({ keys: keys });
     }
 
-    csvToState(csv) {
-        let lines = csv.split("\n");
-
-        let result = [];
-
-        let headers = lines[0].split(",");
-        // console.log(lines, headers);
-        for(let i = 1; i < lines.length; i++) {
-            let obj = Array(headers.length);
-            let currentline = lines[i].split(",");
-            for (let j = 0; j < headers.length; j++) {
-                obj[j] = "" + currentline[j];
-            }
-            result.push(obj);
-        }
-        console.log(result);
-        return { headers, result };
-    }
-
-    jsonToState(json) {
-        json = JSON.parse(json);
-        let headers = [];
-        let data = [];
-        if (this.validateJson(json)) {
-            headers = Object.keys(json[0]);
-            data = json.map(r=>Object.values(r));
-            return { headers, data };
-        }
-        return false;
-    }
-
-    validateJson(json) {
-        let data = {};
-        if(json.length === 0) {
-            this.setState({ error: true });
-            return false;
-        }
-        let cols = Object.keys(json[0]);
-        if(cols.length === 0) {
-            this.setState({ error: true, file: false });
-            return false;
-        }
-        for(let row of json) {
-
-            if(!this.compareKeys(cols, Object.keys(row))) {
-                this.setState({ error: true, file: false });
-                return false;
-            }
-            cols = Object.keys(row);
-        }
-        this.setState({ cols: cols.length, rows: json.length, data: json, keys: cols, x: cols[0] });
-
-        this.setState({ error: false });
-        return true;
-    }
-
     compareKeys(a, b) {
         a = a.sort().toString();
         b = b.sort().toString();
         return a === b;
     }
 
-    fileChanged(event) {
-        let files = event.target.files;
-        let file = files[0];
-        console.log(file);
-        let reader = new FileReader();
-        reader.onload = function() {
-            let data = reader.result;
-            let headers = (data[0]) ? new Array(data[0].length) : [];
-            if(file.name.split('.').pop() === "csv") {
-                let csv = this.csvToState(data);
-                data = csv.result;
-                headers = csv.headers;
-                console.log(data);
-            } else if(file.name.split('.').pop() === "json") {
-                let json = this.jsonToState(data);
-                if (!json) {return;}
-                data = json.data;
-                headers = json.headers;
-
-            } else {
-                let alertComp = (<Alert className="pageModal" show hasHeader closeButton onClose={()=>{this.setState({ alert: null });}}>
-                    <span> {i18n.t("DataTable.file_msg")} </span>
-                </Alert>);
-                this.setState({ alert: alertComp });
-                return;
-            }
-            this.setState({ name: file.name, data: data, rows: data.length, cols: data[0].length, keys: headers });
-            // this.validateJson(data);
-        }.bind(this);
-
-        reader.readAsBinaryString(file);
+    processInput(value) {
+        this.setState({ ...value });
     }
+
     render() {
+        let props = this.props.props;
         return (
             <div>
                 { this.state.alert }
                 <Form horizontal style={{ padding: "16px" }}>
                     <FormGroup>
-                        <FileInput onChange={this.fileChanged} className="fileInput" accept=".csv,.json">
-                            <div className="fileDrag">
-                                <span style={{ display: this.state.name ? 'none' : 'block' }}><i className="material-icons">ic_file_upload</i><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b>{ i18n.t('FileInput.Click_2') }</span>
-                                <span className="fileUploaded" style={{ display: this.props.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.props.name || '' }</span>
-                            </div>
-                        </FileInput>
+                        <ToolbarFileProvider
+                            id={this.props.id}
+                            openModal={props.openFileModal}
+                            fileModalResult={props.fileModalResult}
+                            onChange={ (target)=>{this.processInput(target.value);}}
+                            accept={"csv"}
+                        />
                     </FormGroup>
-                    {/*
-                    <FormGroup>
-                        <Col componentClass={ControlLabel} xs={4}>
-                            <FormControl.Static>
-                                {i18n.t("GraficaD3.fill_in")}
-                            </FormControl.Static>
-                        </Col>
-                    </FormGroup>
-                    */}
                     <FormGroup>
                         <Col componentClass={ControlLabel} xs={2}>
                             {i18n.t("GraficaD3.data_cols")}

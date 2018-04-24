@@ -125,7 +125,6 @@ export function DataTable(base) {
 
         },
         getConfigTemplate: function(id, state, updateState, props) {
-            console.log(props);
             return (
                 <Config id={id} state={state} updateState={updateState} props={props}/>
             );

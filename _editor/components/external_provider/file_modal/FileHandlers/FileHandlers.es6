@@ -21,6 +21,7 @@ export default function handlers(self) {
     };
     let page = self.currentPage();
     let { initialParams, isTargetSlide } = getInitialParams(self, page);
+    let currentPlugin = (self.props.fileModalResult && self.props.fileModalResult.id && self.props.pluginToolbars[self.props.fileModalResult.id]) ? self.props.pluginToolbars[self.props.fileModalResult.id].pluginId : null;
     switch(type) {
     case 'image' :
         return{
@@ -99,27 +100,26 @@ export default function handlers(self) {
                 download,
             ] };
     case 'csv' :
+    case 'json':
         return {
             icon: 'view_agenda',
             buttons: [
                 {
                     title: 'Insert Table',
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'DataTable'),
                     action: () => {
                         if (self.state.element) {
                             let xhr = new XMLHttpRequest(),
                                 fileReader = new FileReader();
-                            fileReader.onload = (e)=>dataToState(e, self, 'csv', initialParams, isTargetSlide);
+                            fileReader.onload = (e)=>dataToState(e, self, type, initialParams, isTargetSlide, 'DataTable');
                             if(isDataURL(self.state.element)) {
                                 fileReader.readAsBinaryString(dataURItoBlob(self.state.element));
                             } else {
                                 xhr.open("GET", self.state.element, true);
-                                // Set the responseType to blob
                                 xhr.responseType = "blob";
 
                                 xhr.addEventListener("load", function() {
                                     if (xhr.status === 200) {
-                                        // Load blob as Data URL
                                         fileReader.readAsBinaryString(xhr.response);
                                     }
                                 }, false);
@@ -131,20 +131,31 @@ export default function handlers(self) {
 
                     },
                 },
-                download,
-            ] };
-    case 'json' :
-        return {
-            icon: 'view_agenda',
-            buttons: [
                 {
-                    title: 'Insert',
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
-                    action: ()=>{
+                    title: 'Insert Graph',
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'GraficaD3'),
+                    action: () => {
                         if (self.state.element) {
-                            // TODO Crear Gráfica/Datatable
+                            let xhr = new XMLHttpRequest(),
+                                fileReader = new FileReader();
+                            fileReader.onload = (e)=>dataToState(e, self, type, initialParams, isTargetSlide, 'GraficaD3');
+                            if(isDataURL(self.state.element)) {
+                                fileReader.readAsBinaryString(dataURItoBlob(self.state.element));
+                            } else {
+                                xhr.open("GET", self.state.element, true);
+                                xhr.responseType = "blob";
+
+                                xhr.addEventListener("load", function() {
+                                    if (xhr.status === 200) {
+                                        fileReader.readAsBinaryString(xhr.response);
+                                    }
+                                }, false);
+                                // Send XHR
+                                xhr.send();
+                            }
+
                         }
-                        self.props.close();
+
                     },
                 },
                 download,
@@ -181,7 +192,6 @@ function getInitialParams(self, page) {
         }
 
         ids = { id, parent, container, row, col, page: page ? page.id : 0 };
-        // Copied data is an EditorBox
         initialParams = {
             id: ID_PREFIX_BOX + Date.now(),
             parent: parent, //
@@ -284,17 +294,26 @@ function dataURItoBlob(dataURI) {
 
 }
 
-function dataToState(e, self, format, initialParams, isTargetSlide) {
+function dataToState(e, self, format, initialParams, isTargetSlide, plugin) {
     let data = e.currentTarget.result;
     let headers = (data[0]) ? new Array(data[0].length) : [];
-    let csv = csvToState(data);
-    data = csv.data;
-    headers = csv.headers;
-    let value = { name: self.state.element.name, data: data, rows: data.length, cols: data[0].length, keys: headers };
+    let processed = { data: [], headers: [] };
+    if (format === 'csv') {
+        processed = csvToState(data);
+    } else if (format === 'csv') {
+        processed = jsonToState(data);
+    }
+    data = processed.data;
+    headers = processed.headers;
+    let value = { name: self.state.name, data, rows: data.length, cols: data[0].length, keys: headers };
+    if (plugin === 'GraficaD3') {
+        value.dataProvided = data;
+        value.dataProcessed = data;
+    }
 
     if (self.props.fileModalResult && !self.props.fileModalResult.id) {
         initialParams.initialState = value;
-        createBox(initialParams, "DataTable", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+        createBox(initialParams, plugin, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
     }else {
         self.props.close({ id: self.props.fileModalResult.id, value });
     }
