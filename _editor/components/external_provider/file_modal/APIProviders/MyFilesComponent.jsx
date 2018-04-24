@@ -153,11 +153,6 @@ export default class MyFilesComponent extends React.Component {
         }
     }
     dropHandler(file) {
-        if (!file.type) {
-            console.log(file);
-            let splitted = file.name.split('.');
-            file.type = splitted[splitted.length - 1];
-        }
         this.setState({ file });
     }
 

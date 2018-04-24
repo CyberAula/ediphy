@@ -232,15 +232,17 @@ function csvToState(csv) {
 }
 
 function jsonToState(json) {
+    console.log(json);
     json = JSON.parse(json);
+    console.log(json);
     let headers = [];
     let data = [];
-    if (this.validateJson(json)) {
+    if (validateJson(json)) {
         headers = Object.keys(json[0]);
         data = json.map(r=>Object.values(r));
         return { headers, data };
     }
-    return false;
+    return {};
 }
 
 function validateJson(json) {
@@ -254,12 +256,11 @@ function validateJson(json) {
     }
     for(let row of json) {
 
-        if(!this.compareKeys(cols, Object.keys(row))) {
+        if(!compareKeys(cols, Object.keys(row))) {
             return false;
         }
         cols = Object.keys(row);
     }
-    console.log(json);
     return true;
 }
 
@@ -300,7 +301,7 @@ function dataToState(e, self, format, initialParams, isTargetSlide, plugin) {
     let processed = { data: [], headers: [] };
     if (format === 'csv') {
         processed = csvToState(data);
-    } else if (format === 'csv') {
+    } else if (format === 'json') {
         processed = jsonToState(data);
     }
     data = processed.data;
