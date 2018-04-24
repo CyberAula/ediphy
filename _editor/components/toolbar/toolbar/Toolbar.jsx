@@ -124,7 +124,7 @@ Toolbar.propTypes = {
      */
     boxSelected: PropTypes.any,
     /**
-     * View selected
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any,
     /**

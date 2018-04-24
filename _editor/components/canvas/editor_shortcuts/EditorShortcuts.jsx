@@ -362,7 +362,7 @@ EditorShortcuts.propTypes = {
      */
     pointerEventsCallback: PropTypes.func,
     /**
-     * Selected page
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any,
     /**

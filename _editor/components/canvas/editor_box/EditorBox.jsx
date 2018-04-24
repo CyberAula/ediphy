@@ -718,7 +718,7 @@ EditorBox.propTypes = {
      */
     id: PropTypes.string.isRequired,
     /**
-     * Object contianing all the boxes
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
@@ -730,7 +730,7 @@ EditorBox.propTypes = {
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Object that holds all the contained views in the project
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -762,7 +762,7 @@ EditorBox.propTypes = {
      */
     marks: PropTypes.object,
     /**
-     * Callback for when adding a box
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**

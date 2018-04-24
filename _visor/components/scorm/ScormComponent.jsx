@@ -220,7 +220,7 @@ export default class ScormComponent extends Component {
 ScormComponent.propTypes = {
 
     /**
-     * Array que contiene todas las vistas creadas, accesibles por su *id*
+     * Objects Array that contains all created views (identified by its *id*)
      */
     navItemsIds: PropTypes.array.isRequired,
     /**

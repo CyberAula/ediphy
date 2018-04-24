@@ -456,19 +456,19 @@ RichMarksModal.propTypes = {
      */
     pluginToolbar: PropTypes.object,
     /**
-     * Vista seleccionada
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Vista contenida seleccionada
+     * Selected contained view
      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
-     * Diccionario que contiene las vistas contenidas
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Diccionario que contiene las vistas creadas
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
     /**

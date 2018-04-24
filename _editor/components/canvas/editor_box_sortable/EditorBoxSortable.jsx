@@ -399,7 +399,7 @@ EditorBoxSortable.propTypes = {
      */
     id: PropTypes.string.isRequired,
     /**
-     * Object that holds  all the boxes, (identified by its ID)
+     * Object that holds all the boxes, (identified by its ID)
      */
     boxes: PropTypes.object.isRequired,
     /**
@@ -411,7 +411,7 @@ EditorBoxSortable.propTypes = {
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Object that holds all the contained views in the project (identified by its ID)
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -439,7 +439,7 @@ EditorBoxSortable.propTypes = {
      */
     markCreatorId: PropTypes.any.isRequired,
     /**
-     * Callback for when adding a box
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**

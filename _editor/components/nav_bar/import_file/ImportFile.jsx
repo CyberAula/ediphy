@@ -347,23 +347,23 @@ ImportFile.propTypes = {
      */
     navItems: PropTypes.object.isRequired,
     /**
-     * Id of the selected page
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any,
     /**
-     * Object that holds all the contained views in the project
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Id of the contained view selected
+     * Selected contained view (by ID)
      */
     containedViewSelected: PropTypes.any,
     /**
-     * Object that contains the boxes
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object,
     /**
-     * Function for creating a new box
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
 };

@@ -106,7 +106,7 @@ export default class NavDropdown extends Component {
 NavDropdown.propTypes = {
 
     /**
-     * Identifies the view that is being edited
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
