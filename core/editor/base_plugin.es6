@@ -127,6 +127,9 @@ export default function() {
                 }
 
             }
+            if(initParams.initialState) {
+                state = { ...state, ...initParams.initialState };
+            }
             if(initParams.url) {
                 state.url = initParams.url;
             }
@@ -331,7 +334,7 @@ export default function() {
             }
             return toolbar;
         },
-        getConfigTemplate: function(idBox, configState, update) {
+        getConfigTemplate: function(idBox, configState, update, props) {
             if (!descendant.getConfigTemplate) {
                 if (this.getConfig().needsConfigModal) {
                     // eslint-disable-next-line no-console
@@ -340,7 +343,7 @@ export default function() {
                 }
                 return null;
             }
-            return descendant.getConfigTemplate(idBox, configState, update);
+            return descendant.getConfigTemplate(idBox, configState, update, props);
 
         },
         getRichMarkInput: function(setMark) {

@@ -34,11 +34,11 @@ export default class ExternalProvider extends Component {
     render() {
         return (
             <FormGroup>
-                <ControlLabel>{this.props.formControlProps.label}</ControlLabel>
-                <FormControl {...this.props.formControlProps} onChange={e => {
-                    this.props.formControlProps.onChange(e, this.state);
-                }}/>
-                <br />
+                {this.props.formControlProps ? [<ControlLabel>{this.props.formControlProps.label}</ControlLabel>,
+                    <FormControl {...this.props.formControlProps} onChange={e => {
+                        this.props.formControlProps.onChange(e, this.state);
+                    }}/>, <br />] : null}
+
                 { Ediphy.Config.external_providers.enable_search &&
                 <Button className={'toolbarButton'}
                     onClick={() => {

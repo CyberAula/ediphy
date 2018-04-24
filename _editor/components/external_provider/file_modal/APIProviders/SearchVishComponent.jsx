@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
-import Ediphy from '../../../../core/editor/main';
+import Ediphy from '../../../../../core/editor/main';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
 

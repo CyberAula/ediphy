@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import i18n from 'i18next';
 import { Button, Row, Col, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import Select from 'react-select';
-import ExternalDropzone from '../external_uploader_modal/ExternalDropzone';
+import ExternalDropzone from '../../external_uploader_modal/ExternalDropzone';
 import { WithContext as ReactTags } from 'react-tag-input';
-import './../../nav_bar/global_config/_reactTags.scss';
-import './_fileModal.scss';
-import ImportFile from '../../nav_bar/import_file/ImportFile';
+import '../../../nav_bar/global_config/_reactTags.scss';
+import ImportFile from '../FileHandlers/PDFHandler';
 export default class MyFilesComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -66,16 +65,19 @@ export default class MyFilesComponent extends React.Component {
         currentExtension = aux;
         return(<div>
             <ExternalDropzone ref="dropZone" accept={this.props.show} callback={this.dropHandler}/>
-            {this.state.file ? <FormGroup >
-                <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
-                <ReactTags tags={keywords}
-                    placeholder={i18n.t('global_config.keyw.Add_tag')}
-                    delimiters={[188, 13]}
-                    handleDelete={this.handleDelete}
-                    handleAddition={this.handleAddition}
-                    handleDrag={this.handleDrag} />
-            </FormGroup> : null}
-            <Button disabled={!this.state.file} onClick={this.uploadHandler}>UPLOAD</Button>
+            {this.state.file ? <div>
+                <FormGroup >
+                    <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
+                    <ReactTags tags={keywords}
+                        placeholder={i18n.t('global_config.keyw.Add_tag')}
+                        delimiters={[188, 13]}
+                        handleDelete={this.handleDelete}
+                        handleAddition={this.handleAddition}
+                        handleDrag={this.handleDrag} />
+                </FormGroup>
+                <Button disabled={!this.state.file} onClick={this.uploadHandler}>UPLOAD</Button>
+            </div> : null}
+
             <hr/>
             <Row>
                 <Col key="filter" xs={12} md={6}>

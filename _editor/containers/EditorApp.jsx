@@ -364,6 +364,8 @@ class EditorApp extends Component {
                     state={this.props.store.getState().present}/>
                 <PluginConfigModal
                     id={this.state.pluginConfigModal}
+                    fileModalResult={this.state.fileModalResult}
+                    openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept });}}
                     name={pluginToolbars[this.state.pluginConfigModal] ? pluginToolbars[this.state.pluginConfigModal].pluginId : ""}
                     state={pluginToolbars[this.state.pluginConfigModal] ? pluginToolbars[this.state.pluginConfigModal].state : {}}
                     closeConfigModal={()=>{ this.setState({ pluginConfigModal: false }); } }

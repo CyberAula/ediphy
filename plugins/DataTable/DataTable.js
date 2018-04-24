@@ -124,9 +124,10 @@ export function DataTable(base) {
             );
 
         },
-        getConfigTemplate: function(id, state, updateState) {
+        getConfigTemplate: function(id, state, updateState, props) {
+            console.log(props);
             return (
-                <Config id={id} state={state} updateState={updateState} />
+                <Config id={id} state={state} updateState={updateState} props={props}/>
             );
         },
         fileChanged: function(event) {

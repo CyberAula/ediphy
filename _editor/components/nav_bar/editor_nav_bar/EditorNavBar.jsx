@@ -7,7 +7,6 @@ import NavDropdown from './NavDropdown.jsx';
 import PluginsMenu from './PluginsMenu.jsx';
 import './_navBar.scss';
 import screenfull from 'screenfull';
-import ImportFileModal from "../import_file/ImportFileModal";
 import { selectNavItem } from "../../../../common/actions";
 import ExportModal from '../export/ExportModal';
 /**
@@ -25,7 +24,6 @@ export default class EditorNavBar extends Component {
         };
 
         this.toggleGlobalConfig = this.toggleGlobalConfig.bind(this);
-        this.toggleImportFile = this.toggleImportFile.bind(this);
         this.toggleExport = this.toggleExport.bind(this);
     }
 
@@ -62,20 +60,6 @@ export default class EditorNavBar extends Component {
                     globalConfig={this.props.globalConfig}
                     changeGlobalConfig={this.props.changeGlobalConfig}
                     close={this.toggleGlobalConfig} />
-                <ImportFileModal navItemSelected={this.props.navItemSelected}
-                    boxes={this.props.boxes}
-                    onBoxAdded={this.props.onBoxAdded}
-                    onNavItemAdded={this.props.onNavItemAdded}
-                    onNavItemsAdded={this.props.onNavItemsAdded}
-                    onIndexSelected={this.props.onIndexSelected}
-                    onNavItemSelected={this.props.onNavItemSelected}
-                    // onToolbarUpdated={this.props.onToolbarUpdated}
-                    navItemsIds={this.props.navItemsIds}
-                    navItems={this.props.navItems}
-                    containedViews={this.props.containedViews}
-                    containedViewSelected={this.props.containedViewSelected}
-                    show={this.state.showImportFile}
-                    close={this.toggleImportFile}/>
                 <ExportModal show={this.state.showExport} export={this.props.export} scorm={this.props.scorm} close={this.toggleExport} />
 
             </Col>
@@ -90,14 +74,7 @@ export default class EditorNavBar extends Component {
             showGlobalConfig: !prevState.showGlobalConfig,
         }));
     }
-    /**
-     * Shows/Hides the Import file modal
-     */
-    toggleImportFile() {
-        this.setState((prevState, props) => ({
-            showImportFile: !prevState.showImportFile,
-        }));
-    }
+
     /**
        * Shows/Hides the Export course modal
        */
