@@ -210,19 +210,19 @@ Section.propTypes = {
      */
     id: PropTypes.string.isRequired,
     /**
-     * Identificador único del elemento seleccionado en el índice
+     * View/Contained view selected at the index
      */
     indexSelected: PropTypes.any.isRequired,
     /**
-     * Array ordenado de los elementos del índice
+     * Objects Array that contains all created views (identified by its *id*)
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
     /**
-     * Identificador único de la vista seleccionada
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any,
     /**
@@ -230,27 +230,27 @@ Section.propTypes = {
      */
     onNavItemNameChanged: PropTypes.func.isRequired,
     /**
-     * Añade una nueva sección o página
+     * Function for adding a new view
      */
     onNavItemAdded: PropTypes.func.isRequired,
     /**
-     * Añade una nueva caja
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
-     * Selecciona la sección en el índice
+     * Selects a view/contained view in the index's context
      */
     onIndexSelected: PropTypes.func.isRequired,
     /**
-     * Selecciona la sección para visualizarla
+     * Selects view
      */
     onNavItemSelected: PropTypes.func.isRequired,
     /**
-     * Expande la sección
+     * Expands navItem (only for sections)
      */
     onNavItemExpanded: PropTypes.func.isRequired,
     /**
-     * Reordena los elementos del índice
+     * Callback for reordering navItems
      */
     onNavItemReordered: PropTypes.func.isRequired,
     /**

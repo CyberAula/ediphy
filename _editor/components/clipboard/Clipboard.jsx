@@ -462,11 +462,11 @@ Clipboard.propTypes = {
       */
     toolbars: PropTypes.object,
     /**
-      * Object that contains the boxes
+      * Object containing all created boxes (by id)
       */
     boxes: PropTypes.object,
     /**
-   * View selected
+   * Current selected view (by ID)
    */
     navItemSelected: PropTypes.any,
     /**
@@ -478,7 +478,7 @@ Clipboard.propTypes = {
    */
     navItems: PropTypes.object,
     /**
-   * Object that contains all the contained views
+   * Contained views dictionary (identified by its ID)
    */
     containedViews: PropTypes.any,
     /**
@@ -490,7 +490,7 @@ Clipboard.propTypes = {
      */
     marks: PropTypes.object,
     /**
-     * Function for creating a new box
+     * Function for adding a new box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**

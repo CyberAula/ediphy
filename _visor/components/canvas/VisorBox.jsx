@@ -181,7 +181,7 @@ VisorBox.propTypes = {
      */
     id: PropTypes.string.isRequired,
     /**
-     * Diccionario que contiene todas las cajas
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**

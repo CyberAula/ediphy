@@ -43,7 +43,7 @@ TemplateThumbnail.propTypes = {
      */
     className: PropTypes.string,
     /**
-     * Array that contains the boxes  for the template
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.array,
     /**

@@ -196,8 +196,8 @@ export function moveRichMark(mark, value) {
     return { type: MOVE_RICH_MARK, payload: { mark, value } };
 }
 
-export function editRichMark(id, mark) {
-    return { type: EDIT_RICH_MARK, payload: { id, mark } };
+export function editRichMark(mark, view, toolbar) {
+    return { type: EDIT_RICH_MARK, payload: { mark, view, toolbar } };
 }
 
 export function deleteRichMark(mark) {

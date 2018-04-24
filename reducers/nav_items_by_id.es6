@@ -159,7 +159,6 @@ function singleNavItemReducer(state = {}, action = {}) {
 }
 
 export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0, type: '', hidden: false } }, action = {}) {
-
     switch (action.type) {
     case ADD_BOX:
         if (isView(action.payload.ids.parent)) {
@@ -315,8 +314,11 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
         let navState = JSON.parse(JSON.stringify(state));
         for (let cv in navState) {
             for (let box in action.payload.boxes) {
-                if (navState[cv].linkedBoxes && navState[cv].linkedBoxes[action.payload.boxes[box]]) {
-                    delete navState[cv].linkedBoxes[action.payload.boxes[box]];
+                if (navState[cv].parent) {
+                    let parents = Object.keys(navState[cv].parent).reduce((obj, key) => (obj[navState[cv].parent[key]] = key, obj), {});
+                    if(parents[action.payload.boxes[box]]) {
+                        delete navState[cv].parent[parents[action.payload.boxes[box]]];
+                    }
                 }
             }
         }
@@ -348,7 +350,7 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
         }
         return state;
     case EDIT_RICH_MARK:
-        if(!action.payload.mark || !action.payload.newConnection) {
+        /* if(!action.payload.mark || !action.payload.newConnection) {
             return state;
         }
         let editState = JSON.parse(JSON.stringify(state));
@@ -372,8 +374,8 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
                     editState[action.payload.newConnection].linkedBoxes[action.payload.parent].push(action.payload.mark.id || action.payload.mark);
                 }
             }
-        }
-        return editState;
+        }*/
+        return state;
     case DELETE_RICH_MARK:
         if(!isContainedView(action.payload.mark.connection) && isView(action.payload.mark.connection)) {
             return changeProp(state, action.payload.mark.connection, singleNavItemReducer(state[action.payload.mark.connection], action));

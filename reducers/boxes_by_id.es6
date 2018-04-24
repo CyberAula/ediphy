@@ -3,7 +3,7 @@ import Utils, {
     isBox,
 } from '../common/utils';
 import {
-    ADD_BOX, ADD_NAV_ITEM, ADD_RICH_MARK, MOVE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX,
+    ADD_BOX, ADD_NAV_ITEM, ADD_RICH_MARK, EDIT_RICH_MARK, MOVE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE, PASTE_BOX, UPDATE_PLUGIN_TOOLBAR, TOGGLE_TEXT_EDITOR,
 } from '../common/actions';
@@ -489,6 +489,7 @@ export default function(state = {}, action = {}) {
         }
         return changeProp(updatedState, action.payload.id, boxReducer(updatedState[action.payload.id], action));
     case ADD_RICH_MARK:
+    case EDIT_RICH_MARK:
         // If rich mark is connected to a contained view (new or existing), mark.connection will include this information;
         // otherwise, it's just the id/url and we're not interested
         if ((action.payload.mark.id && isContainedView(action.payload.view.id)) && (action.payload.mark.connectMode === "new" || action.payload.mark.connectMode === "existing")) {

@@ -76,7 +76,7 @@ ContainedCanvas.propTypes = {
      */
     showCanvas: PropTypes.bool,
     /**
-     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
@@ -88,19 +88,19 @@ ContainedCanvas.propTypes = {
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
     /** *
-     * Vista  seleccionada identificada por su *id*
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /** *
-     * Vista contenida seleccionada identificada por su *id*
+     * Selected contained view
      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
@@ -136,7 +136,7 @@ ContainedCanvas.propTypes = {
      */
     onMarkCreatorToggled: PropTypes.func.isRequired,
     /**
-     * Añade una caja
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
@@ -184,7 +184,7 @@ ContainedCanvas.propTypes = {
      */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
-     * Selecciona una vista contenida
+     *  Callback for selecting contained view
      */
     onContainedViewSelected: PropTypes.func.isRequired,
     /**

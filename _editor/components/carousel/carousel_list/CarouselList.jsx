@@ -269,7 +269,7 @@ export default class CarouselList extends Component {
 
 CarouselList.propTypes = {
     /**
-     * Global parent of navItems (0
+     * Global parent of navItems (0)
      */
     id: PropTypes.number.isRequired,
     /**
@@ -277,63 +277,63 @@ CarouselList.propTypes = {
      */
     carouselShow: PropTypes.bool,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     *  Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Vista contenida seleccionada, identificada por su *id*
+     * Selected contained view
      */
     containedViewSelected: PropTypes.any,
     /**
-     * Array que contiene todas las vistas creadas, identificadas por su *id*
+     * Array containing all created views, each identified by its *id*
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     * Dictionary containing all created views, each one with its *id* as the key
      */
     navItems: PropTypes.object.isRequired,
     /**
-     * Vista seleccionada, identificada por su *id*
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any,
     /**
-     * Vista/vista contenida seleccionada en el índice
+     *  View/Contained view selected at the index
      */
     indexSelected: PropTypes.any,
     /**
-     * Añade caja
+     * Callback for adding a new box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
-     * Selecciona vista contenida
+     * Callback for selecting contained view
      */
     onContainedViewSelected: PropTypes.func.isRequired,
     /**
-     * Renombre vista contenida
+     * Callback for renaming contained view
      */
     onContainedViewNameChanged: PropTypes.func.isRequired,
     /**
-     * Renombra vista
+     * Callback for renaming view
      */
     onNavItemNameChanged: PropTypes.func.isRequired,
     /**
-     * Añade vista
+     * Adds a view
      */
     onNavItemAdded: PropTypes.func.isRequired,
     /**
-     * Selecciona vista
+     * Selects view
      */
     onNavItemSelected: PropTypes.func.isRequired,
     /**
-     * Selecciona vista/vista contenida en el contexto del índice
+     * Selects view/contained view in the index context
      */
     onIndexSelected: PropTypes.func.isRequired,
     /**
-     * Expande sección
+     * Expands navItem (only for sections)
      */
     onNavItemExpanded: PropTypes.func.isRequired,
     /**
-     * Reordena elementos del índice
+     * Callback for reordering navItems
      */
     onNavItemReordered: PropTypes.func.isRequired,
     /**

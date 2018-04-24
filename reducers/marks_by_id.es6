@@ -7,13 +7,17 @@ import { deleteProp, changeProp, changeProps, deleteProps, isDocument, isPage, i
 export default function(state = {}, action = {}) {
     let newState;
     let marks_to_be_deleted;
+    let newMark;
     switch(action.type) {
     case ADD_RICH_MARK:
-        newState = {
+        newMark = { ...action.payload.mark };
+        if (newMark.connectMode === "new") {
+            newMark.connectMode = "existing";
+        }
+        return {
             ...state,
-            [action.payload.mark.id]: action.payload.mark,
+            [action.payload.mark.id]: newMark,
         };
-        return newState;
     case DELETE_BOX:
         newState = { ...state };
         let marks = Object.keys(newState).map((mark)=>{
@@ -72,11 +76,15 @@ export default function(state = {}, action = {}) {
             },
         };
     case EDIT_RICH_MARK:
+        newMark = { ...action.payload.mark };
+        if (newMark.connectMode === "new") {
+            newMark.connectMode = "existing";
+        }
         return {
             ...state,
-            [action.payload.id]: {
-                ...state[action.payload.id],
-                ...action.payload.mark.mark,
+            [action.payload.mark.id]: {
+                ...state[action.payload.mark.id],
+                ...newMark,
             },
         };
     case PASTE_BOX:

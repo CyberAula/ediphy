@@ -106,7 +106,7 @@ EditorNavBar.propTypes = {
      */
     redoDisabled: PropTypes.bool,
     /**
-     * Identifica la vista contenida que se está editando
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
@@ -182,19 +182,19 @@ EditorNavBar.propTypes = {
    */
     navItems: PropTypes.object.isRequired,
     /**
-   * Object that contains all created containedViews (identified by its *id*)
+   * Contained views dictionary (identified by its ID)
    */
     containedViews: PropTypes.object.isRequired,
     /**
-   * Contained view that is being edited
+   * Selected contained view (by ID)
    */
     containedViewSelected: PropTypes.any,
     /**
-     * Object that contains the boxes
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object,
     /**
-     * Function for creating a new box
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
 
