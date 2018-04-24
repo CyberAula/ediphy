@@ -9,6 +9,7 @@ let en = {
         "Aspect_ratio": "Aspect ratio",
         "Auto": "Automatic",
         "background": {
+            "background": "Background",
             "background_color": "Change color",
             "background_image": "Background image",
             "reset_background": "Restore background",
@@ -177,6 +178,7 @@ let en = {
                 "slideBackground": "Slide background",
                 "images": "Images",
                 "customSize": "File size",
+                "PDFViewer": "PDF Viewer",
             },
             "footer": {
                 "ok": "Accept",

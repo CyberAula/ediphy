@@ -76,7 +76,7 @@ export default class FileModal extends React.Component {
      * @param i
      */
     clickHandler(menu) {
-        this.setState({ menu, element: undefined, index: undefined, type: undefined });
+        this.setState({ ...initialState, menu });
     }
 
     componentWillReceiveProps(nextProps) {

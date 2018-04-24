@@ -880,7 +880,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
     if (button.type === "background_picker") {
         let isURI = (/data\:/).test(props.value.background);
-        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background);
+        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background) || (/#/).test(props.value.background);
         let default_background = "#ffffff";
         let isSli = isSlide(toolbar_props.navItems[id].type);
         let background_attr = toolbar_props.viewToolbars[id].backgroundAttr;
@@ -895,13 +895,10 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 React.createElement(
                     ColorPicker, { key: "cpicker_" + props.label, value: (isColor && props.value) ? props.value.background : default_background, onChange: props.onChange },
                     []),
-                isSli && React.createElement(
-                    ControlLabel,
-                    { key: 'label2_' + button.__name, value: button.value },
-                    i18n.t('background.background_image')),
+
                 isSli && React.createElement('div',
                     { key: 'container_' + button.__name, style: { display: 'block' } },
-                    [React.createElement(
+                    [/* React.createElement(
                         FileInput, { // TODO
                             key: 'fileinput_' + props.label,
                             value: props.value,
@@ -921,36 +918,36 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                 }, 'insert_drive_file'),
                             ]),
                         ])
-                    ),
-                    React.createElement(
-                        FormGroup,
-                        { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
-                        [
+                    ),*/
+                        React.createElement(
+                            FormGroup,
+                            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
+                            [
                             /* React.createElement(
                                 ControlLabel,
                                 { key: 'labelurlinput_' + button.__name },
                                 i18n.t('background.background_input_url')),*/
-                            React.createElement(ToolbarFileProvider, {
-                                id: toolbar_props.navItemSelected,
-                                key: button.__name,
-                                formControlProps: props,
-                                label: 'URL',
-                                value: (isURI || isColor || (props.value && props.value.match && !props.value.match('http'))) ? '' : props.value.background,
-                                openModal: toolbar_props.openFileModal,
-                                fileModalResult: toolbar_props.fileModalResult,
-                                onChange: props.onChange,
-                                accept: "image/*",
-                            }, null),
+                                React.createElement(ToolbarFileProvider, {
+                                    id: toolbar_props.navItemSelected,
+                                    key: button.__name,
+                                    formControlProps: props,
+                                    label: 'URL',
+                                    value: (isURI || isColor || (props.value && props.value.match && !props.value.match('http'))) ? '' : props.value.background,
+                                    openModal: toolbar_props.openFileModal,
+                                    fileModalResult: toolbar_props.fileModalResult,
+                                    onChange: props.onChange,
+                                    accept: "image/*",
+                                }, null),
                             /* React.createElement(FormControl,
                                 {
                                     key: 'urlinput_' + props.label,
                                     value: (isURI || isColor || props.value) ? '' : props.value.background,
                                     onChange: props.onChange,
                                 }, null),*/
-                        ]),
-                    (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: background_attr === 'full', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'full' }, i18n.t('background.cover')),
-                    (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: background_attr === 'repeat', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'repeat' }, i18n.t('background.repeat')),
-                    (!isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display', checked: background_attr === 'centered', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'centered' }, i18n.t('background.centered')),
+                            ]),
+                        (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: background_attr === 'full', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'full' }, i18n.t('background.cover')),
+                        (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: background_attr === 'repeat', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'repeat' }, i18n.t('background.repeat')),
+                        (!isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display', checked: background_attr === 'centered', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'centered' }, i18n.t('background.centered')),
                     ]
                 ),
                 React.createElement(

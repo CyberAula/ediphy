@@ -99,7 +99,7 @@ export default class ViewToolbar extends Component {
                         icon: "crop_original",
                         buttons: {
                             background: {
-                                __name: i18n.t('background.background'),
+                                __name: i18n.t('background.background_image'),
                                 type: 'background_picker',
                                 value: { background: viewToolbar.background, backgroundAttr: viewToolbar.background_attr } || { background: "#ffffff", backgroundAttr: "full" },
                                 autoManaged: false,

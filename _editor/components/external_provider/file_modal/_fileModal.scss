@@ -80,10 +80,29 @@
 
         }
       }
+      #fileNameTitle {
+        color: #555;
+        font-size: 16px;
+        font-weight: bold;
+        .btn {
+          background-color: transparent !important;
+          border: none;
+          i {
+            color: $blueprimary;
+          }
+
+        }
+        .btn:hover {
+          i {
+            color: grey;
+          }
+        }
+      }
       #serverMsg {
         width: 100%;
         text-align: center;
       }
+
       .myFile {
         &.hidden {
           display: none;

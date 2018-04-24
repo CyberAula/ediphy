@@ -6,7 +6,7 @@ import Select from 'react-select';
 import ExternalDropzone from './ExternalDropzone';
 import { WithContext as ReactTags } from 'react-tag-input';
 import '../../../nav_bar/global_config/_reactTags.scss';
-import ImportFile from '../FileHandlers/PDFHandler';
+import PDFHandler from "../FileHandlers/PDFHandler";
 export default class MyFilesComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -67,7 +67,11 @@ export default class MyFilesComponent extends React.Component {
         return(<div>
             <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}</h5>
             <hr />
-            <ExternalDropzone ref="dropZone" accept={this.props.show} callback={this.dropHandler}/>
+            {this.state.file ? <span id="fileNameTitle">
+                {this.state.file.name}
+                <Button onClick={(e)=>{this.setState({ file: undefined });}}><i className="material-icons">delete</i></Button>
+            </span> :
+                <ExternalDropzone ref="dropZone" accept={this.props.show} callback={this.dropHandler}/> }
             {this.state.file ? <div>
                 <FormGroup >
                     <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
@@ -122,7 +126,7 @@ export default class MyFilesComponent extends React.Component {
                         <button onClick={()=>{this.props.closeSideBar();}}><i className="material-icons">keyboard_arrow_right</i></button>
                     </div>
                     <div id="pdfContent">
-                        <ImportFile navItemSelected={this.props.navItemSelected}
+                        <PDFHandler navItemSelected={this.props.navItemSelected}
                             boxes={this.props.boxes}
                             onBoxAdded={this.props.onBoxAdded}
                             onNavItemAdded={this.props.onNavItemAdded}
