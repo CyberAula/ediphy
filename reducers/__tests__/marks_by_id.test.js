@@ -67,11 +67,12 @@ describe('# marks_by_id reducer', ()=>{
             const action = {
                 type: ActionTypes.DELETE_BOX,
                 payload: {
-                    id: "1511252975065",
+                    id: "bo-1524225237703",
+                    children: [],
                 },
             };
             let newState = JSON.parse(JSON.stringify(state));
-            delete newState["1511252975065"];
+            delete newState["rm-1524225239825"];
             expect(marks_by_id(state, action)).toEqual(newState);
         });
     });
@@ -106,20 +107,22 @@ describe('# marks_by_id reducer', ()=>{
             const action = {
                 type: ActionTypes.EDIT_RICH_MARK,
                 payload: {
-                    parent: 'bo-1511252957954',
-                    id: "rm-1511252975065",
-                    title: "great mark",
-                    connectMode: "existing",
-                    connection: "cv-1511252975055",
-                    displayMode: "navigate",
-                    value: "30.95,49.15",
-                    color: "#222222",
-                    oldConnection: '',
-                    newConnection: 'cv-1511252975055',
+                    "mark": {
+                        "id": "rm-1524225239825",
+                        "origin": "bo-1524225237703",
+                        "title": "great mark",
+                        "connection": "cv-1524225239825",
+                        "color": "#3221f2",
+                        "connectMode": "existing",
+                        "displayMode": "navigate",
+                        "value": "15,32",
+                    },
                 },
             };
             let newState = JSON.parse(JSON.stringify(state));
-            newState["rm-1511252975065"].title = "great mark";
+            newState["rm-1524225239825"].title = "great mark";
+            newState["rm-1524225239825"].color = "#3221f2";
+            newState["rm-1524225239825"].value = "15,32";
             expect(marks_by_id(state, action)).toEqual(newState);
         });
     });
