@@ -22,3 +22,27 @@
     right: 0;
     cursor: pointer;
  }
+
+.recharts-default-tooltip{
+  border-radius: 5px;
+  text-align: left;
+  border: 0 !important;
+  box-shadow: 1px 1px 5px #888;
+  p{
+    font-weight: bold;
+  }
+  .recharts-tooltip-item-list{
+    margin: 0;
+    padding: 0;
+    .recharts-tooltip-item{
+      margin: 0;
+      padding: 0;
+      .recharts-tooltip-item-name,.recharts-tooltip-item-separator{
+        color: #888;
+      }
+      .recharts-tooltip-item-value{
+        font-weight: bold;
+      }
+    }
+  }
+}
