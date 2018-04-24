@@ -114,7 +114,7 @@ export function DataTable(base) {
                     initialPageLength: 5,
                     initialSort: keys[0] || 0,
                     initialOrder: 'descending',
-                    theme: 'basic',
+                    theme: 'solid',
                 },
             };
         },
