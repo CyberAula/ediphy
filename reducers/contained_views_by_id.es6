@@ -132,7 +132,7 @@ export default function(state = {}, action = {}) {
                 ...newState,
                 [action.payload.view.id]: action.payload.view,
             };
-        } else if (action.payload.mark.mark.connectMode === "existing") {
+        } else if (action.payload.mark.connectMode === "existing") {
             if (isContainedView(action.payload.mark.connection)) {
                 return {
                     ...newState,
