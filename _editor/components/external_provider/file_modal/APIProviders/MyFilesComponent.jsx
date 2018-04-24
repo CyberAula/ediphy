@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import i18n from 'i18next';
 import { Button, Row, Col, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import Select from 'react-select';
-import ExternalDropzone from '../../external_uploader_modal/ExternalDropzone';
+import ExternalDropzone from './ExternalDropzone';
 import { WithContext as ReactTags } from 'react-tag-input';
 import '../../../nav_bar/global_config/_reactTags.scss';
 import ImportFile from '../FileHandlers/PDFHandler';
@@ -65,6 +65,8 @@ export default class MyFilesComponent extends React.Component {
         }
         currentExtension = aux;
         return(<div>
+            <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}</h5>
+            <hr />
             <ExternalDropzone ref="dropZone" accept={this.props.show} callback={this.dropHandler}/>
             {this.state.file ? <div>
                 <FormGroup >

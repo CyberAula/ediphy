@@ -47,7 +47,6 @@ export default class EditorNavBar extends Component {
                     visor={this.props.visor} />
                 <NavDropdown /* export={this.props.export}*/
                     navItemSelected={this.props.navItemSelected}
-                    onExternalCatalogToggled={this.props.onExternalCatalogToggled}
                     opens={this.props.opens}
                     save={this.props.save}
                     serverModalOpen={this.props.serverModalOpen}
@@ -150,10 +149,6 @@ EditorNavBar.propTypes = {
      * Ventana emergente que indica si la importación/exportación al servidor ha sido correcta
      */
     serverModalOpen: PropTypes.func.isRequired,
-    /**
-     * Abre el catálogo de recursos subidos al servidor
-     */
-    onExternalCatalogToggled: PropTypes.func.isRequired,
     /**
       * Callback for opening the file upload modal
       */

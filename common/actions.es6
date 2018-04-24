@@ -249,10 +249,6 @@ export function configScore(id, button, value, page) {
     return { type: CONFIG_SCORE, payload: { id, button, value, page } };
 }
 
-export function fetchVishResourcesSuccess(result) {
-    return { type: FETCH_VISH_RESOURCES_SUCCESS, payload: { result } };
-}
-
 export function uploadFile(url, name, keywords, mimetype) {
     return { type: UPLOAD_FILE, payload: { url, name, keywords, mimetype } };
 }
@@ -394,30 +390,6 @@ export function importStateAsync() {
             })
             .then(() => {
                 dispatch(setBusy(false, i18n.t("success_transaction")));
-            })
-            .catch(e => {
-                dispatch(setBusy(false, e.message));
-            });
-    };
-}
-
-export function fetchVishResourcesAsync(query) {
-    return dispatch => {
-        dispatch(setBusy(true, i18n.t("Searching")));
-
-        return fetch(query)
-            .then(response => {
-                if (response.status >= 400) {
-                    throw new Error(i18n.t("error.searching"));
-                }
-                return response.text();
-            })
-            .then(result => {
-                dispatch(fetchVishResourcesSuccess(JSON.parse(result)));
-                return true;
-            })
-            .then(() => {
-                dispatch(setBusy(false, i18n.t("no_results")));
             })
             .catch(e => {
                 dispatch(setBusy(false, e.message));

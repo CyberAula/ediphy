@@ -445,7 +445,6 @@ let components = {
         "formControlProps": "Importa las props desde Plugin Toolbar",
         "isBusy": "Indicador de si hay una operación en curso con el servidor",
         "fetchResults": "Resultados obtenidos de la búsqueda en el proveedor externo",
-        "onFetchVishResources": "Función para obtener resultados del proveedor externo",
         "onUploadVishResource": "Función para subir imágenes al proveedor externo",
         "onChange": "Callback de cambios",
     },
@@ -453,7 +452,6 @@ let components = {
         "visible": "Flag para saber si el modal debería estar visible o no",
         "fetchResults": "Resultados obtenidos de la búsqueda en el proveedor externo",
         "onExternalSearcherToggled": "Función para mostrar la búsqueda externa",
-        "onFetchVishResources": "Función para obtener resultados del proveedor externo",
         "isBusy": "Indicador de si hay una operación en curso con el servidor",
     },
     "ExternalDropzone": {
@@ -627,7 +625,6 @@ let components = {
         "onVerticallyAlignBox": "Función para alinear una caja verticalmente (en un sortable container)",
         "isBusy": "Indica si está sucediendo un proceso en el servidor en ese momento",
         "fetchResults": "Objeto que contiene todos los recursos buscados",
-        "onFetchVishResources": "Función para traer recursos de Vish",
         "onUploadVishResource": "Función para subir recursos de Vish",
     },
     "RangeSlider": {

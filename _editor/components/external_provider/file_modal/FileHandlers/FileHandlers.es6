@@ -35,9 +35,9 @@ export default function handlers(self) {
                             if (self.props.fileModalResult && !self.props.fileModalResult.id) {
                                 initialParams.url = self.state.element;
                                 createBox(initialParams, "HotspotImages", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-                                self.props.close();
+                                self.close();
                             } else {
-                                self.props.close({ id: self.props.fileModalResult.id, value: self.state.element });
+                                self.close({ id: self.props.fileModalResult.id, value: self.state.element });
                             }
                         }
 
@@ -57,9 +57,9 @@ export default function handlers(self) {
                         if (self.props.fileModalResult && !self.props.fileModalResult.id) {
                             initialParams.url = self.state.element;
                             createBox(initialParams, "EnrichedPlayer", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-                            self.props.close();
+                            self.close();
                         } else {
-                            self.props.close({ id: self.props.fileModalResult.id, value: self.state.element });
+                            self.close({ id: self.props.fileModalResult.id, value: self.state.element });
                         }
                     },
                 },
@@ -76,9 +76,9 @@ export default function handlers(self) {
                         if (self.props.fileModalResult && !self.props.fileModalResult.id) {
                             initialParams.url = self.state.element;
                             createBox(initialParams, "EnrichedPlayer", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-                            self.props.close();
+                            self.close();
                         } else {
-                            self.props.close({ id: self.props.fileModalResult.id, value: self.state.element });
+                            self.close({ id: self.props.fileModalResult.id, value: self.state.element });
                         }
                     },
                 },
@@ -316,9 +316,9 @@ function dataToState(e, self, format, initialParams, isTargetSlide, plugin) {
         initialParams.initialState = value;
         createBox(initialParams, plugin, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
     }else {
-        self.props.close({ id: self.props.fileModalResult.id, value });
+        self.close({ id: self.props.fileModalResult.id, value });
     }
-    self.props.close();
+    self.close();
 }
 
 function isDataURL(s) {

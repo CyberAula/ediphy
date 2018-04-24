@@ -4,9 +4,6 @@ import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
 
-/**
- * ExternalProvider Component
- */
 export default class ToolbarFileProvider extends Component {
     /**
      * Constructor

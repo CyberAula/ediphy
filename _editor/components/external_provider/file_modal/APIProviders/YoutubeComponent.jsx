@@ -4,26 +4,29 @@ import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from '
 import Ediphy from '../../../../../core/editor/main';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
+import SearchComponent from './SearchComponent';
+
 export default class YoutubeComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             results: [],
+            query: '',
+            msg: 'No hay resultados',
         };
         this.onSearch = this.onSearch.bind(this);
     }
     render() {
         return <div>
             <Form horizontal action="javascript:void(0);">
-                <FormGroup>
-                    <Col md={4}>
-                        <ControlLabel>{i18n.t("vish_search_terms")}</ControlLabel>
-                        <FormControl autoFocus ref="query" type="text"/>
-                    </Col>
-                    <Col md={2}>
-                        <Button type="submit" className="btn-primary" onClick={(e) => {
+                <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}
+                    <SearchComponent query={this.state.value} onChange={(e)=>{this.setState({ query: e.target.value });}} onSearch={this.onSearch} /></h5>
+                <hr />
 
-                            this.onSearch(ReactDOM.findDOMNode(this.refs.query).value);
+                <FormGroup>
+                    <Col md={2}>
+                        <Button type="submit" className="btn-primary hiddenButton" onClick={(e) => {
+                            this.onSearch(this.state.query);
                             e.preventDefault();
                         }}>{i18n.t("vish_search_button")}
                         </Button>
@@ -59,7 +62,7 @@ export default class YoutubeComponent extends React.Component {
                     ) :
                     (
                         <FormGroup>
-                            <ControlLabel>{process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' ? this.props.isBusy.msg : ''}</ControlLabel>
+                            <ControlLabel id="serverMsg">{this.state.msg}</ControlLabel>
                         </FormGroup>
                     )
                 }
@@ -69,6 +72,7 @@ export default class YoutubeComponent extends React.Component {
     }
 
     onSearch(text) {
+        this.setState({ msg: 'Buscando...' });
         fetch(encodeURI('https://www.googleapis.com/youtube/v3/search?part=id,snippet&maxResults=20&q=' + text + '&key=AIzaSyAMOw9ufNTZAlg5Xvcht9PhnBYjlY0c9z8&videoEmbeddable=true&type=video'))
             .then(res => res.text()
             ).then(videosStr => {
@@ -81,8 +85,12 @@ export default class YoutubeComponent extends React.Component {
                             thumbnail: (video.snippet && video.snippet.thumbnails && video.snippet.thumbnails.default && video.snippet.thumbnails.default.url) ? video.snippet.thumbnails.default.url : "",
                         };
                     });
-                    this.setState({ results });
+                    this.setState({ results, msg: results.length > 0 ? '' : 'No hay resultados' });
                 }
+            }).catch(e=>{
+                console.error(e);
+
+                this.setState({ msg: 'Ha habido un error' });
             });
     }
 }

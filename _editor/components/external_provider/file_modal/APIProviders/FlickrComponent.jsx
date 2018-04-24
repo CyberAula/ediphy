@@ -4,25 +4,29 @@ import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from '
 import Ediphy from '../../../../../core/editor/main';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
+import SearchComponent from './SearchComponent';
+
 export default class FlickrComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             results: [],
+            query: '',
+            msg: 'No hay resultados',
         };
         this.onSearch = this.onSearch.bind(this);
     }
     render() {
         return <div>
             <Form horizontal action="javascript:void(0);">
+                <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}
+                    <SearchComponent query={this.state.value} onChange={(e)=>{this.setState({ query: e.target.value });}} onSearch={this.onSearch} /></h5>
+                <hr />
+
                 <FormGroup>
-                    <Col md={4}>
-                        <ControlLabel>{i18n.t("vish_search_terms")}</ControlLabel>
-                        <FormControl autoFocus ref="query" type="text"/>
-                    </Col>
                     <Col md={2}>
-                        <Button type="submit" className="btn-primary" onClick={(e) => {
-                            this.onSearch(ReactDOM.findDOMNode(this.refs.query).value);
+                        <Button type="submit" className="btn-primary hiddenButton" onClick={(e) => {
+                            this.onSearch(this.state.query);
                             e.preventDefault();
                         }}>{i18n.t("vish_search_button")}
                         </Button>
@@ -56,7 +60,7 @@ export default class FlickrComponent extends React.Component {
                     ) :
                     (
                         <FormGroup>
-                            <ControlLabel>{process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' ? this.props.isBusy.msg : ''}</ControlLabel>
+                            <ControlLabel id="serverMsg">{this.state.msg}</ControlLabel>
                         </FormGroup>
                     )
                 }
@@ -68,6 +72,7 @@ export default class FlickrComponent extends React.Component {
     onSearch(text) {
 
         let flickrURL = "http://api.flickr.com/services/feeds/photos_public.gne?tags=" + encodeURI(text) + "&tagmode=any&format=json&jsoncallback=?";
+        this.setState({ msg: 'Buscando' });
         $.getJSON(flickrURL, (imgs)=>{
             try{
                 console.log(imgs);
@@ -79,10 +84,13 @@ export default class FlickrComponent extends React.Component {
                                 url: img.media.m,
                             };
                         });
-                        this.setState({ results });
+                        this.setState({ results, msg: results.length > 0 ? '' : 'No hay resultados' });
                     }
                 }
-            } catch (e) {console.error(e);}
+            } catch (e) {
+                console.error(e);
+                this.setState({ msg: 'Ha habido un error' });
+            }
 
         });
 

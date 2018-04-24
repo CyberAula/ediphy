@@ -26,7 +26,7 @@ export default function menus(self) {
                 ...commonProps,
                 show: allowedMIME,
                 pdfSelected: self.state.pdfSelected,
-                closeSideBar: (closeAlsoModal)=>{self.setState({ pdfSelected: false }); if (closeAlsoModal) {self.props.close();}},
+                closeSideBar: (closeAlsoModal)=>{self.setState({ pdfSelected: false }); if (closeAlsoModal) {self.close();}},
                 filesUploaded: self.props.filesUploaded,
                 onUploadVishResource: self.props.onUploadVishResource,
                 onUploadEdiphyResource: self.props.onUploadEdiphyResource,
@@ -48,8 +48,6 @@ export default function menus(self) {
             show: (allowedMIME === "*" || allowedMIME.match('image')),
             component: SearchVishComponent,
             props: { ...commonProps,
-                onFetchVishResources: self.props.onFetchVishResources,
-                fetchResults: self.props.fetchResults,
             },
         },
         {

@@ -62,6 +62,11 @@
         margin-bottom: -10px;
         height: 30px;
         line-height: 30px;
+        .searchInputTopBar {
+          width:60%;
+          float: right;
+        }
+
         i {
           font-size: 20px;
           vertical-align: middle;
@@ -74,6 +79,10 @@
           max-height: 24px;
 
         }
+      }
+      #serverMsg {
+        width: 100%;
+        text-align: center;
       }
       .myFile {
         &.hidden {

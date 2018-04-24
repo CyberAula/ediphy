@@ -9,7 +9,6 @@ import React from "react";
 import FileInput from "../../_editor/components/common/file-input/FileInput";
 import MarksList from "../../_editor/components/rich_plugins/marks_list/MarksList";
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
-import ExternalProvider from "../../_editor/components/external_provider/external_provider/ExternalProvider";
 import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/APIProviders/ToobarFileProvider";
 /* eslint-disable react/prop-types */
 
@@ -980,16 +979,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             onChange: props.onChange,
             accept: button.accept,
         }, null);
-        /* return React.createElement(ExternalProvider, {
-            key: button.__name,
-            formControlProps: props,
-            isBusy: toolbar_props.isBusy,
-            fetchResults: toolbar_props.fetchResults,
-            onFetchVishResources: toolbar_props.onFetchVishResources,
-            onUploadVishResource: toolbar_props.onUploadVishResource,
-            onChange: props.onChange,
-            accept: button.accept,
-        }, null);*/
+
     }
 
     // If it's none of previous types (number, text, color, range, ...)

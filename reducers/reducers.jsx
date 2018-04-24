@@ -46,15 +46,6 @@ function isBusy(state = "", action = {}) {
     }
 }
 
-function fetchVishResults(state = { results: [] }, action = {}) {
-    switch (action.type) {
-    case FETCH_VISH_RESOURCES_SUCCESS:
-        return action.payload.result;
-    default:
-        return state;
-    }
-}
-
 function filesUploaded(state = [], action = {}) {
     switch(action.type) {
     case UPLOAD_FILE:
@@ -84,7 +75,6 @@ const GlobalState = undoable(combineReducers({
     viewToolbarsById: viewToolbarsById,
     exercises: exercises,
     isBusy: isBusy,
-    fetchVishResults: fetchVishResults,
 }), {
     filter: (action, currentState, previousState) => {
         switch (action.type) {
