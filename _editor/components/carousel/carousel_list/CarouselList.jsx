@@ -40,7 +40,7 @@ export default class CarouselList extends Component {
 
         return (
             <div style={{ height: "100%" }}>
-                <div style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
+                <div id="sortablesCollapse" style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
                     this.setState({ showSortableItems: !this.state.showSortableItems });
                 }}>
                     {(this.state.showSortableItems) ?
@@ -111,7 +111,7 @@ export default class CarouselList extends Component {
                     })}
                 </div>
 
-                <div style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
+                <div id="scontainedViewsCollapse" style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
                     this.setState({ showContainedViews: !this.state.showContainedViews });
                 }}>
                     {(this.state.showContainedViews) ?
@@ -127,7 +127,6 @@ export default class CarouselList extends Component {
 
                     {
                         Object.keys(this.props.containedViews).map((id, key)=>{
-
                             return (
                                 <div key={id}
                                     className={id === this.props.indexSelected ? 'navItemBlock classIndexSelected' : 'navItemBlock'}
