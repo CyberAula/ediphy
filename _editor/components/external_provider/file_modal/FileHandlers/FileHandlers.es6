@@ -4,6 +4,15 @@ import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../comm
 import { randomPositionGenerator } from '../../../clipboard/clipboard.utils';
 import { isSlide, isBox } from '../../../../../common/utils';
 
+export let extensions = [
+    { label: "Todos", value: '', icon: 'attach_file' },
+    { label: "Image", value: 'image', icon: 'image' },
+    { label: "Audio", value: 'audio', icon: 'audiotrack' },
+    { label: "Video", value: 'video', icon: 'play_arrow' },
+    { label: "CSV", value: 'csv', icon: 'view_agenda' },
+    { label: "JSON", value: 'json', icon: 'view_agenda' },
+    { label: "PDF", value: 'pdf', icon: 'picture_as_pdf' },
+];
 export default function handlers(self) {
     let type = self.state.type;
     let download = { // Forces browser download
