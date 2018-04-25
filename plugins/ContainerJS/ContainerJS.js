@@ -10,7 +10,7 @@ export function ContainerJS(base) {
                 icon: 'view_agenda',
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -22,7 +22,7 @@ export function ContainerJS(base) {
                                 boxes: {
                                     __name: "Número de cajas",
                                     type: 'number',
-                                    value: base.getState().boxes,
+                                    value: state.boxes,
                                     min: 1,
                                     autoManaged: false,
                                 },
@@ -42,9 +42,6 @@ export function ContainerJS(base) {
             }
             template += "</div>";
             return template;
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
         },
     };
 }

@@ -9,41 +9,46 @@ import { isSortableBox, isBox, isCanvasElement, isContainedView } from '../../..
  *  It shows the current contained view's origin (page, plugin and mark)
  */
 export default class CVInfo extends Component {
-    /**
-     * Renders React Component
-     * @returns {code}
-     */
     render() {
         let cvList = [];
-        for (let id in this.props.containedView.parent) {
-            if (this.props.toolbars[id]) {
-                let el = this.props.boxes[id];
-                let from = "unknown";
-                let markName = "";
-                if (this.props.toolbars[id].state && this.props.toolbars[id].state.__marks) {
-                    let at = '@';
-                    for (let mark in this.props.toolbars[id].state.__marks) {
-                        if (this.props.toolbars[id].state.__marks[mark].connection === this.props.containedView.id) {
-                            markName += this.props.toolbars[id].state.__marks[mark].title + ', ';
-                        }
-                    }
-                    markName = markName.slice(0, markName.length - 2) + " " + at + " ";
-                }
-
-                if (isSortableBox(el.parent)) {
-                    let origin = this.props.boxes[el.parent].parent;
-                    from = isContainedView(origin) ? this.props.containedViews[origin].name : this.props.navItems[origin].name;
-                } else if (isBox(el.parent)) {
-                    let origin = this.props.boxes[this.props.boxes[el.parent].parent].parent;
-                    from = isContainedView(origin) ? this.props.containedViews[origin].name : this.props.navItems[origin].name;
-
-                } else if (isCanvasElement(el.parent)) {
-                    from = isContainedView(el.parent) ? this.props.containedViews[el.parent].name : this.props.navItems[el.parent].name;
-                } else {
-                    break;
-                }
-                cvList.push(<span className="cvList" key={id}>{markName}<b>{this.props.toolbars[id].config.displayName}</b> { ' (' + from + ')'}</span>);
+        let marks = this.props.marks;
+        let containedView = this.props.containedView;
+        let mark_views = Object.keys(marks).map(mark => {
+            if(marks[mark].connection === containedView.id) {
+                return marks[mark].id;
             }
+            return 0;
+        }).filter(item => typeof item === 'string');
+        let boxMarks = {};
+        for (let id in containedView.parent) {
+            boxMarks[containedView.parent[id]] = [...(boxMarks[containedView.parent[id]] || []), id];
+        }
+        let at = '@';
+        for (let box in boxMarks) {
+            let el = this.props.boxes[box];
+            let from = "unknown";
+            let markName = "";
+            for (let m in boxMarks[box]) {
+                markName += marks[boxMarks[box][m]].title + ', ';
+            }
+            markName = markName.slice(0, markName.length - 2) + " " + at + " ";
+            let parentName;
+            if (isSortableBox(el.parent)) {
+                let origin = this.props.boxes[el.parent].parent;
+                from = this.props.viewToolbars[origin].viewName;
+            } else if (isBox(el.parent)) {
+                let origin = this.props.boxes[this.props.boxes[el.parent].parent].parent;
+                from = this.props.viewToolbars[origin].viewName;
+
+            } else if (isCanvasElement(el.parent)) {
+                from = this.props.viewToolbars[el.parent].viewName;
+            } else {
+                break;
+            }
+            let pluginName = Ediphy.Plugins.get(this.props.pluginToolbars[el.id].pluginId).getConfig().displayName;
+            cvList.push(<span className="cvList"
+                key={box}>{markName}<b>{pluginName}</b> {' (' + from + ')'}</span>);
+
         }
 
         return (<OverlayTrigger placement="bottom" overlay={
@@ -60,23 +65,23 @@ export default class CVInfo extends Component {
 
 CVInfo.propTypes = {
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
-     */
-    navItems: PropTypes.object.isRequired,
-    /**
-     * Vista contenida actual, identificada por su *id*
+     * Current contained view (by ID)
      */
     containedView: PropTypes.any.isRequired,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Object containing box marks
      */
-    containedViews: PropTypes.object.isRequired,
+    marks: PropTypes.object,
     /**
-     * Diccionario que contiene todas las toolbars, accesibles por el *id* de su caja/vista
-     */
-    toolbars: PropTypes.object.isRequired,
-    /**
-     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     *  Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
+    /**
+     * View toolbars
+     */
+    viewToolbars: PropTypes.object,
+    /**
+   * Plugin toolbars
+   */
+    pluginToolbars: PropTypes.object,
 };

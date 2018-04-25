@@ -15,21 +15,39 @@ export default class MarksList extends Component {
                     {i18n.t("marks.add_mark")}
                 </Button>
                 <br/>
-                {
+                {this.props.state !== undefined &&
                     Object.keys(this.props.state).map(id => {
                         let mark = this.props.state[id];
+                        if(this.props.box_id !== mark.origin) {
+                            return null;
+                        }
                         let name = mark.connection;
                         let color = mark.color || '#337ab7';
                         let widthScroll = Math.max(mark.title.length / 11 * 100, 100);
                         try {
-                            name = this.props.toolbars[mark.connection.id || mark.connection] ?
-                                this.props.toolbars[mark.connection.id || mark.connection].controls.main.accordions.basic.buttons.navitem_name.value :
-                                mark.connection;
-                        } catch(e) { }
+                            switch (mark.connectMode) {
+                            case "new":
+                                name = this.props.viewToolbars[mark.connection].viewName;
+                                break;
+                            case "existing":
+                                name = this.props.viewToolbars[mark.connection].viewName;
+                                break;
+                            case "external":
+                                name = mark.connection.length > 25 ? (mark.connection.substring(0, 25) + '...') : mark.connection;
+                                break;
+                            case "popup":
+                                name = "PopUp";
+                                break;
+                            }
+                        } catch(e) { return null;}
                         return (
                             <div className="markListBox" key={id}>
                                 {mark.connection ? (
-                                    <OverlayTrigger placement="top" overlay={(<Tooltip id={"markToolTip-" + id}>{i18n.t('marks.hover_message') + "\"" + name + "\""}</Tooltip>)}>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        overlay={(<Tooltip id={"markToolTip-" + id}>
+                                            {i18n.t('marks.hover_message') + "\"" + name + "\""}
+                                        </Tooltip>)}>
                                         <i style={{ color: color }} className="material-icons marklist main">room</i>
                                     </OverlayTrigger>) :
                                     (<i style={{ color: color }} className="material-icons marklist">room</i>)}
@@ -49,9 +67,6 @@ export default class MarksList extends Component {
                                         {mark.title}
                                     </div>
                                 </div>
-
-                                {/* <span className="markValueInToolbar">{mark.value}</span>*/}
-
                                 <i className="material-icons marklist" style={{ float: 'right' }}
                                     onClick={() => {
                                         this.props.onRichMarkDeleted(id);
@@ -73,13 +88,17 @@ export default class MarksList extends Component {
 
 MarksList.propTypes = {
     /**
+     * Id of the box to which the marks belong
+     */
+    box_id: PropTypes.any,
+    /**
      *  State marks object
      */
     state: PropTypes.object.isRequired,
     /**
-     * Object including toolbars (identified by its *id*)
+     * Object including view toolbars (identified by its *id*)
      */
-    toolbars: PropTypes.object.isRequired,
+    viewToolbars: PropTypes.object.isRequired,
     /**
      * Muestra/oculta el modal de edición de marcas
      */
@@ -92,5 +111,4 @@ MarksList.propTypes = {
      * Borra una marca
      */
     onRichMarkDeleted: PropTypes.func.isRequired,
-
 };

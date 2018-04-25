@@ -7,23 +7,15 @@ import NavDropdown from './NavDropdown.jsx';
 import PluginsMenu from './PluginsMenu.jsx';
 import './_navBar.scss';
 import screenfull from 'screenfull';
-import ImportFile from "../import_file/ImportFile";
 import { selectNavItem } from "../../../../common/actions";
 import ExportModal from '../export/ExportModal';
-
 /**
  * Upper navigation bar component
  */
 export default class EditorNavBar extends Component {
-    /**
-     * Constructor
-     */
     constructor(props) {
         super(props);
 
-        /**
-         * Component's initial state
-         */
         this.state = {
             showGlobalConfig: false,
             showImportFile: false,
@@ -31,18 +23,10 @@ export default class EditorNavBar extends Component {
             isFullScreenOn: screenfull.isFullscreen,
         };
 
-        /**
-         * Binded function
-         */
         this.toggleGlobalConfig = this.toggleGlobalConfig.bind(this);
-        this.toggleImportFile = this.toggleImportFile.bind(this);
         this.toggleExport = this.toggleExport.bind(this);
     }
 
-    /**
-     * Render React Component
-     * @returns {code}
-     */
     render() {
         return (
             <Col id="iconBar">
@@ -54,7 +38,6 @@ export default class EditorNavBar extends Component {
                     globalConfig={this.props.globalConfig}
                     navItemSelected={this.props.navItemSelected}
                     navItems={this.props.navItems}
-                    onTextEditorToggled={this.props.onTextEditorToggled}
                     redo={this.props.redo}
                     redoDisabled={this.props.redoDisabled}
                     save={this.props.save}
@@ -64,30 +47,18 @@ export default class EditorNavBar extends Component {
                     visor={this.props.visor} />
                 <NavDropdown /* export={this.props.export}*/
                     navItemSelected={this.props.navItemSelected}
-                    onExternalCatalogToggled={this.props.onExternalCatalogToggled}
                     opens={this.props.opens}
                     save={this.props.save}
                     serverModalOpen={this.props.serverModalOpen}
                     toggleGlobalConfig={this.toggleGlobalConfig}
                     toggleImportFile={this.toggleImportFile}
                     toggleExport={this.toggleExport}
+                    toggleFileUpload={this.props.toggleFileUpload}
                     undoDisabled={this.props.undoDisabled} />
                 <GlobalConfig show={this.state.showGlobalConfig}
                     globalConfig={this.props.globalConfig}
                     changeGlobalConfig={this.props.changeGlobalConfig}
                     close={this.toggleGlobalConfig} />
-                <ImportFile navItemSelected={this.props.navItemSelected}
-                    onNavItemAdded={this.props.onNavItemAdded}
-                    onNavItemsAdded={this.props.onNavItemsAdded}
-                    onIndexSelected={this.props.onIndexSelected}
-                    onNavItemSelected={this.props.onNavItemSelected}
-                    onToolbarUpdated={this.props.onToolbarUpdated}
-                    navItemsIds={this.props.navItemsIds}
-                    navItems={this.props.navItems}
-                    containedViews={this.props.containedViews}
-                    containedViewSelected={this.props.containedViewSelected}
-                    show={this.state.showImportFile}
-                    close={this.toggleImportFile}/>
                 <ExportModal show={this.state.showExport} export={this.props.export} scorm={this.props.scorm} close={this.toggleExport} />
 
             </Col>
@@ -102,14 +73,7 @@ export default class EditorNavBar extends Component {
             showGlobalConfig: !prevState.showGlobalConfig,
         }));
     }
-    /**
-     * Shows/Hides the Import file modal
-     */
-    toggleImportFile() {
-        this.setState((prevState, props) => ({
-            showImportFile: !prevState.showImportFile,
-        }));
-    }
+
     /**
        * Shows/Hides the Export course modal
        */
@@ -142,17 +106,13 @@ EditorNavBar.propTypes = {
      */
     redoDisabled: PropTypes.bool,
     /**
-     * Identifica la vista contenida que se está editando
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
      * Caja seleccionada
      */
     boxSelected: PropTypes.any.isRequired,
-    /**
-     * Cierra la edición de texto en curso
-     */
-    onTextEditorToggled: PropTypes.func.isRequired,
     /**
      * Deshace el último cambio
      */
@@ -190,9 +150,9 @@ EditorNavBar.propTypes = {
      */
     serverModalOpen: PropTypes.func.isRequired,
     /**
-     * Abre el catálogo de recursos subidos al servidor
-     */
-    onExternalCatalogToggled: PropTypes.func.isRequired,
+      * Callback for opening the file upload modal
+      */
+    toggleFileUpload: PropTypes.func.isRequired,
     /**
      * Cambia la categoría de plugins seleccionada
      * */
@@ -214,10 +174,6 @@ EditorNavBar.propTypes = {
    */
     onNavItemSelected: PropTypes.func.isRequired,
     /**
-   * Callback for when updating toolbar
-   */
-    onToolbarUpdated: PropTypes.func.isRequired,
-    /**
    * Objects Array that contains all created views (identified by its *id*)
    */
     navItemsIds: PropTypes.array.isRequired,
@@ -226,13 +182,21 @@ EditorNavBar.propTypes = {
    */
     navItems: PropTypes.object.isRequired,
     /**
-   * Object that contains all created containedViews (identified by its *id*)
+   * Contained views dictionary (identified by its ID)
    */
     containedViews: PropTypes.object.isRequired,
     /**
-   * Contained view that is being edited
+   * Selected contained view (by ID)
    */
     containedViewSelected: PropTypes.any,
+    /**
+     * Object containing all created boxes (by id)
+     */
+    boxes: PropTypes.object,
+    /**
+     * Callback for adding a box
+     */
+    onBoxAdded: PropTypes.func.isRequired,
 
 };
 

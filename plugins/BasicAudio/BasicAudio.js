@@ -25,13 +25,13 @@ export function BasicAudio(base) {
                 initialHeightSlide: '30%',
                 icon: 'play_circle_filled',
                 aspectRatioButtonConfig: {
-                    location: ["main", "__sortable"],
-                    defaultValue: true,
+                    location: ["main", "structure"],
+                    defaultValue: false,
                 },
                 marksType: [{ name: i18n.t("BasicAudio.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" }],
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -43,21 +43,22 @@ export function BasicAudio(base) {
                             // cosas de dentro
                             buttons: {
                                 url: {
-                                    __name: Ediphy.i18n.t('BasicAudio.URL'),
-                                    type: 'text',
-                                    value: base.getState().url,
+                                    __name: Ediphy.i18n.t('EnrichedPlayer.URL'),
+                                    type: 'external_provider',
+                                    value: state.url,
+                                    accept: "audio/*",
                                     autoManaged: false,
                                 },
                                 autoplay: {
                                     __name: Ediphy.i18n.t('BasicAudio.Autoplay'),
                                     type: 'checkbox',
-                                    checked: base.getState().autoplay,
+                                    checked: state.autoplay,
                                     autoManaged: false,
                                 },
                                 waves: {
                                     __name: Ediphy.i18n.t('BasicAudio.Waves'),
                                     type: 'checkbox',
-                                    checked: base.getState().waves,
+                                    checked: state.waves,
                                     autoManaged: false,
                                 },
                             },
@@ -121,14 +122,16 @@ export function BasicAudio(base) {
             };
         },
         getRenderTemplate: function(state, props) {
-            return (
-                <div style={{ height: "100%", width: "100%" }}>
-                    <BasicAudioPluginEditor style={{ width: "100%", height: "100%" }} base={base} onRichMarkUpdated={props.onRichMarkUpdated} state={state}/>
-                </div>
+
+            if (state.url.match(/^https?\:\/\/api.soundcloud.com\//g)) {
+                return <iframe style={{ pointerEvents: 'none' }} width="100%" height="100%" scrolling="no" frameBorder="no" allow="autoplay" src={"https://w.soundcloud.com/player/?url=" + encodeURI(state.url) + "&color=%2317cfc8&auto_play=false&hide_related=true&show_comments=true&show_user=false&show_reposts=false&show_teaser=false&visual=" + (state.waves ? "false" : "true")} />;
+            }
+            return (<div style={{ height: "100%", width: "100%" }}>
+                <BasicAudioPluginEditor style={{ width: "100%", height: "100%" }} base={base} props={props}
+                    state={state}/>
+            </div>
             );
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
+
         },
 
         getDefaultMarkValue(state) {

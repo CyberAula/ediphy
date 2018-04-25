@@ -77,17 +77,17 @@ describe('# nav_items_by_id reducer', ()=>{
             const newSection = { boxes: [],
                 children: [],
                 extraFiles: {},
-                background: "rgb(255,255,255)",
+                background: "#ffffff",
                 header: {
                     display: {
                         breadcrumb: "reduced",
                         courseTitle: "hidden",
-                        documentSubTitle: "hidden",
+                        documentSubtitle: "hidden",
                         documentTitle: "expanded",
                         pageNumber: "hidden",
                     },
                     elementContent: {
-                        documentSubTitle: "",
+                        documentSubtitle: "",
                         documentTitle: "",
                         numPage: "",
                     },
@@ -126,12 +126,12 @@ describe('# nav_items_by_id reducer', ()=>{
                     display: {
                         breadcrumb: "reduced",
                         courseTitle: "hidden",
-                        documentSubTitle: "hidden",
+                        documentSubtitle: "hidden",
                         documentTitle: "expanded",
                         pageNumber: "hidden",
                     },
                     elementContent: {
-                        documentSubTitle: "",
+                        documentSubtitle: "",
                         documentTitle: "",
                         numPage: "",
                     },
@@ -142,7 +142,7 @@ describe('# nav_items_by_id reducer', ()=>{
                 level: 2,
                 linkedBoxes: {},
                 name: "Página",
-                background: "rgb(255,255,255)",
+                background: "#ffffff",
                 parent: "se-1467887497411",
                 type: "document",
                 "unitNumber": 1 };
@@ -334,13 +334,13 @@ describe('# nav_items_by_id reducer', ()=>{
                     titles: {
                         elementContent: {
                             documentTitle: "",
-                            documentSubTitle: "",
+                            documentSubtitle: "",
                             numPage: "",
                         },
                         display: {
                             courseTitle: "reduced",
                             documentTitle: "expanded",
-                            documentSubTitle: "hidden",
+                            documentSubtitle: "hidden",
                             breadcrumb: "reduced",
                             pageNumber: "hidden",
                         },

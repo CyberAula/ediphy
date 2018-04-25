@@ -12,27 +12,15 @@ import iconPDF from './../../../../dist/images/file-pdf.svg';
  * List of all the course's views and contained views
  */
 export default class CarouselList extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
     constructor(props) {
         super(props);
 
-        /**
-         * Component's initial state
-         * @type {{showSortableItems: boolean, showContainedViews: boolean}}
-         */
         this.state = {
             showSortableItems: true,
             showContainedViews: true,
         };
     }
 
-    /**
-     * Calculates how much height is available for the view list, depending on the expanded sections
-     * @returns {*}
-     */
     getContentHeight() {
         if(!this.state.showSortableItems && !this.state.showContainedViews) {
             return("50px");
@@ -45,10 +33,6 @@ export default class CarouselList extends Component {
 
     }
 
-    /**
-     * Renders React Component
-     * @returns {code}
-     */
     render() {
         let containedViewsIncluded = Object.keys(this.props.containedViews).length > 0;
 
@@ -87,6 +71,7 @@ export default class CarouselList extends Component {
                                     onIndexSelected={this.props.onIndexSelected}
                                     onNavItemSelected={this.props.onNavItemSelected}
                                     onNavItemExpanded={this.props.onNavItemExpanded}
+                                    viewToolbars={this.props.viewToolbars}
                                     onNavItemReordered={this.props.onNavItemReordered} />
                             );
                         } else if (isPage(id)) {
@@ -114,7 +99,7 @@ export default class CarouselList extends Component {
                                             : <img className="svgIcon" src={iconPDF}/>}
                                         <EditorIndexTitle
                                             id={id}
-                                            title={this.props.navItems[id].name}
+                                            title={this.props.viewToolbars[id].viewName}
                                             index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id) + 1 + '.'}
                                             hidden={this.props.navItems[id].hidden}
                                             onNameChanged={this.props.onNavItemNameChanged}/>
@@ -170,7 +155,7 @@ export default class CarouselList extends Component {
                                         <i style={{ marginRight: '10px' }} className="material-icons">{isSlide(this.props.containedViews[id].type) ? "slideshow" : "insert_drive_file"}</i>
                                         <EditorIndexTitle
                                             id={id}
-                                            title={this.props.containedViews[id].name}
+                                            title={this.props.viewToolbars[id].viewName}
                                             index={1}
                                             hidden={false}
                                             onNameChanged={this.props.onContainedViewNameChanged} />
@@ -185,10 +170,6 @@ export default class CarouselList extends Component {
         );
     }
 
-    /** *
-     * Get navItem's parent
-     * @returns {*}
-     */
     getParent() {
         if (!this.props.indexSelected || this.props.indexSelected === -1) {
             return { id: 0 };
@@ -200,10 +181,6 @@ export default class CarouselList extends Component {
         return this.props.navItems[this.props.navItems[this.props.indexSelected].parent] || this.props.navItems[0];
     }
 
-    /**
-     * Calculate navItem's position on index
-     * @returns {*}
-     */
     calculatePosition() {
         let parent = this.getParent();
         let ids = this.props.navItemsIds;
@@ -225,10 +202,6 @@ export default class CarouselList extends Component {
         return ids.length;
     }
 
-    /**
-     * After component mounts
-     * Sets up jQuery sortable features on the index
-     */
     componentDidMount() {
         let list = jQuery(this.refs.sortableList);
         list.sortable({
@@ -289,10 +262,6 @@ export default class CarouselList extends Component {
         });
     }
 
-    /**
-     * Before the component unmounts
-     * Unset jQuery sortable features
-     */
     componentWillUnmount() {
         jQuery(this.refs.sortableList).sortable("destroy");
     }
@@ -300,7 +269,7 @@ export default class CarouselList extends Component {
 
 CarouselList.propTypes = {
     /**
-     * Global parent of navItems (0
+     * Global parent of navItems (0)
      */
     id: PropTypes.number.isRequired,
     /**
@@ -308,63 +277,67 @@ CarouselList.propTypes = {
      */
     carouselShow: PropTypes.bool,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     *  Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Vista contenida seleccionada, identificada por su *id*
+     * Selected contained view
      */
     containedViewSelected: PropTypes.any,
     /**
-     * Array que contiene todas las vistas creadas, identificadas por su *id*
+     * Array containing all created views, each identified by its *id*
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     * Dictionary containing all created views, each one with its *id* as the key
      */
     navItems: PropTypes.object.isRequired,
     /**
-     * Vista seleccionada, identificada por su *id*
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any,
     /**
-     * Vista/vista contenida seleccionada en el índice
+     *  View/Contained view selected at the index
      */
     indexSelected: PropTypes.any,
     /**
-     * Añade caja
+     * Callback for adding a new box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
-     * Selecciona vista contenida
+     * Callback for selecting contained view
      */
     onContainedViewSelected: PropTypes.func.isRequired,
     /**
-     * Renombre vista contenida
+     * Callback for renaming contained view
      */
     onContainedViewNameChanged: PropTypes.func.isRequired,
     /**
-     * Renombra vista
+     * Callback for renaming view
      */
     onNavItemNameChanged: PropTypes.func.isRequired,
     /**
-     * Añade vista
+     * Adds a view
      */
     onNavItemAdded: PropTypes.func.isRequired,
     /**
-     * Selecciona vista
+     * Selects view
      */
     onNavItemSelected: PropTypes.func.isRequired,
     /**
-     * Selecciona vista/vista contenida en el contexto del índice
+     * Selects view/contained view in the index context
      */
     onIndexSelected: PropTypes.func.isRequired,
     /**
-     * Expande sección
+     * Expands navItem (only for sections)
      */
     onNavItemExpanded: PropTypes.func.isRequired,
     /**
-     * Reordena elementos del índice
+     * Callback for reordering navItems
      */
     onNavItemReordered: PropTypes.func.isRequired,
+    /**
+     * Object containing all the pages' toolbars
+     */
+    viewToolbars: PropTypes.object,
 };

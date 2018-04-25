@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 import './_exportModal.scss';
+let spinner = require('../../../../dist/images/spinner.svg');
 /**
  * Export course modal
  */
@@ -11,6 +12,7 @@ export default class ExportModal extends Component {
         super(props);
         this.state = {
             format: 0,
+            showLoader: false,
         };
     }
 
@@ -19,11 +21,15 @@ export default class ExportModal extends Component {
    * @returns {code}
    */
     render() {
+        let callback = ()=> {
+            this.setState({ showLoader: false });
+            this.props.close();
+        };
         let exportFormats = [
-            { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false);} },
-            { format: "SCORM 2004", handler: ()=> {this.props.scorm(true);} },
-            { format: "HTML", handler: ()=> {this.props.export();} },
-            { format: "PDF", handler: ()=> {this.props.export('PDF');} },
+            { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false, callback); } },
+            { format: "SCORM 2004", handler: ()=> {this.props.scorm(true, callback); } },
+            { format: "HTML", handler: ()=> {this.props.export('HTML', callback); } },
+            { format: "PDF", handler: ()=> { this.props.export('PDF', callback);} },
         ];
         return (
             <Modal className="pageModal exportoScormModalBody"
@@ -41,6 +47,7 @@ export default class ExportModal extends Component {
                                 <Col xs={12}>
                                     <FormGroup >
                                         <ControlLabel> {i18n.t("messages.export_to")}:</ControlLabel><br/>
+                                        {this.state.showLoader ? (<img className="spinnerFloat" src={spinner}/>) : null}
                                         {exportFormats.map((format, i) => {
                                             return (<Radio key={i} name="radioGroup" className="radioExportScorm" checked={this.state.format === i}
                                                 onChange={e => {this.setState({ format: i });}}>
@@ -49,7 +56,6 @@ export default class ExportModal extends Component {
                                         })}
                                     </FormGroup>
                                     <div className={"explanation"}>{i18n.t("SCORM Explanation")}</div>
-
                                 </Col>
                             </Row>
                         </form>
@@ -57,10 +63,12 @@ export default class ExportModal extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button bsStyle="default" id="cancel_export_to_scorm" onClick={e => {
+
                         this.props.close(); e.preventDefault();
                     }}>{i18n.t("global_config.Discard")}</Button>
                     <Button bsStyle="primary" id="accept_export_to_scorm" onClick={e => {
-                        exportFormats[this.state.format].handler(); e.preventDefault(); this.props.close();
+                        this.setState({ showLoader: true });
+                        exportFormats[this.state.format].handler(); e.preventDefault();
                     }}>{i18n.t("messages.export_course")}</Button>{'   '}
                 </Modal.Footer>
             </Modal>

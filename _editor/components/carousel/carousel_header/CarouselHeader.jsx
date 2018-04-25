@@ -35,7 +35,7 @@ export default class CarouselHeader extends Component {
                 {!this.props.carouselShow ? <br/> : null}
 
                 <div className="navBarSpace" style={{ display: (this.props.carouselShow ? 'block' : 'none') }}>
-                    <EditorIndexTitle className="tituloCurso" title={this.props.courseTitle} onNameChanged={this.props.onTitleChanged} />
+                    <EditorIndexTitle className="tituloCurso" title={this.props.courseTitle} courseTitle onNameChanged={this.props.onTitleChanged} />
                 </div>
 
                 <button className="btnFullCarousel" style={{ position: this.props.carouselShow ? 'absolute' : 'initial' }} onClick={e => {

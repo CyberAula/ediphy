@@ -2,6 +2,7 @@ import React from "react";
 import i18n from 'i18next';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MarkEditor from '../../_editor/components/rich_plugins/mark_editor/MarkEditor';
+import Mark from '../../common/components/mark/Mark';
 import img_broken from './../../dist/images/broken_link.png';
 import img_placeholder from './../../dist/images/placeholder.svg';
 /* eslint-disable react/prop-types */
@@ -19,14 +20,14 @@ export function HotspotImages(base) {
                 icon: 'image',
                 // initialWidth: '25%',
                 aspectRatioButtonConfig: {
-                    location: ["main", "__sortable"],
+                    location: ["main", "structure"],
                     defaultValue: true,
                 },
                 isRich: true,
                 marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#000001' }],
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -38,7 +39,7 @@ export function HotspotImages(base) {
                                 url: {
                                     __name: 'URL',
                                     type: 'external_provider',
-                                    value: base.getState().url,
+                                    value: state.url,
                                     accept: "image/*",
                                     autoManaged: false,
                                 },
@@ -116,15 +117,9 @@ export function HotspotImages(base) {
             return 50 + ',' + 50;
         },
         getRenderTemplate: function(state, props) {
-            let marks = state.__marks || {};
-            let Mark = ({ idKey, title, style, color }) => (
-                <MarkEditor style={style} time={1.5} onRichMarkUpdated={props.onRichMarkUpdated} mark={idKey} base={base} state={state}>
-                    <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
-                        <a className="mapMarker" href="#">
-                            <i key="i" style={{ color: color }} className="material-icons">room</i>
-                        </a>
-                    </OverlayTrigger>
-                </MarkEditor>);
+            let marks = props.marks || {};
+            // let Mark = ({ idKey, title, style, color }) => (
+            //     );
 
             let markElements = Object.keys(marks).map((id) =>{
                 let value = marks[id].value;
@@ -137,24 +132,22 @@ export function HotspotImages(base) {
                 } else{
                     position = [0, 0];
                 }
-
-                return (<Mark key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} idKey={id} title={title} />);
-
-                // return(<a key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} href="#"><i style={{ width: "100%", height: "100%", top: '-26px', position: 'absolute', left: '-12px' }} className="material-icons">room</i></a>);
+                return (
+                    <MarkEditor key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} time={1.5} onRichMarkMoved={props.onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
+                        <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} idKey={id} title={title} />
+                    </MarkEditor>
+                );
             });
 
             return (
                 <div className="dropableRichZone" style={{ height: "100%" }}>
                     <img className="basicImageClass" style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
                         e.target.onError = null;
-                        e.target.src = img; // Ediphy.Config.broken_link;
+                        e.target.src = img_broken; // Ediphy.Config.broken_link;
                     }}/>
                     {markElements}
                 </div>
             );
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
         },
         parseRichMarkInput: function(...value) {
             let x = (value[0] + 12) * 100 / value[2];

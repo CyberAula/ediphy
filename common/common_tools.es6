@@ -1,5 +1,11 @@
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
-
+import {
+    addDefaultContainerPlugins, addDefaultContainerPluginsReact,
+    parsePluginContainers, parsePluginContainersReact,
+} from './plugins_inside_plugins';
+import { ID_PREFIX_BOX } from './constants';
+let html2json = require('html2json').html2json;
+import i18n from 'i18next';
 export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", customSize = 0) {
     // change ratio to the global ratio store in the app
     let ratio = ratioparam;
@@ -166,4 +172,70 @@ export function letterFromNumber(ind) {
         return abc[ind % abc.length];
     }
     return ind;
+}
+
+export function createBox(ids, name, slide, addBox, boxes) {
+    let apiPlugin = Ediphy.Plugins.get(name);
+    if (!apiPlugin) {
+        return;
+    }
+    let { initialParams, template, config, toolbar, state } = apiPlugin.getInitialParams(ids);
+    let styles = {};
+    try {
+        if (toolbar.main && toolbar.main.accordions && toolbar.main.accordions.style) {
+            Object.keys(toolbar.main.accordions.style.buttons).map((e) => {
+                styles[e] = toolbar.main.accordions.style.buttons[e].value;
+            });
+        }
+    } catch(e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
+    }
+
+    let newBoxes = [];
+    let newPluginState = {};
+    if (state.__pluginContainerIds) {
+        if (config.flavor !== "react") {
+            addDefaultContainerPlugins(ids, template, boxes, newBoxes);
+            parsePluginContainers(template, newPluginState);
+        } else {
+            addDefaultContainerPluginsReact(ids, template, boxes, newBoxes);
+            parsePluginContainersReact(template, newPluginState);
+        }
+        state.__pluginContainerIds = newPluginState;
+    }
+    addBox(ids, true, slide, template, styles, state, undefined, initialParams);
+    let basePrefix = ID_PREFIX_BOX + Date.now();
+    newBoxes.map((box, ind) => {
+        box.ids.id = basePrefix + ind;
+        createBox(box.ids, box.name, false, addBox, boxes);
+    });
+    setTimeout(()=>{
+        let boxCreated = findBox(ids.id);
+        scrollElement(boxCreated);
+    }, 40);
+
+}
+
+export function blurCKEditor(id, callback) {
+    if (CKEDITOR.instances[id]) {
+        CKEDITOR.instances[id].focusManager.blur(true);
+        let data = CKEDITOR.instances[id].getData();
+        if (data.length === 0) {
+            data = '<p>' + i18n.t("text_here") + '</p>';
+            CKEDITOR.instances[id].setData((data));
+        }
+        callback(encodeURI(data), html2json(encodeURI(data)));
+        let airlayer = document.getElementById("airlayer");
+        if (airlayer) {
+            airlayer.focus();
+        } else {
+            document.body.focus();
+        }
+
+    }
+}
+
+export function getRandomColor() {
+    return `#${Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, 0)}`;
 }

@@ -16,10 +16,12 @@ export default class VisorCanvasDoc extends Component {
         let itemSelected = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         let isCV = !isView(this.props.currentView);
         if (itemSelected !== 0 && !isCV) {
-            titles.push(itemSelected.name);
+            let title = this.props.viewToolbars[this.props.currentView].viewName;
+            titles.push(title);
             let parent = itemSelected.parent;
             while (parent !== 0) {
-                titles.push(this.props.navItems[parent].name);
+                let title2 = this.props.viewToolbars[parent].viewName;
+                titles.push(title2);
                 parent = this.props.navItems[parent].parent;
             }
             titles.reverse();
@@ -34,18 +36,20 @@ export default class VisorCanvasDoc extends Component {
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = isCV ? this.props.containedViews[this.props.currentView].boxes || [] : this.props.navItems[this.props.currentView].boxes || [];
-        let thisView = this.props.viewsArray && this.props.viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(this.props.viewsArray[this.props.viewsArray.length - 2]) ? this.props.containedViews[this.props.viewsArray[this.props.viewsArray.length - 2]].name : this.props.navItems[this.props.viewsArray[this.props.viewsArray.length - 2]].name)) : i18n.t('messages.go_back');
-
+        let thisView = this.props.viewsArray && this.props.viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(this.props.viewsArray[this.props.viewsArray.length - 2]) ? this.props.viewToolbars[this.props.viewsArray[this.props.viewsArray.length - 2]].viewName : this.props.viewToolbars[this.props.viewsArray[this.props.viewsArray.length - 2]].viewName)) : i18n.t('messages.go_back');
         const tooltip = (
             <Tooltip id="tooltip">{thisView}</Tooltip>
         );
 
         let animationType = isCV ? "animation-zoom" : ""; // "animation-slide";
+
+        let marks = {};
+        let toolbar = this.props.viewToolbars[this.props.currentView];
         return (
 
             <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={animationType}
                 style={{ display: 'initial', padding: '0', width: '100%' }}>
-                <div className="scrollcontainer" style={{ background: itemSelected.background }}>
+                <div className="scrollcontainer" style={{ background: toolbar.background }}>
                     {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
                         <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
                             onClick={a => {
@@ -60,6 +64,7 @@ export default class VisorCanvasDoc extends Component {
                         titleMode={itemSelected.titleMode}
                         navItems={this.props.navItems}
                         currentView={this.props.currentView}
+                        viewToolbar={this.props.viewToolbars[this.props.currentView]}
                         containedViews={this.props.containedViews}
                         showButton/>
                     <div className="outter canvasvisor">
@@ -68,9 +73,6 @@ export default class VisorCanvasDoc extends Component {
                             style={{ background: itemSelected.background, visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                             <div id={isCV ? "contained_maincontent" : "maincontent"}
-                                onClick={e => {
-                                    this.setState({ showTitle: false });
-                                }}
                                 className={'innercanvas doc'}
                                 style={{ background: itemSelected.background, visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
@@ -79,16 +81,18 @@ export default class VisorCanvasDoc extends Component {
                                 {boxes.map(id => {
                                     let box = this.props.boxes[id];
                                     if (!isSortableBox(box.id)) {
-                                        return <VisorBox key={id}
+                                        return null;
+                                        /* return <VisorBox key={id}
                                             id={id}
                                             exercises={(this.props.exercises && this.props.exercises.exercises) ? this.props.exercises.exercises[id] : undefined}
                                             boxes={this.props.boxes}
                                             changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
                                             currentView={this.props.currentView}
                                             fromScorm={this.props.fromScorm}
-                                            toolbars={this.props.toolbars}
+                                            toolbars={this.props.pluginToolbars}
                                             setAnswer={this.props.setAnswer}
-                                            richElementsState={this.props.richElementsState}/>;
+                                            marks={marks}
+                                            richElementsState={this.props.richElementsState}/>;*/
                                     }
                                     return <VisorBoxSortable key={id}
                                         id={id}
@@ -97,8 +101,10 @@ export default class VisorCanvasDoc extends Component {
                                         changeCurrentView={this.props.changeCurrentView}
                                         currentView={this.props.currentView}
                                         fromScorm={this.props.fromScorm}
-                                        toolbars={this.props.toolbars}
+                                        toolbars={this.props.pluginToolbars}
                                         setAnswer={this.props.setAnswer}
+                                        marks={this.props.marks}
+                                        onMarkClicked={this.props.onMarkClicked}
                                         richElementsState={this.props.richElementsState}/>;
 
                                 })}
@@ -125,7 +131,7 @@ export default class VisorCanvasDoc extends Component {
 
 VisorCanvasDoc.propTypes = {
     /**
-     * Diccionario que contiene todas las cajas
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
@@ -133,7 +139,7 @@ VisorCanvasDoc.propTypes = {
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -141,7 +147,7 @@ VisorCanvasDoc.propTypes = {
      */
     currentView: PropTypes.any,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
     /**
@@ -160,10 +166,6 @@ VisorCanvasDoc.propTypes = {
      * Título del curso
      */
     title: PropTypes.any,
-    /**
-     * Diccionario que contiene todas las toolbars
-     */
-    toolbars: PropTypes.object,
     /**
      *  Array de vistas
      */
@@ -184,4 +186,20 @@ VisorCanvasDoc.propTypes = {
    * Function for submitting a page Quiz
    */
     setAnswer: PropTypes.func.isRequired,
+    /**
+     * Pages toolbars
+     */
+    viewToolbars: PropTypes.object,
+    /**
+     * All marks
+     */
+    marks: PropTypes.object,
+    /**
+     * Boxes toolbars
+     */
+    pluginToolbars: PropTypes.object,
+    /**
+     * Function that triggers a mark
+     */
+    onMarkClicked: PropTypes.func,
 };

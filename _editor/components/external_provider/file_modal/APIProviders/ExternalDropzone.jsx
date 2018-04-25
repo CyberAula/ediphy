@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FileInput from './../../common/file-input/FileInput';
+import FileInput from '../../../common/file-input/FileInput';
 import PropTypes from 'prop-types';
 
 /**
@@ -36,6 +36,9 @@ export default class ExternalDropzone extends Component {
 
         if (event.target.files.length === 1) {
             this.setState({ file: event.target.files[0] });
+            if(this.props.callback) {
+                this.props.callback(event.target.files[0]);
+            }
         }
     }
 

@@ -5,7 +5,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import img from './../../../dist/images/broken_link.png';
 import WaveSurfer from 'wavesurfer.js';
 import ReactWavesurfer from 'react-wavesurfer';
-
+import Mark from '../../../common/components/mark/Mark';
 export default class BasicAudioPlugin extends React.Component {
     constructor(props) {
         super(props);
@@ -122,19 +122,26 @@ const timelineOptions = {
             position: "relative",
         };
 
-        let marks = this.props.state.__marks;
+        let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;
             let title = marks[id].title;
             let color = marks[id].color;
+            let isPopUp = marks[id].connectMode === "popup";
+            let noTrigger = true;
+            let isVisor = true;
             return(
-                <OverlayTrigger key={id} text={title} placement="top" overlay={<Tooltip id={id}>{title}</Tooltip>}>
-                    <a key={id} style={{ left: value, position: "absolute" }} href="#">
-                        <div style={{ width: "4px", height: "8px", background: color || "#17CFC8" }}>
-                            <i className="material-icons" style={{ color: color || "#17CFC8", position: "relative", top: "-24px", left: "-10px" }}>room</i>
-                        </div>
-                    </a>
-                </OverlayTrigger>);
+                <div key={id} className="videoMark" style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
+                    <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }}
+                        color={color || "#17CFC8"}
+                        idKey={id}
+                        title={title}
+                        isVisor={isVisor}
+                        isPopUp={isPopUp}
+                        markConnection={marks[id].connection}
+                        noTrigger={noTrigger}/>
+                </div>
+            );
         });
 
         return (
@@ -144,9 +151,7 @@ const timelineOptions = {
                     pos={this.state.pos}
                     onPosChange={this.handlePosChange.bind(this)}
                     playing={this.state.playing}
-
                     audioPeaks={this.state.audioPeaks}
-
                     volume={this.state.volume}
                     options={waveOptions}
                     onReady={this.handleReady.bind(this)}

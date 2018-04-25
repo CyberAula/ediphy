@@ -1,8 +1,8 @@
 import React from "react";
 import i18n from 'i18next';
 import Map from './components/Map';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MarkEditor from "../../_editor/components/rich_plugins/mark_editor/MarkEditor";
+import Mark from '../../common/components/mark/Mark';
 require('./_virtualTour.scss');
 window.mapList = [];
 /* eslint-disable react/prop-types */
@@ -10,8 +10,10 @@ window.mapList = [];
 export function VirtualTour(base) {
     return {
         init: function() {
-            let src = "https://maps.google.com/maps/api/js?libraries=places&key=AIzaSyAOOAHADllUMGULOz5FQu3rIhM0RtwxP7Q";
-            $('<script>').attr('src', src).appendTo('head');
+            if (!window.google) {
+                let src = "https://maps.google.com/maps/api/js?libraries=places&key=AIzaSyAOOAHADllUMGULOz5FQu3rIhM0RtwxP7Q";
+                $('<script>').attr('src', src).appendTo('head');
+            }
         },
         getConfig: function() {
             return {
@@ -34,10 +36,10 @@ export function VirtualTour(base) {
                     defaultColor: '#000002',
                 }],
                 needsPointerEventsAllowed: true,
-                limitToOneInstance: true,
+                // limitToOneInstance: true,
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -118,8 +120,8 @@ export function VirtualTour(base) {
                 let src = "https://maps.google.com/maps/api/js?libraries=places&key=AIzaSyAOOAHADllUMGULOz5FQu3rIhM0RtwxP7Q";
                 $('<script>').attr('src', src).appendTo('head');
             }
-            let id = "map-" + props.id;
-            let marks = state.__marks;
+            let id = props.id;
+            let marks = props.marks || {};
             if (!window.google || !window.navigator.onLine) {
                 return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
                     <div className="middleAlign">
@@ -128,16 +130,6 @@ export function VirtualTour(base) {
                     </div>
                 </div>);
             }
-
-            let Mark = ({ idKey, title, color }) => (
-                <MarkEditor time={1.5} mark={idKey} base={base} onRichMarkUpdated={props.onRichMarkUpdated} state={state}>
-                    <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
-                        <a className="mapMarker" href="#">
-                            <i style={{ color: color }} key="i" className="material-icons">room</i>
-                        </a>
-                    </OverlayTrigger>
-                </MarkEditor>);
-
             let markElements = Object.keys(marks).map((idKey) => {
                 let value = marks[idKey].value;
                 let title = marks[idKey].title;
@@ -148,12 +140,13 @@ export function VirtualTour(base) {
                 } else {
                     position = [0, 0];
                 }
-                return (<Mark key={idKey} idKey={idKey} title={title} color={color} lat={position[0]} lng={position[1]}/>);
+                return (
+                    <MarkEditor key={idKey} time={1.5} boxId={id} mark={idKey} base={base} onRichMarkMoved={props.onRichMarkMoved} state={state} lat={position[0]} lng={position[1]}>
+                        <Mark idBox={props.id} idKey={idKey} title={title} color={color} />
+                    </MarkEditor>);
 
             });
 
-            window.num = state.num;
-            let num = state.num;
             return (
                 <div className="virtualMap" onDragLeave={e=>{e.stopPropagation();}}>
                     <Map placeholder={i18n.t("VirtualTour.Search")}
@@ -161,23 +154,21 @@ export function VirtualTour(base) {
                         id={id}
                         searchBox
                         update={(lat, lng, zoom, render)=>{
-                            // console.log('changing state');
-                            base.setState('config', { lat: lat, lng: lng, zoom: zoom });
+                            if (state.config.lat.toPrecision(4) !== lat.toPrecision(4) || state.config.lng.toPrecision(4) !== lng.toPrecision(4) || state.config.zoom.toPrecision(4) !== zoom) {
+                                props.update('config', { lat, lng, zoom });
+                            }
                         }}>
                         {markElements}
                     </Map>
                 </div>);
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
-        getDefaultMarkValue() {
-            let cfg = base.getState().config;
+        getDefaultMarkValue(state) {
+            let cfg = state.config;
             return Math.round(cfg.lat * 100000) / 100000 + ',' + Math.round(cfg.lng * 100000) / 100000;
         },
         parseRichMarkInput: function(...value) {
             let state = value[5];
-            if (!window.google || !window.navigator.onLine || !window.mapList[state.num]) {
+            if (!window.google || !window.navigator.onLine || !window.mapList[value[6] || state.num]) {
                 return '0,0';
             }
             let clickX = value[0] + 12;
@@ -188,7 +179,7 @@ export function VirtualTour(base) {
             let num = state.num;
 
             let maps = window.google.maps;
-            let map = window.mapList[state.num];
+            let map = window.mapList[value[6] || state.num];
             let topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
             let bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
             let scale = Math.pow(2, map.getZoom());
@@ -218,27 +209,7 @@ export function VirtualTour(base) {
             return { isWrong: false, value: value };
         },
         pointerEventsCallback: function(bool, toolbarState) {
-            if (!window.google || !window.navigator.onLine) {return;}
-            let num = toolbarState.num || (toolbarState.state ? toolbarState.state.num : 9999);
-            if (window.mapList[num]) {
-                switch(bool) {
-                case 'mouseenter':
-                    window.mapList[num].setOptions({ draggable: false });
-                    return;
-                case 'mouseleave_true':
-                    window.mapList[num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
-                    return;
-                case 'mouseleave_false':
-                    window.mapList[num].setOptions({ draggable: false });
-                    return;
-                case 'disableAll':
-                    window.mapList[num].setOptions({ draggable: false, mapTypeControl: false, zoomControl: false });
-                    return;
-                case 'enableAll':
-                    window.mapList[num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
-                    return;
-                }
-            }
+            return;
         },
 
     };

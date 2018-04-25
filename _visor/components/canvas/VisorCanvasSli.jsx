@@ -17,12 +17,15 @@ export default class VisorCanvasSli extends Component {
         let titles = [];
         let itemSelected = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         let isCV = !isView(this.props.currentView);
+        let toolbar = this.props.viewToolbars[this.props.currentView];
 
-        if (itemSelected.id !== 0 && !isCV) {
-            titles.push(itemSelected.name);
+        if (itemSelected !== 0 && !isCV) {
+            let title = this.props.viewToolbars[this.props.currentView].viewName;
+            titles.push(title);
             let parent = itemSelected.parent;
             while (parent !== 0) {
-                titles.push(this.props.navItems[parent].name);
+                let title2 = this.props.viewToolbars[parent].viewName;
+                titles.push(title2);
                 parent = this.props.navItems[parent].parent;
             }
             titles.reverse();
@@ -38,8 +41,8 @@ export default class VisorCanvasSli extends Component {
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = isCV ? this.props.containedViews[this.props.currentView].boxes || [] : this.props.navItems[this.props.currentView].boxes || [];
         let thisView = this.props.viewsArray && this.props.viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(this.props.viewsArray[this.props.viewsArray.length - 2]) ? this.props.containedViews[this.props.viewsArray[this.props.viewsArray.length - 2]].name : this.props.navItems[this.props.viewsArray[this.props.viewsArray.length - 2]].name)) : i18n.t('messages.go_back');
-        let backgroundIsUri = (/data\:/).test(itemSelected.background);
-        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(itemSelected.background);
+        let backgroundIsUri = (/data\:/).test(toolbar.background);
+        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(toolbar.background);
 
         const tooltip = (
             <Tooltip id="tooltip">{thisView}</Tooltip>
@@ -54,16 +57,13 @@ export default class VisorCanvasSli extends Component {
                     style={{ margin: '0 auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                     <div id={isCV ? "contained_maincontent" : "maincontent"}
-                        onClick={e => {
-                            this.setState({ showTitle: false });
-                        }}
                         className={'innercanvas sli'}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'),
-                            background: isColor ? itemSelected.background : '',
-                            backgroundImage: !isColor ? 'url(' + itemSelected.background.background + ')' : '',
-                            backgroundSize: itemSelected.background.attr === 'full' ? 'cover' : 'auto 100%',
-                            backgroundRepeat: itemSelected.background.attr === 'centered' ? 'no-repeat' : 'repeat',
-                            backgroundPosition: itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'full' ? 'center center' : '0% 0%' }}>
+                            background: isColor ? toolbar.background : '',
+                            backgroundImage: !isColor ? 'url(' + toolbar.background + ')' : '',
+                            backgroundSize: toolbar.backgroundAttr === 'full' ? 'cover' : 'auto 100%',
+                            backgroundRepeat: toolbar.backgroundAttr === 'centered' ? 'no-repeat' : 'repeat',
+                            backgroundPosition: toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full' ? 'center center' : '0% 0%' }}>
                         {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
                             <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }} onClick={a => {
                                 document.getElementById("containedCanvas").classList.add("exitCanvas");
@@ -75,18 +75,17 @@ export default class VisorCanvasSli extends Component {
                             }}><i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
                         <VisorHeader titles={titles}
                             onShowTitle={()=>this.setState({ showTitle: true })}
-                            courseTitle={this.props.title}f
+                            courseTitle={this.props.title}
                             titleMode={itemSelected.titleMode}
                             navItems={this.props.navItems}
                             currentView={this.props.currentView}
+                            viewToolbar={this.props.viewToolbars[this.props.currentView]}
                             containedViews={this.props.containedViews}
                             showButton/>
-
                         <br/>
 
                         {boxes.map(id => {
                             let box = this.props.boxes[id];
-
                             return <VisorBox key={id}
                                 id={id}
                                 exercises={(this.props.exercises && this.props.exercises.exercises) ? this.props.exercises.exercises[id] : undefined}
@@ -94,8 +93,10 @@ export default class VisorCanvasSli extends Component {
                                 changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
                                 currentView={this.props.currentView}
                                 fromScorm={this.props.fromScorm}
-                                toolbars={this.props.toolbars}
+                                toolbars={this.props.pluginToolbars}
+                                marks={this.props.marks}
                                 setAnswer={this.props.setAnswer}
+                                onMarkClicked={this.props.onMarkClicked}
                                 richElementsState={this.props.richElementsState}/>;
 
                         })}
@@ -139,18 +140,11 @@ export default class VisorCanvasSli extends Component {
         }
 
     }
-    // componentWillUpdate(nextProps) {
-    //     if (this.props.canvasRatio !== nextProps.canvasRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
-    //         window.canvasRatio = nextProps.canvasRatio;
-    //         aspectRatio(nextProps.canvasRatio, nextProps.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas', nextProps.navItemSelected.customSize);
-    //     }
-    //
-    // }
 }
 
 VisorCanvasSli.propTypes = {
     /**
-     * Diccionario que contiene todas las cajas
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
@@ -162,7 +156,7 @@ VisorCanvasSli.propTypes = {
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -170,7 +164,7 @@ VisorCanvasSli.propTypes = {
      */
     currentView: PropTypes.any,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
     /**
@@ -189,10 +183,6 @@ VisorCanvasSli.propTypes = {
      * Título del curso
      */
     title: PropTypes.any,
-    /**
-     * Diccionario que contiene todas las toolbars
-     */
-    toolbars: PropTypes.object,
     /**
      *  Array de vistas
      */
@@ -213,4 +203,20 @@ VisorCanvasSli.propTypes = {
      * Function for submitting a page Quiz
     */
     setAnswer: PropTypes.func.isRequired,
+    /**
+     * Pages toolbars
+     */
+    viewToolbars: PropTypes.object,
+    /**
+     * All marks
+     */
+    marks: PropTypes.object,
+    /**
+    * Boxes toolbars
+    */
+    pluginToolbars: PropTypes.object,
+    /**
+     * Function that triggers a mark
+     */
+    onMarkClicked: PropTypes.func,
 };
