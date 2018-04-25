@@ -1,25 +1,52 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
-import Ediphy from '../../../../core/editor/main';
+import Ediphy from '../../../../../core/editor/main';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
+import SearchComponent from './SearchComponent';
 
 export default class SearchVishComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            results: [],
+            query: '',
+            msg: 'No hay resultados',
+
+        };
+        this.onSearch = this.onSearch.bind(this);
+    }
     render() {
         return (
             <div>
                 <Form horizontal action="javascript:void(0);">
+                    <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}
+                        <SearchComponent query={this.state.value} onChange={(e)=>{this.setState({ query: e.target.value });}} onSearch={this.onSearch} /></h5>
+                    <hr />
+
+                    <FormGroup>
+                        <Col md={2}>
+                            <Button type="submit" className="btn-primary hiddenButton" onClick={(e) => {
+                                this.onSearch(this.state.query);
+                                e.preventDefault();
+                            }}>{i18n.t("vish_search_button")}
+                            </Button>
+                        </Col>
+                    </FormGroup>
+
+                </Form>
+                {/* <Form horizontal action="javascript:void(0);">
                     <FormGroup>
                         <Col md={4}>
                             <ControlLabel>{i18n.t("vish_search_terms")}</ControlLabel>
-                            <FormControl ref="query" type="text"/>
+                            <FormControl autoFocus ref="query" type="text"/>
                         </Col>
                         <Col md={3}>
                             <ControlLabel>{i18n.t("vish_search_by_type")}</ControlLabel>
-                            <FormControl ref="type" componentClass="select">
+                            <FormControl autoFocus ref="type" componentClass="select">
                                 <option value="Picture">{i18n.t("vish_search_types.Picture")}</option>
-                                {/*
+
                                  <option value="Resource">All</option>
                                  <option value="Audio">Audio</option>
                                  <option value="Embed">Embed</option>
@@ -33,7 +60,7 @@ export default class SearchVishComponent extends React.Component {
                                  <option value="Workshop">Workshop</option>
                                  <option value="Writing">Writing</option>
                                  <option value="Zipfile">ZIP File</option>
-                                 */}
+
                             </FormControl>
                         </Col>
                         <Col md={3}>
@@ -49,28 +76,21 @@ export default class SearchVishComponent extends React.Component {
                             </FormControl>
                         </Col>
                         <Col md={2}>
-                            <Button type="submit" className="btn-primary" onClick={(e) => {
-                                let url = encodeURI(Ediphy.Config.search_vish_url +
-                                    "?q=" + ReactDOM.findDOMNode(this.refs.query).value +
-                                    "&type=" + ReactDOM.findDOMNode(this.refs.type).value +
-                                    "&sort_by=" + ReactDOM.findDOMNode(this.refs.sort_by).value
-                                );
-
-                                this.props.onFetchVishResources(url);
-                                e.preventDefault();
-                            }}>{i18n.t("vish_search_button")}
+                            <br/>
+                            <Button type="submit" className="btn-primary" onClick={onSearch}>
+                                {i18n.t("vish_search_button")}
                             </Button>
                         </Col>
                     </FormGroup>
 
-                </Form>
+                </Form>*/}
                 <Form style={{ minHeight: 250 }}>
-                    {this.props.fetchResults.total_results_delivered ?
+                    {this.state.results.length > 0 ?
                         (
                             <FormGroup>
-                                <ControlLabel>{ this.props.fetchResults.total_results_delivered + " Resultados"}</ControlLabel>
+                                <ControlLabel>{ this.state.results.length + " Resultados"}</ControlLabel>
                                 <br />
-                                {this.props.fetchResults.results.map((item, index) => {
+                                {this.state.results.map((item, index) => {
                                     let border = item.file_url === this.props.elementSelected ? "solid orange 3px" : "solid transparent 3px";
                                     return (
                                         <img key={index}
@@ -89,7 +109,7 @@ export default class SearchVishComponent extends React.Component {
                         ) :
                         (
                             <FormGroup>
-                                <ControlLabel>{process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' ? this.props.isBusy.msg : ''}</ControlLabel>
+                                <ControlLabel id="serverMsg">{this.state.msg}</ControlLabel>
                             </FormGroup>
                         )
                     }
@@ -98,8 +118,8 @@ export default class SearchVishComponent extends React.Component {
         );
     }
     componentWillUpdate(nextProps, nextState) {
-        if (nextProps.fetchResults.total_results_delivered && (nextProps.fetchResults.total_results_delivered !== this.props.fetchResults.total_results_delivered)) {
-            this.props.onElementSelected(nextProps.fetchResults.results[0].title, nextProps.fetchResults.results[0].file_url, 'image');
+        if (this.state.results.length && (nextState.results.length !== this.state.results.length)) {
+            this.props.onElementSelected(nextState.results[0].title, nextState.results[0].file_url, 'image');
 
         }
     }
@@ -107,7 +127,37 @@ export default class SearchVishComponent extends React.Component {
         this.props.onElementSelected(undefined, undefined, undefined);
 
     }
+    onSearch(text) {
+        let query = encodeURI(Ediphy.Config.search_vish_url +
+            "?q=" + text +
+            "&type=" + "Picture" /* ReactDOM.findDOMNode(this.refs.type).value */ +
+            "&sort_by=" + "created");
+        this.setState({ msg: 'Buscando...' });
+
+        fetch(query)
+            .then(response => {
+                if (response.status >= 400) {
+                    throw new Error(i18n.t("error.searching"));
+                }
+                return response.text();
+            })
+            .then(result => {
+
+                let results = JSON.parse(result).results;
+                this.setState({ results, msg: results.length > 0 ? '' : 'No hay resultados' });
+                return true;
+            })
+            .then(() => {
+                // dispatch(setBusy(false, i18n.t("no_results")));
+            })
+            .catch(e => {
+                console.error(e);
+                this.setState({ msg: 'Ha habido un error' });
+                // dispatch(setBusy(false, e.message));
+            });
+    }
 }
+
 SearchVishComponent.propTypes = {
     /**
      * Selected Element
@@ -121,14 +171,6 @@ SearchVishComponent.propTypes = {
      * Resultados obtenidos de la búsqueda en el proveedor externo
      * */
     fetchResults: PropTypes.object,
-    /**
-     * Función para mostrar la búsqueda externa
-     * */
-    onExternalSearcherToggled: PropTypes.func,
-    /**
-     * Función para obtener resultados del proveedor externo
-     */
-    onFetchVishResources: PropTypes.func,
     /**
      * Indicador de si hay una operación en curso con el servidor
      */

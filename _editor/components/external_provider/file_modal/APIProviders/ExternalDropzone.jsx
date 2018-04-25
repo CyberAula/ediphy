@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FileInput from './../../common/file-input/FileInput';
+import FileInput from '../../../common/file-input/FileInput';
 import PropTypes from 'prop-types';
 
 /**

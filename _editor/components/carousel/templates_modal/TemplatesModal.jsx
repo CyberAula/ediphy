@@ -153,7 +153,7 @@ TemplatesModal.propTypes = {
      */
     onNavItemAdded: PropTypes.func.isRequired,
     /**
-     *  Object contianing all the boxes
+     *  Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**

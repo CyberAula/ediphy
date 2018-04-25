@@ -285,7 +285,7 @@ EditorCanvasSli.propTypes = {
      */
     showCanvas: PropTypes.bool,
     /**
-     *  Object containing every existing box (by id)
+     *  Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
@@ -297,7 +297,7 @@ EditorCanvasSli.propTypes = {
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Object containing every view (by id)
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
     /**
@@ -305,7 +305,7 @@ EditorCanvasSli.propTypes = {
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Object containing every contained view (by id)
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**

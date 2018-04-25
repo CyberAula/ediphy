@@ -10,7 +10,7 @@ import {
     toggleTextEditor, toggleTitleMode, pasteBox, changeBoxLayer,
     changeDisplayMode, configScore,
     exportStateAsync, importStateAsync, importState, changeGlobalConfig,
-    fetchVishResourcesAsync, uploadVishResourceAsync,
+    uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
     addRichMark, editRichMark, moveRichMark, deleteRichMark, setCorrectAnswer,
     updateViewToolbar, updatePluginToolbar,
@@ -21,7 +21,6 @@ import ContainedCanvas from '../components/rich_plugins/contained_canvas/Contain
 import EditorCarousel from '../components/carousel/editor_carousel/EditorCarousel';
 import PluginConfigModal from '../components/plugin_config_modal/PluginConfigModal';
 import Visor from '../../_visor/containers/Visor';
-import ExternalCatalogModal from '../components/external_provider/ExternalCatalogModal';
 import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
 import ActionsRibbon from '../components/nav_bar/actions_ribbon/ActionsRibbon';
 import EditorNavBar from '../components/nav_bar/editor_nav_bar/EditorNavBar';
@@ -85,7 +84,7 @@ class EditorApp extends Component {
     render() {
         const { dispatch, boxes, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, filesUploaded, indexSelected, exercises,
-            undoDisabled, redoDisabled, displayMode, isBusy, pluginToolbars, viewToolbars, marks, lastActionDispatched, globalConfig, fetchVishResults } = this.props;
+            undoDisabled, redoDisabled, displayMode, isBusy, pluginToolbars, viewToolbars, marks, lastActionDispatched, globalConfig } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
         let canvasRatio = globalConfig.canvasRatio;
@@ -364,6 +363,8 @@ class EditorApp extends Component {
                     state={this.props.store.getState().present}/>
                 <PluginConfigModal
                     id={this.state.pluginConfigModal}
+                    fileModalResult={this.state.fileModalResult}
+                    openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept });}}
                     name={pluginToolbars[this.state.pluginConfigModal] ? pluginToolbars[this.state.pluginConfigModal].pluginId : ""}
                     state={pluginToolbars[this.state.pluginConfigModal] ? pluginToolbars[this.state.pluginConfigModal].state : {}}
                     closeConfigModal={()=>{ this.setState({ pluginConfigModal: false }); } }
@@ -391,7 +392,7 @@ class EditorApp extends Component {
                     validateValueInput={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).validateValueInput : null}
                     onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                     onRichMarkAdded={(mark, view, viewToolbar)=> dispatch(addRichMark(mark, view, viewToolbar))}
-                    onRichMarkUpdated={(id, mark) => dispatch(editRichMark(id, mark))}
+                    onRichMarkUpdated={(mark, view, viewToolbar) => dispatch(editRichMark(mark, view, viewToolbar))}
                     onRichMarksModalToggled={() => {
                         this.setState({ richMarksVisible: !this.state.richMarksVisible });
                         if(this.state.richMarksVisible) {
@@ -413,7 +414,6 @@ class EditorApp extends Component {
                     isBusy={isBusy}
                     marks={marks}
                     exercises={exercises}
-                    fetchResults={fetchVishResults}
                     titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}
                     onContainedViewNameChanged={(id, titleStr) => dispatch(changeContainedViewName(id, titleStr))}
                     onBackgroundChanged={(id, background) => dispatch(changeBackground(id, background))}
@@ -488,7 +488,6 @@ class EditorApp extends Component {
                     fileModalResult={this.state.fileModalResult}
                     openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept });}}
                     onUploadVishResource={(query) => dispatch(uploadVishResourceAsync(query))}
-                    onFetchVishResources={(query) => dispatch(fetchVishResourcesAsync(query))}
                     updateViewToolbar={(id, toolbar)=> dispatch(updateViewToolbar(id, toolbar))}
                 />
                 <FileModal visible={this.state.showFileUpload} disabled={disabled}
@@ -496,7 +495,6 @@ class EditorApp extends Component {
                     boxSelected={boxSelected}
                     boxes={boxes}
                     isBusy={isBusy}
-                    fetchResults={fetchVishResults}
                     fileModalResult={this.state.fileModalResult}
                     navItemsIds={navItemsIds}
                     navItems={navItems}
@@ -505,12 +503,12 @@ class EditorApp extends Component {
                     containedViewSelected={containedViewSelected}
                     navItemSelected={navItemSelected}
                     filesUploaded={filesUploaded}
+                    pluginToolbars={pluginToolbars}
                     onIndexSelected={(id) => dispatch(selectIndex(id))}
                     onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
                     onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
                     onUploadVishResource={(query, keywords) => dispatch(uploadVishResourceAsync(query, keywords))}
                     onUploadEdiphyResource={(file, keywords)=>dispatch(uploadEdiphyResourceAsync(file, keywords))}
-                    onFetchVishResources={(query) => dispatch(fetchVishResourcesAsync(query))}
                     close={(fileModalResult)=>{this.setState({ fileModalResult: fileModalResult ? fileModalResult : { id: undefined, value: undefined }, showFileUpload: false });}} />
 
             </Grid>
@@ -824,7 +822,6 @@ function mapStateToProps(state) {
         viewToolbars: state.present.viewToolbarsById,
         exercises: state.present.exercises,
         isBusy: state.present.isBusy,
-        fetchVishResults: state.present.fetchVishResults,
         lastActionDispatched: state.present.lastActionDispatched || "",
 
     };
@@ -852,7 +849,6 @@ EditorApp.propTypes = {
     viewToolbars: PropTypes.object.isRequired,
     exercises: PropTypes.object,
     isBusy: PropTypes.any,
-    fetchVishResults: PropTypes.any,
     dispatch: PropTypes.func.isRequired,
     store: PropTypes.any,
     lastActionDispatched: PropTypes.string,

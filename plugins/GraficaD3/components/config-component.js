@@ -71,7 +71,7 @@ export default class Config extends React.Component {
                             className="btn-primary">{i18n.t("GraficaD3.edit")}</Button>
                         }
                         {editing &&
-                        <DataProvider dataProvided={dataProvided} dataChanged={this.dataChanged}/>
+                        <DataProvider dataProvided={dataProvided} dataChanged={this.dataChanged} id={this.props.id} props={this.props.props}/>
                         }
                         {!editing &&
                         <ChartOptions dataProcessed={dataProcessed} options={options} dataProvided={dataProvided} optionsChanged={this.optionsChanged}/>

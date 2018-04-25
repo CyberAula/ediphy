@@ -16,7 +16,6 @@ export const emptyState = () => { return ({ present:
         viewToolbarsById: { },
         pluginToolbarsById: { },
         isBusy: "",
-        fetchVishResults: { "results": [] },
     },
 });
 };

@@ -114,7 +114,7 @@ export function DataTable(base) {
                     initialPageLength: 5,
                     initialSort: keys[0] || 0,
                     initialOrder: 'descending',
-                    theme: 'basic',
+                    theme: 'solid',
                 },
             };
         },
@@ -124,9 +124,9 @@ export function DataTable(base) {
             );
 
         },
-        getConfigTemplate: function(id, state, updateState) {
+        getConfigTemplate: function(id, state, updateState, props) {
             return (
-                <Config id={id} state={state} updateState={updateState} />
+                <Config id={id} state={state} updateState={updateState} props={props}/>
             );
         },
         fileChanged: function(event) {

@@ -99,7 +99,7 @@ export default class ViewToolbar extends Component {
                         icon: "crop_original",
                         buttons: {
                             background: {
-                                __name: i18n.t('background.background'),
+                                __name: i18n.t('background.background_image'),
                                 type: 'background_picker',
                                 value: { background: viewToolbar.background, backgroundAttr: viewToolbar.background_attr } || { background: "#ffffff", backgroundAttr: "full" },
                                 autoManaged: false,
@@ -184,18 +184,20 @@ export default class ViewToolbar extends Component {
 }
 
 ViewToolbar.propTypes = {
-
+    /**
+   * Object containing all views (by id)
+    */
     navItems: PropTypes.object.isRequired,
     /**
-   * Vista  seleccionada identificada por su *id*
+   *Current selected view (by ID)
    */
     navItemSelected: PropTypes.any.isRequired,
     /**
-   * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+   * Contained views dictionary (identified by its ID)
    */
     containedViews: PropTypes.object.isRequired,
     /**
-   * Vista contenida seleccionada identificada por su *id*
+   * Selected contained view (by ID)
    */
     containedViewSelected: PropTypes.any.isRequired,
     /**

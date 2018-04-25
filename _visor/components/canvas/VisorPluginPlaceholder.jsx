@@ -84,7 +84,7 @@ VisorPluginPlaceholder.propTypes = {
    */
     parentBox: PropTypes.any,
     /**
-   * Object containing every existing box (by id)
+   * Object containing all created boxes (by id)
    */
     boxes: PropTypes.object,
     /**

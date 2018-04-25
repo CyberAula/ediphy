@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import i18n from 'i18next';
 import { Button, Row, Col, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import Select from 'react-select';
-import ExternalDropzone from '../external_uploader_modal/ExternalDropzone';
+import ExternalDropzone from './ExternalDropzone';
 import { WithContext as ReactTags } from 'react-tag-input';
-import './../../nav_bar/global_config/_reactTags.scss';
-import './_fileModal.scss';
-import ImportFile from '../../nav_bar/import_file/ImportFile';
+import '../../../nav_bar/global_config/_reactTags.scss';
+import { extensions } from '../FileHandlers/FileHandlers';
+import PDFHandler from "../FileHandlers/PDFHandler";
 export default class MyFilesComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -17,23 +17,10 @@ export default class MyFilesComponent extends React.Component {
             extensionFilter: this.props.show,
             keywords: [],
         };
-        this.uploadHandler = this.uploadHandler.bind(this);
-        this.dropHandler = this.dropHandler.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleAddition = this.handleAddition.bind(this);
-        this.handleDrag = this.handleDrag.bind(this);
 
     }
     render() {
         let keywords = this.state.keywords;
-        let extensions = [
-            { label: "Todos", value: '', icon: 'attach_file' },
-            { label: "Image", value: 'image', icon: 'image' },
-            { label: "Audio", value: 'audio', icon: 'audiotrack' },
-            { label: "Video", value: 'video', icon: 'play_arrow' },
-            { label: "Datos", value: 'csv', icon: 'view_agenda' },
-            { label: "PDF", value: 'pdf', icon: 'picture_as_pdf' },
-        ];
         let empty = true;
         let files = this.props.filesUploaded.map(file => {
             let type;
@@ -64,24 +51,15 @@ export default class MyFilesComponent extends React.Component {
             }
         }
         currentExtension = aux;
-        return(<div>
-            <ExternalDropzone ref="dropZone" accept={this.props.show} callback={this.dropHandler}/>
-            {this.state.file ? <FormGroup >
-                <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
-                <ReactTags tags={keywords}
-                    placeholder={i18n.t('global_config.keyw.Add_tag')}
-                    delimiters={[188, 13]}
-                    handleDelete={this.handleDelete}
-                    handleAddition={this.handleAddition}
-                    handleDrag={this.handleDrag} />
-            </FormGroup> : null}
-            <Button disabled={!this.state.file} onClick={this.uploadHandler}>UPLOAD</Button>
-            <hr/>
+        return(<div className="myFilesComponent">
+            <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}</h5>
+            <hr />
+
             <Row>
                 <Col key="filter" xs={12} md={6}>
                     <FormGroup >
                         <ControlLabel>{i18n.t('Filter')}:</ControlLabel><br/>
-                        <FormControl type="text" value={this.state.filter} placeholder="" onChange={e => {this.setState({ filter: e.target.value });}}/>
+                        <FormControl type="text" value={this.state.filter} placeholder="..." id="filterInput" autoFocus onChange={e => {this.setState({ filter: e.target.value });}}/>
                     </FormGroup>
                 </Col>
                 <Col key="extfilter" xs={12} md={6}>
@@ -94,6 +72,7 @@ export default class MyFilesComponent extends React.Component {
                             options={extensions}
                             onChange={e => {this.setState({ extensionFilter: e.value });}} />
                     </FormGroup>
+
                 </Col>
             </Row>
             <Row className="myFilesRow" onClick={e=>{this.props.onElementSelected(undefined, undefined, undefined);}}>
@@ -116,7 +95,7 @@ export default class MyFilesComponent extends React.Component {
                         <button onClick={()=>{this.props.closeSideBar();}}><i className="material-icons">keyboard_arrow_right</i></button>
                     </div>
                     <div id="pdfContent">
-                        <ImportFile navItemSelected={this.props.navItemSelected}
+                        <PDFHandler navItemSelected={this.props.navItemSelected}
                             boxes={this.props.boxes}
                             onBoxAdded={this.props.onBoxAdded}
                             onNavItemAdded={this.props.onNavItemAdded}
@@ -147,61 +126,6 @@ export default class MyFilesComponent extends React.Component {
         /* || nextState.filter !== this.state.filter || nextState.extensionFilter !== this.state.extensionFilter*/) {
             // this.props.onElementSelected( undefined, undefined, undefined);
         }
-    }
-    dropHandler(file) {
-        this.setState({ file });
-    }
-
-    uploadHandler() {
-        let keywordsArray = this.state.keywords.map(key=>{return key.text;});
-        let keywords = keywordsArray.join(",");
-        if(process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') { // VISH production
-            this.props.onUploadVishResource(this.state.file, keywords);
-        } else if (process.env.DOC === 'doc') { // Docs
-            alert('En la demo no se puede'); // TODO Poner bien en un modal alert
-        } else { // Ediphy Development (with ediphy_server)
-            this.props.onUploadEdiphyResource(this.state.file, keywords);
-        }
-        this.setState({ keywords: [], file: undefined });
-    }
-
-    /** *
-   * Keyword deleted callback
-   * @param i position of the keyword
-   */
-    handleDelete(i) {
-        let tags = Object.assign([], this.state.keywords);
-        tags.splice(i, 1);
-        this.setState({ keywords: tags });
-    }
-
-    /**
-   * Keyword added callback
-   * @param tag Keyword name
-   */
-    handleAddition(tag) {
-        let tags = Object.assign([], this.state.keywords);
-        tags.push({
-            id: tags.length + 1,
-            text: tag,
-        });
-        this.setState({ keywords: tags });
-    }
-
-    /**
-   * Keyword moved callback
-   * @param tag Tag moving
-   * @param currPos Current position
-   * @param newPos New position
-   */
-    handleDrag(tag, currPos, newPos) {
-        let tags = Object.assign([], this.state.keywords);
-
-        // mutate array
-        tags.splice(currPos, 1);
-        tags.splice(newPos, 0, tag);
-        // re-render
-        this.setState({ keywords: tags });
     }
 
 }

@@ -335,11 +335,11 @@ EditorHeader.propTypes = {
      */
     containedView: PropTypes.any,
     /**
-     * Object containing all contained views (by id)
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     *  Object contianing all the boxes
+     *  Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**

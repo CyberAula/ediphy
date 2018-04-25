@@ -131,7 +131,7 @@ export default class VisorCanvasDoc extends Component {
 
 VisorCanvasDoc.propTypes = {
     /**
-     * Diccionario que contiene todas las cajas
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
@@ -139,7 +139,7 @@ VisorCanvasDoc.propTypes = {
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -147,7 +147,7 @@ VisorCanvasDoc.propTypes = {
      */
     currentView: PropTypes.any,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
     /**

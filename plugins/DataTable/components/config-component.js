@@ -9,6 +9,7 @@ import ChartOptions from './chart-options';
 export default class Config extends React.Component {
     render() {
         let { data, options, keys, editing } = this.props.state;
+        console.log(this.props.props);
         return (
             <Grid>
                 <Row>
@@ -19,7 +20,7 @@ export default class Config extends React.Component {
                         <Button onClick={this.editButtonClicked} style={{ marginTop: '0px' }} className="btn-primary">{i18n.t("DataTable.edit")} </Button>
                         }
                         {editing &&
-                        <DataProvider data={data} dataChanged={this.dataChanged} keys={keys} />
+                        <DataProvider id={this.props.id} data={data} dataChanged={this.dataChanged} keys={keys} props={this.props.props}/>
                         }
                         {!editing &&
                         <ChartOptions options={options} optionsChanged={this.optionsChanged} keys={keys} />

@@ -164,7 +164,7 @@ export const testState = {
                 "title": "Nueva marca 1",
                 "connection": "cv-1524225239825",
                 "color": "#222222",
-                "connectMode": "new",
+                "connectMode": "existing",
                 "displayMode": "navigate",
                 "value": "52.94,58.86",
             },

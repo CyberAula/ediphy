@@ -260,11 +260,11 @@ export default class CarouselButtons extends Component {
 
 CarouselButtons.propTypes = {
     /**
-     * Dictionary containing all created boxes, each one with its *id* as the key
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
-     * Dictionary containing all contained views, each one with its *id* as the key
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -284,7 +284,7 @@ CarouselButtons.propTypes = {
      */
     onNavItemAdded: PropTypes.func.isRequired,
     /**
-     * Adds a box
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**

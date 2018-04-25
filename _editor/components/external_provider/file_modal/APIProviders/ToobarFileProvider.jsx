@@ -4,9 +4,6 @@ import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
 
-/**
- * ExternalProvider Component
- */
 export default class ToolbarFileProvider extends Component {
     /**
      * Constructor
@@ -28,14 +25,14 @@ export default class ToolbarFileProvider extends Component {
      * @returns {XML}
      */
     render() {
-        let bckg = (this.props.value !== undefined ? this.props.value : this.props.formControlProps.value);
+        let bckg = this.props.formControlProps ? (this.props.value !== undefined ? this.props.value : this.props.formControlProps.value) : null;
         // bckg = bckg instanceof Object ? '' : bckg;
-        let props = { ...this.props.formControlProps, value: bckg, label: (this.props.label || this.props.formControlProps.label || 'URL') };
+        let props = { ...this.props.formControlProps, value: bckg /* label: (this.props.label || this.props.formControlProps.label || 'URL')*/ };
         return (<FormGroup>
-            <ControlLabel>{props.label}</ControlLabel>
-            <FormControl {...props} onChange={e => {
-                props.onChange(e);
-            }}/>
+            {this.props.formControlProps ? [<ControlLabel>{props.label}</ControlLabel>,
+                <FormControl {...props} onChange={e => {
+                    props.onChange(e);
+                }}/>] : null}
             <Button className={'toolbarButton'}
                 onClick={() => {
                     this.setState({ open: true });
@@ -49,8 +46,11 @@ export default class ToolbarFileProvider extends Component {
             nextProps.id === nextProps.fileModalResult.id
             && nextProps.fileModalResult.value &&
             this.state.open && this.props.fileModalResult.value !== nextProps.fileModalResult.value) {
-            console.log(22222);
-            this.props.formControlProps.onChange({ value: nextProps.fileModalResult.value });
+            if (this.props.formControlProps) {
+                this.props.formControlProps.onChange({ value: nextProps.fileModalResult.value });
+            } else {
+                this.props.onChange({ value: nextProps.fileModalResult.value });
+            }
             this.setState({ open: false });
         }
     }

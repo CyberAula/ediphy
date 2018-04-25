@@ -79,7 +79,7 @@ EditorCanvas.propTypes = {
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Object containing every view (by id)
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
     /**
@@ -87,7 +87,7 @@ EditorCanvas.propTypes = {
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Object containing every contained view (by id)
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**

@@ -9,6 +9,7 @@ let es = {
         "Aspect_ratio": "Relación de aspecto",
         "Auto": "Automática",
         "background": {
+            "background": "Fondo",
             "background_color": "Cambiar color",
             "background_image": "Imagen de fondo",
             "reset_background": "Restablecer",
@@ -174,6 +175,7 @@ let es = {
                 "slideBackground": "Fondo en diapositiva",
                 "images": "Imágenes",
                 "customSize": "Ajustar al tamaño del fichero",
+                "PDFViewer": "Visor de PDF",
             },
             "footer": {
                 "ok": "Aceptar",

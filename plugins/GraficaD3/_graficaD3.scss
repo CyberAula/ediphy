@@ -17,8 +17,34 @@
     cursor: pointer;
 }
 .clearRow{
-     color: #bbb;
-     position: absolute;
-    right: 0;
+    color: white;
+    position: absolute;
+    right: 36px;
     cursor: pointer;
+    background-color: gray;
+    padding: 5px;
  }
+
+.recharts-default-tooltip{
+  border-radius: 5px;
+  text-align: left;
+  border: 0 !important;
+  box-shadow: 1px 1px 5px #888;
+  p{
+    font-weight: bold;
+  }
+  .recharts-tooltip-item-list{
+    margin: 0;
+    padding: 0;
+    .recharts-tooltip-item{
+      margin: 0;
+      padding: 0;
+      .recharts-tooltip-item-name,.recharts-tooltip-item-separator{
+        color: #888;
+      }
+      .recharts-tooltip-item-value{
+        font-weight: bold;
+      }
+    }
+  }
+}

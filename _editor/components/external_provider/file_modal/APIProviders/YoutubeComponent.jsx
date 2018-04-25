@@ -1,31 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
-import Ediphy from '../../../../core/editor/main';
+import Ediphy from '../../../../../core/editor/main';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
+import SearchComponent from './SearchComponent';
 
-import placeholder from './logos/soundcloud_placeholder.png';
-export default class SoundCloudComponent extends React.Component {
+export default class YoutubeComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             results: [],
+            query: '',
+            msg: 'No hay resultados',
         };
         this.onSearch = this.onSearch.bind(this);
     }
     render() {
         return <div>
             <Form horizontal action="javascript:void(0);">
-                <FormGroup>
-                    <Col md={4}>
-                        <ControlLabel>{i18n.t("vish_search_terms")}</ControlLabel>
-                        <FormControl ref="query" type="text"/>
-                    </Col>
-                    <Col md={2}>
-                        <Button type="submit" className="btn-primary" onClick={(e) => {
+                <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}
+                    <SearchComponent query={this.state.value} onChange={(e)=>{this.setState({ query: e.target.value });}} onSearch={this.onSearch} /></h5>
+                <hr />
 
-                            this.onSearch(ReactDOM.findDOMNode(this.refs.query).value);
+                <FormGroup>
+                    <Col md={2}>
+                        <Button type="submit" className="btn-primary hiddenButton" onClick={(e) => {
+                            this.onSearch(this.state.query);
                             e.preventDefault();
                         }}>{i18n.t("vish_search_button")}
                         </Button>
@@ -40,12 +41,15 @@ export default class SoundCloudComponent extends React.Component {
                             <ControlLabel>{ this.state.results.length + " Resultados"}</ControlLabel>
                             <br />
                             {this.state.results.map((item, index) => {
-                                let border = item.url === this.props.elementSelected ? "solid orange 3px" : "solid transparent 3px";
+                                let border = item.url === this.props.elementSelected ? "solid orange 3px" : "solid white 3px";
                                 return (<div>
                                     <img key={index}
-                                        src={item.thumbnail || placeholder}
-                                        className={'soundCloudSong'}
+                                        src={item.thumbnail}
+                                        className={'youtubeVideo'}
                                         style={{
+                                            width: '126px',
+                                            height: '96px',
+                                            backgroundColor: '#ddd',
                                             border: border,
                                         }}
                                         onClick={e => {
@@ -58,7 +62,7 @@ export default class SoundCloudComponent extends React.Component {
                     ) :
                     (
                         <FormGroup>
-                            <ControlLabel>{process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' ? this.props.isBusy.msg : ''}</ControlLabel>
+                            <ControlLabel id="serverMsg">{this.state.msg}</ControlLabel>
                         </FormGroup>
                     )
                 }
@@ -68,30 +72,29 @@ export default class SoundCloudComponent extends React.Component {
     }
 
     onSearch(text) {
-        const BASE = 'https://api.soundcloud.com/tracks?client_id=bb5aebd03b5d55670ba8fa5b5c3a3da5&q=' + text + '&format=json';
-        fetch(encodeURI(BASE))
+        this.setState({ msg: 'Buscando...' });
+        fetch(encodeURI('https://www.googleapis.com/youtube/v3/search?part=id,snippet&maxResults=20&q=' + text + '&key=AIzaSyAMOw9ufNTZAlg5Xvcht9PhnBYjlY0c9z8&videoEmbeddable=true&type=video'))
             .then(res => res.text()
-            ).then(audioStr => {
-                console.log(audioStr);
-                let songs = JSON.parse(audioStr);
-                console.log(songs);
-                if (songs) {
-                    let results = songs.map(song=>{
+            ).then(videosStr => {
+                let videos = JSON.parse(videosStr);
+                if (videos.items) {
+                    let results = videos.items.map(video => {
                         return {
-                            title: song.title,
-                            url: song.stream_url,
-                            thumbnail: song.artwork_url, // TODO Add default
+                            title: video.snippet.title,
+                            url: "https://www.youtube.com/embed/" + (video.id ? video.id.videoId : ''),
+                            thumbnail: (video.snippet && video.snippet.thumbnails && video.snippet.thumbnails.default && video.snippet.thumbnails.default.url) ? video.snippet.thumbnails.default.url : "",
                         };
                     });
-
-                    this.setState({ results });
+                    this.setState({ results, msg: results.length > 0 ? '' : 'No hay resultados' });
                 }
             }).catch(e=>{
                 console.error(e);
+
+                this.setState({ msg: 'Ha habido un error' });
             });
     }
 }
-SoundCloudComponent.propTypes = {
+YoutubeComponent.propTypes = {
     /**
      * Selected Element
      */
