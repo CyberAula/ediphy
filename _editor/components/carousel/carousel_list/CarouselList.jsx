@@ -310,5 +310,5 @@ CarouselList.propTypes = {
     /**
      * Object containing all the pages' toolbars
      */
-    viewToolbars: PropTypes.object,
+    viewToolbars: PropTypes.object.isRequired,
 };
