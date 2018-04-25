@@ -22,7 +22,7 @@ export function DataTable(base) {
                 initialHeightSlide: 'auto',
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -31,12 +31,13 @@ export function DataTable(base) {
                             __name: i18n.t("DataTable.style"),
                             icon: "palette",
                             order: [
+                                "opacity",
                                 "padding",
                                 "borderWidth",
                                 "borderStyle",
                                 "borderColor",
                                 "borderRadius",
-                                "opacity",
+
                             ],
                             buttons: {
                                 padding: {
@@ -90,12 +91,12 @@ export function DataTable(base) {
             };
         },
         getInitialState: function() {
-            let data = [{ Name: "John Doe", Age: 16, Country: "USA" },
-                { Name: "Mary Smith", Age: 23, Country: "Canada" },
-                { Name: "Marion  Gilbert", Age: 18, Country: "Australia" },
-                { Name: "Bruce Johnson", Age: 21, Country: "UK" },
-                { Name: "Ronald Armstrong", Age: 31, Country: "Ireland" },
-                { Name: "Brianna Reardown", Age: 37, Country: "Malta" }];
+            let data = [["John Doe", 16, "USA"],
+                ["Mary Smith", 23, "Canada"],
+                ["Marion  Gilbert", 18, "Australia"],
+                ["Bruce Johnson", 21, "UK"],
+                ["Ronald Armstrong", 31, "Ireland"],
+                ["Brianna Reardown", 37, "Malta"]];
             let keys = ["Name", "Age", "Country"];
 
             return {
@@ -113,19 +114,19 @@ export function DataTable(base) {
                     initialPageLength: 5,
                     initialSort: keys[0] || 0,
                     initialOrder: 'descending',
-                    theme: 'basic',
+                    theme: 'solid',
                 },
             };
         },
         getRenderTemplate: function(state) {
             return (
-                <TableComponent data={state.data} options={state.options} />
+                <TableComponent data={state.data} keys={state.keys} options={state.options} />
             );
 
         },
-        getConfigTemplate: function(extState) {
+        getConfigTemplate: function(id, state, updateState, props) {
             return (
-                <Config state={extState} base={base} />
+                <Config id={id} state={state} updateState={updateState} props={props}/>
             );
         },
         fileChanged: function(event) {
@@ -137,9 +138,6 @@ export function DataTable(base) {
                 base.setState("chartData", JSON.parse(this.result));
             };
             reader.readAsText(file);
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
         },
 
     };

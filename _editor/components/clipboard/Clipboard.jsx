@@ -5,21 +5,19 @@ import Alert from '../common/alert/Alert';
 import { isContainedView, isSlide, isBox, isSortableBox, isView, isSortableContainer } from '../../../common/utils';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_RICH_MARK } from '../../../common/constants';
 import { ADD_BOX } from '../../../common/actions';
-import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent } from './clipboard.utils';
+import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent, isURL, copyText } from './clipboard.utils';
 import i18n from 'i18next';
-import { instanceExists, scrollElement, findBox } from '../../../common/common_tools';
+import { instanceExists, scrollElement, findBox, createBox } from '../../../common/common_tools';
 /**
  * Component for managing the clipboard
  */
 export default class Clipboard extends Component {
-    /**
-     * Constructor
-     */
     constructor(props) {
         super(props);
         this.state = {
             alert: null,
         };
+        this.copyButtonListener = this.copyButtonListener.bind(this);
         this.copyListener = this.copyListener.bind(this);
         this.pasteListener = this.pasteListener.bind(this);
         this.cutListener = this.cutListener.bind(this);
@@ -37,6 +35,13 @@ export default class Clipboard extends Component {
     copyData() {
         let box = this.props.boxes[this.props.boxSelected];
         let toolbar = this.props.toolbars[this.props.boxSelected];
+        let itemSelected = this.currentPage();
+        let score;
+        if (itemSelected.id) {
+            let exercisePage = this.props.exercises[itemSelected.id];
+            score = exercisePage.exercises[this.props.boxSelected];
+        }
+
         let childBoxes = {};
         let childToolbars = {};
         if (box.sortableContainers) {
@@ -48,7 +53,17 @@ export default class Clipboard extends Component {
                 }
             }
         }
-        return { box, toolbar, childBoxes, childToolbars };
+        let marks = {};
+        for (let id in this.props.marks) {
+            let mark = this.props.marks[id];
+            if (mark.origin === this.props.boxSelected) {
+                marks[id] = mark;
+            }
+            if (Object.keys(childBoxes).indexOf(mark.origin) > -1) {
+                marks[id] = mark;
+            }
+        }
+        return { box, toolbar, marks, childBoxes, childToolbars, score };
     }
     /**
      * Copy action listener
@@ -64,6 +79,28 @@ export default class Clipboard extends Component {
                     return true;
                 }
             }
+        }
+        return false;
+    }
+
+    /**
+     * Copy Button
+     * @param event
+     * @returns {boolean}
+     */
+    copyButtonListener(event) {
+        let activeElement = document.activeElement;
+        if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
+            if (!this.containsCKEDitorText(activeElement) || (this.props.boxes[this.props.boxSelected] && !this.props.boxes[this.props.boxSelected].showTextEditor)) {
+                return copyText(this.copyData());
+            }
+            try {
+                document.execCommand('copy');
+                return true;
+            } catch(e) {
+                return false;
+            }
+
         }
         return false;
     }
@@ -122,14 +159,20 @@ export default class Clipboard extends Component {
         } else if (key === 86 && event.ctrlKey && event.shiftKey) {
             this.pasteListener(event, true);
         }
+        return true;
     }
 
     /**
      * Pastes box
      */
     pasteBox(data, ids, isTargetSlide, index) {
-        let pluginName = data.toolbar.config.name;
-        let limitToOneInstance = data.toolbar.config.limitToOneInstance;
+        let pluginName = data.toolbar.pluginId;
+        let plug = Ediphy.Plugins.get(pluginName);
+        if (!plug) {
+            return;
+        }
+        let config = plug.getConfig();
+        let limitToOneInstance = config.limitToOneInstance;
         let alertMsg = (msg) => { return (<Alert className="pageModal" key="alert" show hasHeader backdrop={false}
             title={ <span><i className="material-icons alert-warning" >warning</i>{ i18n.t("messages.alert") }</span> }
             closeButton onClose={()=>{this.setState({ alert: null });}}>
@@ -141,7 +184,7 @@ export default class Clipboard extends Component {
         if (isBox(ids.parent) && (!data.childBoxes || Object.keys(data.childBoxes).length > 0)) {
             this.setState({ alert: alertMsg(i18n.t('messages.depth_limit')) }); return;
         }
-        if (limitToOneInstance && instanceExists(data.toolbar.config.name)) {
+        if (limitToOneInstance && instanceExists(data.toolbar.pluginId)) {
             this.setState({ alert: alertMsg(i18n.t('messages.instance_limit')) });
             return;
         }
@@ -149,6 +192,8 @@ export default class Clipboard extends Component {
         let transformedBox = this.transformBox(data.box, ids, isTargetSlide, data.box.resizable);
         let transformedToolbar = this.transformToolbar(data.toolbar, ids, isTargetSlide, data.box.resizable);
         let transformedChildren = {};
+        let marks = data.marks;
+        let newMarks = {};
         if (data.childBoxes && data.childToolbars) {
             for (let bid in transformedBox.newIds) {
                 let idsChild = { id: transformedBox.newIds[bid], parent: ids.id, container: data.childBoxes[bid].container };
@@ -157,7 +202,17 @@ export default class Clipboard extends Component {
                 transformedChildren[transformedBox.newIds[bid]] = { box: transformedBoxChild.newBox, toolbar: transformedToolbarChild };
             }
         }
-        this.props.onBoxPasted(ids, transformedBox.newBox, transformedToolbar, transformedChildren, index);
+        for (let mark in marks) {
+            let newId = marks[mark].id + Date.now() + "_1";
+            let newMark = { ...marks[mark],
+                origin: transformedBox.newIds[marks[mark].origin] || ids.id,
+                id: newId };
+            if ((isContainedView(newMark.connection) && this.props.containedViews[newMark.connection]) || (isView(newMark.connection) && this.props.navItems[newMark.connection]) || newMark.connectMode === 'external') {
+                newMarks[newId] = newMark;
+            }
+        }
+
+        this.props.onBoxPasted(ids, transformedBox.newBox, transformedToolbar, transformedChildren, index, newMarks, data.score);
 
     }
 
@@ -166,7 +221,7 @@ export default class Clipboard extends Component {
      */
     containsCKEDitorText(activeElement) {
         let focus = activeElement.classList;
-        return (focus.contains('form-control') || focus.contains('cke_editable') || focus.contains('textAreaStyle') || activeElement.tagName === 'TEXTAREA');
+        return (focus.contains('form-control') || focus.contains('cke_editable') || focus.contains('textAreaStyle') || activeElement.tagName === 'TEXTAREA' || activeElement.tagName === 'INPUT');
     }
 
     /**
@@ -232,6 +287,7 @@ export default class Clipboard extends Component {
                     event.preventDefault();
                     let imageBlob;
                     let initialParams = {
+                        id: ID_PREFIX_BOX + Date.now(),
                         parent: parent, //
                         container: container,
                         row: row,
@@ -250,7 +306,7 @@ export default class Clipboard extends Component {
                         noImage = retrieveImageFromClipboardAsBase64(event, (url) => {
                             if (url) {
                                 initialParams.url = url; // URLObj.createObjectURL(imageBlob);
-                                Ediphy.Plugins.get("HotspotImages").getConfig().callback(initialParams, ADD_BOX);
+                                createBox(initialParams, "HotspotImages", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
                                 return;
                             }
                         }
@@ -260,9 +316,12 @@ export default class Clipboard extends Component {
                         console.log(err);
                     }
                     if (noImage) {
-                        initialParams.text = getCKEDITORAdaptedContent(event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"));
+                        initialParams.text = (event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"));
+                        if (isURL(initialParams.text)) {
+                            initialParams.text = '<a href="' + initialParams.text + '">' + initialParams.text + '</a>';
+                        }
+                        createBox(initialParams, "BasicText", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
 
-                        Ediphy.Plugins.get("BasicText").getConfig().callback(initialParams, ADD_BOX);
                     }
                 }
             }
@@ -275,11 +334,12 @@ export default class Clipboard extends Component {
     transformBox(box, ids, isTargetSlide, isOriginSlide) {
         let newIds = {};
         let newContainerBoxes = {};
+        let ind = 0;
         if (box.sortableContainers) {
             newContainerBoxes = JSON.parse(JSON.stringify(box.sortableContainers));
             for (let sc in newContainerBoxes) {
                 for (let b in newContainerBoxes[sc].children) {
-                    let newID = newContainerBoxes[sc].children[b] + Date.now();
+                    let newID = ID_PREFIX_BOX + Date.now() + '_' + ind++;
                     newIds[newContainerBoxes[sc].children[b]] = newID;
                     newContainerBoxes[sc].children[b] = newID;
                 }
@@ -310,38 +370,20 @@ export default class Clipboard extends Component {
      */
     transformToolbar(toolbar, ids, isTargetSlide, isOriginSlide) {
         let newToolbar = Object.assign({}, toolbar, { id: ids.id });
-        if (newToolbar.state && newToolbar.state.__marks) {
-            let newMarks = {};
-            for (let mark in newToolbar.state.__marks) {
-                let newId = mark + "_1";
-                if (newToolbar.state.__marks[mark].connection) {
-                    if ((isContainedView(newToolbar.state.__marks[mark].connection) &&
-                    this.props.containedViews[newToolbar.state.__marks[mark].connection]) ||
-                        (isView(newToolbar.state.__marks[mark].connection) &&
-                        this.props.navItems[newToolbar.state.__marks[mark].connection]) ||
-                        newToolbar.state.__marks[mark].connetMode === 'external') {
-                        newMarks[newId] = Object.assign({}, newToolbar.state.__marks[mark], { id: newId });
-                    }
-                }
-            }
-            newToolbar.state.__marks = newMarks;
-        }
         if (isTargetSlide !== isOriginSlide) {
-            let config = Ediphy.Plugins.get(newToolbar.config.name).getConfig();
+            let config = Ediphy.Plugins.get(newToolbar.pluginId).getConfig();
             if (isTargetSlide) {
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.units = "%";
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.value =
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.displayValue = parseFloat(config.initialWidthSlide);
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.units = "%";
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.value =
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.displayValue = parseFloat(config.initialHeightSlide);
+                // TODO width VS bwidth?
+                newToolbar.structure.width = parseFloat(config.initialWidthSlide || config.initialWidth) || "25";
+                newToolbar.structure.height = parseFloat(config.initialHeightSlide || config.initialHeight) || "auto";
+                newToolbar.structure.widthUnit = "%";
+                newToolbar.structure.heightUnit = "%";
             } else {
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.value =
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.displayValue = parseFloat(config.initialHeight);
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.units = config.initialHeight.indexOf('px') !== -1 ? "px" : "%";
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.value =
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.displayValue = parseFloat(config.initialWidth);
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.units = config.initialWidth.indexOf('px') !== -1 ? "px" : "%";
+                newToolbar.structure.width = parseFloat(config.initialWidth) || "25";
+                newToolbar.structure.widthUnit = config.initialWidth.indexOf('px') !== -1 ? "px" : "%";
+                newToolbar.structure.height = parseFloat(config.initialHeight) || "auto";
+                newToolbar.structure.heightUnit = config.initialHeight.indexOf('px') !== -1 ? "px" : "%";
+
             }
         }
         return newToolbar;
@@ -384,12 +426,12 @@ export default class Clipboard extends Component {
      * Renders React Component
      */
     render() {
-        let props = {
-            onClick: this.duplicateBox,
-        };
-        let childrenWithProps = React.Children.map(this.props.children, function(child) {
+        let childrenWithProps = React.Children.map(this.props.children, (child) =>{
             if (React.isValidElement(child) && child.props.name === "duplicate") {
-                return React.cloneElement(child, props);
+                return React.cloneElement(child, { onClick: this.duplicateBox });
+            }
+            if (React.isValidElement(child) && child.props.name === "copy") {
+                return React.cloneElement(child, { onClick: this.copyButtonListener });
             }
             return child;
         });
@@ -417,11 +459,11 @@ Clipboard.propTypes = {
       */
     toolbars: PropTypes.object,
     /**
-      * Object that contains the boxes
+      * Object containing all created boxes (by id)
       */
     boxes: PropTypes.object,
     /**
-   * View selected
+   * Current selected view (by ID)
    */
     navItemSelected: PropTypes.any,
     /**
@@ -433,12 +475,24 @@ Clipboard.propTypes = {
    */
     navItems: PropTypes.object,
     /**
-   * Object that contains all the contained views
+   * Contained views dictionary (identified by its ID)
    */
     containedViews: PropTypes.any,
     /**
      * Children components
      */
     children: PropTypes.any,
+    /**
+     * Object containing all marks
+     */
+    marks: PropTypes.object,
+    /**
+     * Function for adding a new box
+     */
+    onBoxAdded: PropTypes.func.isRequired,
+    /**
+       * Object containing all exercises
+       */
+    exercises: PropTypes.object,
 };
 

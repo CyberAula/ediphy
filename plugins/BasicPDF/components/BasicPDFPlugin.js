@@ -51,16 +51,20 @@ export default class BasicAudioPlugin extends React.Component {
 
     render() {
         return (
-            <div style={{ width: "100%", height: "100%" }}>
-                <button>
-                    {this.state.pageNumber} of of {this.state.numPages}
-                </button>
-                <button onClick={this.buttonNext}>
-                    Next
-                </button>
-                <button onClick={this.buttonBack}>
-                    Back
-                </button>
+            <div style={{ width: "100%", height: "100%" }} className={"pdfDiv"}>
+                <div className="topBar">
+                    <button className={"PDFback"} onClick={this.buttonBack}>
+                        <i className={"material-icons"}>keyboard_arrow_left</i>
+                    </button>
+                    <span className={"PDFnumPages"}>
+                        {this.state.pageNumber} of {this.state.numPages}
+                    </span>
+                    <button className={"PDFnext"} onClick={this.buttonNext}>
+                        <i className={"material-icons"}>keyboard_arrow_right</i>
+                    </button>
+
+                </div>
+
                 <Document style={{ width: "100%", height: "100%" }}
                     file = {this.props.state.url}
                     onLoadSuccess={this.onDocumentLoad}>

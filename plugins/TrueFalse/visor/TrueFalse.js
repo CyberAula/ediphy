@@ -6,21 +6,25 @@ import { letterFromNumber } from '../../../common/common_tools';
 
 export function TrueFalse() {
     return {
-        getRenderTemplate: function(state, id, props) {
+        getRenderTemplate: function(state, props) {
             let content = [];
             let attempted = props.exercises && props.exercises.attempted;
-            let score = (props.exercises.score || 0) + "/" + (props.exercises.weight || 0);
-
+            let score = props.exercises.score || 0;
+            score = Math.round(score * 100) / 100;
+            score = (score) + "/" + (props.exercises.weight || 0);
+            let showFeedback = attempted && state.showFeedback;
             for (let i = 0; i < state.nBoxes; i++) {
                 let correct = attempted && props.exercises.correctAnswer[i] === props.exercises.currentAnswer[i];
                 let incorrect = attempted && !correct;
                 let clickHandler = (index, value)=>{
                     if(props.exercises && props.exercises.currentAnswer && (props.exercises.currentAnswer instanceof Array)) {
-                        let newAnswer = props.exercises.currentAnswer.map((ans, ind)=>{
+
+                        let nBoxes = Array(state.nBoxes).fill("");
+                        let newAnswer = nBoxes.map((ans, ind)=>{
                             if (index === ind) {
                                 return value;
                             }
-                            return ans;
+                            return props.exercises.currentAnswer[ind];
                         });
                         props.setAnswer(newAnswer);
                     }
@@ -41,6 +45,7 @@ export function TrueFalse() {
                         <div className={"col-xs-10"}>
                             <VisorPluginPlaceholder {...props} key={i + 1} pluginContainer={"Answer" + i} />
                         </div>
+                        <i className={ "material-icons " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")} style={{ display: (correct || incorrect) ? "block" : "none" }}>{(correct ? "done " : "clear")}</i>
                     </div>);
 
             }
@@ -53,14 +58,21 @@ export function TrueFalse() {
 
                 </div>
                 <div className={"row TFRow"} key={0}>
-                    <div className={"col-xs-1 "}>T</div><div className={"col-xs-1"}>F</div><div className={"col-xs-10"} />
+                    <div className={"col-xs-1 "}><i className="material-icons true">done</i></div>
+                    <div className={"col-xs-1"}><i className="material-icons false">clear</i></div>
+                    <div className={"col-xs-10"} />
                 </div>
                 {content}
+                <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
+                    <div className={"col-xs-12 feedback"}>
+                        <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
+                    </div>
+                </div>
                 <div className={"exerciseScore"}>{score}</div>
             </div>;
         },
-        checkAnswer(current, correct) {
-            let total = current.length || 1;
+        checkAnswer(current, correct, state) {
+            let total = Math.min(state.nBoxes || 1, correct ? correct.length : 1);
             let score = 0;
             for (let q in current) {
                 if (current[q] === correct[q]) {

@@ -10,7 +10,7 @@ module.exports = {
         "box_style": "Box style",
         "opacity": "Opacity",
         "padding": "Padding",
-        "PluginName": "PDF",
+        "PluginName": "PDF Viewer",
         "radius": "Radius",
         "source": "Source",
     },

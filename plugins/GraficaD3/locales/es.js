@@ -21,6 +21,8 @@ module.exports = {
         "rings": "Anillos",
         "title": "Título",
         "grid": "Rejilla",
+        "Graph": "Gráfica",
+        "number_graphs": "Número de Gráficas",
         "see_grid": "Ver rejilla",
         "edit": "Editar",
         "color": "Color",
@@ -43,6 +45,9 @@ module.exports = {
         "confirm": "Confirmar",
         "fill_in": "O rellena una tabla",
         "show": "Mostrar",
+        "preview": "Previsualización",
+        "Row": "Fila",
+        "row_name": "Nombre de fila",
         "types": {
             "line": "Línea",
             "area": "Área",

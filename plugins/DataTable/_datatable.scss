@@ -1,3 +1,4 @@
+$blueprimary: #17CFC8;
 .icon-user {
     //@extend .fa;
     //@extend .fa-user;
@@ -30,9 +31,12 @@
         background-color: #eee;
         color: #222;
     }
-    .pagination > li > a, .pagination > li > span {
-        color: #222;
+    .pagination > li > span {
+        color: $blueprimary;
         border-color: #ddd;
+    }
+    .pagination > li > a {
+        color: $blueprimary;
     }
     .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
         border-color: #ddd;
@@ -44,6 +48,16 @@
 
     .pluginconfig .modal-body {
         overflow-y: auto;
+        h4{
+            margin-bottom: 15px !important;
+        }
+        .options-table{
+            padding: 20px !important;
+            .mycb{
+                margin: 5px;
+            }
+        }
+
     }
 
     .wholebox .tableContainer * {
@@ -79,7 +93,7 @@
 
     .tableContainer {
         * {
-            border-radius: 0px;
+            border-radius: 0px !important;
         }
         &.theme-striped {
             tr:nth-child(even){background-color: #f2f2f2}

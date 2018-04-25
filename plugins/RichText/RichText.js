@@ -17,7 +17,7 @@ export function RichText(base) {
                 icon: 'format_indent_increase',
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",

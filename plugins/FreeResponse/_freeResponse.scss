@@ -18,10 +18,6 @@
   .textAreaQuizVisor {
     resize: vertical !important;
   }
-
-
-
-
   .exerciseScore {
     display: none;
     text-align: right;
@@ -31,8 +27,19 @@
       color: $blueprimary;
       font-size: 10px;
   }
+  .feedbackRow {
+    padding:10px;
+    margin:0;
+    .feedback {
+      background-color: $blueprimarytransparent;
+      margin:0;
+      border: 1px solid $blueprimary;
+      color: $blueprimary;
+      border-radius: 3px;
+      padding:0;
+    }
+  }
 }
-
 .wholebox.selectedBox .textAreaQuiz {
      pointer-events: none;
    }

@@ -164,11 +164,13 @@ export default class ScormComponent extends Component {
         let total = 0;
         let points = 0;
         let bx = exercises[page].exercises;
+
         for (let ex in bx) {
             total += bx[ex].weight;
             bx[ex].score = 0;
             let plug = Ediphy.Visor.Plugins.get(bx[ex].name);
-            let checkAnswer = plug.checkAnswer(bx[ex].currentAnswer, bx[ex].correctAnswer);
+            let toolbar = this.props.pluginToolbars[ex];
+            let checkAnswer = plug.checkAnswer(bx[ex].currentAnswer, bx[ex].correctAnswer, toolbar.state);
             if (checkAnswer) {
                 let exScore = bx[ex].weight;
                 try {
@@ -218,7 +220,7 @@ export default class ScormComponent extends Component {
 ScormComponent.propTypes = {
 
     /**
-     * Array que contiene todas las vistas creadas, accesibles por su *id*
+     * Objects Array that contains all created views (identified by its *id*)
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
@@ -249,4 +251,8 @@ ScormComponent.propTypes = {
       * Inform the rest of the application of the SCORM Information
       */
     updateScore: PropTypes.func.isRequired,
+    /**
+   * Boxes toolbars
+   */
+    pluginToolbars: PropTypes.object,
 };

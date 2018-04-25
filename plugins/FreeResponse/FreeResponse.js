@@ -18,14 +18,80 @@ export function FreeResponse(base) {
                 defaultCorrectAnswer: true,
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
-
+                main: {
+                    __name: "Main",
+                    accordions: {
+                        __score: {
+                            __name: i18n.t('Score'),
+                            icon: 'build',
+                            buttons: {
+                                showFeedback: {
+                                    __name: i18n.t("FreeResponse.ShowFeedback"),
+                                    type: 'checkbox',
+                                    checked: state.showFeedback,
+                                },
+                            },
+                        },
+                        style: {
+                            __name: Ediphy.i18n.t('HotspotImages.box_style'),
+                            icon: 'palette',
+                            buttons: {
+                                padding: {
+                                    __name: Ediphy.i18n.t('HotspotImages.padding'),
+                                    type: 'number',
+                                    value: 10,
+                                    min: 0,
+                                    max: 100,
+                                },
+                                backgroundColor: {
+                                    __name: Ediphy.i18n.t('HotspotImages.background_color'),
+                                    type: 'color',
+                                    value: '#ffffff',
+                                },
+                                borderWidth: {
+                                    __name: Ediphy.i18n.t('HotspotImages.border_size'),
+                                    type: 'number',
+                                    value: 1,
+                                    min: 0,
+                                    max: 10,
+                                },
+                                borderStyle: {
+                                    __name: Ediphy.i18n.t('HotspotImages.border_style'),
+                                    type: 'select',
+                                    value: 'solid',
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
+                                },
+                                borderColor: {
+                                    __name: Ediphy.i18n.t('HotspotImages.border_color'),
+                                    type: 'color',
+                                    value: '#dbdbdb',
+                                },
+                                borderRadius: {
+                                    __name: Ediphy.i18n.t('HotspotImages.radius'),
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    max: 50,
+                                },
+                                opacity: {
+                                    __name: Ediphy.i18n.t('HotspotImages.opacity'),
+                                    type: 'range',
+                                    value: 1,
+                                    min: 0,
+                                    max: 1,
+                                    step: 0.01,
+                                },
+                            },
+                        },
+                    },
+                },
             };
         },
         getInitialState: function() {
             return {
-
+                showFeedback: true,
             };
         },
         getRenderTemplate: function(state, props) {
@@ -33,15 +99,17 @@ export function FreeResponse(base) {
             return <div className={"exercisePlugin freeResponsePlugin"} > {/* <h1>Free Response</h1>*/}
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
-                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={i18n.t('FreeResponse.Question') } plugin-data-default="BasicText" plugin-data-text={i18n.t("FreeResponse.Statement")} pluginContainer={'Question'} />
+                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={i18n.t('FreeResponse.Question') } plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("FreeResponse.Statement") + '</p>'} pluginContainer={'Question'} />
                         <textarea disabled className="form-control textAreaQuiz" placeholder={i18n.t('FreeResponse.PlaceholderEditor')}/>
+                    </div>
+                </div>
+                <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
+                    <div className={"col-xs-12 feedback"}>
+                        <PluginPlaceholder {...props} key="-2" plugin-data-display-name={i18n.t("FreeResponse.Feedback")} plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("FreeResponse.FeedbackMsg") + '</p>'} pluginContainer={"Feedback"} />
                     </div>
                 </div>
             </div>;
 
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
         },
     };
 }

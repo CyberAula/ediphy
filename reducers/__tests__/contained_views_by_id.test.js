@@ -19,7 +19,7 @@ describe('# contained_views_by_id reducer', ()=>{
             const action = {
                 type: ActionTypes.ADD_BOX,
                 payload: { ids:
-                        { parent: 'cv-1511252975055', id: 'bo-1511443052929', container: 0 },
+                        { parent: 'cv-1524225239825', id: 'bo-1511443052929', container: 0 },
                 draggable: true,
                 resizable: true,
                 content: '',
@@ -30,7 +30,7 @@ describe('# contained_views_by_id reducer', ()=>{
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            newState['cv-1511252975055'].boxes = ['bo-1511443052968', 'bo-1511443052969', 'bo-1511443052929'];
+            newState['cv-1524225239825'].boxes = ["bs-1524225239825", 'bo-1511443052929'];
 
             expect(isContainedView(action.payload.ids.parent)).toBeTruthy();
             expect(contained_views_by_id(state, action)).toEqual(newState);
@@ -43,47 +43,82 @@ describe('# contained_views_by_id reducer', ()=>{
             const action = {
                 type: ActionTypes.EDIT_RICH_MARK,
                 payload: {
-                    parent: 'bo-1511252970033',
-                    state: {},
-                    mark: { id: "rm-1511786135103",
-                        title: "new mark",
-                        connectMode: "existing",
-                        connection: "pa-1511252955865",
-                        displayMode: "navigate",
-                        value: "30.95,49.15",
-                        color: "#222222",
+                    "mark": {
+                        "id": "rm-1524225239825",
+                        "origin": "bo-1524225237703",
+                        "title": "Nueva marca 3",
+                        "connection": "http://vishub.org",
+                        "color": "#222222",
+                        "connectMode": "external",
+                        "displayMode": "navigate",
+                        "value": "50,50",
                     },
-                    oldConnection: 'pa-1497983247795',
-                    newConnection: 'pa-1511252955865',
-
+                    "view": {
+                    },
+                    "viewToolbar": {
+                    },
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
+            newState["cv-1524225239825"].parent = {};
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
         test('If rich mark edited and old link is a contained view', () => {
             const action = {
                 type: ActionTypes.EDIT_RICH_MARK,
                 payload: {
-                    parent: 'bo-1511252970033',
-                    state: {},
-                    mark: { id: "rm-1511252975055",
-                        title: "new mark",
-                        connectMode: "existing",
-                        connection: "pa-1511252955865",
-                        displayMode: "navigate",
-                        value: "30.95,49.15",
-                        color: "#222222",
+                    "mark": {
+                        "id": "rm-1524225239825",
+                        "origin": "bo-1524225237703",
+                        "title": "Nueva marca 3",
+                        "connection": "cv-1524481518690",
+                        "color": "#222222",
+                        "connectMode": "new",
+                        "displayMode": "navigate",
+                        "value": "50,50",
                     },
-                    oldConnection: 'cv-1511252975055',
-                    newConnection: 'pa-1511252955865',
-
+                    "view": {
+                        "info": "new",
+                        "type": "document",
+                        "id": "cv-1524481518690",
+                        "parent": {
+                            "rm-1524225239825": "bo-1524225237703",
+                        },
+                        "boxes": [
+                            "bs-1524481518690",
+                        ],
+                        "extraFiles": {},
+                    },
+                    "viewToolbar": {
+                        "id": "cv-1524481518690",
+                        "doc_type": "document",
+                        "viewName": "Vista Contenida 3",
+                    },
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            newState['cv-1511252975055'].parent = { 'bo-1511443052925': ["rm-1511252975456"] };
+            console.log(state);
+            newState["cv-1524225239825"] = {
+                "info": "new",
+                "type": "document",
+                "id": "cv-1524225239825",
+                "parent": {
+                },
+                "boxes": [
+                    "bs-1524225239825",
+                ],
+                "extraFiles": {},
+            };
 
-            expect(isContainedView(action.payload.oldConnection)).toBeTruthy();
+            newState["cv-1524481518690"] = {
+                "boxes": ["bs-1524481518690"],
+                extraFiles: {},
+                id: "cv-1524481518690",
+                info: "new",
+                parent: { "rm-1524225239825": "bo-1524225237703" },
+                type: "document",
+            };
+
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
 
@@ -91,25 +126,37 @@ describe('# contained_views_by_id reducer', ()=>{
             const action = {
                 type: ActionTypes.EDIT_RICH_MARK,
                 payload: {
-                    parent: 'bo-1511252970033',
-                    state: {},
-                    mark: { id: "rm-1511786135103",
-                        title: "new mark",
-                        connectMode: "existing",
-                        connection: "cv-1511252975055",
-                        displayMode: "navigate",
-                        value: "30.95,49.15",
-                        color: "#222222",
+                    "mark": {
+                        "id": "rm-1524225239825",
+                        "origin": "bo-1524225237703",
+                        "title": "Nueva marca 3",
+                        "connection": "cv-1524481518690",
+                        "color": "#222222",
+                        "connectMode": "new",
+                        "displayMode": "navigate",
+                        "value": "50,50",
                     },
-                    oldConnection: 'pa-1497983247795',
-                    newConnection: 'cv-1511252975055',
-
+                    "view": {
+                        "info": "new",
+                        "type": "document",
+                        "id": "cv-1524481518690",
+                        "parent": {
+                            "rm-1524225239825": "bo-1524225237703",
+                        },
+                        "boxes": [
+                            "bs-1524481518690",
+                        ],
+                        "extraFiles": {},
+                    },
+                    "viewToolbar": {
+                        "id": "cv-1524481518690",
+                        "doc_type": "document",
+                        "viewName": "Vista Contenida 3",
+                    },
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            newState['cv-1511252975055'].parent[action.payload.parent] = ["rm-1511252975055", "rm-1511786135103"];
 
-            expect(isContainedView(action.payload.newConnection)).toBeTruthy();
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
@@ -306,13 +353,13 @@ describe('# contained_views_by_id reducer', ()=>{
                     titles: {
                         elementContent: {
                             documentTitle: "prueba",
-                            documentSubTitle: "",
+                            documentSubtitle: "",
                             numPage: "",
                         },
                         display: {
                             courseTitle: "reduced",
                             documentTitle: "expanded",
-                            documentSubTitle: "hidden",
+                            documentSubtitle: "hidden",
                             breadcrumb: "reduced",
                             pageNumber: "hidden",
                         },

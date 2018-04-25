@@ -14,7 +14,7 @@ module.exports = {
         "box_style": "Box style",
         "opacity": "Opacity",
         "padding": "Padding",
-        "PluginName": "Basic Audio",
+        "PluginName": "Audio Player",
         "radius": "Radius",
         "source": "Source",
         "message_mark_percentage": "You've chosen an incorrect value. You must introduce a percentage between 0 and 100. E.g.. 45.66%",

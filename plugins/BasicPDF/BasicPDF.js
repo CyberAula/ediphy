@@ -11,7 +11,7 @@ import { setOptions, Document, Page } from 'react-pdf';
 setOptions({
     workerSrc: pdflib.PDFJS.workerSrc,
 });
-
+import './_pdfCss.scss';
 export function BasicPDF(base) {
     return {
         getConfig: function() {
@@ -21,30 +21,31 @@ export function BasicPDF(base) {
                 displayName: i18n.t('BasicPDF.PluginName'),
                 category: "objects",
                 aspectRatioButtonConfig: {
-                    location: ["main", "__sortable"],
-                    defaultValue: true,
+                    location: ["main", "structure"],
+                    defaultValue: false,
                 },
-                initialWidth: '480px',
-                initialHeight: "270px",
+                initialWidth: 'auto',
+                initialHeight: "auto",
                 initialWidthSlide: '30%',
                 initialHeightSlide: '30%',
                 icon: 'description',
 
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: i18n.t('BasicPDF.PluginName'),
+                            __name: i18n.t('BasicPDF.Source'),
                             icon: 'link',
                             buttons: {
                                 url: {
                                     __name: Ediphy.i18n.t('BasicPDF.URL'),
-                                    type: 'text',
-                                    value: base.getState().url,
+                                    type: 'external_provider',
+                                    value: state.url,
+                                    accept: "application/pdf",
                                     autoManaged: false,
                                 },
                             },
@@ -63,7 +64,7 @@ export function BasicPDF(base) {
                                 borderWidth: {
                                     __name: Ediphy.i18n.t('BasicPDF.border_size'),
                                     type: 'number',
-                                    value: 0,
+                                    value: 2,
                                     min: 0,
                                     max: 10,
                                 },
@@ -76,7 +77,7 @@ export function BasicPDF(base) {
                                 borderColor: {
                                     __name: Ediphy.i18n.t('BasicPDF.border_color'),
                                     type: 'color',
-                                    value: '#000000',
+                                    value: '#333',
                                 },
                                 borderRadius: {
                                     __name: Ediphy.i18n.t('BasicPDF.radius'),
@@ -107,10 +108,11 @@ export function BasicPDF(base) {
             };
         },
 
-        getRenderTemplate: function(state) {
+        getRenderTemplate: function(state, props) {
 
             return (
-                <div style={{ height: "100%", width: "100%" }}>
+
+                <div className="pdfViewerPlugin" style={{ height: "100%", width: "100%" }}>
                     <BasicPDFPluginEditor style={{ width: "100%", height: "100%" }} state={state}/>
                 </div>
             );

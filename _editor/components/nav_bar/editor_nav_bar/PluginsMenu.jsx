@@ -75,15 +75,14 @@ export default class PluginsMenu extends Component {
 
     componentDidMount() {
         // Only will show categories that have at least one plugin inside
-        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.addMenuButtons, e => {
-            let categories = [];
-            for (let plug in e.detail) {
-                if (categories.indexOf(e.detail[plug].category) === -1) {
-                    categories.push(e.detail[plug].category);
-                }
+        let categories = [];
+        let plugins = Ediphy.Plugins.getPluginConfigs();
+        for (let plug in plugins) {
+            if (categories.indexOf(plugins[plug].category) === -1) {
+                categories.push(plugins[plug].category);
             }
-            this.setState({ categories });
-        });
+        }
+        this.setState({ categories });
     }
 }
 

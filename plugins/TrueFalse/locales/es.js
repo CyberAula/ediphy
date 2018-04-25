@@ -2,10 +2,13 @@
 module.exports = {
     "TrueFalse": {
         "PluginName": "Verdadero/Falso",
-        "content_box_name": "Content ",
-        "Statement": "This is a Multiple Choice question with a single correct answer. You can write here the question statement",
-        "Question": "Question",
-        "Answer": "Answer",
-        "Number": "Number",
+        "content_box_name": "Contenido ",
+        "Statement": "Esta es una pregunta de verdadero o falso. Puedes escribir aquí el enunciado global de la pregunta",
+        "Question": "Pregunta",
+        "Answer": "Respuesta",
+        "Feedback": "Explicación",
+        "FeedbackMsg": "Aquí puedes incluir una explicación acerca de la respuesta",
+        "ShowFeedback": "Mostrar explicación",
+        "Number": "Nº de enunciados",
     },
 };

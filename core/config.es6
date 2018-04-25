@@ -47,7 +47,7 @@ export default {
         'FreeResponse',
         'InputText',
         // 'ContainerJS',
-        // 'GraficaD3',
+        'GraficaD3',
         'TrueFalse',
         // 'ScormPackage',
     ],

@@ -11,7 +11,7 @@ module.exports = {
         "box_style": "Estilo caja",
         "opacity": "Opacidad",
         "padding": "Padding",
-        "PluginName": "PDF",
+        "PluginName": "Visor PDF",
         "radius": "Radio",
         "source": "Origen",
     },

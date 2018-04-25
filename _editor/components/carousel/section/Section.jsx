@@ -57,7 +57,7 @@ export default class Section extends Component {
                         </button>
                         <span className={classSelected} style={{ display: 'inline' }}>
                             <EditorIndexTitle id={this.props.id}
-                                title={navItem.name}
+                                title={this.props.viewToolbars[this.props.id].viewName}
                                 index={navItem.level === 1 ?
                                     navItem.unitNumber + ". " :
                                     this.props.navItems[navItem.parent].children.indexOf(this.props.id) + 1 + '. '}
@@ -86,7 +86,9 @@ export default class Section extends Component {
                                 onNavItemNameChanged={this.props.onNavItemNameChanged}
                                 onNavItemSelected={this.props.onNavItemSelected}
                                 onNavItemExpanded={this.props.onNavItemExpanded}
-                                onNavItemReordered={this.props.onNavItemReordered}/>;
+                                onNavItemReordered={this.props.onNavItemReordered}
+                                viewToolbars={this.props.viewToolbars}
+                            />;
                         } else if (isPage(id)) {
                             let classSelectedD = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
                             let classIndexSelectedD = this.props.indexSelected === id ? ' classIndexSelected' : '';
@@ -112,7 +114,7 @@ export default class Section extends Component {
                                             : <img className="svgIcon" src={iconPDF}/>}
                                         <EditorIndexTitle id={id}
                                             index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id) + 1 + '.'}
-                                            title={this.props.navItems[id].name}
+                                            title={this.props.viewToolbars[id].viewName}
                                             hidden={this.props.navItems[id].hidden}
                                             onNameChanged={this.props.onNavItemNameChanged} />
                                     </span>
@@ -208,19 +210,19 @@ Section.propTypes = {
      */
     id: PropTypes.string.isRequired,
     /**
-     * Identificador único del elemento seleccionado en el índice
+     * View/Contained view selected at the index
      */
     indexSelected: PropTypes.any.isRequired,
     /**
-     * Array ordenado de los elementos del índice
+     * Objects Array that contains all created views (identified by its *id*)
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
     /**
-     * Identificador único de la vista seleccionada
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any,
     /**
@@ -228,28 +230,31 @@ Section.propTypes = {
      */
     onNavItemNameChanged: PropTypes.func.isRequired,
     /**
-     * Añade una nueva sección o página
+     * Function for adding a new view
      */
     onNavItemAdded: PropTypes.func.isRequired,
     /**
-     * Añade una nueva caja
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
-     * Selecciona la sección en el índice
+     * Selects a view/contained view in the index's context
      */
     onIndexSelected: PropTypes.func.isRequired,
     /**
-     * Selecciona la sección para visualizarla
+     * Selects view
      */
     onNavItemSelected: PropTypes.func.isRequired,
     /**
-     * Expande la sección
+     * Expands navItem (only for sections)
      */
     onNavItemExpanded: PropTypes.func.isRequired,
     /**
-     * Reordena los elementos del índice
+     * Callback for reordering navItems
      */
     onNavItemReordered: PropTypes.func.isRequired,
-
+    /**
+     * Object containing all the pages' toolbars
+     */
+    viewToolbars: PropTypes.object,
 };

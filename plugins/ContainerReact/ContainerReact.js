@@ -13,7 +13,7 @@ export function ContainerReact(base) {
                 isComplex: true,
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -25,7 +25,7 @@ export function ContainerReact(base) {
                                 nBoxes: {
                                     __name: "Número de cajas",
                                     type: 'number',
-                                    value: base.getState().nBoxes,
+                                    value: state.nBoxes,
                                     min: 1,
                                     autoManaged: false,
                                 },
@@ -54,9 +54,6 @@ export function ContainerReact(base) {
                 {answers}
             </div>;
 
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
         },
     };
 }

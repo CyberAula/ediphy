@@ -157,6 +157,12 @@ button, i{
     vertical-align: bottom;
 }
 
+/* margins */
+.no_margins {
+    margin: 0;
+    font-size: 1.8em;
+    color: $blueprimary;
+}
 /* alert */
 .alert{
   border-radius: 0;
@@ -168,10 +174,15 @@ button, i{
 }
 
 .savingLabel{
-    position: absolute;
-    right: 15px;
-    top: 75px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    color: $blueprimary;
+    padding: 0px 18px;
+    text-align: center;
+    background-color: white;
     z-index: 999;
+
 }
 *:-webkit-full-screen {
     width: 100%;

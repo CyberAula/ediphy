@@ -38,6 +38,8 @@ export default class VisorBoxSortable extends Component {
                                                             changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
                                                             fromScorm={this.props.fromScorm}
                                                             toolbars={this.props.toolbars}
+                                                            marks={this.props.marks}
+                                                            onMarkClicked={this.props.onMarkClicked}
                                                             setAnswer={this.props.setAnswer}
                                                             richElementsState={this.props.richElementsState}/>);
 
@@ -66,7 +68,7 @@ VisorBoxSortable.propTypes = {
      */
     id: PropTypes.string.isRequired,
     /**
-     * Diccionario que contiene todas las cajas
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
@@ -97,4 +99,12 @@ VisorBoxSortable.propTypes = {
    * Vista actual
    */
     currentView: PropTypes.any,
+    /**
+    * All marks
+    */
+    marks: PropTypes.object,
+    /**
+     * Function that triggers a mark
+     */
+    onMarkClicked: PropTypes.func,
 };

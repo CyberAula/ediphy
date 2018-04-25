@@ -3,7 +3,17 @@
 
 $blueprimary: #17CFC8;
 $track-width: 54% !default;
-
+// generic transform
+@mixin transform($transforms) {
+  -moz-transform: $transforms;
+  -o-transform: $transforms;
+  -ms-transform: $transforms;
+  -webkit-transform: $transforms;
+  transform: $transforms;
+}
+@mixin scale($scale) {
+  @include transform(scale($scale));
+}
 @mixin gradient {
   background: black; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(transparent, black); /* For Safari 5.1 to 6.0 */
@@ -113,7 +123,6 @@ $track-width: 54% !default;
 }
 
 
-
 //player
 //**************************************
 
@@ -165,6 +174,17 @@ $track-width: 54% !default;
     width:10%;
   }
 
+  .videoMark{
+    width: 10px;
+    height: 10px;
+    border-radius: 20px;
+    border: 1px solid white;
+    position: relative;
+    &:hover{
+      @include scale(1.2);
+    }
+  }
+
   .volume-player-input{
     float:left;
   }
@@ -181,17 +201,19 @@ $track-width: 54% !default;
 
     .mainSlider{
       width: 4px;
-      height: 14px;
+      height: 12px;
       background: white;
       position: absolute;
-      margin-top: -3px;
+      margin-top: -1px;
       z-index: 9999;
+      top: 5px;
     }
     .fakeProgress{
       border: 1px solid #ccc;
-      margin: 3px;
+      margin: 4px;
       position: absolute;
       width: 100%;
+      top: 5px;
     }
 
   }

@@ -11,17 +11,6 @@ export default function() {
         getAll: function() {
             return pluginInstancesList;
         },
-        getPluginsInCurrentView: function(getAliasedPlugins) {
-            return this.getPluginsInView(null, getAliasedPlugins);
-        },
-        getPluginsInView: function(view, getAliasedPlugins) {
-            let promise = new Promise(function(resolve) {
-                Ediphy.API_Private.listenAnswer(Ediphy.API_Private.events.getPluginsInView, resolve);
-            });
-            Ediphy.API_Private.emit(Ediphy.API_Private.events.getPluginsInView, { view, getAliasedPlugins });
-
-            return promise;
-        },
         loadAll: function() {
 
             Ediphy.Config.pluginList.map(id => {
@@ -33,15 +22,17 @@ export default function() {
                     plugin.getLocales();
                     pluginInstancesList[id] = plugin;
                     pluginConfigs.push(plugin.getConfig());
-                    plugin.getConfig().callback({}, 'INIT');
+                    // plugin.getConfig().callback({}, 'INIT');
 
                     Ediphy.Visor.Plugins.add(id);
                 } catch (e) {
+                    // eslint-disable-next-line no-console
+                    console.error(e);
                 }
             });
         },
-        loadButtons: function() {
-            Ediphy.API.addMenuButtons(pluginConfigs);
+        getPluginConfigs: function() {
+            return pluginConfigs;
         },
     };
 }

@@ -43,7 +43,7 @@ export default class NavDropdown extends Component {
                     <MenuItem disabled={this.props.undoDisabled} eventKey="1" key="1">
                         <button className="dropdownButton" title={i18n.t('messages.import')}
                             disabled={ false }
-                            onClick={this.props.toggleImportFile}><i className="material-icons">file_upload</i>
+                            onClick={this.props.toggleFileUpload}><i className="material-icons">file_upload</i>
                             {i18n.t('messages.import')}
                         </button>
                     </MenuItem>
@@ -97,6 +97,7 @@ export default class NavDropdown extends Component {
                                 {i18n.t('Open')}
                             </button>
                         </MenuItem>]}
+
                 </Dropdown.Menu>
             </Dropdown>
         );
@@ -106,13 +107,17 @@ export default class NavDropdown extends Component {
 NavDropdown.propTypes = {
 
     /**
-     * Identifies the view that is being edited
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
      * Opens an external catalog with all the resources uploaded to the server
      */
     onExternalCatalogToggled: PropTypes.func.isRequired,
+    /**
+      * Callback for opening the file upload modal
+      */
+    toggleFileUpload: PropTypes.func.isRequired,
     /**
      * Load an specific course from the remote server
      */

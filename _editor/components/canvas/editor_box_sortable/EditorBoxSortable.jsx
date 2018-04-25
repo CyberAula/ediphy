@@ -5,14 +5,14 @@ import { Button, OverlayTrigger, Popover, Tooltip, Overlay } from 'react-bootstr
 import interact from 'interactjs';
 import Alert from './../../common/alert/Alert';
 import EditorBox from '../editor_box/EditorBox';
-import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import { ADD_BOX } from '../../../../common/actions';
 import { isSortableBox, isBox } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 
 import './_editorBoxSortable.scss';
-import { instanceExists, releaseClick, findBox } from '../../../../common/common_tools';
+import { instanceExists, releaseClick, findBox, createBox } from '../../../../common/common_tools';
 
 /**
  * EditorBoxSortable Component
@@ -42,18 +42,17 @@ export default class EditorBoxSortable extends Component {
         let box = this.props.boxes[this.props.id];
         return (
             <div className="editorBoxSortable"
-                onClick={e => {
-                    if(box.children.length !== 0) {
-                        this.props.onBoxSelected(this.props.id);
+                onMouseDown={e => {
+                    if (e.target === e.currentTarget || e.target.classList.contains('colDist-j')) {
+                        if(box.children.length !== 0) {
+                            this.props.onBoxSelected(this.props.id);
+                        }
                     }
                     e.stopPropagation();
                 }}>
                 <div ref="sortableContainer"
                     className={(this.props.id === this.props.boxSelected && box.children.length > 0) ? ' selectedBox sortableContainerBox' : ' sortableContainerBox'}
-                    style={{
-                        position: 'relative',
-                        boxSizing: 'border-box',
-                    }}>
+                    style={{ position: 'relative', boxSizing: 'border-box' }}>
                     {this.state.alert}
                     {box.children.map((idContainer, index)=> {
                         let container = box.sortableContainers[idContainer];
@@ -100,17 +99,19 @@ export default class EditorBoxSortable extends Component {
                                                                 boxLevelSelected={this.props.boxLevelSelected}
                                                                 containedViews={this.props.containedViews}
                                                                 containedViewSelected={this.props.containedViewSelected}
-                                                                toolbars={this.props.toolbars}
+                                                                pluginToolbars={this.props.pluginToolbars}
                                                                 lastActionDispatched={this.props.lastActionDispatched}
                                                                 addMarkShortcut={this.props.addMarkShortcut}
                                                                 deleteMarkCreator={this.props.deleteMarkCreator}
-                                                                onRichMarkUpdated={this.props.onRichMarkUpdated}
                                                                 exercises={(this.props.page && this.props.exercises[this.props.page]) ? (this.props.exercises[this.props.page].exercises[idBox]) : undefined}
                                                                 markCreatorId={this.props.markCreatorId}
+                                                                marks={this.props.marks}
                                                                 onBoxAdded={this.props.onBoxAdded}
                                                                 onBoxSelected={this.props.onBoxSelected}
                                                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
+                                                                onRichMarkMoved={this.props.onRichMarkMoved}
                                                                 onBoxMoved={this.props.onBoxMoved}
+                                                                onToolbarUpdated={this.props.onToolbarUpdated}
                                                                 onBoxResized={this.props.onBoxResized}
                                                                 onBoxDropped={this.props.onBoxDropped}
                                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
@@ -173,7 +174,7 @@ export default class EditorBoxSortable extends Component {
                                             </Button>
                                         </Popover>
                                     </Overlay>
-                                    <OverlayTrigger placement="top" overlay={
+                                    <OverlayTrigger placement="top" container={this} overlay={
                                         <Tooltip id="deleteTooltip">{i18n.t('delete')}
                                         </Tooltip>}>
                                         <Button
@@ -200,34 +201,24 @@ export default class EditorBoxSortable extends Component {
         );
     }
 
-    /**
-     * After component updates
-     * Sets up interact resizable features
-     * @param prevProps React previous props
-     * @param prevState React previous state
-     */
     componentDidUpdate(prevProps, prevState) {
         this.props.boxes[this.props.id].children.map(id => {
-            this.configureResizable(this.refs[id]);
+            // this.configureResizable(this.refs[id]);
         });
     }
-    /**
-     * After component mounts
-     * Sets up interact sortable and resizable features
-     */
+
     componentDidMount() {
         this.configureDropZone(ReactDOM.findDOMNode(this), "newContainer", ".rib");
         // this.configureDropZone(".editorBoxSortableContainer", "existingContainer", ".rib");
 
         this.props.boxes[this.props.id].children.map(id => {
-            this.configureResizable(this.refs[id]);
+            // this.configureResizable(this.refs[id]);
         });
 
         let list = jQuery(this.refs.sortableContainer);
         list.sortable({
             handle: '.drag-handle',
             start: (event, ui) => {
-
                 // Hide EditorShortcuts
                 let bar = this.props.containedViewSelected === 0 ?
                     document.getElementById('editorBoxIcons') :
@@ -238,6 +229,7 @@ export default class EditorBoxSortable extends Component {
                 }
             },
             stop: (event, ui) => {
+
                 let indexes = [];
                 let children = list[0].children;
                 for (let i = 0; i < children.length; i++) {
@@ -245,7 +237,6 @@ export default class EditorBoxSortable extends Component {
                 }
                 if (indexes.length !== 0) {
                     this.props.onSortableContainerReordered(indexes, this.props.id);
-
                 }
                 list.sortable('cancel');
                 // Unhide EditorShortcuts
@@ -261,10 +252,6 @@ export default class EditorBoxSortable extends Component {
         });
     }
 
-    /**
-     * Sets up interact resizable features.
-     * @param item Node that will be made resizable
-     */
     configureResizable(item) {
         interact(item).resizable({
             enabled: this.props.id === this.props.boxSelected && item.style.height !== "auto",
@@ -284,13 +271,6 @@ export default class EditorBoxSortable extends Component {
         });
     }
 
-    /**
-     * Sets up interact dropzone features
-     * @param node Node that accepts dragged items
-     * @param dropArea Denomination of the dropArea (cell, newContainer, existingContainer)
-     * @param selector Selector of the elements accepted in the dropzone
-     * @param extraParams Additional info, such as row and column
-     */
     configureDropZone(node, dropArea, selector, extraParams) {
         interact(node).dropzone({
             accept: selector,
@@ -310,6 +290,7 @@ export default class EditorBoxSortable extends Component {
                 if (clone) {
                     clone.parentNode.removeChild(clone);
                 }
+                let name = e.relatedTarget.getAttribute("name");
                 let newInd = extraParams ? this.getNewIndex(e.dragEvent.clientX, e.dragEvent.clientY, this.props.id, extraParams.idContainer) : 0;
                 if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
                     if (draggingFromRibbon && instanceExists(e.relatedTarget.getAttribute("name"))) {
@@ -333,7 +314,6 @@ export default class EditorBoxSortable extends Component {
                     // If element dragged is coming from PluginRibbon, create a new EditorBox
                     if (draggingFromRibbon) {
                         // Check if there is a limit in the number of plugin instances
-
                         let initialParams = {
                             parent: this.props.id,
                             container: extraParams.idContainer,
@@ -341,13 +321,13 @@ export default class EditorBoxSortable extends Component {
                             row: extraParams.j,
                             index: newInd,
                             page: page,
+                            id: (ID_PREFIX_BOX + Date.now()),
                         };
-
-                        Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                        createBox(initialParams, name, false, this.props.onBoxAdded, this.props.boxes);
                         e.dragEvent.stopPropagation();
                     } else {
                         let boxDragged = this.props.boxes[this.props.boxSelected];
-                        if (boxDragged) {// && ((this.props.id !== boxDragged.parent) || (extraParams.idContainer !== boxDragged.container) || (extraParams.j !== boxDragged.row) || (extraParams.i !== boxDragged.col))) {
+                        if (boxDragged) {
                             this.props.onBoxDropped(this.props.boxSelected,
                                 extraParams.j,
                                 extraParams.i,
@@ -383,9 +363,11 @@ export default class EditorBoxSortable extends Component {
                             page,
                         };
                     }
-
-                    Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                    initialParams.id = (ID_PREFIX_BOX + Date.now());
+                    initialParams.name = name;
+                    createBox(initialParams, name, false, this.props.onBoxAdded, this.props.boxes);
                     e.dragEvent.stopPropagation();
+
                 }
 
             }.bind(this),
@@ -401,13 +383,9 @@ export default class EditorBoxSortable extends Component {
         let rc = releaseClick(el, 'box-');
         let children = this.props.boxes[parent].sortableContainers[container].children; // .filter(box=>{return this.props.boxes[box].row === extraParams.j && this.props.boxes[box].col === extraParams.i});
         let newInd = children.indexOf(rc);
-        return newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
+        return newInd === 0 ? 0 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
     }
 
-    /**
-     * Before component unmounts
-     * Unset interact listeners
-     */
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();
         interact(".editorBoxSortableContainer").unset();
@@ -421,7 +399,7 @@ EditorBoxSortable.propTypes = {
      */
     id: PropTypes.string.isRequired,
     /**
-     * Object that holds  all the boxes, (identified by its ID)
+     * Object that holds all the boxes, (identified by its ID)
      */
     boxes: PropTypes.object.isRequired,
     /**
@@ -433,7 +411,7 @@ EditorBoxSortable.propTypes = {
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Object that holds all the contained views in the project (identified by its ID)
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -443,7 +421,7 @@ EditorBoxSortable.propTypes = {
     /**
      * Object containing all the toolbars (identified by its ID)
      */
-    toolbars: PropTypes.object.isRequired,
+    pluginToolbars: PropTypes.object.isRequired,
     /**
      * Last action dispatched in Redux
      */
@@ -453,7 +431,7 @@ EditorBoxSortable.propTypes = {
      */
     addMarkShortcut: PropTypes.func.isRequired,
     /**
-     * Función que oculta el overlay de creación de marcas
+     * Callback for deleting mark creator overlay
      */
     deleteMarkCreator: PropTypes.func.isRequired,
     /**
@@ -461,7 +439,7 @@ EditorBoxSortable.propTypes = {
      */
     markCreatorId: PropTypes.any.isRequired,
     /**
-     * Callback for when adding a box
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
@@ -469,7 +447,7 @@ EditorBoxSortable.propTypes = {
      */
     onBoxSelected: PropTypes.func.isRequired,
     /**
-     * Icreases box level selected
+     * Increases box level selected
      */
     onBoxLevelIncreased: PropTypes.func.isRequired,
     /**
@@ -485,27 +463,27 @@ EditorBoxSortable.propTypes = {
      */
     onBoxDropped: PropTypes.func.isRequired,
     /**
-     * Callback for when vertically aligning boxes inside a contianer
+     * Callback for when vertically aligning boxes inside a container
      */
     onVerticallyAlignBox: PropTypes.func.isRequired,
     /**
-     * Callback for when reordering boxes inside a contianer
+     * Callback for when reordering boxes inside a container
      */
     onBoxesInsideSortableReorder: PropTypes.func.isRequired,
     /**
-     * Callabck for when deleting a sortable container
+     * Callback for when deleting a sortable container
      */
     onSortableContainerDeleted: PropTypes.func.isRequired,
     /**
-     * Callabck for when reordering sortable containers
+     * Callback for when reordering sortable containers
      */
     onSortableContainerReordered: PropTypes.func.isRequired,
     /**
-     * Callabck for when resizing a sortable container
+     * Callback for when resizing a sortable container
      */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
-     * Callback for toggling the CKEDitor
+     * Callback for toggling the CKEditor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
     /**
@@ -517,9 +495,9 @@ EditorBoxSortable.propTypes = {
       */
     onRichMarksModalToggled: PropTypes.func.isRequired,
     /**
-      * Callback for updating the Rich Marks Modal
-      */
-    onRichMarkUpdated: PropTypes.func.isRequired,
+     * Callback for moving marks
+     */
+    onRichMarkMoved: PropTypes.func.isRequired,
     /**
       * Object containing all exercises
       */
@@ -532,4 +510,12 @@ EditorBoxSortable.propTypes = {
       * Current page
       */
     page: PropTypes.any,
+    /**
+     * Object containing box marks
+     */
+    marks: PropTypes.object,
+    /**
+   * Function that updates the toolbar of a view
+   */
+    onToolbarUpdated: PropTypes.func,
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import i18n from "i18next";
 
 export default class Score extends React.Component {
     render() {
@@ -8,7 +9,7 @@ export default class Score extends React.Component {
 
         if (this.props.exercises.attempted) {
             return <div className={"pageScore score" + (pass ? "Pass" : "Fail")}>
-                Your score is <br/>
+                {i18n.t("Score_feedback")} <br/>
                 <span>{score + '%'}</span>
             </div>;
         }

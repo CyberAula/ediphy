@@ -6,6 +6,7 @@ import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/M
 import img from './../../../dist/images/broken_link.png';
 // import aud from './../../../dist/playlists/basic.mp3';
 import ReactWavesurfer from 'react-wavesurfer';
+import Mark from '../../../common/components/mark/Mark';
 
 export default class BasicAudioPluginEditor extends React.Component {
     constructor(props) {
@@ -112,19 +113,17 @@ export default class BasicAudioPluginEditor extends React.Component {
         };
 
         /* Podemos pasar una devolución de llamada en los refs*/
-        let marks = this.props.state.__marks;
+        let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
             // aqui solo entra cuando le das a save changes que es cuando da error
             let value = marks[id].value;
             let title = marks[id].title;
             let color = marks[id].color;
             return(
-                <MarkEditor key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} onRichMarkUpdated={this.props.onRichMarkUpdated} state={this.props.state} base={this.props.base}>
+                <MarkEditor key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} onRichMarkUpdated={this.props.props.onRichMarkUpdated} state={this.props.state} base={this.props.base}>
                     <a key={id} href="#">
                         <div style={{ width: "4px", height: "8px", background: color || "#17CFC8" }}>
-                            <OverlayTrigger key={id} text={title} placement="top" overlay={<Tooltip id={id}>{title}</Tooltip>}>
-                                <i className="material-icons" style={{ color: color || "#17CFC8", position: "relative", top: "-24px", left: "-10px" }} >room</i>
-                            </OverlayTrigger>
+                            <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }} color={color || "#17CFC8"} idKey={id} title={title} />
                         </div>
                     </a>
                 </MarkEditor>);

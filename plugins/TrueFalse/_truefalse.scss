@@ -1,29 +1,52 @@
 @import "../../sass/general/_variables.scss";
 
+.true{
+  background-color: $detailgreen;
+  color: white;
+  border-radius: 3px;
+  padding: 2px;
+}
+.false{
+  background-color: $lightred;
+  color: white;
+  border-radius: 3px;
+  padding: 2px;
+}
+
 .truefalsePlugin {
   .radioQuiz {
-    //margin-left: 12px !important;
     transform: scale(1.4);
     margin: auto;
-
   }
-
   .answerPlaceholder {
     font-size: 24px;
     margin-bottom: 10px;
-    margin-top: 7px;
+    padding: 0;
   }
-
   .col-xs-1 {
     text-align: center;
+    padding: 0;
+    width: 40px;
   }
-  .answerRow {
-    margin: 0px;
+  .col-xs-10{
+    padding: 0;
   }
   .TFRow {
-    margin: 0px;
-    border: 2px solid transparent;
+    margin: 10px 15px;
     font-size: 20px;
+  }
+  .answerRow {
+    margin: 0 15px;
+    display: flex;
+    i{
+      margin: 7px -15px;
+      &.correct{
+        color: $detailgreen;
+      }
+      &.incorrect{
+        color: $lightred;
+      }
+    }
   }
   .exerciseScore {
     display: none;
@@ -37,19 +60,27 @@
 
   &.attempted.showFeedback .answerRow {
     margin-top: 2px;
-    border: 2px solid transparent;
-    border-radius: 5px;
-      &.correct {
-        border: 2px solid rgba(0,255,0,0.5);
-      }
-
-      &.incorrect {
-        border: 2px solid rgba(255,0,0,0.5);
-      }
+    &.correct {
+      background-color: $detailgreentransparent;
+    }
+    &.incorrect {
+      background-color: $lightredtransparent;
+    }
   }
   .truefalse {
     word-break: keep-all;
   }
-
+  .feedbackRow {
+    padding:10px;
+    margin:0;
+    .feedback {
+      background-color: $blueprimarytransparent;
+      margin:0;
+      border: 1px solid $blueprimary;
+      color: $blueprimary;
+      border-radius: 3px;
+      padding:0;
+    }
+  }
 }
 

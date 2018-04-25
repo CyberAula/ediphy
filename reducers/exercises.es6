@@ -1,8 +1,9 @@
-import { ADD_NAV_ITEM, ADD_NAV_ITEMS, DELETE_NAV_ITEM, ADD_BOX, DELETE_BOX, PASTE_BOX, SET_CORRECT_ANSWER, IMPORT_STATE,
-    DELETE_SORTABLE_CONTAINER, ADD_RICH_MARK,
+import {
+    ADD_NAV_ITEM, ADD_NAV_ITEMS, DELETE_NAV_ITEM, ADD_BOX, DELETE_BOX, PASTE_BOX, SET_CORRECT_ANSWER, IMPORT_STATE,
+    DELETE_SORTABLE_CONTAINER, ADD_RICH_MARK, CONFIG_SCORE, EDIT_RICH_MARK,
 } from '../common/actions';
 
-import { isBox, existsAndIsViewOrContainedView, changeProp, changeProps, deleteProp, deleteProps } from '../common/utils';
+import { isBox, existsAndIsViewOrContainedView, changeProp, changeProps, deleteProp, deleteProps, isContainedView } from '../common/utils';
 
 function singleExerciseReducer(state = {}, action = {}) {
     switch (action.type) {
@@ -12,6 +13,8 @@ function singleExerciseReducer(state = {}, action = {}) {
             newScoreState.correctAnswer = action.payload.correctAnswer;
         }
         return newScoreState;
+    case CONFIG_SCORE:
+        return Object.assign({}, state, { [action.payload.button]: action.payload.value });
     default:
         return state;
     }
@@ -21,16 +24,17 @@ function exercisesReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
     case PASTE_BOX:
-        let name = action.type === 'ADD_BOX' ? action.payload.config.name : action.payload.toolbar.config.name;
+        let name = action.type === 'ADD_BOX' ? action.payload.initialParams.name : action.payload.toolbar.pluginId;
         let config = Ediphy.Plugins.get(name).getConfig();
         if (config && config.category === 'evaluation') {
             let defaultCorrectAnswer = (config.defaultCorrectAnswer === null || config.defaultCorrectAnswer === undefined) ? true : config.defaultCorrectAnswer;
-            return changeProp(state, action.payload.ids.id, {
+            let defaultCurrentAnswer = (config.defaultCurrentAnswer === null || config.defaultCurrentAnswer === undefined) ? true : config.defaultCurrentAnswer;
+            return changeProp(state, action.payload.ids.id, action.payload.score ? { ...action.payload.score, id: action.payload.ids.id } : {
                 name,
                 id: action.payload.ids.id,
                 weight: 1,
                 correctAnswer: defaultCorrectAnswer,
-                currentAnswer: defaultCorrectAnswer,
+                currentAnswer: defaultCurrentAnswer,
                 showFeedback: true,
                 attempted: false,
                 score: 0,
@@ -38,6 +42,7 @@ function exercisesReducer(state = {}, action = {}) {
         }
         return state;
     case SET_CORRECT_ANSWER:
+    case CONFIG_SCORE:
         return changeProp(state, action.payload.id, singleExerciseReducer(state[action.payload.id], action));
     case DELETE_BOX:
         if (action.payload.id in state) {
@@ -66,8 +71,9 @@ function singlePageReducer(state = {}, action = {}) {
             exercises: {},
         };
     case ADD_RICH_MARK:
+    case EDIT_RICH_MARK:
         return {
-            id: action.payload.mark.connection.id,
+            id: action.type === ADD_RICH_MARK ? action.payload.mark.connection : action.payload.mark.connection,
             submitButton: true,
             trackProgress: false,
             attempted: false,
@@ -82,6 +88,11 @@ function singlePageReducer(state = {}, action = {}) {
     case DELETE_BOX:
     case DELETE_SORTABLE_CONTAINER:
         return changeProp(state, "exercises", exercisesReducer(state.exercises, action));
+    case CONFIG_SCORE:
+        if (isBox(action.payload.id)) {
+            return changeProp(state, "exercises", exercisesReducer(state.exercises, action));
+        }
+        return Object.assign({}, state, { [action.payload.button]: action.payload.value });
     default:
         return state;
     }
@@ -103,8 +114,13 @@ export default function(state = {}, action = {}) {
             [...navs]
         );
     case ADD_RICH_MARK:
-        if (action.payload.mark.connection.id) {
-            return changeProp(state, action.payload.mark.connection.id, singlePageReducer(state[action.payload.mark.connection.id], action));
+        if (isContainedView(action.payload.mark.connection) && !state[action.payload.mark.connection]) {
+            return changeProp(state, action.payload.mark.connection, singlePageReducer(state[action.payload.mark.connection], action));
+        }
+        return state;
+    case EDIT_RICH_MARK:
+        if (isContainedView(action.payload.mark.connection) && !state[action.payload.mark.connection]) {
+            return changeProp(state, action.payload.mark.connection, singlePageReducer(state[action.payload.mark.connection], action));
         }
         return state;
     case ADD_BOX:
@@ -123,7 +139,8 @@ export default function(state = {}, action = {}) {
             return changeProp(state, page, singlePageReducer(state[page], action));
         }
         return state;
-
+    case CONFIG_SCORE:
+        return changeProp(state, action.payload.page, singlePageReducer(state[action.payload.page], action));
     case IMPORT_STATE:
         return action.payload.present.exercises || state;
     default:

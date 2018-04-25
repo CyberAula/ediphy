@@ -1,28 +1,35 @@
 @import "../../sass/general/_variables.scss";
 
 .inputTextPlugin {
+  height:auto;
  .inputText {
-   margin-top: 7.5px;
-   //margin-bottom: 1.5px;
    pointer-events: none;
    border-radius: 0px;
-   border: 2px solid grey;
+   min-height: 29px;
+   margin-right: 3px;
+   border: 1px solid #ccc;
+   padding: 0px 2px;
  }
   &.attempted.showFeedback {
     &.correct .inputText {
-      border: 2px solid rgba(0,255,0,0.5);
+      border: 2px solid $detailgreen;
     }
 
     &.incorrect  .inputText{
-      border: 2px solid rgba(255,0,0,0.5);
+      border: 2px solid $lightred;
     }
   }
 
  .dragHandleInputPlugin {
+   padding: 2px 0;
    .material-icons {
      vertical-align: middle;
-     margin-bottom: 4px;
+     color: $grismedio;
    }
+   min-height: 29px;
+   min-width: 29px;
+   display:inline-block;
+   vertical-align: top;
  }
   .exerciseScore {
     display: none;
@@ -33,6 +40,10 @@
     color: $blueprimary;
     font-size: 10px;
   }
+}
+
+.wholebox.selectedBox .inputTextPlugin {
+  padding:0px;
 }
 .wholebox.selectedBox .inputTextPlugin .inputText {
   pointer-events: all !important;

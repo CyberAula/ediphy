@@ -16,7 +16,7 @@ export function Youtube(base) {
                 icon: 'slideshow',
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -28,7 +28,7 @@ export function Youtube(base) {
                                 url: {
                                     __name: Ediphy.i18n.t('Youtube.URL'),
                                     type: 'text',
-                                    value: base.getState().url,
+                                    value: state.url,
                                     autoManaged: false,
                                 },
                             },
@@ -91,13 +91,6 @@ export function Youtube(base) {
         },
         getRenderTemplate: function(state) {
             return "<iframe  class=\"basicImageClass\"  style=\"width: 100%; height: 100%; z-index:0;\" src=\"" + this.parseURL(state.url) + "\" frameBorder=\"0\" allowFullScreen ></iframe>";
-        },
-        handleToolbar: function(name, value) {
-            if (name === 'url') {
-                base.setState(name, base.parseURL(value));
-            } else {
-                base.setState(name, value);
-            }
         },
         parseURL: function(url) {
             if (url === '') {
