@@ -79,9 +79,9 @@ describe('CarouselButtons - getParent()', () => {
 
         let component = shallow(<CarouselButtons {...placeholderProps}
             indexSelected={'42'}
-            navItems={{ 42: navItem, '8': navItemParent }} />);
+            navItems={{ '42': navItem, '8': navItemParent }} />);
 
-        expect(component.instance().getParent()).toEqual(navItemParent);
+        expect(component.instance().getParent()).toBe(navItemParent);
     });
 
     it('should return the id = 0 navItem if a valid navItem is currently selected and it isn\'t a section but it has no parent', () => {
@@ -91,7 +91,7 @@ describe('CarouselButtons - getParent()', () => {
 
         let component = shallow(<CarouselButtons {...placeholderProps}
             indexSelected={'42'}
-            navItems={{ 42: navItem, 0: nullNavItem }} />);
+            navItems={{ '42': navItem, 0: nullNavItem }} />);
 
         expect(component.instance().getParent()).toEqual(nullNavItem);
     });
@@ -102,7 +102,7 @@ describe('CarouselButtons - getParent()', () => {
 
         let component = shallow(<CarouselButtons {...placeholderProps}
             indexSelected={'42'}
-            navItems={{ 42: navItem }} />);
+            navItems={{ '42': navItem }} />);
 
         expect(component.instance().getParent()).toEqual(navItem);
     });

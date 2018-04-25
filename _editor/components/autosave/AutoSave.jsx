@@ -30,24 +30,25 @@ export default class AutoSave extends Component {
                 this.setState({ displaySave: false });
             }, 2000);
         }
-        if (this.state.modifiedState === false) {
-            switch(nextProps.lastAction) {
-            case CHANGE_DISPLAY_MODE:
-            case EXPAND_NAV_ITEM:
-            case IMPORT_STATE:
-            case INCREASE_LEVEL:
-            case INDEX_SELECT:
-            case SELECT_BOX:
-            case SELECT_NAV_ITEM:
-            case SET_BUSY:
-            case TOGGLE_TEXT_EDITOR:
-            case TOGGLE_TITLE_MODE:
-            case UPDATE_NAV_ITEM_EXTRA_FILES:
-            case UPDATE_BOX:
-                return;
-            default:
-                this.setState({ modifiedState: true });
-            }
+
+        const ignoredActions = [
+            CHANGE_DISPLAY_MODE,
+            EXPAND_NAV_ITEM,
+            IMPORT_STATE,
+            INCREASE_LEVEL,
+            INDEX_SELECT,
+            SELECT_BOX,
+            SELECT_NAV_ITEM,
+            SET_BUSY,
+            TOGGLE_TEXT_EDITOR,
+            TOGGLE_TITLE_MODE,
+            UPDATE_NAV_ITEM_EXTRA_FILES,
+            UPDATE_BOX,
+        ];
+
+        if (this.state.modifiedState === false && ignoredActions.indexOf(nextProps.lastAction) === -1) {
+            // The last action isn't part of the ignored ones
+            this.setState({ modifiedState: true });
         }
     }
 
