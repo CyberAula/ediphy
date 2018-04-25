@@ -2,8 +2,10 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
+import Mark from '../../../common/components/mark/Mark';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import img from './../../../dist/images/broken_link.png';
+/* eslint-disable react/prop-types */
 
 export default class EnrichedPlayerPlugin extends React.Component {
     constructor(props) {
@@ -21,18 +23,16 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     componentWillUpdate(nextProps, nextState) {
-        console.log(nextState);
-        console.log(nextProps);
         if(nextState.played !== this.state.played) {
             let sudo = this;
 
-            let marks = this.props.state.__marks;
-            let triggerMark = this.props.triggerMark;
+            let marks = this.props.props.marks || {};
+            let triggerMark = this.props.props.onMarkClicked;
             let triggerArray = this.state.toBeTriggered;
             triggerArray.forEach(function(e) {
                 if ((parseFloat(e.value) / 100).toFixed(3) < parseFloat(nextState.played).toFixed(3)) {
                     let toBeTriggered = triggerArray;
-                    triggerMark(sudo.props.box_id, e.value, true);
+                    triggerMark(sudo.props.props.id, e.value, true);
                     toBeTriggered.splice(e, 1);
                     sudo.setState({ toBeTriggered: toBeTriggered });
                 }
@@ -61,7 +61,12 @@ export default class EnrichedPlayerPlugin extends React.Component {
             this.setState({ initialPoint: parseFloat(this.props.state.currentState) / 100 });
         }
     }
-
+    componentDidMount() {
+        if(this.player !== undefined && this.state.initialPoint !== undefined) {
+            this.player.seekTo(this.state.initialPoint);
+            this.setState({ initialPoint: undefined, playing: true });
+        }
+    }
     playPause() {
         this.setState({ playing: !this.state.playing });
     }
@@ -80,7 +85,6 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     setPlaybackRate(e) {
-        console.log(parseFloat(e.target.value));
         this.setState({ playbackRate: parseFloat(e.target.value) });
     }
 
@@ -93,12 +97,10 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     onSeekMouseUp(e) {
-
         if(e.target.className.indexOf('progress-player-input') !== -1) {
             this.setState({ seeking: false });
+            this.player.seekTo((e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width);
         }
-        this.player.seekTo((e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width);
-
     }
 
     onProgress(state) {
@@ -116,30 +118,29 @@ export default class EnrichedPlayerPlugin extends React.Component {
         }
     }
 
-    componentDidMount() {
-        if(this.player !== undefined && this.state.initialPoint !== undefined) {
-            this.player.seekTo(this.state.initialPoint);
-            this.setState({ initialPoint: undefined });
-        }
-    }
-
     render() {
 
-        let marks = this.props.state.__marks;
+        let marks = this.props.props.marks || {};
 
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;
             let title = marks[id].title;
             let color = marks[id].color;
-
+            let isPopUp = marks[id].connectMode === "popup";
+            let noTrigger = true;
+            let isVisor = true;
             return(
-                <OverlayTrigger key={id} text={title} placement="top" overlay={<Tooltip id={id}>{title}</Tooltip>}>
-                    <a key={id} style={{ left: value, position: "absolute" }} href="#">
-                        <div style={{ width: "4px", height: "8px", background: color || "#1fc8db" }}>
-                            <i className="material-icons" style={{ color: color || "#1fc8db", position: "relative", top: "-24px", left: "-10px" }}>room</i>
-                        </div>
-                    </a>
-                </OverlayTrigger>);
+                <div key={id} className="videoMark" style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
+                    <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }}
+                        color={color || "#17CFC8"}
+                        idKey={id}
+                        title={title}
+                        isVisor={isVisor}
+                        isPopUp={isPopUp}
+                        markConnection={marks[id].connection}
+                        noTrigger={noTrigger}/>
+                </div>
+            );
         });
 
         return (
@@ -152,7 +153,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     url={this.props.state.url}
                     playing={this.state.playing}
                     volume={this.state.volume}
-                    fileConfig={{ attributes: { poster: img } }}
+                    // fileConfig={{ attributes: { poster: img } }}
                     onPlay={() => this.setState({ playing: true })}
                     onPause={() => this.setState({ playing: false })}
                     onEnded={() => this.setState({ playing: false })}
@@ -166,12 +167,12 @@ export default class EnrichedPlayerPlugin extends React.Component {
                             // value={this.state.played}
                             onMouseDown={this.onSeekMouseDown.bind(this)}
                             onChange={this.onSeekChange.bind(this)}
-                            onMouseUp={this.onSeekMouseUp.bind(this)}
-                        >
-                            <div className="fakeProgress" />
-                            <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
+                            onMouseUp={this.onSeekMouseUp.bind(this)}>
+                            <div className="fakeProgress" style={{ top: "0" }} />
+                            <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%", top: "0" }} />
                             {markElements}
                         </div>
+
                         <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
                         <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
                     </div>)}
@@ -179,3 +180,5 @@ export default class EnrichedPlayerPlugin extends React.Component {
         );
     }
 }
+
+/* eslint-enable react/prop-types */

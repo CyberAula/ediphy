@@ -23,6 +23,8 @@ module.exports = {
         "edit": "Edit",
         "color": "Color",
         "grid": "Grid",
+        "Graph": "Graph",
+        "number_graphs": "Number of Graphs",
         "see_grid": "See grid",
         "x_grid": "X axis grid",
         "y_grid": "Y axis grid",
@@ -43,6 +45,9 @@ module.exports = {
         "confirm": "Confirm",
         "fill_in": "Or fill in a table",
         "show": "Show",
+        "preview": "Preview",
+        "Row": "Row",
+        "row_name": "Row name",
         "types": {
             "line": "Line",
             "area": "Area",

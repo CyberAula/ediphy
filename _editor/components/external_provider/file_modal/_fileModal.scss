@@ -1,0 +1,297 @@
+@import "../../../../sass/general/_variables.scss";
+.pageModal.fileModal {
+  .modal-body {
+    padding: 0px 15px;
+    .row-eq-height {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display:         flex;
+    }
+    #menuColumn {
+      background-color: $lightestgrey;
+      border-right: 1px solid grey;
+      .list-group {
+        margin: 0px -15px;
+        .listGroupItem {
+          height:60px;
+          border-radius: 0px !important;
+          background-color: transparent;
+          border: none;
+          text-align: center;
+          font-size: 16px;
+          &:first-child {
+            font-size: 16px;
+            font-weight: bold;
+            color: $blueprimary;
+            &.active {
+              //color: white;
+            }
+
+          }
+          i {
+            font-size: 16px;
+            vertical-align: middle;
+            margin-right: 3px;
+            color: $darkest;
+          }
+          .fileMenuIcon {
+            width: auto;
+            max-width: 100%;
+            max-height: 21px;
+            -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+            filter: grayscale(100%);
+          }
+          .fileMenuName {
+            width:100%;
+            text-align: left;
+          }
+          &.active {
+            background-color: #ddd;
+          }
+        }
+      }
+
+    }
+
+    #contentColumn {
+
+      h5 {
+        color: $blueprimary;
+        font-size: 16px;
+        margin-top: 15px;
+        margin-bottom: -10px;
+        height: 30px;
+        line-height: 30px;
+        .searchInputTopBar {
+          width:60%;
+          float: right;
+        }
+
+        i {
+          font-size: 20px;
+          vertical-align: middle;
+          color: $darkest;
+          margin-right: 5px;
+        }
+        .fileMenuIcon {
+          width: auto;
+          max-width: 100px;
+          max-height: 24px;
+
+        }
+      }
+      .myFilesComponent {
+        min-height: 350px;
+      }
+      .uploadComponent {
+        min-height: 315px;
+        .fileDrag {
+          vertical-align: middle;
+          line-height: 190px;
+          font-size: 20px;
+          margin: 30px;
+          min-height: 190px;
+        }
+        .preview {
+          width:100%;
+          height: auto;
+          min-height: 200px;
+
+          overflow:hidden;
+          padding: 10px;
+          text-align: center;
+          border-width: 3px;
+          background-color: #ddd;
+          border-color: transparent;
+          background-position: center;
+          background-size: cover;
+          transition: all 0.2s ease;
+          i {
+            vertical-align: middle;
+            line-height: 200px;
+            font-size: 40px;
+          }
+        }
+      }
+      #fileNameTitle {
+        color: #555;
+        font-size: 16px;
+        font-weight: bold;
+        .btn {
+          background-color: #ddd !important;
+          fonnt-weight: bold;
+          border: none;
+          margin:2px;
+          i {
+            color: $blueprimary;
+            vertical-align: middle;
+          }
+
+        }
+        .btn:hover {
+          i {
+            color: grey;
+          }
+        }
+      }
+      #serverMsg {
+        width: 100%;
+        text-align: center;
+      }
+
+      .myFile {
+        &.hidden {
+          display: none;
+        }
+        height: 160px;
+        .myFileContent {
+          width:100%;
+          height: 70%;
+          overflow:hidden;
+          padding: 10px;
+          text-align: center;
+          border-width: 3px;
+          background-color: #ddd;
+          border-color: transparent;
+          background-position: center;
+          background-size: cover;
+          transition: all 0.2s ease;
+          &.active {
+            border-color: orange !important;
+          }
+          &:hover {
+            transform: scale(0.95);
+          }
+          i {
+            font-size: 40px;
+          }
+
+        }
+        .ellipsis {
+          width:100%;
+          display:block;
+          height: 30%;
+          overflow: hidden; /* 1 */
+          white-space: nowrap; /* 2 */
+          text-overflow: ellipsis; /* 3 */
+          //direction: rtl;
+          text-align: center;
+          font-size: 13px;
+          vertical-align: middle;
+          line-height: calc(130px * 0.3);
+        }
+        padding:5px;
+      }
+      .myFilesRow {
+        margin: -5px;
+        .empty {
+          text-align: center;
+          height: 85px;
+          line-height: 60px;
+          color: grey;
+        }
+      }
+      .form-group .Select {
+        border: 1px solid #ccc;
+        &:focus, .is-focused {
+          border-color: #66afe9;
+          outline: 0;
+          -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+          -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+
+        }
+        .Select-control {
+          border: none;
+        }
+      }
+      .form-group #filterInput {
+        height: 38px;
+      }
+      hr.fileModalFooter {
+        margin-bottom: 0px;
+      }
+      .inputSearch {
+        cursor: pointer;
+      }
+      .hiddenButton {
+        display: none;
+      }
+      .footerFile {
+        float:left;
+        margin-left: -15px;
+        top: 5px;
+        font-size: 16px;
+        display: inline-block;
+        i {
+          color: $blueprimary;
+          vertical-align: middle;
+        }
+      }
+      #sideBar {
+        background-color: white;
+        height: 100%;
+        width: 0px;
+        position: absolute;
+        right: 0;
+        -moz-transition: width 0.5s ease;
+        -webkit-transition:  width 0.5s ease;
+        -o-transition: width 0.5s ease;
+        transition: width 0.5s ease;
+        top: 0px;
+        z-index: 9999;
+        #pdfContent {
+          padding: 20px;
+          width: calc(100% - 30px);
+          display: inline-block;
+          margin-left: 40px;
+
+          .import_file_buttons {
+            text-align: right;
+            margin:5px;
+            button {
+              margin: 5px;
+            }
+
+          }
+        }
+        #wrapper {
+          height: 100%;
+          overflow-y:auto;
+          overflow-x: hidden;
+
+        }
+        &.showBar {
+          width: 100%;
+          overflow: hidden;
+        }
+
+        #sideArrow {
+          height: 100%;
+          width: 30px;
+          background-color: grey;
+          position:absolute;
+          color: white;
+          display:inline-block;
+          button {
+            background-color: transparent;
+            margin:auto;
+            border: none;
+            box-shadow: none;
+            vertical-align: middle;
+            text-align: center;
+            display: inline-block;
+            height: 100%;
+            width: 100%;
+          }
+        }
+      }
+    }
+
+  }
+}
+
+
+
+

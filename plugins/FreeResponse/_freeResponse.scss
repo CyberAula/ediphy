@@ -1,0 +1,50 @@
+@import "../../sass/general/_variables.scss";
+
+.freeResponsePlugin  {
+  .textAreaQuiz {
+    width:98%;
+    height: 200px !important;
+    margin: 10px 1%;
+    resize: none !important;
+    background-color: white;
+    border-radius: 0px;
+    box-shadow: none;
+    overflow:visible;
+    pointer-events: none;
+  }
+  .textAreaQuiz[disabled] {
+    background-color: white;
+  }
+  .textAreaQuizVisor {
+    resize: vertical !important;
+  }
+  .exerciseScore {
+    display: none;
+    text-align: right;
+  }
+  &.attempted  .exerciseScore{
+      display: block;
+      color: $blueprimary;
+      font-size: 10px;
+  }
+  .feedbackRow {
+    padding:10px;
+    margin:0;
+    .feedback {
+      background-color: $blueprimarytransparent;
+      margin:0;
+      border: 1px solid $blueprimary;
+      color: $blueprimary;
+      border-radius: 3px;
+      padding:0;
+    }
+  }
+}
+.wholebox.selectedBox .textAreaQuiz {
+     pointer-events: none;
+   }
+
+
+#visorAppContent .textAreaQuiz {
+  pointer-events: all;
+}

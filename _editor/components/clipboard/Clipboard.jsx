@@ -1,0 +1,501 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Ediphy from '../../../core/editor/main';
+import Alert from '../common/alert/Alert';
+import { isContainedView, isSlide, isBox, isSortableBox, isView, isSortableContainer } from '../../../common/utils';
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_RICH_MARK } from '../../../common/constants';
+import { ADD_BOX } from '../../../common/actions';
+import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent, isURL, copyText } from './clipboard.utils';
+import i18n from 'i18next';
+import { instanceExists, scrollElement, findBox, createBox } from '../../../common/common_tools';
+/**
+ * Component for managing the clipboard
+ */
+export default class Clipboard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            alert: null,
+        };
+        this.copyButtonListener = this.copyButtonListener.bind(this);
+        this.copyListener = this.copyListener.bind(this);
+        this.pasteListener = this.pasteListener.bind(this);
+        this.cutListener = this.cutListener.bind(this);
+        this.pasteBox = this.pasteBox.bind(this);
+        this.copyData = this.copyData.bind(this);
+        this.duplicateBox = this.duplicateBox.bind(this);
+        this.duplicateListener = this.duplicateListener.bind(this);
+        this.currentPage = this.currentPage.bind(this);
+        this.getIndex = this.getIndex.bind(this);
+    }
+
+    /**
+     * Extracts necessary information for clipboard/duplicating
+     */
+    copyData() {
+        let box = this.props.boxes[this.props.boxSelected];
+        let toolbar = this.props.toolbars[this.props.boxSelected];
+        let itemSelected = this.currentPage();
+        let score;
+        if (itemSelected.id) {
+            let exercisePage = this.props.exercises[itemSelected.id];
+            score = exercisePage.exercises[this.props.boxSelected];
+        }
+
+        let childBoxes = {};
+        let childToolbars = {};
+        if (box.sortableContainers) {
+            for (let sc in box.sortableContainers) {
+                for (let b in box.sortableContainers[sc].children) {
+                    let bid = box.sortableContainers[sc].children[b];
+                    childBoxes[bid] = this.props.boxes[bid];
+                    childToolbars[bid] = this.props.toolbars[bid];
+                }
+            }
+        }
+        let marks = {};
+        for (let id in this.props.marks) {
+            let mark = this.props.marks[id];
+            if (mark.origin === this.props.boxSelected) {
+                marks[id] = mark;
+            }
+            if (Object.keys(childBoxes).indexOf(mark.origin) > -1) {
+                marks[id] = mark;
+            }
+        }
+        return { box, toolbar, marks, childBoxes, childToolbars, score };
+    }
+    /**
+     * Copy action listener
+     * @param event
+     */
+    copyListener(event) {
+        let activeElement = document.activeElement;
+        if (event.clipboardData) {
+            if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
+                if (!this.containsCKEDitorText(activeElement)) {
+                    event.preventDefault();
+                    event.clipboardData.setData("text/plain", JSON.stringify(this.copyData()));
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Copy Button
+     * @param event
+     * @returns {boolean}
+     */
+    copyButtonListener(event) {
+        let activeElement = document.activeElement;
+        console.log(activeElement);
+        if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
+            if (!this.containsCKEDitorText(activeElement) || (this.props.boxes[this.props.boxSelected] && !this.props.boxes[this.props.boxSelected].showTextEditor)) {
+                console.log('here');
+                return copyText(this.copyData());
+            }
+            try {
+                console.log(2);
+                document.execCommand('copy');
+                return true;
+            } catch(e) {
+                return false;
+            }
+
+        }
+        return false;
+    }
+    /**
+     * Cut action listener
+     */
+    cutListener(event) {
+        let fromPlugin = this.copyListener(event);
+        if (fromPlugin) {
+            let box = this.props.boxes[this.props.boxSelected];
+            this.props.onBoxDeleted(box.id, box.parent, box.container, this.currentPage());
+        }
+    }
+    /**
+     * Calculates current page (nav or cv)
+     */
+    currentPage() {
+        return isContainedView(this.props.containedViewSelected) ?
+            this.props.containedViews[this.props.containedViewSelected] :
+            (this.props.navItemSelected !== 0 ? this.props.navItems[this.props.navItemSelected] : null);
+    }
+
+    /**
+     * Duplicates box
+     */
+    duplicateBox() {
+        let data = this.copyData();
+        let containerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
+        let id = ID_PREFIX_BOX + Date.now();
+        let page = this.currentPage();
+
+        let isTargetSlide = isSlide(page.type);
+        let parent = isTargetSlide ? page.id : page.boxes[0];
+
+        let container = isTargetSlide ? 0 : containerId;
+        let newInd;
+        if (this.props.boxSelected && this.props.boxes[this.props.boxSelected] && isBox(this.props.boxSelected)) {
+            parent = this.props.boxes[this.props.boxSelected].parent;
+            container = this.props.boxes[this.props.boxSelected].container;
+            isTargetSlide = container === 0;
+            newInd = this.getIndex(parent, container);
+        }
+        let ids = { id, parent, container, page: page ? page.id : 0 };
+        this.pasteBox(data, ids, isTargetSlide, newInd);
+    }
+
+    /**
+     * Duplicate action listener
+     */
+    duplicateListener(event) {
+        let key = event.keyCode ? event.keyCode : event.which;
+        if ((key === 69) && event.ctrlKey && event.altKey && isBox(this.props.boxSelected)) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.duplicateBox();
+        } else if (key === 86 && event.ctrlKey && event.shiftKey) {
+            this.pasteListener(event, true);
+        }
+        return true;
+    }
+
+    /**
+     * Pastes box
+     */
+    pasteBox(data, ids, isTargetSlide, index) {
+        let pluginName = data.toolbar.pluginId;
+        let plug = Ediphy.Plugins.get(pluginName);
+        if (!plug) {
+            return;
+        }
+        let config = plug.getConfig();
+        let limitToOneInstance = config.limitToOneInstance;
+        let alertMsg = (msg) => { return (<Alert className="pageModal" key="alert" show hasHeader backdrop={false}
+            title={ <span><i className="material-icons alert-warning" >warning</i>{ i18n.t("messages.alert") }</span> }
+            closeButton onClose={()=>{this.setState({ alert: null });}}>
+            <span> {msg} </span>
+        </Alert>);
+
+        };
+        // Forbid plugins inside plugins inside plugins (only 1 level allowed)
+        if (isBox(ids.parent) && (!data.childBoxes || Object.keys(data.childBoxes).length > 0)) {
+            this.setState({ alert: alertMsg(i18n.t('messages.depth_limit')) }); return;
+        }
+        if (limitToOneInstance && instanceExists(data.toolbar.pluginId)) {
+            this.setState({ alert: alertMsg(i18n.t('messages.instance_limit')) });
+            return;
+        }
+
+        let transformedBox = this.transformBox(data.box, ids, isTargetSlide, data.box.resizable);
+        let transformedToolbar = this.transformToolbar(data.toolbar, ids, isTargetSlide, data.box.resizable);
+        let transformedChildren = {};
+        let marks = data.marks;
+        let newMarks = {};
+        if (data.childBoxes && data.childToolbars) {
+            for (let bid in transformedBox.newIds) {
+                let idsChild = { id: transformedBox.newIds[bid], parent: ids.id, container: data.childBoxes[bid].container };
+                let transformedBoxChild = this.transformBox(data.childBoxes[bid], idsChild, false, false);
+                let transformedToolbarChild = this.transformToolbar(data.childToolbars[bid], idsChild, false, false);
+                transformedChildren[transformedBox.newIds[bid]] = { box: transformedBoxChild.newBox, toolbar: transformedToolbarChild };
+            }
+        }
+        for (let mark in marks) {
+            let newId = marks[mark].id + Date.now() + "_1";
+            let newMark = { ...marks[mark],
+                origin: transformedBox.newIds[marks[mark].origin] || ids.id,
+                id: newId };
+            if ((isContainedView(newMark.connection) && this.props.containedViews[newMark.connection]) || (isView(newMark.connection) && this.props.navItems[newMark.connection]) || newMark.connectMode === 'external') {
+                newMarks[newId] = newMark;
+            }
+        }
+
+        this.props.onBoxPasted(ids, transformedBox.newBox, transformedToolbar, transformedChildren, index, newMarks, data.score);
+
+    }
+
+    /**
+     * Calculates if the current focused element in the DOM is a text area. If it is we do not want to paste the box.
+     */
+    containsCKEDitorText(activeElement) {
+        let focus = activeElement.classList;
+        return (focus.contains('form-control') || focus.contains('cke_editable') || focus.contains('textAreaStyle') || activeElement.tagName === 'TEXTAREA' || activeElement.tagName === 'INPUT');
+    }
+
+    /**
+     * Paste action listener
+     */
+    pasteListener(event, overrideShiftKey) {
+        if (event.shiftKey && !overrideShiftKey) {
+            return;
+        }
+        let activeElement = document.activeElement;
+
+        if (event.clipboardData) {
+            // Check if copied data is plugin
+            let data = "";
+            try {
+                let clipboardData = event.clipboardData.getData("text");
+                data = JSON.parse(clipboardData);
+            } catch (err) {
+                // eslint-disable-next-line no-console
+                // console.log(err);
+            }
+
+            let page = this.currentPage();
+            if (page) {
+                let containerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
+                let id = ID_PREFIX_BOX + Date.now();
+                let isTargetSlide = isSlide(page.type);
+                let parent = isTargetSlide ? page.id : page.boxes[0];
+                let row = 0;
+                let col = 0;
+                let container = isTargetSlide ? 0 : containerId;
+                let newInd;
+                if (this.props.boxSelected && this.props.boxes[this.props.boxSelected] && isBox(this.props.boxSelected)) {
+                    parent = this.props.boxes[this.props.boxSelected].parent;
+                    container = this.props.boxes[this.props.boxSelected].container;
+                    isTargetSlide = container === 0;
+                    row = this.props.boxes[this.props.boxSelected].row;
+                    col = this.props.boxes[this.props.boxSelected].col;
+                    newInd = this.getIndex(parent, container);
+                }
+
+                let ids = { id, parent, container, row, col, page: page ? page.id : 0 };
+                // Copied data is an EditorBox
+                if (data && data.box && data.toolbar) {
+                    // Focus is outside a text box
+                    if (!this.containsCKEDitorText(activeElement)) {
+                        // Paste plugin
+                        event.preventDefault();
+                        event.stopPropagation();
+                        // TODO Drag with Ctrl key held
+                        this.pasteBox(data, ids, isTargetSlide, newInd);
+                        // Scroll into pasted element
+                        let boxCreated = findBox(ids.id);
+                        scrollElement(boxCreated);
+                    } else {
+                        // Inside a text box (CKEditor or input)
+                        // Let normal paste work
+                        // event.preventDefault();
+                    }
+
+                // Copied data is not an EditorBox
+                } else if (!this.containsCKEDitorText(activeElement)) {
+                    event.preventDefault();
+                    let imageBlob;
+                    let initialParams = {
+                        id: ID_PREFIX_BOX + Date.now(),
+                        parent: parent, //
+                        container: container,
+                        row: row,
+                        col: col,
+                        index: newInd,
+                        page: page ? page.id : 0,
+                        position: isTargetSlide ? {
+                            type: "absolute",
+                            x: randomPositionGenerator(20, 40),
+                            y: randomPositionGenerator(20, 40),
+                        } : { type: 'relative', x: "0%", y: "0%" },
+                    };
+                    // If it is an image
+                    let noImage = true;
+                    try {
+                        noImage = retrieveImageFromClipboardAsBase64(event, (url) => {
+                            if (url) {
+                                initialParams.url = url; // URLObj.createObjectURL(imageBlob);
+                                createBox(initialParams, "HotspotImages", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                return;
+                            }
+                        }
+                            , false);
+                    } catch (err) {
+                        // eslint-disable-next-line no-console
+                        console.log(err);
+                    }
+                    if (noImage) {
+                        initialParams.text = (event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"));
+                        if (isURL(initialParams.text)) {
+                            initialParams.text = '<a href="' + initialParams.text + '">' + initialParams.text + '</a>';
+                        }
+                        createBox(initialParams, "BasicText", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Modifies pasted box so it adapts to its new parent
+     */
+    transformBox(box, ids, isTargetSlide, isOriginSlide) {
+        let newIds = {};
+        let newContainerBoxes = {};
+        let ind = 0;
+        if (box.sortableContainers) {
+            newContainerBoxes = JSON.parse(JSON.stringify(box.sortableContainers));
+            for (let sc in newContainerBoxes) {
+                for (let b in newContainerBoxes[sc].children) {
+                    let newID = ID_PREFIX_BOX + Date.now() + '_' + ind++;
+                    newIds[newContainerBoxes[sc].children[b]] = newID;
+                    newContainerBoxes[sc].children[b] = newID;
+                }
+            }
+        }
+        let newBox = Object.assign({}, box, {
+            container: ids.container,
+            id: ids.id,
+            parent: ids.parent,
+            position: isTargetSlide ? {
+                type: "absolute",
+                x: randomPositionGenerator(20, 40),
+                y: randomPositionGenerator(20, 40),
+            } : { type: "relative", x: "0%", y: "0%" },
+            resizable: isTargetSlide,
+            row: ids.row || 0,
+            col: ids.col || 0,
+            level: isBox(ids.parent) ? 1 : 0,
+            sortableContainers: newContainerBoxes,
+            containedViews: box.containedViews.filter(cv=> this.props.containedViews[cv]),
+        });
+        return { newBox, newIds };
+
+    }
+
+    /**
+     * Modifies pasted toolbar so it adapts to its new parent
+     */
+    transformToolbar(toolbar, ids, isTargetSlide, isOriginSlide) {
+        let newToolbar = Object.assign({}, toolbar, { id: ids.id });
+        if (isTargetSlide !== isOriginSlide) {
+            let config = Ediphy.Plugins.get(newToolbar.pluginId).getConfig();
+            if (isTargetSlide) {
+                // TODO width VS bwidth?
+                newToolbar.structure.width = parseFloat(config.initialWidthSlide || config.initialWidth) || "25";
+                newToolbar.structure.height = parseFloat(config.initialHeightSlide || config.initialHeight) || "auto";
+                newToolbar.structure.widthUnit = "%";
+                newToolbar.structure.heightUnit = "%";
+            } else {
+                newToolbar.structure.width = parseFloat(config.initialWidth) || "25";
+                newToolbar.structure.widthUnit = config.initialWidth.indexOf('px') !== -1 ? "px" : "%";
+                newToolbar.structure.height = parseFloat(config.initialHeight) || "auto";
+                newToolbar.structure.heightUnit = config.initialHeight.indexOf('px') !== -1 ? "px" : "%";
+
+            }
+        }
+        return newToolbar;
+
+    }
+
+    getIndex(parent, container) {
+        let newInd;
+        if(isSortableContainer(container)) {
+            let children = this.props.boxes[parent].sortableContainers[container].children;
+            newInd = children.indexOf(this.props.boxSelected) + 1;
+            newInd = newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
+        }
+        return newInd;
+    }
+
+    /**
+     * After component mounts
+     * Sets listeners
+     */
+    componentDidMount() {
+        document.addEventListener('copy', this.copyListener);
+        document.addEventListener('paste', this.pasteListener);
+        document.addEventListener('cut', this.cutListener);
+        document.addEventListener('keyup', this.duplicateListener);
+    }
+
+    /**
+     * Before component unmounts
+     * Unsets listeners
+     */
+    componentWillUnmount() {
+        document.removeEventListener('copy', this.copyListener);
+        document.removeEventListener('paste', this.pasteListener);
+        document.removeEventListener('cut', this.cutListener);
+        document.removeEventListener('keyup', this.duplicateListener);
+    }
+
+    /**
+     * Renders React Component
+     */
+    render() {
+        let childrenWithProps = React.Children.map(this.props.children, (child) =>{
+            if (React.isValidElement(child) && child.props.name === "duplicate") {
+                return React.cloneElement(child, { onClick: this.duplicateBox });
+            }
+            if (React.isValidElement(child) && child.props.name === "copy") {
+                return React.cloneElement(child, { onClick: this.copyButtonListener });
+            }
+            return child;
+        });
+        return [this.state.alert, ...(childrenWithProps || []),
+
+        ];
+    }
+
+}
+Clipboard.propTypes = {
+    /**
+     * Paste box function
+     */
+    onBoxPasted: PropTypes.func.isRequired,
+    /**
+     * Delete box function
+     */
+    onBoxDeleted: PropTypes.func.isRequired,
+    /**
+      * Selected box
+      */
+    boxSelected: PropTypes.any,
+    /**
+      * Object that contains the toolbars
+      */
+    toolbars: PropTypes.object,
+    /**
+      * Object containing all created boxes (by id)
+      */
+    boxes: PropTypes.object,
+    /**
+   * Current selected view (by ID)
+   */
+    navItemSelected: PropTypes.any,
+    /**
+   * Contained view selected
+   */
+    containedViewSelected: PropTypes.any,
+    /**
+   * Object that contains all the views
+   */
+    navItems: PropTypes.object,
+    /**
+   * Contained views dictionary (identified by its ID)
+   */
+    containedViews: PropTypes.any,
+    /**
+     * Children components
+     */
+    children: PropTypes.any,
+    /**
+     * Object containing all marks
+     */
+    marks: PropTypes.object,
+    /**
+     * Function for adding a new box
+     */
+    onBoxAdded: PropTypes.func.isRequired,
+    /**
+       * Object containing all exercises
+       */
+    exercises: PropTypes.object,
+};
+

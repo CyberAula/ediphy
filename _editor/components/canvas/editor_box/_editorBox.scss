@@ -19,7 +19,7 @@
 .boxStyle {
   position: relative;
   word-wrap: break-word;
-  overflow: visible;
+  overflow: hidden;
   pre, pre * {
     word-break: break-all !important;
     white-space: pre-wrap;
@@ -109,10 +109,12 @@
 .wholebox, .wholeboxvisor{
     display: inline-block;
     word-break: break-word;
-    // word-break: break-all;
     border: $boxborderwidth solid transparent;
     vertical-align:top;
     word-wrap: break-word;
+    .boxStyle{
+      overflow: visible;
+    }
 
 }
 
@@ -137,7 +139,7 @@
 .basicImageClass, .basicVideoClass{
   left :0px;
   top: 0px;
-  @include box-shadow(1px, 1px, 9px, #ccc, $inset: false);
+  //@include box-shadow(1px, 1px, 9px, #ccc, $inset: false);
 }
 .automaticallySizedBox .basicImageClass{
     position: relative;
@@ -151,3 +153,7 @@
 
 }
 
+
+#clone {
+  text-align: center;
+}

@@ -12,7 +12,6 @@ function getFiles(filePath) {
                 getFiles(subpath);
             } else if (path.extname(file) && path.extname(file) === '.jsx') {
                 if(file !== 'Content.jsx') {
-                    console.log('   ...' + file);
                     files.push({ name: path.basename(file, path.extname(file)), path: filePath });
                 }
             }
@@ -23,6 +22,7 @@ function getFiles(filePath) {
 function writeModuleFile(modPath) {
     let content = "";
     files.map(fileObj=>{
+        // eslint-disable-next-line no-console
         console.log(fileObj);
         let newPath = fileObj.path.replace('doc\\src\\components', './components').replace('doc/src/components', './components').replace('.\\', '/') + '/';
         content += "export { default as " + fileObj.name + " } from '" + newPath + fileObj.name + "';\n";
@@ -31,10 +31,11 @@ function writeModuleFile(modPath) {
     fs.writeFileSync(modPath, content);
 }
 
+/* eslint-disable no-console */
 console.log('\nIMPORT CUSTOM COMPONENTS\n');
 console.log('Getting files from doc/src/components/...');
 getFiles(compPath);
 console.log('Exporting components in doc/src/components.es6');
 writeModuleFile('./doc/src/components.es6');
 console.log('\n\n\n');
-
+/* eslint-enable no-console */

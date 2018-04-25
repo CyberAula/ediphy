@@ -1,0 +1,81 @@
+@import "../../sass/general/_variables.scss";
+
+.multipleChoicePlugin {
+  padding: 10px;
+  .answerPlaceholder {
+    display: flex;
+    font-size: 24px;
+    margin: 5px 10px;
+    text-align: right;
+    color: $blueprimarydark;
+    padding: 0;
+    width: auto;
+    .answer_letter{
+      color: white;
+      background-color: #00ad9c;
+      border-radius: 15px;
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      line-height: 1.1em;
+      font-weight: 100;
+      text-transform: uppercase;
+      padding: 4px 0px;
+      font-size: 20px;
+    }
+    .radioQuiz {
+      transform: scale(1.3);
+      margin: 7px 10px 7px 15px;
+    }
+  }
+  .answerRow {
+    margin: 0;
+    .col-xs-10{
+      padding: 0;
+      width: 75%;
+    }
+    i{
+      margin: 7px -15px;
+      &.correct{
+        color: $detailgreen;
+      }
+      &.incorrect{
+        color: $lightred;
+      }
+    }
+  }
+  .exerciseScore {
+    display: none;
+    text-align: right;
+  }
+  &.attempted  .exerciseScore{
+    display: block;
+    color: $blueprimary;
+    font-size: 10px;
+  }
+
+  &.attempted.showFeedback .answerRow {
+    margin-top: 2px;
+    padding: 0;
+      &.correct {
+        background-color: $detailgreentransparent;
+      }
+
+      &.incorrect {
+        background-color: $lightredtransparent;
+      }
+  }
+  .feedbackRow {
+    padding: 10px 0;
+    margin:0;
+    .feedback {
+      background-color: $blueprimarytransparent;
+      color: $blueprimary;
+      margin:0;
+      padding:0;
+      border: 1px solid $blueprimary;
+      border-radius: 3px;
+    }
+  }
+}
+

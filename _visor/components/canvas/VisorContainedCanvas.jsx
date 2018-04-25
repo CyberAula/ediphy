@@ -6,7 +6,6 @@ import VisorCanvasSli from './VisorCanvasSli';
 import { CSSTransition } from 'react-transition-group';
 
 export default class VisorContainedCanvas extends Component {
-
     componentDidMount() {
 
     }
@@ -35,21 +34,20 @@ export default class VisorContainedCanvas extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.boxSelected !== -1) {
-            this.setState({ showTitle: false });
-        }
         document.getElementById('contained_maincontent').scrollTop = 0;
 
     }
 
     componentDidUpdate() {
-        window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+        if (window.MathJax) {
+            window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+        }
     }
 }
 
 VisorContainedCanvas.propTypes = {
     /**
-     * Diccionario que contiene todas las cajas
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
@@ -61,7 +59,7 @@ VisorContainedCanvas.propTypes = {
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -69,7 +67,7 @@ VisorContainedCanvas.propTypes = {
      */
     currentView: PropTypes.any,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
     /**
@@ -89,15 +87,16 @@ VisorContainedCanvas.propTypes = {
      */
     title: PropTypes.any,
     /**
-     * Diccionario que contiene todas las toolbars
+     * Diccionario que contiene todas las istas creadas , accesibles por su *id*
      */
-    toolbars: PropTypes.object,
+    viewToolbars: PropTypes.object.isRequired,
     /**
-     * Lista de marcas en curso o lanzadas
+     * Diccionario que contiene todos los valores de cajas, accesibles por su *id*
      */
-    triggeredMarks: PropTypes.array,
+    pluginToolbars: PropTypes.object.isRequired,
     /**
      *  Array de vistas
      */
     viewsArray: PropTypes.array,
+
 };

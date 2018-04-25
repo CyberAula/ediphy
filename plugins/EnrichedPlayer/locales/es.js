@@ -12,7 +12,7 @@ module.exports = {
         "box_style": "Estilo caja",
         "opacity": "Opacidad",
         "padding": "Padding",
-        "PluginName": "Reproductor enriquecido",
+        "PluginName": "Reproductor vídeo",
         "pos": "Momento",
         "radius": "Radio",
         "source": "Origen",

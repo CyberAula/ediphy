@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import VisorBox from './VisorBox';
-import { isAncestorOrSibling } from '../../../common/utils';
+import { isAncestorOrSibling, isSortableContainer } from '../../../common/utils';
+import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../common/constants';
 
 export default class VisorPluginPlaceholder extends Component {
+    idConvert(id) {
+        if (isSortableContainer(id)) {
+            return id;
+        }
+        return ID_PREFIX_SORTABLE_CONTAINER + id;
+
+    }
     render() {
-        let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
-        let className = "drg" + this.props.pluginContainer;
+        let idContainer = this.idConvert(this.props.pluginContainer);
+        let container = this.props.parentBox.sortableContainers[idContainer];
+        let className = "drg" + this.props.idContainer;
         if(this.props.boxLevelSelected - this.props.parentBox.level === 1 &&
            isAncestorOrSibling(this.props.parentBox.id, this.props.boxSelected, this.props.boxes)) {
             className += " childBoxSelected";
@@ -24,7 +33,7 @@ export default class VisorPluginPlaceholder extends Component {
                     display: 'table',
                 }, container.style)
             }
-            id={this.props.pluginContainer}
+            id={idContainer}
             className={className}>
                 {container.colDistribution.map((col, i) => {
                     if (container.cols[i]) {
@@ -40,8 +49,11 @@ export default class VisorPluginPlaceholder extends Component {
                                                 key={index}
                                                 boxes={this.props.boxes}
                                                 changeCurrentView={this.props.changeCurrentView}
-                                                currentViewSelected={this.props.currentViewSelected}
+                                                currentView={this.props.currentView}
                                                 toolbars={this.props.toolbars}
+                                                fromScorm={this.props.fromScorm}
+                                                marks={this.props.allMarks}
+                                                onMarkClicked={this.props.onMarkClicked}
                                                 richElementsState={this.props.richElementsState}/>);
 
                                         } else if (index === container.children.length - 1) {
@@ -64,29 +76,33 @@ export default class VisorPluginPlaceholder extends Component {
 
 VisorPluginPlaceholder.propTypes = {
     /**
-     * Identificador del contenedor de plugins
-     */
-    pluginContainer: PropTypes.string.isRequired,
+   * Plugins container name
+   */
+    pluginContainer: PropTypes.string,
     /**
-     * Indica si se puede redimensionar el contenedor
-     */
-    resizable: PropTypes.bool,
+   * Unique identifier of the parent box
+   */
+    parentBox: PropTypes.any,
     /**
-     * Identificador de la caja
-     */
-    parentBox: PropTypes.string.isRequired,
+   * Object containing all created boxes (by id)
+   */
+    boxes: PropTypes.object,
     /**
-     * Diccionario que contiene todas las cajas
+   * Selected box
+   */
+    boxSelected: PropTypes.any,
+    /**
+      * Box level selected
      */
-    boxes: PropTypes.object.isRequired,
+    boxLevelSelected: PropTypes.any,
     /**
      * Cambia la vista actual
      */
-    changeCurrentView: PropTypes.func.isRequired,
+    changeCurrentView: PropTypes.func,
     /**
-     * Vista actual
+     * Whether the app is in SCORM mode or not
      */
-    currentView: PropTypes.any,
+    fromScorm: PropTypes.bool,
     /**
      * Diccionario que contiene todas las toolbars
      */
@@ -95,4 +111,20 @@ VisorPluginPlaceholder.propTypes = {
      * Estado del plugin enriquecido en la transición
      */
     richElementsState: PropTypes.object,
+    /**
+   * Container id
+   */
+    idContainer: PropTypes.string,
+    /**
+   * Selected view
+   */
+    currentView: PropTypes.string,
+    /**
+    * All marks
+    */
+    allMarks: PropTypes.object,
+    /**
+     * Function that triggers a mark
+     */
+    onMarkClicked: PropTypes.func,
 };

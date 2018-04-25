@@ -1,10 +1,14 @@
 import helper from './test_helper';
 import reducer from '../box_selected';
-import { ADD_BOX, ADD_NAV_ITEM, DELETE_BOX, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX, DELETE_NAV_ITEM, SELECT_BOX, SELECT_CONTAINED_VIEW, SELECT_NAV_ITEM, IMPORT_STATE } from '../../common/actions';
+
+import {
+    ADD_BOX, ADD_NAV_ITEM, DELETE_BOX, DELETE_SORTABLE_CONTAINER, DELETE_NAV_ITEM, SELECT_BOX,
+    SELECT_CONTAINED_VIEW, SELECT_NAV_ITEM, IMPORT_STATE, PASTE_BOX,
+} from '../../common/actions';
 
 let reducerHelper = helper(undefined, reducer);
 
-describe('box_selected reducer', () => {
+describe('# box_selected reducer', () => {
 
     beforeAll(() => {
         reducerHelper.clean();
@@ -75,14 +79,6 @@ describe('box_selected reducer', () => {
         });
     });
 
-    describe('handle DUPLICATE_BOX', () => {
-        test('return the new id', () => {
-            let id = reducerHelper.getRandomInt(10000, 100000);
-            reducerHelper.call({ type: DUPLICATE_BOX, payload: { newId: id } });
-            expect(reducerHelper.state).toEqual(reducerHelper.getBox(id));
-        });
-    });
-
     describe('handle DELETE_NAV_ITEM', () => {
         test('always return -1', () => {
             reducerHelper.call({ type: DELETE_BOX, payload: { id: reducerHelper.getBox(), parent: reducerHelper.getSortableBox(), container: reducerHelper.getContainedView() } });
@@ -114,7 +110,17 @@ describe('box_selected reducer', () => {
             expect(reducerHelper.state).toEqual(-1);
         });
     });
-
+    describe('handle PASTE_BOX', () => {
+        test('return the id of the box', () => {
+            const ids = {
+                "id": "bo-1511868565135",
+                "parent": "cv-1511252975055",
+                "container": 0 };
+            let action = { type: PASTE_BOX, payload: { ids, box: {}, toolbar: {} } };
+            reducerHelper.call(action);
+            expect(reducerHelper.state).toEqual(action.payload.ids.id);
+        });
+    });
     describe('handle IMPORT_STATE', () => {
         test('return the present box', () => {
             let randomBox = reducerHelper.getBox();

@@ -1,66 +1,61 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ActionCreators } from 'redux-undo';
 import { Grid, Col, Row } from 'react-bootstrap';
-import { addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
-    changeNavItemName, changeUnitNumber, selectIndex,
-    addBox, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
-    resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
-    toggleTextEditor, toggleTitleMode,
-    changeDisplayMode, updateToolbar,
+import {
+    addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
+    addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
+    resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeBackground, changeSortableProps,
+    reorderBoxes, verticallyAlignBox, selectIndex,
+    toggleTextEditor, toggleTitleMode, pasteBox, changeBoxLayer,
+    changeDisplayMode, configScore,
     exportStateAsync, importStateAsync, importState, changeGlobalConfig,
-    fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
+    uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
-    addRichMark, editRichMark, deleteRichMark,
-    ADD_BOX, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR } from '../../common/actions';
-import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../common/constants';
+    addRichMark, editRichMark, moveRichMark, deleteRichMark, setCorrectAnswer,
+    updateViewToolbar, updatePluginToolbar,
+    addNavItems, uploadEdiphyResourceAsync,
+} from '../../common/actions';
 import EditorCanvas from '../components/canvas/editor_canvas/EditorCanvas';
 import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
-import EditorCarousel from '../components/carrousel/editor_carrousel/EditorCarousel';
+import EditorCarousel from '../components/carousel/editor_carousel/EditorCarousel';
 import PluginConfigModal from '../components/plugin_config_modal/PluginConfigModal';
-import XMLConfigModal from '../components/xml_config_modal/XMLConfigModal';
-import PluginToolbar from '../components/toolbar/plugin_toolbar/PluginToolbar';
 import Visor from '../../_visor/containers/Visor';
-import ExternalCatalogModal from '../components/external_provider/ExternalCatalogModal';
 import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
+import ActionsRibbon from '../components/nav_bar/actions_ribbon/ActionsRibbon';
 import EditorNavBar from '../components/nav_bar/editor_nav_bar/EditorNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
+import Toolbar from '../components/toolbar/toolbar/Toolbar';
 import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
 import AutoSave from '../components/autosave/AutoSave';
 import Alert from '../components/common/alert/Alert';
+import ToggleSwitch from '@trendmicro/react-toggle-switch';
 import i18n from 'i18next';
+import { parsePluginContainers, parsePluginContainersReact, hasExerciseBox } from '../../common/plugins_inside_plugins';
 import Ediphy from '../../core/editor/main';
-import { isSortableBox, isSection, isContainedView, isSortableContainer } from '../../common/utils';
+import printToPDF from '../../core/editor/print';
+import {
+    isSortableBox, isSection, isContainedView,
+    getDescendantLinkedBoxes, isBox,
+} from '../../common/utils';
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
+import PropTypes from 'prop-types';
+import { ID_PREFIX_BOX } from '../../common/constants';
+import { createBox } from '../../common/common_tools';
+import FileModal from '../components/external_provider/file_modal/FileModal';
 
 /**
  * EditorApp. Main application component that renders everything else
  */
 class EditorApp extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
     constructor(props) {
         super(props);
-        /**
-         * Plugin index. It means that it will start in the first category available (text)
-         * @type {number}
-         */
         this.index = 0;
-        /**
-         * @TODO Comment
-         * @type {number}
-         */
         this.severalBoxes = 0;
-        /**
-         * Component's initial state
-         * @type {{alert: null, pluginTab: string, hideTab: string, visorVisible: boolean, xmlEditorVisible: boolean, richMarksVisible: boolean, markCreatorVisible: boolean, containedViewsVisible: boolean, currentRichMark: null, carouselShow: boolean, carouselFull: boolean, serverModal: boolean, catalogModal: boolean, lastAction: string}}
-         */
         this.state = {
             alert: null,
-            pluginTab: 'text',
+            pluginTab: '',
             hideTab: 'show',
             visorVisible: false,
             xmlEditorVisible: false,
@@ -73,55 +68,76 @@ class EditorApp extends Component {
             serverModal: false,
             catalogModal: false,
             lastAction: "",
+            grid: false,
+            pluginConfigModal: false,
+            accordions: {},
+            showFileUpload: "*",
+            fileModalResult: { id: undefined, value: undefined },
         };
+        this.onTextEditorToggled = this.onTextEditorToggled.bind(this);
+        this.onRichMarkUpdated = this.onRichMarkUpdated.bind(this);
+        this.toolbarUpdated = this.toolbarUpdated.bind(this);
+        this.onBoxDeleted = this.onBoxDeleted.bind(this);
+        this.onSortableContainerDeleted = this.onSortableContainerDeleted.bind(this);
     }
 
-    /**
-     * Renders React Component
-     * @returns {code}
-     */
     render() {
-        const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
-            containedViews, containedViewSelected, imagesUploaded, indexSelected,
-            undoDisabled, redoDisabled, displayMode, isBusy, toolbars, globalConfig, fetchVishResults } = this.props;
-        let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 47;
+        const { dispatch, boxes, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
+            containedViews, containedViewSelected, filesUploaded, indexSelected, exercises,
+            undoDisabled, redoDisabled, displayMode, isBusy, pluginToolbars, viewToolbars, marks, lastActionDispatched, globalConfig } = this.props;
+        let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
         let canvasRatio = globalConfig.canvasRatio;
+        let disabled = (navItemSelected === 0 && containedViewSelected === 0) || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
         return (
-            <Grid id="app" fluid style={{ height: '100%' }}>
+            <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }}>
                 <Row className="navBar">
                     {this.state.alert}
-                    <EditorNavBar hideTab={this.state.hideTab}
+                    <EditorNavBar hideTab={this.state.hideTab} boxes={boxes}
+                        onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                         globalConfig={globalConfig}
-                        changeGlobalConfig={(prop, value) => {this.dispatchAndSetState(changeGlobalConfig(prop, value));}}
+                        changeGlobalConfig={(prop, value) => {dispatch(changeGlobalConfig(prop, value));}}
+                        onIndexSelected={(id) => dispatch(selectIndex(id))}
+                        onNavItemSelected={id => dispatch(selectNavItem(id))}
+                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
+                        onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
+                        onToolbarUpdated={this.onToolbarUpdated}
+                        onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
                         undoDisabled={undoDisabled}
                         redoDisabled={redoDisabled}
                         navItemsIds={navItemsIds}
                         navItems={navItems}
-                        onTitleChanged={(id, titleStr) => {this.dispatchAndSetState(changeGlobalConfig('title', titleStr));}}
+                        containedViews={containedViews}
                         containedViewSelected={containedViewSelected}
                         navItemSelected={navItemSelected}
                         boxSelected={boxSelected}
-                        onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
-                        undo={() => {this.dispatchAndSetState(ActionCreators.undo());}}
-                        redo={() => {this.dispatchAndSetState(ActionCreators.redo());}}
+                        undo={() => {dispatch(ActionCreators.undo());}}
+                        redo={() => {dispatch(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
-                        export={() => {Ediphy.Visor.exports(this.props.store.getState().present);}}
-                        scorm={() => {Ediphy.Visor.exportScorm(this.props.store.getState().present);}}
-                        save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present })); }}
+                        export={(format, callback) => {
+                            if(format === "PDF") {
+                                printToPDF(this.props.store.getState().present, callback);
+                            } else {
+                                Ediphy.Visor.exportsHTML(this.props.store.getState().present, callback);
+                            }}}
+                        scorm={(is2004, callback) => {Ediphy.Visor.exportScorm(this.props.store.getState().present, is2004, callback);}}
+                        save={() => {dispatch(exportStateAsync({ present: this.props.store.getState().present })); }}
                         category={this.state.pluginTab}
-                        opens={() => {this.dispatchAndSetState(importStateAsync());}}
+                        opens={() => {dispatch(importStateAsync());}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
+                        toggleFileUpload={()=>{this.setState({ showFileUpload: "*", fileModalResult: { id: undefined, value: undefined } });}}
                         onExternalCatalogToggled={() => this.setState({ catalogModal: true })}
                         setcat={(category) => {this.setState({ pluginTab: category, hideTab: 'show' });}}/>
                     {Ediphy.Config.autosave_time > 1000 &&
-                    <AutoSave save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present }));}}
+                    <AutoSave save={() => {dispatch(exportStateAsync({ present: this.props.store.getState().present }));}}
                         isBusy={isBusy}
-                        lastAction={this.state.lastAction}
+                        lastAction={lastActionDispatched}
                         visorVisible={this.state.visorVisible}/>})
                 </Row>
                 <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
                     <EditorCarousel boxes={boxes}
+                        globalConfig={globalConfig}
+                        onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig(id, titleStr));}}
                         title={title}
                         containedViews={containedViews}
                         containedViewSelected={containedViewSelected}
@@ -130,10 +146,11 @@ class EditorApp extends Component {
                         navItems={navItems}
                         navItemSelected={navItemSelected}
                         displayMode={displayMode}
-                        onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
-                        onIndexSelected={(id) => this.dispatchAndSetState(selectIndex(id))}
-                        onContainedViewNameChanged={(id, titleStr) => this.dispatchAndSetState(changeContainedViewName(id, titleStr))}
-                        onContainedViewSelected={ (id) => this.dispatchAndSetState(selectContainedView(id)) }
+                        viewToolbars={viewToolbars}
+                        onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
+                        onIndexSelected={(id) => dispatch(selectIndex(id))}
+                        onContainedViewNameChanged={(id, titleStr) => dispatch(updateViewToolbar(id, titleStr))}
+                        onContainedViewSelected={ (id) => dispatch(selectContainedView(id)) }
                         onContainedViewDeleted={(cvid)=>{
                             let boxesRemoving = [];
                             containedViews[cvid].boxes.map(boxId => {
@@ -141,22 +158,12 @@ class EditorApp extends Component {
                                 boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
                             });
 
-                            this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
-
-                            Object.keys(containedViews[cvid].parent).forEach((el)=>{
-                                if (toolbars[el] && toolbars[el].state && toolbars[el].state.__marks) {
-                                    Ediphy.Plugins.get(toolbars[el].config.name).forceUpdate(
-                                        toolbars[el].state,
-                                        el,
-                                        DELETE_CONTAINED_VIEW
-                                    );
-                                }
-                            });
+                            dispatch(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
                         }}
-                        onNavItemNameChanged={(id, titleStr) => this.dispatchAndSetState(changeNavItemName(id, titleStr))}
-                        onNavItemAdded={(id, name, parent, type, position) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content))))}
-                        onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
-                        onNavItemExpanded={(id, value) => this.dispatchAndSetState(expandNavItem(id, value))}
+                        onNavItemNameChanged={(id, titleStr) => dispatch(updateViewToolbar(id, titleStr))}
+                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
+                        onNavItemSelected={id => dispatch(selectNavItem(id))}
+                        onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
                         onNavItemDeleted={(navsel) => {
                             let viewRemoving = [navsel].concat(this.getDescendantViews(navItems[navsel]));
                             let boxesRemoving = [];
@@ -165,15 +172,15 @@ class EditorApp extends Component {
                                 navItems[id].boxes.map(boxId => {
                                     boxesRemoving.push(boxId);
                                     boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
-                                    // containedRemoving = containedRemoving.concat(this.getDescendantContainedViews(boxes[boxId]));
                                 });
                             });
-                            let marksRemoving = this.getDescendantLinkedBoxes(viewRemoving, navItems) || [];
-                            this.dispatchAndSetState(deleteNavItem(viewRemoving, navItems[navsel].parent, boxesRemoving, containedRemoving, marksRemoving));
+                            let marksRemoving = getDescendantLinkedBoxes(viewRemoving, navItems) || [];
+                            dispatch(deleteNavItem(viewRemoving, navItems[navsel].parent, boxesRemoving, containedRemoving, marksRemoving));
                         }}
-                        onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => this.dispatchAndSetState(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
-                        onDisplayModeChanged={mode => this.dispatchAndSetState(changeDisplayMode(mode))}
+                        onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => dispatch(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
+                        onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))}
                         containedViewsVisible={this.state.containedViewsVisible}
+                        onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
                         onContainedViewsExpand={()=>{
                             this.setState({ containedViewsVisible: !this.state.containedViewsVisible });
                         }}
@@ -197,121 +204,150 @@ class EditorApp extends Component {
                     <Col id="colRight" xs={12}
                         style={{ height: (this.state.carouselFull ? 0 : '100%'),
                             width: (this.state.carouselShow ? 'calc(100% - 212px)' : 'calc(100% - 80px)') }}>
-                        <Row id="ribbonRow">
-                            <PluginRibbon disabled={navItemSelected === 0 || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected)) || this.hasExerciseBox(navItemSelected, navItems, this.state, boxes)} // ADD condition navItemSelected There are extrafiles
+                        <Row id="actionsRibbon">
+                            <ActionsRibbon onGridToggle={()=> {this.setState({ grid: !this.state.grid });}}
+                                grid={this.state.grid}
+                                onBoxLayerChanged={(id, parent, container, value, boxes_array) => dispatch(changeBoxLayer(id, parent, container, value, boxes_array))}
+                                navItemSelected={navItemSelected}
+                                containedViewSelected={containedViewSelected}
+                                boxSelected={boxSelected}
+                                boxes={boxes}
+                                navItems={navItems}
+                                marks={marks}
+                                exercises={exercises}
+                                containedViews={containedViews}
+                                pluginToolbars={pluginToolbars}
+                                onBoxPasted={(ids, box, toolbar, children, index, markList, score)=>dispatch(pasteBox(ids, box, toolbar, children, index, markList, score))}
+                                onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
+                                onBoxDeleted={this.onBoxDeleted}
+                                ribbonHeight={ribbonHeight + 'px'}/>
+                        </Row>
+
+                        <Row id="ribbonRow" style={{ top: '-1px', left: (this.state.carouselShow ? '15px' : '147px') }}>
+                            <PluginRibbon disabled={disabled}
                                 boxSelected={boxes[boxSelected]}
                                 navItemSelected={navItems[navItemSelected]}
-                                containedViewSelected={containedViewSelected}
+                                navItems={navItems}
+                                onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
+                                containedViewSelected={containedViews[containedViewSelected] || containedViewSelected }
                                 category={this.state.pluginTab}
                                 hideTab={this.state.hideTab}
+                                boxes={boxes}
                                 ribbonHeight={ribbonHeight + 'px'} />
                         </Row>
                         <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
                             <EditorCanvas boxes={boxes}
+                                accordions={this.state.accordions}
+                                grid={this.state.grid}
                                 canvasRatio={canvasRatio}
                                 boxSelected={boxSelected}
                                 boxLevelSelected={boxLevelSelected}
+                                marks={marks}
                                 navItems={navItems}
                                 navItemSelected={navItems[navItemSelected]}
                                 containedViews={containedViews}
                                 containedViewSelected={containedViews[containedViewSelected] || 0}
                                 showCanvas={(navItemSelected !== 0)}
-                                toolbars={toolbars}
+                                pluginToolbars={pluginToolbars}
+                                viewToolbars={viewToolbars}
                                 title={title}
+                                onToolbarUpdated={this.toolbarUpdated}
+                                onRichMarkMoved={(mark, value)=>dispatch(moveRichMark(mark, value))}
                                 markCreatorId={this.state.markCreatorVisible}
-                                onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
+                                onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
+                                setCorrectAnswer={(id, correctAnswer, page) => { dispatch(setCorrectAnswer(id, correctAnswer, page));}}
                                 addMarkShortcut= {(mark) => {
                                     let state = JSON.parse(JSON.stringify(toolbars[boxSelected].state));
                                     state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
                                     if(mark.connection.id) {
                                         state.__marks[mark.id].connection = mark.connection.id;
                                     }
-                                    this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
+                                    dispatch(addRichMark(boxSelected, mark, state));
                                 }}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
-                                lastActionDispatched={this.state.lastAction}
-                                onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id))}
-                                onBoxLevelIncreased={() => this.dispatchAndSetState(increaseBoxLevel())}
-                                onBoxMoved={(id, x, y, position, parent, container) => this.dispatchAndSetState(moveBox(id, x, y, position, parent, container))}
-                                onBoxResized={(id, widthButton, heightButton) => this.dispatchAndSetState(resizeBox(id, widthButton, heightButton))}
-                                onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
-                                onSortableContainerDeleted={(id, parent) => {
-                                    let descBoxes = this.getDescendantBoxesFromContainer(boxes[parent], id);
-                                    let cvs = { };
-                                    for (let b in descBoxes) {
-                                        let box = boxes[descBoxes[b]];
-                                        for (let cv in box.containedViews) {
-                                            if (!cvs[box.containedViews[cv]]) {
-                                                cvs[box.containedViews[cv]] = [box.id];
-                                            } else if (cvs[containedViews[cv]].indexOf(box.id) === -1) {
-                                                cvs[box.containedViews[cv]].push(box.id);
-                                            }
-                                        }
+                                exercises={exercises}
+                                openConfigModal={(id)=>{ this.setState({ pluginConfigModal: id }); } }
+                                lastActionDispatched={lastActionDispatched}
+                                onBoxSelected={(id) => dispatch(selectBox(id, boxes[id]))}
+                                onBoxLevelIncreased={() => dispatch(increaseBoxLevel())}
+                                onBoxMoved={(id, x, y, position, parent, container) => dispatch(moveBox(id, x, y, position, parent, container))}
+                                onBoxResized={(id, structure) => dispatch(resizeBox(id, structure))}
+                                onSortableContainerResized={(id, parent, height) => dispatch(resizeSortableContainer(id, parent, height))}
+                                onSortableContainerDeleted={(id, parent) => this.onSortableContainerDeleted(id, parent)}
+                                moveRichMark={(id, value)=> dispatch(moveRichMark(id, value))}
+                                onSortableContainerReordered={(ids, parent) => dispatch(reorderSortableContainer(ids, parent))}
+                                onBoxDropped={(id, row, col, parent, container, oldParent, oldContainer, position, index) => dispatch(dropBox(id, row, col, parent, container, oldParent, oldContainer, position, index))}
+                                onBoxDeleted={this.onBoxDeleted}
+                                onContainedViewSelected={id => dispatch(selectContainedView(id))}
+                                onVerticallyAlignBox={(id, verticalAlign)=>dispatch(verticallyAlignBox(id, verticalAlign))}
+                                onTextEditorToggled={this.onTextEditorToggled}
+                                onBoxesInsideSortableReorder={(parent, container, order) => {dispatch(reorderBoxes(parent, container, order));}}
+                                titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}
+                                onRichMarksModalToggled={(value) => {
+                                    this.setState({ richMarksVisible: !this.state.richMarksVisible, markCursorValue: value });
+                                    if(this.state.richMarksVisible) {
+                                        this.setState({ currentRichMark: null, value: null });
                                     }
-                                    this.dispatchAndSetState(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/));
                                 }}
-                                onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
-                                onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
-                                onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
-                                onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
-                                onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
-                                onUnitNumberChanged={(id, value) => this.dispatchAndSetState(changeUnitNumber(id, value))}
-                                onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
-                                onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order));}}
-                                titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
+                                onViewTitleChanged={(id, titles)=>{dispatch(updateViewToolbar(id, titles));}}
+                                onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}/>
                             <ContainedCanvas boxes={boxes}
+                                accordions={this.state.accordions}
+                                grid={this.state.grid}
                                 boxSelected={boxSelected}
                                 canvasRatio={canvasRatio}
+                                marks={marks}
+                                onToolbarUpdated={this.toolbarUpdated}
+                                exercises={exercises}
                                 boxLevelSelected={boxLevelSelected}
                                 navItems={navItems}
                                 navItemSelected={navItems[navItemSelected]}
                                 containedViews={containedViews}
+                                setCorrectAnswer={(id, correctAnswer, page) => { dispatch(setCorrectAnswer(id, correctAnswer, page));}}
                                 containedViewSelected={containedViews[containedViewSelected] || 0}
                                 markCreatorId={this.state.markCreatorVisible}
+                                openConfigModal={(id)=>{ this.setState({ pluginConfigModal: id }); } }
                                 addMarkShortcut= {(mark) => {
-                                    let toolbar = toolbars[boxSelected];
+                                    let toolbar = pluginToolbars[boxSelected];
                                     let state = JSON.parse(JSON.stringify(toolbar.state));
                                     state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
                                     if(mark.connection.id) {
                                         state.__marks[mark.id].connection = mark.connection.id;
                                     }
-                                    this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
+                                    dispatch(addRichMark(boxSelected, mark, state));
                                 }}
-                                onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
+                                onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
                                 title={title}
-                                toolbars={toolbars}
-                                titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
-                                lastActionDispatched={this.state.lastAction}
-                                onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
-                                onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id))}
-                                onBoxLevelIncreased={() => this.dispatchAndSetState(increaseBoxLevel())}
-                                onBoxMoved={(id, x, y, position, parent, container) => this.dispatchAndSetState(moveBox(id, x, y, position, parent, container))}
-                                onBoxResized={(id, widthButton, heightButton) => this.dispatchAndSetState(resizeBox(id, widthButton, heightButton))}
-                                onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
-                                onSortableContainerDeleted={(id, parent) => {
-                                    let descBoxes = this.getDescendantBoxesFromContainer(boxes[parent], id);
-                                    let cvs = {};
-                                    for (let b in descBoxes) {
-                                        let box = boxes[descBoxes[b]];
-                                        for (let cv in box.containedViews) {
-                                            if (!cvs[box.containedViews[cv]]) {
-                                                cvs[box.containedViews[cv]] = [box.id];
-                                            } else if (cvs[containedViews[cv]].indexOf(box.id) === -1) {
-                                                cvs[box.containedViews[cv]].push(box.id);
-                                            }
-                                        }
+                                onRichMarksModalToggled={(value) => {
+                                    this.setState({ richMarksVisible: !this.state.richMarksVisible, markCursorValue: value });
+                                    if(this.state.richMarksVisible) {
+                                        this.setState({ currentRichMark: null, value: null });
                                     }
-                                    this.dispatchAndSetState(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/));
                                 }}
-                                onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
-                                onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
-                                onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
+                                pluginToolbars={pluginToolbars}
+                                onRichMarkMoved={(mark, value)=>dispatch(moveRichMark(mark, value))}
+                                viewToolbars={viewToolbars}
+                                moveRichMark={(id, value)=> dispatch(moveRichMark(id, value))}
+                                titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}
+                                lastActionDispatched={lastActionDispatched}
+                                onContainedViewSelected={id => dispatch(selectContainedView(id))}
+                                onBoxSelected={(id) => dispatch(selectBox(id, boxes[id]))}
+                                onBoxLevelIncreased={() => dispatch(increaseBoxLevel())}
+                                onBoxMoved={(id, x, y, position, parent, container) => dispatch(moveBox(id, x, y, position, parent, container))}
+                                onBoxResized={(id, structure) => dispatch(resizeBox(id, structure))}
+                                onSortableContainerResized={(id, parent, height) => dispatch(resizeSortableContainer(id, parent, height))}
+                                onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
+                                onSortableContainerReordered={(ids, parent) => dispatch(reorderSortableContainer(ids, parent))}
+                                onBoxDropped={(id, row, col, parent, container, oldParent, oldContainer, position, index) => dispatch(dropBox(id, row, col, parent, container, oldParent, oldContainer, position, index))}
+                                onBoxDeleted={this.onBoxDeleted}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}
-                                onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
-                                onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
-                                onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order));}}
+                                onVerticallyAlignBox={(id, verticalAlign)=>dispatch(verticallyAlignBox(id, verticalAlign))}
+                                onViewTitleChanged={(id, titles)=>{dispatch(updateViewToolbar(id, titles));}}
+                                onTextEditorToggled={this.onTextEditorToggled}
+                                onBoxesInsideSortableReorder={(parent, container, order) => {dispatch(reorderBoxes(parent, container, order));}}
+                                onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
                                 showCanvas={(containedViewSelected !== 0)}/>
                         </Row>
                     </Col>
@@ -325,94 +361,78 @@ class EditorApp extends Component {
                     visorVisible={this.state.visorVisible}
                     onVisibilityToggled={()=> this.setState({ visorVisible: !this.state.visorVisible })}
                     state={this.props.store.getState().present}/>
-                <PluginConfigModal />
-                <XMLConfigModal id={boxSelected}
-                    toolbar={toolbars[boxSelected]}
-                    visible={this.state.xmlEditorVisible}
-                    onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}/>
+                <PluginConfigModal
+                    id={this.state.pluginConfigModal}
+                    fileModalResult={this.state.fileModalResult}
+                    openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept });}}
+                    name={pluginToolbars[this.state.pluginConfigModal] ? pluginToolbars[this.state.pluginConfigModal].pluginId : ""}
+                    state={pluginToolbars[this.state.pluginConfigModal] ? pluginToolbars[this.state.pluginConfigModal].state : {}}
+                    closeConfigModal={()=>{ this.setState({ pluginConfigModal: false }); } }
+                    updatePluginToolbar={(id, state) => dispatch(updateBox(id, "", pluginToolbars[this.state.pluginConfigModal], state))}
+                />
                 {Ediphy.Config.external_providers.enable_catalog_modal &&
-                <ExternalCatalogModal images={imagesUploaded}
+                <ExternalCatalogModal images={filesUploaded}
                     visible={this.state.catalogModal}
                     onExternalCatalogToggled={() => this.setState({ catalogModal: !this.state.catalogModal })}/>}
                 <RichMarksModal boxSelected={boxSelected}
-                    pluginToolbar={toolbars[boxSelected]}
+                    accordions={this.state.accordions}
+                    pluginToolbar={pluginToolbars[boxSelected]}
                     navItemSelected={navItemSelected}
-                    toolbars={toolbars}
+                    pluginToolbars={pluginToolbars}
+                    viewToolbars={viewToolbars}
+                    markCursorValue={this.state.markCursorValue}
                     containedViewSelected={containedViewSelected}
                     containedViews={containedViews}
+                    marks={marks}
                     navItems={navItems}
                     navItemsIds={navItemsIds}
                     visible={this.state.richMarksVisible}
                     currentRichMark={this.state.currentRichMark}
-                    defaultValueMark={toolbars[boxSelected] && toolbars[boxSelected].config && Ediphy.Plugins.get(toolbars[boxSelected].config.name) ? Ediphy.Plugins.get(toolbars[boxSelected].config.name).getConfig().defaultMarkValue : 0}
-                    validateValueInput={toolbars[boxSelected] && toolbars[boxSelected].config && Ediphy.Plugins.get(toolbars[boxSelected].config.name) ? Ediphy.Plugins.get(toolbars[boxSelected].config.name).validateValueInput : null}
-                    onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
-                    onRichMarkUpdated={(mark, createNew) => {
-                        let toolbar = toolbars[boxSelected];
-                        let state = JSON.parse(JSON.stringify(toolbar.state));
-                        let oldConnection = state.__marks[mark.id] ? state.__marks[mark.id].connection : 0;
-                        state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
-                        let newConnection = mark.connection;
-                        if (mark.connection.id) {
-                            newConnection = mark.connection.id;
-                            state.__marks[mark.id].connection = mark.connection.id;
-                        }
-
-                        if (!this.state.currentRichMark && createNew) {
-                            this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
-                        } else {
-                            this.dispatchAndSetState(editRichMark(boxSelected, state, mark, oldConnection, newConnection));
-                        }
-
-                    }}
+                    defaultValueMark={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).getConfig().defaultMarkValue : 0}
+                    validateValueInput={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).validateValueInput : null}
+                    onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
+                    onRichMarkAdded={(mark, view, viewToolbar)=> dispatch(addRichMark(mark, view, viewToolbar))}
+                    onRichMarkUpdated={(mark, view, viewToolbar) => dispatch(editRichMark(mark, view, viewToolbar))}
                     onRichMarksModalToggled={() => {
                         this.setState({ richMarksVisible: !this.state.richMarksVisible });
                         if(this.state.richMarksVisible) {
-                            this.setState({ currentRichMark: null });
+                            this.setState({ currentRichMark: null, markCursorValue: null });
                         }
                     }}/>
-                <PluginToolbar top={(60 + ribbonHeight) + 'px'}
-                    toolbars={toolbars}
+                <Toolbar top={(60 + ribbonHeight) + 'px'}
+                    accordions={this.state.accordions}
+                    pluginToolbars={pluginToolbars}
+                    openConfigModal={(id)=>{ this.setState({ pluginConfigModal: id }); } }
+                    viewToolbars={viewToolbars}
                     box={boxes[boxSelected]}
                     boxSelected={boxSelected}
                     containedViews={containedViews}
+                    containedViewSelected={containedViewSelected}
                     navItemSelected={containedViewSelected !== 0 ? containedViewSelected : navItemSelected}
                     navItems={containedViewSelected !== 0 ? containedViews : navItems}
                     carouselShow={this.state.carouselShow}
                     isBusy={isBusy}
-                    fetchResults={fetchVishResults}
-                    titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
-                    onContainedViewNameChanged={(id, titleStr) => this.dispatchAndSetState(changeContainedViewName(id, titleStr))}
-                    onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(navItemSelected)) }
-                    onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
-                    onNavItemNameChanged={(id, titleStr) => this.dispatchAndSetState(changeNavItemName(id, titleStr))}
-                    onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
-                    onColsChanged={(id, parent, distribution, boxesAffected) => this.dispatchAndSetState(changeCols(id, parent, distribution, boxesAffected))}
-                    onRowsChanged={(id, parent, column, distribution, boxesAffected) => this.dispatchAndSetState(changeRows(id, parent, column, distribution, boxesAffected))}
-                    onBoxResized={(id, widthButton, heightButton) => this.dispatchAndSetState(resizeBox(id, widthButton, heightButton))}
-                    onBoxMoved={(id, x, y, position, parent, container) => this.dispatchAndSetState(moveBox(id, x, y, position, parent, container))}
-                    onVerticallyAlignBox={(id, verticalAlign) => this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
-                    onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
-                    onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
-                    onSortableContainerDeleted={(id, parent) => {
-                        let descBoxes = this.getDescendantBoxesFromContainer(boxes[parent], id);
-                        let cvs = { };
-                        for (let b in descBoxes) {
-                            let box = boxes[descBoxes[b]];
-                            for (let cv in box.containedViews) {
-                                if (!cvs[box.containedViews[cv]]) {
-                                    cvs[box.containedViews[cv]] = [box.id];
-                                } else if (cvs[containedViews[cv]].indexOf(box.id) === -1) {
-                                    cvs[box.containedViews[cv]].push(box.id);
-                                }
-                            }
-                        }
-                        this.dispatchAndSetState(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/));
-                    }}
-                    onSortablePropsChanged={(id, parent, prop, value) => this.dispatchAndSetState(changeSortableProps(id, parent, prop, value))}
-                    onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
-                    onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState(duplicateBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendantBoxes(boxes[id])), Date.now() - 1))}
-                    onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
+                    marks={marks}
+                    exercises={exercises}
+                    titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}
+                    onContainedViewNameChanged={(id, titleStr) => dispatch(changeContainedViewName(id, titleStr))}
+                    onBackgroundChanged={(id, background) => dispatch(changeBackground(id, background))}
+                    onNavItemToggled={ id => dispatch(toggleNavItem(navItemSelected)) }
+                    onNavItemSelected={id => dispatch(selectNavItem(id))}
+                    onNavItemNameChanged={(id, titleStr) => dispatch(changeNavItemName(id, titleStr))}
+                    onContainedViewSelected={id => dispatch(selectContainedView(id))}
+                    onColsChanged={(id, parent, distribution, boxesAffected) => dispatch(changeCols(id, parent, distribution, boxesAffected))}
+                    onRowsChanged={(id, parent, column, distribution, boxesAffected) => dispatch(changeRows(id, parent, column, distribution, boxesAffected))}
+                    onBoxResized={(id, structure) => dispatch(resizeBox(id, structure))}
+                    onBoxMoved={(id, x, y, position, parent, container) => dispatch(moveBox(id, x, y, position, parent, container))}
+                    onVerticallyAlignBox={(id, verticalAlign) => dispatch(verticallyAlignBox(id, verticalAlign))}
+                    onTextEditorToggled={this.onTextEditorToggled}
+                    onSortableContainerResized={(id, parent, height) => dispatch(resizeSortableContainer(id, parent, height))}
+                    onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
+                    onSortablePropsChanged={(id, parent, prop, value) => dispatch(changeSortableProps(id, parent, prop, value))}
+                    onToolbarUpdated={this.toolbarUpdated}
+                    onScoreConfig={(id, button, value, page)=>{dispatch(configScore(id, button, value, page));}}
+                    onBoxDeleted={this.onBoxDeleted}
                     onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}
                     onRichMarksModalToggled={() => {
                         this.setState({ richMarksVisible: !this.state.richMarksVisible });
@@ -424,59 +444,72 @@ class EditorApp extends Component {
                         this.setState({ currentRichMark: mark });
                     }}
                     onRichMarkDeleted={id => {
-                        let toolbar = toolbars[boxSelected];
-                        let state = JSON.parse(JSON.stringify(toolbar.state));
-                        let cvid = state.__marks[id].connection;
 
-                        delete state.__marks[id];
-                        this.dispatchAndSetState(deleteRichMark(id, boxSelected, cvid, state));
+                        let cvid = marks[id].connection;
                         // This checks if the deleted mark leaves an orphan contained view, and displays a message asking if the user would like to delete it as well
                         if (isContainedView(cvid)) {
                             let thiscv = containedViews[cvid];
-                            if(thiscv && Object.keys(thiscv.parent).indexOf(boxSelected) !== -1) {
-                                let remainingMarks = [];
-                                for (let linkedbox in thiscv.parent) {
-                                    if (toolbars[linkedbox] && toolbars[linkedbox].state && toolbars[linkedbox].state.__marks) {
-                                        for (let i in toolbars[linkedbox].state.__marks) {
-                                            let mark = toolbars[linkedbox].state.__marks[i];
-                                            if (mark.connection === cvid) {
-                                                remainingMarks.push(cvid);
-                                            }
-                                        }
-                                    }
-                                }
-
-                                if (remainingMarks.length === 1) {
-                                    let confirmText = i18n.t("messages.confirm_delete_CV_also_1") + containedViews[cvid].name + i18n.t("messages.confirm_delete_CV_also_2");
-                                    let alertComponent = (<Alert className="pageModal"
-                                        show
-                                        hasHeader
-                                        title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
-                                        acceptButtonText={i18n.t("messages.confirm_delete_cv_as_well")}
-                                        cancelButton
-                                        cancelButtonText={i18n.t("messages.confirm_delete_cv_not")}
-                                        closeButton onClose={(bool)=>{
-                                            if (bool) {
+                            if (Object.keys(thiscv.parent).length === 1) {
+                                let confirmText = i18n.t("messages.confirm_delete_CV_also_1") + viewToolbars[cvid].viewName + i18n.t("messages.confirm_delete_CV_also_2");
+                                let alertComponent = (<Alert className="pageModal"
+                                    show
+                                    hasHeader
+                                    title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
+                                    cancelButton
+                                    acceptButtonText={i18n.t("messages.OK")}
+                                    onClose={(bool)=>{
+                                        if (bool) {
+                                            dispatch(deleteRichMark(marks[id]));
+                                            let deleteAlsoCV = document.getElementById('deleteAlsoCv').classList.toString().indexOf('checked') > 0;
+                                            if(deleteAlsoCV) {
                                                 let boxesRemoving = [];
                                                 containedViews[cvid].boxes.map(boxId => {
                                                     boxesRemoving.push(boxId);
                                                     boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
                                                 });
 
-                                                this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, thiscv.parent));
+                                                dispatch(deleteContainedView([cvid], boxesRemoving, thiscv.parent));
                                             }
-                                            this.setState({ alert: null });}}>
-                                        <span> {confirmText} </span>
-                                    </Alert>);
-                                    this.setState({ alert: alertComponent });
-                                }
-                            }
-                        }
+                                        } else {
 
+                                        }
+                                        this.setState({ alert: null });}}>
+                                    <span> {confirmText} </span><br/>
+                                    <ToggleSwitch id="deleteAlsoCv" style={{ margin: '10px' }}/>
+                                    {i18n.t("messages.confirm_delete_cv_as_well")}
+                                </Alert>);
+                                this.setState({ alert: alertComponent });
+                                return;
+                            }
+
+                        }
+                        dispatch(deleteRichMark(marks[id]));
                     }}
-                    onUploadVishResource={(query) => this.dispatchAndSetState(uploadVishResourceAsync(query))}
-                    onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))}
+                    fileModalResult={this.state.fileModalResult}
+                    openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept });}}
+                    onUploadVishResource={(query) => dispatch(uploadVishResourceAsync(query))}
+                    updateViewToolbar={(id, toolbar)=> dispatch(updateViewToolbar(id, toolbar))}
                 />
+                <FileModal visible={this.state.showFileUpload} disabled={disabled}
+                    onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
+                    boxSelected={boxSelected}
+                    boxes={boxes}
+                    isBusy={isBusy}
+                    fileModalResult={this.state.fileModalResult}
+                    navItemsIds={navItemsIds}
+                    navItems={navItems}
+                    onNavItemSelected={id => dispatch(selectNavItem(id))}
+                    containedViews={containedViews}
+                    containedViewSelected={containedViewSelected}
+                    navItemSelected={navItemSelected}
+                    filesUploaded={filesUploaded}
+                    pluginToolbars={pluginToolbars}
+                    onIndexSelected={(id) => dispatch(selectIndex(id))}
+                    onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
+                    onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
+                    onUploadVishResource={(query, keywords) => dispatch(uploadVishResourceAsync(query, keywords))}
+                    onUploadEdiphyResource={(file, keywords)=>dispatch(uploadEdiphyResourceAsync(file, keywords))}
+                    close={(fileModalResult)=>{this.setState({ fileModalResult: fileModalResult ? fileModalResult : { id: undefined, value: undefined }, showFileUpload: false });}} />
 
             </Grid>
         );
@@ -499,149 +532,125 @@ class EditorApp extends Component {
         if (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' && ediphy_editor_json && ediphy_editor_json !== 'undefined') {
             this.props.dispatch(importState(JSON.parse(ediphy_editor_json)));
         }
-
-        Ediphy.Plugins.loadAll();
-        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.render, e => {
-            this.index = 0;
-            let newPluginState = {};
-            let navItemSelected = this.props.navItems[this.props.navItemSelected];
-
-            if (e.detail.config.flavor !== "react") {
-                this.parsePluginContainers(e.detail.content, newPluginState);
-                e.detail.state.__pluginContainerIds = newPluginState;
-            }
-
-            let reason = e.detail.reason;
-            if (reason.type) {
-                reason = reason.type;
-            }
-
-            switch (reason) {
-            case ADD_BOX:
-                if(this.severalBoxes === 0) {
-                    this.severalBoxes = Date.now() + this.index++;
-                }
-                e.detail.ids.id = (this.severalBoxes !== 0) ? ID_PREFIX_BOX + this.severalBoxes++ : ID_PREFIX_BOX + Date.now() + this.index++;
-                this.dispatchAndSetState(addBox(
-                    {
-                        parent: e.detail.ids.parent,
-                        id: e.detail.ids.id,
-                        container: e.detail.ids.container,
-                    },
-                    true,
-                    !isSortableContainer(e.detail.ids.container),
-                    e.detail.content,
-                    e.detail.toolbar,
-                    e.detail.config,
-                    e.detail.state,
-                    e.detail.initialParams
-                ));
-                break;
-
-            // case DELETE_RICH_MARK:
-            case DELETE_NAV_ITEM:
-            case DELETE_CONTAINED_VIEW:
-            case EDIT_PLUGIN_TEXT:
-            case UPDATE_BOX:
-            case UPDATE_TOOLBAR:
-                this.dispatchAndSetState(updateBox(
-                    e.detail.ids.id || this.props.boxSelected,
-                    e.detail.content,
-                    e.detail.toolbar,
-                    e.detail.state
-                ));
-                break;
-            default:
-                // eslint-disable-next-line no-console
-                console.error("I don't know how to manage this");
-            }
-
-            if (e.detail.config.flavor !== "react") {
-                this.addDefaultContainerPlugins(e.detail, e.detail.content);
-            }
-            if (e.detail.state.__xml_path) {
-                if (!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path) {
-                    this.dispatchAndSetState(updateNavItemExtraFiles(this.props.navItemSelected, e.detail.ids.id, e.detail.state.__xml_path));
-                }
-            }
-        });
-        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.getPluginsInView, e => {
-            let plugins = {};
-            let ids = [];
-            let view = e.detail.view ? e.detail.view : this.props.navItemSelected;
-
-            this.props.navItems[view].boxes.map(id => {
-                ids.push(id);
-                ids = ids.concat(this.getDescendantBoxes(this.props.boxes[id]));
-            });
-
-            ids.map(id => {
-                let toolbar = this.props.toolbars[id];
-                if (e.detail.getAliasedPlugins) {
-                    if (!isSortableBox(id)) {
-                        let button = toolbar.controls.main.accordions.z__extra.buttons.alias;
-                        if (button.value.length !== 0) {
-                            if (!plugins[toolbar.config.name]) {
-                                plugins[toolbar.config.name] = [];
-                            }
-                            plugins[toolbar.config.name].push(button.value);
-                        }
-                    }
-                } else if (plugins[toolbar.config.name]) {
-                    plugins[toolbar.config.name] = true;
-                }
-            });
-
-            Ediphy.API_Private.answer(Ediphy.API_Private.events.getPluginsInView, plugins);
-        });
-
-        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.editRichMark, e => {
-            let newState = JSON.parse(JSON.stringify(this.props.toolbars[e.detail.box].state));
-            newState.__marks[e.detail.id].value = e.detail.value;
-            this.dispatchAndSetState(editRichMark(e.detail.box, newState, newState.__marks[e.detail.id], false, false));
-
-        });
-
         window.onkeyup = function(e) {
             let key = e.keyCode ? e.keyCode : e.which;
             // Checks what element has the cursor focus currently
             let focus = document.activeElement.className;
+            let notText = !document.activeElement.type && focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1;
 
             // Ctrl + Z
             if (key === 90 && e.ctrlKey) {
-                if (focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1) {
-                    this.dispatchAndSetState(ActionCreators.undo());
+                if (notText) {
+                    this.props.dispatch(ActionCreators.undo());
                 }
             }
             // Ctrl + Y
             if (key === 89 && e.ctrlKey) {
-                if (focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1) {
-                    this.dispatchAndSetState(ActionCreators.redo());
+                if (notText) {
+                    this.props.dispatch(ActionCreators.redo());
                 }
+            }
+            if (key === 80 && e.ctrlKey && e.shiftKey) {
+                e.cancelBubble = true;
+                e.preventDefault();
+
+                e.stopImmediatePropagation();
+                printToPDF(this.props.store.getState().present);
             }
 
             // Supr
             else if (key === 46) {
                 if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
                     // If it is not an input or any other kind of text edition AND there is a box selected, it deletes said box
-                    if (focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1) {
+                    if (notText) {
                         let box = this.props.boxes[this.props.boxSelected];
-                        let toolbar = this.props.toolbars[this.props.boxSelected];
+                        let toolbar = this.props.pluginToolbars[this.props.boxSelected];
                         if (!toolbar.showTextEditor) {
-                            let bx = this.getDescendantBoxes(this.props.boxes[this.props.boxSelected]);
-                            this.dispatchAndSetState(deleteBox(box.id, box.parent, box.container, bx, this.props.boxes[this.props.boxSelected].containedViews/* , this.getDescendantContainedViews(box)*/));
+                            this.onBoxDeleted(box.id, box.parent, box.container, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected);
                         }
                     }
                 }
             }
+
         }.bind(this);
+
+    }
+    onBoxDeleted(id, parent, container, page) {
+        let bx = this.getDescendantBoxes(this.props.boxes[id]);
+        let cvs = [...this.props.boxes[id].containedViews];
+        bx.map(box=>{
+            cvs = [...cvs, ...this.props.boxes[box].containedViews];
+        });
+        this.props.dispatch(deleteBox(id,
+            parent,
+            container,
+            bx,
+            cvs,
+            page));
+    }
+    toolbarUpdated(id, tab, accordion, name, value) {
+        if (isBox(id) || isSortableBox(id)) {
+            let toolbar = this.props.pluginToolbars[id];
+            let pluginAPI = Ediphy.Plugins.get(toolbar.pluginId);
+            let config = pluginAPI.getConfig();
+            let deletedBoxes = [];
+            if (config.isComplex && accordion === 'state') {
+                let newPluginState = JSON.parse(JSON.stringify(toolbar.state));
+                newPluginState[name] = value;
+                let pluginContainerIds = {};// newPluginState.__pluginContainerIds;
+                let defaultBoxes = {};
+                if (config.flavor !== "react") {
+                    let content = pluginAPI.getRenderTemplate(newPluginState);
+                    parsePluginContainers(content, pluginContainerIds);
+                } else {
+                    let content = pluginAPI.getRenderTemplate(newPluginState, { exercises: { correctAnswer: true } });
+                    parsePluginContainersReact(content, pluginContainerIds, defaultBoxes);
+                }
+
+                if (toolbar.state.__pluginContainerIds && (Object.keys(toolbar.state.__pluginContainerIds).length < Object.keys(pluginContainerIds).length)) {
+                    for (let s in pluginContainerIds) {
+                        if (!toolbar.state.__pluginContainerIds[s]) {
+                            if (defaultBoxes[s]) {
+                                let page = this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
+                                this.props.dispatch(updatePluginToolbar(id, tab, accordion,
+                                    [name, "__pluginContainerIds"],
+                                    [value, pluginContainerIds]));
+                                createBox({
+                                    parent: id,
+                                    page,
+                                    container: s,
+                                    isDefaultPlugin: true,
+                                    text: defaultBoxes[s].__text,
+                                    id: ID_PREFIX_BOX + Date.now(),
+                                    draggable: true,
+                                    resizable: this.props.boxes[id].resizable,
+                                }, defaultBoxes[s].type, false,
+                                (ids, draggable, resizable, content, style, state, structure, initialParams)=>{this.props.dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams));},
+                                this.props.boxes);
+                                return;
+                            }
+                        }
+                    }
+                } else if (toolbar.state.__pluginContainerIds && (Object.keys(toolbar.state.__pluginContainerIds).length > Object.keys(pluginContainerIds).length)) {
+                    for (let s in toolbar.state.__pluginContainerIds) {
+                        if (!pluginContainerIds[s]) {
+                            if (this.props.boxes[id].sortableContainers[s].children) {
+                                deletedBoxes = deletedBoxes.concat(this.props.boxes[id].sortableContainers[s].children);
+                            }
+                        }
+                    }
+                }
+                this.props.dispatch(updatePluginToolbar(id, tab, accordion,
+                    [name, "__pluginContainerIds"],
+                    [value, pluginContainerIds], deletedBoxes));
+                return;
+            }
+            this.props.dispatch(updatePluginToolbar(id, tab, accordion, name, value, deletedBoxes));
+        } else {
+            this.props.dispatch(updateViewToolbar(id, tab, accordion, name, value));
+        }
     }
 
-    /**
-     * Views that hang from the given view
-     * @param view
-     * @returns {Array}
-     */
     getDescendantViews(view) {
         let selected = [];
 
@@ -654,11 +663,6 @@ class EditorApp extends Component {
         return selected;
     }
 
-    /**
-     * Children boxes of a given box
-     * @param box
-     * @returns {Array}
-     */
     getDescendantBoxes(box) {
         let selected = [];
 
@@ -669,23 +673,9 @@ class EditorApp extends Component {
                 selected = selected.concat(this.getDescendantBoxes(this.props.boxes[bx]));
             }
         }
-        /* for (let i = 0; i < box.containedViews.length; i++) {
-            let cv = box.containedViews[i];
-            for (let j = 0; j < this.props.containedViews[cv].boxes.length; j++) {
-                let bx = this.props.containedViews[cv].boxes[j];
-                selected.push(bx);
-                selected = selected.concat(this.getDescendantBoxes(this.props.boxes[bx]));
-            }
-        }*/
         return selected;
     }
 
-    /**
-     * Children boxes of a given container
-     * @param box
-     * @param container
-     * @returns {Array}
-     */
     getDescendantBoxesFromContainer(box, container) {
         let selected = [];
 
@@ -706,11 +696,6 @@ class EditorApp extends Component {
         return selected;
     }
 
-    /**
-     * Get descendant contained views from a given box
-     * @param box
-     * @returns {Array}
-     */
     getDescendantContainedViews(box) {
         let selected = [];
 
@@ -731,31 +716,6 @@ class EditorApp extends Component {
         return selected;
     }
 
-    /**
-     * Boxes that link to the given views
-     * @param ids Views ids
-     * @param navs navItemsById
-     * @returns {{}}
-     */
-    getDescendantLinkedBoxes(ids, navs) {
-        let boxes = {};
-
-        ids.forEach((nav) => {
-            for (let lb in navs[nav].linkedBoxes) {
-                boxes[lb] = [(boxes[lb] || []), ...navs[nav].linkedBoxes[lb]];
-            }
-            // boxes = [...new Set([...boxes, ...navs[nav].linkedBoxes])];
-            // boxes.concat(navs[nav].linkedBoxes);
-        });
-        return boxes;
-    }
-
-    /**
-     * Container's linked contained views
-     * @param box EditorBoxSortable
-     * @param container SortableContainer
-     * @returns {Array}
-     */
     getDescendantContainedViewsFromContainer(box, container) {
         let selected = [];
 
@@ -774,120 +734,69 @@ class EditorApp extends Component {
         return selected;
     }
 
-    /**
-     * Get descendants of duplicated boxes
-     * @param descendants
-     * @returns {{}}
-     */
-    getDuplicatedBoxesIds(descendants) {
-        let newIds = {};
-        let date = Date.now();
-        descendants.map(box => {
-            newIds[box.substr(3)] = date++;
-        });
-        return newIds;
+    onRichMarkUpdated(mark, createNew) {
+        let boxSelected = this.props.boxSelected;
+        let mark_exist = this.props.marks[mark.id] !== undefined;
+        if (mark_exist) {
+
+        }
+
+        let oldConnection = state.__marks[mark.id] ? state.__marks[mark.id].connection : 0;
+        state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
+        let newConnection = mark.connection;
+        if (mark.connection.id) {
+            newConnection = mark.connection.id;
+            state.__marks[mark.id].connection = mark.connection.id;
+        }
+
+        this.props.dispatch(editRichMark(boxSelected, state, mark, oldConnection, newConnection));
+
     }
 
-    /**
-     *
-     * @param obj
-     * @param state
-     */
-    parsePluginContainers(obj, state) {
-        if (obj.child) {
-            for (let i = 0; i < obj.child.length; i++) {
-                if (obj.child[i].tag && obj.child[i].tag === "plugin") {
-                    if (obj.child.length > 1) {
-                        // eslint-disable-next-line no-console
-                        console.error("A plugin tag must not have siblings. Please check renderTemplate method");
-                    }
-                    let height = "auto";
-                    let child = obj.child[i];
-                    if (child.attr) {
-                        if (child.attr['plugin-data-height']) {
-                            height = child.attr['plugin-data-height'];
-                        } else if (child.attr['plugin-data-initial-height']) {
-                            height = child.attr['plugin-data-initial-height'];
-                        } else {
-                            height = child.attr.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto";
-                        }
-                    }
-                    if (!obj.attr) {
-                        obj.attr = {
-                            style: { height: height },
-                        };
-                    } else if (!obj.attr.style) {
-                        obj.attr.style = { height: height };
-                    } else {
-                        obj.attr.style.height = height;
-                    }
-                    if (obj.attr.style.minHeight) {
-                        delete obj.attr.style.minHeight;
-                    }
-                }
-                this.parsePluginContainers(obj.child[i], state);
-            }
-        }
-        if (obj.tag && obj.tag === "plugin") {
-            if (obj.attr) {
-                if (!obj.attr['plugin-data-id']) {
-                    obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++ + new Date().getUTCMilliseconds();
-                }
-                if (!obj.attr['plugin-data-height']) {
-                    obj.attr['plugin-data-height'] = obj.attr['plugin-data-initial-height'] || (obj.attr.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto");
-                }
-                if (obj.attr['plugin-data-key'] && !state[obj.attr['plugin-data-key']]) {
-                    state[obj.attr['plugin-data-key']] = {
-                        id: obj.attr['plugin-data-id'],
-                        name: obj.attr['plugin-data-display-name'] || obj.attr['plugin-data-key'],
-                        height: obj.attr['plugin-data-height'],
-                    };
+    onSortableContainerDeleted(id, parent) {
+        let boxes = this.props.boxes;
+        let containedViews = this.props.containedViews;
+        let page = this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
+        let descBoxes = this.getDescendantBoxesFromContainer(boxes[parent], id);
+        let cvs = {};
+        for (let b in descBoxes) {
+            let box = boxes[descBoxes[b]];
+            for (let cv in box.containedViews) {
+                if (!cvs[box.containedViews[cv]]) {
+                    cvs[box.containedViews[cv]] = [box.id];
+                } else if (cvs[containedViews[cv]].indexOf(box.id) === -1) {
+                    cvs[box.containedViews[cv]].push(box.id);
                 }
             }
         }
-        if (obj.attr && obj.attr.class) {
-            if(!Array.isArray(obj.attr.class) && typeof obj.attr.class === "string") {
-                obj.attr.class = [obj.attr.class];
-            }
-            obj.attr.className = obj.attr.class.join(' ');
-            delete obj.attr.class;
-        }
+        this.props.dispatch(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/, page));
     }
 
-    hasExerciseBox(navItemId, navItems, state, boxes) {
-        if(state.pluginTab === "exercises" && (navItems[navItemId].boxes.length > 1 || boxes[navItems[navItemId].boxes[0]].children.length !== 0)) {
-            return true;
-        }
-        if(navItems[navItemId] && Object.keys(navItems[navItemId].extraFiles).length !== 0) {
-            return true;
-        }
-        return false;
+    buildPluginToolbar(detail) {
+        let state = detail.state;
+        let styles = {};
+        // TODO Revisar
+        try {
+            Object.keys(detail.toolbar.main.accordions.style.buttons).map((e) => {
+                styles[e] = detail.toolbar.main.accordions.style.buttons[e].value;
+            });
+            // eslint-disable-next-line no-console
+        } catch(e) {console.error(e);}
+        return { state, styles };
     }
+    onTextEditorToggled(caller, value, text, content) {
+        let pluginToolbar = this.props.pluginToolbars[caller];
+        if(pluginToolbar) {
 
-    addDefaultContainerPlugins(eventDetails, obj) {
-        if (obj.child) {
-            for (let i = 0; i < obj.child.length; i++) {
-                this.addDefaultContainerPlugins(eventDetails, obj.child[i]);
+            let state = Object.assign({}, pluginToolbar.state, { __text: text });
+            let toolbar = Ediphy.Plugins.get(pluginToolbar.pluginId).getToolbar(state);
+
+            this.props.dispatch(toggleTextEditor(caller, value));
+            if (!value && text && content) {
+                this.props.dispatch(updateBox(caller, content, toolbar, state));
             }
         }
-        if (obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
-            let boxes = this.props.store.getState().present.boxesById;
-            let plug_children = boxes[eventDetails.ids.id].sortableContainers[obj.attr['plugin-data-id']];
-            if (plug_children && plug_children.children && plug_children.children.length === 0) {
-                obj.attr['plugin-data-default'].split(" ").map(name => {
-                    if (!Ediphy.Plugins.get(name)) {
-                        // eslint-disable-next-line no-console
-                        console.error("Plugin " + name + " does not exist");
-                        return;
-                    }
-                    Ediphy.Plugins.get(name).getConfig().callback({
-                        parent: eventDetails.ids.id,
-                        container: obj.attr['plugin-data-id'],
-                        isDefaultPlugin: true,
-                    }, ADD_BOX);
-                });
-            }
-        }
+
     }
 
 }
@@ -895,7 +804,7 @@ class EditorApp extends Component {
 function mapStateToProps(state) {
     return {
         globalConfig: state.present.globalConfig,
-        imagesUploaded: state.present.imagesUploaded,
+        filesUploaded: state.present.filesUploaded,
         boxes: state.present.boxesById,
         boxSelected: state.present.boxSelected,
         boxLevelSelected: state.present.boxLevelSelected,
@@ -908,10 +817,39 @@ function mapStateToProps(state) {
         undoDisabled: state.past.length === 0,
         redoDisabled: state.future.length === 0,
         displayMode: state.present.displayMode,
-        toolbars: state.present.toolbarsById,
+        marks: state.present.marksById,
+        pluginToolbars: state.present.pluginToolbarsById,
+        viewToolbars: state.present.viewToolbarsById,
+        exercises: state.present.exercises,
         isBusy: state.present.isBusy,
-        fetchVishResults: state.present.fetchVishResults,
+        lastActionDispatched: state.present.lastActionDispatched || "",
+
     };
 }
 
 export default connect(mapStateToProps)(EditorApp);
+
+EditorApp.propTypes = {
+    globalConfig: PropTypes.object.isRequired,
+    filesUploaded: PropTypes.any,
+    boxes: PropTypes.object.isRequired,
+    boxSelected: PropTypes.any,
+    boxLevelSelected: PropTypes.any,
+    indexSelected: PropTypes.any,
+    marks: PropTypes.object,
+    navItemsIds: PropTypes.array.isRequired,
+    navItems: PropTypes.object.isRequired,
+    navItemSelected: PropTypes.any,
+    containedViews: PropTypes.object.isRequired,
+    containedViewSelected: PropTypes.any,
+    pluginToolbars: PropTypes.object,
+    undoDisabled: PropTypes.bool,
+    redoDisabled: PropTypes.bool,
+    displayMode: PropTypes.string,
+    viewToolbars: PropTypes.object.isRequired,
+    exercises: PropTypes.object,
+    isBusy: PropTypes.any,
+    dispatch: PropTypes.func.isRequired,
+    store: PropTypes.any,
+    lastActionDispatched: PropTypes.string,
+};

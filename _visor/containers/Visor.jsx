@@ -44,11 +44,7 @@ export default class Visor extends Component {
     }
 }
 
-Visor.PropTypes = {
-    /**
-     * Título del curso
-     */
-    title: PropTypes.string.isRequired,
+Visor.propTypes = {
     /**
      * Indica si se debe mostrar o no el visor
      */

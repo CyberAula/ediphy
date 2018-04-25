@@ -13,13 +13,18 @@ export default function() {
         add: function(name) {
             let basePlugin = new BasePlugin();
             Ediphy.Visor.Plugins[name] = require('./../../plugins/' + name + '/' + name)[name](basePlugin);
+            let config = Ediphy.Visor.Plugins[name].getConfig();
             try {
                 Ediphy.Visor.Plugins[name] = require('./../../plugins/' + name + '/visor/' + name)[name](basePlugin);
             } catch (e) {
             }
+            Ediphy.Visor.Plugins[name].getConfig = () => { return config; };
 
             basePlugin.create(Ediphy.Visor.Plugins[name]);
             basePlugin.init();
+            basePlugin.getConfig = () => { return config; };
+            basePlugin.getLocales();
+            // basePlugin.init();
             pluginInstancesList[name] = basePlugin;
         },
     };

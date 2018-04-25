@@ -3,6 +3,7 @@ import Chart from './components/chart-component';
 import Config from './components/config-component';
 
 require('./_graficaD3.scss');
+/* eslint-disable react/prop-types */
 
 export function GraficaD3(base) {
     return {
@@ -22,7 +23,7 @@ export function GraficaD3(base) {
                 initialHeightSlide: '60%',
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -81,37 +82,31 @@ export function GraficaD3(base) {
             };
         },
         getInitialState: function() {
-
             return {
-                dataProvided: [["First column", 1, 0], ["Second column", 0, 1]],
-                dataProcessed: {},
+                dataProvided: [["First column", "Second Column"], [0, 1], [1, 0]],
+                dataProcessed: [{ name: "First Column", 0: 0, 1: 1 }, { name: "Second Column", 0: 1, 1: 0 }],
                 editing: true,
                 options: {
                     type: "area",
-                    x: "",
-                    y: [{
-                        key: "",
-                        color: "#ff7f0e",
+                    graphs: [{
+                        row: 0,
+                        name: "Example",
+                        color: "#332ef0",
                     }],
                     gridX: true,
                     gridY: true,
-                    rings: [{
-                        name: "",
-                        value: "",
-                        color: "#ff7f0e",
-                    }],
                 },
             };
         },
-        getRenderTemplate: function(state) {
+        getRenderTemplate: function(state, props) {
             return (
-                <Chart dataProcessed={state.dataProcessed} options={state.options} />
+                <Chart id={props.id} dataProcessed={state.dataProcessed} options={state.options} />
             );
 
         },
-        getConfigTemplate: function(extState) {
+        getConfigTemplate: function(id, state, updateState, props) {
             return (
-                <Config state={extState} base={base} />
+                <Config id={id} state={state} updateState={updateState} props={props}/>
             );
         },
         fileChanged: function(event) {
@@ -126,9 +121,7 @@ export function GraficaD3(base) {
         chartTypeChange: function(elements) {
             base.setState("chartType", elements[0].id);
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
 
     };
 }
+/* eslint-enable react/prop-types */

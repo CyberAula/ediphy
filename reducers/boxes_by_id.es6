@@ -1,8 +1,13 @@
-import Utils, { changeProp, changeProps, deleteProp, deleteProps, isSortableBox, isContainedView, isSortableContainer } from '../common/utils';
-import { ADD_BOX, MOVE_BOX, DUPLICATE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, ADD_RICH_MARK,
+import Utils, {
+    changeProp, changeProps, deleteProp, deleteProps, isSortableBox, isContainedView, isSortableContainer,
+    isBox,
+} from '../common/utils';
+import {
+    ADD_BOX, ADD_NAV_ITEM, ADD_RICH_MARK, EDIT_RICH_MARK, MOVE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
-    DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE } from '../common/actions';
-import { ID_PREFIX_BOX } from '../common/constants';
+    DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE, PASTE_BOX, UPDATE_PLUGIN_TOOLBAR, TOGGLE_TEXT_EDITOR,
+} from '../common/actions';
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX } from '../common/constants';
 
 function boxCreator(state, action) {
     let position;
@@ -44,7 +49,6 @@ function boxCreator(state, action) {
             // width = action.payload.initialParams.width;
         }
     }
-
     // sortableContainers for boxes inside this box (this is not EditorBoxSortable)
     let children = [];
     let sortableContainers = {};
@@ -53,7 +57,7 @@ function boxCreator(state, action) {
         if (pluginContainers) {
             for (let key in pluginContainers) {
                 children.push(pluginContainers[key].id);
-                sortableContainers[pluginContainers[key].id] = sortableContainerCreator(key, [], pluginContainers[key].height);
+                sortableContainers[pluginContainers[key].id] = sortableContainerCreator(key, [], pluginContainers[key].height, action.payload.ids.id);
             }
         }
     }
@@ -79,7 +83,7 @@ function boxCreator(state, action) {
     };
 }
 
-function sortableContainerCreator(key = "", children = [], height = "auto") {
+function sortableContainerCreator(key = "", children = [], height = "auto", parent) {
     return {
         children: children,
         style: {
@@ -88,7 +92,7 @@ function sortableContainerCreator(key = "", children = [], height = "auto") {
             borderWidth: '0px',
             borderStyle: 'solid',
             opacity: '1',
-            textAlign: 'center',
+            textAlign: isBox(parent) ? 'left' : 'center',
             className: '',
         },
         height: height,
@@ -103,6 +107,7 @@ function sortableContainerCreator(key = "", children = [], height = "auto") {
 function boxReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
+    case PASTE_BOX:
         return changeProps(
             state,
             [
@@ -110,13 +115,13 @@ function boxReducer(state = {}, action = {}) {
                 "sortableContainers",
             ], [
                 (state.children.indexOf(action.payload.ids.container) !== -1) ? // if parent box contains container indicated
-                state.children : // nothing changes
+                    state.children : // nothing changes
                     [...state.children, action.payload.ids.container], // adds container to children
                 sortableContainersReducer(state.sortableContainers, action),
             ]
         );
     case ADD_RICH_MARK:
-        return changeProp(state, "containedViews", [...state.containedViews, action.payload.mark.connection.id || action.payload.mark.connection]);
+        return changeProp(state, "containedViews", [...state.containedViews, action.payload.mark.connection]);
     case CHANGE_COLS:
         if (action.payload.parent === state.id) {
             return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
@@ -158,16 +163,34 @@ function boxReducer(state = {}, action = {}) {
             ]
         );
     case DROP_BOX:
-        return changeProps(
-            state,
-            [
-                "row",
-                "col",
-            ], [
-                action.payload.row,
-                action.payload.col,
-            ]
-        );
+        if (state.id === action.payload.parent || state.id === action.payload.oldParent) { // If we are dealing with the new or the previous parents, we need to modify the sortable containers of each one of them to add/delete the dropped box to/from its children
+            // Two boxes can have containers with the same name (like plugins inside plugins) so we need to let them know in which box we are. That's why we create a new value in the action.payload
+            return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, Object.assign({}, action, { payload: Object.assign({}, action.payload, { currentBoxReducer: state.id }) })));
+        } else if (state.id === action.payload.id) { // If we are dealing with the dropped box, we need to modify some of its properties
+
+            let newLevel = isBox(action.payload.parent) ? 1 : 0;
+            let isResizable = !(isBox(action.payload.parent) || isSortableBox(action.payload.parent)); // Change from slide to sortable or viceversa
+            return changeProps(
+                state,
+                [
+                    "parent",
+                    "container",
+                    "row",
+                    "col",
+                    "position",
+                    "level",
+                    "resizable",
+                ], [
+                    action.payload.parent,
+                    action.payload.container,
+                    action.payload.row,
+                    action.payload.col,
+                    action.payload.position || state.position,
+                    newLevel,
+                    isResizable,
+                ]);
+        }
+        return state;
     case MOVE_BOX:
         return changeProp(state, "position",
             {
@@ -176,14 +199,46 @@ function boxReducer(state = {}, action = {}) {
                 type: action.payload.position,
             }
         );
+
     case REORDER_SORTABLE_CONTAINER:
         return changeProp(state, "children", action.payload.ids);
     case REORDER_BOXES:
         return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
     case RESIZE_SORTABLE_CONTAINER:
         return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
+    case UPDATE_PLUGIN_TOOLBAR:
+        let newSortableContainers = {};
+        let newChildren = [];
+        if (action.payload.name instanceof Array && action.payload.name.indexOf("__pluginContainerIds") > -1) {
+            for (let containerKey in action.payload.value[1]) {
+                let container = action.payload.value[1][containerKey];
+                // if not found -> create new one; otherwise copy existing
+                if (!state.sortableContainers[container.id] && action.payload.value[1][containerKey]) {
+                    newSortableContainers[container.id] = sortableContainerCreator(containerKey, [], container.height, action.payload.id);
+                } else {
+                    newSortableContainers[container.id] = Utils.deepClone(state.sortableContainers[container.id]);
+                }
+                newChildren.push(containerKey);
+            }
+
+            // return state;
+            return changeProps(
+                state,
+                [
+                    /* "content",*/
+                    "children",
+                    "sortableContainers",
+                ], [
+                    /* action.payload.content,*/
+                    newChildren,
+                    newSortableContainers,
+                ]
+            );
+        }
+        return state;
+
     case UPDATE_BOX:
-        // sortableContainers for boxes inside this box (this is not EditorBoxSortable)
+        // sortableContainers for boxes inside this box (this is not EditorBoxSortable) (***** only working with PLUGIN inside PLUGIN)
         let sortableContainers = {};
         let children = [];
         if (action.payload.state.__pluginContainerIds) {
@@ -191,7 +246,7 @@ function boxReducer(state = {}, action = {}) {
                 let container = action.payload.state.__pluginContainerIds[containerKey];
                 // if not found -> create new one; otherwise copy existing
                 if (!state.sortableContainers[container.id]) {
-                    sortableContainers[container.id] = sortableContainerCreator(containerKey, [], container.height);
+                    sortableContainers[container.id] = sortableContainerCreator(containerKey, [], container.height, action.payload.id);
                 } else {
                     sortableContainers[container.id] = Utils.deepClone(state.sortableContainers[container.id]);
                 }
@@ -219,6 +274,12 @@ function boxReducer(state = {}, action = {}) {
 function singleSortableContainerReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
+    case PASTE_BOX:
+        if (action.payload.index || (action.payload.initialParams && action.payload.initialParams.index)) {
+            let newOrder = [...state.children];
+            newOrder.splice(action.payload.index || action.payload.initialParams.index, 0, action.payload.ids.id);
+            return changeProp(state, "children", newOrder);
+        }
         return changeProp(state, "children", [...state.children, action.payload.ids.id]);
     case CHANGE_COLS:
         let cols = state.cols;
@@ -251,12 +312,28 @@ function singleSortableContainerReducer(state = {}, action = {}) {
     case CHANGE_ROWS:
         let newCols = state.cols.slice();
         newCols[action.payload.column] = action.payload.distribution;
-
         return changeProp(state, "cols", newCols);
     case CHANGE_SORTABLE_PROPS:
         return changeProp(state, "style", changeProp(state.style, action.payload.prop, action.payload.value));
     case DELETE_BOX:
         return changeProp(state, "children", state.children.filter(id => id !== action.payload.id));
+    case DROP_BOX:
+        if (action.payload.oldContainer === action.payload.container && action.payload.oldParent === action.payload.parent && (action.payload.index || action.payload.index === 0)) {
+            let newCh = state.children.filter(id => id !== action.payload.id);
+            newCh.splice(action.payload.index, 0, action.payload.id);
+            return changeProp(state, "children", newCh);
+        }
+        if (state.key === action.payload.oldContainer && action.payload.currentBoxReducer === action.payload.oldParent) {
+            return changeProp(state, "children", state.children.filter(id => id !== action.payload.id));
+        } else if (state.key === action.payload.container && action.payload.currentBoxReducer === action.payload.parent) {
+            if (action.payload.index || action.payload.index === 0) {
+                let newOrder = [...state.children];
+                newOrder.splice(action.payload.index, 0, action.payload.id);
+                return changeProp(state, "children", newOrder);
+            }
+            return changeProp(state, "children", [...state.children, action.payload.id]);
+        }
+        return state;
     case REORDER_BOXES:
         return changeProp(state, "children", action.payload.order);
     case RESIZE_SORTABLE_CONTAINER:
@@ -269,13 +346,17 @@ function singleSortableContainerReducer(state = {}, action = {}) {
 function sortableContainersReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
+    case PASTE_BOX:
         return changeProp(
             state,
             action.payload.ids.container,
             state[action.payload.ids.container] ?
                 singleSortableContainerReducer(state[action.payload.ids.container], action) :
-                sortableContainerCreator("", [action.payload.ids.id])
+                sortableContainerCreator(action.payload.ids.container, [action.payload.ids.id], "auto", action.payload.ids.parent)
         );
+    case ADD_NAV_ITEM:
+    case ADD_RICH_MARK:
+        return state;
     case CHANGE_COLS:
         return changeProp(state, action.payload.id, singleSortableContainerReducer(state[action.payload.id], action));
     case CHANGE_ROWS:
@@ -284,6 +365,32 @@ function sortableContainersReducer(state = {}, action = {}) {
         return changeProp(state, action.payload.id, singleSortableContainerReducer(state[action.payload.id], action));
     case DELETE_BOX:
         return changeProp(state, action.payload.container, singleSortableContainerReducer(state[action.payload.container], action));
+    case DROP_BOX:
+        if (action.payload.parent === action.payload.oldParent) { // Sibling containers
+            if (action.payload.oldContainer !== action.payload.container) { // But not the same one
+                return changeProps(state,
+                    [action.payload.oldContainer, action.payload.container],
+                    [
+                        singleSortableContainerReducer(state[action.payload.oldContainer], action),
+                        singleSortableContainerReducer(state[action.payload.container], action),
+                    ]);
+            }
+            return changeProp(state,
+                action.payload.oldContainer, singleSortableContainerReducer(state[action.payload.oldContainer], action));
+
+            // return state; // If we are moving to the same container we do nothing
+        } else if (action.payload.currentBoxReducer === action.payload.oldParent) {
+            return changeProp(state,
+                action.payload.oldContainer,
+                singleSortableContainerReducer(state[action.payload.oldContainer], action)
+            );
+        } else if (action.payload.currentBoxReducer === action.payload.parent) {
+            return changeProp(state,
+                action.payload.container,
+                singleSortableContainerReducer(state[action.payload.container], action)
+            );
+        }
+        return state;
     case DELETE_SORTABLE_CONTAINER:
         return deleteProp(state, action.payload.id);
     case REORDER_BOXES:
@@ -313,37 +420,109 @@ export default function(state = {}, action = {}) {
                 ]
             );
         }
+
         return changeProp(state, action.payload.ids.id, boxCreator(state, action));
+    case REORDER_SORTABLE_CONTAINER:
+        return {
+            ...state,
+            [action.payload.parent]: {
+                ...state[action.payload.parent],
+                children: [].concat(action.payload.ids),
+            },
+        };
+    case ADD_NAV_ITEM:
+        if(action.payload.type === "document") {
+            return {
+                ...state,
+                [action.payload.sortable_id]: {
+                    parent: action.payload.id,
+                    id: action.payload.sortable_id,
+                    container: 0,
+                    level: -1,
+                    col: 0,
+                    row: 0,
+                    position: { type: "relative", x: 0, y: 0 },
+                    draggable: false,
+                    resizable: false,
+                    showTextEditor: false,
+                    fragment: {},
+                    children: [],
+                    sortableContainers: {},
+                    containedViews: [],
+                },
+            };
+        }
+        return state;
+    case PASTE_BOX:
+        let ids = Object.keys(action.payload.children);
+        let bx = ids.map(k => {return action.payload.children[k].box;});
+        if (isSortableContainer(action.payload.ids.container)) {
+
+            return changeProps(
+                state,
+                [
+                    action.payload.ids.id,
+                    action.payload.ids.parent,
+                    ...ids,
+                ], [
+                    action.payload.box,
+                    boxReducer(state[action.payload.ids.parent], action),
+                    ...bx,
+                ]
+            );
+        }
+        return changeProps(
+            state,
+            [action.payload.ids.id, ...ids],
+            [action.payload.box, ...bx]
+        );
     case MOVE_BOX:
         return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
-    case DUPLICATE_BOX:
-        // TODO
-        newState = Object.assign({}, state);
-        let replaced = Object.assign({}, state);
-        let newIds = action.payload.newIds;
-        let newId = ID_PREFIX_BOX + action.payload.newId;
-        // let count = 0;
-        Object.keys(newIds).map(box => {
-            replaced = Object.replaceAll(replaced, box, newIds[box]);
-        });
-        replaced = Object.replaceAll(replaced, action.payload.id.substr(3), action.payload.newId);// split -
-        let defState = Object.assign({}, newState, replaced);
-        if (action.payload.container !== 0) {
-            replaced[action.payload.parent].sortableContainers[action.payload.container].children.push(action.payload.id);
-        }
-
-        return Object.assign({}, defState, {
-            [newId]: Object.assign({}, defState[newId], { position: { x: 0, y: 0, position: 'absolute' } }),
-        });
     case RESIZE_SORTABLE_CONTAINER:
         return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
     case UPDATE_BOX:
-        return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
+    case TOGGLE_TEXT_EDITOR:
+    case UPDATE_PLUGIN_TOOLBAR:
+        let updatedState = JSON.parse(JSON.stringify(state));
+        for (let b in action.payload.deletedBoxes) {
+            delete updatedState[action.payload.deletedBoxes[b]];
+        }
+        return changeProp(updatedState, action.payload.id, boxReducer(updatedState[action.payload.id], action));
     case ADD_RICH_MARK:
-        // If rich mark is connected to a new contained view, mark.connection will include this information;
+    case EDIT_RICH_MARK:
+        // If rich mark is connected to a contained view (new or existing), mark.connection will include this information;
         // otherwise, it's just the id/url and we're not interested
-        if (action.payload.mark.connection.id || isContainedView(action.payload.mark.connection)) {
-            return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
+        if ((action.payload.mark.id && action.payload.view && isContainedView(action.payload.view.id)) && (action.payload.mark.connectMode === "new" || action.payload.mark.connectMode === "existing")) {
+            let newBoxState = {
+                ...state,
+                [action.payload.mark.origin]: {
+                    ...state[action.payload.mark.origin],
+                    containedViews: state[action.payload.mark.origin].containedViews.concat([action.payload.view.id]),
+                },
+            };
+            if(action.payload.mark.connectMode === "new" && action.payload.view.type === "document") {
+                newBoxState = {
+                    ...newBoxState,
+                    [action.payload.view.boxes[0]]: {
+                        parent: action.payload.view.id,
+                        id: action.payload.view.boxes[0],
+                        container: 0,
+                        level: -1,
+                        col: 0,
+                        row: 0,
+                        position: { type: "relative", x: 0, y: 0 },
+                        draggable: false,
+                        resizable: false,
+                        showTextEditor: false,
+                        fragment: {},
+                        children: [],
+                        sortableContainers: {},
+                        containedViews: [],
+                    },
+
+                };
+            }
+            return newBoxState;
         }
         return state;
     case REORDER_BOXES:
@@ -351,7 +530,26 @@ export default function(state = {}, action = {}) {
     case CHANGE_SORTABLE_PROPS:
         return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
     case DROP_BOX:
-        return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
+        if (isSortableBox(action.payload.parent) || isBox(action.payload.parent)) { // New parent is box
+            if (action.payload.oldParent === action.payload.parent) { // Same parent as before but container or row changes
+                // We need to change the box's container and tell the parent
+                return changeProps(state, [action.payload.id, action.payload.parent], [boxReducer(state[action.payload.id], action), boxReducer(state[action.payload.parent], action)]);
+            } // Different parent
+            if (isBox(action.payload.oldParent) || isSortableBox(action.payload.oldParent)) { // Old parent was a box
+                // We need to change the new and old parent
+                return changeProps(state, [action.payload.id, action.payload.parent, action.payload.oldParent], [boxReducer(state[action.payload.id], action), boxReducer(state[action.payload.parent], action), boxReducer(state[action.payload.oldParent], action)]);
+            } // Old parent was a page or something else
+            // We just need to change the new parent
+            return changeProps(state, [action.payload.id, action.payload.parent], [boxReducer(state[action.payload.id], action), boxReducer(state[action.payload.parent], action)]);
+
+        } // New parent is something other than a box
+        if (!isBox(action.payload.parent) && !isSortableBox(action.payload.parent)) { // Old parent was a box
+            // We need to change the box's parent and container and remove the child from the old parent.
+            return changeProps(state, [action.payload.id, action.payload.oldParent], [boxReducer(state[action.payload.id], action), boxReducer(state[action.payload.oldParent], action)]);
+        } // Old parent was a page or something else
+        // We do nothing because boxes cannot change their parents to another page.
+        return state;
+        // return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
     case CHANGE_COLS:
         newState = changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
         action.payload.boxesAffected.forEach(id => {
@@ -375,7 +573,7 @@ export default function(state = {}, action = {}) {
         }
         return temp;
     case DELETE_CONTAINED_VIEW:
-        let newBoxes = Object.assign({}, state);
+        let newBoxes = JSON.parse(JSON.stringify(state));
         Object.keys(action.payload.parent).forEach((el)=>{
             if(newBoxes[el] && newBoxes[el].containedViews) {
                 let index = newBoxes[el].containedViews.indexOf(action.payload.ids[0]);
@@ -386,15 +584,14 @@ export default function(state = {}, action = {}) {
         });
         return deleteProps(newBoxes, action.payload.boxes);
     case DELETE_SORTABLE_CONTAINER:
-        temp = deleteProps(state, action.payload.children);
-        return changeProp(temp, action.payload.parent, boxReducer(state[action.payload.parent], action));
+        let tempState = deleteProps(state, action.payload.children);
+        return changeProp(tempState, action.payload.parent, boxReducer(state[action.payload.parent], action));
     case DELETE_NAV_ITEM:
         // TODO: Delete linked marks
         return deleteProps(state, action.payload.boxes);
-    case REORDER_SORTABLE_CONTAINER:
-        return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
     case IMPORT_STATE:
         return action.payload.present.boxesById || state;
+
     default:
         return state;
     }

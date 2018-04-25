@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 const reactDocgen = require('react-docgen');
 const ReactDocGenMarkdownRenderer = require('react-docgen-markdown-renderer');
-const languages = ['en', 'es'];
+export const languages = ['en', 'es'];
 const EDITOR_PATH = (path.join('.', '_editor/components'));
 const VISOR_PATH = (path.join('.', '_visor/components'));
 const FILES_PATH = 'doc/files/';
@@ -21,9 +21,16 @@ function genDoc(componentPath, renderer, lang) {
             if (lang !== 'en') {
 
                 Object.keys(doc.props).map(prop => {
-                    let trans = doc.props[prop].description;
+                    let trans = doc.props[prop].description || "";
+
+                    if (trans === "") {
+                        // eslint-disable-next-line no-console
+                        console.log('\x1b[36m%s\x1b[0m', "\tdoc-warning", "You forgot to provide a description for prop " + prop + " at component ", componentName);
+                    }
                     trans = i18n.t("components." + componentName + "." + prop, { lng: lang });
                     if (trans === "components." + componentName + "." + prop) {
+                        // eslint-disable-next-line no-console
+                        console.log('\x1b[36m%s\x1b[0m', "\tdoc-warning", "You forgot to translate the prop " + prop + "  in " + lang + " for component ", componentName);
                         trans = doc.props[prop].description;
                     }
                     doc.props[prop] = { ...doc.props[prop], description: trans };
@@ -47,7 +54,7 @@ function getFiles(filePath, renderer, lang) {
     fs.readdirSync(filePath).forEach(function(file) {
         if (file) {
             let subpath = filePath + '/' + file;
-            if(fs.lstatSync(subpath).isDirectory()) {
+            if(fs.lstatSync(subpath).isDirectory() && subpath.indexOf('__tests__') === -1) {
                 getFiles(subpath, renderer, lang);
             } else if (path.extname(file) && path.extname(file) === '.jsx') {
                 files.push(path.basename(file, path.extname(file)));
@@ -74,6 +81,8 @@ function createDirIfNotExists(dir) {
 }
 
 function main() {
+    // eslint-disable-next-line no-console
+    console.log();
     fs.writeFileSync(IMPORT_PATH, "");
     createDirIfNotExists(FILES_PATH);
     for (let l in languages) {

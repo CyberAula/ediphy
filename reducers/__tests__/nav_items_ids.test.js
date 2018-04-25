@@ -1,17 +1,53 @@
-import helper from './test_helper';
-import reducer from '../nav_items_ids';
-import { ADD_NAV_ITEM, REORDER_NAV_ITEM, DELETE_NAV_ITEM, IMPORT_STATE } from '../../common/actions';
+import { testState } from '../../core/store/state.tests.js';
+import nav_items_ids from '../nav_items_ids';
+import * as ActionTypes from '../../common/actions';
 
-let reducerHelper = helper(undefined, reducer);
+const state = testState.present.navItemsIds;
 
-describe('empty_block reducer', ()=>{
+describe('# nav_items_ids reducer', ()=>{
+    describe('DEFAULT', ()=>{
+        test('should return testState as initial state', () => {
+            expect(nav_items_ids(state, {})).toEqual(state);
+        });
+    });
+    describe('handle ADD_NAV_ITEM', ()=> {
+        test('If Added navigation item', () => {
+            const action = { type: ActionTypes.ADD_NAV_ITEM, payload: { position: 7, id: 'pa-1511364505230' } };
+            const newstate = ['se-1467887497411',
+                'pa-1497983247795',
+                'pa-1511364505230'];
 
-    beforeAll(() => {
-        reducerHelper.clean();
+            expect(nav_items_ids(state, action)).toEqual(newstate);
+        });
+    });
+    describe('handle DELETE_NAV_ITEM', ()=> {
+        test('Delete navigation items ', () => {
+            const idstodelete = ['pa-1497983247795'];
+            const action = { type: ActionTypes.DELETE_NAV_ITEM, payload: { ids: idstodelete } };
+            const newstate = ["se-1467887497411"];
+            expect(nav_items_ids(state, action)).toEqual(newstate);
+        });
     });
 
-    test('template', () => {
-        expect(0).toEqual(-1);
+    describe('handle REORDER_NAV_ITEM', ()=> {
+        test('Select navigation item', () => {
+            const idsinorder = ['se-1467887497411', 'pa-1497983247795', 'pa-1511252952332', 'se-1511252954307', 'pa-1511252955321', 'pa-1511252985426', 'pa-1511252955865'];
+            const action = { type: ActionTypes.REORDER_NAV_ITEM, payload: { idsInOrder: idsinorder } };
+            expect(nav_items_ids(state, action)).toEqual(idsinorder);
+
+        });
     });
 
+    describe('handle IMPORT_STATE', ()=> {
+        test('Import navItemSelected (present)', () => {
+            const ids = ['se-1467887497411', 'pa-1497983247795', 'pa-1511252952332', 'se-1511252954307', 'pa-1511252955321', 'pa-1511252985426', 'pa-1511252955865'];
+            const action = { type: ActionTypes.IMPORT_STATE, payload: { present: { navItemsIds: ids } } };
+            expect(nav_items_ids(state, action)).toEqual(ids);
+        });
+        test('Import default state from state.test', () => {
+
+            const action = { type: ActionTypes.IMPORT_STATE, payload: { present: { navItemSelected: state } } };
+            expect(nav_items_ids(state, action)).toEqual(state);
+        });
+    });
 });

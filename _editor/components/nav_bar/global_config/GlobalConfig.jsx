@@ -44,9 +44,12 @@ export default class GlobalConfig extends Component {
             version: this.props.globalConfig.version || '0.0.0',
             status: this.props.globalConfig.status || 'draft',
             context: this.props.globalConfig.context || 'school',
+            hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
+            minTimeProgress: this.props.globalConfig.minTimeProgress || 30,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
             modifiedState: false,
             showAlert: false,
+
         };
         // Tag handling functions
         this.handleDelete = this.handleDelete.bind(this);
@@ -60,7 +63,7 @@ export default class GlobalConfig extends Component {
      * @returns {code}
      */
     render() {
-        const { title, author, canvasRatio, age, typicalLearningTime, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context } = this.state;
+        const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context } = this.state;
         return (
             <Modal className="pageModal"
                 show={this.props.show}
@@ -89,7 +92,7 @@ export default class GlobalConfig extends Component {
                         bool ? this.saveState() : this.cancel();
                         // Anyway close the alert
                         this.setState({ showAlert: false });
-                        this.props.close();
+                        // this.props.close();
                     }}>
                     {i18n.t("global_config.prompt")}
                 </Alert>
@@ -158,7 +161,7 @@ export default class GlobalConfig extends Component {
                                                 {i18n.t('global_config.rights_short_txt')}
                                                 <a target="_blank" href={"https://creativecommons.org/licenses/?lang=" + i18n.t('currentLang')}> [{i18n.t('Read_more')}] </a>
                                             </Popover>}>
-                                            <a className="miniIcon"><i className="material-icons">help</i></a>
+                                            <a className="miniIcon" id="helpIcon"><i className="material-icons">help</i></a>
                                         </OverlayTrigger>
                                         {/*
                                         <a className="miniIcon" target="_blank" href={"https://creativecommons.org/licenses/?lang="+i18n.t('currentLang')}><i className="material-icons">help</i></a>
@@ -218,7 +221,7 @@ export default class GlobalConfig extends Component {
                                                 value={typicalLearningTime.h}
                                                 min={0}
                                                 max={100}
-                                                placeholder="hour"
+                                                placeholder="h"
                                                 onChange={e => {this.setState({ modifiedState: true, typicalLearningTime: { h: e.target.value, m: typicalLearningTime.m, s: typicalLearningTime.s } });}}/>
                                             <InputGroup.Addon>h</InputGroup.Addon>
                                         </InputGroup>
@@ -227,7 +230,7 @@ export default class GlobalConfig extends Component {
                                                 value={typicalLearningTime.m}
                                                 min={0}
                                                 max={59}
-                                                placeholder="min"
+                                                placeholder="m"
                                                 onChange={e => {this.setState({ modifiedState: true, typicalLearningTime: { h: typicalLearningTime.h, m: e.target.value, s: typicalLearningTime.s } });}}/>
                                             <InputGroup.Addon>m</InputGroup.Addon>
                                         </InputGroup>{/*
@@ -236,11 +239,31 @@ export default class GlobalConfig extends Component {
                                                       value={typicalLearningTime.s}
                                                       min={0}
                                                       max={59}
-                                                      placeholder="sec"
+                                                      placeholder="s"
                                                       onChange={e => {this.setState({typicalLearningTime: {h:typicalLearningTime.h, m:typicalLearningTime.m, s:e.target.value}})}}/>
                                         <InputGroup.Addon>s</InputGroup.Addon>
                                       </InputGroup>*/}
                                     </FormGroup>
+
+                                    <FormGroup >
+                                        <ControlLabel className="inlineLabel">{i18n.t('global_config.hideGlobalScore')}</ControlLabel>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, hideGlobalScore: !this.state.hideGlobalScore });}} checked={!hideGlobalScore}/>
+
+                                    </FormGroup>
+                                    <FormGroup >
+                                        <ControlLabel>{i18n.t('global_config.minTimeProgress')}</ControlLabel><br/>
+                                        <InputGroup className="inputGroup">
+                                            <FormControl type="number"
+                                                value={minTimeProgress}
+                                                min={1}
+                                                max={500}
+                                                placeholder="s"
+                                                onChange={e => {this.setState({ modifiedState: true, minTimeProgress: e.target.value });}}/>
+                                            <InputGroup.Addon>s</InputGroup.Addon>
+                                        </InputGroup>
+
+                                    </FormGroup>
+
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.context')}</ControlLabel><br/>
                                         <Select
@@ -297,7 +320,7 @@ export default class GlobalConfig extends Component {
                     </Grid>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button bsStyle="default" id="insert_plugin_config_modal" onClick={e => {
+                    <Button bsStyle="default" id="cancel_insert_plugin_config_modal" onClick={e => {
                         this.cancel(); e.preventDefault();
                     }}>{i18n.t("global_config.Discard")}</Button>
                     <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
@@ -343,7 +366,6 @@ export default class GlobalConfig extends Component {
         // mutate array
         tags.splice(currPos, 1);
         tags.splice(newPos, 0, tag);
-
         // re-render
         this.setState({ modifiedState: true, keywords: tags });
     }
@@ -367,6 +389,7 @@ export default class GlobalConfig extends Component {
 
         let clone = element.cloneNode(true);
         let style = clone.style;
+        style.width = '600px';
         style.position = 'relative';
         style.top = window.innerHeight + 'px';
         style.left = 0;
@@ -387,7 +410,7 @@ export default class GlobalConfig extends Component {
                 // a.click();
 
                 document.body.removeChild(clone);
-                this.setState({ thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
+                this.setState({ modifiedState: true, thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
 
             },
             useCORS: true });
@@ -408,7 +431,7 @@ export default class GlobalConfig extends Component {
                 canvas.height = canvas.width * (img.height / img.width);
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                gc.setState({ thumbnail: canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
+                gc.setState({ modifiedState: true, thumbnail: canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
             };
             img.src = data;
         };
@@ -434,6 +457,8 @@ export default class GlobalConfig extends Component {
             version: this.props.globalConfig.version || '0.0.0',
             status: this.props.globalConfig.status || 'draft',
             context: this.props.globalConfig.context || 'school',
+            hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
+            minTimeProgress: this.props.globalConfig.minTimeProgress || 30,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
             modifiedState: false,
         });
@@ -464,19 +489,19 @@ export default class GlobalConfig extends Component {
 
 GlobalConfig.propTypes = {
     /**
-     * Indica si se debe mostrar la ventana de configuración del curso u ocultar
+     * Indicates whether the course configuration modal should be shown or hidden
      */
     show: PropTypes.bool,
     /**
-     * Diccionario que contiene la configuración del curso. Objeto idéntico a ***globalConfig*** en el estado de Redux.
+     * Configuration course dictionary. Object identical to Redux state ***globalConfig*** .
      */
     globalConfig: PropTypes.object.isRequired,
     /**
-     * Guarda la nueva configuración
+     * Saves new configuration
      */
     changeGlobalConfig: PropTypes.func.isRequired,
     /**
-     * Cierra la ventana de configuración
+     * Closes course configuration modal
      */
     close: PropTypes.func.isRequired,
 };

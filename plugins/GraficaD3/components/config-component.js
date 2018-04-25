@@ -4,32 +4,22 @@ import i18n from 'i18next';
 import DataProvider from './data-provider';
 import ChartOptions from './chart-options';
 import Chart from './chart-component';
+/* eslint-disable react/prop-types */
 
 export default class Config extends React.Component {
 
     constructor(props) {
         super(props);
-        this.modifyState = this.modifyState.bind(this);
         this.dataChanged = this.dataChanged.bind(this);
         this.setOptions = this.setOptions.bind(this);
         this.optionsChanged = this.optionsChanged.bind(this);
         this.editButtonClicked = this.editButtonClicked.bind(this);
-
-        this.state = props.state;
-    }
-
-    componentDidUpdate(nextProps, nextState) {
-        if (nextProps.state.editing === false) {
-            nextProps.base.configModalNeedsUpdate();
-        }
-    }
-    componentWillUpdate(nextProps, nextState) {
-        nextProps.base.setState("dataProvided", nextState.dataProvided);
-        nextProps.base.setState("options", nextState.options);
-        nextProps.base.setState("dataProcessed", nextState.dataProcessed);
-        nextProps.base.setState("keys", nextState.keys);
-        nextProps.base.setState("valueKeys", nextState.valueKeys);
-        nextProps.base.setState("editing", nextState.editing);
+        this.state = {
+            dataProcessed: [],
+            keys: [],
+            values: [],
+            options: this.props.options,
+        };
     }
 
     componentDidMount() {
@@ -37,97 +27,62 @@ export default class Config extends React.Component {
         this.setState({ chartWidth: clientWidth });
     }
 
-    modifyState() {
-
-    }
-
     dataChanged(values) {
-        this.setState({ editing: false, dataProvided: values.dataProvided.slice(0) });
-
-        /* CONVERSOR BETWEEN OLD AND NEW */
-        let keys = values.dataProvided.slice(0).map((x)=>{return x[0];});
-        let oldObjectStructure = new Array(values.dataProvided[0].length - 1);
-        for(let n = 0; n < oldObjectStructure.length; n++) {
-            oldObjectStructure[n] = {};
-        }
-        values.dataProvided.slice(0).forEach((array, indx)=>{
-            for(let n = 1; n < array.length; n++) {
-                oldObjectStructure[n - 1][array[0]] = array[n];
+        let dataObject = [];
+        let keys = values.keys.slice();
+        let data = values.data.slice();
+        for (let i = 0; i < keys.length; i++) {
+            let object = { name: keys[i] };
+            for (let o = 0; o < data.length; o++) {
+                let value = isNaN(data[o][i]) || typeof(data[o][i]) === "boolean" || data[o][i] === "" || data[o][i] === null ? data[o][i] : parseFloat(data[o][i], 10);
+                object[o] = value;
             }
-        });
+            dataObject.push(object);
+        }
+
+        this.props.updateState({ ...this.props.state, editing: false, dataProvided: [values.keys].slice().concat(values.data.slice()), dataProcessed: dataObject });
         /* CONVERSOR BETWEEN OLD AND NEW */
 
-        this.setOptions(oldObjectStructure, keys);
-        // this.updateChart();
+        this.setOptions(keys, data, dataObject);
     }
 
-    setOptions(dataProcessed, keys) {
-        let nKeys = [];
-        for (let i = 0; i < keys.length; i++) {
-            let value = keys[i];
-            nKeys[i] = {};
-            nKeys[i].value = value;
-            nKeys[i].notNumber = true;
-        }
-
-        for (let o = 0; o < dataProcessed.length; o++) {
-            let row = dataProcessed[o];
-            for (let i = 0; i < keys.length; i++) {
-                let key = nKeys[i];
-                dataProcessed[o][keys[i]] = isNaN(dataProcessed[o][keys[i]]) || typeof(dataProcessed[o][keys[i]]) === "boolean" || dataProcessed[o][keys[i]] === "" || dataProcessed[o][keys[i]] === null ? dataProcessed[o][keys[i]] : parseFloat(dataProcessed[o][keys[i]], 10);
-                if (key.notNumber) {
-                    nKeys[i].notNumber = isNaN(row[key.value]) || typeof(row[key.value]) === "boolean" || row[key.value] === "";
-                }
-            }
-        }
-
-        let valueKeys = [];
-        for (let key of nKeys) {
-            if (!key.notNumber) {
-                valueKeys.push(key.value);
-            }
-        }
-        let options = this.state.options;
-        options.x = keys[0];
-        options.y = [{ key: valueKeys[0], color: "#1FC8DB" }];
-        options.rings = [{ name: keys[0], value: valueKeys[0], color: "#1FC8DB" }];
-        this.setState({ dataProcessed: dataProcessed, keys: keys, valueKeys: valueKeys, options: options });
+    setOptions(keys, values, dataObject) {
+        let options = JSON.parse(JSON.stringify(this.props.state.options));
+        this.setState({ ...this.props.state, dataProcessed: dataObject, keys: keys, values: values, options: options });
     }
 
     optionsChanged(options) {
-        this.setState({ options: options });
+        this.props.updateState({ ...this.props.state, options: { ...this.props.state.options, ...options } });
     }
 
     editButtonClicked() {
-        this.setState({ editing: true });
+        this.props.updateState({ ...this.props.state, editing: true });
     }
 
     render() {
-
+        let { dataProcessed, dataProvided, editing, options } = this.props.state;
         return (
             <Grid>
                 <Row>
-                    <Col lg={this.state.editing ? 12 : 5} xs={12}>
+                    <Col lg={editing ? 12 : 5} xs={12}>
                         <h4> {i18n.t("GraficaD3.header.origin")} </h4>
-                        {!this.state.editing &&
+                        {!editing &&
                         <Button onClick={this.editButtonClicked} style={{ marginTop: '0px' }}
                             className="btn-primary">{i18n.t("GraficaD3.edit")}</Button>
                         }
-                        {this.state.editing &&
-                        <DataProvider dataProvided={this.state.dataProvided} dataChanged={this.dataChanged} keys={this.state.keys}
-                            valueKeys={this.state.valueKeys}/>
+                        {editing &&
+                        <DataProvider dataProvided={dataProvided} dataChanged={this.dataChanged} id={this.props.id} props={this.props.props}/>
                         }
-                        {!this.state.editing &&
-                        <ChartOptions options={this.state.options} optionsChanged={this.optionsChanged}
-                            keys={this.state.keys} valueKeys={this.state.valueKeys}/>
+                        {!editing &&
+                        <ChartOptions dataProcessed={dataProcessed} options={options} dataProvided={dataProvided} optionsChanged={this.optionsChanged}/>
                         }
                     </Col>
                     <div className="col-xs-12 col-lg-7" ref="chartContainer" style={{ padding: '0px' }}>
-                        {!this.state.editing &&
+                        {!editing &&
                         <div style={{ height: '300px', width: '95%' }}>
-                            <h4>Previsualización</h4>
-                            <Chart dataProcessed={this.state.dataProcessed} options={this.state.options} width={this.state.chartWidth}
-                                key={this.state.key}/>
+                            <h4>{i18n.t("GraficaD3.preview")}</h4>
+                            <Chart fromConfig id={this.props.id} dataProcessed={dataProcessed} options={options} keys={this.state.keys} values={this.state.values} width={this.state.chartWidth}
+                            />
                         </div>
                         }
                     </div>
@@ -137,3 +92,4 @@ export default class Config extends React.Component {
     }
 
 }
+/* eslint-enable react/prop-types */

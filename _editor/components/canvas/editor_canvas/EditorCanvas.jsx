@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import EditorCanvasSli from '../editor_canvas_sli/EditorCanvasSli';
 import EditorCanvasDoc from '../editor_canvas_doc/EditorCanvasDoc';
-import { REORDER_SORTABLE_CONTAINER, REORDER_BOXES } from '../../../../common/actions';
 import { isSlide } from '../../../../common/utils';
 
 import './_canvas.scss';
@@ -12,176 +11,187 @@ import './_canvas.scss';
  *
  */
 export default class EditorCanvas extends Component {
-    /**
-     * Constructor
-     * @param props React component props
-     */
     constructor(props) {
         super(props);
+
+        this.dropListener = (ev) => {
+            // console.log(ev.dataTransfer.files[0]);
+            // ev.preventDefault();
+            if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
+
+            } else {
+                ev.preventDefault();
+            }
+        };
+        this.dragListener = (ev) => {
+            // document.body.addClass('dragging');
+            ev.preventDefault();
+        };
     }
 
-    /**
-     * Renders React Component
-     * @returns {code} React rendered component
-     */
     render() {
-        return (isSlide(this.props.navItemSelected.type)) ?
+        return (!this.props.navItemSelected || !this.props.navItemSelected.type || isSlide(this.props.navItemSelected.type)) ?
             (<EditorCanvasSli fromCV={false} {...this.props} />) :
             (<EditorCanvasDoc fromCV={false} {...this.props} />);
     }
 
-    /**
-     * Before component receives props
-     * Scrolls to top when the user changes to a different page
-     * @param nextProps
-     */
     componentWillReceiveProps(nextProps) {
-        if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
+
+        if (this.props.navItemSelected && this.props.navItemSelected.id &&
+          nextProps.navItemSelected && nextProps.navItemSelected.id &&
+          this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
             document.getElementById('maincontent').scrollTop = 0;
         }
     }
 
-    /**
-     * After component updates
-     * Fixes bug when reordering editorbox sortable CKEDITOR doesn't update otherwise
-     * @param prevProps React previous props
-     * @param prevState React previous state
-     */
-    componentDidUpdate(prevProps, prevState) {
-        if(this.props.lastActionDispatched.type === REORDER_SORTABLE_CONTAINER || this.props.lastActionDispatched.type === REORDER_BOXES) {
-            for (let instance in CKEDITOR.instances) {
-                CKEDITOR.instances[instance].destroy();
-            }
-            CKEDITOR.inlineAll();
-            for (let editor in CKEDITOR.instances) {
-                if (this.props.toolbars[editor].state.__text) {
-                    CKEDITOR.instances[editor].setData(decodeURI(this.props.toolbars[editor].state.__text));
-                }
-            }
-        }
+    componentWillUnmount() {
+        document.removeEventListener('dragover', this.dragListener);
+        document.removeEventListener('drop', this.dropListener);
+    }
+
+    componentDidMount() {
+        document.addEventListener('dragover', this.dragListener);
+        document.addEventListener('drop', this.dropListener);
+
     }
 
 }
 
 EditorCanvas.propTypes = {
     /**
-     * Relación de aspecto para diapositivas
+     * Slides aspect ratio
      */
     canvasRatio: PropTypes.number.isRequired,
     /**
-     * Indicador de si se muestra el canvas (tiene qu haber un navItem seleccionado)
+     * Canvas show flag in current selected view
      */
     showCanvas: PropTypes.bool,
     /**
-     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     * Object containing every existing box (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
-     * Caja seleccionada en el momento. Si no hay ninguna, -1
+     * Current Box selected. If there isn't, -1
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * Nivel de profundidad de caja seleccionada (sólo para plugins dentro de plugins)
+     * Selected box level (only plugins inside plugins)
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
     /**
-     * Vista  seleccionada identificada por su *id*
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Vista contenida seleccionada identificada por su *id*
+     * Selected contained view (by ID)
      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
-     * Título del curso
+     * Course title
      */
     title: PropTypes.string.isRequired,
     /**
-     * Diccionario que contiene todas las cajas y vistas creadas , accesibles por su *id*
+     * Object containing every view toolbar (by id)
      */
-    toolbars: PropTypes.object.isRequired,
+    viewToolbars: PropTypes.object.isRequired,
     /**
-     * Última acción realizada en Redux
+     * Object containing every plugin toolbar (by id)
+     */
+    pluginToolbars: PropTypes.object.isRequired,
+    /**
+     * Object containing every accordion (by id)
+     */
+    accordions: PropTypes.object.isRequired,
+    /**
+     * Last action dispatched in Redux
      */
     lastActionDispatched: PropTypes.any.isRequired,
     /**
-     * Añade una marca a la caja
+     * Callback for adding a mark shortcut
      */
     addMarkShortcut: PropTypes.func.isRequired,
     /**
-     * Función que oculta el overlay de creación de marcas
+     * Callback for deleting mark creator overlay
      */
     deleteMarkCreator: PropTypes.func.isRequired,
     /**
-     * Identificador de la caja en la que se va a crear una marca
+     * Identifier of the box that is creating a mark
      */
     markCreatorId: PropTypes.any.isRequired,
     /**
-     * Oculta/muestra el overlay de creación de marcas
+     * Callback for toggling creation mark overlay
      */
     onMarkCreatorToggled: PropTypes.func.isRequired,
     /**
-     * Añade una caja
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
-    * Borra una caja
+    * Callback for deleting a box
     */
     onBoxDeleted: PropTypes.func.isRequired,
     /**
-     * Selecciona la caja
+     * Callback for selecting a box
      */
     onBoxSelected: PropTypes.func.isRequired,
     /**
-     * Aumenta el nivel de profundidad de selección (plugins dentro de plugins)
+     * Callback for increasing box level selected
      */
     onBoxLevelIncreased: PropTypes.func.isRequired,
     /**
-     * Mueve la caja
+     * Callback for moving a box
      */
     onBoxMoved: PropTypes.func.isRequired,
     /**
-     * Redimensiona la caja
+     * Callback for resizing a box
      */
     onBoxResized: PropTypes.func.isRequired,
     /**
-     * Suelta la caja en una zona de un EditorBoxSortable
+     * Callback for dropping a box
      */
     onBoxDropped: PropTypes.func.isRequired,
     /**
-     * Alínea la caja verticalmente
+     * Callback for vertically aligning boxes inside a container
      */
     onVerticallyAlignBox: PropTypes.func.isRequired,
     /**
-     * Reordena las cajas dentro de su contenedor
+     * Callback for reordering boxes inside a container
      */
     onBoxesInsideSortableReorder: PropTypes.func.isRequired,
     /**
-     * Borra un contenedor
+     * Callback for deleting a sortable container
      */
     onSortableContainerDeleted: PropTypes.func.isRequired,
     /**
-     * Reordena los contenedores
+     * Callback for reordering sortable containers
      */
     onSortableContainerReordered: PropTypes.func.isRequired,
     /**
-     * Redimensiona un contenedor
+     * Callback for resizing a sortable container
      */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
-     * Selecciona una vista contenida
+     * Callback for selecting contained view
      */
     onContainedViewSelected: PropTypes.func.isRequired,
     /**
-     * Hace aparecer/desaparecer el CKEditor
+     * Callback for toggling the CKEditor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
+    /**
+     * Whether or not the grid is activated for slides
+     */
+    grid: PropTypes.bool,
+    /**
+   * Function that updates the toolbar of a view
+   */
+    onToolbarUpdated: PropTypes.func,
 };

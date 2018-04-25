@@ -12,40 +12,17 @@ import './_mark_editor.scss';
 *
 */
 export default class MarkEditor extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
     constructor(props) {
         super(props);
-        /**
-         * Component's initial state
-         * @type {{holding: boolean, start: number, ended: boolean}}
-         */
         this.state = {
             holding: false,
             start: 0,
             ended: false,
         };
-        /**
-         * Binded function
-         */
         this.start = this.start.bind(this);
-        /**
-         * Binded function
-         */
         this.end = this.end.bind(this);
-        /**
-         * Binded function
-         */
         this.timeout = this.timeout.bind(this);
-        /**
-         * Binded function
-         */
         this.overlay = this.overlay.bind(this);
-        /**
-         * Binded function
-         */
         this.mouseLeave = this.mouseLeave.bind(this);
     }
 
@@ -120,11 +97,11 @@ export default class MarkEditor extends Component {
                 onTouchStart={this.start}
                 onMouseUp={()=>{this.end();}}
                 onMouseEnter={(e)=>{
-                    this.props.base.pointerEventsCallback('mouseenter', this.props.base.getState());
+                    this.props.base.pointerEventsCallback('mouseenter', this.props.state);
                 }}
                 onMouseLeave={(e)=>{
                     let bool = findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled');
-                    this.props.base.pointerEventsCallback('mouseleave_' + (bool && !this.state.editing ? 'true' : 'false'), this.props.base.getState());
+                    this.props.base.pointerEventsCallback('mouseleave_' + (bool && !this.state.editing ? 'true' : 'false'), this.props.state);
                     this.mouseLeave(e);
                 }}
                 onTouchCancel={this.end}
@@ -158,10 +135,13 @@ export default class MarkEditor extends Component {
         let cursor_x_offset = 12;
         let cursor_y_offset = 20;
         let component = this;
-        overlay.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
-        document.body.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+        // overlay.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+        // document.body.style.cursor =  'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+        // document.getElementsByClassName('boxSelected')[0].style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+
         let base = this.props.base;
         let toolbarState = this.props.state;
+        let marks = this.props.marks;
         let parseRichMarkInput = base.parseRichMarkInput;
         let editing = this.state.editing;
         const id = this.props.mark;
@@ -182,9 +162,9 @@ export default class MarkEditor extends Component {
                 overlay.remove();
             }
             dropableElement.classList.remove('rich_overlay');
-            /* if(component) {
+            if(component) {
                 component.setState({ editing: false });
-            }*/
+            }
         };
 
         let clickOutside = function(e) {
@@ -203,21 +183,20 @@ export default class MarkEditor extends Component {
             exitFunction();
             event.preventDefault();
         };
+        let onRichMarkMoved = this.props.onRichMarkMoved;
+        let boxId = this.props.boxId;
         let mouseup = function(event) {
             if (event.which === 3) {
                 exitFunction();
                 return;
             }
             const square = this.getClientRects()[0];
-            let marks = JSON.parse(JSON.stringify(toolbarState.__marks));
             const x = event.clientX - square.left - cursor_x_offset;// event.offsetX;
             const y = event.clientY - square.top - cursor_y_offset;// event.offsetY;
             const width = square.right - square.left;
             const height = square.bottom - square.top;
-            const value = parseRichMarkInput(x, y, width, height, [], toolbarState);
-            if (marks[id]) {
-                marks[id].value = value;
-            }
+            const value = parseRichMarkInput(x, y, width, height, [], toolbarState, boxId);
+
             document.body.style.cursor = 'default';
             boxStyle.classList.remove('norotate');
             document.documentElement.removeEventListener('mouseup', clickOutside, true);
@@ -229,11 +208,11 @@ export default class MarkEditor extends Component {
             }
             let boxParent = findParentBySelector(myself, '.wholebox');
             if (boxParent) {
-                let boxId = findParentBySelector(myself, '.wholebox').id.replace("box-", "");
-                base.editRichMark(boxId, id, value);
-                // base.setState('__marks', marks);
-                // base.render('EDIT_RICH_MARK');
+                onRichMarkMoved(id, value);
+            } else{
+                component.forceUpdate();
             }
+            // onRichMarkMoved(id, value);
             overlay.removeEventListener('mouseup', mouseup);
 
         };
@@ -265,4 +244,24 @@ MarkEditor.propTypes = {
      * Estado de la toolbar del plugin
      */
     state: PropTypes.object.isRequired,
+    /**
+      * Callback when mark is dropped
+      */
+    onClickNHold: PropTypes.func,
+    /**
+      * Marks
+      */
+    children: PropTypes.any,
+    /**
+     * Marks object
+     */
+    marks: PropTypes.any,
+    /**
+     * Function to move a mark
+     */
+    onRichMarkMoved: PropTypes.func,
+    /**
+   * Id of the box
+   */
+    boxId: PropTypes.any,
 };

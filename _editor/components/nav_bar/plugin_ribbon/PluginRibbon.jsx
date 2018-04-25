@@ -4,7 +4,14 @@ import interact from 'interactjs';
 import PropTypes from 'prop-types';
 import Ediphy from '../../../../core/editor/main';
 import ReactDOM from 'react-dom';
+import i18n from 'i18next';
 import './_pluginRibbon.scss';
+import { isSortableBox, isSlide, isBox, isContainedView, isSortableContainer } from '../../../../common/utils';
+import { ADD_BOX } from "../../../../common/actions";
+import Alert from './../../common/alert/Alert';
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
+import { randomPositionGenerator } from './../../clipboard/clipboard.utils';
+import { createBox, instanceExists, releaseClick } from '../../../../common/common_tools';
 
 /**
  * Plugin ribbon inside toolbar
@@ -18,7 +25,12 @@ export default class PluginRibbon extends Component {
         super(props);
         this.state = {
             buttons: [],
+            clipboardAlert: false,
+            showed: true,
+            alert: null,
         };
+        this.clickAddBox = this.clickAddBox.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
     }
 
     /**
@@ -27,15 +39,10 @@ export default class PluginRibbon extends Component {
      */
     render() {
         return (
-            <Col id="ribbon"
-                md={12}
-                xs={12}
-                style={{
-                    height: this.props.ribbonHeight,
-                    overflowY: 'hidden',
-                }} ref="holder">
-                <div id="insideribbon" className="row">
+            <Col id="ribbon" md={12} xs={12} ref="holder" >
+                <div id="insideribbon">
                     <div id="ribbonList">
+                        {this.state.alert}
                         {this.state.buttons.map((item, index) => {
                             let button = this.state.buttons[index];
                             if (button.category === this.props.category || this.props.category === 'all') {
@@ -47,6 +54,7 @@ export default class PluginRibbon extends Component {
                                         name={item.name}
                                         bsSize="large"
                                         draggable="false"
+                                        onMouseUp={(e)=>this.clickAddBox(e, item.name)}
                                         style={(button.iconFromUrl) ? {
                                             padding: '8px 8px 8px 45px',
                                             backgroundImage: 'url(' + clase + ')',
@@ -61,8 +69,10 @@ export default class PluginRibbon extends Component {
                             }
                             return null;
                         })}
+
                     </div>
                 </div>
+
             </Col>
         );
     }
@@ -102,6 +112,7 @@ export default class PluginRibbon extends Component {
         }
         interact(".rib")
             .draggable({
+                enabled: !this.props.disabled,
                 autoScroll: {
                     container: document.getElementById(container),
                     margin: 50,
@@ -119,78 +130,75 @@ export default class PluginRibbon extends Component {
      * Set interact and other listeners
      */
     componentDidMount() {
-        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.addMenuButtons, e => {
-            this.setState({ buttons: this.state.buttons.concat(e.detail) });
+        this.setState({ buttons: this.state.buttons.concat(Ediphy.Plugins.getPluginConfigs()) });
 
-            const holder = ReactDOM.findDOMNode(this.refs.holder);
-            holder.addEventListener('mousewheel', this.handleScroll);
+        const holder = ReactDOM.findDOMNode(this.refs.holder);
+        holder.addEventListener('mousewheel', this.handleScroll);
 
-            let container;
+        let container;
 
-            if(this.props.containedViewSelected !== 0) {
-                container = "containedCanvas";
-
-            }else{
-
-                container = "canvas";
-
-            }
-            let elContainer = document.getElementById(container);
-            interact.dynamicDrop(true);
-            interact(".rib")
-                .draggable({
-                    inertia: true,
-                    onstart: function(event) {
-                        changeOverflow(true);
-                        let original = event.target;
-                        let parent = original.parentNode;
-                        let dw = original.offsetWidth;
-                        let clone = original.cloneNode(true),
-                            x = (parseFloat(original.getAttribute('data-x') - dw, 10) || 0),
-                            y = (parseFloat(original.getAttribute('data-y'), 10) || 0);
-                        clone.setAttribute("id", "clone");
-                        clone.setAttribute('data-x', x);
-                        clone.setAttribute('data-y', y);
-                        parent.appendChild(clone);
-                        // translate the element
-                        clone.style.webkitTransform =
+        if (this.props.containedViewSelected !== 0) {
+            container = "containedCanvas";
+        } else {
+            container = "canvas";
+        }
+        let elContainer = document.getElementById(container);
+        interact.dynamicDrop(true);
+        interact(".rib")
+            .draggable({
+                enabled: !this.props.disabled,
+                inertia: true,
+                onstart: function(event) {
+                    changeOverflow(true);
+                    let original = event.target;
+                    let parent = original.parentNode;
+                    let dw = original.offsetWidth;
+                    let clone = original.cloneNode(true),
+                        x = (parseFloat(original.getAttribute('data-x') - dw, 10) || 0),
+                        y = (parseFloat(original.getAttribute('data-y'), 10) || 0);
+                    clone.setAttribute("id", "clone");
+                    clone.setAttribute('data-x', x);
+                    clone.setAttribute('data-y', y);
+                    parent.appendChild(clone);
+                    // translate the element
+                    clone.style.webkitTransform =
                         clone.style.transform =
                             'translate(' + (x) + 'px, ' + (y) + 'px)';
-                        clone.style.position = 'absolute';
-                    },
-                    onmove: (event) => {
-                        let target = document.getElementById('clone'),
-                            // keep the dragged position in the data-x/data-y attributes
+                    clone.style.position = 'absolute';
+                },
+                onmove: (event) => {
+                    let target = document.getElementById('clone'),
+                        // keep the dragged position in the data-x/data-y attributes
 
-                            x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx,
-                            y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
+                        x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx,
+                        y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
 
                         // translate the element
-                        target.style.webkitTransform =
+                    target.style.webkitTransform =
                         target.style.transform =
                             'translate(' + (x) + 'px, ' + (y) + 'px)';
-                        target.style.zIndex = '9999';
+                    target.style.zIndex = '9999';
+                    target.classList.add('ribdrag');
 
-                        target.classList.add('ribdrag');
+                    // update the position attributes
+                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-y', y);
 
-                        // update the position attributes
-                        target.setAttribute('data-x', x);
-                        target.setAttribute('data-y', y);
-
-                    },
-                    onend: (event) => {
-                        changeOverflow(false);
-                        let original = event.target;
-                        let parent = original.parentNode;
-                        let dw = original.offsetWidth;
-                        let clone = document.getElementById('clone');
-
+                },
+                onend: (event) => {
+                    changeOverflow(false);
+                    let original = event.target;
+                    let parent = original.parentNode;
+                    let dw = original.offsetWidth;
+                    let clone = document.getElementById('clone');
+                    if (clone) {
+                        let name = clone.getAttribute('name');
                         let target = clone,
                             x = 0,
                             y = 0;
                         target.style.webkitTransform =
-                        target.style.transform =
-                            'translate(' + (x) + 'px, ' + y + 'px)';
+                            target.style.transform =
+                              'translate(' + (x) + 'px, ' + y + 'px)';
 
                         target.style.zIndex = '9999';
                         target.style.position = 'relative';
@@ -200,10 +208,17 @@ export default class PluginRibbon extends Component {
                         target.setAttribute('data-y', y);
 
                         parent.removeChild(clone);
-                        event.stopPropagation();
-                    },
-                });
-        });
+
+                        let releaseClickEl = document.elementFromPoint(event.clientX, event.clientY);
+                        let rib = releaseClick(releaseClickEl, "ribbon");
+
+                        if(rib === 'List') {
+                            this.clickAddBox(event, name);
+                        }
+                    }
+                    event.stopPropagation();
+                },
+            });
     }
 
     /**
@@ -212,6 +227,72 @@ export default class PluginRibbon extends Component {
      */
     componentWillUnmount() {
         interact('.rib').unset();
+    }
+
+    clickAddBox(event, name) {
+        let alert = (msg) => {return <Alert key="alert" className="pageModal"
+            show
+            hasHeader
+            backdrop={false}
+            title={ <span><i className="material-icons alert-warning" >warning</i>{ i18n.t("messages.alert") }</span> }
+            closeButton onClose={()=>{this.setState({ alert: null });}}>
+            <span> {msg} </span>
+        </Alert>;};
+
+        let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected.id);
+        let cvslide = cv && isSlide(this.props.containedViewSelected.type);
+        let cvdoc = cv && !isSlide(this.props.containedViewSelected.type);
+        let config = Ediphy.Plugins.get(name).getConfig();
+        if (!config) {
+            return;
+        }
+        let isBoxSelected = (this.props.boxSelected && isBox(this.props.boxSelected.id));
+        if (isBoxSelected && isBox(this.props.boxSelected.parent) && config.isComplex) {
+            this.setState({ alert: alert(i18n.t('messages.depth_limit')) });
+            event.stopPropagation();
+            return;
+        }
+
+        if (config.limitToOneInstance && instanceExists(name)) {
+            this.setState({ alert: alert(i18n.t('messages.instance_limit')) });
+            event.stopPropagation();
+            return;
+        }
+        let inASlide = isSlide(this.props.navItemSelected.type) || cvslide;
+
+        let position = inASlide ? {
+            x: randomPositionGenerator(20, 40),
+            y: randomPositionGenerator(20, 40),
+            type: 'absolute',
+        } : undefined;
+        let SelectedNav = inASlide ? (cvslide ? this.props.containedViewSelected.id : this.props.navItemSelected.id) : 0;
+        let parentBox = inASlide ? 0 : (cvdoc ? this.props.containedViewSelected.boxes[0] : this.props.navItemSelected.boxes[0]);
+
+        let parent = isBoxSelected ? this.props.boxSelected.parent : (inASlide ? SelectedNav : parentBox);
+        let container = isBoxSelected ? this.props.boxSelected.container : (inASlide ? 0 : (ID_PREFIX_SORTABLE_CONTAINER + Date.now()));
+        let initialParams = {
+            parent: parent,
+            container: container,
+            name,
+            position: position,
+            id: ID_PREFIX_BOX + Date.now(),
+            page: cv ? this.props.containedViewSelected.id : (this.props.navItemSelected ? this.props.navItemSelected.id : 0),
+        };
+        if (!inASlide) {
+            if (isBoxSelected) {
+                let newInd;
+                if(isSortableContainer(initialParams.container)) {
+                    let children = this.props.boxes[initialParams.parent].sortableContainers[initialParams.container].children;
+                    newInd = children.indexOf(this.props.boxSelected.id) + 1;
+                    newInd = newInd === 0 ? 1 : ((newInd === 0 || newInd >= children.length) ? (children.length) : newInd);
+                    initialParams.index = newInd; initialParams.col = 0; initialParams.row = 0;
+                }
+            }
+        }
+        createBox(initialParams, name, inASlide, this.props.onBoxAdded, this.props.boxes);
+        event.stopPropagation();
+        event.preventDefault();
+
     }
 }
 
@@ -226,8 +307,6 @@ function changeOverflow(bool) {
     document.getElementById('insideribbon').style.overflowY = bool ? 'visible' : 'hidden';
     document.getElementById('ribbonList').style.overflowY = bool ? 'visible' : 'hidden';
     document.getElementById('ribbonRow').style.overflowY = bool ? 'visible' : 'hidden';
-    document.getElementById('canvas').style.zIndex = bool ? '-1' : '0';
-    document.getElementById('containedCanvas').style.zIndex = bool ? '-1' : '0';
 }
 
 PluginRibbon.propTypes = {
@@ -236,19 +315,27 @@ PluginRibbon.propTypes = {
     */
     disabled: PropTypes.bool,
     /**
-  * Vista seleccionada
-  */
+     * Current selected view (by ID)
+     */
     navItemSelected: PropTypes.any.isRequired,
     /**
-  * Vista contenida seleccionada
-  */
+      * Selected contained view (by ID)
+      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
-  * Categoría de plugin seleccionada
-  */
+      * Categoría de plugin seleccionada
+      */
     category: PropTypes.string,
     /**
-  * Altura del ribbon
-  */
-    ribbonHeight: PropTypes.string,
+      * Selected box
+      */
+    boxSelected: PropTypes.any,
+    /**
+      * Object containing all created boxes (by id)
+      */
+    boxes: PropTypes.object,
+    /**
+     * Callback for adding a box
+     */
+    onBoxAdded: PropTypes.func.isRequired,
 };

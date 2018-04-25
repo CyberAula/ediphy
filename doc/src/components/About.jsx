@@ -4,6 +4,7 @@ import { Grid, Col, Row, Well } from 'react-bootstrap';
 import Markdown from 'react-remarkable';
 import { WIKI_BASE_URL } from './../content';
 import i18n from 'i18next';
+/* eslint-disable react/prop-types */
 
 export default class About extends Component {
     constructor(props) {
@@ -63,6 +64,7 @@ export default class About extends Component {
 
             }.bind(this))
             .fail(function(xhr) {
+                // eslint-disable-next-line no-console
                 console.error('error', xhr);
                 this.setState({ changelog: "" });
             }.bind(this));
@@ -77,8 +79,11 @@ export default class About extends Component {
 
             }.bind(this))
             .fail(function(xhr) {
+                // eslint-disable-next-line no-console
                 console.error('error', xhr);
                 this.setState({ about: "" });
             }.bind(this));
     }
 }
+
+/* eslint-enable react/prop-types */

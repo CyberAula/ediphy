@@ -1,27 +1,37 @@
-import { ADD_BOX, INCREASE_LEVEL, SELECT_BOX, SELECT_NAV_ITEM, DELETE_NAV_ITEM, IMPORT_STATE } from '../common/actions';
-import { isSortableBox } from '../common/utils';
+import {
+    ADD_BOX, INCREASE_LEVEL, SELECT_BOX, SELECT_NAV_ITEM, DELETE_NAV_ITEM, IMPORT_STATE,
+    PASTE_BOX, MOVE_BOX, DROP_BOX, DELETE_BOX,
+} from '../common/actions';
+import { isSortableBox, isBox } from '../common/utils';
 
 export default function(state = 0, action = {}) {
     switch (action.type) {
     case ADD_BOX:
-        return 0;
-    case INCREASE_LEVEL:
-        return state + 1;
-    case DELETE_NAV_ITEM:
-        return 0;
-    case SELECT_BOX:
-        if (action.payload.id === -1) {
+        if (action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
             return 0;
         }
+        return isBox(action.payload.ids.parent) ? 1 : 0;
+    case INCREASE_LEVEL:
+        return state + 1;
+    case MOVE_BOX:
+        if (isBox(action.payload.parent)) {
+            return 1;
+        }
+        return 0;
+    case SELECT_BOX:
         if (isSortableBox(action.payload.id)) {
             return -1;
         }
-        // If level is -1 because a EditorBoxSortable was selected previously, we want to return 0, otherwise, return current
-        return Math.max(state, 0);
+        let level = (action.payload.box && !isNaN(action.payload.box.level)) ? action.payload.box.level : 0/* Math.max(state, 0)*/;
+        return level;
     case IMPORT_STATE:
-        return 0;
+    case DELETE_NAV_ITEM:
     case SELECT_NAV_ITEM:
+    case PASTE_BOX:
+    case DELETE_BOX:
         return 0;
+    case DROP_BOX:
+        return isBox(action.payload.parent) ? 1 : 0;
     default:
         return state;
     }

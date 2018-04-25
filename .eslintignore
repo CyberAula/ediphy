@@ -4,3 +4,4 @@ doc/dist
 sass
 ediphy_server
 webpack_plugins
+coverage

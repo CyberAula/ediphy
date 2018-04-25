@@ -10,7 +10,7 @@ import Content from './src/components/Content';
 import { srcTree, lookForPath } from './src/content';
 import "./src/style/style.scss";
 import i18n from './locales/i18n';
-
+// import {languages} from './scripts/reactdocgenmd';
 export default class Docs extends Component {
     constructor(props) {
         super(props);
@@ -19,6 +19,7 @@ export default class Docs extends Component {
             subsection: 0,
             page: 1,
             subpage: 0,
+            lang: "",
         };
 
         this.handleNav = this.handleNav.bind(this);
@@ -35,16 +36,16 @@ export default class Docs extends Component {
             }
 
             if (Object.keys(tree[el].children).length === 0) {
-                return (<LinkContainer to={tree[el].path}>
-                    <NavItem key={el} active={this.state.section === el} eventKey={el} href="#">
+                return (<LinkContainer to={tree[el].path} key={el}>
+                    <NavItem key={"nav_" + el} active={this.state.section === el} href="#">
                         <span>{tree[el].title}</span>
                     </NavItem></LinkContainer>
                 );
             }
 
-            return (<NavDropdown key={el} active={this.state.section === el} eventKey={el} title={tree[el].title} id="basic-nav-dropdown">
+            return (<NavDropdown key={el} active={this.state.section === el} title={tree[el].title} id="basic-nav-dropdown">
                 {Object.keys(tree[el].children).map(sub =>{
-                    return (<LinkContainer to={tree[el].children[sub].path}>
+                    return (<LinkContainer to={tree[el].children[sub].path} key={sub}>
                         <MenuItem key={el + '.' + sub} eventKey={el + '.' + sub}>
                             <span>{tree[el].children[sub].title}</span>
                         </MenuItem></LinkContainer>
@@ -58,37 +59,44 @@ export default class Docs extends Component {
 
         </Nav>;
 
-        const Comp = ({ match }) => {
+        const Comp = ({ match, key }) => {
             let url = lookForPath(match.url);
             url = url || {};
-            return <Content
+            return <Content key={key}
                 section={ url.section || this.state.section }
                 subsection={ url.subsection || this.state.subsection}
                 page={ url.page || this.state.page }
                 subpage={ url.subpage || this.state.subpage } />;
         };
-        return (<Router forceRefresh={!supportsHistory}>
-            <Grid fluid>
-                <Row id="nbRow">
-                    <Navbar collapseOnSelect >
-                        <Navbar.Header>
-                            <Navbar.Brand>
-                                <a href="#">Ediphy Docs</a>
-                            </Navbar.Brand>
-                        </Navbar.Header>
-                        <Navbar.Toggle style={{ top: '0px', right: '0px', position: 'absolute' }}/>
-                        <Navbar.Collapse>
-                            {navItems}
 
-                        </Navbar.Collapse>
-                    </Navbar>
-                </Row>
-                <Route exact path="/" component={Comp}/>
-                <Route exact path="/:section" component={Comp}/>
-                <Route exact path="/:section/:page" component={Comp}/>
-                <Route path="/:section/:page/:subpage" component={Comp}/>
+        const ChangeLang = ({ lang }) => {
+            return <button className="langButton" onClick={()=>{i18n.changeLanguage(lang); this.forceUpdate();}}>{lang}</button>;
+        };
 
-            </Grid></Router>);
+        return (<Router onUpdate={() => window.scrollTo(0, 0)} forceRefresh={!supportsHistory}>
+            <Grid fluid id="grid">
+                <Navbar collapseOnSelect id="nb">
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            <a href="#">Ediphy Docs</a>
+                        </Navbar.Brand>
+                    </Navbar.Header>
+                    <Navbar.Toggle style={{ top: '0px', right: '0px', position: 'absolute' }}/>
+                    <Navbar.Collapse>
+                        {navItems}
+
+                    </Navbar.Collapse>
+                    <span id="langSelector">
+                        <ChangeLang lang="en"/>・<ChangeLang lang="es"/>
+                    </span>
+                </Navbar>
+
+                <Route key={1} exact path="/:section" component={Comp}/>
+                <Route key={2} exact path="/:section/:page" component={Comp}/>
+                <Route key={3} path="/:section/:page/:subpage" component={Comp}/>
+                <Route key={4} exact path="/" component={Comp}/>
+            </Grid>
+        </Router>);
 
     }
     handleNav(section, subsection) {
