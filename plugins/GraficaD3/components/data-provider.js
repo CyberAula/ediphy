@@ -104,7 +104,7 @@ export default class DataProvider extends React.Component {
         if(value > 1) {
             if (value > pre) {
                 let difference = value - pre;
-                data = data.concat(Array(difference).fill(Array(cols).fill("")));
+                data = data.concat(Array.from({ length: difference }, e => Array(cols).fill("")));
             } else if (value < pre) {
                 data.splice(value, pre - value);
             }

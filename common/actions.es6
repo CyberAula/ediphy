@@ -196,8 +196,8 @@ export function moveRichMark(mark, value) {
     return { type: MOVE_RICH_MARK, payload: { mark, value } };
 }
 
-export function editRichMark(id, mark) {
-    return { type: EDIT_RICH_MARK, payload: { id, mark } };
+export function editRichMark(mark, view, toolbar) {
+    return { type: EDIT_RICH_MARK, payload: { mark, view, toolbar } };
 }
 
 export function deleteRichMark(mark) {
@@ -247,10 +247,6 @@ export function updateViewToolbar(id, elements) {
 
 export function configScore(id, button, value, page) {
     return { type: CONFIG_SCORE, payload: { id, button, value, page } };
-}
-
-export function fetchVishResourcesSuccess(result) {
-    return { type: FETCH_VISH_RESOURCES_SUCCESS, payload: { result } };
 }
 
 export function uploadFile(url, name, keywords, mimetype) {
@@ -394,30 +390,6 @@ export function importStateAsync() {
             })
             .then(() => {
                 dispatch(setBusy(false, i18n.t("success_transaction")));
-            })
-            .catch(e => {
-                dispatch(setBusy(false, e.message));
-            });
-    };
-}
-
-export function fetchVishResourcesAsync(query) {
-    return dispatch => {
-        dispatch(setBusy(true, i18n.t("Searching")));
-
-        return fetch(query)
-            .then(response => {
-                if (response.status >= 400) {
-                    throw new Error(i18n.t("error.searching"));
-                }
-                return response.text();
-            })
-            .then(result => {
-                dispatch(fetchVishResourcesSuccess(JSON.parse(result)));
-                return true;
-            })
-            .then(() => {
-                dispatch(setBusy(false, i18n.t("no_results")));
             })
             .catch(e => {
                 dispatch(setBusy(false, e.message));

@@ -1,6 +1,6 @@
 import {
     DELETE_CONTAINED_VIEW, ADD_NAV_ITEM,
-    ADD_RICH_MARK,
+    ADD_RICH_MARK, EDIT_RICH_MARK,
     DELETE_NAV_ITEM, UPDATE_VIEW_TOOLBAR,
     IMPORT_STATE, ADD_CONTAINED_VIEW, ADD_NAV_ITEMS,
 } from '../common/actions';
@@ -74,6 +74,7 @@ export default function(state = {}, action = {}) {
         });
         return { ...state, ...nav_items };
     case ADD_RICH_MARK:
+    case EDIT_RICH_MARK:
         if(action.payload.mark.connectMode === "new") {
             return changeProp(state, action.payload.view.id, toolbarElementCreator(state, action, isContainedView(action.payload.mark.connection)));
         }

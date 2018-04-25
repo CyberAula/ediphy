@@ -168,7 +168,7 @@ NavActionButtons.propTypes = {
      */
     globalConfig: PropTypes.object.isRequired,
     /**
-     * Identifies the view that is being edited
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**

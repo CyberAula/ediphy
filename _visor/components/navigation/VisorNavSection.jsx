@@ -95,7 +95,7 @@ VisorNavSection.propTypes = {
      */
     navItemsById: PropTypes.object.isRequired,
     /**
-     * Vista seleccionada actualmente
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
@@ -103,7 +103,7 @@ VisorNavSection.propTypes = {
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-   * List of all the course navItems in order
+   * Objects Array that contains all created views (identified by its *id*)
    */
     navItemsIds: PropTypes.array.isRequired,
     /**

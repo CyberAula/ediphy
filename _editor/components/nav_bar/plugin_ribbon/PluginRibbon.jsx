@@ -315,11 +315,11 @@ PluginRibbon.propTypes = {
     */
     disabled: PropTypes.bool,
     /**
-     * Vista seleccionada
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-      * Vista contenida seleccionada
+      * Selected contained view (by ID)
       */
     containedViewSelected: PropTypes.any.isRequired,
     /**
@@ -331,11 +331,11 @@ PluginRibbon.propTypes = {
       */
     boxSelected: PropTypes.any,
     /**
-      * Object that contains the boxes
+      * Object containing all created boxes (by id)
       */
     boxes: PropTypes.object,
     /**
-     * Function for creating a new box
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
 };

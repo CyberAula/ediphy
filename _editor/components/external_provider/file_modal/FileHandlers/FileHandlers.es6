@@ -4,6 +4,15 @@ import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../comm
 import { randomPositionGenerator } from '../../../clipboard/clipboard.utils';
 import { isSlide, isBox } from '../../../../../common/utils';
 
+export let extensions = [
+    { label: "Todos", value: '', icon: 'attach_file' },
+    { label: "Image", value: 'image', icon: 'image' },
+    { label: "Audio", value: 'audio', icon: 'audiotrack' },
+    { label: "Video", value: 'video', icon: 'play_arrow' },
+    { label: "CSV", value: 'csv', icon: 'view_agenda' },
+    { label: "JSON", value: 'json', icon: 'view_agenda' },
+    { label: "PDF", value: 'pdf', icon: 'picture_as_pdf' },
+];
 export default function handlers(self) {
     let type = self.state.type;
     let download = { // Forces browser download
@@ -35,9 +44,9 @@ export default function handlers(self) {
                             if (self.props.fileModalResult && !self.props.fileModalResult.id) {
                                 initialParams.url = self.state.element;
                                 createBox(initialParams, "HotspotImages", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-                                self.props.close();
+                                self.close();
                             } else {
-                                self.props.close({ id: self.props.fileModalResult.id, value: self.state.element });
+                                self.close({ id: self.props.fileModalResult.id, value: self.state.element });
                             }
                         }
 
@@ -57,9 +66,9 @@ export default function handlers(self) {
                         if (self.props.fileModalResult && !self.props.fileModalResult.id) {
                             initialParams.url = self.state.element;
                             createBox(initialParams, "EnrichedPlayer", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-                            self.props.close();
+                            self.close();
                         } else {
-                            self.props.close({ id: self.props.fileModalResult.id, value: self.state.element });
+                            self.close({ id: self.props.fileModalResult.id, value: self.state.element });
                         }
                     },
                 },
@@ -76,9 +85,9 @@ export default function handlers(self) {
                         if (self.props.fileModalResult && !self.props.fileModalResult.id) {
                             initialParams.url = self.state.element;
                             createBox(initialParams, "EnrichedPlayer", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-                            self.props.close();
+                            self.close();
                         } else {
-                            self.props.close({ id: self.props.fileModalResult.id, value: self.state.element });
+                            self.close({ id: self.props.fileModalResult.id, value: self.state.element });
                         }
                     },
                 },
@@ -93,7 +102,11 @@ export default function handlers(self) {
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
                     action: ()=>{ // Open side view
                         if (self.state.element) {
-                            self.setState({ pdfSelected: true });
+                            if (self.props.fileModalResult && !self.props.fileModalResult.id) {
+                                self.setState({ pdfSelected: true });
+                            } else {
+                                self.close({ id: self.props.fileModalResult.id, value: self.state.element });
+                            }
                         }
                     },
                 },
@@ -316,9 +329,9 @@ function dataToState(e, self, format, initialParams, isTargetSlide, plugin) {
         initialParams.initialState = value;
         createBox(initialParams, plugin, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
     }else {
-        self.props.close({ id: self.props.fileModalResult.id, value });
+        self.close({ id: self.props.fileModalResult.id, value });
     }
-    self.props.close();
+    self.close();
 }
 
 function isDataURL(s) {

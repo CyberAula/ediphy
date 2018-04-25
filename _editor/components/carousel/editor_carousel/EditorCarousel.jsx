@@ -75,75 +75,75 @@ export default class EditorCarousel extends Component {
 
 EditorCarousel.propTypes = {
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Vista contenida seleccionada, identificada por su *id*
+     * Selected contained view (by ID)
      */
     containedViewSelected: PropTypes.any,
     /**
-     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
-     * Array que contiene todas las vistas creadas, identificadas por su *id*
+     * Objects Array that contains all created views (identified by its *id*)
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
     /**
-     * Vista seleccionada, identificada por su *id*
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any,
     /**
-     * Vista/vista contenida seleccionada en el índice
+     * View/Contained view selected at the index
      */
     indexSelected: PropTypes.any,
     /**
-     * Añade caja
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
-     * Borra vista contenida
+     *  Removes a contained view
      */
     onContainedViewDeleted: PropTypes.func.isRequired,
     /**
-     * Selecciona vista contenida
+     *  Callback for selecting contained view
      */
     onContainedViewSelected: PropTypes.func.isRequired,
     /**
-     * Renombre vista contenida
+     * Callback for renaming contained view
      */
     onContainedViewNameChanged: PropTypes.func.isRequired,
     /**
-     * Renombra vista
+     * Callback for renaming view
      */
     onNavItemNameChanged: PropTypes.func.isRequired,
     /**
-     * Añade vista
+     * Function for adding a new view
      */
     onNavItemAdded: PropTypes.func.isRequired,
     /**
-     * Selecciona vista
+     * Selects view
      */
     onNavItemSelected: PropTypes.func.isRequired,
     /**
-     * Selecciona vista/vista contenida en el contexto del índice
+     * Selects a view/contained view in the index's context
      */
     onIndexSelected: PropTypes.func.isRequired,
     /**
-     * Expande sección
+     * Expands navItem (only for sections)
      */
     onNavItemExpanded: PropTypes.func.isRequired,
     /**
-     * Elimina vista/vista contenida
+     * Removes a view
      */
     onNavItemDeleted: PropTypes.func.isRequired,
     /**
-     * Reordena elementos del índice
+     * Callback for reordering navItems
      */
     onNavItemReordered: PropTypes.func.isRequired,
     /**
@@ -151,28 +151,28 @@ EditorCarousel.propTypes = {
      */
     onTitleChanged: PropTypes.func.isRequired,
     /**
-     * Título del curso
+     * Course title
      */
     title: PropTypes.string.isRequired,
     /**
-     * Indicador de si el índice desplegado
+     * Indicates whether the index has been expanded or not
      */
     carouselShow: PropTypes.bool,
     /**
-     * Indicador de si el índice ocupa el ancho de la pantalla completo
+     * Indicates whether the index takes the whole screen's width or not
      */
     carouselFull: PropTypes.bool,
     /**
-     * Expande el índice para que ocupe el 100% del ancho
+     * Expands the index to make it take 100% of the width
      */
     onToggleFull: PropTypes.func.isRequired,
     /**
-     * Modifica el ancho del índice
+     * Modifies the index's width
      */
     onToggleWidth: PropTypes.func.isRequired,
     /**
-      * Configuración global
-      */
+     *  Object that cointains the course's global configuration, stored in the Redux state
+     */
     globalConfig: PropTypes.object,
     /**
      * Object containing all the pages' toolbars

@@ -123,19 +123,19 @@ export default class ActionsRibbon extends Component {
 
 ActionsRibbon.propTypes = {
     /**
-     * Id of the selected page
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any,
     /**
-     * Id of the contained view selected
+     * Selected contained view (by ID)
      */
     containedViewSelected: PropTypes.any,
     /**
-     * Object containing pages and sections
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object,
     /**
-     * Object that holds contained views
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object,
     /**
@@ -155,7 +155,7 @@ ActionsRibbon.propTypes = {
      */
     boxSelected: PropTypes.any,
     /**
-     * Array containing all the boxes
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.any,
     /**
@@ -179,7 +179,7 @@ ActionsRibbon.propTypes = {
      */
     marks: PropTypes.object,
     /**
-     * Function for creating a new box
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**

@@ -19,6 +19,7 @@
           background-color: transparent;
           border: none;
           text-align: center;
+          font-size: 16px;
           &:first-child {
             font-size: 16px;
             font-weight: bold;
@@ -26,14 +27,14 @@
             &.active {
               //color: white;
             }
-            i {
-              font-size: 16px;
-              vertical-align: middle;
-              margin-right: 3px;
-              color: $darkest;
-            }
-          }
 
+          }
+          i {
+            font-size: 16px;
+            vertical-align: middle;
+            margin-right: 3px;
+            color: $darkest;
+          }
           .fileMenuIcon {
             width: auto;
             max-width: 100%;
@@ -62,6 +63,11 @@
         margin-bottom: -10px;
         height: 30px;
         line-height: 30px;
+        .searchInputTopBar {
+          width:60%;
+          float: right;
+        }
+
         i {
           font-size: 20px;
           vertical-align: middle;
@@ -75,6 +81,65 @@
 
         }
       }
+      .myFilesComponent {
+        min-height: 350px;
+      }
+      .uploadComponent {
+        min-height: 315px;
+        .fileDrag {
+          vertical-align: middle;
+          line-height: 190px;
+          font-size: 20px;
+          margin: 30px;
+          min-height: 190px;
+        }
+        .preview {
+          width:100%;
+          height: auto;
+          min-height: 200px;
+
+          overflow:hidden;
+          padding: 10px;
+          text-align: center;
+          border-width: 3px;
+          background-color: #ddd;
+          border-color: transparent;
+          background-position: center;
+          background-size: cover;
+          transition: all 0.2s ease;
+          i {
+            vertical-align: middle;
+            line-height: 200px;
+            font-size: 40px;
+          }
+        }
+      }
+      #fileNameTitle {
+        color: #555;
+        font-size: 16px;
+        font-weight: bold;
+        .btn {
+          background-color: #ddd !important;
+          fonnt-weight: bold;
+          border: none;
+          margin:2px;
+          i {
+            color: $blueprimary;
+            vertical-align: middle;
+          }
+
+        }
+        .btn:hover {
+          i {
+            color: grey;
+          }
+        }
+      }
+      #serverMsg {
+        width: 100%;
+        text-align: center;
+      }
+
       .myFile {
         &.hidden {
           display: none;
@@ -226,5 +291,7 @@
 
   }
 }
+
+
 
 

@@ -10,6 +10,7 @@ import FlickrIcon from './logos/flickrsvg.svg';
 import EuropeanaIcon from './logos/europeanaalt.svg';
 import YoutubeIcon from './logos/youtube.svg';
 import SoundCloudIcon from './logos/soundcloud_logo_0.png';
+import UploadComponent from './UploadComponent';
 
 export default function menus(self) {
     let allowedMIME = self.props.visible || "";
@@ -19,17 +20,39 @@ export default function menus(self) {
     };
     return [
         {
-            name: <span><i className="material-icons">file_upload</i>{'My Files'}</span>,
+            name: <span><i className="material-icons">file_upload</i>{'Upload Files'}</span>,
+            show: true,
+            component: UploadComponent,
+            props: {
+                ...commonProps,
+                show: allowedMIME,
+                pdfSelected: self.state.pdfSelected,
+                closeSideBar: (closeAlsoModal)=>{self.setState({ pdfSelected: false }); if (closeAlsoModal) {self.close();}},
+                filesUploaded: self.props.filesUploaded,
+                onUploadVishResource: self.props.onUploadVishResource,
+                onUploadEdiphyResource: self.props.onUploadEdiphyResource,
+                onNavItemsAdded: self.props.onNavItemsAdded,
+                onIndexSelected: self.props.onIndexSelected,
+                onNavItemSelected: self.props.onNavItemSelected,
+                navItemsIds: self.props.navItemsIds,
+                navItems: self.props.navItems,
+                navItemSelected: self.props.navItemSelected,
+                containedViews: self.props.containedViews,
+                containedViewSelected: self.props.containedViewSelected,
+                boxes: self.props.boxes,
+                onBoxAdded: self.props.onBoxAdded,
+            },
+        },
+        {
+            name: <span><i className="material-icons">attach_file</i>{'My Files'}</span>,
             show: true,
             component: MyFilesComponent,
             props: {
                 ...commonProps,
                 show: allowedMIME,
                 pdfSelected: self.state.pdfSelected,
-                closeSideBar: (closeAlsoModal)=>{self.setState({ pdfSelected: false }); if (closeAlsoModal) {self.props.close();}},
+                closeSideBar: (closeAlsoModal)=>{self.setState({ pdfSelected: false }); if (closeAlsoModal) {self.close();}},
                 filesUploaded: self.props.filesUploaded,
-                onUploadVishResource: self.props.onUploadVishResource,
-                onUploadEdiphyResource: self.props.onUploadEdiphyResource,
                 onNavItemsAdded: self.props.onNavItemsAdded,
                 onIndexSelected: self.props.onIndexSelected,
                 onNavItemSelected: self.props.onNavItemSelected,
@@ -48,8 +71,6 @@ export default function menus(self) {
             show: (allowedMIME === "*" || allowedMIME.match('image')),
             component: SearchVishComponent,
             props: { ...commonProps,
-                onFetchVishResources: self.props.onFetchVishResources,
-                fetchResults: self.props.fetchResults,
             },
         },
         {
