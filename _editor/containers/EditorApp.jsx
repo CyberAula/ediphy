@@ -71,7 +71,7 @@ class EditorApp extends Component {
             grid: false,
             pluginConfigModal: false,
             accordions: {},
-            showFileUpload: "*",
+            showFileUpload: false,
             fileModalResult: { id: undefined, value: undefined },
         };
         this.onTextEditorToggled = this.onTextEditorToggled.bind(this);

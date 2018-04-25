@@ -113,6 +113,14 @@
             font-size: 40px;
           }
         }
+        #spinnerFloatContainer {
+          text-align: center;
+          .spinnerFloat {
+            margin-top: 10px;
+            width: 75px;
+          }
+        }
+
       }
       #fileNameTitle {
         color: #555;

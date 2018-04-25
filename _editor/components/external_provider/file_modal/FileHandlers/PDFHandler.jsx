@@ -98,7 +98,6 @@ export default class PDFHandler extends Component {
      * @returns {code}
      */
     render() {
-        console.log(this.state);
         return (<div className="pdfFileDialog">
             <form>
                 <div className="fileLoaded" style={{ display: 'block' }}>
@@ -248,7 +247,7 @@ export default class PDFHandler extends Component {
         for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
             let canvas = document.getElementById('can' + i);
             let dataURL = canvas.toDataURL("image/jpeg", 1.0);
-            let newId = ID_PREFIX_PAGE + Date.now();
+            let newId = ID_PREFIX_PAGE + Date.now() + '_' + i;
             let customSize = hasCustomSize ? { width: canvas.width, height: canvas.height } : 0;
             let nav = {
                 id: newId,
@@ -307,11 +306,11 @@ export default class PDFHandler extends Component {
             } else {
                 initialParams = {
                     parent: cvDoc ? this.props.containedViews[this.props.containedViewSelected].boxes[0] : this.props.navItems[this.props.navItemSelected].boxes[0],
-                    container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
+                    container: ID_PREFIX_SORTABLE_CONTAINER + Date.now() + '_' + i,
                     url: dataURL, page,
                 };
             }
-            initialParams.id = ID_PREFIX_BOX + Date.now();
+            initialParams.id = ID_PREFIX_BOX + Date.now() + '_' + i;
             createBox(initialParams, "HotspotImages", inASlide, this.props.onBoxAdded, this.props.boxes);
 
         }
