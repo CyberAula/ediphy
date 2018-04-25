@@ -8,13 +8,14 @@ This software is written in Javascript (ES6), making use of React and Redux.
 
 Visit our wiki to see all the available Ediphy Editor instructions.
 
-In order to install this project you will need `node` 6.x.x (latest), `yarn` and git.
+In order to install this project you will need `node` 6.x.x (latest), `yarn` and  git.
 First clone the repo and then install the dependencies like so:
 
 ```bash
 git clone https://github.com/ging/ediphy.git
 cd ediphy
-yarn install
+yarn
+yarn upgrade
 ```
 Once everything is installed, you can run the application with the following line:
 

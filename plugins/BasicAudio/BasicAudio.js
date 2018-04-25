@@ -1,7 +1,14 @@
 import React from "react";
 import BasicAudioPluginEditor from './components/BasicAudioPluginEditor.js';
 import i18n from 'i18next';
+// import example from './../../dist/playlists/a2002011001-e02-128k.mp3';
 require('./BasicAudio.scss');
+
+// Meter una opcion que haga opcional (como el autoplay) el tema de mostrar las ondas
+// Duda aqui: en caso de que se deban mostrar el tamaño debe ser diferente pero solo en el visor supongo, pq sino en el editor no entiendo como hacerlo
+
+// Deberia poderse escuchar en el visor por el tema de las marcas, que cuando pongas una escuches donde la has puesto
+// Pero esto de momento dejarlo asi estar hasta que sonsoles y algunos decidan que hacer con ello
 
 export function BasicAudio(base) {
     return {
@@ -13,7 +20,7 @@ export function BasicAudio(base) {
                 displayName: i18n.t('BasicAudio.PluginName'),
                 category: "multimedia",
                 initialWidth: '400px',
-                initialHeight: "50px",
+                initialHeight: "140px",
                 initialWidthSlide: '30%',
                 initialHeightSlide: '30%',
                 icon: 'play_circle_filled',
@@ -30,9 +37,11 @@ export function BasicAudio(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
+                            // titulo del apartado
                             __name: i18n.t('BasicAudio.Audio'),
                             icon: 'link',
-                            buttons: {// Audio
+                            // cosas de dentro
+                            buttons: {
                                 url: {
                                     __name: Ediphy.i18n.t('BasicAudio.URL'),
                                     type: 'text',
@@ -43,6 +52,12 @@ export function BasicAudio(base) {
                                     __name: Ediphy.i18n.t('BasicAudio.Autoplay'),
                                     type: 'checkbox',
                                     checked: base.getState().autoplay,
+                                    autoManaged: false,
+                                },
+                                waves: {
+                                    __name: Ediphy.i18n.t('BasicAudio.Waves'),
+                                    type: 'checkbox',
+                                    checked: base.getState().waves,
                                     autoManaged: false,
                                 },
                             },
@@ -99,14 +114,13 @@ export function BasicAudio(base) {
         },
         getInitialState: function() {
             return {
-                url: 'sample.mp3', // 'http://www.music.helsinki.fi/tmt/opetus/uusmedia/esim/a2002011001-e02-128k.mp3',
-                autoplay: false, // esto no esta en enrichedplayer
+                url: 'http://localhost:8080/playlists/basic.mp3',
+                autoplay: false, // revisar autoplay pq no funciona
                 controls: true,
-
+                waves: false,
             };
         },
         getRenderTemplate: function(state, props) {
-            // state base props, eso es lo que pasa enriquedplayer y no pasa las marks
             return (
                 <div style={{ height: "100%", width: "100%" }}>
                     <BasicAudioPluginEditor style={{ width: "100%", height: "100%" }} base={base} onRichMarkUpdated={props.onRichMarkUpdated} state={state}/>

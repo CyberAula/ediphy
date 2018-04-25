@@ -4,6 +4,7 @@ module.exports = {
         "Allow_fullscreen": "Allow fullscreen",
         "Show_controls": "Show Controls",
         "Autoplay": "Autoplay",
+        "Waves": "Waves",
         "URL": "URL",
         "Audio": "Audio",
         "background_color": "Background color",
