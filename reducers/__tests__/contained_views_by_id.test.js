@@ -4,7 +4,34 @@ import * as ActionTypes from '../../common/actions';
 import { isContainedView, isSlide } from "../../common/utils";
 import boxes_by_id from "../boxes_by_id";
 
-const state = testState.present.containedViewsById;
+const state = {
+    "cv-1": {
+        "info": "new",
+        "type": "document",
+        "id": "cv-1",
+        "parent": {
+            "rm-11": "bo-11",
+        },
+        "boxes": [
+            "bs-1",
+            "bo-32",
+        ],
+        "extraFiles": {},
+    },
+    "cv-2": {
+        "info": "new",
+        "type": "document",
+        "id": "cv-2",
+        "parent": {
+            "rm-12": "bo-11",
+        },
+        "boxes": [
+            "bs-2",
+            "bo-31",
+        ],
+        "extraFiles": {},
+    },
+};
 
 describe('# contained_views_by_id reducer', ()=>{
 
@@ -15,10 +42,11 @@ describe('# contained_views_by_id reducer', ()=>{
     });
     describe('handle ADD_BOX', ()=>{
         test('If added box in a contained view (Slide)', () => {
+
             const action = {
                 type: ActionTypes.ADD_BOX,
                 payload: { ids:
-                        { parent: 'cv-1524225239825', id: 'bo-1511443052929', container: 0 },
+                        { parent: 'cv-1', id: 'bo-33', container: 0 },
                 draggable: true,
                 resizable: true,
                 content: '',
@@ -29,23 +57,24 @@ describe('# contained_views_by_id reducer', ()=>{
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            newState['cv-1524225239825'].boxes = ["bs-1524225239825", 'bo-1511443052929'];
+            newState['cv-1'].boxes = ["bs-1",
+                "bo-32",
+                'bo-33'];
 
             expect(isContainedView(action.payload.ids.parent)).toBeTruthy();
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
 
     });
-
     describe('handle EDIT_RICH_MARK', () => {
-        test.skip('If rich mark edited and old/new links are not contained views', () => {
-
+        let newState;
+        test('If rich mark edited and old/new links are not contained views', () => {
             const action = {
                 type: ActionTypes.EDIT_RICH_MARK,
                 payload: {
                     "mark": {
-                        "id": "rm-1524225239825",
-                        "origin": "bo-1524225237703",
+                        "id": "rm-45",
+                        "origin": "bo-99",
                         "title": "Nueva marca 3",
                         "connection": "http://vishub.org",
                         "color": "#222222",
@@ -59,123 +88,59 @@ describe('# contained_views_by_id reducer', ()=>{
                     },
                 },
             };
-            const newState = JSON.parse(JSON.stringify(state));
-            newState["cv-1524225239825"].parent = {};
+            newState = JSON.parse(JSON.stringify(state));
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
-        test.skip('If rich mark edited and old link is a contained view', () => {
+        test('If rich mark edited and old link is a contained view new isnt', () => {
             const action = {
                 type: ActionTypes.EDIT_RICH_MARK,
                 payload: {
                     "mark": {
-                        "id": "rm-1524225239825",
-                        "origin": "bo-1524225237703",
+                        "id": "rm-11",
+                        "origin": "bo-77",
                         "title": "Nueva marca 3",
-                        "connection": "cv-1524481518690",
+                        "connection": "https://testplace.org",
                         "color": "#222222",
-                        "connectMode": "new",
+                        "connectMode": "external",
                         "displayMode": "navigate",
                         "value": "50,50",
                     },
                     "view": {
-                        "info": "new",
-                        "type": "document",
-                        "id": "cv-1524481518690",
-                        "parent": {
-                            "rm-1524225239825": "bo-1524225237703",
-                        },
-                        "boxes": [
-                            "bs-1524481518690",
-                        ],
-                        "extraFiles": {},
                     },
                     "viewToolbar": {
-                        "id": "cv-1524481518690",
-                        "doc_type": "document",
-                        "viewName": "Vista Contenida 3",
                     },
                 },
             };
-            let newState = JSON.parse(JSON.stringify(state));
-            console.log(state);
-            newState["cv-1524225239825"] = {
-                "info": "new",
-                "type": "document",
-                "id": "cv-1524225239825",
-                "parent": {
-                },
-                "boxes": [
-                    "bs-1524225239825",
-                ],
-                "extraFiles": {},
-            };
-
-            newState["cv-1524481518690"] = {
-                "boxes": ["bs-1524481518690"],
-                extraFiles: {},
-                id: "cv-1524481518690",
-                info: "new",
-                parent: { "rm-1524225239825": "bo-1524225237703" },
-                type: "document",
-            };
+            newState = JSON.parse(JSON.stringify(state));
+            newState["cv-1"].parent = {};
 
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
-
         test('If rich mark edited and new link is a contained view', () => {
             const action = {
                 type: ActionTypes.EDIT_RICH_MARK,
                 payload: {
                     "mark": {
-                        "id": "rm-1524225239825",
-                        "origin": "bo-1524225237703",
+                        "id": "rm-11",
+                        "origin": "bo-11",
                         "title": "Nueva marca 3",
-                        "connection": "cv-1524481518690",
+                        "connection": "cv-2",
                         "color": "#222222",
-                        "connectMode": "new",
+                        "connectMode": "existing",
                         "displayMode": "navigate",
                         "value": "50,50",
                     },
                     "view": {
-                        "info": "new",
-                        "type": "document",
-                        "id": "cv-1524481518690",
-                        "parent": {
-                            "rm-1524225239825": "bo-1524225237703",
-                        },
-                        "boxes": [
-                            "bs-1524481518690",
-                        ],
-                        "extraFiles": {},
                     },
                     "viewToolbar": {
-                        "id": "cv-1524481518690",
-                        "doc_type": "document",
-                        "viewName": "Vista Contenida 3",
                     },
                 },
             };
-            let newState = JSON.parse(JSON.stringify(state));
-            console.log(state);
-            newState["cv-1524225239825"] = {
-                "info": "new",
-                "type": "document",
-                "id": "cv-1524225239825",
-                "parent": {
-                },
-                "boxes": [
-                    "bs-1524225239825",
-                ],
-                "extraFiles": {},
-            };
-
-            newState["cv-1524481518690"] = {
-                "boxes": ["bs-1524481518690"],
-                extraFiles: {},
-                id: "cv-1524481518690",
-                info: "new",
-                parent: { "rm-1524225239825": "bo-1524225237703" },
-                type: "document",
+            newState = JSON.parse(JSON.stringify(state));
+            newState["cv-1"].parent = {};
+            newState["cv-2"].parent = {
+                ...newState["cv-2"].parent,
+                ...{ "rm-11": "bo-11" },
             };
 
             expect(contained_views_by_id(state, action)).toEqual(newState);
@@ -188,19 +153,19 @@ describe('# contained_views_by_id reducer', ()=>{
                 type: ActionTypes.DELETE_RICH_MARK,
                 payload: {
                     mark: {
-                        "id": "rm-1524225239825",
-                        "origin": "bo-1524225237703",
+                        "id": "rm-11",
+                        "origin": "bo-11",
                         "title": "Nueva marca 3",
-                        "connection": "cv-1524225239825",
+                        "connection": "cv-1",
                         "color": "#222222",
-                        "connectMode": "new",
+                        "connectMode": "existing",
                         "displayMode": "navigate",
                         "value": "50,50",
                     },
                 },
             };
             let newState = JSON.parse(JSON.stringify(state));
-            newState["cv-1524225239825"].parent = {};
+            newState["cv-1"].parent = {};
 
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
