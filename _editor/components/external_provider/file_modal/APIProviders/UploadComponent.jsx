@@ -55,8 +55,8 @@ export default class UploadComponent extends React.Component {
                     <FormGroup >
                         <div id="fileNameTitle">
                             <span>{this.state.file.name}</span><br/><br/>
-                            <Button onClick={(e)=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false });}}><i className="material-icons">clear</i> QUITAR</Button>
-                            <Button disabled={!this.state.file || this.state.uploaded} onClick={this.uploadHandler}><i className="material-icons">file_upload</i> UPLOAD</Button>
+                            <Button onClick={(e)=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false });}}><i className="material-icons">clear</i> {i18n.t("FileModal.APIProviders.clear")}</Button>
+                            <Button disabled={!this.state.file || this.state.uploaded} onClick={this.uploadHandler}><i className="material-icons">file_upload</i> {i18n.t("FileModal.APIProviders.upload")}</Button>
                         </div>
                         {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={spinner} alt=""/></div> : null}
                         {/* <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
@@ -118,9 +118,9 @@ export default class UploadComponent extends React.Component {
 
         if(process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') { // VISH production
             this.props.onUploadVishResource(this.state.file, keywords);
-        } else if (process.env.DOC === 'doc') { // Docs
+        } /* else if (process.env.DOC === 'doc') { // Docs
             alert('En la demo no se puede'); // TODO Poner bien en un modal alert
-        } else { // Ediphy Development (with ediphy_server)
+        }*/ else { // Ediphy Development (with ediphy_server)
             this.props.onUploadEdiphyResource(this.state.file, keywords);
         }
         this.setState({ keywords: [], uploading: true });

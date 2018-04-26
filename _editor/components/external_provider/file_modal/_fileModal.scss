@@ -81,6 +81,16 @@
 
         }
       }
+      .empty {
+        text-align: center;
+        height: 85px;
+        line-height: 60px;
+        color: grey;
+        clear: both;
+        font-size: 1em;
+        font-weight: bold;
+        color: $blueprimary;
+      }
       .myFilesComponent {
         min-height: 350px;
       }
@@ -193,13 +203,10 @@
       }
       .myFilesRow {
         margin: -5px;
-        .empty {
-          text-align: center;
-          height: 85px;
-          line-height: 60px;
-          color: grey;
-        }
+        clear:both;
+
       }
+
       .form-group .Select {
         border: 1px solid #ccc;
         &:focus, .is-focused {

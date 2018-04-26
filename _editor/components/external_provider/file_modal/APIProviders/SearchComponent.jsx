@@ -11,7 +11,7 @@ export default class SearchComponent extends React.Component {
                 this.props.onSearch(ReactDOM.findDOMNode(this.refs.query).value);
                 e.preventDefault();
             }}>
-                SEARCH <Glyphicon glyph="search" />
+                {i18n.t("FileModal.APIProviders.search")}  <Glyphicon glyph="search" />
             </InputGroup.Addon>
         </InputGroup>;
     }

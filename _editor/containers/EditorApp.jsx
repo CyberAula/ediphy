@@ -256,6 +256,8 @@ class EditorApp extends Component {
                                 markCreatorId={this.state.markCreatorVisible}
                                 onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 setCorrectAnswer={(id, correctAnswer, page) => { dispatch(setCorrectAnswer(id, correctAnswer, page));}}
+                                showFileUpload={this.state.showFileUpload}
+                                toggleFileUpload={()=>{this.setState({ showFileUpload: "*", fileModalResult: { id: undefined, value: undefined } });}}
                                 addMarkShortcut= {(mark) => {
                                     let state = JSON.parse(JSON.stringify(toolbars[boxSelected].state));
                                     state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));

@@ -12,7 +12,7 @@ export default class YoutubeComponent extends React.Component {
         this.state = {
             results: [],
             query: '',
-            msg: 'No hay resultados',
+            msg: i18n.t("FileModal.APIProviders.no_files"),
         };
         this.onSearch = this.onSearch.bind(this);
     }
@@ -38,7 +38,7 @@ export default class YoutubeComponent extends React.Component {
                 {this.state.results.length > 0 ?
                     (
                         <FormGroup>
-                            <ControlLabel>{ this.state.results.length + " Resultados"}</ControlLabel>
+                            <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                             <br />
                             {this.state.results.map((item, index) => {
                                 let border = item.url === this.props.elementSelected ? "solid orange 3px" : "solid white 3px";
@@ -68,11 +68,10 @@ export default class YoutubeComponent extends React.Component {
                 }
             </Form>
         </div>;
-        return <div>TO DO</div>;
     }
 
     onSearch(text) {
-        this.setState({ msg: 'Buscando...' });
+        this.setState({ msg: i18n.t("FileModal.APIProviders.searching") });
         fetch(encodeURI('https://www.googleapis.com/youtube/v3/search?part=id,snippet&maxResults=20&q=' + text + '&key=AIzaSyAMOw9ufNTZAlg5Xvcht9PhnBYjlY0c9z8&videoEmbeddable=true&type=video'))
             .then(res => res.text()
             ).then(videosStr => {
@@ -85,12 +84,12 @@ export default class YoutubeComponent extends React.Component {
                             thumbnail: (video.snippet && video.snippet.thumbnails && video.snippet.thumbnails.default && video.snippet.thumbnails.default.url) ? video.snippet.thumbnails.default.url : "",
                         };
                     });
-                    this.setState({ results, msg: results.length > 0 ? '' : 'No hay resultados' });
+                    this.setState({ results, msg: results.length > 0 ? '' : i18n.t("FileModal.APIProviders.no_files") });
                 }
             }).catch(e=>{
                 console.error(e);
 
-                this.setState({ msg: 'Ha habido un error' });
+                this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
             });
     }
 }

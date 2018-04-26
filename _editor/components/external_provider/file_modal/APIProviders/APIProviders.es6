@@ -11,6 +11,7 @@ import EuropeanaIcon from './logos/europeanaalt.svg';
 import YoutubeIcon from './logos/youtube.svg';
 import SoundCloudIcon from './logos/soundcloud_logo_0.png';
 import UploadComponent from './UploadComponent';
+import i18n from 'i18next';
 
 export default function menus(self) {
     let allowedMIME = self.props.visible || "";
@@ -20,7 +21,7 @@ export default function menus(self) {
     };
     return [
         {
-            name: <span><i className="material-icons">file_upload</i>{'Upload Files'}</span>,
+            name: <span><i className="material-icons">file_upload</i>{i18n.t('FileModal.APIProviders.UploadFiles')}</span>,
             show: true,
             component: UploadComponent,
             props: {
@@ -45,7 +46,7 @@ export default function menus(self) {
             },
         },
         {
-            name: <span><i className="material-icons">attach_file</i>{'My Files'}</span>,
+            name: <span><i className="material-icons">attach_file</i>{i18n.t('FileModal.APIProviders.MyFiles')}</span>,
             show: true,
             component: MyFilesComponent,
             props: {

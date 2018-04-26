@@ -7,6 +7,7 @@ import { isContainedView, isSortableContainer } from '../../../../common/utils';
 import FileHandlers from './FileHandlers/FileHandlers';
 import APIProviders from './APIProviders/APIProviders';
 import PDFHandler from "./FileHandlers/PDFHandler";
+import i18n from 'i18next';
 
 const initialState = {
     menu: 0,
@@ -87,7 +88,7 @@ export default class FileModal extends React.Component {
                                 ) : null}
                                 <Button onClick={e => {
                                     this.close();
-                                }}>Cancel</Button>
+                                }}>{i18n.t("FileModal.FileHandlers.cancel")}</Button>
                                 {(this.state.element && handler && handler.buttons) ? handler.buttons.map(button=>{
                                     return <Button disabled={button.disabled} onClick={e => {
                                         button.action();
