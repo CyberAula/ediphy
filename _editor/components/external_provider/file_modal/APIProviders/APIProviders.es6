@@ -11,21 +11,23 @@ import EuropeanaIcon from './logos/europeanaalt.svg';
 import YoutubeIcon from './logos/youtube.svg';
 import SoundCloudIcon from './logos/soundcloud_logo_0.png';
 import UploadComponent from './UploadComponent';
+import i18n from 'i18next';
 
 export default function menus(self) {
     let allowedMIME = self.props.visible || "";
     let commonProps = {
-        onElementSelected: (name, element, type) => { self.setState({ name, element, type }); },
+        onElementSelected: (name, element, type, id) => { self.setState({ name, element, type, id }); },
         elementSelected: self.state.element,
     };
     return [
         {
-            name: <span><i className="material-icons">file_upload</i>{'Upload Files'}</span>,
+            name: <span><i className="material-icons">file_upload</i>{i18n.t('FileModal.APIProviders.UploadFiles')}</span>,
             show: true,
             component: UploadComponent,
             props: {
                 ...commonProps,
                 show: allowedMIME,
+                isBusy: self.props.isBusy,
                 pdfSelected: self.state.pdfSelected,
                 closeSideBar: (closeAlsoModal)=>{self.setState({ pdfSelected: false }); if (closeAlsoModal) {self.close();}},
                 filesUploaded: self.props.filesUploaded,
@@ -44,14 +46,13 @@ export default function menus(self) {
             },
         },
         {
-            name: <span><i className="material-icons">attach_file</i>{'My Files'}</span>,
+            name: <span><i className="material-icons">attach_file</i>{i18n.t('FileModal.APIProviders.MyFiles')}</span>,
             show: true,
             component: MyFilesComponent,
             props: {
                 ...commonProps,
                 show: allowedMIME,
                 pdfSelected: self.state.pdfSelected,
-                closeSideBar: (closeAlsoModal)=>{self.setState({ pdfSelected: false }); if (closeAlsoModal) {self.close();}},
                 filesUploaded: self.props.filesUploaded,
                 onNavItemsAdded: self.props.onNavItemsAdded,
                 onIndexSelected: self.props.onIndexSelected,
@@ -63,6 +64,7 @@ export default function menus(self) {
                 containedViewSelected: self.props.containedViewSelected,
                 boxes: self.props.boxes,
                 onBoxAdded: self.props.onBoxAdded,
+                id: self.state.id,
             },
         },
         {

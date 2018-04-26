@@ -131,6 +131,7 @@
   },
   "dependencies": {
     "@trendmicro/react-toggle-switch": "^0.5.7",
+    "ediphy_server": "file:ediphy_server",
     "BasicPlayer": "file:plugins/BasicPlayer",
     "DataTable": "file:plugins/DataTable",
     "EnrichedPlayer": "file:plugins/EnrichedPlayer",

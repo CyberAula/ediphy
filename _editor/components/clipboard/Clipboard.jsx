@@ -90,14 +90,11 @@ export default class Clipboard extends Component {
      */
     copyButtonListener(event) {
         let activeElement = document.activeElement;
-        console.log(activeElement);
         if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
             if (!this.containsCKEDitorText(activeElement) || (this.props.boxes[this.props.boxSelected] && !this.props.boxes[this.props.boxSelected].showTextEditor)) {
-                console.log('here');
                 return copyText(this.copyData());
             }
             try {
-                console.log(2);
                 document.execCommand('copy');
                 return true;
             } catch(e) {

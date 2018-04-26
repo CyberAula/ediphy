@@ -1,4 +1,4 @@
-import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX,
+import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_FILE,
     ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from './constants';
 
 export default {
@@ -53,6 +53,10 @@ export function isContainedView(id) {
 
 export function isSortableContainer(id) {
     return id.length && id.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1;
+}
+
+export function isFile(id) {
+    return id.length && id.indexOf(ID_PREFIX_FILE) !== -1;
 }
 
 export function changeProps(object, keys, values) {

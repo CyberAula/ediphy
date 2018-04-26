@@ -12,7 +12,7 @@ export default class FlickrComponent extends React.Component {
         this.state = {
             results: [],
             query: '',
-            msg: 'No hay resultados',
+            msg: i18n.t("FileModal.APIProviders.no_files"),
         };
         this.onSearch = this.onSearch.bind(this);
     }
@@ -38,7 +38,7 @@ export default class FlickrComponent extends React.Component {
                 {this.state.results.length > 0 ?
                     (
                         <FormGroup>
-                            <ControlLabel>{ this.state.results.length + " Resultados"}</ControlLabel>
+                            <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                             <br />
                             {this.state.results.map((item, index) => {
                                 let border = item.url === this.props.elementSelected ? "solid orange 3px" : "solid transparent 3px";
@@ -66,13 +66,12 @@ export default class FlickrComponent extends React.Component {
                 }
             </Form>
         </div>;
-        return <div>TO DO</div>;
     }
 
     onSearch(text) {
 
         let flickrURL = "http://api.flickr.com/services/feeds/photos_public.gne?tags=" + encodeURI(text) + "&tagmode=any&format=json&jsoncallback=?";
-        this.setState({ msg: 'Buscando' });
+        this.setState({ msg: i18n.t("FileModal.APIProviders.searching") });
         $.getJSON(flickrURL, (imgs)=>{
             try{
                 console.log(imgs);
@@ -85,12 +84,12 @@ export default class FlickrComponent extends React.Component {
                                 url: img.media.m.replace(/_m/i, ""),
                             };
                         });
-                        this.setState({ results, msg: results.length > 0 ? '' : 'No hay resultados' });
+                        this.setState({ results, msg: results.length > 0 ? '' : i18n.t("FileModal.APIProviders.no_files") });
                     }
                 }
             } catch (e) {
                 console.error(e);
-                this.setState({ msg: 'Ha habido un error' });
+                this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
             }
 
         });

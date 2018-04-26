@@ -4,7 +4,7 @@ import i18n from 'i18next';
 export const testState = {
     "present": {
         "lastActionDispatched": "SELECT_BOX",
-        "filesUploaded": [],
+        "filesUploaded": {},
         "globalConfig": {
             "title": "Ediphy",
             "canvasRatio": 1.7777777777777777,

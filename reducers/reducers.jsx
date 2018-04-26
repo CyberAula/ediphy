@@ -46,10 +46,10 @@ function isBusy(state = "", action = {}) {
     }
 }
 
-function filesUploaded(state = [], action = {}) {
+function filesUploaded(state = {}, action = {}) {
     switch(action.type) {
     case UPLOAD_FILE:
-        return state.concat(action.payload);
+        return { ...state, [action.payload.id]: { ...action.payload } };
     case IMPORT_STATE:
         return action.payload.present.filesUploaded || state;
     default:

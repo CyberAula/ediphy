@@ -16,7 +16,8 @@ export default class EditorCanvas extends Component {
 
         this.dropListener = (ev) => {
             // console.log(ev.dataTransfer.files[0]);
-            // ev.preventDefault();
+            document.body.classList.remove('draggingFileIntoEdiphy');
+            console.log(ev.target);
             if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
 
             } else {
@@ -24,7 +25,14 @@ export default class EditorCanvas extends Component {
             }
         };
         this.dragListener = (ev) => {
-            // document.body.addClass('dragging');
+            document.body.classList.add('draggingFileIntoEdiphy');
+            if (!this.props.showFileUpload) {
+                this.props.toggleFileUpload();
+            }
+            ev.preventDefault();
+        };
+        this.dragExitListener = (ev) => {
+            document.body.classList.remove('draggingFileIntoEdiphy');
             ev.preventDefault();
         };
     }
@@ -46,11 +54,13 @@ export default class EditorCanvas extends Component {
 
     componentWillUnmount() {
         document.removeEventListener('dragover', this.dragListener);
+        document.removeEventListener('dragleave', this.dragExitListener);
         document.removeEventListener('drop', this.dropListener);
     }
 
     componentDidMount() {
         document.addEventListener('dragover', this.dragListener);
+        document.addEventListener('dragleave', this.dragExitListener);
         document.addEventListener('drop', this.dropListener);
 
     }
