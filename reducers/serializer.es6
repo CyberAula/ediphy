@@ -1,6 +1,11 @@
 import deepmerge from 'deepmerge';
 import { PAGE_TYPES } from'../common/constants';
 import i18n from 'i18next';
+
+export function serialize(state) {
+    return state;
+}
+
 /**
  * Function to make sure navView state is properly built
  * @param recieved state

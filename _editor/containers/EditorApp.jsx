@@ -532,7 +532,7 @@ class EditorApp extends Component {
      */
     componentDidMount() {
         if (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' && ediphy_editor_json && ediphy_editor_json !== 'undefined') {
-            this.props.dispatch(importState(JSON.parse(ediphy_editor_json)));
+            this.props.dispatch(importState(serialize(JSON.parse(ediphy_editor_json))));
         }
         window.onkeyup = function(e) {
             let key = e.keyCode ? e.keyCode : e.which;
@@ -805,6 +805,7 @@ class EditorApp extends Component {
 
 function mapStateToProps(state) {
     return {
+        version: state.present.version,
         globalConfig: state.present.globalConfig,
         filesUploaded: state.present.filesUploaded,
         boxes: state.present.boxesById,
