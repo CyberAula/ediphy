@@ -11,6 +11,7 @@ import Ediphy from "../../../../../core/editor/main";
 // styles
 import './_ImportFile.scss';
 import { createBox } from '../../../../../common/common_tools';
+let spinner = require('../../../../../dist/images/spinner.svg');
 
 // PDF Library conf.
 const pdflib = require('pdfjs-dist');
@@ -42,9 +43,32 @@ export default class PDFHandler extends Component {
         this.fileLoad = this.fileLoad.bind(this);
         this.importFile = this.importFile.bind(this);
         this.PreviewFile = this.PreviewFile.bind(this);
+        this.start = this.start.bind(this);
+    }
+    componentWillUnmount() {
+        for (let i = 1; i <= this.state.FilePages; i++) {
+            let canvas = document.getElementById('can' + i);
+            if(canvas) {
+                document.body.removeChild(canvas);
+            }
+
+        }
+    }
+    componentDidMount() {
+        this.start();
+    }
+    componentDidUpdate(prevProps, prevState) {
+        console.log(this.props.url);
+        if(prevProps.url !== this.props.url) {
+            for (let i = 1; i <= prevState.FilePages; i++) {
+                let canvas = document.getElementById('can' + i);
+                document.body.removeChild(canvas);
+            }
+            this.start();
+        }
     }
 
-    componentDidMount() {
+    start() {
         require.ensure([], function() {
             let worker;
             worker = require('./pdf.worker.js');
@@ -105,7 +129,7 @@ export default class PDFHandler extends Component {
                 </div>
                 <Row style={{ display: 'block' }}>
                     <Col xs={12} md={6} lg={6}>
-                        <img id='FilePreview' />
+                        <img id='FilePreview' src={spinner} style={{ width: '100%', padding: '25%' }}/>
                     </Col>
                     <Col xs={12} md={6} lg={6}>
                         <FormGroup>
@@ -131,7 +155,7 @@ export default class PDFHandler extends Component {
                                             value={this.state.PagesTo}
                                             min={1}
                                             max={this.state.FilePages}
-                                            onChange={e => {console.log(e); this.setState({ PagesTo: e.target.value });}}/>
+                                            onChange={e => {this.setState({ PagesTo: e.target.value });}}/>
                                     </InputGroup>
                                 </FormGroup>
                             </Radio>
@@ -171,7 +195,6 @@ export default class PDFHandler extends Component {
     importFile() {
         switch(this.state.FileType) {
         case '(.pdf)':
-            console.log(this.state.ImportAs);
             switch(this.state.ImportAs) {
             case 'Image':
                 this.AddPlugins();
@@ -277,6 +300,7 @@ export default class PDFHandler extends Component {
         preview.style.width = '100%';
         preview.style.height = 'auto';
         preview.style.border = '1px solid';
+        preview.style.padding = '0px';
     }
 
     AddPlugins() {
