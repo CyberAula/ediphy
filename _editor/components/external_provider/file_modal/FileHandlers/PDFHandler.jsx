@@ -284,7 +284,7 @@ export default class PDFHandler extends Component {
         let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected);
         let cvSli = cv && isSlide(this.props.containedViews[this.props.containedViewSelected].type);
         let cvDoc = cv && !isSlide(this.props.containedViews[this.props.containedViewSelected].type);
-        let inASlide = isSlide(this.props.navItemSelected.type) || cvSli;
+        let inASlide = (!cv && isSlide(this.props.navItems[this.props.navItemSelected].type)) || cvSli;
         let page = cv ? this.props.containedViewSelected : this.props.navItemSelected;
         for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
             let canvas = document.getElementById('can' + i);
