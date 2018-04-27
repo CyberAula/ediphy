@@ -20,13 +20,16 @@ export default function handlers(self) {
         title: i18n.t('FileModal.FileHandlers.downloadAsFile'),
         disabled: !self.state.element,
         action: ()=>{
-            let anchor = document.createElement('a');
-            anchor.href = self.state.element;
-            anchor.href = anchor.href.replace(/^data:.*\/[^;]+/, 'data:application/octet-stream');
-
-            anchor.target = '_blank';
-            anchor.download = self.state.name;
-            anchor.click();
+            if (navigator.userAgent.search("Firefox") !== -1) {
+                window.open(self.state.element);
+            } else {
+                let anchor = document.createElement('a');
+                anchor.setAttribute('download', '');
+                anchor.href = self.state.element;
+                anchor.target = '_blank';
+                anchor.download = self.state.name;
+                anchor.click();
+            }
         },
     };
     let page = self.currentPage();
