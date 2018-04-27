@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
@@ -26,8 +25,10 @@ export default class ToolbarFileProvider extends Component {
      */
     render() {
         let bckg = this.props.formControlProps ? (this.props.value !== undefined ? this.props.value : this.props.formControlProps.value) : null;
-        // bckg = bckg instanceof Object ? '' : bckg;
-        let props = { ...this.props.formControlProps, value: bckg /* label: (this.props.label || this.props.formControlProps.label || 'URL')*/ };
+        let isURI = (/data\:/).test(bckg);
+        let props = { ...this.props.formControlProps,
+            placeholder: isURI ? i18n.t('FileModal.FileHandlers.custom') : '',
+            value: isURI ? '' : bckg };
         return (<FormGroup>
             {this.props.formControlProps ? [<ControlLabel>{props.label}</ControlLabel>,
                 <FormControl {...props} onChange={e => {

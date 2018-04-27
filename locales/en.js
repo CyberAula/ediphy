@@ -84,6 +84,7 @@ let en = {
                 'audio': 'Audio',
                 'image': 'Image',
                 'cancel': 'Cancel',
+                'custom': 'Custom file',
             },
             'APIProviders': {
                 'MyFiles': 'My course files',

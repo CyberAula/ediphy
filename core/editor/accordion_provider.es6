@@ -966,7 +966,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     }
 
     if (button.type === "external_provider") {
-        console.log(button.type);
         return React.createElement(ToolbarFileProvider, {
             id: toolbar_props.boxSelected,
             key: button.__name,

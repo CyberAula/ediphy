@@ -81,6 +81,7 @@ let es = {
                 'audio': 'Audio',
                 'image': 'Imagen',
                 'cancel': 'Cancelar',
+                'custom': 'Archivo personalizado',
             },
             'APIProviders': {
                 'MyFiles': 'Mis archivos del curso',
