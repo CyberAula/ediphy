@@ -6,18 +6,15 @@ import {
     SELECT_CONTAINED_VIEW, SELECT_NAV_ITEM, IMPORT_STATE, PASTE_BOX,
 } from '../../common/actions';
 
-let reducerHelper = helper(undefined, reducer);
+const reducerHelper = helper(undefined, reducer);
 
 describe('# box_selected reducer', () => {
-
     beforeAll(() => {
         reducerHelper.clean();
     });
-
     test('no action passed => default', () => {
         expect(reducer(undefined, {})).toEqual(-1);
     });
-
     describe('handle ADD_BOX', () => {
         test('sortable box', () => {
             reducerHelper.call({ type: ADD_BOX, payload: { ids: { id: reducerHelper.getSortableBox(), parent: 0 } } });
@@ -44,7 +41,6 @@ describe('# box_selected reducer', () => {
             expect(reducerHelper.state).toEqual(randomBox);
         });
     });
-
     describe('handle ADD_NAV_ITEM', () => {
         test('always return -1', () => {
             reducerHelper.call({ type: ADD_BOX, payload: { ids: { id: reducerHelper.getBox(), parent: reducerHelper.getSortableBox() }, initialParams: { isDefaultPlugin: true } } });
@@ -52,7 +48,6 @@ describe('# box_selected reducer', () => {
             expect(reducerHelper.state).toEqual(-1);
         });
     });
-
     describe('handle DELETE_BOX', () => {
         test('box in contained view', () => {
             reducerHelper.call({ type: DELETE_BOX, payload: { id: reducerHelper.getBox(), parent: reducerHelper.getSortableBox(), container: reducerHelper.getContainedView() } });
@@ -70,7 +65,6 @@ describe('# box_selected reducer', () => {
             expect(reducerHelper.state).toEqual(-1);
         });
     });
-
     describe('handle DELETE_SORTABLE_CONTAINER', () => {
         test('always return -1', () => {
             reducerHelper.call({ type: DELETE_BOX, payload: { id: reducerHelper.getBox(), parent: reducerHelper.getSortableBox(), container: reducerHelper.getContainedView() } });
@@ -78,7 +72,6 @@ describe('# box_selected reducer', () => {
             expect(reducerHelper.state).toEqual(-1);
         });
     });
-
     describe('handle DELETE_NAV_ITEM', () => {
         test('always return -1', () => {
             reducerHelper.call({ type: DELETE_BOX, payload: { id: reducerHelper.getBox(), parent: reducerHelper.getSortableBox(), container: reducerHelper.getContainedView() } });
@@ -86,7 +79,6 @@ describe('# box_selected reducer', () => {
             expect(reducerHelper.state).toEqual(-1);
         });
     });
-
     describe('handle SELECT_BOX', () => {
         test('return the id of the box', () => {
             let randomBox = reducerHelper.getBox();
@@ -94,7 +86,6 @@ describe('# box_selected reducer', () => {
             expect(reducerHelper.state).toEqual(randomBox);
         });
     });
-
     describe('handle SELECT_CONTAINED_VIEW', () => {
         test('always return -1', () => {
             reducerHelper.call({ type: DELETE_BOX, payload: { id: reducerHelper.getBox(), parent: reducerHelper.getSortableBox(), container: reducerHelper.getContainedView() } });
@@ -102,7 +93,6 @@ describe('# box_selected reducer', () => {
             expect(reducerHelper.state).toEqual(-1);
         });
     });
-
     describe('handle SELECT_NAV_ITEM', () => {
         test('always return -1', () => {
             reducerHelper.call({ type: DELETE_BOX, payload: { id: reducerHelper.getBox(), parent: reducerHelper.getSortableBox(), container: reducerHelper.getContainedView() } });
@@ -135,5 +125,4 @@ describe('# box_selected reducer', () => {
             expect(reducerHelper.state).toEqual(-1);
         });
     });
-
 });

@@ -34,7 +34,6 @@ const state = {
 };
 
 describe('# contained_views_by_id reducer', ()=>{
-
     describe('DEFAULT', ()=>{
         test('Should return test.state as default', () => {
             expect(contained_views_by_id(state, {})).toEqual(state);
@@ -146,7 +145,6 @@ describe('# contained_views_by_id reducer', ()=>{
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
-
     describe('handle DELETE_RICH_MARK', () => {
         test('If rich mark deleted', () => {
             const action = {
@@ -170,20 +168,17 @@ describe('# contained_views_by_id reducer', ()=>{
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
-
     describe('handle ADD_RICH_MARK', () => {
-
         test('If rich mark added to an existing contained view', () => {
-
             const action = {
                 type: ActionTypes.ADD_RICH_MARK,
                 payload: {
                     mark: {
-                        id: "rm-1511786135103",
+                        id: "rm-34",
                         title: "new mark",
                         connectMode: "existing",
                         "origin": "bo-1511786135103",
-                        connection: "cv-1524225239825",
+                        connection: "cv-2",
                         displayMode: "navigate",
                         value: "30.95,49.15",
                         color: "#222222",
@@ -194,11 +189,7 @@ describe('# contained_views_by_id reducer', ()=>{
 
             const newState = JSON.parse(JSON.stringify(state));
 
-            newState["cv-1524225239825"].parent["rm-1511786135103"] = 'bo-1511786135103';
-
-            expect(action.payload.mark.connectMode === 'existing').toBeTruthy();
-            expect(isContainedView(action.payload.mark.connection)).toBeTruthy();
-
+            newState["cv-2"].parent["rm-34"] = 'bo-1511786135103';
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
 
@@ -241,7 +232,6 @@ describe('# contained_views_by_id reducer', ()=>{
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
-
     describe('handle DELETE_BOX', () => {
         test('If deleted box is linked to a contained view', () => {
             const action = {
@@ -262,8 +252,8 @@ describe('# contained_views_by_id reducer', ()=>{
             const action = {
                 type: ActionTypes.DELETE_BOX,
                 payload: {
-                    id: "bs-1524225239825",
-                    parent: 'cv-1511252975055',
+                    ids: ["bs-32"],
+                    parent: 'cv-1',
                     container: 0,
                     children: [],
                     cvs: [],
@@ -274,13 +264,12 @@ describe('# contained_views_by_id reducer', ()=>{
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
-
     describe('handle CHANGE_CONTAINED_VIEW_NAME', () => {
         test('If contained view name changed', () => {
             const action = {
                 type: ActionTypes.CHANGE_CONTAINED_VIEW_NAME,
                 payload: {
-                    id: 'cv-1511252975055',
+                    id: 'cv-1',
                     title: 'vc2',
                 },
             };
@@ -289,7 +278,6 @@ describe('# contained_views_by_id reducer', ()=>{
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
-
     describe('handle DELETE_CONTAINED_VIEW', () => {
         test('If contained view deleted', () => {
             const action = {
@@ -305,43 +293,25 @@ describe('# contained_views_by_id reducer', ()=>{
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
-
     describe('handle DELETE_NAV_ITEM', () => {
         test('If nav item deleted and has a linked contained view', () => {
             const action = {
                 type: ActionTypes.DELETE_NAV_ITEM,
                 payload: {
-                    ids: ['pa-1511252955865'],
-                    parent: 'se-1511252954307',
-                    boxes: ['bo-1511252970033'],
+                    ids: ['pa-1'],
+                    parent: 'se-2',
+                    boxes: ['bo-11'],
                     containedViews: {},
                     linkedBoxes: {},
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            delete newState["cv-1524225239825"].parent[action.payload.boxes[0]];
+            newState["cv-2"].parent = {};
+            newState["cv-1"].parent = {};
             // delete newState["cv-1511252975058"].parent[action.payload.boxes[0]];
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
-
-    describe('handle DELETE_SORTABLE_CONTAINER', () => {
-        test('If sortable container deleted has a box linked to a contained view', () => {
-            const action = {
-                type: ActionTypes.DELETE_NAV_ITEM,
-                payload: {
-                    id: 'sc-1511443052922',
-                    parent: 'bs-1511252985426',
-                    children: ["bo-1511443052925", "bo-1511443052967"],
-                    cvs: { 'cv-1524225239825': ["bo-1511443052925"] },
-                },
-            };
-            const newState = JSON.parse(JSON.stringify(state));
-            delete newState['cv-1524225239825'].parent[action.payload.cvs[0]];
-            expect(contained_views_by_id(state, action)).toEqual(newState);
-        });
-    });
-
     describe('handle IMPORT_STATE', () => {
         test('If state imported', () => {
             const action = {
@@ -353,13 +323,12 @@ describe('# contained_views_by_id reducer', ()=>{
             expect(boxes_by_id(state, action)).toEqual(state);
         });
     });
-
     describe('handle PASTE_BOX', () => {
         test('If box pasted to cv slide', () => {
 
             let ids = {
-                "id": "bo-1524225237703",
-                "parent": "cv-1524225239825",
+                "id": "bo-6",
+                "parent": "cv-1",
                 "container": 0,
 
             };
@@ -374,7 +343,7 @@ describe('# contained_views_by_id reducer', ()=>{
             };
 
             const newState = JSON.parse(JSON.stringify(state));
-            newState["cv-1524225239825"].boxes = ["bs-1524225239825", ids.id];
+            newState["cv-1"].boxes = ["bs-1", "bo-32", "bo-6"];
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
         test('If box pasted to regular view', () => {
@@ -398,21 +367,20 @@ describe('# contained_views_by_id reducer', ()=>{
             expect(contained_views_by_id(state, action)).toEqual(state);
         });
     });
-
     describe('handle CHANGE_BOX_LAYER', () => {
         test('Bring to front selected_box in a slide', () => {
             const action = {
                 type: ActionTypes.CHANGE_BOX_LAYER,
                 payload: {
-                    id: 'bo-1511443052968',
-                    parent: "cv-1524225239825",
+                    id: 'bo-1',
+                    parent: "cv-1",
                     container: 0,
                     value: 'front',
-                    boxes_array: ['bo-1511443052968', 'bo-1511443052969'],
+                    boxes_array: ['bo-1', 'bo-12'],
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            newState['cv-1524225239825'].boxes = ['bo-1511443052969', 'bo-1511443052968'];
+            newState['cv-1'].boxes = ['bo-12', 'bo-1'];
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });

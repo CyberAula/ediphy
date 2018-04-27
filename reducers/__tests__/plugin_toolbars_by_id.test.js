@@ -12,7 +12,6 @@ const state = testState.present.pluginToolbarsById;
 * */
 
 describe('# plugin_toolbars_by_id reducer', ()=>{
-
     describe('DEFAULT', ()=>{
         test('Should return test.state as default', () => {
             expect(plugin_toolbars_by_id(state, {})).toEqual(state);
@@ -23,7 +22,6 @@ describe('# plugin_toolbars_by_id reducer', ()=>{
             expect(plugin_toolbars_by_id(state, ActionTypes.ADD_BOX)).toEqual(state);
         });
     });
-
     describe('handle DELETE_BOX', ()=>{
         test('If box deleted', () => {
             // expect(plugin_toolbars_by_id(state, {})).toEqual(state);

@@ -417,7 +417,7 @@ class EditorApp extends Component {
                     marks={marks}
                     exercises={exercises}
                     titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}
-                    onContainedViewNameChanged={(id, titleStr) => dispatch(changeContainedViewName(id, titleStr))}
+                    onContainedViewNameChanged={(id, titleStr) => dispatch(updateViewToolbar(id, titleStr))}
                     onBackgroundChanged={(id, background) => dispatch(changeBackground(id, background))}
                     onNavItemToggled={ id => dispatch(toggleNavItem(navItemSelected)) }
                     onNavItemSelected={id => dispatch(selectNavItem(id))}

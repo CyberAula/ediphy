@@ -109,18 +109,19 @@ export default function(state = {}, action = {}) {
     case EDIT_RICH_MARK:
         let oldCv = "";
         let newParents = {};
-        Object.keys(state).forEach(cv=>{
-            if(Object.keys(state[cv].parent).includes(action.payload.mark.id)) {
-                oldCv = state[cv].id;
+        newState = { ...state };
+        Object.keys(newState).forEach(cv=>{
+            if(Object.keys(newState[cv].parent).includes(action.payload.mark.id)) {
+                oldCv = newState[cv].id;
             }
         });
         if(oldCv !== "") {
-            newParents = state[oldCv].parent;
+            newParents = newState[oldCv].parent;
             delete newParents[action.payload.mark.id];
             newState = {
-                ...state,
+                ...newState,
                 [oldCv]: {
-                    ...state[oldCv],
+                    ...newState[oldCv],
                     parent: newParents,
                 },
             };

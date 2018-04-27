@@ -11,7 +11,6 @@ describe('# view_toolbars_by_id reducer', ()=>{
             expect(view_toolbars_by_id(state, {})).toEqual(state);
         });
     });
-
     describe('handle ADD_NAV_ITEM', ()=>{
         test('If nav item added', () => {
             const action = { type: ActionTypes.ADD_NAV_ITEM,
@@ -38,7 +37,6 @@ describe('# view_toolbars_by_id reducer', ()=>{
             expect(view_toolbars_by_id(state, action)).toEqual(newState);
         });
     });
-
     describe('handle DELETE_CONTAINED_VIEW', ()=>{
         test('If contained view deleted', () => {
             let action = {
@@ -54,7 +52,6 @@ describe('# view_toolbars_by_id reducer', ()=>{
             expect(view_toolbars_by_id(state, action)).toEqual(newState);
         });
     });
-
     describe('handle UPDATE_VIEW_TOOLBAR', ()=>{
         test('If update view toolbar', () => {
             let action = {
@@ -140,7 +137,6 @@ describe('# view_toolbars_by_id reducer', ()=>{
             expect(view_toolbars_by_id(state, action)).toEqual(newState);
         });
     });
-
     describe('handle PASTE_BOX', ()=>{
         test('If box pasted', () => {
             let action = {};

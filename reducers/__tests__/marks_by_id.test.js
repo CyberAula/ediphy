@@ -3,16 +3,25 @@ import marks_by_id from '../marks_by_id';
 import * as ActionTypes from '../../common/actions';
 import { ADD_RICH_MARK } from "../../common/actions";
 
-const state = testState.present.marksById;
+const state = {
+    "rm-1": {
+        "id": "rm-1",
+        "origin": "bo-1",
+        "title": "Nueva marca 1",
+        "connection": "cv-1",
+        "color": "#222222",
+        "connectMode": "existing",
+        "displayMode": "navigate",
+        "value": "52.94,58.86",
+    },
+};
 
 describe('# marks_by_id reducer', ()=>{
-
     describe('DEFAULT', ()=>{
         test('Should return test.state as default', () => {
             expect(marks_by_id(state, {})).toEqual(state);
         });
     });
-
     describe('handle ADD_RICH_MARK', ()=>{
         test('If rich mark added', () => {
             const action = {
@@ -108,10 +117,10 @@ describe('# marks_by_id reducer', ()=>{
                 type: ActionTypes.EDIT_RICH_MARK,
                 payload: {
                     "mark": {
-                        "id": "rm-1524225239825",
-                        "origin": "bo-1524225237703",
+                        "id": "rm-1",
+                        "origin": "bo-1",
                         "title": "great mark",
-                        "connection": "cv-1524225239825",
+                        "connection": "cv-1",
                         "color": "#3221f2",
                         "connectMode": "existing",
                         "displayMode": "navigate",
@@ -120,9 +129,9 @@ describe('# marks_by_id reducer', ()=>{
                 },
             };
             let newState = JSON.parse(JSON.stringify(state));
-            newState["rm-1524225239825"].title = "great mark";
-            newState["rm-1524225239825"].color = "#3221f2";
-            newState["rm-1524225239825"].value = "15,32";
+            newState["rm-1"].title = "great mark";
+            newState["rm-1"].color = "#3221f2";
+            newState["rm-1"].value = "15,32";
             expect(marks_by_id(state, action)).toEqual(newState);
         });
     });
@@ -132,19 +141,19 @@ describe('# marks_by_id reducer', ()=>{
                 type: ActionTypes.DELETE_RICH_MARK,
                 payload: {
                     mark: {
-                        id: "rm-1511252975055",
+                        id: "rm-1",
                     },
                 },
             };
-            let newState = JSON.parse(JSON.stringify(state));
+            let newState = {};
             expect(marks_by_id(state, action)).toEqual(newState);
         });
     });
     describe('handle PASTE_BOX', ()=>{
         test('If box pasted', () => {
             const boxPasted = {
-                "id": "bo-1511868565135",
-                "parent": "cv-1511252975055",
+                "id": "bo-1",
+                "parent": "cv-2",
                 "container": 0,
                 "level": 0,
                 "col": 0,
@@ -162,7 +171,7 @@ describe('# marks_by_id reducer', ()=>{
             const action = {
                 type: ActionTypes.PASTE_BOX,
                 payload: {
-                    ids: { parent: "cv-1511252975055", container: 0, id: 'bo-1511868565135' },
+                    ids: { parent: "cv-2", container: 0, id: 'bo-1' },
                     box: boxPasted,
                     toolbar: {},
                 },
