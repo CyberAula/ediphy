@@ -4,7 +4,10 @@ import glob from 'glob';
 import { shallow } from 'enzyme';
 import BasePlugin from '../../core/editor/base_plugin';
 import BasePluginVisor from '../../core/visor/base_plugin';
+import { ID_PREFIX_BOX } from '../../common/constants';
 let PJV = require('package-json-validator').PJV;
+const id_box = ID_PREFIX_BOX + 1;
+const mock_props = { "exercises": { "correctAnswer": [] }, id: id_box, pluginToolbars: {} };
 
 describe('plugins package.json is well formed', ()=>{
 
@@ -57,14 +60,14 @@ plugin_folders.forEach((plugin)=>{
 
         if (current_plugin.hasOwnProperty('getRenderTemplate')) {
             test(plugin.split("plugins/")[1] + 'plugin has getRenderTemplate and is valid', () => {
-                const pluginRender = shallow(current_plugin.getRenderTemplate(current_plugin.getInitialState()));
+                const pluginRender = shallow(current_plugin.getRenderTemplate(current_plugin.getInitialState(), mock_props));
                 expect(pluginRender).toBeTruthy();
             });
         }
 
         if (current_plugin.hasOwnProperty('getConfigTemplate')) {
             test(plugin.split("plugins/")[1] + 'plugin has getConfigTemplate and is valid', () => {
-                expect(current_plugin.getConfigTemplate()).toBeTruthy();
+                expect(current_plugin.getConfigTemplate(id_box, current_plugin.getInitialState(), ()=>{}, {})).toBeTruthy();
             });
         }
 
