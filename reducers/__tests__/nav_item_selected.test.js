@@ -2,7 +2,7 @@ import { testState } from '../../core/store/state.tests.js';
 import nav_item_selected from '../nav_item_selected';
 import * as ActionTypes from '../../common/actions';
 
-const state = testState.present.navItemSelected; // pa-1511252955865
+const state = testState.undoGroup.present.navItemSelected; // pa-1511252955865
 
 describe('# nav_item_selected reducer', ()=>{
     describe('DEFAULT', ()=>{

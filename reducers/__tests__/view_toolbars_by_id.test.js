@@ -3,7 +3,7 @@ import view_toolbars_by_id from '../view_toolbars_by_id';
 import * as ActionTypes from '../../common/actions';
 import i18n from "i18next";
 
-const state = testState.present.viewToolbarsById;
+const state = testState.undoGroup.present.viewToolbarsById;
 
 describe('# view_toolbars_by_id reducer', ()=>{
     describe('DEFAULT', ()=>{

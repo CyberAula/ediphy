@@ -118,12 +118,12 @@ class EditorApp extends Component {
                         visor={() =>{this.setState({ visorVisible: true });}}
                         export={(format, callback) => {
                             if(format === "PDF") {
-                                printToPDF(this.props.store.getState().present, callback);
+                                printToPDF(this.props.store.getState().undoGroup.present, callback);
                             } else {
-                                Ediphy.Visor.exportsHTML(this.props.store.getState().present, callback);
+                                Ediphy.Visor.exportsHTML(this.props.store.getState().undoGroup.present, callback);
                             }}}
-                        scorm={(is2004, callback) => {Ediphy.Visor.exportScorm(this.props.store.getState().present, is2004, callback);}}
-                        save={() => {dispatch(exportStateAsync({ present: this.props.store.getState().present })); }}
+                        scorm={(is2004, callback) => {Ediphy.Visor.exportScorm(this.props.store.getState().undoGroup.present, is2004, callback);}}
+                        save={() => {dispatch(exportStateAsync({ present: this.props.store.getState().undoGroup.present })); }}
                         category={this.state.pluginTab}
                         opens={() => {dispatch(importStateAsync());}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
@@ -131,7 +131,7 @@ class EditorApp extends Component {
                         onExternalCatalogToggled={() => this.setState({ catalogModal: true })}
                         setcat={(category) => {this.setState({ pluginTab: category, hideTab: 'show' });}}/>
                     {Ediphy.Config.autosave_time > 1000 &&
-                    <AutoSave save={() => {dispatch(exportStateAsync({ present: this.props.store.getState().present }));}}
+                    <AutoSave save={() => {dispatch(exportStateAsync({ present: this.props.store.getState().undoGroup.present }));}}
                         isBusy={isBusy}
                         lastAction={lastActionDispatched}
                         visorVisible={this.state.visorVisible}/>})
@@ -365,7 +365,7 @@ class EditorApp extends Component {
                     title={title}
                     visorVisible={this.state.visorVisible}
                     onVisibilityToggled={()=> this.setState({ visorVisible: !this.state.visorVisible })}
-                    state={this.props.store.getState().present}/>
+                    state={this.props.store.getState().undoGroup.present}/>
                 <PluginConfigModal
                     id={this.state.pluginConfigModal}
                     fileModalResult={this.state.fileModalResult}
@@ -559,7 +559,7 @@ class EditorApp extends Component {
                 e.preventDefault();
 
                 e.stopImmediatePropagation();
-                printToPDF(this.props.store.getState().present);
+                printToPDF(this.props.store.getState().undoGroup.present);
             }
 
             // Supr
@@ -806,28 +806,30 @@ class EditorApp extends Component {
 }
 
 function mapStateToProps(state) {
+    console.log(2222222);
+    console.log(state);
     return {
-        version: state.present.version,
-        globalConfig: state.present.globalConfig,
-        filesUploaded: state.present.filesUploaded,
-        boxes: state.present.boxesById,
-        boxSelected: state.present.boxSelected,
-        boxLevelSelected: state.present.boxLevelSelected,
-        indexSelected: state.present.indexSelected,
-        navItemsIds: state.present.navItemsIds,
-        navItems: state.present.navItemsById,
-        navItemSelected: state.present.navItemSelected,
-        containedViews: state.present.containedViewsById,
-        containedViewSelected: state.present.containedViewSelected,
-        undoDisabled: state.past.length === 0,
-        redoDisabled: state.future.length === 0,
-        displayMode: state.present.displayMode,
-        marks: state.present.marksById,
-        pluginToolbars: state.present.pluginToolbarsById,
-        viewToolbars: state.present.viewToolbarsById,
-        exercises: state.present.exercises,
-        isBusy: state.present.isBusy,
-        lastActionDispatched: state.present.lastActionDispatched || "",
+        version: state.undoGroup.present.version,
+        globalConfig: state.undoGroup.present.globalConfig,
+        filesUploaded: state.filesUploaded,
+        boxes: state.undoGroup.present.boxesById,
+        boxSelected: state.undoGroup.present.boxSelected,
+        boxLevelSelected: state.undoGroup.present.boxLevelSelected,
+        indexSelected: state.undoGroup.present.indexSelected,
+        navItemsIds: state.undoGroup.present.navItemsIds,
+        navItems: state.undoGroup.present.navItemsById,
+        navItemSelected: state.undoGroup.present.navItemSelected,
+        containedViews: state.undoGroup.present.containedViewsById,
+        containedViewSelected: state.undoGroup.present.containedViewSelected,
+        undoDisabled: state.undoGroup.past.length === 0,
+        redoDisabled: state.undoGroup.future.length === 0,
+        displayMode: state.undoGroup.present.displayMode,
+        marks: state.undoGroup.present.marksById,
+        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+        viewToolbars: state.undoGroup.present.viewToolbarsById,
+        exercises: state.undoGroup.present.exercises,
+        isBusy: state.undoGroup.present.isBusy,
+        lastActionDispatched: state.undoGroup.present.lastActionDispatched || "",
 
     };
 }

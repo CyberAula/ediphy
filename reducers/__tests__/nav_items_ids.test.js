@@ -2,7 +2,7 @@ import { testState } from '../../core/store/state.tests.js';
 import nav_items_ids from '../nav_items_ids';
 import * as ActionTypes from '../../common/actions';
 
-const state = testState.present.navItemsIds;
+const state = testState.undoGroup.present.navItemsIds;
 
 describe('# nav_items_ids reducer', ()=>{
     describe('DEFAULT', ()=>{

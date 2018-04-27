@@ -265,23 +265,14 @@ export function setCorrectAnswer(id, correctAnswer, page) {
 export function deleteRemoteFileVishAsync(id, url, callback) {
     dispatch(setBusy(true, FILE_DELETING));
 
-    /*
-      let filename = query.file.name;
-      let form = new FormData();
-      form.append("document[title]", query.title);
-      form.append("document[description]", "Uploaded using Ediphy Editor");
-      form.append("document[tag_list][]", keywords);
-      if (typeof(ediphy_editor_params) !== 'undefined') {
-        form.append("document[owner_id]", ediphy_editor_params.id);
+    let form = new FormData();
+    form.append("_method", "delete");
+    if (typeof(ediphy_editor_params) !== 'undefined') {
         form.append("authenticity_token", ediphy_editor_params.authenticity_token);
-      }
-      form.append("document[file]", query.file);
-      let filenameDeconstructed = filename.split('.');
-      let mimetype = query.file.type && query.file.type !== "" ? query.file.type : filenameDeconstructed[filenameDeconstructed.length - 1];*/
+    }
 
-    let DELETE_FILE_VISH_URL = '';
-    return fetch(DELETE_FILE_VISH_URL, {
-        method: 'POST', // delete?
+    return fetch(url, {
+        method: 'POST',
         credentials: 'same-origin',
         body: form,
     }).then(response => {
@@ -291,9 +282,9 @@ export function deleteRemoteFileVishAsync(id, url, callback) {
 
         return 200;
     }).then((result) => {
-        dispatch(setBusy(false, result));
+        dispatch(setBusy(false, id));
 
-        dispatch(deletWFile(id));
+        dispatch(deleteFile(id));
         if (callback) {
             callback(result);
         }
@@ -304,6 +295,7 @@ export function deleteRemoteFileVishAsync(id, url, callback) {
             if (callback) {
                 callback();
             }
+            return false;
         });
 
 }

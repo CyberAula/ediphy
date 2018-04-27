@@ -2,7 +2,7 @@ import { testState } from '../../core/store/state.tests.js';
 import plugin_toolbars_by_id from '../plugin_toolbars_by_id';
 import * as ActionTypes from '../../common/actions';
 
-const state = testState.present.pluginToolbarsById;
+const state = testState.undoGroup.present.pluginToolbarsById;
 
 /*
 * ADD_BOX, DELETE_BOX, DELETE_CONTAINED_VIEW,
