@@ -64,6 +64,7 @@ export default function menus(self) {
                 containedViews: self.props.containedViews,
                 containedViewSelected: self.props.containedViewSelected,
                 boxes: self.props.boxes,
+                deleteFileFromServer: self.props.deleteFileFromServer,
                 onBoxAdded: self.props.onBoxAdded,
                 id: self.state.id,
             },

@@ -182,7 +182,24 @@
         &.hidden {
           display: none;
         }
+        .deleteButton {
+          position:absolute;
+          top:0;
+          left:0;
+          margin: 8px;
+          border: none;
+          padding: 0;
+          background-color: white;
+          color: grey;
+          width:29px;
+          height: 29px;
+          z-index: 9999;
+        }
         height: 160px;
+        transition: all 0.2s ease;
+        &:hover {
+          transform: scale(0.95);
+        }
         .myFileContent {
           width:100%;
           height: 70%;
@@ -194,13 +211,11 @@
           border-color: transparent;
           background-position: center;
           background-size: cover;
-          transition: all 0.2s ease;
+
           &.active {
             border-color: orange !important;
           }
-          &:hover {
-            transform: scale(0.95);
-          }
+
           i {
             font-size: 40px;
           }

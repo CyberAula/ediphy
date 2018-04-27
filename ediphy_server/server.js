@@ -6,6 +6,7 @@ let path = require('path');
 var multer  = require('multer');
 var crypto = require("crypto");
 var PATH = 'public/';
+
 var storage = multer.diskStorage({
   destination: function (req, data, func) {
     func(null, PATH)
@@ -68,6 +69,25 @@ app.post('/saveConfig', function(req, res) {
     }, 3000);
 });*/
 
+app.post('/delete', function (req, res, next) {
+  let fileId = req.body.id;
+  console.log(22222)
+  console.log(req.body, req.file, req.params);
+  try{fs.unlink(PATH+fileId,
+    function (err) {
+      if (err) {
+        res.status(404).end();
+        return console.log(err);
+
+      }
+      res.status(200).end()
+    })
+  } catch(e){
+    res.status(404).end()
+  }
+})
+
+
 app.post('/upload',  upload.single('file'), function (req, res, next) {
   // req.file is the `avatar` file
   // req.body will hold the text fields, if there were any
@@ -81,6 +101,7 @@ app.post('/upload',  upload.single('file'), function (req, res, next) {
   }
   res.status(500)
 })
+
 
 var server = app.listen(8081, function() {
 

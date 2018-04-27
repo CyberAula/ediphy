@@ -1,7 +1,8 @@
 import fetch from 'isomorphic-fetch';
 import Ediphy from '../core/editor/main';
 import i18n from 'i18next';
-import { ID_PREFIX_FILE, FILE_UPLOAD_ERROR, FILE_UPLOADING } from './constants';
+import { ID_PREFIX_FILE, FILE_UPLOAD_ERROR, FILE_UPLOADING, FILE_DELETING, FILE_DELETE_ERROR } from './constants';
+import { isDataURL } from './utils';
 export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';
 export const MOVE_BOX = 'MOVE_BOX';
@@ -58,6 +59,7 @@ export const DELETE_CONTAINED_VIEW = 'DELETE_CONTAINED_VIEW';
 export const CHANGE_CONTAINED_VIEW_NAME = 'CHANGE_CONTAINED_VIEW_NAME';
 
 export const UPLOAD_FILE = 'UPLOAD_FILE';
+export const DELETE_FILE = 'DELETE_FILE';
 
 // These are not real Redux actions but are use to specify plugin's render reason
 
@@ -233,7 +235,6 @@ export function changeGlobalConfig(prop, value) {
 }
 
 export function importState(state) {
-    console.log(state);
     return { type: IMPORT_STATE, payload: state };
 }
 
@@ -253,67 +254,105 @@ export function uploadFile(id, url, name, keywords, mimetype) {
     return { type: UPLOAD_FILE, payload: { id, url, name, keywords, mimetype } };
 }
 
+export function deleteFile(id) {
+    return { type: DELETE_FILE, payload: { id } };
+}
+
 export function setCorrectAnswer(id, correctAnswer, page) {
     return { type: SET_CORRECT_ANSWER, payload: { id, correctAnswer, page } };
 }
 
-export function uploadEdiphyResourceAsync(file, keywords = "", callback) {
-    return dispatch => {
-        dispatch(setBusy(true, FILE_UPLOADING));
+export function deleteRemoteFileVishAsync(id, url, callback) {
+    dispatch(setBusy(true, FILE_DELETING));
 
-        let form = new FormData();
-        form.append("file", file);
-        let id = ID_PREFIX_FILE + Date.now();
-        fetch("http://localhost:8081/upload", {
-            method: 'POST',
-            credentials: 'same-origin',
-            body: form,
-        }).then(response => {
-            // console.log(response.headers())
-            if (!response.ok) {
-                throw Error(response.statusText);
-            }
-            return response.text().then((text)=>{
-                return JSON.parse(text);
-            });
-        }).then((result) => {
-            let { url, name, mimetype } = result;
+    /*
+      let filename = query.file.name;
+      let form = new FormData();
+      form.append("document[title]", query.title);
+      form.append("document[description]", "Uploaded using Ediphy Editor");
+      form.append("document[tag_list][]", keywords);
+      if (typeof(ediphy_editor_params) !== 'undefined') {
+        form.append("document[owner_id]", ediphy_editor_params.id);
+        form.append("authenticity_token", ediphy_editor_params.authenticity_token);
+      }
+      form.append("document[file]", query.file);
+      let filenameDeconstructed = filename.split('.');
+      let mimetype = query.file.type && query.file.type !== "" ? query.file.type : filenameDeconstructed[filenameDeconstructed.length - 1];*/
 
-            dispatch(uploadFile(id, url, name, keywords, mimetype));
+    let DELETE_FILE_VISH_URL = '';
+    return fetch(DELETE_FILE_VISH_URL, {
+        method: 'POST', // delete?
+        credentials: 'same-origin',
+        body: form,
+    }).then(response => {
+        if (!response.ok) {
+            throw Error(response.statusText);
+        }
+
+        return 200;
+    }).then((result) => {
+        dispatch(setBusy(false, result));
+
+        dispatch(deletWFile(id));
+        if (callback) {
+            callback(result);
+        }
+    })
+        .catch(e => {
+            alert(i18n.t("error.reaching_server"));
+            dispatch(setBusy(false, FILE_DELETE_ERROR));
             if (callback) {
-                callback(url);
+                callback();
             }
-            dispatch(setBusy(false, id));
-        })
-            .catch(e => {
-                console.error(e);
-                let reader = new FileReader();
-                reader.readAsDataURL(file);
-                let filenameDeconstructed = file.name.split('.');
-                let mimetype = file.type && file.type !== "" ? file.type : filenameDeconstructed[filenameDeconstructed.length - 1];
-                reader.onload = () =>{
-                    dispatch(uploadFile(id, reader.result, file.name, keywords, mimetype));
-                    if (callback) {
-                        callback(reader.result);
-                    }
-                    dispatch(setBusy(false, id));
-                };
-                reader.onerror = () => {
-                    console.log('there are some problems');
-                    dispatch(setBusy(false, FILE_UPLOAD_ERROR));
+        });
+
+}
+
+export function deleteRemoteFileEdiphyAsync(id, url, callback) {
+    return dispatch => {
+        if (isDataURL(url)) {
+            dispatch(deleteFile(id));
+            if (callback) {
+                callback(id);
+            }
+        } else {
+            dispatch(setBusy(true, FILE_DELETING));
+            let fileId = url.split('/').pop();
+            let DELETE_FILE_EDIPHY_URL = encodeURI('http://localhost:8081/delete?file=' + fileId);
+
+            return fetch(DELETE_FILE_EDIPHY_URL, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({ "id": fileId }),
+            }).then(response => {
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+
+                return 200;
+            }).then((result) => {
+                dispatch(setBusy(false, id));
+
+                dispatch(deleteFile(id));
+                if (callback) {
+                    callback(result);
+                }
+            })
+                .catch(e => {
+                    alert(i18n.t("error.reaching_server"));
+                    dispatch(setBusy(false, FILE_DELETE_ERROR));
                     if (callback) {
                         callback();
                     }
-                };
-
-            }).catch(e=>{
-                console.error(e);
-                dispatch(setBusy(false, FILE_UPLOAD_ERROR));
-                if (callback) {
-                    callback();
-                }
-            });
+                    return false;
+                });
+        }
     };
+
 }
 
 // Async actions
@@ -410,6 +449,64 @@ export function importStateAsync() {
             })
             .catch(e => {
                 dispatch(setBusy(false, e.message));
+            });
+    };
+}
+
+export function uploadEdiphyResourceAsync(file, keywords = "", callback) {
+    return dispatch => {
+        dispatch(setBusy(true, FILE_UPLOADING));
+
+        let form = new FormData();
+        form.append("file", file);
+        let id = ID_PREFIX_FILE + Date.now();
+        fetch("http://localhost:8081/upload", {
+            method: 'POST',
+            credentials: 'same-origin',
+            body: form,
+        }).then(response => {
+            // console.log(response.headers())
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            return response.text().then((text)=>{
+                return JSON.parse(text);
+            });
+        }).then((result) => {
+            let { url, name, mimetype } = result;
+
+            dispatch(uploadFile(id, url, name, keywords, mimetype));
+            if (callback) {
+                callback(url);
+            }
+            dispatch(setBusy(false, id));
+        })
+            .catch(e => {
+                console.error(e);
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                let filenameDeconstructed = file.name.split('.');
+                let mimetype = file.type && file.type !== "" ? file.type : filenameDeconstructed[filenameDeconstructed.length - 1];
+                reader.onload = () =>{
+                    dispatch(uploadFile(id, reader.result, file.name, keywords, mimetype));
+                    if (callback) {
+                        callback(reader.result);
+                    }
+                    dispatch(setBusy(false, id));
+                };
+                reader.onerror = () => {
+                    dispatch(setBusy(false, FILE_UPLOAD_ERROR));
+                    if (callback) {
+                        callback();
+                    }
+                };
+
+            }).catch(e=>{
+                console.error(e);
+                dispatch(setBusy(false, FILE_UPLOAD_ERROR));
+                if (callback) {
+                    callback();
+                }
             });
     };
 }

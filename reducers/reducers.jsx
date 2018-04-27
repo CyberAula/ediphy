@@ -5,7 +5,7 @@ import {
     TOGGLE_TEXT_EDITOR,
     DELETE_RICH_MARK, ADD_RICH_MARK, DELETE_CONTAINED_VIEW,
     TOGGLE_TITLE_MODE, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPDATE_BOX,
-    UPLOAD_FILE, SELECT_CONTAINED_VIEW,
+    UPLOAD_FILE, SELECT_CONTAINED_VIEW, DELETE_FILE,
 } from '../common/actions';
 import { isSortableBox } from '../common/utils';
 import boxesById from './boxes_by_id';
@@ -51,6 +51,13 @@ function filesUploaded(state = {}, action = {}) {
     switch(action.type) {
     case UPLOAD_FILE:
         return { ...state, [action.payload.id]: { ...action.payload } };
+    case DELETE_FILE:
+        return Object.keys(state)
+            .filter(key => key !== action.payload.id)
+            .reduce((result, current) => {
+                result[current] = state[current];
+                return result;
+            }, {});
     case IMPORT_STATE:
         return action.payload.present.filesUploaded || state;
     default:
