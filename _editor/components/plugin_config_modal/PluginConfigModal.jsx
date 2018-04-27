@@ -64,7 +64,6 @@ export default class PluginConfigModal extends Component {
             openFileModal: this.props.openFileModal,
             fileModalResult: this.props.fileModalResult,
         };
-        console.log(props);
         return (
             <Modal className="pageModal pluginconfig"
                 backdrop="static"

@@ -303,7 +303,8 @@ export default class Clipboard extends Component {
                     // If it is an image
                     let noImage = true;
                     try {
-                        noImage = retrieveImageFromClipboardAsBase64(event, (url) => {
+                        let uploadFunction = this.props.uploadFunction;
+                        noImage = retrieveImageFromClipboardAsBase64(event, uploadFunction, (url) => {
                             if (url) {
                                 initialParams.url = url; // URLObj.createObjectURL(imageBlob);
                                 createBox(initialParams, "HotspotImages", isTargetSlide, this.props.onBoxAdded, this.props.boxes);

@@ -76,11 +76,26 @@ export default class MyFilesComponent extends React.Component {
                 </Row>
                 <Row className="myFilesRow" onClick={e=>{this.props.onElementSelected(undefined, undefined, undefined);}}>
                     {files.map((file, i)=>{
+                        let isActive = (file.id === this.props.id);
                         return (<Col key={i} className={"myFile" + (file.hide ? ' hidden' : '')} xs={12} sm={6} md={4} lg={3}>
+                            {isActive ? <Button className="deleteButton" onClick={(e)=>{
+                                let al = confirm('Are u sure?');
+
+                                if (al) {
+                                    this.props.onElementSelected(undefined, undefined, undefined);
+                                    this.props.deleteFileFromServer(file.id, file.url, (status)=>{
+                                        if (!status) {
+                                            alert('Cannot Delete');
+                                        }
+                                    });
+                                }
+                                e.stopPropagation();}}>
+                                <i className="material-icons">delete</i>
+                            </Button> : null}
                             <Button style={{ backgroundImage: file.type === 'image' ? ("url(" + file.url + ")") : "" }} onClick={(e)=>{
                                 this.props.onElementSelected(file.name, file.url, file.type, file.id);
                                 e.stopPropagation();
-                            }} className={"myFileContent" + ((file.id === this.props.id) ? " active" : "")}>
+                            }} className={"myFileContent" + (isActive ? " active" : "")}>
                                 {file.type === 'image' ? "" : <i className="material-icons">{file.icon || "attach_file"}</i>}
                             </Button>
                             <span className="ellipsis">{file.name}</span>

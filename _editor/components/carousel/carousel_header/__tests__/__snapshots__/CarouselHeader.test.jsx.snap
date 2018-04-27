@@ -38,6 +38,7 @@ exports[`CarouselHeader should render as expected when the carousel is collapsed
     <EditorIndexTitle
       className="tituloCurso"
       onNameChanged={[Function]}
+      courseTitle
       title="IACR"
     />
   </div>

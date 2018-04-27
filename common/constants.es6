@@ -9,7 +9,9 @@ export const ID_PREFIX_CONTAINED_VIEW = "cv-";
 export const ID_PREFIX_RICH_MARK = "rm-";
 export const SECTIONS_HAVE_CONTENT = false;
 export const FILE_UPLOAD_ERROR = 'FILE_UPLOAD_ERROR';
+export const FILE_DELETE_ERROR = 'FILE_DELETE_ERROR';
 export const FILE_UPLOADING = 'FILE_UPLOADING';
+export const FILE_DELETING = 'FILE_DELETING';
 export const PAGE_TYPES = {
     SLIDE: "slide",
     DOCUMENT: "document",

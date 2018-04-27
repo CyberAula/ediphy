@@ -18,6 +18,7 @@ export default function menus(self) {
     let commonProps = {
         onElementSelected: (name, element, type, id) => { self.setState({ name, element, type, id }); },
         elementSelected: self.state.element,
+        idSelected: self.state.id,
     };
     return [
         {
@@ -31,7 +32,7 @@ export default function menus(self) {
                 pdfSelected: self.state.pdfSelected,
                 closeSideBar: (closeAlsoModal)=>{self.setState({ pdfSelected: false }); if (closeAlsoModal) {self.close();}},
                 filesUploaded: self.props.filesUploaded,
-                onUploadVishResource: self.props.onUploadVishResource,
+                uploadFunction: self.props.uploadFunction,
                 onUploadEdiphyResource: self.props.onUploadEdiphyResource,
                 onNavItemsAdded: self.props.onNavItemsAdded,
                 onIndexSelected: self.props.onIndexSelected,
@@ -63,6 +64,7 @@ export default function menus(self) {
                 containedViews: self.props.containedViews,
                 containedViewSelected: self.props.containedViewSelected,
                 boxes: self.props.boxes,
+                deleteFileFromServer: self.props.deleteFileFromServer,
                 onBoxAdded: self.props.onBoxAdded,
                 id: self.state.id,
             },

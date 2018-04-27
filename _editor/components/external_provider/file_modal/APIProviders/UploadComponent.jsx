@@ -9,6 +9,7 @@ import '../../../nav_bar/global_config/_reactTags.scss';
 import { ID_PREFIX_FILE, FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../common/constants';
 import { isFile } from '../../../../../common/utils';
 let spinner = require('../../../../../dist/images/spinner.svg');
+
 export default class UploadComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -43,10 +44,12 @@ export default class UploadComponent extends React.Component {
                 icon = ext.icon || icon;
             }
         }
+
+        let fileSelected = this.props.filesUploaded[this.props.idSelected];
         return(<div className="uploadComponent">
             <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}</h5>
             <hr />
-            { this.state.error ? <span>ERROR</span> : null }
+
             { (!this.state.file && !this.state.uploading && !this.state.uploaded) ?
                 <ExternalDropzone ref="dropZone" accept={this.props.show} callback={this.dropHandler}/> : null}
 
@@ -60,19 +63,21 @@ export default class UploadComponent extends React.Component {
                         </div>
                         {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={spinner} alt=""/></div> : null}
                         {/* <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
-          <ReactTags tags={keywords}
-                     placeholder={i18n.t('global_config.keyw.Add_tag')}
-                     delimiters={[188, 13]}
-                     handleDelete={this.handleDelete}
-                     handleAddition={this.handleAddition}
-                     handleDrag={this.handleDrag} />*/}
-
+                          <ReactTags tags={keywords}
+                                     placeholder={i18n.t('global_config.keyw.Add_tag')}
+                                     delimiters={[188, 13]}
+                                     handleDelete={this.handleDelete}
+                                     handleAddition={this.handleAddition}
+                                     handleDrag={this.handleDrag} />*/}
+                        { this.state.error ? <span id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i> {i18n.t("FileModal.APIProviders.error")}</span> : null }
+                        { this.state.uploaded ? <span id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i> {i18n.t("FileModal.APIProviders.uploaded")} </span> : null }
                     </FormGroup>
                 </Col>
                 <Col xs={12} sm={6}>
-                    <div style={{ backgroundImage: aux === 'Rimage' ? ("url(" + file.url + ")") : "" }} className={"preview" + ((file.url === this.props.elementSelected) ? " active" : "")}>
-                        {aux === 'Rimage' ? "" : <i className="material-icons">{icon || "attach_file"}</i>}
-                    </div>
+                    {(aux === 'image' && fileSelected && fileSelected.url) ? <img className="previewImg" src={fileSelected.url} alt=""/> : <div className={"preview"}>
+                        <i className="material-icons">{icon || "attach_file"}</i>
+                    </div>}
+
                 </Col>
             </Row> : null}
 
@@ -87,9 +92,10 @@ export default class UploadComponent extends React.Component {
             if (nextProps.isBusy.msg === FILE_UPLOADING && this.props.isBusy.msg !== FILE_UPLOADING) {
                 // this.setState({error: false, uploading: true, uploaded: false})
             } else if (this.props.isBusy.msg === FILE_UPLOADING && nextProps.isBusy.msg === FILE_UPLOAD_ERROR) {
-                this.setState({ error: true, uploaded: false, uploading: true });
+                this.setState({ error: true, uploaded: false, uploading: false });
             } else if (this.props.isBusy.msg === FILE_UPLOADING && isFile(nextProps.isBusy.msg)) {
                 let newFile = this.props.filesUploaded[nextProps.isBusy.msg];
+                console.log(newFile);
                 let extension = newFile.mimetype;
                 for (let e in extensions) {
                     let ext = extensions[e];
@@ -97,6 +103,7 @@ export default class UploadComponent extends React.Component {
                         extension = ext.value;
                     }
                 }
+                console.log(nextProps.isBusy.msg);
                 this.props.onElementSelected(newFile.name, newFile.url, extension, nextProps.isBusy.msg);
                 this.setState({ error: false, uploading: false, uploaded: true });
             }
@@ -113,16 +120,9 @@ export default class UploadComponent extends React.Component {
     }
 
     uploadHandler() {
-        let keywordsArray = this.state.keywords.map(key=>{return key.text;});
+        let keywordsArray = this.state.keywords.map(key => { return key.text; });
         let keywords = keywordsArray.join(",");
-
-        if(process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') { // VISH production
-            this.props.onUploadVishResource(this.state.file, keywords);
-        } /* else if (process.env.DOC === 'doc') { // Docs
-            alert('En la demo no se puede'); // TODO Poner bien en un modal alert
-        }*/ else { // Ediphy Development (with ediphy_server)
-            this.props.onUploadEdiphyResource(this.state.file, keywords);
-        }
+        this.props.uploadFunction(this.state.file, keywords);
         this.setState({ keywords: [], uploading: true });
 
     }

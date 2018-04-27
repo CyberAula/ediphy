@@ -93,6 +93,7 @@ export default class ActionsRibbon extends Component {
                         exercises={this.props.exercises}
                         onBoxPasted={this.props.onBoxPasted}
                         onBoxAdded={this.props.onBoxAdded}
+                        uploadFunction={this.props.uploadFunction}
                         onBoxDeleted={this.props.onBoxDeleted} >
                         { clipboardActions.map((act, ind)=>{
                             return button(act, ind);

@@ -81,6 +81,7 @@ let es = {
                 'audio': 'Audio',
                 'image': 'Imagen',
                 'cancel': 'Cancelar',
+                'custom': 'Archivo personalizado',
             },
             'APIProviders': {
                 'MyFiles': 'Mis archivos del curso',
@@ -89,6 +90,7 @@ let es = {
                 'results': 'Resultados',
                 'searching': 'Buscando...',
                 'error': 'Ha ocurrido un error',
+                'uploaded': 'Archivo subido',
                 'upload': 'Subir',
                 'clear': 'Quitar',
                 'search': 'BUSCAR',

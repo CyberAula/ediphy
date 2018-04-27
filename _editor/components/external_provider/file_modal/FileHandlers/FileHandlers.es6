@@ -2,7 +2,7 @@ import React from 'react';
 import { createBox } from '../../../../../common/common_tools';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../common/constants';
 import { randomPositionGenerator } from '../../../clipboard/clipboard.utils';
-import { isSlide, isBox } from '../../../../../common/utils';
+import { isSlide, isBox, isDataURL } from '../../../../../common/utils';
 import i18n from 'i18next';
 
 export let extensions = [
@@ -20,13 +20,16 @@ export default function handlers(self) {
         title: i18n.t('FileModal.FileHandlers.downloadAsFile'),
         disabled: !self.state.element,
         action: ()=>{
-            let anchor = document.createElement('a');
-            anchor.href = self.state.element;
-            anchor.href = anchor.href.replace(/^data:.*\/[^;]+/, 'data:application/octet-stream');
-
-            anchor.target = '_blank';
-            anchor.download = self.state.name;
-            anchor.click();
+            if (navigator.userAgent.search("Firefox") !== -1) {
+                window.open(self.state.element);
+            } else {
+                let anchor = document.createElement('a');
+                anchor.setAttribute('download', '');
+                anchor.href = self.state.element;
+                anchor.target = '_blank';
+                anchor.download = self.state.name;
+                anchor.click();
+            }
         },
     };
     let page = self.currentPage();
@@ -333,7 +336,3 @@ function dataToState(e, self, format, initialParams, isTargetSlide, plugin) {
     self.close();
 }
 
-function isDataURL(s) {
-    let regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
-    return !!s.match(regex);
-}

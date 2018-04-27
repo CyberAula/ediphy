@@ -84,6 +84,7 @@ let en = {
                 'audio': 'Audio',
                 'image': 'Image',
                 'cancel': 'Cancel',
+                'custom': 'Custom file',
             },
             'APIProviders': {
                 'MyFiles': 'My course files',
@@ -92,6 +93,7 @@ let en = {
                 'results': 'Results',
                 'searching': 'Searching...',
                 'error': 'An error has ocurred',
+                'uploaded': 'File Uploaded',
                 'upload': 'Upload',
                 'clear': 'Clear',
                 'search': 'SEARCH',

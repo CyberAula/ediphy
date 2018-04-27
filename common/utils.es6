@@ -311,6 +311,11 @@ export function getDescendantLinkedBoxes(ids, navs) {
     return boxes;
 }
 
+export function isDataURL(s) {
+    let regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
+    return !!s.match(regex);
+}
+
 /** *
  * Find closest ancestor with a given selector
  * @param elm  Origin DOM element
