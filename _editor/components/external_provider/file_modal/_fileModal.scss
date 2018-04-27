@@ -103,6 +103,10 @@
           margin: 30px;
           min-height: 190px;
         }
+        .previewImg {
+          width:100%;
+          height: auto;
+        }
         .preview {
           width:100%;
           height: auto;
@@ -123,6 +127,22 @@
             font-size: 40px;
           }
         }
+        .uploadModalMsg {
+          border: 1px solid #ddd;
+          padding: 20px;
+          margin: 12px 2px;
+          display: block;
+          i {
+            vertical-align: middle;
+          }
+          &#errorMsg {
+            color: red;
+          }
+          &#uploadedMsg{
+            color: lightgreen;
+          }
+        }
+
         #spinnerFloatContainer {
           text-align: center;
           .spinnerFloat {

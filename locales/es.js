@@ -89,6 +89,7 @@ let es = {
                 'results': 'Resultados',
                 'searching': 'Buscando...',
                 'error': 'Ha ocurrido un error',
+                'uploaded': 'Archivo subido',
                 'upload': 'Subir',
                 'clear': 'Quitar',
                 'search': 'BUSCAR',

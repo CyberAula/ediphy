@@ -92,6 +92,7 @@ let en = {
                 'results': 'Results',
                 'searching': 'Searching...',
                 'error': 'An error has ocurred',
+                'uploaded': 'File Uploaded',
                 'upload': 'Upload',
                 'clear': 'Clear',
                 'search': 'SEARCH',

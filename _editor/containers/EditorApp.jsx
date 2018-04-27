@@ -89,6 +89,7 @@ class EditorApp extends Component {
         let title = globalConfig.title || '---';
         let canvasRatio = globalConfig.canvasRatio;
         let disabled = (navItemSelected === 0 && containedViewSelected === 0) || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
+        let uploadFunction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? uploadVishResourceAsync : uploadEdiphyResourceAsync;
         return (
             <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }}>
                 <Row className="navBar">
@@ -220,6 +221,7 @@ class EditorApp extends Component {
                                 onBoxPasted={(ids, box, toolbar, children, index, markList, score)=>dispatch(pasteBox(ids, box, toolbar, children, index, markList, score))}
                                 onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 onBoxDeleted={this.onBoxDeleted}
+                                uploadFunction={(query, keywords, callback) => dispatch(uploadFunction(query, keywords, callback))}
                                 ribbonHeight={ribbonHeight + 'px'}/>
                         </Row>
 
@@ -489,7 +491,6 @@ class EditorApp extends Component {
                     }}
                     fileModalResult={this.state.fileModalResult}
                     openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept });}}
-                    onUploadVishResource={(query) => dispatch(uploadVishResourceAsync(query))}
                     updateViewToolbar={(id, toolbar)=> dispatch(updateViewToolbar(id, toolbar))}
                 />
                 <FileModal visible={this.state.showFileUpload} disabled={disabled}
@@ -509,8 +510,7 @@ class EditorApp extends Component {
                     onIndexSelected={(id) => dispatch(selectIndex(id))}
                     onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
                     onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
-                    onUploadVishResource={(query, keywords) => dispatch(uploadVishResourceAsync(query, keywords))}
-                    onUploadEdiphyResource={(file, keywords)=>dispatch(uploadEdiphyResourceAsync(file, keywords))}
+                    uploadFunction={(query, keywords, callback) => dispatch(uploadFunction(query, keywords, callback))}
                     close={(fileModalResult)=>{this.setState({ fileModalResult: fileModalResult ? fileModalResult : { id: undefined, value: undefined }, showFileUpload: false });}} />
 
             </Grid>

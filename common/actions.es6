@@ -257,7 +257,7 @@ export function setCorrectAnswer(id, correctAnswer, page) {
     return { type: SET_CORRECT_ANSWER, payload: { id, correctAnswer, page } };
 }
 
-export function uploadEdiphyResourceAsync(file, keywords = "") {
+export function uploadEdiphyResourceAsync(file, keywords = "", callback) {
     return dispatch => {
         dispatch(setBusy(true, FILE_UPLOADING));
 
@@ -278,26 +278,40 @@ export function uploadEdiphyResourceAsync(file, keywords = "") {
             });
         }).then((result) => {
             let { url, name, mimetype } = result;
-            dispatch(setBusy(false, id));
+
             dispatch(uploadFile(id, url, name, keywords, mimetype));
+            if (callback) {
+                callback(url);
+            }
+            dispatch(setBusy(false, id));
         })
             .catch(e => {
+                console.error(e);
                 let reader = new FileReader();
                 reader.readAsDataURL(file);
                 let filenameDeconstructed = file.name.split('.');
                 let mimetype = file.type && file.type !== "" ? file.type : filenameDeconstructed[filenameDeconstructed.length - 1];
                 reader.onload = () =>{
                     dispatch(uploadFile(id, reader.result, file.name, keywords, mimetype));
+                    if (callback) {
+                        callback(reader.result);
+                    }
                     dispatch(setBusy(false, id));
                 };
                 reader.onerror = () => {
                     console.log('there are some problems');
                     dispatch(setBusy(false, FILE_UPLOAD_ERROR));
+                    if (callback) {
+                        callback();
+                    }
                 };
 
             }).catch(e=>{
                 console.error(e);
                 dispatch(setBusy(false, FILE_UPLOAD_ERROR));
+                if (callback) {
+                    callback();
+                }
             });
     };
 }
@@ -400,7 +414,7 @@ export function importStateAsync() {
     };
 }
 
-export function uploadVishResourceAsync(query, keywords = "") {
+export function uploadVishResourceAsync(query, keywords = "", callback) {
     return dispatch => {
 
         if (query.title !== null && query.title.length > 0) {
@@ -436,10 +450,16 @@ export function uploadVishResourceAsync(query, keywords = "") {
                     dispatch(setBusy(false, result));
                     let id = ID_PREFIX_FILE + Date.now();
                     dispatch(uploadFile(id, result, query.title, keywords, mimetype));
+                    if (callback) {
+                        callback(result);
+                    }
                 })
                     .catch(e => {
                         alert(i18n.t("error.reaching_server"));
                         dispatch(setBusy(false, FILE_UPLOAD_ERROR));
+                        if (callback) {
+                            callback();
+                        }
                     });
 
             }
