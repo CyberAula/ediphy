@@ -5,7 +5,7 @@ import { Button, Row, Col, Grid, FormGroup, FormControl, ControlLabel } from 're
 import Select from 'react-select';
 import '../../../nav_bar/global_config/_reactTags.scss';
 import { extensions } from '../FileHandlers/FileHandlers';
-import PDFHandler from "../FileHandlers/PDFHandler";
+import Alert from "../../../common/alert/Alert";
 export default class MyFilesComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -14,6 +14,8 @@ export default class MyFilesComponent extends React.Component {
             filter: "",
             extensionFilter: this.props.show,
             keywords: [],
+            confirmDelete: false,
+            errorDeleteAlert: false,
         };
 
     }
@@ -76,19 +78,11 @@ export default class MyFilesComponent extends React.Component {
                 </Row>
                 <Row className="myFilesRow" onClick={e=>{this.props.onElementSelected(undefined, undefined, undefined);}}>
                     {files.map((file, i)=>{
-                        let isActive = (file.id === this.props.id);
+                        let isActive = (file.id === this.props.idSelected);
                         return (<Col key={i} className={"myFile" + (file.hide ? ' hidden' : '')} xs={12} sm={6} md={4} lg={3}>
                             {isActive ? <Button className="deleteButton" onClick={(e)=>{
-                                let al = confirm('Are u sure?');
+                                this.setState({ confirmDelete: true });
 
-                                if (al) {
-                                    this.props.onElementSelected(undefined, undefined, undefined);
-                                    this.props.deleteFileFromServer(file.id, file.url, (status)=>{
-                                        if (!status) {
-                                            alert('Cannot Delete');
-                                        }
-                                    });
-                                }
                                 e.stopPropagation();}}>
                                 <i className="material-icons">delete</i>
                             </Button> : null}
@@ -103,7 +97,32 @@ export default class MyFilesComponent extends React.Component {
                     })}
 
                 </Row>
+                {this.state.confirmDelete ? <Alert className="pageModal"
+                    show
+                    hasHeader
+                    title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
+                    cancelButton
+                    acceptButtonText={i18n.t("messages.OK")}
+                    onClose={(bool)=>{
+                        if(bool) {
+                            this.props.onElementSelected(undefined, undefined, undefined);
+                            this.props.deleteFileFromServer(this.props.idSelected, this.props.elementSelected, (status) => {
+                                if (!status) {
+                                    this.setState({ errorDeleteAlert: true });
+                                }
+                            });
+                        }
+                        this.setState({ confirmDelete: false });
+                    }}>
+                    <span> {i18n.t("FileModal.APIProviders.confirm_delete")} </span><br/>
+
+                </Alert> : null}
                 {empty ? <p className="empty">{i18n.t("FileModal.APIProviders.no_files")}</p> : null}
+                {this.state.errorDeleteAlert ? (<Alert className="pageModal" show hasHeader acceptButtonText={i18n.t("messages.OK")}
+                    title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">warning</i>{i18n.t("messages.error")}</span>}
+                    onClose={()=>{ this.setState({ errorDeleteAlert: false }); }}>
+                    <span> {i18n.t("error.deleting")} </span><br/>
+                </Alert>) : null}
             </Grid>
         </div>);
     }

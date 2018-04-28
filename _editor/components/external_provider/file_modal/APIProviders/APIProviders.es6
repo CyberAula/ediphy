@@ -66,7 +66,6 @@ export default function menus(self) {
                 boxes: self.props.boxes,
                 deleteFileFromServer: self.props.deleteFileFromServer,
                 onBoxAdded: self.props.onBoxAdded,
-                id: self.state.id,
             },
         },
         {

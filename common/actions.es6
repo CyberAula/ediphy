@@ -290,7 +290,6 @@ export function deleteRemoteFileVishAsync(id, url, callback) {
         }
     })
         .catch(e => {
-            alert(i18n.t("error.reaching_server"));
             dispatch(setBusy(false, FILE_DELETE_ERROR));
             if (callback) {
                 callback();
@@ -335,7 +334,6 @@ export function deleteRemoteFileEdiphyAsync(id, url, callback) {
                 }
             })
                 .catch(e => {
-                    alert(i18n.t("error.reaching_server"));
                     dispatch(setBusy(false, FILE_DELETE_ERROR));
                     if (callback) {
                         callback();
@@ -544,7 +542,6 @@ export function uploadVishResourceAsync(query, keywords = "", callback) {
                     }
                 })
                     .catch(e => {
-                        alert(i18n.t("error.reaching_server"));
                         dispatch(setBusy(false, FILE_UPLOAD_ERROR));
                         if (callback) {
                             callback();

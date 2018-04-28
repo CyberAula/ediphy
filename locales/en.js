@@ -62,6 +62,7 @@ let en = {
             "importing": "There was an error when importing",
             "reaching_server": "Can't reach server",
             "searching": "There was an error while searching",
+            "deleting": "There was an error while deleting",
         },
         "Evaluation": "Evaluation",
         "Exercises": "Exercises",
@@ -97,6 +98,7 @@ let en = {
                 'upload': 'Upload',
                 'clear': 'Clear',
                 'search': 'SEARCH',
+                'confirm_delete': 'Are you sure you want to delete this file permanently?',
             },
         },
         "global_config": {
@@ -270,6 +272,7 @@ let en = {
             "edit_text": "Edit text",
             "erase_plugin": "Erase plugin",
             "erase_container": "Erase container",
+            "error": "Error",
             "export": "Export...",
             "export_course": "Export course",
             "export_to_HTML": "Export to HTML",
