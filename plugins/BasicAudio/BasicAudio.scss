@@ -161,7 +161,7 @@ $track-width: 54% !default;
   }
 
   .volume-audio-input{
-    float:left;
+    float:right;
   }
 
   @include custom_range;
@@ -172,6 +172,8 @@ $track-width: 54% !default;
     -webkit-appearance: none;
     margin: 7px 2.5%;
     width: $track-width;
+    //width: 100%;
+    //width: 64%;
     height: 8px;
     .mainSlider{
       width: 4px;
@@ -185,6 +187,7 @@ $track-width: 54% !default;
       border: 1px solid #ccc;
       margin: 3px;
       position: absolute;
+      //width: $track-width;
       width: 100%;
     }
 

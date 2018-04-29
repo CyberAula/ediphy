@@ -115,20 +115,18 @@ export function BasicAudio(base) {
         },
         getInitialState: function() {
             return {
-                url: 'http://localhost:8080/playlists/basic.mp3',
-                autoplay: false, // revisar autoplay pq no funciona
+                url: 'http://localhost:8080/playlists/basic2.mp3',
+                autoplay: false,
                 controls: true,
-                waves: false,
+                waves: true,
             };
         },
         getRenderTemplate: function(state, props) {
-
             if (state.url.match(/^https?\:\/\/api.soundcloud.com\//g)) {
                 return <iframe style={{ pointerEvents: 'none' }} width="100%" height="100%" scrolling="no" frameBorder="no" allow="autoplay" src={"https://w.soundcloud.com/player/?url=" + encodeURI(state.url) + "&color=%2317cfc8&auto_play=false&hide_related=true&show_comments=true&show_user=false&show_reposts=false&show_teaser=false&visual=" + (state.waves ? "false" : "true")} />;
             }
             return (<div style={{ height: "100%", width: "100%" }}>
-                <BasicAudioPluginEditor style={{ width: "100%", height: "100%" }} base={base} props={props}
-                    state={state}/>
+                <BasicAudioPluginEditor style={{ width: "100%", height: "100%" }} base={base} props={props} state={state}/>
             </div>
             );
 
