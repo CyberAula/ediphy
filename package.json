@@ -10,7 +10,7 @@
   },
   "scripts": {
     "build-production": "cat ediphy && webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors",
-    "build": "cat ediphy && webpack --config webpack.prod.js",
+    "build": "cat ediphy && node --max_old_space_size=4096 ./node_modules/webpack/bin/webpack.js --config webpack.prod.js",
     "build-dev": "cat ediphy && webpack --config webpack.dev.js",
     "start": "cat ediphy && webpack-dev-server --open --colors --config webpack.dev.js",
     "bundle": "webpack && node bundle_script.js",
