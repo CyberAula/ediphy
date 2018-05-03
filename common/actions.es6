@@ -532,12 +532,13 @@ export function uploadVishResourceAsync(query, keywords = "", callback) {
                         return JSON.parse(text).src;
                     });
                 }).then((result) => {
-                    dispatch(setBusy(false, result));
+
                     let id = ID_PREFIX_FILE + Date.now();
                     dispatch(uploadFile(id, result, query.title, keywords, mimetype));
                     if (callback) {
                         callback(result);
                     }
+                    dispatch(setBusy(false, result));
                 })
                     .catch(e => {
                         dispatch(setBusy(false, FILE_UPLOAD_ERROR));
