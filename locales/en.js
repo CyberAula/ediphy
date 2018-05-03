@@ -109,6 +109,7 @@ let en = {
             "avatar": "Avatar",
             "avatar_delete_img": "Delete image",
             "avatar_screenshot": "Use screenshot",
+            "avatar_import": "Import image",
             "context": "Context",
             "context_list": {
                 "school": "School",

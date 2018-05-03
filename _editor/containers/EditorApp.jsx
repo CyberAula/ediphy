@@ -127,7 +127,8 @@ class EditorApp extends Component {
                         category={this.state.pluginTab}
                         opens={() => {dispatch(importStateAsync());}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
-                        toggleFileUpload={()=>{this.setState({ showFileUpload: "*", fileModalResult: { id: undefined, value: undefined } });}}
+                        fileModalResult={this.state.fileModalResult}
+                        toggleFileUpload={(id, accept)=>{this.setState({ showFileUpload: accept, fileModalResult: { id: id, value: undefined } });}}
                         onExternalCatalogToggled={() => this.setState({ catalogModal: true })}
                         setcat={(category) => {this.setState({ pluginTab: category, hideTab: 'show' });}}/>
                     {Ediphy.Config.autosave_time > 1000 &&

@@ -105,18 +105,21 @@ export default class GlobalConfig extends Component {
                                     <FormGroup>
                                         <ControlLabel>{i18n.t('global_config.avatar')}</ControlLabel>
                                         <div className="cont_avatar">
-                                            <img height={100} src={this.state.thumbnail} className="avatar" />
+                                            <img height={104} src={this.state.thumbnail} className="avatar" />
                                             <div>
-                                                <FileInput onChange={this.fileChanged} className="fileInput" accept=".jpeg,.gif,.png">
+                                                {/* <FileInput onChange={this.fileChanged} className="fileInput" accept=".jpeg,.gif,.png">
                                                     <div className="fileDrag">
                                                         <span style={{ display: this.state.name ? 'none' : 'block' }}><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b></span>
                                                         <span className="fileUploaded" style={{ display: this.state.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.state.name || '' }</span>
                                                     </div>
-                                                </FileInput>
-                                                <Button bsStyle="primary" onClick={()=>{
+                                                </FileInput>*/}
+                                                <Button bsStyle="primary" className="avatarButtons" onClick={()=>{
+                                                    this.props.toggleFileUpload('avatar', 'image');
+                                                }}>{i18n.t('global_config.avatar_import')}</Button><br/>
+                                                <Button bsStyle="primary" className="avatarButtons" onClick={()=>{
                                                     this.getCurrentPageAvatar();
-                                                }}>{i18n.t('global_config.avatar_screenshot')}</Button>
-                                                <Button bsStyle="default" disabled={ this.state.thumbnail === img_place_holder } onClick={()=>{
+                                                }}>{i18n.t('global_config.avatar_screenshot')}</Button><br/>
+                                                <Button bsStyle="default" className="avatarButtons" disabled={ this.state.thumbnail === img_place_holder } onClick={()=>{
                                                     this.setState({ thumbnail: img_place_holder });
                                                 }}>{i18n.t('global_config.avatar_delete_img')}</Button>
                                             </div>
@@ -483,6 +486,15 @@ export default class GlobalConfig extends Component {
                 status: nextProps.globalConfig.status || "draft",
             });
         }
+        if (this.props.fileModalResult &&
+          nextProps.fileModalResult &&
+          nextProps.fileModalResult.value !== this.props.fileModalResult.value &&
+          nextProps.fileModalResult.value &&
+          nextProps.fileModalResult.id === 'avatar') {
+            this.setState({
+                thumbnail: nextProps.fileModalResult.value, modifiedState: true,
+            });
+        }
     }
 
 }
@@ -504,4 +516,12 @@ GlobalConfig.propTypes = {
      * Closes course configuration modal
      */
     close: PropTypes.func.isRequired,
+    /**
+     * Callback for opening the file upload modal
+     */
+    toggleFileUpload: PropTypes.func.isRequired,
+    /**
+     * Last files uploaded to server or searched in modal
+     */
+    fileModalResult: PropTypes.object,
 };
