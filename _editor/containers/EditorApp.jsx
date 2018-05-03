@@ -44,6 +44,7 @@ import PropTypes from 'prop-types';
 import { ID_PREFIX_BOX } from '../../common/constants';
 import { createBox } from '../../common/common_tools';
 import FileModal from '../components/external_provider/file_modal/FileModal';
+import { serialize } from '../../reducers/serializer';
 
 /**
  * EditorApp. Main application component that renders everything else
