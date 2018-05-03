@@ -6,7 +6,6 @@ export const testState = {
     "undoGroup": {
         "present": {
             "lastActionDispatched": "SELECT_BOX",
-            "filesUploaded": {},
             "globalConfig": {
                 "title": "Ediphy",
                 "canvasRatio": 1.7777777777777777,

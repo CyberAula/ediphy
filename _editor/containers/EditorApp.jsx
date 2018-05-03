@@ -123,7 +123,7 @@ class EditorApp extends Component {
                                 Ediphy.Visor.exportsHTML(this.props.store.getState().undoGroup.present, callback);
                             }}}
                         scorm={(is2004, callback) => {Ediphy.Visor.exportScorm(this.props.store.getState().undoGroup.present, is2004, callback);}}
-                        save={() => {dispatch(exportStateAsync({ present: this.props.store.getState().undoGroup.present })); }}
+                        save={() => {dispatch(exportStateAsync({ ...this.props.store.getState() })); }}
                         category={this.state.pluginTab}
                         opens={() => {dispatch(importStateAsync());}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
@@ -132,7 +132,7 @@ class EditorApp extends Component {
                         onExternalCatalogToggled={() => this.setState({ catalogModal: true })}
                         setcat={(category) => {this.setState({ pluginTab: category, hideTab: 'show' });}}/>
                     {Ediphy.Config.autosave_time > 1000 &&
-                    <AutoSave save={() => {dispatch(exportStateAsync({ present: this.props.store.getState().undoGroup.present }));}}
+                    <AutoSave save={() => {dispatch(exportStateAsync({ ...this.props.store.getState() }));}}
                         isBusy={isBusy}
                         lastAction={lastActionDispatched}
                         visorVisible={this.state.visorVisible}/>})
@@ -807,7 +807,6 @@ class EditorApp extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(2222222);
     console.log(state);
     return {
         version: state.undoGroup.present.version,

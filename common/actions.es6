@@ -348,7 +348,7 @@ export function deleteRemoteFileEdiphyAsync(id, url, callback) {
 // Async actions
 export function exportStateAsync(state) {
     return dispatch => {
-
+        let exportedState = { present: { ...state.undoGroup.present, filesUploaded: state.filesUploaded } };
         // First dispatch: the app state is updated to inform
         // that the API call is starting.
         dispatch(setBusy(true, i18n.t("Exporting")));
@@ -365,7 +365,7 @@ export function exportStateAsync(state) {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(state),
+                body: JSON.stringify(exportedState),
             })
                 .then(response => {
                     if (response.status >= 400) {
@@ -383,7 +383,7 @@ export function exportStateAsync(state) {
 
         let data = {
             authenticity_token: ediphy_editor_params.authenticity_token,
-            ediphy_document: { user: { name: ediphy_editor_params.name, id: ediphy_editor_params.id }, json: state },
+            ediphy_document: { user: { name: ediphy_editor_params.name, id: ediphy_editor_params.id }, json: exportedState },
         };
 
         return fetch(ediphy_editor_params.export_url, { // return fetch(Ediphy.Config.export_url, {
@@ -503,24 +503,22 @@ export function uploadEdiphyResourceAsync(file, keywords = "", callback) {
 
 export function uploadVishResourceAsync(query, keywords = "", callback) {
     return dispatch => {
-
-        if (query.title !== null && query.title.length > 0) {
+        if (query && query.name && query.name.length > 0) {
             if (query.file !== null) {
-                let filename = query.file.name;
+                let filename = query.name;
                 dispatch(setBusy(true, FILE_UPLOADING));
 
                 let form = new FormData();
-                form.append("document[title]", query.title);
+                form.append("document[title]", query.name);
                 form.append("document[description]", "Uploaded using Ediphy Editor");
-                form.append("document[tag_list][]", keywords);
+                // form.append("document[tag_list][]", keywords);
                 if (typeof(ediphy_editor_params) !== 'undefined') {
                     form.append("document[owner_id]", ediphy_editor_params.id);
                     form.append("authenticity_token", ediphy_editor_params.authenticity_token);
                 }
-                form.append("document[file]", query.file);
+                form.append("document[file]", query);
                 let filenameDeconstructed = filename.split('.');
-                let mimetype = query.file.type && query.file.type !== "" ? query.file.type : filenameDeconstructed[filenameDeconstructed.length - 1];
-
+                let mimetype = query.type && query.type !== "" ? query.type : filenameDeconstructed[filenameDeconstructed.length - 1];
                 return fetch(Ediphy.Config.upload_vish_url, {
                     method: 'POST',
                     credentials: 'same-origin',
