@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import VisorBox from './VisorBox';
-import SubmitButton from '../scorm/SubmitButton';
-import Score from '../scorm/Score';
+import SubmitButton from '../score/SubmitButton';
+import Score from '../score/Score';
 import VisorBoxSortable from './VisorBoxSortable';
 import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import VisorHeader from './VisorHeader';

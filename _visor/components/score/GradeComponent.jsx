@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { isContainedView, isPage, isSection } from '../../../common/utils';
 import Config from '../../../core/config';
-import * as API from './../../../core/scorm/scorm_utils';
-import GlobalScore from '../scorm/GlobalScore';
+import * as API from './../../../core/scorm/SCORM_WRAPPER';
+import GlobalScore from './GlobalScore';
 
 export default class ScormComponent extends Component {
     constructor(props) {

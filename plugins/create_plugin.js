@@ -22,14 +22,14 @@ function p(text) {
 
 function help() {
     p(`       
-        Uso: yarn run create-plugin \"Nombre del plugin\" <opciones>
-         o bien : npm run create-plugin -- \"Nombre del plugin\"  <opciones> 
-         
-        Opciones: 
-         no-visor:              Plugin sin definir para el visor 
-         rich:                  Plugin enriquecido 
-         category <categoría>:  Categoría del plugin ["text", "image", "media", "object", "evaluation"]                   
-        `);
+Uso: yarn run create-plugin \"Nombre del plugin\" <opciones>
+ o bien : npm run create-plugin -- \"Nombre del plugin\"  <opciones> 
+ 
+Opciones: 
+ no-visor:              Plugin sin definir para el visor 
+ rich:                  Plugin enriquecido 
+ category <categoría>:  Categoría del plugin ["text", "image", "media", "object", "evaluation"]                   
+`);
 }
 function toCamelCase(str) {
     return str.toLowerCase()
