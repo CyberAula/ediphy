@@ -295,7 +295,7 @@ CarouselList.propTypes = {
      */
     onNavItemExpanded: PropTypes.func.isRequired,
     /**
-     * Selects view/contained view in the index context
+     * Callback for renaming view
      */
     onNavItemNameChanged: PropTypes.func.isRequired,
     /**
