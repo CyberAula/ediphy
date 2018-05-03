@@ -263,40 +263,41 @@ export function setCorrectAnswer(id, correctAnswer, page) {
 }
 
 export function deleteRemoteFileVishAsync(id, url, callback) {
-    dispatch(setBusy(true, FILE_DELETING));
+    return dispatch => {
+        dispatch(setBusy(true, FILE_DELETING));
 
-    let form = new FormData();
-    form.append("_method", "delete");
-    if (typeof(ediphy_editor_params) !== 'undefined') {
-        form.append("authenticity_token", ediphy_editor_params.authenticity_token);
-    }
-
-    return fetch(url, {
-        method: 'POST',
-        credentials: 'same-origin',
-        body: form,
-    }).then(response => {
-        if (!response.ok) {
-            throw Error(response.statusText);
+        let form = new FormData();
+        form.append("_method", "delete");
+        if (typeof(ediphy_editor_params) !== 'undefined') {
+            form.append("authenticity_token", ediphy_editor_params.authenticity_token);
         }
 
-        return 200;
-    }).then((result) => {
-        dispatch(setBusy(false, id));
-
-        dispatch(deleteFile(id));
-        if (callback) {
-            callback(result);
-        }
-    })
-        .catch(e => {
-            dispatch(setBusy(false, FILE_DELETE_ERROR));
-            if (callback) {
-                callback();
+        return fetch(url, {
+            method: 'POST',
+            credentials: 'same-origin',
+            body: form,
+        }).then(response => {
+            if (!response.ok) {
+                throw Error(response.statusText);
             }
-            return false;
-        });
 
+            return 200;
+        }).then((result) => {
+            dispatch(setBusy(false, id));
+
+            dispatch(deleteFile(id));
+            if (callback) {
+                callback(result);
+            }
+        })
+            .catch(e => {
+                dispatch(setBusy(false, FILE_DELETE_ERROR));
+                if (callback) {
+                    callback();
+                }
+                return false;
+            });
+    };
 }
 
 export function deleteRemoteFileEdiphyAsync(id, url, callback) {
