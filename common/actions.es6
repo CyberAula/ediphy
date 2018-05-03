@@ -504,55 +504,53 @@ export function uploadEdiphyResourceAsync(file, keywords = "", callback) {
 export function uploadVishResourceAsync(query, keywords = "", callback) {
     return dispatch => {
         if (query && query.name && query.name.length > 0) {
-            if (query.file !== null) {
-                let filename = query.name;
-                dispatch(setBusy(true, FILE_UPLOADING));
+            let filename = query.name;
+            dispatch(setBusy(true, FILE_UPLOADING));
 
-                let form = new FormData();
-                form.append("document[title]", query.name);
-                form.append("document[description]", "Uploaded using Ediphy Editor");
-                // form.append("document[tag_list][]", keywords);
-                if (typeof(ediphy_editor_params) !== 'undefined') {
-                    form.append("document[owner_id]", ediphy_editor_params.id);
-                    form.append("authenticity_token", ediphy_editor_params.authenticity_token);
-                }
-                form.append("document[file]", query);
-                let filenameDeconstructed = filename.split('.');
-                let mimetype = query.type && query.type !== "" ? query.type : filenameDeconstructed[filenameDeconstructed.length - 1];
-                return fetch(Ediphy.Config.upload_vish_url, {
-                    method: 'POST',
-                    credentials: 'same-origin',
-                    body: form,
-                }).then(response => {
-                    if (!response.ok) {
-                        throw Error(response.statusText);
-                    }
-
-                    return response.text().then((text)=>{
-                        return JSON.parse(text).src;
-                    });
-                }).then((result) => {
-
-                    let id = ID_PREFIX_FILE + Date.now();
-                    dispatch(uploadFile(id, result, query.title, keywords, mimetype));
-                    if (callback) {
-                        callback(result);
-                    }
-                    dispatch(setBusy(false, result));
-                })
-                    .catch(e => {
-                        dispatch(setBusy(false, FILE_UPLOAD_ERROR));
-                        if (callback) {
-                            callback();
-                        }
-                    });
-
+            let form = new FormData();
+            form.append("document[title]", query.name);
+            form.append("document[description]", "Uploaded using Ediphy Editor");
+            // form.append("document[tag_list][]", keywords);
+            if (typeof(ediphy_editor_params) !== 'undefined') {
+                form.append("document[owner_id]", ediphy_editor_params.id);
+                form.append("authenticity_token", ediphy_editor_params.authenticity_token);
             }
+            form.append("document[file]", query);
+            let filenameDeconstructed = filename.split('.');
+            let mimetype = query.type && query.type !== "" ? query.type : filenameDeconstructed[filenameDeconstructed.length - 1];
+            return fetch(Ediphy.Config.upload_vish_url, {
+                method: 'POST',
+                credentials: 'same-origin',
+                body: form,
+            }).then(response => {
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+
+                return response.text().then((text)=>{
+                    return JSON.parse(text).src;
+                });
+            }).then((result) => {
+
+                let id = ID_PREFIX_FILE + Date.now();
+                dispatch(uploadFile(id, result, query.name, keywords, mimetype));
+                if (callback) {
+                    callback(result);
+                }
+                dispatch(setBusy(false, id));
+            })
+                .catch(e => {
+                    dispatch(setBusy(false, FILE_UPLOAD_ERROR));
+                    if (callback) {
+                        callback();
+                    }
+                });
+
             alert(i18n.t("error.file_extension_invalid"));
 
-        } else {
-            alert(i18n.t("error.file_not_selected"));
         }
+        alert(i18n.t("error.file_not_selected"));
+
         return false;
     };
 }
