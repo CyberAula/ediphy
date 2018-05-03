@@ -206,7 +206,7 @@ export default class Section extends Component {
 
 Section.propTypes = {
     /**
-     * Identificador único de la sección
+     * Unique Section identifier
      */
     id: PropTypes.string.isRequired,
     /**
@@ -226,7 +226,7 @@ Section.propTypes = {
      */
     navItemSelected: PropTypes.any,
     /**
-     * Cambia el nombre de la sección
+     * Callback for renaming view
      */
     onNavItemNameChanged: PropTypes.func.isRequired,
     /**
