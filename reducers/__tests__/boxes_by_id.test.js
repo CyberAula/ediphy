@@ -42,11 +42,12 @@ const state = {
                 "height": "auto",
                 "key": "sc-1",
                 "colDistribution": [
-                    100,
+                    50, 50,
                 ],
                 "cols": [
                     [
-                        100,
+                        [100],
+                        [100],
                     ],
                 ],
             },
@@ -123,7 +124,33 @@ const state = {
         "showTextEditor": false,
         "fragment": {},
         "children": [],
-        "sortableContainers": {},
+        "sortableContainers": {
+            "sc-2": {
+                "children": [
+                    "bo-1",
+                ],
+                "style": {
+                    "padding": "0px",
+                    "borderColor": "#ffffff",
+                    "borderWidth": "0px",
+                    "borderStyle": "solid",
+                    "opacity": "1",
+                    "textAlign": "center",
+                    "className": "",
+                },
+                "height": "auto",
+                "key": "sc-1",
+                "colDistribution": [
+                    50, 50,
+                ],
+                "cols": [
+                    [
+                        [100],
+                        [100],
+                    ],
+                ],
+            },
+        },
         "containedViews": [],
     },
 };
@@ -344,6 +371,7 @@ describe('# boxes_by_id reducer', () => {
             };
 
             const newState = JSON.parse(JSON.stringify(state));
+            newState["bs-1"].sortableContainers["sc-1"].children = ["bo-1", "bo-2"];
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
@@ -352,7 +380,7 @@ describe('# boxes_by_id reducer', () => {
             const action = {
                 type: ActionTypes.CHANGE_SORTABLE_PROPS,
                 payload: {
-                    id: 'sc-1511443052922',
+                    id: 'sc-1',
                     parent: 'bs-1',
                     prop: 'borderWidth',
                     value: '2px',
@@ -371,13 +399,13 @@ describe('# boxes_by_id reducer', () => {
                     id: 'sc-1',
                     parent: 'bs-1',
                     distribution: [50, 50],
-                    boxesAffected: ['bo-1511443052925', 'bo-1511443052967'],
+                    boxesAffected: [],
 
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
             newState['bs-1'].sortableContainers['sc-1'].colDistribution = action.payload.distribution;
-            newState['bs-1'].sortableContainers['sc-1'].cols = [[100], [100]];
+            newState['bs-1'].sortableContainers['sc-1'].cols = [[[100], [100]], [100]];
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
@@ -390,7 +418,7 @@ describe('# boxes_by_id reducer', () => {
                     parent: 'bs-1',
                     column: 0,
                     distribution: [50, 50],
-                    boxesAffected: ['bo-1511443052925', 'bo-1511443052967'],
+                    boxesAffected: [],
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
@@ -403,38 +431,40 @@ describe('# boxes_by_id reducer', () => {
             const action = {
                 type: ActionTypes.DROP_BOX,
                 payload: {
-                    id: 'bo-1511443052925',
+                    id: 'bo-1',
                     row: 0,
-                    col: 1,
+                    col: 0,
                     container: 'sc-1',
                     parent: 'bs-1',
                     oldParent: 'bs-1',
                     oldContainer: 'sc-1',
+                    index: 1,
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            newState['bo-1511443052925'].col = action.payload.col;
-            newState['bo-1511443052925'].row = action.payload.row;
+            newState['bo-1'].col = action.payload.col;
+            // newState['bo-5'].row = action.payload.row;
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
         test('If box dropped from one sc to another in the same Sortable box', ()=> {
             const action = {
                 type: ActionTypes.DROP_BOX,
                 payload: {
-                    id: 'bo-1511443052925',
+                    id: 'bo-1',
                     row: 0,
                     col: 0,
-                    container: 'sc-1511443052923',
-                    parent: 'bs-1',
+                    container: 'sc-2',
+                    parent: 'bs-2',
                     oldParent: 'bs-1',
                     oldContainer: 'sc-1',
+                    index: 1,
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            newState['bo-1511443052925'].parent = 'bs-1';
-            newState['bo-1511443052925'].container = 'sc-1511443052923',
-            newState['bs-1'].sortableContainers['sc-1511443052923'].children.push('bo-1511443052925');
-            newState['bs-1'].sortableContainers['sc-1'].children = ["bo-1511443052967"];
+            newState['bo-1'].container = "sc-2";
+            newState['bo-1'].parent = "bs-2";
+            newState['bs-2'].sortableContainers["sc-2"].children = ["bo-1"];
+            newState['bs-1'].sortableContainers["sc-1"].children = [];
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
         // TODO Plugins inside plugins
@@ -444,7 +474,7 @@ describe('# boxes_by_id reducer', () => {
             const action = {
                 type: ActionTypes.DELETE_BOX,
                 payload: {
-                    id: 'bo-1511443052925',
+                    id: 'bo-1',
                     parent: 'bs-1',
                     container: 'sc-1',
                     children: [],
@@ -452,8 +482,8 @@ describe('# boxes_by_id reducer', () => {
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            delete newState['bo-1511443052925'];
-            newState['bs-1'].sortableContainers['sc-1'].children = ['bo-1511443052967'];
+            delete newState['bo-1'];
+            newState['bs-1'].sortableContainers['sc-1'].children = [];
 
             expect(isSortableContainer(action.payload.container)).toBeTruthy();
             expect(boxes_by_id(state, action)).toEqual(newState);
@@ -475,20 +505,17 @@ describe('# boxes_by_id reducer', () => {
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle DELETE_CONTAINED_VIEW', () => {
+    describe('handle DELETE_CONTAINED_VIEW TODO*', () => {
         test('If contained view deleted', () => {
             const action = {
                 type: ActionTypes.DELETE_CONTAINED_VIEW,
                 payload: {
-                    ids: ['cv-1511252975055'],
-                    boxes: ['bo-1511443052968'],
+                    ids: ['cv-1'],
+                    boxes: [],
                     parent: { "bo-1511252970033": ["rm-1511252975055"] },
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            delete newState['bo-1511443052968'];
-            newState["bo-1511252970033"].containedViews = [];
-
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
@@ -499,17 +526,17 @@ describe('# boxes_by_id reducer', () => {
                 payload: {
                     id: 'sc-1',
                     parent: 'bs-1',
-                    children: ["bo-1511443052925", "bo-1511443052967"],
+                    children: ["bo-1", "bo-2"],
                     cvs: '',
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
             // delete content (children boxes)
-            delete newState['bo-1511443052925'];
-            delete newState['bo-1511443052967'];
+            delete newState['bo-1'];
+            delete newState['bo-2'];
             // delete sortable from page
             delete newState['bs-1'].sortableContainers['sc-1'];
-            newState['bs-1'].children = ['sc-1511443052923'];
+            newState['bs-1'].children = [];
 
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
@@ -550,9 +577,9 @@ describe('# boxes_by_id reducer', () => {
         test.skip('If box pasted to document', () => {
 
             const boxPasted = {
-                "id": "bo-1511868565135",
+                "id": "bo-8",
                 "parent": "bs-1",
-                "container": "sc-1511868565133",
+                "container": "sc-1",
                 "level": 0,
                 "col": 0,
                 "row": 0,
@@ -569,207 +596,21 @@ describe('# boxes_by_id reducer', () => {
             const action = {
                 type: ActionTypes.PASTE_BOX,
                 payload: {
-                    ids: { parent: 'bs-1', container: 'sc-1511868565133', id: 'bo-1511868565135' },
+                    ids: { parent: 'bs-1', container: 'sc-1', id: 'bo-8' },
                     box: boxPasted,
                     toolbar: {},
-                },
-
-            };
-
-            let newState = {
-                "bs-1511252955322": {
-                    "id": "bs-1511252955322",
-                    "parent": "pa-1511252955321",
-                    "container": 0,
-                    "level": -1,
-                    "col": 0,
-                    "row": 0,
-                    "position": { "x": 0, "y": 0, "type": "relative" },
-                    "draggable": false,
-                    "resizable": false,
-                    "showTextEditor": false,
-                    "fragment": {},
-                    "children": [],
-                    "sortableContainers": {},
-                    "containedViews": [],
-                },
-                "bo-1511252970033": {
-                    "id": "bo-1511252970033",
-                    "parent": "pa-1511252955865",
-                    "container": 0,
-                    "level": 0,
-                    "col": 0,
-                    "row": 0,
-                    "position": { "x": "29.56%", "y": "28.67%", "type": "absolute" },
-                    "content": "",
-                    "draggable": true,
-                    "resizable": true,
-                    "showTextEditor": false,
-                    "fragment": {},
-                    "children": [],
-                    "sortableContainers": {},
-                    "containedViews": [],
-                },
-                "bs-1": {
-                    "id": "bs-1",
-                    "parent": "pa-1",
-                    "container": 0,
-                    "level": -1,
-                    "col": 0,
-                    "row": 0,
-                    "position": { "x": 0, "y": 0, "type": "relative" },
-                    "draggable": false,
-                    "resizable": false,
-                    "showTextEditor": false,
-                    "fragment": {},
-                    "children": ["sc-1", "sc-1511443052923"],
-                    "sortableContainers": {
-                        "sc-1": {
-                            "children": ["bo-1511443052925", "bo-1511443052967"],
-                            "colDistribution": [100],
-                            "cols": [[100], [100]],
-                            "height": "auto",
-                            "key": "",
-                            "style": {
-                                "borderColor": "#ffffff",
-                                "borderStyle": "solid",
-                                "borderWidth": "0px",
-                                "className": "",
-                                "opacity": "1",
-                                "padding": "0px",
-                                "textAlign": "center",
-                            },
-                        },
-                        "sc-1511443052923": {
-                            "children": [],
-                            "colDistribution": [100],
-                            "cols": [[100]],
-                            "height": "auto",
-                            "key": "",
-                            "style": {
-                                "borderColor": "#ffffff",
-                                "borderStyle": "solid",
-                                "borderWidth": "0px",
-                                "className": "",
-                                "opacity": "1",
-                                "padding": "0px",
-                                "textAlign": "center",
-                            },
-                        },
-                    },
-                    "containedViews": [],
-                },
-                "bs-1": {
-                    "id": "bs-1",
-                    "parent": "pa-1",
-                    "container": 0,
-                    "level": -1,
-                    "col": 0,
-                    "row": 0,
-                    "position": { "x": 0, "y": 0, "type": "relative" },
-                    "draggable": false,
-                    "resizable": false,
-                    "showTextEditor": false,
-                    "fragment": {},
-                    "children": ["sc-1511868565133"],
-                    "sortableContainers": {
-                        "sc-1511868565133": {
-                            "children": [
-                                "bo-1511868565135",
-                            ],
-                            "colDistribution": [100],
-                            "cols": [[100]],
-                            "height": "auto",
-                            "key": "",
-                            "style": {
-                                "borderColor": "#ffffff",
-                                "borderStyle": "solid",
-                                "borderWidth": "0px",
-                                "className": "",
-                                "opacity": "1",
-                                "padding": "0px",
-                                "textAlign": "center",
-                            },
-                        },
-                    },
-                    "containedViews": [],
-                },
-                'bo-1511443052925': {
-                    "id": 'bo-1511443052925',
-                    "parent": 'bs-1',
-                    "container": 'sc-1',
-                    "level": 0,
-                    "col": 0,
-                    "row": 0,
-                    "position": { x: 0, y: 0, type: 'relative' },
-                    "content": '',
-                    "draggable": true,
-                    "resizable": false,
-                    "showTextEditor": false,
-                    "fragment": {},
-                    "children": [],
-                    "sortableContainers": {},
-                    "containedViews": ["cv-1511252975055"],
-                },
-                'bo-1511443052967': {
-                    "id": 'bo-1511443052967',
-                    "parent": 'bs-1',
-                    "container": 'sc-1',
-                    "level": 0,
-                    "col": 0,
-                    "row": 0,
-                    "position": { x: 0, y: 0, type: 'relative' },
-                    "content": '',
-                    "draggable": true,
-                    "resizable": false,
-                    "showTextEditor": false,
-                    "fragment": {},
-                    "children": [],
-                    "sortableContainers": {},
-                    "containedViews": [],
-                },
-                'bo-1511443052968': {
-                    "id": 'bo-1511443052968',
-                    "parent": 'cv-1511252975055',
-                    "container": 0,
-                    "level": 0,
-                    "col": 0,
-                    "row": 0,
-                    "position": { x: 0, y: 0, type: 'absolute' },
-                    "content": '',
-                    "draggable": true,
-                    "resizable": true,
-                    "showTextEditor": false,
-                    "fragment": {},
-                    "children": [],
-                    "sortableContainers": {},
-                    "containedViews": [],
-                },
-                "bo-1511868565135": {
-                    "id": "bo-1511868565135",
-                    "parent": "bs-1",
-                    "container": "sc-1511868565133",
-                    "level": 0,
-                    "col": 0,
-                    "row": 0,
-                    "position": { "x": 0, "y": 0, "type": "relative" },
-                    "content": "",
-                    "draggable": true,
-                    "resizable": false,
-                    "showTextEditor": false,
-                    "fragment": {},
-                    "children": [],
-                    "sortableContainers": {},
-                    "containedViews": [],
+                    children: {},
                 },
             };
+            let newState = JSON.parse(JSON.stringify(state));
+            newState["bo-8"] = boxPasted;
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
 
         test('If box pasted to slide', () => {
 
             const boxPasted = {
-                "id": "bo-1511868565135",
+                "id": "bo-8",
                 "parent": "cv-1511252975055",
                 "container": 0,
                 "level": 0,
@@ -791,6 +632,7 @@ describe('# boxes_by_id reducer', () => {
                     ids: { parent: "cv-1511252975055", container: 0, id: 'bo-1511868565135' },
                     box: boxPasted,
                     toolbar: {},
+                    children: {},
                 },
 
             };
