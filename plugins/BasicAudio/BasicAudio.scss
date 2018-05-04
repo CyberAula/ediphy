@@ -5,11 +5,11 @@ $blueprimary: #17CFC8;
 $track-width: 54% !default;
 
 @mixin gradient {
-  background: black; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(transparent, black); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(transparent, black); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(transparent, black); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(transparent, black); /* Standard syntax */
+  background: grey; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(transparent, grey); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(transparent, grey); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(transparent, grey); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(transparent, grey); /* Standard syntax */
 }
 
 @mixin transition {
@@ -24,9 +24,10 @@ $track-width: 54% !default;
   input[type=range] {
     -webkit-appearance: none;
     -moz-appearance: none;
-    width: 16%;
+    width: 35%;
     margin: 3px 2.5%;
     height: 15px;
+    margin-left: 20px;
   }
   input[type=range]:focus {
     outline: none;
@@ -114,26 +115,45 @@ $track-width: 54% !default;
 //**************************************
 .basic-audio-wrapper{
   overflow: hidden;
+
+  @include gradient;
   iframe{
     margin-bottom: -4px;
   }
+  .react-wavesurfer{
+    position: absolute;
+    width: 100%;
+    margin: 0;
+    float:left;
+    height: 100%;
+    top: 15%;
+    z-index: 1;
+  }
   .audio-controls{
     position: absolute;
-    bottom: 0;
-    width: 100%;
+    z-index: 2;
+    top: 0px;
+    bottom: 10;
+    width: 50%;
     padding: 5px;
     margin: 0;
-    @include gradient;
-    height: 34px;
-    opacity: 0.7;
-    -webkit-transition: opacity .3s;
-    -moz-transition: opacity .3s;
-    -o-transition: opacity .3s;
-    -ms-transition: opacity .3s;
-    transition: opacity .3s;
+    height: 40%;
+    opacity: 1;
+    //-webkit-transition: opacity .3s;
+    //-moz-transition: opacity .3s;
+    //-o-transition: opacity .3s;
+    //-ms-transition: opacity .3s;
+    //transition: opacity .2s;
     &:hover{
       opacity: 1;
     }
+  }
+  .audio-duration{
+    z-index: 3;
+    float: right;
+    height: 10%;
+    width: 20%;
+    top:90%;
   }
 
   button {
@@ -148,44 +168,45 @@ $track-width: 54% !default;
   }
 
   .play-audio-button {
-    background-color: transparent;
+    background-color: #17CFC8;
     float:left;
-    height:100%;
-    width:10%;
+    height: 40px;
+    width:40px;
+
+    margin: 4px;
+    padding:5px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    font-size:11px;
+    line-height:32px;
+    text-transform: uppercase;
+
   }
 
   .volume-audio-input{
-    float:right;
+    position: relative;
+    top: 20%;
+    float: left;
   }
+
+  .fakeProgress {
+      background: transparent;
+      float:left;
+      -webkit-appearance: none;
+      margin: 7px 2.5%;
+      //width: $track-width;
+      width: 100%;
+      height: 10px;
+      border: 1px solid #ccc;
+      margin: 3px;
+      top: 98%;
+      position: absolute;
+    }
+
 
   @include custom_range;
 
-  .progress-audio-input {
-    background: transparent;
-    float:left;
-    -webkit-appearance: none;
-    margin: 7px 2.5%;
-    width: $track-width;
-    //width: 100%;
-    //width: 64%;
-    height: 8px;
-    .mainSlider{
-      width: 0px;
-      height: 14px;
-      background: white;
-      position: absolute;
-      margin-top: -3px;
-      z-index: 9999;
-    }
-    .fakeProgress{
-      border: 1px solid #ccc;
-      margin: 3px;
-      position: absolute;
-      //width: $track-width;
-      width: 100%;
-    }
-
-  }
 }
 
 .progress-player-input .dropableRichZone {

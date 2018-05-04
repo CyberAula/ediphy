@@ -121,7 +121,7 @@ export function BasicAudio(base) {
         },
         getInitialState: function() {
             return {
-                url: 'http://localhost:8080/playlists/basic2.mp3',
+                url: 'http://localhost:8080/playlists/Chopin_Nocturne.mp3',
                 autoplay: false,
                 controls: true,
                 waves: true,
