@@ -455,7 +455,6 @@ export function uploadEdiphyResourceAsync(file, keywords = "", callback) {
             credentials: 'same-origin',
             body: form,
         }).then(response => {
-            // console.log(response.headers())
             if (!response.ok) {
                 throw Error(response.statusText);
             }
@@ -472,6 +471,7 @@ export function uploadEdiphyResourceAsync(file, keywords = "", callback) {
             dispatch(setBusy(false, id));
         })
             .catch(e => {
+                // eslint-disable-next-line no-console
                 console.error(e);
                 let reader = new FileReader();
                 reader.readAsDataURL(file);
@@ -492,6 +492,7 @@ export function uploadEdiphyResourceAsync(file, keywords = "", callback) {
                 };
 
             }).catch(e=>{
+                // eslint-disable-next-line no-console
                 console.error(e);
                 dispatch(setBusy(false, FILE_UPLOAD_ERROR));
                 if (callback) {

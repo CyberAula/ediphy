@@ -38,7 +38,7 @@ export default class ToolbarFileProvider extends Component {
                 onClick={() => {
                     this.setState({ open: true });
                     this.props.openModal(this.props.id, this.props.accept);
-                }}>{i18n.t('Importar')}</Button>
+                }}>{i18n.t('importData')}</Button>
         </FormGroup>);
     }
     componentWillReceiveProps(nextProps) {

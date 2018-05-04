@@ -151,6 +151,7 @@ export default class SearchVishComponent extends React.Component {
                 // dispatch(setBusy(false, i18n.t("no_results")));
             })
             .catch(e => {
+                // eslint-disable-next-line no-console
                 console.error(e);
                 this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
                 // dispatch(setBusy(false, e.message));

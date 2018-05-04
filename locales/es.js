@@ -33,6 +33,7 @@ let es = {
         "col_dist": "Distribución de columnas",
         "col_number": "Nº columnas",
         "configuration": "Configuración",
+        "confirm_changes": "Confirmar cambios",
         "contained_view": "Vista Contenida",
         "CONTAINED_VIEWS": "VISTAS CONTENIDAS",
         "contained_view_popover": "Esta vista enlaza desde:",
@@ -190,6 +191,7 @@ let es = {
         "hide": "Ocultar",
         "horizontal": "Subtítulo horizontal",
         "Images": "Imágenes",
+        "importData": "Importar fichero datos...",
         "importFile": {
             "title": "Importar archivo ",
             "pages": {
@@ -345,6 +347,8 @@ let es = {
         "show": "Mostrar",
         "show_subtitle": "Mostrar Subtítulo",
         "slide": "Diapositiva",
+        "step_next": "Siguiente paso",
+        "step_previous": "Atrás",
         "Submit": "Corregir",
         "subtitle": "Subtítulo",
         "subtitle_hide": "Ocultar Subtítulo",

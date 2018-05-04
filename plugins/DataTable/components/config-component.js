@@ -9,31 +9,27 @@ import ChartOptions from './chart-options';
 export default class Config extends React.Component {
     render() {
         let { data, options, keys, editing } = this.props.state;
-        console.log(this.props.props);
         return (
             <Grid>
                 <Row>
 
                     <Col lg={12} xs={12}>
-                        <h4> {i18n.t("DataTable.header.origin")} </h4>
-                        {!editing &&
-                        <Button onClick={this.editButtonClicked} style={{ marginTop: '0px' }} className="btn-primary">{i18n.t("DataTable.edit")} </Button>
-                        }
-                        {editing &&
+                        {this.props.step === 1 ? <h4> {i18n.t("DataTable.header.origin")} </h4> : null}
+                        {this.props.step === 1 &&
                         <DataProvider id={this.props.id} data={data} dataChanged={this.dataChanged} keys={keys} props={this.props.props}/>
                         }
-                        {!editing &&
+                        {this.props.step === 2 &&
                         <ChartOptions options={options} optionsChanged={this.optionsChanged} keys={keys} />
                         }
                     </Col>
                     <Col lg={12} xs={12} ><br/>
-                        {!editing && <div>
+                        {this.props.step === 2 && <div>
                             <h4>{i18n.t("DataTable.header.preview")}</h4><br/>
                             <div style={{ marginRight: '-10px', marginLeft: '0px' }} ref="chartContainer" id="chartContainer">
                                 <TableComponent data={data} keys={keys} options={options} key={Math.random()}/>
                             </div>
                         </div>}
-                        {!editing && <div id="previewOverlay"/>}
+                        {this.props.step === 2 && <div id="previewOverlay"/>}
                     </Col>
 
                 </Row>

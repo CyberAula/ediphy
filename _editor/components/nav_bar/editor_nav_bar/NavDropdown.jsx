@@ -113,7 +113,7 @@ NavDropdown.propTypes = {
     /**
      * Opens an external catalog with all the resources uploaded to the server
      */
-    onExternalCatalogToggled: PropTypes.func.isRequired,
+    onExternalCatalogToggled: PropTypes.func,
     /**
       * Callback for opening the file upload modal
       */
@@ -130,10 +130,6 @@ NavDropdown.propTypes = {
      * Popup that indicates whether the import/export to the server was successful or not
      */
     serverModalOpen: PropTypes.func.isRequired,
-    /**
-     * Shows/Hides the file import modal form
-     */
-    toggleImportFile: PropTypes.func.isRequired,
     /**
      * Shows/Hides the global course configuration modal form
      */
