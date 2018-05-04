@@ -83,10 +83,10 @@ export default {
                                 let r = new RegExp(escapeRegExp(file.url), "g");
                                 let name = file.name;
                                 if (usedNames.indexOf(name) > -1) {
-                                    name = name + '_' + Date.now();
+                                    name = name = Date.now() + '_' + name;
                                 }
                                 usedNames.push(name);
-                                strState = strState.replace(r, '../images/' + name); // TODO Collisions of names
+                                strState = strState.replace(r, '../images/' + name);
                             }
                             let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), false);
                             zip.file(Ediphy.Config.dist_index, content);
@@ -185,10 +185,10 @@ export default {
                                 let r = new RegExp(escapeRegExp(file.url), "g");
                                 let name = file.name;
                                 if (usedNames.indexOf(name) > -1) {
-                                    name = name + '_' + Date.now();
+                                    name = Date.now() + '_' + name;
                                 }
                                 usedNames.push(name);
-                                strState = strState.replace(r, '../images/' + name); // TODO Collisions of names
+                                strState = strState.replace(r, '../images/' + name);
                             }
                             let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), true);
                             zip.file(Ediphy.Config.dist_index, content);
