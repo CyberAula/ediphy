@@ -24,7 +24,7 @@ export default class PluginConfigModal extends Component {
             pluginActive: '',
             reason: null,
             disabledButton: false,
-            currentStep: 0,
+            currentStep: 1,
         };
     }
 
@@ -67,9 +67,12 @@ export default class PluginConfigModal extends Component {
         };
         let steps = [];
         let stepsnumber = 0;
+
+        let component = null;
         if(this.props.name) {
-            steps = Ediphy.Plugins.get(this.props.name).getConfigTemplate(this.props.id, this.state.pluginState, (pluginState)=>{this.setState({ pluginState });}, props);
-            stepsnumber = steps.length - 1;
+            let template = Ediphy.Plugins.get(this.props.name).getConfigTemplate(this.props.id, this.state.pluginState, (pluginState)=>{this.setState({ pluginState });}, { ...props, step: this.state.currentStep });
+            component = template.component;
+            stepsnumber = template.n_steps;
         }
         console.log(this.state.currentStep);
         return (
@@ -83,7 +86,7 @@ export default class PluginConfigModal extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <Row >
-                        {this.props.id ? steps[this.state.currentStep] : null}
+                        {this.props.id ? component : null}
                     </Row>
                     <div id="plugin_config_info" />
                 </Modal.Body>
@@ -92,7 +95,7 @@ export default class PluginConfigModal extends Component {
                     <Button bsStyle="default" onClick={e => {
                         this.props.closeConfigModal();
                     }}>{i18n.t("Cancel")}</Button>
-                    { (this.state.currentStep > 0) ? <Button bsStyle="default" onClick={e => {
+                    { (this.state.currentStep > 1) ? <Button bsStyle="default" onClick={e => {
                         this.setState({ currentStep: this.state.currentStep - 1 });
                     }}>{"< " + i18n.t("step_previous")}</Button> : null}
                     <Button ref="plugin_insertion" bsStyle="primary" id="insert_plugin_config_modal" disabled={this.state.disabledButton}
