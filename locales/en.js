@@ -301,6 +301,7 @@ let en = {
             "remove_answer": "Remove answer",
             "save_changes": "Save changes",
             "saving": "Saving...",
+            "selfContained": "I want to include the files that I uploaded in the exported package so I can use it when I am offline.",
             "undo": "Undo the last action",
             "unpublish": "Makes the course unavailable for the public",
         },

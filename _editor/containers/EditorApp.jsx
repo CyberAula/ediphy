@@ -117,13 +117,13 @@ class EditorApp extends Component {
                         undo={() => {dispatch(ActionCreators.undo());}}
                         redo={() => {dispatch(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
-                        export={(format, callback) => {
+                        export={(format, callback, selfContained = false) => {
                             if(format === "PDF") {
                                 printToPDF(this.props.store.getState().undoGroup.present, callback);
                             } else {
-                                Ediphy.Visor.exportsHTML({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback);
+                                Ediphy.Visor.exportsHTML({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback, selfContained);
                             }}}
-                        scorm={(is2004, callback) => {Ediphy.Visor.exportScorm({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, is2004, callback);}}
+                        scorm={(is2004, callback, selfContained = false) => {Ediphy.Visor.exportScorm({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, is2004, callback, selfContained);}}
                         save={() => {dispatch(exportStateAsync({ ...this.props.store.getState() })); }}
                         category={this.state.pluginTab}
                         opens={() => {dispatch(importStateAsync());}}

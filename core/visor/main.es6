@@ -43,7 +43,7 @@ let parseEJS = function(path, page, state, fromScorm) {
 
 export default {
     Plugins: Plugins(),
-    exportsHTML: function(state, callback) {
+    exportsHTML: function(state, callback, selfContained) {
         let nav_names_used = {};
         let xhr = new XMLHttpRequest();
         let zip_title = state.globalConfig.title || "Ediphy";
@@ -78,19 +78,23 @@ export default {
                             let filesUploaded = Object.values(state.filesUploaded);
                             let strState = JSON.stringify(state);
                             let usedNames = [];
-                            for (let f in state.filesUploaded) {
-                                let file = state.filesUploaded[f];
-                                let r = new RegExp(escapeRegExp(file.url), "g");
-                                let name = file.name;
-                                if (usedNames.indexOf(name) > -1) {
-                                    name = name = Date.now() + '_' + name;
+                            if (selfContained) {
+                                for (let f in state.filesUploaded) {
+                                    let file = state.filesUploaded[f];
+                                    let r = new RegExp(escapeRegExp(file.url), "g");
+                                    let name = file.name;
+                                    if (usedNames.indexOf(name) > -1) {
+                                        name = name = Date.now() + '_' + name;
+                                    }
+                                    usedNames.push(name);
+                                    strState = strState.replace(r, '../images/' + name);
                                 }
-                                usedNames.push(name);
-                                strState = strState.replace(r, '../images/' + name);
                             }
+
                             let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), false);
                             zip.file(Ediphy.Config.dist_index, content);
                             zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);
+
                             Ediphy.Visor.includeImage(zip, Object.values(state.filesUploaded), usedNames, (zip) => {
                                 zip.generateAsync({ type: "blob" }).then(function(blob) {
                                     // FileSaver.saveAs(blob, "ediphyvisor.zip");
@@ -139,7 +143,7 @@ export default {
             fromScorm: false,
         });
     },
-    exportScorm: function(state, is2004, callback) {
+    exportScorm: function(state, is2004, callback, selfContained) {
         let zip_title;
         let xhr = new XMLHttpRequest();
         xhr.open('GET', Ediphy.Config.visor_bundle, true);
@@ -180,15 +184,17 @@ export default {
                             let filesUploaded = Object.values(state.filesUploaded);
                             let strState = JSON.stringify(state);
                             let usedNames = [];
-                            for (let f in state.filesUploaded) {
-                                let file = state.filesUploaded[f];
-                                let r = new RegExp(escapeRegExp(file.url), "g");
-                                let name = file.name;
-                                if (usedNames.indexOf(name) > -1) {
-                                    name = Date.now() + '_' + name;
+                            if (selfContained) {
+                                for (let f in state.filesUploaded) {
+                                    let file = state.filesUploaded[f];
+                                    let r = new RegExp(escapeRegExp(file.url), "g");
+                                    let name = file.name;
+                                    if (usedNames.indexOf(name) > -1) {
+                                        name = Date.now() + '_' + name;
+                                    }
+                                    usedNames.push(name);
+                                    strState = strState.replace(r, '../images/' + name);
                                 }
-                                usedNames.push(name);
-                                strState = strState.replace(r, '../images/' + name);
                             }
                             let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), true);
                             zip.file(Ediphy.Config.dist_index, content);

@@ -298,6 +298,7 @@ let es = {
             "remove_answer": "Borrar respuesta",
             "save_changes": "Guardar cambios",
             "saving": 'Guardando...',
+            "selfContained": "Deseo incluir los ficheros que he subido al paquete exportado para poder utilizarlo cuando no tengo conexión a Internet.",
             "undo": "Deshace la última acción",
             "unpublish": "Hace que el curso deje de estar accesible al público",
         },

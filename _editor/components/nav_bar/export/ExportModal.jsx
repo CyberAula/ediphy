@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 import './_exportModal.scss';
+import ToggleSwitch from '@trendmicro/react-toggle-switch';
 let spinner = require('../../../../dist/images/spinner.svg');
 /**
  * Export course modal
@@ -13,6 +14,7 @@ export default class ExportModal extends Component {
         this.state = {
             format: 0,
             showLoader: false,
+            selfContained: false,
         };
     }
 
@@ -26,10 +28,10 @@ export default class ExportModal extends Component {
             this.props.close();
         };
         let exportFormats = [
-            { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false, callback); } },
-            { format: "SCORM 2004", handler: ()=> {this.props.scorm(true, callback); } },
-            { format: "HTML", handler: ()=> {this.props.export('HTML', callback); } },
-            { format: "PDF", handler: ()=> { this.props.export('PDF', callback);} },
+            { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false, callback, this.state.selfContained); } },
+            { format: "SCORM 2004", handler: ()=> {this.props.scorm(true, callback, this.state.selfContained); } },
+            { format: "HTML", handler: ()=> {this.props.export('HTML', callback, this.state.selfContained); } },
+            { format: "PDF", handler: ()=> { this.props.export('PDF', callback, this.state.selfContained);} },
         ];
         return (
             <Modal className="pageModal exportoScormModalBody"
@@ -44,7 +46,7 @@ export default class ExportModal extends Component {
                     <Grid>
                         <form>
                             <Row>
-                                <Col xs={12}>
+                                <Col xs={12} md={6}>
                                     <FormGroup >
                                         <ControlLabel> {i18n.t("messages.export_to")}:</ControlLabel><br/>
                                         {this.state.showLoader ? (<img className="spinnerFloat" src={spinner}/>) : null}
@@ -54,7 +56,15 @@ export default class ExportModal extends Component {
                                                 {format.format}<br/>
                                             </Radio>);
                                         })}
+
                                     </FormGroup>
+                                </Col>
+                                <Col xs={12} md={6} className={"explanation"}>
+                                    <br/><br/>
+                                    {this.state.format !== 3 ? <div><ToggleSwitch onChange={()=>{this.setState({ selfContained: !this.state.selfContained });}} checked={this.state.selfContained}/>
+                                        {i18n.t('messages.selfContained')}</div> : null}
+                                </Col>
+                                <Col xs={12}>
                                     <div className={"explanation"}>{i18n.t("SCORM Explanation")}</div>
                                 </Col>
                             </Row>
