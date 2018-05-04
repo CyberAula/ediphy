@@ -43,7 +43,7 @@ export default class NavDropdown extends Component {
                     <MenuItem disabled={this.props.undoDisabled} eventKey="1" key="1">
                         <button className="dropdownButton" title={i18n.t('messages.import')}
                             disabled={ false }
-                            onClick={this.props.toggleFileUpload}><i className="material-icons">file_upload</i>
+                            onClick={()=>{this.props.toggleFileUpload(undefined, '*');}}><i className="material-icons">file_upload</i>
                             {i18n.t('messages.import')}
                         </button>
                     </MenuItem>

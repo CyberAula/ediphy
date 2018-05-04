@@ -263,40 +263,41 @@ export function setCorrectAnswer(id, correctAnswer, page) {
 }
 
 export function deleteRemoteFileVishAsync(id, url, callback) {
-    dispatch(setBusy(true, FILE_DELETING));
+    return dispatch => {
+        dispatch(setBusy(true, FILE_DELETING));
 
-    let form = new FormData();
-    form.append("_method", "delete");
-    if (typeof(ediphy_editor_params) !== 'undefined') {
-        form.append("authenticity_token", ediphy_editor_params.authenticity_token);
-    }
-
-    return fetch(url, {
-        method: 'POST',
-        credentials: 'same-origin',
-        body: form,
-    }).then(response => {
-        if (!response.ok) {
-            throw Error(response.statusText);
+        let form = new FormData();
+        form.append("_method", "delete");
+        if (typeof(ediphy_editor_params) !== 'undefined') {
+            form.append("authenticity_token", ediphy_editor_params.authenticity_token);
         }
 
-        return 200;
-    }).then((result) => {
-        dispatch(setBusy(false, id));
-
-        dispatch(deleteFile(id));
-        if (callback) {
-            callback(result);
-        }
-    })
-        .catch(e => {
-            dispatch(setBusy(false, FILE_DELETE_ERROR));
-            if (callback) {
-                callback();
+        return fetch(url, {
+            method: 'POST',
+            credentials: 'same-origin',
+            body: form,
+        }).then(response => {
+            if (!response.ok) {
+                throw Error(response.statusText);
             }
-            return false;
-        });
 
+            return 200;
+        }).then((result) => {
+            dispatch(setBusy(false, id));
+
+            dispatch(deleteFile(id));
+            if (callback) {
+                callback(result);
+            }
+        })
+            .catch(e => {
+                dispatch(setBusy(false, FILE_DELETE_ERROR));
+                if (callback) {
+                    callback();
+                }
+                return false;
+            });
+    };
 }
 
 export function deleteRemoteFileEdiphyAsync(id, url, callback) {
@@ -348,7 +349,7 @@ export function deleteRemoteFileEdiphyAsync(id, url, callback) {
 // Async actions
 export function exportStateAsync(state) {
     return dispatch => {
-
+        let exportedState = { present: { ...state.undoGroup.present, filesUploaded: state.filesUploaded } };
         // First dispatch: the app state is updated to inform
         // that the API call is starting.
         dispatch(setBusy(true, i18n.t("Exporting")));
@@ -365,7 +366,7 @@ export function exportStateAsync(state) {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(state),
+                body: JSON.stringify(exportedState),
             })
                 .then(response => {
                     if (response.status >= 400) {
@@ -383,7 +384,7 @@ export function exportStateAsync(state) {
 
         let data = {
             authenticity_token: ediphy_editor_params.authenticity_token,
-            ediphy_document: { user: { name: ediphy_editor_params.name, id: ediphy_editor_params.id }, json: state },
+            ediphy_document: { user: { name: ediphy_editor_params.name, id: ediphy_editor_params.id }, json: exportedState },
         };
 
         return fetch(ediphy_editor_params.export_url, { // return fetch(Ediphy.Config.export_url, {
@@ -504,57 +505,54 @@ export function uploadEdiphyResourceAsync(file, keywords = "", callback) {
 
 export function uploadVishResourceAsync(query, keywords = "", callback) {
     return dispatch => {
+        if (query && query.name && query.name.length > 0) {
+            let filename = query.name;
+            dispatch(setBusy(true, FILE_UPLOADING));
 
-        if (query.title !== null && query.title.length > 0) {
-            if (query.file !== null) {
-                let filename = query.file.name;
-                dispatch(setBusy(true, FILE_UPLOADING));
-
-                let form = new FormData();
-                form.append("document[title]", query.title);
-                form.append("document[description]", "Uploaded using Ediphy Editor");
-                form.append("document[tag_list][]", keywords);
-                if (typeof(ediphy_editor_params) !== 'undefined') {
-                    form.append("document[owner_id]", ediphy_editor_params.id);
-                    form.append("authenticity_token", ediphy_editor_params.authenticity_token);
-                }
-                form.append("document[file]", query.file);
-                let filenameDeconstructed = filename.split('.');
-                let mimetype = query.file.type && query.file.type !== "" ? query.file.type : filenameDeconstructed[filenameDeconstructed.length - 1];
-
-                return fetch(Ediphy.Config.upload_vish_url, {
-                    method: 'POST',
-                    credentials: 'same-origin',
-                    body: form,
-                }).then(response => {
-                    if (!response.ok) {
-                        throw Error(response.statusText);
-                    }
-
-                    return response.text().then((text)=>{
-                        return JSON.parse(text).src;
-                    });
-                }).then((result) => {
-                    dispatch(setBusy(false, result));
-                    let id = ID_PREFIX_FILE + Date.now();
-                    dispatch(uploadFile(id, result, query.title, keywords, mimetype));
-                    if (callback) {
-                        callback(result);
-                    }
-                })
-                    .catch(e => {
-                        dispatch(setBusy(false, FILE_UPLOAD_ERROR));
-                        if (callback) {
-                            callback();
-                        }
-                    });
-
+            let form = new FormData();
+            form.append("document[title]", query.name);
+            form.append("document[description]", "Uploaded using Ediphy Editor");
+            // form.append("document[tag_list][]", keywords);
+            if (typeof(ediphy_editor_params) !== 'undefined') {
+                form.append("document[owner_id]", ediphy_editor_params.id);
+                form.append("authenticity_token", ediphy_editor_params.authenticity_token);
             }
+            form.append("document[file]", query);
+            let filenameDeconstructed = filename.split('.');
+            let mimetype = query.type && query.type !== "" ? query.type : filenameDeconstructed[filenameDeconstructed.length - 1];
+            return fetch(Ediphy.Config.upload_vish_url, {
+                method: 'POST',
+                credentials: 'same-origin',
+                body: form,
+            }).then(response => {
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+
+                return response.text().then((text)=>{
+                    return JSON.parse(text).src;
+                });
+            }).then((result) => {
+
+                let id = ID_PREFIX_FILE + Date.now();
+                dispatch(uploadFile(id, result, query.name, keywords, mimetype));
+                if (callback) {
+                    callback(result);
+                }
+                dispatch(setBusy(false, id));
+            })
+                .catch(e => {
+                    dispatch(setBusy(false, FILE_UPLOAD_ERROR));
+                    if (callback) {
+                        callback();
+                    }
+                });
+
             alert(i18n.t("error.file_extension_invalid"));
 
-        } else {
-            alert(i18n.t("error.file_not_selected"));
         }
+        alert(i18n.t("error.file_not_selected"));
+
         return false;
     };
 }

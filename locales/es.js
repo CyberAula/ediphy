@@ -108,6 +108,7 @@ let es = {
             "avatar": "Miniatura",
             "avatar_delete_img": "Borrar imagen",
             "avatar_screenshot": "Capturar pantalla",
+            "avatar_import": "Import image",
             "context": "Contexto",
             "context_list": {
                 "school": "Ed.Primaria, Secundaria y Bach.",

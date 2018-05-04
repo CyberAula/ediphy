@@ -32,7 +32,6 @@ export const initialState = (config) => { return config.sections_have_content ?
                     difficulty: 'easy',
                 },
                 displayMode: "list",
-
                 indexSelected: "se-1467887497411",
                 navItemsById: {
                     0: {
@@ -148,7 +147,6 @@ export const initialState = (config) => { return config.sections_have_content ?
                     structure: 'linear',
                     difficulty: 'easy',
                 },
-                filesUploaded: {},
                 indexSelected: 'pa-1497983247795',
                 boxesById: {
                     "bs-1497983247797":
