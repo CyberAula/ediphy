@@ -24,6 +24,7 @@ export default class PluginConfigModal extends Component {
             pluginActive: '',
             reason: null,
             disabledButton: false,
+            currentStep: 0,
         };
     }
 
@@ -64,6 +65,13 @@ export default class PluginConfigModal extends Component {
             openFileModal: this.props.openFileModal,
             fileModalResult: this.props.fileModalResult,
         };
+        let steps = [];
+        let stepsnumber = 0;
+        if(this.props.name) {
+            steps = Ediphy.Plugins.get(this.props.name).getConfigTemplate(this.props.id, this.state.pluginState, (pluginState)=>{this.setState({ pluginState });}, props);
+            stepsnumber = steps.length - 1;
+        }
+        console.log(this.state.currentStep);
         return (
             <Modal className="pageModal pluginconfig"
                 backdrop="static"
@@ -73,39 +81,34 @@ export default class PluginConfigModal extends Component {
                 <Modal.Header /* closeButton*/>
                     <Modal.Title>{i18n.t("plugin_config")}</Modal.Title>
                 </Modal.Header>
-
                 <Modal.Body>
                     <Row >
-                        {/* <div ref={c => {
-                            if(c !== null) {
-                                Ediphy.API_Private.answer(Ediphy.API_Private.events.openConfig, c);
-                            }
-                        }} />*/}
-                        {this.props.id ? Ediphy.Plugins.get(this.props.name).getConfigTemplate(this.props.id, this.state.pluginState, (pluginState)=>{this.setState({ pluginState });}, props) : null}
+                        {this.props.id ? steps[this.state.currentStep] : null}
                     </Row>
                     <div id="plugin_config_info" />
                 </Modal.Body>
 
                 <Modal.Footer>
                     <Button bsStyle="default" onClick={e => {
-                        // this.setState({ show: false, reason: null });
-
                         this.props.closeConfigModal();
                     }}>{i18n.t("Cancel")}</Button>
+                    { (this.state.currentStep > 0) ? <Button bsStyle="default" onClick={e => {
+                        this.setState({ currentStep: this.state.currentStep - 1 });
+                    }}>{"< " + i18n.t("step_previous")}</Button> : null}
                     <Button ref="plugin_insertion" bsStyle="primary" id="insert_plugin_config_modal" disabled={this.state.disabledButton}
                         onClick={e => {
-                            this.props.updatePluginToolbar(this.props.id, this.state.pluginState);
-                            // Ediphy.Plugins.get(this.state.pluginActive).render(this.state.reason);
-                            // this.setState({ show: false, reason: null });
-                            this.props.closeConfigModal();
-                        }}>{i18n.t("insert_plugin")}</Button>
-
+                            if (this.state.currentStep < stepsnumber) {
+                                this.setState({ currentStep: this.state.currentStep + 1 });
+                            }else{
+                                this.props.updatePluginToolbar(this.props.id, this.state.pluginState);
+                                this.props.closeConfigModal();
+                            }
+                        }}>{(this.state.currentStep < stepsnumber) ? i18n.t("step_next") + " >" : i18n.t("confirm_changes")}</Button>
                 </Modal.Footer>
 
             </Modal>
         );
     }
-
     /**
      * After component mounts.
      * Gets configuration from Plugin API

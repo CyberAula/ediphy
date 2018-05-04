@@ -808,7 +808,6 @@ class EditorApp extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
     return {
         version: state.undoGroup.present.version,
         globalConfig: state.undoGroup.present.globalConfig,

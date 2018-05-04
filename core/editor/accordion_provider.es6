@@ -618,7 +618,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     value = { background: e.target.value, backgroundAttr: 'full' };
                 }
                 if(e.value) {
-                    console.log(button);
                     value = { background: e.value, backgroundAttr: (button.value && button.value.backgroundAttr) ? button.value.backgroundAttr : 'full' };
                 }
                 if(e.currentTarget && e.currentTarget.type === "button") {

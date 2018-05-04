@@ -30,6 +30,7 @@ let en = {
             "msg": "These actions are not available. Use the keyboard shortcuts:",
         },
         "configuration": "Configuration",
+        "confirm_changes": "Confirm changes",
         "Container_": "Container",
         "contained_view": "Contained View",
         "CONTAINED_VIEWS": "CONTAINED VIEWS",
@@ -194,6 +195,7 @@ let en = {
         "hide": "Hide",
         "horizontal": "Horizontal subtitle",
         "Images": "Images",
+        "importData": "Import data file...",
         "importFile": {
             "title": "Import file ",
             "pages": {
@@ -348,6 +350,8 @@ let en = {
         "show": "Show",
         "show_subtitle": "Show Subtitle",
         "slide": "Slide",
+        "step_next": "Next step",
+        "step_previous": "Previous step",
         "Submit": "Submit",
         "subtitle": "Subtitle",
         "subtitle_hide": "Hide Subtitle",

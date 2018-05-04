@@ -1,6 +1,7 @@
 import React from "react";
 import Chart from './components/chart-component';
 import Config from './components/config-component';
+import ChartOptions from './components/chart-options';
 
 require('./_graficaD3.scss');
 /* eslint-disable react/prop-types */
@@ -106,7 +107,7 @@ export function GraficaD3(base) {
         },
         getConfigTemplate: function(id, state, updateState, props) {
             return (
-                <Config id={id} state={state} updateState={updateState} props={props}/>
+                [<Config id={id} state={state} updateState={updateState} props={props} step={1}/>, <Config id={id} state={state} updateState={updateState} props={props} step={2}/>]
             );
         },
         fileChanged: function(event) {
