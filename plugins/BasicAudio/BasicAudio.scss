@@ -153,12 +153,6 @@ $track-width: 54% !default;
     height:100%;
     width:10%;
   }
-  .peaks-button{
-    background-color: transparent;
-    float:right;
-    height:100%;
-    width:10%;
-  }
 
   .volume-audio-input{
     float:right;
@@ -176,7 +170,7 @@ $track-width: 54% !default;
     //width: 64%;
     height: 8px;
     .mainSlider{
-      width: 4px;
+      width: 0px;
       height: 14px;
       background: white;
       position: absolute;

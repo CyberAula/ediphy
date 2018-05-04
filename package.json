@@ -132,13 +132,13 @@
   },
   "dependencies": {
     "@trendmicro/react-toggle-switch": "^0.5.7",
+    "BasicAudio": "file:plugins/BasicAudio",
+    "BasicPDF": "file:plugins/BasicPDF",
     "BasicPlayer": "file:plugins/BasicPlayer",
     "DataTable": "file:plugins/DataTable",
     "EnrichedPlayer": "file:plugins/EnrichedPlayer",
     "GraficaD3": "file:plugins/GraficaD3",
     "VirtualTour": "file:plugins/VirtualTour",
-    "BasicAudio": "file:plugins/BasicAudio",
-    "BasicPDF": "file:plugins/BasicPDF",
     "animated": "^0.2.1",
     "babel-jest": "^22.1.0",
     "babel-preset-stage-0": "^6.24.1",
@@ -186,8 +186,8 @@
     "redux-undo": "^0.6.1",
     "screenfull": "^3.3.2",
     "scroll-into-view-if-needed": "^1.4.0",
+    "stl-viewer": "^0.5.0",
     "typeface-source-sans-pro": "0.0.44",
     "typeface-ubuntu": "0.0.44"
-
   }
 }

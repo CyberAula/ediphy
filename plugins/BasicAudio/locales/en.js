@@ -5,6 +5,9 @@ module.exports = {
         "Show_controls": "Show Controls",
         "Autoplay": "Autoplay",
         "Waves": "Waves",
+        "WaveColor": "Rigth",
+        "ProgressColor": "Left",
+        "BarWidth": "Bar width",
         "URL": "URL",
         "Audio": "Audio",
         "background_color": "Background color",
@@ -16,6 +19,7 @@ module.exports = {
         "padding": "Padding",
         "PluginName": "Audio Player",
         "radius": "Radius",
+        "pos": "Position",
         "source": "Source",
         "message_mark_percentage": "You've chosen an incorrect value. You must introduce a percentage between 0 and 100. E.g.. 45.66%",
 

@@ -66,23 +66,6 @@ export default class BasicAudioPlugin extends React.Component {
         }
     }
 
-    /* Barra de progreso del audio:
-
-<div className="form-group col-xs-4">
-    <label htmlFor="simple-pos">Position:</label>
-        <input name="simple-pos" type="number" step="0.01" value={this.state.pos} onChange={this.handlePosChange} className="form-control"/>
-</div>
-
-const timelineOptions = {
-    timeInterval: 0.5,
-    height: 30,
-    primaryFontColor: '#00f',
-    primaryColor: '#00f'
-};
-<Timeline options={timelineOptions}/>
-
-*/
-
     handleLoadingPeaks() {
         console.log(this.state.audioPeaks);
         if (this.state.audioPeaks["0"] === 0) {

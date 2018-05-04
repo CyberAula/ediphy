@@ -1,14 +1,9 @@
 module.exports = {
-    "BasicAudio": {
+    "Visor3D": {
         "Allow_fullscreen": "Permitir pantalla completa",
         "Show_controls": "Mostrar controles",
-        "Autoplay": "Reproducción automática",
-        "Waves": "Ondas",
-        "WaveColor": "Onda de la derecha",
-        "ProgressColor": "Onda de la izquierda",
-        "BarWidth": "Grosor de onda",
         "URL": "URL",
-        "Audio": "Audio",
+        "Visor3D": "Visor3D",
         "background_color": "Color de fondo",
         "border_color": "Color de borde",
         "border_size": "Grosor de borde",
@@ -16,9 +11,9 @@ module.exports = {
         "box_style": "Estilo caja",
         "opacity": "Opacidad",
         "padding": "Padding",
-        "PluginName": "Reproductor Audio",
+        "PluginName": "Visor de objetos 3D",
         "radius": "Radio",
-        "pos": "Posición",
+        "pos": "Momento",
         "source": "Origen",
         "message_mark_percentage": "Ha introducido un valor incorrecto. Debe introducir un porcentaje entre 0 y 100. Ej. 45.66%",
 

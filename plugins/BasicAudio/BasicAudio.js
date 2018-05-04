@@ -4,11 +4,7 @@ import i18n from 'i18next';
 // import example from './../../dist/playlists/a2002011001-e02-128k.mp3';
 require('./BasicAudio.scss');
 
-// Meter una opcion que haga opcional (como el autoplay) el tema de mostrar las ondas
-// Duda aqui: en caso de que se deban mostrar el tamaño debe ser diferente pero solo en el visor supongo, pq sino en el editor no entiendo como hacerlo
-
-// Deberia poderse escuchar en el visor por el tema de las marcas, que cuando pongas una escuches donde la has puesto
-// Pero esto de momento dejarlo asi estar hasta que sonsoles y algunos decidan que hacer con ello
+// Duda: en caso de que se deban mostrar el tamaño debe ser diferente pero solo en el visor supongo, pq sino en el editor no entiendo como hacerlo
 
 export function BasicAudio(base) {
     return {
@@ -16,7 +12,7 @@ export function BasicAudio(base) {
             return {
                 name: 'BasicAudio',
                 flavor: "react",
-                isRich: true, // para poner marcas
+                isRich: true,
                 displayName: i18n.t('BasicAudio.PluginName'),
                 category: "multimedia",
                 initialWidth: '400px',
@@ -37,10 +33,8 @@ export function BasicAudio(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            // titulo del apartado
                             __name: i18n.t('BasicAudio.Audio'),
                             icon: 'link',
-                            // cosas de dentro
                             buttons: {
                                 url: {
                                     __name: Ediphy.i18n.t('EnrichedPlayer.URL'),
@@ -60,6 +54,18 @@ export function BasicAudio(base) {
                                     type: 'checkbox',
                                     checked: state.waves,
                                     autoManaged: false,
+                                },
+                                progressColor: {
+                                    __name: Ediphy.i18n.t('BasicAudio.BarWidth'),
+                                    type: 'select',
+                                    value: state.progressColor,
+                                    options: ['#555', 'purple', '#001199'],
+                                },
+                                wavecolor: {
+                                    __name: Ediphy.i18n.t('BasicAudio.waveColor'),
+                                    type: 'select',
+                                    value: state.waveColor,
+                                    options: ['#555', 'purple', '#001199'],
                                 },
                             },
                         },
@@ -119,6 +125,9 @@ export function BasicAudio(base) {
                 autoplay: false,
                 controls: true,
                 waves: true,
+                barWidth: 0.5,
+                progressColor: '',
+                waveColor: '',
             };
         },
         getRenderTemplate: function(state, props) {

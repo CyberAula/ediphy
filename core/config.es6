@@ -50,6 +50,7 @@ export default {
         'GraficaD3',
         'TrueFalse',
         // 'ScormPackage',
+        'Visor3D',
     ],
     availableLanguages: [
         'en',
