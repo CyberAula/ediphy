@@ -121,9 +121,9 @@ class EditorApp extends Component {
                             if(format === "PDF") {
                                 printToPDF(this.props.store.getState().undoGroup.present, callback);
                             } else {
-                                Ediphy.Visor.exportsHTML(this.props.store.getState().undoGroup.present, callback);
+                                Ediphy.Visor.exportsHTML({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback);
                             }}}
-                        scorm={(is2004, callback) => {Ediphy.Visor.exportScorm(this.props.store.getState().undoGroup.present, is2004, callback);}}
+                        scorm={(is2004, callback) => {Ediphy.Visor.exportScorm({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, is2004, callback);}}
                         save={() => {dispatch(exportStateAsync({ ...this.props.store.getState() })); }}
                         category={this.state.pluginTab}
                         opens={() => {dispatch(importStateAsync());}}
