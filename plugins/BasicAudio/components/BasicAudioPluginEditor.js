@@ -104,7 +104,7 @@ export default class BasicAudioPluginEditor extends React.Component {
         const waveOptions = {
             scrollParent: true,
             /* true si la waveform avanza con el tiempo de la cancion
-            false si se va a ver la waveform entera, en este caso no tenemos barra de progreso oscura*/
+             false si se va a ver la waveform entera, en este caso no tenemos barra de progreso oscura*/
             // height: 100, // NO DEBERIA FIJARLO, SI HAGO ALTA LA CAJA NO VARIA
             hideScrollbar: false,
             progressColor: this.state.progressColor, // parte de la izquierda

@@ -1,4 +1,5 @@
 import React from "react";
+// import BasicAudioPluginEditor from './components/BasicAudioPluginEditorWS.js';
 import BasicAudioPluginEditor from './components/BasicAudioPluginEditor.js';
 import i18n from 'i18next';
 // import example from './../../dist/playlists/a2002011001-e02-128k.mp3';
@@ -55,17 +56,21 @@ export function BasicAudio(base) {
                                     checked: state.waves,
                                     autoManaged: false,
                                 },
-                                progressColor: {
-                                    __name: Ediphy.i18n.t('BasicAudio.BarWidth'),
-                                    type: 'select',
-                                    value: state.progressColor,
-                                    options: ['#555', 'purple', '#001199'],
+                                scroll: {
+                                    __name: Ediphy.i18n.t('BasicAudio.Scroll'),
+                                    type: 'checkbox',
+                                    checked: state.scroll,
+                                    autoManaged: false,
                                 },
-                                wavecolor: {
-                                    __name: Ediphy.i18n.t('BasicAudio.waveColor'),
-                                    type: 'select',
+                                progressColor: {
+                                    __name: Ediphy.i18n.t('BasicAudio.ProgressColor'),
+                                    type: 'color',
+                                    value: state.progressColor,
+                                },
+                                waveColor: {
+                                    __name: Ediphy.i18n.t('BasicAudio.WaveColor'),
+                                    type: 'color',
                                     value: state.waveColor,
-                                    options: ['#555', 'purple', '#001199'],
                                 },
                             },
                         },
@@ -126,8 +131,9 @@ export function BasicAudio(base) {
                 controls: true,
                 waves: true,
                 barWidth: 0.5,
-                progressColor: '',
-                waveColor: '',
+                progressColor: '#878787',
+                waveColor: '#178582',
+                scroll: false,
             };
         },
         getRenderTemplate: function(state, props) {
