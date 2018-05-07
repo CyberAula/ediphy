@@ -16,7 +16,8 @@ export function TrueFalse(base) {
                 initialWidth: '60%',
                 flavor: 'react',
                 isComplex: true,
-                defaultCorrectAnswer: ["", "", ""],
+                defaultCorrectAnswer: ["false", "false", "false"],
+                defaultCurrentAnswer: ["", "", ""],
             };
         },
         getToolbar: function(state) {

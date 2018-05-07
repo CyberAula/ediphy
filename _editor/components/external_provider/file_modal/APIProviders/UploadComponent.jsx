@@ -6,6 +6,10 @@ import ExternalDropzone from './ExternalDropzone';
 import { WithContext as ReactTags } from 'react-tag-input';
 import { extensions } from '../FileHandlers/FileHandlers';
 import '../../../nav_bar/global_config/_reactTags.scss';
+import { ID_PREFIX_FILE, FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../common/constants';
+import { isFile } from '../../../../../common/utils';
+let spinner = require('../../../../../dist/images/spinner.svg');
+
 export default class UploadComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -14,6 +18,9 @@ export default class UploadComponent extends React.Component {
             filter: "",
             extensionFilter: this.props.show,
             keywords: [],
+            error: false,
+            uploading: false,
+            uploaded: false,
         };
         this.uploadHandler = this.uploadHandler.bind(this);
         this.dropHandler = this.dropHandler.bind(this);
@@ -37,33 +44,40 @@ export default class UploadComponent extends React.Component {
                 icon = ext.icon || icon;
             }
         }
+
+        let fileSelected = this.props.filesUploaded[this.props.idSelected];
         return(<div className="uploadComponent">
             <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}</h5>
             <hr />
-            {this.state.file ? null :
-                <ExternalDropzone ref="dropZone" accept={this.props.show} callback={this.dropHandler}/> }
-            {this.state.file ? <Row>
+
+            { (!this.state.file && !this.state.uploading && !this.state.uploaded) ?
+                <ExternalDropzone ref="dropZone" accept={this.props.show} callback={this.dropHandler}/> : null}
+
+            { (this.state.file || this.state.uploading || this.state.uploaded) ? <Row>
                 <Col xs={12} sm={6}>
                     <FormGroup >
                         <div id="fileNameTitle">
                             <span>{this.state.file.name}</span><br/><br/>
-                            <Button onClick={(e)=>{this.setState({ file: undefined });}}><i className="material-icons">delete</i> DELETE</Button>
-                            <Button disabled={!this.state.file} onClick={this.uploadHandler}><i className="material-icons">file_upload</i> UPLOAD</Button>
+                            <Button onClick={(e)=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false });}}><i className="material-icons">clear</i> {i18n.t("FileModal.APIProviders.clear")}</Button>
+                            <Button disabled={!this.state.file || this.state.uploaded} onClick={this.uploadHandler}><i className="material-icons">file_upload</i> {i18n.t("FileModal.APIProviders.upload")}</Button>
                         </div>
+                        {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={spinner} alt=""/></div> : null}
                         {/* <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
-          <ReactTags tags={keywords}
-                     placeholder={i18n.t('global_config.keyw.Add_tag')}
-                     delimiters={[188, 13]}
-                     handleDelete={this.handleDelete}
-                     handleAddition={this.handleAddition}
-                     handleDrag={this.handleDrag} />*/}
-
+                          <ReactTags tags={keywords}
+                                     placeholder={i18n.t('global_config.keyw.Add_tag')}
+                                     delimiters={[188, 13]}
+                                     handleDelete={this.handleDelete}
+                                     handleAddition={this.handleAddition}
+                                     handleDrag={this.handleDrag} />*/}
+                        { this.state.error ? <span id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i> {i18n.t("FileModal.APIProviders.error")}</span> : null }
+                        { this.state.uploaded ? <span id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i> {i18n.t("FileModal.APIProviders.uploaded")} </span> : null }
                     </FormGroup>
                 </Col>
                 <Col xs={12} sm={6}>
-                    <div style={{ backgroundImage: aux === 'Rimage' ? ("url(" + file.url + ")") : "" }} className={"preview" + ((file.url === this.props.elementSelected) ? " active" : "")}>
-                        {aux === 'Rimage' ? "" : <i className="material-icons">{icon || "attach_file"}</i>}
-                    </div>
+                    {(aux === 'image' && fileSelected && fileSelected.url) ? <img className="previewImg" src={fileSelected.url} alt=""/> : <div className={"preview"}>
+                        <i className="material-icons">{icon || "attach_file"}</i>
+                    </div>}
+
                 </Col>
             </Row> : null}
 
@@ -74,11 +88,31 @@ export default class UploadComponent extends React.Component {
         if (nextProps.show !== this.props.show) {
             this.setState({ extensionFilter: nextProps.show });
         }
+        if (nextProps.isBusy && this.props.isBusy && nextProps.isBusy.value !== this.props.isBusy.value) {
+            if (nextProps.isBusy.msg === FILE_UPLOADING && this.props.isBusy.msg !== FILE_UPLOADING) {
+                // this.setState({error: false, uploading: true, uploaded: false})
+            } else if (this.props.isBusy.msg === FILE_UPLOADING && nextProps.isBusy.msg === FILE_UPLOAD_ERROR) {
+                this.setState({ error: true, uploaded: false, uploading: false });
+            } else if (this.props.isBusy.msg === FILE_UPLOADING && isFile(nextProps.isBusy.msg)) {
+                let newFile = this.props.filesUploaded[nextProps.isBusy.msg];
+                console.log(newFile);
+                let extension = newFile.mimetype;
+                for (let e in extensions) {
+                    let ext = extensions[e];
+                    if (newFile && newFile.mimetype && newFile.mimetype.match && newFile.mimetype.match(ext.value)) {
+                        extension = ext.value;
+                    }
+                }
+                console.log(nextProps.isBusy.msg);
+                this.props.onElementSelected(newFile.name, newFile.url, extension, nextProps.isBusy.msg);
+                this.setState({ error: false, uploading: false, uploaded: true });
+            }
+        }
     }
     componentWillUpdate(nextProps, nextState) {
-        if ((nextProps.filesUploaded && this.props.filesUploaded && nextProps.filesUploaded.length !== this.props.filesUploaded.length)
+        if ((nextProps.filesUploaded && this.props.filesUploaded && Object.keys(nextProps.filesUploaded).length !== Object.keys(this.props.filesUploaded).length)
         /* || nextState.filter !== this.state.filter || nextState.extensionFilter !== this.state.extensionFilter*/) {
-            // this.props.onElementSelected( undefined, undefined, undefined);
+            // this.props.onElementSelected( undefined, undefined, undefined, undefined);
         }
     }
     dropHandler(file) {
@@ -86,17 +120,11 @@ export default class UploadComponent extends React.Component {
     }
 
     uploadHandler() {
-        let keywordsArray = this.state.keywords.map(key=>{return key.text;});
+        let keywordsArray = this.state.keywords.map(key => { return key.text; });
         let keywords = keywordsArray.join(",");
+        this.props.uploadFunction(this.state.file, keywords);
+        this.setState({ keywords: [], uploading: true });
 
-        if(process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') { // VISH production
-            this.props.onUploadVishResource(this.state.file, keywords);
-        } else if (process.env.DOC === 'doc') { // Docs
-            alert('En la demo no se puede'); // TODO Poner bien en un modal alert
-        } else { // Ediphy Development (with ediphy_server)
-            this.props.onUploadEdiphyResource(this.state.file, keywords);
-        }
-        this.setState({ keywords: [], file: undefined });
     }
 
     /** *

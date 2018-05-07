@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import iconPDF from './../../../dist/images/file-pdf.svg';
 import VisorNavSection from './VisorNavSection';
-import NavScore from '../scorm/NavScore';
+import NavScore from '../score/NavScore';
 import ProgressBall from './ProgressBall';
 
 import { isSlide, isPage, isSection } from '../../../common/utils';

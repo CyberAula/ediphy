@@ -1247,7 +1247,7 @@ export default function SCORM_API(options) {
         // for (i = count; i >= 0; i -= 1) {
         while (i >= 0) {
             tID = self.getvalue("cmi.interactions." + n + ".objectives." + i + ".id");
-            // scorm.debug("Interaction Objective ID Check for " + i + " : " + tID + " vs " + id, 4);
+            // score.debug("Interaction Objective ID Check for " + i + " : " + tID + " vs " + id, 4);
             if (id === tID) {
                 scorm.debug("Interaction Objective By ID Returning " + i);
                 return i;

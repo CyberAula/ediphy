@@ -413,7 +413,7 @@ li > .selectedNavItemVisor {
   text-align: center; //right;
   margin: 15px;
   margin-bottom: 0px;
-  bottom: 0px;
+  bottom: 0;
   padding-bottom: 15px;
   min-height: 150px;
   line-height: 150px;
@@ -426,9 +426,11 @@ li > .selectedNavItemVisor {
   font-size: 1.5em;
   padding: 5px 15px;
   border-radius: 3px;
-  position: absolute;
-  right: 20px;
-  top: 50px;
+  margin: auto;
+  max-width: 50%;
+  //position: absolute;
+  //right: 20px;
+  //top: 50px;
   span {
     font-size: 2.2em;
   }
@@ -451,7 +453,7 @@ li > .selectedNavItemVisor {
 }
 .sli {
   .pageFooter {
-    top: 0;
+    bottom: 0;
     right: 0;
     position: absolute;
     height: auto;
@@ -460,6 +462,7 @@ li > .selectedNavItemVisor {
     width: auto;
     .pageScore{
       position: static;
+      max-width: 100%;
     }
   }
 }

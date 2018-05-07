@@ -6,10 +6,14 @@ import '../_external.scss';
 import { isContainedView, isSortableContainer } from '../../../../common/utils';
 import FileHandlers from './FileHandlers/FileHandlers';
 import APIProviders from './APIProviders/APIProviders';
+import PDFHandler from "./FileHandlers/PDFHandler";
+import i18n from 'i18next';
+
 const initialState = {
     menu: 0,
     name: undefined,
     index: undefined,
+    id: undefined,
     element: undefined,
     type: undefined,
     pdfSelected: false,
@@ -20,6 +24,7 @@ export default class FileModal extends React.Component {
         this.state = initialState;
         this.getIndex = this.getIndex.bind(this);
         this.currentPage = this.currentPage.bind(this);
+        this.closeSideBar = this.closeSideBar.bind(this);
         this.close = this.close.bind(this);
     }
     render() {
@@ -50,6 +55,31 @@ export default class FileModal extends React.Component {
                         <Col xs={12} sm={8} md={9} lg={10} id="contentColumn" >
                             {React.createElement(menus[this.state.menu].component,
                                 { ...(menus[this.state.menu].props || {}), icon: menus[this.state.menu].icon, name: menus[this.state.menu].name }, null)}
+                            <div id="sideBar" className={this.state.pdfSelected ? "showBar" : ""}>
+                                {this.state.pdfSelected ? (<div id="wrapper">
+                                    <div id="sideArrow">
+                                        <button onClick={()=>{this.closeSideBar(false);}}><i className="material-icons">keyboard_arrow_right</i></button>
+                                    </div>
+                                    <div id="pdfContent">
+                                        <PDFHandler navItemSelected={this.props.navItemSelected}
+                                            boxes={this.props.boxes}
+                                            onBoxAdded={this.props.onBoxAdded}
+                                            onNavItemAdded={this.props.onNavItemAdded}
+                                            onNavItemsAdded={this.props.onNavItemsAdded}
+                                            onIndexSelected={this.props.onIndexSelected}
+                                            onNavItemSelected={this.props.onNavItemSelected}
+                                            // onToolbarUpdated={this.props.onToolbarUpdated}
+                                            navItemsIds={this.props.navItemsIds}
+                                            navItems={this.props.navItems}
+                                            containedViews={this.props.containedViews}
+                                            containedViewSelected={this.props.containedViewSelected}
+                                            show
+                                            url={this.state.element}
+                                            close={this.closeSideBar}
+                                        /></div>
+                                </div>) : null }
+
+                            </div>
                             <hr className="fileModalFooter"/>
                             <Modal.Footer>
                                 {this.state.element ? (
@@ -58,7 +88,7 @@ export default class FileModal extends React.Component {
                                 ) : null}
                                 <Button onClick={e => {
                                     this.close();
-                                }}>Cancel</Button>
+                                }}>{i18n.t("FileModal.FileHandlers.cancel")}</Button>
                                 {(this.state.element && handler && handler.buttons) ? handler.buttons.map(button=>{
                                     return <Button disabled={button.disabled} onClick={e => {
                                         button.action();
@@ -106,6 +136,13 @@ export default class FileModal extends React.Component {
     close(e) {
         this.setState({ ...initialState });
         this.props.close(e);
+    }
+
+    closeSideBar(closeAlsoModal) {
+        this.setState({ pdfSelected: false });
+        if (closeAlsoModal) {
+            this.close();
+        }
     }
 
 }

@@ -57,6 +57,8 @@ export default class EditorNavBar extends Component {
                     undoDisabled={this.props.undoDisabled} />
                 <GlobalConfig show={this.state.showGlobalConfig}
                     globalConfig={this.props.globalConfig}
+                    toggleFileUpload={this.props.toggleFileUpload}
+                    fileModalResult={this.props.fileModalResult}
                     changeGlobalConfig={this.props.changeGlobalConfig}
                     close={this.toggleGlobalConfig} />
                 <ExportModal show={this.state.showExport} export={this.props.export} scorm={this.props.scorm} close={this.toggleExport} />
@@ -154,8 +156,12 @@ EditorNavBar.propTypes = {
       */
     toggleFileUpload: PropTypes.func.isRequired,
     /**
+     * Last files uploaded to server or searched in modal
+     */
+    fileModalResult: PropTypes.object,
+    /**
      * Cambia la categoría de plugins seleccionada
-     * */
+     */
     setcat: PropTypes.func.isRequired,
     /**
      * Adds a view

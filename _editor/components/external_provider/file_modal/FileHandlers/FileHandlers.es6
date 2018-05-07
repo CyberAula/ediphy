@@ -2,7 +2,8 @@ import React from 'react';
 import { createBox } from '../../../../../common/common_tools';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../common/constants';
 import { randomPositionGenerator } from '../../../clipboard/clipboard.utils';
-import { isSlide, isBox } from '../../../../../common/utils';
+import { isSlide, isBox, isDataURL } from '../../../../../common/utils';
+import i18n from 'i18next';
 
 export let extensions = [
     { label: "Todos", value: '', icon: 'attach_file' },
@@ -16,16 +17,19 @@ export let extensions = [
 export default function handlers(self) {
     let type = self.state.type;
     let download = { // Forces browser download
-        title: 'Download',
+        title: i18n.t('FileModal.FileHandlers.downloadAsFile'),
         disabled: !self.state.element,
         action: ()=>{
-            let anchor = document.createElement('a');
-            anchor.href = self.state.element;
-            anchor.href = anchor.href.replace(/^data:.*\/[^;]+/, 'data:application/octet-stream');
-
-            anchor.target = '_blank';
-            anchor.download = self.state.name;
-            anchor.click();
+            if (navigator.userAgent.search("Firefox") !== -1) {
+                window.open(self.state.element);
+            } else {
+                let anchor = document.createElement('a');
+                anchor.setAttribute('download', '');
+                anchor.href = self.state.element;
+                anchor.target = '_blank';
+                anchor.download = self.state.name;
+                anchor.click();
+            }
         },
     };
     let page = self.currentPage();
@@ -37,7 +41,7 @@ export default function handlers(self) {
             icon: 'image',
             buttons: [
                 {
-                    title: 'Insert',
+                    title: (currentPlugin && currentPlugin === 'HotspotImages') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.image')),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
                     action: ()=>{
                         if (self.state.element) {
@@ -60,7 +64,7 @@ export default function handlers(self) {
             icon: 'play_arrow',
             buttons: [
                 {
-                    title: 'Insert',
+                    title: (currentPlugin && currentPlugin === 'EnrichedPlayer') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.video')),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
                     action: ()=>{
                         if (self.props.fileModalResult && !self.props.fileModalResult.id) {
@@ -79,7 +83,7 @@ export default function handlers(self) {
             icon: 'audiotrack',
             buttons: [
                 {
-                    title: 'Insert',
+                    title: (currentPlugin && currentPlugin === 'EnrichedPlayer') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.audio')),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
                     action: ()=>{
                         if (self.props.fileModalResult && !self.props.fileModalResult.id) {
@@ -98,8 +102,8 @@ export default function handlers(self) {
             icon: 'picture_as_pdf',
             buttons: [
                 {
-                    title: 'Insert',
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'BasicPDF'),
+                    title: (currentPlugin && currentPlugin === 'BasicPDF') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' pdf'),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'BasicPDF') || (self.props.fileModalResult && self.props.fileModalResult.id),
                     action: ()=>{ // Open side view
                         if (self.state.element) {
                             if (self.props.fileModalResult && !self.props.fileModalResult.id) {
@@ -118,7 +122,7 @@ export default function handlers(self) {
             icon: 'view_agenda',
             buttons: [
                 {
-                    title: 'Insert Table',
+                    title: (currentPlugin && currentPlugin === 'DataTable') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.table')),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'DataTable'),
                     action: () => {
                         if (self.state.element) {
@@ -145,7 +149,7 @@ export default function handlers(self) {
                     },
                 },
                 {
-                    title: 'Insert Graph',
+                    title: (currentPlugin && currentPlugin === 'GraficaD3') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.graph')),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'GraficaD3'),
                     action: () => {
                         if (self.state.element) {
@@ -332,7 +336,3 @@ function dataToState(e, self, format, initialParams, isTargetSlide, plugin) {
     self.close();
 }
 
-function isDataURL(s) {
-    let regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
-    return !!s.match(regex);
-}

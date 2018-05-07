@@ -29,7 +29,7 @@ exports[`NavActionButtons - General should render with required props 1`] = `
     disabled={false}
     key="undo"
     name="undo"
-    onClick={[Function]}
+    onClick={[MockFunction undo]}
     title="i18n string"
   >
     <i
@@ -49,7 +49,7 @@ exports[`NavActionButtons - General should render with required props 1`] = `
     disabled={false}
     key="redo"
     name="redo"
-    onClick={[Function]}
+    onClick={[MockFunction redo]}
     title="i18n string"
   >
     <i
