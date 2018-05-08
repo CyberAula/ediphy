@@ -135,17 +135,8 @@ export default class DataProvider extends React.Component {
         return (
             <div>
                 { this.state.alert }
-                <Form horizontal style={{ padding: "16px" }}>
-                    <FormGroup>
-                        <ToolbarFileProvider
-                            id={this.props.id}
-                            openModal={props.openFileModal}
-                            fileModalResult={props.fileModalResult}
-                            onChange={ (target)=>{this.processInput(target.value);}}
-                            accept={"csv"}
-                        />
-                    </FormGroup>
-                    <FormGroup>
+                <Form horizontal style={{ padding: "15px" }}>
+                    <FormGroup style={{ margin: "0" }}>
                         <Col componentClass={ControlLabel} xs={2}>
                             {i18n.t("GraficaD3.data_cols")}
                         </Col>
@@ -158,9 +149,6 @@ export default class DataProvider extends React.Component {
                         </Col>
                         <Col xs={3}>
                             <FormControl type="number" name="rows" value={this.state.rows} onChange={this.rowsChanged}/>
-                        </Col>
-                        <Col xs={3}>
-                            <Button className="btn btn-primary" onClick={this.confirmButton} style={{ marginTop: '0px' }}>{i18n.t("GraficaD3.confirm")}</Button>
                         </Col>
                     </FormGroup>
                     <div style={{ marginTop: '10px', overflowX: 'auto' }}>
@@ -181,7 +169,7 @@ export default class DataProvider extends React.Component {
                                         return(
                                             <th key={i + 1}>
                                                 <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}}>clear</i>
-                                                <FormControl type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
+                                                <FormControl type="text" name={i} value={this.state.keys[i]} style={{ width: 'calc(100% - 30px)', margin: "0" }} onChange={this.keyChanged}/>
                                             </th>
                                         );
                                     })}
@@ -206,6 +194,15 @@ export default class DataProvider extends React.Component {
                             </tbody>
                         </table>
                     </div>
+                    <FormGroup style={{ margin: "0", textAlign: "right" }}>
+                        <ToolbarFileProvider
+                            id={this.props.id}
+                            openModal={props.openFileModal}
+                            fileModalResult={props.fileModalResult}
+                            onChange={ (target)=>{this.processInput(target.value);}}
+                            accept={"csv"}
+                        />
+                    </FormGroup>
                 </Form>
             </div>
         );

@@ -14,7 +14,7 @@ import {
     deleteContainedView, selectContainedView, changeContainedViewName,
     addRichMark, editRichMark, moveRichMark, deleteRichMark, setCorrectAnswer,
     updateViewToolbar, updatePluginToolbar,
-    addNavItems, uploadEdiphyResourceAsync,
+    addNavItems, uploadEdiphyResourceAsync, deleteRemoteFileVishAsync, deleteRemoteFileEdiphyAsync,
 } from '../../common/actions';
 import EditorCanvas from '../components/canvas/editor_canvas/EditorCanvas';
 import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
@@ -44,6 +44,7 @@ import PropTypes from 'prop-types';
 import { ID_PREFIX_BOX } from '../../common/constants';
 import { createBox } from '../../common/common_tools';
 import FileModal from '../components/external_provider/file_modal/FileModal';
+import { serialize } from '../../reducers/serializer';
 
 /**
  * EditorApp. Main application component that renders everything else
@@ -89,6 +90,8 @@ class EditorApp extends Component {
         let title = globalConfig.title || '---';
         let canvasRatio = globalConfig.canvasRatio;
         let disabled = (navItemSelected === 0 && containedViewSelected === 0) || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
+        let uploadFunction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? uploadVishResourceAsync : uploadEdiphyResourceAsync;
+        let deleteFunction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? deleteRemoteFileVishAsync : deleteRemoteFileEdiphyAsync;
         return (
             <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }}>
                 <Row className="navBar">
@@ -114,22 +117,23 @@ class EditorApp extends Component {
                         undo={() => {dispatch(ActionCreators.undo());}}
                         redo={() => {dispatch(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
-                        export={(format, callback) => {
+                        export={(format, callback, selfContained = false) => {
                             if(format === "PDF") {
-                                printToPDF(this.props.store.getState().present, callback);
+                                printToPDF(this.props.store.getState().undoGroup.present, callback);
                             } else {
-                                Ediphy.Visor.exportsHTML(this.props.store.getState().present, callback);
+                                Ediphy.Visor.exportsHTML({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback, selfContained);
                             }}}
-                        scorm={(is2004, callback) => {Ediphy.Visor.exportScorm(this.props.store.getState().present, is2004, callback);}}
-                        save={() => {dispatch(exportStateAsync({ present: this.props.store.getState().present })); }}
+                        scorm={(is2004, callback, selfContained = false) => {Ediphy.Visor.exportScorm({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, is2004, callback, selfContained);}}
+                        save={() => {dispatch(exportStateAsync({ ...this.props.store.getState() })); }}
                         category={this.state.pluginTab}
                         opens={() => {dispatch(importStateAsync());}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
-                        toggleFileUpload={()=>{this.setState({ showFileUpload: "*", fileModalResult: { id: undefined, value: undefined } });}}
+                        fileModalResult={this.state.fileModalResult}
+                        toggleFileUpload={(id, accept)=>{this.setState({ showFileUpload: accept, fileModalResult: { id: id, value: undefined } });}}
                         onExternalCatalogToggled={() => this.setState({ catalogModal: true })}
                         setcat={(category) => {this.setState({ pluginTab: category, hideTab: 'show' });}}/>
                     {Ediphy.Config.autosave_time > 1000 &&
-                    <AutoSave save={() => {dispatch(exportStateAsync({ present: this.props.store.getState().present }));}}
+                    <AutoSave save={() => {dispatch(exportStateAsync({ ...this.props.store.getState() }));}}
                         isBusy={isBusy}
                         lastAction={lastActionDispatched}
                         visorVisible={this.state.visorVisible}/>})
@@ -220,6 +224,7 @@ class EditorApp extends Component {
                                 onBoxPasted={(ids, box, toolbar, children, index, markList, score)=>dispatch(pasteBox(ids, box, toolbar, children, index, markList, score))}
                                 onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 onBoxDeleted={this.onBoxDeleted}
+                                uploadFunction={(query, keywords, callback) => dispatch(uploadFunction(query, keywords, callback))}
                                 ribbonHeight={ribbonHeight + 'px'}/>
                         </Row>
 
@@ -256,6 +261,8 @@ class EditorApp extends Component {
                                 markCreatorId={this.state.markCreatorVisible}
                                 onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 setCorrectAnswer={(id, correctAnswer, page) => { dispatch(setCorrectAnswer(id, correctAnswer, page));}}
+                                showFileUpload={this.state.showFileUpload}
+                                toggleFileUpload={()=>{this.setState({ showFileUpload: "*", fileModalResult: { id: undefined, value: undefined } });}}
                                 addMarkShortcut= {(mark) => {
                                     let state = JSON.parse(JSON.stringify(toolbars[boxSelected].state));
                                     state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
@@ -360,7 +367,7 @@ class EditorApp extends Component {
                     title={title}
                     visorVisible={this.state.visorVisible}
                     onVisibilityToggled={()=> this.setState({ visorVisible: !this.state.visorVisible })}
-                    state={this.props.store.getState().present}/>
+                    state={this.props.store.getState().undoGroup.present}/>
                 <PluginConfigModal
                     id={this.state.pluginConfigModal}
                     fileModalResult={this.state.fileModalResult}
@@ -415,7 +422,7 @@ class EditorApp extends Component {
                     marks={marks}
                     exercises={exercises}
                     titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}
-                    onContainedViewNameChanged={(id, titleStr) => dispatch(changeContainedViewName(id, titleStr))}
+                    onContainedViewNameChanged={(id, titleStr) => dispatch(updateViewToolbar(id, titleStr))}
                     onBackgroundChanged={(id, background) => dispatch(changeBackground(id, background))}
                     onNavItemToggled={ id => dispatch(toggleNavItem(navItemSelected)) }
                     onNavItemSelected={id => dispatch(selectNavItem(id))}
@@ -487,7 +494,6 @@ class EditorApp extends Component {
                     }}
                     fileModalResult={this.state.fileModalResult}
                     openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept });}}
-                    onUploadVishResource={(query) => dispatch(uploadVishResourceAsync(query))}
                     updateViewToolbar={(id, toolbar)=> dispatch(updateViewToolbar(id, toolbar))}
                 />
                 <FileModal visible={this.state.showFileUpload} disabled={disabled}
@@ -504,11 +510,11 @@ class EditorApp extends Component {
                     navItemSelected={navItemSelected}
                     filesUploaded={filesUploaded}
                     pluginToolbars={pluginToolbars}
+                    deleteFileFromServer={(id, url, callback) => dispatch(deleteFunction(id, url, callback))}
                     onIndexSelected={(id) => dispatch(selectIndex(id))}
                     onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
                     onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
-                    onUploadVishResource={(query, keywords) => dispatch(uploadVishResourceAsync(query, keywords))}
-                    onUploadEdiphyResource={(file, keywords)=>dispatch(uploadEdiphyResourceAsync(file, keywords))}
+                    uploadFunction={(query, keywords, callback) => dispatch(uploadFunction(query, keywords, callback))}
                     close={(fileModalResult)=>{this.setState({ fileModalResult: fileModalResult ? fileModalResult : { id: undefined, value: undefined }, showFileUpload: false });}} />
 
             </Grid>
@@ -530,7 +536,7 @@ class EditorApp extends Component {
      */
     componentDidMount() {
         if (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' && ediphy_editor_json && ediphy_editor_json !== 'undefined') {
-            this.props.dispatch(importState(JSON.parse(ediphy_editor_json)));
+            this.props.dispatch(importState(serialize(JSON.parse(ediphy_editor_json))));
         }
         window.onkeyup = function(e) {
             let key = e.keyCode ? e.keyCode : e.which;
@@ -555,7 +561,7 @@ class EditorApp extends Component {
                 e.preventDefault();
 
                 e.stopImmediatePropagation();
-                printToPDF(this.props.store.getState().present);
+                printToPDF(this.props.store.getState().undoGroup.present);
             }
 
             // Supr
@@ -803,26 +809,27 @@ class EditorApp extends Component {
 
 function mapStateToProps(state) {
     return {
-        globalConfig: state.present.globalConfig,
-        filesUploaded: state.present.filesUploaded,
-        boxes: state.present.boxesById,
-        boxSelected: state.present.boxSelected,
-        boxLevelSelected: state.present.boxLevelSelected,
-        indexSelected: state.present.indexSelected,
-        navItemsIds: state.present.navItemsIds,
-        navItems: state.present.navItemsById,
-        navItemSelected: state.present.navItemSelected,
-        containedViews: state.present.containedViewsById,
-        containedViewSelected: state.present.containedViewSelected,
-        undoDisabled: state.past.length === 0,
-        redoDisabled: state.future.length === 0,
-        displayMode: state.present.displayMode,
-        marks: state.present.marksById,
-        pluginToolbars: state.present.pluginToolbarsById,
-        viewToolbars: state.present.viewToolbarsById,
-        exercises: state.present.exercises,
-        isBusy: state.present.isBusy,
-        lastActionDispatched: state.present.lastActionDispatched || "",
+        version: state.undoGroup.present.version,
+        globalConfig: state.undoGroup.present.globalConfig,
+        filesUploaded: state.filesUploaded,
+        boxes: state.undoGroup.present.boxesById,
+        boxSelected: state.undoGroup.present.boxSelected,
+        boxLevelSelected: state.undoGroup.present.boxLevelSelected,
+        indexSelected: state.undoGroup.present.indexSelected,
+        navItemsIds: state.undoGroup.present.navItemsIds,
+        navItems: state.undoGroup.present.navItemsById,
+        navItemSelected: state.undoGroup.present.navItemSelected,
+        containedViews: state.undoGroup.present.containedViewsById,
+        containedViewSelected: state.undoGroup.present.containedViewSelected,
+        undoDisabled: state.undoGroup.past.length === 0,
+        redoDisabled: state.undoGroup.future.length === 0,
+        displayMode: state.undoGroup.present.displayMode,
+        marks: state.undoGroup.present.marksById,
+        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+        viewToolbars: state.undoGroup.present.viewToolbarsById,
+        exercises: state.undoGroup.present.exercises,
+        isBusy: state.undoGroup.present.isBusy,
+        lastActionDispatched: state.undoGroup.present.lastActionDispatched || "",
 
     };
 }

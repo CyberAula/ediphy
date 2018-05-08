@@ -81,6 +81,16 @@
 
         }
       }
+      .empty {
+        text-align: center;
+        height: 85px;
+        line-height: 60px;
+        color: grey;
+        clear: both;
+        font-size: 1em;
+        font-weight: bold;
+        color: $blueprimary;
+      }
       .myFilesComponent {
         min-height: 350px;
       }
@@ -92,6 +102,10 @@
           font-size: 20px;
           margin: 30px;
           min-height: 190px;
+        }
+        .previewImg {
+          width:100%;
+          height: auto;
         }
         .preview {
           width:100%;
@@ -113,6 +127,30 @@
             font-size: 40px;
           }
         }
+        .uploadModalMsg {
+          border: 1px solid #ddd;
+          padding: 12px;
+          margin: 12px 2px;
+          display: block;
+          i {
+            vertical-align: middle;
+          }
+          &#errorMsg {
+            color: red;
+          }
+          &#uploadedMsg{
+            color: lightgreen;
+          }
+        }
+
+        #spinnerFloatContainer {
+          text-align: center;
+          .spinnerFloat {
+            margin-top: 10px;
+            width: 75px;
+          }
+        }
+
       }
       #fileNameTitle {
         color: #555;
@@ -144,7 +182,24 @@
         &.hidden {
           display: none;
         }
+        .deleteButton {
+          position:absolute;
+          top:0;
+          left:0;
+          margin: 8px;
+          border: none;
+          padding: 0;
+          background-color: white;
+          color: grey;
+          width:29px;
+          height: 29px;
+          z-index: 9999;
+        }
         height: 160px;
+        transition: all 0.2s ease;
+        &:hover {
+          transform: scale(0.95);
+        }
         .myFileContent {
           width:100%;
           height: 70%;
@@ -156,13 +211,11 @@
           border-color: transparent;
           background-position: center;
           background-size: cover;
-          transition: all 0.2s ease;
+
           &.active {
             border-color: orange !important;
           }
-          &:hover {
-            transform: scale(0.95);
-          }
+
           i {
             font-size: 40px;
           }
@@ -185,13 +238,10 @@
       }
       .myFilesRow {
         margin: -5px;
-        .empty {
-          text-align: center;
-          height: 85px;
-          line-height: 60px;
-          color: grey;
-        }
+        clear:both;
+
       }
+
       .form-group .Select {
         border: 1px solid #ccc;
         &:focus, .is-focused {

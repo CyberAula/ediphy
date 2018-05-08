@@ -5,7 +5,7 @@ import {
     TOGGLE_TEXT_EDITOR,
     DELETE_RICH_MARK, ADD_RICH_MARK, DELETE_CONTAINED_VIEW,
     TOGGLE_TITLE_MODE, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPDATE_BOX,
-    UPLOAD_FILE, SELECT_CONTAINED_VIEW,
+    UPLOAD_FILE, SELECT_CONTAINED_VIEW, DELETE_FILE,
 } from '../common/actions';
 import { isSortableBox } from '../common/utils';
 import boxesById from './boxes_by_id';
@@ -23,6 +23,7 @@ import viewToolbarsById from './view_toolbars_by_id';
 import globalConfig from './global_config';
 import exercises from './exercises';
 import lastActionDispatched from './lastActionDispatched';
+const version = "1";
 
 function changeDisplayMode(state = "", action = {}) {
     switch (action.type) {
@@ -46,65 +47,81 @@ function isBusy(state = "", action = {}) {
     }
 }
 
-function filesUploaded(state = [], action = {}) {
+function filesUploaded(state = {}, action = {}) {
     switch(action.type) {
     case UPLOAD_FILE:
-        return state.concat(action.payload);
+        return { ...state, [action.payload.id]: { ...action.payload } };
+    case DELETE_FILE:
+        return Object.keys(state)
+            .filter(key => key !== action.payload.id)
+            .reduce((result, current) => {
+                result[current] = state[current];
+                return result;
+            }, {});
     case IMPORT_STATE:
         return action.payload.present.filesUploaded || state;
     default:
         return state;
     }
 }
-const GlobalState = undoable(combineReducers({
-    lastActionDispatched: lastActionDispatched,
-    globalConfig: globalConfig,
-    filesUploaded: filesUploaded, // [img0, img1]
-    boxesById: boxesById, // {0: box0, 1: box1}
-    boxSelected: boxSelected, // 0
-    boxLevelSelected: boxLevelSelected, // 0
-    indexSelected: indexSelected,
-    marksById: marksById, // {0: mark1, 1: mark2}
-    navItemsIds: navItemsIds, // [0, 1]
-    navItemSelected: navItemSelected, // 0
-    navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
-    containedViewsById: containedViewsById, // {0: containedView0, 1: containedView1}
-    containedViewSelected: containedViewSelected, // 0
-    displayMode: changeDisplayMode, // "list",
-    pluginToolbarsById: pluginToolbarsById, // {0: toolbar0, 1: toolbar1}
-    viewToolbarsById: viewToolbarsById,
-    exercises: exercises,
-    isBusy: isBusy,
-}), {
-    filter: (action, currentState, previousState) => {
-        switch (action.type) {
-        case CHANGE_DISPLAY_MODE:
-        case EXPAND_NAV_ITEM:
-        case IMPORT_STATE:
-        case INCREASE_LEVEL:
-        case INDEX_SELECT:
-        case SELECT_BOX:
-        case SELECT_NAV_ITEM:
-        case SELECT_CONTAINED_VIEW:
-        case SET_BUSY:
-        case TOGGLE_TEXT_EDITOR:
-        case TOGGLE_TITLE_MODE:
-        case UPDATE_NAV_ITEM_EXTRA_FILES:
-        // case UPDATE_BOX:
-        // case ADD_RICH_MARK:
-            return false;
-        }
 
-        if(action.type === ADD_BOX) {
-            if(action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
-                return false;
-            } else if (isSortableBox(action.payload.ids.id)) {
+function versionReducer(state = {}, action = {}) {
+    return version;
+}
+
+const GlobalState = combineReducers({
+    filesUploaded, // We are not allowed to undo file uploads/removals because the files remain in the server
+    undoGroup: undoable(combineReducers({
+        version: versionReducer,
+        lastActionDispatched: lastActionDispatched,
+        globalConfig: globalConfig,
+        boxesById: boxesById, // {0: box0, 1: box1}
+        boxSelected: boxSelected, // 0
+        boxLevelSelected: boxLevelSelected, // 0
+        indexSelected: indexSelected,
+        marksById: marksById, // {0: mark1, 1: mark2}
+        navItemsIds: navItemsIds, // [0, 1]
+        navItemSelected: navItemSelected, // 0
+        navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
+        containedViewsById: containedViewsById, // {0: containedView0, 1: containedView1}
+        containedViewSelected: containedViewSelected, // 0
+        displayMode: changeDisplayMode, // "list",
+        pluginToolbarsById: pluginToolbarsById, // {0: toolbar0, 1: toolbar1}
+        viewToolbarsById: viewToolbarsById,
+        exercises: exercises,
+        isBusy: isBusy,
+    }), {
+        filter: (action, currentState, previousState) => {
+            switch (action.type) {
+            case CHANGE_DISPLAY_MODE:
+            case EXPAND_NAV_ITEM:
+            case IMPORT_STATE:
+            case INCREASE_LEVEL:
+            case INDEX_SELECT:
+            case SELECT_BOX:
+            case SELECT_NAV_ITEM:
+            case SELECT_CONTAINED_VIEW:
+            case SET_BUSY:
+            case TOGGLE_TEXT_EDITOR:
+            case TOGGLE_TITLE_MODE:
+            case UPDATE_NAV_ITEM_EXTRA_FILES:
+            case UPLOAD_FILE:
+            case DELETE_FILE:
+            // case UPDATE_BOX:
+            // case ADD_RICH_MARK:
                 return false;
             }
-        }
-        // TODO: Comprobar que esto funciona
-        return currentState !== previousState;
-    },
-});
+
+            if(action.type === ADD_BOX) {
+                if(action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
+                    return false;
+                } else if (isSortableBox(action.payload.ids.id)) {
+                    return false;
+                }
+            }
+            // TODO: Comprobar que esto funciona
+            return currentState !== previousState;
+        },
+    }) });
 
 export default GlobalState;

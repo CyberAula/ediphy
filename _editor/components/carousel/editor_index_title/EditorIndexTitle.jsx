@@ -107,23 +107,23 @@ export default class EditorIndexTitle extends Component {
 
 EditorIndexTitle.propTypes = {
     /**
-     * Identificador único del elemento del índice seleccionado
+     * Selected index identifier
      */
     id: PropTypes.string,
     /**
-     * Título del elemento del índice seleccionado
+     * Selected index title
      */
     title: PropTypes.string.isRequired,
     /**
-     * Número del elemento del índice seleccionado
+     * Selected index number
      */
     index: PropTypes.any,
     /**
-     * Indicador de si el elemento está marcado como privado (aparece tachado y no se muestra en el visor)
+     * Private navItem indicator (show/hide in visor and exported)
      */
     hidden: PropTypes.bool,
     /**
-     * Cambia el título del elemento seleccionado
+     * Callback for changing page title
      */
     onNameChanged: PropTypes.func.isRequired,
     /**

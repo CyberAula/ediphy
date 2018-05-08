@@ -6,13 +6,11 @@ let path = require('path');
 var multer  = require('multer');
 var crypto = require("crypto");
 var PATH = 'public/';
+
 var storage = multer.diskStorage({
   destination: function (req, data, func) {
     func(null, PATH)
   },
-  // filename: function (req, data, func) {
-  //   func(null, data.originalname);
-  // }
   filename: function (req, file, cb) {
     crypto.pseudoRandomBytes(16, function (err, raw) {
       if (err) return cb(err)
@@ -60,19 +58,26 @@ app.post('/saveConfig', function(req, res) {
     });
 });
 
-/*app.post('/upload', function(req, res) {
-    let data = req.body;
 
-    setTimeout(function() {
-        res.end("https://upload.wikimedia.org/wikipedia/commons/6/66/Polar_Bear_-_Alaska_(cropped).jpg");
-    }, 3000);
-});*/
+app.post('/delete', function (req, res, next) {
+  let fileId = req.body.id;
+  try{fs.unlink( PATH+fileId,
+    function (err) {
+      if (err) {
+        res.status(404).end();
+        return console.log(err);
+
+      }
+      res.status(200).end()
+    })
+  } catch(e){
+    res.status(404).end()
+  }
+})
+
 
 app.post('/upload',  upload.single('file'), function (req, res, next) {
-  // req.file is the `avatar` file
-  // req.body will hold the text fields, if there were any
 
-  // res.setHeader('Content-Type', 'application/json');
   let name = req.file.originalname || req.file.filename;
   let url = req.protocol + "://" + (req.headers.host) + "/" + req.file.filename;
   let mimetype = req.file.mimetype && req.file.mimetype !== '' ? req.file.mimetype : path.extname(req.file.originalname);
@@ -81,6 +86,7 @@ app.post('/upload',  upload.single('file'), function (req, res, next) {
   }
   res.status(500)
 })
+
 
 var server = app.listen(8081, function() {
 

@@ -11,6 +11,7 @@ import Ediphy from "../../../../../core/editor/main";
 // styles
 import './_ImportFile.scss';
 import { createBox } from '../../../../../common/common_tools';
+let spinner = require('../../../../../dist/images/spinner.svg');
 
 // PDF Library conf.
 const pdflib = require('pdfjs-dist');
@@ -42,9 +43,32 @@ export default class PDFHandler extends Component {
         this.fileLoad = this.fileLoad.bind(this);
         this.importFile = this.importFile.bind(this);
         this.PreviewFile = this.PreviewFile.bind(this);
+        this.start = this.start.bind(this);
+    }
+    componentWillUnmount() {
+        for (let i = 1; i <= this.state.FilePages; i++) {
+            let canvas = document.getElementById('can' + i);
+            if(canvas) {
+                document.body.removeChild(canvas);
+            }
+
+        }
+    }
+    componentDidMount() {
+        this.start();
+    }
+    componentDidUpdate(prevProps, prevState) {
+        console.log(this.props.url);
+        if(prevProps.url !== this.props.url) {
+            for (let i = 1; i <= prevState.FilePages; i++) {
+                let canvas = document.getElementById('can' + i);
+                document.body.removeChild(canvas);
+            }
+            this.start();
+        }
     }
 
-    componentDidMount() {
+    start() {
         require.ensure([], function() {
             let worker;
             worker = require('./pdf.worker.js');
@@ -105,7 +129,7 @@ export default class PDFHandler extends Component {
                 </div>
                 <Row style={{ display: 'block' }}>
                     <Col xs={12} md={6} lg={6}>
-                        <img id='FilePreview' />
+                        <img id='FilePreview' src={spinner} style={{ width: '100%', padding: '25%' }}/>
                     </Col>
                     <Col xs={12} md={6} lg={6}>
                         <FormGroup>
@@ -131,7 +155,7 @@ export default class PDFHandler extends Component {
                                             value={this.state.PagesTo}
                                             min={1}
                                             max={this.state.FilePages}
-                                            onChange={e => { this.setState({ PagesTo: e.target.value });}}/>
+                                            onChange={e => {this.setState({ PagesTo: e.target.value });}}/>
                                     </InputGroup>
                                 </FormGroup>
                             </Radio>
@@ -246,7 +270,7 @@ export default class PDFHandler extends Component {
         for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
             let canvas = document.getElementById('can' + i);
             let dataURL = canvas.toDataURL("image/jpeg", 1.0);
-            let newId = ID_PREFIX_PAGE + Date.now();
+            let newId = ID_PREFIX_PAGE + Date.now() + '_' + i;
             let customSize = hasCustomSize ? { width: canvas.width, height: canvas.height } : 0;
             let nav = {
                 id: newId,
@@ -279,6 +303,11 @@ export default class PDFHandler extends Component {
             preview.style.border = '1px solid';
         }
 
+        /* preview.src = firstCanvas.toDataURL();
+        preview.style.width = '100%';
+        preview.style.height = 'auto';
+        preview.style.border = '1px solid';
+        preview.style.padding = '0px';*/
     }
 
     AddPlugins() {
@@ -286,7 +315,7 @@ export default class PDFHandler extends Component {
         let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected);
         let cvSli = cv && isSlide(this.props.containedViews[this.props.containedViewSelected].type);
         let cvDoc = cv && !isSlide(this.props.containedViews[this.props.containedViewSelected].type);
-        let inASlide = isSlide(this.props.navItemSelected.type) || cvSli;
+        let inASlide = (!cv && isSlide(this.props.navItems[this.props.navItemSelected].type)) || cvSli;
         let page = cv ? this.props.containedViewSelected : this.props.navItemSelected;
         for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
             let canvas = document.getElementById('can' + i);
@@ -308,11 +337,11 @@ export default class PDFHandler extends Component {
             } else {
                 initialParams = {
                     parent: cvDoc ? this.props.containedViews[this.props.containedViewSelected].boxes[0] : this.props.navItems[this.props.navItemSelected].boxes[0],
-                    container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
+                    container: ID_PREFIX_SORTABLE_CONTAINER + Date.now() + '_' + i,
                     url: dataURL, page,
                 };
             }
-            initialParams.id = ID_PREFIX_BOX + Date.now();
+            initialParams.id = ID_PREFIX_BOX + Date.now() + '_' + i;
             createBox(initialParams, "HotspotImages", inASlide, this.props.onBoxAdded, this.props.boxes);
 
         }

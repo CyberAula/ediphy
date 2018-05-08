@@ -5,8 +5,8 @@ module.exports = {
         "Show_controls": "Show Controls",
         "Autoplay": "Autoplay",
         "Waves": "Waves",
-        "WaveColor": "Rigth",
-        "ProgressColor": "Left",
+        "WaveColor": "Wave color",
+        "ProgressColor": "Progress color",
         "BarWidth": "Bar width",
         "URL": "URL",
         "Audio": "Audio",
@@ -21,6 +21,7 @@ module.exports = {
         "radius": "Radius",
         "pos": "Position",
         "source": "Source",
+        "Scroll": "Scroll",
         "message_mark_percentage": "You've chosen an incorrect value. You must introduce a percentage between 0 and 100. E.g.. 45.66%",
     },
 };

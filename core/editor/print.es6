@@ -30,10 +30,11 @@ export default function printToPDF(state, callback) {
         author: author,
         keywords: globalConfig.keywords.map(k=> k.text).join(", "),
         creator: 'Ediphy',
+        units: 'px',
     });
     pdf.deletePage(1);
-    const SLIDE_BASE = 595;
-    const DOC_BASE = 800;
+    const SLIDE_BASE = 795;
+    const DOC_BASE = 1000;
     const A4_RATIO = 1.4142;
     let addHTML = function(navs, last) {
 

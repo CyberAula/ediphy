@@ -2,7 +2,7 @@ import { testState } from '../../core/store/state.tests.js';
 import nav_item_selected from '../nav_item_selected';
 import * as ActionTypes from '../../common/actions';
 
-const state = testState.present.navItemSelected; // pa-1511252955865
+const state = testState.undoGroup.present.navItemSelected; // pa-1511252955865
 
 describe('# nav_item_selected reducer', ()=>{
     describe('DEFAULT', ()=>{
@@ -31,7 +31,6 @@ describe('# nav_item_selected reducer', ()=>{
             expect(nav_item_selected(newstate, action)).toEqual(0);
         });
     });
-
     describe('handle SELECT_NAV_ITEM', ()=> {
         test('Select navigation item', () => {
             const action = { type: ActionTypes.SELECT_NAV_ITEM, payload: { id: 'pa-1497983247795' } };
@@ -39,7 +38,6 @@ describe('# nav_item_selected reducer', ()=>{
 
         });
     });
-
     describe('handle IMPORT_STATE', ()=> {
         test('Import navItemSelected from state.test', () => {
             const action = { type: ActionTypes.IMPORT_STATE, payload: { present: { navItemSelected: state } } };

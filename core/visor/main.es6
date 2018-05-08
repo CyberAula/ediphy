@@ -5,6 +5,7 @@ import FileSaver from 'file-saver';
 import Ediphy from '../editor/main';
 import Plugins from './plugins';
 import { ID_PREFIX_SECTION } from '../../common/constants';
+import { escapeRegExp } from '../../common/utils';
 
 const visor_template = require("../../dist/lib/visor/index.ejs");
 
@@ -42,7 +43,7 @@ let parseEJS = function(path, page, state, fromScorm) {
 
 export default {
     Plugins: Plugins(),
-    exportsHTML: function(state, callback) {
+    exportsHTML: function(state, callback, selfContained) {
         let nav_names_used = {};
         let xhr = new XMLHttpRequest();
         let zip_title = state.globalConfig.title || "Ediphy";
@@ -74,17 +75,33 @@ export default {
                                 }
                             }
                             state.navItemSelected = page;
-                            let content = parseEJS(Ediphy.Config.visor_ejs, page, state, false);
+                            let filesUploaded = Object.values(state.filesUploaded);
+                            let strState = JSON.stringify(state);
+                            let usedNames = [];
+                            if (selfContained) {
+                                for (let f in state.filesUploaded) {
+                                    let file = state.filesUploaded[f];
+                                    let r = new RegExp(escapeRegExp(file.url), "g");
+                                    let name = file.name;
+                                    if (usedNames.indexOf(name) > -1) {
+                                        name = name = Date.now() + '_' + name;
+                                    }
+                                    usedNames.push(name);
+                                    strState = strState.replace(r, '../images/' + name);
+                                }
+                            }
+
+                            let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), false);
                             zip.file(Ediphy.Config.dist_index, content);
                             zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);
 
-                            return zip;
-                        }).then(function(zip) {
-                            return zip.generateAsync({ type: "blob" });
-                        }).then(function(blob) {
-                            // FileSaver.saveAs(blob, "ediphyvisor.zip");
-                            FileSaver.saveAs(blob, zip_title.toLowerCase().replace(/\s/g, '') + Math.round(+new Date() / 1000) + "_HTML.zip");
-                            callback();
+                            Ediphy.Visor.includeImage(zip, Object.values(state.filesUploaded), usedNames, (zip) => {
+                                zip.generateAsync({ type: "blob" }).then(function(blob) {
+                                    // FileSaver.saveAs(blob, "ediphyvisor.zip");
+                                    FileSaver.saveAs(blob, zip_title.toLowerCase().replace(/\s/g, '') + Math.round(+new Date() / 1000) + "_HTML.zip");
+                                    callback();
+                                });
+                            });
                         });
                     });
 
@@ -93,6 +110,22 @@ export default {
         };
         xhr.send();
 
+    },
+    includeImage(zip, filesUploaded, usedNames, callback) {
+        if(filesUploaded.length > 0) {
+            let file = filesUploaded.pop();
+            let name = usedNames.pop();
+            JSZipUtils.getBinaryContent(file.url, (err, data) => {
+                if(err) {
+                    throw err; // or handle the error
+                }
+
+                zip.file('images/' + name, data, { binary: true });
+                Ediphy.Visor.includeImage(zip, filesUploaded, usedNames, callback);
+            });
+        } else {
+            callback(zip);
+        }
     },
     exportPage: function(state) {
         if (Object.keys(state.navItemsById[state.navItemSelected].extraFiles).length !== 0) {
@@ -110,7 +143,7 @@ export default {
             fromScorm: false,
         });
     },
-    exportScorm: function(state, is2004, callback) {
+    exportScorm: function(state, is2004, callback, selfContained) {
         let zip_title;
         let xhr = new XMLHttpRequest();
         xhr.open('GET', Ediphy.Config.visor_bundle, true);
@@ -148,17 +181,33 @@ export default {
                             }
                             state.fromScorm = true;
                             state.navItemSelected = page;
-                            let content = parseEJS(Ediphy.Config.visor_ejs, page, state, true);
+                            let filesUploaded = Object.values(state.filesUploaded);
+                            let strState = JSON.stringify(state);
+                            let usedNames = [];
+                            if (selfContained) {
+                                for (let f in state.filesUploaded) {
+                                    let file = state.filesUploaded[f];
+                                    let r = new RegExp(escapeRegExp(file.url), "g");
+                                    let name = file.name;
+                                    if (usedNames.indexOf(name) > -1) {
+                                        name = Date.now() + '_' + name;
+                                    }
+                                    usedNames.push(name);
+                                    strState = strState.replace(r, '../images/' + name);
+                                }
+                            }
+                            let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), true);
                             zip.file(Ediphy.Config.dist_index, content);
                             zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);
                             zip_title = state.globalConfig.title;
+                            Ediphy.Visor.includeImage(zip, filesUploaded, usedNames, (zip)=>{
 
-                            return zip;
-                        }).then(function(zip) {
-                            return zip.generateAsync({ type: "blob" });
-                        }).then(function(blob) {
-                            FileSaver.saveAs(blob, zip_title.toLowerCase().replace(/\s/g, '') + Math.round(+new Date() / 1000) + (is2004 ? "_2004" : "_1.2") + ".zip");
-                            callback();
+                                zip.generateAsync({ type: "blob" }).then(function(blob) {
+                                    // FileSaver.saveAs(blob, "ediphyvisor.zip");
+                                    FileSaver.saveAs(blob, zip_title.toLowerCase().replace(/\s/g, '') + Math.round(+new Date() / 1000) + (is2004 ? "_2004" : "_1.2") + ".zip");
+                                    callback();
+                                });
+                            });
                         });
                     });
                 }
