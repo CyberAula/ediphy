@@ -15,9 +15,7 @@ export default class EditorCanvas extends Component {
         super(props);
 
         this.dropListener = (ev) => {
-            // console.log(ev.dataTransfer.files[0]);
             document.body.classList.remove('draggingFileIntoEdiphy');
-            console.log(ev.target);
             if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
 
             } else {

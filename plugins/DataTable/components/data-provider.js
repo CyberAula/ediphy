@@ -54,6 +54,8 @@ export default class DataProvider extends React.Component {
         let newvalue = event.target.value === "" || event.target.value === null ? "" : event.target.value;
         data[row][col] = newvalue;
         this.setState({ data: data });
+        // this.props.dataChanged(data)
+
     }
     colsChanged(event) {
         let pre = this.state.cols;
@@ -113,27 +115,10 @@ export default class DataProvider extends React.Component {
 
     render() {
         let props = this.props.props;
-        console.log(this.props, props);
         return (
             <div id="datatable_config_modal">
                 { this.state.alert }
-                <Form horizontal style={{ padding: "16px" }}>
-                    <FormGroup>
-                        <ToolbarFileProvider
-                            id={this.props.id}
-                            openModal={props.openFileModal}
-                            fileModalResult={props.fileModalResult}
-                            onChange={ (target)=>{this.setState({ ...target.value });}}
-                            accept={"csv"}
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Col componentClass={ControlLabel} xs={4}>
-                            <FormControl.Static>
-                                {i18n.t("DataTable.fill_in")}
-                            </FormControl.Static>
-                        </Col>
-                    </FormGroup>
+                <Form horizontal style={{ padding: "15px" }}>
                     <FormGroup>
                         <Col componentClass={ControlLabel} xs={2}>
                             {i18n.t("DataTable.data_cols")}
@@ -147,9 +132,6 @@ export default class DataProvider extends React.Component {
                         </Col>
                         <Col xs={3}>
                             <FormControl type="number" name="rows" value={this.state.rows} onChange={this.rowsChanged}/>
-                        </Col>
-                        <Col xs={3}>
-                            <Button className="btn btn-primary" onClick={this.confirmButton} style={{ marginTop: '0px' }}>{i18n.t("DataTable.confirm")}</Button>
                         </Col>
                     </FormGroup>
                     <div style={{ marginTop: '10px', overflowX: 'auto' }}>
@@ -195,9 +177,26 @@ export default class DataProvider extends React.Component {
                             </tbody>
                         </table>
                     </div>
+                    <FormGroup style={{ margin: "0", textAlign: "right" }}>
+                        <ToolbarFileProvider
+                            id={this.props.id}
+                            openModal={props.openFileModal}
+                            fileModalResult={props.fileModalResult}
+                            onChange={ (target)=>{this.setState({ ...target.value });}}
+                            accept={"csv"}
+                            buttontext={i18n.t('importData')}
+                        />
+                    </FormGroup>
                 </Form>
             </div>
         );
     }
+    componentWillUnmount() {
+        let empty = false;
+        if (typeof this.props.dataChanged === 'function' && !empty) {
+            this.props.dataChanged({ data: this.state.data, keys: this.state.keys, rows: this.state.rows });
+        }
+    }
 }
 /* eslint-enable react/prop-types */
+

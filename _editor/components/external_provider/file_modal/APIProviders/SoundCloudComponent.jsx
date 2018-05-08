@@ -35,7 +35,7 @@ export default class SoundCloudComponent extends React.Component {
                 </FormGroup>
 
             </Form>
-            <Form style={{ minHeight: 250 }}>
+            <Form style={{ minHeight: 240 }}>
                 {this.state.results.length > 0 ?
                     (
                         <FormGroup>

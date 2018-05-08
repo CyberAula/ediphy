@@ -44,6 +44,7 @@ import PropTypes from 'prop-types';
 import { ID_PREFIX_BOX } from '../../common/constants';
 import { createBox } from '../../common/common_tools';
 import FileModal from '../components/external_provider/file_modal/FileModal';
+import { serialize } from '../../reducers/serializer';
 
 /**
  * EditorApp. Main application component that renders everything else
@@ -116,13 +117,13 @@ class EditorApp extends Component {
                         undo={() => {dispatch(ActionCreators.undo());}}
                         redo={() => {dispatch(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
-                        export={(format, callback) => {
+                        export={(format, callback, selfContained = false) => {
                             if(format === "PDF") {
                                 printToPDF(this.props.store.getState().undoGroup.present, callback);
                             } else {
-                                Ediphy.Visor.exportsHTML(this.props.store.getState().undoGroup.present, callback);
+                                Ediphy.Visor.exportsHTML({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback, selfContained);
                             }}}
-                        scorm={(is2004, callback) => {Ediphy.Visor.exportScorm(this.props.store.getState().undoGroup.present, is2004, callback);}}
+                        scorm={(is2004, callback, selfContained = false) => {Ediphy.Visor.exportScorm({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, is2004, callback, selfContained);}}
                         save={() => {dispatch(exportStateAsync({ ...this.props.store.getState() })); }}
                         category={this.state.pluginTab}
                         opens={() => {dispatch(importStateAsync());}}
@@ -807,7 +808,6 @@ class EditorApp extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
     return {
         version: state.undoGroup.present.version,
         globalConfig: state.undoGroup.present.globalConfig,

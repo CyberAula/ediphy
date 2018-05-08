@@ -125,9 +125,7 @@ export function DataTable(base) {
 
         },
         getConfigTemplate: function(id, state, updateState, props) {
-            return (
-                <Config id={id} state={state} updateState={updateState} props={props}/>
-            );
+            return ({ component: <Config id={id} state={state} updateState={updateState} props={props} step={props.step}/>, n_steps: 2 });
         },
         fileChanged: function(event) {
 

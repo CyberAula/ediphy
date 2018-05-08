@@ -56,7 +56,7 @@ export default function handlers(self) {
 
                     },
                 },
-                download,
+                // download,
             ],
         };
     case 'video' :
@@ -76,7 +76,7 @@ export default function handlers(self) {
                         }
                     },
                 },
-                download,
+                // download,
             ] };
     case 'audio' :
         return {
@@ -95,7 +95,7 @@ export default function handlers(self) {
                         }
                     },
                 },
-                download,
+                // download,
             ] };
     case 'pdf' :
         return {
@@ -114,7 +114,7 @@ export default function handlers(self) {
                         }
                     },
                 },
-                download,
+                // download,
             ] };
     case 'csv' :
     case 'json':
@@ -175,7 +175,7 @@ export default function handlers(self) {
 
                     },
                 },
-                download,
+                // download,
             ] };
     default :
         return {

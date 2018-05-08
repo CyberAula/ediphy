@@ -9,26 +9,18 @@
       display:         flex;
     }
     #menuColumn {
+      padding: 0;
       background-color: $lightestgrey;
       border-right: 1px solid grey;
       .list-group {
-        margin: 0px -15px;
+        margin: 0;
         .listGroupItem {
-          height:60px;
           border-radius: 0px !important;
           background-color: transparent;
           border: none;
-          text-align: center;
           font-size: 16px;
-          &:first-child {
-            font-size: 16px;
-            font-weight: bold;
-            color: $blueprimary;
-            &.active {
-              //color: white;
-            }
-
-          }
+          border: 0;
+          padding: 20px;
           i {
             font-size: 16px;
             vertical-align: middle;
@@ -48,13 +40,17 @@
           }
           &.active {
             background-color: #ddd;
+            color: $grey;
+            font-weight: bold;
           }
         }
       }
-
     }
-
     #contentColumn {
+      padding: 0;
+      .form-horizontal, .form-group{
+        padding: 0 15px;
+      }
 
       h5 {
         color: $blueprimary;
@@ -67,7 +63,6 @@
           width:60%;
           float: right;
         }
-
         i {
           font-size: 20px;
           vertical-align: middle;
@@ -91,11 +86,11 @@
         font-weight: bold;
         color: $blueprimary;
       }
-      .myFilesComponent {
-        min-height: 350px;
+      .uploadComponent, .myFilesComponent{
+        padding: 0 15px;
+        min-height: 338px;
       }
       .uploadComponent {
-        min-height: 315px;
         .fileDrag {
           vertical-align: middle;
           line-height: 190px;
@@ -111,7 +106,6 @@
           width:100%;
           height: auto;
           min-height: 200px;
-
           overflow:hidden;
           padding: 10px;
           text-align: center;
@@ -270,12 +264,7 @@
       }
       .footerFile {
         float:left;
-        margin-left: -15px;
-        top: 5px;
-        font-size: 16px;
-        display: inline-block;
         i {
-          color: $blueprimary;
           vertical-align: middle;
         }
       }

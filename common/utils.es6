@@ -316,6 +316,10 @@ export function isDataURL(s) {
     return !!s.match(regex);
 }
 
+export function escapeRegExp(str) {
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+}
+
 /** *
  * Find closest ancestor with a given selector
  * @param elm  Origin DOM element

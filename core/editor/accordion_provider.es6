@@ -618,7 +618,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     value = { background: e.target.value, backgroundAttr: 'full' };
                 }
                 if(e.value) {
-                    console.log(button);
                     value = { background: e.value, backgroundAttr: (button.value && button.value.backgroundAttr) ? button.value.backgroundAttr : 'full' };
                 }
                 if(e.currentTarget && e.currentTarget.type === "button") {
@@ -936,6 +935,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                     value: (isURI || isColor || (props.value && props.value.match && !props.value.match('http'))) ? '' : props.value.background,
                                     openModal: toolbar_props.openFileModal,
                                     fileModalResult: toolbar_props.fileModalResult,
+                                    buttontext: i18n.t('importFile.title'),
                                     onChange: props.onChange,
                                     accept: "image/*",
                                 }, null),

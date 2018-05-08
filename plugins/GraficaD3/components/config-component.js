@@ -64,21 +64,17 @@ export default class Config extends React.Component {
         return (
             <Grid>
                 <Row>
-                    <Col lg={editing ? 12 : 5} xs={12}>
-                        <h4> {i18n.t("GraficaD3.header.origin")} </h4>
-                        {!editing &&
-                        <Button onClick={this.editButtonClicked} style={{ marginTop: '0px' }}
-                            className="btn-primary">{i18n.t("GraficaD3.edit")}</Button>
-                        }
-                        {editing &&
+                    <Col lg={(this.props.step === 1) ? 12 : 5} xs={12}>
+                        {this.props.step === 1 ? <h4>{i18n.t("GraficaD3.header.origin")}</h4> : null}
+                        {this.props.step === 1 &&
                         <DataProvider dataProvided={dataProvided} dataChanged={this.dataChanged} id={this.props.id} props={this.props.props}/>
                         }
-                        {!editing &&
+                        {this.props.step === 2 &&
                         <ChartOptions dataProcessed={dataProcessed} options={options} dataProvided={dataProvided} optionsChanged={this.optionsChanged}/>
                         }
                     </Col>
                     <div className="col-xs-12 col-lg-7" ref="chartContainer" style={{ padding: '0px' }}>
-                        {!editing &&
+                        {this.props.step === 2 &&
                         <div style={{ height: '300px', width: '95%' }}>
                             <h4>{i18n.t("GraficaD3.preview")}</h4>
                             <Chart fromConfig id={this.props.id} dataProcessed={dataProcessed} options={options} keys={this.state.keys} values={this.state.values} width={this.state.chartWidth}

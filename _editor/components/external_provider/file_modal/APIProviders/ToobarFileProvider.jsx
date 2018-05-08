@@ -29,6 +29,7 @@ export default class ToolbarFileProvider extends Component {
         let props = { ...this.props.formControlProps,
             placeholder: isURI ? i18n.t('FileModal.FileHandlers.custom') : '',
             value: isURI ? '' : bckg };
+        console.log(this.props);
         return (<FormGroup>
             {this.props.formControlProps ? [<ControlLabel>{props.label}</ControlLabel>,
                 <FormControl {...props} onChange={e => {
@@ -38,7 +39,7 @@ export default class ToolbarFileProvider extends Component {
                 onClick={() => {
                     this.setState({ open: true });
                     this.props.openModal(this.props.id, this.props.accept);
-                }}>{i18n.t('Importar')}</Button>
+                }}>{this.props.buttontext}</Button>
         </FormGroup>);
     }
     componentWillReceiveProps(nextProps) {
