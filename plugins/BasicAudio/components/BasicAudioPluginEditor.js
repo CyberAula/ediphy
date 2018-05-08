@@ -135,7 +135,12 @@ export default class BasicAudioPluginEditor extends React.Component {
         return (
             <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "auto" }}>
                 <div>
-                    <div className="fakeProgress dropableRichZone" style={{ pointerEvents: "auto" }}/>
+
+                    <div className="progress-audio-input dropableRichZone" style={{ pointerEvents: "auto" }}>
+                        <div className="fakeProgress" style={{ pointerEvents: "auto" }}/>
+                        {markElements}
+                    </div>
+
                     <div className="react-wavesurfer">
                         <ReactWavesurfer
                             style={{ width: "100%", height: "100%" }}

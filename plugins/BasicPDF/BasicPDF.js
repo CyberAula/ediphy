@@ -30,7 +30,13 @@ export function BasicPDF(base) {
                 initialWidthSlide: '30%',
                 initialHeightSlide: '30%',
                 icon: 'description',
-                marksType: [{ name: i18n.t("BasicPDF.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" }],
+                marksType: [{
+                    name: i18n.t('BasicPDF.Coords'),
+                    key: 'value',
+                    format: '[Lat,Lng,Pag]',
+                    default: '40.452,-3.727,1',
+                    defaultColor: '#000002',
+                }],
             };
         },
         getToolbar: function(state) {
@@ -126,24 +132,48 @@ export function BasicPDF(base) {
             return '50%';
         },
         parseRichMarkInput: function(...value) {
-            let parsed_value = (value[0] + 10) * 100 / value[2];
-            return parsed_value.toFixed(2) + "%";
+            let x = (value[0] + 12) * 100 / value[2];
+            let y = (value[1] + 26) * 100 / value[3];
+            return y.toFixed(2) + ',' + x.toFixed(2) + ',' + this.state.pageNumber;
         },
         validateValueInput: function(value) {
             let regex = /(^\d+(?:\.\d*)?%$)/g;
             let match = regex.exec(value);
-            if (match && match.length === 2) {
-                let val = Math.round(parseFloat(match[1]) * 100) / 100;
-                if (isNaN(val) || val > 100) {
-                    return { isWrong: true, message: i18n.t("EnrichedPlayer.message_mark_percentage") };
+            if (match && match.length === 3) {
+                let x = Math.round(parseFloat(match[1]) * 100) / 100;
+                let y = Math.round(parseFloat(match[2]) * 100) / 100;
+                if (isNaN(x) || isNaN(y)) {
+                    return { isWrong: true, message: i18n.t("BasicPDF.message_mark_percentage") };
                 }
-                value = val + '%';
+                value = x + ',' + y;
             } else {
-                return { isWrong: true, message: i18n.t("EnrichedPlayer.message_mark_percentage") };
+                return { isWrong: true, message: i18n.t("BasicPDF.message_mark_percentage") };
             }
             return { isWrong: false, value: value };
-
         },
+        /*        getDefaultMarkValue(state) {
+            let cfg = state.config;
+            return Math.round(cfg.lat * 100000) / 100000 + ',' + Math.round(cfg.lng * 100000) / 100000;
+        },
+        validateValueInput: function(value) {
+            let regex = /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g;
+            let match = regex.exec(value);
+            if (match && match.length === 3) {
+                let x = Math.round(parseFloat(match[1]) * 100000) / 100000;
+                let y = Math.round(parseFloat(match[2]) * 100000) / 100000;
+                if (isNaN(x) || isNaN(y)) {
+                    return { isWrong: true, message: i18n.t("VirtualTour.message_mark_xy") };
+                }
+                value = x + ',' + y;
+            } else {
+                return { isWrong: true, message: i18n.t("VirtualTour.message_mark_xy") };
+            }
+            return { isWrong: false, value: value };
+        },
+        pointerEventsCallback: function(bool, toolbarState) {
+            return;
+        },
+*/
 
     };
 }
