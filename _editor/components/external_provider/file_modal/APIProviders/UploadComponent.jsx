@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import i18n from 'i18next';
 import { Button, Row, Col, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import ExternalDropzone from './ExternalDropzone';
-import { WithContext as ReactTags } from 'react-tag-input';
 import { extensions } from '../FileHandlers/FileHandlers';
 import '../../../nav_bar/global_config/_reactTags.scss';
 import { ID_PREFIX_FILE, FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../common/constants';

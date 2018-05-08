@@ -33,12 +33,12 @@ export default class FileModal extends React.Component {
         return(
             <Modal className="pageModal fileModal" backdrop bsSize="large" show={this.props.visible} onHide={this.close}>
                 <Modal.Header closeButton>
-                    <Modal.Title><i style={{ fontSize: '18px' }} className="material-icons">attach_file</i> {"Importar contenido" }</Modal.Title>
+                    <Modal.Title>{i18n.t("FileModal.Title")}</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
                     <Row className="row-eq-height">
-                        <Col xs={12} sm={4} md={3} lg={2} id="menuColumn">
+                        <Col xs={12} sm={4} md={3} lg={3} id="menuColumn">
                             <ListGroup>
                                 {menus.map((cat, i)=>{
                                     if (cat.show) {
@@ -52,7 +52,7 @@ export default class FileModal extends React.Component {
                                 })}
                             </ListGroup>
                         </Col>
-                        <Col xs={12} sm={8} md={9} lg={10} id="contentColumn" >
+                        <Col xs={12} sm={8} md={9} lg={9} id="contentColumn" >
                             {React.createElement(menus[this.state.menu].component,
                                 { ...(menus[this.state.menu].props || {}), icon: menus[this.state.menu].icon, name: menus[this.state.menu].name }, null)}
                             <div id="sideBar" className={this.state.pdfSelected ? "showBar" : ""}>
@@ -90,7 +90,7 @@ export default class FileModal extends React.Component {
                                     this.close();
                                 }}>{i18n.t("FileModal.FileHandlers.cancel")}</Button>
                                 {(this.state.element && handler && handler.buttons) ? handler.buttons.map(button=>{
-                                    return <Button disabled={button.disabled} onClick={e => {
+                                    return <Button bsStyle="primary" disabled={button.disabled} onClick={e => {
                                         button.action();
                                     }}>{button.title}</Button>;
                                 }) : null}
