@@ -4,6 +4,9 @@ import ReactDOM from 'react-dom';
 import WaveSurfer from 'wavesurfer.js';
 import MarkEditor from '../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 import Mark from '../../../common/components/mark/Mark';
+
+import ReactResizeDetector from 'react-resize-detector';
+
 export default class BasicAudioPluginEditor extends React.Component {
     constructor(props) {
         super(props);
@@ -18,6 +21,8 @@ export default class BasicAudioPluginEditor extends React.Component {
             ondas: false, // null??
             name: "No name",
         };
+        this.onProgress = this.onProgress.bind(this);
+        this.onReady = this.onReady.bind(this);
     }
 
     handleTogglePlay() {
@@ -38,8 +43,16 @@ export default class BasicAudioPluginEditor extends React.Component {
     componentWillReceiveProps(nextProps) {
 
         if (nextProps.state !== this.props.state) {
+            let pos = 0;
+            let playing = false;
+            if (this.props.url === nextProps.url) {
+                pos = (this.wavesurfer.getCurrentTime() || 0) / (this.wavesurfer.getDuration() || 1);
+                playing = this.state.playing;
+
+            }
             this.wavesurfer.stop();
             this.wavesurfer.destroy();
+
             this.$el = ReactDOM.findDOMNode(this);
             this.$waveform = this.$el.querySelector('.wave');
             const waveOptions = this.createOptions(nextProps, this.state);
@@ -49,7 +62,9 @@ export default class BasicAudioPluginEditor extends React.Component {
             });
             this.setState({ playing: false, waves: nextProps.state.waves });
             this.wavesurfer.load(nextProps.state.url);
-            this.wavesurfer.on('ready ', this.onReady.bind(this));
+            this.wavesurfer.on('ready', ()=>{this.onReady(pos, playing);});
+            this.wavesurfer.on('loading', this.onProgress);
+
         }
 
     }
@@ -74,29 +89,46 @@ export default class BasicAudioPluginEditor extends React.Component {
             ...waveOptions,
         });
         this.wavesurfer.load(this.props.state.url);
-        this.wavesurfer.on('ready ', this.onReady.bind(this));
+        this.wavesurfer.on('ready', ()=>this.onReady(0, false));
+        this.wavesurfer.on('loading', this.onProgress);
     }
     componentWillUnmount() {
         this.wavesurfer.stop();
         this.wavesurfer.destroy();
     }
     onProgress(state) {
-        this.setState(state);
+        this.setState({ pos: state });
     }
 
-    onReady(e) {
+    onReady(pos, playing) {
         this.setState({
-            duration: e.wavesurfer.backend.buffer.duration,
+            duration: this.wavesurfer.backend.buffer.duration,
             pos: 0,
             playing: false,
             autoplay: this.props.state.autoplay,
-            ondas: e.wavesurfer.backend.mergedPeaks,
-            waveColor: e.wavesurfer.params.waveColor,
-            progressColor: e.wavesurfer.params.progressColor,
+            ondas: this.wavesurfer.backend.mergedPeaks,
+            waveColor: this.wavesurfer.params.waveColor,
+            progressColor: this.wavesurfer.params.progressColor,
         });
-        console.log(e);
+        this.wavesurfer.seekTo(pos);
+        if (playing) {
+            this.wavesurfer.play();
+            this.setState({ playing: true });
+        }
     }
+    onResize(e) {
+        if (this.wavesurfer) {
+            let pos = (this.wavesurfer.getCurrentTime() || 0) / (this.wavesurfer.getDuration() || 1);
+            this.wavesurfer.empty();
+            this.wavesurfer.pause();
+            this.wavesurfer.drawBuffer();
+            this.wavesurfer.seekTo(pos);
+            if (this.state.playing) {
+                this.wavesurfer.play();
+            }
+        }
 
+    }
     render() {
         let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
@@ -117,6 +149,7 @@ export default class BasicAudioPluginEditor extends React.Component {
         return (
             <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "auto" }}>
                 <div>
+                    <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{ this.onResize(e);}} />
                     <div className="fakeProgress dropableRichZone" style={{ pointerEvents: "auto" }}>
                         {markElements}
 
