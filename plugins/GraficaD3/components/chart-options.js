@@ -64,21 +64,21 @@ export default class ChartOptions extends React.Component {
     }
 
     yKeyChanged(event) {
-        let y = this.state.y;
+        let y = JSON.parse(JSON.stringify(this.state.y));
         y[event.target.name].key = event.target.value;
         this.props.optionsChanged({ y: y });
     }
 
     rowChanged(event) {
         let number = event.target.name;
-        let graphs = this.props.options.graphs.slice();
+        let graphs = JSON.parse(JSON.stringify(this.props.options.graphs));
         graphs[number].row = event.target.value;
         this.props.optionsChanged({ graphs: graphs });
     }
 
     rowNameChanged(event) {
         let number = event.target.name;
-        let graphs = this.props.options.graphs.slice();
+        let graphs = JSON.parse(JSON.stringify(this.props.options.graphs));
         graphs[number].name = event.target.value;
         this.props.optionsChanged({ graphs: graphs });
     }

@@ -5,6 +5,19 @@ require('react-datatable-bs/css/table-twbs.css');
 /* eslint-disable react/prop-types */
 
 export default class TableComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { key: 0 };
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.options &&
+          nextProps.options.initialPageLength &&
+          this.props.options && this.props.options.initialPageLength &&
+          this.props.options.initialPageLength !== nextProps.options.initialPageLength) {
+            console.log(this.state.key);
+            this.setState({ key: this.state.key + 1 });
+        }
+    }
     render() {
         let data = this.props.data;
         let options = this.props.options;
@@ -22,7 +35,7 @@ export default class TableComponent extends React.Component {
         let prop = realKeys.indexOf(options.initialSort) !== -1 ? realKeys.indexOf(options.initialSort) : 0;
         return (
             <div className={"tableContainer theme-" + options.theme}>
-                <DataTable
+                <DataTable key={this.state.key || 0}
                     keys="name"
                     columns={cols}
                     initialData={data}

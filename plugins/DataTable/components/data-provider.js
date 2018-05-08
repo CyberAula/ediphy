@@ -54,6 +54,8 @@ export default class DataProvider extends React.Component {
         let newvalue = event.target.value === "" || event.target.value === null ? "" : event.target.value;
         data[row][col] = newvalue;
         this.setState({ data: data });
+        // this.props.dataChanged(data)
+
     }
     colsChanged(event) {
         let pre = this.state.cols;
@@ -188,5 +190,12 @@ export default class DataProvider extends React.Component {
             </div>
         );
     }
+    componentWillUnmount() {
+        let empty = false;
+        if (typeof this.props.dataChanged === 'function' && !empty) {
+            this.props.dataChanged({ data: this.state.data, keys: this.state.keys, rows: this.state.rows });
+        }
+    }
 }
 /* eslint-enable react/prop-types */
+
