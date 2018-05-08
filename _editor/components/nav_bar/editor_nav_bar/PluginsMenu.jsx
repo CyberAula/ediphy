@@ -67,8 +67,6 @@ export default class PluginsMenu extends Component {
                     }
                     return null;
                 })}
-
-                <div className="togglePlugins"><i className="material-icons">widgets</i></div>
             </div>
         );
     }
