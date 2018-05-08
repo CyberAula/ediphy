@@ -202,6 +202,7 @@ export default class DataProvider extends React.Component {
                             fileModalResult={props.fileModalResult}
                             onChange={ (target)=>{this.processInput(target.value);}}
                             accept={"csv"}
+                            buttontext={i18n.t('importData')}
                         />
                     </FormGroup>
                 </Form>
