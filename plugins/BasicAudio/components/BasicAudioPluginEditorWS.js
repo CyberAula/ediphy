@@ -82,19 +82,18 @@ export default class BasicAudioPluginEditor extends React.Component {
     }
 
     componentDidMount() {
-        this.$el = ReactDOM.findDOMNode(this); // ?????
-
-        this.$waveform = this.$el.querySelector('.wave'); // ?????
+        this.$el = ReactDOM.findDOMNode(this);
+        this.$waveform = this.$el.querySelector('.wave');
         const waveOptions = this.createOptions(this.props, this.state);
-        this.wavesurfer = WaveSurfer.create({ // this.wavesurfer
-            container: this.$waveform, // '#waveform'
-            ...waveOptions, // ...
+        this.wavesurfer = WaveSurfer.create({
+            container: this.$waveform,
+            ...waveOptions,
         });
         // loading the audio:
         this.wavesurfer.load(this.props.state.url); // pasar peaks
         // listening to events
         this.wavesurfer.on('ready', ()=>this.onReady(0, false));
-        this.wavesurfer.on('loading', this.onProgress); // ?????
+        this.wavesurfer.on('loading', this.onProgress);
     }
     componentWillUnmount() {
         this.wavesurfer.stop();

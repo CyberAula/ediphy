@@ -5,8 +5,11 @@ import React from 'react';
 export function Visor3D(base) {
 
     return {
-        getRenderTemplate: function(state) {
-            return <div style={{ height: "100%", width: "100%" }} >Hello {state.name}</div>;
+        getRenderTemplate: function(state, props) {
+
+            return <div style={{ height: "100%", width: "100%" }} >Hello {state.name}
+
+            </div>;
         },
     };
 }

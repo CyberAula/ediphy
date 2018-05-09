@@ -55,7 +55,7 @@ export default class BasicAudioPluginEditor extends React.Component {
                 <Document className={"react-pdf__Document dropableRichZone"} style={{ height: "100%", width: "100%" }}
                     file = {this.props.state.url}
                     onLoadSuccess={this.onDocumentLoad}>
-                    <Page style={{ height: "100%", width: "100%" }}
+                    <Page style={{ height: "100%", width: "100%" }} className="pdfPage"
                         pageNumber={this.state.pageNumber}
                     />
                 </Document>

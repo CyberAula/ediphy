@@ -187,7 +187,7 @@
     "redux-undo": "^0.6.1",
     "screenfull": "^3.3.2",
     "scroll-into-view-if-needed": "^1.4.0",
-    "stl-viewer": "^0.5.0",
+    "stl-viewer": "^0.7.0",
     "typeface-source-sans-pro": "0.0.44",
     "typeface-ubuntu": "0.0.44"
   }

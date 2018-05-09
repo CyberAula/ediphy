@@ -132,9 +132,11 @@ export function BasicPDF(base) {
             return '50%';
         },
         parseRichMarkInput: function(...value) {
+
             let x = (value[0] + 12) * 100 / value[2];
             let y = (value[1] + 26) * 100 / value[3];
-            return y.toFixed(2) + ',' + x.toFixed(2) + ',' + this.state.pageNumber;
+            // aqui
+            return y.toFixed(2) + ',' + x.toFixed(2) + ',' + value[5].pageNumber;
         },
         validateValueInput: function(value) {
             let regex = /(^\d+(?:\.\d*)?%$)/g;
