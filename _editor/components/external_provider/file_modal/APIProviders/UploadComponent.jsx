@@ -43,22 +43,27 @@ export default class UploadComponent extends React.Component {
                 icon = ext.icon || icon;
             }
         }
-
         let fileSelected = this.props.filesUploaded[this.props.idSelected];
+        console.log(aux, fileSelected);
+        /* <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}</h5> */
         return(<div className="uploadComponent">
-            <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}</h5>
+            <h5>{i18n.t("Importa un fichero desde tu equipo...")}</h5>
             <hr />
-
             { (!this.state.file && !this.state.uploading && !this.state.uploaded) ?
                 <ExternalDropzone ref="dropZone" accept={this.props.show} callback={this.dropHandler}/> : null}
 
             { (this.state.file || this.state.uploading || this.state.uploaded) ? <Row>
                 <Col xs={12} sm={6}>
+                    {(aux === 'image' && fileSelected && fileSelected.url) ? <img className="previewImg" src={fileSelected.url} alt=""/> : <div className={"preview"}>
+                        <i className="material-icons">{icon || "attach_file"}</i>
+                    </div>}
+                </Col>
+                <Col xs={12} sm={6}>
                     <FormGroup >
                         <div id="fileNameTitle">
                             <span>{this.state.file.name}</span><br/><br/>
-                            <Button onClick={(e)=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false });}}><i className="material-icons">clear</i> {i18n.t("FileModal.APIProviders.clear")}</Button>
-                            <Button disabled={!this.state.file || this.state.uploaded} onClick={this.uploadHandler}><i className="material-icons">file_upload</i> {i18n.t("FileModal.APIProviders.upload")}</Button>
+                            <Button bsStyle="primary" style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={this.uploadHandler}><i className="material-icons">file_upload</i> {i18n.t("FileModal.APIProviders.upload")}</Button>
+                            <Button style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={(e)=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false });}}><i className="material-icons">clear</i> {i18n.t("FileModal.APIProviders.clear")}</Button>
                         </div>
                         {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={spinner} alt=""/></div> : null}
                         {/* <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
@@ -71,12 +76,6 @@ export default class UploadComponent extends React.Component {
                         { this.state.error ? <span id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i> {i18n.t("FileModal.APIProviders.error")}</span> : null }
                         { this.state.uploaded ? <span id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i> {i18n.t("FileModal.APIProviders.uploaded")} </span> : null }
                     </FormGroup>
-                </Col>
-                <Col xs={12} sm={6}>
-                    {(aux === 'image' && fileSelected && fileSelected.url) ? <img className="previewImg" src={fileSelected.url} alt=""/> : <div className={"preview"}>
-                        <i className="material-icons">{icon || "attach_file"}</i>
-                    </div>}
-
                 </Col>
             </Row> : null}
 
