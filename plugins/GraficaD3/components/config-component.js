@@ -40,7 +40,7 @@ export default class Config extends React.Component {
             dataObject.push(object);
         }
 
-        this.props.updateState({ ...this.props.state, editing: false, dataProvided: [values.keys].slice().concat(values.data.slice()), dataProcessed: dataObject });
+        this.props.updateState({ ...this.props.state, editing: false, keys: values.keys, dataProvided: [values.keys].slice().concat(values.data.slice()), dataProcessed: dataObject });
         /* CONVERSOR BETWEEN OLD AND NEW */
 
         this.setOptions(keys, data, dataObject);
@@ -70,7 +70,7 @@ export default class Config extends React.Component {
                         <DataProvider dataProvided={dataProvided} dataChanged={this.dataChanged} id={this.props.id} props={this.props.props}/>
                         }
                         {this.props.step === 2 &&
-                        <ChartOptions dataProcessed={dataProcessed} options={options} dataProvided={dataProvided} optionsChanged={this.optionsChanged}/>
+                        <ChartOptions dataProcessed={dataProcessed} options={options} dataProvided={dataProvided} keys={this.state.keys} optionsChanged={this.optionsChanged}/>
                         }
                     </Col>
                     <div className="col-xs-12 col-lg-7" ref="chartContainer" style={{ padding: '0px' }}>

@@ -17,12 +17,17 @@ export default class ChartOptions extends React.Component {
         this.graphsChanged = this.graphsChanged.bind(this);
         this.rowChanged = this.rowChanged.bind(this);
         this.rowNameChanged = this.rowNameChanged.bind(this);
+        this.changeXAxis = this.changeXAxis.bind(this);
 
         this.state = {
             dataProcessed: this.props.dataProcessed,
             values: this.props.dataProvided.slice(1, this.props.dataProvided.length),
         };
 
+    }
+
+    changeXAxis(event) {
+        this.props.optionsChanged({ xaxis: event.target.value });
     }
 
     typeChanged(event) {
@@ -132,7 +137,22 @@ export default class ChartOptions extends React.Component {
                                 <FormControl type="number" value={this.props.options.graphs.length} onChange={this.graphsChanged}/>
                             </Col>
                         </FormGroup>
-
+                        <FormGroup>
+                            <Col xs={5}>
+                                <FormControl.Static>
+                                    {i18n.t("GraficaD3.x_axis")}
+                                </FormControl.Static>
+                            </Col>
+                            <Col xs={7}>
+                                <FormControl componentClass="select" placeholder={i18n.t("GraficaD3.Column")} name={"element"} value={this.props.options.xaxis} onChange={this.changeXAxis}>
+                                    {this.props.dataProvided[0].map((x, w) => {
+                                        return(
+                                            <option key={w + 1} value={w}>{ i18n.t("GraficaD3.Column") + " (" + this.props.dataProvided[0][w] + ")"}</option>
+                                        );
+                                    })}
+                                </FormControl>
+                            </Col>
+                        </FormGroup>
                         {this.props.options.graphs.map((y, i) => {
                             return(
                                 <div key={i + 1}>
