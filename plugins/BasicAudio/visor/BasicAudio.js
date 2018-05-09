@@ -4,7 +4,6 @@ require('./../BasicAudio.scss');
 
 export function BasicAudio(base) {
     return {
-        // ¿Se deben poner marcas en el visor?? Sí. Pero sin envolver en Markeditor
         getRenderTemplate: function(state, props) {
             if (state.url.match(/^https?\:\/\/api.soundcloud.com\//g)) {
                 return <iframe width="100%" height="100%" scrolling="no" frameBorder="no" allow="autoplay" src={"https://w.soundcloud.com/player/?url=" + encodeURI(state.url) + "&color=%2317cfc8&auto_play=" + (state.autoplay ? "true" : "false") + "&hide_related=true&show_comments=true&show_user=false&show_reposts=false&show_teaser=false&visual=true"} />;

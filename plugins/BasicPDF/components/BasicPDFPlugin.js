@@ -1,6 +1,8 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import screenfull from 'screenfull';
+import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
+import Mark from '../../../common/components/mark/Mark';
 
 const pdflib = require('pdfjs-dist');
 const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.js');
@@ -50,6 +52,20 @@ export default class BasicAudioPlugin extends React.Component {
     }
 
     render() {
+        let marks = this.props.props.marks || {};
+        let markElements = Object.keys(marks).map((id) =>{
+            let value = marks[id].value;
+            let title = marks[id].title;
+            let color = marks[id].color;
+            return(
+                <MarkEditor key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} onRichMarkUpdated={this.props.props.onRichMarkUpdated} state={this.props.state} base={this.props.base}>
+                    <a key={id} href="#">
+                        <div style={{ width: "4px", height: "8px", background: color || "#17CFC8" }}>
+                            <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }} color={color || "#17CFC8"} idKey={id} title={title} />
+                        </div>
+                    </a>
+                </MarkEditor>);
+        });
         return (
             <div style={{ width: "100%", height: "100%" }} className={"pdfDiv"}>
                 <div className="topBar">

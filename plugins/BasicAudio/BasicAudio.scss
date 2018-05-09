@@ -120,13 +120,22 @@ $track-width: 54% !default;
   iframe{
     margin-bottom: -4px;
   }
+  .wave{
+    position: absolute;
+    width: 100%;
+    margin: 0;
+    float:left;
+    height: 100%;
+    top: 10px;//15%;
+    z-index: 1;
+  }
   .react-wavesurfer{
     position: absolute;
     width: 100%;
     margin: 0;
     float:left;
     height: 100%;
-    top: 15%;
+    top: 10px;//15%;
     z-index: 1;
   }
   .audio-controls{
@@ -196,7 +205,17 @@ $track-width: 54% !default;
       height: 10px;
       margin: 3px;
       top: 95%;
+      border: 1px solid #ccc;
       position: absolute;
+      .mainSlider{
+        width: 0px;
+        height: 14px;
+        background: white;
+        position: absolute;
+        margin-top: -3px;
+        z-index: 9999;
+        visibility: hidden;
+      }
     }
 
   @include custom_range;

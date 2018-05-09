@@ -5,10 +5,9 @@ import React from 'react';
 export function Objetos3D(base) {
 
     return {
-        getRenderTemplate: function(state) {
+        getRenderTemplate: function(state, props) {
             return <div style={{ height: "100%", width: "100%" }} >Hello {state.name}</div>;
         },
     };
 }
 /* eslint-enable react/prop-types */
-

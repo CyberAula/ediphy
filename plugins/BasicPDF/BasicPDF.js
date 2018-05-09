@@ -120,7 +120,7 @@ export function BasicPDF(base) {
             return (
 
                 <div className="pdfViewerPlugin" style={{ height: "100%", width: "100%" }}>
-                    <BasicPDFPluginEditor style={{ width: "100%", height: "100%" }} state={state}/>
+                    <BasicPDFPluginEditor style={{ width: "100%", height: "100%" }} base={base} props={props} state={state}/>
                 </div>
             );
         },
@@ -151,24 +151,9 @@ export function BasicPDF(base) {
             }
             return { isWrong: false, value: value };
         },
-        /*        getDefaultMarkValue(state) {
+        /* getDefaultMarkValue(state) {
             let cfg = state.config;
             return Math.round(cfg.lat * 100000) / 100000 + ',' + Math.round(cfg.lng * 100000) / 100000;
-        },
-        validateValueInput: function(value) {
-            let regex = /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g;
-            let match = regex.exec(value);
-            if (match && match.length === 3) {
-                let x = Math.round(parseFloat(match[1]) * 100000) / 100000;
-                let y = Math.round(parseFloat(match[2]) * 100000) / 100000;
-                if (isNaN(x) || isNaN(y)) {
-                    return { isWrong: true, message: i18n.t("VirtualTour.message_mark_xy") };
-                }
-                value = x + ',' + y;
-            } else {
-                return { isWrong: true, message: i18n.t("VirtualTour.message_mark_xy") };
-            }
-            return { isWrong: false, value: value };
         },
         pointerEventsCallback: function(bool, toolbarState) {
             return;

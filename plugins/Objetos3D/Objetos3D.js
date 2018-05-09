@@ -1,5 +1,6 @@
 import React from 'react';
 import i18n from 'i18next';
+import { STLViewer } from 'stl-viewer';
 
 /* eslint-disable react/prop-types */
 export function Objetos3D(base) {
@@ -24,7 +25,7 @@ export function Objetos3D(base) {
 
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -36,7 +37,7 @@ export function Objetos3D(base) {
                                 name: {
                                     __name: 'Config',
                                     type: 'text',
-                                    value: base.getState().name,
+                                    value: state.name,
                                     autoManaged: false,
                                 },
                             },
@@ -50,13 +51,10 @@ export function Objetos3D(base) {
                 name: "Ediphy",
             };
         },
-        getRenderTemplate: function(state) {
-
-            return (<div style={{ height: "100%", width: "100%" }} className="dropableRichZone">
-                Hello {state.name}
-
+        getRenderTemplate: function(state, props) {
+            return (<div style={{ height: "100%", width: "100%" }}>
+                <STLViewer url="http://localhost:8080/stl/eyeball.stl" loading={false} width={400} height={400} modelColor='#B92C2C' backgroundColor='#EAEAEA' rotate orbitControls/>
             </div>);
-
         },
     };
 }

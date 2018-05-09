@@ -18,7 +18,7 @@ export default class BasicAudioPluginEditor extends React.Component {
             waves: true,
             autoplay: false,
             audioPeaks: null,
-            ondas: false, // null??
+            ondas: false,
             name: "No name",
         };
         this.onProgress = this.onProgress.bind(this);
@@ -45,11 +45,12 @@ export default class BasicAudioPluginEditor extends React.Component {
         if (nextProps.state !== this.props.state) {
             let pos = 0;
             let playing = false;
-            if (this.props.url === nextProps.url) {
-                pos = (this.wavesurfer.getCurrentTime() || 0) / (this.wavesurfer.getDuration() || 1);
+            if (this.props.state.url === nextProps.state.url) {
+                /**/ pos = (this.wavesurfer.getCurrentTime() || 0) / (this.wavesurfer.getDuration() || 1);
                 playing = this.state.playing;
 
             }
+            //
             this.wavesurfer.stop();
             this.wavesurfer.destroy();
 
@@ -70,10 +71,10 @@ export default class BasicAudioPluginEditor extends React.Component {
     }
     createOptions(props, state) {
         return {
-            scrollParent: props.state.scroll,
+            scrollParent: props.state.scroll, // true,
             hideScrollbar: !props.state.scroll,
-            progressColor: props.state.progressColor, // parte de la izquierda
-            waveColor: props.state.waveColor, // this.state.waveColor, //parte de la derecha
+            progressColor: props.state.progressColor,
+            waveColor: props.state.waveColor,
             normalize: true,
             peaks: state.peaks,
             cursorColor: 'grey',
@@ -81,16 +82,19 @@ export default class BasicAudioPluginEditor extends React.Component {
     }
 
     componentDidMount() {
-        this.$el = ReactDOM.findDOMNode(this);
-        this.$waveform = this.$el.querySelector('.wave');
+        this.$el = ReactDOM.findDOMNode(this); // ?????
+
+        this.$waveform = this.$el.querySelector('.wave'); // ?????
         const waveOptions = this.createOptions(this.props, this.state);
-        this.wavesurfer = WaveSurfer.create({
-            container: this.$waveform,
-            ...waveOptions,
+        this.wavesurfer = WaveSurfer.create({ // this.wavesurfer
+            container: this.$waveform, // '#waveform'
+            ...waveOptions, // ...
         });
-        this.wavesurfer.load(this.props.state.url);
+        // loading the audio:
+        this.wavesurfer.load(this.props.state.url); // pasar peaks
+        // listening to events
         this.wavesurfer.on('ready', ()=>this.onReady(0, false));
-        this.wavesurfer.on('loading', this.onProgress);
+        this.wavesurfer.on('loading', this.onProgress); // ?????
     }
     componentWillUnmount() {
         this.wavesurfer.stop();
@@ -99,6 +103,8 @@ export default class BasicAudioPluginEditor extends React.Component {
     onProgress(state) {
         this.setState({ pos: state });
     }
+    // comprobar segun va avanzando el audio componentwillupdate de enriched
+    // fijarme despues de triggerArray.foreach
 
     onReady(pos, playing) {
         this.setState({
@@ -130,9 +136,8 @@ export default class BasicAudioPluginEditor extends React.Component {
 
     }
     render() {
-        let marks = this.props.props.marks || {};
+        let marks = this.props.props.marks || {}; //
         let markElements = Object.keys(marks).map((id) =>{
-            // aqui solo entra cuando le das a save changes
             let value = marks[id].value;
             let title = marks[id].title;
             let color = marks[id].color;
@@ -150,31 +155,13 @@ export default class BasicAudioPluginEditor extends React.Component {
             <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "auto" }}>
                 <div>
                     <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{ this.onResize(e);}} />
-                    <div className="fakeProgress dropableRichZone" style={{ pointerEvents: "auto" }}>
+                    <div className="progress-audio-input dropableRichZone" style={{ pointerEvents: "auto" }}>
+                        <input className="mainSlider" style={{ left: (this.state.pos * 100) / this.state.duration, pointerEvents: "auto" }} type='range' min={0} max={100} onChange={this.handlePosChange.bind(this)} />
                         {markElements}
-
                     </div>
-                    <div className="react-wavesurfer">
-                        {/* <ReactWavesurfer
-                            style={{ width: "100%", height: "100%" }}
-                            height="100%"
-                            width="100%"
-                            audioFile={this.props.state.url}
-                            playing={this.state.playing}
-                            audioPeaks={this.state.audioPeaks}
-                            volume={this.state.volume}
-                            options={waveOptions}
-                            pos={this.state.pos}
-                            onPosChange={this.handlePosChange.bind(this)}
-                            onReady= {this.onReady.bind(this)}
-                            onPlay={() => this.setState({ playing: true })}
-                            onPause={() => this.setState({ playing: false })}
-                            onFinish={() => this.setState({ playing: false })}
-                            onLoading={this.onProgress.bind(this)}
-                        />*/}
-                        <div className='waveform'>
-                            <div className='wave' />
-                        </div>
+
+                    <div className='waveform'>
+                        <div className='wave' />
                     </div>
                 </div>
                 <div>

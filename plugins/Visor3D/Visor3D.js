@@ -1,5 +1,6 @@
 import React from 'react';
 import i18n from 'i18next';
+import STLViewer from 'stl-viewer';
 // import Visor3DluginEditor from './components/Visor3DluginEditor.js';
 
 /* eslint-disable react/prop-types */
@@ -98,18 +99,7 @@ export function Visor3D(base) {
             };
         },
         getRenderTemplate: function(state) {
-            return (<div style={{ height: "100%", width: "100%" }}>
-                <STLViewer
-                    url='http://localhost:8080/stl/eyeball.stl'
-
-	                   width={400}
-	                   height={400}
-	                   modelColor='#B92C2C'
-	                   backgroundColor='#EAEAEA'
-	                   rotate
-	                   orbitControls
-                />
-            </div>);
+            return (<div style={{ height: "100%", width: "100%" }} />);
         },
         /* return (<div style={{ height: "100%", width: "100%" }}>
     <Visor3DluginEditor style={{ width: "100%", height: "100%" }} base={base} props={props} state={state}/>

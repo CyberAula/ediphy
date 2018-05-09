@@ -1,6 +1,6 @@
 import React from "react";
-// import BasicAudioPluginEditor from './components/BasicAudioPluginEditorWS.js';
-import BasicAudioPluginEditor from './components/BasicAudioPluginEditor.js';
+import BasicAudioPluginEditor from './components/BasicAudioPluginEditorWS.js';
+// import BasicAudioPluginEditor from './components/BasicAudioPluginEditor.js';
 import i18n from 'i18next';
 // import example from './../../dist/playlists/a2002011001-e02-128k.mp3';
 require('./BasicAudio.scss');
