@@ -72,6 +72,7 @@ class EditorApp extends Component {
             grid: false,
             pluginConfigModal: false,
             accordions: {},
+            blockDrag: false,
             showFileUpload: false,
             fileModalResult: { id: undefined, value: undefined },
         };
@@ -80,6 +81,29 @@ class EditorApp extends Component {
         this.toolbarUpdated = this.toolbarUpdated.bind(this);
         this.onBoxDeleted = this.onBoxDeleted.bind(this);
         this.onSortableContainerDeleted = this.onSortableContainerDeleted.bind(this);
+        this.keyListener = this.keyListener.bind(this);
+        this.dropListener = (ev) => {
+            if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
+
+            } else {
+                ev.preventDefault();
+            }
+            this.setState({ blockDrag: false });
+        };
+        this.dragListener = (ev) => {
+            if (!this.state.showFileUpload && !this.state.blockDrag) {
+                this.setState({ showFileUpload: "*", fileModalResult: { id: undefined, value: undefined } });
+            }
+            ev.preventDefault();
+        };
+        this.dragExitListener = (ev) => {
+            ev.preventDefault();
+            // this.setState({ blockDrag: false });
+        };
+
+        this.dragStartListener = (ev) => {
+            this.setState({ blockDrag: true });
+        };
     }
 
     render() {
@@ -261,8 +285,6 @@ class EditorApp extends Component {
                                 markCreatorId={this.state.markCreatorVisible}
                                 onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 setCorrectAnswer={(id, correctAnswer, page) => { dispatch(setCorrectAnswer(id, correctAnswer, page));}}
-                                showFileUpload={this.state.showFileUpload}
-                                toggleFileUpload={()=>{this.setState({ showFileUpload: "*", fileModalResult: { id: undefined, value: undefined } });}}
                                 addMarkShortcut= {(mark) => {
                                     let state = JSON.parse(JSON.stringify(toolbars[boxSelected].state));
                                     state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
@@ -538,48 +560,62 @@ class EditorApp extends Component {
         if (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' && ediphy_editor_json && ediphy_editor_json !== 'undefined') {
             this.props.dispatch(importState(serialize(JSON.parse(ediphy_editor_json))));
         }
-        window.onkeyup = function(e) {
-            let key = e.keyCode ? e.keyCode : e.which;
-            // Checks what element has the cursor focus currently
-            let focus = document.activeElement.className;
-            let notText = !document.activeElement.type && focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1;
 
-            // Ctrl + Z
-            if (key === 90 && e.ctrlKey) {
+        document.addEventListener('keyup', this.keyListener);
+        document.addEventListener('dragover', this.dragListener);
+        document.addEventListener('dragleave', this.dragExitListener);
+        document.addEventListener('drop', this.dropListener);
+        document.addEventListener('dragstart', this.dragStartListener);
+
+    }
+    componentWillUnmount() {
+        document.removeEventListener('keyup', this.keyListener);
+        document.removeEventListener('dragover', this.dragListener);
+        document.removeEventListener('dragleave', this.dragExitListener);
+        document.removeEventListener('drop', this.dropListener);
+        document.removeEventListener('dragstart', this.dragStartListener);
+
+    }
+
+    keyListener(e) {
+        let key = e.keyCode ? e.keyCode : e.which;
+        // Checks what element has the cursor focus currently
+        let focus = document.activeElement.className;
+        let notText = !document.activeElement.type && focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1;
+
+        // Ctrl + Z
+        if (key === 90 && e.ctrlKey) {
+            if (notText) {
+                this.props.dispatch(ActionCreators.undo());
+            }
+        }
+        // Ctrl + Y
+        if (key === 89 && e.ctrlKey) {
+            if (notText) {
+                this.props.dispatch(ActionCreators.redo());
+            }
+        }
+        if (key === 80 && e.ctrlKey && e.shiftKey) {
+            e.cancelBubble = true;
+            e.preventDefault();
+
+            e.stopImmediatePropagation();
+            printToPDF(this.props.store.getState().undoGroup.present);
+        }
+
+        // Supr
+        else if (key === 46) {
+            if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
+            // If it is not an input or any other kind of text edition AND there is a box selected, it deletes said box
                 if (notText) {
-                    this.props.dispatch(ActionCreators.undo());
-                }
-            }
-            // Ctrl + Y
-            if (key === 89 && e.ctrlKey) {
-                if (notText) {
-                    this.props.dispatch(ActionCreators.redo());
-                }
-            }
-            if (key === 80 && e.ctrlKey && e.shiftKey) {
-                e.cancelBubble = true;
-                e.preventDefault();
-
-                e.stopImmediatePropagation();
-                printToPDF(this.props.store.getState().undoGroup.present);
-            }
-
-            // Supr
-            else if (key === 46) {
-                if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
-                    // If it is not an input or any other kind of text edition AND there is a box selected, it deletes said box
-                    if (notText) {
-                        let box = this.props.boxes[this.props.boxSelected];
-                        let toolbar = this.props.pluginToolbars[this.props.boxSelected];
-                        if (!toolbar.showTextEditor) {
-                            this.onBoxDeleted(box.id, box.parent, box.container, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected);
-                        }
+                    let box = this.props.boxes[this.props.boxSelected];
+                    let toolbar = this.props.pluginToolbars[this.props.boxSelected];
+                    if (!toolbar.showTextEditor) {
+                        this.onBoxDeleted(box.id, box.parent, box.container, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected);
                     }
                 }
             }
-
-        }.bind(this);
-
+        }
     }
     onBoxDeleted(id, parent, container, page) {
         let bx = this.getDescendantBoxes(this.props.boxes[id]);
