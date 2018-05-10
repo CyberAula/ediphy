@@ -59,13 +59,11 @@ export default class MyFilesComponent extends React.Component {
                 <Row>
                     <Col key="filter" xs={12} md={6}>
                         <FormGroup >
-                            <ControlLabel>{i18n.t('Filter')}:</ControlLabel><br/>
-                            <FormControl type="text" value={this.state.filter} placeholder="..." id="filterInput" autoFocus onChange={e => {this.setState({ filter: e.target.value });}}/>
+                            <FormControl type="text" value={this.state.filter} placeholder={i18n.t('Filter')} id="filterInput" autoFocus onChange={e => {this.setState({ filter: e.target.value });}}/>
                         </FormGroup>
                     </Col>
                     <Col key="extfilter" xs={12} md={6}>
                         <FormGroup >
-                            <ControlLabel>{i18n.t('Extensions')}:</ControlLabel><br/>
                             <Select
                                 name="form-field-extensions"
                                 value={currentExtension}

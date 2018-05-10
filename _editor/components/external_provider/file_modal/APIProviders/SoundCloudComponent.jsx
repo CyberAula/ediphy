@@ -35,28 +35,29 @@ export default class SoundCloudComponent extends React.Component {
                 </FormGroup>
 
             </Form>
-            <Form style={{ minHeight: 240, overflowY: 'auto', maxHeight: 450 }}>
+            <Form style={{ minHeight: 260, overflowY: 'auto', maxHeight: 450 }}>
                 {this.state.results.length > 0 ?
                     (
                         <FormGroup>
                             <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                             <br />
                             {this.state.results.map((item, index) => {
-                                let border = item.url === this.props.elementSelected ? "solid orange 3px" : "solid transparent 3px";
-                                return (<div>
-                                    <img key={index}
-                                        src={item.thumbnail || placeholder}
-                                        className={'soundCloudSong'}
-                                        style={{
-                                            width: '100px',
-                                            height: '100px',
-                                            backgroundColor: '#ddd',
-                                            border: border,
-                                        }}
+                                let border = item.url === this.props.elementSelected ? "solid #17CFC8 2px" : "solid transparent 2px";
+                                let background = item.url === this.props.elementSelected ? "rgba(23,207,200,0.1)" : "transparent";
+                                let duration = new Date(item.duration);
+                                return (
+                                    <div
+                                        className={"audioItem"} key={index} style={{ border: border, backgroundColor: background }}
                                         onClick={e => {
                                             this.props.onElementSelected(item.title, item.url, 'video');
-                                        }}
-                                    /><span>{item.title}</span></div>
+                                        }}>
+                                        <img key={index} src={item.thumbnail || placeholder} className={'soundCloudSong'} />
+                                        <div className={"videoInfo"}>
+                                            <div><strong>{item.title}</strong></div>
+                                            <div className={"lightFont"}>{item.userName}</div>
+                                            <div className={"lightFont"}>{duration.toLocaleString(undefined, { minute: '2-digit', second: '2-digit' })}</div>
+                                        </div>
+                                    </div>
                                 );
                             })}
                         </FormGroup>
@@ -78,10 +79,13 @@ export default class SoundCloudComponent extends React.Component {
             .then(res => res.text()
             ).then(audioStr => {
                 let songs = JSON.parse(audioStr);
+                console.log(songs);
                 if (songs) {
                     let results = songs.map(song=>{
                         return {
                             title: song.title,
+                            userName: song.user.username,
+                            duration: song.duration,
                             url: song.stream_url,
                             thumbnail: song.artwork_url, // TODO Add default
                         };

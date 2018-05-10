@@ -83,11 +83,11 @@ let en = {
                 'results': 'Results',
                 'searching': 'Searching...',
                 'error': 'An error has ocurred',
-                'uploaded': 'File Uploaded',
+                'uploaded': 'File Uploaded and added to the library',
                 'upload': 'Upload file',
                 'clear': 'Clear',
                 'search': 'Search',
-                'confirm_delete': 'Are you sure you want to delete this file permanently?',
+                'confirm_delete': 'Are you sure you want to delete this file?',
             },
             'FileHandlers': {
                 'downloadAsFile': 'Download File',

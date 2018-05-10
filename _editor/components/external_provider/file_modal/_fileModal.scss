@@ -55,14 +55,31 @@
           text-align: right;
           margin: 0 0 20px 0;
         }
+        .videoItem, .audioItem{
+          display: flex;
+          padding: 5px;
+          .youtubeVideo{
+            margin-right: 10px;
+            width: 120px;
+            height: 95px;
+          }
+          .videoInfo{
+            .lightFont{
+              color: #888;
+              font-weight: lighter;
+            }
+          }
+          .soundCloudSong{
+            margin-right: 10px;
+            width: 100px;
+            height: 100px;
+          }
+        }
       }
       h5 {
         color: $blueprimary;
         font-size: 16px;
-        margin-top: 15px;
-        margin-bottom: -10px;
-        height: 30px;
-        line-height: 30px;
+        margin: 23px 0;
         .searchInputTopBar {
           width:60%;
           float: right;
@@ -79,27 +96,17 @@
           max-height: 24px;
         }
       }
-      .empty {
-        text-align: center;
-        height: 85px;
-        line-height: 60px;
-        color: grey;
-        clear: both;
-        font-size: 1em;
-        font-weight: bold;
-        color: $blueprimary;
-      }
+
       .uploadComponent, .myFilesComponent{
         padding: 0 15px;
         min-height: 338px;
       }
       .uploadComponent {
         .fileDrag {
-          vertical-align: middle;
-          line-height: 190px;
-          font-size: 20px;
-          margin: 30px;
-          min-height: 190px;
+          margin: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         .previewImg {
           width:100%;
@@ -127,9 +134,10 @@
         .uploadModalMsg {
           padding: 12px;
           margin: 12px 2px;
-          display: block;
+          display: flex;
           i {
             vertical-align: middle;
+            margin-right: 10px;
           }
           &#errorMsg {
             color: $lightred;
@@ -166,11 +174,13 @@
         }
 
       }
-      #serverMsg {
+      #serverMsg, .empty {
         width: 100%;
         text-align: center;
         background-color: $blueprimarytransparent;
         padding: 20px;
+        color: $blueprimary;
+        font-weight: bold;
       }
 
       .myFile {
