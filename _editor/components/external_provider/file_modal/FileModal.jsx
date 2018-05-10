@@ -68,7 +68,6 @@ export default class FileModal extends React.Component {
                                             onNavItemsAdded={this.props.onNavItemsAdded}
                                             onIndexSelected={this.props.onIndexSelected}
                                             onNavItemSelected={this.props.onNavItemSelected}
-                                            // onToolbarUpdated={this.props.onToolbarUpdated}
                                             navItemsIds={this.props.navItemsIds}
                                             navItems={this.props.navItems}
                                             containedViews={this.props.containedViews}
@@ -78,7 +77,6 @@ export default class FileModal extends React.Component {
                                             close={this.closeSideBar}
                                         /></div>
                                 </div>) : null }
-
                             </div>
                             <hr className="fileModalFooter"/>
                             <Modal.Footer>

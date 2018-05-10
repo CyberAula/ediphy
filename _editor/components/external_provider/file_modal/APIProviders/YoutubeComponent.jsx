@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
-import Ediphy from '../../../../../core/editor/main';
+import { Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
-import ReactDOM from 'react-dom';
 import SearchComponent from './SearchComponent';
 
 export default class YoutubeComponent extends React.Component {
@@ -22,7 +20,6 @@ export default class YoutubeComponent extends React.Component {
                 <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}
                     <SearchComponent query={this.state.value} onChange={(e)=>{this.setState({ query: e.target.value });}} onSearch={this.onSearch} /></h5>
                 <hr />
-
                 <FormGroup>
                     <Col md={2}>
                         <Button type="submit" className="btn-primary hiddenButton" onClick={(e) => {
@@ -41,21 +38,24 @@ export default class YoutubeComponent extends React.Component {
                             <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                             <br />
                             {this.state.results.map((item, index) => {
-                                let border = item.url === this.props.elementSelected ? "solid orange 3px" : "solid white 3px";
-                                return (<div>
-                                    <img key={index}
-                                        src={item.thumbnail}
-                                        className={'youtubeVideo'}
-                                        style={{
-                                            width: '126px',
-                                            height: '96px',
-                                            backgroundColor: '#ddd',
-                                            border: border,
-                                        }}
+                                let border = item.url === this.props.elementSelected ? "solid #17CFC8 2px" : "solid transparent 2px";
+                                let background = item.url === this.props.elementSelected ? "rgba(23,207,200,0.1)" : "transparent";
+                                let date = new Date(item.publishedAt);
+
+                                // console.log(item);
+                                return (
+                                    <div
+                                        className={"videoItem"} key={index} style={{ border: border, backgroundColor: background }}
                                         onClick={e => {
                                             this.props.onElementSelected(item.title, item.url, 'video');
-                                        }}
-                                    /><span>{item.title}</span></div>
+                                        }}>
+                                        <img key={index} src={item.thumbnail} className={'youtubeVideo'}/>
+                                        <div className={"videoInfo"}>
+                                            <div><strong>{item.title}</strong></div>
+                                            <div className={"lightFont"}>{item.channelTitle}</div>
+                                            <div className={"lightFont"}>{date.toLocaleString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+                                        </div>
+                                    </div>
                                 );
                             })}
                         </FormGroup>
@@ -76,10 +76,13 @@ export default class YoutubeComponent extends React.Component {
             .then(res => res.text()
             ).then(videosStr => {
                 let videos = JSON.parse(videosStr);
+                console.log(videos);
                 if (videos.items) {
                     let results = videos.items.map(video => {
                         return {
                             title: video.snippet.title,
+                            channelTitle: video.snippet.channelTitle,
+                            publishedAt: video.snippet.publishedAt,
                             url: "https://www.youtube.com/embed/" + (video.id ? video.id.videoId : ''),
                             thumbnail: (video.snippet && video.snippet.thumbnails && video.snippet.thumbnails.default && video.snippet.thumbnails.default.url) ? video.snippet.thumbnails.default.url : "",
                         };

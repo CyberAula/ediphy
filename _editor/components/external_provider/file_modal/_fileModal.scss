@@ -55,6 +55,21 @@
           text-align: right;
           margin: 0 0 20px 0;
         }
+        .videoItem{
+          display: flex;
+          padding: 5px;
+          .youtubeVideo{
+            margin-right: 10px;
+            width: 120px;
+            height: 95px;
+          }
+          .videoInfo{
+            .lightFont{
+              color: #888;
+              font-weight: lighter;
+            }
+          }
+        }
       }
       h5 {
         color: $blueprimary;
@@ -127,9 +142,10 @@
         .uploadModalMsg {
           padding: 12px;
           margin: 12px 2px;
-          display: block;
+          display: flex;
           i {
             vertical-align: middle;
+            margin-right: 10px;
           }
           &#errorMsg {
             color: $lightred;
