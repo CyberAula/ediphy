@@ -79,10 +79,7 @@
       h5 {
         color: $blueprimary;
         font-size: 16px;
-        margin-top: 15px;
-        margin-bottom: -10px;
-        height: 30px;
-        line-height: 30px;
+        margin: 23px 0;
         .searchInputTopBar {
           width:60%;
           float: right;
@@ -99,27 +96,17 @@
           max-height: 24px;
         }
       }
-      .empty {
-        text-align: center;
-        height: 85px;
-        line-height: 60px;
-        color: grey;
-        clear: both;
-        font-size: 1em;
-        font-weight: bold;
-        color: $blueprimary;
-      }
+
       .uploadComponent, .myFilesComponent{
         padding: 0 15px;
         min-height: 338px;
       }
       .uploadComponent {
         .fileDrag {
-          vertical-align: middle;
-          line-height: 190px;
-          font-size: 20px;
-          margin: 30px;
-          min-height: 190px;
+          margin: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         .previewImg {
           width:100%;
@@ -187,11 +174,13 @@
         }
 
       }
-      #serverMsg {
+      #serverMsg, .empty {
         width: 100%;
         text-align: center;
         background-color: $blueprimarytransparent;
         padding: 20px;
+        color: $blueprimary;
+        font-weight: bold;
       }
 
       .myFile {
