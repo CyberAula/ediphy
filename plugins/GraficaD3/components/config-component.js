@@ -17,6 +17,7 @@ export default class Config extends React.Component {
         this.state = {
             dataProcessed: [],
             keys: [],
+            xcolumn: 0,
             values: [],
             options: this.props.options,
         };
@@ -31,9 +32,9 @@ export default class Config extends React.Component {
         let dataObject = [];
         let keys = values.keys.slice();
         let data = values.data.slice();
-        for (let i = 0; i < keys.length; i++) {
-            let object = { name: keys[i] };
-            for (let o = 0; o < data.length; o++) {
+        for (let i = 0; i < values.data.length; i++) {
+            let object = { name: values.data[i][this.state.xcolumn] };
+            for (let o = 0; o < data.length - 1; o++) {
                 let value = isNaN(data[o][i]) || typeof(data[o][i]) === "boolean" || data[o][i] === "" || data[o][i] === null ? data[o][i] : parseFloat(data[o][i], 10);
                 object[o] = value;
             }

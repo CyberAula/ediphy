@@ -84,14 +84,14 @@ export function GraficaD3(base) {
         },
         getInitialState: function() {
             return {
-                dataProvided: [["Name", "Age"], ["John", "Toby"], [25, 17]],
+                dataProvided: [["Name", "Age"], ["John", 25], ["Toby", 17]],
                 dataProcessed: [{ name: "John", 0: 25, 1: 17 }, { name: "Toby", 0: 17, 1: 17 }],
                 editing: true,
                 options: {
                     type: "area",
                     xaxis: 0,
                     graphs: [{
-                        row: 0,
+                        column: 0,
                         name: "Age",
                         color: "#332ef0",
                     }],

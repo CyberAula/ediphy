@@ -12,8 +12,8 @@ export default class Chart extends React.Component {
         options.graphs.forEach(graph=>{
             data.forEach((element, i)=>{
                 let newData = { ...data[i] };
-                newData = { ...newData, [graph.name]: element[graph.row] };
-                delete newData[graph.row];
+                newData = { ...newData, [graph.name]: element[graph.column] };
+                delete newData[graph.column];
                 data[i] = newData;
             });
         });
@@ -105,10 +105,10 @@ export default class Chart extends React.Component {
             for (let ring of options.rings) {
                 let newRing = {};
                 let newData = [];
-                for (let row of data) {
+                for (let column of data) {
                     let value = {};
-                    value.name = row[ring.name];
-                    value.value = row[ring.value];
+                    value.name = column[ring.name];
+                    value.value = column[ring.value];
                     newData.push(value);
                 }
                 newRing.data = newData;
