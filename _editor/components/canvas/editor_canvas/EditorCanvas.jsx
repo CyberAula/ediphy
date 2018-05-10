@@ -13,26 +13,6 @@ import './_canvas.scss';
 export default class EditorCanvas extends Component {
     constructor(props) {
         super(props);
-
-        this.dropListener = (ev) => {
-            document.body.classList.remove('draggingFileIntoEdiphy');
-            if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
-
-            } else {
-                ev.preventDefault();
-            }
-        };
-        this.dragListener = (ev) => {
-            document.body.classList.add('draggingFileIntoEdiphy');
-            if (!this.props.showFileUpload) {
-                this.props.toggleFileUpload();
-            }
-            ev.preventDefault();
-        };
-        this.dragExitListener = (ev) => {
-            document.body.classList.remove('draggingFileIntoEdiphy');
-            ev.preventDefault();
-        };
     }
 
     render() {
@@ -49,20 +29,6 @@ export default class EditorCanvas extends Component {
             document.getElementById('maincontent').scrollTop = 0;
         }
     }
-
-    componentWillUnmount() {
-        document.removeEventListener('dragover', this.dragListener);
-        document.removeEventListener('dragleave', this.dragExitListener);
-        document.removeEventListener('drop', this.dropListener);
-    }
-
-    componentDidMount() {
-        document.addEventListener('dragover', this.dragListener);
-        document.addEventListener('dragleave', this.dragExitListener);
-        document.addEventListener('drop', this.dropListener);
-
-    }
-
 }
 
 EditorCanvas.propTypes = {
