@@ -84,7 +84,7 @@ let en = {
                 'searching': 'Searching...',
                 'error': 'An error has ocurred',
                 'uploaded': 'File Uploaded',
-                'upload': 'Upload',
+                'upload': 'Upload file',
                 'clear': 'Clear',
                 'search': 'Search',
                 'confirm_delete': 'Are you sure you want to delete this file permanently?',

@@ -47,7 +47,7 @@ export default function menus(self) {
             },
         },
         {
-            name: <span><i className="material-icons">attach_file</i>{i18n.t('FileModal.APIProviders.MyFiles')}</span>,
+            name: <span><i className="material-icons">perm_media</i>{i18n.t('FileModal.APIProviders.MyFiles')}</span>,
             show: true,
             component: MyFilesComponent,
             props: {

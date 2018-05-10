@@ -83,7 +83,7 @@ export default class SearchVishComponent extends React.Component {
                     </FormGroup>
 
                 </Form>*/}
-                <Form style={{ minHeight: 240 }}>
+                <Form style={{ minHeight: 240, overflowY: 'auto', maxHeight: 450 }}>
                     {this.state.results.length > 0 ?
                         (
                             <FormGroup>

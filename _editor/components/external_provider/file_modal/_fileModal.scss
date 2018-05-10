@@ -50,8 +50,12 @@
       padding: 0;
       .form-horizontal, .form-group{
         padding: 0 15px;
+        .control-label{
+          width: 100%;
+          text-align: right;
+          margin: 0 0 20px 0;
+        }
       }
-
       h5 {
         color: $blueprimary;
         font-size: 16px;
@@ -73,7 +77,6 @@
           width: auto;
           max-width: 100px;
           max-height: 24px;
-
         }
       }
       .empty {
@@ -122,7 +125,6 @@
           }
         }
         .uploadModalMsg {
-          border: 1px solid #ddd;
           padding: 12px;
           margin: 12px 2px;
           display: block;
@@ -130,10 +132,14 @@
             vertical-align: middle;
           }
           &#errorMsg {
-            color: red;
+            color: $lightred;
+            border: 1px solid $lightred;
+            background-color: $lightredtransparent;
           }
           &#uploadedMsg{
-            color: lightgreen;
+            color: $detailgreen;
+            border: 1px solid $detailgreen;
+            background-color: $detailgreentransparent;
           }
         }
 
@@ -151,25 +157,20 @@
         font-size: 16px;
         font-weight: bold;
         .btn {
-          background-color: #ddd !important;
-          fonnt-weight: bold;
-          border: none;
-          margin:2px;
+          margin: 2px;
           i {
-            color: $blueprimary;
+            font-size: 1.4em;
             vertical-align: middle;
           }
 
         }
-        .btn:hover {
-          i {
-            color: grey;
-          }
-        }
+
       }
       #serverMsg {
         width: 100%;
         text-align: center;
+        background-color: $blueprimarytransparent;
+        padding: 20px;
       }
 
       .myFile {
@@ -178,9 +179,8 @@
         }
         .deleteButton {
           position:absolute;
-          top:0;
-          left:0;
-          margin: 8px;
+          top: 8px;
+          right: 8px;
           border: none;
           padding: 0;
           background-color: white;
@@ -205,15 +205,12 @@
           border-color: transparent;
           background-position: center;
           background-size: cover;
-
           &.active {
             border-color: orange !important;
           }
-
           i {
             font-size: 40px;
           }
-
         }
         .ellipsis {
           width:100%;
@@ -222,7 +219,6 @@
           overflow: hidden; /* 1 */
           white-space: nowrap; /* 2 */
           text-overflow: ellipsis; /* 3 */
-          //direction: rtl;
           text-align: center;
           font-size: 13px;
           vertical-align: middle;
@@ -235,7 +231,6 @@
         clear:both;
 
       }
-
       .form-group .Select {
         border: 1px solid #ccc;
         &:focus, .is-focused {

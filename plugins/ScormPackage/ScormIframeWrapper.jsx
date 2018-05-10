@@ -4,10 +4,18 @@ import SCORM_API from '../../core/scorm/SCORM_API';
 
 export default class ScormIframeWrapper extends React.Component {
     render() {
-        return (<iframe id="scormcontent" style={{ width: '100%', height: '100%', zIndex: 0, border: 'none' }} src={this.props.url}/>);
+        let url = 'lib/scorm/scorm_iframe.html?url=' + encodeURI(this.props.url);
+
+        return (<iframe className="scormcontent" ref="scormcontent" style={{ width: '100%', height: '100%', zIndex: 0, border: 'none' }} src={url}/>);
     }
     componentDidMount() {
+        window.addEventListener('message', function(ev) {
+            let msg = JSON.parse(ev.data);
+            console.log(ev, msg);
+            ev.source.postMessage('{"IframeMessage":true,"mode":"INTERNAL","type":"PROTOCOL","request":true,"data":{"message":"stopHelloExchange"},"origin":"http://localhost:8080/lib/scorm/test/scorm_iframe.html?url=http://localhost:8080/lib/scorm/test/dist/index.html","originId":3471950192937,"destination":"*"}', '*');
+        });
 
+        /*
         // SCORM URL
         let scormpackageURL = this.props.url;
         let scormResourceURLs = [scormpackageURL];
@@ -23,7 +31,7 @@ export default class ScormIframeWrapper extends React.Component {
             if(window.LMS_CONFIG.debug_scorm_player) {
                 // console.log("SCORM content succesfully loaded");
             }
-        }, document.getElementById("scormcontent"));
+        }, this.refs.scormcontent /!*document.getElementById("scormcontent")*!/);*/
     }
 }
 /* eslint-enable react/prop-types */
