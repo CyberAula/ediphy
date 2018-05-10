@@ -34,10 +34,7 @@ import i18n from 'i18next';
 import { parsePluginContainers, parsePluginContainersReact, hasExerciseBox } from '../../common/plugins_inside_plugins';
 import Ediphy from '../../core/editor/main';
 import printToPDF from '../../core/editor/print';
-import {
-    isSortableBox, isSection, isContainedView,
-    getDescendantLinkedBoxes, isBox,
-} from '../../common/utils';
+import { isSortableBox, isSection, isContainedView, getDescendantLinkedBoxes, isBox } from '../../common/utils';
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import PropTypes from 'prop-types';
@@ -76,6 +73,7 @@ class EditorApp extends Component {
             showFileUpload: false,
             fileModalResult: { id: undefined, value: undefined },
         };
+
         this.onTextEditorToggled = this.onTextEditorToggled.bind(this);
         this.onRichMarkUpdated = this.onRichMarkUpdated.bind(this);
         this.toolbarUpdated = this.toolbarUpdated.bind(this);
@@ -185,7 +183,6 @@ class EditorApp extends Component {
                                 boxesRemoving.push(boxId);
                                 boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
                             });
-
                             dispatch(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
                         }}
                         onNavItemNameChanged={(id, titleStr) => dispatch(updateViewToolbar(id, titleStr))}
@@ -217,14 +214,14 @@ class EditorApp extends Component {
                         onToggleFull={() => {
                             if(this.state.carouselFull) {
                                 this.setState({ carouselFull: false });
-                            }else{
+                            } else {
                                 this.setState({ carouselFull: true, carouselShow: true });
                             }
                         }}
                         onToggleWidth={()=>{
                             if(this.state.carouselShow) {
                                 this.setState({ carouselFull: false, carouselShow: false });
-                            }else{
+                            } else {
                                 this.setState({ carouselShow: true });
                             }
                         }}/>
@@ -399,7 +396,7 @@ class EditorApp extends Component {
                     closeConfigModal={()=>{ this.setState({ pluginConfigModal: false }); } }
                     updatePluginToolbar={(id, state) => dispatch(updateBox(id, "", pluginToolbars[this.state.pluginConfigModal], state))}
                 />
-                {Ediphy.Config.external_providers.enable_catalog_modal &&
+                { Ediphy.Config.external_providers.enable_catalog_modal &&
                 <ExternalCatalogModal images={filesUploaded}
                     visible={this.state.catalogModal}
                     onExternalCatalogToggled={() => this.setState({ catalogModal: !this.state.catalogModal })}/>}
