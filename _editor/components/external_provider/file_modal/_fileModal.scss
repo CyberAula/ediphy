@@ -55,7 +55,7 @@
           text-align: right;
           margin: 0 0 20px 0;
         }
-        .videoItem{
+        .videoItem, .audioItem{
           display: flex;
           padding: 5px;
           .youtubeVideo{
@@ -68,6 +68,11 @@
               color: #888;
               font-weight: lighter;
             }
+          }
+          .soundCloudSong{
+            margin-right: 10px;
+            width: 100px;
+            height: 100px;
           }
         }
       }
