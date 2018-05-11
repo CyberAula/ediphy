@@ -115,11 +115,11 @@ export default class CKEDitorComponent extends Component {
             } else if (this.props.toolbars[this.props.id].showTextEditor === false && nextProps.toolbars[nextProps.id].showTextEditor === true) {
                 let CKstring = CKEDITOR.instances[nextProps.id].getData();
                 let initString = "<p>" + i18n.t("text_here") + "</p>\n";
-                if(CKstring === initString) {
+                /* if(CKstring === initString) {
                     CKEDITOR.instances[nextProps.id].setData("");
                 } else {
                     CKEDITOR.instances[nextProps.id].setData(decodeURI(nextProps.toolbars[nextProps.id].state.__text));
-                }
+                }*/
 
             }
         }

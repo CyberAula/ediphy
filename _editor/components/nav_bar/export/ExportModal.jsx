@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Alert from '../../common/alert/Alert';
 import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
+import ToggleSwitch from '@trendmicro/react-toggle-switch';
 import i18n from 'i18next';
 import './_exportModal.scss';
-import ToggleSwitch from '@trendmicro/react-toggle-switch';
 let spinner = require('../../../../dist/images/spinner.svg');
 /**
  * Export course modal
@@ -15,6 +16,7 @@ export default class ExportModal extends Component {
             format: 0,
             showLoader: false,
             selfContained: false,
+            showAlert: false,
         };
     }
 
@@ -25,8 +27,9 @@ export default class ExportModal extends Component {
     render() {
         let callback = (fail)=> {
             this.setState({ showLoader: false });
+            console.log(fail);
             if (fail) {
-                alert('An error has ocurred');
+                this.setState({ showAlert: true });
             } else {
                 this.props.close();
             }
@@ -52,6 +55,11 @@ export default class ExportModal extends Component {
                         <form>
                             <Row>
                                 <Col xs={12} md={6}>
+                                    {this.state.showAlert ? (<Alert className="pageModal" show hasHeader acceptButtonText={i18n.t("messages.OK")}
+                                        title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">warning</i>{i18n.t("messages.error")}</span>}
+                                        onClose={()=>{ this.setState({ showAlert: false }); }}>
+                                        <span> {i18n.t("error.generic")} </span><br/>
+                                    </Alert>) : null}
                                     <FormGroup >
                                         <ControlLabel> {i18n.t("messages.export_to")}:</ControlLabel><br/>
                                         {this.state.showLoader ? (<img className="spinnerFloat" src={spinner}/>) : null}

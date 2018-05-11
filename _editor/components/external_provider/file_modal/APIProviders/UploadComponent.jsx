@@ -89,7 +89,6 @@ export default class UploadComponent extends React.Component {
                 this.setState({ error: true, uploaded: false, uploading: false });
             } else if (this.props.isBusy.msg === FILE_UPLOADING && isFile(nextProps.isBusy.msg)) {
                 let newFile = this.props.filesUploaded[nextProps.isBusy.msg];
-                console.log(newFile);
                 let extension = newFile.mimetype;
                 for (let e in extensions) {
                     let ext = extensions[e];
@@ -97,7 +96,6 @@ export default class UploadComponent extends React.Component {
                         extension = ext.value;
                     }
                 }
-                console.log(nextProps.isBusy.msg);
                 this.props.onElementSelected(newFile.name, newFile.url, extension, nextProps.isBusy.msg);
                 this.setState({ error: false, uploading: false, uploaded: true });
             }

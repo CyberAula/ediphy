@@ -12,7 +12,7 @@ export let extensions = [
     { label: "Audio", value: 'audio', icon: 'audiotrack' },
     { label: "Video", value: 'video', icon: 'play_arrow' },
     { label: "CSV", value: 'csv', icon: 'view_agenda' },
-    { label: "JSON", value: 'json', icon: 'view_agenda' },
+    // { label: "JSON", value: 'json', icon: 'view_agenda' },
     { label: "PDF", value: 'pdf', icon: 'picture_as_pdf' },
     { label: "XML", value: 'xml', icon: 'code' },
 ];
@@ -120,7 +120,7 @@ export default function handlers(self) {
                 // download,
             ] };
     case 'csv' :
-    case 'json':
+        /* case 'json':*/
         return {
             icon: 'view_agenda',
             buttons: [
@@ -317,28 +317,35 @@ function compareKeys(a, b) {
 }
 
 function dataToState(e, self, format, initialParams, isTargetSlide, plugin) {
-    let data = e.currentTarget.result;
-    let headers = (data[0]) ? new Array(data[0].length) : [];
-    let processed = { data: [], headers: [] };
-    if (format === 'csv') {
-        processed = csvToState(data);
-    } else if (format === 'json') {
-        processed = jsonToState(data);
-    }
-    data = processed.data;
-    headers = processed.headers;
-    let value = { name: self.state.name, data, rows: data.length, cols: data[0].length, keys: headers };
-    if (plugin === 'GraficaD3') {
-        value.dataProvided = data;
-        value.dataProcessed = data;
-    }
+    try{
+        let data = e.currentTarget.result;
+        let headers = (data[0]) ? new Array(data[0].length) : [];
+        let processed = { data: [], headers: [] };
 
-    if (self.props.fileModalResult && !self.props.fileModalResult.id) {
-        initialParams.initialState = value;
-        createBox(initialParams, plugin, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-    }else {
-        self.close({ id: self.props.fileModalResult.id, value });
+        if (format === 'csv') {
+            processed = csvToState(data);
+        } else if (format === 'json') {
+            processed = jsonToState(data);
+        }
+
+        data = processed.data;
+        headers = processed.headers;
+        let value = { name: self.state.name, data, rows: data.length, cols: data[0].length, keys: headers };
+        if (plugin === 'GraficaD3') {
+            value.dataProvided = data;
+            value.dataProcessed = data;
+        }
+
+        if (self.props.fileModalResult && !self.props.fileModalResult.id) {
+            initialParams.initialState = value;
+            createBox(initialParams, plugin, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+        }else {
+            self.close({ id: self.props.fileModalResult.id, value });
+        }
+        self.close();
+    } catch(e) {
+        alert(i18n.t('error.generic'));
+        return;
     }
-    self.close();
 }
 

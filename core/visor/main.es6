@@ -109,8 +109,6 @@ export default {
                     } else {
                         callback('error');
                     }
-                } else {
-                    callback('error');
                 }
             };
             xhr.send();
@@ -220,10 +218,8 @@ export default {
                                 }).catch(e=>{callback(e);});
                             });
                     } else {
-                        callback('error');
+                        callback(xhr.status);
                     }
-                } else {
-                    callback('error');
                 }
             };
             xhr.send();
