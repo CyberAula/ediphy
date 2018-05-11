@@ -56,8 +56,10 @@ export default {
 
                         JSZipUtils.getBinaryContent(Ediphy.Config.visor_zip, function(err, data) {
                             if (err) {
-                                callback();
+                                callback(1);
                                 throw err; // or handle err
+                                return;
+
                             }
                             JSZip.loadAsync(data).then(function(zip) {
 
@@ -162,8 +164,10 @@ export default {
                         JSZipUtils.getBinaryContent(is2004 ? Ediphy.Config.scorm_zip_2004 : Ediphy.Config.scorm_zip_12,
                             function(err, data) {
                                 if (err) {
-                                    callback();
+                                    callback(1);
                                     throw err; // or handle err
+                                    return;
+
                                 }
                                 JSZip.loadAsync(data).then(function(zip) {
                                     let navs = state.navItemsById;
