@@ -29,8 +29,6 @@ export default class UploadComponent extends React.Component {
 
     }
     render() {
-        let keywords = this.state.keywords;
-
         let file = this.state.file;
         let currentExtension = this.props.show;
         currentExtension = currentExtension === '*' ? '' : currentExtension;
@@ -44,8 +42,7 @@ export default class UploadComponent extends React.Component {
             }
         }
         let fileSelected = this.props.filesUploaded[this.props.idSelected];
-        /* <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}</h5> */
-        return(<div className="uploadComponent">
+        return(<div className="contentComponent uploadComponent">
             <h5>{i18n.t("Importa un fichero desde tu equipo...")}</h5>
             <hr />
             { (!this.state.file && !this.state.uploading && !this.state.uploaded) ?

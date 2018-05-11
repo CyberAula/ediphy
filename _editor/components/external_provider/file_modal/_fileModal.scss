@@ -1,7 +1,7 @@
 @import "../../../../sass/general/_variables.scss";
 .pageModal.fileModal {
   .modal-body {
-    padding: 0px 15px;
+    padding: 0;
     .row-eq-height {
       display: -webkit-box;
       display: -webkit-flex;
@@ -9,28 +9,28 @@
       display:         flex;
     }
     #menuColumn {
+      width: 160px;
       padding: 0;
-      background-color: $lightestgrey;
       border-right: 1px solid grey;
+      flex-shrink: 0;
+      background-color: $lightestgrey;
       .list-group {
         margin: 0;
         .listGroupItem {
-          border-radius: 0px !important;
           background-color: transparent;
+          border-radius: 0;
           border: none;
-          font-size: 16px;
-          border: 0;
+          font-size: 1.05em;
           padding: 20px;
           i {
-            font-size: 16px;
+            font-size: 1.1em;
             vertical-align: middle;
-            margin-right: 3px;
+            margin-right: 10px;
             color: $darkest;
           }
           .fileMenuIcon {
             width: auto;
-            max-width: 100%;
-            max-height: 21px;
+            height: 20px;
             -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
             filter: grayscale(100%);
           }
@@ -48,12 +48,37 @@
     }
     #contentColumn {
       padding: 0;
-      .form-horizontal, .form-group{
-        padding: 0 15px;
+      flex-grow: 1;
+      align-self: stretch;
+      .contentComponent{
+        padding: 20px 0;
+        min-height: 365px;
+        h5 {
+          margin: 0;
+          padding: 0 20px;
+          color: $blueprimary;
+          font-size: 16px;
+          .searchInputTopBar {
+            width:60%;
+            float: right;
+          }
+          .fileMenuIcon {
+            width: auto;
+            height: 24px;
+          }
+        }
+        hr{ margin: 10px 0 0 0; }
+      }
+      .ExternalResults{
+        min-height:  295px;
+        overflow-y: auto;
+        max-height: 450px;
+        margin-bottom: -20px;
+        padding: 0 20px;
         .control-label{
           width: 100%;
           text-align: right;
-          margin: 0 0 20px 0;
+          margin: 0;
         }
         .videoItem, .audioItem{
           display: flex;
@@ -76,32 +101,10 @@
           }
         }
       }
-      h5 {
-        color: $blueprimary;
-        font-size: 16px;
-        margin: 23px 0;
-        .searchInputTopBar {
-          width:60%;
-          float: right;
-        }
-        i {
-          font-size: 20px;
-          vertical-align: middle;
-          color: $darkest;
-          margin-right: 5px;
-        }
-        .fileMenuIcon {
-          width: auto;
-          max-width: 100px;
-          max-height: 24px;
-        }
-      }
-
-      .uploadComponent, .myFilesComponent{
-        padding: 0 15px;
-        min-height: 338px;
-      }
       .uploadComponent {
+        padding: 20px;
+        hr{ margin: 25px 0 20px; }
+        h5{ padding: 0}
         .fileDrag {
           margin: 0;
           display: flex;
@@ -150,7 +153,6 @@
             background-color: $detailgreentransparent;
           }
         }
-
         #spinnerFloatContainer {
           text-align: center;
           .spinnerFloat {
@@ -158,7 +160,18 @@
             width: 75px;
           }
         }
-
+      }
+      .myFilesComponent{
+        padding: 20px;
+        hr{ margin: 25px 0 0; }
+        h5{ padding: 0}
+        .filters{
+          display: flex;
+          .form-group{
+            padding: 15px 5px 0;
+            width: 100%;
+          }
+        }
       }
       #fileNameTitle {
         color: #555;
@@ -170,9 +183,7 @@
             font-size: 1.4em;
             vertical-align: middle;
           }
-
         }
-
       }
       #serverMsg, .empty {
         width: 100%;
@@ -182,23 +193,20 @@
         color: $blueprimary;
         font-weight: bold;
       }
-
       .myFile {
         &.hidden {
           display: none;
         }
-        .deleteButton {
-          position:absolute;
-          top: 8px;
-          right: 8px;
+        .deleteButton, .downloadButton {
+          background-color: $blueprimary;
+          color: white;
+          position: absolute;
+          padding: 2px 5px;
           border: none;
-          padding: 0;
-          background-color: white;
-          color: grey;
-          width:29px;
-          height: 29px;
-          z-index: 9999;
+          i{ font-size: 1.4em; line-height: 1em;}
         }
+        .deleteButton{ top: 11px; right: 11px; }
+        .downloadButton{ top: 11px; right: 46px; }
         height: 160px;
         transition: all 0.2s ease;
         &:hover {
@@ -216,7 +224,7 @@
           background-position: center;
           background-size: cover;
           &.active {
-            border-color: orange !important;
+            border-color: $blueprimary !important;
           }
           i {
             font-size: 40px;
@@ -236,11 +244,7 @@
         }
         padding:5px;
       }
-      .myFilesRow {
-        margin: -5px;
-        clear:both;
-
-      }
+      .myFilesRow { clear:both; }
       .form-group .Select {
         border: 1px solid #ccc;
         &:focus, .is-focused {
@@ -259,7 +263,7 @@
         height: 38px;
       }
       hr.fileModalFooter {
-        margin-bottom: 0px;
+        margin: 0px;
       }
       .inputSearch {
         cursor: pointer;
@@ -290,27 +294,23 @@
           width: calc(100% - 30px);
           display: inline-block;
           margin-left: 40px;
-
           .import_file_buttons {
             text-align: right;
             margin:5px;
             button {
               margin: 5px;
             }
-
           }
         }
         #wrapper {
           height: 100%;
           overflow-y:auto;
           overflow-x: hidden;
-
         }
         &.showBar {
           width: 100%;
           overflow: hidden;
         }
-
         #sideArrow {
           height: 100%;
           width: 30px;
