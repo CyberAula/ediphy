@@ -1,7 +1,6 @@
 import { isDataURL, dataURItoBlob } from '../../common/utils';
 import xml2json from 'basic-xml2json';
 export default function parseMoodleXML(file, callback) {
-    console.log(file);
     let parser = new DOMParser();
     let xmlDoc = "";
     if (isDataURL(file)) {
@@ -9,9 +8,8 @@ export default function parseMoodleXML(file, callback) {
         fileReader.onload = (e)=> {
             try {
                 xml2jsonParser(e.srcElement.result, callback);
-                callback(true);
             } catch (e) {
-                callback(false);
+                callback({ success: false, msg: 'Error al parsear el fichero' });
             }
         };
         fileReader.readAsBinaryString(dataURItoBlob(file), callback);
@@ -19,10 +17,9 @@ export default function parseMoodleXML(file, callback) {
         fetch(file).then(res => {
             return res.text();
         }).then(xml => {
-            xml2jsonParser(xml);
-            callback(true);
+            xml2jsonParser(xml, callback);
         }).catch(e=>{
-            callback(false);
+            callback({ success: false, msg: 'Error al parsear el fichero' });
         });
     }
 
@@ -30,27 +27,32 @@ export default function parseMoodleXML(file, callback) {
 
 function xml2jsonParser(xmlDoc, callback) {
     try {
-        let xmljson = xml2json.parse(xmlDoc);
-        console.log(xmljson);
+        let xmljson = xml2json.parse(xmlDoc); // TODO score
         let question = {};
+        let answers, questiontext, answerTexts, scores, correctAnswer, currentAnswer, feedback, showFeedback;
         if (xmljson && xmljson.root && xmljson.root.name === "question") {
             let children = xmljson.root.children;
+            feedback = children.filter(child => child.name === 'generalfeedback');
+            showFeedback = feedback.length > 0;
+            feedback = showFeedback ? feedback[0].content : "";
+            questiontext = children.filter(child => child.name === 'questiontext');
+            questiontext = questiontext.length > 0 ? (questiontext[0].content || (questiontext[0].children.map(c=>c.content)).join('<br/>')) : "";
             switch(xmljson.root.attributes.type) {
             case "multichoice":
                 // Check if single
-                let answers = children.filter(child => child.name === 'answer');
-                let answerTexts = answers.map(ans => ans.children.filter(el=>el.name === 'text')[0].content);
-                let scores = answers.map(ans => parseInt(ans.attributes.fraction, 0));
-                let correctAnswer;
 
-                let single = children.some(child => child.name === 'single');
+                answers = children.filter(child => child.name === 'answer');
+                answerTexts = answers.map(ans => ans.children.filter(el=>el.name === 'text')[0].content);
+                scores = answers.map(ans => parseInt(ans.attributes.fraction, 0));
+
+                let single = children.some(child => child.name === 'single' && (!child.content || child.content === 'true'));
                 if (single) {
                     correctAnswer = scores.indexOf(100);
                 } else {
                     correctAnswer = [];
                     scores.map((s, i) => {if (s === 100) {correctAnswer.push(i);}});
                 }
-
+                currentAnswer = false;
                 let useNumbers = false;
                 let answernumberingobj = children.filter(child => child.name === 'answernumbering');
                 if (answernumberingobj && answernumberingobj.length > 0) {
@@ -58,30 +60,110 @@ function xml2jsonParser(xmlDoc, callback) {
                 }
                 question = {
                     name: single ? 'MultipleChoice' : 'MultipleAnswer',
-                    correctAnswer,
+                    correctAnswer, currentAnswer,
                     answers: answerTexts,
-                    useNumbers,
+                    question: questiontext,
+                    feedback,
+                    state: {
+                        nBoxes: 3,
+                        showFeedback,
+                        letters: !useNumbers,
+                    },
                 };
-                console.log(question);
-                return;
+                if (single) {
+                    question.state.allowPartialScore = false;
+                }
+                break;
             case "truefalse":
-                return;
-            case "essay":
-                return; // FreeResponse
+                answers = children.filter(child => child.name === 'answer');
+                answerTexts = answers.map(ans => ans.children.filter(el => el.name === 'text')[0].content);
+                scores = answers.map(ans => parseInt(ans.attributes.fraction, 0));
+                correctAnswer = scores.map(s => (s === 100).toString());
+                currentAnswer = scores.map(s => "false");
+                question = {
+                    name: 'TrueFalse',
+                    correctAnswer,
+                    currentAnswer,
+                    answers: answerTexts,
+                    question: questiontext,
+                    feedback,
+                    state: {
+                        nBoxes: correctAnswer.length,
+                        showFeedback,
+                    },
+                };
+                break;
             case "shortanswer":
+                answers = children.filter(child => child.name === 'answer');
+                answerTexts = answers.map(ans => ans.children.filter(el => el.name === 'text')[0].content);
+                correctAnswer = answerTexts.join('//');
+                currentAnswer = "";
+                let characters = !children.some(child => child.name === 'usecase' && (!child.content || child.content === 'true'));
+                question = {
+                    name: 'InputText',
+                    correctAnswer,
+                    currentAnswer,
+                    state: {
+                        type: 'text',
+                        fontSize: 14,
+                        precision: 0.01,
+                        characters,
+                        showFeedback,
+                    },
+                };
+                break;
+            case "essay":
+
+                precision = precision[0].content;
+                question = {
+                    name: 'FreeResponse',
+                    correctAnswer: true,
+                    currentAnswer: false,
+                    question: questiontext,
+                    feedback,
+                    state: {
+                        showFeedback,
+                    },
+                };
+                break;
             case "numerical":
-                return; // InputText
+                answers = children.filter(child => child.name === 'answer');
+                correctAnswer = answers.join('//');
+                currentAnswer = "";
+                let precision = children.filter(child => child.name === 'tolerance');
+                precision = precision[0].content;
+                question = {
+                    name: 'InputText',
+                    correctAnswer,
+                    currentAnswer,
+                    question: questiontext,
+                    feedback,
+                    state: {
+                        type: 'number',
+                        fontSize: 14,
+                        precision,
+                        characters: true,
+                        showFeedback,
+                    },
+                };
+                break;
             case "matching":
             case "cloze":
             case "description":
-                alert('Not yet supported');
+                callback({ success: false, msg: 'Not yet supported' });
+                return;
+            default:
+                callback({ success: false, msg: 'Unrecognized exercise type' });
+                return;
             }
+            callback({ success: true, question });
 
+        } else {
+            callback({ success: false, msg: 'Seguro que es MoodleXML?' });
         }
 
     } catch (e) {
-        callback(false);
-        alert('No es correcto el JSON');
+        callback({ success: false, msg: 'Error al parsear el fichero' });
     }
 }
 

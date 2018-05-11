@@ -189,11 +189,18 @@ export default function handlers(self) {
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
                     action: ()=>{ // Open side view
                         if (self.props.fileModalResult && !self.props.fileModalResult.id) {
-                            parseMoodleXML(self.state.element, e=>{console.log(e);});
+                            parseMoodleXML(self.state.element, msg=>{
+                                if (msg && msg.success && msg.question) {
+                                    initialParams.exercises = msg.question;
+                                    initialParams.initialState = msg.question.state;
+                                    createBox(initialParams, msg.question.name, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                                    self.close();
+                                } else {
+                                    alert(msg ? (msg.msg || 'ERROR') : 'ERROR');
+                                }
 
-                            initialParams.url = self.state.element;
-                            // createBox(initialParams, "EnrichedPlayer", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-                            self.close();
+                            });
+
                         } else {
                             // self.close({ id: self.props.fileModalResult.id, value: self.state.element });
                         }

@@ -208,7 +208,21 @@ export function createBox(ids, name, slide, addBox, boxes) {
     let basePrefix = ID_PREFIX_BOX + Date.now();
     newBoxes.map((box, ind) => {
         box.ids.id = basePrefix + ind;
+        if (box.ids && ids.exercises) {
+            if (box.ids.container === 'sc-Question') {
+                box.ids.text = ids.exercises.question || box.ids.text;
+            }
+            let ans = box.ids.container.match(/sc-Answer(\d+)/);
+            if(ans && ans.length > 1 && !isNaN(ans[1])) {
+                box.ids.text = ids.exercises.answers[ans[1]] || box.ids.text;
+            }
+            if (box.ids.container === 'sc-Feedback') {
+                box.ids.text = ids.exercises.feedback || box.ids.text;
+            }
+        }
+
         createBox(box.ids, box.name, false, addBox, boxes);
+
     });
     setTimeout(()=>{
         let boxCreated = findBox(ids.id);
