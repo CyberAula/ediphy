@@ -44,6 +44,7 @@ import PropTypes from 'prop-types';
 import { ID_PREFIX_BOX } from '../../common/constants';
 import { createBox } from '../../common/common_tools';
 import FileModal from '../components/external_provider/file_modal/FileModal';
+import EdiphyTour from '../components/joyride/EdiphyTour';
 import { serialize } from '../../reducers/serializer';
 
 /**
@@ -119,6 +120,7 @@ class EditorApp extends Component {
         return (
             <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }}>
                 <Row className="navBar">
+                    <EdiphyTour/>
                     {this.state.alert}
                     <EditorNavBar hideTab={this.state.hideTab} boxes={boxes}
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}

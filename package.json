@@ -171,6 +171,7 @@
     "react-datatable-bs": "^1.0.12",
     "react-dom": "^16.1.1",
     "react-dropzone": "^4.2.1",
+    "react-joyride": "^2.0.0-10",
     "react-prism": "^4.3.2",
     "react-redux": "^5.0.6",
     "react-remarkable": "^1.1.3",
