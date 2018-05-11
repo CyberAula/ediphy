@@ -14,10 +14,10 @@ export default class Config extends React.Component {
         this.setOptions = this.setOptions.bind(this);
         this.optionsChanged = this.optionsChanged.bind(this);
         this.editButtonClicked = this.editButtonClicked.bind(this);
+        this.changeAxis = this.changeAxis.bind(this);
         this.state = {
             dataProcessed: [],
             keys: [],
-            xcolumn: 0,
             values: [],
             options: this.props.options,
         };
@@ -33,9 +33,9 @@ export default class Config extends React.Component {
         let keys = values.keys.slice();
         let data = values.data.slice();
         for (let i = 0; i < values.data.length; i++) {
-            let object = { name: values.data[i][this.state.xcolumn] };
-            for (let o = 0; o < data.length - 1; o++) {
-                let value = isNaN(data[o][i]) || typeof(data[o][i]) === "boolean" || data[o][i] === "" || data[o][i] === null ? data[o][i] : parseFloat(data[o][i], 10);
+            let object = { name: values.data[i][0] };
+            for (let o = 0; o < data[0].length; o++) {
+                let value = isNaN(data[i][o]) || typeof(data[i][o]) === "boolean" || data[i][o] === "" || data[i][o] === null ? data[i][o] : parseFloat(data[i][o], 10);
                 object[o] = value;
             }
             dataObject.push(object);
@@ -45,6 +45,24 @@ export default class Config extends React.Component {
         /* CONVERSOR BETWEEN OLD AND NEW */
 
         this.setOptions(keys, data, dataObject);
+    }
+
+    changeAxis(value) {
+        let oldvalue = this.props.state.options.xaxis;
+        let newvalue = parseInt(value);
+        let options = { ...this.props.state.options, xaxis: newvalue };
+        let newData = this.state.dataProcessed.slice();
+        // go through elements and change graphs
+        Object.keys(options.graphs).forEach(e=>{
+            if (options.graphs[e].column === newvalue) {
+                options.graphs[e].column = oldvalue;
+            }
+        });
+        this.state.dataProcessed.forEach(e=>{
+            e.name = e[newvalue];
+        });
+
+        this.props.updateState({ ...this.props.state, options: options, dataProcessed: newData });
     }
 
     setOptions(keys, values, dataObject) {
@@ -71,7 +89,7 @@ export default class Config extends React.Component {
                         <DataProvider dataProvided={dataProvided} dataChanged={this.dataChanged} id={this.props.id} props={this.props.props}/>
                         }
                         {this.props.step === 2 &&
-                        <ChartOptions dataProcessed={dataProcessed} options={options} dataProvided={dataProvided} keys={this.state.keys} optionsChanged={this.optionsChanged}/>
+                        <ChartOptions dataProcessed={dataProcessed} options={options} dataProvided={dataProvided} dataChanged={this.dataChanged} keys={this.state.keys} changeAxis={this.changeAxis} xcolumn={this.state.xcolumn} optionsChanged={this.optionsChanged}/>
                         }
                     </Col>
                     <div className="col-xs-12 col-lg-7" ref="chartContainer" style={{ padding: '0px' }}>

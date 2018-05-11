@@ -17,7 +17,7 @@ export default class ChartOptions extends React.Component {
         this.graphsChanged = this.graphsChanged.bind(this);
         this.columnChanged = this.columnChanged.bind(this);
         this.rowNameChanged = this.rowNameChanged.bind(this);
-        this.changeXAxis = this.changeXAxis.bind(this);
+        this.changeAxis = this.changeAxis.bind(this);
 
         this.state = {
             dataProcessed: this.props.dataProcessed,
@@ -26,8 +26,8 @@ export default class ChartOptions extends React.Component {
 
     }
 
-    changeXAxis(event) {
-        this.props.optionsChanged({ xaxis: event.target.value });
+    changeAxis(event) {
+        this.props.changeAxis(event.target.value);
     }
 
     typeChanged(event) {
@@ -45,7 +45,7 @@ export default class ChartOptions extends React.Component {
         let number = event.target.value;
         let columns = this.state.values[0].length;
         if(number > graphs.length) {
-            if(number <= columns - 1) {
+            if(number <= columns) {
                 for (let i = graphs.length; i < number; i++) {
                     graphs[i] = {
                         column: i,
@@ -144,7 +144,7 @@ export default class ChartOptions extends React.Component {
                                 </FormControl.Static>
                             </Col>
                             <Col xs={7}>
-                                <FormControl componentClass="select" placeholder={i18n.t("GraficaD3.Column")} name={"element"} value={this.props.options.xaxis} onChange={this.changeXAxis}>
+                                <FormControl componentClass="select" placeholder={i18n.t("GraficaD3.Column")} name={"element"} value={this.props.options.xaxis} onChange={this.changeAxis}>
                                     {this.props.dataProvided[0].map((x, w) => {
                                         return(
                                             <option key={w + 1} value={w}>{ i18n.t("GraficaD3.Column") + " (" + this.props.dataProvided[0][w] + ")"}</option>
@@ -172,9 +172,10 @@ export default class ChartOptions extends React.Component {
                                         </Col>
                                         <Col xs={7}>
                                             <FormControl componentClass="select" placeholder={i18n.t("GraficaD3.Column") + 0} name={i} value={this.props.options.graphs[i].column} onChange={this.columnChanged}>
-                                                {this.state.values.map((x, w) => {
+                                                {this.props.dataProvided[0].map((x, w) => {
+                                                    if(w === this.props.options.xaxis) {return;}
                                                     return(
-                                                        <option key={w + 1} value={w}>{ i18n.t("GraficaD3.Column") + " " + w}</option>
+                                                        <option key={w + 1} value={w}>{ i18n.t("GraficaD3.Column") + " (" + this.props.dataProvided[0][w] + ")"}</option>
                                                     );
                                                 })}
                                             </FormControl>
