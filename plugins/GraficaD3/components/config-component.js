@@ -51,7 +51,7 @@ export default class Config extends React.Component {
         let oldvalue = this.props.state.options.xaxis;
         let newvalue = parseInt(value);
         let options = { ...this.props.state.options, xaxis: newvalue };
-        let newData = this.state.dataProcessed.slice();
+        let newData = this.props.state.dataProcessed.slice();
         // go through elements and change graphs
         Object.keys(options.graphs).forEach(e=>{
             if (options.graphs[e].column === newvalue) {

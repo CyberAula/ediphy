@@ -21,7 +21,6 @@ export default class ChartOptions extends React.Component {
 
         this.state = {
             dataProcessed: this.props.dataProcessed,
-            values: this.props.dataProvided.slice(1, this.props.dataProvided.length),
         };
 
     }
@@ -42,8 +41,8 @@ export default class ChartOptions extends React.Component {
 
     graphsChanged(event) {
         let graphs = this.props.options.graphs.slice();
-        let number = event.target.value;
-        let columns = this.state.values[0].length;
+        let number = parseInt(event.target.value);
+        let columns = this.props.dataProvided[0].length - 1;
         if(number > graphs.length) {
             if(number <= columns) {
                 for (let i = graphs.length; i < number; i++) {
