@@ -37,8 +37,8 @@ export default class FileModal extends React.Component {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <Row className="row-eq-height">
-                        <Col xs={12} sm={4} md={3} lg={3} id="menuColumn">
+                    <div className="row-eq-height">
+                        <div id="menuColumn">
                             <ListGroup>
                                 {menus.map((cat, i)=>{
                                     if (cat.show) {
@@ -51,8 +51,8 @@ export default class FileModal extends React.Component {
                                     return null;
                                 })}
                             </ListGroup>
-                        </Col>
-                        <Col xs={12} sm={8} md={9} lg={9} id="contentColumn" >
+                        </div>
+                        <div id="contentColumn">
                             {React.createElement(menus[this.state.menu].component,
                                 { ...(menus[this.state.menu].props || {}), icon: menus[this.state.menu].icon, name: menus[this.state.menu].name }, null)}
                             <div id="sideBar" className={this.state.pdfSelected ? "showBar" : ""}>
@@ -93,8 +93,8 @@ export default class FileModal extends React.Component {
                                     }}>{button.title}</Button>;
                                 }) : null}
                             </Modal.Footer>
-                        </Col>
-                    </Row>
+                        </div>
+                    </div>
                 </Modal.Body>
             </Modal>);
     }

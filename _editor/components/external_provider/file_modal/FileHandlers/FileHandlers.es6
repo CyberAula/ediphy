@@ -18,22 +18,22 @@ export let extensions = [
 ];
 export default function handlers(self) {
     let type = self.state.type;
-    let download = { // Forces browser download
-        title: i18n.t('FileModal.FileHandlers.downloadAsFile'),
-        disabled: !self.state.element,
-        action: ()=>{
-            if (navigator.userAgent.search("Firefox") !== -1) {
-                window.open(self.state.element);
-            } else {
-                let anchor = document.createElement('a');
-                anchor.setAttribute('download', '');
-                anchor.href = self.state.element;
-                anchor.target = '_blank';
-                anchor.download = self.state.name;
-                anchor.click();
-            }
-        },
-    };
+    // let download = { // Forces browser download
+    //     title: i18n.t('FileModal.FileHandlers.downloadAsFile'),
+    //     disabled: !self.state.element,
+    //     action: ()=>{
+    //         if (navigator.userAgent.search("Firefox") !== -1) {
+    //             window.open(self.state.element);
+    //         } else {
+    //             let anchor = document.createElement('a');
+    //             anchor.setAttribute('download', '');
+    //             anchor.href = self.state.element;
+    //             anchor.target = '_blank';
+    //             anchor.download = self.state.name;
+    //             anchor.click();
+    //         }
+    //     },
+    // };
     let page = self.currentPage();
     let { initialParams, isTargetSlide } = getInitialParams(self, page);
     let currentPlugin = (self.props.fileModalResult && self.props.fileModalResult.id && self.props.pluginToolbars[self.props.fileModalResult.id]) ? self.props.pluginToolbars[self.props.fileModalResult.id].pluginId : null;
@@ -205,7 +205,7 @@ export default function handlers(self) {
         return {
             icon: 'attach_file',
             buttons: [
-                download,
+                // download,
             ] };
     }
 }

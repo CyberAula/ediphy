@@ -18,7 +18,7 @@ export default class SearchVishComponent extends React.Component {
     }
     render() {
         return (
-            <div>
+            <div className="contentComponent">
                 <Form horizontal action="javascript:void(0);">
                     <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}
                         <SearchComponent query={this.state.value} onChange={(e)=>{this.setState({ query: e.target.value });}} onSearch={this.onSearch} /></h5>
@@ -83,7 +83,7 @@ export default class SearchVishComponent extends React.Component {
                     </FormGroup>
 
                 </Form>*/}
-                <Form style={{ minHeight: 260, overflowY: 'auto', maxHeight: 450 }}>
+                <Form className={"ExternalResults"}>
                     {this.state.results.length > 0 ?
                         (
                             <FormGroup>
