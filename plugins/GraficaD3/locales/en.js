@@ -47,6 +47,7 @@ module.exports = {
         "show": "Show",
         "preview": "Preview",
         "Row": "Row",
+        "Column": "Column",
         "row_name": "Row name",
         "types": {
             "line": "Line",
