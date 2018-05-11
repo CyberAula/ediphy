@@ -72,8 +72,8 @@ export default class UploadComponent extends React.Component {
                                      handleDelete={this.handleDelete}
                                      handleAddition={this.handleAddition}
                                      handleDrag={this.handleDrag} />*/}
-                        { this.state.error ? <span id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i> {i18n.t("FileModal.APIProviders.error")}</span> : null }
-                        { this.state.uploaded ? <span id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i> {i18n.t("FileModal.APIProviders.uploaded")} </span> : null }
+                        { this.state.error ? <div id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i><div>{i18n.t("FileModal.APIProviders.error")}</div></div> : null }
+                        { this.state.uploaded ? <div id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i><div> {i18n.t("FileModal.APIProviders.uploaded")}</div> </div> : null }
                     </FormGroup>
                 </Col>
             </Row> : null}

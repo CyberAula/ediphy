@@ -2,7 +2,8 @@ import React from 'react';
 import { createBox } from '../../../../../common/common_tools';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../common/constants';
 import { randomPositionGenerator } from '../../../clipboard/clipboard.utils';
-import { isSlide, isBox, isDataURL } from '../../../../../common/utils';
+import { isSlide, isBox, isDataURL, dataURItoBlob } from '../../../../../common/utils';
+import parseMoodleXML from '../../../../../core/editor/moodleXML';
 import i18n from 'i18next';
 
 export let extensions = [
@@ -13,6 +14,7 @@ export let extensions = [
     { label: "CSV", value: 'csv', icon: 'view_agenda' },
     { label: "JSON", value: 'json', icon: 'view_agenda' },
     { label: "PDF", value: 'pdf', icon: 'picture_as_pdf' },
+    { label: "XML", value: 'xml', icon: 'code' },
 ];
 export default function handlers(self) {
     let type = self.state.type;
@@ -35,6 +37,7 @@ export default function handlers(self) {
     let page = self.currentPage();
     let { initialParams, isTargetSlide } = getInitialParams(self, page);
     let currentPlugin = (self.props.fileModalResult && self.props.fileModalResult.id && self.props.pluginToolbars[self.props.fileModalResult.id]) ? self.props.pluginToolbars[self.props.fileModalResult.id].pluginId : null;
+    let apiPlugin = currentPlugin ? Ediphy.Plugins.get(currentPlugin) : undefined;
     switch(type) {
     case 'image' :
         return{
@@ -177,6 +180,27 @@ export default function handlers(self) {
                 },
                 // download,
             ] };
+    case 'xml' :
+        return {
+            icon: 'link',
+            buttons: [
+                {
+                    title: 'Insert MoodleXML', // (currentPlugin && apiPlugin.getConfig().category  === 'evaluation') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' MoodleXML'),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
+                    action: ()=>{ // Open side view
+                        if (self.props.fileModalResult && !self.props.fileModalResult.id) {
+                            parseMoodleXML(self.state.element, e=>{console.log(e);});
+
+                            initialParams.url = self.state.element;
+                            // createBox(initialParams, "EnrichedPlayer", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                            self.close();
+                        } else {
+                            // self.close({ id: self.props.fileModalResult.id, value: self.state.element });
+                        }
+                    },
+                },
+                // download,
+            ] };
     default :
         return {
             icon: 'attach_file',
@@ -283,31 +307,6 @@ function compareKeys(a, b) {
     a = a.sort().toString();
     b = b.sort().toString();
     return a === b;
-}
-
-function dataURItoBlob(dataURI) {
-    // convert base64 to raw binary data held in a string
-    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
-    let byteString = atob(dataURI.split(',')[1]);
-
-    // separate out the mime component
-    let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-    // write the bytes of the string to an ArrayBuffer
-    let ab = new ArrayBuffer(byteString.length);
-
-    // create a view into the buffer
-    let ia = new Uint8Array(ab);
-
-    // set the bytes of the buffer to the correct values
-    for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-    }
-
-    // write the ArrayBuffer to a blob, and you're done
-    let blob = new Blob([ab], { type: mimeString });
-    return blob;
-
 }
 
 function dataToState(e, self, format, initialParams, isTargetSlide, plugin) {

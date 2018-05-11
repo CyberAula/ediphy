@@ -80,11 +80,11 @@ let es = {
                 'results': 'Resultados',
                 'searching': 'Buscando...',
                 'error': 'Ha ocurrido un error',
-                'uploaded': 'Archivo subido',
+                'uploaded': 'Archivo subido y añadido a la biblioteca',
                 'upload': 'Subir fichero',
                 'clear': 'Cancelar',
                 'search': 'Buscar',
-                'confirm_delete': '¿Estás seguro de que deseas eliminar este fichero permanentemente?',
+                'confirm_delete': '¿Estás seguro de que deseas eliminar este fichero?',
             },
             'FileHandlers': {
                 'downloadAsFile': 'Descargar Fichero',
