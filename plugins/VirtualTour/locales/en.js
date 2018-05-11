@@ -13,7 +13,7 @@ module.exports = {
         "center": "Center",
         "Zoom": "Zoom",
         "map": "Mapa",
-        "message_mark_xy": "You've chosen an incorrect value. You must introduce two numbers separated by a comma. E.g. 4.56,90.76",
+        "message_mark_xyp": "You've chosen an incorrect value. You must introduce three numbers separated by a comma. E.g. 4.56,90.76,1",
         "Search": "Search places...",
     },
 };

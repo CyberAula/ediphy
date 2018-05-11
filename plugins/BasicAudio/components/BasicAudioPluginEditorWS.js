@@ -154,14 +154,12 @@ export default class BasicAudioPluginEditor extends React.Component {
             <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "auto" }}>
                 <div>
                     <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{ this.onResize(e);}} />
-                    <div className="progress-audio-input dropableRichZone" style={{ pointerEvents: "auto" }}>
-                        <input className="mainSlider" style={{ left: (this.state.pos * 100) / this.state.duration, pointerEvents: "auto" }} type='range' min={0} max={100} onChange={this.handlePosChange.bind(this)} />
-                        {markElements}
-                    </div>
-
                     <div className='waveform'>
                         <div className='wave' />
                     </div>
+                </div>
+                <div className="progress-audio-input dropableRichZone" style={{ pointerEvents: "auto" }}>
+                    {markElements}
                 </div>
                 <div>
                     {(this.props.state.controls) && (

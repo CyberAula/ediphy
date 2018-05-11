@@ -33,7 +33,7 @@ export function BasicPDF(base) {
                 marksType: [{
                     name: i18n.t('BasicPDF.Coords'),
                     key: 'value',
-                    format: '[Lat,Lng,Pag]',
+                    format: '[x,y,Pag]',
                     default: '40.452,-3.727,1',
                     defaultColor: '#000002',
                 }],
@@ -116,7 +116,7 @@ export function BasicPDF(base) {
         },
 
         getRenderTemplate: function(state, props) {
-
+            // console.log(props)
             return (
 
                 <div className="pdfViewerPlugin" style={{ height: "100%", width: "100%" }}>
@@ -133,24 +133,28 @@ export function BasicPDF(base) {
         },
         parseRichMarkInput: function(...value) {
 
-            let x = (value[0] + 12) * 100 / value[2];
-            let y = (value[1] + 26) * 100 / value[3];
-            // aqui
-            return y.toFixed(2) + ',' + x.toFixed(2) + ',' + value[5].pageNumber;
+            let y = (value[0] + 12) * 100 / value[2];
+            let x = (value[1] + 26) * 100 / value[3];
+            // let numPage = document.querySelector("#"+value[6]+".pdfPage").getAttribute("data-page-number");
+            let numPage = document.querySelector(".pdfPage").getAttribute("data-page-number");
+            return y.toFixed(2) + ',' + x.toFixed(2) + ',' + numPage;
         },
         validateValueInput: function(value) {
-            let regex = /(^\d+(?:\.\d*)?%$)/g;
+            // let regex = /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$),(\d+)/g;
+            let regex = /(^-?\d+(?:\.\d*)?),(-?\d+(?:\.\d*)?),(\d+$)/g;
             let match = regex.exec(value);
-            if (match && match.length === 3) {
+            if (match && match.length === 4) {
                 let x = Math.round(parseFloat(match[1]) * 100) / 100;
                 let y = Math.round(parseFloat(match[2]) * 100) / 100;
+                let p = Math.round(parseFloat(match[3]) * 100) / 100;
                 if (isNaN(x) || isNaN(y)) {
-                    return { isWrong: true, message: i18n.t("BasicPDF.message_mark_percentage") };
+                    return { isWrong: true, message: i18n.t("BasicPDF.message_mark_xyp") };
                 }
-                value = x + ',' + y;
+                value = x + ',' + y + ',' + p;
             } else {
-                return { isWrong: true, message: i18n.t("BasicPDF.message_mark_percentage") };
+                return { isWrong: true, message: i18n.t("BasicPDF.message_mark_xyp") };
             }
+            // console.log("OK");
             return { isWrong: false, value: value };
         },
         /* getDefaultMarkValue(state) {

@@ -32,7 +32,6 @@ export default class BasicAudioPlugin extends React.Component {
     }
 
     buttonNext() {
-        console.log(this.state.numPages);
         if(this.state.pageNumber === this.state.numPages) {
         }
         else{
@@ -84,7 +83,7 @@ export default class BasicAudioPlugin extends React.Component {
                 <Document style={{ width: "100%", height: "100%" }}
                     file = {this.props.state.url}
                     onLoadSuccess={this.onDocumentLoad}>
-                    <Page style={{ width: "100%", height: "100%" }}
+                    <Page style={{ width: "100%", height: "100%" }} className="pdfPage"
                         pageNumber={this.state.pageNumber}
                     />
                 </Document>
