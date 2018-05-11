@@ -44,7 +44,6 @@ export default class UploadComponent extends React.Component {
             }
         }
         let fileSelected = this.props.filesUploaded[this.props.idSelected];
-        console.log(aux, fileSelected);
         /* <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}</h5> */
         return(<div className="uploadComponent">
             <h5>{i18n.t("Importa un fichero desde tu equipo...")}</h5>

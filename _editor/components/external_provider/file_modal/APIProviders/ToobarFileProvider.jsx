@@ -29,10 +29,9 @@ export default class ToolbarFileProvider extends Component {
         let props = { ...this.props.formControlProps,
             placeholder: isURI ? i18n.t('FileModal.FileHandlers.custom') : '',
             value: isURI ? '' : bckg };
-        console.log(this.props);
         return (<FormGroup>
-            {this.props.formControlProps ? [<ControlLabel>{props.label}</ControlLabel>,
-                <FormControl {...props} onChange={e => {
+            {this.props.formControlProps ? [<ControlLabel key={1}>{props.label}</ControlLabel>,
+                <FormControl key={2}{...props} onChange={e => {
                     props.onChange(e);
                 }}/>] : null}
             <Button className={'toolbarButton'}

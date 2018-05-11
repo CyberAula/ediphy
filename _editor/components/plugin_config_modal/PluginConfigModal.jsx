@@ -74,7 +74,6 @@ export default class PluginConfigModal extends Component {
             component = template.component;
             stepsnumber = template.n_steps;
         }
-        console.log(this.state.currentStep);
         return (
             <Modal className="pageModal pluginconfig"
                 backdrop="static"
