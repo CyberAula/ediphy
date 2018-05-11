@@ -31,14 +31,14 @@ export default class FileModal extends React.Component {
         let menus = APIProviders(this); // Retrieves all API providers
         let handler = FileHandlers(this); // Retrieves all file-handling actions
         return(
-            <Modal className="pageModal fileModal" backdrop bsSize="large" show={this.props.visible} onHide={this.close}>
+            <Modal className="pageModal fileModal" backdrop bsSize="large" show={!!this.props.visible} onHide={this.close}>
                 <Modal.Header closeButton>
                     <Modal.Title>{i18n.t("FileModal.Title")}</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
-                    <Row className="row-eq-height">
-                        <Col xs={12} sm={4} md={3} lg={3} id="menuColumn">
+                    <div className="row-eq-height">
+                        <div id="menuColumn">
                             <ListGroup>
                                 {menus.map((cat, i)=>{
                                     if (cat.show) {
@@ -51,8 +51,8 @@ export default class FileModal extends React.Component {
                                     return null;
                                 })}
                             </ListGroup>
-                        </Col>
-                        <Col xs={12} sm={8} md={9} lg={9} id="contentColumn" >
+                        </div>
+                        <div id="contentColumn">
                             {React.createElement(menus[this.state.menu].component,
                                 { ...(menus[this.state.menu].props || {}), icon: menus[this.state.menu].icon, name: menus[this.state.menu].name }, null)}
                             <div id="sideBar" className={this.state.pdfSelected ? "showBar" : ""}>
@@ -81,20 +81,20 @@ export default class FileModal extends React.Component {
                             <hr className="fileModalFooter"/>
                             <Modal.Footer>
                                 {this.state.element ? (
-                                    <div className="footerFile">
+                                    <div key={-2} className="footerFile">
                                         <i className="material-icons">{handler.icon || "attach_file"}</i>{this.state.name && this.state.name.length > 30 ? ('...' + this.state.name.substr(this.state.name.length - 30, this.state.name.length)) : this.state.name}</div>
                                 ) : null}
-                                <Button onClick={e => {
+                                <Button key={-1} onClick={e => {
                                     this.close();
                                 }}>{i18n.t("FileModal.FileHandlers.cancel")}</Button>
-                                {(this.state.element && handler && handler.buttons) ? handler.buttons.map(button=>{
-                                    return <Button bsStyle="primary" disabled={button.disabled} onClick={e => {
+                                {(this.state.element && handler && handler.buttons) ? handler.buttons.map((button, key)=>{
+                                    return <Button bsStyle="primary" key={key} disabled={button.disabled} onClick={e => {
                                         button.action();
                                     }}>{button.title}</Button>;
                                 }) : null}
                             </Modal.Footer>
-                        </Col>
-                    </Row>
+                        </div>
+                    </div>
                 </Modal.Body>
             </Modal>);
     }

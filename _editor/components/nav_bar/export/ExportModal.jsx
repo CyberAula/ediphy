@@ -23,9 +23,14 @@ export default class ExportModal extends Component {
    * @returns {code}
    */
     render() {
-        let callback = ()=> {
+        let callback = (fail)=> {
             this.setState({ showLoader: false });
-            this.props.close();
+            if (fail) {
+                alert('An error has ocurred');
+            } else {
+                this.props.close();
+            }
+
         };
         let exportFormats = [
             { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false, callback, this.state.selfContained); } },
