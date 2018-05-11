@@ -75,6 +75,7 @@ class EditorApp extends Component {
             accordions: {},
             blockDrag: false,
             showFileUpload: false,
+            fileUploadTab: 0,
             fileModalResult: { id: undefined, value: undefined },
         };
         this.onTextEditorToggled = this.onTextEditorToggled.bind(this);
@@ -93,7 +94,10 @@ class EditorApp extends Component {
         };
         this.dragListener = (ev) => {
             if (!this.state.showFileUpload && !this.state.blockDrag) {
-                this.setState({ showFileUpload: "*", fileModalResult: { id: undefined, value: undefined } });
+                this.setState({ showFileUpload: "*", fileModalResult: { id: undefined, value: undefined }, fileUploadTab: 0 });
+            }
+            if (this.state.showFileUpload && this.state.fileUploadTab !== 0) {
+                this.setState({ fileUploadTab: 0 });
             }
             ev.preventDefault();
         };
@@ -155,7 +159,7 @@ class EditorApp extends Component {
                         opens={() => {dispatch(importStateAsync());}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
                         fileModalResult={this.state.fileModalResult}
-                        toggleFileUpload={(id, accept)=>{this.setState({ showFileUpload: accept, fileModalResult: { id: id, value: undefined } });}}
+                        toggleFileUpload={(id, accept)=>{this.setState({ showFileUpload: accept, fileModalResult: { id: id, value: undefined }, fileUploadTab: 0 });}}
                         onExternalCatalogToggled={() => this.setState({ catalogModal: true })}
                         setcat={(category) => {this.setState({ pluginTab: category, hideTab: 'show' });}}/>
                     {Ediphy.Config.autosave_time > 1000 &&
@@ -322,6 +326,8 @@ class EditorApp extends Component {
                                 }}
                                 onViewTitleChanged={(id, titles)=>{dispatch(updateViewToolbar(id, titles));}}
                                 onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
+                                fileModalResult={this.state.fileModalResult}
+                                openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept, fileUploadTab: 1 });}}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}/>
                             <ContainedCanvas boxes={boxes}
                                 accordions={this.state.accordions}
@@ -379,6 +385,8 @@ class EditorApp extends Component {
                                 onTextEditorToggled={this.onTextEditorToggled}
                                 onBoxesInsideSortableReorder={(parent, container, order) => {dispatch(reorderBoxes(parent, container, order));}}
                                 onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
+                                fileModalResult={this.state.fileModalResult}
+                                openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept, fileUploadTab: 1 });}}
                                 showCanvas={(containedViewSelected !== 0)}/>
                         </Row>
                     </Col>
@@ -395,7 +403,7 @@ class EditorApp extends Component {
                 <PluginConfigModal
                     id={this.state.pluginConfigModal}
                     fileModalResult={this.state.fileModalResult}
-                    openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept });}}
+                    openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept, fileUploadTab: 0 });}}
                     name={pluginToolbars[this.state.pluginConfigModal] ? pluginToolbars[this.state.pluginConfigModal].pluginId : ""}
                     state={pluginToolbars[this.state.pluginConfigModal] ? pluginToolbars[this.state.pluginConfigModal].state : {}}
                     closeConfigModal={()=>{ this.setState({ pluginConfigModal: false }); } }
@@ -517,7 +525,7 @@ class EditorApp extends Component {
                         dispatch(deleteRichMark(marks[id]));
                     }}
                     fileModalResult={this.state.fileModalResult}
-                    openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept });}}
+                    openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept, fileUploadTab: 1 });}}
                     updateViewToolbar={(id, toolbar)=> dispatch(updateViewToolbar(id, toolbar))}
                 />
                 <FileModal visible={this.state.showFileUpload} disabled={disabled}
@@ -536,10 +544,11 @@ class EditorApp extends Component {
                     pluginToolbars={pluginToolbars}
                     deleteFileFromServer={(id, url, callback) => dispatch(deleteFunction(id, url, callback))}
                     onIndexSelected={(id) => dispatch(selectIndex(id))}
+                    fileUploadTab={this.state.fileUploadTab}
                     onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
                     onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
                     uploadFunction={(query, keywords, callback) => dispatch(uploadFunction(query, keywords, callback))}
-                    close={(fileModalResult)=>{this.setState({ fileModalResult: fileModalResult ? fileModalResult : { id: undefined, value: undefined }, showFileUpload: false });}} />
+                    close={(fileModalResult)=>{this.setState({ fileModalResult: fileModalResult ? fileModalResult : { id: undefined, value: undefined }, showFileUpload: false, fileUploadTab: 0 });}} />
 
             </Grid>
         );

@@ -1,5 +1,6 @@
 import { isDataURL, dataURItoBlob } from '../../common/utils';
 import xml2json from 'basic-xml2json';
+
 export default function parseMoodleXML(file, callback) {
     let parser = new DOMParser();
     let xmlDoc = "";
@@ -39,8 +40,6 @@ function xml2jsonParser(xmlDoc, callback) {
             questiontext = questiontext.length > 0 ? (questiontext[0].content || (questiontext[0].children.map(c=>c.content)).join('<br/>')) : "";
             switch(xmljson.root.attributes.type) {
             case "multichoice":
-                // Check if single
-
                 answers = children.filter(child => child.name === 'answer');
                 answerTexts = answers.map(ans => ans.children.filter(el=>el.name === 'text')[0].content);
                 scores = answers.map(ans => parseInt(ans.attributes.fraction, 0));
@@ -113,7 +112,6 @@ function xml2jsonParser(xmlDoc, callback) {
                 };
                 break;
             case "essay":
-
                 precision = precision[0].content;
                 question = {
                     name: 'FreeResponse',

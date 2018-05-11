@@ -42,6 +42,7 @@ export default class UploadComponent extends React.Component {
             }
         }
         let fileSelected = this.props.filesUploaded[this.props.idSelected];
+        console.log(this.state.file);
         return(<div className="contentComponent uploadComponent">
             <h5>{i18n.t("Importa un fichero desde tu equipo...")}</h5>
             <hr />
@@ -50,7 +51,7 @@ export default class UploadComponent extends React.Component {
 
             { (this.state.file || this.state.uploading || this.state.uploaded) ? <Row>
                 <Col xs={12} sm={6}>
-                    {(aux === 'image' && fileSelected && fileSelected.url) ? <img className="previewImg" src={fileSelected.url} alt=""/> : <div className={"preview"}>
+                    {(aux === 'image' && (this.state.preview || (fileSelected && fileSelected.url))) ? <img className="previewImg" src={(fileSelected ? fileSelected.url : this.state.preview)} alt=""/> : <div className={"preview"}>
                         <i className="material-icons">{icon || "attach_file"}</i>
                     </div>}
                 </Col>
@@ -109,6 +110,12 @@ export default class UploadComponent extends React.Component {
     }
     dropHandler(file) {
         this.setState({ file });
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onloadend = () =>{
+            this.setState({ preview: ((reader.result)) });
+        };
     }
 
     uploadHandler() {

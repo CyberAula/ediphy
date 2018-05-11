@@ -111,6 +111,9 @@ export default class FileModal extends React.Component {
         if (nextProps.visible !== this.props.visible && this.props.fileModalResult.id !== nextProps.fileModalResult.id) {
             this.setState({ menu: 0, element: undefined, index: undefined, type: undefined });
         }
+        if (this.props.fileUploadTab !== nextProps.fileUploadTab) {
+            this.setState({ menu: nextProps.fileUploadTab });
+        }
     }
 
     /**

@@ -80,7 +80,7 @@ export default class Toolbar extends Component {
                     style={{
                         width: open ? '250px' : '40px',
                     }}
-                    className="toolbox">
+                    className={open ? 'toolbox toolsSpread' : 'toolbox'}>
                     <OverlayTrigger placement="left"
                         overlay={
                             <Tooltip className={open ? 'hidden' : ''}

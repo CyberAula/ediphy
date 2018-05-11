@@ -116,9 +116,10 @@ export default class NavActionButtons extends Component {
                 {buttons.map((item, index) => {
                     if (!item.display) { return null; }
                     return (
-                        <button className="navButton"
+                        <button
                             disabled={item.disabled}
                             key={item.name}
+                            className={'navButton navbarButton_' + item.name}
                             name={item.name}
                             onClick={item.onClick}
                             title={item.tooltip} >
