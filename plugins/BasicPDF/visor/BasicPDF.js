@@ -14,10 +14,10 @@ setOptions({
 import '../_pdfCss.scss';
 export function BasicPDF(base) {
     return {
-        getRenderTemplate: function(state) {
+        getRenderTemplate: function(state, props) {
             return (
                 <div className="pdfViewerPlugin" style={{ height: "100%", width: "100%" }}>
-                    <BasicPDFPlugin style={{ width: "100%", height: "100%" }} state={state}/>
+                    <BasicPDFPlugin style={{ width: "100%", height: "100%" }} base={base} props={props} state={state}/>
                 </div>
             );
         },
