@@ -317,21 +317,24 @@ export default class EditorBox extends Component {
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
-        let gridTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: (SNAP_DRAG / 2 + 1), offset: { x: leftO, y: topO } });
+        let gridTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: Math.floor(SNAP_DRAG / 2), offset: { x: leftO, y: topO } });
+        let dragTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: (SNAP_DRAG / 2 + 1), offset: { x: leftO, y: topO } });
 
         let snap = { targets: [], relativePoints: [{ x: 0, y: 0 }] };
+        let snapD = { targets: [], relativePoints: [{ x: 0, y: 0 }] };
         let snapSize = {};
         if (this.props.grid) {
             snap = { targets: [gridTarget], relativePoints: [{ x: 0, y: 0 }] };
+            snapD = { targets: [dragTarget], relativePoints: [{ x: 0, y: 0 }] };
             snapSize = { targets: [
                 { width: SNAP_SIZE, height: SNAP_SIZE, range: SNAP_SIZE },
             ] };
         }
 
         if (prevProps.pluginToolbars[this.props.id] && (toolbar.showTextEditor !== prevProps.pluginToolbars[this.props.id].showTextEditor) && box.draggable) {
-            interact(node).draggable({ enabled: !toolbar.showTextEditor, snap: snap });
+            interact(node).draggable({ enabled: !toolbar.showTextEditor, snap: snapD });
         } else {
-            interact(node).draggable({ snap: snap });
+            interact(node).draggable({ snap: snapD });
         }
 
         if (box.resizable) {
@@ -358,8 +361,11 @@ export default class EditorBox extends Component {
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
         offsetEl;
-        let gridTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: (SNAP_DRAG / 2 + 1), offset: { x: leftO, y: topO } });
+        let gridTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: Math.floor(SNAP_DRAG / 2), offset: { x: leftO, y: topO } });
+        let dragTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: (SNAP_DRAG / 2 + 1), offset: { x: leftO, y: topO } });
+
         let targets = this.props.grid ? [gridTarget] : [];
+        let dragTargets = this.props.grid ? [dragTarget] : [];
         Ediphy.Plugins.get(config.name).getConfig();
         Ediphy.Plugins.get(config.name).afterRender(this.refs.content, toolbar.state);
         let dragRestrictionSelector = ".parentRestrict"; // isSortableContainer(box.container) ? ".scrollcontainer" : "parent";
@@ -371,7 +377,7 @@ export default class EditorBox extends Component {
         interact(ReactDOM.findDOMNode(this))
             .draggable({
                 snap: {
-                    targets: targets,
+                    targets: dragTargets,
                     relativePoints: [{ x: 0, y: 0 }],
                 },
                 enabled: box.draggable,
@@ -569,7 +575,7 @@ export default class EditorBox extends Component {
                 restrict: {
                     restriction: resizeRestrictionSelector,
                 },
-                margin: 2,
+                margin: 10,
                 allowFrom: '.helpersResizable',
                 edges: { left: true, right: true, bottom: true, top: true },
                 onstart: (event) => {

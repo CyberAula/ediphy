@@ -10,6 +10,7 @@ import i18n from 'i18next';
 import { isSection, isContainedView, nextAvailName } from '../../../../common/utils';
 import './_richMarksModal.scss';
 import './../../../../node_modules/rc-color-picker/assets/index.css';
+import Ediphy from '../../../../core/editor/main';
 /**
  * Modal component to edit marks' configuration
  */
@@ -78,7 +79,7 @@ export default class RichMarksModal extends Component {
      */
     render() {
         let richMarkValue = null;
-        let marksType = this.props.pluginToolbar && this.props.pluginToolbar.config && this.props.pluginToolbar.config.marksType && this.props.pluginToolbar.config.marksType[0] ? this.props.pluginToolbar.config.marksType[0] : {};
+        let marksType = this.props.pluginToolbar && this.props.pluginToolbar.pluginId && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId) && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig() && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig().marksType && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig().marksType[0] ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig().marksType[0] : {};
         function getRichMarkInput(value) {
             richMarkValue = value;
         }

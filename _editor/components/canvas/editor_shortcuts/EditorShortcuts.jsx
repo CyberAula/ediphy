@@ -52,7 +52,6 @@ export default class EditorShortcuts extends Component {
 
         }
 
-        console.log(hasURL, accept);
         let boxEl = findBox((box ? box.id : ''));
         let nBoxes = [{
             i18nKey: 'add_answer',
