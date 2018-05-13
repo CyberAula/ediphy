@@ -2,7 +2,7 @@ import Joyride from 'react-joyride';
 import React from 'react';
 import i18n from 'i18next';
 import './_joyride.scss';
-import wand from './wand.svg';
+import star from './rainbow.svg';
 import dnd from './dnd.svg';
 export default class EdiphyTour extends React.Component {
     constructor(props) {
@@ -14,7 +14,7 @@ export default class EdiphyTour extends React.Component {
                     target: '#iconBar',
                     content: (<div>
                         {i18n.t('joyride.welcome')}<strong>Ediphy</strong>!
-                        <img src={wand} alt="" style={{ width: '100px', float: 'left', margin: '-10px' }}/>
+                        <img src={star} alt="" style={{ width: '80px', float: 'right' }}/>
                         <br/>
                         {i18n.t('joyride.why')}
                     </div>),
@@ -49,7 +49,7 @@ export default class EdiphyTour extends React.Component {
                 { // Toolbar
                     target: '#tools',
                     content: (<div>
-                        <i style={{ fontSize: '50px', color: '#18CFC8', float: 'left' }} className="material-icons">border_color</i>
+                        <i style={{ fontSize: '50px', color: '#18CFC8', float: 'left', margin: '23px' }} className="material-icons">border_color</i>
                         <span>{i18n.t('joyride.toolbar')}</span>
                     </div>),
                     placement: 'auto',
@@ -57,7 +57,7 @@ export default class EdiphyTour extends React.Component {
                         if(!document.getElementById('tools').classList.contains('toolsSpread')) {
                             document.getElementById('toolbarFlap').click();
                             this.setState({ run: false });
-                            setTimeout(()=>{
+                            setTimeout(() => {
                                 this.setState({ run: true });
                             }, 500);
                         }
