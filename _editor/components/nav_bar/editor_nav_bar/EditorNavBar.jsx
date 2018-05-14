@@ -49,6 +49,7 @@ export default class EditorNavBar extends Component {
                     navItemSelected={this.props.navItemSelected}
                     opens={this.props.opens}
                     save={this.props.save}
+                    openTour={this.props.openTour}
                     serverModalOpen={this.props.serverModalOpen}
                     toggleGlobalConfig={this.toggleGlobalConfig}
                     toggleImportFile={this.toggleImportFile}

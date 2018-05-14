@@ -49,7 +49,7 @@ export default class Config extends React.Component {
 
     changeAxis(value) {
         let oldvalue = this.props.state.options.xaxis;
-        let newvalue = parseInt(value);
+        let newvalue = parseInt(value, 10);
         let options = { ...this.props.state.options, xaxis: newvalue };
         let newData = this.props.state.dataProcessed.slice();
         // go through elements and change graphs

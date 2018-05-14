@@ -4,11 +4,12 @@ import i18n from 'i18next';
 import './_joyride.scss';
 import star from './rainbow.svg';
 import dnd from './dnd.svg';
+import { ACTIONS, EVENTS } from 'react-joyride/es/constants';
+
 export default class EdiphyTour extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            run: false,
             steps: [
                 { // PLugin top bar
                     target: '#iconBar',
@@ -56,9 +57,9 @@ export default class EdiphyTour extends React.Component {
                     callback: ()=>{
                         if(!document.getElementById('tools').classList.contains('toolsSpread')) {
                             document.getElementById('toolbarFlap').click();
-                            this.setState({ run: false });
+                            this.props.toggleTour(false);
                             setTimeout(() => {
-                                this.setState({ run: true });
+                                this.props.toggleTour(true);
                             }, 500);
                         }
 
@@ -95,32 +96,46 @@ export default class EdiphyTour extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ run: true });
+    }
+
+    callback(tour) {
+        console.log(tour);
+        const { action, index, type } = tour;
+        if (index || index === 0) {
+            let undone = !(this.state.doneSteps.has(index));
+            if (tour.step && tour.step.callback && type === 'tooltip' && undone) {
+                let doneSteps = (new Set(this.state.doneSteps)).add(index);
+                tour.step.callback();
+                this.setState({ doneSteps });
+            }
+        }
+        if (action === ACTIONS.CLOSE) {
+            this.props.toggleTour(false);
+            this.setState({ doneSteps: new Set(), stepIndex: 0 });
+        }
+        if (type === EVENTS.TOUR_END) {
+            // Update user preferences with completed tour flag
+        }/* else if (type === EVENTS.STEP_AFTER ) {
+      // pause the tour, load a new route and start it again once is done.
+      this.setState({ run: false });
+    }*/
+        else if ([EVENTS.STEP_AFTER, EVENTS.CLOSE, EVENTS.TARGET_NOT_FOUND].includes(type)) {
+            // Sunce this is a controlled tour you'll need to update the state to advance the tour
+            this.setState({ stepIndex: index + (action === ACTIONS.PREV ? -1 : 1) });
+
+        }
     }
 
     render() {
-        const { steps, run } = this.state;
-        let callback = (tour) => {
-            const { step, type, index } = tour;
-            if (index || index === 0) {
-                let undone = !(this.state.doneSteps.has(index));
-                if (step && step.callback && type === 'tooltip' && undone) {
-                    let doneSteps = (new Set(this.state.doneSteps)).add(index);
-                    step.callback();
-                    this.setState({ doneSteps });
-                }
-
-            }
-
-        };
+        const { steps } = this.state;
 
         return (
             <Joyride
                 steps={steps}
-                run={run}
-                // showProgress
+                run={this.props.showTour}
                 continuous
-                callback={callback}
+                tooltipOptions={{ callback: (a)=>{console.log(a);} }}
+                callback={this.callback.bind(this)}
                 locale={{ back: i18n.t('joyride.back'), close: i18n.t('joyride.close'), last: i18n.t('joyride.last'), next: i18n.t('joyride.next'), skip: i18n.t('joyride.skip') }}
                 styles={{
                     options: {

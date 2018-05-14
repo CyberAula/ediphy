@@ -6,6 +6,7 @@ import Select from 'react-select';
 import '../../../nav_bar/global_config/_reactTags.scss';
 import { extensions } from '../FileHandlers/FileHandlers';
 import Alert from "../../../common/alert/Alert";
+
 export default class MyFilesComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -57,10 +58,7 @@ export default class MyFilesComponent extends React.Component {
             title: i18n.t('FileModal.FileHandlers.downloadAsFile'),
             disabled: !fileSelected,
             action: ()=>{
-
                 window.download(fileSelected.url, fileSelected.name);
-                // this.downloadFile(fileSelected.url, fileSelected.name);
-
             },
         };
         /*  <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}</h5> */
@@ -146,30 +144,6 @@ export default class MyFilesComponent extends React.Component {
             // this.props.onElementSelected( undefined, undefined, undefined);
         }
     }
-    downloadFile(sUrl, fileName) {
-        console.log(sUrl);
-        let isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-        let isSafari = navigator.userAgent.toLowerCase().indexOf('safari') > -1;
-
-        /* if (navigator.userAgent.search("Firefox") !== -1) {
-            window.open(sUrl, '_blank');
-          } else {*/
-        let anchor = document.createElement('a');
-        anchor.setAttribute('download', fileName || 'ediphy');
-        anchor.href = sUrl;
-        anchor.target = '_blank';
-        anchor.download = fileName;
-        console.log(anchor);
-        anchor.click();
-        (window.URL || window.webkitURL).revokeObjectURL(anchor.href);
-        /* }*/
-    }
-    /* //iOS devices do not support downloading. We have to inform user about this.
-        if (/(iP)/g.test(navigator.userAgent)) {
-          //alert('Your device does not support files downloading. Please try again in desktop browser.');
-          window.open(sUrl, '_blank');
-          return false;
-        }*/
 
 }
 
