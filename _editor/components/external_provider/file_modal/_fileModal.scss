@@ -52,7 +52,8 @@
       align-self: stretch;
       .contentComponent{
         padding: 20px 0;
-        min-height: 365px;
+        min-height: 447px;
+        min-height:53vh;
         h5 {
           margin: 0;
           padding: 0 20px;
@@ -70,9 +71,11 @@
         hr{ margin: 20px 0 0 0; }
       }
       .ExternalResults{
-        min-height:  295px;
+        min-height:  370px;
+        min-height: 44vh;
         overflow-y: auto;
-        max-height: 450px;
+        max-height: 490px;
+        max-height: 58vh;
         margin-bottom: -20px;
         padding: 0 20px;
         .control-label{
