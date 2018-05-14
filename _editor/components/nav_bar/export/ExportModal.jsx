@@ -54,14 +54,14 @@ export default class ExportModal extends Component {
                     <Grid>
                         <form>
                             <Row>
-                                <Col xs={12} md={6}>
+                                <Col xs={12} md={12}>
                                     {this.state.showAlert ? (<Alert className="pageModal" show hasHeader acceptButtonText={i18n.t("messages.OK")}
                                         title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">warning</i>{i18n.t("messages.error")}</span>}
                                         onClose={()=>{ this.setState({ showAlert: false }); }}>
                                         <span> {i18n.t("error.generic")} </span><br/>
                                     </Alert>) : null}
                                     <FormGroup >
-                                        <ControlLabel> {i18n.t("messages.export_to")}:</ControlLabel><br/>
+                                        <ControlLabel> {i18n.t("messages.export_to_label")}</ControlLabel><br/>
                                         {this.state.showLoader ? (<img className="spinnerFloat" src={spinner}/>) : null}
                                         {exportFormats.map((format, i) => {
                                             return (<Radio key={i} name="radioGroup" className="radioExportScorm" checked={this.state.format === i}
@@ -72,14 +72,17 @@ export default class ExportModal extends Component {
 
                                     </FormGroup>
                                 </Col>
-                                <Col xs={12} md={6} className={"explanation"}>
-                                    <br/><br/>
-                                    {this.state.format !== 3 ? <div><ToggleSwitch onChange={()=>{this.setState({ selfContained: !this.state.selfContained });}} checked={this.state.selfContained}/>
+                                <Col xs={12} md={12}>
+                                    <div className={"explanation"}>
+                                        {this.state.format <= 1 ? i18n.t("SCORM Explanation") : null}
+                                        {this.state.format === 2 ? i18n.t("HTML Explanation") : null}
+                                    </div>
+                                </Col>
+                                <Col xs={12} className={"explanation"}>
+                                    {this.state.format !== 3 ? <div className={"selfContained"}><ToggleSwitch onChange={()=>{this.setState({ selfContained: !this.state.selfContained });}} checked={this.state.selfContained}/>
                                         {i18n.t('messages.selfContained')}</div> : null}
                                 </Col>
-                                <Col xs={12}>
-                                    <div className={"explanation"}>{i18n.t("SCORM Explanation")}</div>
-                                </Col>
+
                             </Row>
                         </form>
                     </Grid>

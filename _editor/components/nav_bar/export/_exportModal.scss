@@ -17,10 +17,11 @@
     }
   }
   .explanation {
-/*      color: #444;
-      background-color: #f3f3f3;
-      padding: 10px;*/
      color: #999;
+    .selfContained{
+      margin: 20px 0;
+      display: flex;
+    }
   }
    .modal-body {
     font-size: 1em;
