@@ -57,10 +57,8 @@ export default class MyFilesComponent extends React.Component {
             title: i18n.t('FileModal.FileHandlers.downloadAsFile'),
             disabled: !fileSelected,
             action: ()=>{
-
                 window.download(fileSelected.url, fileSelected.name);
                 // this.downloadFile(fileSelected.url, fileSelected.name);
-
             },
         };
         /*  <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}</h5> */

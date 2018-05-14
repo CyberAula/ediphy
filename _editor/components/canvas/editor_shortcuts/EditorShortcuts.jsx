@@ -78,6 +78,26 @@ export default class EditorShortcuts extends Component {
                 <div ref="innerContainer" style={{ display: "inline-block", minWidth: "150px", overflow: 'hidden', height: '37px' }}>
                     <span className="namePlugin">{config.displayName || ""}</span>
                     {
+                        (hasURL) ? (
+                            <OverlayTrigger placement="top"
+                                overlay={
+                                    <Tooltip id="config">
+                                        {i18n.t('messages.Change_source')}
+                                    </Tooltip>
+                                }>
+                                <button id="open_conf" className={"editorTitleButton"}
+                                    onClick={(e) => {
+                                        this.props.openFileModal(box.id, accept);
+                                        this.setState({ open: true });
+                                    }}>
+                                    <i className="material-icons">search</i>
+                                </button>
+                            </OverlayTrigger>
+                        ) : (
+                            <span />
+                        )
+                    }
+                    {
                         config.isRich ?
                             (<OverlayTrigger placement="top"
                                 overlay={
@@ -229,26 +249,6 @@ export default class EditorShortcuts extends Component {
                             <i className="material-icons">delete</i>
                         </button>
                     </OverlayTrigger>
-                    {
-                        (hasURL) ? (
-                            <OverlayTrigger placement="top"
-                                overlay={
-                                    <Tooltip id="config">
-                                        {i18n.t('messages.import_file')}
-                                    </Tooltip>
-                                }>
-                                <button id="open_conf" className={"editorTitleButton"}
-                                    onClick={(e) => {
-                                        this.props.openFileModal(box.id, accept);
-                                        this.setState({ open: true });
-                                    }}>
-                                    <i className="material-icons">search</i>
-                                </button>
-                            </OverlayTrigger>
-                        ) : (
-                            <span />
-                        )
-                    }
                 </div>
             </div>
         );

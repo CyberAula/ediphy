@@ -42,7 +42,6 @@ export default class UploadComponent extends React.Component {
             }
         }
         let fileSelected = this.props.filesUploaded[this.props.idSelected];
-        console.log(this.state.file);
         return(<div className="contentComponent uploadComponent">
             <h5>{i18n.t("Importa un fichero desde tu equipo...")}</h5>
             <hr />
@@ -71,7 +70,14 @@ export default class UploadComponent extends React.Component {
                                      handleAddition={this.handleAddition}
                                      handleDrag={this.handleDrag} />*/}
                         { this.state.error ? <div id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i><div>{i18n.t("FileModal.APIProviders.error")}</div></div> : null }
-                        { this.state.uploaded ? <div id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i><div> {i18n.t("FileModal.APIProviders.uploaded")}</div> </div> : null }
+                        { this.state.uploaded ? <div id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i><div> {i18n.t("FileModal.APIProviders.uploaded")}</div></div> : null }
+                        <Button
+                            style={{ display: (this.state.uploaded) ? 'inline-block' : 'none' }}
+                            bsStyle="primary"
+                            onClick={(e)=>{
+                                this.props.onElementSelected(undefined, undefined, undefined, undefined);
+                                this.setState({ file: undefined, uploaded: false, error: false, uploading: false });}}>
+                            Subir nuevo recurso</Button>
                     </FormGroup>
                 </Col>
             </Row> : null}

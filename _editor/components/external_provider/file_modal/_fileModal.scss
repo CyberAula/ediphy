@@ -53,7 +53,7 @@
       .contentComponent{
         padding: 20px 0;
         min-height: 447px;
-        min-height:53vh;
+        //min-height: 53vh;
         h5 {
           margin: 0;
           padding: 0 20px;
@@ -113,6 +113,7 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          height: 120px;
         }
         .previewImg {
           width:100%;
