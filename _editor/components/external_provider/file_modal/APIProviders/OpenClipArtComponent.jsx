@@ -77,10 +77,11 @@ export default class OpenClipArtComponent extends React.Component {
             ).then(imgs => {
                 if (imgs && imgs.payload) {
                     let results = imgs.payload.map(img=>{
+                        console.log(img);
                         return {
                             title: img.title,
-                            url: BASE_OPENCLIPART + (img.svg.url || img.svg.png_2400px),
-                            thumbnail: BASE_OPENCLIPART + (img.svg.url || img.svg.png_thumb),
+                            url: (img.svg.url || img.svg.png_2400px),
+                            thumbnail: (img.svg.url || img.svg.png_thumb),
                         };
                     });
 

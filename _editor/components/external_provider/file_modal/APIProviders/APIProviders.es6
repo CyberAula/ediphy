@@ -101,7 +101,7 @@ export default function menus(self) {
             component: YoutubeComponent,
             props: { ...commonProps },
         },
-        {
+        /* {
             name: 'SoundCloud',
             icon: SoundCloudIcon,
             show: (allowedMIME === "*" || allowedMIME.match('video')),
@@ -114,6 +114,6 @@ export default function menus(self) {
             show: (allowedMIME === "*" || allowedMIME.match('image')),
             component: OpenClipArtComponent,
             props: { ...commonProps },
-        },
+        },*/
     ];
 }
