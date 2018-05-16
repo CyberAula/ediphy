@@ -207,7 +207,7 @@
           position: absolute;
           padding: 2px 5px;
           border: none;
-          i{ font-size: 1.4em; line-height: 1em;}
+          i{ font-size: 1.4em; line-height: 1em; }
         }
         .deleteButton{ top: 11px; right: 11px; }
         .downloadButton{ top: 11px; right: 46px; }
@@ -219,7 +219,7 @@
         .myFileContent {
           width:100%;
           height: 70%;
-          overflow:hidden;
+          overflow: hidden;
           padding: 10px;
           text-align: center;
           border-width: 3px;
@@ -336,7 +336,6 @@
         }
       }
     }
-
   }
 }
 

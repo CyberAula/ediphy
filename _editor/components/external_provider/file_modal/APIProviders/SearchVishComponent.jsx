@@ -142,8 +142,8 @@ export default class SearchVishComponent extends React.Component {
                 return response.text();
             })
             .then(result => {
-
                 let results = JSON.parse(result).results;
+                // console.log(results);
                 this.setState({ results, msg: results.length > 0 ? '' : i18n.t("FileModal.APIProviders.no_files") });
                 return true;
             })

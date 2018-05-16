@@ -43,7 +43,7 @@ export default class UploadComponent extends React.Component {
         }
         let fileSelected = this.props.filesUploaded[this.props.idSelected];
         return(<div className="contentComponent uploadComponent">
-            <h5>{i18n.t("Importa un fichero desde tu equipo...")}</h5>
+            <h5>{i18n.t("FileModal.APIProviders.UploadFilesTitle")}</h5>
             <hr />
             { (!this.state.file && !this.state.uploading && !this.state.uploaded) ?
                 <ExternalDropzone ref="dropZone" accept={this.props.show} callback={this.dropHandler}/> : null}
@@ -77,7 +77,7 @@ export default class UploadComponent extends React.Component {
                             onClick={(e)=>{
                                 this.props.onElementSelected(undefined, undefined, undefined, undefined);
                                 this.setState({ file: undefined, uploaded: false, error: false, uploading: false });}}>
-                            Subir nuevo recurso</Button>
+                            {i18n.t("FileModal.APIProviders.UploadNewFile")}</Button>
                     </FormGroup>
                 </Col>
             </Row> : null}
