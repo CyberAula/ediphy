@@ -5,6 +5,7 @@ import Ediphy from '../../../../../core/editor/main';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
 import SearchComponent from './SearchComponent';
+import ImageComponent from './ImageComponent';
 
 export default class SearchVishComponent extends React.Component {
     constructor(props) {
@@ -90,19 +91,7 @@ export default class SearchVishComponent extends React.Component {
                                 <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                                 <br />
                                 {this.state.results.map((item, index) => {
-                                    let border = item.file_url === this.props.elementSelected ? "solid orange 3px" : "solid transparent 3px";
-                                    return (
-                                        <img key={index}
-                                            src={item.file_url}
-                                            className={'catalogImage'}
-                                            style={{
-                                                border: border,
-                                            }}
-                                            onClick={e => {
-                                                this.props.onElementSelected(item.title, item.file_url, 'image');
-                                            }}
-                                        />
-                                    );
+                                    return (<ImageComponent key={index} url={item.file_url} title={item.title} onElementSelected={this.props.onElementSelected} isSelected={item.file_url === this.props.elementSelected}/>);
                                 })}
                             </FormGroup>
                         ) :

@@ -48,7 +48,7 @@ export default class TemplatesModal extends Component {
                             }}
                         />
                         {this.templates.map((item, index) => {
-                            let border = this.state.itemSelected === index ? "solid orange 3px" : "solid #eee 1px";
+                            let border = this.state.itemSelected === index ? "solid #17CFC8 3px" : "solid #eee 1px";
                             return (
                                 <TemplateThumbnail key={index} index={index} className="template_item" image={item.image}
                                     style={{ position: 'relative', border: border, width: '120px', height: '80px' }}
