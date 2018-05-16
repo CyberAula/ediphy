@@ -242,4 +242,7 @@ body {
     line-height: 27px;
 }
 
-
+.modalExiting {
+    transition: all 500ms ease-in;
+    transform: scale(0.1);
+}
