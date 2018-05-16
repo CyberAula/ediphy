@@ -4,4 +4,7 @@
     height: auto;
     max-height: 160px;
     border: solid transparent 3px;
+    &.catalogImageSelected {
+        border: solid #17CFC8 3px;
+    }
 }

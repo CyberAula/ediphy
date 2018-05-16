@@ -101,10 +101,18 @@ class EditorApp extends Component {
                 this.setState({ fileUploadTab: 0 });
             }
             ev.preventDefault();
+            if (event.target.parentNode && event.target.parentNode.classList.contains('fileInput')) {
+                event.target.parentNode.classList.add('dragging');
+            }
+            console.log(event.target.parentNode);
         };
         this.dragExitListener = (ev) => {
             ev.preventDefault();
             // this.setState({ blockDrag: false });
+            console.log(event.target.parentNode);
+            if (event.target.parentNode && event.target.parentNode.classList.contains('fileInput')) {
+                event.target.parentNode.classList.remove('dragging');
+            }
         };
 
         this.dragStartListener = (ev) => {

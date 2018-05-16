@@ -5,6 +5,7 @@ import Ediphy from '../../../../../core/editor/main';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
 import SearchComponent from './SearchComponent';
+import ImageComponent from './ImageComponent';
 
 export default class OpenClipArtComponent extends React.Component {
     constructor(props) {
@@ -41,20 +42,8 @@ export default class OpenClipArtComponent extends React.Component {
                             <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                             <br />
                             {this.state.results.map((item, index) => {
-                                let border = item.url === this.props.elementSelected ? "solid orange 3px" : "solid transparent 3px";
-                                return (
-                                    <img key={index}
-                                        src={item.thumbnail}
-                                        className={'catalogImage'}
-                                        style={{
-                                            border: border,
-                                        }}
-                                        title={item.title}
-                                        onClick={e => {
-                                            this.props.onElementSelected(item.title, item.url, 'image');
-                                        }}
-                                    />
-                                );
+                                return (<ImageComponent key={index} url={item.thumbnail} title={item.title} onElementSelected={()=>{this.props.onElementSelected(item.title, item.url, 'image');}} isSelected={item.url === this.props.elementSelected}/>);
+
                             })}
                         </FormGroup>
                     ) :
