@@ -621,7 +621,7 @@ class EditorApp extends Component {
             e.preventDefault();
 
             e.stopImmediatePropagation();
-            printToPDF(this.props.store.getState().undoGroup.present);
+            printToPDF(this.props.store.getState().undoGroup.present, (b)=>{if(b) {alert('Error');}});
         }
 
         // Supr

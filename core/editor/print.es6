@@ -6,6 +6,10 @@ import { isSection, isContainedView, isSlide } from '../../common/utils';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 export default function printToPDF(state, callback) {
+    if (!jsPDF) {
+        callback(true);
+        return;
+    }
     let navItemsIds = state.navItemsIds;
     let navItems = state.navItemsById;
     let boxes = state.boxesById;
@@ -85,7 +89,7 @@ export default function printToPDF(state, callback) {
                     document.body.removeChild(pageContainer);
                     callback();
                 });
-            }, 10000);
+            }, 6000);
         });
 
         /*
