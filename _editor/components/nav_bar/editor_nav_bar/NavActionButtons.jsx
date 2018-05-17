@@ -77,8 +77,8 @@ export default class NavActionButtons extends Component {
                     this.props.save();
                     this.props.serverModalOpen();
                     // TODO: check if vishub
-                    let new_item_url = window.location.href;
-                    new_item_url = new_item_url.match(/.*\/([.\w+][^\/edit]+)/)[0];
+                    let url = window.location.href;
+                    let new_item_url = url.match(/.*\/([.\w+][^\/edit|\/edit\.full]+)/)[0];
                     let win = window.open(new_item_url, '_blank');
                     win.focus();
                 },
