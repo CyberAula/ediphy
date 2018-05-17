@@ -20,6 +20,7 @@ export default class EdiphyTour extends React.Component {
                         {i18n.t('joyride.why')}
                     </div>),
                     placement: 'bottom',
+                    disableBeacon: true,
                     callback: (e)=>{
                     },
                 },
@@ -31,20 +32,11 @@ export default class EdiphyTour extends React.Component {
                     </div>),
                     placement: 'bottom',
                     offset: 30,
+                    tooltipOptions: { footer: null },
                     callback: (e)=>{
                         if(document.getElementById('insideribbon').classList.contains('noButtons')) {
                             document.querySelector('.navButtonPlug').click();
                         }
-                    },
-                },
-                { // Carrousel list
-                    target: '#pa-1497983247795',
-                    content: (<div>
-                        <i style={{ fontSize: '50px', color: '#18CFC8', float: 'left' }} className="material-icons">note_add</i>
-                        <span>{i18n.t('joyride.carrousel')}</span>
-                    </div>),
-                    placement: 'right',
-                    callback: ()=>{
                     },
                 },
                 { // Toolbar
@@ -57,14 +49,27 @@ export default class EdiphyTour extends React.Component {
                     callback: ()=>{
                         if(!document.getElementById('tools').classList.contains('toolsSpread')) {
                             document.getElementById('toolbarFlap').click();
-                            this.props.toggleTour(false);
+                            this.setState({ run: false });
                             setTimeout(() => {
-                                this.props.toggleTour(true);
-                            }, 500);
+                                if (this.refs.joyride) {
+                                    this.setState({ run: true });
+                                }
+                            }, 400);
                         }
 
                     },
                 },
+                { // Carrousel list
+                    target: '.bottomGroup',
+                    content: (<div>
+                        <i style={{ fontSize: '50px', color: '#18CFC8', float: 'left' }} className="material-icons">note_add</i>
+                        <span>{i18n.t('joyride.carrousel')}</span>
+                    </div>),
+                    placement: 'top',
+                    callback: ()=>{
+                    },
+                },
+
                 { // Right-corner menu
                     target: '#topMenu',
                     content: (<div>
@@ -89,8 +94,21 @@ export default class EdiphyTour extends React.Component {
 
                     },
                 },
+                { // Right-corner menu
+                    target: '.navbarButton_preview',
+                    content: (<div>
+                        <i style={{ fontSize: '50px', color: '#18CFC8', float: 'left' }} className="material-icons">info</i>
+                        <span>{i18n.t('joyride.manual')} <a target="_blank" href="http://ging.github.io/ediphy/#/manual"> {i18n.t('joyride.manual2')}</a></span></div>),
+                    offset: 60,
+                    placement: 'left',
+                    callback: ()=>{
+                        // document.querySelector('.navbarButton_preview').click();
+
+                    },
+                },
 
             ],
+            run: this.props.showTour,
             doneSteps: new Set(),
         };
     }
@@ -99,42 +117,40 @@ export default class EdiphyTour extends React.Component {
     }
 
     callback(tour) {
-        console.log(tour);
         const { action, index, type } = tour;
-        if (index || index === 0) {
-            let undone = !(this.state.doneSteps.has(index));
-            if (tour.step && tour.step.callback && type === 'tooltip' && undone) {
-                let doneSteps = (new Set(this.state.doneSteps)).add(index);
-                tour.step.callback();
-                this.setState({ doneSteps });
+        if (this.refs.joyride) {
+            if (index || index === 0) {
+                let undone = !(this.state.doneSteps.has(index));
+                if (tour.step && tour.step.callback && type === 'tooltip' && undone) {
+                    let doneSteps = (new Set(this.state.doneSteps)).add(index);
+                    tour.step.callback();
+                    this.setState({ doneSteps });
+                }
+            }
+            if (action === ACTIONS.CLOSE) {
+                this.props.toggleTour(false);
+                this.setState({ doneSteps: new Set(), stepIndex: 0 });
+            }
+            if (type === EVENTS.TOUR_END) {
+                this.props.toggleTour(false);
+                this.setState({ doneSteps: new Set(), stepIndex: 0 });
+            } else if ([EVENTS.STEP_AFTER, EVENTS.CLOSE, EVENTS.TARGET_NOT_FOUND].includes(type)) {
+                // Sunce this is a controlled tour you'll need to update the state to advance the tour
+                this.setState({ stepIndex: index + (action === ACTIONS.PREV ? -1 : 1) });
+
             }
         }
-        if (action === ACTIONS.CLOSE) {
-            this.props.toggleTour(false);
-            this.setState({ doneSteps: new Set(), stepIndex: 0 });
-        }
-        if (type === EVENTS.TOUR_END) {
-            // Update user preferences with completed tour flag
-        }/* else if (type === EVENTS.STEP_AFTER ) {
-      // pause the tour, load a new route and start it again once is done.
-      this.setState({ run: false });
-    }*/
-        else if ([EVENTS.STEP_AFTER, EVENTS.CLOSE, EVENTS.TARGET_NOT_FOUND].includes(type)) {
-            // Sunce this is a controlled tour you'll need to update the state to advance the tour
-            this.setState({ stepIndex: index + (action === ACTIONS.PREV ? -1 : 1) });
 
-        }
     }
 
     render() {
         const { steps } = this.state;
 
-        return (
-            <Joyride
+        return (<div>
+            <Joyride ref="joyride"
                 steps={steps}
-                run={this.props.showTour}
-                continuous
-                tooltipOptions={{ callback: (a)=>{console.log(a);} }}
+                run={this.state.run}
+                controlled continuous autoStart spotlightClicks
                 callback={this.callback.bind(this)}
                 locale={{ back: i18n.t('joyride.back'), close: i18n.t('joyride.close'), last: i18n.t('joyride.last'), next: i18n.t('joyride.next'), skip: i18n.t('joyride.skip') }}
                 styles={{
@@ -147,7 +163,14 @@ export default class EdiphyTour extends React.Component {
                     },
                 }}
             />
+
+        </div>
         );
+    }
+    componentWillReceiveProps(nextProps) {
+        if (this.props.showTour !== nextProps.showTour) {
+            this.setState({ run: nextProps.showTour });
+        }
     }
 }
 

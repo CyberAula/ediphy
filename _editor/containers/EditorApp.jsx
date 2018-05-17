@@ -77,6 +77,7 @@ class EditorApp extends Component {
             showFileUpload: false,
             fileUploadTab: 0,
             showTour: false,
+            showHelpButton: true,
             fileModalResult: { id: undefined, value: undefined },
         };
         this.onTextEditorToggled = this.onTextEditorToggled.bind(this);
@@ -101,15 +102,24 @@ class EditorApp extends Component {
                 this.setState({ fileUploadTab: 0 });
             }
             ev.preventDefault();
+            if (event.target.parentNode && event.target.parentNode.classList.contains('fileInput')) {
+                event.target.parentNode.classList.add('dragging');
+            }
+            console.log(event.target.parentNode);
         };
         this.dragExitListener = (ev) => {
             ev.preventDefault();
             // this.setState({ blockDrag: false });
+            console.log(event.target.parentNode);
+            if (event.target.parentNode && event.target.parentNode.classList.contains('fileInput')) {
+                event.target.parentNode.classList.remove('dragging');
+            }
         };
 
         this.dragStartListener = (ev) => {
             this.setState({ blockDrag: true });
         };
+        this.createHelpModal = this.createHelpModal.bind(this);
     }
 
     render() {
@@ -125,7 +135,8 @@ class EditorApp extends Component {
         return (
             <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }}>
                 <Row className="navBar">
-                    <EdiphyTour toggleTour={(showTour)=>{this.setState({ showTour });}} showTour={this.state.showTour}/>
+                    {this.state.showTour ? <EdiphyTour toggleTour={(showTour)=>{this.setState({ showTour });}} showTour={this.state.showTour}/> : null}
+                    {this.createHelpModal()}
                     {this.state.alert}
                     <EditorNavBar hideTab={this.state.hideTab} boxes={boxes}
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
@@ -564,7 +575,24 @@ class EditorApp extends Component {
         let lastAction = this.props.dispatch(actionCreator);
         this.setState({ lastAction: lastAction });
     }
+    createHelpModal() {
+        return <Alert className="pageModal"
+            show={this.state.showHelpButton}
+            hasHeader={false}
+            title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
+            cancelButton
+            acceptButtonText={i18n.t("joyride.start")}
+            onClose={(bool)=>{
+                if (bool) {
+                    this.setState({ showTour: true, showHelpButton: false });
+                } else {
+                    this.setState({ showHelpButton: false });
+                }
+            }}>
+                      ¿Quieres ayuda?
 
+        </Alert>;
+    }
     /**
      * After component mounts
      * Loads plugin API and sets listeners for plugin events, marks and keyboard keys pressed
@@ -573,7 +601,7 @@ class EditorApp extends Component {
         if (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' && ediphy_editor_json && ediphy_editor_json !== 'undefined') {
             this.props.dispatch(importState(serialize(JSON.parse(ediphy_editor_json))));
         }
-
+        setTimeout(()=>{this.setState({ showHelpButton: false });}, 30000);
         document.addEventListener('keyup', this.keyListener);
         document.addEventListener('dragover', this.dragListener);
         document.addEventListener('dragleave', this.dragExitListener);

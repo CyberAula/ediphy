@@ -51,7 +51,9 @@ export default class SoundCloudComponent extends React.Component {
                                         onClick={e => {
                                             this.props.onElementSelected(item.title, item.url, 'video');
                                         }}>
-                                        <img key={index} src={item.thumbnail || placeholder} className={'soundCloudSong'} />
+                                        <img key={index} src={item.thumbnail || placeholder} className={'soundCloudSong'} onError={(e)=>{
+                                            e.target.src = placeholder;
+                                        }} />
                                         <div className={"videoInfo"}>
                                             <div><strong>{item.title}</strong></div>
                                             <div className={"lightFont"}>{item.userName}</div>

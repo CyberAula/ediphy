@@ -108,12 +108,21 @@
         padding: 20px;
         hr{ margin: 25px 0 20px; }
         h5{ padding: 0}
+        .fileInput{
+          &.dragging {
+            .fileDrag {
+              //background-color: white;
+              box-shadow: inset 0px 0px 12px #ccc;
+            }
+          }
+        }
         .fileDrag {
           margin: 0;
           display: flex;
           justify-content: center;
           align-items: center;
           height: 120px;
+
         }
         .previewImg {
           width:100%;
@@ -322,8 +331,7 @@
           position:absolute;
           color: white;
           display:inline-block;
-          button {
-            background-color: transparent;
+          button {background-color: transparent;
             margin:auto;
             border: none;
             box-shadow: none;
@@ -338,7 +346,5 @@
     }
   }
 }
-
-
 
 
