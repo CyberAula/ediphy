@@ -129,7 +129,11 @@ export function BasicPDF(base) {
         },
 
         getDefaultMarkValue(state) {
-            return '50%';
+            let x = 5.37;
+            let y = 8.67;
+            let numPage = state.pageNumber;
+            // let numPage = document.querySelector(".pdfPage").getAttribute("data-page-number");
+            return y + ',' + x + ',' + numPage;
         },
         parseRichMarkInput: function(...value) {
 

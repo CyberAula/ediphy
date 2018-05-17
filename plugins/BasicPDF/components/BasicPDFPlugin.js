@@ -1,7 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import screenfull from 'screenfull';
-import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 import Mark from '../../../common/components/mark/Mark';
 
 const pdflib = require('pdfjs-dist');
@@ -51,7 +50,6 @@ export default class BasicAudioPlugin extends React.Component {
     }
 
     render() {
-        console.log(this.props.props);
         let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;
@@ -66,33 +64,24 @@ export default class BasicAudioPlugin extends React.Component {
             let x = "" + position[0] * 6.12 + "px";
             let y = "" + position[1] * 7.92 + "px";
             let bool = (parseFloat(position[2]) === this.state.pageNumber);
-            console.log(bool);
-
-            let isPopUp = marks[id].connectMode === "popup";
-            let noTrigger = true;
+            let isPopUp = true;
             let isVisor = true;
             return(
-                bool ?
-                    <MarkEditor
-                        key={id}
-                        style={{ left: x, top: y, position: "absolute" }}
-                        /* time={1.5} mark={id} onRichMarkUpdated={this.props.props.onRichMarkUpdated} state={this.props.state} base={this.props.base}*/
-                    >
-                        <a key={id} href="#">
-                            <div style={{ width: "4px", height: "8px", background: color || "#17CFC8" }}>
-                                <Mark
-                                    style={{ position: 'relative', top: "-24px", left: "-10px" }}
-                                    color={color || "#17CFC8"}
-                                    idKey={id}
-                                    title={title}
-                                    /* isVisor={isVisor}
-                                    isPopUp={isPopUp}
-                                    markConnection={marks[id].connection}
-                                    noTrigger={noTrigger}*//>
-                            </div>
-                        </a>
-                    </MarkEditor> : null);
+                bool ? <div key={id} style={{ position: 'absolute', top: y, left: x, width: '24px', height: '26px' }}>
+                    <Mark
+                        color={color}
+                        idKey={id}
+                        title={title}
+                        isPopUp={isPopUp}
+                        isVisor={isVisor}
+                        markConnection={marks[id].connection}
+                        markValue={marks[id].value}
+                        boxID={this.props.props}
+                        onMarkClicked={this.props.props.onMarkClicked}
+                    />
+                </div> : null);
         });
+
         return (
             <div style={{ width: "100%", height: "100%" }} className={"pdfDiv"}>
                 <div className="topBar">
@@ -108,12 +97,13 @@ export default class BasicAudioPlugin extends React.Component {
 
                 </div>
 
-                <Document style={{ width: "100%", height: "100%" }}
+                <Document className={"react-pdf__Document dropableRichZone"} style={{ width: "100%", height: "100%" }}
                     file = {this.props.state.url}
                     onLoadSuccess={this.onDocumentLoad}>
                     <Page style={{ width: "100%", height: "100%" }} className="pdfPage"
                         pageNumber={this.state.pageNumber}
                     />
+                    {markElements}
                 </Document>
             </div>
         );

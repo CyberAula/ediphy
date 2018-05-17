@@ -1,4 +1,5 @@
 import React from 'react';
+// import BasicAudioPlugin from '../components/BasicAudioPluginWS.js';
 import BasicAudioPlugin from '../components/BasicAudioPlugin.js';
 require('./../BasicAudio.scss');
 

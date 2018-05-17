@@ -141,29 +141,41 @@ export default class BasicAudioPluginEditor extends React.Component {
             let title = marks[id].title;
             let color = marks[id].color;
             return(
-                <MarkEditor key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} onRichMarkUpdated={this.props.props.onRichMarkUpdated} state={this.props.state} base={this.props.base}>
+                <MarkEditor
+                    key={id}
+                    style={{ left: value, position: "absolute" }}
+                    time={1.5}
+                    mark={id}
+                    base={this.props.base}
+                    state={this.props.state}
+                    /* onRichMarkUpdated={this.props.props.onRichMarkUpdated}*/
+                >
                     <a key={id} href="#">
                         <div style={{ width: "4px", height: "8px", background: color || "#17CFC8" }}>
-                            <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }} color={color || "#17CFC8"} idKey={id} title={title} />
+                            <Mark
+                                style={{ position: 'relative', top: "-24px", left: "-10px" }}
+                                color={color || "#17CFC8"}
+                                idKey={id}
+                                title={title} />
                         </div>
                     </a>
                 </MarkEditor>);
         });
 
         return (
-            <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "auto" }}>
+            <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "none" }}>
                 <div>
                     <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{ this.onResize(e);}} />
                     <div className='waveform'>
                         <div className='wave' />
                     </div>
                 </div>
-                <div className="progress-audio-input dropableRichZone" style={{ pointerEvents: "auto" }}>
+                <div className="progress-audio-input dropableRichZone" style={{ pointerEvents: "none" }}>
                     {markElements}
                 </div>
                 <div>
                     {(this.props.state.controls) && (
-                        <div className="audio-controls" style={{ pointerEvents: 'auto' }}>
+                        <div className="audio-controls" style={{ pointerEvents: 'none' }}>
                             <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} style={{ backgroundColor: this.props.state.waveColor }}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
                             <input className="volume-audio-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.handleVolumeChange.bind(this)} />
                         </div>

@@ -4,7 +4,6 @@ import { findDOMNode } from 'react-dom';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import img from './../../../dist/images/broken_link.png';
 import WaveSurfer from 'wavesurfer.js';
-import MarkEditor from '../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 import ReactWavesurfer from 'react-wavesurfer';
 import Mark from '../../../common/components/mark/Mark';
 export default class BasicAudioPlugin extends React.Component {
@@ -39,20 +38,8 @@ export default class BasicAudioPlugin extends React.Component {
         });
     }
 
-    componentWillReceiveProps(nextProps) {
-        /*  if(nextProps.state.autoplay === true && this.state.autoplay !== this.props.state.autoplay) {
-                this.setState({ autoplay: true });
-            } else if (nextProps.state.autoplay === false && this.state.autoplay !== this.props.state.autoplay) {
-                this.setState({ autoplay: false });
-            }
-
-            if(nextProps.state.controls === true && this.state.controls !== this.props.state.controls) {
-                this.setState({ controls: true });
-            } else if (nextProps.state.controls === false && this.state.controls !== this.props.state.controls) {
-                this.setState({ controls: false });
-            }*/
-        // console.log(this.state)
-        // console.log(nextProps.state)
+    // cuando el componente va a recibir nuevas nextProps
+    /*    componentWillReceiveProps(nextProps) {
         if(nextProps.state.waves === true) {
             this.setState({ waves: true, audioPeaks: this.state.ondas });
             if(this.state.waves === true) {
@@ -66,20 +53,19 @@ export default class BasicAudioPlugin extends React.Component {
             this.setState({ waves: false, audioPeaks: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] });
         }
 
-    }
+    }*/
 
     onProgress(state) {
         this.setState(state);
-
     }
 
-    componentWillUpdate(nextProps, nextState) {
-        console.log("componentWillUpdate");
-        if(this.state.pos === nextState.pos) {
-            console.log("igual");
-        }if(this.state.pos !== nextState.pos) {
-            console.log("diferente");
-        }
+    /*
+    componentWillMount: justo antes del render inicial
+    componentDidMount: justo despues de que el render inciial ocurra y nunca mas
+    */
+
+    // invocado antes de renderizar cuando se reciben nuevas props o estado
+    /*  componentWillUpdate(nextProps, nextState) {
         if(nextState.played !== this.state.played) {
             let sudo = this;
 
@@ -111,7 +97,7 @@ export default class BasicAudioPlugin extends React.Component {
                 }
             });
         }
-    }
+    }*/
 
     onReady(e) {
         // if(this.props.state.autoplay === true){
@@ -146,18 +132,24 @@ export default class BasicAudioPlugin extends React.Component {
             /* Podemos pasar una devolución de llamada en los refs*/
         let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
-            // aqui solo entra cuando le das a save changes
             let value = marks[id].value;
             let title = marks[id].title;
             let color = marks[id].color;
+            let isPopUp = marks[id].connectMode === "popup";
+            let noTrigger = true;
+            let isVisor = true;
             return(
-                <MarkEditor key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} onRichMarkUpdated={this.props.props.onRichMarkUpdated} state={this.props.state} base={this.props.base}>
-                    <a key={id} href="#">
-                        <div style={{ width: "4px", height: "8px", background: color || "#17CFC8" }}>
-                            <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }} color={color || "#17CFC8"} idKey={id} title={title} />
-                        </div>
-                    </a>
-                </MarkEditor>);
+                <div key={id} className="videoMark" style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
+                    <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }}
+                        color={color || "#17CFC8"}
+                        idKey={id}
+                        title={title}
+                        isVisor={isVisor}
+                        isPopUp={isPopUp}
+                        markConnection={marks[id].connection}
+                        noTrigger={noTrigger}/>
+                </div>
+            );
         });
 
         return (
@@ -165,7 +157,6 @@ export default class BasicAudioPlugin extends React.Component {
                 <div>
 
                     <div className="progress-audio-input dropableRichZone" style={{ pointerEvents: "auto" }}>
-                        <div className="fakeProgress" style={{ pointerEvents: "auto" }}/>
                         {markElements}
                     </div>
 
@@ -198,7 +189,6 @@ export default class BasicAudioPlugin extends React.Component {
                     )}
                 </div>
             </div>
-        // <div className="audio-duration">{this.state.pos}</div>
         );
     }
 }

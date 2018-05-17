@@ -51,7 +51,6 @@ export default {
         'TrueFalse',
         // 'ScormPackage',
         'Visor3D',
-        'Objetos3D',
     ],
     availableLanguages: [
         'en',
