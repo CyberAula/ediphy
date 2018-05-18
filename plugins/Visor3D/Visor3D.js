@@ -37,12 +37,19 @@ export function Visor3D(base) {
                                     __name: i18n.t('Visor3D.URL'),
                                     type: 'external_provider',
                                     value: state.url,
+                                    accept: "stl",
                                     autoManaged: false,
                                 },
                                 color: {
                                     __name: Ediphy.i18n.t('BasicAudio.color'),
                                     type: 'color',
                                     value: state.color,
+                                },
+                                rotate: {
+                                    __name: Ediphy.i18n.t('BasicAudio.AutoRotate'),
+                                    type: 'checkbox',
+                                    checked: state.rotate,
+                                    autoManaged: false,
                                 },
                             },
                         },
@@ -54,6 +61,7 @@ export function Visor3D(base) {
             return {
                 url: "http://localhost:8080/stl/eyeball.stl",
                 color: "#D358F7",
+                rotate: false,
             };
         },
         getRenderTemplate: function(state, props) {

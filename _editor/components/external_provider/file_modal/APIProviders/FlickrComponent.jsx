@@ -5,6 +5,7 @@ import Ediphy from '../../../../../core/editor/main';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
 import SearchComponent from './SearchComponent';
+import ImageComponent from './ImageComponent';
 
 export default class FlickrComponent extends React.Component {
     constructor(props) {
@@ -17,7 +18,7 @@ export default class FlickrComponent extends React.Component {
         this.onSearch = this.onSearch.bind(this);
     }
     render() {
-        return <div>
+        return <div className="contentComponent">
             <Form horizontal action="javascript:void(0);">
                 <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}
                     <SearchComponent query={this.state.value} onChange={(e)=>{this.setState({ query: e.target.value });}} onSearch={this.onSearch} /></h5>
@@ -34,27 +35,14 @@ export default class FlickrComponent extends React.Component {
                 </FormGroup>
 
             </Form>
-            <Form style={{ minHeight: 250 }}>
+            <Form className={"ExternalResults"}>
                 {this.state.results.length > 0 ?
                     (
                         <FormGroup>
                             <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                             <br />
                             {this.state.results.map((item, index) => {
-                                let border = item.url === this.props.elementSelected ? "solid orange 3px" : "solid transparent 3px";
-                                return (
-                                    <img key={index}
-                                        src={item.url}
-                                        className={'catalogImage'}
-                                        style={{
-                                            border: border,
-                                        }}
-                                        title={item.title}
-                                        onClick={e => {
-                                            this.props.onElementSelected(item.title, item.url, 'image');
-                                        }}
-                                    />
-                                );
+                                return (<ImageComponent key={index} url={item.url} title={item.title} onElementSelected={this.props.onElementSelected} isSelected={item.url === this.props.elementSelected}/>);
                             })}
                         </FormGroup>
                     ) :
@@ -76,6 +64,7 @@ export default class FlickrComponent extends React.Component {
             try{
                 if (imgs) {
                     if (imgs && imgs.items) {
+                        console.log(imgs.items);
                         let results = imgs.items.map(img=>{
                             return {
                                 title: img.title,

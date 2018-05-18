@@ -40,7 +40,7 @@ export default class PluginRibbon extends Component {
     render() {
         return (
             <Col id="ribbon" md={12} xs={12} ref="holder" >
-                <div id="insideribbon">
+                <div id="insideribbon" className={this.props.category === '' ? 'noButtons' : ''}>
                     <div id="ribbonList">
                         {this.state.alert}
                         {this.state.buttons.map((item, index) => {

@@ -6,12 +6,13 @@ import AudioBlocksComponent from './AudioBlocksComponent';
 import YoutubeComponent from './YoutubeComponent';
 import EuropeanaComponent from './EuropeanaComponent';
 import FlickrComponent from './FlickrComponent';
+import OpenClipArtComponent from './OpenClipArtComponent';
 import VISHIcon from './logos/vish.svg';
 import FlickrIcon from './logos/flickrsvg.svg';
 import EuropeanaIcon from './logos/europeanaalt.svg';
 import YoutubeIcon from './logos/youtube.svg';
 import SoundCloudIcon from './logos/soundcloud_logo_0.png';
-import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
+import OpenClipArtIcon from './logos/openclipart.svg';
 import UploadComponent from './UploadComponent';
 import i18n from 'i18next';
 
@@ -49,7 +50,7 @@ export default function menus(self) {
             },
         },
         {
-            name: <span><i className="material-icons">attach_file</i>{i18n.t('FileModal.APIProviders.MyFiles')}</span>,
+            name: <span><i className="material-icons">perm_media</i>{i18n.t('FileModal.APIProviders.MyFiles')}</span>,
             show: true,
             component: MyFilesComponent,
             props: {
@@ -113,6 +114,11 @@ export default function menus(self) {
             icon: AudioBlocksIcon,
             show: (allowedMIME === "*" || allowedMIME.match('audio')),
             component: AudioBlocksComponent,
+        {
+            name: 'OpenClipArt',
+            icon: OpenClipArtIcon,
+            show: (allowedMIME === "*" || allowedMIME.match('image')),
+            component: OpenClipArtComponent,
             props: { ...commonProps },
         },*/
     ];

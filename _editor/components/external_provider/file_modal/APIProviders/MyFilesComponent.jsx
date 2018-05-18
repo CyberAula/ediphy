@@ -6,6 +6,7 @@ import Select from 'react-select';
 import '../../../nav_bar/global_config/_reactTags.scss';
 import { extensions } from '../FileHandlers/FileHandlers';
 import Alert from "../../../common/alert/Alert";
+
 export default class MyFilesComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -20,7 +21,7 @@ export default class MyFilesComponent extends React.Component {
 
     }
     render() {
-        let keywords = this.state.keywords;
+        // let keywords = this.state.keywords;
         let empty = true;
         let files = Object.keys(this.props.filesUploaded).map(f => {
             let file = this.props.filesUploaded[f];
@@ -52,39 +53,44 @@ export default class MyFilesComponent extends React.Component {
             }
         }
         currentExtension = aux;
-        return(<div className="myFilesComponent">
-            <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}</h5>
+        let fileSelected = this.props.filesUploaded[this.props.idSelected];
+        let download = { // Forces browser download
+            title: i18n.t('FileModal.FileHandlers.downloadAsFile'),
+            disabled: !fileSelected,
+            action: ()=>{
+                window.download(fileSelected.url, fileSelected.name);
+            },
+        };
+        /*  <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}</h5> */
+        return(<div className="contentComponent myFilesComponent">
+            <h5>{i18n.t("FileModal.APIProviders.MyFilesTitle")}</h5>
             <hr />
+            <div className={"filters"}>
+                <FormGroup key="filter">
+                    <FormControl type="text" value={this.state.filter} placeholder={i18n.t('Filter')} id="filterInput" autoFocus onChange={e => {this.setState({ filter: e.target.value });}}/>
+                </FormGroup>
+                <FormGroup key="extfilter">
+                    <Select
+                        name="form-field-extensions"
+                        value={currentExtension}
+                        disabled = {this.props.show !== "*"}
+                        options={extensions}
+                        onChange={e => {this.setState({ extensionFilter: e.value });}} />
+                </FormGroup>
+            </div>
             <Grid>
-                <Row>
-                    <Col key="filter" xs={12} md={6}>
-                        <FormGroup >
-                            <ControlLabel>{i18n.t('Filter')}:</ControlLabel><br/>
-                            <FormControl type="text" value={this.state.filter} placeholder="..." id="filterInput" autoFocus onChange={e => {this.setState({ filter: e.target.value });}}/>
-                        </FormGroup>
-                    </Col>
-                    <Col key="extfilter" xs={12} md={6}>
-                        <FormGroup >
-                            <ControlLabel>{i18n.t('Extensions')}:</ControlLabel><br/>
-                            <Select
-                                name="form-field-extensions"
-                                value={currentExtension}
-                                disabled = {this.props.show !== "*"}
-                                options={extensions}
-                                onChange={e => {this.setState({ extensionFilter: e.value });}} />
-                        </FormGroup>
-
-                    </Col>
-                </Row>
                 <Row className="myFilesRow" onClick={e=>{this.props.onElementSelected(undefined, undefined, undefined);}}>
                     {files.map((file, i)=>{
                         let isActive = (file.id === this.props.idSelected);
                         return (<Col key={i} className={"myFile" + (file.hide ? ' hidden' : '')} xs={12} sm={6} md={4} lg={3}>
                             {isActive ? <Button className="deleteButton" onClick={(e)=>{
                                 this.setState({ confirmDelete: true });
-
                                 e.stopPropagation();}}>
                                 <i className="material-icons">delete</i>
+                            </Button> : null}
+                            {isActive ? <Button className="downloadButton" onClick={(e)=>{
+                                download.action();}}>
+                                <i className="material-icons">cloud_download</i>
                             </Button> : null}
                             <Button style={{ backgroundImage: file.type === 'image' ? ("url(" + file.url + ")") : "" }} onClick={(e)=>{
                                 this.props.onElementSelected(file.name, file.url, file.type, file.id);

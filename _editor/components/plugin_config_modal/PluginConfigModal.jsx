@@ -74,7 +74,6 @@ export default class PluginConfigModal extends Component {
             component = template.component;
             stepsnumber = template.n_steps;
         }
-        console.log(this.state.currentStep);
         return (
             <Modal className="pageModal pluginconfig"
                 backdrop="static"
@@ -94,6 +93,7 @@ export default class PluginConfigModal extends Component {
                 <Modal.Footer>
                     <Button bsStyle="default" onClick={e => {
                         this.props.closeConfigModal();
+                        this.setState({ currentStep: 1 });
                     }}>{i18n.t("Cancel")}</Button>
                     { (this.state.currentStep > 1) ? <Button bsStyle="default" onClick={e => {
                         this.setState({ currentStep: this.state.currentStep - 1 });
@@ -105,6 +105,7 @@ export default class PluginConfigModal extends Component {
                             }else{
                                 this.props.updatePluginToolbar(this.props.id, this.state.pluginState);
                                 this.props.closeConfigModal();
+                                this.setState({ currentStep: 1 });
                             }
                         }}>{(this.state.currentStep < stepsnumber) ? i18n.t("step_next") + " >" : i18n.t("confirm_changes")}</Button>
                 </Modal.Footer>

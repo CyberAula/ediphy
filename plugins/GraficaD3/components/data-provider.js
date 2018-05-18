@@ -59,6 +59,7 @@ export default class DataProvider extends React.Component {
         let newvalue = event.target.value === "" || event.target.value === null ? "" : event.target.value;
         data[row][col] = newvalue;
         this.setState({ data: data });
+        // this.props.dataChanged(data);
     }
 
     colsChanged(event) {
@@ -201,11 +202,18 @@ export default class DataProvider extends React.Component {
                             fileModalResult={props.fileModalResult}
                             onChange={ (target)=>{this.processInput(target.value);}}
                             accept={"csv"}
+                            buttontext={i18n.t('importData')}
                         />
                     </FormGroup>
                 </Form>
             </div>
         );
+    }
+    componentWillUnmount() {
+        let empty = false;
+        if (typeof this.props.dataChanged === 'function' && !empty) {
+            this.props.dataChanged({ data: this.state.data, keys: this.state.keys });
+        }
     }
 }
 /* eslint-enable react/prop-types */

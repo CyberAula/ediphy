@@ -105,6 +105,8 @@ export default class EditorCanvasDoc extends Component {
                     onBoxDeleted={this.props.onBoxDeleted}
                     onToolbarUpdated={this.props.onToolbarUpdated}
                     navItemSelected={this.props.navItemSelected}
+                    fileModalResult={this.props.fileModalResult}
+                    openFileModal={this.props.openFileModal}
                     lastActionDispatched={this.props.lastActionDispatched}
                     pointerEventsCallback={this.props.pluginToolbars[this.props.boxSelected] && this.props.pluginToolbars[this.props.boxSelected].config && this.props.pluginToolbars[this.props.boxSelected].config.name && Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name) ? Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}

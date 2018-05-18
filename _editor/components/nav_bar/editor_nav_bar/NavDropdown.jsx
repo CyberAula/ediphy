@@ -75,6 +75,7 @@ export default class NavDropdown extends Component {
                             {i18n.t('messages.global_config')}
                         </button>
                     </MenuItem>
+
                     {Ediphy.Config.external_providers.enable_catalog_modal &&
                     [<MenuItem divider key="div_4"/>,
                         <MenuItem eventKey="4" key="4">
@@ -97,6 +98,13 @@ export default class NavDropdown extends Component {
                                 {i18n.t('Open')}
                             </button>
                         </MenuItem>]}
+                    <MenuItem disabled={false} eventKey="6" key="6">
+                        <button className="dropdownButton" title={i18n.t('messages.help')}
+                            disabled={false}
+                            onClick={this.props.openTour}><i className="material-icons">help</i>
+                            {i18n.t('messages.help')}
+                        </button>
+                    </MenuItem>
 
                 </Dropdown.Menu>
             </Dropdown>

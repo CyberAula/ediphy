@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import i18n from 'i18next';
 import { Button, Row, Col, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import ExternalDropzone from './ExternalDropzone';
-import { WithContext as ReactTags } from 'react-tag-input';
 import { extensions } from '../FileHandlers/FileHandlers';
 import '../../../nav_bar/global_config/_reactTags.scss';
 import { ID_PREFIX_FILE, FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../common/constants';
@@ -30,8 +29,6 @@ export default class UploadComponent extends React.Component {
 
     }
     render() {
-        let keywords = this.state.keywords;
-
         let file = this.state.file;
         let currentExtension = this.props.show;
         currentExtension = currentExtension === '*' ? '' : currentExtension;
@@ -44,22 +41,25 @@ export default class UploadComponent extends React.Component {
                 icon = ext.icon || icon;
             }
         }
-
         let fileSelected = this.props.filesUploaded[this.props.idSelected];
-        return(<div className="uploadComponent">
-            <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}</h5>
+        return(<div className="contentComponent uploadComponent">
+            <h5>{i18n.t("FileModal.APIProviders.UploadFilesTitle")}</h5>
             <hr />
-
             { (!this.state.file && !this.state.uploading && !this.state.uploaded) ?
                 <ExternalDropzone ref="dropZone" accept={this.props.show} callback={this.dropHandler}/> : null}
 
             { (this.state.file || this.state.uploading || this.state.uploaded) ? <Row>
                 <Col xs={12} sm={6}>
+                    {(aux === 'image' && (this.state.preview || (fileSelected && fileSelected.url))) ? <img className="previewImg" src={(fileSelected ? fileSelected.url : this.state.preview)} alt=""/> : <div className={"preview"}>
+                        <i className="material-icons">{icon || "attach_file"}</i>
+                    </div>}
+                </Col>
+                <Col xs={12} sm={6}>
                     <FormGroup >
                         <div id="fileNameTitle">
                             <span>{this.state.file.name}</span><br/><br/>
-                            <Button onClick={(e)=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false });}}><i className="material-icons">clear</i> {i18n.t("FileModal.APIProviders.clear")}</Button>
-                            <Button disabled={!this.state.file || this.state.uploaded} onClick={this.uploadHandler}><i className="material-icons">file_upload</i> {i18n.t("FileModal.APIProviders.upload")}</Button>
+                            <Button bsStyle="primary" style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={this.uploadHandler}><i className="material-icons">file_upload</i> {i18n.t("FileModal.APIProviders.upload")}</Button>
+                            <Button style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={(e)=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false });}}><i className="material-icons">clear</i> {i18n.t("FileModal.APIProviders.clear")}</Button>
                         </div>
                         {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={spinner} alt=""/></div> : null}
                         {/* <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
@@ -69,15 +69,16 @@ export default class UploadComponent extends React.Component {
                                      handleDelete={this.handleDelete}
                                      handleAddition={this.handleAddition}
                                      handleDrag={this.handleDrag} />*/}
-                        { this.state.error ? <span id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i> {i18n.t("FileModal.APIProviders.error")}</span> : null }
-                        { this.state.uploaded ? <span id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i> {i18n.t("FileModal.APIProviders.uploaded")} </span> : null }
+                        { this.state.error ? <div id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i><div>{i18n.t("FileModal.APIProviders.error")}</div></div> : null }
+                        { this.state.uploaded ? <div id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i><div> {i18n.t("FileModal.APIProviders.uploaded")}</div></div> : null }
+                        <Button
+                            style={{ display: (this.state.uploaded) ? 'inline-block' : 'none' }}
+                            bsStyle="primary"
+                            onClick={(e)=>{
+                                this.props.onElementSelected(undefined, undefined, undefined, undefined);
+                                this.setState({ file: undefined, uploaded: false, error: false, uploading: false });}}>
+                            {i18n.t("FileModal.APIProviders.UploadNewFile")}</Button>
                     </FormGroup>
-                </Col>
-                <Col xs={12} sm={6}>
-                    {(aux === 'image' && fileSelected && fileSelected.url) ? <img className="previewImg" src={fileSelected.url} alt=""/> : <div className={"preview"}>
-                        <i className="material-icons">{icon || "attach_file"}</i>
-                    </div>}
-
                 </Col>
             </Row> : null}
 
@@ -95,7 +96,6 @@ export default class UploadComponent extends React.Component {
                 this.setState({ error: true, uploaded: false, uploading: false });
             } else if (this.props.isBusy.msg === FILE_UPLOADING && isFile(nextProps.isBusy.msg)) {
                 let newFile = this.props.filesUploaded[nextProps.isBusy.msg];
-                console.log(newFile);
                 let extension = newFile.mimetype;
                 for (let e in extensions) {
                     let ext = extensions[e];
@@ -103,7 +103,6 @@ export default class UploadComponent extends React.Component {
                         extension = ext.value;
                     }
                 }
-                console.log(nextProps.isBusy.msg);
                 this.props.onElementSelected(newFile.name, newFile.url, extension, nextProps.isBusy.msg);
                 this.setState({ error: false, uploading: false, uploaded: true });
             }
@@ -117,6 +116,12 @@ export default class UploadComponent extends React.Component {
     }
     dropHandler(file) {
         this.setState({ file });
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onloadend = () =>{
+            this.setState({ preview: ((reader.result)) });
+        };
     }
 
     uploadHandler() {

@@ -63,6 +63,9 @@ export function MultipleAnswer() {
             </div>;
         },
         checkAnswer(current, correct, state) {
+            if (!current && correct && correct.length === 0) {
+                return true;
+            }
             let correctSanitized = correct.filter((c)=>{
                 return (c < state.nBoxes);
             });

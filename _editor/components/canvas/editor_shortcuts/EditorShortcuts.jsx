@@ -19,6 +19,7 @@ export default class EditorShortcuts extends Component {
             left: 0,
             top: 0,
             width: 0,
+            open: false,
         };
         this.resizeAndSetState = this.resizeAndSetState.bind(this);
     }
@@ -31,7 +32,26 @@ export default class EditorShortcuts extends Component {
             return null;
         }
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
+        if (!apiPlugin) {
+            return null;
+        }
         let config = apiPlugin.getConfig();
+        let toolbarAcc = apiPlugin.getToolbar(toolbar.state);
+        let hasURL = false;
+        let accept = '*';
+        if (toolbarAcc.main && toolbarAcc.main.accordions) {
+            for (let acc in toolbarAcc.main.accordions) {
+                for (let but in toolbarAcc.main.accordions[acc].buttons) {
+                    let button = toolbarAcc.main.accordions[acc].buttons[but];
+                    if (but === 'url' && button.type === 'external_provider') {
+                        hasURL = true;
+                        accept = toolbarAcc.main.accordions[acc].buttons[but].accept;
+                    }
+                }
+            }
+
+        }
+
         let boxEl = findBox((box ? box.id : ''));
         let nBoxes = [{
             i18nKey: 'add_answer',
@@ -40,7 +60,9 @@ export default class EditorShortcuts extends Component {
         }, {
             i18nKey: 'remove_answer',
             icon: 'delete_sweep',
-            callback: ()=>{if (toolbar.state.nBoxes > 1) {this.props.onToolbarUpdated(box.id, "main", "state", 'nBoxes', toolbar.state.nBoxes - 1);}},
+            callback: ()=>{if (toolbar.state.nBoxes > 1) {
+                this.props.onToolbarUpdated(box.id, "main", "state", 'nBoxes', toolbar.state.nBoxes - 1);}
+            },
         }];
         return (
             <div id={this.props.isContained ? "contained_editorBoxIcons" : "editorBoxIcons"}
@@ -55,6 +77,26 @@ export default class EditorShortcuts extends Component {
                 }}>
                 <div ref="innerContainer" style={{ display: "inline-block", minWidth: "150px", overflow: 'hidden', height: '37px' }}>
                     <span className="namePlugin">{config.displayName || ""}</span>
+                    {
+                        (hasURL) ? (
+                            <OverlayTrigger placement="top"
+                                overlay={
+                                    <Tooltip id="config">
+                                        {i18n.t('messages.Change_source')}
+                                    </Tooltip>
+                                }>
+                                <button id="open_conf" className={"editorTitleButton"}
+                                    onClick={(e) => {
+                                        this.props.openFileModal(box.id, accept);
+                                        this.setState({ open: true });
+                                    }}>
+                                    <i className="material-icons">search</i>
+                                </button>
+                            </OverlayTrigger>
+                        ) : (
+                            <span />
+                        )
+                    }
                     {
                         config.isRich ?
                             (<OverlayTrigger placement="top"
@@ -264,8 +306,16 @@ export default class EditorShortcuts extends Component {
                 // this.setState({ left: left, top: top, width: width });
             }
         }
-    }
 
+        if(this.props.fileModalResult &&
+            nextProps.fileModalResult && nextProps.box && this.props.box &&
+            nextProps.box.id === nextProps.fileModalResult.id
+            && nextProps.fileModalResult.value &&
+            this.state.open && this.props.fileModalResult.value !== nextProps.fileModalResult.value) {
+            this.props.onToolbarUpdated(nextProps.box.id, "main", "state", 'url', nextProps.fileModalResult.value);
+            this.setState({ open: false });
+        }
+    }
     componentDidUpdate(prevProps, prevState) {
         let { width, top, left } = this.resize();
 

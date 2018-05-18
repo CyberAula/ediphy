@@ -11,6 +11,7 @@ export default class BasicAudioPlugin extends React.Component {
         super(props);
         this.state = {
             pos: 0,
+            posPctg: 0,
             volume: 0.5,
             controls: true,
             duration: 1,
@@ -19,6 +20,8 @@ export default class BasicAudioPlugin extends React.Component {
             audioPeaks: null,
             ondas: false, // null??
             name: "No name",
+            toBeTriggered: [],
+            triggering: false,
         };
     }
 
@@ -27,9 +30,17 @@ export default class BasicAudioPlugin extends React.Component {
     }
 
     handlePosChange(e) {
-        this.setState({
-            pos: +e.originalArgs[0],
-        });
+        console.log('oischa', e.wavesurfer);
+        try {
+            if (e.wavesurfer.backend.ac.currentTime) {
+            }
+            this.setState({
+                pos: +e.originalArgs[0],
+                posPctg: (+e.originalArgs[0] / (this.state.duration || 1)),
+            });
+        } catch(err) {
+            console.error(err);
+        }
     }
 
     handleVolumeChange(e) {
@@ -56,6 +67,7 @@ export default class BasicAudioPlugin extends React.Component {
     }*/
 
     onProgress(state) {
+        console.log(state);
         this.setState(state);
     }
 
@@ -100,24 +112,49 @@ export default class BasicAudioPlugin extends React.Component {
     }*/
 
     onReady(e) {
-        // if(this.props.state.autoplay === true){
         this.setState({
             duration: e.wavesurfer.backend.buffer.duration,
             pos: 0,
+            posPctg: 0,
             autoplay: this.props.state.autoplay,
             ondas: e.wavesurfer.backend.mergedPeaks,
             waveColor: e.wavesurfer.params.waveColor,
             progressColor: e.wavesurfer.params.progressColor,
         });
-        // }
-        /* var fullname = this.props.state.url;
-            console.log(this.props.state.url)
-            var name = fullname.substring(32,(fullname.length-4));
-            this.setState(name: name);
-            console.log(name);
-            console.log(this.state)*/
     }
+    componentWillUpdate(nextProps, nextState) {
+        if(nextState.pos !== this.state.pos) {
+            let sudo = this;
 
+            let marks = this.props.props.marks || {};
+            let triggerMark = this.props.props.onMarkClicked;
+            let triggerArray = this.state.toBeTriggered;
+            triggerArray.forEach(function(e) {
+                if ((parseFloat(e.value) / 100).toFixed(3) < parseFloat(nextState.posPctg).toFixed(3)) {
+                    let toBeTriggered = triggerArray;
+                    triggerMark(sudo.props.props.id, e.value, true);
+                    toBeTriggered.splice(e, 1);
+                    sudo.setState({ toBeTriggered: toBeTriggered });
+                }
+            });
+
+            Object.keys(marks).forEach(function(key) {
+                let notInArray = true;
+
+                triggerArray.forEach(function(mark) {
+                    if(mark === key) {
+                        notInArray = false;
+                    }
+                });
+
+                if(notInArray && parseFloat(nextState.posPctg).toFixed(3) <= (parseFloat(marks[key].value) / 100).toFixed(3) && parseFloat(parseFloat(nextState.posPctg).toFixed(3)) + 0.1 >= parseFloat((parseFloat(marks[key].value) / 100).toFixed(3))) {
+                    let toBeTriggered = triggerArray;
+                    toBeTriggered.push(marks[key]);
+                    sudo.setState({ toBeTriggered: toBeTriggered });
+                }
+            });
+        }
+    }
     render() {
         const waveOptions = {
             scrollParent: false, // muestra toda la onda

@@ -76,6 +76,11 @@ export default class NavActionButtons extends Component {
                     this.props.changeGlobalConfig("status", "final");
                     this.props.save();
                     this.props.serverModalOpen();
+                    // TODO: check if vishub
+                    let url = window.location.href;
+                    let new_item_url = url.match(/.*\/([.\w+][^\/edit|\/edit\.full]+)/)[0];
+                    let win = window.open(new_item_url, '_blank');
+                    win.focus();
                 },
             },
             {
@@ -116,9 +121,10 @@ export default class NavActionButtons extends Component {
                 {buttons.map((item, index) => {
                     if (!item.display) { return null; }
                     return (
-                        <button className="navButton"
+                        <button
                             disabled={item.disabled}
                             key={item.name}
+                            className={'navButton navbarButton_' + item.name}
                             name={item.name}
                             onClick={item.onClick}
                             title={item.tooltip} >

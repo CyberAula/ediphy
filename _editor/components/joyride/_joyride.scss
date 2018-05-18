@@ -1,0 +1,10 @@
+// React-joyride
+.__floater {
+  z-index: 9999 !important;
+  &>div {
+    border-radius: 0px !important;
+  }
+  button {
+    border-radius: 0px !important;
+  }
+}

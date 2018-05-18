@@ -2,7 +2,8 @@ import React from 'react';
 import { createBox } from '../../../../../common/common_tools';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../common/constants';
 import { randomPositionGenerator } from '../../../clipboard/clipboard.utils';
-import { isSlide, isBox, isDataURL } from '../../../../../common/utils';
+import { isSlide, isBox, isDataURL, dataURItoBlob } from '../../../../../common/utils';
+import parseMoodleXML from '../../../../../core/editor/moodleXML';
 import i18n from 'i18next';
 
 export let extensions = [
@@ -11,30 +12,16 @@ export let extensions = [
     { label: "Audio", value: 'audio', icon: 'audiotrack' },
     { label: "Video", value: 'video', icon: 'play_arrow' },
     { label: "CSV", value: 'csv', icon: 'view_agenda' },
-    { label: "JSON", value: 'json', icon: 'view_agenda' },
+    // { label: "JSON", value: 'json', icon: 'view_agenda' },
     { label: "PDF", value: 'pdf', icon: 'picture_as_pdf' },
+    { label: "XML", value: 'xml', icon: 'code' },
 ];
 export default function handlers(self) {
     let type = self.state.type;
-    let download = { // Forces browser download
-        title: i18n.t('FileModal.FileHandlers.downloadAsFile'),
-        disabled: !self.state.element,
-        action: ()=>{
-            if (navigator.userAgent.search("Firefox") !== -1) {
-                window.open(self.state.element);
-            } else {
-                let anchor = document.createElement('a');
-                anchor.setAttribute('download', '');
-                anchor.href = self.state.element;
-                anchor.target = '_blank';
-                anchor.download = self.state.name;
-                anchor.click();
-            }
-        },
-    };
     let page = self.currentPage();
     let { initialParams, isTargetSlide } = getInitialParams(self, page);
     let currentPlugin = (self.props.fileModalResult && self.props.fileModalResult.id && self.props.pluginToolbars[self.props.fileModalResult.id]) ? self.props.pluginToolbars[self.props.fileModalResult.id].pluginId : null;
+    let apiPlugin = currentPlugin ? Ediphy.Plugins.get(currentPlugin) : undefined;
     switch(type) {
     case 'image' :
         return{
@@ -56,7 +43,7 @@ export default function handlers(self) {
 
                     },
                 },
-                download,
+                // download,
             ],
         };
     case 'video' :
@@ -76,7 +63,7 @@ export default function handlers(self) {
                         }
                     },
                 },
-                download,
+                // download,
             ] };
     case 'audio' :
         return {
@@ -95,7 +82,7 @@ export default function handlers(self) {
                         }
                     },
                 },
-                download,
+                // download,
             ] };
     case 'pdf' :
         return {
@@ -114,10 +101,10 @@ export default function handlers(self) {
                         }
                     },
                 },
-                download,
+                // download,
             ] };
     case 'csv' :
-    case 'json':
+        /* case 'json':*/
         return {
             icon: 'view_agenda',
             buttons: [
@@ -175,13 +162,41 @@ export default function handlers(self) {
 
                     },
                 },
-                download,
+                // download,
+            ] };
+    case 'xml' :
+        return {
+            icon: 'link',
+            buttons: [
+                {
+                    title: 'Insert MoodleXML', // (currentPlugin && apiPlugin.getConfig().category  === 'evaluation') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' MoodleXML'),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
+                    action: ()=>{ // Open side view
+                        if (self.props.fileModalResult && !self.props.fileModalResult.id) {
+                            parseMoodleXML(self.state.element, msg=>{
+                                if (msg && msg.success && msg.question) {
+                                    initialParams.exercises = msg.question;
+                                    initialParams.initialState = msg.question.state;
+                                    createBox(initialParams, msg.question.name, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                                    self.close();
+                                } else {
+                                    alert(msg ? (msg.msg || 'ERROR') : 'ERROR');
+                                }
+
+                            });
+
+                        } else {
+                            // self.close({ id: self.props.fileModalResult.id, value: self.state.element });
+                        }
+                    },
+                },
+                // download,
             ] };
     default :
         return {
             icon: 'attach_file',
             buttons: [
-                download,
+                // download,
             ] };
     }
 }
@@ -285,54 +300,36 @@ function compareKeys(a, b) {
     return a === b;
 }
 
-function dataURItoBlob(dataURI) {
-    // convert base64 to raw binary data held in a string
-    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
-    let byteString = atob(dataURI.split(',')[1]);
-
-    // separate out the mime component
-    let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-    // write the bytes of the string to an ArrayBuffer
-    let ab = new ArrayBuffer(byteString.length);
-
-    // create a view into the buffer
-    let ia = new Uint8Array(ab);
-
-    // set the bytes of the buffer to the correct values
-    for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-    }
-
-    // write the ArrayBuffer to a blob, and you're done
-    let blob = new Blob([ab], { type: mimeString });
-    return blob;
-
-}
-
 function dataToState(e, self, format, initialParams, isTargetSlide, plugin) {
-    let data = e.currentTarget.result;
-    let headers = (data[0]) ? new Array(data[0].length) : [];
-    let processed = { data: [], headers: [] };
-    if (format === 'csv') {
-        processed = csvToState(data);
-    } else if (format === 'json') {
-        processed = jsonToState(data);
-    }
-    data = processed.data;
-    headers = processed.headers;
-    let value = { name: self.state.name, data, rows: data.length, cols: data[0].length, keys: headers };
-    if (plugin === 'GraficaD3') {
-        value.dataProvided = data;
-        value.dataProcessed = data;
-    }
+    try{
+        let data = e.currentTarget.result;
+        let headers = (data[0]) ? new Array(data[0].length) : [];
+        let processed = { data: [], headers: [] };
 
-    if (self.props.fileModalResult && !self.props.fileModalResult.id) {
-        initialParams.initialState = value;
-        createBox(initialParams, plugin, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-    }else {
-        self.close({ id: self.props.fileModalResult.id, value });
+        if (format === 'csv') {
+            processed = csvToState(data);
+        } else if (format === 'json') {
+            processed = jsonToState(data);
+        }
+
+        data = processed.data;
+        headers = processed.headers;
+        let value = { name: self.state.name, data, rows: data.length, cols: data[0].length, keys: headers };
+        if (plugin === 'GraficaD3') {
+            value.dataProvided = data;
+            value.dataProcessed = data;
+        }
+
+        if (self.props.fileModalResult && !self.props.fileModalResult.id) {
+            initialParams.initialState = value;
+            createBox(initialParams, plugin, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+        }else {
+            self.close({ id: self.props.fileModalResult.id, value });
+        }
+        self.close();
+    } catch(e) {
+        alert(i18n.t('error.generic'));
+        return;
     }
-    self.close();
 }
 

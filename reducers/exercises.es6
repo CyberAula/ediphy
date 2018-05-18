@@ -33,9 +33,9 @@ function exercisesReducer(state = {}, action = {}) {
                 name,
                 id: action.payload.ids.id,
                 weight: 1,
-                correctAnswer: defaultCorrectAnswer,
-                currentAnswer: defaultCurrentAnswer,
-                showFeedback: true,
+                correctAnswer: (action.payload.ids.exercises && action.payload.ids.exercises.correctAnswer !== undefined) ? action.payload.ids.exercises.correctAnswer : defaultCorrectAnswer,
+                currentAnswer: (action.payload.ids.exercises && action.payload.ids.exercises.currentAnswer !== undefined) ? action.payload.ids.exercises.currentAnswer : defaultCurrentAnswer,
+                showFeedback: (action.payload.ids.exercises && action.payload.ids.showFeedback),
                 attempted: false,
                 score: 0,
             });

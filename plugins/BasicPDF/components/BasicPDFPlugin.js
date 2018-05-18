@@ -64,7 +64,7 @@ export default class BasicAudioPlugin extends React.Component {
             let x = "" + position[0] * 6.12 + "px";
             let y = "" + position[1] * 7.92 + "px";
             let bool = (parseFloat(position[2]) === this.state.pageNumber);
-            let isPopUp = true;
+            let isPopUp = marks[id].connectMode === "popup";
             let isVisor = true;
             return(
                 bool ? <div key={id} style={{ position: 'absolute', top: y, left: x, width: '24px', height: '26px' }}>

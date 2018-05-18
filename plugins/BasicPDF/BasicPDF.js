@@ -139,8 +139,9 @@ export function BasicPDF(base) {
 
             let y = (value[0] + 12) * 100 / value[2];
             let x = (value[1] + 26) * 100 / value[3];
-            // let numPage = document.querySelector("#"+value[6]+".pdfPage").getAttribute("data-page-number");
-            let numPage = document.querySelector(".pdfPage").getAttribute("data-page-number");
+            console.log(value);
+            let numPage = document.querySelector("#box-" + value[6] + " .pdfPage").getAttribute("data-page-number");
+            // let numPage = document.querySelector(".pdfPage").getAttribute("data-page-number");
             return y.toFixed(2) + ',' + x.toFixed(2) + ',' + numPage;
         },
         validateValueInput: function(value) {

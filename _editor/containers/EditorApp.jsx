@@ -44,6 +44,7 @@ import PropTypes from 'prop-types';
 import { ID_PREFIX_BOX } from '../../common/constants';
 import { createBox } from '../../common/common_tools';
 import FileModal from '../components/external_provider/file_modal/FileModal';
+import EdiphyTour from '../components/joyride/EdiphyTour';
 import { serialize } from '../../reducers/serializer';
 
 /**
@@ -72,7 +73,11 @@ class EditorApp extends Component {
             grid: false,
             pluginConfigModal: false,
             accordions: {},
+            blockDrag: false,
             showFileUpload: false,
+            fileUploadTab: 0,
+            showTour: false,
+            showHelpButton: true,
             fileModalResult: { id: undefined, value: undefined },
         };
         this.onTextEditorToggled = this.onTextEditorToggled.bind(this);
@@ -80,6 +85,41 @@ class EditorApp extends Component {
         this.toolbarUpdated = this.toolbarUpdated.bind(this);
         this.onBoxDeleted = this.onBoxDeleted.bind(this);
         this.onSortableContainerDeleted = this.onSortableContainerDeleted.bind(this);
+        this.keyListener = this.keyListener.bind(this);
+        this.dropListener = (ev) => {
+            if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
+
+            } else {
+                ev.preventDefault();
+            }
+            this.setState({ blockDrag: false });
+        };
+        this.dragListener = (ev) => {
+            if (!this.state.showFileUpload && !this.state.blockDrag) {
+                this.setState({ showFileUpload: "*", fileModalResult: { id: undefined, value: undefined }, fileUploadTab: 0 });
+            }
+            if (this.state.showFileUpload && this.state.fileUploadTab !== 0) {
+                this.setState({ fileUploadTab: 0 });
+            }
+            ev.preventDefault();
+            if (event.target.parentNode && event.target.parentNode.classList.contains('fileInput')) {
+                event.target.parentNode.classList.add('dragging');
+            }
+            console.log(event.target.parentNode);
+        };
+        this.dragExitListener = (ev) => {
+            ev.preventDefault();
+            // this.setState({ blockDrag: false });
+            console.log(event.target.parentNode);
+            if (event.target.parentNode && event.target.parentNode.classList.contains('fileInput')) {
+                event.target.parentNode.classList.remove('dragging');
+            }
+        };
+
+        this.dragStartListener = (ev) => {
+            this.setState({ blockDrag: true });
+        };
+        this.createHelpModal = this.createHelpModal.bind(this);
     }
 
     render() {
@@ -95,6 +135,8 @@ class EditorApp extends Component {
         return (
             <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }}>
                 <Row className="navBar">
+                    {this.state.showTour ? <EdiphyTour toggleTour={(showTour)=>{this.setState({ showTour });}} showTour={this.state.showTour}/> : null}
+                    {this.createHelpModal()}
                     {this.state.alert}
                     <EditorNavBar hideTab={this.state.hideTab} boxes={boxes}
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
@@ -117,6 +159,7 @@ class EditorApp extends Component {
                         undo={() => {dispatch(ActionCreators.undo());}}
                         redo={() => {dispatch(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
+                        openTour={()=>{this.setState({ showTour: true });}}
                         export={(format, callback, selfContained = false) => {
                             if(format === "PDF") {
                                 printToPDF(this.props.store.getState().undoGroup.present, callback);
@@ -129,7 +172,7 @@ class EditorApp extends Component {
                         opens={() => {dispatch(importStateAsync());}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
                         fileModalResult={this.state.fileModalResult}
-                        toggleFileUpload={(id, accept)=>{this.setState({ showFileUpload: accept, fileModalResult: { id: id, value: undefined } });}}
+                        toggleFileUpload={(id, accept)=>{this.setState({ showFileUpload: accept, fileModalResult: { id: id, value: undefined }, fileUploadTab: 0 });}}
                         onExternalCatalogToggled={() => this.setState({ catalogModal: true })}
                         setcat={(category) => {this.setState({ pluginTab: category, hideTab: 'show' });}}/>
                     {Ediphy.Config.autosave_time > 1000 &&
@@ -261,8 +304,6 @@ class EditorApp extends Component {
                                 markCreatorId={this.state.markCreatorVisible}
                                 onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 setCorrectAnswer={(id, correctAnswer, page) => { dispatch(setCorrectAnswer(id, correctAnswer, page));}}
-                                showFileUpload={this.state.showFileUpload}
-                                toggleFileUpload={()=>{this.setState({ showFileUpload: "*", fileModalResult: { id: undefined, value: undefined } });}}
                                 addMarkShortcut= {(mark) => {
                                     let state = JSON.parse(JSON.stringify(toolbars[boxSelected].state));
                                     state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
@@ -298,6 +339,8 @@ class EditorApp extends Component {
                                 }}
                                 onViewTitleChanged={(id, titles)=>{dispatch(updateViewToolbar(id, titles));}}
                                 onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
+                                fileModalResult={this.state.fileModalResult}
+                                openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept, fileUploadTab: 1 });}}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}/>
                             <ContainedCanvas boxes={boxes}
                                 accordions={this.state.accordions}
@@ -355,6 +398,8 @@ class EditorApp extends Component {
                                 onTextEditorToggled={this.onTextEditorToggled}
                                 onBoxesInsideSortableReorder={(parent, container, order) => {dispatch(reorderBoxes(parent, container, order));}}
                                 onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
+                                fileModalResult={this.state.fileModalResult}
+                                openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept, fileUploadTab: 1 });}}
                                 showCanvas={(containedViewSelected !== 0)}/>
                         </Row>
                     </Col>
@@ -371,7 +416,7 @@ class EditorApp extends Component {
                 <PluginConfigModal
                     id={this.state.pluginConfigModal}
                     fileModalResult={this.state.fileModalResult}
-                    openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept });}}
+                    openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept, fileUploadTab: 0 });}}
                     name={pluginToolbars[this.state.pluginConfigModal] ? pluginToolbars[this.state.pluginConfigModal].pluginId : ""}
                     state={pluginToolbars[this.state.pluginConfigModal] ? pluginToolbars[this.state.pluginConfigModal].state : {}}
                     closeConfigModal={()=>{ this.setState({ pluginConfigModal: false }); } }
@@ -493,7 +538,7 @@ class EditorApp extends Component {
                         dispatch(deleteRichMark(marks[id]));
                     }}
                     fileModalResult={this.state.fileModalResult}
-                    openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept });}}
+                    openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept, fileUploadTab: 1 });}}
                     updateViewToolbar={(id, toolbar)=> dispatch(updateViewToolbar(id, toolbar))}
                 />
                 <FileModal visible={this.state.showFileUpload} disabled={disabled}
@@ -512,10 +557,11 @@ class EditorApp extends Component {
                     pluginToolbars={pluginToolbars}
                     deleteFileFromServer={(id, url, callback) => dispatch(deleteFunction(id, url, callback))}
                     onIndexSelected={(id) => dispatch(selectIndex(id))}
+                    fileUploadTab={this.state.fileUploadTab}
                     onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
                     onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
                     uploadFunction={(query, keywords, callback) => dispatch(uploadFunction(query, keywords, callback))}
-                    close={(fileModalResult)=>{this.setState({ fileModalResult: fileModalResult ? fileModalResult : { id: undefined, value: undefined }, showFileUpload: false });}} />
+                    close={(fileModalResult)=>{this.setState({ fileModalResult: fileModalResult ? fileModalResult : { id: undefined, value: undefined }, showFileUpload: false, fileUploadTab: 0 });}} />
 
             </Grid>
         );
@@ -529,7 +575,24 @@ class EditorApp extends Component {
         let lastAction = this.props.dispatch(actionCreator);
         this.setState({ lastAction: lastAction });
     }
+    createHelpModal() {
+        return <Alert className="pageModal"
+            show={this.state.showHelpButton}
+            hasHeader={false}
+            title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
+            cancelButton
+            acceptButtonText={i18n.t("joyride.start")}
+            onClose={(bool)=>{
+                if (bool) {
+                    this.setState({ showTour: true, showHelpButton: false });
+                } else {
+                    this.setState({ showHelpButton: false });
+                }
+            }}>
+                      ¿Quieres ayuda?
 
+        </Alert>;
+    }
     /**
      * After component mounts
      * Loads plugin API and sets listeners for plugin events, marks and keyboard keys pressed
@@ -538,48 +601,62 @@ class EditorApp extends Component {
         if (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' && ediphy_editor_json && ediphy_editor_json !== 'undefined') {
             this.props.dispatch(importState(serialize(JSON.parse(ediphy_editor_json))));
         }
-        window.onkeyup = function(e) {
-            let key = e.keyCode ? e.keyCode : e.which;
-            // Checks what element has the cursor focus currently
-            let focus = document.activeElement.className;
-            let notText = !document.activeElement.type && focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1;
+        setTimeout(()=>{this.setState({ showHelpButton: false });}, 30000);
+        document.addEventListener('keyup', this.keyListener);
+        document.addEventListener('dragover', this.dragListener);
+        document.addEventListener('dragleave', this.dragExitListener);
+        document.addEventListener('drop', this.dropListener);
+        document.addEventListener('dragstart', this.dragStartListener);
 
-            // Ctrl + Z
-            if (key === 90 && e.ctrlKey) {
+    }
+    componentWillUnmount() {
+        document.removeEventListener('keyup', this.keyListener);
+        document.removeEventListener('dragover', this.dragListener);
+        document.removeEventListener('dragleave', this.dragExitListener);
+        document.removeEventListener('drop', this.dropListener);
+        document.removeEventListener('dragstart', this.dragStartListener);
+
+    }
+
+    keyListener(e) {
+        let key = e.keyCode ? e.keyCode : e.which;
+        // Checks what element has the cursor focus currently
+        let focus = document.activeElement.className;
+        let notText = !document.activeElement.type && focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1;
+
+        // Ctrl + Z
+        if (key === 90 && e.ctrlKey) {
+            if (notText) {
+                this.props.dispatch(ActionCreators.undo());
+            }
+        }
+        // Ctrl + Y
+        if (key === 89 && e.ctrlKey) {
+            if (notText) {
+                this.props.dispatch(ActionCreators.redo());
+            }
+        }
+        if (key === 80 && e.ctrlKey && e.shiftKey) {
+            e.cancelBubble = true;
+            e.preventDefault();
+
+            e.stopImmediatePropagation();
+            printToPDF(this.props.store.getState().undoGroup.present);
+        }
+
+        // Supr
+        else if (key === 46) {
+            if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
+            // If it is not an input or any other kind of text edition AND there is a box selected, it deletes said box
                 if (notText) {
-                    this.props.dispatch(ActionCreators.undo());
-                }
-            }
-            // Ctrl + Y
-            if (key === 89 && e.ctrlKey) {
-                if (notText) {
-                    this.props.dispatch(ActionCreators.redo());
-                }
-            }
-            if (key === 80 && e.ctrlKey && e.shiftKey) {
-                e.cancelBubble = true;
-                e.preventDefault();
-
-                e.stopImmediatePropagation();
-                printToPDF(this.props.store.getState().undoGroup.present);
-            }
-
-            // Supr
-            else if (key === 46) {
-                if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
-                    // If it is not an input or any other kind of text edition AND there is a box selected, it deletes said box
-                    if (notText) {
-                        let box = this.props.boxes[this.props.boxSelected];
-                        let toolbar = this.props.pluginToolbars[this.props.boxSelected];
-                        if (!toolbar.showTextEditor) {
-                            this.onBoxDeleted(box.id, box.parent, box.container, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected);
-                        }
+                    let box = this.props.boxes[this.props.boxSelected];
+                    let toolbar = this.props.pluginToolbars[this.props.boxSelected];
+                    if (!toolbar.showTextEditor) {
+                        this.onBoxDeleted(box.id, box.parent, box.container, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected);
                     }
                 }
             }
-
-        }.bind(this);
-
+        }
     }
     onBoxDeleted(id, parent, container, page) {
         let bx = this.getDescendantBoxes(this.props.boxes[id]);

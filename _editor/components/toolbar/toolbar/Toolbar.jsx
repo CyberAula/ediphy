@@ -52,7 +52,7 @@ export default class Toolbar extends Component {
                 exercises={exercises}
                 onScoreConfig={(id, button, value, page) => {this.props.onScoreConfig(id, button, value, this.props.navItemSelected);}}
                 toggleToolbar={()=>this.toggleToolbar()}
-                openConfigModal={this.props.openConfigModal} />;
+                openConfigModal={this.state.openConfigModal} />;
             let tb = this.props.pluginToolbars[this.props.box.id];
             let apiPlugin = Ediphy.Plugins.get(tb.pluginId);
             let config;
@@ -72,7 +72,7 @@ export default class Toolbar extends Component {
                     right: '0px',
                     top: this.props.top,
                 }}>
-                <div className="pestana"
+                <div className="pestana" id="toolbarFlap"
                     onClick={() => {
                         this.toggleToolbar();
                     }}/>
@@ -80,7 +80,7 @@ export default class Toolbar extends Component {
                     style={{
                         width: open ? '250px' : '40px',
                     }}
-                    className="toolbox">
+                    className={open ? 'toolbox toolsSpread' : 'toolbox'}>
                     <OverlayTrigger placement="left"
                         overlay={
                             <Tooltip className={open ? 'hidden' : ''}
@@ -94,7 +94,7 @@ export default class Toolbar extends Component {
                         style={{ display: this.props.carouselShow ? 'block' : 'block' }}
                         className={open ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
                             <div className="toolbarTitle">
-                                <i className="material-icons">settings</i>
+                                <i id="wheel" className="material-icons">settings</i>
                                 <span className="toolbarTitletxt">
                                     {i18n.t('Properties')}
                                 </span>
