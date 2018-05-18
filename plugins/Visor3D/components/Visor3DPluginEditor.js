@@ -11,7 +11,10 @@ export default class Visor3DPluginEditor extends React.Component {
                 <STLViewer
                     url={this.props.state.url}
                     modelColor={this.props.state.color}
+                    backgroundColor={this.props.state.backgroundColor}
                     rotate={this.props.state.rotate}
+                    width={400}
+                    height={400}
                     orbitControls />
             </div>);
     }

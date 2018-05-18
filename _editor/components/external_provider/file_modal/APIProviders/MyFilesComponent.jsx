@@ -52,6 +52,7 @@ export default class MyFilesComponent extends React.Component {
                 aux = ext.value;
             }
         }
+        console.log(aux);
         currentExtension = aux;
         let fileSelected = this.props.filesUploaded[this.props.idSelected];
         let download = { // Forces browser download

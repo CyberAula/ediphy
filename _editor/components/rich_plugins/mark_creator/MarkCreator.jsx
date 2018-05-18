@@ -70,7 +70,7 @@ export default class MarkCreator extends Component {
             let dom_element = ReactDOM.findDOMNode(element);
             let dropableElement = dom_element.getElementsByClassName('dropableRichZone')[0];
 
-            if(!nextState.onCreation && nextProps.markCreatorId !== false && this.props.currentId === nextProps.markCreatorId) {
+            if(dropableElement && !nextState.onCreation && nextProps.markCreatorId !== false && this.props.currentId === nextProps.markCreatorId) {
                 /* find dropableRichZone*/
 
                 let overlay = document.createElement("div");
@@ -155,16 +155,19 @@ export default class MarkCreator extends Component {
         let element = findBox(this.props.currentId);
         let dom_element = ReactDOM.findDOMNode(element);
         let dropableElement = dom_element.getElementsByClassName('dropableRichZone')[0];
-        let overlay = document.getElementById('markOverlay');
-        document.body.style.cursor = 'default';
-        window.removeEventListener('keyup', this.keyListener);
-        document.documentElement.removeEventListener('mouseup', this.clickOutside, true);
-        if (overlay) {
-            overlay.remove();
+        if (dropableElement) {
+            let overlay = document.getElementById('markOverlay');
+            document.body.style.cursor = 'default';
+            window.removeEventListener('keyup', this.keyListener);
+            document.documentElement.removeEventListener('mouseup', this.clickOutside, true);
+            if (overlay) {
+                overlay.remove();
+            }
+            dropableElement.classList.remove('rich_overlay');
+            this.props.deleteMarkCreator();
+            this.setState({ onCreation: false, promptRes: "" });
         }
-        dropableElement.classList.remove('rich_overlay');
-        this.props.deleteMarkCreator();
-        this.setState({ onCreation: false, promptRes: "" });
+
     }
 
     /**

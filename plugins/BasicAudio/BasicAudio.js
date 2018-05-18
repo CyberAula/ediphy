@@ -41,7 +41,7 @@ export function BasicAudio(base) {
                                     __name: Ediphy.i18n.t('EnrichedPlayer.URL'),
                                     type: 'external_provider',
                                     value: state.url,
-                                    accept: "application/octet-stream",
+                                    accept: "audio/*",
                                     autoManaged: false,
                                 },
                                 autoplay: {

@@ -13,8 +13,11 @@ import EuropeanaIcon from './logos/europeanaalt.svg';
 import YoutubeIcon from './logos/youtube.svg';
 import SoundCloudIcon from './logos/soundcloud_logo_0.png';
 import OpenClipArtIcon from './logos/openclipart.svg';
+import ThingiverseIcon from './logos/thingiverse-logo-2015.png';
 import UploadComponent from './UploadComponent';
+import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
 import i18n from 'i18next';
+import ThingiverseComponent from './ThingiverseComponent';
 
 export default function menus(self) {
     let allowedMIME = self.props.visible || "";
@@ -113,13 +116,21 @@ export default function menus(self) {
             name: 'AudioBlocks',
             icon: AudioBlocksIcon,
             show: (allowedMIME === "*" || allowedMIME.match('audio')),
-            component: AudioBlocksComponent,
-        {
+            component: AudioBlocksComponent
+        },*/
+        /* {
             name: 'OpenClipArt',
             icon: OpenClipArtIcon,
             show: (allowedMIME === "*" || allowedMIME.match('image')),
             component: OpenClipArtComponent,
             props: { ...commonProps },
         },*/
+        /* {
+          name: 'Thingiverse',
+          icon: ThingiverseIcon,
+          show: (allowedMIME === "*" || allowedMIME.match('application')),
+          component: ThingiverseComponent,
+          props: { ...commonProps },
+      }*/
     ];
 }

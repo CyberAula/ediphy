@@ -15,6 +15,8 @@ export let extensions = [
     // { label: "JSON", value: 'json', icon: 'view_agenda' },
     { label: "PDF", value: 'pdf', icon: 'picture_as_pdf' },
     { label: "XML", value: 'xml', icon: 'code' },
+    { label: "Objeto 3D", value: 'stl', icon: '3d_object' },
+    { label: "Otro", value: 'application', icon: 'devices_other' },
 ];
 export default function handlers(self) {
     let type = self.state.type;
@@ -70,8 +72,8 @@ export default function handlers(self) {
             icon: 'audiotrack',
             buttons: [
                 {
-                    title: (currentPlugin && currentPlugin === 'EnrichedPlayer') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.audio')),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
+                    title: (currentPlugin && currentPlugin === 'BasicAudio') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.audio')),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'BasicAudio'),
                     action: ()=>{
                         if (self.props.fileModalResult && !self.props.fileModalResult.id) {
                             initialParams.url = self.state.element;
@@ -90,7 +92,7 @@ export default function handlers(self) {
             buttons: [
                 {
                     title: (currentPlugin && currentPlugin === 'BasicPDF') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' pdf'),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'BasicPDF') || (self.props.fileModalResult && self.props.fileModalResult.id),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'BasicPDF') /* || (self.props.fileModalResult && self.props.fileModalResult.id)*/,
                     action: ()=>{ // Open side view
                         if (self.state.element) {
                             if (self.props.fileModalResult && !self.props.fileModalResult.id) {
@@ -187,6 +189,26 @@ export default function handlers(self) {
 
                         } else {
                             // self.close({ id: self.props.fileModalResult.id, value: self.state.element });
+                        }
+                    },
+                },
+                // download,
+            ] };
+    case 'application' :
+    case 'stl':
+        return {
+            icon: 'devices_other',
+            buttons: [
+                {
+                    title: (currentPlugin && currentPlugin === 'Visor3D') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.Object3D')),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (!self.state.name.match('stl') && !self.state.element.match('thingiverse')) || (currentPlugin && currentPlugin !== 'Visor3D'),
+                    action: ()=>{
+                        if (self.props.fileModalResult && !self.props.fileModalResult.id) {
+                            initialParams.url = self.state.element;
+                            createBox(initialParams, "Visor3D", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                            self.close();
+                        } else {
+                            self.close({ id: self.props.fileModalResult.id, value: self.state.element });
                         }
                     },
                 },
