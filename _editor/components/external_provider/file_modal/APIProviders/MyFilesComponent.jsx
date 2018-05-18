@@ -63,7 +63,7 @@ export default class MyFilesComponent extends React.Component {
         };
         /*  <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}</h5> */
         return(<div className="contentComponent myFilesComponent">
-            <h5>Ficheros subidos a este curso</h5>
+            <h5>{i18n.t("FileModal.APIProviders.MyFilesTitle")}</h5>
             <hr />
             <div className={"filters"}>
                 <FormGroup key="filter">

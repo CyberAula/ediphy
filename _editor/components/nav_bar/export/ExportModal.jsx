@@ -79,8 +79,9 @@ export default class ExportModal extends Component {
                                     </div>
                                 </Col>
                                 <Col xs={12} className={"explanation"}>
-                                    {this.state.format !== 3 ? <div className={"selfContained"}><ToggleSwitch onChange={()=>{this.setState({ selfContained: !this.state.selfContained });}} checked={this.state.selfContained}/>
-                                        {i18n.t('messages.selfContained')}</div> : null}
+                                    {this.state.format !== 3 ? <div className={"selfContained"}>
+                                        <div><ToggleSwitch onChange={()=>{this.setState({ selfContained: !this.state.selfContained });}} checked={this.state.selfContained}/></div>
+                                        <div>{i18n.t('messages.selfContained')}</div></div> : null}
                                 </Col>
 
                             </Row>

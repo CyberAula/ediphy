@@ -75,7 +75,10 @@ let es = {
         "FileModal": {
             'APIProviders': {
                 'MyFiles': 'Biblioteca',
+                'MyFilesTitle': 'Ficheros subidos a este curso',
                 'UploadFiles': 'Subir fichero',
+                'UploadNewFile': 'Subir nuevo recurso',
+                'UploadFilesTitle': 'Importa un fichero desde tu equipo...',
                 'no_files': 'No hay resultados con las condiciones especificadas',
                 'results': 'Resultados',
                 'searching': 'Buscando...',

@@ -77,8 +77,11 @@ let en = {
         },
         "FileModal": {
             'APIProviders': {
-                'MyFiles': 'My course files',
+                'MyFiles': 'My files',
+                'MyFilesTitle': 'Files uploaded to this course',
                 'UploadFiles': 'Upload files',
+                'UploadFilesTitle': 'Import file from your PC...',
+                'UploadNewFile': 'Upload new file',
                 'no_files': 'No files found with the specified search criteria',
                 'results': 'Results',
                 'searching': 'Searching...',

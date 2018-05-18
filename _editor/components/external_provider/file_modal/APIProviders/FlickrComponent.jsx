@@ -62,11 +62,11 @@ export default class FlickrComponent extends React.Component {
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching") });
         $.getJSON(flickrURL, (imgs)=>{
             try{
-                console.log(imgs);
+                // console.log(imgs);
                 if (imgs) {
                     if (imgs && imgs.items) {
+                        console.log(imgs.items);
                         let results = imgs.items.map(img=>{
-                            console.log(img);
                             return {
                                 title: img.title,
                                 url: img.media.m.replace(/_m/i, ""),
