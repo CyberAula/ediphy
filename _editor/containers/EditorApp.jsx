@@ -46,6 +46,7 @@ import { createBox } from '../../common/common_tools';
 import FileModal from '../components/external_provider/file_modal/FileModal';
 import EdiphyTour from '../components/joyride/EdiphyTour';
 import { serialize } from '../../reducers/serializer';
+import star from '../components/joyride/rainbow.svg';
 
 /**
  * EditorApp. Main application component that renders everything else
@@ -576,7 +577,8 @@ class EditorApp extends Component {
         this.setState({ lastAction: lastAction });
     }
     createHelpModal() {
-        return <Alert className="pageModal"
+
+        return <Alert className="pageModal welcomeModal"
             show={this.state.showHelpButton}
             hasHeader={false}
             title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
@@ -589,7 +591,11 @@ class EditorApp extends Component {
                     this.setState({ showHelpButton: false });
                 }
             }}>
-                      ¿Quieres ayuda?
+            <div className="welcomeModalDiv">
+                <img src={star} alt="" style={{ width: '95px', float: 'right', marginRight: '38px' }}/>
+                <h1>{i18n.t('joyride.welcome')}<strong style={{ color: '#17CFC8' }}>Ediphy</strong>!</h1>
+                <h2>{i18n.t('joyride.why')}</h2>
+            </div>
 
         </Alert>;
     }
@@ -601,7 +607,7 @@ class EditorApp extends Component {
         if (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' && ediphy_editor_json && ediphy_editor_json !== 'undefined') {
             this.props.dispatch(importState(serialize(JSON.parse(ediphy_editor_json))));
         }
-        setTimeout(()=>{this.setState({ showHelpButton: false });}, 30000);
+        // setTimeout(()=>{this.setState({ showHelpButton: false });}, 30000);
         document.addEventListener('keyup', this.keyListener);
         document.addEventListener('dragover', this.dragListener);
         document.addEventListener('dragleave', this.dragExitListener);

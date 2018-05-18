@@ -8,3 +8,44 @@
     border-radius: 0px !important;
   }
 }
+
+.welcomeModal {
+  &.fade:not(.in) {
+    -moz-transition: all  1s ease-out;
+    -webkit-transition: all  1s ease-out;
+    -o-transition: all  1s ease-out;
+    transition: all 1s ease-out;
+    transform: translate(0,0) !important;
+    -webkit-transform:  translate(0,0) !important;
+    -ms-transform:  translate(0,0) !important;
+    transform:  translate(0,0) !important;
+    .modal-dialog {
+      transform: translate(50vw,-15vh) scale(0.1);
+      -webkit-transform:  translate(50vw,-15vh) scale(0.1);
+      -ms-transform:  translate(50vw,-15vh) scale(0.1);
+      transform:  translate(50vw,-15vh) scale(0.1);
+    }
+  }
+  .modal-content{
+    top: 200px;
+    .modal-body {
+      padding: 30px;
+      .welcomeModalDiv {
+        h1 {
+          font-size: 27px;
+        }
+        h2 {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+
+
+}
+
+.tourCloned {
+  position: fixed;
+  top: 0;
+  left: 0;
+}

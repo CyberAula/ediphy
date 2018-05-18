@@ -11,19 +11,6 @@ export default class EdiphyTour extends React.Component {
         super(props);
         this.state = {
             steps: [
-                { // PLugin top bar
-                    target: '#iconBar',
-                    content: (<div>
-                        {i18n.t('joyride.welcome')}<strong>Ediphy</strong>!
-                        <img src={star} alt="" style={{ width: '80px', float: 'right' }}/>
-                        <br/>
-                        {i18n.t('joyride.why')}
-                    </div>),
-                    placement: 'bottom',
-                    disableBeacon: true,
-                    callback: (e)=>{
-                    },
-                },
                 { // Plugin selection
                     target: '#ribbonList',
                     content: (<div>
@@ -32,10 +19,17 @@ export default class EdiphyTour extends React.Component {
                     </div>),
                     placement: 'bottom',
                     offset: 30,
+                    disableBeacon: true, // The first step needs to have this so the beacon does not appear and the tour starts right away
                     tooltipOptions: { footer: null },
                     callback: (e)=>{
                         if(document.getElementById('insideribbon').classList.contains('noButtons')) {
                             document.querySelector('.navButtonPlug').click();
+                            setTimeout(()=>{
+                                /* let clone = document.querySelector('button[name=HotspotImages]').cloneNode(true)
+                              document.body.appendChild(clone);
+                              clone.classList.add('tourCloned')*/
+                            }, 300);
+
                         }
                     },
                 },
@@ -75,7 +69,7 @@ export default class EdiphyTour extends React.Component {
                     content: (<div>
                         <i style={{ fontSize: '50px', color: '#18CFC8', float: 'left' }} className="material-icons">import_export</i>
                         <span>{i18n.t('joyride.menu')}</span></div>),
-                    offset: 60,
+                    offset: 10,
                     placement: 'left',
                     callback: ()=>{
                         document.getElementById('dropdown-menu').click();
@@ -135,7 +129,7 @@ export default class EdiphyTour extends React.Component {
                 this.props.toggleTour(false);
                 this.setState({ doneSteps: new Set(), stepIndex: 0 });
             } else if ([EVENTS.STEP_AFTER, EVENTS.CLOSE, EVENTS.TARGET_NOT_FOUND].includes(type)) {
-                // Sunce this is a controlled tour you'll need to update the state to advance the tour
+                // Since this is a controlled tour you'll need to update the state to advance the tour
                 this.setState({ stepIndex: index + (action === ACTIONS.PREV ? -1 : 1) });
 
             }
