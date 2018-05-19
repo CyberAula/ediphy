@@ -398,25 +398,22 @@ export default class GlobalConfig extends Component {
         style.left = 0;
         document.body.appendChild(clone);
 
-        html2canvas(clone, {
-            onrendered: (canvas)=> {
-                let extra_canvas = document.createElement('canvas');
+        html2canvas(clone, { useCORS: true, logging: false }).then((canvas)=> {
+            let extra_canvas = document.createElement('canvas');
 
-                extra_canvas.setAttribute('width', 500);
-                extra_canvas.setAttribute('height', 500);
-                let ctx = extra_canvas.getContext('2d');
-                ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 500, 500);
+            extra_canvas.setAttribute('width', 500);
+            extra_canvas.setAttribute('height', 500);
+            let ctx = extra_canvas.getContext('2d');
+            ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 500, 500);
 
-                // Uncomment this lines to download the image directly
-                // let a = document.createElement('a');
-                // a.href = a.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
-                // a.click();
+            // Uncomment this lines to download the image directly
+            // let a = document.createElement('a');
+            // a.href = a.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+            // a.click();
 
-                document.body.removeChild(clone);
-                this.setState({ modifiedState: true, thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
-
-            },
-            useCORS: true });
+            document.body.removeChild(clone);
+            this.setState({ modifiedState: true, thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
+        });
     }
 
     fileChanged(event) {
