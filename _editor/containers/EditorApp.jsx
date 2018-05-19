@@ -589,8 +589,7 @@ class EditorApp extends Component {
                     this.setState({ showHelpButton: false });
                 }
             }}>
-                      ¿Quieres ayuda?
-
+            {i18n.t('Want some help?')}
         </Alert>;
     }
     /**

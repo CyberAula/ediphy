@@ -441,6 +441,7 @@ let en = {
         "vish_upload_desc": "Description",
         "vish_upload_other": "Upload pictures, videos and other resources",
         "vish_upload_title": "Title",
+        "Want some help?": "Want some help?",
         "Weight": "Weight",
         "Width": "Width",
         "Width_percentage": "Width (%)",
