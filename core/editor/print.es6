@@ -9,6 +9,10 @@ import jsPDF from 'jspdf';
 window.html2canvas = html2canvas;
 
 export default function printToPDF(state, callback) {
+    if (!jsPDF) {
+        callback(true);
+        return;
+    }
     let navItemsIds = state.navItemsIds;
     let navItems = state.navItemsById;
     let boxes = state.boxesById;
@@ -88,7 +92,7 @@ export default function printToPDF(state, callback) {
                     document.body.removeChild(pageContainer);
                     callback();
                 });
-            }, 10000);
+            }, 6000);
         });
 
         /*

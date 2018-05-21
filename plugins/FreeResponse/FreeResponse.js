@@ -15,7 +15,7 @@ export function FreeResponse(base) {
                 initialWidth: '60%',
                 flavor: 'react',
                 isComplex: true,
-                defaultCorrectAnswer: true,
+                defaultCorrectAnswer: "",
             };
         },
         getToolbar: function(state) {
@@ -95,12 +95,16 @@ export function FreeResponse(base) {
             };
         },
         getRenderTemplate: function(state, props) {
-
+            let clickHandler = (e)=>{
+                props.setCorrectAnswer(e.target.value);
+            };
             return <div className={"exercisePlugin freeResponsePlugin"} > {/* <h1>Free Response</h1>*/}
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
                         <PluginPlaceholder {...props} key="1" plugin-data-display-name={i18n.t('FreeResponse.Question') } plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("FreeResponse.Statement") + '</p>'} pluginContainer={'Question'} />
-                        <textarea disabled className="form-control textAreaQuiz" placeholder={i18n.t('FreeResponse.PlaceholderEditor')}/>
+                        <textarea className="form-control textAreaQuiz" placeholder={i18n.t('FreeResponse.PlaceholderEditor')} value={props.exercises.correctAnswer} onChange={clickHandler}/>
+                        {(props.exercises.correctAnswer && props.exercises.correctAnswer.length && props.exercises.correctAnswer.length > 100) ? (
+                            <div className={"tooManyCharacters"}>{i18n.t('FreeResponse.TooMany')}</div>) : null}
                     </div>
                 </div>
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>

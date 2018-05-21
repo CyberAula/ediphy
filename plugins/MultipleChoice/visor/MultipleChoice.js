@@ -2,6 +2,7 @@ import React from 'react';
 import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
 import i18n from 'i18next';
 import { letterFromNumber } from '../../../common/common_tools';
+import { compareNumbersLiterally } from '../../../core/visor/correction_functions';
 /* eslint-disable react/prop-types */
 
 export function MultipleChoice() {
@@ -13,6 +14,7 @@ export function MultipleChoice() {
             score = Math.round(score * 100) / 100;
             score = (score) + "/" + (props.exercises.weight || 0);
             let showFeedback = attempted && state.showFeedback;
+
             for (let i = 0; i < state.nBoxes; i++) {
                 let correct = attempted && props.exercises.correctAnswer === i; // && props.exercises.currentAnswer === i ;
                 let incorrect = attempted && (/* (props.exercises.correctAnswer === i && props.exercises.currentAnswer !== i)||*/(props.exercises.correctAnswer !== i && props.exercises.currentAnswer === i));
@@ -51,10 +53,7 @@ export function MultipleChoice() {
             </div>;
         },
         checkAnswer(current, correct) {
-            if (!isNaN(current)) {
-                return (current) === (correct);
-            }
-            return false;
+            return compareNumbersLiterally(current, correct);
 
         },
     };

@@ -2,6 +2,8 @@ import React from 'react';
 import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
 import i18n from 'i18next';
 import { letterFromNumber } from '../../../common/common_tools';
+import { correctArrayOrdered } from '../../../core/visor/correction_functions';
+
 /* eslint-disable react/prop-types */
 
 export function TrueFalse() {
@@ -72,14 +74,7 @@ export function TrueFalse() {
             </div>;
         },
         checkAnswer(current, correct, state) {
-            let total = Math.min(state.nBoxes || 1, correct ? correct.length : 1);
-            let score = 0;
-            for (let q in current) {
-                if (current[q] === correct[q]) {
-                    score += 1;
-                }
-            }
-            return (score / total);
+            return correctArrayOrdered(current, correct, state.nBoxes, state.allowPartialScore);
         },
     };
 }
