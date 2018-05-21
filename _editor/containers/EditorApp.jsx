@@ -161,7 +161,7 @@ class EditorApp extends Component {
                         undo={() => {dispatch(ActionCreators.undo());}}
                         redo={() => {dispatch(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
-                        openTour={()=>{this.setState({ showTour: true });}}
+                        openTour={()=>{this.setState({ showHelpButton: true });}}
                         export={(format, callback, selfContained = false) => {
                             if(format === "PDF") {
                                 printToPDF(this.props.store.getState().undoGroup.present, callback);
@@ -597,7 +597,7 @@ class EditorApp extends Component {
                 <h1>{i18n.t('joyride.welcome')}<strong style={{ color: '#17CFC8' }}>Ediphy</strong>!</h1>
                 <h2>{i18n.t('joyride.why')}</h2>
             </div>
-
+            {i18n.t('joyride.manual')}<a href="http://ging.github.io/ediphy/#/manual" target="_blank">{i18n.t('joyride.manual2')}</a>
             {/* i18n.t('Want some help?')*/}
         </Alert>;
     }
