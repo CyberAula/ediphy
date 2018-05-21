@@ -169,7 +169,7 @@ class EditorApp extends Component {
                                 Ediphy.Visor.exportsHTML({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback, selfContained);
                             }}}
                         scorm={(is2004, callback, selfContained = false) => {Ediphy.Visor.exportScorm({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, is2004, callback, selfContained);}}
-                        save={() => {dispatch(exportStateAsync({ ...this.props.store.getState() })); }}
+                        save={(win) => {dispatch(exportStateAsync({ ...this.props.store.getState() }, win)); }}
                         category={this.state.pluginTab}
                         opens={() => {dispatch(importStateAsync());}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
@@ -877,8 +877,7 @@ class EditorApp extends Component {
     }
     onTextEditorToggled(caller, value, text, content) {
         let pluginToolbar = this.props.pluginToolbars[caller];
-        if(pluginToolbar) {
-
+        if(pluginToolbar && pluginToolbar.pluginId !== "sortable_container") {
             let state = Object.assign({}, pluginToolbar.state, { __text: text });
             let toolbar = Ediphy.Plugins.get(pluginToolbar.pluginId).getToolbar(state);
 
