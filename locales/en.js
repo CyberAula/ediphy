@@ -293,6 +293,7 @@ let en = {
             "delete_contained_canvas": "This action will erase this contained view",
             "delete_page": "This action will erase all the content in this page and the marks that link to it.",
             "delete_section": "This action will erase all the content in this section and its children, and the marks that link to them.",
+            "docs": "Read documentation",
             "drag_content": "Drag content here",
             "edit_text": "Edit text",
             "erase_plugin": "Erase plugin",

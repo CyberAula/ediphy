@@ -98,12 +98,17 @@ export function correctTextInput(current, correct, strictCorrection) {
     return 0;
 }
 
-export function correctLongAnswer(current, correct, limit = 100) {
+export function correctLongAnswer(current, correct, strictCorrection, limit = 100) {
     if (correct && correct.length > limit) {
         return (current && current.length && current.length > 0) ? 1 : 0;
     }
-    if (sanitize((current || "").toString().toLowerCase()) === sanitize((correct || "").toString().toLowerCase())) {
+    if (strictCorrection) {
+        if (((current || "").toString()) === ((correct || "").toString())) {
+            return 1;
+        }
+    } else if (sanitize((current || "").toString().toLowerCase()) === sanitize((correct || "").toString().toLowerCase())) {
         return 1;
     }
+
     return 0;
 }

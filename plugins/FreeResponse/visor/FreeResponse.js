@@ -29,8 +29,9 @@ export function FreeResponse() {
                 </div>
             </div>;
         },
-        checkAnswer(current, correct) {
-            return correctLongAnswer(current, correct);
+        checkAnswer(current, correct, state) {
+            console.log(state);
+            return state.correct ? correctLongAnswer(current, correct, !state.characters) : ((current && current.length && current.length > 1) ? 1 : 0);
         },
     };
 }

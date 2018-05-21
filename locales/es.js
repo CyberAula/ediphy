@@ -290,6 +290,7 @@ let es = {
             "delete_container": "Esta acción borrará todo el contenido que ha incluído en este bloque.",
             "delete_page": "Esta acción borrará todo el contenido de la página y las marcas que enlacen a ella.",
             "delete_section": "Esta acción borrará todo el contenido de la sección y de sus descendientes y las marcas que enlacen a ellos.",
+            "docs": "Ver documentación",
             "drag_content": "Arrastra aquí tu contenido",
             "edit_text": "Editar texto",
             "erase_plugin": "Borrar plugin",

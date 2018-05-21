@@ -32,6 +32,18 @@ export function FreeResponse(base) {
                                     type: 'checkbox',
                                     checked: state.showFeedback,
                                 },
+                                correct: {
+                                    __name: i18n.t("FreeResponse.Correct"),
+                                    type: 'checkbox',
+                                    checked: state.correct,
+                                },
+                                characters: {
+                                    __name: i18n.t("FreeResponse.Characters"),
+                                    type: 'checkbox',
+                                    autoManaged: false,
+                                    hide: state.type !== "text",
+                                    checked: state.characters,
+                                },
                             },
                         },
                         style: {
@@ -92,6 +104,8 @@ export function FreeResponse(base) {
         getInitialState: function() {
             return {
                 showFeedback: true,
+                characters: true,
+                correct: true,
             };
         },
         getRenderTemplate: function(state, props) {
@@ -102,8 +116,8 @@ export function FreeResponse(base) {
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
                         <PluginPlaceholder {...props} key="1" plugin-data-display-name={i18n.t('FreeResponse.Question') } plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("FreeResponse.Statement") + '</p>'} pluginContainer={'Question'} />
-                        <textarea className="form-control textAreaQuiz" placeholder={i18n.t('FreeResponse.PlaceholderEditor')} value={props.exercises.correctAnswer} onChange={clickHandler}/>
-                        {(props.exercises.correctAnswer && props.exercises.correctAnswer.length && props.exercises.correctAnswer.length > 100) ? (
+                        <textarea disabled={!state.correct} className="form-control textAreaQuiz" placeholder={i18n.t('FreeResponse.PlaceholderEditor')} value={props.exercises.correctAnswer} onChange={clickHandler}/>
+                        {(state.correct && props.exercises.correctAnswer && props.exercises.correctAnswer.length && props.exercises.correctAnswer.length > 100) ? (
                             <div className={"tooManyCharacters"}>{i18n.t('FreeResponse.TooMany')}</div>) : null}
                     </div>
                 </div>
