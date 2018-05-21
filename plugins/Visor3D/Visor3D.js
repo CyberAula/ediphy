@@ -13,13 +13,10 @@ export function Visor3D(base) {
                 flavor: "react",
                 needsConfigModal: false,
                 needsTextEdition: false,
-
                 initialWidth: 'auto',
                 initialHeight: "auto",
                 initialWidthSlide: '30%',
                 initialHeightSlide: '30%',
-                // initialWidth: '480px',
-                // initialHeight: "270px",
                 icon: '3d_rotation',
 
             };
@@ -40,18 +37,70 @@ export function Visor3D(base) {
                                     accept: "application/*",
                                     autoManaged: false,
                                 },
+                            },
+                        },
+                        style_box: {
+                            __name: Ediphy.i18n.t('Visor3D.box_style'),
+                            icon: 'palette',
+                            buttons: {
+                                padding: {
+                                    __name: Ediphy.i18n.t('Visor3D.padding'),
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    max: 100,
+                                },
+                                borderWidth: {
+                                    __name: Ediphy.i18n.t('Visor3D.border_size'),
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    max: 10,
+                                },
+                                borderStyle: {
+                                    __name: Ediphy.i18n.t('Visor3D.border_style'),
+                                    type: 'select',
+                                    value: 'solid',
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
+                                },
+                                borderColor: {
+                                    __name: Ediphy.i18n.t('Visor3D.border_color'),
+                                    type: 'color',
+                                    value: '#000000',
+                                },
+                                borderRadius: {
+                                    __name: Ediphy.i18n.t('Visor3D.radius'),
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    max: 50,
+                                },
+                                opacity: {
+                                    __name: Ediphy.i18n.t('Visor3D.opacity'),
+                                    type: 'range',
+                                    value: 1,
+                                    min: 0,
+                                    max: 1,
+                                    step: 0.05,
+                                },
+                            },
+                        },
+                        style: {
+                            __name: Ediphy.i18n.t('Visor3D.style'),
+                            icon: 'palette',
+                            buttons: {
                                 color: {
-                                    __name: Ediphy.i18n.t('BasicAudio.color'),
+                                    __name: Ediphy.i18n.t('Visor3D.color'),
                                     type: 'color',
                                     value: state.color,
                                 },
-                                backgroundColor: {
-                                    __name: Ediphy.i18n.t('BasicAudio.backgroundColor'),
+                                /* backgroundColor: {
+                                    __name: Ediphy.i18n.t('Visor3D.background_color'),
                                     type: 'color',
                                     value: state.backgroundColor,
-                                },
+                                },*/
                                 rotate: {
-                                    __name: Ediphy.i18n.t('BasicAudio.AutoRotate'),
+                                    __name: Ediphy.i18n.t('Visor3D.Auto_rotate'),
                                     type: 'checkbox',
                                     checked: state.rotate,
                                     autoManaged: false,
@@ -64,17 +113,20 @@ export function Visor3D(base) {
         },
         getInitialState: function() {
             return {
-                url: "http://localhost:8080/stl/eyeball.stl",
-                color: "#D358F7",
-                backgroundColor: "#EAEAEA",
+                url: "http://localhost:8080/stl/zub.stl",
+                color: "#B45F04",
+                // backgroundColor: "#EAEAEA",
                 rotate: true,
             };
         },
         getRenderTemplate: function(state, props) {
-            console.log(state.color);
             return (
-                <div className="3DViewerPlugin" style={{ height: "100%", width: "100%" }}>
-                    <Visor3DPluginEditor style={{ width: "100%", height: "100%" }} state={state}/>
+                <div
+                    className="3DViewerPlugin"
+                    style={{ height: "100%", width: "100%" }}>
+                    <Visor3DPluginEditor
+                        style={{ width: "100%", height: "100%" }}
+                        state={state}/>
                 </div>);
         },
 

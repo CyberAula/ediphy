@@ -1,10 +1,21 @@
 
 module.exports = {
     "Visor3D": {
-        "PluginName": "Visor de objetos 3D",
+        "Auto_rotate": "Rotar",
         "Allow_fullscreen": "Permitir pantalla completa",
-        "URL": "URL",
+        "background_color": "Color de fondo",
+        "border_color": "Color de borde",
+        "border_size": "Grosor de borde",
+        "border_style": "Estilo de borde",
+        "box_style": "Estilo caja",
+        "color": "Color",
+        "opacity": "Opacidad",
+        "padding": "Padding",
+        "PluginName": "Visor de objetos 3D",
+        "radius": "Radio",
+        // "Scroll": "Scroll",
         "source": "Origen",
-        "color": "color",
+        "style": "Estilo de plugin",
+        "URL": "URL",
     },
 };

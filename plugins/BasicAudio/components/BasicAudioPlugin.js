@@ -30,7 +30,7 @@ export default class BasicAudioPlugin extends React.Component {
     }
 
     handlePosChange(e) {
-        console.log('oischa', e.wavesurfer);
+        // console.log('oischa', e.wavesurfer);
         try {
             if (e.wavesurfer.backend.ac.currentTime) {
             }
@@ -67,7 +67,6 @@ export default class BasicAudioPlugin extends React.Component {
     }*/
 
     onProgress(state) {
-        console.log(state);
         this.setState(state);
     }
 
@@ -176,15 +175,17 @@ export default class BasicAudioPlugin extends React.Component {
             let noTrigger = true;
             let isVisor = true;
             return(
-                <div key={id} className="videoMark" style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
-                    <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }}
-                        color={color || "#17CFC8"}
-                        idKey={id}
-                        title={title}
-                        isVisor={isVisor}
-                        isPopUp={isPopUp}
-                        markConnection={marks[id].connection}
-                        noTrigger={noTrigger}/>
+                <div key={id} className="videoMark" style={{ width: "4px", height: "8px", background: color || "#17CFC8", left: value, position: "absolute" }} >
+                    <div style={{ position: 'relative', left: "-2px" }}>
+                        <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }}
+                            color={color || "#17CFC8"}
+                            idKey={id}
+                            title={title}
+                            isVisor={isVisor}
+                            isPopUp={isPopUp}
+                            markConnection={marks[id].connection}
+                            noTrigger={noTrigger}/>
+                    </div>
                 </div>
             );
         });
@@ -220,7 +221,7 @@ export default class BasicAudioPlugin extends React.Component {
                 <div>
                     {(this.props.state.controls) && (
                         <div className="audio-controls" style={{ pointerEvents: 'auto' }}>
-                            <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
+                            <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} style={{ backgroundColor: this.props.state.waveColor }}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
                             <input className="volume-audio-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.handleVolumeChange.bind(this)} />
                         </div>
                     )}

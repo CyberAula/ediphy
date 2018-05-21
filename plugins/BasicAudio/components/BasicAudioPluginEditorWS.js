@@ -150,15 +150,15 @@ export default class BasicAudioPluginEditor extends React.Component {
                     state={this.props.state}
                     /* onRichMarkUpdated={this.props.props.onRichMarkUpdated}*/
                 >
-                    <a key={id} href="#">
-                        <div style={{ width: "4px", height: "8px", background: color || "#17CFC8" }}>
+                    <div style={{ width: "4px", height: "8px", background: color || "#17CFC8", left: "-10px" }}>
+                        <div style={{ position: 'relative', left: "-2px" }}>
                             <Mark
                                 style={{ position: 'relative', top: "-24px", left: "-10px" }}
                                 color={color || "#17CFC8"}
                                 idKey={id}
                                 title={title} />
                         </div>
-                    </a>
+                    </div>
                 </MarkEditor>);
         });
 
