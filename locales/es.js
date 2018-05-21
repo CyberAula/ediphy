@@ -440,6 +440,7 @@ let es = {
         "vish_upload_desc": "Descripción",
         "vish_upload_other": "Sube imágenes, vídeos y otros recursos",
         "vish_upload_title": "Título",
+        "Want some help?": "¿Quieres ayuda?",
         "Weight": "Peso",
         "Width": "Ancho",
         "Width_percentage": "Ancho (%)",

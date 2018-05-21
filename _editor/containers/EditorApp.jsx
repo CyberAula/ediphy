@@ -597,6 +597,7 @@ class EditorApp extends Component {
                 <h2>{i18n.t('joyride.why')}</h2>
             </div>
 
+            {/* i18n.t('Want some help?')*/}
         </Alert>;
     }
     /**

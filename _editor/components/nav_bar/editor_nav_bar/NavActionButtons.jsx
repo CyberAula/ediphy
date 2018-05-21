@@ -77,10 +77,13 @@ export default class NavActionButtons extends Component {
                     this.props.save();
                     this.props.serverModalOpen();
                     // TODO: check if vishub
-                    let url = window.location.href;
-                    let new_item_url = url.match(/.*\/([.\w+][^\/edit|\/edit\.full]+)/)[0];
-                    let win = window.open(new_item_url, '_blank');
-                    win.focus();
+                    const url = window.location.href;
+                    const matches = url.match(/.*\/([.\w+][^\/edit|\/edit\.full]+)/);
+                    if (matches) {
+                        const newItemUrl = matches[0];
+                        const win = window.open(newItemUrl, '_blank');
+                        win.focus();
+                    }
                 },
             },
             {
@@ -104,6 +107,9 @@ export default class NavActionButtons extends Component {
                 disabled: ((this.props.navItemSelected === 0 || (!this.props.navItems[this.props.navItemSelected] || this.props.navItems[this.props.navItemSelected].hidden) || (this.props.navItemSelected && !Ediphy.Config.sections_have_content && isSection(this.props.navItemSelected)))),
                 icon: 'visibility',
                 onClick: () => {
+                    if (this.props.boxSelected !== 0) {
+                        this.props.onTextEditorToggled(this.props.boxSelected, false);
+                    }
                     this.props.visor();
                 },
             },

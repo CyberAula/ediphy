@@ -4,6 +4,9 @@ import VisorCanvas from '../../_visor/components/canvas/VisorCanvas';
 import VisorContainedCanvas from '../../_visor/components/canvas/VisorContainedCanvas';
 import { isSection, isContainedView, isSlide } from '../../common/utils';
 import { Grid, Row, Col } from 'react-bootstrap';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+window.html2canvas = html2canvas;
 
 export default function printToPDF(state, callback) {
     if (!jsPDF) {

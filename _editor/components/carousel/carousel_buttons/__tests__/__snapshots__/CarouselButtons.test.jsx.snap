@@ -3,6 +3,11 @@
 exports[`CarouselButtons - General should render with required props 1`] = `
 <div
   className="bottomGroup"
+  style={
+    Object {
+      "display": "block",
+    }
+  }
 >
   <div
     className="bottomLine"
@@ -32,7 +37,7 @@ exports[`CarouselButtons - General should render with required props 1`] = `
       bsClass="btn"
       bsStyle="default"
       className="carouselButton"
-      disabled={true}
+      disabled={false}
       name="newFolder"
       onClick={[Function]}
     >
@@ -140,7 +145,7 @@ exports[`CarouselButtons - General should render with required props 1`] = `
       bsClass="btn"
       bsStyle="default"
       className="carouselButton"
-      disabled={true}
+      disabled={false}
       name="delete"
       onClick={[Function]}
       style={
@@ -192,7 +197,7 @@ exports[`CarouselButtons - General should render with required props 1`] = `
         bsClass="btn"
         bsStyle="default"
         className="popoverButton"
-        disabled={true}
+        disabled={false}
         name="popoverCancelButton"
         onClick={[Function]}
         style={
@@ -209,7 +214,7 @@ exports[`CarouselButtons - General should render with required props 1`] = `
         bsClass="btn"
         bsStyle="default"
         className="popoverButton"
-        disabled={true}
+        disabled={false}
         name="popoverAcceptButton"
         onClick={[Function]}
         style={
@@ -222,5 +227,25 @@ exports[`CarouselButtons - General should render with required props 1`] = `
       </Button>
     </Popover>
   </Overlay>
+  <TemplatesModal
+    boxes={Object {}}
+    calculatePosition={[Function]}
+    close={[Function]}
+    indexSelected="42"
+    navItems={
+      Object {
+        "0": Object {
+          "level": 0,
+        },
+        "42": Object {
+          "level": 1,
+        },
+      }
+    }
+    onBoxAdded={[MockFunction onBoxAdded]}
+    onIndexSelected={[MockFunction onIndexSelected]}
+    onNavItemAdded={[Function]}
+    show={false}
+  />
 </div>
 `;
