@@ -146,6 +146,7 @@ class EditorApp extends Component {
                         onNavItemSelected={id => dispatch(selectNavItem(id))}
                         onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
                         onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
+                        onTextEditorToggled={this.onTextEditorToggled}
                         onToolbarUpdated={this.onToolbarUpdated}
                         onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
                         undoDisabled={undoDisabled}
