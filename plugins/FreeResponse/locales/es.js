@@ -10,6 +10,6 @@ module.exports = {
         "Answer": "Respuesta",
         "Placeholder": "Escribe aquí tu respuesta.",
         "PlaceholderEditor": "El alumno escribirá aquí su respuesta",
-
+        "TooMany": "Has introducido un texto demasiado extenso. No se corregirá.",
     },
 };

@@ -10,5 +10,6 @@ module.exports = {
         "ShowFeedback": "Show feedback",
         "Placeholder": "Type your answer here",
         "PlaceholderEditor": "The student will type the answer here",
+        "TooMany": "You have introduced too many characters. The exercise will not be corrected.",
     },
 };

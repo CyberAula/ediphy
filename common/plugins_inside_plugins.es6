@@ -10,12 +10,12 @@ import { createBox } from './common_tools';
  * @param state
  */
 export function parsePluginContainersReact(obj, state, defaultBoxes = {}) {
-    if (obj instanceof Array) {
+    if (obj && obj instanceof Array) {
         for (let i = 0; i < obj.length; i++) {
             parsePluginContainersReact(obj[i], state, defaultBoxes);
         }
     }
-    if (obj.props && obj.props.children) {
+    if (obj && obj.props && obj.props.children) {
         if (obj.props.children && obj.props.children instanceof Array) {
             for (let i = 0; i < obj.props.children.length; i++) {
                 if (obj.props.children.length > 1) {
@@ -27,7 +27,7 @@ export function parsePluginContainersReact(obj, state, defaultBoxes = {}) {
         }
     }
 
-    if (obj.type && obj.type === PluginPlaceholder) {
+    if (obj && obj.type && obj.type === PluginPlaceholder) {
         let newProps = {};
         if (obj.props) {
             let height = "auto";
@@ -90,7 +90,7 @@ export function parsePluginContainersReact(obj, state, defaultBoxes = {}) {
  * @param state
  */
 export function parsePluginContainers(obj, state) {
-    if (obj.child) {
+    if (obj && obj.child) {
         for (let i = 0; i < obj.child.length; i++) {
             if (obj.child[i].tag && obj.child[i].tag === "plugin") {
                 if (obj.child.length > 1) {
@@ -125,7 +125,7 @@ export function parsePluginContainers(obj, state) {
             parsePluginContainers(obj.child[i], state);
         }
     }
-    if (obj.tag && obj.tag === "plugin") {
+    if (obj && obj.tag && obj.tag === "plugin") {
         if (obj.attr) {
             if (!obj.attr['plugin-container']) {
                 obj.attr['plugin-container'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + parseInt(Math.random() * 10000, 10) + new Date().getUTCMilliseconds();
@@ -142,7 +142,7 @@ export function parsePluginContainers(obj, state) {
             }
         }
     }
-    if (obj.attr && obj.attr.class) {
+    if (obj && obj.attr && obj.attr.class) {
         if(!Array.isArray(obj.attr.class) && typeof obj.attr.class === "string") {
             obj.attr.class = [obj.attr.class];
         }
@@ -163,12 +163,12 @@ export function hasExerciseBox(navItemId, navItems, state, boxes) {
 
 export function addDefaultContainerPlugins(ids, obj, boxes) {
 
-    if (obj.child) {
+    if (obj && obj.child) {
         for (let i = 0; i < obj.child.length; i++) {
             addDefaultContainerPlugins(ids, obj.child[i], boxes);
         }
     }
-    if (obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
+    if (obj && obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
         let idContainer = isSortableContainer(obj.attr['plugin-container']) ? obj.attr['plugin-container'] : ID_PREFIX_SORTABLE_CONTAINER + obj.props.pluginContainer;
 
         let plug_children = boxes[ids.id].sortableContainers[idContainer];
@@ -198,12 +198,12 @@ export function addDefaultContainerPlugins(ids, obj, boxes) {
     }
 }
 export function addDefaultContainerPluginsReact(params, obj, boxes, newBoxes) {
-    if (obj instanceof Array) {
+    if (obj && obj instanceof Array) {
         for (let i = 0; i < obj.length; i++) {
             addDefaultContainerPluginsReact(params, obj[i], boxes, newBoxes);
         }
     }
-    if (obj.props && obj.props.children) {
+    if (obj && obj.props && obj.props.children) {
         if (obj.props.children && obj.props.children instanceof Array) {
             for (let i = 0; i < obj.props.children.length; i++) {
                 addDefaultContainerPluginsReact(params, obj.props.children[i], boxes, newBoxes);
@@ -212,7 +212,7 @@ export function addDefaultContainerPluginsReact(params, obj, boxes, newBoxes) {
             addDefaultContainerPluginsReact(params, obj.props.children, boxes, newBoxes);
         }
     }
-    if (obj.type && obj.type === PluginPlaceholder && obj.props['plugin-data-default']) {
+    if (obj && obj.type && obj.type === PluginPlaceholder && obj.props['plugin-data-default']) {
         let idContainer = isSortableContainer(obj.props.pluginContainer) ? obj.props.pluginContainer : ID_PREFIX_SORTABLE_CONTAINER + obj.props.pluginContainer;
         // let plug_children = boxes[params.id].sortableContainers[idContainer];
         // if ( plug_children && plug_children.children && plug_children.children.length === 0) {

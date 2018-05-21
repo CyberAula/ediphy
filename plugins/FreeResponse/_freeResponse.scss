@@ -10,17 +10,23 @@
     border-radius: 0px;
     box-shadow: none;
     overflow:visible;
-    pointer-events: none;
+    pointer-events: all !important;
   }
   .textAreaQuiz[disabled] {
     background-color: white;
   }
   .textAreaQuizVisor {
     resize: vertical !important;
+    pointer-events: all !important;
   }
   .exerciseScore {
     display: none;
     text-align: right;
+  }
+  .tooManyCharacters {
+    color: red;
+    text-align: left;
+    padding-left: 10px;
   }
   &.attempted  .exerciseScore{
       display: block;
