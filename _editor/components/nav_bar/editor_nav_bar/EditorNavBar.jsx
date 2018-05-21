@@ -38,7 +38,7 @@ export default class EditorNavBar extends Component {
                     globalConfig={this.props.globalConfig}
                     navItemSelected={this.props.navItemSelected}
                     navItems={this.props.navItems}
-                    onTextEditorToggled={this.onTextEditorToggled}
+                    onTextEditorToggled={this.props.onTextEditorToggled}
                     redo={this.props.redo}
                     redoDisabled={this.props.redoDisabled}
                     save={this.props.save}
