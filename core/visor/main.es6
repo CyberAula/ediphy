@@ -30,6 +30,7 @@ let parseEJS = function(path, page, state, fromScorm) {
             return (visor_template({
                 visor_bundle_path: Ediphy.Config.visor_bundle,
                 state: state,
+                reason: fromScorm ? "scorm" : "html",
             }));
         }
     }
@@ -38,6 +39,7 @@ let parseEJS = function(path, page, state, fromScorm) {
     return (visor_template({
         visor_bundle_path: Ediphy.Config.visor_bundle,
         state: state,
+        reason: fromScorm ? "scorm" : "html",
     }));
 };
 
@@ -143,12 +145,14 @@ export default {
             return (visor_template({
                 visor_bundle_path: Ediphy.Config.visor_bundle,
                 state: state,
+                reason: "preview",
             }));
         }
         return visor_template({
             state: state,
             visor_bundle_path: Ediphy.Config.visor_bundle,
             fromScorm: false,
+            reason: "preview",
         });
     },
     exportScorm: function(state, is2004, callback, selfContained) {

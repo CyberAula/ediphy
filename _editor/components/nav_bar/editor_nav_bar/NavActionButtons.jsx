@@ -73,17 +73,11 @@ export default class NavActionButtons extends Component {
                 disabled: false,
                 icon: 'publish',
                 onClick: () => {
+                    const win = window.open('', '_blank');
                     this.props.changeGlobalConfig("status", "final");
-                    this.props.save();
+                    this.props.save(win);
                     this.props.serverModalOpen();
-                    // TODO: check if vishub
-                    const url = window.location.href;
-                    const matches = url.match(/.*\/([.\w+][^\/edit|\/edit\.full]+)/);
-                    if (matches) {
-                        const newItemUrl = matches[0];
-                        const win = window.open(newItemUrl, '_blank');
-                        win.focus();
-                    }
+
                 },
             },
             {
