@@ -1,14 +1,18 @@
 // React-joyride
 .__floater {
   z-index: 9999 !important;
-  &>div {
+  border-radius: 0 !important;
+  &>div>div {
     border-radius: 0px !important;
+  }
+  .step_text{
+    text-align: left;
+    color: #999;
   }
   button {
     border-radius: 0px !important;
   }
 }
-
 .welcomeModal {
   &.fade:not(.in) {
     -moz-transition: all  1s ease-out;
@@ -27,12 +31,14 @@
     }
   }
   .modal-content{
-    top: 200px;
+    top: 100px;
     .modal-body {
       padding: 30px;
       .welcomeModalDiv {
+        text-align: center;
+        color: #999999;
         h1 {
-          font-size: 27px;
+          font-size: 2em;
         }
         h2 {
           font-size: 20px;
@@ -40,10 +46,7 @@
       }
     }
   }
-
-
 }
-
 .tourCloned {
   position: fixed;
   top: 0;

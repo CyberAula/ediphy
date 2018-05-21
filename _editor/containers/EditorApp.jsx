@@ -46,7 +46,7 @@ import { createBox } from '../../common/common_tools';
 import FileModal from '../components/external_provider/file_modal/FileModal';
 import EdiphyTour from '../components/joyride/EdiphyTour';
 import { serialize } from '../../reducers/serializer';
-import star from '../components/joyride/rainbow.svg';
+import screen from '../components/joyride/pantalla.svg';
 
 /**
  * EditorApp. Main application component that renders everything else
@@ -593,11 +593,11 @@ class EditorApp extends Component {
                 }
             }}>
             <div className="welcomeModalDiv">
-                <img src={star} alt="" style={{ width: '95px', float: 'right', marginRight: '38px' }}/>
+                <img src={screen} alt="" style={{ width: '100%' }}/>
                 <h1>{i18n.t('joyride.welcome')}<strong style={{ color: '#17CFC8' }}>Ediphy</strong>!</h1>
-                <h2>{i18n.t('joyride.why')}</h2>
+                <h2>{i18n.t('joyride.need_help')}</h2>
             </div>
-            {i18n.t('joyride.manual')}<a href="http://ging.github.io/ediphy/#/manual" target="_blank">{i18n.t('joyride.manual2')}</a>
+            {/*  {i18n.t('joyride.manual')}<a href="http://ging.github.io/ediphy/#/manual" target="_blank">{i18n.t('joyride.manual2')}</a>*/}
             {/* i18n.t('Want some help?')*/}
         </Alert>;
     }
