@@ -1,7 +1,8 @@
 import fetch from 'isomorphic-fetch';
 import Ediphy from '../core/editor/main';
 import i18n from 'i18next';
-
+import { ID_PREFIX_FILE, FILE_UPLOAD_ERROR, FILE_UPLOADING, FILE_DELETING, FILE_DELETE_ERROR } from './constants';
+import { isDataURL } from './utils';
 export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';
 export const MOVE_BOX = 'MOVE_BOX';
@@ -30,14 +31,17 @@ export const REORDER_NAV_ITEM = 'REORDER_NAV_ITEM';
 export const TOGGLE_NAV_ITEM = 'TOGGLE_NAV_ITEM';
 export const CHANGE_BACKGROUND = 'CHANGE_BACKGROUND';
 export const UPDATE_NAV_ITEM_EXTRA_FILES = 'UPDATE_NAV_ITEM_EXTRA_FILES';
-export const CHANGE_NAV_ITEM_NAME = 'CHANGE_NAV_ITEM_NAME';
+
 export const INDEX_SELECT = 'INDEX_SELECT';
 
 export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
 export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
 export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
 export const SET_BUSY = 'SET_BUSY';
-export const UPDATE_TOOLBAR = 'UPDATE_TOOLBAR';
+
+export const CONFIG_SCORE = 'CONFIG_SCORE';
+export const UPDATE_PLUGIN_TOOLBAR = 'UPDATE_PLUGIN_TOOLBAR';
+export const UPDATE_VIEW_TOOLBAR = 'UPDATE_VIEW_TOOLBAR';
 
 export const IMPORT_STATE = 'IMPORT_STATE';
 export const CHANGE_GLOBAL_CONFIG = 'CHANGE_GLOBAL_CONFIG';
@@ -46,16 +50,19 @@ export const FETCH_VISH_RESOURCES_SUCCESS = "FETCH_VISH_RESOURCES_SUCCESS";
 
 export const ADD_RICH_MARK = 'ADD_RICH_MARK';
 export const EDIT_RICH_MARK = 'EDIT_RICH_MARK';
+export const MOVE_RICH_MARK = 'MOVE_RICH_MARK';
+export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
 
 export const ADD_CONTAINED_VIEW = 'ADD_CONTAINED_VIEW';
 export const SELECT_CONTAINED_VIEW = 'SELECT_CONTAINED_VIEW';
 export const DELETE_CONTAINED_VIEW = 'DELETE_CONTAINED_VIEW';
 export const CHANGE_CONTAINED_VIEW_NAME = 'CHANGE_CONTAINED_VIEW_NAME';
 
-export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
+export const UPLOAD_FILE = 'UPLOAD_FILE';
+export const DELETE_FILE = 'DELETE_FILE';
 
 // These are not real Redux actions but are use to specify plugin's render reason
-export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
+
 export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 
 export const PASTE_BOX = 'PASTE_BOX';
@@ -79,8 +86,8 @@ export function deleteContainedView(ids, boxes, parent) {
     return { type: DELETE_CONTAINED_VIEW, payload: { ids, boxes, parent } };
 }
 
-export function addNavItem(id, name, parent, type, position, background, customSize, hasContent) {
-    return { type: ADD_NAV_ITEM, payload: { id, name, parent, type, position, background, customSize, hasContent } };
+export function addNavItem(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) {
+    return { type: ADD_NAV_ITEM, payload: { id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id } };
 }
 
 export function addNavItems(navs, parent) {
@@ -107,20 +114,17 @@ export function updateNavItemExtraFiles(id, box, xml_path) {
     return { type: UPDATE_NAV_ITEM_EXTRA_FILES, payload: { id, box, xml_path } };
 }
 
-export function changeNavItemName(id, title) {
-    return { type: CHANGE_NAV_ITEM_NAME, payload: { id, title } };
-}
-
 export function changeBackground(id, background) {
     return { type: CHANGE_BACKGROUND, payload: { id, background } };
+
 }
 
 export function changeContainedViewName(id, title) {
     return { type: CHANGE_CONTAINED_VIEW_NAME, payload: { id, title } };
 }
 
-export function addBox(ids, draggable, resizable, content, toolbar, config, state, initialParams) {
-    return { type: ADD_BOX, payload: { ids, draggable, resizable, content, toolbar, config, state, initialParams } };
+export function addBox(ids, draggable, resizable, content, style, state, structure, initialParams) {
+    return { type: ADD_BOX, payload: { ids, draggable, resizable, content, style, state, structure, initialParams } };
 }
 
 export function selectBox(id, box) {
@@ -131,8 +135,8 @@ export function moveBox(id, x, y, position, parent, container) {
     return { type: MOVE_BOX, payload: { id, x, y, position, parent, container } };
 }
 
-export function resizeBox(id, widthButton, heightButton) {
-    return { type: RESIZE_BOX, payload: { id, widthButton, heightButton } };
+export function resizeBox(id, structure) {
+    return { type: RESIZE_BOX, payload: { id, structure } };
 }
 
 export function updateBox(id, content, toolbar, state) {
@@ -186,28 +190,32 @@ export function reorderBoxes(parent, container, order) {
     return { type: REORDER_BOXES, payload: { parent, container, order } };
 }
 
-export function addRichMark(parent, mark, state) {
-    return { type: ADD_RICH_MARK, payload: { parent, mark, state } };
+export function addRichMark(mark, view, toolbar) {
+    return { type: ADD_RICH_MARK, payload: { mark, view, toolbar } };
 }
 
-export function editRichMark(parent, state, mark, oldConnection, newConnection) {
-    return { type: EDIT_RICH_MARK, payload: { parent, state, mark, oldConnection, newConnection } };
+export function moveRichMark(mark, value) {
+    return { type: MOVE_RICH_MARK, payload: { mark, value } };
 }
 
-export function deleteRichMark(id, parent, cvid, state) {
-    return { type: DELETE_RICH_MARK, payload: { id, parent, cvid, state } };
+export function editRichMark(mark, view, toolbar) {
+    return { type: EDIT_RICH_MARK, payload: { mark, view, toolbar } };
+}
+
+export function deleteRichMark(mark) {
+    return { type: DELETE_RICH_MARK, payload: { mark } };
 }
 
 export function selectContainedView(id) {
     return { type: SELECT_CONTAINED_VIEW, payload: { id } };
 }
 
-export function toggleTextEditor(caller, value) {
-    return { type: TOGGLE_TEXT_EDITOR, payload: { caller, value } };
+export function toggleTextEditor(id, value, text, content) {
+    return { type: TOGGLE_TEXT_EDITOR, payload: { id, value, text, content } };
 }
 
-export function pasteBox(ids, box, toolbar, children, index) {
-    return { type: PASTE_BOX, payload: { ids, box, toolbar, children, index } };
+export function pasteBox(ids, box, toolbar, children, index, marks, score) {
+    return { type: PASTE_BOX, payload: { ids, box, toolbar, children, index, marks, score } };
 }
 
 export function toggleTitleMode(id, titles) {
@@ -230,26 +238,118 @@ export function importState(state) {
     return { type: IMPORT_STATE, payload: state };
 }
 
-export function updateToolbar(id, tab, accordions, name, value) {
-    return { type: UPDATE_TOOLBAR, payload: { id, tab, accordions, name, value } };
+export function updatePluginToolbar(id, tab, accordion, name, value, deletedBoxes) {
+    return { type: UPDATE_PLUGIN_TOOLBAR, payload: { id, tab, accordion, name, value, deletedBoxes } };
 }
 
-export function fetchVishResourcesSuccess(result) {
-    return { type: FETCH_VISH_RESOURCES_SUCCESS, payload: { result } };
+export function updateViewToolbar(id, elements) {
+    return { type: UPDATE_VIEW_TOOLBAR, payload: { id, ...elements } };
 }
 
-export function uploadImage(url) {
-    return { type: UPLOAD_IMAGE, payload: { url } };
+export function configScore(id, button, value, page) {
+    return { type: CONFIG_SCORE, payload: { id, button, value, page } };
+}
+
+export function uploadFile(id, url, name, keywords, mimetype) {
+    return { type: UPLOAD_FILE, payload: { id, url, name, keywords, mimetype } };
+}
+
+export function deleteFile(id) {
+    return { type: DELETE_FILE, payload: { id } };
 }
 
 export function setCorrectAnswer(id, correctAnswer, page) {
     return { type: SET_CORRECT_ANSWER, payload: { id, correctAnswer, page } };
 }
 
-// Async actions
-export function exportStateAsync(state) {
+export function deleteRemoteFileVishAsync(id, url, callback) {
     return dispatch => {
+        dispatch(setBusy(true, FILE_DELETING));
 
+        let form = new FormData();
+        form.append("_method", "delete");
+        if (typeof(ediphy_editor_params) !== 'undefined') {
+            form.append("authenticity_token", ediphy_editor_params.authenticity_token);
+        }
+
+        return fetch(url, {
+            method: 'POST',
+            credentials: 'same-origin',
+            body: form,
+        }).then(response => {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+
+            return 200;
+        }).then((result) => {
+            dispatch(setBusy(false, id));
+
+            dispatch(deleteFile(id));
+            if (callback) {
+                callback(result);
+            }
+        })
+            .catch(e => {
+                dispatch(setBusy(false, FILE_DELETE_ERROR));
+                if (callback) {
+                    callback();
+                }
+                return false;
+            });
+    };
+}
+
+export function deleteRemoteFileEdiphyAsync(id, url, callback) {
+    return dispatch => {
+        if (isDataURL(url)) {
+            dispatch(deleteFile(id));
+            if (callback) {
+                callback(id);
+            }
+        } else {
+            dispatch(setBusy(true, FILE_DELETING));
+            let fileId = url.split('/').pop();
+            let DELETE_FILE_EDIPHY_URL = encodeURI('http://localhost:8081/delete?file=' + fileId);
+
+            return fetch(DELETE_FILE_EDIPHY_URL, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({ "id": fileId }),
+            }).then(response => {
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+
+                return 200;
+            }).then((result) => {
+                dispatch(setBusy(false, id));
+
+                dispatch(deleteFile(id));
+                if (callback) {
+                    callback(result);
+                }
+            })
+                .catch(e => {
+                    dispatch(setBusy(false, FILE_DELETE_ERROR));
+                    if (callback) {
+                        callback();
+                    }
+                    return false;
+                });
+        }
+    };
+
+}
+
+// Async actions
+export function exportStateAsync(state, win = null) {
+    return dispatch => {
+        let exportedState = { present: { ...state.undoGroup.present, filesUploaded: state.filesUploaded } };
         // First dispatch: the app state is updated to inform
         // that the API call is starting.
         dispatch(setBusy(true, i18n.t("Exporting")));
@@ -266,7 +366,7 @@ export function exportStateAsync(state) {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(state),
+                body: JSON.stringify(exportedState),
             })
                 .then(response => {
                     if (response.status >= 400) {
@@ -284,7 +384,7 @@ export function exportStateAsync(state) {
 
         let data = {
             authenticity_token: ediphy_editor_params.authenticity_token,
-            ediphy_document: { user: { name: ediphy_editor_params.name, id: ediphy_editor_params.id }, json: state },
+            ediphy_document: { user: { name: ediphy_editor_params.name, id: ediphy_editor_params.id }, json: exportedState },
         };
 
         return fetch(ediphy_editor_params.export_url, { // return fetch(Ediphy.Config.export_url, {
@@ -310,6 +410,10 @@ export function exportStateAsync(state) {
                     ediphy_editor_params.export_url = Ediphy.Config.export_url + ediphy_resource_id;
                     ediphy_editor_params.ediphy_resource_id = ediphy_resource_id;
                 }
+                if(win !== null) {
+                    win.location.href = ediphy_editor_params.export_url;
+                    win.focus();
+                }
                 dispatch(setBusy(false, i18n.t("success_transaction")));
             })
             .catch(e =>{
@@ -332,7 +436,6 @@ export function importStateAsync() {
             })
             .then(result => {
                 // eslint-disable-next-line no-console
-                console.log(result);
                 dispatch(importState(JSON.parse(result)));
                 return true;
             })
@@ -345,80 +448,115 @@ export function importStateAsync() {
     };
 }
 
-export function fetchVishResourcesAsync(query) {
+export function uploadEdiphyResourceAsync(file, keywords = "", callback) {
     return dispatch => {
-        dispatch(setBusy(true, i18n.t("Searching")));
+        dispatch(setBusy(true, FILE_UPLOADING));
 
-        return fetch(query)
-            .then(response => {
-                if (response.status >= 400) {
-                    throw new Error(i18n.t("error.searching"));
-                }
-                return response.text();
-            })
-            .then(result => {
-                dispatch(fetchVishResourcesSuccess(JSON.parse(result)));
-                return true;
-            })
-            .then(() => {
-                dispatch(setBusy(false, i18n.t("no_results")));
-            })
+        let form = new FormData();
+        form.append("file", file);
+        let id = ID_PREFIX_FILE + Date.now();
+        fetch("http://localhost:8081/upload", {
+            method: 'POST',
+            credentials: 'same-origin',
+            body: form,
+        }).then(response => {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            return response.text().then((text)=>{
+                return JSON.parse(text);
+            });
+        }).then((result) => {
+            let { url, name, mimetype } = result;
+
+            dispatch(uploadFile(id, url, name, keywords, mimetype));
+            if (callback) {
+                callback(url);
+            }
+            dispatch(setBusy(false, id));
+        })
             .catch(e => {
-                dispatch(setBusy(false, e.message));
+                // eslint-disable-next-line no-console
+                console.error(e);
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                let filenameDeconstructed = file.name.split('.');
+                let mimetype = file.type && file.type !== "" ? file.type : filenameDeconstructed[filenameDeconstructed.length - 1];
+                reader.onload = () =>{
+                    dispatch(uploadFile(id, reader.result, file.name, keywords, mimetype));
+                    if (callback) {
+                        callback(reader.result);
+                    }
+                    dispatch(setBusy(false, id));
+                };
+                reader.onerror = () => {
+                    dispatch(setBusy(false, FILE_UPLOAD_ERROR));
+                    if (callback) {
+                        callback();
+                    }
+                };
+
+            }).catch(e=>{
+                // eslint-disable-next-line no-console
+                console.error(e);
+                dispatch(setBusy(false, FILE_UPLOAD_ERROR));
+                if (callback) {
+                    callback();
+                }
             });
     };
 }
 
-export function uploadVishResourceAsync(query) {
+export function uploadVishResourceAsync(query, keywords = "", callback) {
     return dispatch => {
+        if (query && query.name && query.name.length > 0) {
+            let filename = query.name;
+            dispatch(setBusy(true, FILE_UPLOADING));
 
-        if (query.title !== null && query.title.length > 0) {
-            if (query.file !== null) {
-                if (query.file.name.match(/\.(jpeg|jpg|gif|png)$/) !== null) {
-                    dispatch(setBusy(true, i18n.t("Uploading")));
-
-                    let form = new FormData();
-                    form.append("document[title]", query.title);
-                    form.append("document[description]", "Uploaded using Ediphy Editor");
-                    if (typeof(ediphy_editor_params) !== 'undefined') {
-                        form.append("document[owner_id]", ediphy_editor_params.id);
-                        form.append("authenticity_token", ediphy_editor_params.authenticity_token);
-                    }
-                    form.append("document[file]", query.file);
-
-                    return fetch(Ediphy.Config.upload_vish_url, {
-                        method: 'POST',
-                        credentials: 'same-origin',
-                        body: form,
-                    }).then(response => {
-                        if (!response.ok) {
-                            throw Error(response.statusText);
-                        }
-
-                        return response.text().then((text)=>{
-                            return JSON.parse(text).src;
-                        });
-                    })
-                        .then((result) => {
-                            dispatch(setBusy(false, result));
-                            dispatch(uploadImage(result));
-                        })
-                        .catch(e => {
-                            alert(i18n.t("error.reaching_server"));
-                            dispatch(setBusy(false, 'data:image/png;base64,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'));
-                        });
-
-                }
-                alert(i18n.t("error.file_extension_invalid"));
-
-            } else {
-                alert(i18n.t("error.file_not_selected"));
+            let form = new FormData();
+            form.append("document[title]", query.name);
+            form.append("document[description]", "Uploaded using Ediphy Editor");
+            // form.append("document[tag_list][]", keywords);
+            if (typeof(ediphy_editor_params) !== 'undefined') {
+                form.append("document[owner_id]", ediphy_editor_params.id);
+                form.append("authenticity_token", ediphy_editor_params.authenticity_token);
             }
-        }else {
+            form.append("document[file]", query);
+            let filenameDeconstructed = filename.split('.');
+            let mimetype = query.type && query.type !== "" ? query.type : filenameDeconstructed[filenameDeconstructed.length - 1];
+            return fetch(Ediphy.Config.upload_vish_url, {
+                method: 'POST',
+                credentials: 'same-origin',
+                body: form,
+            }).then(response => {
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
 
-            alert(i18n.t("error.file_title_not_defined"));
-            return false;
+                return response.text().then((text)=>{
+                    return JSON.parse(text).src;
+                });
+            }).then((result) => {
+
+                let id = ID_PREFIX_FILE + Date.now();
+                dispatch(uploadFile(id, result, query.name, keywords, mimetype));
+                if (callback) {
+                    callback(result);
+                }
+                dispatch(setBusy(false, id));
+            })
+                .catch(e => {
+                    dispatch(setBusy(false, FILE_UPLOAD_ERROR));
+                    if (callback) {
+                        callback();
+                    }
+                });
+
+            alert(i18n.t("error.file_extension_invalid"));
+
         }
+        alert(i18n.t("error.file_not_selected"));
+
         return false;
     };
 }

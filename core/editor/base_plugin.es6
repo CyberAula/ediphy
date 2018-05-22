@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { isSortableContainer } from '../../common/utils';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import { UPDATE_BOX } from '../../common/actions';
+import { getCKEDITORAdaptedContent } from '../../_editor/components/clipboard/clipboard.utils';
 let html2json = require('html2json').html2json;
 
 export default function() {
@@ -43,21 +44,26 @@ export default function() {
     };
 
     let assignPluginContainerIdsReact = function(temp) {
-        if (temp.props && temp.props.children) {
-            if(temp.props.children instanceof Array) {
+        if (temp && temp.props && temp.props.children) {
+            if (temp.props.children instanceof Array) {
                 for (let i = 0; i < temp.props.children.length; i++) {
                     assignPluginContainerIdsReact(temp.props.children[i]);
                 }
             } else {
                 assignPluginContainerIdsReact(temp.props.children);
             }
-
         }
-        if (temp.type && temp.type === PluginPlaceholder) {
+
+        if (temp && temp instanceof Array) {
+            for (let i = 0; i < temp.length; i++) {
+                assignPluginContainerIdsReact(temp[i]);
+            }
+        }
+        if (temp && temp.type && temp.type === PluginPlaceholder) {
             if (!state.__pluginContainerIds) {
                 state.__pluginContainerIds = {};
             }
-            let key = temp.props['plugin-data-key'];
+            let key = temp.props.pluginContainer;
             if (!key) {
             } else if (state.__pluginContainerIds[key]) {
                 temp.props.pluginContainer = state.__pluginContainerIds[key].id;
@@ -65,8 +71,8 @@ export default function() {
                 temp.props['plugin-data-height'] = state.__pluginContainerIds[key].height;
             }
         }
-    };
 
+    };
     let plugin = {
         create: function(obj) {
             descendant = obj;
@@ -77,7 +83,6 @@ export default function() {
                     idKey !== 'getToolbar' &&
                     idKey !== 'getSections' &&
                     idKey !== 'getInitialState' &&
-                    idKey !== 'handleToolbar' &&
                     idKey !== 'afterRender' &&
                     idKey !== 'getConfigTemplate' &&
                     idKey !== 'getRenderTemplate' &&
@@ -100,9 +105,106 @@ export default function() {
             } catch (e) {
             }
         },
+        getInitialParams: function(initParams) {
+            state = {};
+            let config = this.getConfig();
+            if (descendant.getInitialState) {
+                state = descendant.getInitialState();
+            }
+            if (config.needsTextEdition) {
+                if(initParams.text) {
+                    state.__text = initParams.text;
+                }
+
+                if (!state.__text) {
+                    state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
+                }
+                state.__text = getCKEDITORAdaptedContent(state.__text);
+                if (!descendant.getRenderTemplate) {
+                    descendant.getRenderTemplate = function(stateObj, { exercises: { correctAnswer: [] } }) {
+                        return stateObj.__text;
+                    };
+                }
+
+            }
+            if(initParams.initialState) {
+                state = { ...state, ...initParams.initialState };
+            }
+            if(initParams.url) {
+                state.url = initParams.url;
+            }
+
+            /* if(initParams.text) {
+              state.__text = initParams.text;
+          }*/
+            if (config.needsXMLEdition) {
+                if (!state.__xml) {
+                    state.__xml = null;
+                    state.__size = null;
+                }
+            }
+            /* if(isRich) {
+              if(!state.__marks) {
+                  state.__marks = {};
+              }
+          }*/
+            if(config.category === 'evaluation') {
+                if (!state.__score) {
+                    state.__score = {
+                        score: 1,
+                        correctAnswer: config.defaultCorrectAnswer,
+                        currentAnswer: config.defaultCurrentAnswer,
+
+                    };
+                }
+            }
+
+            let toolbar = this.getToolbar(state);
+            let template = null;
+            let params = { ...initParams };
+            params.aspectRatio = !!config.aspectRatioButtonConfig;
+            params.name = config.name;
+            params.isDefaultPlugin = defaultFor(initParams.isDefaultPlugin, false);
+            if (params && Object.keys(params) && Object.keys(params).length > 1) {
+                let floatingBox = !isSortableContainer(params.container);
+                if (config.initialWidth && !initParams.width) {
+                    params.width = floatingBox && config.initialWidthSlide ? config.initialWidthSlide : config.initialWidth;
+                }
+                if (config.initialHeight && !initParams.height) {
+                    params.height = floatingBox && config.initialHeightSlide ? config.initialHeightSlide : config.initialHeight;
+                }
+                //
+                // if (needsConfigModal) {
+                //     Do stuff
+                // } else {
+
+                if (config.flavor !== "react") {
+                    template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
+                    if(template !== null) { // TODO Revisar
+                        template = html2json(template);
+                        assignPluginContainerIds(template);
+                    }
+                } else{
+                    template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
+                    assignPluginContainerIdsReact(template);
+
+                }
+
+            // }
+            }
+
+            return {
+                template,
+                initialParams: params,
+                config: this.getConfig(),
+                toolbar,
+                state,
+            };
+
+        },
         getConfig: function() {
             let name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig, needsPointerEventsAllowed,
-                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isComplex, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance, initialWidth, initialHeight, initialWidthSlide, initialHeightSlide, defaultCorrectAnswer;
+                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isComplex, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance, initialWidth, initialHeight, initialWidthSlide, initialHeightSlide, defaultCorrectAnswer, defaultCurrentAnswer;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
                 name = cfg.name;
@@ -128,6 +230,7 @@ export default function() {
                 initialHeightSlide = cfg.initialHeightSlide;
                 initialHeight = cfg.initialHeight;
                 defaultCorrectAnswer = cfg.defaultCorrectAnswer;
+                defaultCurrentAnswer = cfg.defaultCurrentAnswer;
             }
 
             name = defaultFor(name, 'PluginName', "Plugin name not assigned");
@@ -146,11 +249,12 @@ export default function() {
             needsXMLEdition = defaultFor(needsXMLEdition, false);
             needsPointerEventsAllowed = defaultFor(needsPointerEventsAllowed, false);
             limitToOneInstance = defaultFor(limitToOneInstance, false);
-            initialWidth = defaultFor(initialWidth, '25');
+            initialWidth = defaultFor(initialWidth, '25%');
             initialWidthSlide = defaultFor(initialWidthSlide, initialWidth);
-            initialHeight = defaultFor(initialHeight, '25');
+            initialHeight = defaultFor(initialHeight, 'auto');
             initialHeightSlide = defaultFor(initialHeightSlide, initialHeight);
             defaultCorrectAnswer = defaultFor(defaultCorrectAnswer, false);
+            defaultCurrentAnswer = defaultFor(defaultCurrentAnswer, defaultCorrectAnswer);
 
             if (aspectRatioButtonConfig) {
                 aspectRatioButtonConfig.name = Ediphy.i18n.t("Aspect_ratio");
@@ -162,88 +266,22 @@ export default function() {
                 aspectRatioButtonConfig.defaultValue = defaultFor(aspectRatioButtonConfig.defaultValue, "unchecked");
             }
 
-            callback = function(initParams, reason) {
-                state = {};
-                if (descendant.getInitialState) {
-                    state = descendant.getInitialState();
-                }
-                if (needsTextEdition) {
-                    if(initParams.text) {
-                        state.__text = initParams.text;
-                    }
-
-                    if (!state.__text) {
-                        state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
-                    }
-                    if (!descendant.getRenderTemplate) {
-                        descendant.getRenderTemplate = function(stateObj, props) {
-                            return stateObj.__text;
-                        };
-                    }
-                }
-
-                if(initParams.url) {
-                    state.url = initParams.url;
-                }
-
-                if(initParams.text) {
-                    state.__text = initParams.text;
-                }
-                if (needsXMLEdition) {
-                    if (!state.__xml) {
-                        state.__xml = null;
-                        state.__size = null;
-                    }
-                }
-                if(isRich) {
-                    if(!state.__marks) {
-                        state.__marks = {};
-                    }
-                }
-                if(category === 'evaluation') {
-                    if (!state.__score) {
-                        state.__score = {
-                            score: 1,
-                            correctAnswer: defaultCorrectAnswer,
-
-                        };
-                    }
-                }
-                initialParams = initParams;
-                initialParams.name = descendant.getConfig().name;
-                if (initialParams && Object.keys(initialParams) && Object.keys(initialParams).length > 1) {
-                    let floatingBox = !isSortableContainer(initialParams.container);
-                    if (descendant.getConfig().initialWidth) {
-                        initialParams.width = floatingBox && descendant.getConfig().initialWidthSlide ? descendant.getConfig().initialWidthSlide : descendant.getConfig().initialWidth;
-                    }
-                    if (descendant.getConfig().initialHeight) {
-                        initialParams.height = floatingBox && descendant.getConfig().initialHeightSlide ? descendant.getConfig().initialHeightSlide : descendant.getConfig().initialHeight;
-                    }
-
-                    if (needsConfigModal) {
-                        this.openConfigModal(reason, state);
-                    } else {
-                        this.render(reason);
-                    }
-                }
-            }.bind(this);
-
             return {
                 name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition,
                 extraTextConfig, needsXMLEdition, aspectRatioButtonConfig, allowFloatingBox, icon,
                 iconFromUrl, isRich, isComplex, marksType, flavor, needsPointerEventsAllowed, limitToOneInstance,
-                initialWidth, initialWidthSlide, initialHeightSlide, initialHeight, defaultCorrectAnswer,
+                initialWidth, initialWidthSlide, initialHeightSlide, initialHeight, defaultCorrectAnswer, defaultCurrentAnswer,
             };
         },
         getRenderTemplate: function(render_state, props) {
             return descendant.getRenderTemplate(render_state, props);
         },
-        getToolbar: function() {
+        getToolbar: function(toolbarState) {
             let toolbar;
             // eslint-disable-next-line no-var
             var buttonKey;
             if (descendant.getToolbar) {
-                toolbar = descendant.getToolbar();
+                toolbar = descendant.getToolbar(toolbarState);
             }
             toolbar = defaultFor(toolbar, {});
 
@@ -263,12 +301,12 @@ export default function() {
                         if(button.type === "radio" || button.type === "select") {
                             button.options = defaultFor(button.options, []);
                         }
-                        if (!button.callback && !button.autoManaged) {
+                        /* if (!button.callback && !button.autoManaged) {
                             button.callback = this.update.bind(this);
-                        }
+                        }*/
                     }
                     if (accordions[accordionKey].accordions || accordions[accordionKey].order) {
-                        let accordions2 = defaultFor(accordions[accordionKey].accordions, {}, "Property accordions in accordion '" + accordionKey + "' not found");
+                        let accordions2 = defaultFor(accordions[accordionKey].accordions, {});
                         accordions[accordionKey].accordions = accordions2;
                         accordions[accordionKey].order = defaultFor(accordions[accordionKey].order, [], "Property order in accordion '" + accordionKey + "' not found");
                         if (accordions[accordionKey].order.length !== (Object.keys(buttons).length + Object.keys(accordions2).length)) {
@@ -286,9 +324,9 @@ export default function() {
                                 if(button.type === "radio" || button.type === "select") {
                                     button.options = defaultFor(button.options, []);
                                 }
-                                if (!button.callback && !button.autoManaged) {
+                                /* if (!button.callback && !button.autoManaged) {
                                     button.callback = this.update.bind(this);
-                                }
+                                }*/
                             }
                         }
                     }
@@ -296,30 +334,17 @@ export default function() {
             }
             return toolbar;
         },
-        openConfigModal: function(reason, oldState, sender) {
-            state = oldState;
-            id = sender;
-
+        getConfigTemplate: function(idBox, configState, update, props) {
             if (!descendant.getConfigTemplate) {
                 if (this.getConfig().needsConfigModal) {
                     // eslint-disable-next-line no-console
                     console.error(this.getConfig().name + " has not defined getConfigTemplate method");
+                    return null;
                 }
-            } else {
-                Ediphy.API.openConfig(this.getConfig().name, reason).then(function(div) {
-                    if(this.getConfig().flavor !== 'react') {
-                        let template = descendant.getConfigTemplate(oldState, div);
-                        if(template) {
-                            div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]ediphy[$]/g, "Ediphy.Plugins.get('" + this.getConfig().name + "')");
-                        }
-                    } else {
-                        ReactDOM.render(descendant.getConfigTemplate(oldState), div);
-                    }
-                }.bind(this));
+                return null;
             }
-        },
-        configModalNeedsUpdate: function() {
-            Ediphy.API.configModalNeedsUpdate();
+            return descendant.getConfigTemplate(idBox, configState, update, props);
+
         },
         getRichMarkInput: function(setMark) {
             if(descendant.getRichMarkInput) {
@@ -337,6 +362,12 @@ export default function() {
             if(descendant.getDefaultMarkValue) {
                 return descendant.getDefaultMarkValue();
             }
+            if (descendant.getConfig() && descendant.getConfig().marksType) {
+                let markType = descendant.getConfig().marksType;
+                if (markType && markType.length > 0 && markType[0] && markType[0].default) {
+                    return markType[0].default;
+                }
+            }
             return undefined;
         },
         pointerEventsCallback: function(bool, toolbarState) {
@@ -352,103 +383,20 @@ export default function() {
             }
             return undefined;
         },
-        postParseRichMarkInput(mark_id, value) {
-            Ediphy.API.editRichMark(mark_id, value);
-        },
-        forceUpdate: function(oldState, sender, reason) {
-            state = oldState;
-            id = sender ? sender : id;
-            this.render(reason);
-        },
-        render: function(reason) {
-            // Posible reasons:
-            // ADD_BOX,
-            // ADD_RICH_MARK,
-            // EDIT_RICH_MARK,
-            // DELETE_RICH_MARK,
-            // UPDATE_TOOLBAR,
-            // UPDATE_BOX,
-            // RESIZE_SORTABLE_CONTAINER,
-            // EDIT_PLUGIN_TEXT,
-            // UPDATE_NAV_ITEM_EXTRA_FILES
 
-            if (!descendant.getRenderTemplate) {
-                // eslint-disable-next-line no-console
-                console.error(this.getConfig().name + " has not defined getRenderTemplate method");
-            } else {
-
-                let template = null;
-                if (this.getConfig().flavor !== "react") {
-                    template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
-                    if(template !== null) { // TODO Revisar
-                        template = html2json(template);
-                        assignPluginContainerIds(template);
-                    }
-                } else{
-                    template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
-                    assignPluginContainerIdsReact(template);
-
-                }
-
-                if (template !== null) {
-                    Ediphy.API.renderPlugin(
-                        template,
-                        this.getToolbar(),
-                        this.getConfig(),
-                        state,
-                        {
-                            id: id,
-                            parent: initialParams.parent,
-                            container: initialParams.container,
-                            page: initialParams.page,
-                        },
-                        {
-                            position: initialParams.position,
-                            row: initialParams.row,
-                            col: initialParams.col,
-                            width: initialParams.width,
-                            height: initialParams.height,
-                            isDefaultPlugin: defaultFor(initialParams.isDefaultPlugin, false),
-                            index: initialParams.index,
-
-                        },
-                        reason
-                    );
-                }
-            }
-        },
-        editRichMark: function(boxId, mark, value) {
-            Ediphy.API.editRichMark(boxId, mark, value);
-        },
         afterRender: function(element, oldState) {
             state = oldState;
             if (descendant.afterRender) {
                 descendant.afterRender(element, oldState);
             }
         },
-        setCorrectAnswer: function(answer) {
-            if (state.__score) {
-                let score = JSON.parse(JSON.stringify(state.__score));
-                score.correctAnswer = answer;
-                state.__score = score;
-                this.render('UPDATE_TOOLBAR');
-
-            }
-        },
-        update: function(oldState, name, value, sender, reason) {
-            state = oldState;
-            id = sender || id;
-            if (descendant.handleToolbar) {
-                descendant.handleToolbar(name, value);
-            }
-            this.render(reason);
-        },
         setState: function(key, value) {
+            // chose if modify here or after
             state[key] = value;
         },
-        getState: function() {
+        /* getState: function() {
             return state;
-        },
+        },*/
         registerExtraFunction: function() {
         },
     };

@@ -1,0 +1,53 @@
+.pdfViewerPlugin {
+  .react-pdf__Page__annotations   {
+    display: none;
+  }
+
+  .pdfDiv{
+
+    .PDFDocument{
+      
+    }
+
+    .topBar {
+      height:  0px;
+      display: block;
+      overflow: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+      width: 100%;
+      background: #333;
+      -webkit-transition: height 0.3s; /* Safari */
+      transition: height 0.3s;
+      &:hover {
+        height: 50px;
+      }
+      button {
+        background-color: transparent;
+        border: none !important;
+        width: 36px;
+        height: 40px;
+        color: white;
+        i {
+          font-size: 28px;
+        }
+
+      }
+      .PDFnumPages {
+        color: white;
+        font-size: 18px;
+        height: 40px;
+        vertical-align: top;
+        line-height: 40px;
+      }
+    }
+    &:hover {
+      .topBar {
+        height: 50px;
+      }
+    }
+  }
+
+}

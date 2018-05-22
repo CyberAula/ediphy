@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
-import { scrollElement, findBox } from '../../../../common/common_tools';
+import { scrollElement, findBox, blurCKEditor } from '../../../../common/common_tools';
 
 export default class CKEDitorComponent extends Component {
     constructor(props) {
@@ -11,22 +11,7 @@ export default class CKEDitorComponent extends Component {
     }
 
     onBlur() {
-        if (CKEDITOR.instances[this.props.id]) {
-            CKEDITOR.instances[this.props.id].focusManager.blur(true);
-            let data = CKEDITOR.instances[this.props.id].getData();
-            if (data.length === 0) {
-                data = i18n.t("text_here");
-                CKEDITOR.instances[this.props.id].setData(data);
-            }
-            this.props.onBlur(data);
-            let airlayer = document.getElementById("airlayer");
-            if (airlayer) {
-                airlayer.focus();
-            } else {
-                document.body.focus();
-            }
-
-        }
+        blurCKEditor(this.props.id, this.props.onBlur);
     }
 
     render() {
@@ -41,11 +26,12 @@ export default class CKEDitorComponent extends Component {
 
     componentDidMount() {
         let toolbar = this.props.toolbars[this.props.id];
-        if (toolbar.config && toolbar.config.needsTextEdition) {
+        let config = Ediphy.Plugins.get(toolbar.pluginId).getConfig();
+        if (config && config.needsTextEdition) {
             CKEDITOR.disableAutoInline = true;
-            for (let key in toolbar.config.extraTextConfig) {
+            /* for (let key in config.extraTextConfig) {
                 CKEDITOR.config[key] += toolbar.config.extraTextConfig[key] + ",";
-            }
+            }*/
             // TODO Scale text
             let editor = CKEDITOR.inline(this.refs.textarea /* , {
                 fontSize_sizes: '1/1vh;2/2vh;3/3vh;4/4vh;5/5vh;6/6vh;'
@@ -120,7 +106,7 @@ export default class CKEDitorComponent extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        if (this.props.boxSelected === this.props.id && nextProps.boxSelected !== nextProps.id) {
+        if (this.props.boxSelected === this.props.id && nextProps.boxSelected !== nextProps.id && this.props.toolbars[this.props.id].showTextEditor) {
             this.onBlur();
         }
         if (nextProps.boxSelected === nextProps.id) {
@@ -129,11 +115,11 @@ export default class CKEDitorComponent extends Component {
             } else if (this.props.toolbars[this.props.id].showTextEditor === false && nextProps.toolbars[nextProps.id].showTextEditor === true) {
                 let CKstring = CKEDITOR.instances[nextProps.id].getData();
                 let initString = "<p>" + i18n.t("text_here") + "</p>\n";
-                if(CKstring === initString) {
+                /* if(CKstring === initString) {
                     CKEDITOR.instances[nextProps.id].setData("");
-                }
-                /* let textArea = document.getElementById(nextProps.id);
-                if (textArea) {textArea.focus();}*/
+                } else {
+                    CKEDITOR.instances[nextProps.id].setData(decodeURI(nextProps.toolbars[nextProps.id].state.__text));
+                }*/
 
             }
         }

@@ -1,6 +1,12 @@
 @import "../../../../sass/general/_variables.scss";
 
 .exportoScormModalBody {
+  .spinnerFloat {
+    position: absolute;
+    right: 20%;
+    top: 13%;
+    width: 75px;
+  }
   .radioExportScorm {
     display:block !important;
     margin-left: 15px;
@@ -11,10 +17,11 @@
     }
   }
   .explanation {
-/*      color: #444;
-      background-color: #f3f3f3;
-      padding: 10px;*/
      color: #999;
+    .selfContained{
+      margin: 20px 0;
+      display: flex;
+    }
   }
    .modal-body {
     font-size: 1em;

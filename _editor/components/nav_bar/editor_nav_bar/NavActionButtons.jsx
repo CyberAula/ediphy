@@ -10,23 +10,14 @@ import { isSection } from '../../../../common/utils';
  * Action buttons in the editor's navbar
  */
 export default class NavActionButtons extends Component {
-    /**
-     * Constructor
-     */
     constructor(props) {
         super(props);
 
-        /**
-         * Component's initial state
-         */
         this.state = {
             isFullScreenOn: screenfull.isFullscreen,
 
         };
 
-        /**
-         * Binded function
-         */
         this.checkFullScreen = this.checkFullScreen.bind(this);
         this.getButtons = this.getButtons.bind(this);
     }
@@ -82,9 +73,11 @@ export default class NavActionButtons extends Component {
                 disabled: false,
                 icon: 'publish',
                 onClick: () => {
+                    const win = window.open('', '_blank');
                     this.props.changeGlobalConfig("status", "final");
-                    this.props.save();
+                    this.props.save(win);
                     this.props.serverModalOpen();
+
                 },
             },
             {
@@ -128,9 +121,10 @@ export default class NavActionButtons extends Component {
                 {buttons.map((item, index) => {
                     if (!item.display) { return null; }
                     return (
-                        <button className="navButton"
+                        <button
                             disabled={item.disabled}
                             key={item.name}
+                            className={'navButton navbarButton_' + item.name}
                             name={item.name}
                             onClick={item.onClick}
                             title={item.tooltip} >
@@ -172,10 +166,6 @@ export default class NavActionButtons extends Component {
 
 NavActionButtons.propTypes = {
     /**
-     * Selected box in the editor
-     */
-    boxSelected: PropTypes.any.isRequired,
-    /**
      * Modifies the course's global configuration
      */
     changeGlobalConfig: PropTypes.func.isRequired,
@@ -184,13 +174,9 @@ NavActionButtons.propTypes = {
      */
     globalConfig: PropTypes.object.isRequired,
     /**
-     * Identifies the view that is being edited
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
-    /**
-     * Closes/opens the current text edition
-     */
-    onTextEditorToggled: PropTypes.func.isRequired,
     /**
      * Object that contains all created views (identified by its *id*)
      */

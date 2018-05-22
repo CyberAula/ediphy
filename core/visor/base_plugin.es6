@@ -56,14 +56,14 @@ export default function() {
                     id !== 'getConfig' &&
                     id !== 'getToolbar' &&
                     id !== 'getInitialState' &&
-                    id !== 'handleToolbar' &&
                     id !== 'getConfigTemplate' &&
                     id !== 'getRenderTemplate') {
                     plugin[id] = descendant[id];
                 }
             });
             if (!plugin.checkAnswer) {
-                plugin.checkAnswer = function(current, correct) {
+                plugin.checkAnswer = function(current, correct, state) {
+
                     return JSON.stringify(current) === JSON.stringify(correct);
                 };
             }
@@ -149,20 +149,6 @@ export default function() {
             let element = $.find("[data-alias='" + alias + "']");
             if (element && extraFunctions && extraFunctions[fnAlias]) {
                 extraFunctions[fnAlias](element[0]);
-            }
-        },
-        triggerMark: function(element, value, stateElement) {
-            if (stateElement === undefined) {
-                stateElement = true;
-            }
-
-            if(!element) {
-                // eslint-disable-next-line no-console
-                console.error("Invalid argument -> need parent with correct id @ triggerMark");
-                return;
-            }
-            if(value) {
-                Ediphy.API.markTriggered(element, value, stateElement);
             }
         },
     };

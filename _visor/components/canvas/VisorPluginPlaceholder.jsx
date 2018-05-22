@@ -52,6 +52,8 @@ export default class VisorPluginPlaceholder extends Component {
                                                 currentView={this.props.currentView}
                                                 toolbars={this.props.toolbars}
                                                 fromScorm={this.props.fromScorm}
+                                                marks={this.props.allMarks}
+                                                onMarkClicked={this.props.onMarkClicked}
                                                 richElementsState={this.props.richElementsState}/>);
 
                                         } else if (index === container.children.length - 1) {
@@ -74,15 +76,15 @@ export default class VisorPluginPlaceholder extends Component {
 
 VisorPluginPlaceholder.propTypes = {
     /**
-   * Nombre del contenedor de plugins
+   * Plugins container name
    */
     pluginContainer: PropTypes.string,
     /**
-   * Identificador único de la caja padre
+   * Unique identifier of the parent box
    */
     parentBox: PropTypes.any,
     /**
-   * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+   * Object containing all created boxes (by id)
    */
     boxes: PropTypes.object,
     /**
@@ -117,5 +119,12 @@ VisorPluginPlaceholder.propTypes = {
    * Selected view
    */
     currentView: PropTypes.string,
-
+    /**
+    * All marks
+    */
+    allMarks: PropTypes.object,
+    /**
+     * Function that triggers a mark
+     */
+    onMarkClicked: PropTypes.func,
 };

@@ -43,7 +43,7 @@ export default class NavDropdown extends Component {
                     <MenuItem disabled={this.props.undoDisabled} eventKey="1" key="1">
                         <button className="dropdownButton" title={i18n.t('messages.import')}
                             disabled={ false }
-                            onClick={this.props.toggleImportFile}><i className="material-icons">file_upload</i>
+                            onClick={()=>{this.props.toggleFileUpload(undefined, '*');}}><i className="material-icons">file_upload</i>
                             {i18n.t('messages.import')}
                         </button>
                     </MenuItem>
@@ -75,6 +75,7 @@ export default class NavDropdown extends Component {
                             {i18n.t('messages.global_config')}
                         </button>
                     </MenuItem>
+
                     {Ediphy.Config.external_providers.enable_catalog_modal &&
                     [<MenuItem divider key="div_4"/>,
                         <MenuItem eventKey="4" key="4">
@@ -97,6 +98,22 @@ export default class NavDropdown extends Component {
                                 {i18n.t('Open')}
                             </button>
                         </MenuItem>]}
+                    <MenuItem disabled={false} eventKey="6" key="6">
+                        <button className="dropdownButton" title={i18n.t('messages.help')}
+                            disabled={false}
+                            onClick={this.props.openTour}><i className="material-icons">help</i>
+                            {i18n.t('messages.help')}
+                        </button>
+                    </MenuItem>
+                    {/* <MenuItem disabled={false} eventKey="7" key="7">
+                        <button className="dropdownButton" title={i18n.t('messages.docs')}
+                                disabled={false}
+                                onClick={(e)=>{window.open('http://ging.github.io/ediphy','_newtab');}}
+                                ><i className="material-icons">help</i>
+                          {i18n.t('messages.docs')}
+                        </button>
+                    </MenuItem>*/}
+
                 </Dropdown.Menu>
             </Dropdown>
         );
@@ -106,13 +123,17 @@ export default class NavDropdown extends Component {
 NavDropdown.propTypes = {
 
     /**
-     * Identifies the view that is being edited
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
      * Opens an external catalog with all the resources uploaded to the server
      */
-    onExternalCatalogToggled: PropTypes.func.isRequired,
+    onExternalCatalogToggled: PropTypes.func,
+    /**
+      * Callback for opening the file upload modal
+      */
+    toggleFileUpload: PropTypes.func.isRequired,
     /**
      * Load an specific course from the remote server
      */
@@ -125,10 +146,6 @@ NavDropdown.propTypes = {
      * Popup that indicates whether the import/export to the server was successful or not
      */
     serverModalOpen: PropTypes.func.isRequired,
-    /**
-     * Shows/Hides the file import modal form
-     */
-    toggleImportFile: PropTypes.func.isRequired,
     /**
      * Shows/Hides the global course configuration modal form
      */

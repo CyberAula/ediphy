@@ -19,31 +19,47 @@ export function InputText(base) {
                 defaultCorrectAnswer: "",
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
                     accordions: {
                         _general: {
-                            __name: "General",
+                            __name: i18n.t("InputText.General"),
                             icon: 'web',
                             buttons: {
                                 type: {
                                     __name: i18n.t("InputText.answerType"),
                                     type: 'select',
-                                    value: base.getState().type,
-                                    options: ['text', 'number', 'color', 'datetime-local'],
+                                    value: state.type,
+                                    options: ['text', 'number'],
                                     autoManaged: false,
+                                },
+                                precision: {
+                                    __name: i18n.t("InputText.Precision"),
+                                    type: 'number',
+                                    step: 0.01,
+                                    autoManaged: false,
+                                    hide: state.type !== "number",
+                                    value: state.precision,
+                                },
+                                characters: {
+                                    __name: i18n.t("InputText.Characters"),
+                                    type: 'checkbox',
+                                    autoManaged: false,
+                                    hide: state.type !== "text",
+                                    checked: state.characters,
                                 },
                                 fontSize: {
                                     __name: i18n.t("InputText.fontSize"),
                                     type: 'range',
-                                    value: base.getState().fontSize,
+                                    value: state.fontSize,
                                     min: 8,
                                     max: 72,
                                     step: 1,
                                     autoManaged: false,
                                 },
+
                             },
                         },
                     },
@@ -54,6 +70,8 @@ export function InputText(base) {
             return {
                 type: 'text',
                 fontSize: 14,
+                precision: 0.01,
+                characters: true,
             };
         },
         getRenderTemplate: function(state, props = {}) {
@@ -61,14 +79,11 @@ export function InputText(base) {
                 props.setCorrectAnswer(e.target.value);
             };
             let fs = state.fontSize + 'px';
-            return <span className={"exercisePlugin inputTextPlugin"}>
-                <input type={state.type} style={{ fontSize: fs, lineHeight: fs }} className="inputText" name={props.id} value={props.exercises.correctAnswer} onChange={clickHandler}/>
-                <span className="dragHandleInputPlugin"><i className="material-icons">apps</i></span>
-            </span>;
+            return <div className={"exercisePlugin inputTextPlugin"} >
+                <input placeholder={i18n.t("InputText.Placeholder")} type={state.type} style={{ fontSize: fs, lineHeight: fs, height: fs }} className="inputText" name={props.id} value={props.exercises.correctAnswer} onChange={clickHandler}/>
+                <div className="dragHandleInputPlugin" style={{ lineHeight: fs, height: fs, width: fs }}><i className="material-icons">reorder</i></div>
+            </div>;
 
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
         },
     };
 }

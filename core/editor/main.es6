@@ -1,7 +1,6 @@
 import DevConfig from '../config';
 import ProductionConfig from '../config_production';
 import NoServerConfig from '../config_noserver';
-import { api, api_private } from '../api';
 import { initialState } from '../store/state';
 // import { emptyState } from '../store/state.empty';
 // import { markState } from '../store/state.marks';
@@ -20,8 +19,6 @@ let InitialState = (config) => { return process.env.DOC === "doc" ? initialState
 
 export default {
     Config: Config,
-    API: api(),
-    API_Private: api_private(),
     Plugins: Plugins(),
     Visor: Visor,
     Scorm: Scorm,

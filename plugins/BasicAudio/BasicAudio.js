@@ -1,7 +1,11 @@
-import React from 'react';
-import BasicAudioPluginEditor from './components/BasicAudioPluginEditor.js';
+import React from "react";
+import BasicAudioPluginEditor from './components/BasicAudioPluginEditorWS.js';
+// import BasicAudioPluginEditor from './components/BasicAudioPluginEditor.js';
 import i18n from 'i18next';
-import ReactAudioPlayer from 'react-audio-player';
+// import example from './../../dist/playlists/a2002011001-e02-128k.mp3';
+require('./BasicAudio.scss');
+
+// Duda: en caso de que se deban mostrar el tamaño debe ser diferente pero solo en el visor supongo, pq sino en el editor no entiendo como hacerlo
 
 export function BasicAudio(base) {
     return {
@@ -9,19 +13,22 @@ export function BasicAudio(base) {
             return {
                 name: 'BasicAudio',
                 flavor: "react",
-                isRich: true, // para poner marcas
+                isRich: true,
                 displayName: i18n.t('BasicAudio.PluginName'),
                 category: "multimedia",
-                needConfigModal: false, // con esto no ponemos dimensiones iniciales
+                initialWidth: '400px',
+                initialHeight: "140px",
+                initialWidthSlide: '30%',
+                initialHeightSlide: '30%',
                 icon: 'play_circle_filled',
                 aspectRatioButtonConfig: {
-                    location: ["main", "__sortable"],
-                    defaultValue: true,
+                    location: ["main", "structure"],
+                    defaultValue: false,
                 },
                 marksType: [{ name: i18n.t("BasicAudio.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" }],
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -31,16 +38,47 @@ export function BasicAudio(base) {
                             icon: 'link',
                             buttons: {
                                 url: {
-                                    __name: Ediphy.i18n.t('BasicAudio.URL'),
-                                    type: 'text',
-                                    value: base.getState().url,
+                                    __name: Ediphy.i18n.t('EnrichedPlayer.URL'),
+                                    type: 'external_provider',
+                                    value: state.url,
+                                    accept: "audio/*",
                                     autoManaged: false,
                                 },
                                 autoplay: {
                                     __name: Ediphy.i18n.t('BasicAudio.Autoplay'),
                                     type: 'checkbox',
-                                    checked: base.getState().autoplay,
+                                    checked: state.autoplay,
                                     autoManaged: false,
+                                },
+                                waves: {
+                                    __name: Ediphy.i18n.t('BasicAudio.Waves'),
+                                    type: 'checkbox',
+                                    checked: state.waves,
+                                    autoManaged: false,
+                                },
+                                /* scroll: {
+                                    __name: Ediphy.i18n.t('BasicAudio.Scroll'),
+                                    type: 'checkbox',
+                                    checked: state.scroll,
+                                    autoManaged: false,
+                                },*/
+                                barWidth: {
+                                    __name: Ediphy.i18n.t('BasicAudio.BarWidth'),
+                                    type: 'range',
+                                    min: 0,
+                                    max: 5,
+                                    value: state.barWidth,
+                                    autoManaged: false,
+                                },
+                                progressColor: {
+                                    __name: Ediphy.i18n.t('BasicAudio.ProgressColor'),
+                                    type: 'color',
+                                    value: state.progressColor,
+                                },
+                                waveColor: {
+                                    __name: Ediphy.i18n.t('BasicAudio.WaveColor'),
+                                    type: 'color',
+                                    value: state.waveColor,
                                 },
                             },
                         },
@@ -58,7 +96,7 @@ export function BasicAudio(base) {
                                 borderWidth: {
                                     __name: Ediphy.i18n.t('BasicAudio.border_size'),
                                     type: 'number',
-                                    value: 0,
+                                    value: 1,
                                     min: 0,
                                     max: 10,
                                 },
@@ -71,7 +109,7 @@ export function BasicAudio(base) {
                                 borderColor: {
                                     __name: Ediphy.i18n.t('BasicAudio.border_color'),
                                     type: 'color',
-                                    value: '#000000',
+                                    value: '#aaaaaa',
                                 },
                                 borderRadius: {
                                     __name: Ediphy.i18n.t('BasicAudio.radius'),
@@ -96,45 +134,45 @@ export function BasicAudio(base) {
         },
         getInitialState: function() {
             return {
-                url: 'http://www.music.helsinki.fi/tmt/opetus/uusmedia/esim/a2002011001-e02-128k.mp3',
+                url: 'http://localhost:8080/playlists/Chopin_Nocturne.mp3',
                 autoplay: false,
                 controls: true,
+                waves: true,
+                barWidth: 2,
+                progressColor: '#ccc',
+                waveColor: '#178582',
+                scroll: false,
             };
         },
-        getRenderTemplate: function(state, props = {}) {
-            // EnrichedPlayer pasa tb base y props
-            console.log(state, props);
-            return (
-                <div style={{ height: "100%", width: "100%" }}>
-                    <BasicAudioPluginEditor style={{ width: "100%", height: "100%" }} base={base} onRichMarkUpdated={props.onRichMarkUpdated} state={state}/>
-                </div>
+        getRenderTemplate: function(state, props) {
+            if (state.url.match(/^https?\:\/\/api.soundcloud.com\//g)) {
+                return <iframe style={{ pointerEvents: 'none' }} width="100%" height="100%" scrolling="no" frameBorder="no" allow="autoplay" src={"https://w.soundcloud.com/player/?url=" + encodeURI(state.url) + "&color=%2317cfc8&auto_play=false&hide_related=true&show_comments=true&show_user=false&show_reposts=false&show_teaser=false&visual=" + (state.waves ? "false" : "true")} />;
+            }
+            return (<div style={{ height: "100%", width: "100%" }}>
+                <BasicAudioPluginEditor style={{ width: "100%", height: "100%" }} base={base} props={props} state={state}/>
+            </div>
             );
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
+
         },
 
         getDefaultMarkValue(state) {
-            console.log("getDefaultMarkValue");
             return '50%';
         },
         parseRichMarkInput: function(...value) {
-            console.log("parseRichMarkInput");
             let parsed_value = (value[0] + 10) * 100 / value[2];
             return parsed_value.toFixed(2) + "%";
         },
         validateValueInput: function(value) {
-            console.log("validateValueInput");
             let regex = /(^\d+(?:\.\d*)?%$)/g;
             let match = regex.exec(value);
             if (match && match.length === 2) {
                 let val = Math.round(parseFloat(match[1]) * 100) / 100;
                 if (isNaN(val) || val > 100) {
-                    return { isWrong: true, message: i18n.t("BasicAudio.message_mark_percentage") };
+                    return { isWrong: true, message: i18n.t("EnrichedPlayer.message_mark_percentage") };
                 }
                 value = val + '%';
             } else {
-                return { isWrong: true, message: i18n.t("BasicAudio.message_mark_percentage") };
+                return { isWrong: true, message: i18n.t("EnrichedPlayer.message_mark_percentage") };
             }
             return { isWrong: false, value: value };
 

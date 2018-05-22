@@ -37,7 +37,8 @@ exports[`CarouselHeader should render as expected when the carousel is collapsed
   >
     <EditorIndexTitle
       className="tituloCurso"
-      onNameChanged={[Function]}
+      courseTitle={true}
+      onNameChanged={[MockFunction onTitleChanged]}
       title="IACR"
     />
   </div>
@@ -103,7 +104,8 @@ exports[`CarouselHeader should render as expected when the carousel is expanded 
   >
     <EditorIndexTitle
       className="tituloCurso"
-      onNameChanged={[Function]}
+      courseTitle={true}
+      onNameChanged={[MockFunction onTitleChanged]}
       title="IACR"
     />
   </div>

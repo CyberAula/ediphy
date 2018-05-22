@@ -3,11 +3,11 @@ import Utils, {
     isBox,
 } from '../common/utils';
 import {
-    ADD_BOX, MOVE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, ADD_RICH_MARK,
+    ADD_BOX, ADD_NAV_ITEM, ADD_RICH_MARK, EDIT_RICH_MARK, MOVE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
-    DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE, PASTE_BOX,
+    DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE, PASTE_BOX, UPDATE_PLUGIN_TOOLBAR, TOGGLE_TEXT_EDITOR,
 } from '../common/actions';
-import { ID_PREFIX_BOX } from '../common/constants';
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX } from '../common/constants';
 
 function boxCreator(state, action) {
     let position;
@@ -57,7 +57,7 @@ function boxCreator(state, action) {
         if (pluginContainers) {
             for (let key in pluginContainers) {
                 children.push(pluginContainers[key].id);
-                sortableContainers[pluginContainers[key].id] = sortableContainerCreator(key, [], pluginContainers[key].height);
+                sortableContainers[pluginContainers[key].id] = sortableContainerCreator(key, [], pluginContainers[key].height, action.payload.ids.id);
             }
         }
     }
@@ -83,7 +83,7 @@ function boxCreator(state, action) {
     };
 }
 
-function sortableContainerCreator(key = "", children = [], height = "auto") {
+function sortableContainerCreator(key = "", children = [], height = "auto", parent) {
     return {
         children: children,
         style: {
@@ -92,7 +92,7 @@ function sortableContainerCreator(key = "", children = [], height = "auto") {
             borderWidth: '0px',
             borderStyle: 'solid',
             opacity: '1',
-            textAlign: 'center',
+            textAlign: isBox(parent) ? 'left' : 'center',
             className: '',
         },
         height: height,
@@ -121,7 +121,7 @@ function boxReducer(state = {}, action = {}) {
             ]
         );
     case ADD_RICH_MARK:
-        return changeProp(state, "containedViews", [...state.containedViews, action.payload.mark.connection.id || action.payload.mark.connection]);
+        return changeProp(state, "containedViews", [...state.containedViews, action.payload.mark.connection]);
     case CHANGE_COLS:
         if (action.payload.parent === state.id) {
             return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
@@ -206,6 +206,37 @@ function boxReducer(state = {}, action = {}) {
         return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
     case RESIZE_SORTABLE_CONTAINER:
         return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
+    case UPDATE_PLUGIN_TOOLBAR:
+        let newSortableContainers = {};
+        let newChildren = [];
+        if (action.payload.name instanceof Array && action.payload.name.indexOf("__pluginContainerIds") > -1) {
+            for (let containerKey in action.payload.value[1]) {
+                let container = action.payload.value[1][containerKey];
+                // if not found -> create new one; otherwise copy existing
+                if (!state.sortableContainers[container.id] && action.payload.value[1][containerKey]) {
+                    newSortableContainers[container.id] = sortableContainerCreator(containerKey, [], container.height, action.payload.id);
+                } else {
+                    newSortableContainers[container.id] = Utils.deepClone(state.sortableContainers[container.id]);
+                }
+                newChildren.push(containerKey);
+            }
+
+            // return state;
+            return changeProps(
+                state,
+                [
+                    /* "content",*/
+                    "children",
+                    "sortableContainers",
+                ], [
+                    /* action.payload.content,*/
+                    newChildren,
+                    newSortableContainers,
+                ]
+            );
+        }
+        return state;
+
     case UPDATE_BOX:
         // sortableContainers for boxes inside this box (this is not EditorBoxSortable) (***** only working with PLUGIN inside PLUGIN)
         let sortableContainers = {};
@@ -215,7 +246,7 @@ function boxReducer(state = {}, action = {}) {
                 let container = action.payload.state.__pluginContainerIds[containerKey];
                 // if not found -> create new one; otherwise copy existing
                 if (!state.sortableContainers[container.id]) {
-                    sortableContainers[container.id] = sortableContainerCreator(containerKey, [], container.height);
+                    sortableContainers[container.id] = sortableContainerCreator(containerKey, [], container.height, action.payload.id);
                 } else {
                     sortableContainers[container.id] = Utils.deepClone(state.sortableContainers[container.id]);
                 }
@@ -287,7 +318,7 @@ function singleSortableContainerReducer(state = {}, action = {}) {
     case DELETE_BOX:
         return changeProp(state, "children", state.children.filter(id => id !== action.payload.id));
     case DROP_BOX:
-        if (action.payload.oldContainer === action.payload.container && action.payload.oldParent === action.payload.parent && action.payload.index) {
+        if (action.payload.oldContainer === action.payload.container && action.payload.oldParent === action.payload.parent && (action.payload.index || action.payload.index === 0)) {
             let newCh = state.children.filter(id => id !== action.payload.id);
             newCh.splice(action.payload.index, 0, action.payload.id);
             return changeProp(state, "children", newCh);
@@ -295,7 +326,7 @@ function singleSortableContainerReducer(state = {}, action = {}) {
         if (state.key === action.payload.oldContainer && action.payload.currentBoxReducer === action.payload.oldParent) {
             return changeProp(state, "children", state.children.filter(id => id !== action.payload.id));
         } else if (state.key === action.payload.container && action.payload.currentBoxReducer === action.payload.parent) {
-            if (action.payload.index) {
+            if (action.payload.index || action.payload.index === 0) {
                 let newOrder = [...state.children];
                 newOrder.splice(action.payload.index, 0, action.payload.id);
                 return changeProp(state, "children", newOrder);
@@ -321,8 +352,11 @@ function sortableContainersReducer(state = {}, action = {}) {
             action.payload.ids.container,
             state[action.payload.ids.container] ?
                 singleSortableContainerReducer(state[action.payload.ids.container], action) :
-                sortableContainerCreator(action.payload.ids.container, [action.payload.ids.id])
+                sortableContainerCreator(action.payload.ids.container, [action.payload.ids.id], "auto", action.payload.ids.parent)
         );
+    case ADD_NAV_ITEM:
+    case ADD_RICH_MARK:
+        return state;
     case CHANGE_COLS:
         return changeProp(state, action.payload.id, singleSortableContainerReducer(state[action.payload.id], action));
     case CHANGE_ROWS:
@@ -388,6 +422,37 @@ export default function(state = {}, action = {}) {
         }
 
         return changeProp(state, action.payload.ids.id, boxCreator(state, action));
+    case REORDER_SORTABLE_CONTAINER:
+        return {
+            ...state,
+            [action.payload.parent]: {
+                ...state[action.payload.parent],
+                children: [].concat(action.payload.ids),
+            },
+        };
+    case ADD_NAV_ITEM:
+        if(action.payload.type === "document") {
+            return {
+                ...state,
+                [action.payload.sortable_id]: {
+                    parent: action.payload.id,
+                    id: action.payload.sortable_id,
+                    container: 0,
+                    level: -1,
+                    col: 0,
+                    row: 0,
+                    position: { type: "relative", x: 0, y: 0 },
+                    draggable: false,
+                    resizable: false,
+                    showTextEditor: false,
+                    fragment: {},
+                    children: [],
+                    sortableContainers: {},
+                    containedViews: [],
+                },
+            };
+        }
+        return state;
     case PASTE_BOX:
         let ids = Object.keys(action.payload.children);
         let bx = ids.map(k => {return action.payload.children[k].box;});
@@ -416,12 +481,48 @@ export default function(state = {}, action = {}) {
     case RESIZE_SORTABLE_CONTAINER:
         return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
     case UPDATE_BOX:
-        return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
+    case TOGGLE_TEXT_EDITOR:
+    case UPDATE_PLUGIN_TOOLBAR:
+        let updatedState = JSON.parse(JSON.stringify(state));
+        for (let b in action.payload.deletedBoxes) {
+            delete updatedState[action.payload.deletedBoxes[b]];
+        }
+        return changeProp(updatedState, action.payload.id, boxReducer(updatedState[action.payload.id], action));
     case ADD_RICH_MARK:
+    case EDIT_RICH_MARK:
         // If rich mark is connected to a contained view (new or existing), mark.connection will include this information;
         // otherwise, it's just the id/url and we're not interested
-        if (action.payload.mark.connection.id || isContainedView(action.payload.mark.connection)) {
-            return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
+        if ((action.payload.mark.id && action.payload.view && isContainedView(action.payload.view.id)) && (action.payload.mark.connectMode === "new" || action.payload.mark.connectMode === "existing")) {
+            let newBoxState = {
+                ...state,
+                [action.payload.mark.origin]: {
+                    ...state[action.payload.mark.origin],
+                    containedViews: state[action.payload.mark.origin].containedViews.concat([action.payload.view.id]),
+                },
+            };
+            if(action.payload.mark.connectMode === "new" && action.payload.view.type === "document") {
+                newBoxState = {
+                    ...newBoxState,
+                    [action.payload.view.boxes[0]]: {
+                        parent: action.payload.view.id,
+                        id: action.payload.view.boxes[0],
+                        container: 0,
+                        level: -1,
+                        col: 0,
+                        row: 0,
+                        position: { type: "relative", x: 0, y: 0 },
+                        draggable: false,
+                        resizable: false,
+                        showTextEditor: false,
+                        fragment: {},
+                        children: [],
+                        sortableContainers: {},
+                        containedViews: [],
+                    },
+
+                };
+            }
+            return newBoxState;
         }
         return state;
     case REORDER_BOXES:
@@ -488,8 +589,6 @@ export default function(state = {}, action = {}) {
     case DELETE_NAV_ITEM:
         // TODO: Delete linked marks
         return deleteProps(state, action.payload.boxes);
-    case REORDER_SORTABLE_CONTAINER:
-        return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
     case IMPORT_STATE:
         return action.payload.present.boxesById || state;
 

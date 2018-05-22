@@ -11,7 +11,7 @@ import { setOptions, Document, Page } from 'react-pdf';
 setOptions({
     workerSrc: pdflib.PDFJS.workerSrc,
 });
-
+import './_pdfCss.scss';
 export function BasicPDF(base) {
     return {
         getConfig: function() {
@@ -21,30 +21,38 @@ export function BasicPDF(base) {
                 displayName: i18n.t('BasicPDF.PluginName'),
                 category: "objects",
                 aspectRatioButtonConfig: {
-                    location: ["main", "__sortable"],
-                    defaultValue: true,
+                    location: ["main", "structure"],
+                    defaultValue: false,
                 },
+                isRich: true,
                 initialWidth: 'auto',
                 initialHeight: "auto",
                 initialWidthSlide: '30%',
                 initialHeightSlide: '70%',
                 icon: 'description',
-
+                marksType: [{
+                    name: i18n.t('BasicPDF.Coords'),
+                    key: 'value',
+                    format: '[x,y,Pag]',
+                    default: '40.452,-3.727,1',
+                    defaultColor: '#000002',
+                }],
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: i18n.t('BasicPDF.PluginName'),
+                            __name: i18n.t('BasicPDF.source'),
                             icon: 'link',
                             buttons: {
                                 url: {
                                     __name: Ediphy.i18n.t('BasicPDF.URL'),
-                                    type: 'text',
-                                    value: base.getState().url,
+                                    type: 'external_provider',
+                                    value: state.url,
+                                    accept: "application/pdf",
                                     autoManaged: false,
                                 },
                             },
@@ -63,7 +71,7 @@ export function BasicPDF(base) {
                                 borderWidth: {
                                     __name: Ediphy.i18n.t('BasicPDF.border_size'),
                                     type: 'number',
-                                    value: 0,
+                                    value: 2,
                                     min: 0,
                                     max: 10,
                                 },
@@ -76,7 +84,7 @@ export function BasicPDF(base) {
                                 borderColor: {
                                     __name: Ediphy.i18n.t('BasicPDF.border_color'),
                                     type: 'color',
-                                    value: '#000000',
+                                    value: '#333',
                                 },
                                 borderRadius: {
                                     __name: Ediphy.i18n.t('BasicPDF.radius'),
@@ -107,17 +115,61 @@ export function BasicPDF(base) {
             };
         },
 
-        getRenderTemplate: function(state) {
-
+        getRenderTemplate: function(state, props) {
+            // console.log(props)
             return (
-                <div style={{ height: "100%", width: "100%" }}>
-                    <BasicPDFPluginEditor style={{ width: "100%", height: "100%" }} state={state}/>
+
+                <div className="pdfViewerPlugin" style={{ height: "100%", width: "100%" }}>
+                    <BasicPDFPluginEditor style={{ width: "100%", height: "100%" }} base={base} props={props} state={state}/>
                 </div>
             );
         },
         handleToolbar: function(name, value) {
             base.setState(name, value);
         },
+
+        getDefaultMarkValue(state) {
+            let x = 5.37;
+            let y = 8.67;
+            let numPage = state.pageNumber;
+            // let numPage = document.querySelector(".pdfPage").getAttribute("data-page-number");
+            return y + ',' + x + ',' + numPage;
+        },
+        parseRichMarkInput: function(...value) {
+
+            let y = (value[0] + 12) * 100 / value[2];
+            let x = (value[1] + 26) * 100 / value[3];
+            console.log(value);
+            let numPage = document.querySelector("#box-" + value[6] + " .pdfPage").getAttribute("data-page-number");
+            // let numPage = document.querySelector(".pdfPage").getAttribute("data-page-number");
+            return y.toFixed(2) + ',' + x.toFixed(2) + ',' + numPage;
+        },
+        validateValueInput: function(value) {
+            // let regex = /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$),(\d+)/g;
+            let regex = /(^-?\d+(?:\.\d*)?),(-?\d+(?:\.\d*)?),(\d+$)/g;
+            let match = regex.exec(value);
+            if (match && match.length === 4) {
+                let x = Math.round(parseFloat(match[1]) * 100) / 100;
+                let y = Math.round(parseFloat(match[2]) * 100) / 100;
+                let p = Math.round(parseFloat(match[3]) * 100) / 100;
+                if (isNaN(x) || isNaN(y)) {
+                    return { isWrong: true, message: i18n.t("BasicPDF.message_mark_xyp") };
+                }
+                value = x + ',' + y + ',' + p;
+            } else {
+                return { isWrong: true, message: i18n.t("BasicPDF.message_mark_xyp") };
+            }
+            // console.log("OK");
+            return { isWrong: false, value: value };
+        },
+        /* getDefaultMarkValue(state) {
+            let cfg = state.config;
+            return Math.round(cfg.lat * 100000) / 100000 + ',' + Math.round(cfg.lng * 100000) / 100000;
+        },
+        pointerEventsCallback: function(bool, toolbarState) {
+            return;
+        },
+*/
 
     };
 }

@@ -2,8 +2,8 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
+import Mark from '../../../common/components/mark/Mark';
 import img from './../../../dist/images/broken_link.png';
 /* eslint-disable react/prop-types */
 
@@ -16,7 +16,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
             played: 0,
             seeking: false,
             fullscreen: false,
-            controls: true,
+            // controls: this.props.state.controls || true,
         };
     }
 
@@ -67,32 +67,18 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
         return this.state.duration;
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.state.controls === true && this.state.controls !== this.props.state.controls) {
-            this.setState({ controls: true });
-        } else if (nextProps.state.controls === false && this.state.controls !== this.props.state.controls) {
-            this.setState({ controls: false });
-        }
-    }
-
     render() {
 
-        let marks = this.props.state.__marks;
-
+        let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;
             let title = marks[id].title;
             let color = marks[id].color;
-
             return(
-                <MarkEditor key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} onRichMarkUpdated={this.props.props.onRichMarkUpdated} state={this.props.state} base={this.props.base}>
-                    <a key={id} href="#">
-                        <div style={{ width: "4px", height: "8px", background: color || "#17CFC8" }}>
-                            <OverlayTrigger key={id} text={title} placement="top" overlay={<Tooltip id={id}>{title}</Tooltip>}>
-                                <i style={{ color: color || "#17CFC8", position: "relative", top: "-24px", left: "-10px" }} className="material-icons">room</i>
-                            </OverlayTrigger>
-                        </div>
-                    </a>
+                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "5px" }} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.onRichMarkMoved} state={this.props.state} base={this.props.base}>
+                    <div className="videoMark" style={{ background: color || "#17CFC8" }}>
+                        <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }} color={color || "#17CFC8"} idKey={id} title={title} />
+                    </div>
                 </MarkEditor>);
         });
 
@@ -105,7 +91,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                     width="100%"
                     url={this.props.state.url}
                     playing={this.state.playing}
-                    fileConfig={{ attributes: { poster: img } }}
+                    // fileConfig={{ attributes: { poster: img } }}
                     volume={this.state.volume}
                     onPlay={() => this.setState({ playing: true })}
                     onPause={() => this.setState({ playing: false })}
@@ -113,22 +99,24 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                     onProgress={this.onProgress.bind(this)}
                     onDuration={duration => this.setState({ duration })}
                 />
-                {(this.state.controls) && (
+                {this.props.state.controls ?
                     <div className="player-media-controls" style={{ pointerEvents: 'none' }}>
                         <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
-                        <div className="progress-player-input dropableRichZone" style={{ height: "15px", position: "relative" }}
-                            // value={this.state.played}
-                            // onMouseDown={this.onSeekMouseDown.bind(this)}
-                            // onChange={this.onSeekChange.bind(this)}
-                            // onMouseUp={this.onSeekMouseUp.bind(this)}
-                        >
+                        <div className="progress-player-input dropableRichZone" style={{ height: "20px", position: "relative", bottom: '5px' }}>
                             <div className="fakeProgress" />
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
                             {markElements}
                         </div>
                         <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
                         <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
-                    </div>)}
+                    </div> :
+                    <div className="player-media-controls" style={{ pointerEvents: 'none' }}>
+                        <div className="progress-player-input dropableRichZone" style={{ height: "20px", position: "relative", bottom: '5px' }}>
+                            <div className="fakeProgress" />
+                            <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
+                            {markElements}
+                        </div>
+                    </div>}
             </div>
         );
     }

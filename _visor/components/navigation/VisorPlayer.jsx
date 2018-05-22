@@ -152,7 +152,7 @@ VisorPlayer.propTypes = {
      */
     navItemsById: PropTypes.object.isRequired,
     /**
-     * Array que contiene todas las vistas y vistas contenidas, accesibles por su *id*
+     * Objects Array that contains all created views (identified by its *id*)
      */
     navItemsIds: PropTypes.array.isRequired,
 };

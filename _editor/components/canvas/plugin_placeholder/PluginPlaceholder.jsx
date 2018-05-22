@@ -9,8 +9,8 @@ import { isAncestorOrSibling, isBox, isSortableContainer } from '../../../../com
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 import './_pluginPlaceHolder.scss';
-import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
-import { instanceExists, releaseClick, findBox } from '../../../../common/common_tools';
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
+import { instanceExists, releaseClick, findBox, createBox } from '../../../../common/common_tools';
 
 export default class PluginPlaceholder extends Component {
     constructor(props) {
@@ -70,7 +70,7 @@ export default class PluginPlaceholder extends Component {
                                                 boxSelected={this.props.boxSelected}
                                                 boxLevelSelected={this.props.boxLevelSelected}
                                                 containedViewSelected={this.props.containedViewSelected}
-                                                toolbars={this.props.toolbars}
+                                                pluginToolbars={this.props.pluginToolbars}
                                                 lastActionDispatched={this.props.lastActionDispatched}
                                                 markCreatorId={this.props.markCreatorId}
                                                 onRichMarksModalToggled={this.props.onRichMarksModalToggled}
@@ -79,12 +79,15 @@ export default class PluginPlaceholder extends Component {
                                                 onBoxSelected={this.props.onBoxSelected}
                                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                 onBoxMoved={this.props.onBoxMoved}
+                                                onRichMarkMoved={this.props.onRichMarkMoved}
                                                 onBoxResized={this.props.onBoxResized}
                                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                                 onBoxAdded={this.props.onBoxAdded}
+                                                onToolbarUpdated={this.props.onToolbarUpdated}
                                                 page={this.props.page}
                                                 pageType={this.props.pageType}
+                                                marks={this.props.allMarks}
                                                 containedViews={this.props.containedViews}
                                                 onBoxDropped={this.props.onBoxDropped}
                                                 onRichMarkUpdated={this.props.onRichMarkUpdated}
@@ -107,7 +110,7 @@ export default class PluginPlaceholder extends Component {
         );
     }
     isComplex(pluginName) {
-        return Ediphy.Plugins.get(pluginName).getConfig().isComplex;
+        return Ediphy.Plugins.get(pluginName) && Ediphy.Plugins.get(pluginName).getConfig().isComplex;
     }
     configureDropZone(node, selector, extraParams) {
         let alert = (msg)=>{return (<Alert className="pageModal"
@@ -125,10 +128,9 @@ export default class PluginPlaceholder extends Component {
 
                 let pluginDraggingFromRibbonIsNotComplex = e.relatedTarget.className.indexOf("rib") === -1 || !e.relatedTarget.getAttribute("name") ||
                   !this.isComplex(e.relatedTarget.getAttribute("name"));
-                let pluginDraggingFromCanvasIsNotComplex = e.relatedTarget.className.indexOf("rib") !== -1 || (this.props.toolbars[this.props.boxSelected ] &&
-                  this.props.toolbars[this.props.boxSelected ].config &&
-                  this.props.toolbars[this.props.boxSelected ].config.name &&
-                  !this.isComplex(this.props.toolbars[this.props.boxSelected ].config.name));
+                let pluginDraggingFromCanvasIsNotComplex = e.relatedTarget.className.indexOf("rib") !== -1 || (this.props.pluginToolbars[this.props.boxSelected ] &&
+                  this.props.pluginToolbars[this.props.boxSelected ].pluginId &&
+                  !this.isComplex(this.props.pluginToolbars[this.props.boxSelected ].pluginId));
                 let notYourself = e.relatedTarget.className.indexOf("rib") !== -1 || this.props.parentBox.id !== this.props.boxSelected;
 
                 if (notYourself && pluginDraggingFromRibbonIsNotComplex && pluginDraggingFromCanvasIsNotComplex) {
@@ -150,7 +152,7 @@ export default class PluginPlaceholder extends Component {
                 }
                 // If element dragged is coming from PluginRibbon, create a new EditorBox
                 let draggingFromRibbon = e.relatedTarget.className.indexOf("rib") !== -1;
-                let name = (draggingFromRibbon) ? e.relatedTarget.getAttribute("name") : this.props.toolbars[this.props.boxSelected].config.name;
+                let name = (draggingFromRibbon) ? e.relatedTarget.getAttribute("name") : this.props.pluginToolbars[this.props.boxSelected].pluginId;
                 let parent = forbidden ? this.props.parentBox.parent : this.props.parentBox.id;
                 let container = forbidden ? this.props.parentBox.container : this.idConvert(this.props.pluginContainer);
                 let config = Ediphy.Plugins.get(name).getConfig();
@@ -162,6 +164,7 @@ export default class PluginPlaceholder extends Component {
                     col: forbidden ? 0 : extraParams.i,
                     row: forbidden ? 0 : extraParams.j,
                     page: this.props.page,
+                    id: ID_PREFIX_BOX + Date.now(),
                 };
                 let newInd = initialParams.container === 0 ? undefined : this.getIndex(this.props.boxes, initialParams.parent, initialParams.container, e.dragEvent.clientX, e.dragEvent.clientY, forbidden, this.props.parentBox.id);
                 initialParams.index = newInd;
@@ -170,10 +173,9 @@ export default class PluginPlaceholder extends Component {
                         this.setState({ alert: alert(i18n.t('messages.instance_limit')) });
                         return;
                     }
-                    config.callback(initialParams, ADD_BOX);
+                    createBox(initialParams, name, false, this.props.onBoxAdded, this.props.boxes);
 
-                } else {
-
+                } else if (!(config.isComplex && (initialParams.container === 0))) {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
                     // If box being dragged is dropped in a different column or row, change its value
                     if (this.props.parentBox.id !== this.props.boxSelected) {
@@ -199,15 +201,16 @@ export default class PluginPlaceholder extends Component {
     componentDidMount() {
         interact(ReactDOM.findDOMNode(this))
             .resizable({
-                enabled: this.props.resizable,
+                enabled: false, // this.props.resizable,
                 edges: { left: false, right: false, bottom: true, top: false },
                 onmove: (event) => {
                     event.target.style.height = event.rect.height + 'px';
                 },
                 onend: (event) => {
                     // TODO Revew how to resize sortable containers
-                    // this.props.onSortableContainerResized(this.idConvert(this.props.pluginContainer), this.props.parentBox.id, parseInt(event.target.style.height, 10));
-                    let toolbar = this.props.toolbars[this.props.parentBox.id];
+                    let toolbar = this.props.pluginToolbars[this.props.parentBox.id];
+                    this.props.onSortableContainerResized(this.idConvert(this.props.pluginContainer), this.props.parentBox.id, parseInt(event.target.style.height, 10));
+                    Ediphy.Plugins.get(toolbar.pluginId).forceUpdate(toolbar.state, this.props.parentBox.id, RESIZE_SORTABLE_CONTAINER);
                 },
             });
     }
@@ -221,7 +224,7 @@ export default class PluginPlaceholder extends Component {
         if (forbidden) {
             newInd = children.indexOf(currentBox);
         }
-        return newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
+        return newInd === 0 ? 0 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
 
     }
     idConvert(id) {
@@ -235,109 +238,109 @@ export default class PluginPlaceholder extends Component {
 
 PluginPlaceholder.propTypes = {
     /**
-     * Nombre del contenedor de plugins
+     * Plugins container name
      */
     pluginContainer: PropTypes.string,
     /**
-     * Indicador de si se puede redimensionar el contenedor
-     */
-    resizable: PropTypes.bool,
-    /**
-     * Identificador único de la caja padre
+     * Unique identifier of the parent box
      */
     parentBox: PropTypes.any,
     /**
-     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object,
     /**
-     * Caja seleccionada
+     * Current Box selected. If there isn't, -1
      */
     boxSelected: PropTypes.any,
     /**
-     * Nivel de caja seleccionado
+     * Selected box level (only plugins inside plugins)
      */
     boxLevelSelected: PropTypes.any,
     /**
-     * Diccionario que contiene todas las toolbars, accesibles por el *id* de su caja o vista
+     * Object containing every plugin toolbar (by id)
      */
-    toolbars: PropTypes.object,
+    pluginToolbars: PropTypes.object.isRequired,
     /**
-     * Última acción de Redux realizada
+     * Last action dispatched in Redux
      */
     lastActionDispatched: PropTypes.any,
     /**
-     * Selecciona una caja
+     * Callback for selecting a box
      */
     onBoxSelected: PropTypes.func,
     /**
-     * Aumenta de nivel de profundidad de selección (plugins dentro de plugins)
+     * Callback for increasing box level selected (only plugins inside plugins)
      */
     onBoxLevelIncreased: PropTypes.func,
     /**
-     * Vista contenida seleccionanda
+     * Selected contained view (by ID)
      */
     containedViewSelected: PropTypes.any,
     /**
-     * Mueve una caja
+     * Callback for moving a box
      */
     onBoxMoved: PropTypes.func,
     /**
-     * Redimensiona una caja
+     * Callback for resizing a box
      */
     onBoxResized: PropTypes.func,
     /**
-     * Redimensiona contenedor sortable
+     * Callback for resizing a sortable container
      */
     onSortableContainerResized: PropTypes.func,
     /**
-     * Suelta caja
+     * Callback for dropping a box
      */
     onBoxDropped: PropTypes.func,
     /**
-     * Alinea verticalmente una caja
+     * Callback for vertically aligning boxes inside a container
      */
     onVerticallyAlignBox: PropTypes.func,
     /**
-     * Reordena las cajas de un contenedor
+     * Callback for reordering boxes inside a container
      */
     onBoxesInsideSortableReorder: PropTypes.func,
     /**
-     * Activa/Desactiva la edición de texto
+     * Callback for toggling CKEditor
      */
     onTextEditorToggled: PropTypes.func,
     /**
-      * Identificador de la caja en la que se va a crear una marca
+      * Identifier of the box that is creating a mark
       */
     markCreatorId: PropTypes.any,
     /**
-      * Añade una marca a la caja
+      * Callback for adding a mark shortcut
       */
     addMarkShortcut: PropTypes.func,
     /**
-       * Función que oculta el overlay de creación de marcas
-       */
+     * Callback for deleting mark creator overlay
+     */
     deleteMarkCreator: PropTypes.func,
     /**
-      * Añade una caja
+      * Callback for adding a box
       */
     onBoxAdded: PropTypes.func,
     /**
-       * Indica el tipo de página en el que se encuentra la caja
-       */
+     *  View type
+     */
     pageType: PropTypes.string,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object,
     /**
-    * Hace aparecer/desaparecer el modal de configuración de marcas
+    *  Callback for toggling rich marks modal creator
     */
     onRichMarksModalToggled: PropTypes.func,
     /**
-    * Actualiza marca
+     * Function that updates a mark
      */
     onRichMarkUpdated: PropTypes.func,
+    /**
+     * Function that moves a mark
+     */
+    onRichMarkMoved: PropTypes.func,
     /**
      * Sets the correct answer of an exercise
      */
@@ -346,4 +349,12 @@ PluginPlaceholder.propTypes = {
      * Current page
      */
     page: PropTypes.any,
+    /**
+     * Object containing all the marks in the course
+     */
+    allMarks: PropTypes.object,
+    /**
+   * Function that updates the toolbar of a view
+   */
+    onToolbarUpdated: PropTypes.func,
 };

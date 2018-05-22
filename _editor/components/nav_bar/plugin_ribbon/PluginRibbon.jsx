@@ -9,9 +9,9 @@ import './_pluginRibbon.scss';
 import { isSortableBox, isSlide, isBox, isContainedView, isSortableContainer } from '../../../../common/utils';
 import { ADD_BOX } from "../../../../common/actions";
 import Alert from './../../common/alert/Alert';
-import { ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import { randomPositionGenerator } from './../../clipboard/clipboard.utils';
-import { instanceExists, releaseClick } from '../../../../common/common_tools';
+import { createBox, instanceExists, releaseClick } from '../../../../common/common_tools';
 
 /**
  * Plugin ribbon inside toolbar
@@ -40,7 +40,7 @@ export default class PluginRibbon extends Component {
     render() {
         return (
             <Col id="ribbon" md={12} xs={12} ref="holder" >
-                <div id="insideribbon">
+                <div id="insideribbon" className={this.props.category === '' ? 'noButtons' : ''}>
                     <div id="ribbonList">
                         {this.state.alert}
                         {this.state.buttons.map((item, index) => {
@@ -112,6 +112,7 @@ export default class PluginRibbon extends Component {
         }
         interact(".rib")
             .draggable({
+                enabled: !this.props.disabled,
                 autoScroll: {
                     container: document.getElementById(container),
                     margin: 50,
@@ -129,96 +130,95 @@ export default class PluginRibbon extends Component {
      * Set interact and other listeners
      */
     componentDidMount() {
-        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.addMenuButtons, e => {
-            this.setState({ buttons: this.state.buttons.concat(e.detail) });
+        this.setState({ buttons: this.state.buttons.concat(Ediphy.Plugins.getPluginConfigs()) });
 
-            const holder = ReactDOM.findDOMNode(this.refs.holder);
-            holder.addEventListener('mousewheel', this.handleScroll);
+        const holder = ReactDOM.findDOMNode(this.refs.holder);
+        holder.addEventListener('mousewheel', this.handleScroll);
 
-            let container;
+        let container;
 
-            if (this.props.containedViewSelected !== 0) {
-                container = "containedCanvas";
-            } else {
-                container = "canvas";
-            }
-            let elContainer = document.getElementById(container);
-            interact.dynamicDrop(true);
-            interact(".rib")
-                .draggable({
-                    inertia: true,
-                    onstart: function(event) {
-                        changeOverflow(true);
-                        let original = event.target;
-                        let parent = original.parentNode;
-                        let dw = original.offsetWidth;
-                        let clone = original.cloneNode(true),
-                            x = (parseFloat(original.getAttribute('data-x') - dw, 10) || 0),
-                            y = (parseFloat(original.getAttribute('data-y'), 10) || 0);
-                        clone.setAttribute("id", "clone");
-                        clone.setAttribute('data-x', x);
-                        clone.setAttribute('data-y', y);
-                        parent.appendChild(clone);
-                        // translate the element
-                        clone.style.webkitTransform =
+        if (this.props.containedViewSelected !== 0) {
+            container = "containedCanvas";
+        } else {
+            container = "canvas";
+        }
+        let elContainer = document.getElementById(container);
+        interact.dynamicDrop(true);
+        interact(".rib")
+            .draggable({
+                enabled: !this.props.disabled,
+                inertia: true,
+                onstart: function(event) {
+                    changeOverflow(true);
+                    let original = event.target;
+                    let parent = original.parentNode;
+                    let dw = original.offsetWidth;
+                    let clone = original.cloneNode(true),
+                        x = (parseFloat(original.getAttribute('data-x') - dw, 10) || 0),
+                        y = (parseFloat(original.getAttribute('data-y'), 10) || 0);
+                    clone.setAttribute("id", "clone");
+                    clone.setAttribute('data-x', x);
+                    clone.setAttribute('data-y', y);
+                    parent.appendChild(clone);
+                    // translate the element
+                    clone.style.webkitTransform =
                         clone.style.transform =
                             'translate(' + (x) + 'px, ' + (y) + 'px)';
-                        clone.style.position = 'absolute';
-                    },
-                    onmove: (event) => {
-                        let target = document.getElementById('clone'),
-                            // keep the dragged position in the data-x/data-y attributes
+                    clone.style.position = 'absolute';
+                },
+                onmove: (event) => {
+                    let target = document.getElementById('clone'),
+                        // keep the dragged position in the data-x/data-y attributes
 
-                            x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx,
-                            y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
+                        x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx,
+                        y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
 
                         // translate the element
-                        target.style.webkitTransform =
+                    target.style.webkitTransform =
                         target.style.transform =
                             'translate(' + (x) + 'px, ' + (y) + 'px)';
-                        target.style.zIndex = '9999';
-                        target.classList.add('ribdrag');
+                    target.style.zIndex = '9999';
+                    target.classList.add('ribdrag');
 
-                        // update the position attributes
-                        target.setAttribute('data-x', x);
-                        target.setAttribute('data-y', y);
+                    // update the position attributes
+                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-y', y);
 
-                    },
-                    onend: (event) => {
-                        changeOverflow(false);
-                        let original = event.target;
-                        let parent = original.parentNode;
-                        let dw = original.offsetWidth;
-                        let clone = document.getElementById('clone');
-                        if (clone) {
-                            let name = clone.getAttribute('name');
-                            let target = clone,
-                                x = 0,
-                                y = 0;
-                            target.style.webkitTransform =
+                },
+                onend: (event) => {
+                    changeOverflow(false);
+                    let original = event.target;
+                    let parent = original.parentNode;
+                    let dw = original.offsetWidth;
+                    let clone = document.getElementById('clone');
+                    if (clone) {
+                        let name = clone.getAttribute('name');
+                        let target = clone,
+                            x = 0,
+                            y = 0;
+                        target.style.webkitTransform =
                             target.style.transform =
                               'translate(' + (x) + 'px, ' + y + 'px)';
 
-                            target.style.zIndex = '9999';
-                            target.style.position = 'relative';
-                            target.classList.remove('ribdrag');
+                        target.style.zIndex = '9999';
+                        target.style.position = 'relative';
+                        target.classList.remove('ribdrag');
 
-                            target.setAttribute('data-x', x);
-                            target.setAttribute('data-y', y);
+                        target.setAttribute('data-x', x);
+                        target.setAttribute('data-y', y);
 
-                            parent.removeChild(clone);
+                        parent.removeChild(clone);
 
-                            let releaseClickEl = document.elementFromPoint(event.clientX, event.clientY);
-                            let rib = releaseClick(releaseClickEl, "ribbon");
+                        let releaseClickEl = document.elementFromPoint(event.clientX, event.clientY);
+                        let rib = releaseClick(releaseClickEl, "ribbon");
 
-                            if(rib === 'List') {
-                                this.clickAddBox(event, name);
-                            }
+                        if(rib === 'List') {
+                            this.clickAddBox(event, name);
                         }
-                        event.stopPropagation();
-                    },
-                });
-        });
+                    }
+                    event.stopPropagation();
+                },
+            });
     }
 
     /**
@@ -273,8 +273,9 @@ export default class PluginRibbon extends Component {
         let initialParams = {
             parent: parent,
             container: container,
-            col: 0, row: 0,
+            name,
             position: position,
+            id: ID_PREFIX_BOX + Date.now(),
             page: cv ? this.props.containedViewSelected.id : (this.props.navItemSelected ? this.props.navItemSelected.id : 0),
         };
         if (!inASlide) {
@@ -284,11 +285,11 @@ export default class PluginRibbon extends Component {
                     let children = this.props.boxes[initialParams.parent].sortableContainers[initialParams.container].children;
                     newInd = children.indexOf(this.props.boxSelected.id) + 1;
                     newInd = newInd === 0 ? 1 : ((newInd === 0 || newInd >= children.length) ? (children.length) : newInd);
-                    initialParams.index = newInd;
+                    initialParams.index = newInd; initialParams.col = 0; initialParams.row = 0;
                 }
             }
         }
-        config.callback(initialParams, ADD_BOX);
+        createBox(initialParams, name, inASlide, this.props.onBoxAdded, this.props.boxes);
         event.stopPropagation();
         event.preventDefault();
 
@@ -314,11 +315,11 @@ PluginRibbon.propTypes = {
     */
     disabled: PropTypes.bool,
     /**
-     * Vista seleccionada
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-      * Vista contenida seleccionada
+      * Selected contained view (by ID)
       */
     containedViewSelected: PropTypes.any.isRequired,
     /**
@@ -330,7 +331,11 @@ PluginRibbon.propTypes = {
       */
     boxSelected: PropTypes.any,
     /**
-      * Object that contains the boxes
+      * Object containing all created boxes (by id)
       */
     boxes: PropTypes.object,
+    /**
+     * Callback for adding a box
+     */
+    onBoxAdded: PropTypes.func.isRequired,
 };

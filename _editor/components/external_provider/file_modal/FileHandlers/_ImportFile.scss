@@ -1,0 +1,30 @@
+@import "../../../../../sass/general/variables";
+
+#ImportFileModal{
+  .highlight{
+    color: $blueprimary;
+    font-weight: normal;
+  }
+  .modal-dialog{
+    min-width: 780px;
+  }
+}
+.gcModalBody, .pdfFileDialog{
+    h2{
+      font-size: 1.1em;
+      font-weight: bold;
+      margin: 0;
+    }
+    .fileLoaded{
+      margin-bottom: 10px;
+    }
+    .form-group{
+      .radio-inline{
+        width: 100%;
+        margin: 8px 0;
+
+      }
+    }
+  }
+
+

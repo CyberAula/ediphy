@@ -39,9 +39,8 @@ export default class EditorIndexTitle extends Component {
                         onDoubleClick={e => {
                             this.setState({ editing: !this.state.editing });
                             if (this.state.editing) { /* Save changes to Redux state*/
-                                this.props.onNameChanged(this.props.id, this.state.currentValue);
-
-                            // Synchronize current component state with Redux state when entering edition mode
+                                this.props.onNameChanged(this.props.id, { viewName: this.state.currentValue });
+                                // Synchronize current component state with Redux state when entering edition mode
                             } else {
                                 this.setState({ currentValue: this.props.title });
                             }
@@ -58,7 +57,11 @@ export default class EditorIndexTitle extends Component {
                         onKeyDown={e=> {
                             if (e.keyCode === 13) { // Enter Key
                                 this.setState({ editing: !this.state.editing });
-                                this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? this.state.currentValue : this.getDefaultValue());
+                                if(this.props.courseTitle) {
+                                    this.props.onNameChanged('title', this.state.currentValue);
+                                }else {
+                                    this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? { viewName: this.state.currentValue } : this.getDefaultValue());
+                                }
                             }
                             if (e.keyCode === 27) { // Escape key
                                 this.setState({ editing: !this.state.editing });
@@ -76,7 +79,7 @@ export default class EditorIndexTitle extends Component {
                         onBlur={e => {
                         /* Change to non-edition mode*/
                             this.setState({ editing: !this.state.editing });
-                            this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? this.state.currentValue : this.getDefaultValue());
+                            this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? { viewName: this.state.currentValue } : this.getDefaultValue());
                         }} />
                     )
                 }
@@ -104,23 +107,27 @@ export default class EditorIndexTitle extends Component {
 
 EditorIndexTitle.propTypes = {
     /**
-     * Identificador único del elemento del índice seleccionado
+     * Selected index identifier
      */
     id: PropTypes.string,
     /**
-     * Título del elemento del índice seleccionado
+     * Selected index title
      */
     title: PropTypes.string.isRequired,
     /**
-     * Número del elemento del índice seleccionado
+     * Selected index number
      */
     index: PropTypes.any,
     /**
-     * Indicador de si el elemento está marcado como privado (aparece tachado y no se muestra en el visor)
+     * Private navItem indicator (show/hide in visor and exported)
      */
     hidden: PropTypes.bool,
     /**
-     * Cambia el título del elemento seleccionado
+     * Callback for changing page title
      */
     onNameChanged: PropTypes.func.isRequired,
+    /**
+     * Course title
+     */
+    courseTitle: PropTypes.any,
 };

@@ -21,7 +21,7 @@ export function BasicImage(base) {
                 icon: 'image',
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -85,7 +85,7 @@ export function BasicImage(base) {
                                     __name: 'URL',
                                     type: 'external_provider',
                                     accept: "image/*",
-                                    value: base.getState().url,
+                                    value: state.url,
                                     autoManaged: false,
                                 },
                             },
@@ -121,9 +121,6 @@ export function BasicImage(base) {
                 </div>
             </div>);
 
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
         },
         imageClick: function() {
             /* alert("Miaua!");*/

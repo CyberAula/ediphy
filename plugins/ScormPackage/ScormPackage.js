@@ -15,7 +15,7 @@ export function ScormPackage(base) {
                 flavor: 'react',
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -27,7 +27,7 @@ export function ScormPackage(base) {
                                 url: {
                                     __name: '',
                                     type: 'text',
-                                    value: base.getState().url,
+                                    value: state.url,
                                     autoManaged: false,
                                 },
                             },
@@ -85,15 +85,12 @@ export function ScormPackage(base) {
         },
         getInitialState: function() {
             return {
-                url: 'lib/scorm/test/dist/index.html',
+                url: 'http://localhost:8080/lib/scorm/test/dist/index.html',
                 // 'http://vishubcode.org/scorm/packages/170/dist/index.html',
             };
         },
         getRenderTemplate: function(state) {
             return (<iframe style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none', border: 'none' }} src={state.url}/>);
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
         },
     };
 }

@@ -9,13 +9,13 @@ export function Webpage(base) {
                 category: 'objects',
                 icon: 'public',
                 initialWidth: '70%',
-                initialHeight: "300px",
+                initialHeight: "500px",
                 initialWidthSlide: '70%',
                 initialHeightSlide: '60%',
                 flavor: 'react',
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -27,7 +27,7 @@ export function Webpage(base) {
                                 url: {
                                     __name: '',
                                     type: 'text',
-                                    value: base.getState().url,
+                                    value: state.url,
                                     autoManaged: false,
                                 },
                             },
@@ -90,9 +90,6 @@ export function Webpage(base) {
         },
         getRenderTemplate: function(state) {
             return (<iframe style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none', border: '1px solid grey' }} src={state.url}/>);
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
         },
     };
 }

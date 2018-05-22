@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Alert from '../../common/alert/Alert';
 import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
+import ToggleSwitch from '@trendmicro/react-toggle-switch';
 import i18n from 'i18next';
 import './_exportModal.scss';
+let spinner = require('../../../../dist/images/spinner.svg');
 /**
  * Export course modal
  */
@@ -11,6 +14,9 @@ export default class ExportModal extends Component {
         super(props);
         this.state = {
             format: 0,
+            showLoader: false,
+            selfContained: false,
+            showAlert: false,
         };
     }
 
@@ -19,11 +25,21 @@ export default class ExportModal extends Component {
    * @returns {code}
    */
     render() {
+        let callback = (fail)=> {
+            this.setState({ showLoader: false });
+            console.log(fail);
+            if (fail) {
+                this.setState({ showAlert: true });
+            } else {
+                this.props.close();
+            }
+
+        };
         let exportFormats = [
-            { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false);} },
-            { format: "SCORM 2004", handler: ()=> {this.props.scorm(true);} },
-            { format: "HTML", handler: ()=> {this.props.export();} },
-            { format: "PDF", handler: ()=> {this.props.export('PDF');} },
+            { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false, callback, this.state.selfContained); } },
+            { format: "SCORM 2004", handler: ()=> {this.props.scorm(true, callback, this.state.selfContained); } },
+            { format: "HTML", handler: ()=> {this.props.export('HTML', callback, this.state.selfContained); } },
+            { format: "PDF", handler: ()=> { this.props.export('PDF', callback, this.state.selfContained);} },
         ];
         return (
             <Modal className="pageModal exportoScormModalBody"
@@ -38,29 +54,48 @@ export default class ExportModal extends Component {
                     <Grid>
                         <form>
                             <Row>
-                                <Col xs={12}>
+                                <Col xs={12} md={12}>
+                                    {this.state.showAlert ? (<Alert className="pageModal" show hasHeader acceptButtonText={i18n.t("messages.OK")}
+                                        title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">warning</i>{i18n.t("messages.error")}</span>}
+                                        onClose={()=>{ this.setState({ showAlert: false }); }}>
+                                        <span> {i18n.t("error.generic")} </span><br/>
+                                    </Alert>) : null}
                                     <FormGroup >
-                                        <ControlLabel> {i18n.t("messages.export_to")}:</ControlLabel><br/>
+                                        <ControlLabel> {i18n.t("messages.export_to_label")}</ControlLabel><br/>
+                                        {this.state.showLoader ? (<img className="spinnerFloat" src={spinner}/>) : null}
                                         {exportFormats.map((format, i) => {
                                             return (<Radio key={i} name="radioGroup" className="radioExportScorm" checked={this.state.format === i}
                                                 onChange={e => {this.setState({ format: i });}}>
                                                 {format.format}<br/>
                                             </Radio>);
                                         })}
-                                    </FormGroup>
-                                    <div className={"explanation"}>{i18n.t("SCORM Explanation")}</div>
 
+                                    </FormGroup>
                                 </Col>
+                                <Col xs={12} md={12}>
+                                    <div className={"explanation"}>
+                                        {this.state.format <= 1 ? i18n.t("SCORM Explanation") : null}
+                                        {this.state.format === 2 ? i18n.t("HTML Explanation") : null}
+                                    </div>
+                                </Col>
+                                <Col xs={12} className={"explanation"}>
+                                    {this.state.format !== 3 ? <div className={"selfContained"}>
+                                        <div><ToggleSwitch onChange={()=>{this.setState({ selfContained: !this.state.selfContained });}} checked={this.state.selfContained}/></div>
+                                        <div>{i18n.t('messages.selfContained')}</div></div> : null}
+                                </Col>
+
                             </Row>
                         </form>
                     </Grid>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button bsStyle="default" id="cancel_export_to_scorm" onClick={e => {
+
                         this.props.close(); e.preventDefault();
                     }}>{i18n.t("global_config.Discard")}</Button>
                     <Button bsStyle="primary" id="accept_export_to_scorm" onClick={e => {
-                        exportFormats[this.state.format].handler(); e.preventDefault(); this.props.close();
+                        this.setState({ showLoader: true });
+                        exportFormats[this.state.format].handler(); e.preventDefault();
                     }}>{i18n.t("messages.export_course")}</Button>{'   '}
                 </Modal.Footer>
             </Modal>

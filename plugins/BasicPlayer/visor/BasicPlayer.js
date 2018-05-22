@@ -4,7 +4,7 @@ require('../BasicPlayer.scss');
 
 export function BasicPlayer(base) {
     return {
-        getRenderTemplate: function(state, id) {
+        getRenderTemplate: function(state) {
             return (
                 <div style={{ width: "100%", height: "100%" }}>
                     <PlayerPlugin style={{ width: "100%", height: "100%" }} state={state} />

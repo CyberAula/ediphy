@@ -17,12 +17,12 @@ export function BasicPlayer(base) {
                 initialWidthSlide: '30%',
                 initialHeightSlide: '30%',
                 aspectRatioButtonConfig: {
-                    location: ["main", "__sortable"],
+                    location: ["main", "structure"],
                     defaultValue: true,
                 },
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -34,13 +34,13 @@ export function BasicPlayer(base) {
                                 url: {
                                     __name: Ediphy.i18n.t('BasicPlayer.URL'),
                                     type: 'text',
-                                    value: base.getState().url,
+                                    value: state.url,
                                     autoManaged: false,
                                 },
                                 controls: {
                                     __name: Ediphy.i18n.t('BasicPlayer.Show_controls'),
                                     type: 'checkbox',
-                                    checked: base.getState().controls,
+                                    checked: state.controls,
                                     autoManaged: false,
                                 },
                             },
@@ -108,9 +108,6 @@ export function BasicPlayer(base) {
                     <PlayerPlugin style={{ width: "100%", height: "100%" }} state={state} />
                 </div>
             );
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
         },
 
     };

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import iconPDF from './../../../dist/images/file-pdf.svg';
 import VisorNavSection from './VisorNavSection';
-import NavScore from '../scorm/NavScore';
+import NavScore from '../score/NavScore';
 import ProgressBall from './ProgressBall';
 
 import { isSlide, isPage, isSection } from '../../../common/utils';
@@ -41,6 +41,7 @@ export default class VisorSideNav extends Component {
                                     pageName={page}
                                     navItemsById={this.props.navItemsById}
                                     navItemSelected={navItemSelected}
+                                    viewToolbars={this.props.viewToolbars}
                                     progress={prog}
                                     first={first} last={last}
                                     navItemsIds={this.props.navItemsIds}
@@ -63,7 +64,7 @@ export default class VisorSideNav extends Component {
                                     {(this.props.navItemsById[page].customSize === 0) ?
                                         <i className="material-icons">{isSlide(this.props.navItemsById[page].type) ? "slideshow" : "insert_drive_file"}</i>
                                         : <img className="svgIcon" src={iconPDF}/>}
-                                    <span>{this.props.navItemsById[page].name}</span>
+                                    <span>{this.props.viewToolbars[page].viewName}</span>
                                 </a>
                             </li>);
 
@@ -133,7 +134,7 @@ VisorSideNav.propTypes = {
      */
     navItemsById: PropTypes.object.isRequired,
     /**
-     * Array que contiene todas las vistas y vistas contenidas, accesibles por su *id*
+     * Objects Array that contains all created views (identified by its *id*)
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
@@ -148,4 +149,8 @@ VisorSideNav.propTypes = {
    * Show course's score
    */
     showScore: PropTypes.bool,
+    /**
+     * View toolbars
+     */
+    viewToolbars: PropTypes.object,
 };

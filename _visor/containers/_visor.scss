@@ -295,6 +295,10 @@
           vertical-align: middle;
           margin-right: 5px;
         }
+        .svgIcon {
+          padding: 0 0px;
+          margin-right: 5px;
+        }
       }
     }
     .sidebar-brand {
@@ -373,11 +377,11 @@ li > .selectedNavItemVisor {
 
 
 .visorwrapper #containedCanvas {
-  min-height: 100% !important;  
+  min-height: 100% !important;
 }
 
 .visorwrapper #containedCanvas #airlayer{
-  //min-height: 100vh ;  
+  //min-height: 100vh ;
 }
 
 .indexElementTitle {
@@ -386,12 +390,8 @@ li > .selectedNavItemVisor {
     white-space: nowrap;
     display: inline-block;
     padding-right: 10px;
-    
-}
-// .visorwrapper #containedCanvas {
-//   min-height: 100%;  
-// }
 
+}
 .doc, .sli, #maincontent, #airlayer {
   overflow: visible;
 }
@@ -400,10 +400,10 @@ li > .selectedNavItemVisor {
 }
 
 .submitButton {
-  background-color: white;
-  padding: 10px 40px;
-  border-radius: 25px;
-  border: 3px solid $blueprimary;
+  background-color: $blueprimarytransparent;
+  padding: 5px 25px;
+  border-radius: 0;
+  border: 2px solid $blueprimary;
   color: $blueprimary;
   font-size: 18px;
   vertical-align: middle;
@@ -413,7 +413,7 @@ li > .selectedNavItemVisor {
   text-align: center; //right;
   margin: 15px;
   margin-bottom: 0px;
-  bottom: 0px;
+  bottom: 0;
   padding-bottom: 15px;
   min-height: 150px;
   line-height: 150px;
@@ -423,19 +423,30 @@ li > .selectedNavItemVisor {
 .pageScore {
   text-align: center;
   line-height: 2em;
-  color: $blueprimary;
-  font-size: 1.9em;
+  font-size: 1.5em;
+  padding: 5px 15px;
+  border-radius: 3px;
+  margin: auto;
+  max-width: 50%;
+  //position: absolute;
+  //right: 20px;
+  //top: 50px;
   span {
     font-size: 2.2em;
   }
 }
 
 .scorePass {
-  color: green;
+  color: $detailgreen;
+  border: 1px solid $detailgreen;
+  background-color: $detailgreentransparent;
 }
 .scoreFail {
-  color: red;
+  color: $lightred;
+  border: 1px solid $lightred;
+  background-color: $lightredtransparent;
 }
+
 
 .hidden {
   display: none;
@@ -449,10 +460,19 @@ li > .selectedNavItemVisor {
     min-height:1px;
     line-height: 100%;
     width: auto;
-    //background-color: white;
+    .pageScore{
+      position: static;
+      max-width: 100%;
+    }
   }
 }
 
 .printApp #airlayer{
   height: 100%;
+}
+
+
+.arrowSection {
+  margin-left: 10px !important;
+  margin-right: 2px !important;
 }
