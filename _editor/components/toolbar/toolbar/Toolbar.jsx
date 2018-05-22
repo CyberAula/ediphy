@@ -52,7 +52,7 @@ export default class Toolbar extends Component {
                 exercises={exercises}
                 onScoreConfig={(id, button, value, page) => {this.props.onScoreConfig(id, button, value, this.props.navItemSelected);}}
                 toggleToolbar={()=>this.toggleToolbar()}
-                openConfigModal={this.state.openConfigModal} />;
+                openConfigModal={this.props.openConfigModal} />;
             let tb = this.props.pluginToolbars[this.props.box.id];
             let apiPlugin = Ediphy.Plugins.get(tb.pluginId);
             let config;

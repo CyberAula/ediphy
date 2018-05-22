@@ -336,11 +336,12 @@ class EditorApp extends Component {
                                 onTextEditorToggled={this.onTextEditorToggled}
                                 onBoxesInsideSortableReorder={(parent, container, order) => {dispatch(reorderBoxes(parent, container, order));}}
                                 titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}
-                                onRichMarksModalToggled={(value) => {
+                                onRichMarksModalToggled={(value, boxId = -1) => {
                                     this.setState({ richMarksVisible: !this.state.richMarksVisible, markCursorValue: value });
                                     if(this.state.richMarksVisible) {
                                         this.setState({ currentRichMark: null, value: null });
                                     }
+                                    dispatch(selectBox(boxId, boxes[boxId]));
                                 }}
                                 onViewTitleChanged={(id, titles)=>{dispatch(updateViewToolbar(id, titles));}}
                                 onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
@@ -375,11 +376,12 @@ class EditorApp extends Component {
                                 onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
                                 title={title}
-                                onRichMarksModalToggled={(value) => {
+                                onRichMarksModalToggled={(value, boxId = -1) => {
                                     this.setState({ richMarksVisible: !this.state.richMarksVisible, markCursorValue: value });
                                     if(this.state.richMarksVisible) {
                                         this.setState({ currentRichMark: null, value: null });
                                     }
+                                    dispatch(selectBox(boxId, boxes[boxId]));
                                 }}
                                 pluginToolbars={pluginToolbars}
                                 onRichMarkMoved={(mark, value)=>dispatch(moveRichMark(mark, value))}
