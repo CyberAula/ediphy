@@ -27,11 +27,10 @@ export default class ExportModal extends Component {
     render() {
         let callback = (fail)=> {
             this.setState({ showLoader: false });
-            console.log(fail);
             if (fail) {
                 this.setState({ showAlert: true });
             } else {
-                this.props.close();
+                this.props.close(true);
             }
 
         };
@@ -88,7 +87,7 @@ export default class ExportModal extends Component {
                         </form>
                     </Grid>
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer >
                     <Button bsStyle="default" id="cancel_export_to_scorm" onClick={e => {
 
                         this.props.close(); e.preventDefault();

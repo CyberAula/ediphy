@@ -2,6 +2,9 @@
 .__floater {
   z-index: 9999 !important;
   border-radius: 0 !important;
+  &>div {
+    border-radius: 0 !important;
+  }
   &>div>div {
     border-radius: 0px !important;
   }

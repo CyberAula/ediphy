@@ -64,7 +64,7 @@ export default class NavDropdown extends Component {
                     <MenuItem eventKey="2" key="2">
                         <button className="dropdownButton" title={i18n.t('messages.export')}
                             disabled={this.props.navItemSelected === 0}
-                            onClick={this.props.toggleExport}><i className="material-icons">file_download</i>
+                            onClick={()=>this.props.toggleExport()}><i className="material-icons">file_download</i>
                             {i18n.t('messages.export')}
                         </button>
                     </MenuItem>
