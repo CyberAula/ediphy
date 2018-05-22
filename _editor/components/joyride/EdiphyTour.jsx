@@ -3,6 +3,7 @@ import React from 'react';
 import i18n from 'i18next';
 import './_joyride.scss';
 import dragdrop from './dragdrop.svg';
+import edit from './edit.svg';
 import { ACTIONS, EVENTS } from 'react-joyride/es/constants';
 
 export default class EdiphyTour extends React.Component {
@@ -35,7 +36,7 @@ export default class EdiphyTour extends React.Component {
                 { // Toolbar
                     target: '#tools',
                     content: (<div>
-                        <i style={{ fontSize: '50px', color: '#18CFC8', margin: '23px' }} className="material-icons">border_color</i>
+                        <img src={edit} alt="Edit" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.toolbar')}</div>
                     </div>),
                     placement: 'auto',
@@ -50,6 +51,16 @@ export default class EdiphyTour extends React.Component {
                             }, 400);
                         }
 
+                    },
+                },
+                { // Index
+                    target: "#colLeft",
+                    content: (<div>
+                        <i style={{ fontSize: '50px', color: '#18CFC8' }} className="material-icons">note_add</i>
+                        <div className={'step_text'}>{i18n.t('joyride.index')}</div>
+                    </div>),
+                    placement: 'auto',
+                    callback: ()=>{
                     },
                 },
                 { // Carrousel list
@@ -89,15 +100,14 @@ export default class EdiphyTour extends React.Component {
                     },
                 },
                 { // Right-corner menu
-                    target: '.navbarButton_preview',
+                    target: '#topMenu',
                     content: (<div>
                         <i style={{ fontSize: '50px', color: '#18CFC8' }} className="material-icons">info</i>
                         <div className={'step_text'}>{i18n.t('joyride.manual')} <a target="_blank" href="http://ging.github.io/ediphy/#/manual"> {i18n.t('joyride.manual2')}</a></div></div>),
                     offset: 60,
                     placement: 'left',
                     callback: ()=>{
-                        // document.querySelector('.navbarButton_preview').click();
-
+                        document.getElementById('dropdown-menu').click();
                     },
                 },
 
