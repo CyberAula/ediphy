@@ -3,6 +3,12 @@ import React from 'react';
 import i18n from 'i18next';
 import './_joyride.scss';
 import dragdrop from './dragdrop.svg';
+import edit from './edit.svg';
+import index from './index.svg';
+import add from './add.svg';
+import importExport from './exportImport.svg';
+import preview from './preview.svg';
+import help from './help.svg';
 import { ACTIONS, EVENTS } from 'react-joyride/es/constants';
 
 export default class EdiphyTour extends React.Component {
@@ -35,7 +41,7 @@ export default class EdiphyTour extends React.Component {
                 { // Toolbar
                     target: '#tools',
                     content: (<div>
-                        <i style={{ fontSize: '50px', color: '#18CFC8', margin: '23px' }} className="material-icons">border_color</i>
+                        <img src={edit} alt="Edit" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.toolbar')}</div>
                     </div>),
                     placement: 'auto',
@@ -52,10 +58,20 @@ export default class EdiphyTour extends React.Component {
 
                     },
                 },
+                { // Index
+                    target: "#colLeft",
+                    content: (<div>
+                        <img src={index} alt="Edit" style={{ width: '100%' }}/>
+                        <div className={'step_text'}>{i18n.t('joyride.index')}</div>
+                    </div>),
+                    placement: 'auto',
+                    callback: ()=>{
+                    },
+                },
                 { // Carrousel list
                     target: '.bottomGroup',
                     content: (<div>
-                        <i style={{ fontSize: '50px', color: '#18CFC8' }} className="material-icons">note_add</i>
+                        <img src={add} alt="Edit" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.carrousel')}</div>
                     </div>),
                     placement: 'top',
@@ -63,10 +79,10 @@ export default class EdiphyTour extends React.Component {
                     },
                 },
 
-                { // Right-corner menu
+                { // Right-corner menu - importExport
                     target: '#topMenu',
                     content: (<div>
-                        <i style={{ fontSize: '50px', color: '#18CFC8' }} className="material-icons">import_export</i>
+                        <img src={importExport} alt="Edit" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.menu')}</div></div>),
                     offset: 10,
                     placement: 'left',
@@ -75,10 +91,10 @@ export default class EdiphyTour extends React.Component {
 
                     },
                 },
-                { // Right-corner menu
+                { // Right-corner menu - preview
                     target: '.navbarButton_preview',
                     content: (<div>
-                        <i style={{ fontSize: '50px', color: '#18CFC8' }} className="material-icons">remove_red_eye</i>
+                        <img src={preview} alt="Edit" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.preview')}</div>
                     </div>),
                     offset: 60,
@@ -88,16 +104,15 @@ export default class EdiphyTour extends React.Component {
 
                     },
                 },
-                { // Right-corner menu
-                    target: '.navbarButton_preview',
+                { // Right-corner menu - help
+                    target: '#topMenu',
                     content: (<div>
-                        <i style={{ fontSize: '50px', color: '#18CFC8' }} className="material-icons">info</i>
+                        <img src={help} alt="Edit" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.manual')} <a target="_blank" href="http://ging.github.io/ediphy/#/manual"> {i18n.t('joyride.manual2')}</a></div></div>),
                     offset: 60,
                     placement: 'left',
                     callback: ()=>{
-                        // document.querySelector('.navbarButton_preview').click();
-
+                        document.getElementById('dropdown-menu').click();
                     },
                 },
 
@@ -106,7 +121,6 @@ export default class EdiphyTour extends React.Component {
             doneSteps: new Set(),
         };
     }
-
     componentDidMount() {
     }
 
