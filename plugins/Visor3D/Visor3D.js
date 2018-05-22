@@ -94,11 +94,11 @@ export function Visor3D(base) {
                                     type: 'color',
                                     value: state.color,
                                 },
-                                /* backgroundColor: {
-                                    __name: Ediphy.i18n.t('Visor3D.background_color'),
-                                    type: 'color',
-                                    value: state.backgroundColor,
-                                },*/
+                                // backgroundColor: {
+                                //     __name: Ediphy.i18n.t('Visor3D.background_color'),
+                                //     type: 'color',
+                                //     value: state.backgroundColor,
+                                // },
                                 rotate: {
                                     __name: Ediphy.i18n.t('Visor3D.Auto_rotate'),
                                     type: 'checkbox',
@@ -115,7 +115,7 @@ export function Visor3D(base) {
             return {
                 url: "http://localhost:8080/stl/zub.stl",
                 color: "#B45F04",
-                // backgroundColor: "#EAEAEA",
+                backgroundColor: "#FFFFFF",
                 rotate: true,
             };
         },
@@ -123,7 +123,7 @@ export function Visor3D(base) {
             return (
                 <div
                     className="3DViewerPlugin"
-                    style={{ height: "100%", width: "100%" }}>
+                    style={{ height: "100%", width: "100%", pointerEvents: 'none' }}>
                     <Visor3DPluginEditor
                         style={{ width: "100%", height: "100%" }}
                         state={state}/>

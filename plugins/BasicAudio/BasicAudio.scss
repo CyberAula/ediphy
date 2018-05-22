@@ -3,15 +3,24 @@
 
 $blueprimary: #17CFC8;
 $track-width: 54% !default;
-
-@mixin gradient {
-  background: grey; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(transparent, grey); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(transparent, grey); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(transparent, grey); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(transparent, grey); /* Standard syntax */
+// generic transform
+@mixin transform($transforms) {
+  -moz-transform: $transforms;
+  -o-transform: $transforms;
+  -ms-transform: $transforms;
+  -webkit-transform: $transforms;
+  transform: $transforms;
 }
-
+@mixin gradient {
+  //background: grey; /* For browsers that do not support gradients */
+  //background: -webkit-linear-gradient(transparent, grey); /* For Safari 5.1 to 6.0 */
+  //background: -o-linear-gradient(transparent, grey); /* For Opera 11.1 to 12.0 */
+  //background: -moz-linear-gradient(transparent, grey); /* For Firefox 3.6 to 15 */
+  //background: linear-gradient(transparent, grey); /* Standard syntax */
+}
+@mixin scale($scale) {
+  @include transform(scale($scale));
+}
 @mixin transition {
   -webkit-transition: all ease .3s;
   -moz-transition: all ease .3s;
@@ -115,7 +124,9 @@ $track-width: 54% !default;
 //**************************************
 .basic-audio-wrapper{
   overflow: hidden;
-
+  .waveform>.wave>wave>wave {
+    display:none !important;
+  }
   @include gradient;
   iframe{
     margin-bottom: -4px;
@@ -140,7 +151,7 @@ $track-width: 54% !default;
   }
   .audio-controls{
     position: absolute;
-    z-index: 2;
+    z-index: 5;
     top: 0px;
     bottom: 10;
     width: 50%;
@@ -202,9 +213,9 @@ $track-width: 54% !default;
       float:left;
       -webkit-appearance: none;
       width: 100%;
-      height: 10px;
+      height: 100%;
       //margin: 3px;
-      top: 50%;
+      //top: 50%;
       //border: 1px solid #ccc;
       position: absolute;
       z-index: 3;
@@ -218,10 +229,26 @@ $track-width: 54% !default;
         visibility: hidden;
       }
     }
+  .markBar {
+    border-top: 2px solid white;
+    top:52%;
+    height: 5px;
+    width: 100%;
+    z-index: 9999;
+    position:absolute;
+  }
+  .audioMark{
+    width: 10px;
+    height: 10px;
+    top: -8px;
+    border-radius: 20px;
+    border: 1px solid white;
+    position: relative;
+    &:hover{
+      @include scale(1.2);
+    }
+  }
 
   @include custom_range;
 
-}
-
-.progress-player-input .dropableRichZone {
 }

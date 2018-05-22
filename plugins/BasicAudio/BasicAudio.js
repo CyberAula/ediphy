@@ -56,10 +56,18 @@ export function BasicAudio(base) {
                                     checked: state.waves,
                                     autoManaged: false,
                                 },
-                                scroll: {
+                                /* scroll: {
                                     __name: Ediphy.i18n.t('BasicAudio.Scroll'),
                                     type: 'checkbox',
                                     checked: state.scroll,
+                                    autoManaged: false,
+                                },*/
+                                barWidth: {
+                                    __name: Ediphy.i18n.t('BasicAudio.BarWidth'),
+                                    type: 'range',
+                                    min: 0,
+                                    max: 5,
+                                    value: state.barWidth,
                                     autoManaged: false,
                                 },
                                 progressColor: {
@@ -88,7 +96,7 @@ export function BasicAudio(base) {
                                 borderWidth: {
                                     __name: Ediphy.i18n.t('BasicAudio.border_size'),
                                     type: 'number',
-                                    value: 0,
+                                    value: 1,
                                     min: 0,
                                     max: 10,
                                 },
@@ -101,7 +109,7 @@ export function BasicAudio(base) {
                                 borderColor: {
                                     __name: Ediphy.i18n.t('BasicAudio.border_color'),
                                     type: 'color',
-                                    value: '#000000',
+                                    value: '#aaaaaa',
                                 },
                                 borderRadius: {
                                     __name: Ediphy.i18n.t('BasicAudio.radius'),
@@ -130,8 +138,8 @@ export function BasicAudio(base) {
                 autoplay: false,
                 controls: true,
                 waves: true,
-                barWidth: 0.5,
-                progressColor: '#878787',
+                barWidth: 2,
+                progressColor: '#ccc',
                 waveColor: '#178582',
                 scroll: false,
             };

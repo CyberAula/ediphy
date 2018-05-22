@@ -15,8 +15,9 @@ export let extensions = [
     // { label: "JSON", value: 'json', icon: 'view_agenda' },
     { label: "PDF", value: 'pdf', icon: 'picture_as_pdf' },
     { label: "XML", value: 'xml', icon: 'code' },
-    { label: "Objeto 3D", value: 'stl', icon: '3d_object' },
-    { label: "Otro", value: 'application', icon: 'devices_other' },
+    { label: "Objeto 3D", value: 'sla', icon: 'devices_other' },
+    { label: "Objeto 3D", value: 'octet-stream', icon: 'devices_other' },
+    // { label: "Otro", value: 'application', icon: 'devices_other' },
 ];
 export default function handlers(self) {
     let type = self.state.type;
@@ -24,6 +25,7 @@ export default function handlers(self) {
     let { initialParams, isTargetSlide } = getInitialParams(self, page);
     let currentPlugin = (self.props.fileModalResult && self.props.fileModalResult.id && self.props.pluginToolbars[self.props.fileModalResult.id]) ? self.props.pluginToolbars[self.props.fileModalResult.id].pluginId : null;
     let apiPlugin = currentPlugin ? Ediphy.Plugins.get(currentPlugin) : undefined;
+    console.log(type);
     switch(type) {
     case 'image' :
         return{
@@ -87,6 +89,7 @@ export default function handlers(self) {
                 // download,
             ] };
     case 'pdf' :
+        console.log('ss');
         return {
             icon: 'picture_as_pdf',
             buttons: [
@@ -194,7 +197,8 @@ export default function handlers(self) {
                 },
                 // download,
             ] };
-    case 'application' :
+    case 'sla' :
+    case 'octet-stream' :
     case 'stl':
         return {
             icon: 'devices_other',
