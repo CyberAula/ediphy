@@ -309,6 +309,7 @@ let es = {
             "go_back": "Volver",
             "go_back_to": "Volver a ",
             "help": "Ayuda",
+            "help_modal_text": "Resuelve cualquier duda sobre EDiphy",
             "import": "Importar... ",
             "import_file": "Importar archivo ",
             "instance_limit": "Este plugin sólo permite una instancia por página",

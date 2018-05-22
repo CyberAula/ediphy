@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ActionCreators } from 'redux-undo';
-import { Grid, Col, Row } from 'react-bootstrap';
+import { Grid, Col, Row, Modal } from 'react-bootstrap';
 import {
     addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
     addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
@@ -47,6 +47,7 @@ import FileModal from '../components/external_provider/file_modal/FileModal';
 import EdiphyTour from '../components/joyride/EdiphyTour';
 import { serialize } from '../../reducers/serializer';
 import screen from '../components/joyride/pantalla.svg';
+import help from '../components/joyride/help.svg';
 
 /**
  * EditorApp. Main application component that renders everything else
@@ -121,6 +122,7 @@ class EditorApp extends Component {
         };
         this.createHelpModal = this.createHelpModal.bind(this);
         this.createInitModal = this.createInitModal.bind(this);
+        this.showTour = this.showTour.bind(this);
     }
 
     render() {
@@ -580,34 +582,44 @@ class EditorApp extends Component {
         let lastAction = this.props.dispatch(actionCreator);
         this.setState({ lastAction: lastAction });
     }
+    /* Help Modal */
     createHelpModal() {
-
-        return <Alert className="pageModal welcomeModal"
+        return <Modal className="pageModal welcomeModal helpModal"
             show={this.state.showHelpButton}
-            hasHeader={false}
-            title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
             cancelButton
             acceptButtonText={i18n.t("joyride.start")}
-            onClose={(bool)=>{
+            onHide={(bool)=>{
                 if (bool) {
-                    this.setState({ showTour: true, showHelpButton: false });
+                    this.setState({ showHelpButton: false });
                 } else {
                     this.setState({ showHelpButton: false });
                 }
             }}>
-          ESTE ES EL QUE SALE DESDE EL MENU
-            <div className="welcomeModalDiv">
-                <img src={screen} alt="" style={{ width: '100%' }}/>
-                <h1>{i18n.t('joyride.welcome')}<strong style={{ color: '#17CFC8' }}>Ediphy</strong>!</h1>
-                <h2>{i18n.t('joyride.need_help')}</h2>
-            </div>
-            {/*  {i18n.t('joyride.manual')}<a href="http://ging.github.io/ediphy/#/manual" target="_blank">{i18n.t('joyride.manual2')}</a>*/}
-            {/* i18n.t('Want some help?')*/}
-        </Alert>;
+            <Modal.Header closeButton>
+                <Modal.Title>{i18n.t("messages.help")}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div style={{ width: '100%' }}>
+                    <h2>{i18n.t('messages.help_modal_text')}</h2>
+                    <img src={help} alt="" style={{ width: '100%' }}/>
+                </div>
+                <div className={"help_options"}>
+                    <button onClick={()=>{this.showTour();}} className={"help_item"}>Paseo de bienvenida a EDiphy</button>
+                    <a href="http://ging.github.io/ediphy/#/manual" target="_blank"><div className={"help_item"}>
+                        Si después del paseo inicial te ha quedado alguna duda, consulta nuestro manual de usuario
+                    </div></a>
+                    <a href="http://ging.github.io/ediphy/#/docs" target="_blank"><div className={"help_item"}>
+                        Si eres desarrollador, echa un ojo a la documentación
+                    </div></a>
+                </div>
+            </Modal.Body>
+
+        </Modal>;
     }
-
+    showTour() {
+        this.setState({ showTour: true, showHelpButton: false });
+    }
     createInitModal() {
-
         return <Alert className="pageModal welcomeModal"
             show={this.state.initModal}
             hasHeader={false}
@@ -621,7 +633,6 @@ class EditorApp extends Component {
                     this.setState({ initModal: false });
                 }
             }}>
-      ESTE ES EL QUE SALE al principio
             <div className="welcomeModalDiv">
                 <img src={screen} alt="" style={{ width: '100%' }}/>
                 <h1>{i18n.t('joyride.welcome')}<strong style={{ color: '#17CFC8' }}>Ediphy</strong>!</h1>
