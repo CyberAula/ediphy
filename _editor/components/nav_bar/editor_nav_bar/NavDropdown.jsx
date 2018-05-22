@@ -105,6 +105,14 @@ export default class NavDropdown extends Component {
                             {i18n.t('messages.help')}
                         </button>
                     </MenuItem>
+                    {/* <MenuItem disabled={false} eventKey="7" key="7">
+                        <button className="dropdownButton" title={i18n.t('messages.docs')}
+                                disabled={false}
+                                onClick={(e)=>{window.open('http://ging.github.io/ediphy','_newtab');}}
+                                ><i className="material-icons">help</i>
+                          {i18n.t('messages.docs')}
+                        </button>
+                    </MenuItem>*/}
 
                 </Dropdown.Menu>
             </Dropdown>

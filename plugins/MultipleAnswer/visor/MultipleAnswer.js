@@ -1,7 +1,7 @@
 import React from 'react';
 import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
-import { arrayContainsArray } from '../../../common/utils';
 import { letterFromNumber } from '../../../common/common_tools';
+import { correctArrayUnordered } from '../../../core/visor/correction_functions';
 /* eslint-disable react/prop-types */
 
 export function MultipleAnswer() {
@@ -63,27 +63,7 @@ export function MultipleAnswer() {
             </div>;
         },
         checkAnswer(current, correct, state) {
-            if (!current && correct && correct.length === 0) {
-                return true;
-            }
-            let correctSanitized = correct.filter((c)=>{
-                return (c < state.nBoxes);
-            });
-            if (state.allowPartialScore) {
-                let score = 0;
-                if (Array.isArray(current) && Array.isArray(correctSanitized)) {
-                    for (let i = 0; i < state.nBoxes; i++) {
-                        let isCorrect = correctSanitized.indexOf(i) === -1 && current.indexOf(i) === -1;
-                        isCorrect = isCorrect || (correctSanitized.indexOf(i) > -1 && current.indexOf(i) > -1);
-                        score = score + (isCorrect ? 1 : 0);
-                    }
-                    return score / (state.nBoxes || 1);
-                }
-            } else if (Array.isArray(current) && Array.isArray(correctSanitized)) {
-                return (arrayContainsArray(correctSanitized, current) && (current.length === correctSanitized.length)) || (current.length === 0 && correctSanitized.length === 0);
-            }
-
-            return false;
+            return correctArrayUnordered(current, correct, state.allowPartialScore, state.nBoxes);
         },
     };
 }

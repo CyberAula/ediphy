@@ -391,6 +391,7 @@ export default class GlobalConfig extends Component {
         }
 
         let clone = element.cloneNode(true);
+
         let style = clone.style;
         style.width = '600px';
         style.position = 'relative';

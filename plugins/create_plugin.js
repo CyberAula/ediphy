@@ -15,6 +15,7 @@ let options = {
     isRich: false,
 };
 
+const cats = ["text", "image", "media", "object", "evaluation"];
 function p(text) {
     // eslint-disable-next-line no-console
     console.log(text);
@@ -49,6 +50,7 @@ function parseArgs(args) {
         help();
         return;
     }
+    let bad = false;
     args.forEach(function(val, index, array) {
         if (index === 2) {
             p("Creando plugin: " + val);
@@ -64,6 +66,9 @@ function parseArgs(args) {
                 if(index < args.length) {
                     options.category = args[index + 1];
                 }
+                if (cats.indexOf(options.category) == -1) {
+                    bad = true;
+                    p("La categoría '" + options.category + "' no existe. Las categorías disponibles son: text, image, media, object, evaluation"); }
                 break;
             case "rich":
                 options.isRich = true;
@@ -71,11 +76,15 @@ function parseArgs(args) {
             default:
                 if(index >= 1 && args[index - 1] !== 'category') {
                     p("Opción " + val + " no reconocida");
+                    bad = true;
                 }
                 break;
             }
         }
     });
+    if (bad) {
+        return;
+    }
     p("Opciones:");
     p(options);
     createPlugins();
@@ -467,6 +476,8 @@ function templateExerciseVisor() {
 import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
 import i18n from 'i18next';
 import { letterFromNumber } from '../../../common/common_tools';
+import { compareNumbersLiterally } from '../../../core/visor/correction_functions';
+
 /* eslint-disable react/prop-types */
 
 export function ${options.name}() {
@@ -516,10 +527,7 @@ export function ${options.name}() {
             </div>;
         },
         checkAnswer(current, correct) {
-            if (!isNaN(current)) {
-                return (current) === (correct);
-            }
-            return false;
+            return compareNumbersLiterally(current, correct);
 
         },             
     };

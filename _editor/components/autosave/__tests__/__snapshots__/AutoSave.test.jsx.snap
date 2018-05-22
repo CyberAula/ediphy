@@ -12,16 +12,3 @@ exports[`AutoSave - General should render with required props 1`] = `
   i18n string
 </div>
 `;
-
-exports[`Autosave - General should render with required props 1`] = `
-<div
-  className="savingLabel"
-  style={
-    Object {
-      "display": "none",
-    }
-  }
->
-  i18n string
-</div>
-`;

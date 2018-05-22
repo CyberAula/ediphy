@@ -37,7 +37,7 @@ beforeEach(() => {
 });
 
 // Unit test's mocks
-let mockFunctions = {
+const mockFunctions = {
     changeGlobalConfig: jest.fn().mockName('changeGlobalConfig'),
     onTextEditorToggled: jest.fn().mockName('onTextEditorToggled'),
     redo: jest.fn().mockName('redo'),
@@ -47,10 +47,13 @@ let mockFunctions = {
     visor: jest.fn().mockName('visor'),
 };
 
-let placeholderProps = {
+const placeholderProps = {
     boxSelected: 0,
     globalConfig: {},
-    navItemSelected: 0,
+    navItems: {
+        'MOCK_NAV_ITEM': {},
+    },
+    navItemSelected: 'MOCK_NAV_ITEM',
     redoDisabled: false,
     undoDisabled: false,
     ...mockFunctions,
@@ -58,25 +61,25 @@ let placeholderProps = {
 
 describe('NavActionButtons - General', () => {
     it('should render with required props', () => {
-        let component = shallow(<NavActionButtons {...placeholderProps} />);
+        const component = shallow(<NavActionButtons {...placeholderProps} />);
 
         expect(shallowToJson(component)).toMatchSnapshot();
     });
 
     it('should set the screenfull onChange handler after mounting the component', () => {
-        let component = shallow(<NavActionButtons {...placeholderProps} />);
+        const component = shallow(<NavActionButtons {...placeholderProps} />);
 
-        let screenfull = jest.requireMock('screenfull');
+        const screenfull = jest.requireMock('screenfull');
         expect(screenfull.on).toBeCalledWith('change', component.instance().checkFullScreen);
     });
 
     it('should remove the screenfull onChange handler before unmounting the component', () => {
-        let component = shallow(<NavActionButtons {...placeholderProps} />);
+        const component = shallow(<NavActionButtons {...placeholderProps} />);
 
         // Trigger the unmount lifecycle to invoke the componentWillUnmount() method
         component.unmount();
 
-        let screenfull = jest.requireMock('screenfull');
+        const screenfull = jest.requireMock('screenfull');
         expect(screenfull.off).toBeCalled();
     });
 
@@ -90,7 +93,7 @@ describe('NavActionButtons - General', () => {
         jest.resetModules();
         NavActionButtons = jest.requireActual('../NavActionButtons.jsx').default;
 
-        let component = shallow(<NavActionButtons {...placeholderProps} />);
+        const component = shallow(<NavActionButtons {...placeholderProps} />);
 
         // Call the component's checkFullScreen method
         component.instance().checkFullScreen();
@@ -101,7 +104,7 @@ describe('NavActionButtons - General', () => {
 
 describe('NavActionButtons - "Fullscreen" button', () => {
     it('should have the "fullscreen" icon when state.isFullScreenOn = false', () => {
-        let component = shallow(<NavActionButtons {...placeholderProps} />);
+        const component = shallow(<NavActionButtons {...placeholderProps} />);
 
         // Explicitly set state.isFullScreenOn = false
         component.setState({ isFullScreenOn: false });
@@ -109,7 +112,7 @@ describe('NavActionButtons - "Fullscreen" button', () => {
     });
 
     it('should have the "fullscreen_exit" icon when state.isFullScreenOn = true', () => {
-        let component = shallow(<NavActionButtons {...placeholderProps} />);
+        const component = shallow(<NavActionButtons {...placeholderProps} />);
 
         // Set state.isFullScreenOn = true
         component.setState({ isFullScreenOn: true });
@@ -117,19 +120,19 @@ describe('NavActionButtons - "Fullscreen" button', () => {
     });
 
     it('should toggle the full screen when the button is clicked', () => {
-        let component = shallow(<NavActionButtons {...placeholderProps} />);
+        const component = shallow(<NavActionButtons {...placeholderProps} />);
 
         // Click the "Fullscreen" button
         component.find('button[name="fullscreen"]').first().simulate('click');
 
-        let screenfull = jest.requireMock('screenfull');
+        const screenfull = jest.requireMock('screenfull');
         expect(screenfull.toggle).toBeCalled();
     });
 });
 
 describe('NavActionButtons - "Undo" button', () => {
     it('should disable the button when undoDisabled = true', () => {
-        let component = shallow(<NavActionButtons {...placeholderProps} undoDisabled />);
+        const component = shallow(<NavActionButtons {...placeholderProps} undoDisabled />);
 
         // "Undo" button
         expect(component.find('button[name="undo"]').first().prop('disabled')).toBeTruthy();
@@ -138,7 +141,7 @@ describe('NavActionButtons - "Undo" button', () => {
 
 describe('NavActionButtons - "Redo" button', () => {
     it('should disable the button when redoDisabled = true', () => {
-        let component = shallow(<NavActionButtons {...placeholderProps} redoDisabled />);
+        const component = shallow(<NavActionButtons {...placeholderProps} redoDisabled />);
 
         // "Redo" button
         expect(component.find('button[name="redo"]').first().prop('disabled')).toBeTruthy();
@@ -157,7 +160,7 @@ describe('NavActionButtons - "Save" button', () => {
         jest.resetModules();
         NavActionButtons = jest.requireActual('../NavActionButtons.jsx').default;
 
-        let component = shallow(<NavActionButtons {...placeholderProps} />);
+        const component = shallow(<NavActionButtons {...placeholderProps} />);
 
         expect(component.find('button[name="save"]')).toHaveLength(1);
     });
@@ -173,13 +176,13 @@ describe('NavActionButtons - "Save" button', () => {
         jest.resetModules();
         NavActionButtons = jest.requireActual('../NavActionButtons.jsx').default;
 
-        let component = shallow(<NavActionButtons {...placeholderProps} />);
+        const component = shallow(<NavActionButtons {...placeholderProps} />);
 
         expect(component.find('button[name="save"]')).toHaveLength(1);
     });
 
     it('should handle when the button is clicked', () => {
-        let component = shallow(<NavActionButtons {...placeholderProps} />);
+        const component = shallow(<NavActionButtons {...placeholderProps} />);
 
         // Click the "Save" button
         component.find('button[name="save"]').first().simulate('click');
@@ -200,7 +203,7 @@ describe('NavActionButtons - "Publish" button', () => {
         jest.resetModules();
         NavActionButtons = jest.requireActual('../NavActionButtons.jsx').default;
 
-        let component = shallow(<NavActionButtons {...placeholderProps}
+        const component = shallow(<NavActionButtons {...placeholderProps}
             globalConfig={{ status: 'draft' }} />);
 
         expect(component.find('button[name="publish"]')).toHaveLength(1);
@@ -219,7 +222,7 @@ describe('NavActionButtons - "Publish" button', () => {
         jest.resetModules();
         NavActionButtons = jest.requireActual('../NavActionButtons.jsx').default;
 
-        let component = shallow(<NavActionButtons {...placeholderProps}
+        const component = shallow(<NavActionButtons {...placeholderProps}
             globalConfig={{ status: 'draft' }} />);
 
         // Click the "Save" button
@@ -242,7 +245,7 @@ describe('NavActionButtons - "Unpublish" button', () => {
         jest.resetModules();
         NavActionButtons = jest.requireActual('../NavActionButtons.jsx').default;
 
-        let component = shallow(<NavActionButtons {...placeholderProps}
+        const component = shallow(<NavActionButtons {...placeholderProps}
             globalConfig={{ status: 'final' }} />);
 
         expect(component.find('button[name="unpublish"]')).toHaveLength(1);
@@ -261,7 +264,7 @@ describe('NavActionButtons - "Unpublish" button', () => {
         jest.resetModules();
         NavActionButtons = jest.requireActual('../NavActionButtons.jsx').default;
 
-        let component = shallow(<NavActionButtons {...placeholderProps}
+        const component = shallow(<NavActionButtons {...placeholderProps}
             globalConfig={{ status: 'final' }} />);
 
         // Click the "Save" button
@@ -275,7 +278,7 @@ describe('NavActionButtons - "Unpublish" button', () => {
 
 describe('NavActionButtons - "Preview" button', () => {
     it('should disable the button when navItemSelected = 0', () => {
-        let component = shallow(<NavActionButtons {...placeholderProps}
+        const component = shallow(<NavActionButtons {...placeholderProps}
             navItemSelected={0} />);
 
         expect(component.find('button[name="preview"]').first().prop('disabled')).toBeTruthy();
@@ -291,7 +294,7 @@ describe('NavActionButtons - "Preview" button', () => {
         jest.resetModules();
         NavActionButtons = jest.requireActual('../NavActionButtons.jsx').default;
 
-        let component = shallow(<NavActionButtons {...placeholderProps}
+        const component = shallow(<NavActionButtons {...placeholderProps}
             navItemSelected={`${ID_PREFIX_SECTION}-3141592653590`} />);
 
         expect(component.find('button[name="preview"]').first().prop('disabled')).toBeTruthy();
@@ -307,9 +310,9 @@ describe('NavActionButtons - "Preview" button', () => {
         jest.resetModules();
         NavActionButtons = jest.requireActual('../NavActionButtons.jsx').default;
 
-        let mockedBox = `${ID_PREFIX_BOX}-3141592653590`;
+        const mockedBox = `${ID_PREFIX_BOX}-3141592653590`;
 
-        let component = shallow(<NavActionButtons {...placeholderProps}
+        const component = shallow(<NavActionButtons {...placeholderProps}
             globalConfig={{ status: 'final' }}
             boxSelected={ mockedBox } />);
 
@@ -330,7 +333,7 @@ describe('NavActionButtons - "Preview" button', () => {
         jest.resetModules();
         NavActionButtons = jest.requireActual('../NavActionButtons.jsx').default;
 
-        let component = shallow(<NavActionButtons {...placeholderProps}
+        const component = shallow(<NavActionButtons {...placeholderProps}
             globalConfig={{ status: 'final' }}
             boxSelected={0} />);
 
