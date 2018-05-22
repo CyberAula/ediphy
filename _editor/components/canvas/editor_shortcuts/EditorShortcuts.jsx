@@ -104,6 +104,7 @@ export default class EditorShortcuts extends Component {
                                     <Tooltip id="richMark">{i18n.t('messages.add_new_mark')}</Tooltip>
                                 }>
                                 <button id="markCreatorButton" className="editorTitleButton" onMouseDown={(e)=>{
+                                    e.preventDefault();
                                     this.props.onMarkCreatorToggled(box.id);
                                 }}>
                                     <i id="markCreatorButton" className="material-icons">room</i>

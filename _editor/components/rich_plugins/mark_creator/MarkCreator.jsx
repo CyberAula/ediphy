@@ -126,7 +126,7 @@ export default class MarkCreator extends Component {
                     let richMarkValues = [];
                     let value = parseRichMarkInput(x, y, width, height, richMarkValues, toolbarState, boxSelected);
                     component.setState({ value: value });
-                    component.props.onRichMarksModalToggled(value);
+                    component.props.onRichMarksModalToggled(value, boxSelected);
                     component.exitFunction();
                 };
 
