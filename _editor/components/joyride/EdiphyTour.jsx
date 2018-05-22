@@ -68,13 +68,13 @@ export default class EdiphyTour extends React.Component {
                     callback: ()=>{
                     },
                 },
-                { // Carrousel list
+                { // Add buttons - Carrousel list
                     target: '.bottomGroup',
                     content: (<div>
                         <img src={add} alt="Edit" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.carrousel')}</div>
                     </div>),
-                    placement: 'top',
+                    placement: 'auto',
                     callback: ()=>{
                     },
                 },
@@ -129,7 +129,7 @@ export default class EdiphyTour extends React.Component {
         if (this.refs.joyride) {
             if (index || index === 0) {
                 let undone = !(this.state.doneSteps.has(index));
-                if (tour.step && tour.step.callback && type === 'tooltip' && undone) {
+                if (tour.step && tour.step.callback && type === 'tooltip' /* && undone*/) {
                     let doneSteps = (new Set(this.state.doneSteps)).add(index);
                     tour.step.callback();
                     this.setState({ doneSteps });

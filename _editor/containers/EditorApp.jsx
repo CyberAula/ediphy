@@ -78,8 +78,9 @@ class EditorApp extends Component {
             showFileUpload: false,
             fileUploadTab: 0,
             showTour: false,
-            showHelpButton: true,
+            showHelpButton: false,
             fileModalResult: { id: undefined, value: undefined },
+            initModal: true,
         };
         this.onTextEditorToggled = this.onTextEditorToggled.bind(this);
         this.onRichMarkUpdated = this.onRichMarkUpdated.bind(this);
@@ -119,6 +120,7 @@ class EditorApp extends Component {
             this.setState({ blockDrag: true });
         };
         this.createHelpModal = this.createHelpModal.bind(this);
+        this.createInitModal = this.createInitModal.bind(this);
     }
 
     render() {
@@ -136,6 +138,7 @@ class EditorApp extends Component {
                 <Row className="navBar">
                     {this.state.showTour ? <EdiphyTour toggleTour={(showTour)=>{this.setState({ showTour });}} showTour={this.state.showTour}/> : null}
                     {this.createHelpModal()}
+                    {this.createInitModal()}
                     {this.state.alert}
                     <EditorNavBar hideTab={this.state.hideTab} boxes={boxes}
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
@@ -590,6 +593,33 @@ class EditorApp extends Component {
                     this.setState({ showHelpButton: false });
                 }
             }}>
+          ESTE ES EL QUE SALE DESDE EL MENU
+            <div className="welcomeModalDiv">
+                <img src={screen} alt="" style={{ width: '100%' }}/>
+                <h1>{i18n.t('joyride.welcome')}<strong style={{ color: '#17CFC8' }}>Ediphy</strong>!</h1>
+                <h2>{i18n.t('joyride.need_help')}</h2>
+            </div>
+            {/*  {i18n.t('joyride.manual')}<a href="http://ging.github.io/ediphy/#/manual" target="_blank">{i18n.t('joyride.manual2')}</a>*/}
+            {/* i18n.t('Want some help?')*/}
+        </Alert>;
+    }
+
+    createInitModal() {
+
+        return <Alert className="pageModal welcomeModal"
+            show={this.state.initModal}
+            hasHeader={false}
+            title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
+            cancelButton
+            acceptButtonText={i18n.t("joyride.start")}
+            onClose={(bool)=>{
+                if (bool) {
+                    this.setState({ showTour: true, initModal: false });
+                } else {
+                    this.setState({ initModal: false });
+                }
+            }}>
+      ESTE ES EL QUE SALE al principio
             <div className="welcomeModalDiv">
                 <img src={screen} alt="" style={{ width: '100%' }}/>
                 <h1>{i18n.t('joyride.welcome')}<strong style={{ color: '#17CFC8' }}>Ediphy</strong>!</h1>
