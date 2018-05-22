@@ -69,7 +69,7 @@ export default class EdiphyTour extends React.Component {
                     },
                 },
                 { // Add buttons - Carrousel list
-                    target: '.bottomGroup',
+                    target: '#addbuttons',
                     content: (<div>
                         <img src={add} alt="Edit" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.carrousel')}</div>

@@ -312,6 +312,7 @@ let en = {
             "go_back": "Go back",
             "go_back_to": "Go back to ",
             "help": "Help",
+            "help_modal_text": "You can solve any doubt about EDiphy",
             "import": "Import... ",
             "import_file": "Import file ",
             "instance_limit": "This plugin only allows one instance per page",

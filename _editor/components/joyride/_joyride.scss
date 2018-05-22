@@ -51,6 +51,43 @@
     }
   }
 }
+.helpModal{
+  h2{
+    margin: 0;
+    color: #555555;
+    font-size: 1.5em;
+  }
+  .help_options{
+    width: 100%;
+    display: flex;
+    button{
+      background-color: transparent;
+      border: none;
+      width: 33%;
+      a:hover{
+        color: white;
+        background-color: #17CFC8;
+      }
+    }
+    a{
+      width: 33%;
+      text-align: center;
+      text-decoration: none;
+    }
+    .help_item{
+      border: 3px solid #17CFC8;
+      min-height: 150px;
+      margin: 3px;
+      padding: 10px;
+      color: #17CFC8;
+      align-self: center;
+      &:hover{
+        color: white;
+        background-color: #17CFC8;
+      }
+    }
+  }
+}
 .tourCloned {
   position: fixed;
   top: 0;
