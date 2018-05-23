@@ -1,4 +1,5 @@
 import { ADD_NAV_ITEM, DELETE_NAV_ITEM, SELECT_NAV_ITEM, IMPORT_STATE } from '../common/actions';
+import { INDEX_SELECT } from '../ediphy_testing/common/actions';
 
 export default function(state = 0, action = {}) {
     switch (action.type) {
@@ -13,6 +14,8 @@ export default function(state = 0, action = {}) {
         }
         return state;
     case SELECT_NAV_ITEM:
+        return action.payload.id;
+    case INDEX_SELECT:
         return action.payload.id;
     case IMPORT_STATE:
         return action.payload.present.navItemSelected || state;

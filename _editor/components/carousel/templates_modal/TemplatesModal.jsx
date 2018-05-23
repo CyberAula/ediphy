@@ -34,7 +34,7 @@ export default class TemplatesModal extends Component {
                         <div id="empty"
                             className="template_item"
                             key="-1"
-                            style={{ width: '120px', height: '80px', border: this.state.itemSelected === -1 ? "solid orange 3px" : "solid #eee 1px", padding: '30px 25px' }}
+                            style={{ width: '120px', height: '80px', border: this.state.itemSelected === -1 ? "solid #17CFC8 3px" : "solid #eee 1px", padding: '30px 25px' }}
                             onClick={e => {
                                 this.setState({
                                     itemSelected: -1,
