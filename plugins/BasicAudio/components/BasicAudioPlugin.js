@@ -1,8 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 // import ReactAudioPlayer from 'react-audio-player';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import img from './../../../dist/images/broken_link.png';
 import WaveSurfer from 'wavesurfer.js';
 import ReactWavesurfer from 'react-wavesurfer';
 import Mark from '../../../common/components/mark/Mark';
@@ -18,7 +16,7 @@ export default class BasicAudioPlugin extends React.Component {
             waves: true,
             autoplay: false,
             audioPeaks: null,
-            ondas: false, // null??
+            ondas: false,
             name: "No name",
             toBeTriggered: [],
             triggering: false,
@@ -30,7 +28,7 @@ export default class BasicAudioPlugin extends React.Component {
     }
 
     handlePosChange(e) {
-        // console.log('oischa', e.wavesurfer);
+        console.log('oischa', e.wavesurfer);
         try {
             if (e.wavesurfer.backend.ac.currentTime) {
             }
@@ -49,71 +47,15 @@ export default class BasicAudioPlugin extends React.Component {
         });
     }
 
-    // cuando el componente va a recibir nuevas nextProps
-    /*    componentWillReceiveProps(nextProps) {
-        if(nextProps.state.waves === true) {
-            this.setState({ waves: true, audioPeaks: this.state.ondas });
-            if(this.state.waves === true) {
-                if(this.state.progressColor !== nextProps.state.progressColor) {
-                    this.setState({ progressColor: nextProps.state.progressColor });
-                }else if(this.state.waveColor !== nextProps.state.waveColor) {
-                    this.setState({ waveColor: nextProps.state.waveColor });
-                }
-            }
-        } else if (nextProps.state.waves === false) {
-            this.setState({ waves: false, audioPeaks: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] });
-        }
-
-    }*/
-
     onProgress(state) {
         this.setState(state);
     }
 
-    /*
-    componentWillMount: justo antes del render inicial
-    componentDidMount: justo despues de que el render inciial ocurra y nunca mas
-    */
-
-    // invocado antes de renderizar cuando se reciben nuevas props o estado
-    /*  componentWillUpdate(nextProps, nextState) {
-        if(nextState.played !== this.state.played) {
-            let sudo = this;
-
-            let marks = this.props.props.marks || {};
-            let triggerMark = this.props.props.onMarkClicked;
-            let triggerArray = this.state.toBeTriggered;
-            triggerArray.forEach(function(e) {
-                if ((parseFloat(e.value) / 100).toFixed(3) < parseFloat(nextState.played).toFixed(3)) {
-                    let toBeTriggered = triggerArray;
-                    triggerMark(sudo.props.props.id, e.value, true);
-                    toBeTriggered.splice(e, 1);
-                    sudo.setState({ toBeTriggered: toBeTriggered });
-                }
-            });
-
-            Object.keys(marks).forEach(function(key) {
-                let notInArray = true;
-
-                triggerArray.forEach(function(mark) {
-                    if(mark === key) {
-                        notInArray = false;
-                    }
-                });
-
-                if(notInArray && parseFloat(nextState.played).toFixed(3) <= (parseFloat(marks[key].value) / 100).toFixed(3) && parseFloat(parseFloat(nextState.played).toFixed(3)) + 0.1 >= parseFloat((parseFloat(marks[key].value) / 100).toFixed(3))) {
-                    let toBeTriggered = triggerArray;
-                    toBeTriggered.push(marks[key]);
-                    sudo.setState({ toBeTriggered: toBeTriggered });
-                }
-            });
-        }
-    }*/
-
     onReady(e) {
+        console.log(this.state.posPctg);
         this.setState({
             duration: e.wavesurfer.backend.buffer.duration,
-            pos: 0,
+            pos: this.state.pos,
             posPctg: 0,
             autoplay: this.props.state.autoplay,
             ondas: e.wavesurfer.backend.mergedPeaks,
@@ -124,7 +66,7 @@ export default class BasicAudioPlugin extends React.Component {
     componentWillUpdate(nextProps, nextState) {
         if(nextState.pos !== this.state.pos) {
             let sudo = this;
-
+            console.log('update', this.state.pos);
             let marks = this.props.props.marks || {};
             let triggerMark = this.props.props.onMarkClicked;
             let triggerArray = this.state.toBeTriggered;
@@ -147,11 +89,18 @@ export default class BasicAudioPlugin extends React.Component {
                 });
 
                 if(notInArray && parseFloat(nextState.posPctg).toFixed(3) <= (parseFloat(marks[key].value) / 100).toFixed(3) && parseFloat(parseFloat(nextState.posPctg).toFixed(3)) + 0.1 >= parseFloat((parseFloat(marks[key].value) / 100).toFixed(3))) {
+                    console.log("xxxxxxxxxxxxxxxxx");
+                    // entra cuanto a la derecha tiene una mark q mostrar, pero si ya la ha mostrado y vuelves esto no se imprime y la mark no salta
                     let toBeTriggered = triggerArray;
                     toBeTriggered.push(marks[key]);
                     sudo.setState({ toBeTriggered: toBeTriggered });
                 }
+
             });
+            // if(this.state.posPctg == nextProps.state.currentState){
+            console.log('markk', this.state.posPctg);
+            console.log('mardkk', nextProps.state.currentState);
+            // }
         }
     }
     render() {
