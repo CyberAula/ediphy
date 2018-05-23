@@ -177,8 +177,10 @@ export function isAncestorOrSibling(searchingId, actualId, boxes) {
     if (isView(parentId)) {
         return false;
     }
-
-    if (!isSortableBox(parentId)) {
+    if (isContainedView(parentId)) {
+        return false;
+    }
+    if (!isSortableBox(parentId && boxes[parentId])) {
         let parentContainers = boxes[parentId].children;
         if (parentContainers.length !== 0) {
             for (let i = 0; i < parentContainers.length; i++) {

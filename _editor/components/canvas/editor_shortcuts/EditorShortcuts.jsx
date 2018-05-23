@@ -67,6 +67,7 @@ export default class EditorShortcuts extends Component {
         return (
             <div id={this.props.isContained ? "contained_editorBoxIcons" : "editorBoxIcons"}
                 className=""
+                onClick={(e)=>{e.stopPropagation();}}
                 ref="container"
                 style={{
                     display: (box && box.id && isSortableBox(box.id)) || !box || !box.id ? 'none' : 'block',
@@ -87,6 +88,7 @@ export default class EditorShortcuts extends Component {
                                 }>
                                 <button id="open_conf" className={"editorTitleButton"}
                                     onClick={(e) => {
+
                                         this.props.openFileModal(box.id, accept);
                                         this.setState({ open: true });
                                     }}>
@@ -301,6 +303,7 @@ export default class EditorShortcuts extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps, this.props);
         if (nextProps !== this.props) {
             if (nextProps.box) {
                 this.resizeAndSetState("fromUpdate", nextProps);
