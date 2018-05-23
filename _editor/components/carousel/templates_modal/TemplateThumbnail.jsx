@@ -19,14 +19,14 @@ export default class TemplateThumbnail extends React.Component {
                 // let config = Ediphy.Plugins.get(name).getConfig();
                 // let icon = config.icon;
                 // let iconFromUrl = config.iconFromUrl;
-                let lineHeight = (parseFloat(box.height) / 100 * 80) + 'px';
+                let lineHeight = (parseFloat(box.heightTemplate || box.height) / 100 * 80) + 'px';
 
                 return (<div key={index} style={{ position: 'absolute',
                     backgroundColor: thumbnail.color,
                     top: box.y,
                     left: box.x,
                     width: box.width,
-                    height: box.height }}>
+                    height: box.heightTemplate || box.height }}>
                     <span style={{ verticalAlign: 'middle', lineHeight: lineHeight, display: 'inherit', textAlign: 'center' }}>
                         <i className="material-icons" style={{ color: thumbnail.icon_color, padding: '3px 2px' }} >{thumbnail.icon}</i>
                     </span>

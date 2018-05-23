@@ -399,7 +399,8 @@ export const templates = () => { return (
                     "x": "5%",
                     "y": "23%",
                     "width": "90%",
-                    "height": "72%",
+                    "height": "auto",
+                    "heightTemplate": "72%",
                 },
                 "toolbar": {
                     "name": "MultipleChoice",
@@ -437,7 +438,8 @@ export const templates = () => { return (
                     "x": "5%",
                     "y": "23%",
                     "width": "90%",
-                    "height": "72%",
+                    "height": "auto",
+                    "heightTemplate": "72%",
                 },
                 "toolbar": {
                     "name": "MultipleAnswer",
@@ -475,7 +477,8 @@ export const templates = () => { return (
                     "x": "5%",
                     "y": "23%",
                     "width": "90%",
-                    "height": "72%",
+                    "height": "auto",
+                    "heightTemplate": "72%",
                 },
                 "toolbar": {
                     "name": "FreeResponse",
@@ -513,7 +516,8 @@ export const templates = () => { return (
                     "x": "5%",
                     "y": "23%",
                     "width": "90%",
-                    "height": "72%",
+                    "height": "auto",
+                    "heightTemplate": "72%",
                 },
                 "toolbar": {
                     "name": "TrueFalse",

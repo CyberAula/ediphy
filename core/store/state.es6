@@ -6,7 +6,7 @@ export const initialState = (config) => { return config.sections_have_content ?
             present: {
                 globalConfig: {
                     title: "Ediphy",
-                    canvasRatio: 16 / 9,
+                    canvasRatio: config.defaultAspectRatio || 16 / 9,
                     visorNav: {
                         player: true,
                         sidebar: true,
@@ -20,6 +20,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                     context: 'school',
                     rights: "Public Domain",
                     keywords: [],
+                    minTimeProgress: 10,
                     typicalLearningTime: {
                         h: 0,
                         m: 0,
@@ -122,7 +123,8 @@ export const initialState = (config) => { return config.sections_have_content ?
             present: {
                 globalConfig: {
                     title: "Ediphy",
-                    canvasRatio: 16 / 9,
+                    canvasRatio: config.defaultAspectRatio || 16 / 9,
+                    minTimeProgress: 10,
                     visorNav: {
                         player: true,
                         sidebar: true,
