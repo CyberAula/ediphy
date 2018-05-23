@@ -29,7 +29,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Texto e imagen</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.text_images') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -68,7 +68,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item lightRed'>Añade texto aquí</div>",
+                    "text": "<div class='template2_item lightRed'>" + i18n.t('templates.add_text') + "</div>",
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -85,7 +85,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item lightGreen'>Añade texto aquí</div>",
+                    "text": "<div class='template2_item lightGreen'>" + i18n.t('templates.add_text') + "</div>",
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -102,7 +102,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item lightBlue'>Añade texto aquí</div>",
+                    "text": "<div class='template2_item lightBlue'>" + i18n.t('templates.add_text') + "</div>",
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -119,7 +119,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item lightYellow'>Añade texto aquí</div>",
+                    "text": "<div class='template2_item lightYellow'>" + i18n.t('templates.add_text') + "</div>",
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -214,7 +214,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Vídeo interactivo</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.video') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -253,7 +253,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Mapa interactivo</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.map') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -291,7 +291,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Web Incrustada</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.web') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -330,7 +330,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Lista de elementos</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.elements_list') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -364,7 +364,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<ul class='bulleted_list'><li>Primer elemento</li><li>Segundo elemento</li><li>Tercer elemento</li><li>...</li> </ul>",
+                    "text": "<ul class='bulleted_list'><li>" + i18n.t('templates.first_element') + "</li><li>" + i18n.t('templates.second_element') + "</li><li>" + i18n.t('templates.third_element') + "</li><li>...</li> </ul>",
                 },
                 "thumbnail": {
                     "icon": "format_list_bulleted",
@@ -386,7 +386,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Ejercicio respuesta única</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_unique_response') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -424,7 +424,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Ejercicio respuesta múltiple</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_multiple_response') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -462,7 +462,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Ejercicio respuesta libre</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_free_response') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -500,7 +500,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Ejercicio verdadero / falso</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
