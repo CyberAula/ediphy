@@ -48,6 +48,7 @@ export default {
         'GraficaD3',
         'TrueFalse',
         // 'ScormPackage',
+        'VirtualReality',
     ],
     availableLanguages: [
         'en',
