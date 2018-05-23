@@ -44,7 +44,7 @@ export default function() {
     };
 
     let assignPluginContainerIdsReact = function(temp) {
-        if (temp.props && temp.props.children) {
+        if (temp && temp.props && temp.props.children) {
             if (temp.props.children instanceof Array) {
                 for (let i = 0; i < temp.props.children.length; i++) {
                     assignPluginContainerIdsReact(temp.props.children[i]);
@@ -54,12 +54,12 @@ export default function() {
             }
         }
 
-        if (temp instanceof Array) {
+        if (temp && temp instanceof Array) {
             for (let i = 0; i < temp.length; i++) {
                 assignPluginContainerIdsReact(temp[i]);
             }
         }
-        if (temp.type && temp.type === PluginPlaceholder) {
+        if (temp && temp.type && temp.type === PluginPlaceholder) {
             if (!state.__pluginContainerIds) {
                 state.__pluginContainerIds = {};
             }

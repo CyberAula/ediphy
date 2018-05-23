@@ -5,7 +5,7 @@ exports[`NavActionButtons - General should render with required props 1`] = `
   className="navButtons"
 >
   <button
-    className="navButton"
+    className="navButton navbarButton_fullscreen"
     disabled={false}
     key="fullscreen"
     name="fullscreen"
@@ -25,7 +25,7 @@ exports[`NavActionButtons - General should render with required props 1`] = `
     </span>
   </button>
   <button
-    className="navButton"
+    className="navButton navbarButton_undo"
     disabled={false}
     key="undo"
     name="undo"
@@ -45,7 +45,7 @@ exports[`NavActionButtons - General should render with required props 1`] = `
     </span>
   </button>
   <button
-    className="navButton"
+    className="navButton navbarButton_redo"
     disabled={false}
     key="redo"
     name="redo"
@@ -65,7 +65,7 @@ exports[`NavActionButtons - General should render with required props 1`] = `
     </span>
   </button>
   <button
-    className="navButton"
+    className="navButton navbarButton_save"
     disabled={false}
     key="save"
     name="save"
@@ -85,8 +85,8 @@ exports[`NavActionButtons - General should render with required props 1`] = `
     </span>
   </button>
   <button
-    className="navButton"
-    disabled={true}
+    className="navButton navbarButton_preview"
+    disabled={false}
     key="preview"
     name="preview"
     onClick={[Function]}

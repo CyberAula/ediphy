@@ -76,6 +76,7 @@ export default class BasicAudioPluginEditor extends React.Component {
             progressColor: props.state.progressColor,
             waveColor: props.state.waveColor,
             normalize: true,
+            barWidth: (props.state.barWidth > 0 ? props.state.barWidth : undefined),
             peaks: state.peaks,
             cursorColor: 'grey',
         };
@@ -141,23 +142,9 @@ export default class BasicAudioPluginEditor extends React.Component {
             let title = marks[id].title;
             let color = marks[id].color;
             return(
-                <MarkEditor
-                    key={id}
-                    style={{ left: value, position: "absolute" }}
-                    time={1.5}
-                    mark={id}
-                    base={this.props.base}
-                    state={this.props.state}
-                    /* onRichMarkUpdated={this.props.props.onRichMarkUpdated}*/
-                >
-                    <div style={{ width: "4px", height: "8px", background: color || "#17CFC8", left: "-10px" }}>
-                        <div style={{ position: 'relative', left: "-2px" }}>
-                            <Mark
-                                style={{ position: 'relative', top: "-24px", left: "-10px" }}
-                                color={color || "#17CFC8"}
-                                idKey={id}
-                                title={title} />
-                        </div>
+                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "1px" }} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.onRichMarkMoved} state={this.props.state} base={this.props.base}>
+                    <div className="audioMark" style={{ background: color || "#17CFC8" }}>
+                        <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }} color={color || "#17CFC8"} idKey={id} title={title} />
                     </div>
                 </MarkEditor>);
         });
@@ -170,13 +157,14 @@ export default class BasicAudioPluginEditor extends React.Component {
                         <div className='wave' />
                     </div>
                 </div>
-                <div className="progress-audio-input dropableRichZone" style={{ pointerEvents: "none" }}>
-                    {markElements}
+                <div className="progress-audio-input dropableRichZone" >
+                    <div className="markBar"> {markElements}</div>
                 </div>
+
                 <div>
                     {(this.props.state.controls) && (
                         <div className="audio-controls" style={{ pointerEvents: 'none' }}>
-                            <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} style={{ backgroundColor: this.props.state.waveColor }}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
+                            <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} style={{ backgroundColor: '#17CFC8'/* this.props.state.waveColor */ }}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
                             <input className="volume-audio-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.handleVolumeChange.bind(this)} />
                         </div>
                     )}

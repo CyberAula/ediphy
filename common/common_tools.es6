@@ -253,3 +253,22 @@ export function blurCKEditor(id, callback) {
 export function getRandomColor() {
     return `#${Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, 0)}`;
 }
+
+function rgbtoHex(n) {
+    n = parseInt(n, 10);
+    if (isNaN(n)) {return "00";}
+    n = Math.max(0, Math.min(n, 255));
+    let num = "0123456789ABCDEF".charAt((n - n % 16) / 16)
+    + "0123456789ABCDEF".charAt(n % 16);
+    return num;
+}
+
+export function toColor(rgba) {
+    let regex = /rgba\((\d+),(\d+),(\d+),(.+)\)/;
+    let oldColor = regex.exec(rgba);
+    if(oldColor && oldColor.length > 0) {
+        let newColor = '#' + rgbtoHex(oldColor[1]) + rgbtoHex(oldColor[2]) + rgbtoHex(oldColor[3]);
+        return { newColor: newColor, alpha: oldColor[4] * 100 };
+    }
+    return { newColor: rgba, alpha: 100 };
+}

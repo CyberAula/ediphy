@@ -87,20 +87,9 @@ export default class BasicAudioPluginEditor extends React.Component {
                     </MarkEditor> : null);
         });
         return (
-            <div style={{ width: "100%", height: "100%" }} className={"pdfDiv"}>
-                <div className="topBar">
-                    <button className={"PDFback"} onClick={this.buttonBack}>
-                        <i className={"material-icons"}>keyboard_arrow_left</i>
-                    </button>
-                    <span className={"PDFnumPages"}>
-                        {this.state.pageNumber} of {this.state.numPages}
-                    </span>
-                    <button className={"PDFnext"} onClick={this.buttonNext}>
-                        <i className={"material-icons"}>keyboard_arrow_right</i>
-                    </button>
-                </div>
+            <div>
+                <Document key={this.props.state.url} style={{ height: "100%", width: "100%" }}
 
-                <Document className={"react-pdf__Document dropableRichZone"} style={{ height: "100%", width: "100%" }}
                     file = {this.props.state.url}
                     onLoadSuccess={this.onDocumentLoad}>
                     <Page style={{ height: "100%", width: "100%" }} className="pdfPage"

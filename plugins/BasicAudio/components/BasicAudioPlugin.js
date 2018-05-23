@@ -14,7 +14,7 @@ export default class BasicAudioPlugin extends React.Component {
             controls: true,
             duration: 1,
             waves: true,
-            autoplay: false,
+            autoplay: this.props.state.autoplay,
             audioPeaks: null,
             ondas: false,
             name: "No name",
@@ -62,6 +62,9 @@ export default class BasicAudioPlugin extends React.Component {
             waveColor: e.wavesurfer.params.waveColor,
             progressColor: e.wavesurfer.params.progressColor,
         });
+        if (this.props.state.autoplay) {
+            this.setState({ playing: true });
+        }
     }
     componentWillUpdate(nextProps, nextState) {
         if(nextState.pos !== this.state.pos) {
@@ -110,6 +113,7 @@ export default class BasicAudioPlugin extends React.Component {
             progressColor: this.props.state.progressColor,
             waveColor: this.props.state.waveColor,
             normalize: true,
+            barWidth: (this.props.state.barWidth > 0 ? this.props.state.barWidth : undefined),
             peaks: this.state.peaks,
             cursorColor: 'grey',
         };
@@ -124,17 +128,15 @@ export default class BasicAudioPlugin extends React.Component {
             let noTrigger = true;
             let isVisor = true;
             return(
-                <div key={id} className="videoMark" style={{ width: "4px", height: "8px", background: color || "#17CFC8", left: value, position: "absolute" }} >
-                    <div style={{ position: 'relative', left: "-2px" }}>
-                        <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }}
-                            color={color || "#17CFC8"}
-                            idKey={id}
-                            title={title}
-                            isVisor={isVisor}
-                            isPopUp={isPopUp}
-                            markConnection={marks[id].connection}
-                            noTrigger={noTrigger}/>
-                    </div>
+                <div key={id} className="audioMark" style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
+                    <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }}
+                        color={color || "#17CFC8"}
+                        idKey={id}
+                        title={title}
+                        isVisor={isVisor}
+                        isPopUp={isPopUp}
+                        markConnection={marks[id].connection}
+                        noTrigger={noTrigger}/>
                 </div>
             );
         });
@@ -143,10 +145,7 @@ export default class BasicAudioPlugin extends React.Component {
             <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "auto" }}>
                 <div>
 
-                    <div className="progress-audio-input dropableRichZone" style={{ pointerEvents: "auto" }}>
-                        {markElements}
-                    </div>
-
+                    <div className="markBar"> {markElements}</div>
                     <div className="react-wavesurfer">
                         <ReactWavesurfer
                             style={{ width: "100%", height: "100%" }}
@@ -170,7 +169,7 @@ export default class BasicAudioPlugin extends React.Component {
                 <div>
                     {(this.props.state.controls) && (
                         <div className="audio-controls" style={{ pointerEvents: 'auto' }}>
-                            <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} style={{ backgroundColor: this.props.state.waveColor }}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
+                            <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} style={{ backgroundColor: this.props.state.waveColor, zIndex: 9999 }}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
                             <input className="volume-audio-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.handleVolumeChange.bind(this)} />
                         </div>
                     )}

@@ -102,9 +102,9 @@ export default class UploadComponent extends React.Component {
                     let ext = extensions[e];
                     if (newFile && newFile.mimetype && newFile.mimetype.match && newFile.mimetype.match(ext.value)) {
                         extension = ext.value;
-                        if (newFile.mimetype === 'stl') {
-                            extension === 'application';
-                        }
+                        // if (newFile.mimetype === 'stl') {
+                        //     extension === 'application';
+                        // }
                     }
 
                 }

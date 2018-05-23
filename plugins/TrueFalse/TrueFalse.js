@@ -41,6 +41,11 @@ export function TrueFalse(base) {
                                     type: 'checkbox',
                                     checked: state.showFeedback,
                                 },
+                                allowPartialScore: {
+                                    __name: i18n.t("MultipleAnswer.AllowPartialScore"),
+                                    type: 'checkbox',
+                                    checked: state.allowPartialScore,
+                                },
                             },
                         },
                         style: {
@@ -102,6 +107,7 @@ export function TrueFalse(base) {
             return {
                 nBoxes: 3,
                 showFeedback: true,
+                allowPartialScore: true,
             };
         },
         getRenderTemplate: function(state, props = {}) {

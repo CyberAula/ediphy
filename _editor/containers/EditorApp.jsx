@@ -46,6 +46,7 @@ import { createBox } from '../../common/common_tools';
 import FileModal from '../components/external_provider/file_modal/FileModal';
 import EdiphyTour from '../components/joyride/EdiphyTour';
 import { serialize } from '../../reducers/serializer';
+import screen from '../components/joyride/pantalla.svg';
 
 /**
  * EditorApp. Main application component that renders everything else
@@ -146,6 +147,7 @@ class EditorApp extends Component {
                         onNavItemSelected={id => dispatch(selectNavItem(id))}
                         onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
                         onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
+                        onTextEditorToggled={this.onTextEditorToggled}
                         onToolbarUpdated={this.onToolbarUpdated}
                         onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
                         undoDisabled={undoDisabled}
@@ -159,7 +161,7 @@ class EditorApp extends Component {
                         undo={() => {dispatch(ActionCreators.undo());}}
                         redo={() => {dispatch(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
-                        openTour={()=>{this.setState({ showTour: true });}}
+                        openTour={()=>{this.setState({ showHelpButton: true });}}
                         export={(format, callback, selfContained = false) => {
                             if(format === "PDF") {
                                 printToPDF(this.props.store.getState().undoGroup.present, callback);
@@ -167,7 +169,7 @@ class EditorApp extends Component {
                                 Ediphy.Visor.exportsHTML({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback, selfContained);
                             }}}
                         scorm={(is2004, callback, selfContained = false) => {Ediphy.Visor.exportScorm({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, is2004, callback, selfContained);}}
-                        save={() => {dispatch(exportStateAsync({ ...this.props.store.getState() })); }}
+                        save={(win) => {dispatch(exportStateAsync({ ...this.props.store.getState() }, win)); }}
                         category={this.state.pluginTab}
                         opens={() => {dispatch(importStateAsync());}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
@@ -576,7 +578,8 @@ class EditorApp extends Component {
         this.setState({ lastAction: lastAction });
     }
     createHelpModal() {
-        return <Alert className="pageModal"
+
+        return <Alert className="pageModal welcomeModal"
             show={this.state.showHelpButton}
             hasHeader={false}
             title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
@@ -589,8 +592,13 @@ class EditorApp extends Component {
                     this.setState({ showHelpButton: false });
                 }
             }}>
-                      ¿Quieres ayuda?
-
+            <div className="welcomeModalDiv">
+                <img src={screen} alt="" style={{ width: '100%' }}/>
+                <h1>{i18n.t('joyride.welcome')}<strong style={{ color: '#17CFC8' }}>Ediphy</strong>!</h1>
+                <h2>{i18n.t('joyride.need_help')}</h2>
+            </div>
+            {/*  {i18n.t('joyride.manual')}<a href="http://ging.github.io/ediphy/#/manual" target="_blank">{i18n.t('joyride.manual2')}</a>*/}
+            {/* i18n.t('Want some help?')*/}
         </Alert>;
     }
     /**
@@ -601,7 +609,7 @@ class EditorApp extends Component {
         if (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' && ediphy_editor_json && ediphy_editor_json !== 'undefined') {
             this.props.dispatch(importState(serialize(JSON.parse(ediphy_editor_json))));
         }
-        setTimeout(()=>{this.setState({ showHelpButton: false });}, 30000);
+        // setTimeout(()=>{this.setState({ showHelpButton: false });}, 30000);
         document.addEventListener('keyup', this.keyListener);
         document.addEventListener('dragover', this.dragListener);
         document.addEventListener('dragleave', this.dragExitListener);
@@ -641,7 +649,7 @@ class EditorApp extends Component {
             e.preventDefault();
 
             e.stopImmediatePropagation();
-            printToPDF(this.props.store.getState().undoGroup.present);
+            printToPDF(this.props.store.getState().undoGroup.present, (b)=>{if(b) {alert('Error');}});
         }
 
         // Supr
@@ -869,8 +877,7 @@ class EditorApp extends Component {
     }
     onTextEditorToggled(caller, value, text, content) {
         let pluginToolbar = this.props.pluginToolbars[caller];
-        if(pluginToolbar) {
-
+        if(pluginToolbar && pluginToolbar.pluginId !== "sortable_container") {
             let state = Object.assign({}, pluginToolbar.state, { __text: text });
             let toolbar = Ediphy.Plugins.get(pluginToolbar.pluginId).getToolbar(state);
 

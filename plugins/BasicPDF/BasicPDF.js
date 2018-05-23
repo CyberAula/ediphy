@@ -28,7 +28,7 @@ export function BasicPDF(base) {
                 initialWidth: 'auto',
                 initialHeight: "auto",
                 initialWidthSlide: '30%',
-                initialHeightSlide: '30%',
+                initialHeightSlide: '70%',
                 icon: 'description',
                 marksType: [{
                     name: i18n.t('BasicPDF.Coords'),

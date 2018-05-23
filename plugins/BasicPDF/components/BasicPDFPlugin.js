@@ -84,6 +84,7 @@ export default class BasicAudioPlugin extends React.Component {
         });
 
         return (
+
             <div style={{ width: "100%", height: "100%" }} className={"pdfDiv"}>
                 <div className="topBar">
                     <button className={"PDFback"} onClick={this.buttonBack}>
