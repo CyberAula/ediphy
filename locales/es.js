@@ -418,7 +418,7 @@ let es = {
         "Title": "Título ",
         "Undo": "Deshacer",
         "Units": "Unidades",
-        "Unpublish": "Retirar",
+        "Unpublish": "Privado",
         "Uploading": "Subiendo...",
         "Upload_to_ViSH": "Subir a ViSH",
         "Uploaded_Images": "IMÁGENES SUBIDAS",

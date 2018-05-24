@@ -12,18 +12,43 @@ import { isSection } from '../../../../common/utils';
 export default class NavActionButtons extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             isFullScreenOn: screenfull.isFullscreen,
 
         };
-
         this.checkFullScreen = this.checkFullScreen.bind(this);
         this.getButtons = this.getButtons.bind(this);
     }
 
     getButtons() {
         return [
+            {
+                name: 'publish',
+                description: i18n.t('Publish'),
+                tooltip: i18n.t('messages.publish'),
+                display: (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "draft"),
+                disabled: false,
+                icon: 'public',
+                onClick: () => {
+                    const win = window.open('', '_self');
+                    this.props.changeGlobalConfig("status", "final");
+                    this.props.save(win);
+                    this.props.serverModalOpen();
+                },
+            },
+            {
+                name: 'unpublish',
+                description: i18n.t('Unpublish'),
+                tooltip: i18n.t('messages.unpublish'),
+                display: (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "final"),
+                disabled: false,
+                icon: 'lock',
+                onClick: () => {
+                    this.props.changeGlobalConfig("status", "draft");
+                    this.props.save();
+                    this.props.serverModalOpen();
+                },
+            },
             {
                 name: 'fullscreen',
                 description: i18n.t('fullscreen'),
@@ -57,38 +82,11 @@ export default class NavActionButtons extends Component {
                 name: 'save',
                 description: i18n.t('Save'),
                 tooltip: i18n.t('messages.save_changes'),
-                display: (!Ediphy.Config.disable_save_button && (Ediphy.Config.publish_button === undefined || !Ediphy.Config.publish_button)),
+                display: true,
+                // display: (!Ediphy.Config.disable_save_button && (Ediphy.Config.publish_button === undefined || !Ediphy.Config.publish_button)),
                 disabled: false,
                 icon: 'save',
                 onClick: () => {
-                    this.props.save();
-                    this.props.serverModalOpen();
-                },
-            },
-            {
-                name: 'publish',
-                description: i18n.t('Publish'),
-                tooltip: i18n.t('messages.publish'),
-                display: (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "draft"),
-                disabled: false,
-                icon: 'publish',
-                onClick: () => {
-                    const win = window.open('', '_blank');
-                    this.props.changeGlobalConfig("status", "final");
-                    this.props.save(win);
-                    this.props.serverModalOpen();
-
-                },
-            },
-            {
-                name: 'unpublish',
-                description: i18n.t('Unpublish'),
-                tooltip: i18n.t('messages.unpublish'),
-                display: (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "final"),
-                disabled: false,
-                icon: 'no_sim',
-                onClick: () => {
-                    this.props.changeGlobalConfig("status", "draft");
                     this.props.save();
                     this.props.serverModalOpen();
                 },
@@ -129,7 +127,6 @@ export default class NavActionButtons extends Component {
                             onClick={item.onClick}
                             title={item.tooltip} >
                             <i className="material-icons">{item.icon}</i>
-                            <br />
                             <span className="hideonresize">{item.description}</span>
                         </button>
                     );
