@@ -1,4 +1,10 @@
 import i18n from 'i18next';
+import colors_texture from './../../../../../dist/images/colors_texture.jpg';
+import desert from './../../../../../dist/images/desert.jpg';
+import forest from './../../../../../dist/images/forest.jpg';
+import jungle from './../../../../../dist/images/jungle.jpg';
+import meadow from './../../../../../dist/images/meadow.jpg';
+import placeholder from './../../../../../dist/images/placeholder.svg';
 export const templates = () => { return (
     [{
         "name": "template1",
@@ -12,7 +18,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "https://farm8.staticflickr.com/7287/9543740601_8bfde7ad9d_k.jpg",
+                    "url": colors_texture,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -141,7 +147,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "https://c1.staticflickr.com/3/2115/2218182207_2bd5cac7bb_b.jpg",
+                    "url": forest,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -158,7 +164,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "http://www.climatechangenews.com/files/2017/01/Jungle_Congo_800.jpg",
+                    "url": jungle,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -175,7 +181,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Desierto_Salvador_Dal%C3%AD%2C_Bolivia.jpg",
+                    "url": desert,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -192,7 +198,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Pradera._Colonia_Suiza%2C_Uruguay.jpg",
+                    "url": meadow,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -347,7 +353,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "https://farm8.staticflickr.com/7287/9543740601_8bfde7ad9d_k.jpg",
+                    "url": placeholder,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
