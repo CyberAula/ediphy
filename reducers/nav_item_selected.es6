@@ -1,5 +1,4 @@
-import { ADD_NAV_ITEM, DELETE_NAV_ITEM, SELECT_NAV_ITEM, IMPORT_STATE } from '../common/actions';
-import { INDEX_SELECT } from '../ediphy_testing/common/actions';
+import { ADD_NAV_ITEM, DELETE_NAV_ITEM, SELECT_NAV_ITEM, IMPORT_STATE, INDEX_SELECT } from '../common/actions';
 
 export default function(state = 0, action = {}) {
     switch (action.type) {
