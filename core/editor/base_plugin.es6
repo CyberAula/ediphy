@@ -117,7 +117,7 @@ export default function() {
                 }
 
                 if (!state.__text) {
-                    state.__text = "<p style='margin-top: 20px'>" + Ediphy.i18n.t("text_here") + "</p>";
+                    state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
                 }
                 state.__text = getCKEDITORAdaptedContent(state.__text);
                 if (!descendant.getRenderTemplate) {
