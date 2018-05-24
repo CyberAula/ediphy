@@ -72,12 +72,11 @@ export default class EditorShortcuts extends Component {
                 style={{
                     display: (box && box.id && isSortableBox(box.id)) || !box || !box.id ? 'none' : 'block',
                     position: 'absolute',
-                    left: this.state.left + 10,
-                    top: this.state.top,
+                    left: this.state.left + 20,
+                    top: this.state.top - 20,
                     // width: this.state.width !== 0 ? this.state.width : "auto"
                 }}>
-                <div ref="innerContainer" style={{ display: "inline-block", minWidth: "150px", overflow: 'hidden', height: '37px' }}>
-                    <span className="namePlugin">{config.displayName || ""}</span>
+                <div ref="innerContainer" style={{ display: "inline-block", overflow: 'hidden', height: '37px' }}>
                     {
                         (hasURL) ? (
                             <OverlayTrigger placement="top"
@@ -96,7 +95,7 @@ export default class EditorShortcuts extends Component {
                                 </button>
                             </OverlayTrigger>
                         ) : (
-                            <span />
+                            null
                         )
                     }
                     {
@@ -112,7 +111,7 @@ export default class EditorShortcuts extends Component {
                                     <i id="markCreatorButton" className="material-icons">room</i>
                                 </button>
                             </OverlayTrigger>)
-                            : <span />
+                            : null
                     }
                     {
                         isSortableContainer(box.container) ? (
@@ -145,7 +144,7 @@ export default class EditorShortcuts extends Component {
                                 </button>
                             </OverlayTrigger>
                         ) : (
-                            <span />
+                            null
                         )
                     }
                     {
@@ -166,7 +165,7 @@ export default class EditorShortcuts extends Component {
                                 </button>
                             </OverlayTrigger>
                         ) : (
-                            <span />
+                            null
                         )
                     }
                     {
@@ -187,7 +186,7 @@ export default class EditorShortcuts extends Component {
                                 </button>
                             </OverlayTrigger>
                         ) : (
-                            <span />
+                            null
                         )
                     }
                     {

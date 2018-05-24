@@ -66,7 +66,10 @@
   position: absolute;
   text-align: center;
   height: 40px;
-  margin-top: -40px;
+  z-index: 999;
+  width: auto;
+  background: #ffffff;
+  border-radius: 3px;
   .editorTitleButton {
       background-color: #bababa !important;
       &:hover {
@@ -74,23 +77,16 @@
       }
   }
 
-  @include box-shadow(1px, -1px, 4px, #ccc, $inset: false);
-    z-index: 999;
-    width: auto;
-    background: #f5f5f5;
-    border-radius: 2px 2px 0 0;
-    .namePlugin{
-      color: $grismedio;
-      padding: 6px;
-      float: left;
-      margin: 4px 3px;
-    }
 
-
+  .namePlugin{
+    color: $grismedio;
+    padding: 6px;
+    float: left;
+    margin: 4px 3px;
+  }
   .dtbSelected {
     background-color: $blueprimary !important;
   }
-
 }
 
 /* #contained_editorBoxIcons {
