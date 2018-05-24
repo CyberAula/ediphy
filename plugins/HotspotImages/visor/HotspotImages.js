@@ -31,7 +31,7 @@ export function HotspotImages(base) {
 
             return(
                 <div style={{ overflow: "hidden", height: "100%" }}>
-                    <img style={{ height: "auto", width: "100%" }} src={state.url} onError={(e)=>{
+                    <img style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
                         e.target.onError = null;
                         e.target.src = img; // Ediphy.Config.broken_link;
                     }}/>

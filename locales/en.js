@@ -226,7 +226,7 @@ let en = {
         "insert_plugin": "Insert plugin",
         "joyride": {
             'back': 'Back',
-            'carrousel': 'Complete and order your course by adding more pages, slides, and folders',
+            'carrousel': 'Complete and order your course by adding more pages, slides, and sections',
             'close': 'Close',
             'drag': 'Choose the content needed. You can click or drag',
             'index': 'Manage your pages, slides and contained views in the index. Ah! A contained view is created by inserting marks in your resources',
