@@ -165,6 +165,7 @@ export default class PluginPlaceholder extends Component {
                     row: forbidden ? 0 : extraParams.j,
                     page: this.props.page,
                     id: ID_PREFIX_BOX + Date.now(),
+                    position: { type: 'relative', x: 0, y: 0 },
                 };
                 let newInd = initialParams.container === 0 ? undefined : this.getIndex(this.props.boxes, initialParams.parent, initialParams.container, e.dragEvent.clientX, e.dragEvent.clientY, forbidden, this.props.parentBox.id);
                 initialParams.index = newInd;
@@ -179,7 +180,7 @@ export default class PluginPlaceholder extends Component {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
                     // If box being dragged is dropped in a different column or row, change its value
                     if (this.props.parentBox.id !== this.props.boxSelected) {
-                        initialParams.position = { type: 'relative', x: 0, y: 0 };
+                        // initialParams.position = { type: 'relative', x: 0, y: 0 };
                         this.props.onBoxDropped(boxDragged.id, initialParams.row, initialParams.col, initialParams.parent,
                             initialParams.container, boxDragged.parent, boxDragged.container, initialParams.position, newInd);
                         return;

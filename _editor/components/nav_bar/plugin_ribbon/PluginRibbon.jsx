@@ -260,16 +260,16 @@ export default class PluginRibbon extends Component {
         }
         let inASlide = isSlide(this.props.navItemSelected.type) || cvslide;
 
-        let position = inASlide ? {
-            x: randomPositionGenerator(20, 40),
-            y: randomPositionGenerator(20, 40),
-            type: 'absolute',
-        } : undefined;
         let SelectedNav = inASlide ? (cvslide ? this.props.containedViewSelected.id : this.props.navItemSelected.id) : 0;
         let parentBox = inASlide ? 0 : (cvdoc ? this.props.containedViewSelected.boxes[0] : this.props.navItemSelected.boxes[0]);
 
         let parent = isBoxSelected ? this.props.boxSelected.parent : (inASlide ? SelectedNav : parentBox);
         let container = isBoxSelected ? this.props.boxSelected.container : (inASlide ? 0 : (ID_PREFIX_SORTABLE_CONTAINER + Date.now()));
+        let position = container === 0 ? {
+            x: randomPositionGenerator(20, 40),
+            y: randomPositionGenerator(20, 40),
+            type: 'absolute',
+        } : undefined;
         let initialParams = {
             parent: parent,
             container: container,
