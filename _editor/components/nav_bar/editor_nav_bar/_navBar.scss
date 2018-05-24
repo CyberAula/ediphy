@@ -15,6 +15,7 @@
   justify-content: space-between;
   #dropdown-menu {
     width: 70px;
+    height:100%;
     .navButton {
       font-size: 12px;
     }
@@ -28,6 +29,7 @@
     }
     .dropdownButton {
       padding: 7px 16px;
+
       &[disabled] {
         color: $lightgrey;
         cursor: not-allowed;
