@@ -66,21 +66,23 @@
   position: absolute;
   text-align: center;
   height: 40px;
-  z-index: 999;
-  width: auto;
-  background: #ffffff;
-  border-radius: 3px;
+  margin-top: -40px;
   .editorTitleButton {
-      background-color: #bababa !important;
-      &:hover {
-          background-color: $blueprimary !important;
-      }
+    background-color: #bababa !important;
+    &:hover {
+      background-color: $blueprimary !important;
+    }
   }
 
-
+  @include box-shadow(1px, -1px, 4px, #ccc, $inset: false);
+  z-index: 999;
+  width: auto;
+  background: #f5f5f5;
+  border-radius: 2px 2px 0 0;
   .namePlugin{
     color: $grismedio;
     padding: 6px;
+    display:none;
     float: left;
     margin: 4px 3px;
   }
