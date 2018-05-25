@@ -1,0 +1,10 @@
+.threeDViewerPlugin {
+  pointer-events: none;
+}
+
+.pointerEventsEnabled {
+  .threeDViewerPlugin {
+  pointer-events: all !important;
+}
+
+}

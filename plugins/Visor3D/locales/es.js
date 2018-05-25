@@ -14,6 +14,7 @@ module.exports = {
         "PluginName": "Visor de objetos 3D",
         "radius": "Radio",
         // "Scroll": "Scroll",
+        "settings": "Configuración",
         "source": "Origen",
         "style": "Estilo de plugin",
         "URL": "URL",

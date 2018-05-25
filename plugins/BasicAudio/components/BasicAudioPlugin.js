@@ -52,11 +52,22 @@ export default class BasicAudioPlugin extends React.Component {
     }
 
     onReady(e) {
+        let pos = this.state.pos;
+        let posPctg = 0;
+        let duration = e.wavesurfer.backend.buffer.duration;
+        if (this.props.state.currentState) {
+            console.log(this.props.state.currentState);
+            // TODO modificar pos y pospctg
+            // pos =
+            // posPctg
+
+        }
+
         console.log(this.state.posPctg);
         this.setState({
-            duration: e.wavesurfer.backend.buffer.duration,
-            pos: this.state.pos,
-            posPctg: 0,
+            duration,
+            pos,
+            posPctg,
             autoplay: this.props.state.autoplay,
             ondas: e.wavesurfer.backend.mergedPeaks,
             waveColor: e.wavesurfer.params.waveColor,

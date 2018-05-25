@@ -18,6 +18,7 @@ export function Visor3D(base) {
                 initialWidthSlide: '30%',
                 initialHeightSlide: '30%',
                 icon: '3d_rotation',
+                needsPointerEventsAllowed: true,
 
             };
         },
@@ -39,7 +40,7 @@ export function Visor3D(base) {
                                 },
                             },
                         },
-                        style_box: {
+                        style: {
                             __name: Ediphy.i18n.t('Visor3D.box_style'),
                             icon: 'palette',
                             buttons: {
@@ -85,20 +86,20 @@ export function Visor3D(base) {
                                 },
                             },
                         },
-                        style: {
-                            __name: Ediphy.i18n.t('Visor3D.style'),
-                            icon: 'palette',
+                        settings: {
+                            __name: Ediphy.i18n.t('Visor3D.settings'),
+                            icon: 'wheel',
                             buttons: {
                                 color: {
                                     __name: Ediphy.i18n.t('Visor3D.color'),
                                     type: 'color',
                                     value: state.color,
                                 },
-                                // backgroundColor: {
-                                //     __name: Ediphy.i18n.t('Visor3D.background_color'),
-                                //     type: 'color',
-                                //     value: state.backgroundColor,
-                                // },
+                                backgroundColor: {
+                                    __name: Ediphy.i18n.t('Visor3D.background_color'),
+                                    type: 'color',
+                                    value: state.backgroundColor,
+                                },
                                 rotate: {
                                     __name: Ediphy.i18n.t('Visor3D.Auto_rotate'),
                                     type: 'checkbox',
@@ -122,8 +123,8 @@ export function Visor3D(base) {
         getRenderTemplate: function(state, props) {
             return (
                 <div
-                    className="3DViewerPlugin"
-                    style={{ height: "100%", width: "100%", pointerEvents: 'none' }}>
+                    className="threeDViewerPlugin"
+                    style={{ height: "100%", width: "100%" }}>
                     <Visor3DPluginEditor
                         style={{ width: "100%", height: "100%" }}
                         state={state}/>

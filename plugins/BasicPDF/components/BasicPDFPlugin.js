@@ -24,7 +24,15 @@ export default class BasicAudioPlugin extends React.Component {
             pageNumber: 1,
         };
         this.onDocumentLoad = ({ numPages }) => {
-            this.setState({ numPages });
+            let pageNumber = 1;
+            if (this.props.state.currentState) {
+                try{
+                    pageNumber = parseInt(this.props.state.currentState.split(',')[2]);
+                } catch (e) { }
+
+            }
+            this.setState({ numPages, pageNumber });
+
         };
         this.buttonBack = this.buttonBack.bind(this);
         this.buttonNext = this.buttonNext.bind(this);
@@ -47,6 +55,10 @@ export default class BasicAudioPlugin extends React.Component {
                 pageNumber: this.state.pageNumber - 1,
             });
         }
+    }
+
+    componentWillMount() {
+
     }
 
     render() {
@@ -78,7 +90,7 @@ export default class BasicAudioPlugin extends React.Component {
                             markConnection={marks[id].connection}
                             markValue={marks[id].value}
                             boxID={this.props.props.id}
-                            onMarkClicked={this.props.props.onMarkClicked}
+                            onMarkClicked={(id, value)=>{this.props.props.onMarkClicked(id, value, true);}}
                         />
                     </div> : null);
         });

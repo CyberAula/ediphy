@@ -14,6 +14,7 @@ module.exports = {
         "PluginName": "Visor 3D",
         "radius": "Radius",
         // "Scroll": "Scroll",
+        "settings": "Settings",
         "source": "Source",
         "style": "Plugin style",
         "URL": "URL",

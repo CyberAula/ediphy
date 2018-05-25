@@ -45,6 +45,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     if(mark === key) {
                         notInArray = false;
                     }
+
                 });
 
                 if(notInArray && parseFloat(nextState.played).toFixed(3) <= (parseFloat(marks[key].value) / 100).toFixed(3) && parseFloat(parseFloat(nextState.played).toFixed(3)) + 0.1 >= parseFloat((parseFloat(marks[key].value) / 100).toFixed(3))) {

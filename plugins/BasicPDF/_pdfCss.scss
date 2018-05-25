@@ -8,7 +8,14 @@
     .PDFDocument{
       
     }
-
+    .pdfPage{
+      background-color: grey;
+      overflow: auto;
+      overflow-y: auto !important;
+      .react-pdf__Page__canvas{
+        margin:auto;
+      }
+    }
     .topBar {
       height:  0px;
       display: block;
