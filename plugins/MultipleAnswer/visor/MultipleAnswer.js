@@ -62,9 +62,9 @@ export function MultipleAnswer() {
                 <div key={-1} className={"exerciseScore"}>{score}</div>
             </div>;
         },
-        checkAnswer(current, correct, state) {
+        /* checkAnswer(current, correct, state) {
             return correctArrayUnordered(current, correct, state.allowPartialScore, state.nBoxes);
-        },
+        },*/
     };
 }
 /* eslint-enable react/prop-types */

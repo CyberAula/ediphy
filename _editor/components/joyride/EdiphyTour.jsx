@@ -3,6 +3,12 @@ import React from 'react';
 import i18n from 'i18next';
 import './_joyride.scss';
 import dragdrop from './dragdrop.svg';
+import edit from './edit.svg';
+import index from './index.svg';
+import add from './add.svg';
+import importExport from './exportImport.svg';
+import preview from './preview.svg';
+import help from './help.svg';
 import { ACTIONS, EVENTS } from 'react-joyride/es/constants';
 
 export default class EdiphyTour extends React.Component {
@@ -35,7 +41,7 @@ export default class EdiphyTour extends React.Component {
                 { // Toolbar
                     target: '#tools',
                     content: (<div>
-                        <i style={{ fontSize: '50px', color: '#18CFC8', margin: '23px' }} className="material-icons">border_color</i>
+                        <img src={edit} alt="Edit" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.toolbar')}</div>
                     </div>),
                     placement: 'auto',
@@ -52,52 +58,61 @@ export default class EdiphyTour extends React.Component {
 
                     },
                 },
-                { // Carrousel list
-                    target: '.bottomGroup',
+                { // Index
+                    target: "#colLeft",
                     content: (<div>
-                        <i style={{ fontSize: '50px', color: '#18CFC8' }} className="material-icons">note_add</i>
+                        <img src={index} alt="Edit" style={{ width: '100%' }}/>
+                        <div className={'step_text'}>{i18n.t('joyride.index')}</div>
+                    </div>),
+                    placement: 'auto',
+                    callback: ()=>{
+                    },
+                },
+                { // Add buttons - Carrousel list
+                    target: '#addbuttons',
+                    content: (<div>
+                        <img src={add} alt="Edit" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.carrousel')}</div>
                     </div>),
-                    placement: 'top',
+                    placement: 'auto',
                     callback: ()=>{
                     },
                 },
 
-                { // Right-corner menu
+                { // Right-corner menu - importExport
                     target: '#topMenu',
                     content: (<div>
-                        <i style={{ fontSize: '50px', color: '#18CFC8' }} className="material-icons">import_export</i>
+                        <img src={importExport} alt="Edit" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.menu')}</div></div>),
                     offset: 10,
-                    placement: 'left',
+                    placement: 'auto',
                     callback: ()=>{
                         document.getElementById('dropdown-menu').click();
 
                     },
                 },
-                { // Right-corner menu
+                { // Right-corner menu - preview
                     target: '.navbarButton_preview',
                     content: (<div>
-                        <i style={{ fontSize: '50px', color: '#18CFC8' }} className="material-icons">remove_red_eye</i>
+                        <img src={preview} alt="Edit" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.preview')}</div>
                     </div>),
                     offset: 60,
-                    placement: 'left',
+                    placement: 'bottom',
                     callback: ()=>{
                         // document.querySelector('.navbarButton_preview').click();
 
                     },
                 },
-                { // Right-corner menu
-                    target: '.navbarButton_preview',
+                { // Right-corner menu - help
+                    target: '#topMenu',
                     content: (<div>
-                        <i style={{ fontSize: '50px', color: '#18CFC8' }} className="material-icons">info</i>
+                        <img src={help} alt="Edit" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.manual')} <a target="_blank" href="http://ging.github.io/ediphy/#/manual"> {i18n.t('joyride.manual2')}</a></div></div>),
                     offset: 60,
-                    placement: 'left',
+                    placement: 'auto',
                     callback: ()=>{
-                        // document.querySelector('.navbarButton_preview').click();
-
+                        document.getElementById('dropdown-menu').click();
                     },
                 },
 
@@ -106,7 +121,6 @@ export default class EdiphyTour extends React.Component {
             doneSteps: new Set(),
         };
     }
-
     componentDidMount() {
     }
 
@@ -115,7 +129,7 @@ export default class EdiphyTour extends React.Component {
         if (this.refs.joyride) {
             if (index || index === 0) {
                 let undone = !(this.state.doneSteps.has(index));
-                if (tour.step && tour.step.callback && type === 'tooltip' && undone) {
+                if (tour.step && tour.step.callback && type === 'tooltip' /* && undone*/) {
                     let doneSteps = (new Set(this.state.doneSteps)).add(index);
                     tour.step.callback();
                     this.setState({ doneSteps });

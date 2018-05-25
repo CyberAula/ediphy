@@ -81,9 +81,9 @@ export default class EditorNavBar extends Component {
     /**
        * Shows/Hides the Export course modal
        */
-    toggleExport() {
+    toggleExport(forceClose) {
         this.setState((prevState, props) => ({
-            showExport: !prevState.showExport,
+            showExport: forceClose ? false : !prevState.showExport,
         }));
     }
 }

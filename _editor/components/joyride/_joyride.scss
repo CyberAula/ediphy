@@ -2,6 +2,9 @@
 .__floater {
   z-index: 9999 !important;
   border-radius: 0 !important;
+  &>div {
+    border-radius: 0 !important;
+  }
   &>div>div {
     border-radius: 0px !important;
   }
@@ -15,23 +18,23 @@
 }
 .welcomeModal {
   &.fade:not(.in) {
-    -moz-transition: all  1s ease-out;
-    -webkit-transition: all  1s ease-out;
-    -o-transition: all  1s ease-out;
-    transition: all 1s ease-out;
+    -moz-transition: all  1s ease-in;
+    -webkit-transition: all  1s ease-in;
+    -o-transition: all  1s ease-in;
+    transition: all 1s ease-in;
     transform: translate(0,0) !important;
     -webkit-transform:  translate(0,0) !important;
     -ms-transform:  translate(0,0) !important;
     transform:  translate(0,0) !important;
     .modal-dialog {
-      transform: translate(50vw,-15vh) scale(0.1);
-      -webkit-transform:  translate(50vw,-15vh) scale(0.1);
-      -ms-transform:  translate(50vw,-15vh) scale(0.1);
-      transform:  translate(50vw,-15vh) scale(0.1);
+      transform: translate(50vw,-50vh) scale(0.1);
+      -webkit-transform:  translate(50vw,-50vh) scale(0.1);
+      -ms-transform:  translate(50vw,-50vh) scale(0.1);
+      transform:  translate(50vw,-50vh) scale(0.1);
     }
   }
   .modal-content{
-    top: 100px;
+    //top: 100px;
     .modal-body {
       padding: 30px;
       .welcomeModalDiv {
@@ -41,8 +44,46 @@
           font-size: 2em;
         }
         h2 {
-          font-size: 20px;
+          font-size: 1.3em;
+          font-weight: normal;
         }
+      }
+    }
+  }
+}
+.helpModal{
+  h2{
+    margin: 0;
+    color: #555555;
+    font-size: 1.5em;
+  }
+  .help_options{
+    width: 100%;
+    display: flex;
+    button{
+      background-color: transparent;
+      border: none;
+      width: 33%;
+      a:hover{
+        color: white;
+        background-color: #17CFC8;
+      }
+    }
+    a{
+      width: 33%;
+      text-align: center;
+      text-decoration: none;
+    }
+    .help_item{
+      border: 3px solid #17CFC8;
+      min-height: 150px;
+      margin: 3px;
+      padding: 10px;
+      color: #17CFC8;
+      align-self: center;
+      &:hover{
+        color: white;
+        background-color: #17CFC8;
       }
     }
   }
@@ -51,4 +92,8 @@
   position: fixed;
   top: 0;
   left: 0;
+}
+
+.joyride-spotlight {
+  border-radius: 0px !important;
 }

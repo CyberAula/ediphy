@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ActionCreators } from 'redux-undo';
-import { Grid, Col, Row } from 'react-bootstrap';
+import { Grid, Col, Row, Modal } from 'react-bootstrap';
 import {
     addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
     addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
@@ -47,6 +47,7 @@ import FileModal from '../components/external_provider/file_modal/FileModal';
 import EdiphyTour from '../components/joyride/EdiphyTour';
 import { serialize } from '../../reducers/serializer';
 import screen from '../components/joyride/pantalla.svg';
+import help from '../components/joyride/help.svg';
 
 /**
  * EditorApp. Main application component that renders everything else
@@ -78,8 +79,9 @@ class EditorApp extends Component {
             showFileUpload: false,
             fileUploadTab: 0,
             showTour: false,
-            showHelpButton: true,
+            showHelpButton: false,
             fileModalResult: { id: undefined, value: undefined },
+            initModal: true,
         };
         this.onTextEditorToggled = this.onTextEditorToggled.bind(this);
         this.onRichMarkUpdated = this.onRichMarkUpdated.bind(this);
@@ -103,17 +105,15 @@ class EditorApp extends Component {
                 this.setState({ fileUploadTab: 0 });
             }
             ev.preventDefault();
-            if (event.target.parentNode && event.target.parentNode.classList.contains('fileInput')) {
-                event.target.parentNode.classList.add('dragging');
+            if (ev.target.parentNode && event.target.parentNode.classList.contains('fileInput')) {
+                ev.target.parentNode.classList.add('dragging');
             }
-            console.log(event.target.parentNode);
         };
         this.dragExitListener = (ev) => {
             ev.preventDefault();
             // this.setState({ blockDrag: false });
-            console.log(event.target.parentNode);
-            if (event.target.parentNode && event.target.parentNode.classList.contains('fileInput')) {
-                event.target.parentNode.classList.remove('dragging');
+            if (ev.target.parentNode && event.target.parentNode.classList.contains('fileInput')) {
+                ev.target.parentNode.classList.remove('dragging');
             }
         };
 
@@ -121,6 +121,8 @@ class EditorApp extends Component {
             this.setState({ blockDrag: true });
         };
         this.createHelpModal = this.createHelpModal.bind(this);
+        this.createInitModal = this.createInitModal.bind(this);
+        this.showTour = this.showTour.bind(this);
     }
 
     render() {
@@ -138,6 +140,7 @@ class EditorApp extends Component {
                 <Row className="navBar">
                     {this.state.showTour ? <EdiphyTour toggleTour={(showTour)=>{this.setState({ showTour });}} showTour={this.state.showTour}/> : null}
                     {this.createHelpModal()}
+                    {this.createInitModal()}
                     {this.state.alert}
                     <EditorNavBar hideTab={this.state.hideTab} boxes={boxes}
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
@@ -333,11 +336,12 @@ class EditorApp extends Component {
                                 onTextEditorToggled={this.onTextEditorToggled}
                                 onBoxesInsideSortableReorder={(parent, container, order) => {dispatch(reorderBoxes(parent, container, order));}}
                                 titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}
-                                onRichMarksModalToggled={(value) => {
+                                onRichMarksModalToggled={(value, boxId = -1) => {
                                     this.setState({ richMarksVisible: !this.state.richMarksVisible, markCursorValue: value });
                                     if(this.state.richMarksVisible) {
                                         this.setState({ currentRichMark: null, value: null });
                                     }
+                                    dispatch(selectBox(boxId, boxes[boxId]));
                                 }}
                                 onViewTitleChanged={(id, titles)=>{dispatch(updateViewToolbar(id, titles));}}
                                 onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
@@ -372,11 +376,12 @@ class EditorApp extends Component {
                                 onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
                                 title={title}
-                                onRichMarksModalToggled={(value) => {
+                                onRichMarksModalToggled={(value, boxId = -1) => {
                                     this.setState({ richMarksVisible: !this.state.richMarksVisible, markCursorValue: value });
                                     if(this.state.richMarksVisible) {
                                         this.setState({ currentRichMark: null, value: null });
                                     }
+                                    dispatch(selectBox(boxId, boxes[boxId]));
                                 }}
                                 pluginToolbars={pluginToolbars}
                                 onRichMarkMoved={(mark, value)=>dispatch(moveRichMark(mark, value))}
@@ -577,19 +582,55 @@ class EditorApp extends Component {
         let lastAction = this.props.dispatch(actionCreator);
         this.setState({ lastAction: lastAction });
     }
+    /* Help Modal */
     createHelpModal() {
-
-        return <Alert className="pageModal welcomeModal"
+        return <Modal className="pageModal welcomeModal helpModal"
             show={this.state.showHelpButton}
+            cancelButton
+            acceptButtonText={i18n.t("joyride.start")}
+            onHide={(bool)=>{
+                if (bool) {
+                    this.setState({ showHelpButton: false });
+                } else {
+                    this.setState({ showHelpButton: false });
+                }
+            }}>
+            <Modal.Header closeButton>
+                <Modal.Title>{i18n.t("messages.help")}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div style={{ width: '100%' }}>
+                    <h2>{i18n.t('messages.help_modal_text')}</h2>
+                    <img src={help} alt="" style={{ width: '100%' }}/>
+                </div>
+                <div className={"help_options"}>
+                    <button onClick={()=>{this.showTour();}} className={"help_item"}>Paseo de bienvenida a EDiphy</button>
+                    <a href="http://ging.github.io/ediphy/#/manual" target="_blank"><div className={"help_item"}>
+                        Si después del paseo inicial te ha quedado alguna duda, consulta nuestro manual de usuario
+                    </div></a>
+                    <a href="http://ging.github.io/ediphy/#/docs" target="_blank"><div className={"help_item"}>
+                        Si eres desarrollador, echa un ojo a la documentación
+                    </div></a>
+                </div>
+            </Modal.Body>
+
+        </Modal>;
+    }
+    showTour() {
+        this.setState({ showTour: true, showHelpButton: false });
+    }
+    createInitModal() {
+        return <Alert className="pageModal welcomeModal"
+            show={this.state.initModal}
             hasHeader={false}
             title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
             cancelButton
             acceptButtonText={i18n.t("joyride.start")}
             onClose={(bool)=>{
                 if (bool) {
-                    this.setState({ showTour: true, showHelpButton: false });
+                    this.setState({ showTour: true, initModal: false });
                 } else {
-                    this.setState({ showHelpButton: false });
+                    this.setState({ initModal: false });
                 }
             }}>
             <div className="welcomeModalDiv">
@@ -680,6 +721,7 @@ class EditorApp extends Component {
             page));
     }
     toolbarUpdated(id, tab, accordion, name, value) {
+        console.log(id);
         if (isBox(id) || isSortableBox(id)) {
             let toolbar = this.props.pluginToolbars[id];
             let pluginAPI = Ediphy.Plugins.get(toolbar.pluginId);

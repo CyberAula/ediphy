@@ -15,6 +15,7 @@
   justify-content: space-between;
   #dropdown-menu {
     width: 70px;
+    height:100%;
     .navButton {
       font-size: 12px;
     }
@@ -28,6 +29,7 @@
     }
     .dropdownButton {
       padding: 7px 16px;
+
       &[disabled] {
         color: $lightgrey;
         cursor: not-allowed;
@@ -42,14 +44,14 @@
 }
 
 .navButton {
-  display: inline-block;
+  display: inline-grid;
   border: none;
   border-radius: 0px;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   min-width: 56px;
   font-size: 20px;
-  height: 60px;
+  height: 55px;
   padding: 0 8px;
   background: transparent; //$lightestgrey;
   -webkit-box-shadow: none;
@@ -70,6 +72,7 @@
   }
   .material-icons {
     vertical-align: middle;
+    font-size: 1.1em;
   }
 }
 
@@ -85,6 +88,12 @@ button[disabled].navButton {
   }
 }
 
+.navbarButton_publish,.navbarButton_unpublish {
+  background-color: $blueprimary;
+  border-radius: 3px;
+  color: darkcyan;
+  //color: white;
+}
 /*****************Course title******************/
 /*Gap for course title*/
 .grad1 {
@@ -148,6 +157,7 @@ button[disabled].navButton {
 /*Plugin buttons: Image, Text, Multimedia...*/
 .navButtonPlug {
   @extend .navButton;
+  height: 60px;
   color: white;
   width: auto;
   min-width: 80px;
@@ -189,7 +199,7 @@ button[disabled].navButton {
 .hideonresize {
   font-size: 12px;
   vertical-align: middle;
-  margin: auto;
+  margin: 5px auto 0;
 }
 .showonresize{
   display: none !important;

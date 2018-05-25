@@ -1,4 +1,5 @@
 import Ediphy from '../editor/main';
+import { correctArrayUnordered, correctNumericInput, correctTextInput } from './correction_functions';
 let html2json = require('html2json').html2json;
 
 export default function() {
@@ -61,8 +62,20 @@ export default function() {
                     plugin[id] = descendant[id];
                 }
             });
+            console.log(obj);
             if (!plugin.checkAnswer) {
                 plugin.checkAnswer = function(current, correct, state) {
+                    if (current instanceof Array && correct instanceof Array) {
+                        return correctArrayUnordered(current, correct, state.allowPartialScore, state.nBoxes || Math.max(correct.length, current.length));
+                    }
+
+                    if (typeof(current) === 'string' && typeof(correct) === 'string' && state.characters !== undefined) {
+                        return correctTextInput(current, correct, !state.characters);
+                    }
+
+                    if (typeof(current) === 'number' && typeof(correct) === 'number') {
+                        return correctNumericInput(current, correct, state.precision);
+                    }
 
                     return JSON.stringify(current) === JSON.stringify(correct);
                 };

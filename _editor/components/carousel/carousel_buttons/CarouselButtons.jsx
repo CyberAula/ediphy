@@ -89,7 +89,7 @@ export default class CarouselButtons extends Component {
     */
     render() {
         return (
-            <div className="bottomGroup" style={{ display: this.props.carouselShow ? 'block' : 'none' }}>
+            <div id="addbuttons" className="bottomGroup" style={{ display: this.props.carouselShow ? 'block' : 'none' }}>
                 <div className="bottomLine" />
                 <OverlayTrigger placement="top" overlay={(<Tooltip id="newFolderTooltip">{i18n.t('create new folder')}</Tooltip>)}>
                     <Button className="carouselButton"

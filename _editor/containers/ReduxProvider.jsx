@@ -18,7 +18,7 @@ export default class ReduxProvider extends Component {
             <Provider store={this.store}>
                 <div style={{ height: '100%' }}>
                     <EditorApp id="app" store={this.store}/>
-                    <DevTools/>
+                    {(process.env.NODE_ENV === 'production') ? null : <DevTools/>}
                 </div>
             </Provider>
         );

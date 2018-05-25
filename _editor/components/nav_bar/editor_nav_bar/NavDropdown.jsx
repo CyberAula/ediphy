@@ -24,7 +24,7 @@ export default class NavDropdown extends Component {
         return (
             <Dropdown id="dropdown-menu" style={{ float: 'right' }}>
                 <Dropdown.Toggle noCaret className="navButton">
-                    <i className="material-icons">more_vert</i><br/>
+                    <i className="material-icons">more_vert</i>
                     <span className="hideonresize" style={{ fontSize: '12px' }}>Menu</span>
                 </Dropdown.Toggle>
                 <Dropdown.Menu id="topMenu" className="pageMenu super-colors topMenu">
@@ -43,11 +43,12 @@ export default class NavDropdown extends Component {
                     <MenuItem disabled={this.props.undoDisabled} eventKey="1" key="1">
                         <button className="dropdownButton" title={i18n.t('messages.import')}
                             disabled={ false }
-                            onClick={()=>{this.props.toggleFileUpload(undefined, '*');}}><i className="material-icons">file_upload</i>
+                            onClick={()=>{this.props.toggleFileUpload(undefined, '*');}}>
+                            <i className="material-icons">file_upload</i>
                             {i18n.t('messages.import')}
                         </button>
                     </MenuItem>
-                    {/*                    <MenuItem eventKey="1" key="1">
+                    {/* <MenuItem eventKey="1" key="1">
                         <button className="dropdownButton" title={i18n.t('messages.export_to_HTML')}
                             disabled={ (this.props.navItemSelected === 0) || this.props.undoDisabled}
                             onClick={() => this.props.export() }><i className="material-icons">file_download</i>
@@ -64,7 +65,7 @@ export default class NavDropdown extends Component {
                     <MenuItem eventKey="2" key="2">
                         <button className="dropdownButton" title={i18n.t('messages.export')}
                             disabled={this.props.navItemSelected === 0}
-                            onClick={this.props.toggleExport}><i className="material-icons">file_download</i>
+                            onClick={()=>this.props.toggleExport()}><i className="material-icons">file_download</i>
                             {i18n.t('messages.export')}
                         </button>
                     </MenuItem>

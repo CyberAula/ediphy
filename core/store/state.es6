@@ -6,7 +6,7 @@ export const initialState = (config) => { return config.sections_have_content ?
             present: {
                 globalConfig: {
                     title: "Ediphy",
-                    canvasRatio: 16 / 9,
+                    canvasRatio: config.defaultAspectRatio || 16 / 9,
                     visorNav: {
                         player: true,
                         sidebar: true,
@@ -20,6 +20,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                     context: 'school',
                     rights: "Public Domain",
                     keywords: [],
+                    minTimeProgress: 10,
                     typicalLearningTime: {
                         h: 0,
                         m: 0,
@@ -102,13 +103,13 @@ export const initialState = (config) => { return config.sections_have_content ?
                     "se-1467887497411": {
                         id: "se-1467887497411",
                         hidden: false,
-                        viewName: i18n.t('Section'),
+                        viewName: i18n.t('section'),
                         breadcrumb: 'reduced',
                         courseTitle: 'hidden',
                         documentSubtitle: 'hidden',
                         documentSubtitleContent: 'Subtítulo',
                         documentTitle: 'expanded',
-                        documentTitleContent: i18n.t('Section'),
+                        documentTitleContent: i18n.t('section'),
                         numPage: 'hidden',
                         numPageContent: '1',
                         background: "#ffffff",
@@ -122,7 +123,8 @@ export const initialState = (config) => { return config.sections_have_content ?
             present: {
                 globalConfig: {
                     title: "Ediphy",
-                    canvasRatio: 16 / 9,
+                    canvasRatio: config.defaultAspectRatio || 16 / 9,
+                    minTimeProgress: 10,
                     visorNav: {
                         player: true,
                         sidebar: true,
@@ -238,13 +240,13 @@ export const initialState = (config) => { return config.sections_have_content ?
                 viewToolbarsById: {
                     "se-1467887497411": {
                         id: "se-1467887497411",
-                        viewName: i18n.t('Section'),
+                        viewName: i18n.t('section'),
                         breadcrumb: 'reduced',
                         courseTitle: 'hidden',
                         documentSubtitle: 'hidden',
                         documentSubtitleContent: 'Subtítulo',
                         documentTitle: 'expanded',
-                        documentTitleContent: i18n.t('Section'),
+                        documentTitleContent: i18n.t('section'),
                         numPage: 'hidden',
                         numPageContent: '1',
                         background: "#ffffff",

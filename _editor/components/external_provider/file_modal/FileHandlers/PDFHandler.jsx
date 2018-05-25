@@ -58,7 +58,6 @@ export default class PDFHandler extends Component {
         this.start();
     }
     componentDidUpdate(prevProps, prevState) {
-        console.log(this.props.url);
         if(prevProps.url !== this.props.url) {
             for (let i = 1; i <= prevState.FilePages; i++) {
                 let canvas = document.getElementById('can' + i);
@@ -82,6 +81,7 @@ export default class PDFHandler extends Component {
                     FileLoaded: true,
                     FileName: this.props.url,
                     FilePages: numPages,
+                    PagesTo: numPages,
                     FileType: '(.pdf)',
                     ImportAs: 'Custom' });
                 // Request pages
@@ -134,10 +134,10 @@ export default class PDFHandler extends Component {
                     <Col xs={12} md={6} lg={6}>
                         <FormGroup>
                             <ControlLabel>{i18n.t("importFile.pages.title")}</ControlLabel>
-                            <Radio name="radioPages" inline onChange={e => {this.setState({ PagesFrom: 1, PagesTo: this.state.FilePages });}}>
+                            <Radio name="radioPages" inline onChange={e => {this.setState({ PagesFrom: 1, PagesTo: this.state.FilePages });}} defaultChecked>
                                 {i18n.t("importFile.pages.whole_file")} ({ this.state.FilePages })
                             </Radio>
-                            <Radio name="radioPages" inline defaultChecked>
+                            <Radio name="radioPages" inline>
                                 <FormGroup >
                                     <InputGroup className="inputGroup">
                                         <InputGroup.Addon>{i18n.t("importFile.pages.from")}</InputGroup.Addon>
@@ -210,7 +210,6 @@ export default class PDFHandler extends Component {
                 break;
             }
         }
-        // TODO: rest of cases (files)
 
         // delete canvas preview util
         for (let i = 1; i <= this.state.FilePages; i++) {

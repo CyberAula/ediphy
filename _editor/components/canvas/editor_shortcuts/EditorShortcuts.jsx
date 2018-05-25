@@ -67,6 +67,7 @@ export default class EditorShortcuts extends Component {
         return (
             <div id={this.props.isContained ? "contained_editorBoxIcons" : "editorBoxIcons"}
                 className=""
+                onClick={(e)=>{e.stopPropagation();}}
                 ref="container"
                 style={{
                     display: (box && box.id && isSortableBox(box.id)) || !box || !box.id ? 'none' : 'block',
@@ -75,7 +76,7 @@ export default class EditorShortcuts extends Component {
                     top: this.state.top,
                     // width: this.state.width !== 0 ? this.state.width : "auto"
                 }}>
-                <div ref="innerContainer" style={{ display: "inline-block", minWidth: "150px", overflow: 'hidden', height: '37px' }}>
+                <div ref="innerContainer" style={{ display: "inline-block", minWidth: "50px", overflow: 'hidden', height: '37px' }}>
                     <span className="namePlugin">{config.displayName || ""}</span>
                     {
                         (hasURL) ? (
@@ -87,6 +88,7 @@ export default class EditorShortcuts extends Component {
                                 }>
                                 <button id="open_conf" className={"editorTitleButton"}
                                     onClick={(e) => {
+
                                         this.props.openFileModal(box.id, accept);
                                         this.setState({ open: true });
                                     }}>
@@ -94,7 +96,7 @@ export default class EditorShortcuts extends Component {
                                 </button>
                             </OverlayTrigger>
                         ) : (
-                            <span />
+                            null
                         )
                     }
                     {
@@ -104,12 +106,13 @@ export default class EditorShortcuts extends Component {
                                     <Tooltip id="richMark">{i18n.t('messages.add_new_mark')}</Tooltip>
                                 }>
                                 <button id="markCreatorButton" className="editorTitleButton" onMouseDown={(e)=>{
+                                    e.preventDefault();
                                     this.props.onMarkCreatorToggled(box.id);
                                 }}>
                                     <i id="markCreatorButton" className="material-icons">room</i>
                                 </button>
                             </OverlayTrigger>)
-                            : <span />
+                            : null
                     }
                     {
                         isSortableContainer(box.container) ? (
@@ -142,7 +145,7 @@ export default class EditorShortcuts extends Component {
                                 </button>
                             </OverlayTrigger>
                         ) : (
-                            <span />
+                            null
                         )
                     }
                     {
@@ -163,7 +166,7 @@ export default class EditorShortcuts extends Component {
                                 </button>
                             </OverlayTrigger>
                         ) : (
-                            <span />
+                            null
                         )
                     }
                     {
@@ -184,7 +187,7 @@ export default class EditorShortcuts extends Component {
                                 </button>
                             </OverlayTrigger>
                         ) : (
-                            <span />
+                            null
                         )
                     }
                     {
@@ -300,6 +303,7 @@ export default class EditorShortcuts extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps, this.props);
         if (nextProps !== this.props) {
             if (nextProps.box) {
                 this.resizeAndSetState("fromUpdate", nextProps);
