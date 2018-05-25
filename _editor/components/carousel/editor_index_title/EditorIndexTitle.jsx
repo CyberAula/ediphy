@@ -79,7 +79,11 @@ export default class EditorIndexTitle extends Component {
                         onBlur={e => {
                         /* Change to non-edition mode*/
                             this.setState({ editing: !this.state.editing });
-                            this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? { viewName: this.state.currentValue } : this.getDefaultValue());
+                            if(this.props.courseTitle) {
+                                this.props.onNameChanged('title', this.state.currentValue);
+                            } else {
+                                this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? { viewName: this.state.currentValue } : this.getDefaultValue());
+                            }
                         }} />
                     )
                 }
