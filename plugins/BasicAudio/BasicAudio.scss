@@ -124,20 +124,23 @@ $track-width: 54% !default;
 //**************************************
 .basic-audio-wrapper{
   overflow: hidden;
-  .waveform>.wave>wave>wave {
-    display:none !important;
-  }
+
   @include gradient;
   iframe{
     margin-bottom: -4px;
+  }
+
+  .waveform>.wave>wave>wave {
+    display:none !important;
+    height: 100%;
   }
   .wave{
     position: absolute;
     width: 100%;
     margin: 0;
     float:left;
-    height: 100%;
-    top: 10px;//15%;
+    height: 50%;//100%;
+    top: 10px;//25%;
     z-index: 1;
   }
   .react-wavesurfer{
@@ -206,6 +209,20 @@ $track-width: 54% !default;
     position: relative;
     top: 20%;
     float: left;
+  }
+
+
+  .ex{
+    background: transparent;
+    float:left;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 100%;
+    //margin: 3px;
+    //top: 50%;
+    //border: 1px solid #ccc;
+    position: absolute;
+    z-index: 3;
   }
 
   .progress-audio-input {

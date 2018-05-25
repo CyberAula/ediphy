@@ -151,7 +151,7 @@ export default class BasicAudioPluginEditor extends React.Component {
 
         return (
             <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "none" }}>
-                <div>
+                <div className="wavecontainer" style={{ position: 'absolute', height: '100%', width: '100%' }}>
                     <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{ this.onResize(e);}} />
                     <div className='waveform'>
                         <div className='wave' />
