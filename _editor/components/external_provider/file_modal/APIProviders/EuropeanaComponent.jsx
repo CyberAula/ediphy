@@ -43,7 +43,7 @@ export default class EuropeanaComponent extends React.Component {
                             <br />
                             {this.state.results.map((item, index) => {
                                 let border = item.url === this.props.elementSelected ? "solid #17CFC8 3px" : "solid transparent 3px";
-                                return (<ImageComponent item={item} title={item.title} url={item.url} onElementSelected={this.props.onElementSelected} isSelected={item.url === this.props.elementSelected} />
+                                return (<ImageComponent item={item} title={item.title} url={item.url} thumbnail={item.thumbnail} onElementSelected={this.props.onElementSelected} isSelected={item.url === this.props.elementSelected} />
                                 );
                             })}
                         </FormGroup>
@@ -67,9 +67,11 @@ export default class EuropeanaComponent extends React.Component {
                 let imgs = JSON.parse(imgStr);
                 if (imgs && imgs.items) {
                     let results = imgs.items.map(img=>{
+                        console.log(img);
                         return {
                             title: img.title[0],
                             url: img.edmIsShownBy,
+                            thumbnail: img.edmPreview,
                         };
                     });
 

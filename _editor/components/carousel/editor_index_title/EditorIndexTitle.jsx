@@ -46,11 +46,12 @@ export default class EditorIndexTitle extends Component {
                             }
                             e.stopPropagation();
                         }}>
-                        {Ediphy.Config.show_numbers_before_navitems ? this.props.index : ""} {this.props.title}
+                        {Ediphy.Config.show_numbers_before_navitems ? this.props.index : ""} {(this.props.title && this.props.title !== "") ? this.props.title : ((this.props.courseTitle) ? i18n.t('Title_document') : i18n.t('Page'))}
                     </div>) :
                     (<FormControl
                         type="text"
                         ref="titleIndex"
+                        placeholder={(this.props.courseTitle) ? i18n.t('Title_document') : i18n.t('Page')}
                         className={this.props.id ? "editSectionTitle" : "editTitle"}
                         value={this.state.currentValue}
                         autoFocus
