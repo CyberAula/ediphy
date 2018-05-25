@@ -118,6 +118,9 @@ let en = {
             "context": "Context",
             "context_list": {
                 "school": "School",
+                "primary_school": "Elementary School",
+                "secondary_school": "Middle School",
+                "bach_school": "High School",
                 "high_education": "High Education",
                 "training": "Training",
                 "other": "Other",

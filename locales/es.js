@@ -119,6 +119,9 @@ let es = {
             "context": "Contexto",
             "context_list": {
                 "school": "Ed.Primaria, Secundaria y Bach.",
+                "primary_school": "Ed. Primaria",
+                "secondary_school": "Ed. Secundaria",
+                "bach_school": "Bachillerato",
                 "high_education": "Educación superior",
                 "training": "Formación laboral",
                 "other": "Other",

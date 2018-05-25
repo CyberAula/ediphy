@@ -17,7 +17,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                         min: 0,
                         max: 100,
                     },
-                    context: 'school',
+                    context: 'elementary_school',
                     rights: "Public Domain",
                     keywords: [],
                     minTimeProgress: 10,
@@ -135,7 +135,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                         min: 0,
                         max: 100,
                     },
-                    context: 'school',
+                    context: 'elementary_school',
                     rights: "Public Domain",
                     keywords: [],
                     typicalLearningTime: {
