@@ -5,16 +5,19 @@
 
   .pdfDiv{
 
-    .PDFDocument{
-      
+    .react-pdf__Document{
+      height: 100%;
+      width: 100%;
     }
     .pdfPage{
       background-color: grey;
       overflow: auto;
-      overflow-y: auto !important;
+      overflow-y: scroll !important;
       .react-pdf__Page__canvas{
         margin:auto;
       }
+      height: 100%;
+      width: 100%;
     }
     .topBar {
       height:  0px;
