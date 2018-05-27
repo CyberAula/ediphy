@@ -17,6 +17,7 @@ export default {
     import_url: "/ediphy_documents/",
     search_vish_url: "http://vishub.org/apis/search/",
     upload_vish_url: "/documents.json",
+    defaultAspectRatio: 4 / 3,
     // OPTIONS
     external_providers: {
         enable_search: true,

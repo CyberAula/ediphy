@@ -56,7 +56,7 @@ export default class EditorBoxSortable extends Component {
                     {this.state.alert}
                     {box.children.map((idContainer, index)=> {
                         let container = box.sortableContainers[idContainer];
-                        return (<div key={index}
+                        return (<div key={'sortableContainer-' + idContainer}
                             className={"editorBoxSortableContainer pos_relative " + container.style.className}
                             data-id={idContainer}
                             id={idContainer}
@@ -93,7 +93,7 @@ export default class EditorBoxSortable extends Component {
                                                     {container.children.map((idBox, ind) => {
                                                         if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
                                                             return (<EditorBox id={idBox}
-                                                                key={ind}
+                                                                key={'box-' + idBox}
                                                                 boxes={this.props.boxes}
                                                                 boxSelected={this.props.boxSelected}
                                                                 boxLevelSelected={this.props.boxLevelSelected}

@@ -34,7 +34,7 @@ export default class TemplatesModal extends Component {
                         <div id="empty"
                             className="template_item"
                             key="-1"
-                            style={{ width: '120px', height: '80px', border: this.state.itemSelected === -1 ? "solid orange 3px" : "solid #eee 1px", padding: '30px 25px' }}
+                            style={{ width: '120px', height: '80px', border: this.state.itemSelected === -1 ? "solid #17CFC8 3px" : "solid #eee 1px", padding: '30px 25px' }}
                             onClick={e => {
                                 this.setState({
                                     itemSelected: -1,
@@ -67,7 +67,10 @@ export default class TemplatesModal extends Component {
                         this.closeModal(); e.preventDefault();
                     }}>{i18n.t("importFile.footer.cancel")}</Button>
                     <Button bsStyle="primary" id="cancel_button" onClick={ (e) => {
-                        this.AddNavItem(this.state.itemSelected); e.preventDefault();
+                        this.AddNavItem(this.state.itemSelected); e.preventDefault(); e.stopPropagation();
+                    }} onDoubleClick={ (e) => {
+                        // this.AddNavItem(this.state.itemSelected);
+                        e.preventDefault(); e.stopPropagation();
                     }}>{i18n.t("importFile.footer.ok")}</Button>
                 </Modal.Footer>
             </Modal>
@@ -79,9 +82,7 @@ export default class TemplatesModal extends Component {
      */
     closeModal() {
         // reset state
-        this.setState({
-            itemSelected: -1,
-        });
+        this.setState({ itemSelected: -1 });
         this.props.close();
     }
     /**
@@ -89,54 +90,55 @@ export default class TemplatesModal extends Component {
      */
     AddNavItem(template) {
         let newId = ID_PREFIX_PAGE + Date.now();
+        if (this.props.show) {
+            this.props.onNavItemAdded(
+                newId,
+                i18n.t("slide"),
+                // this.getParent().id,// Calculated in CarrouselButtons
+                PAGE_TYPES.SLIDE,
+                // this.props.calculatePosition(), // Calculated in CarrouselButtons
+                "rgb(255,255,255)",
+                0,
+                template !== -1,
+                false
+            );
+            if (template !== -1) {
+                let selectedTemplate = this.templates[template];
+                let boxes = selectedTemplate.boxes;
 
-        this.props.onNavItemAdded(
-            newId,
-            i18n.t("slide"),
-            // this.getParent().id,// Calculated in CarrouselButtons
-            PAGE_TYPES.SLIDE,
-            // this.props.calculatePosition(), // Calculated in CarrouselButtons
-            "rgb(255,255,255)",
-            0,
-            template !== -1,
-            false
-        );
-        if (template !== -1) {
-            let selectedTemplate = this.templates[template];
-            let boxes = selectedTemplate.boxes;
-
-            boxes.map((item, index) => {
-                let position = {
-                    x: item.box.x,
-                    y: item.box.y,
-                    type: 'absolute',
-                };
-                let initialParams = {
-                    id: ID_PREFIX_BOX + Date.now() + "_" + index,
-                    parent: newId,
-                    container: 0,
-                    col: 0, row: 0,
-                    width: item.box.width,
-                    height: item.box.height,
-                    position: position,
-                    name: item.toolbar.name,
-                    isDefaultPlugin: true,
-                    page: newId,
-                };
-                if (item.toolbar.text) {
-                    initialParams.text = item.toolbar.text;
-                } else if (item.toolbar.url) {
-                    initialParams.url = item.toolbar.url;
-                }
-                createBox(initialParams, item.toolbar.name, true, this.props.onBoxAdded, this.props.boxes);
+                boxes.map((item, index) => {
+                    let position = {
+                        x: item.box.x,
+                        y: item.box.y,
+                        type: 'absolute',
+                    };
+                    let initialParams = {
+                        id: ID_PREFIX_BOX + Date.now() + "_" + index,
+                        parent: newId,
+                        container: 0,
+                        col: 0, row: 0,
+                        width: item.box.width,
+                        height: item.box.height,
+                        position: position,
+                        name: item.toolbar.name,
+                        isDefaultPlugin: true,
+                        page: newId,
+                    };
+                    if (item.toolbar.text) {
+                        initialParams.text = item.toolbar.text;
+                    } else if (item.toolbar.url) {
+                        initialParams.url = item.toolbar.url;
+                    }
+                    createBox(initialParams, item.toolbar.name, true, this.props.onBoxAdded, this.props.boxes);
+                });
+            }
+            // reset state
+            this.setState({
+                itemSelected: -1,
             });
+            // this.props.onIndexSelected(newId);
+            this.props.close();
         }
-        // reset state
-        this.setState({
-            itemSelected: -1,
-        });
-        // this.props.onIndexSelected(newId);
-        this.props.close();
     }
 }
 TemplatesModal.propTypes = {

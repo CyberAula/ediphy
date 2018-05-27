@@ -23,6 +23,7 @@ export default {
         enable_external_upload: false,
         enable_catalog_modal: false,
     },
+    defaultAspectRatio: 16 / 9,
     publish_button: false,
     debug_scorm: false,
     show_numbers_before_navitems: false,

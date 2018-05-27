@@ -519,6 +519,7 @@ export function uploadVishResourceAsync(query, keywords = "", callback) {
             // form.append("document[tag_list][]", keywords);
             if (typeof(ediphy_editor_params) !== 'undefined') {
                 form.append("document[owner_id]", ediphy_editor_params.id);
+                form.append("document[scope]", "1");
                 form.append("authenticity_token", ediphy_editor_params.authenticity_token);
             }
             form.append("document[file]", query);

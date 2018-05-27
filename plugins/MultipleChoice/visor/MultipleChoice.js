@@ -52,10 +52,10 @@ export function MultipleChoice() {
                 <div className={"exerciseScore"}>{score}</div>
             </div>;
         },
-        checkAnswer(current, correct) {
+        /* checkAnswer(current, correct) {
             return compareNumbersLiterally(current, correct);
 
-        },
+        },*/
     };
 }
 /* eslint-enable react/prop-types */

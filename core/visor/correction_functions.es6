@@ -47,7 +47,7 @@ export function compareNumbersLiterally(current, correct) {
     return 0;
 }
 
-export function correctNumericInput(current, correct, tol) {
+export function correctNumericInput(current, correct, tol = 0) {
     let user = (current);
     let answer = (correct);
     let precision = (tol);

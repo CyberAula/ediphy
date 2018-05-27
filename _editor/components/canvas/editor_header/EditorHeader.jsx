@@ -86,7 +86,7 @@ export default class EditorHeader extends Component {
                 }
 
                 return (
-                    <div className="title" onClick={(e) => {
+                    <div className="title ediphyHeader" onClick={(e) => {
                         this.props.onBoxSelected(-1);
                         e.stopPropagation();
                     }}>

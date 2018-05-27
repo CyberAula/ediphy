@@ -29,10 +29,10 @@ export function FreeResponse() {
                 </div>
             </div>;
         },
-        checkAnswer(current, correct, state) {
+        /* checkAnswer(current, correct, state) {
             console.log(state);
             return state.correct ? correctLongAnswer(current, correct, !state.characters) : ((current && current.length && current.length > 1) ? 1 : 0);
-        },
+        },*/
     };
 }
 /* eslint-enable react/prop-types */

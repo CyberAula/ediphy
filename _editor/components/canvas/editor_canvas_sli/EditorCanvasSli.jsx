@@ -56,7 +56,7 @@ export default class EditorCanvasSli extends Component {
         let isColor = toolbar && (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(toolbar.background);
         let gridOn = this.props.grid && ((this.props.containedViewSelected !== 0) === this.props.fromCV);
         return (
-            <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass" onClick={()=>{this.props.onBoxSelected(-1);}}
+            <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass" onMouseDown={()=>{this.props.onBoxSelected(-1);}}
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
                 <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
                     className={'slide_air parentRestrict'}
