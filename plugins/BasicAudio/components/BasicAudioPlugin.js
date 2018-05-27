@@ -28,7 +28,6 @@ export default class BasicAudioPlugin extends React.Component {
     }
 
     handlePosChange(e) {
-        console.log('oischa', e.wavesurfer);
         try {
             if (e.wavesurfer.backend.ac.currentTime) {
             }
@@ -56,14 +55,14 @@ export default class BasicAudioPlugin extends React.Component {
         let posPctg = 0;
         let duration = e.wavesurfer.backend.buffer.duration;
         if (this.props.state.currentState) {
-            console.log(this.props.state.currentState);
-            // TODO modificar pos y pospctg
-            // pos =
-            // posPctg
+            try{
+                posPctg = this.props.state.currentState;
+                pos = parseInt(parseInt(posPctg.substr(0, 5)) * duration / 100);
+            }catch(e) {
+                console.log(e);
+            }
 
         }
-
-        console.log(this.state.posPctg);
         this.setState({
             duration,
             pos,
@@ -76,11 +75,11 @@ export default class BasicAudioPlugin extends React.Component {
         if (this.props.state.autoplay) {
             this.setState({ playing: true });
         }
+
     }
     componentWillUpdate(nextProps, nextState) {
         if(nextState.pos !== this.state.pos) {
             let sudo = this;
-            console.log('update', this.state.pos);
             let marks = this.props.props.marks || {};
             let triggerMark = this.props.props.onMarkClicked;
             let triggerArray = this.state.toBeTriggered;
@@ -103,18 +102,12 @@ export default class BasicAudioPlugin extends React.Component {
                 });
 
                 if(notInArray && parseFloat(nextState.posPctg).toFixed(3) <= (parseFloat(marks[key].value) / 100).toFixed(3) && parseFloat(parseFloat(nextState.posPctg).toFixed(3)) + 0.1 >= parseFloat((parseFloat(marks[key].value) / 100).toFixed(3))) {
-                    console.log("xxxxxxxxxxxxxxxxx");
-                    // entra cuanto a la derecha tiene una mark q mostrar, pero si ya la ha mostrado y vuelves esto no se imprime y la mark no salta
                     let toBeTriggered = triggerArray;
                     toBeTriggered.push(marks[key]);
                     sudo.setState({ toBeTriggered: toBeTriggered });
                 }
 
             });
-            // if(this.state.posPctg == nextProps.state.currentState){
-            console.log('markk', this.state.posPctg);
-            console.log('mardkk', nextProps.state.currentState);
-            // }
         }
     }
     render() {

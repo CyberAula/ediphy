@@ -5,8 +5,9 @@
 
   .pdfDiv{
 
-    .PDFDocument{
-      
+    .react-pdf__Document{
+      height: 100%;
+      width: 100%;
     }
     .pdfPage{
       background-color: grey;
@@ -15,6 +16,8 @@
       .react-pdf__Page__canvas{
         margin:auto;
       }
+      height: 100%;
+      width: 100%;
     }
     .topBar {
       height:  0px;
@@ -30,6 +33,10 @@
       transition: height 0.3s;
       &:hover {
         height: 50px;
+      }
+      .fullscreen-player-button{
+        float: right;
+        margin-right: 2%;
       }
       button {
         background-color: transparent;
