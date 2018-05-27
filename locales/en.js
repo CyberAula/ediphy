@@ -418,6 +418,7 @@ let en = {
         "Text": "Text & tables",
         "text_here": "Text goes here",
         "Title": "Title ",
+        "Title_document": "Title document",
         "Undo": "Undo",
         "Units": "Units",
         "Unpublish": "Unpublish",

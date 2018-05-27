@@ -420,6 +420,7 @@ let es = {
         "Text": "Texto & tablas",
         "text_here": "Introduzca aquí su texto",
         "Title": "Título ",
+        "Title_document": "Título del documento",
         "Undo": "Deshacer",
         "Units": "Unidades",
         "Unpublish": "Privado",

@@ -123,6 +123,9 @@ class EditorApp extends Component {
         this.createHelpModal = this.createHelpModal.bind(this);
         this.createInitModal = this.createInitModal.bind(this);
         this.showTour = this.showTour.bind(this);
+        this.exitListener = (ev) => {
+            alert('Please press the Logout button to logout.');
+        };
     }
 
     render() {
@@ -656,6 +659,7 @@ class EditorApp extends Component {
         document.addEventListener('dragleave', this.dragExitListener);
         document.addEventListener('drop', this.dropListener);
         document.addEventListener('dragstart', this.dragStartListener);
+        // document.addEventListener('onbeforeunload', this.exitListener);
 
     }
     componentWillUnmount() {
@@ -664,6 +668,7 @@ class EditorApp extends Component {
         document.removeEventListener('dragleave', this.dragExitListener);
         document.removeEventListener('drop', this.dropListener);
         document.removeEventListener('dragstart', this.dragStartListener);
+        // document.removeEventListener('onbeforeunload', this.exitListener);
 
     }
 
@@ -721,7 +726,6 @@ class EditorApp extends Component {
             page));
     }
     toolbarUpdated(id, tab, accordion, name, value) {
-        console.log(id);
         if (isBox(id) || isSortableBox(id)) {
             let toolbar = this.props.pluginToolbars[id];
             let pluginAPI = Ediphy.Plugins.get(toolbar.pluginId);

@@ -129,7 +129,7 @@ export default class GlobalConfig extends Component {
                                         <ControlLabel>{i18n.t('global_config.course_title')}</ControlLabel>
                                         <FormControl type="text"
                                             value={title}
-                                            placeholder=""
+                                            placeholder={i18n.t('global_config.course_title')}
                                             onChange={e => {this.setState({ modifiedState: true, title: e.target.value });}}/>
                                     </FormGroup>
                                     <FormGroup >
