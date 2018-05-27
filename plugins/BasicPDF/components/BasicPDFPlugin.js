@@ -59,7 +59,7 @@ export default class BasicAudioPlugin extends React.Component {
 
     onClickFullscreen() {
         if(!this.state.fullscreen) {
-            screenfull.request(findDOMNode(this.player_wrapper));
+            screenfull.request(findDOMNode(this.pdf_wrapper));
         } else {
             screenfull.exit();
         }
@@ -106,7 +106,7 @@ export default class BasicAudioPlugin extends React.Component {
 
         return (
 
-            <div style={{ width: "100%", height: "100%" }} className={"pdfDiv"}>
+            <div ref={pdf_wrapper => {this.pdf_wrapper = pdf_wrapper;}} style={{ width: "100%", height: "100%" }} className={"pdfDiv"}>
                 <div className="topBar">
                     <button className={"PDFback"} onClick={this.buttonBack}>
                         <i className={"material-icons"}>keyboard_arrow_left</i>
