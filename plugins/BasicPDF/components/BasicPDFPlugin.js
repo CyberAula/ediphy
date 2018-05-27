@@ -19,7 +19,7 @@ export default class BasicAudioPlugin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            //  fullscreen: false,
+            fullscreen: false,
             numPages: null,
             pageNumber: 1,
         };
@@ -55,6 +55,15 @@ export default class BasicAudioPlugin extends React.Component {
                 pageNumber: this.state.pageNumber - 1,
             });
         }
+    }
+
+    onClickFullscreen() {
+        if(!this.state.fullscreen) {
+            screenfull.request(findDOMNode(this.player_wrapper));
+        } else {
+            screenfull.exit();
+        }
+        this.setState({ fullscreen: !this.state.fullscreen });
     }
 
     componentWillMount() {
@@ -108,6 +117,7 @@ export default class BasicAudioPlugin extends React.Component {
                     <button className={"PDFnext"} onClick={this.buttonNext}>
                         <i className={"material-icons"}>keyboard_arrow_right</i>
                     </button>
+                    <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
 
                 </div>
 

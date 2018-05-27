@@ -19,6 +19,8 @@ export default class BasicAudioPluginEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            fullscreen: false,
+
             numPages: null,
             pageNumber: 1,
         };
@@ -52,6 +54,14 @@ export default class BasicAudioPluginEditor extends React.Component {
             });
         }
     }
+    onClickFullscreen() {
+        if(!this.state.fullscreen) {
+            screenfull.request(findDOMNode(this.pdf_wrapper));
+        } else {
+            screenfull.exit();
+        }
+        this.setState({ fullscreen: !this.state.fullscreen });
+    }
 
     render() {
         let marks = this.props.props.marks || {};
@@ -65,7 +75,20 @@ export default class BasicAudioPluginEditor extends React.Component {
             } else {
                 position = [0, 0, 0];
             }
-            let x = "" + position[0] * 6.12 + "px";
+            // cogemos el ancho del padre para ver cómo va modificandose con la toolbar
+            let wpadre = (window.getComputedStyle(document.querySelector(".pdfDiv")).width);
+            let fin = 0;
+            for(let n = 0; n < wpadre.length; n++) { // cuando llegue a leer px que se quede solo con el num
+                if(wpadre.charAt(n) === "p") {
+                    fin = n;
+                }
+            }
+            let w = wpadre.substr(0, fin);
+            let x = "" + position[0] * 6.24 + "px";
+            if(w > 624) {
+                x = "" + (((w - 624) / 2) + (position[0] * 6.24)) + "px"; // 624 no cambua
+            }
+
             let y = "" + position[1] * 7.92 + "px";
             let bool = (parseFloat(position[2]) === this.state.pageNumber);
             return(
@@ -87,7 +110,7 @@ export default class BasicAudioPluginEditor extends React.Component {
                     </MarkEditor> : null);
         });
         return (
-            <div style={{ width: "100%", height: "100%" }} className={"pdfDiv"}>
+            <div ref={pdf_wrapper => {this.pdf_wrapper = pdf_wrapper;}} style={{ width: "100%", height: "100%" }} className={"pdfDiv"}>
                 <div className="topBar">
                     <button className={"PDFback"} onClick={this.buttonBack}>
                         <i className={"material-icons"}>keyboard_arrow_left</i>
@@ -98,14 +121,16 @@ export default class BasicAudioPluginEditor extends React.Component {
                     <button className={"PDFnext"} onClick={this.buttonNext}>
                         <i className={"material-icons"}>keyboard_arrow_right</i>
                     </button>
+                    <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
+
                 </div>
                 <Document className={"react-pdf__Document dropableRichZone"} style={{ width: "100%", height: "100%" }}
                     file = {this.props.state.url}
                     onLoadSuccess={this.onDocumentLoad}>
-                    <Page style={{ width: "100%", height: "100%" }} className="pdfPage"
+                    <Page ref={page_wrapper => {this.page_wrapper = page_wrapper;}} style={{ width: "100%", height: "100%" }} className="pdfPage"
                         pageNumber={this.state.pageNumber}
-                    />
-                    {markElements}
+                    >{markElements}</Page>
+
                 </Document>
             </div>
         );

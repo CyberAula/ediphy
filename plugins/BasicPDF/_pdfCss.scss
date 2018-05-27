@@ -12,7 +12,7 @@
     .pdfPage{
       background-color: grey;
       overflow: auto;
-      overflow-y: scroll !important;
+      overflow-y: auto !important;
       .react-pdf__Page__canvas{
         margin:auto;
       }
@@ -33,6 +33,10 @@
       transition: height 0.3s;
       &:hover {
         height: 50px;
+      }
+      .fullscreen-player-button{
+        float: right;
+        margin-right: 2%;
       }
       button {
         background-color: transparent;
