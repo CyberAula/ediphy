@@ -5,7 +5,7 @@ export const initialState = (config) => { return config.sections_have_content ?
         undoGroup: {
             present: {
                 globalConfig: {
-                    title: "Ediphy",
+                    title: i18n.t('course_title'),
                     canvasRatio: config.defaultAspectRatio || 16 / 9,
                     visorNav: {
                         player: true,
@@ -109,7 +109,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                         documentSubtitle: 'hidden',
                         documentSubtitleContent: i18n.t('subtitle'),
                         documentTitle: 'expanded',
-                        documentTitleContent: i18n.t('section'),
+                        documentTitleContent: "",
                         numPage: 'hidden',
                         numPageContent: '1',
                         background: "#ffffff",
@@ -122,7 +122,7 @@ export const initialState = (config) => { return config.sections_have_content ?
         undoGroup: {
             present: {
                 globalConfig: {
-                    title: "Ediphy",
+                    title: i18n.t('course_title'),
                     canvasRatio: config.defaultAspectRatio || 16 / 9,
                     minTimeProgress: 10,
                     visorNav: {
@@ -246,7 +246,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                         documentSubtitle: 'hidden',
                         documentSubtitleContent: i18n.t('subtitle'),
                         documentTitle: 'expanded',
-                        documentTitleContent: i18n.t('section'),
+                        documentTitleContent: "",
                         numPage: 'hidden',
                         numPageContent: '1',
                         background: "#ffffff",
@@ -261,7 +261,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                         documentSubtitle: 'hidden',
                         documentSubtitleContent: i18n.t('subtitle'),
                         documentTitle: 'expanded',
-                        documentTitleContent: i18n.t('page'),
+                        documentTitleContent: "",
                         numPage: 'hidden',
                         numPageContent: '',
                         background: "#ffffff",
