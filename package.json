@@ -136,6 +136,7 @@
     "EnrichedPlayer": "file:plugins/EnrichedPlayer",
     "GraficaD3": "file:plugins/GraficaD3",
     "VirtualTour": "file:plugins/VirtualTour",
+    "VirtualReality": "file:plugins/VirtualReality",
     "animated": "^0.2.1",
     "babel-jest": "^22.1.0",
     "babel-preset-stage-0": "^6.24.1",

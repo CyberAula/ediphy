@@ -10,7 +10,7 @@ import Content from './src/components/Content';
 import { srcTree, lookForPath } from './src/content';
 import "./src/style/style.scss";
 import i18n from './locales/i18n';
-// import {languages} from './scripts/reactdocgenmd';
+// import {languages} from './webpack_plugins/reactdocgenmd';
 export default class Docs extends Component {
     constructor(props) {
         super(props);

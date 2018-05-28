@@ -1,6 +1,9 @@
 import React from 'react';
 import i18n from 'i18next';
 
+// add to package json script
+// "prestart": "node /plugins/VirtualReality/webpack_plugins/compile_script.js /plugins/VirtualReality/precompiled_assets/",
+
 /* eslint-disable react/prop-types */
 export function VirtualReality(base) {
     return {
