@@ -23,18 +23,19 @@ function toolbarElementCreator(state, action, containedView = false) {
         doc_type = i18n.t('slide');
     }
 
-    if(isDocument(type)) {
+    /* if(isDocument(type)) {
         doc_type = i18n.t('document');
-    }
+    }*/
 
     if(isSection(id)) {
         doc_type = i18n.t('section');
     }
-    let pagetitle = i18n.t('Title') + doc_type;
 
     if(isDocument(type)) {
         doc_type = i18n.t('Page');
     }
+
+    let pagetitle = "";// /*i18n.t('Title') +*/ doc_type;
 
     let name = action.payload.name ? action.payload.name : containedView ? action.payload.toolbar.viewName : doc_type;
     // name =nextAvailName(name, state, 'viewName');
