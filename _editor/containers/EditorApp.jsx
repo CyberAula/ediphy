@@ -48,6 +48,8 @@ import EdiphyTour from '../components/joyride/EdiphyTour';
 import { serialize } from '../../reducers/serializer';
 import screen from '../components/joyride/pantalla.svg';
 import help from '../components/joyride/help.svg';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 /**
  * EditorApp. Main application component that renders everything else
@@ -656,6 +658,12 @@ class EditorApp extends Component {
         document.addEventListener('dragleave', this.dragExitListener);
         document.addEventListener('drop', this.dropListener);
         document.addEventListener('dragstart', this.dragStartListener);
+
+        if(cookies.get("ediphy_visitor") === undefined) {
+            cookies.set("ediphy_visitor", true);
+        } else {
+            this.setState({ initModal: false });
+        }
 
     }
     componentWillUnmount() {
