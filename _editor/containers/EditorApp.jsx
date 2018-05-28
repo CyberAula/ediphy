@@ -83,7 +83,7 @@ class EditorApp extends Component {
             showTour: false,
             showHelpButton: false,
             fileModalResult: { id: undefined, value: undefined },
-            initModal: true,
+            initModal: cookies.get("ediphy_visitor") === undefined,
         };
         this.onTextEditorToggled = this.onTextEditorToggled.bind(this);
         this.onRichMarkUpdated = this.onRichMarkUpdated.bind(this);
@@ -665,8 +665,6 @@ class EditorApp extends Component {
 
         if(cookies.get("ediphy_visitor") === undefined) {
             cookies.set("ediphy_visitor", true);
-        } else {
-            this.setState({ initModal: false });
         }
 
     }

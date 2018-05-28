@@ -303,7 +303,6 @@ export default class EditorShortcuts extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps, this.props);
         if (nextProps !== this.props) {
             if (nextProps.box) {
                 this.resizeAndSetState("fromUpdate", nextProps);

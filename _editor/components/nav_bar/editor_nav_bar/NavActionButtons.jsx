@@ -27,7 +27,7 @@ export default class NavActionButtons extends Component {
                 name: 'publish',
                 description: i18n.t('Publish'),
                 tooltip: i18n.t('messages.publish_tooltip'),
-                display: (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "draft"),
+                display: true, // (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "draft"),
                 disabled: false,
                 icon: 'public',
                 onClick: () => {
@@ -153,8 +153,8 @@ export default class NavActionButtons extends Component {
                 {buttons.map((item, index) => {
                     if (!item.display) { return null; }
                     return (
-                        <OverlayTrigger placement="bottom" overlay={
-                            <Tooltip>{item.tooltip}</Tooltip>}>
+                        <OverlayTrigger placement="bottom" key={item.name} overlay={
+                            <Tooltip id={"navButtonTooltip"}>{item.tooltip}</Tooltip>}>
                             <button
                                 disabled={item.disabled}
                                 key={item.name}
