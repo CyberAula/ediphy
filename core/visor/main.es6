@@ -160,6 +160,7 @@ export default {
         let xhr = new XMLHttpRequest();
         xhr.open('GET', Ediphy.Config.visor_bundle, true);
         xhr.responseType = "arraybuffer";
+        console.log(state);
         try {
             xhr.onreadystatechange = function(evt) {
                 if (xhr.readyState === 4) {
@@ -177,7 +178,7 @@ export default {
                                     let navs = state.navItemsById;
                                     let navsIds = state.navItemsIds;
                                     zip.file("imsmanifest.xml",
-                                        Ediphy.Scorm.createSPAimsManifest(state.exercises, navs, state.globalConfig, is2004));
+                                        Ediphy.Scorm.createSPAimsManifest(state.exercises, navs, { ...state.globalConfig, status: state.status }, is2004));
 
                                     let page = 0;
                                     if (state.navItemsIds && state.navItemsIds.length > 0) {

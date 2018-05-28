@@ -356,7 +356,7 @@ let es = {
         },
         "page": "Página",
         "pages": "Páginas",
-        "pagenumber": "Nº Página",
+        "pagenumber": "Nº",
         "Pixels": "Píxeles",
         "Percentage": "Porcentaje",
         "player": {
@@ -425,6 +425,8 @@ let es = {
         "text_here": "Introduzca aquí su texto",
         "Title": "Título ",
         "Title_document": "Título del documento",
+        "Slide_document": "Título diapositiva",
+        "Page_document": "Título página",
         "Undo": "Deshacer",
         "Units": "Unidades",
         "Unpublish": "Privado",

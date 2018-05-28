@@ -4,6 +4,7 @@ export const initialState = (config) => { return config.sections_have_content ?
     ({ filesUploaded: {},
         undoGroup: {
             present: {
+                status: 'draft',
                 globalConfig: {
                     title: i18n.t('course_title'),
                     canvasRatio: config.defaultAspectRatio || 16 / 9,
@@ -28,7 +29,6 @@ export const initialState = (config) => { return config.sections_have_content ?
                     },
                     version: '1.0.0',
                     thumbnail: '',
-                    status: 'draft',
                     structure: 'linear',
                     difficulty: 'easy',
                 },
@@ -121,6 +121,7 @@ export const initialState = (config) => { return config.sections_have_content ?
     ({ filesUploaded: {},
         undoGroup: {
             present: {
+                status: 'draft',
                 globalConfig: {
                     title: i18n.t('course_title'),
                     canvasRatio: config.defaultAspectRatio || 16 / 9,
@@ -145,7 +146,6 @@ export const initialState = (config) => { return config.sections_have_content ?
                     },
                     version: '1.0.0',
                     thumbnail: '',
-                    status: 'draft',
                     structure: 'linear',
                     difficulty: 'easy',
                 },
