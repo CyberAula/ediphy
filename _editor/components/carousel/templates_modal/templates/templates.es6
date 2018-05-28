@@ -1,4 +1,10 @@
 import i18n from 'i18next';
+import colors_texture from './../../../../../dist/images/colors_texture.jpg';
+import desert from './../../../../../dist/images/desert.jpg';
+import forest from './../../../../../dist/images/forest.jpg';
+import jungle from './../../../../../dist/images/jungle.jpg';
+import meadow from './../../../../../dist/images/meadow.jpg';
+import placeholder from './../../../../../dist/images/placeholder.svg';
 export const templates = () => { return (
     [{
         "name": "template1",
@@ -12,7 +18,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "https://farm8.staticflickr.com/7287/9543740601_8bfde7ad9d_k.jpg",
+                    "url": colors_texture,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -29,7 +35,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Texto e imagen</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.text_images') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -68,7 +74,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item lightRed'>Añade texto aquí</div>",
+                    "text": "<div class='template2_item lightRed'>" + i18n.t('templates.add_text') + "</div>",
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -85,7 +91,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item lightGreen'>Añade texto aquí</div>",
+                    "text": "<div class='template2_item lightGreen'>" + i18n.t('templates.add_text') + "</div>",
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -102,7 +108,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item lightBlue'>Añade texto aquí</div>",
+                    "text": "<div class='template2_item lightBlue'>" + i18n.t('templates.add_text') + "</div>",
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -119,7 +125,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item lightYellow'>Añade texto aquí</div>",
+                    "text": "<div class='template2_item lightYellow'>" + i18n.t('templates.add_text') + "</div>",
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -141,7 +147,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "https://c1.staticflickr.com/3/2115/2218182207_2bd5cac7bb_b.jpg",
+                    "url": forest,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -158,7 +164,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "http://www.climatechangenews.com/files/2017/01/Jungle_Congo_800.jpg",
+                    "url": jungle,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -175,7 +181,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Desierto_Salvador_Dal%C3%AD%2C_Bolivia.jpg",
+                    "url": desert,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -192,7 +198,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Pradera._Colonia_Suiza%2C_Uruguay.jpg",
+                    "url": meadow,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -214,7 +220,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Vídeo interactivo</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.video') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -253,7 +259,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Mapa interactivo</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.map') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -291,7 +297,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Web Incrustada</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.web') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -330,7 +336,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Lista de elementos</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.elements_list') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -347,7 +353,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": "https://farm8.staticflickr.com/7287/9543740601_8bfde7ad9d_k.jpg",
+                    "url": placeholder,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -364,7 +370,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<ul class='bulleted_list'><li>Primer elemento</li><li>Segundo elemento</li><li>Tercer elemento</li><li>...</li> </ul>",
+                    "text": "<ul class='bulleted_list'><li>" + i18n.t('templates.first_element') + "</li><li>" + i18n.t('templates.second_element') + "</li><li>" + i18n.t('templates.third_element') + "</li><li>...</li> </ul>",
                 },
                 "thumbnail": {
                     "icon": "format_list_bulleted",
@@ -386,7 +392,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Ejercicio respuesta única</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_unique_response') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -399,7 +405,8 @@ export const templates = () => { return (
                     "x": "5%",
                     "y": "23%",
                     "width": "90%",
-                    "height": "72%",
+                    "height": "auto",
+                    "heightTemplate": "72%",
                 },
                 "toolbar": {
                     "name": "MultipleChoice",
@@ -424,7 +431,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Ejercicio respuesta múltiple</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_multiple_response') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -437,7 +444,8 @@ export const templates = () => { return (
                     "x": "5%",
                     "y": "23%",
                     "width": "90%",
-                    "height": "72%",
+                    "height": "auto",
+                    "heightTemplate": "72%",
                 },
                 "toolbar": {
                     "name": "MultipleAnswer",
@@ -462,7 +470,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Ejercicio respuesta libre</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_free_response') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -475,7 +483,8 @@ export const templates = () => { return (
                     "x": "5%",
                     "y": "23%",
                     "width": "90%",
-                    "height": "72%",
+                    "height": "auto",
+                    "heightTemplate": "72%",
                 },
                 "toolbar": {
                     "name": "FreeResponse",
@@ -500,7 +509,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<h1 class='no_margins'>Ejercicio verdadero / falso</h1>",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
                 },
                 "thumbnail": {
                     "icon": "",
@@ -513,7 +522,8 @@ export const templates = () => { return (
                     "x": "5%",
                     "y": "23%",
                     "width": "90%",
-                    "height": "72%",
+                    "height": "auto",
+                    "heightTemplate": "72%",
                 },
                 "toolbar": {
                     "name": "TrueFalse",

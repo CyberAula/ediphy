@@ -4,26 +4,53 @@ import React, { Component } from 'react';
 import screenfull from 'screenfull';
 
 import Ediphy from '../../../../core/editor/main';
-import { isSection } from '../../../../common/utils';
-
+import { isContainedView, isSection } from '../../../../common/utils';
+import ReactDOM from "react-dom";
+import { Button, Popover, Overlay, OverlayTrigger, Tooltip } from 'react-bootstrap';
 /**
  * Action buttons in the editor's navbar
  */
 export default class NavActionButtons extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             isFullScreenOn: screenfull.isFullscreen,
-
+            showOverlay: false,
         };
-
         this.checkFullScreen = this.checkFullScreen.bind(this);
         this.getButtons = this.getButtons.bind(this);
     }
 
     getButtons() {
         return [
+            {
+                name: 'publish',
+                description: i18n.t('Publish'),
+                tooltip: i18n.t('messages.publish_tooltip'),
+                display: (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "draft"),
+                disabled: false,
+                icon: 'public',
+                onClick: () => {
+                    // const win = window.open('', '_self');
+                    // this.props.changeGlobalConfig("status", "final");
+                    // this.props.save(win);
+                    // this.props.serverModalOpen();
+                    this.setState({ showOverlay: true });
+                },
+            },
+            {
+                name: 'unpublish',
+                description: i18n.t('Unpublish'),
+                tooltip: i18n.t('messages.unpublish'),
+                display: (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "final"),
+                disabled: false,
+                icon: 'lock',
+                onClick: () => {
+                    this.props.changeGlobalConfig("status", "draft");
+                    this.props.save();
+                    this.props.serverModalOpen();
+                },
+            },
             {
                 name: 'fullscreen',
                 description: i18n.t('fullscreen'),
@@ -57,38 +84,11 @@ export default class NavActionButtons extends Component {
                 name: 'save',
                 description: i18n.t('Save'),
                 tooltip: i18n.t('messages.save_changes'),
-                display: (!Ediphy.Config.disable_save_button && (Ediphy.Config.publish_button === undefined || !Ediphy.Config.publish_button)),
+                display: true,
+                // display: (!Ediphy.Config.disable_save_button && (Ediphy.Config.publish_button === undefined || !Ediphy.Config.publish_button)),
                 disabled: false,
                 icon: 'save',
                 onClick: () => {
-                    this.props.save();
-                    this.props.serverModalOpen();
-                },
-            },
-            {
-                name: 'publish',
-                description: i18n.t('Publish'),
-                tooltip: i18n.t('messages.publish'),
-                display: (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "draft"),
-                disabled: false,
-                icon: 'publish',
-                onClick: () => {
-                    const win = window.open('', '_blank');
-                    this.props.changeGlobalConfig("status", "final");
-                    this.props.save(win);
-                    this.props.serverModalOpen();
-
-                },
-            },
-            {
-                name: 'unpublish',
-                description: i18n.t('Unpublish'),
-                tooltip: i18n.t('messages.unpublish'),
-                display: (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "final"),
-                disabled: false,
-                icon: 'no_sim',
-                onClick: () => {
-                    this.props.changeGlobalConfig("status", "draft");
                     this.props.save();
                     this.props.serverModalOpen();
                 },
@@ -118,20 +118,55 @@ export default class NavActionButtons extends Component {
 
         return (
             <div className="navButtons">
+                <Overlay rootClose
+                    name="confirmationOverlay"
+                    show={this.state.showOverlay}
+                    placement='bottom'
+                    target={() => ReactDOM.findDOMNode(this.overlayTarget)}
+                    onHide={() => this.setState({ showOverlay: false })}>
+                    <Popover id="popov" title={i18n.t('messages.publish_alert_title')}>
+                        <i style={{ color: 'yellow', fontSize: '13px', padding: '0 5px' }} className="material-icons">warning</i>
+                        { i18n.t('messages.publish_alert_text')}
+                        <br/>
+                        <br/>
+                        <Button className="popoverButton"
+                            name="popoverCancelButton"
+                            onClick={() => this.setState({ showOverlay: false })}
+                            style={{ float: 'right' }} >
+                            {i18n.t("Cancel")}
+                        </Button>
+                        <Button className="popoverButton"
+                            name="popoverAcceptButton"
+                            style={{ float: 'right' }}
+                            onClick={(e) => {
+                                // acciones de publicar
+                                const win = window.open('', '_self');
+                                this.props.changeGlobalConfig("status", "final");
+                                this.props.save(win);
+                                this.props.serverModalOpen();
+                                this.setState({ showOverlay: false });}}>
+                            {i18n.t("Accept")}
+                        </Button>
+                        <div style={{ clear: "both" }} />
+                    </Popover>
+                </Overlay>
                 {buttons.map((item, index) => {
                     if (!item.display) { return null; }
                     return (
-                        <button
-                            disabled={item.disabled}
-                            key={item.name}
-                            className={'navButton navbarButton_' + item.name}
-                            name={item.name}
-                            onClick={item.onClick}
-                            title={item.tooltip} >
-                            <i className="material-icons">{item.icon}</i>
-                            <br />
-                            <span className="hideonresize">{item.description}</span>
-                        </button>
+                        <OverlayTrigger placement="bottom" overlay={
+                            <Tooltip>{item.tooltip}</Tooltip>}>
+                            <button
+                                disabled={item.disabled}
+                                key={item.name}
+                                className={'navButton navbarButton_' + item.name}
+                                name={item.name}
+                                onClick={item.onClick}
+                                title={item.tooltip}
+                                ref={ item.icon === 'public' ? button => {this.overlayTarget = button;} : null}>
+                                <i className="material-icons">{item.icon}</i>
+                                <span className="hideonresize">{item.description}</span>
+                            </button>
+                        </OverlayTrigger>
                     );
                 })}
             </div>

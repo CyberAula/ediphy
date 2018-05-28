@@ -74,6 +74,7 @@ export default class ViewToolbar extends Component {
                                 associatedKey: 'display_pagetitle',
                                 autoManaged: false,
                                 display: false,
+                                placeholder: viewToolbar.viewName,
                                 value: viewToolbar.documentTitleContent,
                             },
                             display_pagesubtitle: {

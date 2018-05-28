@@ -29,7 +29,7 @@ export default class EditorHeader extends Component {
             let subTitle = "";
             let pagenumber = "";
             if (navItem !== undefined && navItem.id !== 0 && toolbar) {
-                docTitle = toolbar.documentTitle !== "" && (toolbar.documentTitleContent !== navItem.name) ? toolbar.documentTitleContent : navItem.name;
+                docTitle = (toolbar.documentTitle !== "" && (toolbar.documentTitleContent !== "")) ? toolbar.documentTitleContent : toolbar.viewName;
                 subTitle = toolbar.documentSubtitle !== "" && (toolbar.documentSubtitleContent !== i18n.t('subtitle')) ? toolbar.documentSubtitleContent : i18n.t('subtitle');
                 pagenumber = toolbar.numPageContent !== "" ? toolbar.numPageContent : "";
             }
@@ -86,7 +86,7 @@ export default class EditorHeader extends Component {
                 }
 
                 return (
-                    <div className="title" onClick={(e) => {
+                    <div className="title ediphyHeader" onClick={(e) => {
                         this.props.onBoxSelected(-1);
                         e.stopPropagation();
                     }}>

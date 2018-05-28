@@ -85,7 +85,7 @@ export default class EdiphyTour extends React.Component {
                         <img src={importExport} alt="Edit" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.menu')}</div></div>),
                     offset: 10,
-                    placement: 'left',
+                    placement: 'auto',
                     callback: ()=>{
                         document.getElementById('dropdown-menu').click();
 
@@ -97,8 +97,8 @@ export default class EdiphyTour extends React.Component {
                         <img src={preview} alt="Edit" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.preview')}</div>
                     </div>),
-                    offset: 60,
-                    placement: 'left',
+                    // offset: 60,
+                    placement: 'bottom',
                     callback: ()=>{
                         // document.querySelector('.navbarButton_preview').click();
 
@@ -109,8 +109,8 @@ export default class EdiphyTour extends React.Component {
                     content: (<div>
                         <img src={help} alt="Edit" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.manual')} <a target="_blank" href="http://ging.github.io/ediphy/#/manual"> {i18n.t('joyride.manual2')}</a></div></div>),
-                    offset: 60,
-                    placement: 'left',
+                    // offset: 60,
+                    placement: 'auto',
                     callback: ()=>{
                         document.getElementById('dropdown-menu').click();
                     },
