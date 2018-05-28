@@ -126,8 +126,8 @@ export default class BasicAudioPlugin extends React.Component {
                     onLoadSuccess={this.onDocumentLoad}>
                     <Page style={{ width: "100%", height: "100%" }} className="pdfPage"
                         pageNumber={this.state.pageNumber}
-                    />
-                    {markElements}
+                    >{markElements}</Page>
+
                 </Document>
             </div>
         );

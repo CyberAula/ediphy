@@ -65,30 +65,30 @@ export default class BasicAudioPluginEditor extends React.Component {
                 position = [0, 0, 0];
             }
             // cogemos el ancho del padre para ver cómo va modificandose con la toolbar
-            let wpadre = (window.getComputedStyle(document.querySelector(".pdfDiv")).width);
-            let fin = 0;
-            for(let n = 0; n < wpadre.length; n++) { // cuando llegue a leer px que se quede solo con el num
-                if(wpadre.charAt(n) === "p") {
-                    fin = n;
-                }
-            }
-            let w = wpadre.substr(0, fin);
+
+            let pdfDiv = document.querySelector("#box-" + this.props.props.id + " .pdfDiv");
+
+            let w = pdfDiv ? pdfDiv.clientWidth : 0;
             let x = "" + position[0] * 6.24 + "px";
+
             if(w > 624) {
                 x = "" + (((w - 624) / 2) + (position[0] * 6.24)) + "px"; // 624 no cambia
             }
 
             let y = "" + position[1] * 7.92 + "px";
+            console.log(this.props, w, x, y);
             let bool = (parseFloat(position[2]) === this.state.pageNumber);
+            console.log(this.props.props);
             return(
                 bool ?
                     <MarkEditor
+                        boxId={this.props.props.id}
                         key={id}
                         style={{ left: x, top: y, position: "absolute" }}
                         time={1.5}
                         mark={id}
                         // marks={marks}
-                        onRichMarkUpdated={this.props.props.onRichMarkUpdated}
+                        onRichMarkMoved={this.props.props.onRichMarkMoved}
                         state={this.props.state}
                         base={this.props.base}>
                         <Mark
