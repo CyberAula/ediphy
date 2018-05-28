@@ -1,6 +1,5 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import screenfull from 'screenfull';
 import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 import Mark from '../../../common/components/mark/Mark';
 
@@ -19,8 +18,6 @@ export default class BasicAudioPluginEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            fullscreen: false,
-
             numPages: null,
             pageNumber: 1,
         };
@@ -54,14 +51,6 @@ export default class BasicAudioPluginEditor extends React.Component {
             });
         }
     }
-    onClickFullscreen() {
-        if(!this.state.fullscreen) {
-            screenfull.request(findDOMNode(this.pdf_wrapper));
-        } else {
-            screenfull.exit();
-        }
-        this.setState({ fullscreen: !this.state.fullscreen });
-    }
 
     render() {
         let marks = this.props.props.marks || {};
@@ -76,30 +65,30 @@ export default class BasicAudioPluginEditor extends React.Component {
                 position = [0, 0, 0];
             }
             // cogemos el ancho del padre para ver cómo va modificandose con la toolbar
-            let wpadre = (window.getComputedStyle(document.querySelector(".pdfDiv")).width);
-            let fin = 0;
-            for(let n = 0; n < wpadre.length; n++) { // cuando llegue a leer px que se quede solo con el num
-                if(wpadre.charAt(n) === "p") {
-                    fin = n;
-                }
-            }
-            let w = wpadre.substr(0, fin);
+
+            let pdfDiv = document.querySelector("#box-" + this.props.props.id + " .pdfDiv");
+
+            let w = pdfDiv ? pdfDiv.clientWidth : 0;
             let x = "" + position[0] * 6.24 + "px";
+
             if(w > 624) {
-                x = "" + (((w - 624) / 2) + (position[0] * 6.24)) + "px"; // 624 no cambua
+                x = "" + (((w - 624) / 2) + (position[0] * 6.24)) + "px"; // 624 no cambia
             }
 
             let y = "" + position[1] * 7.92 + "px";
+            console.log(this.props, w, x, y);
             let bool = (parseFloat(position[2]) === this.state.pageNumber);
+            console.log(this.props.props);
             return(
                 bool ?
                     <MarkEditor
+                        boxId={this.props.props.id}
                         key={id}
                         style={{ left: x, top: y, position: "absolute" }}
                         time={1.5}
                         mark={id}
                         // marks={marks}
-                        onRichMarkUpdated={this.props.props.onRichMarkUpdated}
+                        onRichMarkMoved={this.props.props.onRichMarkMoved}
                         state={this.props.state}
                         base={this.props.base}>
                         <Mark
@@ -110,7 +99,7 @@ export default class BasicAudioPluginEditor extends React.Component {
                     </MarkEditor> : null);
         });
         return (
-            <div ref={pdf_wrapper => {this.pdf_wrapper = pdf_wrapper;}} style={{ width: "100%", height: "100%" }} className={"pdfDiv"}>
+            <div style={{ width: "100%", height: "100%" }} className={"pdfDiv"}>
                 <div className="topBar">
                     <button className={"PDFback"} onClick={this.buttonBack}>
                         <i className={"material-icons"}>keyboard_arrow_left</i>
@@ -121,13 +110,11 @@ export default class BasicAudioPluginEditor extends React.Component {
                     <button className={"PDFnext"} onClick={this.buttonNext}>
                         <i className={"material-icons"}>keyboard_arrow_right</i>
                     </button>
-                    <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
-
                 </div>
                 <Document className={"react-pdf__Document dropableRichZone"} style={{ width: "100%", height: "100%" }}
                     file = {this.props.state.url}
                     onLoadSuccess={this.onDocumentLoad}>
-                    <Page ref={page_wrapper => {this.page_wrapper = page_wrapper;}} style={{ width: "100%", height: "100%" }} className="pdfPage"
+                    <Page style={{ width: "100%", height: "100%" }} className="pdfPage"
                         pageNumber={this.state.pageNumber}
                     >{markElements}</Page>
 
