@@ -27,14 +27,10 @@ export default class NavActionButtons extends Component {
                 name: 'publish',
                 description: i18n.t('Publish'),
                 tooltip: i18n.t('messages.publish_tooltip'),
-                display: true, // (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "draft"),
+                display: (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "draft"),
                 disabled: false,
                 icon: 'public',
                 onClick: () => {
-                    // const win = window.open('', '_self');
-                    // this.props.changeGlobalConfig("status", "final");
-                    // this.props.save(win);
-                    // this.props.serverModalOpen();
                     this.setState({ showOverlay: true });
                 },
             },
@@ -115,7 +111,7 @@ export default class NavActionButtons extends Component {
      */
     render() {
         let buttons = this.getButtons();
-
+        console.log(this.props.globalConfig);
         return (
             <div className="navButtons">
                 <Overlay rootClose
@@ -125,18 +121,23 @@ export default class NavActionButtons extends Component {
                     target={() => ReactDOM.findDOMNode(this.overlayTarget)}
                     onHide={() => this.setState({ showOverlay: false })}>
                     <Popover id="popov" title={i18n.t('messages.publish_alert_title')}>
-                        <i style={{ color: 'yellow', fontSize: '13px', padding: '0 5px' }} className="material-icons">warning</i>
-                        { i18n.t('messages.publish_alert_text')}
+                        <i style={{ color: 'yellow', fontSize: '16px', padding: '5px' }} className="material-icons">
+                            { this.props.globalConfig.thumbnail !== "" ? "warning" : "add_a_photo"}
+                        </i>
+                        { this.props.globalConfig.thumbnail !== "" ?
+                            i18n.t('messages.publish_alert_text') :
+                            "Añade una imagen a tu documento antes de publicarlo. Para cambiarla ve a Menú > Configuración global > Miniatura"}
                         <br/>
                         <br/>
                         <Button className="popoverButton"
                             name="popoverCancelButton"
                             onClick={() => this.setState({ showOverlay: false })}
-                            style={{ float: 'right' }} >
+                            style={{ float: 'right' }}>
                             {i18n.t("Cancel")}
                         </Button>
                         <Button className="popoverButton"
                             name="popoverAcceptButton"
+                            disabled={this.props.globalConfig.thumbnail === ""}
                             style={{ float: 'right' }}
                             onClick={(e) => {
                                 // acciones de publicar
