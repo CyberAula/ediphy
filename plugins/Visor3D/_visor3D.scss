@@ -1,22 +1,30 @@
 .threeDViewerPlugin {
-  pointer-events: none;
+  //pointer-events: none;
+  .rrd-wrapper {
+    width:100%;
+    height:100%;
+  }
+  .fullscreen-player-button{
+    //float: right;
+    //margin-right: 2%;
+    left: 90%;
+    z-index: 9999;
+    position: absolute;
+    background-color: transparent;
+    border-color: transparent;
+  }
 }
-.rrd-wrapper {
-  width:100%;
-  height:100%;
+
+.threeDViewerPluginEditor {
+  //pointer-events: none;
 }
 .pointerEventsEnabled {
   .threeDViewerPlugin {
   pointer-events: all !important;
 }
 
-.fullscreen-player-button{
-  float: right;
-  margin-right: 2%;
-  position: absolute;
-  background-color: transparent;
-  border-color: transparent;
-}
+
+
 
 
 }

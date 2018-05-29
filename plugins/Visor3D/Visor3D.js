@@ -123,7 +123,7 @@ export function Visor3D(base) {
         getRenderTemplate: function(state, props) {
             return (
                 <div
-                    className="threeDViewerPlugin"
+                    className="threeDViewerPluginEditor"
                     style={{ height: "100%", width: "100%" }}>
                     <Visor3DPluginEditor
                         style={{ width: "100%", height: "100%" }}
