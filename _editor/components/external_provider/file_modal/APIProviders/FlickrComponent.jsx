@@ -59,12 +59,11 @@ export default class FlickrComponent extends React.Component {
     onSearch(text) {
 
         let flickrURL = "http://api.flickr.com/services/feeds/photos_public.gne?tags=" + encodeURI(text) + "&tagmode=any&format=json&jsoncallback=?";
-        this.setState({ msg: i18n.t("FileModal.APIProviders.searching") });
+        this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
         $.getJSON(flickrURL, (imgs)=>{
             try{
                 if (imgs) {
                     if (imgs && imgs.items) {
-                        console.log(imgs.items);
                         let results = imgs.items.map(img=>{
                             return {
                                 title: img.title,

@@ -51,7 +51,7 @@
   -moz-border-radius: 0;
   min-width: 56px;
   font-size: 20px;
-  height: 55px;
+  height: 60px;
   padding: 0 8px;
   background: transparent; //$lightestgrey;
   -webkit-box-shadow: none;
@@ -80,7 +80,6 @@
 button[disabled].navButton {
   border: none;
   color: #ccc;
-  height: 60px;
   box-shadow: none;
   &:hover {
     background-color: $verdedisabled;
@@ -89,6 +88,8 @@ button[disabled].navButton {
 }
 
 .navbarButton_publish,.navbarButton_unpublish {
+  height: 54px;
+  margin: 3px 0;
   background-color: $blueprimary;
   border-radius: 3px;
   color: darkcyan;

@@ -21,8 +21,12 @@ export default class Visor3DPlugin extends React.Component {
             screenfull.request(findDOMNode(this.obj_wrapper));
         } else {
             screenfull.exit();
+
         }
         this.setState({ fullscreen: !this.state.fullscreen });
+
+        window.dispatchEvent(new Event('resize'));
+
     }
 
     render() {
@@ -31,20 +35,22 @@ export default class Visor3DPlugin extends React.Component {
         return (
             <div ref={obj_wrapper => {this.obj_wrapper = obj_wrapper;}} style={{ height: "100%", width: "100%" }}>
                 <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
-                <STLViewer
-                    url={this.props.state.url}
-                    modelColor={color}
-                    backgroundColor={backgroundColor}
-                    rotate={this.props.state.rotate}
-                    width={this.state.width}
-                    height={this.state.height}
-                    orbitControls />
-                <ReactResizeDetector handleWidth handleHeight onResize={(w, h)=>{ this.onResize(w, h);}} />
+                <div className="rrd-wrapper">
+                    <STLViewer
+                        url={this.props.state.url}
+                        modelColor={color}
+                        backgroundColor={backgroundColor}
+                        rotate={this.props.state.rotate}
+                        width={this.state.width}
+                        height={this.state.height}
+                        orbitControls />
+                    <ReactResizeDetector handleWidth handleHeight onResize={(w, h)=>{ this.onResize(w, h);}} /></div>
 
             </div>);
     }
     onResize(width, height) {
         this.setState({ width, height });
+        console.log(width, height);
     // findParentBySelector
 
     }

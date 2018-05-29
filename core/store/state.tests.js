@@ -19,7 +19,7 @@ export const testState = {
                     "min": 0,
                     "max": 100,
                 },
-                "context": "school",
+                "context": "elementary_school",
                 "rights": "Public Domain",
                 "keywords": [],
                 "typicalLearningTime": {

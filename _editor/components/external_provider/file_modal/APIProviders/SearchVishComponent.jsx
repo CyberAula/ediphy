@@ -106,7 +106,7 @@ export default class SearchVishComponent extends React.Component {
         );
     }
     componentWillUpdate(nextProps, nextState) {
-        if (this.state.results.length && (nextState.results.length !== this.state.results.length)) {
+        if (this.state.results.length && (nextState.results.length !== this.state.results.length && nextState.results.length > 0)) {
             this.props.onElementSelected(nextState.results[0].title, nextState.results[0].file_url, 'image');
 
         }
@@ -121,7 +121,7 @@ export default class SearchVishComponent extends React.Component {
             "&type=" + "Picture" /* ReactDOM.findDOMNode(this.refs.type).value */ +
             "&sort_by=" + "created");
 
-        this.setState({ msg: i18n.t("FileModal.APIProviders.searching") });
+        this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
 
         fetch(query)
             .then(response => {

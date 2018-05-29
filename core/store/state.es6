@@ -4,8 +4,9 @@ export const initialState = (config) => { return config.sections_have_content ?
     ({ filesUploaded: {},
         undoGroup: {
             present: {
+                status: 'draft',
                 globalConfig: {
-                    title: "Ediphy",
+                    title: i18n.t('course_title'),
                     canvasRatio: config.defaultAspectRatio || 16 / 9,
                     visorNav: {
                         player: true,
@@ -17,7 +18,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                         min: 0,
                         max: 100,
                     },
-                    context: 'school',
+                    context: 'elementary_school',
                     rights: "Public Domain",
                     keywords: [],
                     minTimeProgress: 10,
@@ -28,7 +29,6 @@ export const initialState = (config) => { return config.sections_have_content ?
                     },
                     version: '1.0.0',
                     thumbnail: '',
-                    status: 'draft',
                     structure: 'linear',
                     difficulty: 'easy',
                 },
@@ -107,9 +107,9 @@ export const initialState = (config) => { return config.sections_have_content ?
                         breadcrumb: 'reduced',
                         courseTitle: 'hidden',
                         documentSubtitle: 'hidden',
-                        documentSubtitleContent: 'Subtítulo',
+                        documentSubtitleContent: i18n.t('subtitle'),
                         documentTitle: 'expanded',
-                        documentTitleContent: i18n.t('section'),
+                        documentTitleContent: "",
                         numPage: 'hidden',
                         numPageContent: '1',
                         background: "#ffffff",
@@ -121,8 +121,9 @@ export const initialState = (config) => { return config.sections_have_content ?
     ({ filesUploaded: {},
         undoGroup: {
             present: {
+                status: 'draft',
                 globalConfig: {
-                    title: "Ediphy",
+                    title: i18n.t('course_title'),
                     canvasRatio: config.defaultAspectRatio || 16 / 9,
                     minTimeProgress: 10,
                     visorNav: {
@@ -135,7 +136,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                         min: 0,
                         max: 100,
                     },
-                    context: 'school',
+                    context: 'elementary_school',
                     rights: "Public Domain",
                     keywords: [],
                     typicalLearningTime: {
@@ -145,7 +146,6 @@ export const initialState = (config) => { return config.sections_have_content ?
                     },
                     version: '1.0.0',
                     thumbnail: '',
-                    status: 'draft',
                     structure: 'linear',
                     difficulty: 'easy',
                 },
@@ -244,9 +244,9 @@ export const initialState = (config) => { return config.sections_have_content ?
                         breadcrumb: 'reduced',
                         courseTitle: 'hidden',
                         documentSubtitle: 'hidden',
-                        documentSubtitleContent: 'Subtítulo',
+                        documentSubtitleContent: i18n.t('subtitle'),
                         documentTitle: 'expanded',
-                        documentTitleContent: i18n.t('section'),
+                        documentTitleContent: "",
                         numPage: 'hidden',
                         numPageContent: '1',
                         background: "#ffffff",
@@ -259,9 +259,9 @@ export const initialState = (config) => { return config.sections_have_content ?
                         breadcrumb: 'reduced',
                         courseTitle: 'hidden',
                         documentSubtitle: 'hidden',
-                        documentSubtitleContent: 'Subtítulo',
+                        documentSubtitleContent: i18n.t('subtitle'),
                         documentTitle: 'expanded',
-                        documentTitleContent: (i18n.t('Title') + i18n.t('document')),
+                        documentTitleContent: "",
                         numPage: 'hidden',
                         numPageContent: '',
                         background: "#ffffff",

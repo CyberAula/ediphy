@@ -46,20 +46,21 @@ export default class EditorIndexTitle extends Component {
                             }
                             e.stopPropagation();
                         }}>
-                        {Ediphy.Config.show_numbers_before_navitems ? this.props.index : ""} {this.props.title}
+                        {Ediphy.Config.show_numbers_before_navitems ? this.props.index : ""} {(this.props.title && this.props.title !== "") ? this.props.title : ((this.props.courseTitle) ? i18n.t('Title_document') : i18n.t('Page'))}
                     </div>) :
                     (<FormControl
                         type="text"
                         ref="titleIndex"
+                        placeholder={(this.props.courseTitle) ? i18n.t('Title_document') : i18n.t('Page')}
                         className={this.props.id ? "editSectionTitle" : "editTitle"}
                         value={this.state.currentValue}
                         autoFocus
                         onKeyDown={e=> {
                             if (e.keyCode === 13) { // Enter Key
                                 this.setState({ editing: !this.state.editing });
-                                if(this.props.courseTitle) {
+                                if (this.props.courseTitle) {
                                     this.props.onNameChanged('title', this.state.currentValue);
-                                }else {
+                                } else {
                                     this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? { viewName: this.state.currentValue } : this.getDefaultValue());
                                 }
                             }

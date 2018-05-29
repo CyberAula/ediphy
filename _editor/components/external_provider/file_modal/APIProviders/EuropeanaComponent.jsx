@@ -43,7 +43,7 @@ export default class EuropeanaComponent extends React.Component {
                             <br />
                             {this.state.results.map((item, index) => {
                                 let border = item.url === this.props.elementSelected ? "solid #17CFC8 3px" : "solid transparent 3px";
-                                return (<ImageComponent item={item} title={item.title} url={item.url} onElementSelected={this.props.onElementSelected} isSelected={item.url === this.props.elementSelected} />
+                                return (<ImageComponent item={item} title={item.title} url={item.url} thumbnail={item.thumbnail} onElementSelected={this.props.onElementSelected} isSelected={item.url === this.props.elementSelected} />
                                 );
                             })}
                         </FormGroup>
@@ -60,7 +60,7 @@ export default class EuropeanaComponent extends React.Component {
 
     onSearch(text) {
         const BASE = 'https://www.europeana.eu/api/v2/search.json?wskey=ZDcCZqSZ5&query=' + (text || "europeana") + '&qf=TYPE:IMAGE&profile=RICH&media=true&rows=100&qf=IMAGE_SIZE:small';
-        this.setState({ msg: i18n.t("FileModal.APIProviders.searching") });
+        this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
         fetch(encodeURI(BASE))
             .then(res => res.text()
             ).then(imgStr => {
@@ -70,6 +70,7 @@ export default class EuropeanaComponent extends React.Component {
                         return {
                             title: img.title[0],
                             url: img.edmIsShownBy,
+                            thumbnail: img.edmPreview,
                         };
                     });
 
