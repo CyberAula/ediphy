@@ -67,7 +67,6 @@ export default class EuropeanaComponent extends React.Component {
                 let imgs = JSON.parse(imgStr);
                 if (imgs && imgs.items) {
                     let results = imgs.items.map(img=>{
-                        console.log(img);
                         return {
                             title: img.title[0],
                             url: img.edmIsShownBy,

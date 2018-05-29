@@ -282,7 +282,7 @@ export default class PDFHandler extends Component {
                 customSize,
             };
             navs.push(nav);
-
+            º;
         }
         this.props.onNavItemsAdded(navs, 0);
         if (navs.length > 0) {
@@ -296,12 +296,10 @@ export default class PDFHandler extends Component {
         let preview = document.getElementById('FilePreview');
         let firstCanvas = document.getElementById('can' + page);
         preview.src = firstCanvas.toDataURL();
-        if(firstCanvas.width > firstCanvas.height) {
-            console.log("más ancho");
+        if (firstCanvas.width > firstCanvas.height) {
             preview.style.width = '100%';
             preview.style.height = 'auto';
-        }else{
-            console.log("más alto");
+        } else {
             preview.style.width = 'auto';
             preview.style.height = '430px';
         }

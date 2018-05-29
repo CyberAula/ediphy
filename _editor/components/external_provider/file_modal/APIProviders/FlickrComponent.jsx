@@ -65,7 +65,6 @@ export default class FlickrComponent extends React.Component {
                 // console.log(imgs);
                 if (imgs) {
                     if (imgs && imgs.items) {
-                        console.log(imgs.items);
                         let results = imgs.items.map(img=>{
                             return {
                                 title: img.title,

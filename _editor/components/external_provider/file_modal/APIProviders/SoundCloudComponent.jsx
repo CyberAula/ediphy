@@ -81,7 +81,6 @@ export default class SoundCloudComponent extends React.Component {
             .then(res => res.text()
             ).then(audioStr => {
                 let songs = JSON.parse(audioStr);
-                console.log(songs);
                 if (songs) {
                     let results = songs.map(song=>{
                         return {
