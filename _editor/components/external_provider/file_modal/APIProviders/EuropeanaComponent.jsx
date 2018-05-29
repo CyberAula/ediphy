@@ -60,7 +60,7 @@ export default class EuropeanaComponent extends React.Component {
 
     onSearch(text) {
         const BASE = 'https://www.europeana.eu/api/v2/search.json?wskey=ZDcCZqSZ5&query=' + (text || "europeana") + '&qf=TYPE:IMAGE&profile=RICH&media=true&rows=100&qf=IMAGE_SIZE:small';
-        this.setState({ msg: i18n.t("FileModal.APIProviders.searching") });
+        this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
         fetch(encodeURI(BASE))
             .then(res => res.text()
             ).then(imgStr => {
