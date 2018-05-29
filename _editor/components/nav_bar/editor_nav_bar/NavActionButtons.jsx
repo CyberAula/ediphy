@@ -112,7 +112,6 @@ export default class NavActionButtons extends Component {
      */
     render() {
         let buttons = this.getButtons();
-        console.log(this.props.globalConfig);
         return (
             <div className="navButtons">
                 <Overlay rootClose

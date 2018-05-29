@@ -170,7 +170,7 @@ export default class GlobalConfig extends Component {
                                         <a className="miniIcon" target="_blank" href={"https://creativecommons.org/licenses/?lang="+i18n.t('currentLang')}><i className="material-icons">help</i></a>
                                          */}
                                         <br/>
-                                        <Select
+                                        <Select disabled={status === 'final'} className={status === 'final' ? 'select-disabled' : ''} title={status === 'final' ? 'No puedes' : ''}
                                             name="form-field-name-rights"
                                             value={rights}
                                             options={rightsOptions()}
@@ -518,9 +518,9 @@ export default class GlobalConfig extends Component {
                 visorNav: nextProps.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
                 modifiedState: false,
                 showAlert: false,
+
             });
         }
-
     }
 
 }

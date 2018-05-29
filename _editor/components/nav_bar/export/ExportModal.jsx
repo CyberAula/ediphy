@@ -38,8 +38,10 @@ export default class ExportModal extends Component {
             { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false, callback, this.state.selfContained); } },
             { format: "SCORM 2004", handler: ()=> {this.props.scorm(true, callback, this.state.selfContained); } },
             { format: "HTML", handler: ()=> {this.props.export('HTML', callback, this.state.selfContained); } },
-            { format: "PDF", handler: ()=> { this.props.export('PDF', callback, this.state.selfContained);} },
         ];
+        if (!this.props.hidePDF) {
+            exportFormats.push({ format: "PDF", handler: ()=> { this.props.export('PDF', callback, this.state.selfContained);} });
+        }
         return (
             <Modal className="pageModal exportoScormModalBody"
                 show={this.props.show}

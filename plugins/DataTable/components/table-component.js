@@ -14,7 +14,6 @@ export default class TableComponent extends React.Component {
           nextProps.options.initialPageLength &&
           this.props.options && this.props.options.initialPageLength &&
           this.props.options.initialPageLength !== nextProps.options.initialPageLength) {
-            console.log(this.state.key);
             this.setState({ key: this.state.key + 1 });
         }
     }

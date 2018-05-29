@@ -42,6 +42,7 @@
      margin-bottom:3px;
      width: 100%;
    }
+
 }
 
 //tags
@@ -104,6 +105,16 @@ textarea#descTA{
 
 .form-group .Select {
 	border: 1px solid #ccc;
+  &.select-disabled {
+    .Select-value {
+      cursor: not-allowed;
+      .Select-value-label {
+        color: #aaa !important;
+      }
+
+    }
+
+  }
 	&:focus, .is-focused {
 	    border-color: #66afe9;
 	    outline: 0;
@@ -116,10 +127,7 @@ textarea#descTA{
 		border: none;
 	}
 }
-.toggle-switch---switch---3EchW.toggle-switch---checked---3aC9B .toggle-switch---toggle---mncCu {
-	border-color: $blueprimary; //rgb(95, 204, 199);
-	background-color: $blueprimary; //rgb(95, 204, 199);
-}
+
 
 .inlineLabel {
   display: inline;
