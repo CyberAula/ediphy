@@ -411,7 +411,7 @@ export function exportStateAsync(state, win = null) {
                     ediphy_editor_params.ediphy_resource_id = ediphy_resource_id;
                 }
                 if(win !== null) {
-                    win.location.href = ediphy_editor_params.export_url;
+                    win.parent.location.href = ediphy_editor_params.export_url;
                     win.focus();
                 }
                 dispatch(setBusy(false, i18n.t("success_transaction")));
