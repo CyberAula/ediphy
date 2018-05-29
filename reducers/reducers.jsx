@@ -70,7 +70,6 @@ function versionReducer(state = {}, action = {}) {
 }
 
 function status(state = "draft", action = {}) {
-    console.log(action);
     switch (action.type) {
 
     case CHANGE_GLOBAL_CONFIG:

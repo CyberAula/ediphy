@@ -426,7 +426,7 @@ class EditorApp extends Component {
                     visorVisible={this.state.visorVisible}
                     onVisibilityToggled={()=> this.setState({ visorVisible: !this.state.visorVisible })}
                     filesUploaded={this.props.store.getState().filesUploaded }
-                    state={this.props.store.getState().undoGroup.present}/>
+                    state={{ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded, status: this.props.store.getState().status }}/>
                 <PluginConfigModal
                     id={this.state.pluginConfigModal}
                     fileModalResult={this.state.fileModalResult}

@@ -13,8 +13,11 @@ import i18n from '../../locales/i18n';
 require('es6-promise').polyfill();
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
+import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
+
 import './../../sass/style.scss';
 import '../../core/visor/visor_entrypoint';
+import ExportModal from '../../_editor/components/nav_bar/export/ExportModal';
 
 /**
  * Visor app main component
@@ -33,6 +36,21 @@ export default class Visor extends Component {
             scoreInfo: { userName: "Anonymous", totalScore: 0, totalWeight: 0, completionProgress: 0 },
         };
         this.onMarkClicked = this.onMarkClicked.bind(this);
+        if (!Ediphy.State.export) {
+            window.export = (format = 'HTML') => {
+                switch(format) {
+                case 'SCORM12':
+                    this.exportToScorm(false, ()=>{return true;}, false);
+                case 'SCORM2004':
+                    this.exportToScorm(true, ()=>{return true;}, false);
+                case 'HTML':
+                    this.exportToScorm('HTML', ()=>{return true;}, false);
+                default:
+                    return false;
+                }
+            };
+        }
+
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -98,7 +116,7 @@ export default class Visor extends Component {
         /*
         * Add Key bindings to app
         * */
-
+        setTimeout(()=>{window.export();}, 10000);
         if(Ediphy.State.globalConfig.visorNav.keyBindings) {
             // First get window focus so arrows work right away
             window.focus();
@@ -155,6 +173,7 @@ export default class Visor extends Component {
         !isCV && navItems[this.getLastCurrentViewElement()] === "slide" ?
             "pcw_slide" : "pcw_doc";
         let currentView = this.getLastCurrentViewElement();
+        let isExport = Ediphy.State.export;
         let canvasProps = {
             boxes: boxesById,
             changeCurrentView: (element) => {this.changeCurrentView(element);},
@@ -172,6 +191,7 @@ export default class Visor extends Component {
             onMarkClicked: this.onMarkClicked,
             triggeredMarks: this.state.triggeredMarks,
             viewsArray: this.state.currentView,
+            exportModalOpen: false,
         };
         let visorContent = !isContainedView(currentView) ? (
             <VisorCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") === -1} />) : (<VisorContainedCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") !== -1} />);
@@ -197,7 +217,7 @@ export default class Visor extends Component {
                         style={{ height: '100%' }}>
                         <Row style={{ height: '100%' }}>
                             <Col lg={12} style={{ height: '100%' }}>
-                                { !isContainedView(currentView) ? (<VisorPlayer show={visorNav.player}
+                                { !isContainedView(currentView) ? (<VisorPlayer show={visorNav.player} hideExportButton={isExport} openDownloadModal={()=>{this.setState({ exportModalOpen: true });}}
                                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
                                     currentViews={this.state.currentView}
                                     navItemsById={navItems}
@@ -223,10 +243,33 @@ export default class Visor extends Component {
                                 </ScormComponent>
                             </Col>
                         </Row>
+                        {!isExport ? <ExportModal show={this.state.exportModalOpen} hidePDF
+                            export={this.export}
+                            scorm={this.exportToScorm}
+                            close={()=>{this.setState({ exportModalOpen: false });}} /> : null}
+
                     </Grid>
                 </div>
             </div>);
 
+    }
+
+    /**
+   * Export to HTML or PDF
+   * @param format
+   * @param callback
+   * @param selfContained
+   */
+    export(format, callback, selfContained = false) {
+        if(format === "PDF") {
+            printToPDF(Ediphy.State, callback);
+        } else {
+            Ediphy.Visor.exportsHTML(Ediphy.State, callback, selfContained);
+        }
+    }
+
+    exportToScorm(is2004, callback, selfContained = false) {
+        Ediphy.Visor.exportScorm(Ediphy.State, is2004, callback, selfContained);
     }
 
     /**

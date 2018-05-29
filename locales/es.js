@@ -365,6 +365,7 @@ let es = {
             "Previous": "Anterior",
             "Next": "Siguiente",
             "Last": "Fin",
+            "Export": "Exportar",
         },
         "plugin_config": "Configuración",
         "Position": "Posicionamiento",

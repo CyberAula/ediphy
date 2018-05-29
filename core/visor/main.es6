@@ -81,7 +81,7 @@ export default {
                                 }
                                 state.navItemSelected = page;
                                 let filesUploaded = Object.values(state.filesUploaded);
-                                let strState = JSON.stringify(state);
+                                let strState = JSON.stringify({ ...state, export: true });
                                 let usedNames = [];
                                 if (selfContained) {
                                     for (let f in state.filesUploaded) {
@@ -197,7 +197,7 @@ export default {
                                     state.fromScorm = true;
                                     state.navItemSelected = page;
                                     let filesUploaded = Object.values(state.filesUploaded);
-                                    let strState = JSON.stringify(state);
+                                    let strState = JSON.stringify({ ...state, export: true });
                                     let usedNames = [];
                                     if (selfContained) {
                                         for (let f in state.filesUploaded) {
