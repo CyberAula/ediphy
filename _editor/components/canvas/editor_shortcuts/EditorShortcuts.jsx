@@ -68,6 +68,7 @@ export default class EditorShortcuts extends Component {
             <div id={this.props.isContained ? "contained_editorBoxIcons" : "editorBoxIcons"}
                 className=""
                 onClick={(e)=>{e.stopPropagation();}}
+                onMouseDown={(e)=>{e.stopPropagation();}}
                 ref="container"
                 style={{
                     display: (box && box.id && isSortableBox(box.id)) || !box || !box.id ? 'none' : 'block',
