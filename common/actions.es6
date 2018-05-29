@@ -278,7 +278,11 @@ export function deleteRemoteFileVishAsync(id, url, callback) {
             body: form,
         }).then(response => {
             if (!response.ok) {
+                if(response.status === 406) {
+                    return 200;
+                }
                 throw Error(response.statusText);
+
             }
 
             return 200;

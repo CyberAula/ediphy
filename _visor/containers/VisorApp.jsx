@@ -172,7 +172,7 @@ export default class Visor extends Component {
         !isCV && navItems[this.getLastCurrentViewElement()] === "slide" ?
             "pcw_slide" : "pcw_doc";
         let currentView = this.getLastCurrentViewElement();
-        let isExport = Ediphy.State.export;
+        let isExport = true || Ediphy.State.export;
         let canvasProps = {
             boxes: boxesById,
             changeCurrentView: (element) => {this.changeCurrentView(element);},
