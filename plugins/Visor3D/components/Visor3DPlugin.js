@@ -17,15 +17,18 @@ export default class Visor3DPlugin extends React.Component {
     }
 
     onClickFullscreen() {
+        let width = this.state.width;
+        let height = this.state.height;
         if(!this.state.fullscreen) {
+            this.setState({ fullscreen: !this.state.fullscreen, savedWidth: this.state.width, savedHeight: this.state.height });
             screenfull.request(findDOMNode(this.obj_wrapper));
         } else {
             screenfull.exit();
+            width = this.state.savedWidth || 400;
+            height = this.state.savedHeight || 400;
+            this.setState({ fullscreen: !this.state.fullscreen, width, height });
 
         }
-        this.setState({ fullscreen: !this.state.fullscreen });
-
-        window.dispatchEvent(new Event('resize'));
 
     }
 

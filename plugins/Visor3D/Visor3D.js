@@ -88,7 +88,7 @@ export function Visor3D(base) {
                         },
                         settings: {
                             __name: Ediphy.i18n.t('Visor3D.settings'),
-                            icon: 'build',
+                            icon: 'settings',
                             buttons: {
                                 color: {
                                     __name: Ediphy.i18n.t('Visor3D.color'),
