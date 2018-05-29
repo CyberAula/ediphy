@@ -183,6 +183,10 @@ export default function handlers(self) {
                                 if (msg && msg.success && msg.question) {
                                     initialParams.exercises = msg.question;
                                     initialParams.initialState = msg.question.state;
+                                    if (msg.question.id) {
+                                        initialParams.id = msg.question.id;
+                                    }
+
                                     createBox(initialParams, msg.question.name, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
                                     self.close();
                                 } else {

@@ -352,7 +352,6 @@ export default class EditorBox extends Component {
      * Set interact listeners for box manipulation
      */
     componentDidMount() {
-        console.log('aaaaaaaaaaaaaaas');
         let toolbar = this.props.pluginToolbars[this.props.id];
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let config = apiPlugin.getConfig();

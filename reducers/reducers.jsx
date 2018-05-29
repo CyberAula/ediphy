@@ -5,7 +5,7 @@ import {
     TOGGLE_TEXT_EDITOR,
     DELETE_RICH_MARK, ADD_RICH_MARK, DELETE_CONTAINED_VIEW,
     TOGGLE_TITLE_MODE, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPDATE_BOX,
-    UPLOAD_FILE, SELECT_CONTAINED_VIEW, DELETE_FILE,
+    UPLOAD_FILE, SELECT_CONTAINED_VIEW, DELETE_FILE, CHANGE_GLOBAL_CONFIG,
 } from '../common/actions';
 import { isSortableBox } from '../common/utils';
 import boxesById from './boxes_by_id';
@@ -69,8 +69,25 @@ function versionReducer(state = {}, action = {}) {
     return version;
 }
 
+function status(state = "draft", action = {}) {
+    switch (action.type) {
+
+    case CHANGE_GLOBAL_CONFIG:
+        if(action.payload.prop === 'STATE') {
+            return action.payload.value.status;
+        } else if (action.payload.prop === 'status') {
+            return action.payload.value;
+        }
+        return state;
+    case IMPORT_STATE:
+        return action.payload.status || state;
+    default:
+        return state;
+    }}
+
 const GlobalState = combineReducers({
     filesUploaded, // We are not allowed to undo file uploads/removals because the files remain in the server
+    status,
     undoGroup: undoable(combineReducers({
         version: versionReducer,
         lastActionDispatched: lastActionDispatched,

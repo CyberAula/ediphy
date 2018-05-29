@@ -390,7 +390,17 @@ export default {
         contSource.appendChild(contSourceTxt);
         context.appendChild(contSource);
         let contValue = doc.createElement('value');
-        let contValueTxt = doc.createTextNode(gc.context || 'other');
+        let realContext = gc.context || 'other';
+        switch(realContext) {
+        case 'elementary_school':
+        case 'middle_school':
+        case 'high_school':
+            realContext = 'school';
+            break;
+        default:
+            break;
+        }
+        let contValueTxt = doc.createTextNode(realContext);
         contValue.appendChild(contValueTxt);
         context.appendChild(contValue);
         educational.appendChild(context);

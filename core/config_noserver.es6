@@ -42,8 +42,14 @@ export default {
         'Webpage',
         'HotspotImages',
         // 'ContainerReact',
+        'MultipleChoice',
+        'MultipleAnswer',
+        'FreeResponse',
+        'InputText',
         // 'ContainerJS',
         'GraficaD3',
+        'TrueFalse',
+        // 'ScormPackage',
 
     ],
     availableLanguages: [

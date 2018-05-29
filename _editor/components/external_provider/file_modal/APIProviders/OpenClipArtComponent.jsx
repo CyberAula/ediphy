@@ -60,13 +60,12 @@ export default class OpenClipArtComponent extends React.Component {
     onSearch(text) {
         const BASE_OPENCLIPART = "https://openclipart.org";
         const BASE = BASE_OPENCLIPART + "/search/json/?query=" + encodeURI(text) + "&amount=200";
-        this.setState({ msg: i18n.t("FileModal.APIProviders.searching") });
+        this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
         fetch((BASE))
             .then(res => res.json()
             ).then(imgs => {
                 if (imgs && imgs.payload) {
                     let results = imgs.payload.map(img=>{
-                        console.log(img);
                         return {
                             title: img.title,
                             url: (img.svg.url || img.svg.png_2400px),

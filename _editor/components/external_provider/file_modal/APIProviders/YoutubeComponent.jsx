@@ -42,7 +42,6 @@ export default class YoutubeComponent extends React.Component {
                                 let background = item.url === this.props.elementSelected ? "rgba(23,207,200,0.1)" : "transparent";
                                 let date = new Date(item.publishedAt);
 
-                                // console.log(item);
                                 return (
                                     <div
                                         className={"videoItem"} key={index} style={{ border: border, backgroundColor: background }}
@@ -76,7 +75,6 @@ export default class YoutubeComponent extends React.Component {
             .then(res => res.text()
             ).then(videosStr => {
                 let videos = JSON.parse(videosStr);
-                console.log(videos);
                 if (videos.items) {
                     let results = videos.items.map(video => {
                         return {
