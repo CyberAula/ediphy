@@ -656,7 +656,14 @@ class EditorApp extends Component {
     componentDidMount() {
         if (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' && ediphy_editor_json && ediphy_editor_json !== 'undefined') {
             this.props.dispatch(importState(serialize(JSON.parse(ediphy_editor_json))));
+
         }
+        if (process.env.NODE_ENV === 'production' && process.env.DOC === 'doc') {
+            $(window).on("beforeunload", function() {
+                return i18n.t('messages.exit_page');
+            });
+        }
+
         // setTimeout(()=>{this.setState({ showHelpButton: false });}, 30000);
         document.addEventListener('keyup', this.keyListener);
         document.addEventListener('dragover', this.dragListener);
