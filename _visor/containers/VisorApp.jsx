@@ -116,7 +116,6 @@ export default class Visor extends Component {
         /*
         * Add Key bindings to app
         * */
-        setTimeout(()=>{window.export();}, 10000);
         if(Ediphy.State.globalConfig.visorNav.keyBindings) {
             // First get window focus so arrows work right away
             window.focus();
