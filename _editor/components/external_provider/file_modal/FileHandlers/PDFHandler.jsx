@@ -129,7 +129,7 @@ export default class PDFHandler extends Component {
                 </div>
                 <Row style={{ display: 'block' }}>
                     <Col xs={12} md={6} lg={6}>
-                        <img id='FilePreview' src={spinner} style={{ width: '100%', padding: '25%' }}/>
+                        <img id='FilePreview' src={spinner} style={{ width: 'auto', padding: '25%' }}/>
                     </Col>
                     <Col xs={12} md={6} lg={6}>
                         <FormGroup>
@@ -296,8 +296,15 @@ export default class PDFHandler extends Component {
         let preview = document.getElementById('FilePreview');
         let firstCanvas = document.getElementById('can' + page);
         preview.src = firstCanvas.toDataURL();
-        preview.style.width = '100%';
-        preview.style.height = 'auto';
+        if(firstCanvas.width > firstCanvas.height) {
+            console.log("más ancho");
+            preview.style.width = '100%';
+            preview.style.height = 'auto';
+        }else{
+            console.log("más alto");
+            preview.style.width = 'auto';
+            preview.style.height = '430px';
+        }
         preview.style.border = '1px solid';
         preview.style.padding = '0px';
     }
