@@ -144,7 +144,6 @@ export function EnrichedPDF(base) {
             return y.toFixed(2) + ',' + x.toFixed(2) + ',' + numPage;
         },
         validateValueInput: function(value) {
-            // let regex = /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$),(\d+)/g;
             let regex = /(^-?\d+(?:\.\d*)?),(-?\d+(?:\.\d*)?),(\d+$)/g;
             let match = regex.exec(value);
             if (match && match.length === 4) {
@@ -152,13 +151,12 @@ export function EnrichedPDF(base) {
                 let y = Math.round(parseFloat(match[2]) * 100) / 100;
                 let p = Math.round(parseFloat(match[3]) * 100) / 100;
                 if (isNaN(x) || isNaN(y)) {
-                    return { isWrong: true, message: i18n.t("BasicPDF.message_mark_xyp") };
+                    return { isWrong: true, message: i18n.t("EnrichedPDF.message_mark_xyp") };
                 }
                 value = x + ',' + y + ',' + p;
             } else {
-                return { isWrong: true, message: i18n.t("BasicPDF.message_mark_xyp") };
+                return { isWrong: true, message: i18n.t("EnrichedPDF.message_mark_xyp") };
             }
-            // console.log("OK");
             return { isWrong: false, value: value };
         },
 

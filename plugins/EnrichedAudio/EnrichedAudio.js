@@ -52,12 +52,6 @@ export function EnrichedAudio(base) {
                                     checked: state.waves,
                                     autoManaged: false,
                                 },
-                                /* scroll: {
-                                    __name: Ediphy.i18n.t('BasicAudio.Scroll'),
-                                    type: 'checkbox',
-                                    checked: state.scroll,
-                                    autoManaged: false,
-                                },*/
                                 barWidth: {
                                     __name: Ediphy.i18n.t('EnrichedAudio.BarWidth'),
                                     type: 'range',
@@ -164,11 +158,11 @@ export function EnrichedAudio(base) {
             if (match && match.length === 2) {
                 let val = Math.round(parseFloat(match[1]) * 100) / 100;
                 if (isNaN(val) || val > 100) {
-                    return { isWrong: true, message: i18n.t("BasicAudio.message_mark_percentage") };
+                    return { isWrong: true, message: i18n.t("EnrichedAudio.message_mark_percentage") };
                 }
                 value = val + '%';
             } else {
-                return { isWrong: true, message: i18n.t("BasicAudio.message_mark_percentage") };
+                return { isWrong: true, message: i18n.t("EnrichedAudio.message_mark_percentage") };
             }
             return { isWrong: false, value: value };
 
