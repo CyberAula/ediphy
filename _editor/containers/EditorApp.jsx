@@ -77,6 +77,7 @@ class EditorApp extends Component {
             grid: false,
             pluginConfigModal: false,
             accordions: {},
+            publishing: false,
             blockDrag: false,
             showFileUpload: false,
             fileUploadTab: 0,
@@ -170,6 +171,7 @@ class EditorApp extends Component {
                         undo={() => {dispatch(ActionCreators.undo());}}
                         redo={() => {dispatch(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
+                        publishing={() =>this.setState({ publishing: true })}
                         openTour={()=>{this.setState({ showHelpButton: true });}}
                         export={(format, callback, selfContained = false) => {
                             if(format === "PDF") {
@@ -659,9 +661,11 @@ class EditorApp extends Component {
 
         }
         if (process.env.NODE_ENV === 'production' && process.env.DOC === 'doc') {
-            $(window).on("beforeunload", function() {
-                return i18n.t('messages.exit_page');
-            });
+            if(!this.state.publishing) {
+                $(window).on("beforeunload", function() {
+                    return i18n.t('messages.exit_page');
+                });
+            }
         }
 
         // setTimeout(()=>{this.setState({ showHelpButton: false });}, 30000);

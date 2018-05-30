@@ -143,6 +143,7 @@ export default class NavActionButtons extends Component {
                                 // acciones de publicar
                                 const win = window.open('', '_self');
                                 this.props.changeGlobalConfig("status", "final");
+                                this.props.publishing();
                                 this.props.save(win);
                                 this.props.serverModalOpen();
                                 this.setState({ showOverlay: false });}}>
