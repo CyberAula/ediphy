@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import STLViewer from 'stl-viewer';
 import screenfull from 'screenfull';
-import { toColor } from '../../../common/common_tools';
+import { fullScreenListener, isFullScreenOn, toColor } from '../../../common/common_tools';
 import '../_visor3D.scss';
 import ReactResizeDetector from 'react-resize-detector';
 import { findParentBySelector } from '../../../common/utils';
@@ -14,12 +14,13 @@ export default class Visor3DPlugin extends React.Component {
             width: 400,
             height: 400,
         };
+        this.checkFullScreen = this.checkFullScreen.bind(this);
     }
 
     onClickFullscreen() {
         let width = this.state.width;
         let height = this.state.height;
-        if(!this.state.fullscreen) {
+        if (!this.state.fullscreen) {
             this.setState({ fullscreen: !this.state.fullscreen, savedWidth: this.state.width, savedHeight: this.state.height });
             screenfull.request(findDOMNode(this.obj_wrapper));
         } else {
@@ -53,8 +54,27 @@ export default class Visor3DPlugin extends React.Component {
     }
     onResize(width, height) {
         this.setState({ width, height });
-        console.log(width, height);
-    // findParentBySelector
+    }
+
+    checkFullScreen(e) {
+        // Si no está activada la pantalla completa pero en el estado sigue marcando que lo está
+        // (porque hemos salido con la tecla escape), se la quitamos y reestablecemos el tamaño
+        if (this.state.fullscreen && !isFullScreenOn()) {
+            let width = this.state.savedWidth || 400;
+            let height = this.state.savedHeight || 400;
+            this.setState({ fullscreen: false, width, height });
+        }
+    }
+
+    // Iniciamos los listeners para que nos avise cuando hay un cambio en pantalla completa
+    componentDidMount() {
+        fullScreenListener(this.checkFullScreen, true);
+
+    }
+
+    // Quitamos los listeners
+    componentWillUnmount() {
+        fullScreenListener(this.checkFullScreen, false);
 
     }
 }
