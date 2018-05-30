@@ -15,11 +15,10 @@ export default class BasicAudioPluginEditor extends React.Component {
             volume: 0.5,
             controls: true,
             duration: 1,
-            waves: true,
+            // waves: true,
             autoplay: false,
-            audioPeaks: null,
-            ondas: false,
-            name: "No name",
+            // audioPeaks: null,
+            // ondas: false,
         };
         this.onProgress = this.onProgress.bind(this);
         this.onReady = this.onReady.bind(this);
@@ -77,7 +76,7 @@ export default class BasicAudioPluginEditor extends React.Component {
             waveColor: props.state.waveColor,
             normalize: true,
             barWidth: (props.state.barWidth > 0 ? props.state.barWidth : undefined),
-            peaks: state.peaks,
+            // peaks: state.peaks,
             cursorColor: 'grey',
         };
     }
@@ -112,7 +111,7 @@ export default class BasicAudioPluginEditor extends React.Component {
             pos: 0,
             playing: false,
             autoplay: this.props.state.autoplay,
-            ondas: this.wavesurfer.backend.mergedPeaks,
+            // ondas: this.wavesurfer.backend.mergedPeaks,
             waveColor: this.wavesurfer.params.waveColor,
             progressColor: this.wavesurfer.params.progressColor,
         });

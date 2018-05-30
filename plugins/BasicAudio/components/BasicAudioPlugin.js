@@ -13,11 +13,10 @@ export default class BasicAudioPlugin extends React.Component {
             volume: 0.5,
             controls: true,
             duration: 1,
-            waves: true,
+            // waves: true,
             autoplay: this.props.state.autoplay,
-            audioPeaks: null,
-            ondas: false,
-            name: "No name",
+            // audioPeaks: null,
+            ondas: null,
             toBeTriggered: [],
             triggering: false,
         };
@@ -68,10 +67,11 @@ export default class BasicAudioPlugin extends React.Component {
             pos,
             posPctg,
             autoplay: this.props.state.autoplay,
-            ondas: e.wavesurfer.backend.mergedPeaks,
+            //  ondas: e.wavesurfer.backend.mergedPeaks,
             waveColor: e.wavesurfer.params.waveColor,
             progressColor: e.wavesurfer.params.progressColor,
         });
+        console.log(e);
         if (this.props.state.autoplay) {
             this.setState({ playing: true });
         }
@@ -118,7 +118,7 @@ export default class BasicAudioPlugin extends React.Component {
             waveColor: this.props.state.waveColor,
             normalize: true,
             barWidth: (this.props.state.barWidth > 0 ? this.props.state.barWidth : undefined),
-            peaks: this.state.peaks,
+            // peaks: this.state.peaks,
             cursorColor: 'grey',
         };
 
@@ -157,7 +157,7 @@ export default class BasicAudioPlugin extends React.Component {
                             width="100%"
                             audioFile={this.props.state.url}
                             playing={this.state.playing}
-                            audioPeaks={this.state.audioPeaks}
+                            // audioPeaks={this.state.audioPeaks}
                             volume={this.state.volume}
                             options={waveOptions}
                             pos={this.state.pos}
