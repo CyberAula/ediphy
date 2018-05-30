@@ -56,7 +56,7 @@ export default class EditorBoxSortable extends Component {
                     {this.state.alert}
                     {box.children.map((idContainer, index)=> {
                         let container = box.sortableContainers[idContainer];
-                        return (<div key={'sortableContainer-' + idContainer}
+                        return (<div key={'sortableContainer-' + index}
                             className={"editorBoxSortableContainer pos_relative " + container.style.className}
                             data-id={idContainer}
                             id={idContainer}

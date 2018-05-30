@@ -84,13 +84,13 @@ export default function printToPDF(state, callback) {
             pdf.internal.scaleFactor = 1;
             setTimeout(function() {
                 pdf.addHTML(pageContainer, { useCORS: true, pagesplit: true, retina: true }, function() {
+                    document.body.removeChild(pageContainer);
                     if (last) {
                         pdf.save(title.split(" ").join("") + '.pdf');
                         callback();
                     } else {
                         addHTML(navs.slice(1), navs.length <= 2);
                     }
-                    document.body.removeChild(pageContainer);
 
                 });
             }, 6000);
