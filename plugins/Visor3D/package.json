@@ -1,0 +1,7 @@
+{
+  "name" : "Visor3D",
+  "version" : "0.1.1",
+  "dependencies": {
+    "stl-viewer": "^0.7.0"
+  }
+}
