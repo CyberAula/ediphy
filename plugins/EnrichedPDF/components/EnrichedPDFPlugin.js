@@ -14,8 +14,7 @@ setOptions({
     workerSrc: pdflib.PDFJS.workerSrc,
 });
 
-// el visor no tiene estado como tal, solo reproduce el estado
-export default class BasicAudioPlugin extends React.Component {
+export default class EnrichedPDFPlugin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

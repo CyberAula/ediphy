@@ -14,7 +14,7 @@ setOptions({
     workerSrc: pdflib.PDFJS.workerSrc,
 });
 
-export default class BasicAudioPluginEditor extends React.Component {
+export default class EnrichedPDFPluginEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

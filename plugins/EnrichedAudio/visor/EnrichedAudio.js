@@ -1,9 +1,8 @@
 import React from 'react';
-// import BasicAudioPlugin from '../components/BasicAudioPluginWS.js';
-import BasicAudioPlugin from '../components/BasicAudioPlugin.js';
-require('./../BasicAudio.scss');
+import EnrichedAudioPlugin from '../components/EnrichedAudioPlugin.js';
+require('./../EnrichedAudio.scss');
 
-export function BasicAudio(base) {
+export function EnrichedAudio(base) {
     return {
         getRenderTemplate: function(state, props) {
             if (state.url.match(/^https?\:\/\/api.soundcloud.com\//g)) {
@@ -11,7 +10,7 @@ export function BasicAudio(base) {
             }
             return (
                 <div style={{ height: "100%", width: "100%" }}>
-                    <BasicAudioPlugin style={{ width: "100%", height: "100%" }} state={state} props={props}/>
+                    <EnrichedAudioPlugin style={{ width: "100%", height: "100%" }} state={state} props={props}/>
                 </div>
             );
 

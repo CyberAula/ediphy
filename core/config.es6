@@ -32,9 +32,9 @@ export default {
     sections_have_content: false,
     autosave_time: 0, // Any value below 1000 will not autosave
     pluginList: [
-        'BasicAudio',
+        'EnrichedAudio',
         // 'BasicImage',
-        'BasicPDF',
+        'EnrichedPDF',
         'BasicText',
         // 'BasicPlayer',
         'DataTable',

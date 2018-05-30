@@ -1,6 +1,6 @@
 import React from 'react';
 import i18n from 'i18next';
-import BasicPDFPlugin from '../components/BasicPDFPlugin.js';
+import EnrichedPDFPlugin from '../components/EnrichedPDFPlugin.js';
 const pdflib = require('pdfjs-dist');
 const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.js');
 
@@ -11,13 +11,13 @@ import { setOptions, Document, Page } from 'react-pdf';
 setOptions({
     workerSrc: pdflib.PDFJS.workerSrc,
 });
-import '../_pdfCss.scss';
-export function BasicPDF(base) {
+import '../EnrichedPDF.scss';
+export function EnrichedPDF(base) {
     return {
         getRenderTemplate: function(state, props) {
             return (
                 <div className="pdfViewerPlugin" style={{ height: "100%", width: "100%" }}>
-                    <BasicPDFPlugin style={{ width: "100%", height: "100%" }} base={base} props={props} state={state}/>
+                    <EnrichedPDFPlugin style={{ width: "100%", height: "100%" }} base={base} props={props} state={state}/>
                 </div>
             );
         },

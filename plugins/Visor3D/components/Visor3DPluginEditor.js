@@ -34,6 +34,6 @@ export default class Visor3DPluginEditor extends React.Component {
     onResize(width, height) {
         this.setState({ width, height });
     // findParentBySelector
-
+        // no recuerdo para que necesitabamos findParentBySelector
     }
 }

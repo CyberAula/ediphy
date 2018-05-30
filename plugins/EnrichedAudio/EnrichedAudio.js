@@ -1,16 +1,16 @@
 import React from "react";
-import BasicAudioPluginEditor from './components/BasicAudioPluginEditorWS.js';
+import EnrichedAudioPluginEditor from './components/EnrichedAudioPluginEditorWS.js';
 import i18n from 'i18next';
-require('./BasicAudio.scss');
+require('./EnrichedAudio.scss');
 
-export function BasicAudio(base) {
+export function EnrichedAudio(base) {
     return {
         getConfig: function() {
             return {
-                name: 'BasicAudio',
+                name: 'EnrichedAudio',
                 flavor: "react",
                 isRich: true,
-                displayName: i18n.t('BasicAudio.PluginName'),
+                displayName: i18n.t('EnrichedAudio.PluginName'),
                 category: "multimedia",
                 initialWidth: '400px',
                 initialHeight: "140px",
@@ -21,7 +21,7 @@ export function BasicAudio(base) {
                     location: ["main", "structure"],
                     defaultValue: false,
                 },
-                marksType: [{ name: i18n.t("BasicAudio.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" }],
+                marksType: [{ name: i18n.t("EnrichedAudio.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" }],
             };
         },
         getToolbar: function(state) {
@@ -30,24 +30,24 @@ export function BasicAudio(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: i18n.t('BasicAudio.Audio'),
+                            __name: i18n.t('EnrichedAudio.Audio'),
                             icon: 'link',
                             buttons: {
                                 url: {
-                                    __name: Ediphy.i18n.t('EnrichedPlayer.URL'),
+                                    __name: Ediphy.i18n.t('EnrichedAudio.URL'),
                                     type: 'external_provider',
                                     value: state.url,
                                     accept: "audio/*",
                                     autoManaged: false,
                                 },
                                 autoplay: {
-                                    __name: Ediphy.i18n.t('BasicAudio.Autoplay'),
+                                    __name: Ediphy.i18n.t('EnrichedAudio.Autoplay'),
                                     type: 'checkbox',
                                     checked: state.autoplay,
                                     autoManaged: false,
                                 },
                                 waves: {
-                                    __name: Ediphy.i18n.t('BasicAudio.Waves'),
+                                    __name: Ediphy.i18n.t('EnrichedAudio.Waves'),
                                     type: 'checkbox',
                                     checked: state.waves,
                                     autoManaged: false,
@@ -59,7 +59,7 @@ export function BasicAudio(base) {
                                     autoManaged: false,
                                 },*/
                                 barWidth: {
-                                    __name: Ediphy.i18n.t('BasicAudio.BarWidth'),
+                                    __name: Ediphy.i18n.t('EnrichedAudio.BarWidth'),
                                     type: 'range',
                                     min: 0,
                                     max: 5,
@@ -67,55 +67,55 @@ export function BasicAudio(base) {
                                     autoManaged: false,
                                 },
                                 progressColor: {
-                                    __name: Ediphy.i18n.t('BasicAudio.ProgressColor'),
+                                    __name: Ediphy.i18n.t('EnrichedAudio.ProgressColor'),
                                     type: 'color',
                                     value: state.progressColor,
                                 },
                                 waveColor: {
-                                    __name: Ediphy.i18n.t('BasicAudio.WaveColor'),
+                                    __name: Ediphy.i18n.t('EnrichedAudio.WaveColor'),
                                     type: 'color',
                                     value: state.waveColor,
                                 },
                             },
                         },
                         style: {
-                            __name: Ediphy.i18n.t('BasicAudio.box_style'),
+                            __name: Ediphy.i18n.t('EnrichedAudio.box_style'),
                             icon: 'palette',
                             buttons: {
                                 padding: {
-                                    __name: Ediphy.i18n.t('BasicAudio.padding'),
+                                    __name: Ediphy.i18n.t('EnrichedAudio.padding'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 100,
                                 },
                                 borderWidth: {
-                                    __name: Ediphy.i18n.t('BasicAudio.border_size'),
+                                    __name: Ediphy.i18n.t('EnrichedAudio.border_size'),
                                     type: 'number',
                                     value: 1,
                                     min: 0,
                                     max: 10,
                                 },
                                 borderStyle: {
-                                    __name: Ediphy.i18n.t('BasicAudio.border_style'),
+                                    __name: Ediphy.i18n.t('EnrichedAudio.border_style'),
                                     type: 'select',
                                     value: 'solid',
                                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
-                                    __name: Ediphy.i18n.t('BasicAudio.border_color'),
+                                    __name: Ediphy.i18n.t('EnrichedAudio.border_color'),
                                     type: 'color',
                                     value: '#aaaaaa',
                                 },
                                 borderRadius: {
-                                    __name: Ediphy.i18n.t('BasicAudio.radius'),
+                                    __name: Ediphy.i18n.t('EnrichedAudio.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 50,
                                 },
                                 opacity: {
-                                    __name: Ediphy.i18n.t('BasicAudio.opacity'),
+                                    __name: Ediphy.i18n.t('EnrichedAudio.opacity'),
                                     type: 'range',
                                     value: 1,
                                     min: 0,
@@ -145,7 +145,7 @@ export function BasicAudio(base) {
                 return <iframe style={{ pointerEvents: 'none' }} width="100%" height="100%" scrolling="no" frameBorder="no" allow="autoplay" src={"https://w.soundcloud.com/player/?url=" + encodeURI(state.url) + "&color=%2317cfc8&auto_play=false&hide_related=true&show_comments=true&show_user=false&show_reposts=false&show_teaser=false&visual=" + (state.waves ? "false" : "true")} />;
             }
             return (<div style={{ height: "100%", width: "100%" }}>
-                <BasicAudioPluginEditor style={{ width: "100%", height: "100%" }} base={base} props={props} state={state}/>
+                <EnrichedAudioPluginEditor style={{ width: "100%", height: "100%" }} base={base} props={props} state={state}/>
             </div>
             );
 
