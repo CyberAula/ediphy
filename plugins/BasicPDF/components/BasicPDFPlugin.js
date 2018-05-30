@@ -22,6 +22,7 @@ export default class BasicAudioPlugin extends React.Component {
             fullscreen: false,
             numPages: null,
             pageNumber: 1,
+            rotate: 0,
         };
         this.onDocumentLoad = ({ numPages }) => {
             let pageNumber = 1;
@@ -36,6 +37,8 @@ export default class BasicAudioPlugin extends React.Component {
         };
         this.buttonBack = this.buttonBack.bind(this);
         this.buttonNext = this.buttonNext.bind(this);
+        this.buttonRotateRight = this.buttonRotateRight.bind(this);
+        this.buttonRotateLeft = this.buttonRotateLeft.bind(this);
     }
 
     buttonNext() {
@@ -55,6 +58,17 @@ export default class BasicAudioPlugin extends React.Component {
                 pageNumber: this.state.pageNumber - 1,
             });
         }
+    }
+
+    buttonRotateRight() {
+        this.setState({
+            rotate: this.state.rotate + 90,
+        });
+    }
+    buttonRotateLeft() {
+        this.setState({
+            rotate: this.state.rotate - 90,
+        });
     }
 
     onClickFullscreen() {
@@ -108,15 +122,23 @@ export default class BasicAudioPlugin extends React.Component {
 
             <div ref={pdf_wrapper => {this.pdf_wrapper = pdf_wrapper;}} style={{ width: "100%", height: "100%" }} className={"pdfDiv"}>
                 <div className="topBar">
-                    <button className={"PDFback"} onClick={this.buttonBack}>
-                        <i className={"material-icons"}>keyboard_arrow_left</i>
+                    <button className={"PDFrotateL"} onClick={this.buttonRotateLeft}>
+                        <i className={"material-icons"}>rotate_left</i>
                     </button>
-                    <span className={"PDFnumPages"}>
-                        {this.state.pageNumber} of {this.state.numPages}
-                    </span>
-                    <button className={"PDFnext"} onClick={this.buttonNext}>
-                        <i className={"material-icons"}>keyboard_arrow_right</i>
+                    <button className={"PDFrotateR"} onClick={this.buttonRotateRight}>
+                        <i className={"material-icons"}>rotate_right</i>
                     </button>
+                    <div className="PDFpages">
+                        <button className={"PDFback"} onClick={this.buttonBack}>
+                            <i className={"material-icons"}>keyboard_arrow_left</i>
+                        </button>
+                        <span className={"PDFnumPages"}>
+                            {this.state.pageNumber} of {this.state.numPages}
+                        </span>
+                        <button className={"PDFnext"} onClick={this.buttonNext}>
+                            <i className={"material-icons"}>keyboard_arrow_right</i>
+                        </button>
+                    </div>
                     <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
 
                 </div>
@@ -125,7 +147,7 @@ export default class BasicAudioPlugin extends React.Component {
                     file = {this.props.state.url}
                     onLoadSuccess={this.onDocumentLoad}>
                     <Page style={{ width: "100%", height: "100%" }} className="pdfPage"
-                        pageNumber={this.state.pageNumber}
+                        pageNumber={this.state.pageNumber} rotate={this.state.rotate}
                     >{markElements}</Page>
 
                 </Document>

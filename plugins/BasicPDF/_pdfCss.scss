@@ -36,9 +36,21 @@
       &:hover {
         height: 50px;
       }
+      .PDFpages{
+        position: absolute;
+        margin-left: 45%;
+      }
       .fullscreen-player-button{
         float: right;
         margin-right: 2%;
+      }
+      .PDFrotateL{
+        float: left;
+        margin-left: 3%;
+      }
+      .PDFrotateR{
+        float: left;
+        margin-left: 2%;
       }
       button {
         background-color: transparent;
