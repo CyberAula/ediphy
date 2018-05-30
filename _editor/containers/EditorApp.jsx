@@ -661,11 +661,13 @@ class EditorApp extends Component {
 
         }
         if (process.env.NODE_ENV === 'production' && process.env.DOC === 'doc') {
-            if(!this.state.publishing) {
-                $(window).on("beforeunload", function() {
+
+            $(window.parent).on("beforeunload", function() {
+                if(!this.state.publishing) {
                     return i18n.t('messages.exit_page');
-                });
-            }
+                }
+            });
+
         }
 
         // setTimeout(()=>{this.setState({ showHelpButton: false });}, 30000);
