@@ -132,8 +132,8 @@
   },
   "dependencies": {
     "@trendmicro/react-toggle-switch": "^0.5.7",
-    "BasicAudio": "file:plugins/BasicAudio",
-    "BasicPDF": "file:plugins/BasicPDF",
+    "EnrichedAudio": "file:plugins/EnrichedAudio",
+    "EnrichedPDF": "file:plugins/EnrichedPDF",
     "BasicPlayer": "file:plugins/BasicPlayer",
     "DataTable": "file:plugins/DataTable",
     "EnrichedPlayer": "file:plugins/EnrichedPlayer",

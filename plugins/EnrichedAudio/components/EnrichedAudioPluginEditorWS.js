@@ -102,8 +102,6 @@ export default class BasicAudioPluginEditor extends React.Component {
     onProgress(state) {
         this.setState({ pos: state });
     }
-    // comprobar segun va avanzando el audio componentwillupdate de enriched
-    // fijarme despues de triggerArray.foreach
 
     onReady(pos, playing) {
         this.setState({
