@@ -137,7 +137,7 @@ class EditorApp extends Component {
             undoDisabled, redoDisabled, displayMode, isBusy, pluginToolbars, viewToolbars, marks, lastActionDispatched, globalConfig } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
-        let status = this.props.status;
+        let status = this.props.globalConfig.status || this.props.status;
         let canvasRatio = globalConfig.canvasRatio;
         let disabled = (navItemSelected === 0 && containedViewSelected === 0) || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
         let uploadFunction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? uploadVishResourceAsync : uploadEdiphyResourceAsync;
