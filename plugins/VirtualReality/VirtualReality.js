@@ -4,6 +4,9 @@ import i18n from 'i18next';
 /* eslint-disable react/prop-types */
 export function VirtualReality(base) {
     return {
+        init: function() {
+            base.registerExtraFunction(this.toolbarChangesValues, "toolbarChanges");
+        },
         getConfig: function() {
             return {
                 name: 'VirtualReality',
@@ -26,14 +29,19 @@ export function VirtualReality(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: 'Config',
-                            icon: 'link',
+                            __name: "Background",
+                            icon: 'edit',
                             buttons: {
-                                name: {
-                                    __name: 'Config',
-                                    type: 'text',
-                                    value: state.name,
-                                    autoManaged: false,
+                                imagenBack: {
+                                    __name: '',
+                                    type: 'select',
+                                    value: state.imagenBack,
+                                    options: ['360_world.jpg', 'pano-planets.jpg', 'pano-nature.jpg', 'pano-nature2.jpg', 'pano-nature3.jpg', 'pano-boom.jpg', 'pano-people.jpg'],
+                                },
+                                audioBack: {
+                                    __name: 'Audio ambiente',
+                                    type: 'checkbox',
+                                    checked: state.audioBack,
                                 },
                             },
                         },
@@ -43,44 +51,47 @@ export function VirtualReality(base) {
         },
         getInitialState: function() {
             return {
-                name: "Ediphy",
+                imagenBack: '360_world.jpg',
+                audioBack: false,
             };
         },
         getRenderTemplate: function(state, props) {
-
-            return (<div>
-                <button id="postmessage">Comprobar conexión con iframe</button>
-                <select name="imagen" id="imagen">
-                    <option value="" disabled selected>Elija un fondo...</option>
-                    <option value="pano-nature.jpg">Fondo de atardecer</option>
-                    <option value="pano-planets.jpg">Fondo de planetas</option>
-                </select>
-                <button id="postimgBack">ChangeImgBack</button>
-                <iframe allow="vr" width= '100%' height= '370px' src='http://localhost:8081/index.html' id="receiver"/>
-
-            </div>);
+            this.toolbarChangesValues(state);
+            return (
+                <iframe allow="vr" width= '100%' height= '370px' src='http://localhost:8081/index.html' id="receiver"/>);
 
         },
         afterRender: function(element, state) {
-            // Ventana del iframe
-            let receiverWindow = document.getElementById("receiver").contentWindow;
-            // Envío de datos al iframe
-            document.getElementById("postmessage").addEventListener("click", function() {
-                receiverWindow.postMessage({ conexion: "Conexión correcta" }, "http://localhost:8081/index.html");
-                document.getElementById("postmessage").style.display = "none";
-            });
-            document.getElementById("postimgBack").addEventListener("click", function() {
-                let rutaima = document.getElementById("imagen").options[document.getElementById("imagen").selectedIndex].value;
-                receiverWindow.postMessage({ imagenBack: rutaima }, "http://localhost:8081/index.html");
-            });
+            /*
+                // Ventana del iframe
+                let receiverWindow = document.getElementById("receiver").contentWindow;
+                // Envío de datos al iframe
+                document.getElementById("postmessage").addEventListener("click", function() {
+                    receiverWindow.postMessage({ conexion: "Conexión correcta" }, "http://localhost:8081/index.html");
+                    document.getElementById("postmessage").style.display = "none";
+                });
+                document.getElementById("postimgBack").addEventListener("click", function() {
+                    let rutaima = document.getElementById("imagen").options[document.getElementById("imagen").selectedIndex].value;
+                    receiverWindow.postMessage({ imagenBack: rutaima }, "http://localhost:8081/index.html");
+                });
+            */
 
             // Datos recibidos de confirmación
             window.addEventListener("message", receiveMessage, false);
             function receiveMessage(event) {
-                console.log("(EDiphy) ha llegado esto: " + event.data);
+                // console.log("(EDiphy) ha llegado esto: " + event.data);
             }
         },
+        toolbarChangesValues: function(state) {
+            // console.log("Entra en la función auxiliar");
+            if(document.getElementById("receiver") != null) {
+                let receiverWindow = document.getElementById("receiver").contentWindow;
 
+                let rutaima = state.imagenBack;
+                let playAudio = state.audioBack;
+                receiverWindow.postMessage({ imagenBack: rutaima, audioBack: { play: playAudio } }, "http://localhost:8081/index.html");
+            }
+        },
     };
 }
 /* eslint-enable react/prop-types */
