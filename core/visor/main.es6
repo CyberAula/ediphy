@@ -28,7 +28,7 @@ let parseEJS = function(path, page, state, fromScorm) {
             let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
             let extraFileContainer = state.pluginToolbarsById[extraFileBox];
             return (visor_template({
-                visor_bundle_path: Ediphy.Config.visor_bundle_zip || Ediphy.Config.visor_bundle,
+                visor_bundle_path: Ediphy.Config.visor_bundle,
                 state: state,
                 reason: fromScorm ? "scorm" : "html",
             }));
@@ -37,7 +37,7 @@ let parseEJS = function(path, page, state, fromScorm) {
 
     state.fromScorm = fromScorm;
     return (visor_template({
-        visor_bundle_path: Ediphy.Config.visor_bundle_zip || Ediphy.Config.visor_bundle,
+        visor_bundle_path: Ediphy.Config.visor_bundle,
         state: state,
         reason: fromScorm ? "scorm" : "html",
     }));
