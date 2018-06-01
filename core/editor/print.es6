@@ -70,7 +70,7 @@ export default function printToPDF(state, callback) {
             showCanvas: (!isContainedView(currentView)), removeLastView: () => {}, richElementsState: {},
             viewsArray: [currentView], setAnswer: () => {}, submitPage: () => {}, exercises: exercises[currentView],
         };
-        let visorContent = !isCV ? (<VisorCanvas {...props} />) : (<VisorContainedCanvas {...props} />);
+        let visorContent = !isCV ? (<VisorCanvas {...props} fromPDF />) : (<VisorContainedCanvas {...props} fromPDF />);
         let app = (<div id="page-content-wrapper" className={slideClass + " page-content-wrapper printApp"} style={{ height: '100%', backgroundColor: 'white' }}>
             <Grid fluid id="visorAppContent" style={{ height: '100%' }}>
                 <Row style={{ height: '100%' }}>
@@ -84,13 +84,14 @@ export default function printToPDF(state, callback) {
             pdf.internal.scaleFactor = 1;
             setTimeout(function() {
                 pdf.addHTML(pageContainer, { useCORS: true, pagesplit: true, retina: true }, function() {
-                    if(last) {
+                    document.body.removeChild(pageContainer);
+                    if (last) {
                         pdf.save(title.split(" ").join("") + '.pdf');
+                        callback();
                     } else {
                         addHTML(navs.slice(1), navs.length <= 2);
                     }
-                    document.body.removeChild(pageContainer);
-                    callback();
+
                 });
             }, 6000);
         });

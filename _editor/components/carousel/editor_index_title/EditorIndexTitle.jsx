@@ -58,9 +58,9 @@ export default class EditorIndexTitle extends Component {
                         onKeyDown={e=> {
                             if (e.keyCode === 13) { // Enter Key
                                 this.setState({ editing: !this.state.editing });
-                                if(this.props.courseTitle) {
+                                if (this.props.courseTitle) {
                                     this.props.onNameChanged('title', this.state.currentValue);
-                                }else {
+                                } else {
                                     this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? { viewName: this.state.currentValue } : this.getDefaultValue());
                                 }
                             }

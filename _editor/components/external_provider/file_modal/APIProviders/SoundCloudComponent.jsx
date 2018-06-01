@@ -76,12 +76,11 @@ export default class SoundCloudComponent extends React.Component {
 
     onSearch(text) {
         const BASE = 'https://api.soundcloud.com/tracks?client_id=bb5aebd03b5d55670ba8fa5b5c3a3da5&q=' + text + '&format=json';
-        this.setState({ msg: i18n.t("FileModal.APIProviders.searching") });
+        this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
         fetch(encodeURI(BASE))
             .then(res => res.text()
             ).then(audioStr => {
                 let songs = JSON.parse(audioStr);
-                console.log(songs);
                 if (songs) {
                     let results = songs.map(song=>{
                         return {

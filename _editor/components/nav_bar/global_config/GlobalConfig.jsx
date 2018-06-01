@@ -170,7 +170,7 @@ export default class GlobalConfig extends Component {
                                         <a className="miniIcon" target="_blank" href={"https://creativecommons.org/licenses/?lang="+i18n.t('currentLang')}><i className="material-icons">help</i></a>
                                          */}
                                         <br/>
-                                        <Select
+                                        <Select disabled={status === 'final'} className={status === 'final' ? 'select-disabled' : ''} title={status === 'final' ? 'No puedes' : ''}
                                             name="form-field-name-rights"
                                             value={rights}
                                             options={rightsOptions()}
@@ -494,6 +494,31 @@ export default class GlobalConfig extends Component {
           nextProps.fileModalResult.id === 'avatar') {
             this.setState({
                 thumbnail: nextProps.fileModalResult.value, modifiedState: true,
+            });
+        }
+
+        if (!this.props.show && nextProps.show) {
+            this.setState({
+                title: nextProps.globalConfig.title || "",
+                author: nextProps.globalConfig.author || "",
+                canvasRatio: nextProps.globalConfig.canvasRatio || 16 / 9,
+                age: nextProps.globalConfig.age || { min: 0, max: 100 },
+                typicalLearningTime: nextProps.globalConfig.typicalLearningTime || { h: 0, m: 0, s: 0 },
+                difficulty: nextProps.globalConfig.difficulty || 'easy',
+                rights: nextProps.globalConfig.rights || 1,
+                description: nextProps.globalConfig.description || '',
+                thumbnail: nextProps.globalConfig.thumbnail || img_place_holder,
+                language: nextProps.globalConfig.language || undefined,
+                keywords: nextProps.globalConfig.keywords || [],
+                version: nextProps.globalConfig.version || '0.0.0',
+                status: nextProps.globalConfig.status || 'draft',
+                context: nextProps.globalConfig.context || 'school',
+                hideGlobalScore: nextProps.globalConfig.hideGlobalScore || false,
+                minTimeProgress: nextProps.globalConfig.minTimeProgress || 30,
+                visorNav: nextProps.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
+                modifiedState: false,
+                showAlert: false,
+
             });
         }
     }

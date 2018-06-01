@@ -66,7 +66,7 @@ function parseArgs(args) {
                 if(index < args.length) {
                     options.category = args[index + 1];
                 }
-                if (cats.indexOf(options.category) == -1) {
+                if (cats.indexOf(options.category) === -1) {
                     bad = true;
                     p("La categoría '" + options.category + "' no existe. Las categorías disponibles son: text, image, media, object, evaluation"); }
                 break;

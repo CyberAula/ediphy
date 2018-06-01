@@ -233,6 +233,7 @@ export default class CarouselButtons extends Component {
 
                             {i18n.t("Accept")}
                         </Button>
+                        <div style={{ clear: "both" }} />
                     </Popover>
                 </Overlay>
                 <TemplatesModal

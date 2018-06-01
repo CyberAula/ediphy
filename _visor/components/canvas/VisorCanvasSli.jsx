@@ -102,7 +102,9 @@ export default class VisorCanvasSli extends Component {
                         })}
 
                         <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
-                            aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSelected.customSize);
+                            if (!this.props.fromPDF) {
+                                aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSelected.customSize);
+                            }
                         }} />
                         <div className={"pageFooter" + (!this.props.exercises || !this.props.exercises.exercises || Object.keys(this.props.exercises.exercises).length === 0 ? " hidden" : "")}>
                             <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={this.props.exercises} />
@@ -122,7 +124,9 @@ export default class VisorCanvasSli extends Component {
     componentDidMount() {
         let isCV = !isView(this.props.currentView);
         let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
-        aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSel.customSize);
+        if (!this.props.fromPDF) {
+            aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSel.customSize);
+        }
 
         // window.addEventListener("resize", aspectRatio);
     }

@@ -27,9 +27,9 @@ export default class ViewToolbar extends Component {
             doc_type = i18n.t('slide');
         }
 
-        if(isDocument(type)) {
+        /* if(isDocument(type)) {
             doc_type = i18n.t('document');
-        }
+        }*/
 
         if(isSection(id)) {
             doc_type = i18n.t('section');
@@ -62,7 +62,7 @@ export default class ViewToolbar extends Component {
                                 autoManaged: false,
                             },
                             display_pagetitle: {
-                                __name: i18n.t('Title') + i18n.t('document'),
+                                __name: i18n.t('Title') + doc_type,
                                 type: 'checkbox',
                                 checked: viewToolbar.documentTitle && viewToolbar.documentTitle !== 'hidden',
                                 autoManaged: false,
@@ -74,6 +74,7 @@ export default class ViewToolbar extends Component {
                                 associatedKey: 'display_pagetitle',
                                 autoManaged: false,
                                 display: false,
+                                placeholder: viewToolbar.viewName,
                                 value: viewToolbar.documentTitleContent,
                             },
                             display_pagesubtitle: {
@@ -131,7 +132,7 @@ export default class ViewToolbar extends Component {
                 autoManaged: false,
             };
             controls.main.accordions.__header.buttons.display_pagenumber = {
-                __name: i18n.t('pagenumber'),
+                __name: doc_type + " " + i18n.t('pagenumber'),
                 type: 'checkbox',
                 checked: viewToolbar.numPage !== 'hidden',
                 autoManaged: false,

@@ -48,6 +48,8 @@ import EdiphyTour from '../components/joyride/EdiphyTour';
 import { serialize } from '../../reducers/serializer';
 import screen from '../components/joyride/pantalla.svg';
 import help from '../components/joyride/help.svg';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 /**
  * EditorApp. Main application component that renders everything else
@@ -75,13 +77,14 @@ class EditorApp extends Component {
             grid: false,
             pluginConfigModal: false,
             accordions: {},
+            publishing: false,
             blockDrag: false,
             showFileUpload: false,
             fileUploadTab: 0,
             showTour: false,
             showHelpButton: false,
             fileModalResult: { id: undefined, value: undefined },
-            initModal: true,
+            initModal: cookies.get("ediphy_visitor") === undefined,
         };
         this.onTextEditorToggled = this.onTextEditorToggled.bind(this);
         this.onRichMarkUpdated = this.onRichMarkUpdated.bind(this);
@@ -105,14 +108,14 @@ class EditorApp extends Component {
                 this.setState({ fileUploadTab: 0 });
             }
             ev.preventDefault();
-            if (ev.target.parentNode && event.target.parentNode.classList.contains('fileInput')) {
+            if (ev.target.parentNode && ev.target.parentNode.classList.contains('fileInput')) {
                 ev.target.parentNode.classList.add('dragging');
             }
         };
         this.dragExitListener = (ev) => {
             ev.preventDefault();
             // this.setState({ blockDrag: false });
-            if (ev.target.parentNode && event.target.parentNode.classList.contains('fileInput')) {
+            if (ev.target.parentNode && ev.target.parentNode.classList.contains('fileInput')) {
                 ev.target.parentNode.classList.remove('dragging');
             }
         };
@@ -134,6 +137,7 @@ class EditorApp extends Component {
             undoDisabled, redoDisabled, displayMode, isBusy, pluginToolbars, viewToolbars, marks, lastActionDispatched, globalConfig } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
+        let status = this.props.status;
         let canvasRatio = globalConfig.canvasRatio;
         let disabled = (navItemSelected === 0 && containedViewSelected === 0) || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
         let uploadFunction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? uploadVishResourceAsync : uploadEdiphyResourceAsync;
@@ -147,7 +151,7 @@ class EditorApp extends Component {
                     {this.state.alert}
                     <EditorNavBar hideTab={this.state.hideTab} boxes={boxes}
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
-                        globalConfig={globalConfig}
+                        globalConfig={{ ...globalConfig, status }}
                         changeGlobalConfig={(prop, value) => {dispatch(changeGlobalConfig(prop, value));}}
                         onIndexSelected={(id) => dispatch(selectIndex(id))}
                         onNavItemSelected={id => dispatch(selectNavItem(id))}
@@ -167,6 +171,7 @@ class EditorApp extends Component {
                         undo={() => {dispatch(ActionCreators.undo());}}
                         redo={() => {dispatch(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
+                        publishing={() =>this.setState({ publishing: true })}
                         openTour={()=>{this.setState({ showHelpButton: true });}}
                         export={(format, callback, selfContained = false) => {
                             if(format === "PDF") {
@@ -174,7 +179,7 @@ class EditorApp extends Component {
                             } else {
                                 Ediphy.Visor.exportsHTML({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback, selfContained);
                             }}}
-                        scorm={(is2004, callback, selfContained = false) => {Ediphy.Visor.exportScorm({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, is2004, callback, selfContained);}}
+                        scorm={(is2004, callback, selfContained = false) => {Ediphy.Visor.exportScorm({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded, status: this.props.store.getState().status }, is2004, callback, selfContained);}}
                         save={(win) => {dispatch(exportStateAsync({ ...this.props.store.getState() }, win)); }}
                         category={this.state.pluginTab}
                         opens={() => {dispatch(importStateAsync());}}
@@ -422,7 +427,8 @@ class EditorApp extends Component {
                     title={title}
                     visorVisible={this.state.visorVisible}
                     onVisibilityToggled={()=> this.setState({ visorVisible: !this.state.visorVisible })}
-                    state={this.props.store.getState().undoGroup.present}/>
+                    filesUploaded={this.props.store.getState().filesUploaded }
+                    state={{ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded, status: this.props.store.getState().status }}/>
                 <PluginConfigModal
                     id={this.state.pluginConfigModal}
                     fileModalResult={this.state.fileModalResult}
@@ -652,7 +658,18 @@ class EditorApp extends Component {
     componentDidMount() {
         if (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' && ediphy_editor_json && ediphy_editor_json !== 'undefined') {
             this.props.dispatch(importState(serialize(JSON.parse(ediphy_editor_json))));
+
         }
+        if (process.env.NODE_ENV === 'production' && process.env.DOC === 'doc') {
+
+            $(window.parent).on("beforeunload", function() {
+                if(!this.state.publishing) {
+                    return i18n.t('messages.exit_page');
+                }
+            });
+
+        }
+
         // setTimeout(()=>{this.setState({ showHelpButton: false });}, 30000);
         document.addEventListener('keyup', this.keyListener);
         document.addEventListener('dragover', this.dragListener);
@@ -660,6 +677,10 @@ class EditorApp extends Component {
         document.addEventListener('drop', this.dropListener);
         document.addEventListener('dragstart', this.dragStartListener);
         // document.addEventListener('onbeforeunload', this.exitListener);
+
+        if(cookies.get("ediphy_visitor") === undefined) {
+            cookies.set("ediphy_visitor", true);
+        }
 
     }
     componentWillUnmount() {
@@ -940,6 +961,7 @@ class EditorApp extends Component {
 function mapStateToProps(state) {
     return {
         version: state.undoGroup.present.version,
+        status: state.status,
         globalConfig: state.undoGroup.present.globalConfig,
         filesUploaded: state.filesUploaded,
         boxes: state.undoGroup.present.boxesById,

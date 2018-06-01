@@ -62,7 +62,6 @@ export default function() {
                     plugin[id] = descendant[id];
                 }
             });
-            console.log(obj);
             if (!plugin.checkAnswer) {
                 plugin.checkAnswer = function(current, correct, state) {
                     if (current instanceof Array && correct instanceof Array) {

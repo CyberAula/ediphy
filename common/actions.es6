@@ -278,7 +278,11 @@ export function deleteRemoteFileVishAsync(id, url, callback) {
             body: form,
         }).then(response => {
             if (!response.ok) {
+                if(response.status === 406) {
+                    return 200;
+                }
                 throw Error(response.statusText);
+
             }
 
             return 200;
@@ -411,7 +415,7 @@ export function exportStateAsync(state, win = null) {
                     ediphy_editor_params.ediphy_resource_id = ediphy_resource_id;
                 }
                 if(win !== null) {
-                    win.location.href = ediphy_editor_params.export_url;
+                    win.parent.location.href = ediphy_editor_params.export_url;
                     win.focus();
                 }
                 dispatch(setBusy(false, i18n.t("success_transaction")));
