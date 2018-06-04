@@ -24,30 +24,7 @@ export default class NavActionButtons extends Component {
 
     getButtons() {
         return [
-            {
-                name: 'publish',
-                description: i18n.t('Publish'),
-                tooltip: i18n.t('messages.publish_tooltip'),
-                display: (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "draft"),
-                disabled: false,
-                icon: 'public',
-                onClick: () => {
-                    this.setState({ showOverlay: true });
-                },
-            },
-            {
-                name: 'unpublish',
-                description: i18n.t('Unpublish'),
-                tooltip: i18n.t('messages.unpublish'),
-                display: (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "final"),
-                disabled: false,
-                icon: 'lock',
-                onClick: () => {
-                    this.props.changeGlobalConfig("status", "draft");
-                    this.props.save();
-                    this.props.serverModalOpen();
-                },
-            },
+
             {
                 name: 'fullscreen',
                 description: i18n.t('fullscreen'),
@@ -102,6 +79,30 @@ export default class NavActionButtons extends Component {
                         this.props.onTextEditorToggled(this.props.boxSelected, false);
                     }
                     this.props.visor();
+                },
+            },
+            {
+                name: 'publish',
+                description: i18n.t('Publish'),
+                tooltip: i18n.t('messages.publish_tooltip'),
+                display: (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "draft"),
+                disabled: false,
+                icon: 'public',
+                onClick: () => {
+                    this.setState({ showOverlay: true });
+                },
+            },
+            {
+                name: 'unpublish',
+                description: i18n.t('Unpublish'),
+                tooltip: i18n.t('messages.unpublish'),
+                display: (Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "final"),
+                disabled: false,
+                icon: 'lock',
+                onClick: () => {
+                    this.props.changeGlobalConfig("status", "draft");
+                    this.props.save();
+                    this.props.serverModalOpen();
                 },
             },
         ];

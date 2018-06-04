@@ -512,8 +512,8 @@ export default class EditorBox extends Component {
                         (target.getAttribute('data-y') + Math.max(parseInt(target.style.top, 10), 0))/ target.parentElement.offsetHeight * 100 + "%" :
                         "0%";*/
                     let absoluteTop = (parseFloat(target.style.top) * 100) / target.parentElement.offsetHeight + "%";
-                    let left = Math.max(Math.min(Math.floor(parseFloat(actualLeft) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
-                    let top = Math.max(Math.min(Math.floor(parseFloat(actualTop) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
+                    let left = Math.max(Math.min((parseFloat(actualLeft) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
+                    let top = Math.max(Math.min((parseFloat(actualTop) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
 
                     if (isSortableContainer(box.container)) {
                         target.style.left = left;
@@ -639,7 +639,7 @@ export default class EditorBox extends Component {
 
                     // Units can be either % or px
                     if (widthButton.units === "%") {
-                        let newWidth = Math.min(Math.floor(parseFloat(target.style.width) / target.parentElement.offsetWidth * 100), 100);
+                        let newWidth = Math.min((parseFloat(target.style.width) / target.parentElement.offsetWidth * 100), 100);
                         // Update display value if it's not "auto"
                         if (widthButton.value !== "auto") {
                             widthButton.value = newWidth;
@@ -653,7 +653,7 @@ export default class EditorBox extends Component {
                     }
 
                     if (heightButton.units === "%") {
-                        let newHeight = Math.min(Math.floor(parseFloat(target.style.height) / target.parentElement.offsetHeight * 100), 100);
+                        let newHeight = Math.min((parseFloat(target.style.height) / target.parentElement.offsetHeight * 100), 100);
                         if (heightButton.value !== "auto") {
                             heightButton.value = newHeight;
                             heightButton.value = newHeight;
