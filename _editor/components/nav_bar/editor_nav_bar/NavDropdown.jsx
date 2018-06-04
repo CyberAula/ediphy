@@ -95,7 +95,7 @@ export default class NavDropdown extends Component {
                     <MenuItem disabled={false} eventKey="7" key="7">
                         <button className="dropdownButton" title={i18n.t('messages.help')}
                             disabled={false}
-                            onClick={(e) => {this.props.save(); window.open('', '_self');}}><i className="material-icons">exit_to_app</i>
+                            onClick={(e) => {this.props.save(window.open('', '_self')); }}><i className="material-icons">exit_to_app</i>
                             {i18n.t('messages.exit')}
                         </button>
                     </MenuItem>}
