@@ -667,10 +667,11 @@ class EditorApp extends Component {
                     return i18n.t('messages.exit_page');
                 }
             });
-            window.oncontextmenu = function() {
-                return false;
-            };
         }
+
+        window.oncontextmenu = function() {
+            return false;
+        };
 
         // setTimeout(()=>{this.setState({ showHelpButton: false });}, 30000);
         document.addEventListener('keyup', this.keyListener);
