@@ -48,20 +48,6 @@ export default class NavDropdown extends Component {
                             {i18n.t('messages.import')}
                         </button>
                     </MenuItem>
-                    {/* <MenuItem eventKey="1" key="1">
-                        <button className="dropdownButton" title={i18n.t('messages.export_to_HTML')}
-                            disabled={ (this.props.navItemSelected === 0) || this.props.undoDisabled}
-                            onClick={() => this.props.export() }><i className="material-icons">file_download</i>
-                            {i18n.t('messages.export_to_HTML')}
-                        </button>
-                    </MenuItem>
-                    <MenuItem eventKey="2" key="2">
-                        <button className="dropdownButton" title={i18n.t('messages.export_to_SCORM')}
-                            disabled={(this.props.navItemSelected === 0) || this.props.undoDisabled}
-                            onClick={() => this.props.scorm() }><i className="material-icons">class</i>
-                            {i18n.t('messages.export_to_SCORM')}
-                        </button>
-                    </MenuItem>*/}
                     <MenuItem eventKey="2" key="2">
                         <button className="dropdownButton" title={i18n.t('messages.export')}
                             disabled={this.props.navItemSelected === 0}
@@ -76,7 +62,6 @@ export default class NavDropdown extends Component {
                             {i18n.t('messages.global_config')}
                         </button>
                     </MenuItem>
-
                     {Ediphy.Config.external_providers.enable_catalog_modal &&
                     [<MenuItem divider key="div_4"/>,
                         <MenuItem eventKey="4" key="4">
@@ -106,15 +91,14 @@ export default class NavDropdown extends Component {
                             {i18n.t('messages.help')}
                         </button>
                     </MenuItem>
-                    {/* <MenuItem disabled={false} eventKey="7" key="7">
-                        <button className="dropdownButton" title={i18n.t('messages.docs')}
-                                disabled={false}
-                                onClick={(e)=>{window.open('http://ging.github.io/ediphy','_newtab');}}
-                                ><i className="material-icons">help</i>
-                          {i18n.t('messages.docs')}
+                    {(Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button) &&
+                    <MenuItem disabled={false} eventKey="7" key="7">
+                        <button className="dropdownButton" title={i18n.t('messages.help')}
+                            disabled={false}
+                            onClick={(e) => {this.props.save(); window.open('', '_self');}}><i className="material-icons">exit_to_app</i>
+                            {i18n.t('messages.exit')}
                         </button>
-                    </MenuItem>*/}
-
+                    </MenuItem>}
                 </Dropdown.Menu>
             </Dropdown>
         );
