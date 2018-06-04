@@ -54,6 +54,13 @@ let en = {
         "display_page": "Include in document",
         "document": "Document",
         "edit_text": "Edit text",
+        "exitModal": {
+            "Body": "Do you really want to exit Ediphy?",
+            "cancel": "Cancel",
+            "leave_without_changes": "Leave without changes",
+            "save_and_exit": "Save and Exit",
+            "Title": "Exit from Ediphy",
+        },
         "empty": {
             "cv_empty": "You have not created any contained view yet.",
         },

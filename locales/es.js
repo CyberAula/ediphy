@@ -67,6 +67,13 @@ let es = {
         },
         "Evaluation": "Evaluación",
         "Exercises": "Ejercicios",
+        "exitModal": {
+            "Body": "¿Desea realmente salir de Ediphy?",
+            "cancel": "Cancelar",
+            "leave_without_changes": "Salir sin cambios",
+            "save_and_exit": "Salvar y salir",
+            "Title": "Salir de ediphy",
+        },
         "Exporting": "Se está exportando...",
         "FileDialog": "Fichero",
         "FileInput": {

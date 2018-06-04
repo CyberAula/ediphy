@@ -49,6 +49,7 @@ import { serialize } from '../../reducers/serializer';
 import screen from '../components/joyride/pantalla.svg';
 import help from '../components/joyride/help.svg';
 import Cookies from 'universal-cookie';
+import ExitModal from "../components/exit_modal/ExitModal";
 const cookies = new Cookies();
 
 /**
@@ -81,6 +82,7 @@ class EditorApp extends Component {
             blockDrag: false,
             showFileUpload: false,
             fileUploadTab: 0,
+            showExitModal: false,
             showTour: false,
             showHelpButton: false,
             fileModalResult: { id: undefined, value: undefined },
@@ -172,6 +174,7 @@ class EditorApp extends Component {
                         redo={() => {dispatch(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
                         publishing={() =>this.setState({ publishing: true })}
+                        openExitModal={()=>this.setState({ showExitModal: true })}
                         openTour={()=>{this.setState({ showHelpButton: true });}}
                         export={(format, callback, selfContained = false) => {
                             if(format === "PDF") {
@@ -578,7 +581,11 @@ class EditorApp extends Component {
                     onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
                     uploadFunction={(query, keywords, callback) => dispatch(uploadFunction(query, keywords, callback))}
                     close={(fileModalResult)=>{this.setState({ fileModalResult: fileModalResult ? fileModalResult : { id: undefined, value: undefined }, showFileUpload: false, fileUploadTab: 0 });}} />
-
+                <ExitModal
+                    showExitModal={this.state.showExitModal}
+                    closeExitModal={()=>{this.setState({ showExitModal: false });}}
+                    save={(win) => {dispatch(exportStateAsync({ ...this.props.store.getState() }, win)); }}
+                />
             </Grid>
         );
     }
