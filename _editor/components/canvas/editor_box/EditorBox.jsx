@@ -130,15 +130,15 @@ export default class EditorBox extends Component {
                     height: '100%',
                     boxSizing: 'content-box',
                 }} />
-                <div style={{ display: box.resizable ? 'initial' : 'none' }}>
+                <div style={{ zIndex: 9999, display: 'initial' /* box.resizable ? 'initial' : 'none'*/ }}>
                     <div className="helpersResizable" onClick={(e)=>{e.stopPropagation();}}
-                        style={{ left: -cornerSize / 2, top: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'nw-resize' : 'move') }} />
+                        style={{ left: -cornerSize / 2, top: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: 'nw-resize' /* (!isSortableContainer(box.container) ? 'nw-resize' : 'move')*/ }} />
                     <div className="helpersResizable" onClick={(e)=>{e.stopPropagation();}}
-                        style={{ right: -cornerSize / 2, top: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'ne-resize' : 'move') }} />
+                        style={{ right: -cornerSize / 2, top: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: 'ne-resize'/* (!isSortableContainer(box.container) ? 'ne-resize' : 'move')*/ }} />
                     <div className="helpersResizable" onClick={(e)=>{e.stopPropagation();}}
-                        style={{ left: -cornerSize / 2, bottom: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'sw-resize' : 'move') }} />
+                        style={{ left: -cornerSize / 2, bottom: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: 'sw-resize'/* (!isSortableContainer(box.container) ? 'sw-resize' : 'move')*/ }} />
                     <div className="helpersResizable" onClick={(e)=>{e.stopPropagation();}}
-                        style={{ right: -cornerSize / 2, bottom: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'se-resize' : 'move') }} />
+                        style={{ right: -cornerSize / 2, bottom: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: 'se-resize'/* (!isSortableContainer(box.container) ? 'se-resize' : 'move')*/ }} />
                 </div>
             </div>
         );
@@ -337,9 +337,9 @@ export default class EditorBox extends Component {
             interact(node).draggable({ snap: snapD });
         }
 
-        if (box.resizable) {
-            interact(node).resizable({ preserveAspectRatio: this.checkAspectRatioValue(), snap: snap, snapSize: snapSize });
-        }
+        // if (box.resizable) {
+        interact(node).resizable({ preserveAspectRatio: this.checkAspectRatioValue(), snap: snap, snapSize: snapSize });
+        // }
 
         if ((box.level > this.props.boxLevelSelected) && this.props.boxLevelSelected !== -1) {
             interact(node).draggable({ enabled: false });
@@ -369,7 +369,7 @@ export default class EditorBox extends Component {
         Ediphy.Plugins.get(config.name).getConfig();
         Ediphy.Plugins.get(config.name).afterRender(this.refs.content, toolbar.state);
         let dragRestrictionSelector = ".parentRestrict"; // isSortableContainer(box.container) ? ".scrollcontainer" : "parent";
-        let resizeRestrictionSelector = isSortableContainer(box.container) ? ".editorBoxSortableContainer, .drg" + box.container : "parent";
+        let resizeRestrictionSelector = isSortableContainer(box.container) ? "body" : "parent";
         let canvas = this.props.containedViewSelected === 0 ?
             document.getElementById('canvas') :
             document.getElementById('containedCanvas');
@@ -388,7 +388,7 @@ export default class EditorBox extends Component {
                 autoScroll: {
                     container: canvas,
                     margin: 50,
-                    distance: 5,
+                    distance: 6,
                     interval: 10,
                 },
                 ignoreFrom: 'input, textarea, .textAreaStyle,  a, .pointerEventsEnabled, .markeditor',
@@ -523,7 +523,7 @@ export default class EditorBox extends Component {
                         target.style.top = absoluteTop;
                     }
 
-                    target.style.zIndex = 'initial';
+                    target.style.zIndex = '0';
 
                     // Delete clone and unhide original
 
@@ -571,7 +571,7 @@ export default class EditorBox extends Component {
                     { width: SNAP_SIZE, height: SNAP_SIZE, range: SNAP_SIZE },
                 ] },
                 preserveAspectRatio: this.checkAspectRatioValue(),
-                enabled: (box.resizable),
+                enabled: true, // (box.resizable),
                 restrict: {
                     restriction: resizeRestrictionSelector,
                 },
@@ -603,7 +603,6 @@ export default class EditorBox extends Component {
                     if (this.props.boxSelected !== this.props.id) {
                         return;
                     }
-
                     let target = event.target;
                     let x = (parseFloat(target.getAttribute('data-x'), 10) || 0);
                     let y = (parseFloat(target.getAttribute('data-y'), 10) || 0);
@@ -614,13 +613,13 @@ export default class EditorBox extends Component {
                     // translate when resizing from top or left edges
                     x += event.deltaRect.left;
                     y += event.deltaRect.top;
-
-                    target.style.webkitTransform = target.style.transform =
+                    if(box.resizable) { // Only in slide
+                        target.style.webkitTransform = target.style.transform =
                         'translate(' + x + 'px,' + y + 'px)';
 
-                    target.setAttribute('data-x', x);
-                    target.setAttribute('data-y', y);
-
+                        target.setAttribute('data-x', x);
+                        target.setAttribute('data-y', y);
+                    }
                     // Update size in textbox
                     let span = document.getElementById('sizing');
                     if (span) {
@@ -661,16 +660,18 @@ export default class EditorBox extends Component {
                     } else if (heightButton.value !== "auto") {
                         heightButton.value = parseFloat(target.style.height);
                     }
-
                     target.style.width = widthButton.value === 'auto' ? 'auto' : widthButton.value + widthButton.units;
                     target.style.height = heightButton.value === 'auto' ? 'auto' : heightButton.value + heightButton.units;
-                    this.props.onBoxResized(this.props.id, { width: widthButton.value, widthUnit: widthButton.units, height: heightButton.value, heightUnit: heightButton.units });
 
-                    if (box.position.x !== target.style.left || box.position.y !== target.style.top) {
-                        target.style.left = (parseFloat(target.style.left) / 100 * target.parentElement.offsetWidth + parseFloat(target.getAttribute('data-x'))) * 100 / target.parentElement.offsetWidth + '%';
-                        target.style.top = (parseFloat(target.style.top) / 100 * target.parentElement.offsetHeight + parseFloat(target.getAttribute('data-y'))) * 100 / target.parentElement.offsetHeight + '%';
-                        this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, box.position.type, box.parent, box.container);
-                    }
+                    this.props.onBoxResized(this.props.id, {
+                        width: widthButton.value,
+                        widthUnit: widthButton.units,
+                        height: heightButton.value,
+                        heightUnit: heightButton.units,
+                        x: box.resizable ? ((parseFloat(target.style.left) / 100 * target.parentElement.offsetWidth + parseFloat(target.getAttribute('data-x'))) * 100 / target.parentElement.offsetWidth + '%') : 0,
+                        y: box.resizable ? ((parseFloat(target.style.top) / 100 * target.parentElement.offsetHeight + parseFloat(target.getAttribute('data-y'))) * 100 / target.parentElement.offsetHeight + '%') : 0,
+                    });
+
                     target.style.webkitTransform = target.style.transform =
                         'translate(0px, 0px)';
 
@@ -687,6 +688,7 @@ export default class EditorBox extends Component {
                         span.parentElement.removeChild(span);
                     }
                     event.stopPropagation();
+                    // this.forceUpdate();
                 },
             });
 

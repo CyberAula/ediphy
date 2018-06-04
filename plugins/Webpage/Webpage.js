@@ -25,7 +25,7 @@ export function Webpage(base) {
                             icon: 'link',
                             buttons: {
                                 url: {
-                                    __name: '',
+                                    __name: Ediphy.i18n.t('Webpage.URL_copypaste'),
                                     type: 'text',
                                     value: state.url,
                                     autoManaged: false,
