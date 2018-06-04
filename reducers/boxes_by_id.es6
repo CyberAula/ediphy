@@ -198,7 +198,7 @@ function boxReducer(state = {}, action = {}) {
             {
                 x: action.payload.structure.x || state.x,
                 y: action.payload.structure.y || state.y,
-                type: state.position,
+                type: state.position.type,
             }
         );
 
