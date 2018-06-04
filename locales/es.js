@@ -304,6 +304,7 @@ let es = {
             "erase_plugin": "Borrar",
             "erase_container": "Borrar contenedor",
             "error": "Error",
+            "exit": "Salir",
             "exit_page": "¿Seguro que deseas eliminar esta página?",
             "export": "Exportar...",
             "export_course": "Exportar documento",
