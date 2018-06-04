@@ -664,13 +664,15 @@ export default class EditorBox extends Component {
 
                     target.style.width = widthButton.value === 'auto' ? 'auto' : widthButton.value + widthButton.units;
                     target.style.height = heightButton.value === 'auto' ? 'auto' : heightButton.value + heightButton.units;
-                    this.props.onBoxResized(this.props.id, { width: widthButton.value, widthUnit: widthButton.units, height: heightButton.value, heightUnit: heightButton.units });
+                    this.props.onBoxResized(this.props.id, {
+                        width: widthButton.value,
+                        widthUnit: widthButton.units,
+                        height: heightButton.value,
+                        heightUnit: heightButton.units,
+                        x: (parseFloat(target.style.left) / 100 * target.parentElement.offsetWidth + parseFloat(target.getAttribute('data-x'))) * 100 / target.parentElement.offsetWidth + '%',
+                        y: (parseFloat(target.style.top) / 100 * target.parentElement.offsetHeight + parseFloat(target.getAttribute('data-y'))) * 100 / target.parentElement.offsetHeight + '%',
+                    });
 
-                    if (box.position.x !== target.style.left || box.position.y !== target.style.top) {
-                        target.style.left = (parseFloat(target.style.left) / 100 * target.parentElement.offsetWidth + parseFloat(target.getAttribute('data-x'))) * 100 / target.parentElement.offsetWidth + '%';
-                        target.style.top = (parseFloat(target.style.top) / 100 * target.parentElement.offsetHeight + parseFloat(target.getAttribute('data-y'))) * 100 / target.parentElement.offsetHeight + '%';
-                        this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, box.position.type, box.parent, box.container);
-                    }
                     target.style.webkitTransform = target.style.transform =
                         'translate(0px, 0px)';
 
