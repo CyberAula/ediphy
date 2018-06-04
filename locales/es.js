@@ -204,7 +204,7 @@ let es = {
         "Images": "Imágenes",
         "importData": "Importar fichero datos...",
         "importFile": {
-            "title": "Importar archivo ",
+            "title": "Cambiar ",
             "pages": {
                 "from": "Desde",
                 "title": "Páginas",
