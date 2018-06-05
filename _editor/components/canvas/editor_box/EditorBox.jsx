@@ -688,7 +688,7 @@ export default class EditorBox extends Component {
                         span.parentElement.removeChild(span);
                     }
                     event.stopPropagation();
-                    this.forceUpdate();
+                    // this.forceUpdate();
                 },
             });
 
