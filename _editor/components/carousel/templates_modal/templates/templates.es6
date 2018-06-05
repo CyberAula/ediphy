@@ -7,7 +7,7 @@ import meadow from './../../../../../dist/images/meadow.jpg';
 import placeholder from './../../../../../dist/images/placeholder.svg';
 export const templates = () => { return (
     [{
-        "name": "template1",
+        "name": i18n.t('templates.template1'),
         "boxes": [
             {
                 "box": {
@@ -63,7 +63,7 @@ export const templates = () => { return (
         ],
     },
     {
-        "name": "template2",
+        "name": i18n.t('templates.template2'),
         "boxes": [
             {
                 "box": {
@@ -136,7 +136,7 @@ export const templates = () => { return (
         ],
     },
     {
-        "name": "template3",
+        "name": i18n.t('templates.template3'),
         "boxes": [
             {
                 "box": {
@@ -209,7 +209,7 @@ export const templates = () => { return (
         ],
     },
     {
-        "name": "template4",
+        "name": i18n.t('templates.template4'),
         "boxes": [
             {
                 "box": {
@@ -248,7 +248,7 @@ export const templates = () => { return (
         ],
     },
     {
-        "name": "template5",
+        "name": i18n.t('templates.template5'),
         "boxes": [
             {
                 "box": {
@@ -286,7 +286,7 @@ export const templates = () => { return (
         ],
     },
     {
-        "name": "template6",
+        "name": i18n.t('templates.template6'),
         "boxes": [
             {
                 "box": {
@@ -325,7 +325,7 @@ export const templates = () => { return (
         ],
     },
     {
-        "name": "template7",
+        "name": i18n.t('templates.template7'),
         "boxes": [
             {
                 "box": {
@@ -381,7 +381,7 @@ export const templates = () => { return (
         ],
     },
     {
-        "name": "template8",
+        "name": i18n.t('templates.template8'),
         "boxes": [
             {
                 "box": {
@@ -420,7 +420,7 @@ export const templates = () => { return (
         ],
     },
     {
-        "name": "template9",
+        "name": i18n.t('templates.template9'),
         "boxes": [
             {
                 "box": {
@@ -459,7 +459,7 @@ export const templates = () => { return (
         ],
     },
     {
-        "name": "template10",
+        "name": i18n.t('templates.template10'),
         "boxes": [
             {
                 "box": {
@@ -498,7 +498,7 @@ export const templates = () => { return (
         ],
     },
     {
-        "name": "template11",
+        "name": i18n.t('templates.template11'),
         "boxes": [
             {
                 "box": {
