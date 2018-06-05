@@ -381,15 +381,12 @@ export default class EditorBoxSortable extends Component {
     getNewIndex(x, y, parent, container, i, j) {
         let el = document.elementFromPoint(x, y);
         let rc = releaseClick(el, 'box-');
-        console.log(this.props.boxes[parent].sortableContainers[container].children);
         let children = this.props.boxes[parent].sortableContainers[container].children.filter(box=>{return this.props.boxes[box].row === j && this.props.boxes[box].col === i;});
-        console.log(children);
         if (rc) {
             let newInd = children.indexOf(rc);
             return newInd === 0 ? 0 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
         }
 
-        console.log(x, y);
         let sameHeight = [];
         let maxRowHeight = 0;
         let curRowTop = 0;
@@ -410,12 +407,10 @@ export default class EditorBoxSortable extends Component {
                 maxRowHeight = coords.height;
             }
             newRow.push(coords);
-            console.log(newRow);
             if (ind === children.length - 1) {
                 coordArr.push({ top: curRowTop, maxRowHeight, cols: newRow });
             }
         });
-        console.log(coordArr);
         coordArr.map((r, i)=>{
             if (i === 0 && y < r.top) {
                 sameHeight = r.cols;
@@ -428,12 +423,9 @@ export default class EditorBoxSortable extends Component {
             }
         });
 
-        console.log(sameHeight);
         sameHeight.sort((a, b)=> a.left > b.left);
-        console.log(sameHeight);
         let closestBox = sameHeight[0] || rc;
         sameHeight.map((box, i) => {
-            console.log(box);
             if (i === 0 && x < box.left) {
                 closestBox = children.indexOf(box.id);
             }
@@ -444,14 +436,6 @@ export default class EditorBoxSortable extends Component {
                 closestBox = children.indexOf(box.id);
             }
         });
-        /* for (let b in sameHeight) {
-            let box = sameHeight[b];
-            console.log(box);
-            if (box.left < x && (box.left + box.width) > x) {
-                closestBox = children.indexOf(box.id);
-            }
-        }*/
-        console.log(closestBox);
         return closestBox || 0;
 
     }
