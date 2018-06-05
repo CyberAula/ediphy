@@ -132,13 +132,13 @@ export default class EditorBox extends Component {
                 }} />
                 <div style={{ zIndex: 9999, display: 'initial' /* box.resizable ? 'initial' : 'none'*/ }}>
                     <div className="helpersResizable" onClick={(e)=>{e.stopPropagation();}}
-                        style={{ left: -cornerSize / 2, top: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'nw-resize' : 'move') }} />
+                        style={{ left: -cornerSize / 2, top: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: 'nw-resize' /* (!isSortableContainer(box.container) ? 'nw-resize' : 'move')*/ }} />
                     <div className="helpersResizable" onClick={(e)=>{e.stopPropagation();}}
-                        style={{ right: -cornerSize / 2, top: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'ne-resize' : 'move') }} />
+                        style={{ right: -cornerSize / 2, top: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: 'ne-resize'/* (!isSortableContainer(box.container) ? 'ne-resize' : 'move')*/ }} />
                     <div className="helpersResizable" onClick={(e)=>{e.stopPropagation();}}
-                        style={{ left: -cornerSize / 2, bottom: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'sw-resize' : 'move') }} />
+                        style={{ left: -cornerSize / 2, bottom: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: 'sw-resize'/* (!isSortableContainer(box.container) ? 'sw-resize' : 'move')*/ }} />
                     <div className="helpersResizable" onClick={(e)=>{e.stopPropagation();}}
-                        style={{ right: -cornerSize / 2, bottom: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'se-resize' : 'move') }} />
+                        style={{ right: -cornerSize / 2, bottom: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: 'se-resize'/* (!isSortableContainer(box.container) ? 'se-resize' : 'move')*/ }} />
                 </div>
             </div>
         );
