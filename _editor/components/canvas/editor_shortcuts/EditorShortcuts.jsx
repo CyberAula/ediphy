@@ -24,7 +24,7 @@ export default class EditorShortcuts extends Component {
             urlValue: "",
         };
         this.resizeAndSetState = this.resizeAndSetState.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        // this.handleChange = this.handleChange.bind(this);
     }
     render() {
         let box = this.props.box;
@@ -89,14 +89,14 @@ export default class EditorShortcuts extends Component {
                         show={this.state.showOverlay} placement='top'
                         target={() => ReactDOM.findDOMNode(this.overlayTarget)}
                         onHide={() => this.setState({ showOverlay: false })}>
-                        <Popover id="popov" title={"Cambia esta Web"} className="popoverURL">
-                            <input type="text" className="form-control" onChange={this.handleChange}/>
+                        <Popover id="popov" title={i18n.t('messages.popoverUrlTitle')} className="popoverURL">
+                            <input type="text" className="form-control" ref={'url_input'} placeholder={'http://... '} />
                             <Button className="popoverButton"
                                 name="popoverAcceptButton"
-                                disabled={ this.state.urlValue === ""}
+                                // disabled={ this.state.urlValue === ""}
                                 onClick={(e) => {
                                     // update plugin toolbar with input value
-                                    this.props.onToolbarUpdated(toolbar.id, "main", "state", "url", this.state.urlValue);
+                                    this.props.onToolbarUpdated(toolbar.id, "main", "state", "url", this.refs.url_input.value);
                                     this.setState({ showOverlay: false });
                                 }}>
                                 {i18n.t("Accept")}
@@ -301,11 +301,9 @@ export default class EditorShortcuts extends Component {
             </div>
         );
     }
-    handleChange(e) {
-        this.setState({ urlValue: e.target.value });
-        e.preventDefault();
-        e.stopPropagation();
-    }
+    // handleChange(e) {
+    //     this.setState({ urlValue: e.target.value });
+    // }
     resizeAndSetState(fromUpdate, newProps) {
         let { width, top, left } = this.resize(fromUpdate, newProps);
         this.setState({ left: left, top: top, width: width });
