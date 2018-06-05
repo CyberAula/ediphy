@@ -327,6 +327,7 @@ let es = {
             "no_internet": "Necesitas conexión a Internet",
             "OK": "Aceptar",
             "pointer_events": "Activar el modo de edición manual del contenido",
+            "popoverUrlTitle": "Cambia esta URL",
             "preview": "Muestra una vista preliminar",
             "publish_tooltip": "Permite que el curso esté disponible al público",
             "publish_alert_title": "Publicar este documento",
