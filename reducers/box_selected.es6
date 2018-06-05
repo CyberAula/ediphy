@@ -30,7 +30,7 @@ export default function(state = -1, action = {}) {
         if (isContainedView(action.payload.container)) {
             return -1;
         }
-        // When we delete a box inside another one, we want it's parent to be selected
+        // When we delete a box inside another one, we want its parent to be selected
         if (isBox(action.payload.parent)) {
             return action.payload.parent;
         }
