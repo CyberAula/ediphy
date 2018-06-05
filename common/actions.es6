@@ -351,7 +351,7 @@ export function deleteRemoteFileEdiphyAsync(id, url, callback) {
 }
 
 // Async actions
-export function exportStateAsync(state, win = null) {
+export function exportStateAsync(state, win = null, url = null) {
     return dispatch => {
         let exportedState = { present: { ...state.undoGroup.present, filesUploaded: state.filesUploaded } };
         // First dispatch: the app state is updated to inform
@@ -415,7 +415,7 @@ export function exportStateAsync(state, win = null) {
                     ediphy_editor_params.ediphy_resource_id = ediphy_resource_id;
                 }
                 if(win !== null) {
-                    win.parent.location.href = ediphy_editor_params.export_url;
+                    win.parent.location.href = url || ediphy_editor_params.export_url;
                     win.focus();
                 }
                 dispatch(setBusy(false, i18n.t("success_transaction")));

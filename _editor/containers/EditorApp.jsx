@@ -94,6 +94,7 @@ class EditorApp extends Component {
         this.onBoxDeleted = this.onBoxDeleted.bind(this);
         this.onSortableContainerDeleted = this.onSortableContainerDeleted.bind(this);
         this.keyListener = this.keyListener.bind(this);
+        this.beforeUnloadAlert = this.beforeUnloadAlert.bind(this);
         this.dropListener = (ev) => {
             if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
 
@@ -584,7 +585,8 @@ class EditorApp extends Component {
                 <ExitModal
                     showExitModal={this.state.showExitModal}
                     closeExitModal={()=>{this.setState({ showExitModal: false });}}
-                    save={(win) => {dispatch(exportStateAsync({ ...this.props.store.getState() }, win)); }}
+                    publishing={(value) =>this.setState({ publishing: value })}
+                    save={(win, url) => {dispatch(exportStateAsync({ ...this.props.store.getState() }, win, url)); }}
                 />
             </Grid>
         );
@@ -668,12 +670,7 @@ class EditorApp extends Component {
 
         }
         if (process.env.NODE_ENV === 'production' && process.env.DOC === 'doc') {
-
-            $(window.parent).on("beforeunload", function() {
-                if(!this.state.publishing) {
-                    return i18n.t('messages.exit_page');
-                }
-            });
+            // window.parent.addEventListener("beforeunload", this.beforeUnloadAlert); // it is done outside
         }
 
         window.oncontextmenu = function() {
@@ -701,6 +698,12 @@ class EditorApp extends Component {
         document.removeEventListener('dragstart', this.dragStartListener);
         // document.removeEventListener('onbeforeunload', this.exitListener);
 
+    }
+
+    beforeUnloadAlert() {
+        if(!this.state.publishing) {
+            return i18n.t('messages.exit_page');
+        }
     }
 
     keyListener(e) {
