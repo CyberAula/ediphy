@@ -1,10 +1,10 @@
 import {
     ADD_BOX, ADD_NAV_ITEM, DELETE_BOX, DELETE_SORTABLE_CONTAINER, DELETE_NAV_ITEM, SELECT_BOX,
     DELETE_CONTAINED_VIEW,
-    SELECT_CONTAINED_VIEW, SELECT_NAV_ITEM, IMPORT_STATE, PASTE_BOX,
+    SELECT_CONTAINED_VIEW, SELECT_NAV_ITEM, IMPORT_STATE, PASTE_BOX, INDEX_SELECT,
 } from '../common/actions';
 import { ID_PREFIX_BOX } from '../common/constants';
-import { isBox, isSortableBox, isContainedView } from '../common/utils';
+import { isBox, isSortableBox, isContainedView, isPage } from '../common/utils';
 
 export default function(state = -1, action = {}) {
     switch (action.type) {
@@ -45,6 +45,10 @@ export default function(state = -1, action = {}) {
         return action.payload.id;
     case SELECT_CONTAINED_VIEW:
         return -1;
+    case INDEX_SELECT:
+        if (isContainedView(action.payload.id) || isPage(action.payload.id)) {
+            return -1;
+        }
     case SELECT_NAV_ITEM:
         return -1;
     case IMPORT_STATE:
