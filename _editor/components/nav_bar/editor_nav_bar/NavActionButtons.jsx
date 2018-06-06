@@ -142,7 +142,7 @@ export default class NavActionButtons extends Component {
                             style={{ float: 'right' }}
                             onClick={(e) => {
                                 // acciones de publicar
-                                window.publishing = true;
+                                window.exitFlag = true;
                                 const win = window.open('', '_self');
                                 this.props.changeGlobalConfig("status", "final");
                                 this.props.publishing();

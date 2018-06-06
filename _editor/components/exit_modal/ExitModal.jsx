@@ -13,11 +13,11 @@ export default class ExitModal extends React.Component {
     componentWillUpdate(nextProps) {
         if(nextProps.showExitModal && !this.props.showExitModal) {
             // this.props.publishing(true);
-            window.publishing = true;
+            window.exitFlag = true;
         }
         if(!nextProps.showExitModal && this.props.showExitModal) {
             // this.props.publishing(false);
-            window.publishing = null;
+            window.exitFlag = null;
         }
     }
 
