@@ -13,7 +13,7 @@ export default class BasicAudioPlugin extends React.Component {
             volume: 0.5,
             controls: true,
             duration: 1,
-            // waves: true,
+            waves: this.props.state.waves,
             autoplay: this.props.state.autoplay,
             // audioPeaks: null,
             ondas: null,
@@ -37,6 +37,7 @@ export default class BasicAudioPlugin extends React.Component {
         } catch(err) {
             console.error(err);
         }
+        console.log(e);
     }
 
     handleVolumeChange(e) {
@@ -67,11 +68,12 @@ export default class BasicAudioPlugin extends React.Component {
             pos,
             posPctg,
             autoplay: this.props.state.autoplay,
-            //  ondas: e.wavesurfer.backend.mergedPeaks,
+            waves: this.props.state.waves,
+            ondas: this.props.state.waves,
             waveColor: e.wavesurfer.params.waveColor,
             progressColor: e.wavesurfer.params.progressColor,
         });
-        console.log(e);
+        console.log(this.state);
         if (this.props.state.autoplay) {
             this.setState({ playing: true });
         }
@@ -120,6 +122,7 @@ export default class BasicAudioPlugin extends React.Component {
             barWidth: (this.props.state.barWidth > 0 ? this.props.state.barWidth : undefined),
             // peaks: this.state.peaks,
             cursorColor: 'grey',
+            height: this.props.state.waves ? 128 : 0,
         };
 
             /* Podemos pasar una devolución de llamada en los refs*/

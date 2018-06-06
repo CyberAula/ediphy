@@ -15,10 +15,12 @@ export default class BasicAudioPluginEditor extends React.Component {
             volume: 0.5,
             controls: true,
             duration: 1,
-            // waves: true,
+            waves: true,
             autoplay: false,
             // audioPeaks: null,
             // ondas: false,
+            height: 128,
+
         };
         this.onProgress = this.onProgress.bind(this);
         this.onReady = this.onReady.bind(this);
@@ -45,11 +47,11 @@ export default class BasicAudioPluginEditor extends React.Component {
             let pos = 0;
             let playing = false;
             if (this.props.state.url === nextProps.state.url) {
-                /**/ pos = (this.wavesurfer.getCurrentTime() || 0) / (this.wavesurfer.getDuration() || 1);
+                pos = (this.wavesurfer.getCurrentTime() || 0) / (this.wavesurfer.getDuration() || 1);
                 playing = this.state.playing;
 
             }
-            //
+
             this.wavesurfer.stop();
             this.wavesurfer.destroy();
 
@@ -60,7 +62,11 @@ export default class BasicAudioPluginEditor extends React.Component {
                 container: this.$waveform,
                 ...waveOptions,
             });
-            this.setState({ playing: false, waves: nextProps.state.waves });
+            this.setState({
+                playing: false,
+                waves: nextProps.state.waves,
+                // height: nextProps.state.waves ? 1 : 0,
+            });
             this.wavesurfer.load(nextProps.state.url);
             this.wavesurfer.on('ready', ()=>{this.onReady(pos, playing);});
             this.wavesurfer.on('loading', this.onProgress);
@@ -70,7 +76,7 @@ export default class BasicAudioPluginEditor extends React.Component {
     }
     createOptions(props, state) {
         return {
-            scrollParent: props.state.scroll, // true,
+            scrollParent: props.state.scroll,
             hideScrollbar: !props.state.scroll,
             progressColor: props.state.progressColor,
             waveColor: props.state.waveColor,
@@ -78,7 +84,9 @@ export default class BasicAudioPluginEditor extends React.Component {
             barWidth: (props.state.barWidth > 0 ? props.state.barWidth : undefined),
             // peaks: state.peaks,
             cursorColor: 'grey',
+            height: props.state.waves ? 128 : 0,
         };
+
     }
 
     componentDidMount() {
@@ -89,12 +97,11 @@ export default class BasicAudioPluginEditor extends React.Component {
             container: this.$waveform,
             ...waveOptions,
         });
-        // loading the audio:
-        this.wavesurfer.load(this.props.state.url); // pasar peaks
-        // listening to events
+        this.wavesurfer.load(this.props.state.url);
         this.wavesurfer.on('ready', ()=>this.onReady(0, false));
         this.wavesurfer.on('loading', this.onProgress);
     }
+
     componentWillUnmount() {
         this.wavesurfer.stop();
         this.wavesurfer.destroy();
@@ -109,10 +116,13 @@ export default class BasicAudioPluginEditor extends React.Component {
             pos: 0,
             playing: false,
             autoplay: this.props.state.autoplay,
-            // ondas: this.wavesurfer.backend.mergedPeaks,
+            ondas: this.props.state.waves ? this.wavesurfer.backend.mergedPeaks : [0, 0, 0, 0],
             waveColor: this.wavesurfer.params.waveColor,
             progressColor: this.wavesurfer.params.progressColor,
+            waves: this.props.state.waves,
+            height: this.props.state.waves ? 128 : 0,
         });
+        // en el estado height se cambia bien
         this.wavesurfer.seekTo(pos);
         if (playing) {
             this.wavesurfer.play();
@@ -147,7 +157,7 @@ export default class BasicAudioPluginEditor extends React.Component {
         });
 
         return (
-            <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "none" }}>
+            <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%" /* pointerEvents: "none"*/ }}>
                 <div className="wavecontainer" style={{ position: 'absolute', height: '100%', width: '100%' }}>
                     <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{ this.onResize(e);}} />
                     <div className='waveform'>
@@ -160,7 +170,7 @@ export default class BasicAudioPluginEditor extends React.Component {
 
                 <div>
                     {(this.props.state.controls) && (
-                        <div className="audio-controls" style={{ pointerEvents: 'none' }}>
+                        <div className="audio-controls"/* style={{ pointerEvents: 'none' }}*/>
                             <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} style={{ backgroundColor: '#17CFC8'/* this.props.state.waveColor */ }}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
                             <input className="volume-audio-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.handleVolumeChange.bind(this)} />
                         </div>
