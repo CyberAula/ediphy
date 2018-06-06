@@ -379,7 +379,7 @@ export function exportStateAsync(state, win = null, url = null) {
                     return true;
                 })
                 .then(() => {
-                    dispatch(setBusy(false, i18n.t("success_transaction")));
+                    dispatch(setBusy(false, i18n.t("success_transaction"), "saving_state"));
                 })
                 .catch(e => {
                     dispatch(setBusy(false, i18n.t("error.exporting")));
