@@ -226,8 +226,8 @@ export function changeDisplayMode(mode) {
     return { type: CHANGE_DISPLAY_MODE, payload: { mode } };
 }
 
-export function setBusy(value, msg) {
-    return { type: SET_BUSY, payload: { value, msg } };
+export function setBusy(value, msg, reason = null) {
+    return { type: SET_BUSY, payload: { value, msg, reason } };
 }
 
 export function changeGlobalConfig(prop, value) {
@@ -356,7 +356,7 @@ export function exportStateAsync(state, win = null, url = null) {
         let exportedState = { present: { ...state.undoGroup.present, filesUploaded: state.filesUploaded } };
         // First dispatch: the app state is updated to inform
         // that the API call is starting.
-        dispatch(setBusy(true, i18n.t("messages.operation_in_progress")));
+        dispatch(setBusy(true, i18n.t("messages.operation_in_progress"), "saving_state"));
 
         // The function called by the thunk middleware can return a value,
         // that is passed on as the return value of the dispatch method.

@@ -109,6 +109,13 @@ const GlobalState = combineReducers({
         isBusy: isBusy,
     }), {
         filter: (action, currentState, previousState) => {
+            /* flag for */
+            if (action.payload && action.payload.reason && action.payload.reason === "saving_state") {
+                window.publishing = true;
+            } else {
+                window.publishing = null;
+            }
+
             switch (action.type) {
             case CHANGE_DISPLAY_MODE:
             case EXPAND_NAV_ITEM:
