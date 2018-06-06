@@ -80,7 +80,7 @@ function status(state = "draft", action = {}) {
         }
         return state;
     case IMPORT_STATE:
-        return action.payload.status || state;
+        return action.payload.present.status || state;
     default:
         return state;
     }}
