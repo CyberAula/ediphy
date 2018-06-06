@@ -95,6 +95,7 @@ let es = {
                 'error': 'Ha ocurrido un error',
                 'uploaded': 'Archivo subido y añadido a la biblioteca',
                 'upload': 'Subir fichero',
+                'warning_allowed': 'Este formato no está admitido para el contenido que estás editando',
                 'clear': 'Cancelar',
                 'search': 'Buscar',
                 'confirm_delete': '¿Estás seguro de que deseas eliminar este fichero?',

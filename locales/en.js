@@ -93,6 +93,7 @@ let en = {
                 'results': 'Results',
                 'searching': 'Searching...',
                 'error': 'An error has ocurred',
+                'warning_allowed': 'This file is not compatible with the content you are editing',
                 'uploaded': 'File Uploaded and added to the library',
                 'upload': 'Upload file',
                 'clear': 'Clear',

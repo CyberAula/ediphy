@@ -15,6 +15,7 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", 
     /* this is to avoid get values from react flow when using event listeners that do not exist in react
      * get the values from window.object */
     if (customSize === 0) {
+        console.log(canvas);
         canvas.style.height = "100%";
         canvas.style.width = "100%";
         if(window.canvasRatio === undefined) {
