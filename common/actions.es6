@@ -356,7 +356,7 @@ export function exportStateAsync(state, win = null, url = null) {
         let exportedState = { present: { ...state.undoGroup.present, filesUploaded: state.filesUploaded } };
         // First dispatch: the app state is updated to inform
         // that the API call is starting.
-        dispatch(setBusy(true, i18n.t("Exporting")));
+        dispatch(setBusy(true, i18n.t("messages.operation_in_progress")));
 
         // The function called by the thunk middleware can return a value,
         // that is passed on as the return value of the dispatch method.
@@ -382,7 +382,7 @@ export function exportStateAsync(state, win = null, url = null) {
                     dispatch(setBusy(false, i18n.t("success_transaction")));
                 })
                 .catch(e => {
-                    dispatch(setBusy(false, e.message));
+                    dispatch(setBusy(false, i18n.t("error.exporting")));
                 });
         }
 
@@ -421,7 +421,7 @@ export function exportStateAsync(state, win = null, url = null) {
                 dispatch(setBusy(false, i18n.t("success_transaction")));
             })
             .catch(e =>{
-                dispatch(setBusy(false, e.message));
+                dispatch(setBusy(false, i18n.t("error.exporting")));
             });
 
     };
@@ -447,7 +447,7 @@ export function importStateAsync() {
                 dispatch(setBusy(false, i18n.t("success_transaction")));
             })
             .catch(e => {
-                dispatch(setBusy(false, e.message));
+                dispatch(setBusy(false, i18n.t("error.importing")));
             });
     };
 }

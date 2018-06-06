@@ -75,6 +75,9 @@ export default class EditorBox extends Component {
         });
 
         style = { ...style, ...toolbar.style };
+        if (toolbar.structure.height === 'auto' && config.needsTextEdition) {
+            style.height = 'auto';
+        }
 
         Object.assign(textareaStyle, style);
         textareaStyle.visibility = 'visible';
