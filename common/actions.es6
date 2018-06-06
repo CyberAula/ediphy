@@ -353,7 +353,7 @@ export function deleteRemoteFileEdiphyAsync(id, url, callback) {
 // Async actions
 export function exportStateAsync(state, win = null, url = null) {
     return dispatch => {
-        let exportedState = { present: { ...state.undoGroup.present, filesUploaded: state.filesUploaded } };
+        let exportedState = { present: { ...state.undoGroup.present, filesUploaded: state.filesUploaded, status: state.status } };
         // First dispatch: the app state is updated to inform
         // that the API call is starting.
         dispatch(setBusy(true, i18n.t("messages.operation_in_progress")));
