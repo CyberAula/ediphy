@@ -111,9 +111,9 @@ const GlobalState = combineReducers({
         filter: (action, currentState, previousState) => {
             /* flag for */
             if (action.payload && action.payload.reason && action.payload.reason === "saving_state") {
-                window.publishing = true;
+                window.exitFlag = true;
             } else {
-                window.publishing = null;
+                window.exitFlag = null;
             }
 
             switch (action.type) {
