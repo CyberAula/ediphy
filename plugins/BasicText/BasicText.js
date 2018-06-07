@@ -31,7 +31,7 @@ export function BasicText(base) {
                                 backgroundColor: {
                                     __name: Ediphy.i18n.t('BasicText.background_color'),
                                     type: 'color',
-                                    value: 'rgba(255,255,255,0)',
+                                    value: 'rgba(255,255,255,1)',
                                 },
                                 borderWidth: {
                                     __name: Ediphy.i18n.t('BasicText.border_size'),
