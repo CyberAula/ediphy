@@ -25,7 +25,7 @@ export default class ExitModal extends React.Component {
         return(
             Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.showExitModal ?
                 <div className="static-modal">
-                    <Modal.Dialog>
+                    <Modal.Dialog className={'pageModal'}>
                         <Modal.Header>
                             <Modal.Title>{i18n.t('exitModal.Title')}</Modal.Title>
                         </Modal.Header>
@@ -34,7 +34,7 @@ export default class ExitModal extends React.Component {
                             <Button bsStyle="primary" onClick={()=>{
                                 this.props.save(window, ediphy_editor_params.exit_url);
                             }}>{i18n.t('exitModal.save_and_exit')}</Button>
-                            <Button bsStyle="primary" onClick={()=>{
+                            <Button onClick={()=>{
                                 window.parent.location.href = ediphy_editor_params.exit_url;
                             }}>{i18n.t('exitModal.leave_without_changes')}</Button>
                             <Button onClick={()=>this.props.closeExitModal()}>{i18n.t('exitModal.cancel')}</Button>
