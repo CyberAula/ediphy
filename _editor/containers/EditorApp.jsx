@@ -654,7 +654,8 @@ class EditorApp extends Component {
             <div className="welcomeModalDiv">
                 <img src={screen} alt="" style={{ width: '100%' }}/>
                 <h1>{i18n.t('joyride.welcome')}<strong style={{ color: '#17CFC8' }}>Ediphy</strong>!</h1>
-                <h2>{i18n.t('joyride.need_help')}</h2>
+                <p>{i18n.t('joyride.ediphy_description')}</p>
+                <p><strong>{i18n.t('joyride.need_help')}</strong></p>
             </div>
             {/*  {i18n.t('joyride.manual')}<a href="http://ging.github.io/ediphy/#/manual" target="_blank">{i18n.t('joyride.manual2')}</a>*/}
             {/* i18n.t('Want some help?')*/}

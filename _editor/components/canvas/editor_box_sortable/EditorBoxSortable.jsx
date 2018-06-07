@@ -246,8 +246,15 @@ export default class EditorBoxSortable extends Component {
                 if (bar !== null) {
                     bar.classList.remove('hidden');
                 }
-                window.dispatchEvent(new Event('resize'));
-
+                let ev;
+                // window.dispatchEvent(new Event('resize'));
+                // if(typeof(Event) === 'function') {
+                //   ev = new Event('resize')
+                // }else{
+                ev = document.createEvent('Event');
+                ev.initEvent('resize', true, true);
+                // }
+                window.dispatchEvent(ev);
             },
         });
     }
