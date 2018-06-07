@@ -238,8 +238,10 @@ let en = {
         "joyride": {
             'back': 'Back',
             'carrousel': 'Complete and order your document by adding more pages, slides, and sections',
+            'canvas': 'This is the edit area, use it to build you resource',
             'close': 'Close',
             'drag': 'Choose the content needed. You can click or drag',
+            'ediphy_description': 'your tool for the creation of enriched and standardized educational resources',
             'index': 'Manage your pages, slides and contained views in the index. Ah! A contained view is created by inserting marks in your resources',
             'last': 'Finish',
             'manual': 'If you have any doubt, you can access the help menu. You can always run this tour again or consult our ',

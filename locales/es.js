@@ -238,9 +238,11 @@ let es = {
         "joyride": {
             'back': 'Atrás',
             'carrousel': 'Completa y ordena tu documento añadiendo más páginas, diapositivas y secciones.',
+            'canvas': 'Esta es la zona de edición, úsala para ir construyendo tu recurso',
             'close': 'Cerrar',
             'drag': 'Elige el contenido que necesitas, y añádelo arrastrando o haciendo clic.',
-            'index': 'Gestiona tus páginas, diapositivas y vistas contenidas desde el índice. ¡Ah! Un vista contenida se refiere a las vistas que puedes enlazar añadiendo puntos calientes (marcas) en tu contenido.',
+            'ediphy_description': 'tu herramienta para la creación de recursos educativos enriquecidos y estandarizados',
+            'index': 'Gestiona tus páginas, diapositivas y vistas contenidas desde el índice. ¡Ah! Una vista contenida se refiere a las vistas que puedes enlazar añadiendo puntos calientes (marcas) en tu contenido.',
             'last': 'Finalizar',
             'manual': 'Si te ha quedado alguna duda, accede al menú de ayuda. Puedes volver a ejecutar este paseo o consultar nuestro',
             'manual2': ' manual de usuario',
