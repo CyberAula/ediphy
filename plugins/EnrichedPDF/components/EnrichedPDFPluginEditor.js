@@ -24,17 +24,10 @@ export default class EnrichedPDFPluginEditor extends React.Component {
         this.onDocumentLoad = ({ numPages }) => {
             this.setState({ numPages });
         };
-        // this.onDocumentLoad = this.onDocumentLoad.bind(this);
         this.buttonBack = this.buttonBack.bind(this);
         this.buttonNext = this.buttonNext.bind(this);
     }
-    /*
-    onDocumentLoad(numPages) {
-        this.setState({
-            numPages: numPages,
-        });
-    }
-*/
+
     buttonNext() {
         if(this.state.pageNumber === this.state.numPages) {
         }else{
@@ -64,21 +57,19 @@ export default class EnrichedPDFPluginEditor extends React.Component {
             } else {
                 position = [0, 0, 0];
             }
-            // cogemos el ancho del padre para ver cómo va modificandose con la toolbar
 
             let pdfDiv = document.querySelector("#box-" + this.props.props.id + " .pdfDiv");
-
             let w = pdfDiv ? pdfDiv.clientWidth : 0;
-            let x = "" + position[0] * 6.24 + "px";
 
-            if(w > 624) {
-                x = "" + (((w - 624) / 2) + (position[0] * 6.24)) + "px"; // 624 no cambia
+            let mayor = position[0] * 612 / 100 + (w - 612) / 2;
+            let x = "" + position[0] * w / 100 + "px";
+
+            if(w > 612) {
+                x = "" + mayor + "px";
             }
 
             let y = "" + position[1] * 7.92 + "px";
-            console.log(this.props, w, x, y);
             let bool = (parseFloat(position[2]) === this.state.pageNumber);
-            console.log(this.props.props);
             return(
                 bool ?
                     <MarkEditor

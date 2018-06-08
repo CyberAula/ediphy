@@ -144,9 +144,9 @@ export default class EnrichedPDFPlugin extends React.Component {
 
                 <Document className={"react-pdf__Document dropableRichZone"} style={{ width: "100%", height: "100%" }}
                     file = {this.props.state.url}
-                    onLoadSuccess={this.onDocumentLoad}>
+                    onLoadSuccess={this.onDocumentLoad} rotate={this.state.rotate}>
                     <Page style={{ width: "100%", height: "100%" }} className="pdfPage"
-                        pageNumber={this.state.pageNumber} rotate={this.state.rotate}
+                        pageNumber={this.state.pageNumber}
                     >{markElements}</Page>
 
                 </Document>
