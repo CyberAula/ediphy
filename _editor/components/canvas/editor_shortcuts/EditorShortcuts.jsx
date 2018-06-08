@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import Ediphy from '../../../../core/editor/main';
-import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Tooltip, OverlayTrigger, Button, Popover, Overlay } from 'react-bootstrap';
 import { UPDATE_BOX } from '../../../../common/actions';
 import i18n from 'i18next';
 import { isSortableBox, isSortableContainer } from '../../../../common/utils';
@@ -20,10 +20,12 @@ export default class EditorShortcuts extends Component {
             top: 0,
             width: 0,
             open: false,
+            showOverlay: false,
+            urlValue: "",
         };
         this.resizeAndSetState = this.resizeAndSetState.bind(this);
+        // this.handleChange = this.handleChange.bind(this);
     }
-
     render() {
         let box = this.props.box;
         let toolbar = this.props.pluginToolbar;
@@ -38,6 +40,7 @@ export default class EditorShortcuts extends Component {
         let config = apiPlugin.getConfig();
         let toolbarAcc = apiPlugin.getToolbar(toolbar.state);
         let hasURL = false;
+        let hasURLnotextprov = false;
         let accept = '*';
         if (toolbarAcc.main && toolbarAcc.main.accordions) {
             for (let acc in toolbarAcc.main.accordions) {
@@ -47,9 +50,11 @@ export default class EditorShortcuts extends Component {
                         hasURL = true;
                         accept = toolbarAcc.main.accordions[acc].buttons[but].accept;
                     }
+                    if (but === 'url' && !hasURL) {
+                        hasURLnotextprov = true;
+                    }
                 }
             }
-
         }
 
         let boxEl = findBox((box ? box.id : ''));
@@ -79,6 +84,45 @@ export default class EditorShortcuts extends Component {
                 }}>
                 <div ref="innerContainer" style={{ display: "inline-block", minWidth: "50px", overflow: 'hidden', height: '37px' }}>
                     <span className="namePlugin">{config.displayName || ""}</span>
+                    <Overlay rootClose
+                        name="urlOverlay"
+                        show={this.state.showOverlay} placement='top'
+                        target={() => ReactDOM.findDOMNode(this.overlayTarget)}
+                        onHide={() => this.setState({ showOverlay: false })}>
+                        <Popover id="popov" title={i18n.t('messages.popoverUrlTitle')} className="popoverURL">
+                            <input type="text" className="form-control" ref={'url_input'} placeholder={'http://... '} />
+                            <Button className="popoverButton"
+                                name="popoverAcceptButton"
+                                // disabled={ this.state.urlValue === ""}
+                                onClick={(e) => {
+                                    // update plugin toolbar with input value
+                                    this.props.onToolbarUpdated(toolbar.id, "main", "state", "url", this.refs.url_input.value);
+                                    this.setState({ showOverlay: false });
+                                }}>
+                                {i18n.t("Accept")}
+                            </Button>
+                        </Popover>
+                    </Overlay>
+                    {
+                        (hasURLnotextprov) ? (
+                            <OverlayTrigger placement="top"
+                                overlay={
+                                    <Tooltip id="config">
+                                        {i18n.t('messages.Change_source')}
+                                    </Tooltip>
+                                }>
+                                <button id="open_conf" className={"editorTitleButton"}
+                                    ref={ button => {this.overlayTarget = button;}}
+                                    onClick={(e) => {
+                                        this.setState({ showOverlay: true });
+                                    }}>
+                                    <i className="material-icons">search</i>
+                                </button>
+                            </OverlayTrigger>
+                        ) : (
+                            null
+                        )
+                    }
                     {
                         (hasURL) ? (
                             <OverlayTrigger placement="top"
@@ -257,7 +301,9 @@ export default class EditorShortcuts extends Component {
             </div>
         );
     }
-
+    // handleChange(e) {
+    //     this.setState({ urlValue: e.target.value });
+    // }
     resizeAndSetState(fromUpdate, newProps) {
         let { width, top, left } = this.resize(fromUpdate, newProps);
         this.setState({ left: left, top: top, width: width });
@@ -322,7 +368,6 @@ export default class EditorShortcuts extends Component {
     }
     componentDidUpdate(prevProps, prevState) {
         let { width, top, left } = this.resize();
-
         if (this.state.width !== width || this.state.top !== top || this.state.left !== left) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ left: left, top: top, width: width });

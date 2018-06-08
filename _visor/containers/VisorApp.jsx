@@ -41,10 +41,13 @@ export default class Visor extends Component {
                 switch(format) {
                 case 'SCORM12':
                     this.exportToScorm(false, ()=>{return true;}, false);
+                    return true;
                 case 'SCORM2004':
                     this.exportToScorm(true, ()=>{return true;}, false);
+                    return true;
                 case 'HTML':
                     this.exportToScorm('HTML', ()=>{return true;}, false);
+                    return true;
                 default:
                     return false;
                 }
@@ -172,7 +175,7 @@ export default class Visor extends Component {
         !isCV && navItems[this.getLastCurrentViewElement()] === "slide" ?
             "pcw_slide" : "pcw_doc";
         let currentView = this.getLastCurrentViewElement();
-        let isExport = Ediphy.State.export;
+        let isExport = true || Ediphy.State.export;
         let canvasProps = {
             boxes: boxesById,
             changeCurrentView: (element) => {this.changeCurrentView(element);},

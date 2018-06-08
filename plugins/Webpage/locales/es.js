@@ -11,5 +11,6 @@ module.exports = {
         "radius": "Radio",
         "source": "Origen",
         "URL": "URL",
+        "URL_copypaste": "Copia y pega una URL",
     },
 };

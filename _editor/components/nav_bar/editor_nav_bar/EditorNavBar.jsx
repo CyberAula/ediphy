@@ -41,6 +41,7 @@ export default class EditorNavBar extends Component {
                     onTextEditorToggled={this.props.onTextEditorToggled}
                     redo={this.props.redo}
                     redoDisabled={this.props.redoDisabled}
+                    publishing={this.props.publishing}
                     save={this.props.save}
                     serverModalOpen={this.props.serverModalOpen}
                     undo={this.props.undo}
@@ -50,6 +51,7 @@ export default class EditorNavBar extends Component {
                     navItemSelected={this.props.navItemSelected}
                     opens={this.props.opens}
                     save={this.props.save}
+                    openExitModal={this.props.openExitModal}
                     openTour={this.props.openTour}
                     serverModalOpen={this.props.serverModalOpen}
                     toggleGlobalConfig={this.toggleGlobalConfig}

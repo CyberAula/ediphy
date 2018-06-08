@@ -122,6 +122,7 @@ export default function handlers(self) {
                             let xhr = new XMLHttpRequest(),
                                 fileReader = new FileReader();
                             fileReader.onload = (e)=>dataToState(e, self, type, initialParams, isTargetSlide, 'DataTable');
+                            fileReader.onerror = (e)=>{alert(i18n.t('error.generic'));};
                             if(isDataURL(self.state.element)) {
                                 fileReader.readAsBinaryString(dataURItoBlob(self.state.element));
                             } else {
@@ -131,6 +132,8 @@ export default function handlers(self) {
                                 xhr.addEventListener("load", function() {
                                     if (xhr.status === 200) {
                                         fileReader.readAsBinaryString(xhr.response);
+                                    } else {
+                                        alert(i18n.t('error.generic'));
                                     }
                                 }, false);
                                 // Send XHR
@@ -151,6 +154,7 @@ export default function handlers(self) {
                             fileReader.onload = (e)=>dataToState(e, self, type, initialParams, isTargetSlide, 'GraficaD3');
                             if(isDataURL(self.state.element)) {
                                 fileReader.readAsBinaryString(dataURItoBlob(self.state.element));
+                                fileReader.onerror = (e)=>{alert(i18n.t('error.generic'));};
                             } else {
                                 xhr.open("GET", self.state.element, true);
                                 xhr.responseType = "blob";
@@ -158,6 +162,8 @@ export default function handlers(self) {
                                 xhr.addEventListener("load", function() {
                                     if (xhr.status === 200) {
                                         fileReader.readAsBinaryString(xhr.response);
+                                    } else {
+                                        alert(i18n.t('error.generic'));
                                     }
                                 }, false);
                                 // Send XHR

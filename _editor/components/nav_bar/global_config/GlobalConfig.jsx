@@ -496,6 +496,7 @@ export default class GlobalConfig extends Component {
                 thumbnail: nextProps.fileModalResult.value, modifiedState: true,
             });
         }
+
         if (!this.props.show && nextProps.show) {
             this.setState({
                 title: nextProps.globalConfig.title || "",
