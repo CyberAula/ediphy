@@ -147,7 +147,10 @@ export default class EnrichedPDFPlugin extends React.Component {
                     onLoadSuccess={this.onDocumentLoad} rotate={this.state.rotate}>
                     <Page style={{ width: "100%", height: "100%" }} className="pdfPage"
                         pageNumber={this.state.pageNumber}
-                    >{markElements}</Page>
+                    >
+                        {this.state.rotate === 0 || this.state.rotate === 360 ? markElements : null}
+
+                    </Page>
 
                 </Document>
             </div>
