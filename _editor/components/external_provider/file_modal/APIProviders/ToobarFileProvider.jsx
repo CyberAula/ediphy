@@ -27,7 +27,7 @@ export default class ToolbarFileProvider extends Component {
         let bckg = this.props.formControlProps ? (this.props.value !== undefined ? this.props.value : this.props.formControlProps.value) : null;
         let isURI = (/data\:/).test(bckg);
         let props = { ...this.props.formControlProps,
-            placeholder: isURI ? i18n.t('FileModal.FileHandlers.custom') : '',
+            placeholder: isURI ? 'http://...' : '',
             value: isURI ? '' : bckg };
         return (<FormGroup>
             {this.props.formControlProps ? [<ControlLabel key={1}>{props.label}</ControlLabel>,

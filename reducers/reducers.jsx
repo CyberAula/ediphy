@@ -80,7 +80,7 @@ function status(state = "draft", action = {}) {
         }
         return state;
     case IMPORT_STATE:
-        return action.payload.status || state;
+        return action.payload.present.status || state;
     default:
         return state;
     }}
@@ -109,6 +109,13 @@ const GlobalState = combineReducers({
         isBusy: isBusy,
     }), {
         filter: (action, currentState, previousState) => {
+            /* flag for */
+            if (action.payload && action.payload.reason && action.payload.reason === "saving_state") {
+                window.exitFlag = true;
+            } else {
+                window.exitFlag = null;
+            }
+
             switch (action.type) {
             case CHANGE_DISPLAY_MODE:
             case EXPAND_NAV_ITEM:

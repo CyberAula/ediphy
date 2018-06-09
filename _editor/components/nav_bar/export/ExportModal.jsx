@@ -40,7 +40,7 @@ export default class ExportModal extends Component {
             { format: "HTML", handler: ()=> {this.props.export('HTML', callback, this.state.selfContained); } },
         ];
         if (!this.props.hidePDF) {
-            exportFormats.push({ format: "PDF", handler: ()=> { this.props.export('PDF', callback, this.state.selfContained);} });
+            exportFormats.push({ format: "PDF", formatRender: <span>PDF <sub className={"betaSub"}>BETA</sub></span>, handler: ()=> { this.props.export('PDF', callback, this.state.selfContained);} });
         }
         return (
             <Modal className="pageModal exportoScormModalBody"
@@ -67,7 +67,7 @@ export default class ExportModal extends Component {
                                         {exportFormats.map((format, i) => {
                                             return (<Radio key={i} name="radioGroup" className="radioExportScorm" checked={this.state.format === i}
                                                 onChange={e => {this.setState({ format: i });}}>
-                                                {format.format}<br/>
+                                                {format.formatRender || format.format}<br/>
                                             </Radio>);
                                         })}
 

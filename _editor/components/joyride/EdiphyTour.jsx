@@ -5,6 +5,7 @@ import './_joyride.scss';
 import dragdrop from './dragdrop.svg';
 import edit from './edit.svg';
 import index from './index.svg';
+import canvas from './canvas.svg';
 import add from './add.svg';
 import importExport from './exportImport.svg';
 import preview from './preview.svg';
@@ -16,15 +17,27 @@ export default class EdiphyTour extends React.Component {
         super(props);
         this.state = {
             steps: [
-                { // Plugin selection
-                    target: '#ribbonList',
+                { // Canvas
+                    target: '#canvas',
                     content: (<div>
-                        <img src={dragdrop} alt="Drag and drop" style={{ width: '100%' }}/>
-                        <div className={'step_text'}>{i18n.t('joyride.drag')}</div>
+                        <img src={canvas} alt="" style={{ width: '100%' }}/>
+                        <div className={'step_text'}>{i18n.t('joyride.canvas')}</div>
                     </div>),
                     placement: 'bottom',
                     offset: 30,
                     disableBeacon: true, // The first step needs to have this so the beacon does not appear and the tour starts right away
+                    tooltipOptions: { footer: null },
+                    callback: ()=>{
+                    },
+                },
+                { // Plugin selection
+                    target: '#ribbonList',
+                    content: (<div>
+                        <img src={dragdrop} alt="" style={{ width: '100%' }}/>
+                        <div className={'step_text'}>{i18n.t('joyride.drag')}</div>
+                    </div>),
+                    placement: 'bottom',
+                    offset: 30,
                     tooltipOptions: { footer: null },
                     callback: (e)=>{
                         if(document.getElementById('insideribbon').classList.contains('noButtons')) {
@@ -41,7 +54,7 @@ export default class EdiphyTour extends React.Component {
                 { // Toolbar
                     target: '#tools',
                     content: (<div>
-                        <img src={edit} alt="Edit" style={{ width: '100%' }}/>
+                        <img src={edit} alt="" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.toolbar')}</div>
                     </div>),
                     placement: 'auto',
@@ -61,17 +74,18 @@ export default class EdiphyTour extends React.Component {
                 { // Index
                     target: "#colLeft",
                     content: (<div>
-                        <img src={index} alt="Edit" style={{ width: '100%' }}/>
+                        <img src={index} alt="" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.index')}</div>
                     </div>),
                     placement: 'auto',
                     callback: ()=>{
+                        document.getElementById('toolbarFlap').click();
                     },
                 },
                 { // Add buttons - Carrousel list
                     target: '#addbuttons',
                     content: (<div>
-                        <img src={add} alt="Edit" style={{ width: '100%' }}/>
+                        <img src={add} alt="" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.carrousel')}</div>
                     </div>),
                     placement: 'auto',
@@ -82,7 +96,7 @@ export default class EdiphyTour extends React.Component {
                 { // Right-corner menu - importExport
                     target: '#topMenu',
                     content: (<div>
-                        <img src={importExport} alt="Edit" style={{ width: '100%' }}/>
+                        <img src={importExport} alt="" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.menu')}</div></div>),
                     offset: 10,
                     placement: 'auto',
@@ -94,7 +108,7 @@ export default class EdiphyTour extends React.Component {
                 { // Right-corner menu - preview
                     target: '.navbarButton_preview',
                     content: (<div>
-                        <img src={preview} alt="Edit" style={{ width: '100%' }}/>
+                        <img src={preview} alt="" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.preview')}</div>
                     </div>),
                     // offset: 60,
@@ -107,7 +121,7 @@ export default class EdiphyTour extends React.Component {
                 { // Right-corner menu - help
                     target: '#topMenu',
                     content: (<div>
-                        <img src={help} alt="Edit" style={{ width: '100%' }}/>
+                        <img src={help} alt="" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.manual')} <a target="_blank" href="http://ging.github.io/ediphy/#/manual"> {i18n.t('joyride.manual2')}</a></div></div>),
                     // offset: 60,
                     placement: 'auto',

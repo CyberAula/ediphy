@@ -226,8 +226,8 @@ export function changeDisplayMode(mode) {
     return { type: CHANGE_DISPLAY_MODE, payload: { mode } };
 }
 
-export function setBusy(value, msg) {
-    return { type: SET_BUSY, payload: { value, msg } };
+export function setBusy(value, msg, reason = null) {
+    return { type: SET_BUSY, payload: { value, msg, reason } };
 }
 
 export function changeGlobalConfig(prop, value) {
@@ -278,7 +278,11 @@ export function deleteRemoteFileVishAsync(id, url, callback) {
             body: form,
         }).then(response => {
             if (!response.ok) {
+                if(response.status === 406) {
+                    return 200;
+                }
                 throw Error(response.statusText);
+
             }
 
             return 200;
@@ -347,12 +351,12 @@ export function deleteRemoteFileEdiphyAsync(id, url, callback) {
 }
 
 // Async actions
-export function exportStateAsync(state, win = null) {
+export function exportStateAsync(state, win = null, url = null) {
     return dispatch => {
-        let exportedState = { present: { ...state.undoGroup.present, filesUploaded: state.filesUploaded } };
+        let exportedState = { present: { ...state.undoGroup.present, filesUploaded: state.filesUploaded, status: state.status } };
         // First dispatch: the app state is updated to inform
         // that the API call is starting.
-        dispatch(setBusy(true, i18n.t("Exporting")));
+        dispatch(setBusy(true, i18n.t("messages.operation_in_progress"), "saving_state"));
 
         // The function called by the thunk middleware can return a value,
         // that is passed on as the return value of the dispatch method.
@@ -375,10 +379,10 @@ export function exportStateAsync(state, win = null) {
                     return true;
                 })
                 .then(() => {
-                    dispatch(setBusy(false, i18n.t("success_transaction")));
+                    dispatch(setBusy(false, i18n.t("success_transaction"), "saving_state"));
                 })
                 .catch(e => {
-                    dispatch(setBusy(false, e.message));
+                    dispatch(setBusy(false, i18n.t("error.exporting")));
                 });
         }
 
@@ -411,13 +415,13 @@ export function exportStateAsync(state, win = null) {
                     ediphy_editor_params.ediphy_resource_id = ediphy_resource_id;
                 }
                 if(win !== null) {
-                    win.location.href = ediphy_editor_params.export_url;
+                    win.parent.location.href = url || ediphy_editor_params.export_url;
                     win.focus();
                 }
-                dispatch(setBusy(false, i18n.t("success_transaction")));
+                dispatch(setBusy(false, i18n.t("success_transaction"), "saving_state"));
             })
             .catch(e =>{
-                dispatch(setBusy(false, e.message));
+                dispatch(setBusy(false, i18n.t("error.exporting")));
             });
 
     };
@@ -443,7 +447,7 @@ export function importStateAsync() {
                 dispatch(setBusy(false, i18n.t("success_transaction")));
             })
             .catch(e => {
-                dispatch(setBusy(false, e.message));
+                dispatch(setBusy(false, i18n.t("error.importing")));
             });
     };
 }

@@ -143,7 +143,7 @@ export default class CarouselButtons extends Component {
                                 false,
                                 ID_PREFIX_SORTABLE_BOX + Date.now(),
                             );
-                        }}><i className="material-icons">insert_drive_file</i></Button>
+                        }}><i className="material-icons">note_add</i></Button>
                 </OverlayTrigger>
 
                 <OverlayTrigger placement="top" overlay={
