@@ -61,20 +61,15 @@ export default class EnrichedPDFPluginEditor extends React.Component {
             let pdfDiv = document.querySelector("#box-" + this.props.props.id + " .pdfDiv");
             let w = pdfDiv ? pdfDiv.clientWidth : 0;
             let h = pdfDiv ? pdfDiv.clientHeight : 0;
-            console.log("h", h);
-
+            console.log("w", w);
+            console.log(position[0]);
             let mayorx = position[0] * 612 / 100 + (w - 612) / 2;
-            let x = "" + position[0] * 612 / 100 + "px";
+            let x = "" + position[0] * w / 100 + "px";
             if(w > 612) {
                 x = "" + mayorx + "px";
             }
 
-            let mayory = position[1] * 792 / 100 + (h - 792) / 2;
             let y = "" + position[1] * 792 / 100 + "px";
-
-            if(h > 792) {
-                y = "" + mayory + "px";
-            }
 
             let bool = (parseFloat(position[2]) === this.state.pageNumber);
             return(
