@@ -273,4 +273,12 @@ EditorCanvasDoc.propTypes = {
    * Callback for updating view toolbar
    */
     onToolbarUpdated: PropTypes.func,
+    /**
+     * Last files uploaded to server or searched in modal
+     */
+    fileModalResult: PropTypes.object,
+    /**
+     * Callback for opening the file upload modal
+     */
+    toggleFileUpload: PropTypes.func.isRequired,
 };

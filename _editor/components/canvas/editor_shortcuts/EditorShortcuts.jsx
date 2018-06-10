@@ -473,7 +473,16 @@ EditorShortcuts.propTypes = {
      */
     openConfigModal: PropTypes.func.isRequired,
     /**
-   * Function for updating the box's toolbar
-   */
+     * Function for updating the box's toolbar
+     */
     onToolbarUpdated: PropTypes.func,
+    /**
+     * Last files uploaded to server or searched in modal
+     */
+    fileModalResult: PropTypes.object,
+    /**
+     * Callback for opening the file upload modal
+     */
+    toggleFileUpload: PropTypes.func.isRequired,
+
 };

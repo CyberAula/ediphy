@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Modal, FormControl, Col, Form, FormGroup, InputGroup, Glyphicon, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
+import PropTypes from 'prop-types';
 
 export default class SearchComponent extends React.Component {
     render() {
@@ -16,3 +17,13 @@ export default class SearchComponent extends React.Component {
         </InputGroup>;
     }
 }
+SearchComponent.propTypes = {
+    /**
+     * Function called when the user clicks the search button
+     */
+    onSearch: PropTypes.func,
+    /**
+     * Function called when the user types on the search box
+     */
+    onChange: PropTypes.func,
+};

@@ -79,4 +79,8 @@ ExternalDropzone.propTypes = {
      * Delegación del botón en la creación
      * */
     accept: PropTypes.any,
+    /**
+     * Function called when file is dropped
+     */
+    callback: PropTypes.func,
 };

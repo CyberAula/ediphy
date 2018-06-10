@@ -20,24 +20,24 @@ import { instanceExists, releaseClick, findBox, createBox } from '../../../../co
  */
 export default class EditorBoxSortable extends Component {
     /**
-   * Constructor
-   * @param props React component props
-   */
+     * Constructor
+     * @param props React component props
+     */
     constructor(props) {
         super(props);
         /**
-     * Component's initial state
-     * @type {{alert: null}}
-     */
+         * Component's initial state
+         * @type {{alert: null}}
+         */
         this.state = {
             alert: null,
         };
         this.getNewIndex = this.getNewIndex.bind(this);
     }
     /**
-   * Renders React Component
-   * @returns {code} React rendered component
-   */
+     * Renders React Component
+     * @returns {code} React rendered component
+     */
     render() {
         let box = this.props.boxes[this.props.id];
         return (
@@ -418,28 +418,28 @@ export default class EditorBoxSortable extends Component {
                 coordArr.push({ top: curRowTop, maxRowHeight, cols: newRow });
             }
         });
-        coordArr.map((r, i)=>{
-            if (i === 0 && y < r.top) {
+        coordArr.map((r, inx)=>{
+            if (inx === 0 && y < r.top) {
                 sameHeight = r.cols;
             }
             if (r.top < y && y < (r.top + r.maxRowHeight)) {
                 sameHeight = r.cols;
             }
-            if ((i === (coordArr.length - 1)) && y > (r.top + r.maxRowHeight)) {
+            if ((inx === (coordArr.length - 1)) && y > (r.top + r.maxRowHeight)) {
                 sameHeight = r.cols;
             }
         });
 
         sameHeight.sort((a, b)=> a.left > b.left);
         let closestBox = sameHeight[0] || rc;
-        sameHeight.map((box, i) => {
-            if (i === 0 && x < box.left) {
+        sameHeight.map((box, inx) => {
+            if (inx === 0 && x < box.left) {
                 closestBox = children.indexOf(box.id);
             }
             if (box.left < x && x < (box.left + box.width)) {
                 closestBox = children.indexOf(box.id);
             }
-            if ((i === sameHeight.length - 1) && (x > box.left + box.width)) {
+            if ((inx === sameHeight.length - 1) && (x > box.left + box.width)) {
                 closestBox = children.indexOf(box.id);
             }
         });
@@ -469,127 +469,127 @@ export default class EditorBoxSortable extends Component {
 
 EditorBoxSortable.propTypes = {
     /**
-   * Box unique identifier
-   */
+     * Box unique identifier
+     */
     id: PropTypes.string.isRequired,
     /**
-   * Object that holds all the boxes, (identified by its ID)
-   */
+     * Object that holds all the boxes, (identified by its ID)
+     */
     boxes: PropTypes.object.isRequired,
     /**
-   *  Box selected. If there is none selected the value is, -1
-   */
+     *  Box selected. If there is none selected the value is, -1
+     */
     boxSelected: PropTypes.any.isRequired,
     /**
-   * Depth level of the selected box. Used when there are plugins inside plugins
-   */
+     * Depth level of the selected box. Used when there are plugins inside plugins
+     */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-   * Contained views dictionary (identified by its ID)
-   */
+     * Contained views dictionary (identified by its ID)
+     */
     containedViews: PropTypes.object.isRequired,
     /**
-   * Selected contained view
-   */
+     * Selected contained view
+     */
     containedViewSelected: PropTypes.any.isRequired,
     /**
-   * Object containing all the toolbars (identified by its ID)
-   */
+     * Object containing all the toolbars (identified by its ID)
+     */
     pluginToolbars: PropTypes.object.isRequired,
     /**
-   * Last action dispatched in Redux
-   */
+     * Last action dispatched in Redux
+     */
     lastActionDispatched: PropTypes.any.isRequired,
     /**
-   * Callback for when adding a mark
-   */
+     * Callback for when adding a mark
+     */
     addMarkShortcut: PropTypes.func.isRequired,
     /**
-   * Callback for deleting mark creator overlay
-   */
+     * Callback for deleting mark creator overlay
+     */
     deleteMarkCreator: PropTypes.func.isRequired,
     /**
-   * Identifier of the box that is currently in process of creating a mark
-   */
+     * Identifier of the box that is currently in process of creating a mark
+     */
     markCreatorId: PropTypes.any.isRequired,
     /**
-   * Callback for adding a box
-   */
+     * Callback for adding a box
+     */
     onBoxAdded: PropTypes.func.isRequired,
     /**
-   * Selects a box
-   */
+     * Selects a box
+     */
     onBoxSelected: PropTypes.func.isRequired,
     /**
-   * Increases box level selected
-   */
+     * Increases box level selected
+     */
     onBoxLevelIncreased: PropTypes.func.isRequired,
     /**
-   * Callback for when moving a box
-   */
+     * Callback for when moving a box
+     */
     onBoxMoved: PropTypes.func.isRequired,
     /**
-   * Callback for when resizing a box
-   */
+     * Callback for when resizing a box
+     */
     onBoxResized: PropTypes.func.isRequired,
     /**
-   * Callback for when dropping a box
-   */
+     * Callback for when dropping a box
+     */
     onBoxDropped: PropTypes.func.isRequired,
     /**
-   * Callback for when vertically aligning boxes inside a container
-   */
+     * Callback for when vertically aligning boxes inside a container
+     */
     onVerticallyAlignBox: PropTypes.func.isRequired,
     /**
-   * Callback for when reordering boxes inside a container
-   */
+     * Callback for when reordering boxes inside a container
+     */
     onBoxesInsideSortableReorder: PropTypes.func.isRequired,
     /**
-   * Callback for when deleting a sortable container
-   */
+     * Callback for when deleting a sortable container
+     */
     onSortableContainerDeleted: PropTypes.func.isRequired,
     /**
-   * Callback for when reordering sortable containers
-   */
+     * Callback for when reordering sortable containers
+     */
     onSortableContainerReordered: PropTypes.func.isRequired,
     /**
-   * Callback for when resizing a sortable container
-   */
+     * Callback for when resizing a sortable container
+     */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
-   * Callback for toggling the CKEditor
-   */
+     * Callback for toggling the CKEditor
+     */
     onTextEditorToggled: PropTypes.func.isRequired,
     /**
-   * Page type the box is at
-   */
+     * Page type the box is at
+     */
     pageType: PropTypes.string.isRequired,
     /**
-   * Callback for toggling the Rich Marks Modal
-   */
+     * Callback for toggling the Rich Marks Modal
+     */
     onRichMarksModalToggled: PropTypes.func.isRequired,
     /**
-   * Callback for moving marks
-   */
+     * Callback for moving marks
+     */
     onRichMarkMoved: PropTypes.func.isRequired,
     /**
-   * Object containing all exercises
-   */
+     * Object containing all exercises
+     */
     exercises: PropTypes.object,
     /**
-   * Function for setting the right answer of an exercise
-   */
+     * Function for setting the right answer of an exercise
+     */
     setCorrectAnswer: PropTypes.func.isRequired,
     /**
-   * Current page
-   */
+     * Current page
+     */
     page: PropTypes.any,
     /**
-   * Object containing box marks
-   */
+     * Object containing box marks
+     */
     marks: PropTypes.object,
     /**
-   * Function that updates the toolbar of a view
-   */
+     * Function that updates the toolbar of a view
+     */
     onToolbarUpdated: PropTypes.func,
 };

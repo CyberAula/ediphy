@@ -431,4 +431,12 @@ EditorCanvasSli.propTypes = {
    * Function that updates the toolbar of a view
    */
     onToolbarUpdated: PropTypes.func,
+    /**
+     * Last files uploaded to server or searched in modal
+     */
+    fileModalResult: PropTypes.object,
+    /**
+     * Callback for opening the file upload modal
+     */
+    toggleFileUpload: PropTypes.func.isRequired,
 };

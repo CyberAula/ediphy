@@ -158,11 +158,11 @@ SearchVishComponent.propTypes = {
      */
     onElementSelected: PropTypes.func.isRequired,
     /**
-     * Resultados obtenidos de la búsqueda en el proveedor externo
-     * */
-    fetchResults: PropTypes.object,
-    /**
-     * Indicador de si hay una operación en curso con el servidor
+     * Icon that identifies the API provider
      */
-    isBusy: PropTypes.any,
+    icon: PropTypes.any,
+    /**
+     * API Provider name
+     */
+    name: PropTypes.string,
 };
