@@ -1,4 +1,5 @@
 import { ADD_NAV_ITEM, DELETE_NAV_ITEM, SELECT_NAV_ITEM, IMPORT_STATE, INDEX_SELECT } from '../common/actions';
+import { isPage } from '../common/utils';
 
 export default function(state = 0, action = {}) {
     switch (action.type) {
@@ -14,6 +15,11 @@ export default function(state = 0, action = {}) {
         return state;
     case SELECT_NAV_ITEM:
         return action.payload.id;
+    case INDEX_SELECT:
+        if (isPage(action.payload.id)) {
+            return action.payload.id;
+        }
+        return state;
     case IMPORT_STATE:
         return action.payload.present.navItemSelected || state;
     default:

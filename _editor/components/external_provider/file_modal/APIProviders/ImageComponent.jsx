@@ -15,3 +15,25 @@ export default class ImageComponent extends React.Component {
         /> : null;
     }
 }
+ImageComponent.propTypes = {
+    /**
+     * Boolean that indicates whether the user has selected the image
+     */
+    isSelected: PropTypes.bool,
+    /**
+     * Function that is called when the user selects the image
+     */
+    onElementSelected: PropTypes.func.isRequired,
+    /**
+     * Image thumbnail
+     */
+    thumbnail: PropTypes.string,
+    /**
+     * Image url
+     */
+    url: PropTypes.string,
+    /**
+     * Image title
+     */
+    title: PropTypes.string,
+};

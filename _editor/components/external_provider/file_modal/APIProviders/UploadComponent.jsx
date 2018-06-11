@@ -20,6 +20,7 @@ export default class UploadComponent extends React.Component {
             error: false,
             uploading: false,
             uploaded: false,
+            allowed: true,
         };
         this.uploadHandler = this.uploadHandler.bind(this);
         this.dropHandler = this.dropHandler.bind(this);
@@ -59,7 +60,7 @@ export default class UploadComponent extends React.Component {
                         <div id="fileNameTitle">
                             <span>{this.state.file.name}</span><br/><br/>
                             <Button bsStyle="primary" style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={this.uploadHandler}><i className="material-icons">file_upload</i> {i18n.t("FileModal.APIProviders.upload")}</Button>
-                            <Button style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={(e)=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false });}}><i className="material-icons">clear</i> {i18n.t("FileModal.APIProviders.clear")}</Button>
+                            <Button style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={(e)=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false, allowed: true });}}><i className="material-icons">clear</i> {i18n.t("FileModal.APIProviders.clear")}</Button>
                         </div>
                         {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={spinner} alt=""/></div> : null}
                         {/* <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
@@ -70,13 +71,14 @@ export default class UploadComponent extends React.Component {
                                      handleAddition={this.handleAddition}
                                      handleDrag={this.handleDrag} />*/}
                         { this.state.error ? <div id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i><div>{i18n.t("FileModal.APIProviders.error")}</div></div> : null }
-                        { this.state.uploaded ? <div id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i><div> {i18n.t("FileModal.APIProviders.uploaded")}</div></div> : null }
+                        { (this.state.uploaded) ? <div id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i><div> {i18n.t("FileModal.APIProviders.uploaded")}</div></div> : null }
+                        {!this.state.allowed ? <div id="warningMsg" className="uploadModalMsg"><i className="material-icons">warning</i>{i18n.t("FileModal.APIProviders.warning_allowed")}</div> : null}
                         <Button
                             style={{ display: (this.state.uploaded) ? 'inline-block' : 'none' }}
                             bsStyle="primary"
                             onClick={(e)=>{
                                 this.props.onElementSelected(undefined, undefined, undefined, undefined);
-                                this.setState({ file: undefined, uploaded: false, error: false, uploading: false });}}>
+                                this.setState({ file: undefined, uploaded: false, error: false, uploading: false, allowed: true });}}>
                             {i18n.t("FileModal.APIProviders.UploadNewFile")}</Button>
                     </FormGroup>
                 </Col>
@@ -93,7 +95,7 @@ export default class UploadComponent extends React.Component {
             if (nextProps.isBusy.msg === FILE_UPLOADING && this.props.isBusy.msg !== FILE_UPLOADING) {
                 // this.setState({error: false, uploading: true, uploaded: false})
             } else if (this.props.isBusy.msg === FILE_UPLOADING && nextProps.isBusy.msg === FILE_UPLOAD_ERROR) {
-                this.setState({ error: true, uploaded: false, uploading: false });
+                this.setState({ error: true, uploaded: false, uploading: false, allowed: true });
             } else if (this.props.isBusy.msg === FILE_UPLOADING && isFile(nextProps.isBusy.msg)) {
                 let newFile = this.props.filesUploaded[nextProps.isBusy.msg];
                 let extension = newFile.mimetype;
@@ -108,19 +110,24 @@ export default class UploadComponent extends React.Component {
             }
         }
     }
-    componentWillUpdate(nextProps, nextState) {
-        if ((nextProps.filesUploaded && this.props.filesUploaded && Object.keys(nextProps.filesUploaded).length !== Object.keys(this.props.filesUploaded).length)
-        /* || nextState.filter !== this.state.filter || nextState.extensionFilter !== this.state.extensionFilter*/) {
-            // this.props.onElementSelected( undefined, undefined, undefined, undefined);
-        }
-    }
     dropHandler(file) {
         this.setState({ file });
         let reader = new FileReader();
         reader.readAsDataURL(file);
 
         reader.onloadend = () =>{
-            this.setState({ preview: ((reader.result)) });
+            let extension = file.type;
+            for (let e in extensions) {
+                let ext = extensions[e];
+                if (file && file.type && file.type.match && file.type.match(ext.value)) {
+                    extension = ext.value;
+                }
+            }
+            let allowed = true;
+            if (!(this.props.show === "*" || this.props.show.match(extension))) {
+                allowed = false;
+            }
+            this.setState({ preview: ((reader.result)), allowed });
         };
     }
 
