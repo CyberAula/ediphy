@@ -63,13 +63,8 @@ export default class EnrichedPDFPluginEditor extends React.Component {
             let h = pdfDiv ? pdfDiv.clientHeight : 0;
             console.log("w", w);
             console.log(position[0]);
-            let mayorx = position[0] * 612 / 100 + (w - 612) / 2;
-            let x = "" + position[0] * w / 100 + "px";
-            if(w > 612) {
-                x = "" + mayorx + "px";
-            }
-
-            let y = "" + position[1] * 792 / 100 + "px";
+            let x = "" + position[0] + "%";
+            let y = "" + position[1] + "%";
 
             let bool = (parseFloat(position[2]) === this.state.pageNumber);
             return(
@@ -104,12 +99,15 @@ export default class EnrichedPDFPluginEditor extends React.Component {
                         <i className={"material-icons"}>keyboard_arrow_right</i>
                     </button>
                 </div>
-                <Document className={"react-pdf__Document dropableRichZone"} style={{ width: "100%", height: "100%" }}
+                <Document className={"react-pdf__Document "} style={{ width: "100%", height: "100%" }}
                     file = {this.props.state.url}
                     onLoadSuccess={this.onDocumentLoad}>
-                    <Page style={{ width: "100%", height: "100%" }} className="pdfPage"
-                        pageNumber={this.state.pageNumber}
-                    >{markElements}</Page>
+                    <div className="dropableRichZone">
+                        <Page pageNumber={this.state.pageNumber} className="pdfPage">
+                            {markElements}
+                        </Page>
+
+                    </div>
 
                 </Document>
             </div>

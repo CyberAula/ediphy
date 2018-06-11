@@ -135,13 +135,14 @@ export function EnrichedPDF(base) {
             return y + ',' + x + ',' + numPage;
         },
         parseRichMarkInput: function(...value) {
+            let page = document.querySelector("#box-" + value[6] + " .pdfPage");
 
-            let y = (value[0] + 12) * 100 / value[2];
-            let x = (value[1] + 26) * 100 / value[3];
+            let x = (value[0] + 12) * 100 / page.clientWidth;
+            let y = (value[1] + 26) * 100 / page.clientHeight;
             // console.log(value);
-            let numPage = document.querySelector("#box-" + value[6] + " .pdfPage").getAttribute("data-page-number");
+            let numPage = page.getAttribute("data-page-number");
             // let numPage = document.querySelector(".pdfPage").getAttribute("data-page-number");
-            return y.toFixed(2) + ',' + x.toFixed(2) + ',' + numPage;
+            return x.toFixed(2) + ',' + y.toFixed(2) + ',' + numPage;
         },
         validateValueInput: function(value) {
             let regex = /(^-?\d+(?:\.\d*)?),(-?\d+(?:\.\d*)?),(\d+$)/g;

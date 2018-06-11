@@ -8,17 +8,36 @@
     .react-pdf__Document{
       height: 100%;
       width: 100%;
-    }
-    .pdfPage{
+      background-color: grey;
       background-color: grey;
       overflow: auto;
+      text-align: center;
+    }
+    .dropableRichZone {
+      height: auto; width: auto; display:inline-block;  overflow: hidden;
+      &.rich_overlay {
+        max-height: 100%;
+        max-width: 100%;
+      }
+      .overlay {
+        overflow: hidden;
+
+      }
+      .markeditor {
+        //overflow: hidden;
+      }
+
+    }
+    .pdfPage{
+
       overflow-y: auto !important;
       .react-pdf__Page__canvas{
         margin:auto;
       }
-      height: 100%;
-      width: 100%;
-      display:flex;
+      //height: 100%;
+      //width: 100%;
+      //display:flex;
+      height: auto; width: auto; display:inline-block;
     }
     .topBar {
       height:  0px;
