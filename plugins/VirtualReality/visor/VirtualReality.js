@@ -6,10 +6,7 @@ export function VirtualReality(base) {
 
     return {
         getRenderTemplate: function(state, props) {
-
-            return <div style={{ height: "100%", width: "100%" }} >Hello {state.name}
-
-            </div>;
+            return (<iframe allow="vr" width= '100%' height= '100%' src='http://localhost:8081/index.html' id="receiver" style={{ pointerEvents: 'all' }} />);
         },
     };
 }
