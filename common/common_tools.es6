@@ -175,7 +175,7 @@ export function letterFromNumber(ind) {
     return ind;
 }
 
-export function createBox(ids, name, slide, addBox, boxes) {
+export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
     let apiPlugin = Ediphy.Plugins.get(name);
     if (!apiPlugin) {
         return;
@@ -188,6 +188,7 @@ export function createBox(ids, name, slide, addBox, boxes) {
                 styles[e] = toolbar.main.accordions.style.buttons[e].value;
             });
         }
+        styles = { ...styles, ...styleCustom };
     } catch(e) {
         // eslint-disable-next-line no-console
         console.error(e);

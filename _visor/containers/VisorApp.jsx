@@ -1,3 +1,5 @@
+import "babel-polyfill";
+
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Grid, Row, Col, Button } from 'react-bootstrap';

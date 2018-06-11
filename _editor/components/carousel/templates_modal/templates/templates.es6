@@ -74,7 +74,9 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item lightRed'>" + i18n.t('templates.add_text') + "</div>",
+                    "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
+                    "style": { "backgroundColor": "#ff444d" },
+
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -91,7 +93,8 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item lightGreen'>" + i18n.t('templates.add_text') + "</div>",
+                    "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
+                    "style": { "backgroundColor": "#4cff9f" },
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -108,7 +111,8 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item lightBlue'>" + i18n.t('templates.add_text') + "</div>",
+                    "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
+                    "style": { "backgroundColor": "#65caff" },
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -125,7 +129,8 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item lightYellow'>" + i18n.t('templates.add_text') + "</div>",
+                    "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
+                    "style": { "backgroundColor": "#ffbf45" },
                 },
                 "thumbnail": {
                     "icon": "format_align_left",

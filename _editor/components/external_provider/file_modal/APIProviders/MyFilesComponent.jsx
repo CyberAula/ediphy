@@ -149,7 +149,27 @@ export default class MyFilesComponent extends React.Component {
 
 MyFilesComponent.propTypes = {
     /**
-   * Boolean that shows/hide the file upload modal
-   */
-    callback: PropTypes.func,
+     * Filter that indicates what types of files are shown. "*" means all.
+     */
+    show: PropTypes.any,
+    /**
+     * Files uploaded to server
+     */
+    filesUploaded: PropTypes.any,
+    /**
+     * Identifier of element whose source is being changed (box/slide background). It can be empty
+     */
+    idSelected: PropTypes.any,
+    /**
+     * Element selected from files
+     */
+    elementSelected: PropTypes.any,
+    /**
+     * Function that is called when the user selects an element
+     */
+    onElementSelected: PropTypes.func.isRequired,
+    /**
+     * Function for deleting files from server
+     */
+    deleteFileFromServer: PropTypes.func,
 };

@@ -130,7 +130,7 @@ export default class TemplatesModal extends Component {
                     } else if (item.toolbar.url) {
                         initialParams.url = item.toolbar.url;
                     }
-                    createBox(initialParams, item.toolbar.name, true, this.props.onBoxAdded, this.props.boxes);
+                    createBox(initialParams, item.toolbar.name, true, this.props.onBoxAdded, this.props.boxes, item.toolbar.style);
                 });
             }
             // reset state
