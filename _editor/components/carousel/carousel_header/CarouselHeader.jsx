@@ -38,17 +38,6 @@ export default class CarouselHeader extends Component {
                     <EditorIndexTitle className="tituloCurso" title={this.props.courseTitle} courseTitle onNameChanged={this.props.onTitleChanged} />
                 </div>
 
-                <button className="btnFullCarousel" style={{ position: this.props.carouselShow ? 'absolute' : 'initial' }} onClick={e => {
-                    this.props.onToggleFull();
-                    e.stopPropagation();
-                }}>
-                    <i style={{
-                        fontSize: this.props.carouselShow ? '16px' : '32px',
-                    }}
-                    className="material-icons">{!this.props.carouselFull ? 'keyboard_arrow_right' : 'keyboard_arrow_left'}
-                    </i>
-                </button>
-
                 <div className="clear" />
             </div>
         );

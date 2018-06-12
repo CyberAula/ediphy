@@ -672,12 +672,10 @@ class EditorApp extends Component {
         }
         if (process.env.NODE_ENV === 'production' && process.env.DOC === 'doc') {
             // window.parent.addEventListener("beforeunload", this.beforeUnloadAlert); // it is done outside
+            window.oncontextmenu = function() {
+                return false;
+            };
         }
-
-        window.oncontextmenu = function() {
-            return false;
-        };
-
         // setTimeout(()=>{this.setState({ showHelpButton: false });}, 30000);
         document.addEventListener('keyup', this.keyListener);
         document.addEventListener('dragover', this.dragListener);
