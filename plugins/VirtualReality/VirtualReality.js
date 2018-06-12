@@ -1,5 +1,6 @@
 import React from 'react';
 import i18n from 'i18next';
+require('./_virtualReality.scss');
 
 /* eslint-disable react/prop-types */
 export function VirtualReality(base) {
@@ -16,10 +17,11 @@ export function VirtualReality(base) {
                 needsConfigModal: false,
                 needsTextEdition: false,
                 initialWidth: '700px',
-                initialHeight: "400px",
-                initialWidthSlide: '30%',
-                initialHeightSlide: '30%',
+                initialHeight: "300px",
+                initialWidthSlide: '50%',
+                initialHeightSlide: '45%',
                 icon: 'event_seat',
+                needsPointerEventsAllowed: true,
 
             };
         },
@@ -58,7 +60,7 @@ export function VirtualReality(base) {
         getRenderTemplate: function(state, props) {
             this.toolbarChangesValues(state);
             return (
-                <iframe allow="vr" width= '100%' height= '370px' src='http://localhost:8081/index.html' id="receiver"/>);
+                <iframe className={'VR'} allow="vr" width= '100%' height= '100%' src='http://localhost:8081/index.html' id="receiver"/>);
 
         },
         afterRender: function(element, state) {

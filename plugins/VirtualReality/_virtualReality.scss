@@ -1,0 +1,7 @@
+.VR {
+  pointer-events: none;
+}
+.pointerEventsEnabled .VR {
+  pointer-events: all !important ;
+  touch-action: manipulation !important;
+}
