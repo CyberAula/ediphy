@@ -11,6 +11,12 @@ import { isContainedView, isView } from '../../../common/utils';
 import i18n from 'i18next';
 
 export default class VisorCanvasSli extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            width: 0, height: 0, marginTop: 0, marginBottom: 0,
+        };
+    }
 
     render() {
 
@@ -49,12 +55,14 @@ export default class VisorCanvasSli extends Component {
         );
         let animationType = "animation-zoom";
         return (
-            <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={isCV ? animationType : ""}
-                style={{ display: 'initial', padding: '0', width: '100%' }}>
+            <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={"canvasSliClass" + (isCV ? animationType : "")}
+                style={{ display: 'initial', width: '100%' }}>
 
                 <div id={isCV ? 'airlayer_cv' : 'airlayer'}
                     className={'slide_air'}
-                    style={{ margin: '0 auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                    style={{ margin: '0 auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden'),
+                        width: this.state.width, height: this.state.height, marginTop: this.state.marginTop, marginBottom: this.state.marginBottom,
+                    }}>
 
                     <div id={isCV ? "contained_maincontent" : "maincontent"}
                         className={'innercanvas sli'}
@@ -101,11 +109,6 @@ export default class VisorCanvasSli extends Component {
 
                         })}
 
-                        <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
-                            if (!this.props.fromPDF) {
-                                aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSelected.customSize);
-                            }
-                        }} />
                         <div className={"pageFooter" + (!this.props.exercises || !this.props.exercises.exercises || Object.keys(this.props.exercises.exercises).length === 0 ? " hidden" : "")}>
                             <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={this.props.exercises} />
                             <Score exercises={this.props.exercises}/>
@@ -113,7 +116,11 @@ export default class VisorCanvasSli extends Component {
 
                     </div>
                 </div>
-
+                <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
+                    if (!this.props.fromPDF) {
+                        this.aspectRatio(this.props.canvasRatio, isCV, itemSelected.customSize);
+                    }
+                }} />
             </Col>
         );
     }
@@ -125,22 +132,30 @@ export default class VisorCanvasSli extends Component {
         let isCV = !isView(this.props.currentView);
         let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         if (!this.props.fromPDF) {
-            aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", itemSel.customSize);
+            this.aspectRatio(this.props.canvasRatio, isCV, itemSel.customSize);
+            window.addEventListener("resize", this.aspectRatio);
         }
 
-        // window.addEventListener("resize", aspectRatio);
     }
     componentWillUnmount() {
-        // window.removeEventListener("resize", aspectRatio);
+        window.removeEventListener("resize", this.aspectRatio);
     }
+    aspectRatio(ar, fromCV, customSize, state = this.state) {
+        let calculated = aspectRatio(ar, fromCV ? 'airlayer_cv' : 'airlayer', fromCV ? 'containedCanvas' : 'canvas', customSize);
+        let { width, height, marginTop, marginBottom } = this.state;
+        let current = { width, height, marginTop, marginBottom };
+        if (JSON.stringify(calculated) !== JSON.stringify(current)) {
+            this.setState({ ...calculated });
+        }
 
+    }
     componentWillUpdate(nextProps) {
         let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         let nextItemSel = nextProps.navItems[nextProps.currentView] || nextProps.containedViews[nextProps.currentView];
         if ((this.props.canvasRatio !== nextProps.canvasRatio) || (itemSel !== nextItemSel)) {
             let isCV = !isView(nextProps.currentView);
             window.canvasRatio = nextProps.canvasRatio;
-            aspectRatio(nextProps.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas", nextItemSel.customSize);
+            this.aspectRatio(nextProps.canvasRatio, isCV, nextItemSel.customSize);
         }
 
     }

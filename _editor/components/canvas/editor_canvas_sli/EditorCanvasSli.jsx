@@ -24,7 +24,9 @@ export default class EditorCanvasSli extends Component {
         super(props);
         this.state = {
             alert: null,
+            width: 0, height: 0, marginTop: 0, marginBottom: 0,
         };
+        this.aspectRatio = this.aspectRatio.bind(this);
     }
 
     render() {
@@ -56,11 +58,15 @@ export default class EditorCanvasSli extends Component {
         let isColor = toolbar && (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(toolbar.background);
         let gridOn = this.props.grid && ((this.props.containedViewSelected !== 0) === this.props.fromCV);
         return (
-            <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass" onMouseDown={()=>{this.props.onBoxSelected(-1);}}
-                style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
+            <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12}
+                className="canvasSliClass" onMouseDown={()=>{this.props.onBoxSelected(-1);}}
+                style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial',
+                }}>
                 <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
                     className={'slide_air parentRestrict'}
-                    style={{ margin: 'auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                    style={{ margin: 'auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden'),
+                        width: this.state.width, height: this.state.height, marginTop: this.state.marginTop, marginBottom: this.state.marginBottom,
+                    }}>
                     <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                         ref="slideDropZone"
                         onMouseDown={e => {
@@ -144,10 +150,13 @@ export default class EditorCanvasSli extends Component {
                             />;
 
                         })}
+                        <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
+                            this.aspectRatio(this.props.canvasRatio, this.props.fromCV, this.props.navItemSelected.customSize);
+                        }} />
                     </div>
-                    <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', this.props.fromCV ? 'containedCanvas' : 'canvas', this.props.navItemSelected.customSize);
-                    }} />
+
                 </div>
+
                 <EditorShortcuts
                     openConfigModal={this.props.openConfigModal}
                     box={this.props.boxes[this.props.boxSelected]}
@@ -255,17 +264,30 @@ export default class EditorCanvasSli extends Component {
                 event.target.classList.remove("drop-target");
             },
         });
-        aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas', this.props.navItemSelected.customSize);
+        this.aspectRatio(this.props.canvasRatio, this.props.fromCV, this.props.navItemSelected.customSize);
+        window.addEventListener("resize", this.aspectRatio);
     }
 
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).unset();
+        window.removeEventListener("resize", this.aspectRatio);
+    }
+
+    aspectRatio(ar, fromCV, customSize, state = this.state) {
+        let calculated = aspectRatio(ar, fromCV ? 'airlayer_cv' : 'airlayer', fromCV ? 'containedCanvas' : 'canvas', customSize);
+        let { width, height, marginTop, marginBottom } = this.state;
+        let current = { width, height, marginTop, marginBottom };
+        if (JSON.stringify(calculated) !== JSON.stringify(current)) {
+            this.setState({ ...calculated });
+        }
+
     }
 
     componentWillUpdate(nextProps) {
         if (this.props.canvasRatio !== nextProps.canvasRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
             window.canvasRatio = nextProps.canvasRatio;
-            aspectRatio(nextProps.canvasRatio, nextProps.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas', nextProps.navItemSelected.customSize);
+            this.aspectRatio(nextProps.canvasRatio, nextProps.fromCV, nextProps.navItemSelected.customSize);
+
         }
 
     }

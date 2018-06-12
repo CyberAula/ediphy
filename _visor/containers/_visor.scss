@@ -379,7 +379,15 @@ li > .selectedNavItemVisor {
   min-height: calc(100vh - 135px);
 }*/
 
+#canvas, #containedCanvas {
+  &.canvasDocClass {
+    padding: 10px 8px 0px 8px;
+  }
 
+  &.canvasSliClass {
+    padding: 33px 8px 10px 8px;
+  }
+}
 .visorwrapper #containedCanvas {
   min-height: 100% !important;
 }
