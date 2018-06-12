@@ -121,7 +121,7 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          height: 120px;
+          height: 350px;
 
         }
         .previewImg {
@@ -164,6 +164,11 @@
             color: $detailgreen;
             border: 1px solid $detailgreen;
             background-color: $detailgreentransparent;
+          }
+          &#warningMsg{
+            color: $naranjaadams;
+            border: 1px solid $naranjaadams;
+            background-color: $naranjaclaro;
           }
         }
         #spinnerFloatContainer {

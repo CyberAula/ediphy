@@ -14,6 +14,7 @@ html, body, #root, #root > .container-fluid, #mainRow {
 }
 body {
   overflow-y: scroll;
+  //position: absolute;
 }
 a{
   color: $blueprimary;
@@ -410,7 +411,10 @@ div.int-box { display: table-cell; vertical-align: middle; }
     color: white;
   }
   .demoComputer {
-    height: 400px;
+    //height: 400px;
+    height: auto;
+    max-width: 90%;
+    max-height: 400px;
     cursor: pointer;
   }
 }

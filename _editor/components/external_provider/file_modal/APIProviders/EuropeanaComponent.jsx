@@ -92,4 +92,12 @@ EuropeanaComponent.propTypes = {
      * Select element callback
      */
     onElementSelected: PropTypes.func.isRequired,
+    /**
+     * Icon that identifies the API provider
+     */
+    icon: PropTypes.any,
+    /**
+     * API Provider name
+     */
+    name: PropTypes.string,
 };

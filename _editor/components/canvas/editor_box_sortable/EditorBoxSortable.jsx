@@ -246,8 +246,15 @@ export default class EditorBoxSortable extends Component {
                 if (bar !== null) {
                     bar.classList.remove('hidden');
                 }
-                window.dispatchEvent(new Event('resize'));
-
+                let ev;
+                // window.dispatchEvent(new Event('resize'));
+                // if(typeof(Event) === 'function') {
+                //   ev = new Event('resize')
+                // }else{
+                ev = document.createEvent('Event');
+                ev.initEvent('resize', true, true);
+                // }
+                window.dispatchEvent(ev);
             },
         });
     }
@@ -291,7 +298,7 @@ export default class EditorBoxSortable extends Component {
                     clone.parentNode.removeChild(clone);
                 }
                 let name = e.relatedTarget.getAttribute("name");
-                let newInd = extraParams ? this.getNewIndex(e.dragEvent.clientX, e.dragEvent.clientY, this.props.id, extraParams.idContainer) : 0;
+                let newInd = extraParams ? this.getNewIndex(e.dragEvent.clientX, e.dragEvent.clientY, this.props.id, extraParams.idContainer, extraParams.i, extraParams.j) : 0;
                 if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
                     if (draggingFromRibbon && instanceExists(e.relatedTarget.getAttribute("name"))) {
                         let alert = (<Alert className="pageModal"
@@ -378,19 +385,86 @@ export default class EditorBoxSortable extends Component {
         });
     }
 
-    getNewIndex(x, y, parent, container) {
+    getNewIndex(x, y, parent, container, i, j) {
         let el = document.elementFromPoint(x, y);
         let rc = releaseClick(el, 'box-');
-        let children = this.props.boxes[parent].sortableContainers[container].children; // .filter(box=>{return this.props.boxes[box].row === extraParams.j && this.props.boxes[box].col === extraParams.i});
-        let newInd = children.indexOf(rc);
-        return newInd === 0 ? 0 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
+        let children = this.props.boxes[parent].sortableContainers[container].children.filter(box=>{return this.props.boxes[box].row === j && this.props.boxes[box].col === i;});
+        if (rc) {
+            let newInd = children.indexOf(rc);
+            return newInd === 0 ? 0 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
+        }
+
+        let sameHeight = [];
+        let maxRowHeight = 0;
+        let curRowTop = 0;
+        let coordArr = [];
+        let newRow = [];
+        children.forEach((child, ind) => {
+            let coords = (this.offset(child));
+            if ((curRowTop !== coords.top && curRowTop !== 0)) {
+                coordArr.push({ top: curRowTop, maxRowHeight, cols: newRow });
+                curRowTop = coords.top;
+                newRow = [];
+                maxRowHeight = 0;
+            }
+            if(curRowTop === 0) {
+                curRowTop = coords.top;
+            }
+            if (maxRowHeight < coords.height) {
+                maxRowHeight = coords.height;
+            }
+            newRow.push(coords);
+            if (ind === children.length - 1) {
+                coordArr.push({ top: curRowTop, maxRowHeight, cols: newRow });
+            }
+        });
+        coordArr.map((r, inx)=>{
+            if (inx === 0 && y < r.top) {
+                sameHeight = r.cols;
+            }
+            if (r.top < y && y < (r.top + r.maxRowHeight)) {
+                sameHeight = r.cols;
+            }
+            if ((inx === (coordArr.length - 1)) && y > (r.top + r.maxRowHeight)) {
+                sameHeight = r.cols;
+            }
+        });
+
+        sameHeight.sort((a, b)=> a.left > b.left);
+        let closestBox = sameHeight[0] || rc;
+        sameHeight.map((box, inx) => {
+            if (inx === 0 && x < box.left) {
+                closestBox = children.indexOf(box.id);
+            }
+            if (box.left < x && x < (box.left + box.width)) {
+                closestBox = children.indexOf(box.id);
+            }
+            if ((inx === sameHeight.length - 1) && (x > box.left + box.width)) {
+                closestBox = children.indexOf(box.id);
+            }
+        });
+        return closestBox || 0;
+
     }
 
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();
         interact(".editorBoxSortableContainer").unset();
-
     }
+
+    offset(id) {
+        let el = document.getElementById('box-' + id);
+        let rect = el.getBoundingClientRect(),
+            scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+            scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        return {
+            id,
+            top: rect.top + scrollTop,
+            left: rect.left + scrollLeft,
+            width: el.clientWidth,
+            height: el.clientHeight };
+    }
+
 }
 
 EditorBoxSortable.propTypes = {
@@ -491,31 +565,31 @@ EditorBoxSortable.propTypes = {
      */
     pageType: PropTypes.string.isRequired,
     /**
-      * Callback for toggling the Rich Marks Modal
-      */
+     * Callback for toggling the Rich Marks Modal
+     */
     onRichMarksModalToggled: PropTypes.func.isRequired,
     /**
      * Callback for moving marks
      */
     onRichMarkMoved: PropTypes.func.isRequired,
     /**
-      * Object containing all exercises
-      */
+     * Object containing all exercises
+     */
     exercises: PropTypes.object,
     /**
-      * Function for setting the right answer of an exercise
-      */
+     * Function for setting the right answer of an exercise
+     */
     setCorrectAnswer: PropTypes.func.isRequired,
     /**
-      * Current page
-      */
+     * Current page
+     */
     page: PropTypes.any,
     /**
      * Object containing box marks
      */
     marks: PropTypes.object,
     /**
-   * Function that updates the toolbar of a view
-   */
+     * Function that updates the toolbar of a view
+     */
     onToolbarUpdated: PropTypes.func,
 };

@@ -140,13 +140,15 @@ export function HotspotImages(base) {
             });
 
             return (
-                <div className="dropableRichZone" style={{ height: "100%" }}>
+                <div style={{ height: "100%", width: "100%" }}>
                     <img className="basicImageClass" style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
                         e.target.onError = null;
                         e.target.src = img_broken; // Ediphy.Config.broken_link;
                     }}/>
-                    {markElements}
-                </div>
+                    <div className="dropableRichZone" style={{ height: "100%", width: "100%", position: 'absolute', top: 0, left: 0 }}>
+
+                        {markElements}
+                    </div></div>
             );
         },
         parseRichMarkInput: function(...value) {

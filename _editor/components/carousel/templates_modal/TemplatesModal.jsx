@@ -34,7 +34,7 @@ export default class TemplatesModal extends Component {
                         <div id="empty"
                             className="template_item"
                             key="-1"
-                            style={{ width: '120px', height: '80px', border: this.state.itemSelected === -1 ? "solid #17CFC8 3px" : "solid #eee 1px", padding: '30px 25px' }}
+                            style={{ width: '120px', height: '80px', border: this.state.itemSelected === -1 ? "solid #17CFC8 3px" : "solid #eee 1px", position: 'relative' }}
                             onClick={e => {
                                 this.setState({
                                     itemSelected: -1,
@@ -45,19 +45,20 @@ export default class TemplatesModal extends Component {
                                     itemSelected: -1,
                                 });
                                 this.AddNavItem(-1);
-                            }}
-                        />
+                            }}><div className={'template_name'} style={{ display: this.state.itemSelected === -1 ? 'block' : 'none' }}>{i18n.t('templates.template0')}</div>
+                        </div>
                         {this.templates.map((item, index) => {
                             let border = this.state.itemSelected === index ? "solid #17CFC8 3px" : "solid #eee 1px";
-                            return (
-                                <TemplateThumbnail key={index} index={index} className="template_item" image={item.image}
-                                    style={{ position: 'relative', border: border, width: '120px', height: '80px' }}
+                            return (<div className="template_item" style={{ position: 'relative', border: border, width: '120px', height: '80px' }}>
+                                <TemplateThumbnail key={index} index={index}
                                     onClick={e => { this.setState({ itemSelected: index });}}
                                     onDoubleClick={e => {
                                         this.setState({ itemSelected: index });
                                         this.AddNavItem(index);
                                     }}
                                     boxes={item.boxes}/>
+                                <div className={'template_name'} style={{ display: this.state.itemSelected === index ? 'block' : 'none' }}>{item.name}</div>
+                            </div>
                             );
                         })}
                     </div>
@@ -129,7 +130,7 @@ export default class TemplatesModal extends Component {
                     } else if (item.toolbar.url) {
                         initialParams.url = item.toolbar.url;
                     }
-                    createBox(initialParams, item.toolbar.name, true, this.props.onBoxAdded, this.props.boxes);
+                    createBox(initialParams, item.toolbar.name, true, this.props.onBoxAdded, this.props.boxes, item.toolbar.style);
                 });
             }
             // reset state

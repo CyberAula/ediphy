@@ -495,5 +495,9 @@ Clipboard.propTypes = {
        * Object containing all exercises
        */
     exercises: PropTypes.object,
+    /**
+     *  Function for uploading a file to the server
+     */
+    uploadFunction: PropTypes.func.isRequired,
 };
 

@@ -282,7 +282,6 @@ export default class PDFHandler extends Component {
                 customSize,
             };
             navs.push(nav);
-            º;
         }
         this.props.onNavItemsAdded(navs, 0);
         if (navs.length > 0) {
