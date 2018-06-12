@@ -121,6 +121,7 @@ function findProjectDir(dir) {
 }
 
 // Allow overriding the project location with an env variable
+console.log(process.cwd());
 const projectDir = args[1] || findProjectDir(process.cwd());
 
 const buildDir = args[0];
