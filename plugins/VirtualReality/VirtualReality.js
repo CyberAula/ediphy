@@ -55,6 +55,11 @@ export function VirtualReality(base) {
             return {
                 imagenBack: '360_world.jpg',
                 audioBack: false,
+                stateIframe: {
+                    imgBack: '360_world.jpg',
+                    format: '2D',
+                    playAudio: false,
+                },
             };
         },
         getRenderTemplate: function(state, props) {
@@ -63,28 +68,8 @@ export function VirtualReality(base) {
                 <iframe className={'VR'} allow="vr" width= '100%' height= '100%' src='http://localhost:8081/index.html' id="receiver"/>);
 
         },
-        afterRender: function(element, state) {
-            /*
-                // Ventana del iframe
-                let receiverWindow = document.getElementById("receiver").contentWindow;
-                // Envío de datos al iframe
-                document.getElementById("postmessage").addEventListener("click", function() {
-                    receiverWindow.postMessage({ conexion: "Conexión correcta" }, "http://localhost:8081/index.html");
-                    document.getElementById("postmessage").style.display = "none";
-                });
-                document.getElementById("postimgBack").addEventListener("click", function() {
-                    let rutaima = document.getElementById("imagen").options[document.getElementById("imagen").selectedIndex].value;
-                    receiverWindow.postMessage({ imagenBack: rutaima }, "http://localhost:8081/index.html");
-                });
-            */
-
-            // Datos recibidos de confirmación
-            window.addEventListener("message", receiveMessage, false);
-            function receiveMessage(event) {
-                // console.log("(EDiphy) ha llegado esto: " + event.data);
-            }
-        },
         toolbarChangesValues: function(state) {
+            // Envío de datos toolbar
             // console.log("Entra en la función auxiliar");
             if(document.getElementById("receiver") != null) {
                 let receiverWindow = document.getElementById("receiver").contentWindow;
