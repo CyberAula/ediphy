@@ -6,7 +6,7 @@ require('./_virtualReality.scss');
 export function VirtualReality(base) {
     return {
         init: function() {
-            base.registerExtraFunction(this.toolbarChangesValues, "toolbarChanges");
+            base.registerExtraFunction(this.toolbarChangeValues, "toolbarChanges");
         },
         getConfig: function() {
             return {
@@ -55,20 +55,15 @@ export function VirtualReality(base) {
             return {
                 imagenBack: '360_world.jpg',
                 audioBack: false,
-                stateIframe: {
-                    imgBack: '360_world.jpg',
-                    format: '2D',
-                    playAudio: false,
-                },
             };
         },
         getRenderTemplate: function(state, props) {
-            this.toolbarChangesValues(state);
+            this.toolbarChangeValues(state);
             return (
                 <iframe className={'VR'} allow="vr" width= '100%' height= '100%' src='http://localhost:8081/index.html' id="receiver"/>);
 
         },
-        toolbarChangesValues: function(state) {
+        toolbarChangeValues: function(state) {
             // Envío de datos toolbar
             // console.log("Entra en la función auxiliar");
             if(document.getElementById("receiver") != null) {

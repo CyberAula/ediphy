@@ -6,9 +6,15 @@ export function VirtualReality(base) {
 
     return {
         getRenderTemplate: function(state, props) {
-            return (<iframe allow="vr" width= '100%' height= '100%' src='http://localhost:8081/index.html' id="receiver" style={{ pointerEvents: 'all' }} />);
+
+            return (
+                <div>
+            		<iframe allow="vr" width= '100%' height= '100%' src='http://localhost:8081/index.html' id="receiver" style={{ pointerEvents: 'all' }} />);
+        		</div>
+        	);
         },
         afterRender: function(element, state) {
+        	console.log("Esto no sé por qué no sale");
         	let receiverWindow = document.getElementById("receiver").contentWindow;
 
             let rutaima = state.imagenBack;
