@@ -151,7 +151,7 @@ export default class EditorCanvasSli extends Component {
 
                         })}
                         <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
-                            this.aspectRatio(this.props.canvasRatio, this.props.fromCV, this.props.navItemSelected.customSize);
+                            this.aspectRatio(this.props, this.state);
                         }} />
                     </div>
 
@@ -264,30 +264,34 @@ export default class EditorCanvasSli extends Component {
                 event.target.classList.remove("drop-target");
             },
         });
-        this.aspectRatio(this.props.canvasRatio, this.props.fromCV, this.props.navItemSelected.customSize);
-        window.addEventListener("resize", this.aspectRatio);
+        this.aspectRatio(this.props, this.state);
+        window.addEventListener("resize", this.aspectRatioListener.bind(this));
     }
 
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).unset();
-        window.removeEventListener("resize", this.aspectRatio);
+        window.removeEventListener("resize", this.aspectRatioListener.bind(this));
     }
-
-    aspectRatio(ar, fromCV, customSize, state = this.state) {
+    aspectRatioListener() {
+        this.aspectRatio();
+    }
+    aspectRatio(props = this.props, state = this.state) {
+        let ar = props.canvasRatio;
+        let fromCV = props.fromCV;
+        let itemSelected = fromCV ? props.containedViewSelected : props.navItemSelected;
+        let customSize = itemSelected.customSize;
         let calculated = aspectRatio(ar, fromCV ? 'airlayer_cv' : 'airlayer', fromCV ? 'containedCanvas' : 'canvas', customSize);
-        let { width, height, marginTop, marginBottom } = this.state;
+        let { width, height, marginTop, marginBottom } = state;
         let current = { width, height, marginTop, marginBottom };
         if (JSON.stringify(calculated) !== JSON.stringify(current)) {
             this.setState({ ...calculated });
         }
-
     }
 
-    componentWillUpdate(nextProps) {
+    componentWillUpdate(nextProps, nextState) {
         if (this.props.canvasRatio !== nextProps.canvasRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
             window.canvasRatio = nextProps.canvasRatio;
-            this.aspectRatio(nextProps.canvasRatio, nextProps.fromCV, nextProps.navItemSelected.customSize);
-
+            this.aspectRatio(nextProps, nextState);
         }
 
     }
