@@ -41,14 +41,16 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", 
             }
         }
     } else if (customSize.width > canvas.offsetWidth) {
+        console.log(1);
         height = (customSize.height / ratio) + 'px';
         width = (customSize.width / ratio) + 'px';
-        marginTop = ((canvas.offsetHeight - customSize.height / ratio) / 2 - 1) + 'px';
-    } else{
+        marginTop = ((canvas.offsetHeight - 43 - customSize.height) / 2 - 1) + 'px';
+    } else {
+        console.log(2);
         height = customSize.height + 'px';
         width = customSize.width + 'px';
-        marginTop = '0px';
-        marginBottom = '10px';
+        marginTop = ((canvas.offsetHeight - 43 - customSize.height) / 2 - 1) + 'px';
+        // marginBottom = '10px';
     }
     return { width, height, marginTop, marginBottom };
 }
