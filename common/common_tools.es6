@@ -19,7 +19,7 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", 
     /* this is to avoid get values from react flow when using event listeners that do not exist in react
      * get the values from window.object */
     if (customSize === 0) {
-        height = canvas.offsetHeight - 43;
+        height = canvas.offsetHeight - 66;
         width = canvas.offsetWidth - 36;
         if(window.canvasRatio === undefined) {
             window.canvasRatio = ratio; // https://stackoverflow.com/questions/19014250/reactjs-rerender-on-browser-resize
@@ -27,7 +27,7 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", 
             ratio = window.canvasRatio;
         }
         let w = canvas.offsetWidth - 36;
-        let h = canvas.offsetHeight - 43;
+        let h = canvas.offsetHeight - 66;
         marginTop = 0 + 'px';
         if (w > ratio * h) {
             width = (ratio * h) + "px";
@@ -40,16 +40,18 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", 
                 marginTop = ((h - newHeight) / 2) + 'px';
             }
         }
-    } else if (customSize.width > canvas.offsetWidth) {
-        console.log(1);
-        height = (customSize.height / ratio) + 'px';
-        width = (customSize.width / ratio) + 'px';
-        marginTop = ((canvas.offsetHeight - 43 - customSize.height) / 2 - 1) + 'px';
+    } else if (customSize.width > canvas.offsetWidth - 36) {
+        height = (customSize.height) + 'px';
+        width = (customSize.width) + 'px';
+        marginTop = ((canvas.offsetHeight - 66 - customSize.height) / 2 - 1);
+        marginTop = marginTop > 0 ? marginTop : 0;
+        marginTop += 'px';
     } else {
-        console.log(2);
         height = customSize.height + 'px';
         width = customSize.width + 'px';
-        marginTop = ((canvas.offsetHeight - 43 - customSize.height) / 2 - 1) + 'px';
+        marginTop = ((canvas.offsetHeight - 66 - customSize.height) / 2 - 1);
+        marginTop = marginTop > 0 ? marginTop : 0;
+        marginTop += 'px';
         // marginBottom = '10px';
     }
     return { width, height, marginTop, marginBottom };

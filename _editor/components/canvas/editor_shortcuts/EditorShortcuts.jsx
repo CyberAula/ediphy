@@ -80,6 +80,8 @@ export default class EditorShortcuts extends Component {
                     position: 'absolute',
                     left: this.state.left + 10,
                     top: this.state.top,
+                    transform: 'rotate(' + (toolbar.structure.rotation || 0) + 'deg)',
+                    transformOrigin: '0px 100%',
                     // width: this.state.width !== 0 ? this.state.width : "auto"
                 }}>
                 <div ref="innerContainer" style={{ display: "inline-block", minWidth: "50px", overflow: 'hidden', height: '37px' }}>
@@ -312,6 +314,8 @@ export default class EditorShortcuts extends Component {
         let nextProps = (fromUpdate === 'fromUpdate') ? newProps : this.props;
         if (nextProps && nextProps.box) {
             let box = findBox(nextProps.box.id);
+            let toolbar = nextProps.pluginToolbar;
+            let rotation = toolbar.structure.rotation;
             // box = box && box.parentNode ? box.parentNode : box;
             let element = ReactDOM.findDOMNode(this.refs.innerContainer);
             let left = 0;
@@ -339,6 +343,11 @@ export default class EditorShortcuts extends Component {
                 } else {
                     width = box.getBoundingClientRect().width;
                 }
+                let w = boxRect.width / 2;
+                let h = boxRect.height / 2;
+                let R = 1 / 2 * Math.sqrt(h * h + w * w);
+                // left = left + w / 2 - R * Math.cos(rotation * Math.PI / 180 + Math.atan2(h, w));
+
                 box.classList.remove('norotate');
 
                 return { left, top, width };

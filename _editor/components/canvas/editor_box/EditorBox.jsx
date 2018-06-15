@@ -89,6 +89,7 @@ export default class EditorBox extends Component {
             height: height !== "auto" ? (height + heightUnit) : "auto",
             touchAction: 'none',
             msTouchAction: 'none',
+            transformOrigin: '0 0',
             cursor: vis ? 'inherit' : 'default', // esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
         };
 
