@@ -196,8 +196,8 @@ function boxReducer(state = {}, action = {}) {
     case RESIZE_BOX:
         return changeProp(state, "position",
             {
-                x: action.payload.structure.x || state.x,
-                y: action.payload.structure.y || state.y,
+                x: action.payload.structure.x || state.position.x,
+                y: action.payload.structure.y || state.position.y,
                 type: state.position.type,
             }
         );

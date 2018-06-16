@@ -1,6 +1,6 @@
 import {
     ADD_NAV_ITEM, ADD_NAV_ITEMS, DELETE_NAV_ITEM, ADD_BOX, DELETE_BOX, PASTE_BOX, SET_CORRECT_ANSWER, IMPORT_STATE,
-    DELETE_SORTABLE_CONTAINER, ADD_RICH_MARK, CONFIG_SCORE, EDIT_RICH_MARK,
+    DELETE_SORTABLE_CONTAINER, ADD_RICH_MARK, CONFIG_SCORE, EDIT_RICH_MARK, DELETE_CONTAINED_VIEW,
 } from '../common/actions';
 
 import { isBox, existsAndIsViewOrContainedView, changeProp, changeProps, deleteProp, deleteProps, isContainedView } from '../common/utils';
@@ -25,7 +25,7 @@ function exercisesReducer(state = {}, action = {}) {
     case ADD_BOX:
     case PASTE_BOX:
         let name = action.type === 'ADD_BOX' ? action.payload.initialParams.name : action.payload.toolbar.pluginId;
-        let config = Ediphy.Plugins.get(name).getConfig();
+        let config = action.payload.ids.config; // Ediphy.Plugins.get(name).getConfig();
         if (config && config.category === 'evaluation') {
             let defaultCorrectAnswer = (config.defaultCorrectAnswer === null || config.defaultCorrectAnswer === undefined) ? true : config.defaultCorrectAnswer;
             let defaultCurrentAnswer = (config.defaultCurrentAnswer === null || config.defaultCurrentAnswer === undefined) ? true : config.defaultCurrentAnswer;
@@ -130,7 +130,9 @@ export default function(state = {}, action = {}) {
         }
         return state;
     case DELETE_NAV_ITEM:
+    case DELETE_CONTAINED_VIEW:
         return deleteProps(state, action.payload.ids);
+
     case DELETE_BOX:
     case SET_CORRECT_ANSWER:
     case DELETE_SORTABLE_CONTAINER:

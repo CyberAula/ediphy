@@ -60,7 +60,7 @@ export default class VisorCanvasSli extends Component {
         console.log(this.props.fromPDF);
         let padding = (this.props.fromPDF ? '0px' : '');
         return (
-            <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={"canvasSliClass" + (isCV ? animationType : "")}
+            <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={"canvasSliClass " + (isCV ? animationType : "")}
                 style={{ display: 'initial', width: '100%', padding }}>
 
                 <div id={isCV ? 'airlayer_cv' : 'airlayer'}

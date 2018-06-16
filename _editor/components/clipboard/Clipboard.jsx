@@ -212,7 +212,7 @@ export default class Clipboard extends Component {
             }
         }
 
-        this.props.onBoxPasted(ids, transformedBox.newBox, transformedToolbar, transformedChildren, index, newMarks, data.score);
+        this.props.onBoxPasted({ ...ids, config }, transformedBox.newBox, transformedToolbar, transformedChildren, index, newMarks, data.score);
 
     }
 

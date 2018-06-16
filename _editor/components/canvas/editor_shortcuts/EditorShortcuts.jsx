@@ -92,13 +92,23 @@ export default class EditorShortcuts extends Component {
                         target={() => ReactDOM.findDOMNode(this.overlayTarget)}
                         onHide={() => this.setState({ showOverlay: false })}>
                         <Popover id="popov" title={i18n.t('messages.popoverUrlTitle')} className="popoverURL">
-                            <input type="text" className="form-control" ref={'url_input'} placeholder={'http://... '} />
+                            <input type="text" className="form-control" ref={'url_input'} placeholder={'http://... '} onKeyDown={e=>{
+                                if (e.keyCode === 13) {
+                                    let val = this.refs.url_input.value;
+                                    if (val && val !== '') {
+                                        this.props.onToolbarUpdated(toolbar.id, "main", "state", "url", this.refs.url_input.value);
+                                    }
+                                    this.setState({ showOverlay: false });
+                                }
+                            }}/>
                             <Button className="popoverButton"
                                 name="popoverAcceptButton"
                                 // disabled={ this.state.urlValue === ""}
                                 onClick={(e) => {
-                                    // update plugin toolbar with input value
-                                    this.props.onToolbarUpdated(toolbar.id, "main", "state", "url", this.refs.url_input.value);
+                                    let val = this.refs.url_input.value;
+                                    if (val && val !== '') {
+                                        this.props.onToolbarUpdated(toolbar.id, "main", "state", "url", this.refs.url_input.value);
+                                    }
                                     this.setState({ showOverlay: false });
                                 }}>
                                 {i18n.t("Accept")}
