@@ -38,7 +38,7 @@ export function VirtualReality(base) {
                                     __name: '',
                                     type: 'select',
                                     value: state.imagenBack,
-                                    options: ['360_world.jpg', 'pano-planets.jpg', 'pano-nature.jpg', 'pano-nature2.jpg', 'pano-nature3.jpg', 'pano-boom.jpg', 'pano-people.jpg'],
+                                    options: ['Elige un fondo...', '360_world.jpg', 'pano-planets.jpg', 'pano-nature.jpg', 'pano-nature2.jpg', 'pano-nature3.jpg', 'pano-boom.jpg', 'pano-people.jpg'],
                                 },
                                 audioBack: {
                                     __name: 'Audio ambiente',
@@ -53,7 +53,7 @@ export function VirtualReality(base) {
         },
         getInitialState: function() {
             return {
-                imagenBack: '360_world.jpg',
+                imagenBack: undefined,
                 audioBack: false,
             };
         },
@@ -70,6 +70,7 @@ export function VirtualReality(base) {
                 let receiverWindow = document.getElementById("receiver").contentWindow;
 
                 let rutaima = state.imagenBack;
+                if(rutaima == 'Elige un fondo...') {rutaima = undefined;}
                 let playAudio = state.audioBack;
                 receiverWindow.postMessage({ imagenBack: rutaima, audioBack: { play: playAudio } }, "http://localhost:8081/index.html");
             }
