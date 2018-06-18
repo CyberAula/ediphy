@@ -1,6 +1,7 @@
 import React from 'react';
 import i18n from 'i18next';
 import VirtualRealityPluginEditor from "./components/VirtualRealityPluginEditor";
+import img_placeholder from './../../dist/images/placeholder.svg';
 require('./_virtualReality.scss');
 
 /* eslint-disable react/prop-types */
@@ -46,6 +47,13 @@ export function VirtualReality(base) {
                                     type: 'checkbox',
                                     checked: state.audioBack,
                                 },
+                                url: {
+                                    __name: 'URL',
+                                    type: 'external_provider',
+                                    accept: "image/*",
+                                    value: state.urlBack,
+                                    autoManaged: false,
+                                },
                             },
                         },
                     },
@@ -55,6 +63,7 @@ export function VirtualReality(base) {
         getInitialState: function() {
             return {
                 imagenBack: undefined,
+                urlBack: undefined,
                 audioBack: false,
             };
         },

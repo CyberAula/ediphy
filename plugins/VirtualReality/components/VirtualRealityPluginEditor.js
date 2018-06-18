@@ -21,7 +21,7 @@ export default class VirtualRealityPluginEditor extends React.Component {
     receiver(e) {
         try{
             let data = JSON.parse(e.data);
-            console.log(data);
+            // console.log(data);
             if (!this.windowSource && data.msg === 'load' && data.id === this.props.id) {
                 this.windowSource = e.source;
                 this.toolbarUpdateValue();
@@ -33,9 +33,10 @@ export default class VirtualRealityPluginEditor extends React.Component {
     }
     toolbarUpdateValue(props = this.props) {
         let receiverWindow = this.windowSource;
+        console.log("EN LA TOOLBARUPDATE SE RECIBE ESTE ESTADO DE URL: " + props.state.urlBack);
         if(receiverWindow) {
-            let { imagenBack, audioBack } = props.state;
-            receiverWindow.postMessage({ imagenBack, audioBack: { play: audioBack } }, "*");
+            let { imagenBack, urlBack, audioBack } = props.state;
+            receiverWindow.postMessage({ imagenBack, urlBack, audioBack: { play: audioBack } }, "*");
         }
 
     }
