@@ -143,11 +143,7 @@ export default function() {
                     state.__size = null;
                 }
             }
-            /* if(isRich) {
-              if(!state.__marks) {
-                  state.__marks = {};
-              }
-          }*/
+
             if(config.category === 'evaluation') {
                 if (!state.__score) {
                     state.__score = {
@@ -279,7 +275,7 @@ export default function() {
         getToolbar: function(toolbarState) {
             let toolbar;
             // eslint-disable-next-line no-var
-            var buttonKey;
+            let buttonKey;
             if (descendant.getToolbar) {
                 toolbar = descendant.getToolbar(toolbarState);
             }
@@ -385,15 +381,14 @@ export default function() {
         },
 
         afterRender: function(element, oldState) {
-            state = oldState;
             if (descendant.afterRender) {
                 descendant.afterRender(element, oldState);
             }
         },
-        setState: function(key, value) {
+        /* setState: function(key, value) {
             // chose if modify here or after
             state[key] = value;
-        },
+        },*/
         /* getState: function() {
             return state;
         },*/

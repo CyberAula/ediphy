@@ -45,7 +45,7 @@ export default class VisorBox extends Component {
             rotate = 'rotate(' + toolbar.structure.rotation + 'deg)';
         }
 
-        style.transform = style.WebkitTransform = style.MsTransform = rotate;
+        // style.transform = style.WebkitTransform = style.MsTransform = rotate;
         style = { ...style, ...toolbar.style };
 
         /* TODO: Reassign object if it's rich to have marks as property box.content.props*/
@@ -88,6 +88,7 @@ export default class VisorBox extends Component {
             width: width !== "auto" ? (width + widthUnit) : "auto",
             height: height !== "auto" ? (height + heightUnit) : "auto",
             verticalAlign: verticalAlign,
+            transformOrigin: '0 0',
         };
 
         wholeBoxVisorStyle.transform = wholeBoxVisorStyle.WebkitTransform = wholeBoxVisorStyle.MsTransform = rotate;

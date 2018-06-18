@@ -22,6 +22,8 @@ export default class CarouselHeader extends Component {
      * @returns {code}
      */
     render() {
+        let widthScroll = Math.max(this.props.courseTitle.length / 11 * 100, 100);
+        // let widthScroll = this.props.courseTitle.length / 10 * 100;
         return (
             <div style={{
                 textAlign: this.props.carouselShow ? 'left' : 'center',
@@ -35,7 +37,7 @@ export default class CarouselHeader extends Component {
                 {!this.props.carouselShow ? <br/> : null}
 
                 <div className="navBarSpace" style={{ display: (this.props.carouselShow ? 'block' : 'none') }}>
-                    <EditorIndexTitle className="tituloCurso" title={this.props.courseTitle} courseTitle onNameChanged={this.props.onTitleChanged} />
+                    <EditorIndexTitle id="coursetit" scrollW={widthScroll} className="tituloCurso" title={this.props.courseTitle} courseTitle onNameChanged={this.props.onTitleChanged}/>
                 </div>
 
                 <div className="clear" />
