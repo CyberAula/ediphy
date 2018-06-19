@@ -33,7 +33,7 @@ export function VirtualReality(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: "Background",
+                            __name: "Entorno",
                             icon: 'edit',
                             buttons: {
                                 imagenBack: {
@@ -48,10 +48,23 @@ export function VirtualReality(base) {
                                     checked: state.audioBack,
                                 },
                                 urlBack: {
-                                    __name: 'URL',
+                                    __name: 'Buscar entorno',
                                     type: 'external_provider',
                                     accept: "image/*",
                                     value: state.urlBack,
+                                    autoManaged: false,
+                                },
+                            },
+                        },
+                        Panel: {
+                            __name: "infoPanel",
+                            icon: 'perm_media',
+                            buttons: {
+                                urlPanel: {
+                                    __name: 'URL',
+                                    type: 'external_provider',
+                                    accept: "image/*",
+                                    value: state.urlPanel,
                                     autoManaged: false,
                                 },
                             },
@@ -64,6 +77,7 @@ export function VirtualReality(base) {
             return {
                 imagenBack: undefined,
                 urlBack: undefined,
+                urlPanel: undefined,
                 audioBack: false,
             };
         },

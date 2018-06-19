@@ -18,8 +18,8 @@ export default class VirtualRealityPlugin extends React.Component {
     }
     componentDidMount() {
         let receiverWindow = document.getElementById("receiver").contentWindow;
-        let { imagenBack, urlBack, audioBack } = this.props.state;
-        receiverWindow.postMessage({ imagenBack, urlBack, audioBack: { play: audioBack } }, "*");
+        let { imagenBack, urlBack, urlPanel, audioBack } = this.props.state;
+        receiverWindow.postMessage({ imagenBack, urlBack, urlPanel, audioBack: { play: audioBack } }, "*");
     }
     componentDidMount() {
         window.addEventListener("message", this.receiver);
@@ -42,8 +42,8 @@ export default class VirtualRealityPlugin extends React.Component {
     toolbarUpdateValue(props = this.props) {
         let receiverWindow = this.windowSource;
         if(receiverWindow) {
-            let { imagenBack, urlBack, audioBack } = props.state;
-            receiverWindow.postMessage({ imagenBack, urlBack, audioBack: { play: audioBack } }, "*");
+            let { imagenBack, urlBack, urlPanel, audioBack } = props.state;
+            receiverWindow.postMessage({ imagenBack, urlBack, urlPanel, audioBack: { play: audioBack } }, "*");
         }
 
     }
