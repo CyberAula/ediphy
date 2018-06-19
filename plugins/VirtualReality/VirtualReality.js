@@ -47,7 +47,7 @@ export function VirtualReality(base) {
                                     type: 'checkbox',
                                     checked: state.audioBack,
                                 },
-                                url: {
+                                urlBack: {
                                     __name: 'URL',
                                     type: 'external_provider',
                                     accept: "image/*",
