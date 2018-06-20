@@ -29,7 +29,7 @@ export default class VirtualRealityPlugin extends React.Component {
     receiver(e) {
         try{
             let data = JSON.parse(e.data);
-            console.log(data);
+            // console.log(data);
             if (!this.windowSource && data.msg === 'LOAD' && data.id === this.props.id) {
                 this.windowSource = e.source;
                 this.toolbarUpdateValue();
