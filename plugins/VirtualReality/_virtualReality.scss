@@ -1,7 +1,19 @@
-.VR {
-  pointer-events: none;
+.VRPlugin {
+  .VR {
+    pointer-events: none;
+  }
+
+
+  .dropableRichZone{
+    display:none;
+    &.rich_overlay {
+      z-index: 999;
+      display:block;
+    }
+  }
 }
+
 .pointerEventsEnabled .VR {
-  pointer-events: all !important ;
-  touch-action: manipulation !important;
-}
+   pointer-events: all !important ;
+   touch-action: manipulation !important;
+ }

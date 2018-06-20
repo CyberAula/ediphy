@@ -11,15 +11,14 @@ export default class VirtualRealityPlugin extends React.Component {
     }
     render() {
         return (
-            <div>
-                <iframe allow="vr" width= '100%' height= '100%' src={'http://localhost:8081/index.html?id=' + this.props.id + "&visor=true"} id="receiver" />
-            </div>
+            <iframe allow="vr" width= '100%' height= '100%' src={'http://localhost:8081/index.html?id=' + this.props.id + "&visor=true"} id="receiver" />
         );
     }
     componentDidMount() {
         let receiverWindow = document.getElementById("receiver").contentWindow;
         let { imagenBack, urlBack, urlPanel, audioBack } = this.props.state;
-        receiverWindow.postMessage({ imagenBack, urlBack, urlPanel, audioBack: { play: audioBack } }, "*");
+
+        this.toolbarUpdateValue();
     }
     componentDidMount() {
         window.addEventListener("message", this.receiver);
@@ -30,9 +29,14 @@ export default class VirtualRealityPlugin extends React.Component {
     receiver(e) {
         try{
             let data = JSON.parse(e.data);
-            if (!this.windowSource && data.msg === 'load' && data.id === this.props.id) {
+            console.log(data);
+            if (!this.windowSource && data.msg === 'LOAD' && data.id === this.props.id) {
                 this.windowSource = e.source;
                 this.toolbarUpdateValue();
+            }
+            if (this.windowSource && data.msg === 'MARK' && data.id === this.props.id) {
+                console.log('Lanzo marca');
+                this.props.onMarkClicked(this.props.id, this.props.marks[data.mark].value);
             }
         } catch (err) {
             console.error(err);
@@ -43,7 +47,7 @@ export default class VirtualRealityPlugin extends React.Component {
         let receiverWindow = this.windowSource;
         if(receiverWindow) {
             let { imagenBack, urlBack, urlPanel, audioBack } = props.state;
-            receiverWindow.postMessage({ imagenBack, urlBack, urlPanel, audioBack: { play: audioBack } }, "*");
+            receiverWindow.postMessage({ imagenBack, urlBack, urlPanel, audioBack: { play: audioBack }, marks: props.marks }, "*");
         }
 
     }

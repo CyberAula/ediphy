@@ -1,8 +1,9 @@
 import React from 'react';
 import i18n from 'i18next';
 import VirtualRealityPluginEditor from "./components/VirtualRealityPluginEditor";
-import img_placeholder from './../../dist/images/placeholder.svg';
 require('./_virtualReality.scss');
+import MarkEditor from "../../_editor/components/rich_plugins/mark_editor/MarkEditor";
+import Mark from '../../common/components/mark/Mark';
 
 /* eslint-disable react/prop-types */
 export function VirtualReality(base) {
@@ -24,6 +25,8 @@ export function VirtualReality(base) {
                 initialHeightSlide: '45%',
                 icon: 'event_seat',
                 needsPointerEventsAllowed: true,
+                isRich: true,
+                marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#000001' }],
 
             };
         },
@@ -82,10 +85,46 @@ export function VirtualReality(base) {
             };
         },
         getRenderTemplate: function(state, props) {
+            let marks = props.marks || {};
+            let id = props.id;
+
             return (
+                <div style={{ height: "100%", width: "100%" }} className={'VRPlugin'}>
 
-                <VirtualRealityPluginEditor id={props.id} state={state}/>);
+                    <div className="dropableRichZone" style={{ height: "100%", width: "100%", position: 'absolute', top: 0, left: 0 }} />
+                    <VirtualRealityPluginEditor id={props.id} state={state} marks={marks}/>
 
+                </div>);
+
+        },
+        parseRichMarkInput: function(...value) {
+            let x = (value[0] + 12) * 100 / value[2];
+            let y = (value [1] + 26) * 100 / value[3];
+            let finalValue = y.toFixed(2) + "," + x.toFixed(2);
+            /* let win = document.querySelector('#box-'+value[6]+' .VR');
+        console.log(win)*/
+            let angle = 0;
+
+            return finalValue;
+        },
+
+        validateValueInput: function(value) {
+            let regex = /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g;
+            let match = regex.exec(value);
+            if (match && match.length === 3) {
+                let x = Math.round(parseFloat(match[1]) * 100000) / 100000;
+                let y = Math.round(parseFloat(match[2]) * 100000) / 100000;
+                if (isNaN(x) || isNaN(y)) {
+                    return { isWrong: true, message: i18n.t("VirtualTour.message_mark_xy") };
+                }
+                value = x + ',' + y;
+            } else {
+                return { isWrong: true, message: i18n.t("VirtualTour.message_mark_xy") };
+            }
+            return { isWrong: false, value: value };
+        },
+        pointerEventsCallback: function(bool, toolbarState) {
+            return;
         },
     };
 }

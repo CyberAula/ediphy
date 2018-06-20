@@ -21,8 +21,8 @@ export default class VirtualRealityPluginEditor extends React.Component {
     receiver(e) {
         try{
             let data = JSON.parse(e.data);
-            // console.log(data);
-            if (!this.windowSource && data.msg === 'load' && data.id === this.props.id) {
+            console.log(data);
+            if (!this.windowSource && data.msg === 'LOAD' && data.id === this.props.id) {
                 this.windowSource = e.source;
                 this.toolbarUpdateValue();
             }
@@ -35,13 +35,16 @@ export default class VirtualRealityPluginEditor extends React.Component {
         let receiverWindow = this.windowSource;
         if(receiverWindow) {
             let { imagenBack, urlBack, urlPanel, audioBack } = props.state;
-            console.log(props.state);
-            receiverWindow.postMessage({ imagenBack, urlBack, urlPanel, audioBack: { play: audioBack } }, "*");
+            console.log(props.state, props.marks);
+            receiverWindow.postMessage({ imagenBack, urlBack, urlPanel, audioBack: { play: audioBack }, marks: props.marks }, "*");
         }
 
     }
     componentWillReceiveProps(nextProps) {
         if (JSON.stringify(this.props.state) !== JSON.stringify(nextProps.state)) {
+            this.toolbarUpdateValue(nextProps);
+        }
+        if (JSON.stringify(this.props.marks) !== JSON.stringify(nextProps.marks)) {
             this.toolbarUpdateValue(nextProps);
         }
     }
