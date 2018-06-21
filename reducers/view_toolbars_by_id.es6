@@ -43,7 +43,7 @@ function toolbarElementCreator(state, action, containedView = false) {
     let backgroundAttr = action.payload.background ? action.payload.background.backgroundAttr : "";
     let toolbar = {
         id: id,
-        breadcrumb: action.payload.hideTitles ? 'hidden' : 'reduced',
+        breadcrumb: isSlide(type) ? 'hidden' : 'reduced',
         doc_type: type,
         viewName: name,
         courseTitle: 'hidden',
