@@ -26,7 +26,7 @@ export function VirtualReality(base) {
                 icon: 'event_seat',
                 needsPointerEventsAllowed: true,
                 isRich: true,
-                marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#000001' }],
+                marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y,z]', default: '0,0,0', defaultColor: '#17CFC8' }],
 
             };
         },
@@ -98,26 +98,33 @@ export function VirtualReality(base) {
 
         },
         parseRichMarkInput: function(...value) {
-            let x = (value[0] + 12) * 100 / value[2];
-            let y = (value [1] + 26) * 100 / value[3];
-            let finalValue = y.toFixed(2) + "," + x.toFixed(2);
-            /* let win = document.querySelector('#box-'+value[6]+' .VR');
-        console.log(win)*/
-            let angle = 0;
-
+            let x = (value[0] - value[2] / 2);
+            let y = -(value[1] - value[3] / 2);
+            const RATIO = 70;
+            const R = 4;
+            x = x / value[2] * 8;
+            y = y / value[3] * 8;
+            let vrApp = document.querySelector('#box-' + value[6] + ' .VR');
+            let ang = [vrApp.getAttribute('data-x'), vrApp.getAttribute('data-y'), vrApp.getAttribute('data-z')];
+            ang = ang.map(a => a * Math.PI / 180);
+            x = R * Math.sin(ang[0]) * Math.cos(ang[1]) + x;
+            y = R * Math.sin(ang[0]) * Math.sin(ang[1]) + y;
+            let z = -R * Math.cos(ang[1]);
+            let finalValue = x.toFixed(4) + "," + y.toFixed(4) + "," + z.toFixed(4);
             return finalValue;
         },
 
         validateValueInput: function(value) {
-            let regex = /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g;
+            let regex = /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g;
             let match = regex.exec(value);
-            if (match && match.length === 3) {
+            if (match && match.length === 4) {
                 let x = Math.round(parseFloat(match[1]) * 100000) / 100000;
                 let y = Math.round(parseFloat(match[2]) * 100000) / 100000;
+                let z = Math.round(parseFloat(match[3]) * 100000) / 100000;
                 if (isNaN(x) || isNaN(y)) {
                     return { isWrong: true, message: i18n.t("VirtualTour.message_mark_xy") };
                 }
-                value = x + ',' + y;
+                value = x + ',' + y + ',' + z;
             } else {
                 return { isWrong: true, message: i18n.t("VirtualTour.message_mark_xy") };
             }
@@ -125,6 +132,22 @@ export function VirtualReality(base) {
         },
         pointerEventsCallback: function(bool, toolbarState) {
             return;
+        },
+        getDefaultMarkValue(state, id) {
+            let x = 0;
+            let y = 0;
+            const R = 4;
+            let vrApp = document.querySelector('#box-' + id + ' .VR');
+            let ang = [0, 0, 0];
+            if (vrApp) {
+                ang = [vrApp.getAttribute('data-x'), vrApp.getAttribute('data-y'), vrApp.getAttribute('data-z')];
+            }
+
+            x = R * Math.sin(ang[0]) * Math.cos(ang[1]) + x;
+            y = R * Math.sin(ang[0]) * Math.sin(ang[1]) + y;
+            let z = -R * Math.cos(ang[1]);
+            let finalValue = x.toFixed(4) + "," + y.toFixed(4) + "," + z.toFixed(4);
+            return finalValue;
         },
     };
 }

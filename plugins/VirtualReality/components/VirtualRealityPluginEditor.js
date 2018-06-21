@@ -5,12 +5,13 @@ export default class VirtualRealityPluginEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            position: [0, 0, 0],
         };
         this.toolbarUpdateValue = this.toolbarUpdateValue.bind(this);
         this.receiver = this.receiver.bind(this);
     }
     render() {
-        return (<iframe className={'VR'} allow="vr" width= '100%' height= '100%' src={'http://localhost:8081/index.html?id=' + this.props.id + "&visor=false"} id="receiver" />);
+        return (<iframe className={'VR'} allow="vr" width= '100%' height= '100%' data-x={this.state.position[0]} data-y={this.state.position[1]} data-z={this.state.position[2]} src={'http://localhost:8081/index.html?id=' + this.props.id + "&visor=false"} id="receiver" />);
     }
     componentDidMount() {
         window.addEventListener("message", this.receiver);
@@ -26,6 +27,10 @@ export default class VirtualRealityPluginEditor extends React.Component {
                 this.windowSource = e.source;
                 this.toolbarUpdateValue();
             }
+            if (this.windowSource && data.msg === 'POSITION' && data.id === this.props.id) {
+                this.setState({ position: data.position });
+            }
+
         } catch (err) {
             console.error(err);
         }

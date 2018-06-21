@@ -354,9 +354,10 @@ export default function() {
             }
             return undefined;
         },
-        getDefaultMarkValue: function() {
+        getDefaultMarkValue: function(state, id) {
+
             if(descendant.getDefaultMarkValue) {
-                return descendant.getDefaultMarkValue();
+                return descendant.getDefaultMarkValue;
             }
             if (descendant.getConfig() && descendant.getConfig().marksType) {
                 let markType = descendant.getConfig().marksType;

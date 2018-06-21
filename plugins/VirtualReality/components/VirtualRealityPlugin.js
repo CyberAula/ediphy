@@ -15,8 +15,6 @@ export default class VirtualRealityPlugin extends React.Component {
         );
     }
     componentDidMount() {
-        let receiverWindow = document.getElementById("receiver").contentWindow;
-        let { imagenBack, urlBack, urlPanel, audioBack } = this.props.state;
 
         this.toolbarUpdateValue();
     }
@@ -35,7 +33,6 @@ export default class VirtualRealityPlugin extends React.Component {
                 this.toolbarUpdateValue();
             }
             if (this.windowSource && data.msg === 'MARK' && data.id === this.props.id) {
-                console.log('Lanzo marca');
                 this.props.onMarkClicked(this.props.id, this.props.marks[data.mark].value);
             }
         } catch (err) {
