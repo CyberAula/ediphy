@@ -57,7 +57,6 @@ export default class VisorCanvasSli extends Component {
             <Tooltip id="tooltip">{thisView}</Tooltip>
         );
         let animationType = "animation-zoom";
-        console.log(this.props.fromPDF);
         let padding = (this.props.fromPDF ? '0px' : '');
         return (
             <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={"canvasSliClass " + (isCV ? animationType : "")}
@@ -156,13 +155,11 @@ export default class VisorCanvasSli extends Component {
         let fromCV = !isView(props.currentView);
         let ar = props.canvasRatio;
         let itemSel = props.navItems[props.currentView] || props.containedViews[props.currentView];
-        console.log(itemSel);
         let customSize = itemSel.customSize;
         let calculated = aspectRatio(ar, fromCV ? 'airlayer_cv' : 'airlayer', fromCV ? 'containedCanvas' : 'canvas', customSize);
         let { width, height, marginTop, marginBottom } = state;
         let current = { width, height, marginTop, marginBottom };
         if (JSON.stringify(calculated) !== JSON.stringify(current)) {
-            console.log('wwwwww');
             this.setState({ ...calculated });
         }
 
