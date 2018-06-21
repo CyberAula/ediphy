@@ -37,15 +37,15 @@ export default class EditorIndexTitle extends Component {
                     (<div className="actualSectionTitle" id={'title_' + this.props.id}
                         style={{ textDecoration: this.props.hidden ? "line-through" : "initial" }}
                         onMouseOver={() =>{
-                            let markEl = document.getElementById('title_' + this.props.id);
-                            markEl.style.transitionDuration = this.props.scrollW / 100 + 's';
-                            markEl.style.width = this.props.scrollW + '%';
-                            markEl.style.left = '-' + (this.props.scrollW - 100) + '%';
+                            // let markEl = document.getElementById('title_' + this.props.id);
+                            // markEl.style.transitionDuration = this.props.scrollW / 100 + 's';
+                            // markEl.style.width = this.props.scrollW + '%';
+                            // markEl.style.left = '-' + (this.props.scrollW - 100) + '%';
                         }}
                         onMouseOut={() =>{
-                            let markEl = document.getElementById('title_' + this.props.id);
-                            markEl.style.width = '90%';
-                            markEl.style.left = '0%';
+                            // let markEl = document.getElementById('title_' + this.props.id);
+                            // markEl.style.width = '90%';
+                            // markEl.style.left = '0%';
                         }}
                         onDoubleClick={e => {
                             this.setState({ editing: !this.state.editing });
