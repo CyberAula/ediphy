@@ -677,7 +677,7 @@ class EditorApp extends Component {
             };
         }
         // setTimeout(()=>{this.setState({ showHelpButton: false });}, 30000);
-        document.addEventListener('keyup', this.keyListener);
+        document.addEventListener('keydown', this.keyListener);
         document.addEventListener('dragover', this.dragListener);
         document.addEventListener('dragleave', this.dragExitListener);
         document.addEventListener('drop', this.dropListener);
@@ -690,7 +690,7 @@ class EditorApp extends Component {
 
     }
     componentWillUnmount() {
-        document.removeEventListener('keyup', this.keyListener);
+        document.removeEventListener('keydown', this.keyListener);
         document.removeEventListener('dragover', this.dragListener);
         document.removeEventListener('dragleave', this.dragExitListener);
         document.removeEventListener('drop', this.dropListener);
@@ -709,7 +709,7 @@ class EditorApp extends Component {
         let key = e.keyCode ? e.keyCode : e.which;
         // Checks what element has the cursor focus currently
         let focus = document.activeElement.className;
-        let notText = !document.activeElement.type && focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1;
+        let notText = (!document.activeElement.type || focus.indexOf('rib') !== -1) && focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1;
 
         // Ctrl + Z
         if (key === 90 && e.ctrlKey) {
@@ -743,6 +743,15 @@ class EditorApp extends Component {
                     }
                 }
             }
+        }
+
+        if (key === 112) {
+            e.preventDefault();
+            this.setState({ showHelpButton: true });
+        }
+        if (key === 113) {
+            e.preventDefault();
+            this.setState({ visorVisible: true });
         }
     }
     onBoxDeleted(id, parent, container, page) {

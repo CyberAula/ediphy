@@ -147,6 +147,7 @@ export default class Visor extends Component {
                     this.changeCurrentView(navItemsIds[Math.min(index + 1, maxIndex - 1)]);
                 }
             }.bind(this);
+
         }
     }
 
