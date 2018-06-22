@@ -1,18 +1,22 @@
 import React from 'react';
 import MyFilesComponent from './MyFilesComponent';
+import UploadComponent from './UploadComponent';
 import SearchVishComponent from './SearchVishComponent';
 import SoundCloudComponent from './SoundCloudComponent';
 import YoutubeComponent from './YoutubeComponent';
 import EuropeanaComponent from './EuropeanaComponent';
 import FlickrComponent from './FlickrComponent';
 import OpenClipArtComponent from './OpenClipArtComponent';
+import GiphyComponent from './GiphyComponent';
+
 import VISHIcon from './logos/vish.svg';
 import FlickrIcon from './logos/flickrsvg.svg';
 import EuropeanaIcon from './logos/europeanaalt.svg';
 import YoutubeIcon from './logos/youtube.svg';
 import SoundCloudIcon from './logos/soundcloud_logo_0.png';
 import OpenClipArtIcon from './logos/openclipart.svg';
-import UploadComponent from './UploadComponent';
+import GiphyIcon from './logos/giphy.png';
+
 import i18n from 'i18next';
 
 export default function menus(self) {
@@ -102,6 +106,13 @@ export default function menus(self) {
             component: YoutubeComponent,
             props: { ...commonProps },
         },
+        /* {
+            name: 'Giphy',
+            icon: GiphyIcon,
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
+            component: GiphyComponent,
+            props: { ...commonProps },
+        },*/
         /* {
             name: 'SoundCloud',
             icon: SoundCloudIcon,

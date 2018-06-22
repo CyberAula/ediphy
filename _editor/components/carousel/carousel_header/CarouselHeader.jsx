@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import EditorIndexTitle from '../editor_index_title/EditorIndexTitle';
-
+import i18n from 'i18next';
 import './_carouselHeader.scss';
 
 /**
@@ -22,7 +22,8 @@ export default class CarouselHeader extends Component {
      * @returns {code}
      */
     render() {
-        let widthScroll = Math.max(this.props.courseTitle.length / 11 * 100, 100);
+        let courseTitle = this.props.courseTitle || i18n.t('course_title');
+        let widthScroll = Math.max(courseTitle.length / 11 * 100, 100);
         // let widthScroll = this.props.courseTitle.length / 10 * 100;
         return (
             <div style={{

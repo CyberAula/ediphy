@@ -56,7 +56,7 @@ export function rightsOptions() {
 /**
  * Array of difficulty levels
  */
-export const difLevels = ['very easy', 'easy', 'medium', 'difficult', 'very difficult'];
+export const difLevels = [undefined, 'very easy', 'easy', 'medium', 'difficult', 'very difficult'];
 
 /**
  * Sort an array of objects alphabetically by value of parameter key

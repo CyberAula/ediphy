@@ -384,47 +384,56 @@ export default {
         ieurValue.appendChild(ieurValueTxt);
         intendedEndUserRole.appendChild(ieurValue);
         educational.appendChild(intendedEndUserRole);
-        let context = doc.createElement('context');
-        let contSource = doc.createElement('source');
-        let contSourceTxt = doc.createTextNode('LOMv1.0');
-        contSource.appendChild(contSourceTxt);
-        context.appendChild(contSource);
-        let contValue = doc.createElement('value');
-        let realContext = gc.context || 'other';
-        switch(realContext) {
-        case 'elementary_school':
-        case 'middle_school':
-        case 'high_school':
-            realContext = 'school';
-            break;
-        default:
-            break;
+        if (gc.context) {
+            let context = doc.createElement('context');
+            let contSource = doc.createElement('source');
+            let contSourceTxt = doc.createTextNode('LOMv1.0');
+            contSource.appendChild(contSourceTxt);
+            context.appendChild(contSource);
+            let contValue = doc.createElement('value');
+            let realContext = gc.context;
+            switch(realContext) {
+            case 'elementary_school':
+            case 'middle_school':
+            case 'high_school':
+                realContext = 'school';
+                break;
+            default:
+                break;
+            }
+            let contValueTxt = doc.createTextNode(realContext);
+            contValue.appendChild(contValueTxt);
+            context.appendChild(contValue);
+            educational.appendChild(context);
         }
-        let contValueTxt = doc.createTextNode(realContext);
-        contValue.appendChild(contValueTxt);
-        context.appendChild(contValue);
-        educational.appendChild(context);
-        let typicalAgeRange = doc.createElement('typicalAgeRange');
-        let taeString = doc.createElement('string');
-        taeString.setAttribute('language', 'en');
-        let taeStringTxt = doc.createTextNode((gc.age.min || 0) + '-' + (gc.age.max || ''));
-        taeString.appendChild(taeStringTxt);
-        typicalAgeRange.appendChild(taeString);
-        educational.appendChild(typicalAgeRange);
-        let difficulty = doc.createElement('difficulty');
-        let diffSource = doc.createElement('source');
-        let diffSourceTxt = doc.createTextNode('LOMv1.0');
-        diffSource.appendChild(diffSourceTxt);
-        difficulty.appendChild(diffSource);
-        let diffValue = doc.createElement('value');
-        let diffValueTxt = doc.createTextNode(gc.difficulty || 'easy');
-        diffValue.appendChild(diffValueTxt);
-        difficulty.appendChild(diffValue);
-        educational.appendChild(difficulty);
+        console.log(gc.context);
+
+        if (gc.age && !(gc.age.min === 0 && gc.age.max === 100)) {
+            let typicalAgeRange = doc.createElement('typicalAgeRange');
+            let taeString = doc.createElement('string');
+            taeString.setAttribute('language', 'en');
+            let taeStringTxt = doc.createTextNode((gc.age.min || 0) + '-' + (gc.age.max || ''));
+            taeString.appendChild(taeStringTxt);
+            typicalAgeRange.appendChild(taeString);
+            educational.appendChild(typicalAgeRange);
+        }
+        if (gc.difficulty) {
+            let difficulty = doc.createElement('difficulty');
+            let diffSource = doc.createElement('source');
+            let diffSourceTxt = doc.createTextNode('LOMv1.0');
+            diffSource.appendChild(diffSourceTxt);
+            difficulty.appendChild(diffSource);
+            let diffValue = doc.createElement('value');
+            let diffValueTxt = doc.createTextNode(gc.difficulty);
+            diffValue.appendChild(diffValueTxt);
+            difficulty.appendChild(diffValue);
+            educational.appendChild(difficulty);
+        }
+
         let tlt = gc.typicalLearningTime;
-        let hh = tlt && tlt.h !== 0 && tlt.h !== '';
-        let mm = tlt && tlt.m !== 0 && tlt.m !== '';
-        let ss = tlt && tlt.s !== 0 && tlt.s !== '';
+        let hh = tlt && tlt.h;
+        let mm = tlt && tlt.m;
+        let ss = tlt && tlt.s;
         if (hh || mm || ss) {
             let typicalLearningTime = doc.createElement('typicalLearningTime');
             let tltDur = doc.createElement('duration');
@@ -440,10 +449,13 @@ export default {
             typicalLearningTime.appendChild(tltDesc);
             educational.appendChild(typicalLearningTime);
         }
-        let eduLanguage = doc.createElement('language');
-        let eduLangTxt = doc.createTextNode(lang);
-        eduLanguage.appendChild(eduLangTxt);
-        educational.appendChild(eduLanguage);
+        if (gc.language) {
+            let eduLanguage = doc.createElement('language');
+            let eduLangTxt = doc.createTextNode(lang);
+            eduLanguage.appendChild(eduLangTxt);
+            educational.appendChild(eduLanguage);
+        }
+
         return educational;
     },
     relationCreator: function(gc, doc) {
