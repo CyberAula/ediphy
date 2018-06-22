@@ -968,16 +968,17 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     }
 
     if (button.type === "external_provider") {
-        return React.createElement(ToolbarFileProvider, {
-            id: toolbar_props.boxSelected,
-            key: button.__name,
-            formControlProps: props,
-            openModal: toolbar_props.openFileModal,
-            buttontext: i18n.t('importFile.title'),
-            fileModalResult: toolbar_props.fileModalResult,
-            onChange: props.onChange,
-            accept: button.accept,
-        }, null);
+        return button.hide ? null :
+            React.createElement(ToolbarFileProvider, {
+                id: toolbar_props.boxSelected,
+                key: button.__name,
+                formControlProps: props,
+                openModal: toolbar_props.openFileModal,
+                buttontext: i18n.t('importFile.title'),
+                fileModalResult: toolbar_props.fileModalResult,
+                onChange: props.onChange,
+                accept: button.accept,
+            }, null);
 
     }
 

@@ -39,9 +39,12 @@ export default class VirtualRealityPluginEditor extends React.Component {
     toolbarUpdateValue(props = this.props) {
         let receiverWindow = this.windowSource;
         if(receiverWindow) {
-            let { imagenBack, urlBack, urlPanel, audioBack, showPanel } = props.state;
-            // console.log(props.state, props.marks);
-            receiverWindow.postMessage({ imagenBack, urlBack, urlPanel, audioBack: { play: audioBack }, showPanel: { show: showPanel }, marks: props.marks }, "*");
+            let { imagenBack, urlBack, audioBack, showPanel, numberOfPictures } = props.state;
+            let imgs = [];
+            for (let i = 0; i < numberOfPictures; i++) {
+                imgs.push({ currentImg: props.state['urlPanel' + i] });
+            }
+            receiverWindow.postMessage({ imagenBack, urlBack, audioBack: { play: audioBack }, showPanel: { show: showPanel }, imgs, marks: props.marks }, "*");
         }
 
     }

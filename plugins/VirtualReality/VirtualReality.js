@@ -31,24 +31,31 @@ export function VirtualReality(base) {
             };
         },
         getToolbar: function(state) {
+
+            let urlPanels = {};
+            for (let i = 0; i < state.numberOfPictures; i++) {
+                urlPanels["urlPanel" + i] = {
+                    __name: 'URL ' + (i + 1),
+                    type: 'external_provider',
+                    accept: "image/*",
+                    value: state["urlPanel" + i],
+                    hide: !state.showPanel,
+                    autoManaged: false,
+                };
+            }
             return {
                 main: {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: "Entorno",
-                            icon: 'edit',
+                            __name: "Background",
+                            icon: 'crop_original',
                             buttons: {
                                 imagenBack: {
                                     __name: '',
                                     type: 'select',
                                     value: state.imagenBack,
                                     options: ['Elige un fondo...', '360_world.jpg', 'pano-planets.jpg', 'pano-nature.jpg', 'pano-nature2.jpg', 'pano-nature3.jpg', 'pano-boom.jpg', 'pano-people.jpg'],
-                                },
-                                audioBack: {
-                                    __name: 'Audio ambiente',
-                                    type: 'checkbox',
-                                    checked: state.audioBack,
                                 },
                                 urlBack: {
                                     __name: 'Buscar entorno',
@@ -60,21 +67,29 @@ export function VirtualReality(base) {
                             },
                         },
                         Panel: {
-                            __name: "infoPanel",
-                            icon: 'perm_media',
+                            __name: "Configuration",
+                            icon: 'build',
                             buttons: {
+                                audioBack: {
+                                    __name: 'Audio ambiente',
+                                    type: 'checkbox',
+                                    checked: state.audioBack,
+                                },
                                 showPanel: {
                                     __name: 'Panel Aux',
                                     type: 'checkbox',
                                     checked: state.showPanel,
                                 },
-                                urlPanel: {
-                                    __name: 'URL',
-                                    type: 'external_provider',
-                                    accept: "image/*",
-                                    value: state.urlPanel,
-                                    autoManaged: false,
+                                numberOfPictures: {
+                                    __name: 'Number of pictures',
+                                    type: 'number',
+                                    min: 1,
+                                    max: 10,
+                                    hide: !state.showPanel,
+                                    value: state.numberOfPictures,
                                 },
+                                ...urlPanels,
+
                             },
                         },
                     },
@@ -85,9 +100,9 @@ export function VirtualReality(base) {
             return {
                 imagenBack: undefined,
                 urlBack: undefined,
-                urlPanel: undefined,
                 audioBack: false,
                 showPanel: false,
+                numberOfPictures: 1,
             };
         },
         getRenderTemplate: function(state, props) {
@@ -98,7 +113,7 @@ export function VirtualReality(base) {
                 <div style={{ height: "100%", width: "100%" }} className={'VRPlugin'}>
 
                     <div className="dropableRichZone" style={{ height: "100%", width: "100%", position: 'absolute', top: 0, left: 0 }} />
-                    <VirtualRealityPluginEditor id={props.id} state={state} marks={marks}/>
+                    <VirtualRealityPluginEditor id={props.id} state={state} marks={marks} />
 
                 </div>);
 

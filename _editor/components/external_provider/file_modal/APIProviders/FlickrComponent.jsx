@@ -71,6 +71,7 @@ export default class FlickrComponent extends React.Component {
                                 url: img.media.m.replace(/_m/i, ""),
                             };
                         });
+
                         this.setState({ results, msg: results.length > 0 ? '' : i18n.t("FileModal.APIProviders.no_files") });
                     }
                 }
