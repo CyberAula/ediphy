@@ -4,6 +4,7 @@ export const initialState = (config) => { return { filesUploaded: {},
     undoGroup: {
         present: {
             status: 'draft',
+            everPublished: false,
             globalConfig: {
                 title: i18n.t('course_title'),
                 canvasRatio: config.defaultAspectRatio || 16 / 9,

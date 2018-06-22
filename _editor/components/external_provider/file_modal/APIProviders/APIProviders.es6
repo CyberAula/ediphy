@@ -22,6 +22,7 @@ export default function menus(self) {
         elementSelected: self.state.element,
         idSelected: self.state.id,
     };
+    let avatar = self.props.fileModalResult && self.props.fileModalResult.id === "avatar";
     return [
         {
             name: <span><i className="material-icons">file_upload</i>{i18n.t('FileModal.APIProviders.UploadFiles')}</span>,
@@ -73,7 +74,7 @@ export default function menus(self) {
         {
             name: 'VISH',
             icon: VISHIcon,
-            show: (allowedMIME === "*" || allowedMIME.match('image')),
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
             component: SearchVishComponent,
             props: { ...commonProps,
             },
@@ -81,7 +82,7 @@ export default function menus(self) {
         {
             name: 'Flickr',
             icon: FlickrIcon,
-            show: (allowedMIME === "*" || allowedMIME.match('image')),
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
             component: FlickrComponent,
             props: { ...commonProps,
             },
@@ -89,7 +90,7 @@ export default function menus(self) {
         {
             name: 'Europeana',
             icon: EuropeanaIcon,
-            show: (allowedMIME === "*" || allowedMIME.match('image')),
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
             component: EuropeanaComponent,
             props: { ...commonProps,
             },
@@ -97,21 +98,21 @@ export default function menus(self) {
         {
             name: 'Youtube',
             icon: YoutubeIcon,
-            show: (allowedMIME === "*" || allowedMIME.match('video')),
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('video')),
             component: YoutubeComponent,
             props: { ...commonProps },
         },
         /* {
             name: 'SoundCloud',
             icon: SoundCloudIcon,
-            show: (allowedMIME === "*" || allowedMIME.match('video')),
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('video')),
             component: SoundCloudComponent,
             props: { ...commonProps },
         },
         {
             name: 'OpenClipArt',
             icon: OpenClipArtIcon,
-            show: (allowedMIME === "*" || allowedMIME.match('image')),
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
             component: OpenClipArtComponent,
             props: { ...commonProps },
         },*/

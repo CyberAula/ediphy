@@ -49,6 +49,7 @@ export default class GlobalConfig extends Component {
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
             modifiedState: false,
             showAlert: false,
+            everPublished: this.props.globalConfig.everPublished,
 
         };
         // Tag handling functions
@@ -114,7 +115,7 @@ export default class GlobalConfig extends Component {
                                                     </div>
                                                 </FileInput>*/}
                                                 <Button bsStyle="primary" className="avatarButtons" onClick={()=>{
-                                                    this.props.toggleFileUpload('avatar', 'image');
+                                                    this.props.toggleFileUpload('avatar', 'image/*');
                                                 }}>{i18n.t('global_config.avatar_import')}</Button><br/>
                                                 <Button bsStyle="primary" className="avatarButtons" onClick={()=>{
                                                     this.getCurrentPageAvatar();
@@ -170,7 +171,7 @@ export default class GlobalConfig extends Component {
                                         <a className="miniIcon" target="_blank" href={"https://creativecommons.org/licenses/?lang="+i18n.t('currentLang')}><i className="material-icons">help</i></a>
                                          */}
                                         <br/>
-                                        <Select disabled={status === 'final'} className={status === 'final' ? 'select-disabled' : ''} title={status === 'final' ? 'No puedes' : ''}
+                                        <Select disabled={status === 'final' || this.state.everPublished} className={(status === 'final' || this.state.everPublished) ? 'select-disabled' : ''} title={(status === 'final' || this.state.everPublished) ? i18n.t("messages.forbidden") : undefined}
                                             name="form-field-name-rights"
                                             value={rights}
                                             options={rightsOptions()}
@@ -465,6 +466,7 @@ export default class GlobalConfig extends Component {
             minTimeProgress: this.props.globalConfig.minTimeProgress || 30,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
             modifiedState: false,
+            everPublished: this.props.everPublished,
         });
 
         //  Comment the following line if you don't want to exit when changes are discarded
@@ -518,6 +520,7 @@ export default class GlobalConfig extends Component {
                 visorNav: nextProps.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
                 modifiedState: false,
                 showAlert: false,
+                everPublished: nextProps.globalConfig.everPublished,
 
             });
         }

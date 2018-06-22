@@ -84,10 +84,24 @@ function status(state = "draft", action = {}) {
     default:
         return state;
     }}
-
+function everPublished(state = false, action = {}) {
+    switch (action.type) {
+    case CHANGE_GLOBAL_CONFIG:
+        if(action.payload.prop === 'STATE' && action.payload.value.status === 'final' && state === false) {
+            return true;
+        } else if (action.payload.prop === 'status' && action.payload.value === 'final' && state === false) {
+            return true;
+        }
+        return state;
+    case IMPORT_STATE:
+        return action.payload.present.status || state;
+    default:
+        return state;
+    }}
 const GlobalState = combineReducers({
     filesUploaded, // We are not allowed to undo file uploads/removals because the files remain in the server
     status,
+    everPublished,
     undoGroup: undoable(combineReducers({
         version: versionReducer,
         lastActionDispatched: lastActionDispatched,

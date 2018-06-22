@@ -322,6 +322,7 @@ let en = {
             "export_to_label": "Choose how to export the document",
             "export_to_SCORM": "Export to SCORM",
             "export_to": "Export to",
+            "forbidden": "No se puede modificar la licencia de un recurso que ya ha sido publicado",
             "fullscreen": "Activate full screen mode",
             "global_config": "Global Config",
             "go_back": "Go back",

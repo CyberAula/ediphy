@@ -27,6 +27,7 @@ export function VirtualTour(base) {
                 needsTextEdition: false,
                 icon: 'map',
                 initialWidth: '25%',
+                initialWidthSlide: '45%',
                 initialHeight: '250px',
                 initialHeightSlide: '60%',
                 isRich: true,
@@ -125,7 +126,7 @@ export function VirtualTour(base) {
             let id = props.id;
             let marks = props.marks || {};
             if (!window.google || !window.navigator.onLine) {
-                return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
+                return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%', minHeight: '50px' }}>
                     <div className="middleAlign">
                         <i className="material-icons dark">signal_wifi_off</i><br/>
                         {i18n.t('messages.no_internet')}

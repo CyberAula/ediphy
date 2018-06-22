@@ -141,6 +141,7 @@ class EditorApp extends Component {
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
         let status = this.props.status;
+        let everPublished = this.props.everPublished;
         let canvasRatio = globalConfig.canvasRatio;
         let disabled = (navItemSelected === 0 && containedViewSelected === 0) || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
         let uploadFunction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? uploadVishResourceAsync : uploadEdiphyResourceAsync;
@@ -154,7 +155,7 @@ class EditorApp extends Component {
                     {this.state.alert}
                     <EditorNavBar hideTab={this.state.hideTab} boxes={boxes}
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
-                        globalConfig={{ ...globalConfig, status }}
+                        globalConfig={{ ...globalConfig, status, everPublished }}
                         changeGlobalConfig={(prop, value) => {dispatch(changeGlobalConfig(prop, value));}}
                         onIndexSelected={(id) => dispatch(selectIndex(id))}
                         onNavItemSelected={id => dispatch(selectNavItem(id))}
@@ -983,6 +984,7 @@ function mapStateToProps(state) {
     return {
         version: state.undoGroup.present.version,
         status: state.status,
+        everPublished: state.everPublished,
         globalConfig: state.undoGroup.present.globalConfig,
         filesUploaded: state.filesUploaded,
         boxes: state.undoGroup.present.boxesById,
@@ -1032,4 +1034,6 @@ EditorApp.propTypes = {
     dispatch: PropTypes.func.isRequired,
     store: PropTypes.any,
     lastActionDispatched: PropTypes.string,
+    status: PropTypes.string,
+    everPublished: PropTypes.bool,
 };
