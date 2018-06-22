@@ -19,10 +19,10 @@ export function VirtualReality(base) {
                 flavor: "react",
                 needsConfigModal: false,
                 needsTextEdition: false,
-                initialWidth: '700px',
-                initialHeight: "300px",
-                initialWidthSlide: '50%',
-                initialHeightSlide: '45%',
+                initialWidth: '450px',
+                initialHeight: "450px",
+                initialWidthSlide: '70%',
+                initialHeightSlide: '50%',
                 icon: 'event_seat',
                 needsPointerEventsAllowed: true,
                 isRich: true,
@@ -63,6 +63,11 @@ export function VirtualReality(base) {
                             __name: "infoPanel",
                             icon: 'perm_media',
                             buttons: {
+                                showPanel: {
+                                    __name: 'Panel Aux',
+                                    type: 'checkbox',
+                                    checked: state.showPanel,
+                                },
                                 urlPanel: {
                                     __name: 'URL',
                                     type: 'external_provider',
@@ -82,6 +87,7 @@ export function VirtualReality(base) {
                 urlBack: undefined,
                 urlPanel: undefined,
                 audioBack: false,
+                showPanel: false,
             };
         },
         getRenderTemplate: function(state, props) {
@@ -98,19 +104,23 @@ export function VirtualReality(base) {
 
         },
         parseRichMarkInput: function(...value) {
-            let x = (value[0] - value[2] / 2);
-            let y = -(value[1] - value[3] / 2);
-            const RATIO = 70;
+            let xPix = (value[0] - value[2] / 2);
+            let yPix = -(value[1] - value[3] / 2);
+
+            // const RATIO = 70;
             const R = 4;
-            x = x / value[2] * 8;
-            y = y / value[3] * 8;
+            let xMet = xPix / value[2] * 8;
+            let yMet = yPix / value[3] * 8;
+
             let vrApp = document.querySelector('#box-' + value[6] + ' .VR');
             let ang = [vrApp.getAttribute('data-x'), vrApp.getAttribute('data-y'), vrApp.getAttribute('data-z')];
             ang = ang.map(a => a * Math.PI / 180);
-            x = R * Math.sin(ang[0]) * Math.cos(ang[1]) + x;
-            y = R * Math.sin(ang[0]) * Math.sin(ang[1]) + y;
-            let z = -R * Math.cos(ang[1]);
-            let finalValue = x.toFixed(4) + "," + y.toFixed(4) + "," + z.toFixed(4);
+
+            let x360 = R * Math.sin(ang[0]) * Math.cos(ang[1]) + xMet;
+            let y360 = R * Math.sin(ang[0]) * Math.sin(ang[1]) + yMet;
+            let z360 = -R * Math.cos(ang[1]);
+
+            let finalValue = x360.toFixed(4) + "," + y360.toFixed(4) + "," + z360.toFixed(4);
             return finalValue;
         },
 
