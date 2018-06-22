@@ -514,7 +514,7 @@ export default class GlobalConfig extends Component {
                 keywords: nextProps.globalConfig.keywords || [],
                 version: nextProps.globalConfig.version || '0.0.0',
                 status: nextProps.globalConfig.status || 'draft',
-                context: nextProps.globalConfig.context || 'school',
+                context: nextProps.globalConfig.context,
                 hideGlobalScore: nextProps.globalConfig.hideGlobalScore || false,
                 minTimeProgress: nextProps.globalConfig.minTimeProgress || 30,
                 visorNav: nextProps.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
