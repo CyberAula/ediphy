@@ -21,7 +21,7 @@ export function VirtualReality(base) {
                 needsTextEdition: false,
                 initialWidth: '450px',
                 initialHeight: "450px",
-                initialWidthSlide: '70%',
+                initialWidthSlide: '60%',
                 initialHeightSlide: '50%',
                 icon: 'event_seat',
                 needsPointerEventsAllowed: true,
@@ -135,7 +135,7 @@ export function VirtualReality(base) {
             let y360 = R * Math.sin(ang[0]) * Math.sin(ang[1]) + yMet;
             let z360 = -R * Math.cos(ang[1]);
 
-            let finalValue = x360.toFixed(4) + "," + y360.toFixed(4) + "," + z360.toFixed(4);
+            let finalValue = x360.toFixed(2) + "," + y360.toFixed(2) + "," + z360.toFixed(2);
             return finalValue;
         },
 
@@ -171,7 +171,7 @@ export function VirtualReality(base) {
             x = R * Math.sin(ang[0]) * Math.cos(ang[1]) + x;
             y = R * Math.sin(ang[0]) * Math.sin(ang[1]) + y;
             let z = -R * Math.cos(ang[1]);
-            let finalValue = x.toFixed(4) + "," + y.toFixed(4) + "," + z.toFixed(4);
+            let finalValue = x.toFixed(2) + "," + y.toFixed(2) + "," + z.toFixed(2);
             return finalValue;
         },
     };
