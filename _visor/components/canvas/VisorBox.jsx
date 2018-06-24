@@ -174,6 +174,13 @@ export default class VisorBox extends Component {
         }
         return React.createElement(component, props, children);
     }
+
+    componentDidMount() {
+        let toolbar = this.props.toolbars[this.props.id];
+        let pluginAPI = Ediphy.Visor.Plugins.get(toolbar.pluginId);
+        let content = this.refs.content;
+        pluginAPI.afterRender(content, toolbar.state);
+    }
 }
 
 VisorBox.propTypes = {

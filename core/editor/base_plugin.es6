@@ -372,28 +372,19 @@ export default function() {
             }
             return undefined;
         },
-        /* Esta función es para poder comprobar si los valores introducidos por el usuario al crear marcas son correctos*/
         validateValueInput: function(value) {
             if(descendant.validateValueInput) {
                 return descendant.validateValueInput(value);
             }
             return undefined;
         },
-
         afterRender: function(element, oldState) {
             if (descendant.afterRender) {
                 descendant.afterRender(element, oldState);
             }
         },
-        /* setState: function(key, value) {
-            // chose if modify here or after
-            state[key] = value;
+        /* registerExtraFunction: function() {
         },*/
-        /* getState: function() {
-            return state;
-        },*/
-        registerExtraFunction: function() {
-        },
     };
 
     return plugin;
