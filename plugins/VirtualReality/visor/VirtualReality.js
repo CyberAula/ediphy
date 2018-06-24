@@ -5,7 +5,8 @@ import VirtualRealityPlugin from '../components/VirtualRealityPlugin';
 export function VirtualReality(base) {
     return {
         getRenderTemplate: function(state, props) {
-            return <VirtualRealityPlugin state={state} id={props.id} marks={props.marks} onMarkClicked={props.onMarkClicked}/>;
+            return <VirtualRealityPlugin state={state} id={props.id}
+                marks={props.marks} onMarkClicked={props.onMarkClicked}/>;
         },
 
     };

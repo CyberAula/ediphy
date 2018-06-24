@@ -11,11 +11,11 @@ export default class VirtualRealityPlugin extends React.Component {
     }
     render() {
         return (
-            <iframe allow="vr" width= '100%' height= '100%' src={'http://localhost:8081/index.html?id=' + this.props.id + "&visor=true"} id="receiver" />
+            <iframe allow="vr" width= '100%' height= '100%'
+                src={'http://localhost:8081/index.html?id=' + this.props.id + "&visor=true"} id="receiver" />
         );
     }
     componentDidMount() {
-
         this.toolbarUpdateValue();
     }
     componentDidMount() {
@@ -48,7 +48,8 @@ export default class VirtualRealityPlugin extends React.Component {
             for (let i = 0; i < numberOfPictures; i++) {
                 imgs.push({ currentImg: props.state['urlPanel' + i] });
             }
-            receiverWindow.postMessage({ imagenBack, urlBack, audioBack: { play: audioBack }, imgs, showPanel: { show: showPanel }, marks: props.marks }, "*");
+            receiverWindow.postMessage({ msg: 'DATA', imagenBack, urlBack, audioBack: { play: audioBack },
+                imgs, showPanel: { show: showPanel }, marks: props.marks }, "*");
         }
 
     }

@@ -8,9 +8,6 @@ import Mark from '../../common/components/mark/Mark';
 /* eslint-disable react/prop-types */
 export function VirtualReality(base) {
     return {
-        init: function() {
-            base.registerExtraFunction(this.toolbarChangeValues, "toolbarChanges");
-        },
         getConfig: function() {
             return {
                 name: 'VirtualReality',
@@ -26,7 +23,8 @@ export function VirtualReality(base) {
                 icon: 'event_seat',
                 needsPointerEventsAllowed: true,
                 isRich: true,
-                marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y,z]', default: '0,0,0', defaultColor: '#17CFC8' }],
+                marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value',
+                    format: '[x,y,z]', default: '0,0,0', defaultColor: '#17CFC8' }],
 
             };
         },
@@ -112,7 +110,8 @@ export function VirtualReality(base) {
             return (
                 <div style={{ height: "100%", width: "100%" }} className={'VRPlugin'}>
 
-                    <div className="dropableRichZone" style={{ height: "100%", width: "100%", position: 'absolute', top: 0, left: 0 }} />
+                    <div className="dropableRichZone" style={{ height: "100%",
+                        width: "100%", position: 'absolute', top: 0, left: 0 }} />
                     <VirtualRealityPluginEditor id={props.id} state={state} marks={marks} />
 
                 </div>);
@@ -124,8 +123,8 @@ export function VirtualReality(base) {
 
             // const RATIO = 70;
             const R = 4;
-            let xMet = xPix / value[2] * 8;
-            let yMet = yPix / value[3] * 8;
+            let xMet = xPix / value[2] * 10;
+            let yMet = yPix / value[3] * 5;
 
             let vrApp = document.querySelector('#box-' + value[6] + ' .VR');
             let ang = [vrApp.getAttribute('data-x'), vrApp.getAttribute('data-y'), vrApp.getAttribute('data-z')];

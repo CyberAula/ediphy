@@ -11,7 +11,9 @@ export default class VirtualRealityPluginEditor extends React.Component {
         this.receiver = this.receiver.bind(this);
     }
     render() {
-        return (<iframe className={'VR'} allow="vr" width= '100%' height= '100%' data-x={this.state.position[0]} data-y={this.state.position[1]} data-z={this.state.position[2]} src={'http://localhost:8081/index.html?id=' + this.props.id + "&visor=false"} id="receiver" />);
+        return (<iframe className={'VR'} allow="vr" width= '100%' height= '100%'
+            data-x={this.state.position[0]} data-y={this.state.position[1]} data-z={this.state.position[2]}
+            src={'http://localhost:8081/index.html?id=' + this.props.id + "&visor=false"} id="receiver" />);
     }
     componentDidMount() {
         window.addEventListener("message", this.receiver);
@@ -44,7 +46,8 @@ export default class VirtualRealityPluginEditor extends React.Component {
             for (let i = 0; i < numberOfPictures; i++) {
                 imgs.push({ currentImg: props.state['urlPanel' + i] });
             }
-            receiverWindow.postMessage({ imagenBack, urlBack, audioBack: { play: audioBack }, showPanel: { show: showPanel }, imgs, marks: props.marks }, "*");
+            receiverWindow.postMessage({ msg: 'DATA', imagenBack, urlBack, audioBack: { play: audioBack },
+                showPanel: { show: showPanel }, imgs, marks: props.marks }, "*");
         }
 
     }
