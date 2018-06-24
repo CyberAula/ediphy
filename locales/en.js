@@ -137,6 +137,7 @@ let en = {
             "description": "Description",
             "description_placeholder": "Briefly describe what the document is about",
             "dif": {
+                'undefined': 'not specified',
                 'very easy': 'very easy',
                 'easy': 'easy',
                 'medium': 'medium',
@@ -322,6 +323,7 @@ let en = {
             "export_to_label": "Choose how to export the document",
             "export_to_SCORM": "Export to SCORM",
             "export_to": "Export to",
+            "forbidden": "You cannot modified the license of a resource that has already been published",
             "fullscreen": "Activate full screen mode",
             "global_config": "Global Config",
             "go_back": "Go back",
@@ -343,6 +345,7 @@ let en = {
             "publish_tooltip": "Makes the course available for the public",
             "publish_alert_title": "Publish this document",
             "publish_alert_text": "This action will publish your document in the public repository. It means that everybody can reuse it.",
+            "publish_not_allowed": "Add a title and a thumbnail to your resource before publishing it. In order to do this access Menu > Global Configuration.",
             "redo": "Redo the last action",
             "RemoveBox": "Delete one box",
             "remove_answer": "Remove answer",

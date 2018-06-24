@@ -190,7 +190,7 @@ export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
     if (!apiPlugin) {
         return;
     }
-    let { initialParams, template, config, toolbar, state } = apiPlugin.getInitialParams(ids);
+    let { initialParams, template, config, toolbar, state } = apiPlugin.getInitialParams({ ...ids, slide });
     let styles = {};
     try {
         if (toolbar.main && toolbar.main.accordions && toolbar.main.accordions.style) {

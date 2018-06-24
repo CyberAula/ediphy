@@ -138,6 +138,7 @@ let es = {
             "description": "Descripción",
             "description_placeholder": "Describa brevemente de qué trata el documento",
             "dif": {
+                'undefined': 'sin especificar',
                 'very easy': 'muy fácil',
                 'easy': 'fácil',
                 'medium': 'medio',
@@ -322,6 +323,7 @@ let es = {
             "export_to_label": "Elige cómo quieres exportar el documento",
             "export_to_SCORM": "Exportar a SCORM",
             "export_to": "Exportar a",
+            "forbidden": "No se puede modificar la licencia de un recurso que ya ha sido publicado",
             "fullscreen": "Ampliar a pantalla completa",
             "global_config": "Configuración Global",
             "go_back": "Volver",
@@ -343,6 +345,7 @@ let es = {
             "publish_tooltip": "Permite que el curso esté disponible al público",
             "publish_alert_title": "Publicar este documento",
             "publish_alert_text": "Con esta acción compartes este documento de forma pública. Significa que cualquier usuario puede tener acceso a reutilizarlo.",
+            "publish_not_allowed": "Añade un título y una imagen a tu documento antes de publicarlo. Para hacer esto accede a Menú > Configuración global.",
             "redo": "Rehace la última acción",
             "RemoveBox": "Borra una caja",
             "remove_answer": "Borrar respuesta",

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import i18n from 'i18next';
 import ViewToolbar from '../view_toolbar/ViewToolbar';
 import PluginToolbar from '../plugin_toolbar/PluginToolbar';
-import { isCanvasElement } from "../../../../common/utils";
+import { isCanvasElement, isSlide } from "../../../../common/utils";
 import Ediphy from "../../../../core/editor/main";
 import PropTypes from 'prop-types';
 import {
@@ -44,7 +44,8 @@ export default class Toolbar extends Component {
                 onScoreConfig={(id, button, value, page) => {this.props.onScoreConfig(id, button, value, this.props.navItemSelected);}}
                 toggleToolbar={()=>this.toggleToolbar()} />;
 
-            title = (this.props.viewToolbars[this.props.navItemSelected].viewName || "");
+            // title = (this.props.viewToolbars[this.props.navItemSelected].viewName || "");
+            title = ((isSlide(this.props.navItems[this.props.navItemSelected].type) ? (this.props.navItems[this.props.navItemSelected].customSize === 0 ? i18n.t('slide') : "PDF") : i18n.t('page')) || "");
         } else {
             exercises = this.props.exercises[this.props.navItemSelected].exercises[this.props.boxSelected];
             toolbar = <PluginToolbar {...this.props}

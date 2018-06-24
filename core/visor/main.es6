@@ -212,7 +212,7 @@ export default {
                                     let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), true);
                                     zip.file(Ediphy.Config.dist_index, content);
                                     zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);
-                                    zip_title = state.globalConfig.title;
+                                    zip_title = state.globalConfig.title || 'Ediphy';
                                     Ediphy.Visor.includeImage(zip, filesUploaded, usedNames, (zipFile) => {
 
                                         zipFile.generateAsync({ type: "blob" }).then(function(blob) {

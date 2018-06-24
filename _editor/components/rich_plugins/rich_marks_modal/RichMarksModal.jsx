@@ -445,6 +445,20 @@ export default class RichMarksModal extends Component {
         return Object.assign({}, ...objects);
     }
 
+    toggleModal(e) {
+        let key = e.keyCode ? e.keyCode : e.which;
+        if (key === 27 && this.props.visible) {
+            this.props.onRichMarksModalToggled();
+        }
+    }
+
+    componentDidMount() {
+        window.addEventListener('keyup', this.toggleModal.bind(this));
+    }
+    componentWillUnmount() {
+        window.removeEventListener('keyup', this.toggleModal.bind(this));
+    }
+
 }
 
 RichMarksModal.propTypes = {

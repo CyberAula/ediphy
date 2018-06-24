@@ -49,7 +49,8 @@ export default class VisorCanvasSli extends Component {
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = isCV ? this.props.containedViews[this.props.currentView].boxes || [] : this.props.navItems[this.props.currentView].boxes || [];
-        let thisView = this.props.viewsArray && this.props.viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(this.props.viewsArray[this.props.viewsArray.length - 2]) ? this.props.containedViews[this.props.viewsArray[this.props.viewsArray.length - 2]].name : this.props.navItems[this.props.viewsArray[this.props.viewsArray.length - 2]].name)) : i18n.t('messages.go_back');
+        let thisView = this.props.viewsArray && this.props.viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(this.props.viewsArray[this.props.viewsArray.length - 2]) ? this.props.viewToolbars[this.props.viewsArray[this.props.viewsArray.length - 2]].viewName : this.props.viewToolbars[this.props.viewsArray[this.props.viewsArray.length - 2]].viewName)) : i18n.t('messages.go_back');
+
         let backgroundIsUri = (/data\:/).test(toolbar.background);
         let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(toolbar.background);
 
@@ -57,7 +58,6 @@ export default class VisorCanvasSli extends Component {
             <Tooltip id="tooltip">{thisView}</Tooltip>
         );
         let animationType = "animation-zoom";
-        console.log(this.props.fromPDF);
         let padding = (this.props.fromPDF ? '0px' : '');
         return (
             <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={"canvasSliClass " + (isCV ? animationType : "")}
@@ -156,13 +156,11 @@ export default class VisorCanvasSli extends Component {
         let fromCV = !isView(props.currentView);
         let ar = props.canvasRatio;
         let itemSel = props.navItems[props.currentView] || props.containedViews[props.currentView];
-        console.log(itemSel);
         let customSize = itemSel.customSize;
         let calculated = aspectRatio(ar, fromCV ? 'airlayer_cv' : 'airlayer', fromCV ? 'containedCanvas' : 'canvas', customSize);
         let { width, height, marginTop, marginBottom } = state;
         let current = { width, height, marginTop, marginBottom };
         if (JSON.stringify(calculated) !== JSON.stringify(current)) {
-            console.log('wwwwww');
             this.setState({ ...calculated });
         }
 

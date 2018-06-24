@@ -78,6 +78,7 @@ export default class PluginConfigModal extends Component {
             <Modal className="pageModal pluginconfig"
                 backdrop="static"
                 bsSize="large"
+                keyboard
                 show={this.props.id}
                 onHide={()=>{ this.setState({ show: false, reason: null }); }}>
                 <Modal.Header /* closeButton*/>
@@ -117,15 +118,7 @@ export default class PluginConfigModal extends Component {
      * After component mounts.
      * Gets configuration from Plugin API
      */
-    componentDidMount() {
-        /* Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.openConfig, (e) => {
-            this.setState({ show: true, pluginActive: e.detail.name, reason: e.detail.reason });
-        });
 
-        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.configModalNeedsUpdate, (e)=>{
-            this.forceUpdate();
-        });*/
-    }
 }
 PluginConfigModal.propTypes = {
     /**

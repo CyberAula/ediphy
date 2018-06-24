@@ -162,7 +162,7 @@ export default function() {
             params.name = config.name;
             params.isDefaultPlugin = defaultFor(initParams.isDefaultPlugin, false);
             if (params && Object.keys(params) && Object.keys(params).length > 1) {
-                let floatingBox = !isSortableContainer(params.container);
+                let floatingBox = initParams.slide; // !isSortableContainer(params.container);
                 if (config.initialWidth && !initParams.width) {
                     params.width = floatingBox && config.initialWidthSlide ? config.initialWidthSlide : config.initialWidth;
                 }
@@ -383,8 +383,6 @@ export default function() {
                 descendant.afterRender(element, oldState);
             }
         },
-        /* registerExtraFunction: function() {
-        },*/
     };
 
     return plugin;
