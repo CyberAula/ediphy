@@ -140,7 +140,7 @@ export default class Clipboard extends Component {
         if (this.props.boxSelected && this.props.boxes[this.props.boxSelected] && isBox(this.props.boxSelected)) {
             parent = this.props.boxes[this.props.boxSelected].parent;
             container = this.props.boxes[this.props.boxSelected].container;
-            isTargetSlide = container === 0;
+            // isTargetSlide = container === 0;
             newInd = this.getIndex(parent, container);
         }
         let ids = { id, parent, container, page: page ? page.id : 0 };
@@ -257,7 +257,7 @@ export default class Clipboard extends Component {
                 if (this.props.boxSelected && this.props.boxes[this.props.boxSelected] && isBox(this.props.boxSelected)) {
                     parent = this.props.boxes[this.props.boxSelected].parent;
                     container = this.props.boxes[this.props.boxSelected].container;
-                    isTargetSlide = container === 0;
+                    // isTargetSlide = container === 0;
                     row = this.props.boxes[this.props.boxSelected].row;
                     col = this.props.boxes[this.props.boxSelected].col;
                     newInd = this.getIndex(parent, container);
@@ -294,7 +294,7 @@ export default class Clipboard extends Component {
                         col: col,
                         index: newInd,
                         page: page ? page.id : 0,
-                        position: isTargetSlide ? {
+                        position: isTargetSlide && container === 0 ? {
                             type: "absolute",
                             x: randomPositionGenerator(20, 40),
                             y: randomPositionGenerator(20, 40),
@@ -333,6 +333,9 @@ export default class Clipboard extends Component {
      * Modifies pasted box so it adapts to its new parent
      */
     transformBox(box, ids, isTargetSlide, isOriginSlide) {
+        console.log(box, ids);
+        let samePage = isTargetSlide && box.parent === ids.parent;
+        console.log(samePage);
         let newIds = {};
         let newContainerBoxes = {};
         let ind = 0;
@@ -352,8 +355,8 @@ export default class Clipboard extends Component {
             parent: ids.parent,
             position: isTargetSlide ? {
                 type: "absolute",
-                x: randomPositionGenerator(20, 40),
-                y: randomPositionGenerator(20, 40),
+                x: !samePage ? box.position.x : randomPositionGenerator(20, 40),
+                y: !samePage ? box.position.y : randomPositionGenerator(20, 40),
             } : { type: "relative", x: "0%", y: "0%" },
             resizable: isTargetSlide,
             row: ids.row || 0,
@@ -386,6 +389,10 @@ export default class Clipboard extends Component {
                 newToolbar.structure.heightUnit = config.initialHeight.indexOf('px') !== -1 ? "px" : "%";
 
             }
+        }
+        if (isTargetSlide) {
+            newToolbar.structure.widthUnit = "%";
+            newToolbar.structure.heightUnit = "%";
         }
         return newToolbar;
 
