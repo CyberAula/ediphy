@@ -213,22 +213,39 @@ button[disabled].navButton {
   .showonresize{
     display: block !important;
   }
-  .navButtonPlug {
-    min-width: 56px;
+  .pluginsMenu {
+    width:35%;
+    .navButtonPlug {
+      min-width: 50px;
     width: auto;
     padding: 4px;
     .active {
       color: white !important;
     }
+  } }
+  .navButton {
+    min-width: 50px;
+    max-width: 50px;
   }
 }
 
-@media screen and (max-width: 700px) {
-  .navButtonPlug {
-    min-width: 12px;
-    width: auto;
-    .active {
-      color: white !important;
+@media screen and (max-width: 800px) {
+
+  .navButton {
+    min-width: 20px;
+    max-width: 35px;
+  }
+  .pluginsMenu {
+    .navButtonPlug {
+      min-width: 20%;
+      max-width:20%;
+      width: auto;
+      .active {
+        color: white !important;
+      }
+    }
+    width: 30%;
+    .navButtonPlug {
     }
   }
 }
