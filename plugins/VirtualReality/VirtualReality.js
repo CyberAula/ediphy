@@ -123,16 +123,18 @@ export function VirtualReality(base) {
 
             // const RATIO = 70;
             const R = 4;
-            let xMet = xPix / value[2] * 10;
-            let yMet = yPix / value[3] * 5;
+            // let xMet = xPix / value[2] * 10;
+            // let yMet = yPix / value[3] * 5;
 
+            let xMet = -xPix / value[2] * 1.75 * Math.PI / 3;
+            let yMet = yPix / value[3] * 2 * Math.PI / 3 * value[3] / value[2];
             let vrApp = document.querySelector('#box-' + value[6] + ' .VR');
             let ang = [vrApp.getAttribute('data-x'), vrApp.getAttribute('data-y'), vrApp.getAttribute('data-z')];
             ang = ang.map(a => a * Math.PI / 180);
 
-            let x360 = R * Math.sin(ang[0]) * Math.cos(ang[1]) + xMet;
-            let y360 = R * Math.sin(ang[0]) * Math.sin(ang[1]) + yMet;
-            let z360 = -R * Math.cos(ang[1]);
+            let x360 = -R * Math.sin(ang[1] + xMet) * Math.cos(ang[0] + yMet);
+            let y360 = R * Math.sin(ang[0] + yMet);
+            let z360 = -R * Math.cos(ang[0] + yMet) * Math.cos(ang[1] + xMet);
 
             let finalValue = x360.toFixed(2) + "," + y360.toFixed(2) + "," + z360.toFixed(2);
             return finalValue;
@@ -158,18 +160,19 @@ export function VirtualReality(base) {
             return;
         },
         getDefaultMarkValue(state, id) {
-            let x = 0;
-            let y = 0;
+            let x, y, z = 0;
             const R = 4;
             let vrApp = document.querySelector('#box-' + id + ' .VR');
             let ang = [0, 0, 0];
             if (vrApp) {
                 ang = [vrApp.getAttribute('data-x'), vrApp.getAttribute('data-y'), vrApp.getAttribute('data-z')];
             }
+            ang = ang.map(a=>a * Math.PI / 180);
 
-            x = R * Math.sin(ang[0]) * Math.cos(ang[1]) + x;
-            y = R * Math.sin(ang[0]) * Math.sin(ang[1]) + y;
-            let z = -R * Math.cos(ang[1]);
+            x = -R * Math.sin(ang[1]) * Math.cos(ang[0]);// + x;
+            y = R * Math.sin(ang[0]); // + y;
+            z = -R * Math.cos(ang[0]) * Math.cos(ang[1]);
+
             let finalValue = x.toFixed(2) + "," + y.toFixed(2) + "," + z.toFixed(2);
             return finalValue;
         },
