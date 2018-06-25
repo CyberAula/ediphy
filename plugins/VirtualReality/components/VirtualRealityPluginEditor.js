@@ -13,7 +13,7 @@ export default class VirtualRealityPluginEditor extends React.Component {
     render() {
         return (<iframe className={'VR'} allow="vr" width= '100%' height= '100%'
             data-x={this.state.position[0]} data-y={this.state.position[1]} data-z={this.state.position[2]}
-            src={'http://localhost:8081/index.html?id=' + this.props.id + "&visor=false"} id="receiver" />);
+            src={'VR/index.html?id=' + this.props.id + "&visor=false"} id="receiver" />);
     }
     componentDidMount() {
         window.addEventListener("message", this.receiver);

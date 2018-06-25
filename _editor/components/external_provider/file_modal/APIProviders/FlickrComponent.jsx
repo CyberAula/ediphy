@@ -68,7 +68,7 @@ export default class FlickrComponent extends React.Component {
                         let results = imgs.items.map(img=>{
                             return {
                                 title: img.title,
-                                url: img.media.m.replace(/_m/i, ""),
+                                url: img.media.m.replace(/_h/i, ""),
                             };
                         });
 
