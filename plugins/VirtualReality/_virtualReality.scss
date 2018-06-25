@@ -2,8 +2,6 @@
   .VR {
     pointer-events: none;
   }
-
-
   .dropableRichZone{
     display:none;
     &.rich_overlay {
@@ -11,6 +9,13 @@
       display:block;
     }
   }
+  iframe{
+    border: none;
+  }
+}
+
+.VRvisor{
+  border: none;
 }
 
 .pointerEventsEnabled .VR {

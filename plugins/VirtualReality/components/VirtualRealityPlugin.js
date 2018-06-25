@@ -11,7 +11,7 @@ export default class VirtualRealityPlugin extends React.Component {
     }
     render() {
         return (
-            <iframe allow="vr" width= '100%' height= '100%'
+            <iframe allow="vr" width='100%' height='100%' className={'VRvisor'}
                 src={'VR/index.html?id=' + this.props.id + "&visor=true"} id="receiver" />
         );
     }
