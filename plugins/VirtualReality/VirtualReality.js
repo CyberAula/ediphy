@@ -17,7 +17,7 @@ export function VirtualReality(base) {
                 needsConfigModal: false,
                 needsTextEdition: false,
                 initialWidth: '450px',
-                initialHeight: "450px",
+                initialHeight: "auto",
                 initialWidthSlide: '60%',
                 initialHeightSlide: '50%',
                 icon: 'event_seat',
