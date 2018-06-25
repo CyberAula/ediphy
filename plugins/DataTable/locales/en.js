@@ -1,6 +1,6 @@
 module.exports = {
     "DataTable": {
-        "PluginName": "DataTable",
+        "PluginName": "Table",
         "style": "Style",
         "margin": "Margin",
         "left": "Left",
