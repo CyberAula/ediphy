@@ -58,7 +58,7 @@ export default class NavActionButtons extends Component {
                 name: 'save',
                 description: i18n.t('Save'),
                 tooltip: i18n.t('messages.save_changes'),
-                display: true,
+                display: !Ediphy.Config.disable_save_button,
                 // display: (!Ediphy.Config.disable_save_button && (Ediphy.Config.publish_button === undefined || !Ediphy.Config.publish_button)),
                 disabled: false,
                 icon: 'save',

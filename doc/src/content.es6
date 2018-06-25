@@ -51,6 +51,20 @@ export const srcTree = (lang = "es") => {
                     src: ("Manual/Manual_Plugins" + langPath + ".md"),
                 },
                 4: {
+                    path: '/manual/import',
+                    title: i18n.t("title.Import"),
+                    md: true,
+                    fromURL: true,
+                    src: ("Manual/Manual_Import" + langPath + ".md"),
+                },
+                5: {
+                    path: '/manual/export',
+                    title: i18n.t("title.Export"),
+                    md: true,
+                    fromURL: true,
+                    src: ("Manual/Manual_Export" + langPath + ".md"),
+                },
+                6: {
                     path: '/manual/acciones',
                     title: i18n.t("title.Additional"),
                     md: true,
