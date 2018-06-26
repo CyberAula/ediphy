@@ -157,7 +157,7 @@ export default {
         genStrucSource.appendChild(genStrucSourceTxt);
         genStruc.appendChild(genStrucSource);
         let genStrucVal = doc.createElement('value');
-        let genStrucValTxt = doc.createTextNode('linear'); // DEFAULT
+        let genStrucValTxt = doc.createTextNode('hierarchical'); // DEFAULT
         genStrucVal.appendChild(genStrucValTxt);
         genStruc.appendChild(genStrucVal);
         general.appendChild(genStruc);
@@ -167,7 +167,7 @@ export default {
         genAggLevelSource.appendChild(genAggLevelSourceTxt);
         genAggLevel.appendChild(genAggLevelSource);
         let genAggLVal = doc.createElement('value');
-        let genAggLValTxt = doc.createTextNode('3'); // DEFAULT
+        let genAggLValTxt = doc.createTextNode('2'); // DEFAULT
         genAggLVal.appendChild(genAggLValTxt);
         genAggLevel.appendChild(genAggLVal);
         general.appendChild(genAggLevel);
@@ -217,6 +217,7 @@ export default {
         lcsv.appendChild(lcsvTxt);
         lcs.appendChild(lcsv);
         lifeCycle.appendChild(lcs);
+
         let lcc = doc.createElement('contribute');
         let lccrole = doc.createElement('role');
         let lccrolesource = doc.createElement('source');
@@ -224,12 +225,13 @@ export default {
         lccrolesource.appendChild(lccrolesourcetxt);
         lccrole.appendChild(lccrolesource);
         let lccroleval = doc.createElement('value');
-        let lccrolevaltxt = doc.createTextNode('technical implementer');
+        let lccrolevaltxt = doc.createTextNode('author');
         lccroleval.appendChild(lccrolevaltxt);
         lccrole.appendChild(lccroleval);
         lcc.appendChild(lccrole);
+
         let lccEntity = doc.createElement('entity'); // Entity
-        let lcEntTxt = doc.createTextNode('BEGIN:VCARD&#xD;VERSION:3.0&#xD;N:Authoring Tool Ediphy Editor (http://github.com/ging/ediphy)&#xD;FN:Authoring Tool Ediphy Editor (http://github.com/ging/ediphy)&#xD;END:VCARD'); // / Yet to determine
+        let lcEntTxt = doc.createTextNode('BEGIN:VCARD&amp;#xD;VERSION:3.0&amp;#xD;N:' + (gc.author || 'anonymous') + '&amp;#xD;FN:Sonsoles López Pernas&amp;#xD;END:VCARD'); // / Yet to determine
         lccEntity.appendChild(lcEntTxt);
         lcc.appendChild(lccEntity);
         let lccDate = doc.createElement('date'); // Date
@@ -239,6 +241,30 @@ export default {
         lccDate.appendChild(lccDateTime);
         lcc.appendChild(lccDate);
         lifeCycle.appendChild(lcc);
+
+        let lcca = doc.createElement('contribute');
+        let lccrolea = doc.createElement('role');
+        let lccrolesourcea = doc.createElement('source');
+        let lccrolesourcetxta = doc.createTextNode('LOMv1.0');
+        lccrolesourcea.appendChild(lccrolesourcetxta);
+        lccrolea.appendChild(lccrolesourcea);
+        let lccrolevala = doc.createElement('value');
+        let lccrolevaltxta = doc.createTextNode('technical implementer');
+        lccrolevala.appendChild(lccrolevaltxta);
+        lccrolea.appendChild(lccrolevala);
+        lcca.appendChild(lccrolea);
+        let lccEntitya = doc.createElement('entity'); // Entity
+        let lcEntTxta = doc.createTextNode('BEGIN:VCARD&#xD;VERSION:3.0&#xD;N:Authoring Tool Ediphy Editor (http://github.com/ging/ediphy)&#xD;FN:Authoring Tool Ediphy Editor (http://github.com/ging/ediphy)&#xD;END:VCARD'); // / Yet to determine
+        lccEntitya.appendChild(lcEntTxta);
+        lcca.appendChild(lccEntitya);
+        let lccDatea = doc.createElement('date'); // Date
+        let lccDateTimea = doc.createElement('dateTime');
+        let lccDateTimeTxta = doc.createTextNode(date);
+        lccDateTimea.appendChild(lccDateTimeTxta);
+        lccDatea.appendChild(lccDateTimea);
+        lcca.appendChild(lccDatea);
+        lifeCycle.appendChild(lcca);
+
         return lifeCycle;
     },
     technicalCreator: function(gc, doc) {
@@ -269,7 +295,7 @@ export default {
         orCNSource.appendChild(orcnsTxt);
         orCName.appendChild(orCNSource);
         let orCNValue = doc.createElement('value');
-        let orcnvTxt = doc.createTextNode('browser');
+        let orcnvTxt = doc.createTextNode('any');
         orCNValue.appendChild(orcnvTxt);
         orCName.appendChild(orCNValue);
         orComposite.appendChild(orCName);
@@ -360,7 +386,7 @@ export default {
         ilSource.appendChild(ilSourceTxt);
         interactivityLevel.appendChild(ilSource);
         let ilValue = doc.createElement('value');
-        let ilValueTxt = doc.createTextNode('medium');// ///////// Yet to determine
+        let ilValueTxt = doc.createTextNode('very high');// ///////// Yet to determine
         ilValue.appendChild(ilValueTxt);
         interactivityLevel.appendChild(ilValue);
         educational.appendChild(interactivityLevel);
@@ -406,7 +432,6 @@ export default {
             context.appendChild(contValue);
             educational.appendChild(context);
         }
-        console.log(gc.context);
 
         if (gc.age && !(gc.age.min === 0 && gc.age.max === 100)) {
             let typicalAgeRange = doc.createElement('typicalAgeRange');
@@ -516,11 +541,13 @@ export default {
         let caorValueTxt = doc.createTextNode('yes');
         caorValue.appendChild(caorValueTxt);
         copyrightAndOtherRestrictions.appendChild(caorValue);
-        rights.appendChild(copyrightAndOtherRestrictions);
+        if (gc.status !== 'Open Domain') {
+            rights.appendChild(copyrightAndOtherRestrictions);
+        }
         let rightsDesc = doc.createElement('description');
         let rightsDescStr = doc.createElement("string");
         rightsDescStr.setAttribute('language', 'en');
-        let rightsDescStrTxt = doc.createTextNode('Open License');
+        let rightsDescStrTxt = doc.createTextNode(gc.rights);
         rightsDescStr.appendChild(rightsDescStrTxt);
         rightsDesc.appendChild(rightsDescStr);
         rights.appendChild(rightsDesc);
