@@ -586,6 +586,7 @@ class EditorApp extends Component {
                 <ExitModal
                     showExitModal={this.state.showExitModal}
                     closeExitModal={()=>{this.setState({ showExitModal: false });}}
+                    status={status}
                     publishing={(value) =>this.setState({ publishing: value })}
                     save={(win, url) => {dispatch(exportStateAsync({ ...this.props.store.getState() }, win, url)); }}
                 />

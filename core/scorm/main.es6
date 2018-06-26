@@ -419,9 +419,9 @@ export default {
             let contValue = doc.createElement('value');
             let realContext = gc.context;
             switch(realContext) {
-            case 'elementary_school':
-            case 'middle_school':
-            case 'high_school':
+            case 'preschool':
+            case 'peducation':
+            case 'seducation':
                 realContext = 'school';
                 break;
             default:
