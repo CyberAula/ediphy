@@ -30,9 +30,9 @@ export function statusOptions() {
  */
 export function contextOptions() {
     return [
-        { label: i18n.t("global_config.context_list.primary_school"), value: 'elementary_school' },
-        { label: i18n.t("global_config.context_list.secondary_school"), value: 'middle_school' },
-        { label: i18n.t("global_config.context_list.bach_school"), value: 'high_school' },
+        { label: i18n.t("global_config.context_list.primary_school"), value: 'preschool' },
+        { label: i18n.t("global_config.context_list.secondary_school"), value: 'peducation' },
+        { label: i18n.t("global_config.context_list.bach_school"), value: 'seducation' },
         { label: i18n.t("global_config.context_list.high_education"), value: 'higher education' },
         { label: i18n.t("global_config.context_list.training"), value: 'training' },
         { label: i18n.t("global_config.context_list.other"), value: 'other' }];
