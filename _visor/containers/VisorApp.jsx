@@ -140,12 +140,15 @@ export default class Visor extends Component {
 
                 let index = navItemsIds.indexOf(navItemSelected);
                 let maxIndex = navItemsIds.length;
-
-                if (key === 37 || key === 33) {
-                    this.changeCurrentView(navItemsIds[Math.max(index - 1, 0)]);
-                } else if(key === 39 || key === 34) {
-                    this.changeCurrentView(navItemsIds[Math.min(index + 1, maxIndex - 1)]);
+                let focusElement = document.activeElement.tagName.toLowerCase();
+                if (focusElement !== 'input' && focusElement !== 'textarea') {
+                    if (key === 37 || key === 33) {
+                        this.changeCurrentView(navItemsIds[Math.max(index - 1, 0)]);
+                    } else if(key === 39 || key === 34) {
+                        this.changeCurrentView(navItemsIds[Math.min(index + 1, maxIndex - 1)]);
+                    }
                 }
+
             }.bind(this);
 
         }

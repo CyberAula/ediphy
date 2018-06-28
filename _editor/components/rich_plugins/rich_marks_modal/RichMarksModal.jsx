@@ -94,6 +94,7 @@ export default class RichMarksModal extends Component {
         let plugin = (this.props.pluginToolbar && this.props.pluginToolbar.pluginId && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId)) ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId) : undefined;
         let defaultMarkValue = plugin ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getDefaultMarkValue(this.props.pluginToolbar.state) : '';
         let pluginType = (this.props.pluginToolbar && this.props.pluginToolbar.config) ? this.props.pluginToolbar.config.displayName : 'Plugin';
+        let config = plugin ? plugin.getConfig() : null;
         return (
             <Modal className="pageModal richMarksModal" backdrop bsSize="large" show={this.props.visible}>
                 <Modal.Header>
@@ -240,11 +241,11 @@ export default class RichMarksModal extends Component {
                             <Col xs={4} md={2}>
                                 <ControlLabel>{marksType.name ? marksType.name : i18n.t("marks.value")}</ControlLabel><br/>
                                 <ControlLabel style={{ color: 'grey', fontWeight: 'lighter', marginTop: '-5px' }}>
-                                    {(this.props.pluginToolbar && this.props.pluginToolbar.config &&
-                                    this.props.pluginToolbar.config.marksType &&
-                                    this.props.pluginToolbar.config.marksType[0] &&
-                                    this.props.pluginToolbar.config.marksType[0].format) ?
-                                        this.props.pluginToolbar.config.marksType[0].format : "x,y"}
+                                    {(config &&
+                                    config.marksType &&
+                                    config.marksType[0] &&
+                                    config.marksType[0].format) ?
+                                        config.marksType[0].format : "x,y"}
                                 </ControlLabel>
 
                             </Col>

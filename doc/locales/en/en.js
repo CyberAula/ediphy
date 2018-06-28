@@ -9,6 +9,8 @@ let en = {
             "UserManual": "User manual",
             "CourseStructure": "Course Structure",
             "Plugins": "Plugins",
+            "Import": "Impor content",
+            "Export": "Export content",
             "Additional": "Additional actions",
             "Docs": "Docs",
             "Intro": "Introduction",
