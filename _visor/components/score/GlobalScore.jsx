@@ -14,8 +14,8 @@ export default class GlobalScore extends Component {
                     <h5 id="userName"><i className="material-icons">person</i> <span>{userName}</span></h5>
                     {/* <span className="scoreField">{isPassed}</span>*/}
                     <h6 id="score">
-                        <span className="scoreField"><i className="material-icons">insert_chart</i> {totalScore + "/" + totalWeight} </span>
-                        <span className="scoreField"><i className="material-icons">pie_chart</i> {score} </span><br/>
+                        <span className="scoreField scoreField1"><i className="material-icons">insert_chart</i> {totalScore + "/" + totalWeight} </span>
+                        <span className="scoreField scoreField2"><i className="material-icons">pie_chart</i> {score} </span><br/>
 
                     </h6>
                     <span className="progressField"> {progress} </span>

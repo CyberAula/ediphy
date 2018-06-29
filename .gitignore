@@ -7,6 +7,7 @@ dist/prod/*
 *.log
 webpack.config.js~
 *.orig
+*.snap
 .sass-cache
 ediphy_server/config.json
 ediphy_server/node_modules
