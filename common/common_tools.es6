@@ -265,3 +265,16 @@ export function blurCKEditor(id, callback) {
 export function getRandomColor() {
     return `#${Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, 0)}`;
 }
+
+export function translateLicense(license) {
+    let dict = {
+        "public": "Public Domain",
+        "cc-by": "CreativeCommons BY",
+        "cc-by-sa": "CreativeCommons BY-SA",
+        "cc-by-nd": "CreativeCommons BY-ND",
+        "cc-by-nc": "CreativeCommons BY-NC",
+        "cc-by-nc-sa": "CreativeCommons BY-NC-SA",
+        "cc-by-nc-nd": "CreativeCommons BY-NC-ND" };
+
+    return dict[license];
+}
