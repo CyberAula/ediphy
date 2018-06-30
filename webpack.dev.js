@@ -31,5 +31,6 @@ module.exports = merge.smart(common, {
         hot: true,
         inline: true,
         port: 8080,
+        // host: '0.0.0.0',
     },
 });

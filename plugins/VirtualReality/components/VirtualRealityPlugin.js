@@ -16,10 +16,8 @@ export default class VirtualRealityPlugin extends React.Component {
         );
     }
     componentDidMount() {
-        this.toolbarUpdateValue();
-    }
-    componentDidMount() {
         window.addEventListener("message", this.receiver);
+        this.toolbarUpdateValue();
     }
     componentWillUnmount() {
         window.removeEventListener('message', this.receiver);
