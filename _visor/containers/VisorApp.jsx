@@ -203,7 +203,7 @@ export default class Visor extends Component {
         let visorContent = !isContainedView(currentView) ? (
             <VisorCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") === -1} />) : (<VisorContainedCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") !== -1} />);
         return (
-            <div id="app"
+            <div id="app" ref={'app'}
                 className={wrapperClasses} >
                 <VisorSideNav
                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
