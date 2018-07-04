@@ -46,7 +46,7 @@ export function VirtualReality(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: "Background",
+                            __name: "Escenario",
                             icon: 'crop_original',
                             buttons: {
                                 imagenBack: {
@@ -65,7 +65,7 @@ export function VirtualReality(base) {
                             },
                         },
                         Panel: {
-                            __name: "Configuration",
+                            __name: "Configuración",
                             icon: 'build',
                             buttons: {
                                 audioBack: {
@@ -74,12 +74,12 @@ export function VirtualReality(base) {
                                     checked: state.audioBack,
                                 },
                                 showPanel: {
-                                    __name: 'Panel Aux',
+                                    __name: 'Carrusel',
                                     type: 'checkbox',
                                     checked: state.showPanel,
                                 },
                                 numberOfPictures: {
-                                    __name: 'Number of pictures',
+                                    __name: 'Número de imágenes',
                                     type: 'number',
                                     min: 1,
                                     max: 10,
