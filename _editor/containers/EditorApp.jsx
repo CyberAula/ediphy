@@ -709,6 +709,11 @@ class EditorApp extends Component {
 
     keyListener(e) {
         let key = e.keyCode ? e.keyCode : e.which;
+        console.log(key);
+        if (key === 9) {
+            e.preventDefault();
+            return;
+        }
         // Checks what element has the cursor focus currently
         let focus = document.activeElement.className;
         let notText = (!document.activeElement.type || focus.indexOf('rib') !== -1) && focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1;
