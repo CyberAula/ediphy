@@ -93,7 +93,7 @@ export default function printToPDF(state, callback) {
                     }
 
                 });
-            }, 6000);
+            }, 3000);
         });
 
         /*
