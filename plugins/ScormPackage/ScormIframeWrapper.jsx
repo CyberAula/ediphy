@@ -4,15 +4,20 @@ import SCORM_API from '../../core/scorm/SCORM_API';
 
 export default class ScormIframeWrapper extends React.Component {
     render() {
-        let url = 'lib/scorm/scorm_iframe.html?url=' + encodeURI(this.props.url);
+        let url = '/lib/scorm/dist/scorm_iframe.html?url=' + encodeURI(this.props.url);
 
-        return (<iframe className="scormcontent" ref="scormcontent" style={{ width: '100%', height: '100%', zIndex: 0, border: 'none' }} src={url}/>);
+        // return (<iframe className="scormcontent" ref="scormcontent" style={{ width: '100%', height: '100%', zIndex: 0, border: 'none' }} src={url}/>);
+        return (<iframe id="myIframe" src="http://vishubcode.org/scorm/packages/229/vishubcode_scorm_wrapper.html" style={{ width: '100%', height: '100%', zIndex: 0, border: 'none' }} objecttype="scormpackage" webkitAllowFullScreen="true" allowFullScreen="true" mozallowfullscreen="true" />);
     }
     componentDidMount() {
         window.addEventListener('message', function(ev) {
-            let msg = JSON.parse(ev.data);
-            // console.log(ev, msg);
-            ev.source.postMessage('{"IframeMessage":true,"mode":"INTERNAL","type":"PROTOCOL","request":true,"data":{"message":"stopHelloExchange"},"origin":"http://localhost:8080/lib/scorm/test/scorm_iframe.html?url=http://localhost:8080/lib/scorm/test/dist/index.html","originId":3471950192937,"destination":"*"}', '*');
+            console.log(ev);
+            try {
+                let msg = JSON.parse(ev.data);
+                console.log(ev, msg);
+                ev.source.postMessage("stopHelloExchange", '*');
+
+            } catch(e) {}
         });
 
         /*

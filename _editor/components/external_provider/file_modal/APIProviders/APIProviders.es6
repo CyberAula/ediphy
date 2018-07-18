@@ -6,6 +6,7 @@ import SoundCloudComponent from './SoundCloudComponent';
 import YoutubeComponent from './YoutubeComponent';
 import EuropeanaComponent from './EuropeanaComponent';
 import FlickrComponent from './FlickrComponent';
+import PhetComponent from './PhetComponent';
 import OpenClipArtComponent from './OpenClipArtComponent';
 import GiphyComponent from './GiphyComponent';
 
@@ -106,6 +107,13 @@ export default function menus(self) {
             component: YoutubeComponent,
             props: { ...commonProps },
         },
+        /* {
+            name: 'Phet',
+            icon: YoutubeIcon,
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('video')),
+            component: PhetComponent,
+            props: { ...commonProps },
+        },*/
         /* {
             name: 'Giphy',
             icon: GiphyIcon,
