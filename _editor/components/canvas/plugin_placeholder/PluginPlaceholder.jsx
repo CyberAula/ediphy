@@ -174,7 +174,8 @@ export default class PluginPlaceholder extends Component {
                         this.setState({ alert: alert(i18n.t('messages.instance_limit')) });
                         return;
                     }
-                    createBox(initialParams, name, false, this.props.onBoxAdded, this.props.boxes);
+                    let isSlide = this.props.parentBox.resizable;
+                    createBox(initialParams, name, isSlide, this.props.onBoxAdded, this.props.boxes);
 
                 } else if (!(config.isComplex && (initialParams.container === 0))) {
                     let boxDragged = this.props.boxes[this.props.boxSelected];

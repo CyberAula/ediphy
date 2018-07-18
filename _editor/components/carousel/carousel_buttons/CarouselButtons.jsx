@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import { Tooltip, Button, OverlayTrigger, Popover, Overlay } from 'react-bootstrap';
 
 import { ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../common/constants';
-import { isSection, isContainedView } from '../../../../common/utils';
+import { isSection, isContainedView, calculateNewIdOrder } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
 
 import './_carouselButtons.scss';
@@ -96,7 +96,6 @@ export default class CarouselButtons extends Component {
                         name="newFolder"
                         disabled={ this.props.indexSelected === -1 || isContainedView(this.props.indexSelected) || this.props.navItems[this.props.indexSelected].level >= 10}
                         onClick={e => {
-
                             let idnuevo = ID_PREFIX_SECTION + Date.now();
                             this.props.onNavItemAdded(
                                 idnuevo,
@@ -105,6 +104,15 @@ export default class CarouselButtons extends Component {
                                 PAGE_TYPES.SECTION,
                                 this.calculatePosition()
                             );
+                            // TODO: finish this code to reorder after add a section
+                            // this.props.onNavItemReordered(
+                            //     this.props.indexSelected, // item moved
+                            //     idnuevo, // new parent
+                            //     this.props.navItems[this.props.indexSelected].parent, // old parent
+                            //     calculateNewIdOrder(this.props.navItemsIds, [this.props.indexSelected], idnuevo, this.props.indexSelected, this.props.navItems),
+                            //     [this.props.indexSelected]
+                            // );
+
                             /*
                             if(Ediphy.Config.sections_have_content) {
                                 this.props.onBoxAdded({

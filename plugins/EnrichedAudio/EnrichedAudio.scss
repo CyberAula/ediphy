@@ -128,6 +128,9 @@ $track-width: 54% !default;
   @include gradient;
   iframe{
     margin-bottom: -4px;
+    div>div>div>wave {
+      height:100%;
+    }
   }
 
   .waveform>.wave>wave>wave {
@@ -151,8 +154,17 @@ $track-width: 54% !default;
     //margin: 0;
     float:left;
     height: 100%;
-    top: 10px;//15%;
+    //top: 10px;//15%;
     z-index: 1;
+    >div {
+      height: 100%;
+      >div {
+        height: 100%;
+        wave {
+          height: 100% !important;
+        }
+      }
+    }
   }
   .audio-controls{
     position: absolute;

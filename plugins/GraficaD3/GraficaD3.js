@@ -110,18 +110,6 @@ export function GraficaD3(base) {
             return ({ component: <Config id={id} state={state} updateState={updateState} props={props} step={props.step}/>, n_steps: 2 });
 
         },
-        fileChanged: function(event) {
-            let files = event.target.files;
-            let file = files[0];
-            let reader = new FileReader();
-            reader.onload = function() {
-                base.setState("chartData", JSON.parse(this.result));
-            };
-            reader.readAsText(file);
-        },
-        chartTypeChange: function(elements) {
-            base.setState("chartType", elements[0].id);
-        },
 
     };
 }

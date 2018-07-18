@@ -136,9 +136,10 @@ export function EnrichedPDF(base) {
         },
         parseRichMarkInput: function(...value) {
             let page = document.querySelector("#box-" + value[6] + " .pdfPage");
-
-            let x = (value[0] + 12) * 100 / page.clientWidth;
-            let y = (value[1] + 26) * 100 / page.clientHeight;
+            let scrollElement = document.querySelector("#box-" + value[6] + ' .react-pdf__Document');
+            console.log(scrollElement.scrollLeft, scrollElement.scrollTop);
+            let x = (value[0] + 12 + scrollElement.scrollLeft) * 100 / page.clientWidth;
+            let y = (value[1] + 26 + scrollElement.scrollTop) * 100 / page.clientHeight;
             // console.log(value);
             let numPage = page.getAttribute("data-page-number");
             // let numPage = document.querySelector(".pdfPage").getAttribute("data-page-number");

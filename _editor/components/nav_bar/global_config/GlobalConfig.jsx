@@ -30,25 +30,26 @@ export default class GlobalConfig extends Component {
         super(props);
         /* State from props is an anti-pattern*/
         this.state = {
-            title: this.props.globalConfig.title || "",
+            title: this.props.globalConfig.title,
             author: this.props.globalConfig.author || "",
             canvasRatio: this.props.globalConfig.canvasRatio || 16 / 9,
             age: this.props.globalConfig.age || { min: 0, max: 100 },
             typicalLearningTime: this.props.globalConfig.typicalLearningTime || { h: 0, m: 0, s: 0 },
-            difficulty: this.props.globalConfig.difficulty || 'easy',
+            difficulty: this.props.globalConfig.difficulty,
             rights: this.props.globalConfig.rights || 1,
             description: this.props.globalConfig.description || '',
             thumbnail: this.props.globalConfig.thumbnail || img_place_holder,
-            language: this.props.globalConfig.language || undefined,
+            language: this.props.globalConfig.language,
             keywords: this.props.globalConfig.keywords || [],
             version: this.props.globalConfig.version || '0.0.0',
             status: this.props.globalConfig.status || 'draft',
-            context: this.props.globalConfig.context || 'school',
+            context: this.props.globalConfig.context,
             hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
             minTimeProgress: this.props.globalConfig.minTimeProgress || 30,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
             modifiedState: false,
             showAlert: false,
+            everPublished: this.props.globalConfig.everPublished,
 
         };
         // Tag handling functions
@@ -105,7 +106,7 @@ export default class GlobalConfig extends Component {
                                     <FormGroup>
                                         <ControlLabel>{i18n.t('global_config.avatar')}</ControlLabel>
                                         <div className="cont_avatar">
-                                            <img height={104} src={this.state.thumbnail} className="avatar" />
+                                            <img src={this.state.thumbnail} className="avatar" />
                                             <div>
                                                 {/* <FileInput onChange={this.fileChanged} className="fileInput" accept=".jpeg,.gif,.png">
                                                     <div className="fileDrag">
@@ -114,7 +115,7 @@ export default class GlobalConfig extends Component {
                                                     </div>
                                                 </FileInput>*/}
                                                 <Button bsStyle="primary" className="avatarButtons" onClick={()=>{
-                                                    this.props.toggleFileUpload('avatar', 'image');
+                                                    this.props.toggleFileUpload('avatar', 'image/*');
                                                 }}>{i18n.t('global_config.avatar_import')}</Button><br/>
                                                 <Button bsStyle="primary" className="avatarButtons" onClick={()=>{
                                                     this.getCurrentPageAvatar();
@@ -170,7 +171,7 @@ export default class GlobalConfig extends Component {
                                         <a className="miniIcon" target="_blank" href={"https://creativecommons.org/licenses/?lang="+i18n.t('currentLang')}><i className="material-icons">help</i></a>
                                          */}
                                         <br/>
-                                        <Select disabled={status === 'final'} className={status === 'final' ? 'select-disabled' : ''} title={status === 'final' ? 'No puedes' : ''}
+                                        <Select disabled={status === 'final' || this.state.everPublished} className={(status === 'final' || this.state.everPublished) ? 'select-disabled' : ''} title={(status === 'final' || this.state.everPublished) ? i18n.t("messages.forbidden") : undefined}
                                             name="form-field-name-rights"
                                             value={rights}
                                             options={rightsOptions()}
@@ -447,12 +448,12 @@ export default class GlobalConfig extends Component {
      */
     cancel() {
         this.setState({
-            title: this.props.globalConfig.title || "",
+            title: this.props.globalConfig.title,
             author: this.props.globalConfig.author || "",
             canvasRatio: this.props.globalConfig.canvasRatio || 16 / 9,
             age: this.props.globalConfig.age || { min: 0, max: 100 },
             typicalLearningTime: this.props.globalConfig.typicalLearningTime || { h: 0, m: 0, s: 0 },
-            difficulty: this.props.globalConfig.difficulty || 'easy',
+            difficulty: this.props.globalConfig.difficulty,
             rights: this.props.globalConfig.rights || 1,
             description: this.props.globalConfig.description || '',
             language: this.props.globalConfig.language || undefined,
@@ -460,11 +461,12 @@ export default class GlobalConfig extends Component {
             thumbnail: this.props.globalConfig.thumbnail || img_place_holder,
             version: this.props.globalConfig.version || '0.0.0',
             status: this.props.globalConfig.status || 'draft',
-            context: this.props.globalConfig.context || 'school',
+            context: this.props.globalConfig.context,
             hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
             minTimeProgress: this.props.globalConfig.minTimeProgress || 30,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
             modifiedState: false,
+            everPublished: this.props.everPublished,
         });
 
         //  Comment the following line if you don't want to exit when changes are discarded
@@ -504,20 +506,21 @@ export default class GlobalConfig extends Component {
                 canvasRatio: nextProps.globalConfig.canvasRatio || 16 / 9,
                 age: nextProps.globalConfig.age || { min: 0, max: 100 },
                 typicalLearningTime: nextProps.globalConfig.typicalLearningTime || { h: 0, m: 0, s: 0 },
-                difficulty: nextProps.globalConfig.difficulty || 'easy',
+                difficulty: nextProps.globalConfig.difficulty,
                 rights: nextProps.globalConfig.rights || 1,
                 description: nextProps.globalConfig.description || '',
                 thumbnail: nextProps.globalConfig.thumbnail || img_place_holder,
-                language: nextProps.globalConfig.language || undefined,
+                language: nextProps.globalConfig.language,
                 keywords: nextProps.globalConfig.keywords || [],
                 version: nextProps.globalConfig.version || '0.0.0',
                 status: nextProps.globalConfig.status || 'draft',
-                context: nextProps.globalConfig.context || 'school',
+                context: nextProps.globalConfig.context,
                 hideGlobalScore: nextProps.globalConfig.hideGlobalScore || false,
                 minTimeProgress: nextProps.globalConfig.minTimeProgress || 30,
                 visorNav: nextProps.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
                 modifiedState: false,
                 showAlert: false,
+                everPublished: nextProps.globalConfig.everPublished,
 
             });
         }

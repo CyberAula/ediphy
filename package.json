@@ -142,6 +142,7 @@
     "Visor3D": "file:plugins/Visor3D",
     "animated": "^0.2.1",
     "babel-jest": "^22.1.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-stage-0": "^6.24.1",
     "basic-xml2json": "^1.0.4",
     "bootstrap": "^3.3.7",

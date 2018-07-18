@@ -61,8 +61,6 @@ export default class EnrichedPDFPluginEditor extends React.Component {
             let pdfDiv = document.querySelector("#box-" + this.props.props.id + " .pdfDiv");
             let w = pdfDiv ? pdfDiv.clientWidth : 0;
             let h = pdfDiv ? pdfDiv.clientHeight : 0;
-            console.log("w", w);
-            console.log(position[0]);
             let x = "" + position[0] + "%";
             let y = "" + position[1] + "%";
 

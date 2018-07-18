@@ -17,10 +17,6 @@ export function EnrichedAudio(base) {
                 initialWidthSlide: '30%',
                 initialHeightSlide: '30%',
                 icon: 'play_circle_filled',
-                aspectRatioButtonConfig: {
-                    location: ["main", "structure"],
-                    defaultValue: false,
-                },
                 marksType: [{ name: i18n.t("EnrichedAudio.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" }],
             };
         },

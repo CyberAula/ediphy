@@ -141,12 +141,13 @@ class EditorApp extends Component {
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
         let status = this.props.status;
+        let everPublished = this.props.everPublished;
         let canvasRatio = globalConfig.canvasRatio;
         let disabled = (navItemSelected === 0 && containedViewSelected === 0) || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
         let uploadFunction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? uploadVishResourceAsync : uploadEdiphyResourceAsync;
         let deleteFunction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? deleteRemoteFileVishAsync : deleteRemoteFileEdiphyAsync;
         return (
-            <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }}>
+            <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }} ref={'app'}>
                 <Row className="navBar">
                     {this.state.showTour ? <EdiphyTour toggleTour={(showTour)=>{this.setState({ showTour });}} showTour={this.state.showTour}/> : null}
                     {this.createHelpModal()}
@@ -154,7 +155,7 @@ class EditorApp extends Component {
                     {this.state.alert}
                     <EditorNavBar hideTab={this.state.hideTab} boxes={boxes}
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
-                        globalConfig={{ ...globalConfig, status }}
+                        globalConfig={{ ...globalConfig, status, everPublished }}
                         changeGlobalConfig={(prop, value) => {dispatch(changeGlobalConfig(prop, value));}}
                         onIndexSelected={(id) => dispatch(selectIndex(id))}
                         onNavItemSelected={id => dispatch(selectNavItem(id))}
@@ -585,6 +586,7 @@ class EditorApp extends Component {
                 <ExitModal
                     showExitModal={this.state.showExitModal}
                     closeExitModal={()=>{this.setState({ showExitModal: false });}}
+                    status={status}
                     publishing={(value) =>this.setState({ publishing: value })}
                     save={(win, url) => {dispatch(exportStateAsync({ ...this.props.store.getState() }, win, url)); }}
                 />
@@ -672,14 +674,12 @@ class EditorApp extends Component {
         }
         if (process.env.NODE_ENV === 'production' && process.env.DOC === 'doc') {
             // window.parent.addEventListener("beforeunload", this.beforeUnloadAlert); // it is done outside
+            window.oncontextmenu = function() {
+                return false;
+            };
         }
-
-        window.oncontextmenu = function() {
-            return false;
-        };
-
         // setTimeout(()=>{this.setState({ showHelpButton: false });}, 30000);
-        document.addEventListener('keyup', this.keyListener);
+        document.addEventListener('keydown', this.keyListener);
         document.addEventListener('dragover', this.dragListener);
         document.addEventListener('dragleave', this.dragExitListener);
         document.addEventListener('drop', this.dropListener);
@@ -692,7 +692,7 @@ class EditorApp extends Component {
 
     }
     componentWillUnmount() {
-        document.removeEventListener('keyup', this.keyListener);
+        document.removeEventListener('keydown', this.keyListener);
         document.removeEventListener('dragover', this.dragListener);
         document.removeEventListener('dragleave', this.dragExitListener);
         document.removeEventListener('drop', this.dropListener);
@@ -709,9 +709,14 @@ class EditorApp extends Component {
 
     keyListener(e) {
         let key = e.keyCode ? e.keyCode : e.which;
+        console.log(key);
+        if (key === 9) {
+            e.preventDefault();
+            return;
+        }
         // Checks what element has the cursor focus currently
         let focus = document.activeElement.className;
-        let notText = !document.activeElement.type && focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1;
+        let notText = (!document.activeElement.type || focus.indexOf('rib') !== -1) && focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1;
 
         // Ctrl + Z
         if (key === 90 && e.ctrlKey) {
@@ -745,6 +750,15 @@ class EditorApp extends Component {
                     }
                 }
             }
+        }
+
+        if (key === 112) {
+            e.preventDefault();
+            this.setState({ showHelpButton: true });
+        }
+        if (key === 113) {
+            e.preventDefault();
+            this.setState({ visorVisible: true });
         }
     }
     onBoxDeleted(id, parent, container, page) {
@@ -976,6 +990,7 @@ function mapStateToProps(state) {
     return {
         version: state.undoGroup.present.version,
         status: state.status,
+        everPublished: state.everPublished,
         globalConfig: state.undoGroup.present.globalConfig,
         filesUploaded: state.filesUploaded,
         boxes: state.undoGroup.present.boxesById,
@@ -1025,4 +1040,6 @@ EditorApp.propTypes = {
     dispatch: PropTypes.func.isRequired,
     store: PropTypes.any,
     lastActionDispatched: PropTypes.string,
+    status: PropTypes.string,
+    everPublished: PropTypes.bool,
 };

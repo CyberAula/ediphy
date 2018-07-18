@@ -83,15 +83,17 @@ export default {
                                 let strState = JSON.stringify({ ...state, export: true });
                                 let usedNames = [];
                                 if (selfContained) {
+                                    let index = 0;
                                     for (let f in state.filesUploaded) {
                                         let file = state.filesUploaded[f];
                                         let r = new RegExp(escapeRegExp(file.url), "g");
-                                        let name = file.name;
+                                        let name = "ediphy_" + index + "_" + file.name;
                                         if (usedNames.indexOf(name) > -1) {
-                                            name = name = Date.now() + '_' + name;
+                                            name = Date.now() + '_' + name;
                                         }
                                         usedNames.push(name);
                                         strState = strState.replace(r, '../images/' + name);
+                                        index++;
                                     }
                                 }
 
@@ -197,22 +199,25 @@ export default {
                                     let strState = JSON.stringify({ ...state, export: true });
                                     let usedNames = [];
                                     if (selfContained) {
+                                        let index = 0;
                                         for (let f in state.filesUploaded) {
                                             let file = state.filesUploaded[f];
                                             let r = new RegExp(escapeRegExp(file.url), "g");
-                                            let name = file.name;
+                                            let name = "ediphy_" + index + "_" + file.name;
+
                                             if (usedNames.indexOf(name) > -1) {
                                                 name = Date.now() + '_' + name;
                                             }
                                             usedNames.push(name);
                                             strState = strState.replace(r, '../images/' + name);
+                                            index++;
                                         }
                                     }
                                     zip.file("ediphy.edi", strState);
                                     let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), true);
                                     zip.file(Ediphy.Config.dist_index, content);
                                     zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);
-                                    zip_title = state.globalConfig.title;
+                                    zip_title = state.globalConfig.title || 'Ediphy';
                                     Ediphy.Visor.includeImage(zip, filesUploaded, usedNames, (zipFile) => {
 
                                         zipFile.generateAsync({ type: "blob" }).then(function(blob) {

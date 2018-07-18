@@ -1,23 +1,25 @@
 import React from 'react';
 import MyFilesComponent from './MyFilesComponent';
+import UploadComponent from './UploadComponent';
 import SearchVishComponent from './SearchVishComponent';
 import SoundCloudComponent from './SoundCloudComponent';
-import AudioBlocksComponent from './AudioBlocksComponent';
+// import AudioBlocksComponent from './AudioBlocksComponent';
 import YoutubeComponent from './YoutubeComponent';
 import EuropeanaComponent from './EuropeanaComponent';
 import FlickrComponent from './FlickrComponent';
-import OpenClipArtComponent from './OpenClipArtComponent';
+// import OpenClipArtComponent from './OpenClipArtComponent';
+// import GiphyComponent from './GiphyComponent';
+
 import VISHIcon from './logos/vish.svg';
 import FlickrIcon from './logos/flickrsvg.svg';
 import EuropeanaIcon from './logos/europeanaalt.svg';
 import YoutubeIcon from './logos/youtube.svg';
 import SoundCloudIcon from './logos/soundcloud_logo_0.png';
-import OpenClipArtIcon from './logos/openclipart.svg';
-import ThingiverseIcon from './logos/thingiverse-logo-2015.png';
-import UploadComponent from './UploadComponent';
-import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
+// import OpenClipArtIcon from './logos/openclipart.svg';
+// import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
+// import GiphyIcon from './logos/giphy.png';
+
 import i18n from 'i18next';
-import ThingiverseComponent from './ThingiverseComponent';
 
 export default function menus(self) {
     let allowedMIME = self.props.visible || "";
@@ -26,6 +28,7 @@ export default function menus(self) {
         elementSelected: self.state.element,
         idSelected: self.state.id,
     };
+    let avatar = self.props.fileModalResult && self.props.fileModalResult.id === "avatar";
     return [
         {
             name: <span><i className="material-icons">file_upload</i>{i18n.t('FileModal.APIProviders.UploadFiles')}</span>,
@@ -77,7 +80,7 @@ export default function menus(self) {
         {
             name: 'VISH',
             icon: VISHIcon,
-            show: (allowedMIME === "*" || allowedMIME.match('image')),
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
             component: SearchVishComponent,
             props: { ...commonProps,
             },
@@ -85,7 +88,7 @@ export default function menus(self) {
         {
             name: 'Flickr',
             icon: FlickrIcon,
-            show: (allowedMIME === "*" || allowedMIME.match('image')),
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
             component: FlickrComponent,
             props: { ...commonProps,
             },
@@ -93,7 +96,7 @@ export default function menus(self) {
         {
             name: 'Europeana',
             icon: EuropeanaIcon,
-            show: (allowedMIME === "*" || allowedMIME.match('image')),
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
             component: EuropeanaComponent,
             props: { ...commonProps,
             },
@@ -101,14 +104,21 @@ export default function menus(self) {
         {
             name: 'Youtube',
             icon: YoutubeIcon,
-            show: (allowedMIME === "*" || allowedMIME.match('video')),
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('video')),
             component: YoutubeComponent,
             props: { ...commonProps },
         },
+        /* {
+            name: 'Giphy',
+            icon: GiphyIcon,
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
+            component: GiphyComponent,
+            props: { ...commonProps },
+        },*/
         {
             name: 'SoundCloud',
             icon: SoundCloudIcon,
-            show: (allowedMIME === "*" || allowedMIME.match('audio')),
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('audio')),
             component: SoundCloudComponent,
             props: { ...commonProps },
         },
@@ -121,7 +131,7 @@ export default function menus(self) {
         /* {
             name: 'OpenClipArt',
             icon: OpenClipArtIcon,
-            show: (allowedMIME === "*" || allowedMIME.match('image')),
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
             component: OpenClipArtComponent,
             props: { ...commonProps },
         },*/

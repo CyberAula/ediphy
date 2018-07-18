@@ -5,6 +5,7 @@ export const initialState = (config) => { return config.sections_have_content ?
         undoGroup: {
             present: {
                 status: 'draft',
+                everPublished: false,
                 globalConfig: {
                     title: i18n.t('course_title'),
                     canvasRatio: config.defaultAspectRatio || 16 / 9,
@@ -122,6 +123,7 @@ export const initialState = (config) => { return config.sections_have_content ?
         undoGroup: {
             present: {
                 status: 'draft',
+                everPublished: false,
                 globalConfig: {
                     title: i18n.t('course_title'),
                     canvasRatio: config.defaultAspectRatio || 16 / 9,

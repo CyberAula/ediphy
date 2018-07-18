@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import SearchComponent from './SearchComponent';
 import ImageComponent from './ImageComponent';
 
-export default class EuropeanaComponent extends React.Component {
+export default class GiphyComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -59,46 +59,44 @@ export default class EuropeanaComponent extends React.Component {
     }
 
     onSearch(text) {
-        const BASE = 'https://www.europeana.eu/api/v2/search.json?wskey=ZDcCZqSZ5&query=' + (text || "europeana") + '&qf=TYPE:IMAGE&profile=RICH&media=true&rows=100&qf=IMAGE_SIZE:small';
+        const BASE = text ? ('http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=' + text) : ('http://api.giphy.com/v1/gifs/trending');
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
         fetch(encodeURI(BASE))
             .then(res => res.text()
             ).then(imgStr => {
                 let imgs = JSON.parse(imgStr);
-                if (imgs && imgs.items) {
-                    let results = imgs.items.map(img=>{
+                if (imgs && imgs.data) {
+                    let results = imgs.data.map(img=>{
                         return {
-                            title: img.title[0],
-                            url: img.edmIsShownBy,
-                            thumbnail: img.edmPreview,
+                            title: img.title,
+                            thumbnail: img.images.fixed_height_downsampled.url,
+                            url: img.images.original.url,
                         };
                     });
 
                     this.setState({ results, msg: results.length > 0 ? '' : i18n.t("FileModal.APIProviders.no_files") });
                 }
             }).catch(e=>{
-                // eslint-disable-next-line no-console
                 console.error(e);
                 this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
             });
     }
 }
-
-EuropeanaComponent.propTypes = {
+GiphyComponent.propTypes = {
     /**
-     * Selected Element
-     */
+   * Selected Element
+   */
     elementSelected: PropTypes.any,
     /**
-     * Select element callback
-     */
+   * Select element callback
+   */
     onElementSelected: PropTypes.func.isRequired,
     /**
-     * Icon that identifies the API provider
-     */
+   * Icon that identifies the API provider
+   */
     icon: PropTypes.any,
     /**
-     * API Provider name
-     */
+   * API Provider name
+   */
     name: PropTypes.string,
 };

@@ -75,12 +75,12 @@ export default function handlers(self) {
             icon: 'audiotrack',
             buttons: [
                 {
-                    title: (currentPlugin && currentPlugin === 'BasicAudio') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.audio')),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'BasicAudio'),
+                    title: (currentPlugin && currentPlugin === 'EnrichedAudio') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.audio')),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'EnrichedAudio'),
                     action: ()=>{
                         if (self.props.fileModalResult && !self.props.fileModalResult.id) {
                             initialParams.url = self.state.element;
-                            createBox(initialParams, "BasicAudio", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                            createBox(initialParams, "EnrichedAudio", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
                             self.close();
                         } else {
                             self.close({ id: self.props.fileModalResult.id, value: self.state.element });

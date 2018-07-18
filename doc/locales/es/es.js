@@ -10,6 +10,8 @@ let es = {
             "UserManual": "Manual de usuario",
             "CourseStructure": "Estructura de un curso",
             "Plugins": "Plugins",
+            "Import": "Importar contenido",
+            "Export": "Exportar contenido",
             "Additional": "Acciones adicionales",
             "Docs": "Docs",
             "Intro": "Introducción",

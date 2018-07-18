@@ -9,12 +9,17 @@
       height: 100%;
       width: 100%;
       background-color: grey;
-      background-color: grey;
       overflow: auto;
       text-align: center;
+      display: flex;
+      //align-items: center;
+      //justify-content: center;
     }
     .dropableRichZone {
-      height: auto; width: auto; display:inline-block;  overflow: hidden;
+      height: auto; width: auto; display:inline-block;
+      //overflow: hidden;
+
+      margin:auto;
       &.rich_overlay {
         max-height: 100%;
         max-width: 100%;
@@ -41,27 +46,37 @@
     }
     .topBar {
       height:  0px;
-      display: block;
+      display: flex;
       overflow: hidden;
       position: absolute;
       text-align: center;
       top: 0;
+      user-select: none;
       left: 0;
       z-index: 9999;
       width: 100%;
       background: #333;
       -webkit-transition: height 0.3s; /* Safari */
       transition: height 0.3s;
+      justify-content: space-between;
       &:hover {
         height: 50px;
       }
-      .PDFpages{
-        position: absolute;
-        margin-left: 45%;
-      }
-      .fullscreen-player-button{
-        float: right;
-        margin-right: 2%;
+
+      //.PDFpages{
+      //  position: absolute;
+      //  margin-left: 45%;
+      //}
+      //.fullscreen-player-button{
+      //  float: right;
+      //  margin-right: 2%;
+      //}
+      .scale-button{
+      //  float: right;
+      //  margin-right: 2%;
+        &:disabled {
+          color: grey !important;
+        }
       }
       .PDFrotateL{
         float: left;
@@ -70,6 +85,12 @@
       .PDFrotateR{
         float: left;
         margin-left: 2%;
+      }
+      .rotationButtons {
+        flex:1;
+      }
+      .actionButtons {
+        flex: 1;
       }
       button {
         background-color: transparent;

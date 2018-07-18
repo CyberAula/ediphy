@@ -3,7 +3,7 @@ module.exports = {
         "box_style": "Box style",
         "classname": "Class names",
         "padding": "Padding",
-        "PluginName": "BasicText",
+        "PluginName": "Text",
         "background_color": "Background color",
         "border_color": "Border color",
         "border_size": "Border Size",

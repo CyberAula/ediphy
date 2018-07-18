@@ -89,6 +89,7 @@ export default class EditorBox extends Component {
             height: height !== "auto" ? (height + heightUnit) : "auto",
             touchAction: 'none',
             msTouchAction: 'none',
+            transformOrigin: '0 0',
             cursor: vis ? 'inherit' : 'default', // esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
         };
 
@@ -369,8 +370,7 @@ export default class EditorBox extends Component {
 
         let targets = this.props.grid ? [gridTarget] : [];
         let dragTargets = this.props.grid ? [dragTarget] : [];
-        Ediphy.Plugins.get(config.name).getConfig();
-        Ediphy.Plugins.get(config.name).afterRender(this.refs.content, toolbar.state);
+        apiPlugin.afterRender(this.refs.content, toolbar.state);
         let dragRestrictionSelector = ".parentRestrict"; // isSortableContainer(box.container) ? ".scrollcontainer" : "parent";
         let resizeRestrictionSelector = isSortableContainer(box.container) ? "body" : "parent";
         let canvas = this.props.containedViewSelected === 0 ?

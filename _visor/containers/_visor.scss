@@ -1,6 +1,13 @@
 @import "../../sass/general/_variables.scss";
 @import "../components/canvas/_cv_animations.scss";
 
+
+#visorAppContent {
+  user-select: text;
+  -moz-user-select: text;
+  -webkit-user-select: text;
+  -ms-user-selectelect: text;
+}
 .thumb {
   font-size: 16px;
   color: #f87060;
@@ -51,10 +58,12 @@
 
 #root{
   height:100%;
+
 }
 
 .visor * {
   pointer-events: all !important;
+
 }
 
 
@@ -379,7 +388,15 @@ li > .selectedNavItemVisor {
   min-height: calc(100vh - 135px);
 }*/
 
+#canvas, #containedCanvas {
+  &.canvasDocClass {
+    padding: 10px 8px 0px 8px;
+  }
 
+  &.canvasSliClass {
+    padding: 33px 8px 33px 8px;
+  }
+}
 .visorwrapper #containedCanvas {
   min-height: 100% !important;
 }

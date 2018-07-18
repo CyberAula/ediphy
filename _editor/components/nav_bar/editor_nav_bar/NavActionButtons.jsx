@@ -58,7 +58,7 @@ export default class NavActionButtons extends Component {
                 name: 'save',
                 description: i18n.t('Save'),
                 tooltip: i18n.t('messages.save_changes'),
-                display: true,
+                display: !Ediphy.Config.disable_save_button,
                 // display: (!Ediphy.Config.disable_save_button && (Ediphy.Config.publish_button === undefined || !Ediphy.Config.publish_button)),
                 disabled: false,
                 icon: 'save',
@@ -113,6 +113,7 @@ export default class NavActionButtons extends Component {
      */
     render() {
         let buttons = this.getButtons();
+        let allowPublish = (this.props.globalConfig.thumbnail !== "") && this.props.globalConfig.title && (this.props.globalConfig.thumbnail !== img_place_holder);
         return (
             <div className="navButtons">
                 <Overlay rootClose
@@ -123,11 +124,11 @@ export default class NavActionButtons extends Component {
                     onHide={() => this.setState({ showOverlay: false })}>
                     <Popover id="popov" title={i18n.t('messages.publish_alert_title')}>
                         <i style={{ color: 'yellow', fontSize: '16px', padding: '5px' }} className="material-icons">
-                            { (this.props.globalConfig.thumbnail !== "") && (this.props.globalConfig.thumbnail !== img_place_holder) ? "warning" : "add_a_photo"}
+                            { !allowPublish ? "warning" : "add_a_photo"}
                         </i>
-                        { (this.props.globalConfig.thumbnail !== "") && (this.props.globalConfig.thumbnail !== img_place_holder) ?
+                        { (allowPublish) ?
                             i18n.t('messages.publish_alert_text') :
-                            "Añade una imagen a tu documento antes de publicarlo. Para cambiarla ve a Menú > Configuración global > Miniatura"}
+                            i18n.t('messages.publish_not_allowed')}
                         <br/>
                         <br/>
                         <Button className="popoverButton"
@@ -138,7 +139,7 @@ export default class NavActionButtons extends Component {
                         </Button>
                         <Button className="popoverButton"
                             name="popoverAcceptButton"
-                            disabled={(this.props.globalConfig.thumbnail === "") || (this.props.globalConfig.thumbnail === img_place_holder)}
+                            disabled={!allowPublish}
                             style={{ float: 'right' }}
                             onClick={(e) => {
                                 // acciones de publicar

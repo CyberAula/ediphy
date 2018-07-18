@@ -149,11 +149,13 @@ export default class BasicAudioPlugin extends React.Component {
         });
 
         return (
-            <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "auto" }}>
+            <div className="basic-audio-wrapper"
+                ref={player_wrapper => {this.player_wrapper = player_wrapper;}}
+                style={{ width: "100%", height: "100%", pointerEvents: "auto" }}>
                 <div>
 
                     <div className="markBar"> {markElements}</div>
-                    <div className="react-wavesurfer">
+                    <div className="react-wavesurfer" style={{ width: "100%", height: "100%" }}>
                         <ReactWavesurfer
                             style={{ width: "100%", height: "100%" }}
                             height="100%"

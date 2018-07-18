@@ -3,6 +3,8 @@ import i18n from 'i18next';
 
 export const testState = {
     "filesUploaded": {},
+    "status": "final",
+    "everPublished": false,
     "undoGroup": {
         "present": {
             "lastActionDispatched": "SELECT_BOX",

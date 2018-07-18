@@ -9,42 +9,52 @@ import i18n from 'i18next';
 export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", customSize = 0) {
     // change ratio to the global ratio store in the app
     let ratio = ratioparam;
-    let parent = document.getElementById(idParent);
-    let canvas = document.getElementById(idEl);
+    let canvas = document.getElementById(idParent);
+    let parent = document.getElementById(idEl);
+    let height = canvas.style.height;
+    let width = canvas.style.width;
+    let marginTop = canvas.style.marginTop;
+    let marginBottom = canvas.style.marginBottom;
 
     /* this is to avoid get values from react flow when using event listeners that do not exist in react
      * get the values from window.object */
     if (customSize === 0) {
-        console.log(canvas);
-        canvas.style.height = "100%";
-        canvas.style.width = "100%";
+        height = canvas.offsetHeight - 66;
+        width = canvas.offsetWidth - 36;
         if(window.canvasRatio === undefined) {
             window.canvasRatio = ratio; // https://stackoverflow.com/questions/19014250/reactjs-rerender-on-browser-resize
         } else {
             ratio = window.canvasRatio;
         }
-        let w = canvas.offsetWidth;
-        let h = canvas.offsetHeight;
-        canvas.style.marginTop = 0 + 'px';
+        let w = canvas.offsetWidth - 36;
+        let h = canvas.offsetHeight - 66;
+        marginTop = 0 + 'px';
         if (w > ratio * h) {
-            canvas.style.width = (ratio * h) + "px";
+            width = (ratio * h) + "px";
+            height = h + "px";
         } else if (h > w / ratio) {
             let newHeight = w / ratio;
-            canvas.style.height = newHeight + "px";
+            height = newHeight + "px";
+            width = w + "px";
             if (parent) {
-                canvas.style.marginTop = ((parent.offsetHeight - canvas.offsetHeight) / 2 - 5) + 'px';
+                marginTop = ((h - newHeight) / 2) + 'px';
             }
         }
-    } else if (customSize.width > parent.offsetWidth) {
-        canvas.style.height = (customSize.height / ratio) + 'px';
-        canvas.style.width = (customSize.width / ratio) + 'px';
-        canvas.style.marginTop = ((parent.offsetHeight - canvas.offsetHeight) / 2 - 5) + 'px';
-    } else{
-        canvas.style.height = customSize.height + 'px';
-        canvas.style.width = customSize.width + 'px';
-        canvas.style.marginTop = '0px';
-        canvas.style.marginBottom = '10px';
+    } else if (customSize.width > canvas.offsetWidth - 36) {
+        height = (customSize.height) + 'px';
+        width = (customSize.width) + 'px';
+        marginTop = ((canvas.offsetHeight - 66 - customSize.height) / 2 - 1);
+        marginTop = marginTop > 0 ? marginTop : 0;
+        marginTop += 'px';
+    } else {
+        height = customSize.height + 'px';
+        width = customSize.width + 'px';
+        marginTop = ((canvas.offsetHeight - 66 - customSize.height) / 2 - 1);
+        marginTop = marginTop > 0 ? marginTop : 0;
+        marginTop += 'px';
+        // marginBottom = '10px';
     }
+    return { width, height, marginTop, marginBottom };
 }
 
 export function toggleFullScreen(element) {
@@ -180,7 +190,7 @@ export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
     if (!apiPlugin) {
         return;
     }
-    let { initialParams, template, config, toolbar, state } = apiPlugin.getInitialParams(ids);
+    let { initialParams, template, config, toolbar, state } = apiPlugin.getInitialParams({ ...ids, slide });
     let styles = {};
     try {
         if (toolbar.main && toolbar.main.accordions && toolbar.main.accordions.style) {
@@ -206,7 +216,7 @@ export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
         }
         state.__pluginContainerIds = newPluginState;
     }
-    addBox(ids, true, slide, template, styles, state, undefined, initialParams);
+    addBox({ ...ids, config: apiPlugin.getConfig() }, true, slide, template, styles, state, undefined, initialParams);
     let basePrefix = ID_PREFIX_BOX + Date.now();
     newBoxes.map((box, ind) => {
         box.ids.id = basePrefix + ind;

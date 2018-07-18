@@ -12,6 +12,7 @@ import i18n from 'i18next';
 function toolbarCreator(state, action) {
     let structure;
     let toolbar = {};
+    console.log(action);
     if(isSortableBox(action.payload.ids.id)) {
         toolbar = {
             [action.payload.ids.id]: {
@@ -24,7 +25,7 @@ function toolbarCreator(state, action) {
         };
     } else {
         let pluginId = action.payload.initialParams.name;
-        if(action.payload.ids.container !== 0) {
+        if(!action.payload.ids.container !== 0) {
             if(state[action.payload.container]) {
                 let toolbar_container = {
                     id: action.payload.id.container,
@@ -51,7 +52,7 @@ function toolbarCreator(state, action) {
         }
 
         let initialHeight = "auto";
-        let heightUnit = isPage(action.payload.ids.parent) ? "%" : "px";
+        let heightUnit = action.payload.resizable ? "%" : "px";
         if (action.payload.initialParams.height && action.payload.initialParams.height !== 'auto') {
             let parsed = parseFloat(action.payload.initialParams.height);
             if (!isNaN(parsed)) {

@@ -41,6 +41,8 @@
     max-width: 100%;
     text-overflow: ellipsis;
      white-space: nowrap;
+    z-index: 99999;
+
 }
 .fileDrag {
     color: #C4C4C4;

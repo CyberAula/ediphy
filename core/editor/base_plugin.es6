@@ -143,11 +143,7 @@ export default function() {
                     state.__size = null;
                 }
             }
-            /* if(isRich) {
-              if(!state.__marks) {
-                  state.__marks = {};
-              }
-          }*/
+
             if(config.category === 'evaluation') {
                 if (!state.__score) {
                     state.__score = {
@@ -166,7 +162,7 @@ export default function() {
             params.name = config.name;
             params.isDefaultPlugin = defaultFor(initParams.isDefaultPlugin, false);
             if (params && Object.keys(params) && Object.keys(params).length > 1) {
-                let floatingBox = !isSortableContainer(params.container);
+                let floatingBox = initParams.slide; // !isSortableContainer(params.container);
                 if (config.initialWidth && !initParams.width) {
                     params.width = floatingBox && config.initialWidthSlide ? config.initialWidthSlide : config.initialWidth;
                 }
@@ -279,7 +275,7 @@ export default function() {
         getToolbar: function(toolbarState) {
             let toolbar;
             // eslint-disable-next-line no-var
-            var buttonKey;
+            let buttonKey;
             if (descendant.getToolbar) {
                 toolbar = descendant.getToolbar(toolbarState);
             }
@@ -376,28 +372,16 @@ export default function() {
             }
             return undefined;
         },
-        /* Esta función es para poder comprobar si los valores introducidos por el usuario al crear marcas son correctos*/
         validateValueInput: function(value) {
             if(descendant.validateValueInput) {
                 return descendant.validateValueInput(value);
             }
             return undefined;
         },
-
         afterRender: function(element, oldState) {
-            state = oldState;
             if (descendant.afterRender) {
                 descendant.afterRender(element, oldState);
             }
-        },
-        setState: function(key, value) {
-            // chose if modify here or after
-            state[key] = value;
-        },
-        /* getState: function() {
-            return state;
-        },*/
-        registerExtraFunction: function() {
         },
     };
 

@@ -77,6 +77,7 @@ export default class CarouselList extends Component {
                         } else if (isPage(id)) {
                             let classSelected = (this.props.navItemSelected === id) ? 'selected' : 'notSelected';
                             let classIndexSelected = this.props.indexSelected === id ? ' classIndexSelected' : '';
+                            let widthScroll = Math.max(this.props.viewToolbars[id].viewName.length / 11 * 100, 100);
                             return (
                                 <div key={index}
                                     id={id}
@@ -99,6 +100,7 @@ export default class CarouselList extends Component {
                                             : <img className="svgIcon" src={iconPDF}/>}
                                         <EditorIndexTitle
                                             id={id}
+                                            scrollW={widthScroll}
                                             title={this.props.viewToolbars[id].viewName}
                                             index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id) + 1 + '.'}
                                             hidden={this.props.navItems[id].hidden}

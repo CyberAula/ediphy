@@ -57,6 +57,7 @@ export default function() {
                     id !== 'getConfig' &&
                     id !== 'getToolbar' &&
                     id !== 'getInitialState' &&
+                    id !== 'afterRender' &&
                     id !== 'getConfigTemplate' &&
                     id !== 'getRenderTemplate') {
                     plugin[id] = descendant[id];
@@ -136,7 +137,7 @@ export default function() {
             parseJson(json, state, hasVisorTemplate);
             return json;
         },
-        registerExtraFunction: function(fn, alias) {
+        /* registerExtraFunction: function(fn, alias) {
             if (!alias) {
                 Object.keys(descendant).forEach(function(prop) {
                     if (descendant[prop] === fn) {
@@ -148,7 +149,7 @@ export default function() {
         },
         getExtraFunctions: function() {
             return Object.keys(extraFunctions);
-        },
+        },*/
         getLocales: function() {
             try {
                 let currentLanguage = Ediphy.i18n.language;
@@ -157,10 +158,15 @@ export default function() {
             } catch (e) {
             }
         },
-        callExtraFunction: function(alias, fnAlias) {
+        /* callExtraFunction: function(alias, fnAlias) {
             let element = $.find("[data-alias='" + alias + "']");
             if (element && extraFunctions && extraFunctions[fnAlias]) {
                 extraFunctions[fnAlias](element[0]);
+            }
+        },*/
+        afterRender: function(element, oldState) {
+            if (descendant.afterRender) {
+                descendant.afterRender(element, oldState);
             }
         },
     };

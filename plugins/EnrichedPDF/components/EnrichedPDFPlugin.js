@@ -20,6 +20,7 @@ export default class EnrichedPDFPlugin extends React.Component {
         this.state = {
             fullscreen: false,
             numPages: null,
+            scale: 1,
             pageNumber: 1,
             rotate: 0,
         };
@@ -79,13 +80,34 @@ export default class EnrichedPDFPlugin extends React.Component {
         this.setState({ fullscreen: !this.state.fullscreen });
     }
 
-    componentWillMount() {
-
+    componentWillUnmount() {
+        window.removeEventListener('keydown', this.keyListener.bind(this));
+    }
+    componentDidMount() {
+        window.addEventListener('keydown', this.keyListener.bind(this));
     }
 
+    keyListener(e) {
+        if (this.state.fullscreen) {
+            let key = e.keyCode ? e.keyCode : e.which;
+            if (key === 34) {
+                this.buttonNext();
+            } else if (key === 33) {
+                this.buttonBack();
+            }
+        }
+    }
+
+    onZoomIn() {
+        this.setState({ scale: Math.min(5, this.state.scale + 0.25) });
+    }
+
+    onZoomOut() {
+        this.setState({ scale: Math.max(0, this.state.scale - 0.25) });
+    }
     render() {
         let marks = this.props.props.marks || {};
-        let markElements = Object.keys(marks).map((id) =>{
+        let markElements = Object.keys(marks).map((id) => {
             let value = marks[id].value;
             let title = marks[id].title;
             let color = marks[id].color;
@@ -95,8 +117,8 @@ export default class EnrichedPDFPlugin extends React.Component {
             } else {
                 position = [0, 0, 0];
             }
-            let x = "" + position[0] * 6.12 + "px";
-            let y = "" + position[1] * 7.92 + "px";
+            let x = "" + position[0] * this.state.scale * 6.12 + "px";
+            let y = "" + position[1] * this.state.scale * 7.92 + "px";
             let bool = (parseFloat(position[2]) === this.state.pageNumber);
             let isPopUp = marks[id].connectMode === "popup";
             let isVisor = true;
@@ -120,13 +142,16 @@ export default class EnrichedPDFPlugin extends React.Component {
         return (
 
             <div ref={pdf_wrapper => {this.pdf_wrapper = pdf_wrapper;}} style={{ width: "100%", height: "100%" }} className={"pdfDiv"}>
-                <div className="topBar">
-                    <button className={"PDFrotateL"} onClick={this.buttonRotateLeft}>
-                        <i className={"material-icons"}>rotate_left</i>
-                    </button>
-                    <button className={"PDFrotateR"} onClick={this.buttonRotateRight}>
-                        <i className={"material-icons"}>rotate_right</i>
-                    </button>
+                <div className="topBar topBarVisor">
+                    <div className="rotationButtons">
+                        <button className={"PDFrotateL"} onClick={this.buttonRotateLeft}>
+                            <i className={"material-icons"}>rotate_left</i>
+                        </button>
+                        <button className={"PDFrotateR"} onClick={this.buttonRotateRight}>
+                            <i className={"material-icons"}>rotate_right</i>
+                        </button>
+                    </div>
+
                     <div className="PDFpages">
                         <button className={"PDFback"} onClick={this.buttonBack}>
                             <i className={"material-icons"}>keyboard_arrow_left</i>
@@ -138,7 +163,11 @@ export default class EnrichedPDFPlugin extends React.Component {
                             <i className={"material-icons"}>keyboard_arrow_right</i>
                         </button>
                     </div>
-                    <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
+                    <div className="actionButtons">
+                        <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
+                        <button className="scale-button" disabled={this.state.scale >= 5} onClick={this.onZoomIn.bind(this)}> <i className="material-icons">zoom_in</i></button>
+                        <button className="scale-button" disabled={this.state.scale <= 0.25} onClick={this.onZoomOut.bind(this)}> <i className="material-icons">zoom_out</i></button>
+                    </div>
 
                 </div>
 
@@ -146,7 +175,7 @@ export default class EnrichedPDFPlugin extends React.Component {
                     file = {this.props.state.url} loading={<div>Please wait!</div>}
                     onLoadSuccess={this.onDocumentLoad} rotate={this.state.rotate}>
                     <div className="dropableRichZone">
-                        <Page className="pdfPage"
+                        <Page className="pdfPage" scale={this.state.scale}
                             pageNumber={this.state.pageNumber}
                         >
                             {this.state.rotate === 0 || this.state.rotate === 360 ? markElements : null}

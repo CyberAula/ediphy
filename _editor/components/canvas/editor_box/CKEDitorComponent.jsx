@@ -63,7 +63,9 @@ export default class CKEDitorComponent extends Component {
 
             let myEditor = CKEDITOR.instances[this.props.id];
             // Obtain the current selection & range
+
             if (myEditor) {
+                myEditor.setData(decodeURI(this.props.toolbars[this.props.id].state.__text));
                 let range = myEditor.createRange();
                 if (range && range.root) {
                     range.moveToElementEditEnd(range.root);
