@@ -81,10 +81,10 @@ export default class EnrichedPDFPlugin extends React.Component {
     }
 
     componentWillUnmount() {
-        window.removeEventListener('keydown', this.keyListener.bind(this));
+        window.removeEventListener('keyup', this.keyListener.bind(this), true);
     }
     componentDidMount() {
-        window.addEventListener('keydown', this.keyListener.bind(this));
+        window.addEventListener('keyup', this.keyListener.bind(this), true);
     }
 
     keyListener(e) {
