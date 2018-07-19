@@ -260,7 +260,7 @@ export default class PDFHandler extends Component {
             };
         }
         initialParams.id = ID_PREFIX_BOX + Date.now();
-        createBox(initialParams, "BasicPDF", inASlide, this.props.onBoxAdded, this.props.boxes);
+        createBox(initialParams, "EnrichedPDF", inASlide, this.props.onBoxAdded, this.props.boxes);
 
     }
 

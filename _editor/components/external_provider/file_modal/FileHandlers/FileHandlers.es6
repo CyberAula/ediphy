@@ -95,8 +95,8 @@ export default function handlers(self) {
             icon: 'picture_as_pdf',
             buttons: [
                 {
-                    title: (currentPlugin && currentPlugin === 'BasicPDF') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' pdf'),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'BasicPDF') /* || (self.props.fileModalResult && self.props.fileModalResult.id)*/,
+                    title: (currentPlugin && currentPlugin === 'EnrichedPDF') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' pdf'),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'EnrichedPDF') /* || (self.props.fileModalResult && self.props.fileModalResult.id)*/,
                     action: ()=>{ // Open side view
                         if (self.state.element) {
                             if (self.props.fileModalResult && !self.props.fileModalResult.id) {

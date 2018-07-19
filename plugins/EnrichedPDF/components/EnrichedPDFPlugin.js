@@ -117,8 +117,8 @@ export default class EnrichedPDFPlugin extends React.Component {
             } else {
                 position = [0, 0, 0];
             }
-            let x = "" + position[0] * this.state.scale * 6.12 + "px";
-            let y = "" + position[1] * this.state.scale * 7.92 + "px";
+            let x = "" + position[0] + "%";
+            let y = "" + position[1] + "%";
             let bool = (parseFloat(position[2]) === this.state.pageNumber);
             let isPopUp = marks[id].connectMode === "popup";
             let isVisor = true;
