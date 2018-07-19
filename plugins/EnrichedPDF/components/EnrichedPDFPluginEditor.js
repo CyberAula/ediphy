@@ -86,7 +86,7 @@ export default class EnrichedPDFPluginEditor extends React.Component {
         });
         return (
             <div style={{ width: "100%", height: "100%" }} className={"pdfDiv"}>
-                <div className="topBar">
+                <div className="topBar editorTopBar">
                     <button className={"PDFback"} onClick={this.buttonBack}>
                         <i className={"material-icons"}>keyboard_arrow_left</i>
                     </button>

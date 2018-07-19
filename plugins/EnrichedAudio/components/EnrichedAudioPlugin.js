@@ -37,7 +37,6 @@ export default class BasicAudioPlugin extends React.Component {
         } catch(err) {
             console.error(err);
         }
-        console.log(e);
     }
 
     handleVolumeChange(e) {
@@ -73,7 +72,6 @@ export default class BasicAudioPlugin extends React.Component {
             waveColor: e.wavesurfer.params.waveColor,
             progressColor: e.wavesurfer.params.progressColor,
         });
-        console.log(this.state);
         if (this.props.state.autoplay) {
             this.setState({ playing: true });
         }

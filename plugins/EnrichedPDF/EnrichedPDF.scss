@@ -35,7 +35,7 @@
     }
     .pdfPage{
 
-      overflow-y: auto !important;
+      //overflow-y: auto !important;
       .react-pdf__Page__canvas{
         margin:auto;
       }
@@ -59,6 +59,10 @@
       -webkit-transition: height 0.3s; /* Safari */
       transition: height 0.3s;
       justify-content: space-between;
+
+      &.editorTopBar {
+        justify-content: center;
+      }
       &:hover {
         height: 50px;
       }

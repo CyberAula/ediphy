@@ -88,11 +88,15 @@ export default class EnrichedPDFPlugin extends React.Component {
     }
 
     keyListener(e) {
+        // console.log(this.state.fullscreen)
         if (this.state.fullscreen) {
+
             let key = e.keyCode ? e.keyCode : e.which;
             if (key === 34) {
+                e.stopPropagation();
                 this.buttonNext();
             } else if (key === 33) {
+                e.stopPropagation();
                 this.buttonBack();
             }
         }
