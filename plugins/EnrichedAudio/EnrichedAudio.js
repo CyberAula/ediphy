@@ -72,13 +72,13 @@ export function EnrichedAudio(base) {
                             __name: Ediphy.i18n.t('EnrichedAudio.box_style'),
                             icon: 'palette',
                             buttons: {
-                                padding: {
+                                /* padding: {
                                     __name: Ediphy.i18n.t('EnrichedAudio.padding'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 100,
-                                },
+                                },*/
                                 borderWidth: {
                                     __name: Ediphy.i18n.t('EnrichedAudio.border_size'),
                                     type: 'number',

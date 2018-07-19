@@ -61,13 +61,13 @@ export function EnrichedPDF(base) {
                             __name: Ediphy.i18n.t('EnrichedPDF.box_style'),
                             icon: 'palette',
                             buttons: {
-                                padding: {
+                                /* padding: {
                                     __name: Ediphy.i18n.t('EnrichedPDF.padding'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 100,
-                                },
+                                },*/
                                 borderWidth: {
                                     __name: Ediphy.i18n.t('EnrichedPDF.border_size'),
                                     type: 'number',
