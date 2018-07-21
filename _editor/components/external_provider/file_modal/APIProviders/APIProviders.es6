@@ -56,11 +56,10 @@ export default function menus(self) {
         },
         {
             name: <span><i className="material-icons">perm_media</i>{i18n.t('FileModal.APIProviders.MyFiles')}</span>,
-            show: true,
+            show: allowedMIME,
             component: MyFilesComponent,
             props: {
                 ...commonProps,
-                show: allowedMIME,
                 pdfSelected: self.state.pdfSelected,
                 filesUploaded: self.props.filesUploaded,
                 onNavItemsAdded: self.props.onNavItemsAdded,
@@ -79,7 +78,7 @@ export default function menus(self) {
         {
             name: 'VISH',
             icon: VISHIcon,
-            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
+            show: !(avatar) ? (allowedMIME) : false,
             component: SearchVishComponent,
             props: { ...commonProps,
             },
