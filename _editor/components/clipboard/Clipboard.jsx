@@ -318,9 +318,7 @@ export default class Clipboard extends Component {
                     }
                     if (noImage) {
 
-                        console.log(event.clipboardData);
                         let text = (event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"));
-                        console.log(text);
                         try {
                             let el = ($(text));
                             let tag = el.prop("tagName");

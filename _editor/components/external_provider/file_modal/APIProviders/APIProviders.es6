@@ -31,11 +31,10 @@ export default function menus(self) {
     return [
         {
             name: <span><i className="material-icons">file_upload</i>{i18n.t('FileModal.APIProviders.UploadFiles')}</span>,
-            show: true,
+            show: allowedMIME,
             component: UploadComponent,
             props: {
                 ...commonProps,
-                show: allowedMIME,
                 isBusy: self.props.isBusy,
                 pdfSelected: self.state.pdfSelected,
                 closeSideBar: (closeAlsoModal)=>{self.setState({ pdfSelected: false }); if (closeAlsoModal) {self.close();}},

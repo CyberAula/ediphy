@@ -12,6 +12,7 @@ export const FILE_UPLOAD_ERROR = 'FILE_UPLOAD_ERROR';
 export const FILE_DELETE_ERROR = 'FILE_DELETE_ERROR';
 export const FILE_UPLOADING = 'FILE_UPLOADING';
 export const FILE_DELETING = 'FILE_DELETING';
+export const FILE_NOT_ALLOWED = 'FILE_NOT_ALLOWED';
 export const PAGE_TYPES = {
     SLIDE: "slide",
     DOCUMENT: "document",
