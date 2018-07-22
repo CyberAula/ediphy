@@ -7,7 +7,7 @@ export function ScormPackage(base) {
                 name: 'ScormPackage',
                 displayName: Ediphy.i18n.t('ScormPackage.PluginName'),
                 category: 'evaluation',
-                icon: 'public',
+                icon: 'school',
                 initialWidth: '70%',
                 initialHeight: "300px",
                 initialWidthSlide: '70%',

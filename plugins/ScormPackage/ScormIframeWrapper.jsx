@@ -19,10 +19,6 @@ export default class ScormIframeWrapper extends React.Component {
 
     }
     render() {
-        // let url = '/lib/scorm/dist/scorm_iframe.html?url=' + encodeURI(this.props.url);
-        // 229 -> map
-        // 211 -> math
-        // return (<iframe className="scormcontent" ref="scormcontent" style={{ width: '100%', height: '100%', zIndex: 0, border: 'none' }} src={url}/>);
         return (<iframe src={this.props.url + "?ediphy=" + this.props.id} style={{ width: '100%', height: '100%', zIndex: 0, border: 'none' }} objecttype="scormpackage" webkitAllowFullScreen="true" allowFullScreen="true" mozallowfullscreen="true" />);
     }
 

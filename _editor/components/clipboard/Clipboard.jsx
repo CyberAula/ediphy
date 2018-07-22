@@ -317,7 +317,31 @@ export default class Clipboard extends Component {
                         console.log(err);
                     }
                     if (noImage) {
-                        initialParams.text = (event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"));
+
+                        console.log(event.clipboardData);
+                        let text = (event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"));
+                        console.log(text);
+                        try {
+                            let el = ($(text));
+                            let tag = el.prop("tagName");
+                            let type = el.attr('objecttype');
+                            let src = el.attr('src');
+                            if (tag === 'IFRAME') {
+                                if (type === 'scormpackage') {
+                                    initialParams.url = src;
+                                    createBox(initialParams, "ScormPackage", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                    return;
+                                }
+                                initialParams.url = src;
+                                createBox(initialParams, "Webpage", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                return;
+
+                            }
+                        } catch(err) {
+                            // eslint-disable-next-line no-console
+                            console.log(err);
+                        }
+                        initialParams.text = text;
                         if (isURL(initialParams.text)) {
                             initialParams.text = '<a href="' + initialParams.text + '">' + initialParams.text + '</a>';
                         }
