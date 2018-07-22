@@ -10,15 +10,15 @@ import { extensions } from '../FileHandlers/FileHandlers';
 
 const categories = {
     "Picture": { label: i18n.t("vish_search_types.Picture"), type: "image", icon: "picture" },
-    "Audio": { label: i18n.t("vish_search_types.Audio"), type: "audio", icon: "audio" },
+    "Audio": { label: i18n.t("vish_search_types.Audio"), type: "audio", icon: "audiotrack" },
     /* "Embed": { label: i18n.t("vish_search_types.Embed"), type: "embed"},*/
     /* "Excursion": {label: i18n.t("vish_search_types.Excursion"), type: "excursion"},*/
     /* "Swf": { label: i18n.t("vish_search_types.Flash"), type: "swf"},*/
     "Link": { label: i18n.t("vish_search_types.Link"), type: "link", icon: "link" },
     "Officedoc": { label: i18n.t("vish_search_types.Officedoc"), type: "pdf", icon: "picture_as_pdf" },
-    "Scormfile": { label: i18n.t("vish_search_types.Scormfile"), type: "scorm", icon: "school" },
+    "Scormfile": { label: i18n.t("vish_search_types.Scormfile"), type: "scormpackage", icon: "school" },
     "Video": { label: i18n.t("vish_search_types.Video"), type: "video", icon: "play_arrow" },
-    "Webapp": { label: i18n.t("vish_search_types.Webapp"), type: "link", icon: "link" } }
+    "Webapp": { label: i18n.t("vish_search_types.Webapp"), type: "webapp", icon: "link" } }
 ;
 
 export default class SearchVishComponent extends React.Component {

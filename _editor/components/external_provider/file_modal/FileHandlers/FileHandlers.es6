@@ -14,8 +14,8 @@ export let extensions = [
     { label: "CSV", value: 'csv', icon: 'view_agenda' },
     // { label: "JSON", value: 'json', icon: 'view_agenda' },
     { label: "PDF", value: 'pdf', icon: 'picture_as_pdf' },
-    { label: "SCORM Package", value: 'scorm', icon: 'school' },
-    { label: "Web App", value: 'link', icon: 'link' },
+    { label: "SCORM Package", value: 'scormpackage', icon: 'school' },
+    { label: "Web App", value: 'webapp', icon: 'link' },
     { label: "XML", value: 'xml', icon: 'code' },
 ];
 export default function handlers(self) {
@@ -204,7 +204,7 @@ export default function handlers(self) {
                 },
                 // download,
             ] };
-    case 'scorm':
+    case 'scormpackage':
         return {
             icon: 'school',
             buttons: [
@@ -225,7 +225,7 @@ export default function handlers(self) {
                 },
                 // download,
             ] };
-    case 'link':
+    case 'webapp':
         return {
             icon: 'link',
             buttons: [

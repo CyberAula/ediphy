@@ -528,7 +528,7 @@ export function uploadVishResourceAsync(query, keywords = "", callback) {
             }
             form.append("document[file]", query);
             let filenameDeconstructed = filename.split('.');
-            let mimetype = query.type && query.type !== "" ? query.type : filenameDeconstructed[filenameDeconstructed.length - 1];
+            let mimetype = (query.type && query.type !== "") ? query.type : filenameDeconstructed[filenameDeconstructed.length - 1];
             return fetch(Ediphy.Config.upload_vish_url, {
                 method: 'POST',
                 credentials: 'same-origin',
