@@ -8,7 +8,7 @@ import VisorContainedCanvas from '../components/canvas/VisorContainedCanvas';
 import VisorSideNav from '../components/navigation/VisorSideNav';
 import VisorPlayer from './../components/navigation/VisorPlayer';
 
-import { isContainedView, isView } from '../../common/utils';
+import { isContainedView, isView, isSection } from '../../common/utils';
 import ScormComponent from '../components/score/GradeComponent';
 import i18n from '../../locales/i18n';
 
@@ -27,13 +27,27 @@ import ExportModal from '../../_editor/components/nav_bar/export/ExportModal';
 export default class Visor extends Component {
     constructor(props) {
         super(props);
+
+        let initialView = this.getCurrentView(Ediphy.State.navItemSelected, Ediphy.State.containedViewSelected);
+        if (!Ediphy.State.preview) {
+            let remainingViews = Ediphy.State.navItemsIds.filter(n=>{
+                let nav = Ediphy.State.navItemsById[n];
+                let returnIt = isSection(nav.id) ? Ediphy.Config.sections_have_content : true;
+                returnIt = returnIt && !nav.hidden;
+                return returnIt ? nav.id : null;
+            });
+            if (remainingViews.length > 0) {
+                initialView = remainingViews[0];
+            }
+        }
+
         this.state = {
-            currentView: [this.getCurrentView(Ediphy.State.navItemSelected, Ediphy.State.containedViewSelected)], /* This is the actual view rendering*/
+            currentView: [initialView], /* This is the actual view rendering*/
             triggeredMarks: [],
             showpop: false,
             richElementState: {},
             backupElementStates: {},
-            toggledSidebar: Ediphy.State.globalConfig.visorNav.sidebar ? Ediphy.State.globalConfig.visorNav.sidebar : (Ediphy.State.globalConfig.visorNav.sidebar === undefined),
+            toggledSidebar: false, // Ediphy.State.globalConfig.visorNav.sidebar ? Ediphy.State.globalConfig.visorNav.sidebar : (Ediphy.State.globalConfig.visorNav.sidebar === undefined),
             fromScorm: Ediphy.State.fromScorm,
             scoreInfo: { userName: "Anonymous", totalScore: 0, totalWeight: 0, completionProgress: 0 },
         };
@@ -127,10 +141,12 @@ export default class Visor extends Component {
             window.onkeyup = function(e) {
                 let key = e.keyCode ? e.keyCode : e.which;
                 let navItemsIds = Ediphy.State.navItemsIds;
+                let navItems = Ediphy.State.navItemsById;
 
                 if (!Ediphy.Config.sections_have_content) {
                     navItemsIds = navItemsIds.filter((element)=>(element.indexOf("se") === -1));
                 }
+                navItemsIds = navItemsIds.filter(nav=> {return !navItems[nav].hidden;});
                 let navItemSelected = this.state.currentView.reduce(element=> {
                     if (isPage(element)) {
                         return element;
@@ -203,7 +219,7 @@ export default class Visor extends Component {
         let visorContent = !isContainedView(currentView) ? (
             <VisorCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") === -1} />) : (<VisorContainedCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") !== -1} />);
         return (
-            <div id="app"
+            <div id="app" ref={'app'}
                 className={wrapperClasses} >
                 <VisorSideNav
                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
@@ -237,7 +253,7 @@ export default class Visor extends Component {
                                 </Button>) : null}
                                 <ScormComponent
                                     updateScore={(scoreInfo)=>{this.setState({ scoreInfo });}}
-                                    navItemsIds={navItemsIds}
+                                    navItemsIds={navItemsIds.filter(nav=> {return !navItems[nav].hidden;})}
                                     containedViews={containedViewsById}
                                     currentView={currentView}
                                     navItemsById={navItems}

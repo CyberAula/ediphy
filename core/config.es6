@@ -48,7 +48,7 @@ export default {
         // 'ContainerJS',
         'GraficaD3',
         'TrueFalse',
-        // 'ScormPackage',
+        'ScormPackage',
     ],
     availableLanguages: [
         'en',

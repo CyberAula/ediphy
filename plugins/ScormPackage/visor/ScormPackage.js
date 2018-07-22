@@ -4,13 +4,13 @@ import ScormIframeWrapper from "../ScormIframeWrapper";
 /* eslint-disable react/prop-types */
 export function ScormPackage(base) {
     return {
-        getRenderTemplate: function(state) {
+        getRenderTemplate: function(state, props) {
 
-            return <ScormIframeWrapper url={state.url}/>;
+            return <ScormIframeWrapper url={state.url} setAnswer={props.setAnswer} id={props.id}/>;
 
         },
         checkAnswer(current, correct) {
-            return (current) === (correct);
+            return (current) / 100;
         },
     };
 }

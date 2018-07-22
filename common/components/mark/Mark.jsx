@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { OverlayTrigger, Tooltip, Popover, Overlay } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
 export default class Mark extends Component {
     render() {
-        let PopoverMark = (<Popover id="popover-trigger-click-root-close">{this.props.markConnection}</Popover>);
+        let PopoverMark = (<Popover id="popover-trigger-click-root-close" >{this.props.markConnection}</Popover>);
         let ToolTipDefault = (<Tooltip positionLeft="-12" id={this.props.idKey}>{this.props.title}</Tooltip>);
         let triggerType = ['hover', 'focus'];
         if (this.props.isPopUp && !this.props.noTrigger) { triggerType = "click"; }
@@ -13,6 +14,7 @@ export default class Mark extends Component {
             <OverlayTrigger key={this.props.idKey}
                 text={this.props.title}
                 placement="top"
+                container={document.getElementById('app')}
                 overlay={this.props.isPopUp ? PopoverMark : ToolTipDefault }
                 trigger={triggerType} rootClose>
                 <a id={'mark-' + this.props.idKey} className="mapMarker" href="#" onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
