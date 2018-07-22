@@ -54,7 +54,7 @@ export default class FileModal extends React.Component {
                         </div>
                         <div id="contentColumn">
                             {React.createElement(menus[this.state.menu].component,
-                                { ...(menus[this.state.menu].props || {}), icon: menus[this.state.menu].icon, name: menus[this.state.menu].name }, null)}
+                                { ...(menus[this.state.menu].props || {}), icon: menus[this.state.menu].icon, name: menus[this.state.menu].name, show: menus[this.state.menu].show }, null)}
                             <div id="sideBar" className={this.state.pdfSelected ? "showBar" : ""}>
                                 {this.state.pdfSelected ? (<div id="wrapper">
                                     <div id="sideArrow">

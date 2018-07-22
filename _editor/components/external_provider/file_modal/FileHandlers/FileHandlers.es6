@@ -10,10 +10,12 @@ export let extensions = [
     { label: "Todos", value: '', icon: 'attach_file' },
     { label: "Image", value: 'image', icon: 'image' },
     { label: "Audio", value: 'audio', icon: 'audiotrack' },
-    { label: "Video", value: 'video', icon: 'play_arrow' },
+    { label: "Video", value: 'video', icon: 'videocam' },
     { label: "CSV", value: 'csv', icon: 'view_agenda' },
     // { label: "JSON", value: 'json', icon: 'view_agenda' },
     { label: "PDF", value: 'pdf', icon: 'picture_as_pdf' },
+    { label: "SCORM Package", value: 'scorm', icon: 'school' },
+    { label: "Web App", value: 'link', icon: 'link' },
     { label: "XML", value: 'xml', icon: 'code' },
     { label: "Objeto 3D", value: 'sla', icon: 'devices_other' },
     { label: "Objeto 3D", value: 'octet-stream', icon: 'devices_other' },
@@ -208,6 +210,7 @@ export default function handlers(self) {
                 },
                 // download,
             ] };
+        /*
     case 'sla' :
     case 'octet-stream' :
     case 'stl':
@@ -224,6 +227,44 @@ export default function handlers(self) {
                             self.close();
                         } else {
                             self.close({ id: self.props.fileModalResult.id, value: self.state.element });
+*/
+    case 'scorm':
+        return {
+            icon: 'school',
+            buttons: [
+                {
+                    title: (currentPlugin && currentPlugin === 'ScormPackage') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' SCORM Package'),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
+                    action: ()=>{
+                        if (self.state.element) {
+                            if (self.props.fileModalResult && !self.props.fileModalResult.id) {
+                                initialParams.url = self.state.element;
+                                createBox(initialParams, "ScormPackage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                                self.close();
+                            } else {
+                                self.close({ id: self.props.fileModalResult.id, value: self.state.element });
+                            }
+                        }
+                    },
+                },
+                // download,
+            ] };
+    case 'link':
+        return {
+            icon: 'link',
+            buttons: [
+                {
+                    title: (currentPlugin && currentPlugin === 'Webpage') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' Webpage'),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
+                    action: ()=>{
+                        if (self.state.element) {
+                            if (self.props.fileModalResult && !self.props.fileModalResult.id) {
+                                initialParams.url = self.state.element;
+                                createBox(initialParams, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                                self.close();
+                            } else {
+                                self.close({ id: self.props.fileModalResult.id, value: self.state.element });
+                            }
                         }
                     },
                 },

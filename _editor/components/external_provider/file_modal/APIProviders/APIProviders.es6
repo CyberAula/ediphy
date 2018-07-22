@@ -7,6 +7,7 @@ import SoundCloudComponent from './SoundCloudComponent';
 import YoutubeComponent from './YoutubeComponent';
 import EuropeanaComponent from './EuropeanaComponent';
 import FlickrComponent from './FlickrComponent';
+// import PhetComponent from './PhetComponent';
 // import OpenClipArtComponent from './OpenClipArtComponent';
 // import GiphyComponent from './GiphyComponent';
 
@@ -32,11 +33,10 @@ export default function menus(self) {
     return [
         {
             name: <span><i className="material-icons">file_upload</i>{i18n.t('FileModal.APIProviders.UploadFiles')}</span>,
-            show: true,
+            show: allowedMIME,
             component: UploadComponent,
             props: {
                 ...commonProps,
-                show: allowedMIME,
                 isBusy: self.props.isBusy,
                 pdfSelected: self.state.pdfSelected,
                 closeSideBar: (closeAlsoModal)=>{self.setState({ pdfSelected: false }); if (closeAlsoModal) {self.close();}},
@@ -57,11 +57,10 @@ export default function menus(self) {
         },
         {
             name: <span><i className="material-icons">perm_media</i>{i18n.t('FileModal.APIProviders.MyFiles')}</span>,
-            show: true,
+            show: allowedMIME,
             component: MyFilesComponent,
             props: {
                 ...commonProps,
-                show: allowedMIME,
                 pdfSelected: self.state.pdfSelected,
                 filesUploaded: self.props.filesUploaded,
                 onNavItemsAdded: self.props.onNavItemsAdded,
@@ -80,7 +79,7 @@ export default function menus(self) {
         {
             name: 'VISH',
             icon: VISHIcon,
-            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
+            show: !(avatar) ? (allowedMIME) : false,
             component: SearchVishComponent,
             props: { ...commonProps,
             },
@@ -108,6 +107,13 @@ export default function menus(self) {
             component: YoutubeComponent,
             props: { ...commonProps },
         },
+        /* {
+            name: 'Phet',
+            icon: YoutubeIcon,
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('video')),
+            component: PhetComponent,
+            props: { ...commonProps },
+        },*/
         /* {
             name: 'Giphy',
             icon: GiphyIcon,

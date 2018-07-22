@@ -50,6 +50,7 @@ export default class MyFilesComponent extends React.Component {
         let aux = currentExtension;
         for (let e in extensions) {
             let ext = extensions[e];
+            console.log(currentExtension);
             if (currentExtension.match(ext.value)) {
                 aux = ext.value;
             }

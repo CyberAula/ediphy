@@ -49,6 +49,9 @@ export default {
         'InputText',
         'TrueFalse',
         'GraficaD3',
+        'EnrichedAudio',
+        'EnrichedPDF',
+        'ScormPackage',
     ],
     availableLanguages: [
         'en',

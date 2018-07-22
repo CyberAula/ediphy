@@ -50,8 +50,8 @@ export default {
         // 'ContainerJS',
         'GraficaD3',
         'TrueFalse',
-        // 'ScormPackage',
-        'Visor3D',
+        'ScormPackage',
+        // 'Visor3D',
     ],
     availableLanguages: [
         'en',

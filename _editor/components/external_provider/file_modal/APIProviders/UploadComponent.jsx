@@ -139,6 +139,11 @@ export default class UploadComponent extends React.Component {
     uploadHandler() {
         let keywordsArray = this.state.keywords.map(key => { return key.text; });
         let keywords = keywordsArray.join(",");
+        console.log(this.state.file, this.state.file.mimetype, this.state.file.type, Ediphy.Config.zip_files_forbidden);
+        if (Ediphy.Config.zip_files_forbidden && this.state.file && this.state.file.name && this.state.file.name.match(/\.zip$/)) {
+            this.setState({ allowed: false });
+            return;
+        }
         this.props.uploadFunction(this.state.file, keywords);
         this.setState({ keywords: [], uploading: true });
 

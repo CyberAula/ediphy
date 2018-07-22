@@ -16,7 +16,7 @@ export function EnrichedPlayer(base) {
                 initialHeight: "270px",
                 initialWidthSlide: '30%',
                 initialHeightSlide: '30%',
-                icon: "play_arrow",
+                icon: "videocam",
                 aspectRatioButtonConfig: {
                     location: ["main", "structure"],
                     defaultValue: true,

@@ -7,7 +7,7 @@ export function ScormPackage(base) {
                 name: 'ScormPackage',
                 displayName: Ediphy.i18n.t('ScormPackage.PluginName'),
                 category: 'evaluation',
-                icon: 'public',
+                icon: 'school',
                 initialWidth: '70%',
                 initialHeight: "300px",
                 initialWidthSlide: '70%',
@@ -26,8 +26,9 @@ export function ScormPackage(base) {
                             buttons: {
                                 url: {
                                     __name: '',
-                                    type: 'text',
+                                    type: 'external_provider',
                                     value: state.url,
+                                    accept: "scorm",
                                     autoManaged: false,
                                 },
                             },
@@ -85,7 +86,7 @@ export function ScormPackage(base) {
         },
         getInitialState: function() {
             return {
-                url: 'http://localhost:8080/lib/scorm/test/dist/index.html',
+                url: 'http://vishubcode.org/scorm/packages/211/vishubcode_scorm_wrapper.html',
                 // 'http://vishubcode.org/scorm/packages/170/dist/index.html',
             };
         },
