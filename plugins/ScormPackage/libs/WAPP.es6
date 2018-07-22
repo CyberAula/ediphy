@@ -33,7 +33,7 @@ export default function WAPP(IframeMessenger, handler) {
 
         switch(data.method) {
         case "getUser":
-            let params = { username: /* V.User.getName()*/ "1234", logged: false/* V.User.isLogged()*/ };
+            let params = { username: window.user, logged: false/* V.User.isLogged()*/ };
             IframeMessenger.sendIframeMessage(_createWAPPResponseMessage(data.method, params, WAPPMessage));
             break;
         case "setScore":

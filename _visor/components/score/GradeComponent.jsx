@@ -98,6 +98,9 @@ export default class ScormComponent extends Component {
                 let bookmark = (init && init.bookmark && init.bookmark !== '') ? init.bookmark : this.getFirstPage();
                 this.props.changeCurrentView(bookmark);
                 this.setState(init);
+                if (init.userName) {
+                    window.user = init.userName;
+                }
                 isFirst = this.props.currentView === bookmark;
                 if (!isFirst) {
                     return;
