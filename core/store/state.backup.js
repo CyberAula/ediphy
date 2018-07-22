@@ -20,7 +20,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                         max: 100,
                     },
                     context: 'elementary_school',
-                    rights: "Public Domain",
+                    rights: "public",
                     keywords: [],
                     minTimeProgress: 10,
                     typicalLearningTime: {
@@ -139,7 +139,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                         max: 100,
                     },
                     context: 'elementary_school',
-                    rights: "Public Domain",
+                    rights: "public",
                     keywords: [],
                     typicalLearningTime: {
                         h: 0,

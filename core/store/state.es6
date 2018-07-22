@@ -20,7 +20,7 @@ export const initialState = (config) => { return { filesUploaded: {},
                     max: 100,
                 },
                 context: undefined,
-                rights: "Public Domain",
+                rights: "public",
                 keywords: [],
                 typicalLearningTime: {
                     h: 0,
