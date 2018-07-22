@@ -334,6 +334,10 @@ export default class Clipboard extends Component {
                                 createBox(initialParams, "Webpage", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
                                 return;
 
+                            } else if (tag === "EMBED") {
+                                initialParams.url = src;
+                                createBox(initialParams, "FlashObject", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                return;
                             }
                         } catch(err) {
                             // eslint-disable-next-line no-console

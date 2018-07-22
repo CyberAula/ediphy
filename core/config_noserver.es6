@@ -51,7 +51,7 @@ export default {
         'GraficaD3',
         'TrueFalse',
         // 'ScormPackage',
-
+        'FlashObject',
     ],
     availableLanguages: [
         'en',

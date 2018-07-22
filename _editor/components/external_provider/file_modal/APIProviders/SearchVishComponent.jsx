@@ -13,7 +13,7 @@ const categories = {
     "Audio": { label: i18n.t("vish_search_types.Audio"), type: "audio", icon: "audiotrack" },
     /* "Embed": { label: i18n.t("vish_search_types.Embed"), type: "embed"},*/
     /* "Excursion": {label: i18n.t("vish_search_types.Excursion"), type: "excursion"},*/
-    /* "Swf": { label: i18n.t("vish_search_types.Flash"), type: "swf"},*/
+    "Swf": { label: i18n.t("vish_search_types.Swf"), type: "swf", icon: "flash_on" },
     "Link": { label: i18n.t("vish_search_types.Link"), type: "link", icon: "link" },
     "Officedoc": { label: i18n.t("vish_search_types.Officedoc"), type: "pdf", icon: "picture_as_pdf" },
     "Scormfile": { label: i18n.t("vish_search_types.Scormfile"), type: "scormpackage", icon: "school" },

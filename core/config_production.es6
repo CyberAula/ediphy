@@ -49,6 +49,7 @@ export default {
         'InputText',
         'TrueFalse',
         'GraficaD3',
+        'FlashObject',
     ],
     availableLanguages: [
         'en',
