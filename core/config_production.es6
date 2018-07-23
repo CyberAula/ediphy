@@ -52,6 +52,8 @@ export default {
         'EnrichedAudio',
         'EnrichedPDF',
         'ScormPackage',
+        'FlashObject',
+        'Rating',
     ],
     availableLanguages: [
         'en',

@@ -15,7 +15,7 @@ let options = {
     isRich: false,
 };
 
-const cats = ["text", "image", "media", "object", "evaluation"];
+const cats = ["text", "image", "media", "objects", "evaluation"];
 function p(text) {
     // eslint-disable-next-line no-console
     console.log(text);
@@ -29,7 +29,7 @@ Uso: yarn run create-plugin \"Nombre del plugin\" <opciones>
 Opciones: 
  no-visor:              Plugin sin definir para el visor 
  rich:                  Plugin enriquecido 
- category <categoría>:  Categoría del plugin ["text", "image", "media", "object", "evaluation"]                   
+ category <categoría>:  Categoría del plugin ["text", "image", "media", "objects", "evaluation"]                   
 `);
 }
 function toCamelCase(str) {
@@ -68,7 +68,7 @@ function parseArgs(args) {
                 }
                 if (cats.indexOf(options.category) === -1) {
                     bad = true;
-                    p("La categoría '" + options.category + "' no existe. Las categorías disponibles son: text, image, media, object, evaluation"); }
+                    p("La categoría '" + options.category + "' no existe. Las categorías disponibles son: text, image, media, objects, evaluation"); }
                 break;
             case "rich":
                 options.isRich = true;

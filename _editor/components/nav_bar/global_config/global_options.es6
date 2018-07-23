@@ -44,13 +44,13 @@ export function contextOptions() {
  */
 export function rightsOptions() {
     return [
-        { value: "Public Domain", label: i18n.t("global_config.public_domain") },
-        { value: "CreativeCommons BY", label: "CreativeCommons BY" },
-        { value: "CreativeCommons BY-SA", label: "CreativeCommons BY-SA" },
-        { value: "CreativeCommons BY-ND", label: "CreativeCommons BY-ND" },
-        { value: "CreativeCommons BY-NC", label: "CreativeCommons BY-NC" },
-        { value: "CreativeCommons BY-NC-SA", label: "CreativeCommons BY-NC-SA" },
-        { value: "CreativeCommons BY-NC-ND", label: "CreativeCommons BY-NC-ND" }];
+        { value: "public", label: i18n.t("global_config.public_domain") },
+        { value: "cc-by", label: "CreativeCommons BY" },
+        { value: "cc-by-sa", label: "CreativeCommons BY-SA" },
+        { value: "cc-by-nd", label: "CreativeCommons BY-ND" },
+        { value: "cc-by-nc", label: "CreativeCommons BY-NC" },
+        { value: "cc-by-nc-sa", label: "CreativeCommons BY-NC-SA" },
+        { value: "cc-by-nc-nd", label: "CreativeCommons BY-NC-ND" }];
 }
 
 /**

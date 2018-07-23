@@ -1,4 +1,5 @@
 import Ediphy from '../editor/main';
+import { translateLicense } from "../../common/common_tools";
 import { ID_PREFIX_SECTION } from '../../common/constants';
 export default {
     createSPAimsManifest: function(exercisesObj, sections, globalConfig, is2004) {
@@ -547,7 +548,7 @@ export default {
         let rightsDesc = doc.createElement('description');
         let rightsDescStr = doc.createElement("string");
         rightsDescStr.setAttribute('language', 'en');
-        let rightsDescStrTxt = doc.createTextNode(gc.rights);
+        let rightsDescStrTxt = doc.createTextNode(translateLicense(gc.rights));
         rightsDescStr.appendChild(rightsDescStrTxt);
         rightsDesc.appendChild(rightsDescStr);
         rights.appendChild(rightsDesc);

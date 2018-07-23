@@ -7,19 +7,21 @@ import parseMoodleXML from '../../../../../core/editor/moodleXML';
 import i18n from 'i18next';
 
 export let extensions = [
-    { label: "Todos", value: '', icon: 'attach_file' },
-    { label: "Image", value: 'image', icon: 'image' },
-    { label: "Audio", value: 'audio', icon: 'audiotrack' },
-    { label: "Video", value: 'video', icon: 'videocam' },
-    { label: "CSV", value: 'csv', icon: 'view_agenda' },
-    // { label: "JSON", value: 'json', icon: 'view_agenda' },
-    { label: "PDF", value: 'pdf', icon: 'picture_as_pdf' },
-    { label: "SCORM Package", value: 'scorm', icon: 'school' },
-    { label: "Web App", value: 'link', icon: 'link' },
-    { label: "XML", value: 'xml', icon: 'code' },
-    { label: "Objeto 3D", value: 'sla', icon: 'devices_other' },
-    { label: "Objeto 3D", value: 'octet-stream', icon: 'devices_other' },
-    { label: "Objeto 3D", value: 'stl', icon: 'devices_other' },
+
+    { label: i18n.t("vish_search_types.All"), value: '', icon: 'attach_file' },
+    { label: i18n.t("vish_search_types.Picture"), value: 'image', icon: 'image' },
+    { label: i18n.t("vish_search_types.Audio"), value: 'audio', icon: 'audiotrack' },
+    { label: i18n.t("vish_search_types.Video"), value: 'video', icon: 'videocam' },
+    { label: i18n.t("vish_search_types.CSV"), value: 'csv', icon: 'view_agenda' },
+    // { label: i18n.t("vish_search_types.JSON"), value: 'json', icon: 'view_agenda' },
+    { label: i18n.t("vish_search_types.Officedoc"), value: 'pdf', icon: 'picture_as_pdf' },
+    { label: i18n.t("vish_search_types.Scormfile"), value: 'scormpackage', icon: 'extension' },
+    { label: i18n.t("vish_search_types.Link"), value: 'webapp', icon: 'link' },
+    { label: i18n.t("vish_search_types.Swf"), value: 'swf', icon: 'flash_on' },
+    { label: i18n.t("vish_search_types.XML"), value: 'xml', icon: 'code' },
+    // { label: "Objeto 3D", value: 'sla', icon: 'devices_other' },
+    // { label: "Objeto 3D", value: 'octet-stream', icon: 'devices_other' },
+    // { label: "Objeto 3D", value: 'stl', icon: 'devices_other' },
     // { label: "Otro", value: 'application', icon: 'devices_other' },
 ];
 export default function handlers(self) {
@@ -28,7 +30,6 @@ export default function handlers(self) {
     let { initialParams, isTargetSlide } = getInitialParams(self, page);
     let currentPlugin = (self.props.fileModalResult && self.props.fileModalResult.id && self.props.pluginToolbars[self.props.fileModalResult.id]) ? self.props.pluginToolbars[self.props.fileModalResult.id].pluginId : null;
     let apiPlugin = currentPlugin ? Ediphy.Plugins.get(currentPlugin) : undefined;
-    console.log(type);
     switch(type) {
     case 'image' :
         return{
@@ -55,7 +56,7 @@ export default function handlers(self) {
         };
     case 'video' :
         return {
-            icon: 'play_arrow',
+            icon: 'videocam',
             buttons: [
                 {
                     title: (currentPlugin && currentPlugin === 'EnrichedPlayer') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.video')),
@@ -210,6 +211,7 @@ export default function handlers(self) {
                 },
                 // download,
             ] };
+
         /*
     case 'sla' :
     case 'octet-stream' :
@@ -228,9 +230,10 @@ export default function handlers(self) {
                         } else {
                             self.close({ id: self.props.fileModalResult.id, value: self.state.element });
 */
-    case 'scorm':
+
+    case 'scormpackage':
         return {
-            icon: 'school',
+            icon: 'extension',
             buttons: [
                 {
                     title: (currentPlugin && currentPlugin === 'ScormPackage') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' SCORM Package'),
@@ -249,7 +252,7 @@ export default function handlers(self) {
                 },
                 // download,
             ] };
-    case 'link':
+    case 'webapp':
         return {
             icon: 'link',
             buttons: [
@@ -261,6 +264,27 @@ export default function handlers(self) {
                             if (self.props.fileModalResult && !self.props.fileModalResult.id) {
                                 initialParams.url = self.state.element;
                                 createBox(initialParams, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                                self.close();
+                            } else {
+                                self.close({ id: self.props.fileModalResult.id, value: self.state.element });
+                            }
+                        }
+                    },
+                },
+                // download,
+            ] };
+    case 'swf':
+        return {
+            icon: 'flash_on',
+            buttons: [
+                {
+                    title: (currentPlugin && currentPlugin === 'FlashObject') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' Flash Object'),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
+                    action: ()=>{
+                        if (self.state.element) {
+                            if (self.props.fileModalResult && !self.props.fileModalResult.id) {
+                                initialParams.url = self.state.element;
+                                createBox(initialParams, "FlashObject", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
                                 self.close();
                             } else {
                                 self.close({ id: self.props.fileModalResult.id, value: self.state.element });

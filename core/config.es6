@@ -52,6 +52,8 @@ export default {
         'TrueFalse',
         'ScormPackage',
         // 'Visor3D',
+        'FlashObject',
+        'Rating',
     ],
     availableLanguages: [
         'en',

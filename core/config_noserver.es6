@@ -53,7 +53,8 @@ export default {
         'GraficaD3',
         'TrueFalse',
         'ScormPackage',
-
+        'FlashObject',
+        'Rating',
     ],
     availableLanguages: [
         'en',

@@ -1,18 +1,24 @@
 import React from 'react';
+import i18n from 'i18next';
+import FlashObjectComponent from "./FlashObjectComponent";
+
 /* eslint-disable react/prop-types */
-export function ScormPackage(base) {
+export function FlashObject(base) {
     return {
         getConfig: function() {
             return {
-                name: 'ScormPackage',
-                displayName: Ediphy.i18n.t('ScormPackage.PluginName'),
-                category: 'evaluation',
-                icon: 'extension',
-                initialWidth: '70%',
-                initialHeight: "300px",
-                initialWidthSlide: '70%',
-                initialHeightSlide: '60%',
-                flavor: 'react',
+                name: 'FlashObject',
+                displayName: i18n.t('FlashObject.PluginName'),
+                category: "objects",
+                flavor: "react",
+                needsConfigModal: false,
+                needsTextEdition: false,
+                initialWidth: '480px',
+                initialHeight: "270px",
+                initialWidthSlide: '30%',
+                initialHeightSlide: '30%',
+                icon: 'flash_on',
+
             };
         },
         getToolbar: function(state) {
@@ -21,20 +27,20 @@ export function ScormPackage(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: Ediphy.i18n.t('ScormPackage.URL'),
+                            __name: 'Config',
                             icon: 'link',
                             buttons: {
                                 url: {
-                                    __name: '',
+                                    __name: 'URL',
                                     type: 'external_provider',
                                     value: state.url,
-                                    accept: "scormpackage",
+                                    accept: 'swf',
                                     autoManaged: false,
                                 },
                             },
                         },
                         style: {
-                            __name: Ediphy.i18n.t('ScormPackage.box_style'),
+                            __name: Ediphy.i18n.t('Webpage.box_style'),
                             icon: 'palette',
                             buttons: {
                                 padding: {
@@ -45,32 +51,32 @@ export function ScormPackage(base) {
                                     max: 100,
                                 },
                                 borderWidth: {
-                                    __name: Ediphy.i18n.t('ScormPackage.border_size'),
+                                    __name: Ediphy.i18n.t('Webpage.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 10,
                                 },
                                 borderStyle: {
-                                    __name: Ediphy.i18n.t('ScormPackage.border_style'),
+                                    __name: Ediphy.i18n.t('Webpage.border_style'),
                                     type: 'select',
                                     value: 'solid',
                                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
-                                    __name: Ediphy.i18n.t('ScormPackage.border_color'),
+                                    __name: Ediphy.i18n.t('Webpage.border_color'),
                                     type: 'color',
                                     value: '#000000',
                                 },
                                 borderRadius: {
-                                    __name: Ediphy.i18n.t('ScormPackage.radius'),
+                                    __name: Ediphy.i18n.t('Webpage.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 50,
                                 },
                                 opacity: {
-                                    __name: Ediphy.i18n.t('ScormPackage.opacity'),
+                                    __name: Ediphy.i18n.t('Webpage.opacity'),
                                     type: 'range',
                                     value: 1,
                                     min: 0,
@@ -80,20 +86,19 @@ export function ScormPackage(base) {
 
                             },
                         },
+
                     },
                 },
             };
         },
         getInitialState: function() {
             return {
-                url: 'http://vishubcode.org/scorm/packages/211/vishubcode_scorm_wrapper.html',
-                // 'http://vishubcode.org/scorm/packages/170/dist/index.html',
+                url: "http://vishub.org/swfs/4669.swf",
             };
         },
-        getRenderTemplate: function(state) {
-            return (<iframe style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none', border: 'none' }} src={state.url}/>);
+        getRenderTemplate: function(state, props) {
+            return (<FlashObjectComponent src={state.url}/>);
         },
     };
 }
-
 /* eslint-enable react/prop-types */

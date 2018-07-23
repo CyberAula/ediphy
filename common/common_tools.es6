@@ -278,9 +278,22 @@ function rgbtoHex(n) {
 export function toColor(rgba) {
     let regex = /rgba\((\d+),(\d+),(\d+),(.+)\)/;
     let oldColor = regex.exec(rgba);
-    if(oldColor && oldColor.length > 0) {
+    if (oldColor && oldColor.length > 0) {
         let newColor = '#' + rgbtoHex(oldColor[1]) + rgbtoHex(oldColor[2]) + rgbtoHex(oldColor[3]);
         return { newColor: newColor, alpha: oldColor[4] * 100 };
     }
     return { newColor: rgba, alpha: 100 };
+
+}
+export function translateLicense(license) {
+    let dict = {
+        "public": "Public Domain",
+        "cc-by": "CreativeCommons BY",
+        "cc-by-sa": "CreativeCommons BY-SA",
+        "cc-by-nd": "CreativeCommons BY-ND",
+        "cc-by-nc": "CreativeCommons BY-NC",
+        "cc-by-nc-sa": "CreativeCommons BY-NC-SA",
+        "cc-by-nc-nd": "CreativeCommons BY-NC-ND" };
+
+    return dict[license];
 }
