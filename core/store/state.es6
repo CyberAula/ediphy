@@ -17,7 +17,7 @@ export const initialState = (config) => { return { filesUploaded: {},
                 trackProgress: true,
                 age: {
                     min: 0,
-                    max: 100,
+                    max: 0,
                 },
                 context: undefined,
                 rights: "public",

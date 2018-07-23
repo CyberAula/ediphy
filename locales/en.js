@@ -553,6 +553,7 @@ let en = {
             "Mongolian": "Mongolian",
             "Nepali": "Nepali",
             "Norwegian": "Norwegian",
+            "other": "Others",
             "Persian": "Persian",
             "Polish": "Polish",
             "Portuguese": "Portuguese",
