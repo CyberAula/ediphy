@@ -50,8 +50,9 @@ export default {
         // 'ContainerJS',
         'GraficaD3',
         'TrueFalse',
-        // 'ScormPackage',
+        'ScormPackage',
         'FlashObject',
+        'Rating',
     ],
     availableLanguages: [
         'en',

@@ -9,7 +9,7 @@ module.exports = {
         "FeedbackMsg": "Here you can provide some feedback about the answer",
         "ShowFeedback": "Show feedback",
         "Number": "Number  of answers",
-        "ShowLettersInsteadOfNumbers": "Show letters instead of numbers",
+        "ShowStars": "Show stars instead of numbers",
         "background_color": "Background color",
         "border_color": "Border color",
         "border_size": "Border Size",
@@ -21,6 +21,6 @@ module.exports = {
         "radius": "Radius",
         "source": "Fuente",
         "Answer": "Answer",
-        "Number": "Number",
+        "Number": "Number of levels",
     },
 };

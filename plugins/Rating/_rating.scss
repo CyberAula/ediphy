@@ -23,9 +23,27 @@
     flex: 1;
     background: transparent;
     border: none;
-    img {
+    padding: 10px;
+    img, svg {
       width:100%;
       height: 100%;
+      path {
+        stroke: #777;
+        fill: #777
+      }
+    }
+
+    &.ratingSelected {
+      path {
+        stroke: $blueprimary;
+        fill: $blueprimary
+      }
+    }
+    &:hover {
+      path {
+        stroke: #ddd;
+
+      }
     }
   }
 }

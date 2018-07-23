@@ -1,9 +1,5 @@
 import React from 'react';
-import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
-import i18n from 'i18next';
-import { letterFromNumber } from '../../../common/common_tools';
-import { compareNumbersLiterally } from '../../../core/visor/correction_functions';
-import star from '../star.svg';
+import StarComponent from '../StarComponent';
 /* eslint-disable react/prop-types */
 
 export function Rating() {
@@ -12,23 +8,23 @@ export function Rating() {
             let els = [];
             let attempted = props.exercises && props.exercises.attempted;
             for (let i = 0; i < state.range; i++) {
-                let checked = props.exercises.currentAnswer === i;
+                let checked = props.exercises.currentAnswer === i + 1;
 
-                if (state.numeric) {
+                if (!state.stars) {
 
                     els.push(<button className={"ratingElement" + (checked ? " ratingSelected" : "")} onClick={(e)=>{
                         if (!attempted) {
-                            props.setAnswer(i);
+                            props.setAnswer(i + 1);
                         }
                     }}>{i + 1}</button>);
                 } else {
-                    checked = props.exercises.currentAnswer >= i;
+                    checked = props.exercises.currentAnswer > i;
 
                     els.push(<button className={"ratingElementStar" + (checked ? " ratingSelected" : "")} onClick={(e)=>{
                         if (!attempted) {
-                            props.setAnswer(i);
+                            props.setAnswer(i + 1);
                         }
-                    }}><img src={star} alt=""/></button>);
+                    }}><Star/></button>);
                 }
             }
             return <div className={"exercisePlugin ratingPlugin"}>
@@ -36,7 +32,7 @@ export function Rating() {
             </div>;
         },
         checkAnswer(current, correct, state) {
-            return (current + 1) / (state.range || 1);
+            return (current) / (state.range || 1);
 
         },
     };

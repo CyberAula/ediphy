@@ -1,10 +1,7 @@
 import React from 'react';
-import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import './_rating.scss';
 import i18n from 'i18next';
-import { letterFromNumber } from '../../common/common_tools';
-import star from './star.svg';
-import Star from "./Star";
+import StarComponent from "./StarComponent";
 /* eslint-disable react/prop-types */
 
 export function Rating(base) {
@@ -38,10 +35,10 @@ export function Rating(base) {
                                     min: 1,
                                     autoManaged: false,
                                 },
-                                numeric: {
-                                    __name: i18n.t("Rating.ShowLettersInsteadOfNumbers"),
+                                stars: {
+                                    __name: i18n.t("Rating.ShowStars"),
                                     type: 'checkbox',
-                                    checked: state.numeric,
+                                    checked: state.stars,
                                 },
                             },
                         },
@@ -102,7 +99,7 @@ export function Rating(base) {
         },
         getInitialState: function() {
             return {
-                numeric: true,
+                stars: true,
                 range: 5,
             };
         },
@@ -110,10 +107,10 @@ export function Rating(base) {
             let els = [];
 
             for (let i = 0; i < state.range; i++) {
-                if (state.numeric) {
+                if (!state.stars) {
                     els.push(<button className="ratingElement">{i + 1}</button>);
                 } else {
-                    els.push(<button className="ratingElementStar"><Star stroke={'#00ffff'} /></button>);
+                    els.push(<button className="ratingElementStar"><Star /></button>);
                 }
             }
 

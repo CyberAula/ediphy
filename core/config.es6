@@ -50,7 +50,7 @@ export default {
         'TrueFalse',
         'ScormPackage',
         'FlashObject',
-        // 'Rating'
+        'Rating',
     ],
     availableLanguages: [
         'en',
