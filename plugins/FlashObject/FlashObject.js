@@ -27,7 +27,7 @@ export function FlashObject(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: 'Config',
+                            __name: Ediphy.i18n.t('FlashObject.config'),
                             icon: 'link',
                             buttons: {
                                 url: {
