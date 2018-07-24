@@ -50,7 +50,8 @@ export default {
         'TrueFalse',
         'GraficaD3',
         'FlashObject',
-        'Rating',
+        'ScormPackage',
+        // 'Rating',
     ],
     availableLanguages: [
         'en',

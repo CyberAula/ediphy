@@ -544,6 +544,7 @@ export function uploadVishResourceAsync(query, keywords = "", callback) {
             }).then((result) => {
 
                 let id = ID_PREFIX_FILE + Date.now();
+                console.log(mimetype);
                 dispatch(uploadFile(id, result, query.name, keywords, mimetype));
                 if (callback) {
                     callback(result);
