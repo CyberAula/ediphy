@@ -298,6 +298,7 @@ class EditorApp extends Component {
                                 containedViewSelected={containedViews[containedViewSelected] || containedViewSelected }
                                 category={this.state.pluginTab}
                                 hideTab={this.state.hideTab}
+                                onTabHide={()=>{this.setState({ pluginTab: "" });}}
                                 boxes={boxes}
                                 ribbonHeight={ribbonHeight + 'px'} />
                         </Row>

@@ -54,7 +54,7 @@ export default class PluginRibbon extends Component {
                                         name={item.name}
                                         bsSize="large"
                                         draggable="false"
-                                        onMouseUp={(e)=>this.clickAddBox(e, item.name)}
+                                        onMouseUp={(e)=>{this.clickAddBox(e, item.name);}}
                                         style={(button.iconFromUrl) ? {
                                             padding: '8px 8px 8px 45px',
                                             backgroundImage: 'url(' + clase + ')',
@@ -69,10 +69,8 @@ export default class PluginRibbon extends Component {
                             }
                             return null;
                         })}
-
                     </div>
                 </div>
-
             </Col>
         );
     }
@@ -214,6 +212,9 @@ export default class PluginRibbon extends Component {
 
                         if(rib === 'List') {
                             this.clickAddBox(event, name);
+
+                        } else {
+                            this.props.onTabHide();
                         }
                     }
                     event.stopPropagation();
@@ -290,6 +291,7 @@ export default class PluginRibbon extends Component {
             }
         }
         createBox(initialParams, name, inASlide, this.props.onBoxAdded, this.props.boxes);
+        this.props.onTabHide();
         event.stopPropagation();
         event.preventDefault();
 
