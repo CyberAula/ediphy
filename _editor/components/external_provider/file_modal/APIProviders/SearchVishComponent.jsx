@@ -51,7 +51,7 @@ export default class SearchVishComponent extends React.Component {
                 <Form horizontal action="javascript:void(0);">
                     <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}
                         <SearchComponent query={this.state.value} onChange={(e)=>{this.setState({ query: e.target.value });}} onSearch={this.onSearch} />
-                        <FormControl disabled={this.props.show !== '*'} autoFocus ref="type" componentClass="select" style={{ width: '20%', float: 'right' }} onChange={(e)=>{this.setState({ types: e.target.value });}}>
+                        <FormControl disabled={this.props.show !== '*'} autoFocus ref="type" className="selectD" componentClass="select" style={{ width: '20%', float: 'right' }} onChange={(e)=>{this.setState({ types: e.target.value });}}>
                             <option value="Webapp,Scormfile,Link,Audio,Video,Officedoc,Picture,Swf" selected={type === '*'}>All</option>
                             {Object.keys(categories).map((c, key)=>{
                                 let cat = categories[c];

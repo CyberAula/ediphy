@@ -359,6 +359,19 @@
       }
     }
   }
+  .selectD:disabled, .selectD.is-disabled{
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      text-indent: 1px;
+      text-overflow: '';
+    .Select-value {
+      background: #ddd;
+      cursor: not-allowed;
+    }
+    .Select-arrow-zone {
+      display: none;
+    }
+  }
 }
 
 

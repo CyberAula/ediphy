@@ -24,7 +24,7 @@ export function Rating() {
                         if (!attempted) {
                             props.setAnswer(i + 1);
                         }
-                    }}><Star/></button>);
+                    }}><StarComponent/></button>);
                 }
             }
             return <div className={"exercisePlugin ratingPlugin"}>

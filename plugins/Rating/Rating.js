@@ -110,7 +110,7 @@ export function Rating(base) {
                 if (!state.stars) {
                     els.push(<button className="ratingElement">{i + 1}</button>);
                 } else {
-                    els.push(<button className="ratingElementStar"><Star /></button>);
+                    els.push(<button className="ratingElementStar"><StarComponent /></button>);
                 }
             }
 
