@@ -555,6 +555,7 @@ let es = {
             "Mongolian": "Mongol",
             "Nepali": "Nepalí",
             "Norwegian": "Noruego",
+            "other": "Otros",
             "Persian": "Persa",
             "Polish": "Polaco",
             "Portuguese": "Portugués",
