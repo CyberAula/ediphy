@@ -21,6 +21,7 @@ export default class UploadComponent extends React.Component {
             uploading: false,
             uploaded: false,
             allowed: true,
+            forbidden: false,
         };
         this.uploadHandler = this.uploadHandler.bind(this);
         this.dropHandler = this.dropHandler.bind(this);
@@ -73,6 +74,7 @@ export default class UploadComponent extends React.Component {
                         { this.state.error ? <div id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i><div>{i18n.t("FileModal.APIProviders.error")}</div></div> : null }
                         { (this.state.uploaded) ? <div id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i><div> {i18n.t("FileModal.APIProviders.uploaded")}</div></div> : null }
                         {!this.state.allowed ? <div id="warningMsg" className="uploadModalMsg"><i className="material-icons">warning</i>{i18n.t("FileModal.APIProviders.warning_allowed")}</div> : null}
+                        {this.state.forbidden ? <div id="warningMsg" className="uploadModalMsg"><i className="material-icons">warning</i>{i18n.t("FileModal.APIProviders.warning_forbidden")}</div> : null}
                         <Button
                             style={{ display: (this.state.uploaded) ? 'inline-block' : 'none' }}
                             bsStyle="primary"
@@ -141,7 +143,7 @@ export default class UploadComponent extends React.Component {
         let keywords = keywordsArray.join(",");
         console.log(this.state.file, this.state.file.mimetype, this.state.file.type, Ediphy.Config.zip_files_forbidden);
         if (Ediphy.Config.zip_files_forbidden && this.state.file && this.state.file.name && this.state.file.name.match(/\.zip$/)) {
-            this.setState({ allowed: false });
+            this.setState({ forbidden: true });
             return;
         }
         this.props.uploadFunction(this.state.file, keywords);

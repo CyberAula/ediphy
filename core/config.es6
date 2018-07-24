@@ -31,6 +31,7 @@ export default {
     open_button_enabled: true,
     sections_have_content: false,
     autosave_time: 0, // Any value below 1000 will not autosave
+    zip_files_forbidden: true,
     pluginList: [
         'EnrichedAudio',
         // 'BasicImage',

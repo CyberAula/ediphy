@@ -78,6 +78,7 @@ export default class MyFilesComponent extends React.Component {
                         value={currentExtension}
                         disabled = {this.props.show !== "*"}
                         options={extensions}
+                        className="selectD"
                         onChange={e => {this.setState({ extensionFilter: e.value });}} />
                 </FormGroup>
             </div>

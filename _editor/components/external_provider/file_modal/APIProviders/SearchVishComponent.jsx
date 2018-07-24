@@ -14,7 +14,7 @@ const categories = {
     /* "Embed": { label: i18n.t("vish_search_types.Embed"), type: "embed"},*/
     /* "Excursion": {label: i18n.t("vish_search_types.Excursion"), type: "excursion"},*/
     "Swf": { label: i18n.t("vish_search_types.Swf"), type: "swf", icon: "flash_on" },
-    "Link": { label: i18n.t("vish_search_types.Link"), type: "link", icon: "link" },
+    "Link": { label: i18n.t("vish_search_types.Link"), type: "webapp", icon: "link" },
     "Officedoc": { label: i18n.t("vish_search_types.Officedoc"), type: "pdf", icon: "picture_as_pdf" },
     "Scormfile": { label: i18n.t("vish_search_types.Scormfile"), type: "scormpackage", icon: "extension" },
     "Video": { label: i18n.t("vish_search_types.Video"), type: "video", icon: "videocam" },
@@ -24,7 +24,7 @@ const categories = {
 export default class SearchVishComponent extends React.Component {
     constructor(props) {
         super(props);
-        let types = 'Webapp,Scormfile,Link,Audio,Video,Officedoc,Picture';
+        let types = 'Webapp,Scormfile,Link,Audio,Video,Officedoc,Picture,Swf';
         for (let e in extensions) {
             let ext = extensions[e];
             if ((this.props.show || '*').match(ext.value)) {
@@ -51,8 +51,8 @@ export default class SearchVishComponent extends React.Component {
                 <Form horizontal action="javascript:void(0);">
                     <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}
                         <SearchComponent query={this.state.value} onChange={(e)=>{this.setState({ query: e.target.value });}} onSearch={this.onSearch} />
-                        <FormControl disabled={this.props.show !== '*'} autoFocus ref="type" componentClass="select" style={{ width: '20%', float: 'right' }} onChange={(e)=>{this.setState({ types: e.target.value });}}>
-                            <option value="Webapp,Scormfile,Link,Audio,Video,Officedoc,Picture" selected={type === '*'}>All</option>
+                        <FormControl disabled={this.props.show !== '*'} autoFocus ref="type" className="selectD" componentClass="select" style={{ width: '20%', float: 'right' }} onChange={(e)=>{this.setState({ types: e.target.value });}}>
+                            <option value="Webapp,Scormfile,Link,Audio,Video,Officedoc,Picture,Swf" selected={type === '*'}>All</option>
                             {Object.keys(categories).map((c, key)=>{
                                 let cat = categories[c];
                                 return <option key={key} selected={type === cat.type} value={c}>{cat.label}</option>;
