@@ -51,7 +51,9 @@ export default class BasicAudioPluginEditor extends React.Component {
                 playing = this.state.playing;
 
             }
-
+            if (this.props.state.autoplay !== nextProps.state.autoplay) {
+                return;
+            }
             this.wavesurfer.stop();
             this.wavesurfer.destroy();
 

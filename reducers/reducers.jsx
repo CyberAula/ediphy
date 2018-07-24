@@ -94,7 +94,7 @@ function everPublished(state = false, action = {}) {
         }
         return state;
     case IMPORT_STATE:
-        return action.payload.present.everPublished || state;
+        return action.payload.present.everPublished === undefined ? state : action.payload.present.everPublished;
     default:
         return state;
     }}

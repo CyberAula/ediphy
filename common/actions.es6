@@ -353,7 +353,8 @@ export function deleteRemoteFileEdiphyAsync(id, url, callback) {
 // Async actions
 export function exportStateAsync(state, win = null, url = null) {
     return dispatch => {
-        let exportedState = { present: { ...state.undoGroup.present, filesUploaded: state.filesUploaded, status: state.status } };
+        let exportedState = { present: { ...state.undoGroup.present,
+            filesUploaded: state.filesUploaded, status: state.status, everPublished: state.everPublished } };
         // First dispatch: the app state is updated to inform
         // that the API call is starting.
         dispatch(setBusy(true, i18n.t("messages.operation_in_progress"), "saving_state"));
@@ -539,14 +540,15 @@ export function uploadVishResourceAsync(query, keywords = "", callback) {
                 }
 
                 return response.text().then((text)=>{
-                    return JSON.parse(text).src;
+                    return JSON.parse(text);
                 });
             }).then((result) => {
 
                 let id = ID_PREFIX_FILE + Date.now();
-                dispatch(uploadFile(id, result, query.name, keywords, mimetype));
+                mimetype = (result.type === 'scormpackage' || result.type === 'webapp') ? result.type : mimetype;
+                dispatch(uploadFile(id, result.src, query.name, keywords, mimetype));
                 if (callback) {
-                    callback(result);
+                    callback(result.src);
                 }
                 dispatch(setBusy(false, id));
             })

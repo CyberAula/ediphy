@@ -1,10 +1,10 @@
 import i18n from 'i18next';
 
 export const initialState = (config) => { return { filesUploaded: {},
+    status: 'draft',
+    everPublished: false,
     undoGroup: {
         present: {
-            status: 'draft',
-            everPublished: false,
             globalConfig: {
                 title: undefined,
                 canvasRatio: config.defaultAspectRatio || 16 / 9,

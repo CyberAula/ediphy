@@ -53,7 +53,8 @@ export default {
         'EnrichedPDF',
         'ScormPackage',
         'FlashObject',
-        'Rating',
+        'ScormPackage',
+        // 'Rating',
     ],
     availableLanguages: [
         'en',

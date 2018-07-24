@@ -285,7 +285,9 @@ $track-width: 54% !default;
   }
 
   @include custom_range;
-
+  .wavecontainer {
+    overflow: hidden;
+  }
 
 /*
 .markBar
