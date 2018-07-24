@@ -94,6 +94,7 @@ let en = {
                 'searching': 'Searching...',
                 'error': 'An error has ocurred',
                 'warning_allowed': 'This file is not compatible with the content you are editing',
+                'warning_forbidden': 'This file is not allowed in this version of Ediphy',
                 'uploaded': 'File Uploaded and added to the library',
                 'upload': 'Upload file',
                 'clear': 'Clear',

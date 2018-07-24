@@ -96,6 +96,7 @@ let es = {
                 'uploaded': 'Archivo subido y añadido a la biblioteca',
                 'upload': 'Subir fichero',
                 'warning_allowed': 'Este formato no está admitido para el contenido que estás editando',
+                'warning_forbidden': 'Este formato no está admitido en esta versión de Ediphy',
                 'clear': 'Cancelar',
                 'search': 'Buscar',
                 'confirm_delete': '¿Estás seguro de que deseas eliminar este fichero?',
