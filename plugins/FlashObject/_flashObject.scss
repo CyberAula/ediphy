@@ -1,8 +1,14 @@
 .flashObject {
-  pointer-events: none;
+  pointer-events: all;
+  &.pointerevents {
+    pointer-events: none;
+  }
 }
 .wholeboxvisor{
   .flashObject {
     pointer-events: all;
+    &.pointerevents {
+      pointer-events: all;
+    }
   }
 }
