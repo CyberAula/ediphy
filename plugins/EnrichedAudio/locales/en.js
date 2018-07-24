@@ -18,6 +18,7 @@ module.exports = {
         "opacity": "Opacity",
         "padding": "Padding",
         "PluginName": "Audio Player",
+        "player": "Player style",
         "radius": "Radius",
         "pos": "Position",
         "source": "Source",

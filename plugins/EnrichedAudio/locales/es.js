@@ -17,6 +17,7 @@ module.exports = {
         "opacity": "Opacidad",
         "padding": "Padding",
         "PluginName": "Reproductor Audio",
+        "player": "Estilo del reproductor",
         "radius": "Radio",
         "pos": "Posición",
         "Scroll": "Scroll",

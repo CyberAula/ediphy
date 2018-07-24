@@ -35,7 +35,7 @@ $track-width: 54% !default;
     -moz-appearance: none;
     width: 35%;
     margin: 3px 2.5%;
-    height: 15px;
+    height: 19px;
     margin-left: 20px;
   }
   input[type=range]:focus {
@@ -169,13 +169,16 @@ $track-width: 54% !default;
   .audio-controls{
     position: absolute;
     z-index: 5;
-    top: 0px;
-    bottom: 10;
-    width: 50%;
-    padding: 5px;
-    margin: 0;
-    height: 40%;
+    bottom: 0px;
+    width: 100%;
+    //padding: 5px;
+    //margin: 1px;
+    height: 33px;
     opacity: 1;
+    background: -webkit-linear-gradient(transparent, grey);
+    background: -o-linear-gradient(transparent, grey);
+    background: -moz-linear-gradient(transparent, grey);
+    background: linear-gradient(transparent, grey);
     &:hover{
       opacity: 1;
     }
@@ -195,27 +198,28 @@ $track-width: 54% !default;
     &:hover{
       cursor: pointer;
       color: white;
-      background-color: $blueprimary;
+      background-color: transparent;
     }
   }
 
   .play-audio-button {
-    background-color: #17CFC8;
+    //background-color: #17CFC8 ;
+    background-color: transparent;
     float:left;
-    height: 40px;
+    height: 30px;
     width:40px;
 
     margin: 4px;
     margin-top: 3px;
     padding:5px;
-    -webkit-border-radius: 50px;
-    -moz-border-radius: 50px;
-    border-radius: 50px;
+    //-webkit-border-radius: 50px;
+    //-moz-border-radius: 50px;
+    //border-radius: 50px;
     font-size:11px;
-    line-height:32px;
+    line-height:20px;
     text-transform: uppercase;
       i {
-        margin-top: 3px;
+        margin-top: -2px;
       }
   }
 

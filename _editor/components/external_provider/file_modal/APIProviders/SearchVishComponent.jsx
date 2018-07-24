@@ -17,7 +17,7 @@ const categories = {
     "Link": { label: i18n.t("vish_search_types.Link"), type: "webapp", icon: "link" },
     "Officedoc": { label: i18n.t("vish_search_types.Officedoc"), type: "pdf", icon: "picture_as_pdf" },
     "Scormfile": { label: i18n.t("vish_search_types.Scormfile"), type: "scormpackage", icon: "extension" },
-    "Video": { label: i18n.t("vish_search_types.Video"), type: "video", icon: "videocam" },
+    "Video": { label: i18n.t("vish_search_types.Video"), type: "video", icon: "play_arrow" },
     "Webapp": { label: i18n.t("vish_search_types.Webapp"), type: "webapp", icon: "link" } }
 ;
 

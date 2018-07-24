@@ -36,6 +36,13 @@ export function EnrichedAudio(base) {
                                     accept: "audio/*",
                                     autoManaged: false,
                                 },
+
+                            },
+                        },
+                        config: {
+                            __name: Ediphy.i18n.t('EnrichedAudio.player'),
+                            icon: 'play_arrow',
+                            buttons: {
                                 autoplay: {
                                     __name: Ediphy.i18n.t('EnrichedAudio.Autoplay'),
                                     type: 'checkbox',

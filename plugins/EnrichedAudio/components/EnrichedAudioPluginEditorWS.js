@@ -172,7 +172,7 @@ export default class BasicAudioPluginEditor extends React.Component {
                 <div>
                     {(this.props.state.controls) && (
                         <div className="audio-controls" style={{ pointerEvents: 'none' }}>
-                            <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} style={{ backgroundColor: '#17CFC8'/* this.props.state.waveColor */ }}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
+                            <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} >{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
                             <input className="volume-audio-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.handleVolumeChange.bind(this)} />
                         </div>
                     )}

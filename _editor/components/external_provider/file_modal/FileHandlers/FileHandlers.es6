@@ -11,7 +11,7 @@ export let extensions = [
     { label: i18n.t("vish_search_types.All"), value: '', icon: 'attach_file' },
     { label: i18n.t("vish_search_types.Picture"), value: 'image', icon: 'image' },
     { label: i18n.t("vish_search_types.Audio"), value: 'audio', icon: 'audiotrack' },
-    { label: i18n.t("vish_search_types.Video"), value: 'video', icon: 'videocam' },
+    { label: i18n.t("vish_search_types.Video"), value: 'video', icon: 'play_arrow' },
     { label: i18n.t("vish_search_types.CSV"), value: 'csv', icon: 'view_agenda' },
     // { label: i18n.t("vish_search_types.JSON"), value: 'json', icon: 'view_agenda' },
     { label: i18n.t("vish_search_types.Officedoc"), value: 'pdf', icon: 'picture_as_pdf' },
@@ -56,7 +56,7 @@ export default function handlers(self) {
         };
     case 'video' :
         return {
-            icon: 'videocam',
+            icon: 'play_arrow',
             buttons: [
                 {
                     title: (currentPlugin && currentPlugin === 'EnrichedPlayer') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.video')),
@@ -98,7 +98,7 @@ export default function handlers(self) {
             icon: 'picture_as_pdf',
             buttons: [
                 {
-                    title: (currentPlugin && currentPlugin === 'EnrichedPDF') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' pdf'),
+                    title: (currentPlugin && currentPlugin === 'EnrichedPDF') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' PDF'),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'EnrichedPDF') /* || (self.props.fileModalResult && self.props.fileModalResult.id)*/,
                     action: ()=>{ // Open side view
                         if (self.state.element) {
@@ -236,7 +236,7 @@ export default function handlers(self) {
             icon: 'extension',
             buttons: [
                 {
-                    title: (currentPlugin && currentPlugin === 'ScormPackage') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' SCORM Package'),
+                    title: (currentPlugin && currentPlugin === 'ScormPackage') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t("vish_search_types.Scormfile")),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
                     action: ()=>{
                         if (self.state.element) {
@@ -257,7 +257,7 @@ export default function handlers(self) {
             icon: 'link',
             buttons: [
                 {
-                    title: (currentPlugin && currentPlugin === 'Webpage') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' Webpage'),
+                    title: (currentPlugin && currentPlugin === 'Webpage') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t("vish_search_types.Webapp")),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
                     action: ()=>{
                         if (self.state.element) {
@@ -278,7 +278,7 @@ export default function handlers(self) {
             icon: 'flash_on',
             buttons: [
                 {
-                    title: (currentPlugin && currentPlugin === 'FlashObject') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' Flash Object'),
+                    title: (currentPlugin && currentPlugin === 'FlashObject') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t("vish_search_types.Swf")),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
                     action: ()=>{
                         if (self.state.element) {
