@@ -129,7 +129,7 @@ $track-width: 54% !default;
   iframe{
     margin-bottom: -4px;
     div>div>div>wave {
-      height:100%;
+     // height:100%;
     }
   }
 
@@ -142,11 +142,14 @@ $track-width: 54% !default;
     position: absolute;
     width: 100%;
     height: 100%;//50%;
-    top: 50%;
+    //top: 50%;
     float:left;
     z-index: 1;
     display: block;
-    margin-top: -64px;
+    //margin-top: -64px;
+    >wave {
+    height: 100% !important;
+  }
   }
   .react-wavesurfer{
     position: absolute;
