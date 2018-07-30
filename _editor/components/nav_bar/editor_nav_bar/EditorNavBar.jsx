@@ -59,7 +59,6 @@ export default class EditorNavBar extends Component {
                     toggleExport={this.toggleExport}
                     toggleFileUpload={this.props.toggleFileUpload}
                     undoDisabled={this.props.undoDisabled} />
->>>>>>> 464da46edc0e7a61a844dd3c658c63a10f5f8f1e
                 <GlobalConfig show={this.state.showGlobalConfig}
                     globalConfig={this.props.globalConfig}
                     toggleFileUpload={this.props.toggleFileUpload}

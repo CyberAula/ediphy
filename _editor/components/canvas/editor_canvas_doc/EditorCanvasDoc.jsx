@@ -46,7 +46,7 @@ export default class EditorCanvasDoc extends Component {
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
                 <div className="scrollcontainer parentRestrict"
                     style={{ backgroundColor: show ? toolbar.background : 'transparent', display: show ? 'block' : 'none' }}
-                     role="presentation"
+                    role="presentation"
                     onMouseDown={e => {
                         if (e.target === e.currentTarget) {
                             this.props.onBoxSelected(-1);

@@ -42,7 +42,7 @@ export default class EditorBoxSortable extends Component {
         let box = this.props.boxes[this.props.id];
         return (
             <div className="editorBoxSortable"
-                 role="presentation"
+                role="presentation"
                 onMouseDown={e => {
                     if (e.target === e.currentTarget || e.target.classList.contains('colDist-j')) {
                         if(box.children.length !== 0) {

@@ -69,7 +69,7 @@ export default class EditorCanvasSli extends Component {
                     }}>
                     <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                         ref="slideDropZone"
-                         role="presentation"
+                        role="presentation"
                         onMouseDown={e => {
                             if (e.target === e.currentTarget) {
                                 this.props.onBoxSelected(-1);

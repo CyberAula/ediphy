@@ -25,25 +25,25 @@ export default class VisorNavSection extends Component {
             if (!pageObj.hidden) {
                 if (isSection(page)) {
                     return (<VisorNavSection display={this.state.toggled}
-                                             key={page}
-                                             pageName={page}
-                                             navItemSelected={this.props.navItemSelected}
-                                             progress={this.props.progress}
-                                             navItemsById={this.props.navItemsById}
-                                             navItemsIds={this.props.navItemsIds}
-                                             viewToolbars={this.props.viewToolbars}
-                                             first={this.props.first} last={this.props.last}
-                                             changeCurrentView={(pageNum) => {this.props.changeCurrentView(pageNum);}} />);
+                        key={page}
+                        pageName={page}
+                        navItemSelected={this.props.navItemSelected}
+                        progress={this.props.progress}
+                        navItemsById={this.props.navItemsById}
+                        navItemsIds={this.props.navItemsIds}
+                        viewToolbars={this.props.viewToolbars}
+                        first={this.props.first} last={this.props.last}
+                        changeCurrentView={(pageNum) => {this.props.changeCurrentView(pageNum);}} />);
                 }
                 let isVisited = this.props.progress[page];
 
                 return (<li key={page} id={'nav-' + page}
-                            onClick={(e)=>{this.props.changeCurrentView(page);}}
-                            className={this.state.toggled ? "visorNavListEl" : "visorNavListEl hiddenNavVisor"}>
+                    onClick={(e)=>{this.props.changeCurrentView(page);}}
+                    className={this.state.toggled ? "visorNavListEl" : "visorNavListEl hiddenNavVisor"}>
                     <span className={"progressBall"}><ProgressBall isVisited={isVisited} isTop={page === this.props.first} isBottom={page === this.props.last} /></span>
                     <a style={{ paddingLeft: margin }}
-                       className={this.props.navItemSelected === page ? "indexElementTitle selectedNavItemVisor" : "indexElementTitle"}
-                       href="#">
+                        className={this.props.navItemSelected === page ? "indexElementTitle selectedNavItemVisor" : "indexElementTitle"}
+                        href="#">
 
                         {(this.props.navItemsById[page].customSize === 0) ?
                             <i className="material-icons">{isSlide(this.props.navItemsById[page].type) ? "slideshow" : "insert_drive_file"}</i>
