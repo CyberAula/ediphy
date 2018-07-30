@@ -12,7 +12,7 @@ export function BasicVideo(base) {
                 icon: 'play_arrow',
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -24,19 +24,19 @@ export function BasicVideo(base) {
                                 url: {
                                     __name: Ediphy.i18n.t('BasicVideo.URL'),
                                     type: 'text',
-                                    value: base.getState().url,
+                                    value: state.url,
                                     autoManaged: false,
                                 },
                                 controls: {
                                     __name: Ediphy.i18n.t('BasicVideo.Show_controls'),
                                     type: 'checkbox',
-                                    checked: base.getState().controls,
+                                    checked: state.controls,
                                     autoManaged: false,
                                 },
                                 autoplay: {
                                     __name: Ediphy.i18n.t('BasicVideo.Autoplay'),
                                     type: 'checkbox',
-                                    checked: base.getState().autoplay,
+                                    checked: state.autoplay,
                                     autoManaged: false,
                                 },
                             },
@@ -102,11 +102,9 @@ export function BasicVideo(base) {
             };
         },
         getRenderTemplate: function(state) {
-            return "<video " + (state.controls && state.controls !== "on" ? "controls='true' " : "") + (state.autoplay ? " autoPlay='true' " : "") + " style=\"width: 100%; height: 100%; z-index:0;\" src=\"" + state.url + "\"  class=\"basicVideoClass\"></video>";
+            return "<video " + (state.controls && state.controls !== "on" ? "controls='true' " : "") + (state.autoplay ? " autoPlay " : "") + " style=\"width: 100%; height: 100%; z-index:0;\" src=\"" + state.url + "\"  class=\"basicVideoClass\"></video>";
 
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
         },
     };
 }
+/* eslint-enable react/prop-types */

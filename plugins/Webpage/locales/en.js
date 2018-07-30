@@ -7,9 +7,10 @@ module.exports = {
         "box_style": "Box style",
         "opacity": "Opacity",
         "padding": "Padding",
-        "PluginName": "Web Page",
+        "PluginName": "Embedded Webpage",
         "radius": "Radius",
         "source": "Source",
         "URL": "URL",
+        "URL_copypaste": "Copy & paste an URL",
     },
 };

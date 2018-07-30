@@ -1,10 +1,28 @@
-import { ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_RICH_MARK, EDIT_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW, CHANGE_CONTAINED_VIEW_NAME, TOGGLE_TITLE_MODE, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, PASTE_BOX, IMPORT_STATE } from '../common/actions';
-import { changeProp, deleteProps, isContainedView, findNavItemContainingBox, isView } from '../common/utils';
+
+import {
+    ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_RICH_MARK, EDIT_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW,
+    CHANGE_CONTAINED_VIEW_NAME, TOGGLE_TITLE_MODE, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, PASTE_BOX, IMPORT_STATE,
+    CHANGE_BOX_LAYER, CHANGE_BACKGROUND, DROP_BOX,
+} from '../common/actions';
+
+import { changeProp, deleteProps, isContainedView, findNavItemContainingBox } from '../common/utils';
 
 function singleContainedViewReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
         return changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
+    case CHANGE_BOX_LAYER:
+        let boxes = JSON.parse(JSON.stringify(action.payload.boxes_array));
+        let x = boxes.indexOf(action.payload.id);
+        if (action.payload.value === 'front') { boxes.push(boxes.splice(x, 1)[0]); }
+        if (action.payload.value === 'back') { boxes.unshift(boxes.splice(x, 1)[0]);}
+        if (action.payload.value === 'ahead' && x <= boxes.length - 1) {
+            boxes.splice(x + 1, 0, boxes.splice(x, 1)[0]);
+        }
+        if (action.payload.value === 'behind' && x >= 0) {
+            boxes.splice(x - 1, 0, boxes.splice(x, 1)[0]);
+        }
+        return changeProp(state, "boxes", boxes);
     case ADD_RICH_MARK:
         // only fired when new mark is connected to existing cv
         let oldParents = JSON.parse(JSON.stringify(state.parent));
@@ -15,24 +33,28 @@ function singleContainedViewReducer(state = {}, action = {}) {
         }
         return changeProp(state, "parent", oldParents);
         // return state;
+    case CHANGE_BACKGROUND:
+        return changeProp(state, "background", action.payload.background);
     case DELETE_RICH_MARK:
-        let previousParents = JSON.parse(JSON.stringify(state.parent));
-        let oldMarks = previousParents[action.payload.parent];
-        let ind = oldMarks.indexOf(action.payload.id);
-        if (ind > -1) {
-            oldMarks.splice(ind, 1);
-            if (oldMarks.length === 0) {
-                delete previousParents[action.payload.parent];
-            } else {
-                previousParents[action.payload.parent] = oldMarks;
+        if ((action.payload.mark.connectMode === "new" || action.payload.mark.connectMode === "existing")) {
+            let newParent = { ...state.parent };
+            if(newParent[action.payload.mark.id]) {
+                delete newParent[action.payload.mark.id];
+                return changeProp(state, "parent", newParent);
             }
         }
-        return changeProp(state, "parent", previousParents);
+        return state;
     case DELETE_BOX:
-        // TODO: Borrar parent boxes borradas
         let modState = JSON.parse(JSON.stringify(state));
         delete modState.parent[action.payload.id];
         return changeProp(modState, "boxes", modState.boxes.filter(id => action.payload.id !== id));
+    case DROP_BOX:
+        if (state.id === action.payload.parent) {
+            return changeProp(state, "boxes", [...state.boxes, action.payload.id]);
+        } else if (state.id === action.payload.oldParent) {
+            return changeProp(state, "boxes", state.boxes.filter(id => id !== action.payload.id));
+        }
+        return state;
     case TOGGLE_TITLE_MODE:
         return changeProp(state, "header", action.payload.titles);
     case CHANGE_CONTAINED_VIEW_NAME:
@@ -54,59 +76,112 @@ export default function(state = {}, action = {}) {
                 singleContainedViewReducer(state[action.payload.ids.parent], action));
         }
         return state;
-    case EDIT_RICH_MARK:
-        // This means we are only editing the position of the mark by dragging, so this reducer is not interested
-        if(!action.payload.mark || !action.payload.newConnection) {
-            return state;
+    case ADD_RICH_MARK:
+        let view = action.payload.view;
+        if (action.payload.mark.connectMode === "new") {
+            return changeProp(state, view.id, view);
         }
-        let editState = JSON.parse(JSON.stringify(state));
-
-        // If the old connection is a contained view, we need to remove the mark from its parent list
-        if (isContainedView(action.payload.oldConnection)) {
-            if (editState[action.payload.oldConnection] && editState[action.payload.oldConnection].parent[action.payload.parent]) {
-                let ind = editState[action.payload.oldConnection].parent[action.payload.parent].indexOf(action.payload.mark.id || action.payload.mark);
-                if (ind > -1) {
-                    editState[action.payload.oldConnection].parent[action.payload.parent].splice(ind, 1);
-                    if (editState[action.payload.oldConnection].parent[action.payload.parent].length === 0) {
-                        delete editState[action.payload.oldConnection].parent[action.payload.parent];
-                    }
-                }
+        if (action.payload.mark.connectMode === "existing") {
+            if(isContainedView(action.payload.mark.connection)) {
+                return {
+                    ...state,
+                    [action.payload.mark.connection]: {
+                        ...state[action.payload.mark.connection],
+                        parent: {
+                            ...state[action.payload.mark.connection].parent,
+                            [action.payload.mark.id]: action.payload.mark.origin,
+                        },
+                    },
+                };
             }
-        }
-        // If the new connection is a contained view, we need to include the mark from its parent list
-
-        if (isContainedView(action.payload.newConnection)) {
-            if (editState[action.payload.newConnection]) {
-                if(Object.keys(editState[action.payload.newConnection].parent).indexOf(action.payload.parent) === -1) {
-                    editState[action.payload.newConnection].parent[action.payload.parent] = [action.payload.mark.id || action.payload.mark];
-                } else {
-                    editState[action.payload.newConnection].parent[action.payload.parent].push(action.payload.mark.id || action.payload.mark);
-                }
-            } else if (action.payload.mark.connection.id) {
-                editState = changeProp(editState, action.payload.mark.connection.id, action.payload.mark.connection);
-            }
-        }
-        return editState;
-    case DELETE_RICH_MARK:
-        if(isContainedView(action.payload.cvid)) {
-            return changeProp(state, action.payload.cvid, singleContainedViewReducer(state[action.payload.cvid], action));
         }
         return state;
-    case ADD_RICH_MARK:
-        // If rich mark is connected to a new contained view, mark.connection will include this information;
-        // otherwise, it's just the id/url and we're not interested
-        if (action.payload.mark.connectMode === 'existing' && isContainedView(action.payload.mark.connection)) {
+    case CHANGE_BOX_LAYER:
+        if (action.payload.container === 0 && isContainedView(action.payload.parent)) {
+            return changeProp(state, action.payload.parent, singleContainedViewReducer(state[action.payload.parent], action));
+        }
+        return state;
+    case CHANGE_BACKGROUND:
+        if (isContainedView(action.payload.id)) {
+            return changeProp(state, action.payload.id, singleContainedViewReducer(state[action.payload.id], action));
+        }
+        return state;
+    case EDIT_RICH_MARK:
+        let oldCv = "";
+        let newParents = {};
+        newState = { ...state };
+        Object.keys(newState).forEach(cv=>{
+            if(Object.keys(newState[cv].parent).includes(action.payload.mark.id)) {
+                oldCv = newState[cv].id;
+            }
+        });
+        if(oldCv !== "") {
+            newParents = newState[oldCv].parent;
+            delete newParents[action.payload.mark.id];
+            newState = {
+                ...newState,
+                [oldCv]: {
+                    ...newState[oldCv],
+                    parent: newParents,
+                },
+            };
+        }
+
+        // This means we are only editing the position of the mark by dragging, so this reducer is not interested
+        if (action.payload.mark.connectMode === "new") {
+            return {
+                ...newState,
+                [action.payload.view.id]: action.payload.view,
+            };
+        } else if (action.payload.mark.connectMode === "existing") {
+            if (isContainedView(action.payload.mark.connection)) {
+                return {
+                    ...newState,
+                    [action.payload.mark.connection]: {
+                        ...newState[action.payload.mark.connection],
+                        parent: {
+                            ...newState[action.payload.mark.connection].parent,
+                            [action.payload.mark.id]: action.payload.mark.origin,
+                        },
+                    },
+                };
+            }
+            return newState;
+
+        }
+        return state;
+    case DELETE_RICH_MARK:
+        if(isContainedView(action.payload.mark.connection)) {
             return changeProp(state, action.payload.mark.connection, singleContainedViewReducer(state[action.payload.mark.connection], action));
         }
-        if (action.payload.mark.connection.id) {
-            return changeProp(state, action.payload.mark.connection.id, action.payload.mark.connection);
+        return state;
+    case DROP_BOX:
+        if (isContainedView(action.payload.parent) && isContainedView(action.payload.oldParent)) {
+            return changeProps(state, [action.payload.parent, action.payload.oldParent], [singleContainedViewReducer(state[action.payload.parent], action), singleContainedViewReducer(state[action.payload.oldParent], action)]);
+        } else if (!isContainedView(action.payload.parent) && isContainedView(action.payload.oldParent)) {
+            return changeProp(state, action.payload.oldParent, singleContainedViewReducer(state[action.payload.oldParent], action));
+        } else if (isContainedView(action.payload.parent) && !isContainedView(action.payload.oldParent)) {
+            return changeProp(state, action.payload.parent, singleContainedViewReducer(state[action.payload.parent], action));
         }
         return state;
     case DELETE_BOX:
         let modState = JSON.parse(JSON.stringify(state));
         // Delete parent reference for contained views that linked to the deleted box
         for (let cv in action.payload.cvs) {
-            delete modState[action.payload.cvs[cv]].parent[action.payload.id];
+            if(modState[action.payload.cvs[cv]]) {
+                let inverted_parents = Object.keys(modState[action.payload.cvs[cv]].parent).map(mark=>{
+                    if (modState[action.payload.cvs[cv]].parent[mark] === action.payload.id) {
+                        return mark;
+                    }
+                    if (action.payload.children.indexOf(modState[action.payload.cvs[cv]].parent[mark]) > -1) {
+                        return mark;
+                    }
+                    return null;
+                }).filter(ele=> ele !== null);
+                inverted_parents.forEach(e=>{
+                    delete modState[action.payload.cvs[cv]].parent[e];
+                });
+            }
         }
         // If the deleted box's parent is a contained view, delete it from the boxes array
         if (isContainedView(action.payload.parent)) {
@@ -124,8 +199,9 @@ export default function(state = {}, action = {}) {
 
         for (let cv in state) {
             for (let box in action.payload.boxes) {
-                if (state[cv].parent[action.payload.boxes[box]]) {
-                    delete state[cv].parent[action.payload.boxes[box]];
+                let parents = Object.keys(state[cv].parent).reduce((obj, key) => (obj[state[cv].parent[key]] = key, obj), {});
+                if (parents[action.payload.boxes[box]]) {
+                    delete state[cv].parent[parents[action.payload.boxes[box]]];
                 }
             }
         }
@@ -168,17 +244,11 @@ export default function(state = {}, action = {}) {
         if (isContainedView(action.payload.ids.parent)) {
             newState = changeProp(newState, action.payload.ids.parent, singleContainedViewReducer(newState[action.payload.ids.parent], action));
         }
-        if (action.payload.toolbar && action.payload.toolbar.state && action.payload.toolbar.state.__marks) {
-            let marks = action.payload.toolbar.state.__marks;
+        if (action.payload.marks) {
+            let marks = action.payload.marks;
             for (let mark in marks) {
                 if (isContainedView(marks[mark].connection)) {
-                    if (newState[marks[mark].connection]) {
-                        if (!newState[marks[mark].connection].parent[action.payload.ids.id]) {
-                            newState[marks[mark].connection].parent[action.payload.ids.id] = [];
-                        }
-                        newState[marks[mark].connection].parent[action.payload.ids.id].push(mark);
-
-                    }
+                    newState[marks[mark].connection].parent[mark] = marks[mark].origin;
                 }
             }
         }

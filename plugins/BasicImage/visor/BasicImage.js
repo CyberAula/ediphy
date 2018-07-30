@@ -26,3 +26,4 @@ export function BasicImage(base) {
         },*/
     };
 }
+/* eslint-enable react/prop-types */

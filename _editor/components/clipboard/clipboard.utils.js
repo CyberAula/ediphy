@@ -10,7 +10,7 @@
  * @param imageFormat Resulting image format
  * @returns {boolean} True if there is images in the clipboard. False otherwise
  */
-export function retrieveImageFromClipboardAsBase64(pasteEvent, callback, imageFormat) {
+export function retrieveImageFromClipboardAsBase64(pasteEvent, uploadFunction, callback, imageFormat) {
     // TODO link with VISH
     if(pasteEvent.clipboardData === false) {
         if(typeof(callback) === "function") {
@@ -35,26 +35,38 @@ export function retrieveImageFromClipboardAsBase64(pasteEvent, callback, imageFo
             // Create an image
             let img = new Image();
             // Once the image loads, render the img on the canvas
-            img.onload = function() {
+
+            if(typeof(uploadFunction) === "function") {
+                uploadFunction(blob, [], (url=>{
+                    if (typeof(callback) === "function") {
+                        callback(url);
+                    }})
+                );
+            }
+            /* img.onload = function() {
                 // Update dimensions of the canvas with the dimensions of the image
                 mycanvas.width = this.width;
                 mycanvas.height = this.height;
 
                 // Draw the image
                 ctx.drawImage(img, 0, 0);
-
+                let image = mycanvas.toDataURL(
+                  (imageFormat || "image/png")
+                );
                 // Execute callback with the base64 URI of the image
-                if (typeof(callback) === "function") {
-                    callback(mycanvas.toDataURL(
-                        (imageFormat || "image/png")
-                    ));
-                }
+              if(typeof(uploadFunction) === "function") {
+                uploadFunction(blob,[], (url=>{
+                  if (typeof(callback) === "function") {
+                    callback(url);
+                  }})
+                );
+              }
             };
             // Crossbrowser support for URL
             let URLObj = window.URL || window.webkitURL;
             // Creates a DOMString containing a URL representing the object given in the parameter
             // namely the original Blob
-            img.src = URLObj.createObjectURL(blob);
+            img.src = URLObj.createObjectURL(blob);*/
         } else if (i === items.length - 1 && noImage === false) {
             noImage = true;
         }
@@ -128,4 +140,38 @@ export function getCKEDITORAdaptedContent(data) {
      */
     // Plain text version
     // return (event.clipboardData.getData("text/plain"));
+}
+
+export function isURL(str) {
+    if (!str) {
+        return false;
+    }
+    let pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+    return pattern.test(str);
+}
+
+export function copyText(text) {
+    // Create the textarea input to hold our text.
+    try {
+        const element = document.createElement('textarea');
+        element.value = text instanceof Object ? JSON.stringify(text) : text;
+        // Add it to the document so that it can be focused.
+        document.body.appendChild(element);
+        // Focus on the element so that it can be copied.
+        element.focus();
+        element.setSelectionRange(0, element.value.length);
+        // Execute the copy command.
+        document.execCommand('copy');
+        // Remove the element to keep the document clear.
+        document.body.removeChild(element);
+        return true;
+    } catch (e) {
+        return false;
+    }
+
 }

@@ -32,10 +32,15 @@ export default class VisorBoxSortable extends Component {
                                                     if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
                                                         return (<VisorBox id={idBox}
                                                             key={ind}
+                                                            currentView={this.props.currentView}
                                                             boxes={this.props.boxes}
+                                                            exercises={(this.props.exercises && this.props.exercises.exercises) ? this.props.exercises.exercises[idBox] : undefined}
                                                             changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
-                                                            currentViewSelected={this.props.currentViewSelected}
+                                                            fromScorm={this.props.fromScorm}
                                                             toolbars={this.props.toolbars}
+                                                            marks={this.props.marks}
+                                                            onMarkClicked={this.props.onMarkClicked}
+                                                            setAnswer={this.props.setAnswer}
                                                             richElementsState={this.props.richElementsState}/>);
 
                                                     } else if (ind === container.children.length - 1) {
@@ -63,17 +68,13 @@ VisorBoxSortable.propTypes = {
      */
     id: PropTypes.string.isRequired,
     /**
-     * Diccionario que contiene todas las cajas
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
      * Cambia la vista actual
      */
     changeCurrentView: PropTypes.func.isRequired,
-    /**
-     * Vista actual
-     */
-    currentView: PropTypes.any,
     /**
      * Diccionario que contiene todas las toolbars
      */
@@ -82,4 +83,28 @@ VisorBoxSortable.propTypes = {
      * Estado del plugin enriquecido en la transición
      */
     richElementsState: PropTypes.object,
+    /**
+   * Whether the app is in SCORM mode or not
+   */
+    fromScorm: PropTypes.bool,
+    /**
+   * Object containing all the exercises in the course
+   */
+    exercises: PropTypes.object.isRequired,
+    /**
+   * Function for submitting a page Quiz
+   */
+    setAnswer: PropTypes.func.isRequired,
+    /**
+   * Vista actual
+   */
+    currentView: PropTypes.any,
+    /**
+    * All marks
+    */
+    marks: PropTypes.object,
+    /**
+     * Function that triggers a mark
+     */
+    onMarkClicked: PropTypes.func,
 };

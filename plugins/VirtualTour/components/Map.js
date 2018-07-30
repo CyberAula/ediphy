@@ -1,7 +1,8 @@
-
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import GoogleMapReact from 'google-map-react';
+
 import SearchBox from './SearchBox';
 import { Gmaps } from 'react-gmaps';
 import { findParentBySelector } from '../../../common/utils';
@@ -22,12 +23,12 @@ export default class Map extends React.Component {
         let { lat, lng, zoom } = config;
         let center = { lat: lat, lng: lng };
         return(
-            <div id={this.props.id} className="dropableRichZone" style={{ width: '100%', height: '100%' }}>
+            <div id={this.props.id} key={"map-" + this.props.id} className="dropableRichZone" style={{ width: '100%', height: '100%', minHeight: 50, minWidth: 50 }}>
                 <GoogleMapReact center={center}
-                    draggable={Boolean(this.state.draggable)}
+                    draggable={ !!(this.state.draggable) } key={'map_' + this.props.id}
                     zoom={zoom}
                     options={{
-                        draggable: this.state.draggable,
+                        draggable: (this.state.draggable),
                         panControl: true,
                         disableDoubleClickZoom: this.state.disableDoubleClickZoom,
                         scrollwheel: true,
@@ -38,15 +39,15 @@ export default class Map extends React.Component {
                             style: window.google.maps.ZoomControlStyle.SMALL,
                         } : null,
                     }}
-                    onChildMouseEnter={() => {let bool = findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled'); this.setState({ draggable: false, disableDoubleClickZoom: true, controls: bool });}}
+                    onChildMouseEnter={() => {let bool = findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled'); this.setState({ draggable: bool, disableDoubleClickZoom: true, controls: bool });}}
                     onChildMouseLeave={() => {let bool = findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled'); this.setState({ draggable: bool, disableDoubleClickZoom: !bool, controls: bool });}}
                     onChange={e => {
                         this.props.update(e.center.lat, e.center.lng, e.zoom, false);
 
                     }}
                     onGoogleApiLoaded={({ map, maps }) => {
-                        map.setOptions({ draggable: false, mapTypeControl: false, zoomControl: false });
-                        window.mapList[num] = map;
+                        map.setOptions({ draggable: this ? findParentBySelector(ReactDOM.findDOMNode(this), '.wholebox') : true, mapTypeControl: false, zoomControl: false });
+                        window.mapList[this.props.id] = map;
                     }}
                     resetBoundsOnResize
                     yesIWantToUseGoogleMapApiInternals>
@@ -54,11 +55,10 @@ export default class Map extends React.Component {
                 </GoogleMapReact>
                 {this.props.searchBox ? <SearchBox
                     num={num}
-                    center={center}
                     id={this.props.id}
                     placeholder={this.props.placeholder}
                     onPlacesChanged={(places) => {
-                        this.props.update(places.lat, places.lng, 15, true);
+                        // this.props.update(places.lat, places.lng, 15, true);
 
                     }}/> : null}
 
@@ -66,7 +66,30 @@ export default class Map extends React.Component {
 
         );
     }
-    componentWillUpdate() {
-
-    }
 }
+Map.propTypes = {
+    /**
+   * Placeholder text for the search box
+   */
+    placeholder: PropTypes.string,
+    /**
+   * Plugin state
+   */
+    state: PropTypes.object.isRequired,
+    /**
+   * Box id
+   */
+    id: PropTypes.string,
+    /**
+   * Whether or not it has a search box
+   */
+    searchBox: PropTypes.bool,
+    /**
+   * Update callback
+   */
+    update: PropTypes.func.isRequired,
+    /**
+     * Marks
+     */
+    children: PropTypes.any,
+};

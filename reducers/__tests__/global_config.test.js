@@ -2,7 +2,33 @@ import { testState } from '../../core/store/state.tests.js';
 import global_config from '../global_config';
 import * as ActionTypes from '../../common/actions';
 
-const state = testState.present.globalConfig;
+const state = {
+    "title": "Ediphy",
+    "canvasRatio": 1.7777777777777777,
+    "visorNav": {
+        "player": true,
+        "sidebar": true,
+        "keyBindings": true,
+    },
+    "trackProgress": true,
+    "age": {
+        "min": 0,
+        "max": 100,
+    },
+    "context": "school",
+    "rights": "public",
+    "keywords": [],
+    "typicalLearningTime": {
+        "h": 0,
+        "m": 0,
+        "s": 0,
+    },
+    "version": "1.0.0",
+    "thumbnail": "",
+    "status": "draft",
+    "structure": "linear",
+    "difficulty": "easy",
+};
 
 describe('# global_config reducer', ()=>{
     describe('DEFAULT', ()=>{
@@ -12,7 +38,7 @@ describe('# global_config reducer', ()=>{
     });
     describe('handle CHANGE_GLOBAL_CONFIG', ()=> {
         test('Change the all Global config when save', () => {
-            const newstate = { title: "Ediphy", canvasRatio: 16 / 9, visorNav: { player: true, sidebar: true, keyBindings: true }, trackProgress: true, age: { min: 0, max: 100 }, context: 'school', rights: "Public Domain", keywords: [], typicalLearningTime: { h: 0, m: 0, s: 0 }, version: '1.0.0', thumbnail: '', status: 'draft', structure: 'linear', difficulty: 'easy' };
+            const newstate = { title: "Ediphy", canvasRatio: 16 / 9, visorNav: { player: true, sidebar: true, keyBindings: true }, trackProgress: true, age: { min: 0, max: 100 }, context: 'school', rights: "public", keywords: [], typicalLearningTime: { h: 0, m: 0, s: 0 }, version: '1.0.0', thumbnail: '', status: 'draft', structure: 'linear', difficulty: 'easy' };
             const action = {
                 type: ActionTypes.CHANGE_GLOBAL_CONFIG,
                 payload: { prop: 'STATE', value: newstate },
@@ -25,7 +51,7 @@ describe('# global_config reducer', ()=>{
                 type: ActionTypes.CHANGE_GLOBAL_CONFIG,
                 payload: { prop: 'title', value: 'Changed title' },
             };
-            const newstate = { title: "Changed title", canvasRatio: 16 / 9, visorNav: { player: true, sidebar: true, keyBindings: true }, trackProgress: true, age: { min: 0, max: 100 }, context: 'school', rights: "Public Domain", keywords: [], typicalLearningTime: { h: 0, m: 0, s: 0 }, version: '1.0.0', thumbnail: '', status: 'draft', structure: 'linear', difficulty: 'easy' };
+            const newstate = { title: "Changed title", canvasRatio: 16 / 9, visorNav: { player: true, sidebar: true, keyBindings: true }, trackProgress: true, age: { min: 0, max: 100 }, context: 'school', rights: "public", keywords: [], typicalLearningTime: { h: 0, m: 0, s: 0 }, version: '1.0.0', thumbnail: '', status: 'draft', structure: 'linear', difficulty: 'easy' };
             expect(global_config(state, action)).toEqual(newstate);
         });
     });

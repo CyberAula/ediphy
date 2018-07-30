@@ -1,6 +1,7 @@
 import React from "react";
 import PlayerPlugin from './components/PlayerPluginEditor.js';
 require('./BasicPlayer.scss');
+/* eslint-disable react/prop-types */
 
 export function BasicPlayer(base) {
     return {
@@ -16,12 +17,12 @@ export function BasicPlayer(base) {
                 initialWidthSlide: '30%',
                 initialHeightSlide: '30%',
                 aspectRatioButtonConfig: {
-                    location: ["main", "__sortable"],
+                    location: ["main", "structure"],
                     defaultValue: true,
                 },
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -33,13 +34,13 @@ export function BasicPlayer(base) {
                                 url: {
                                     __name: Ediphy.i18n.t('BasicPlayer.URL'),
                                     type: 'text',
-                                    value: base.getState().url,
+                                    value: state.url,
                                     autoManaged: false,
                                 },
                                 controls: {
                                     __name: Ediphy.i18n.t('BasicPlayer.Show_controls'),
                                     type: 'checkbox',
-                                    checked: base.getState().controls,
+                                    checked: state.controls,
                                     autoManaged: false,
                                 },
                             },
@@ -108,9 +109,7 @@ export function BasicPlayer(base) {
                 </div>
             );
         },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
-        },
 
     };
 }
+/* eslint-enable react/prop-types */

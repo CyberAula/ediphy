@@ -6,7 +6,7 @@ import EditorCanvasDoc from '../../canvas/editor_canvas_doc/EditorCanvasDoc';
 import { isSlide } from '../../../../common/utils';
 
 /**
- * Container component to render contained views
+ * ContainerJS component to render contained views
  *
  */
 export default class ContainedCanvas extends Component {
@@ -76,7 +76,7 @@ ContainedCanvas.propTypes = {
      */
     showCanvas: PropTypes.bool,
     /**
-     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
@@ -88,19 +88,19 @@ ContainedCanvas.propTypes = {
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
     /** *
-     * Vista  seleccionada identificada por su *id*
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /** *
-     * Vista contenida seleccionada identificada por su *id*
+     * Selected contained view
      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
@@ -108,9 +108,13 @@ ContainedCanvas.propTypes = {
      */
     title: PropTypes.string.isRequired,
     /**
-     * Diccionario que contiene todas las cajas y vistas creadas , accesibles por su *id*
+     * Diccionario que contiene todas las istas creadas , accesibles por su *id*
      */
-    toolbars: PropTypes.object.isRequired,
+    viewToolbars: PropTypes.object.isRequired,
+    /**
+     * Diccionario que contiene todos los valores de cajas, accesibles por su *id*
+     */
+    pluginToolbars: PropTypes.object.isRequired,
     /**
      * Última acción realizada en Redux
      */
@@ -132,7 +136,7 @@ ContainedCanvas.propTypes = {
      */
     onMarkCreatorToggled: PropTypes.func.isRequired,
     /**
-     * Añade una caja
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
@@ -180,7 +184,7 @@ ContainedCanvas.propTypes = {
      */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
-     * Selecciona una vista contenida
+     *  Callback for selecting contained view
      */
     onContainedViewSelected: PropTypes.func.isRequired,
     /**

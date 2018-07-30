@@ -14,14 +14,17 @@ export default class VisorCanvas extends Component {
     }
 
     componentDidUpdate() {
-        window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+        if (window.MathJax) {
+            window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+        }
+
     }
 
 }
 
 VisorCanvas.propTypes = {
     /**
-     * Diccionario que contiene todas las cajas
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
@@ -33,7 +36,7 @@ VisorCanvas.propTypes = {
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -41,7 +44,7 @@ VisorCanvas.propTypes = {
      */
     currentView: PropTypes.any,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
     /**

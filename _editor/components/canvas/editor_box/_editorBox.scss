@@ -6,7 +6,7 @@
     border: 1px solid #777;
     background-color: white;
     position: absolute;
-    z-index: 1;
+    z-index: 99999;
 }
 
 /*Ediphy Box*/
@@ -27,7 +27,7 @@
 }
 
 .textAreaStyle {
-    z-index: 99999;
+    z-index: 999;
     //position: absolute !important;
     position: relative;
     float: left;
@@ -68,39 +68,47 @@
   height: 40px;
   margin-top: -40px;
   .editorTitleButton {
-      background-color: #bababa !important;
-      &:hover {
-          background-color: $blueprimary !important;
-      }
-  }
-
-  @include box-shadow(1px, -1px, 4px, #ccc, $inset: false);
-    z-index: 999;
-    width: auto;
-    background: #f5f5f5;
-    border-radius: 2px 2px 0 0;
-    .namePlugin{
-      color: $grismedio;
-      padding: 6px;
-      float: left;
-      margin: 4px 3px;
+    background-color: #bababa !important;
+    &:hover {
+      background-color: $blueprimary !important;
     }
-
-
+  }
+  @include box-shadow(1px, -1px, 4px, #ccc, $inset: false);
+  z-index: 999;
+  width: auto;
+  background: #f5f5f5;
+  border-radius: 2px 2px 0 0;
+  .namePlugin{
+    color: $grismedio;
+    padding: 6px;
+    display:none;
+    float: left;
+    margin: 4px 3px;
+  }
   .dtbSelected {
     background-color: $blueprimary !important;
   }
-
 }
 
-/* #contained_editorBoxIcons {
-    margin-top: 0px;
-    z-index: 999;
-    width: 100%;
-} */
+.popoverURL{
+  width: 400px !important;
+  max-width: unset;
+  .popover-content{
+    display: flex;
+    padding: 5px 14px 14px;
+    .form-control{
+      border-radius: 0;
+      flex-shrink: 1;
+    }
+    .popoverButton{
+      margin: 0 !important;
+      padding: 2px 10px !important;
+      flex-shrink: 1;
+    }
+  }
+}
 
 .selectedBox {
-    //background-color: #eeeeee !important;
     background-color: rgba(27,177,188,0.1) !important;
     border: $boxborderwidth dashed $blueprimary !important;
     color: $fondo !important;
@@ -109,12 +117,12 @@
 .wholebox, .wholeboxvisor{
     display: inline-block;
     word-break: break-word;
-    // word-break: break-all;
     border: $boxborderwidth solid transparent;
     vertical-align:top;
     word-wrap: break-word;
-    //border: none;
-
+    .boxStyle{
+      overflow: visible;
+    }
 }
 
 .canvaseditor {
@@ -134,16 +142,13 @@
   pointer-events: none !important;
 }
 
-
 .basicImageClass, .basicVideoClass{
   left :0px;
   top: 0px;
-  //@include box-shadow(1px, 1px, 9px, #ccc, $inset: false);
 }
 .automaticallySizedBox .basicImageClass{
     position: relative;
 }
-
 
 .norotate {
   -webkit-transform: rotate(0deg) !important; /* Ch <36, Saf 5.1+, iOS < 9.2, An =<4.4.4 */
@@ -152,3 +157,6 @@
 
 }
 
+#clone {
+  text-align: center;
+}

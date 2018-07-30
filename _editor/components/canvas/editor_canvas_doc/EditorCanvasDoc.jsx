@@ -8,24 +8,17 @@ import EditorHeader from '../editor_header/EditorHeader';
 import Ediphy from '../../../../core/editor/main';
 import { isSortableBox } from '../../../../common/utils';
 
-/**
- * EditorCanvasDoc component
- * Canvas component to display documents
- */
 export default class EditorCanvasDoc extends Component {
-    /**
-     * Renders React Component
-     * @returns {code}
-     */
     render() {
         let titles = [];
         let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
         if (itemSelected.id !== 0) {
-            titles.push(itemSelected.name);
+            let initialTitle = this.props.viewToolbars[itemSelected.id].viewName;
+            titles.push(initialTitle);
             if (!this.props.fromCV) {
                 let parent = itemSelected.parent;
                 while (parent !== 0) {
-                    titles.push(this.props.navItems[parent].name);
+                    titles.push(this.props.viewToolbars[parent].viewName);
                     parent = this.props.navItems[parent].parent;
                 }
             }
@@ -40,118 +33,61 @@ export default class EditorCanvasDoc extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
-        /* let isSection = this.props.navItemSelected.id.toString().indexOf('se') !== -1;
-        let contentAllowedInSections = Ediphy.Config.sections_have_content;
-        let showCanvas = (!isSection || (isSection && contentAllowedInSections));*/
         let boxes = itemSelected ? itemSelected.boxes : [];
         let show = itemSelected && itemSelected.id !== 0;
+
+        let commonProps = { ...this.props,
+            pageType: itemSelected.type || 0,
+        };
+
+        let toolbar = this.props.viewToolbars[itemSelected.id];
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasDocClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
-
-                <div className="scrollcontainer"
-                    style={{ backgroundColor: show ? 'white' : 'transparent', display: show ? 'block' : 'none' }}
-                    role="presentation"
-                    onClick={e => {
-                        this.props.onBoxSelected(-1);
-                        this.setState({ showTitle: false });
+                <div className="scrollcontainer parentRestrict"
+                    style={{ backgroundColor: show ? toolbar.background : 'transparent', display: show ? 'block' : 'none' }}
+                     role="presentation"
+                    onMouseDown={e => {
+                        if (e.target === e.currentTarget) {
+                            this.props.onBoxSelected(-1);
+                            this.setState({ showTitle: false });
+                        }
                         e.stopPropagation();
                     }}>
+                    { /* {this.props.boxSelected} - ({(this.props.boxSelected && this.props.boxes[this.props.boxSelected]) ? this.props.boxes[this.props.boxSelected].level : '-'}) - {this.props.boxLevelSelected} */ }
                     <EditorHeader titles={titles}
                         onBoxSelected={this.props.onBoxSelected}
                         courseTitle={this.props.title}
                         navItem={this.props.navItemSelected}
                         navItems={this.props.navItems}
+                        marks={this.props.marks}
                         containedView={this.props.containedViewSelected}
                         containedViews={this.props.containedViews}
-                        toolbars={this.props.toolbars}
+                        pluginToolbars={this.props.pluginToolbars}
+                        viewToolbars={this.props.viewToolbars}
                         boxes={this.props.boxes}
+                        onViewTitleChanged={this.props.onViewTitleChanged}
+                        onTitleChanged={this.props.onTitleChanged}
                     />
-                    <div className="outter canvaseditor" style={{ display: show ? 'block' : 'none' }}>
-                        {/*
-                    {this.props.fromCV ?  (<button className="btnOverBar cvBackButton" style={{margin: "10px 0px 0px 10px"}}
-                             onClick={e => {
-                                 this.props.onContainedViewSelected(0);
-                                 e.stopPropagation();
-                             }}><i className="material-icons">undo</i></button>):(<br/>)}
-                     */}
-
+                    <div className="outter canvaseditor" style={{ background: toolbar.background, display: show ? 'block' : 'none' }}>
                         <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
                             className={'doc_air'}
-                            style={{ visibility: (show ? 'visible' : 'hidden') }}>
+                            style={{ background: toolbar.background, visibility: (show ? 'visible' : 'hidden') }}>
 
                             <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                                 className={'innercanvas doc'}
-                                style={{ visibility: (show ? 'visible' : 'hidden') }}>
+                                style={{ background: toolbar.background, visibility: (show ? 'visible' : 'hidden'), paddingBottom: '10px' }}>
 
                                 <br/>
-
-                                <div id={this.props.fromCV ? "contained_canvas_boxes" : "canvas_boxes"}
-                                    style={{
-                                        width: "100%",
-                                        background: "black",
-                                        height: overlayHeight,
-                                        position: "absolute",
-                                        top: 0,
-                                        opacity: 0.4,
-                                        display: (this.props.boxLevelSelected > 0) ? "block" : "none",
-                                        visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse",
-                                    }} />
 
                                 {boxes.map(id => {
                                     let box = boxes[id];
                                     if (!isSortableBox(id)) {
-                                        return <EditorBox key={id}
-                                            id={id}
-                                            addMarkShortcut={this.props.addMarkShortcut}
-                                            boxes={this.props.boxes}
-                                            boxSelected={this.props.boxSelected}
-                                            boxLevelSelected={this.props.boxLevelSelected}
-                                            containedViews={this.props.containedViews}
-                                            containedViewSelected={this.props.containedViewSelected}
-                                            deleteMarkCreator={this.props.deleteMarkCreator}
-                                            lastActionDispatched={this.props.lastActionDispatched}
-                                            markCreatorId={this.props.markCreatorId}
-                                            onBoxAdded={this.props.onBoxAdded}
-                                            onBoxSelected={this.props.onBoxSelected}
-                                            onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                            onBoxMoved={this.props.onBoxMoved}
-                                            onBoxResized={this.props.onBoxResized}
-                                            onSortableContainerResized={this.props.onSortableContainerResized}
-                                            onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                                            onBoxDropped={this.props.onBoxDropped}
-                                            onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                            onTextEditorToggled={this.props.onTextEditorToggled}
-                                            toolbars={this.props.toolbars}
-                                            onRichMarksModalToggled={this.props.onRichMarksModalToggled}
-                                            pageType={itemSelected.type || 0}/>;
+                                        return null;
+                                        // return <EditorBox key={id} id={id} {...commonProps} exercises={itemSelected ? (this.props.exercises[itemSelected.id].exercises[id]) : undefined} />;
                                     }
-                                    return <EditorBoxSortable key={id}
-                                        id={id}
-                                        addMarkShortcut={this.props.addMarkShortcut}
-                                        boxes={this.props.boxes}
-                                        boxSelected={this.props.boxSelected}
-                                        boxLevelSelected={this.props.boxLevelSelected}
-                                        containedViews={this.props.containedViews}
-                                        containedViewSelected={this.props.containedViewSelected}
-                                        toolbars={this.props.toolbars}
-                                        lastActionDispatched={this.props.lastActionDispatched}
-                                        deleteMarkCreator={this.props.deleteMarkCreator}
-                                        markCreatorId={this.props.markCreatorId}
-                                        onBoxAdded={this.props.onBoxAdded}
-                                        onBoxSelected={this.props.onBoxSelected}
-                                        onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                        onBoxMoved={this.props.onBoxMoved}
-                                        onBoxResized={this.props.onBoxResized}
-                                        onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                                        onSortableContainerResized={this.props.onSortableContainerResized}
-                                        onSortableContainerDeleted={this.props.onSortableContainerDeleted}
-                                        onSortableContainerReordered={this.props.onSortableContainerReordered}
-                                        onRichMarksModalToggled={this.props.onRichMarksModalToggled}
-                                        onBoxDropped={this.props.onBoxDropped}
-                                        onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                        onTextEditorToggled={this.props.onTextEditorToggled}
-                                        pageType={itemSelected.type || 0}/>;
+                                    return <EditorBoxSortable key={id} {...commonProps}
+                                        id={id} exercises={this.props.exercises} page={itemSelected ? itemSelected.id : 0} />;
 
                                 })}
                             </div>
@@ -159,180 +95,190 @@ export default class EditorCanvasDoc extends Component {
                     </div>
                 </div>
                 <EditorShortcuts
+                    openConfigModal={this.props.openConfigModal}
+                    accordions={this.props.accordions}
                     box={this.props.boxes[this.props.boxSelected]}
                     containedViewSelected={this.props.containedViewSelected}
                     isContained={this.props.fromCV}
                     onTextEditorToggled={this.props.onTextEditorToggled}
                     onBoxResized={this.props.onBoxResized}
                     onBoxDeleted={this.props.onBoxDeleted}
+                    onToolbarUpdated={this.props.onToolbarUpdated}
+                    navItemSelected={this.props.navItemSelected}
+                    fileModalResult={this.props.fileModalResult}
+                    openFileModal={this.props.openFileModal}
                     lastActionDispatched={this.props.lastActionDispatched}
-                    pointerEventsCallback={this.props.toolbars[this.props.boxSelected] && this.props.toolbars[this.props.boxSelected].config && this.props.toolbars[this.props.boxSelected].config.name && Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name) ? Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
+                    pointerEventsCallback={this.props.pluginToolbars[this.props.boxSelected] && this.props.pluginToolbars[this.props.boxSelected].config && this.props.pluginToolbars[this.props.boxSelected].config.name && Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name) ? Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
-                    toolbar={this.props.toolbars[this.props.boxSelected]}/>
+                    pluginToolbar={this.props.pluginToolbars[this.props.boxSelected]}/>
             </Col>
         );
     }
-/*
-    componentWillUnmount() {
-        interact(ReactDOM.findDOMNode(this)).unset();
-    }
-
-    componentDidMount() {
-
-        interact(ReactDOM.findDOMNode(this)).dropzone({
-            accept: '.floatingEditorBox',
-            overlap: 'pointer',
-            ondropactivate: function (event) {
-                event.target.classList.add('drop-active');
-            },
-            ondragenter: function (event) {
-                event.target.classList.add("drop-target");
-            },
-            ondragleave: function (event) {
-                event.target.classList.remove("drop-target");
-            },
-            ondrop: function (event) {
-                let position = {
-                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft)*100/event.target.parentElement.offsetWidth + "%",
-                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + document.getElementById('maincontent').scrollTop) + 'px',
-                    type: 'absolute'
-                };
-                let initialParams = {
-                    parent: this.props.fromCV ? this.props.containedViewSelected.id:this.props.navItemSelected.id,
-                    container: 0,
-                    position: position
-                };
-                Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
-                event.dragEvent.stopPropagation();
-            }.bind(this),
-            ondropdeactivate: function (event) {
-                event.target.classList.remove('drop-active');
-                event.target.classList.remove("drop-target");
-            }
-        });
-    }
-*/
 }
 
 EditorCanvasDoc.propTypes = {
     /**
-     * Si se renderiza el componente desde una vista contenida (true) o una normal (false)
+     * Object containing every accordion by id
+     */
+    accordions: PropTypes.object.isRequired,
+    /**
+     * Check if component is rendered from contained view
      */
     fromCV: PropTypes.bool,
     /**
-     * Indicador de si se muestra el canvas (tiene que haber un navItem seleccionado)
-     */
-    showCanvas: PropTypes.bool,
-    /**
-     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
-     * Caja seleccionada en el momento. Si no hay ninguna, -1
+     * Current Box selected. If there isn't, -1
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * Nivel de profundidad de caja seleccionada (sólo para plugins dentro de plugins)
+     * Selected box level (only plugins inside plugins)
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
     /**
-     * Vista  seleccionada identificada por su *id*
+     * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Vista contenida seleccionada identificada por su *id*
+     * Selected contained view (by ID)
      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
-     * Título del curso
+     * Course title
      */
     title: PropTypes.string.isRequired,
     /**
-     * Diccionario que contiene todas las cajas y vistas creadas , accesibles por su *id*
+     * Object containing every view toolbar (by id)
      */
-    toolbars: PropTypes.object.isRequired,
+    viewToolbars: PropTypes.object.isRequired,
     /**
-     * Última acción realizada en Redux
+     * Object containing every plugin toolbar (by id)
+     */
+    pluginToolbars: PropTypes.object.isRequired,
+    /**
+     * Last action dispatched in Redux
      */
     lastActionDispatched: PropTypes.any.isRequired,
     /**
-     * Añade una marca a la caja
+     * Callback for adding a mark shortcut
      */
     addMarkShortcut: PropTypes.func.isRequired,
     /**
-     * Función que oculta el overlay de creación de marcas
+     * Callback for deleting mark creator overlay
      */
     deleteMarkCreator: PropTypes.func.isRequired,
     /**
-     * Identificador de la caja en la que se va a crear una marca
+     * Identifier of the box that is creating a mark
      */
     markCreatorId: PropTypes.any.isRequired,
     /**
-     * Oculta/muestra el overlay de creación de marcas
+     * Object containing box marks
+     */
+    marks: PropTypes.object,
+    /**
+     * Callback for toggling creation mark overlay
      */
     onMarkCreatorToggled: PropTypes.func.isRequired,
     /**
-     * Añade una caja
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
-     * Borra una caja
+     * Callback for deleting a box
      */
     onBoxDeleted: PropTypes.func.isRequired,
     /**
-     * Selecciona la caja
+     * Callback for selecting a box
      */
     onBoxSelected: PropTypes.func.isRequired,
     /**
-     * Aumenta el nivel de profundidad de selección (plugins dentro de plugins)
+     * Callback for increasing box level selected (only plugins inside plugins)
      */
     onBoxLevelIncreased: PropTypes.func.isRequired,
     /**
-     * Mueve la caja
+     * Callback for moving a box
      */
     onBoxMoved: PropTypes.func.isRequired,
     /**
-     * Redimensiona la caja
+     * Callback for resizing a box
      */
     onBoxResized: PropTypes.func.isRequired,
     /**
-     * Suelta la caja en una zona de un EditorBoxSortable
+     * Callback for dropping a box
      */
     onBoxDropped: PropTypes.func.isRequired,
     /**
-     * Alínea la caja verticalmente
+     * Callback for vertically aligning boxes inside a container
      */
     onVerticallyAlignBox: PropTypes.func.isRequired,
     /**
-     * Reordena las cajas dentro de su contenedor
+     * Callback for reordering boxes inside a container
      */
     onBoxesInsideSortableReorder: PropTypes.func.isRequired,
     /**
-     * Borra un contenedor
+     * Callback for deleting a sortable container
      */
     onSortableContainerDeleted: PropTypes.func.isRequired,
     /**
-     * Reordena los contenedores
+     * Callback for reordering sortable containers
      */
     onSortableContainerReordered: PropTypes.func.isRequired,
     /**
-     * Redimensiona un contenedor
+     * Callback for resizing a sortable container
      */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
-     * Selecciona una vista contenida
-     */
-    onContainedViewSelected: PropTypes.func.isRequired,
-    /**
-     * Hace aparecer/desaparecer el CKEditor
+     * Callback for toggling CKEditor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
+    /**
+   * Callback for toggling rich marks modal creator
+   */
+    onRichMarksModalToggled: PropTypes.func.isRequired,
+    /**
+     * Callback for moving marks
+     */
+    onRichMarkMoved: PropTypes.func.isRequired,
+    /**
+     * Callback for modify navitem title and subtitle
+     */
+    onViewTitleChanged: PropTypes.func.isRequired,
+    /**
+     * Callback for modify course title
+     */
+    onTitleChanged: PropTypes.func.isRequired,
+    /**
+   * Object containing all exercises
+   */
+    exercises: PropTypes.object,
+    /**
+     * Callback for opening global configuration modal
+     */
+    openConfigModal: PropTypes.func,
+    /**
+   * Callback for setting the right answer of an exercise
+   */
+    setCorrectAnswer: PropTypes.func.isRequired,
+    /**
+   * Callback for updating view toolbar
+   */
+    onToolbarUpdated: PropTypes.func,
+    /**
+     * Last files uploaded to server or searched in modal
+     */
+    fileModalResult: PropTypes.object,
+    /**
+     * Callback for opening the file upload modal
+     */
+    toggleFileUpload: PropTypes.func.isRequired,
 };

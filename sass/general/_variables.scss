@@ -3,9 +3,14 @@
 //green
 $verdeadams: #133329;
 $verdedisabled: rgba(255,255,255,0.5);
-$detailgreen: #39B54A;
 $verdeoscurogrisaceo: #425D54;
 $brand_green: #133329;
+$detailgreen: #39B54A;
+$detailgreentransparent: rgba(57, 181, 74,0.1);
+//red
+$lightred: #e30b0b;
+$lightredtransparent: rgba(227, 11, 11,0.1);
+
 //orange
 $naranjaadams:#F47920;
 $naranjaclaro: #fff6ec; //rgba(244, 121, 32, 0.2);
@@ -24,22 +29,22 @@ $greyNavItemSelected: #545454;
 $greyInsidePanels: #545454;
 $greyPanelHeadings: #1a1a1a;
 $grey: #333;
+
 //white
 $darkinput: white;//#999;
 
-//blue
-//azul-------------
-//$blueprimary: #1fc8db;
-
 //aguamarina--------------
 $blueprimary: #17CFC8;
+$blueprimarytransparent: rgba(23,207,200,0.1);
+$bluemedium: #14b6b0;
 
 //aguamarina oscuro---------
 $blueprimarydark: #0E817D;
 
-
+//box border ---------------
 $boxborderwidth: 1px;
 
-//HEIGHT
-//-------------------------------------
+//HEIGHT -------------------
 $pestanaHeight: 20px;
+
+

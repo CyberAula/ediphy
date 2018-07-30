@@ -1,4 +1,5 @@
 @import "../../../../sass/general/variables";
+@import "../../../../sass/general/mixins/mixins";
 
 
 #canvas, #containedCanvas {
@@ -12,7 +13,7 @@
 }
 
 .canvasSliClass {
-  padding: 10px 8px 8px 8px;
+  padding: 33px 8px 33px 8px;
 }
 
 .scrollcontainer, .outter{

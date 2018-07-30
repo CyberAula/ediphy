@@ -1,4 +1,4 @@
-import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX,
+import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_FILE,
     ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from './constants';
 
 export default {
@@ -10,6 +10,13 @@ export default {
 
 export function isView(id) {
     return isPage(id) || isSection(id);
+}
+
+export function existsAndIsViewOrContainedView(id) {
+    if (id) {
+        return isView(id) || isContainedView(id);
+    }
+    return false;
 }
 
 export function isPage(id) {
@@ -48,6 +55,10 @@ export function isSortableContainer(id) {
     return id.length && id.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1;
 }
 
+export function isFile(id) {
+    return id.length && id.indexOf(ID_PREFIX_FILE) !== -1;
+}
+
 export function changeProps(object, keys, values) {
     if (Array.isArray(keys) && Array.isArray(values) && keys.length === values.length) {
         let temp = { ...object };
@@ -56,7 +67,7 @@ export function changeProps(object, keys, values) {
         }
         return temp;
     }
-
+    // eslint-disable-next-line no-console
     console.error("Incorrect parameters");
     return undefined;
 }
@@ -88,6 +99,7 @@ export function deleteProps(object, keys) {
         }
         return temp;
     }
+    // eslint-disable-next-line no-console
     console.error("Parameter is not an array");
     return undefined;
 }
@@ -165,8 +177,10 @@ export function isAncestorOrSibling(searchingId, actualId, boxes) {
     if (isView(parentId)) {
         return false;
     }
-
-    if (!isSortableBox(parentId)) {
+    if (isContainedView(parentId)) {
+        return false;
+    }
+    if (!isSortableBox(parentId && boxes[parentId])) {
         let parentContainers = boxes[parentId].children;
         if (parentContainers.length !== 0) {
             for (let i = 0; i < parentContainers.length; i++) {
@@ -238,7 +252,7 @@ export function nextToolbarAvailName(key, views) {
  * Check if item is in collection
  * @param a: Collection
  * @param b: Item
- * @returns {boolean} true is it is, false if it is not
+ * @returns {boolean} true if it is, false if it is not
  */
 function collectionHas(a, b) { // helper function (see below)
     for (let i = 0, len = a.length; i < len; i++) {
@@ -248,6 +262,66 @@ function collectionHas(a, b) { // helper function (see below)
     }
     return false;
 }
+
+/**
+ * Function to see if an array contains all elments of the other
+ */
+export function arrayContainsArray(superset, subset) {
+
+    if (!Array.isArray(subset)) {
+        return false;
+    }
+
+    if (subset.length === 0) {
+        return false;
+    }
+    return subset.every(function(value) {
+        return (superset.indexOf(value) >= 0);
+    });
+}
+
+/**
+ * Get descendants of duplicated boxes
+ * @param descendants
+ * @returns {{}}
+ */
+export function getDuplicatedBoxesIds(descendants) {
+    let newIds = {};
+    let date = Date.now();
+    descendants.map(box => {
+        newIds[box.substr(3)] = date++;
+    });
+    return newIds;
+}
+
+/**
+ * Boxes that link to the given views
+ * @param ids Views ids
+ * @param navs navItemsById
+ * @returns {{}}
+ */
+export function getDescendantLinkedBoxes(ids, navs) {
+    let boxes = {};
+
+    ids.forEach((nav) => {
+        for (let lb in navs[nav].linkedBoxes) {
+            boxes[lb] = [(boxes[lb] || []), ...navs[nav].linkedBoxes[lb]];
+        }
+        // boxes = [...new Set([...boxes, ...navs[nav].linkedBoxes])];
+        // boxes.concat(navs[nav].linkedBoxes);
+    });
+    return boxes;
+}
+
+export function isDataURL(s) {
+    let regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
+    return !!s.match(regex);
+}
+
+export function escapeRegExp(str) {
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+}
+
 /** *
  * Find closest ancestor with a given selector
  * @param elm  Origin DOM element
@@ -312,3 +386,27 @@ Object.replaceAll = function(entity, needle, replacement, affectsKeys, affectsVa
     return newEntity;
 };
 
+export function dataURItoBlob(dataURI) {
+    // convert base64 to raw binary data held in a string
+    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+    let byteString = atob(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    // write the bytes of the string to an ArrayBuffer
+    let ab = new ArrayBuffer(byteString.length);
+
+    // create a view into the buffer
+    let ia = new Uint8Array(ab);
+
+    // set the bytes of the buffer to the correct values
+    for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    // write the ArrayBuffer to a blob, and you're done
+    let blob = new Blob([ab], { type: mimeString });
+    return blob;
+
+}

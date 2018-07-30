@@ -7,9 +7,10 @@ module.exports = {
         "box_style": "Estilo caja",
         "opacity": "Opacidad",
         "padding": "Padding",
-        "PluginName": "Página Web",
+        "PluginName": "Web incrustada",
         "radius": "Radio",
         "source": "Origen",
         "URL": "URL",
+        "URL_copypaste": "Copia y pega una URL",
     },
 };

@@ -67,6 +67,7 @@ CKEDITOR.editorConfig = function (config) {
         'format,' +
         'htmlwriter,' +
         'image,' +
+        'indent,' +
         'indentlist,' +
         'indentblock,' +
         'justify,' +
@@ -92,7 +93,7 @@ CKEDITOR.editorConfig = function (config) {
         'undo,' +
         'widget,' +
         'widgetselection';
-
+    config.extraPlugins = "tab"
 /*config.keystrokes = [
     [CKEDITOR.CTRL + 90, 'doNothing']
     ];*/

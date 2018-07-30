@@ -34,7 +34,7 @@ export default class Visor extends Component {
                     <iframe title="Preview" id="visor_iframe" ref={el => {
                         if(el !== null && this.props.visorVisible) {
                             el.contentWindow.document.open();
-                            el.contentWindow.document.write(Ediphy.Visor.exportPage(this.props.state));
+                            el.contentWindow.document.write(Ediphy.Visor.exportPage({ ...this.props.state, preview: true }));
                             el.contentWindow.document.close();
                         }
                     }} style={{ width: "100%", height: "100%", border: 0 }} allowFullScreen frameBorder="0" />
@@ -44,11 +44,7 @@ export default class Visor extends Component {
     }
 }
 
-Visor.PropTypes = {
-    /**
-     * Título del curso
-     */
-    title: PropTypes.string.isRequired,
+Visor.propTypes = {
     /**
      * Indica si se debe mostrar o no el visor
      */

@@ -6,10 +6,15 @@
     .dropableRichZone {
       width: 100%;
       height:100%;
+       div {
+        position:absolute !important;
+      }
+
     }
 }
 .pointerEventsEnabled .virtualMap {
   pointer-events: all !important ;
+  touch-action: manipulation !important;
 }
 
 .dropableRichZone.rich_overlay  {
@@ -36,16 +41,16 @@
   pointer-events: all !important;
 }
 
-.mapMarker {
+
+.wholebox[name="VirtualTour"]{
+  //touch-action: manipulation !important;
+}
+
+a.mapMarker {
   position: absolute;
   pointer-events: all !important;
-  border: none;
-  padding: 0;
-  margin: 0;
-
-  background-color: transparent;
   top: -26px;
-  left: -12px;
+  left: -8px;
   width: 24px;
   height: 26px;
   i{

@@ -7,6 +7,9 @@
     box-sizing: border-box;
     position: relative;
 }
+.editorBoxSortable{
+  overflow: visible; //auto;
+}
 
 .dividerBar{
     background: $lightgrey;
@@ -30,15 +33,14 @@
   }
 }
 .dragContentHere{
-    color: $lightgrey;
+    color: $greyInsidePanels;
     text-align: center;
     min-height: 100px;
-    //padding: 20px;
     font-size: 20px;
-    border: 2px dashed $lightgrey;
+    border: 2px dashed $greyInsidePanels;
     border-radius: 4px;
     margin: 20px auto;
-    background-color: #f5f5f5;
+    background-color: rgba(0,0,0,0.05);
     line-height: 100px;
 }
 .sortableContainerBox {

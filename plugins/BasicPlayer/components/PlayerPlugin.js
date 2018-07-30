@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 import img from './../../../dist/images/broken_link.png';
+/* eslint-disable react/prop-types */
 
 export default class PlayerPlugin extends React.Component {
     constructor(props) {
@@ -106,3 +107,4 @@ export default class PlayerPlugin extends React.Component {
         );
     }
 }
+/* eslint-enable react/prop-types */

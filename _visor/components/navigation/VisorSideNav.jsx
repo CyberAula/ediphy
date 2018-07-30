@@ -1,41 +1,72 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import iconPDF from './../../../dist/images/file-pdf.svg';
 import VisorNavSection from './VisorNavSection';
-import { isSlide, isPage, isSection } from '../../../common/utils';
+import NavScore from '../score/NavScore';
+import ProgressBall from './ProgressBall';
 
+import { isSlide, isPage, isSection } from '../../../common/utils';
 export default class VisorSideNav extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+
+        };
+        this.calculateProgress = this.calculateProgress.bind(this);
     }
 
     render() {
         let navItemSelected = this.getCurrentNavItem(this.props.currentViews);
+        let visited = this.props.scoreInfo.visited || [];
+        let prog = this.calculateProgress();
+        let last = this.props.navItemsIds.length > 0 ? this.props.navItemsIds[this.props.navItemsIds.length - 1] : null;
+        let first = this.props.navItemsIds.length > 0 ? this.props.navItemsIds[0] : null;
+
         return(
             <div id="sidebar-wrapper">
                 <ul className="sidebar-nav">
-                    <li className="sidebar-brand">
+                    <li className="sidebar-brand" id="tituloCurso">
                         <h1>{this.props.courseTitle}</h1>
                     </li>
+                    <NavScore show={this.props.showScore} scoreInfo={this.props.scoreInfo}/>
+
                     {this.props.navItemsIds.map(page => {
-                        let level = this.props.navItemsById[page].level;
-                        let marginPage = level * 10 + 10 + "px";
-                        if(level === 1) {
+                        let pageObj = this.props.navItemsById[page];
+                        let level = pageObj.level;
+                        let marginPage = level * 10 + 30 + "px";
+                        if(level === 1 && !pageObj.hidden) {
                             if (isSection(page)) {
                                 return (<VisorNavSection display
                                     key={page}
                                     pageName={page}
                                     navItemsById={this.props.navItemsById}
                                     navItemSelected={navItemSelected}
+                                    viewToolbars={this.props.viewToolbars}
+                                    progress={prog}
+                                    first={first} last={last}
+                                    navItemsIds={this.props.navItemsIds}
                                     changeCurrentView={(pageNum) => {this.props.changeCurrentView(pageNum);}} />);
                             }
-                            return (<li key={page}
+                            let isVisited = false;
+
+                            if (visited.length > 0) {
+                                isVisited = prog[page];
+                            }
+
+                            return (<li key={page} id={'nav-' + page}
+                                onClick={(e)=>{this.props.changeCurrentView(page);}}
                                 className="visorNavListEl">
-                                <button onClick={(e)=>{this.props.changeCurrentView(page);}} style={{ paddingLeft: marginPage }}
-                                    className={navItemSelected === page ? "indexElementTitle selectedNavItemVisor" : "indexElementTitle"}>
-                                    {isSlide(this.props.navItemsById[page].type) ? (<i className="material-icons">slideshow</i>) : (<i className="material-icons">insert_drive_file</i>)}
-                                    <span>{this.props.navItemsById[page].name}</span>
-                                </button>
+                                <span className={"progressBall"}><ProgressBall isVisited={isVisited} isTop={first === page} isBottom={last === page} /> </span>
+                                <a style={{ paddingLeft: marginPage }}
+                                    className={navItemSelected === page ? "indexElementTitle selectedNavItemVisor" : "indexElementTitle"}
+                                    href="#">
+
+                                    {(this.props.navItemsById[page].customSize === 0) ?
+                                        <i className="material-icons">{isSlide(this.props.navItemsById[page].type) ? "slideshow" : "insert_drive_file"}</i>
+                                        : <img className="svgIcon" src={iconPDF}/>}
+                                    <span>{this.props.viewToolbars[page].viewName}</span>
+                                </a>
+
                             </li>);
                         }
                         return null;
@@ -49,6 +80,40 @@ export default class VisorSideNav extends Component {
         let navs = ids.filter(isPage);
         return navs.length > 0 ? navs[navs.length - 1] : 0;
     }
+
+    calculateProgress() {
+        let progress = {};
+        let pending = [];
+        this.props.navItemsIds.map(nav => {
+            let navItsEx = Object.keys(this.props.exercises);
+            let ind = navItsEx.indexOf(nav);
+            let complete = false;
+            if (ind === -1) { // This means it is a section with no content => We need to find out if all its children are complete
+                pending.push(nav);
+            } else {
+                let scoreInfoVisited = this.props.scoreInfo.visited;
+                if (scoreInfoVisited) {
+                    progress[nav] = scoreInfoVisited[ind];
+                } else {
+                    progress[nav] = false;
+                }
+
+            }
+        });
+        pending.reverse().map(nav=>{
+            let complete = 0;
+            let children = this.props.navItemsById[nav].children.filter(child => {
+                return !this.props.navItemsById[child].hidden;
+            });
+            children.map((child) => {
+                complete += (progress[child] ? 1 : 0);
+            });
+            complete = complete === children.length;
+            progress[nav] = complete;
+        });
+        return progress;
+    }
+
 }
 
 VisorSideNav.propTypes = {
@@ -69,11 +134,23 @@ VisorSideNav.propTypes = {
      */
     navItemsById: PropTypes.object.isRequired,
     /**
-     * Array que contiene todas las vistas y vistas contenidas, accesibles por su *id*
+     * Objects Array that contains all created views (identified by its *id*)
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
-     * Indica si la barra de navegación está recogida o expandida
+     * Exercises
      */
-    toggled: PropTypes.bool,
+    exercises: PropTypes.object.isRequired,
+    /**
+     * Score information
+     */
+    scoreInfo: PropTypes.object.isRequired,
+    /**
+   * Show course's score
+   */
+    showScore: PropTypes.bool,
+    /**
+     * View toolbars
+     */
+    viewToolbars: PropTypes.object,
 };

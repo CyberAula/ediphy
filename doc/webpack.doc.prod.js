@@ -4,8 +4,6 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const common = require('./webpack.doc.common.js');
 let path = require('path');
 
-console.log('\nCREATE BUNDLE\n');
-
 module.exports = merge.smart(common, {
     entry: {
         'doc': [
@@ -33,6 +31,6 @@ module.exports = merge.smart(common, {
         }),
     ],
 });
-console.log('App will be served in doc/dist  ✓');
-console.log('\n\n\n');
+// eslint-disable-next-line no-console
+console.log('App will be served in doc/dist  ✓\n\n\n');
 

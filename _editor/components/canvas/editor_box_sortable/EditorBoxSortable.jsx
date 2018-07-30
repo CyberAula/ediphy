@@ -5,13 +5,14 @@ import { Button, OverlayTrigger, Popover, Tooltip, Overlay } from 'react-bootstr
 import interact from 'interactjs';
 import Alert from './../../common/alert/Alert';
 import EditorBox from '../editor_box/EditorBox';
-import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import { ADD_BOX } from '../../../../common/actions';
-import { isSortableBox } from '../../../../common/utils';
+import { isSortableBox, isBox } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 
 import './_editorBoxSortable.scss';
+import { instanceExists, releaseClick, findBox, createBox } from '../../../../common/common_tools';
 
 /**
  * EditorBoxSortable Component
@@ -31,6 +32,7 @@ export default class EditorBoxSortable extends Component {
         this.state = {
             alert: null,
         };
+        this.getNewIndex = this.getNewIndex.bind(this);
     }
     /**
      * Renders React Component
@@ -40,23 +42,22 @@ export default class EditorBoxSortable extends Component {
         let box = this.props.boxes[this.props.id];
         return (
             <div className="editorBoxSortable"
-                role="presentation"
-                onClick={e => {
-                    if(box.children.length !== 0) {
-                        this.props.onBoxSelected(this.props.id);
+                 role="presentation"
+                onMouseDown={e => {
+                    if (e.target === e.currentTarget || e.target.classList.contains('colDist-j')) {
+                        if(box.children.length !== 0) {
+                            this.props.onBoxSelected(this.props.id);
+                        }
                     }
                     e.stopPropagation();
                 }}>
                 <div ref="sortableContainer"
                     className={(this.props.id === this.props.boxSelected && box.children.length > 0) ? ' selectedBox sortableContainerBox' : ' sortableContainerBox'}
-                    style={{
-                        position: 'relative',
-                        boxSizing: 'border-box',
-                    }}>
+                    style={{ position: 'relative', boxSizing: 'border-box' }}>
                     {this.state.alert}
                     {box.children.map((idContainer, index)=> {
                         let container = box.sortableContainers[idContainer];
-                        return (<div key={index}
+                        return (<div key={'sortableContainer-' + index}
                             className={"editorBoxSortableContainer pos_relative " + container.style.className}
                             data-id={idContainer}
                             id={idContainer}
@@ -66,7 +67,7 @@ export default class EditorBoxSortable extends Component {
                                     height: container.height === 'auto' ? container.height : container.height + 'px',
                                 }, container.style)
                             }>
-                            <div className="disp_table width100 height100" style={{ minHeight: '100px', height: '1px' }}>
+                            <div className="disp_table width100 height100" style={{ minHeight: '100px' }}>
                                 {container.colDistribution.map((col, i) => {
                                     if (container.cols[i]) {
                                         return (<div key={i}
@@ -75,7 +76,7 @@ export default class EditorBoxSortable extends Component {
                                             {container.cols[i].map((row, j) => {
                                                 return (<div key={j}
                                                     className={"colDist-j width100 pos_relative rowNum" + j}
-                                                    style={{ height: row + "%" }}
+                                                    style={{ height: row + "%", minHeight: parseInt(100 / (container.cols[i].length), 10) + 'px' }}
                                                     ref={e => {
                                                         if(e !== null) {
                                                             this.configureDropZone(
@@ -93,21 +94,25 @@ export default class EditorBoxSortable extends Component {
                                                     {container.children.map((idBox, ind) => {
                                                         if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
                                                             return (<EditorBox id={idBox}
-                                                                key={ind}
+                                                                key={'box-' + idBox}
                                                                 boxes={this.props.boxes}
                                                                 boxSelected={this.props.boxSelected}
                                                                 boxLevelSelected={this.props.boxLevelSelected}
                                                                 containedViews={this.props.containedViews}
                                                                 containedViewSelected={this.props.containedViewSelected}
-                                                                toolbars={this.props.toolbars}
+                                                                pluginToolbars={this.props.pluginToolbars}
                                                                 lastActionDispatched={this.props.lastActionDispatched}
                                                                 addMarkShortcut={this.props.addMarkShortcut}
                                                                 deleteMarkCreator={this.props.deleteMarkCreator}
+                                                                exercises={(this.props.page && this.props.exercises[this.props.page]) ? (this.props.exercises[this.props.page].exercises[idBox]) : undefined}
                                                                 markCreatorId={this.props.markCreatorId}
+                                                                marks={this.props.marks}
                                                                 onBoxAdded={this.props.onBoxAdded}
                                                                 onBoxSelected={this.props.onBoxSelected}
                                                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
+                                                                onRichMarkMoved={this.props.onRichMarkMoved}
                                                                 onBoxMoved={this.props.onBoxMoved}
+                                                                onToolbarUpdated={this.props.onToolbarUpdated}
                                                                 onBoxResized={this.props.onBoxResized}
                                                                 onBoxDropped={this.props.onBoxDropped}
                                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
@@ -115,13 +120,17 @@ export default class EditorBoxSortable extends Component {
                                                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                                                 onTextEditorToggled={this.props.onTextEditorToggled}
                                                                 onRichMarksModalToggled={this.props.onRichMarksModalToggled}
+                                                                page={this.props.page}
+                                                                setCorrectAnswer={this.props.setCorrectAnswer}
                                                                 pageType={this.props.pageType}/>);
 
                                                         } else if (ind === container.children.length - 1) {
                                                             return (<span key={ind}><br/><br/></span>);
                                                         }
+
                                                         return null;
                                                     })}
+                                                    {container.children.length === 0 ? (<div key={-1} style={{ height: '46px' }}/>) : null }
                                                 </div>);
                                             })}
                                         </div>);
@@ -133,23 +142,21 @@ export default class EditorBoxSortable extends Component {
 
                             <div className="sortableMenu width100 over_hidden">
                                 <div className="iconsOverBar float_left pos_absolute bottom0">
-                                    <OverlayTrigger placement="top" overlay={
+                                    { box.children.length > 1 ? <OverlayTrigger placement="top" overlay={
                                         <Tooltip id="deleteTooltip">{i18n.t('Reorder')}
                                         </Tooltip>}>
                                         <i className="material-icons drag-handle btnOverBar">swap_vert</i>
-                                    </OverlayTrigger>
+                                    </OverlayTrigger> : null }
 
                                     <Overlay rootClose
                                         show={this.state.show === idContainer}
                                         placement="top"
-                                        container={this.refs[idContainer]}
+                                        container={this/* .refs[idContainer]*/}
                                         target={() => ReactDOM.findDOMNode(this.refs['btn-' + idContainer])}
                                         onHide={() => {this.setState({ show: this.state.show === idContainer ? false : this.state.show });}}>
                                         <Popover id="popov" title={i18n.t("delete_container")}>
                                             <i style={{ color: 'yellow', fontSize: '13px', padding: '0 5px' }} className="material-icons">warning</i>
-                                            {
-                                                i18n.t("messages.delete_container")
-                                            }
+                                            { i18n.t("messages.delete_container") }
                                             <br/>
                                             <br/>
                                             <Button className="popoverButton"
@@ -158,13 +165,7 @@ export default class EditorBoxSortable extends Component {
                                                     this.props.onSortableContainerDeleted(idContainer, box.id);
                                                     e.stopPropagation();
                                                     this.setState({ show: false });
-                                                }}
-                                                onTap={e => {
-                                                    this.props.onSortableContainerDeleted(idContainer, box.id);
-                                                    e.stopPropagation();
-                                                    this.setState({ show: false });
-                                                }}
-                                            >
+                                                }} >
                                                 {i18n.t("Accept")}
                                             </Button>
                                             <Button className="popoverButton"
@@ -174,7 +175,7 @@ export default class EditorBoxSortable extends Component {
                                             </Button>
                                         </Popover>
                                     </Overlay>
-                                    <OverlayTrigger placement="top" overlay={
+                                    <OverlayTrigger placement="top" container={this} overlay={
                                         <Tooltip id="deleteTooltip">{i18n.t('delete')}
                                         </Tooltip>}>
                                         <Button
@@ -189,46 +190,34 @@ export default class EditorBoxSortable extends Component {
                         </div>);
                     })}
                 </div>
-
                 <div className="dragContentHere" data-html2canvas-ignore
                     role="presentation"
                     onClick={e => {
                         this.props.onBoxSelected(-1);
                         e.stopPropagation();}}>{i18n.t("messages.drag_content")}
                 </div>
-
             </div>
         );
     }
 
-    /**
-     * After component updates
-     * Sets up interact resizable features
-     * @param prevProps React previous props
-     * @param prevState React previous state
-     */
     componentDidUpdate(prevProps, prevState) {
         this.props.boxes[this.props.id].children.map(id => {
-            this.configureResizable(this.refs[id]);
+            // this.configureResizable(this.refs[id]);
         });
     }
-    /**
-     * After component mounts
-     * Sets up interact sortable and resizable features
-     */
+
     componentDidMount() {
         this.configureDropZone(ReactDOM.findDOMNode(this), "newContainer", ".rib");
-        this.configureDropZone(".editorBoxSortableContainer", "existingContainer", ".rib");
+        // this.configureDropZone(".editorBoxSortableContainer", "existingContainer", ".rib");
 
         this.props.boxes[this.props.id].children.map(id => {
-            this.configureResizable(this.refs[id]);
+            // this.configureResizable(this.refs[id]);
         });
 
         let list = jQuery(this.refs.sortableContainer);
         list.sortable({
             handle: '.drag-handle',
             start: (event, ui) => {
-
                 // Hide EditorShortcuts
                 let bar = this.props.containedViewSelected === 0 ?
                     document.getElementById('editorBoxIcons') :
@@ -239,6 +228,7 @@ export default class EditorBoxSortable extends Component {
                 }
             },
             stop: (event, ui) => {
+
                 let indexes = [];
                 let children = list[0].children;
                 for (let i = 0; i < children.length; i++) {
@@ -246,7 +236,6 @@ export default class EditorBoxSortable extends Component {
                 }
                 if (indexes.length !== 0) {
                     this.props.onSortableContainerReordered(indexes, this.props.id);
-
                 }
                 list.sortable('cancel');
                 // Unhide EditorShortcuts
@@ -256,16 +245,19 @@ export default class EditorBoxSortable extends Component {
                 if (bar !== null) {
                     bar.classList.remove('hidden');
                 }
-                window.dispatchEvent(new Event('resize'));
-
+                let ev;
+                // window.dispatchEvent(new Event('resize'));
+                // if(typeof(Event) === 'function') {
+                //   ev = new Event('resize')
+                // }else{
+                ev = document.createEvent('Event');
+                ev.initEvent('resize', true, true);
+                // }
+                window.dispatchEvent(ev);
             },
         });
     }
 
-    /**
-     * Sets up interact resizable features.
-     * @param item Node that will be made resizable
-     */
     configureResizable(item) {
         interact(item).resizable({
             enabled: this.props.id === this.props.boxSelected && item.style.height !== "auto",
@@ -285,13 +277,6 @@ export default class EditorBoxSortable extends Component {
         });
     }
 
-    /**
-     * Sets up interact dropzone features
-     * @param node Node that accepts dragged items
-     * @param dropArea Denomination of the dropArea (cell, newContainer, existingContainer)
-     * @param selector Selector of the elements accepted in the dropzone
-     * @param extraParams Additional info, such as row and column
-     */
     configureDropZone(node, dropArea, selector, extraParams) {
         interact(node).dropzone({
             accept: selector,
@@ -306,51 +291,59 @@ export default class EditorBoxSortable extends Component {
                 e.target.classList.remove("drop-target");
             },
             ondrop: function(e) {
+                let draggingFromRibbon = e.relatedTarget.className.indexOf("rib") !== -1;
+                let clone = document.getElementById('clone');
+                if (clone) {
+                    clone.parentNode.removeChild(clone);
+                }
+                let name = e.relatedTarget.getAttribute("name");
+                let newInd = extraParams ? this.getNewIndex(e.dragEvent.clientX, e.dragEvent.clientY, this.props.id, extraParams.idContainer, extraParams.i, extraParams.j) : 0;
+                if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
+                    if (draggingFromRibbon && instanceExists(e.relatedTarget.getAttribute("name"))) {
+                        let alert = (<Alert className="pageModal"
+                            show
+                            hasHeader
+                            backdrop={false}
+                            title={<span><i className="material-icons alert-warning" >
+                                        warning</i>{i18n.t("messages.alert")}</span>}
+                            closeButton onClose={() => {this.setState({ alert: null });}}>
+                            <span> {i18n.t('messages.instance_limit')} </span>
+                        </Alert>);
+                        this.setState({ alert: alert });
+
+                        e.dragEvent.stopPropagation();
+                        return;
+                    }
+                }
+                let page = this.props.page;
                 if (dropArea === 'cell') {
                     // If element dragged is coming from PluginRibbon, create a new EditorBox
-                    if (e.relatedTarget.className.indexOf("rib") !== -1) {
+                    if (draggingFromRibbon) {
                         // Check if there is a limit in the number of plugin instances
-                        if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
-                            for (let child in this.props.boxes) {
-                                if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.id && this.props.toolbars[child].config.name === e.relatedTarget.getAttribute("name")) {
-                                    let alert = (<Alert className="pageModal"
-                                        show
-                                        hasHeader
-                                        backdrop={false}
-                                        title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
-                                        closeButton onClose={()=>{this.setState({ alert: null });}}>
-                                        <span> {i18n.t('messages.instance_limit')} </span>
-                                    </Alert>);
-                                    this.setState({ alert: alert });
-                                    e.dragEvent.stopPropagation();
-                                    return;
-                                }
-                            }
-                        }
                         let initialParams = {
                             parent: this.props.id,
                             container: extraParams.idContainer,
                             col: extraParams.i,
                             row: extraParams.j,
+                            index: newInd,
+                            page: page,
+                            id: (ID_PREFIX_BOX + Date.now()),
                         };
-                        Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                        createBox(initialParams, name, false, this.props.onBoxAdded, this.props.boxes);
+                        e.dragEvent.stopPropagation();
                     } else {
                         let boxDragged = this.props.boxes[this.props.boxSelected];
-                        // If box being dragged is dropped in a different column or row, change it's value
-                        if (boxDragged) { // && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
+                        if (boxDragged) {
                             this.props.onBoxDropped(this.props.boxSelected,
                                 extraParams.j,
                                 extraParams.i,
-                                boxDragged.parent,
-                                extraParams.idContainer);
+                                this.props.id,
+                                extraParams.idContainer,
+                                boxDragged.parent, boxDragged.container, undefined, newInd);
                         }
 
-                        let clone = document.getElementById('clone');
-                        if (clone) {
-                            clone.parentNode.removeChild(clone);
-                        }
                         for (let b in this.props.boxes) {
-                            let dombox = document.getElementById('box-' + b);
+                            let dombox = findBox(b);
                             if (dombox) {
                                 dombox.style.opacity = 1;
                             }
@@ -358,38 +351,29 @@ export default class EditorBoxSortable extends Component {
 
                     }
                 } else {
-                    if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
-                        for (let child in this.props.boxes) {
-                            if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.id && this.props.toolbars[child].config.name === e.relatedTarget.getAttribute("name")) {
-                                let alert = (<Alert className="pageModal"
-                                    show
-                                    hasHeader
-                                    backdrop={false}
-                                    title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
-                                    closeButton onClose={()=>{this.setState({ alert: null });}}>
-                                    <span> {i18n.t('messages.instance_limit')} </span>
-                                </Alert>);
-                                this.setState({ alert: alert });
-                                e.dragEvent.stopPropagation();
-                                return;
-                            }
-                        }
-                    }
+
                     let initialParams = {};
                     if (dropArea === 'existingContainer') {
                         initialParams = {
                             parent: this.props.id,
                             container: e.target.getAttribute("data-id"),
+                            index: newInd,
+                            page,
+
                         };
                     } else if (dropArea === 'newContainer') {
                         initialParams = {
                             parent: this.props.id,
                             container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
+                            index: newInd,
+                            page,
                         };
                     }
-
-                    Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                    initialParams.id = (ID_PREFIX_BOX + Date.now());
+                    initialParams.name = name;
+                    createBox(initialParams, name, false, this.props.onBoxAdded, this.props.boxes);
                     e.dragEvent.stopPropagation();
+
                 }
 
             }.bind(this),
@@ -400,112 +384,211 @@ export default class EditorBoxSortable extends Component {
         });
     }
 
-    /**
-     * Before component unmounts
-     * Unset interact listeners
-     */
+    getNewIndex(x, y, parent, container, i, j) {
+        let el = document.elementFromPoint(x, y);
+        let rc = releaseClick(el, 'box-');
+        let children = this.props.boxes[parent].sortableContainers[container].children.filter(box=>{return this.props.boxes[box].row === j && this.props.boxes[box].col === i;});
+        if (rc) {
+            let newInd = children.indexOf(rc);
+            return newInd === 0 ? 0 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
+        }
+
+        let sameHeight = [];
+        let maxRowHeight = 0;
+        let curRowTop = 0;
+        let coordArr = [];
+        let newRow = [];
+        children.forEach((child, ind) => {
+            let coords = (this.offset(child));
+            if ((curRowTop !== coords.top && curRowTop !== 0)) {
+                coordArr.push({ top: curRowTop, maxRowHeight, cols: newRow });
+                curRowTop = coords.top;
+                newRow = [];
+                maxRowHeight = 0;
+            }
+            if(curRowTop === 0) {
+                curRowTop = coords.top;
+            }
+            if (maxRowHeight < coords.height) {
+                maxRowHeight = coords.height;
+            }
+            newRow.push(coords);
+            if (ind === children.length - 1) {
+                coordArr.push({ top: curRowTop, maxRowHeight, cols: newRow });
+            }
+        });
+        coordArr.map((r, inx)=>{
+            if (inx === 0 && y < r.top) {
+                sameHeight = r.cols;
+            }
+            if (r.top < y && y < (r.top + r.maxRowHeight)) {
+                sameHeight = r.cols;
+            }
+            if ((inx === (coordArr.length - 1)) && y > (r.top + r.maxRowHeight)) {
+                sameHeight = r.cols;
+            }
+        });
+
+        sameHeight.sort((a, b)=> a.left > b.left);
+        let closestBox = sameHeight[0] || rc;
+        sameHeight.map((box, inx) => {
+            if (inx === 0 && x < box.left) {
+                closestBox = children.indexOf(box.id);
+            }
+            if (box.left < x && x < (box.left + box.width)) {
+                closestBox = children.indexOf(box.id);
+            }
+            if ((inx === sameHeight.length - 1) && (x > box.left + box.width)) {
+                closestBox = children.indexOf(box.id);
+            }
+        });
+        return closestBox || 0;
+
+    }
+
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();
         interact(".editorBoxSortableContainer").unset();
-
     }
+
+    offset(id) {
+        let el = document.getElementById('box-' + id);
+        let rect = el.getBoundingClientRect(),
+            scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+            scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        return {
+            id,
+            top: rect.top + scrollTop,
+            left: rect.left + scrollLeft,
+            width: el.clientWidth,
+            height: el.clientHeight };
+    }
+
 }
 
 EditorBoxSortable.propTypes = {
     /**
-     * Identificador único de la caja
+     * Box unique identifier
      */
     id: PropTypes.string.isRequired,
     /**
-     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     * Object that holds all the boxes, (identified by its ID)
      */
     boxes: PropTypes.object.isRequired,
     /**
-     * Caja seleccionada en el momento. Si no hay ninguna, -1
+     *  Box selected. If there is none selected the value is, -1
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * Nivel de profundidad de caja seleccionada (sólo para plugins dentro de plugins)
+     * Depth level of the selected box. Used when there are plugins inside plugins
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Vista contenida seleccionada identificada por su *id*
+     * Selected contained view
      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
-     * Diccionario que contiene todas las cajas y vistas creadas , accesibles por su *id*
+     * Object containing all the toolbars (identified by its ID)
      */
-    toolbars: PropTypes.object.isRequired,
+    pluginToolbars: PropTypes.object.isRequired,
     /**
-     * Última acción realizada en Redux
+     * Last action dispatched in Redux
      */
     lastActionDispatched: PropTypes.any.isRequired,
     /**
-     * Añade una marca a la caja
+     * Callback for when adding a mark
      */
     addMarkShortcut: PropTypes.func.isRequired,
     /**
-     * Función que oculta el overlay de creación de marcas
+     * Callback for deleting mark creator overlay
      */
     deleteMarkCreator: PropTypes.func.isRequired,
     /**
-     * Identificador de la caja en la que se va a crear una marca
+     * Identifier of the box that is currently in process of creating a mark
      */
     markCreatorId: PropTypes.any.isRequired,
     /**
-     * Añade una caja
+     * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
-     * Selecciona la caja
+     * Selects a box
      */
     onBoxSelected: PropTypes.func.isRequired,
     /**
-     * Aumenta el nivel de profundidad de selección (plugins dentro de plugins)
+     * Increases box level selected
      */
     onBoxLevelIncreased: PropTypes.func.isRequired,
     /**
-     * Mueve la caja
+     * Callback for when moving a box
      */
     onBoxMoved: PropTypes.func.isRequired,
     /**
-     * Redimensiona la caja
+     * Callback for when resizing a box
      */
     onBoxResized: PropTypes.func.isRequired,
     /**
-     * Suelta la caja en una zona de un EditorBoxSortable
+     * Callback for when dropping a box
      */
     onBoxDropped: PropTypes.func.isRequired,
     /**
-     * Alínea la caja verticalmente
+     * Callback for when vertically aligning boxes inside a container
      */
     onVerticallyAlignBox: PropTypes.func.isRequired,
     /**
-     * Reordena las cajas dentro de su contenedor
+     * Callback for when reordering boxes inside a container
      */
     onBoxesInsideSortableReorder: PropTypes.func.isRequired,
     /**
-     * Borra un contenedor
+     * Callback for when deleting a sortable container
      */
     onSortableContainerDeleted: PropTypes.func.isRequired,
     /**
-     * Reordena los contenedores
+     * Callback for when reordering sortable containers
      */
     onSortableContainerReordered: PropTypes.func.isRequired,
     /**
-     * Redimensiona un contenedor
+     * Callback for when resizing a sortable container
      */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
-     * Hace aparecer/desaparecer el CKEditor
+     * Callback for toggling the CKEditor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
     /**
-     * Indica el tipo de página en el que se encuentra la caja
+     * Page type the box is at
      */
     pageType: PropTypes.string.isRequired,
+    /**
+     * Callback for toggling the Rich Marks Modal
+     */
+    onRichMarksModalToggled: PropTypes.func.isRequired,
+    /**
+     * Callback for moving marks
+     */
+    onRichMarkMoved: PropTypes.func.isRequired,
+    /**
+     * Object containing all exercises
+     */
+    exercises: PropTypes.object,
+    /**
+     * Function for setting the right answer of an exercise
+     */
+    setCorrectAnswer: PropTypes.func.isRequired,
+    /**
+     * Current page
+     */
+    page: PropTypes.any,
+    /**
+     * Object containing box marks
+     */
+    marks: PropTypes.object,
+    /**
+     * Function that updates the toolbar of a view
+     */
+    onToolbarUpdated: PropTypes.func,
 };

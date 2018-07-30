@@ -1,20 +1,21 @@
 import React from 'react';
+/* eslint-disable react/prop-types */
 export function Webpage(base) {
     return {
         getConfig: function() {
             return {
                 name: 'Webpage',
                 displayName: Ediphy.i18n.t('Webpage.PluginName'),
-                category: 'multimedia',
+                category: 'objects',
                 icon: 'public',
                 initialWidth: '70%',
-                initialHeight: "300px",
+                initialHeight: "500px",
                 initialWidthSlide: '70%',
                 initialHeightSlide: '60%',
                 flavor: 'react',
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -24,9 +25,9 @@ export function Webpage(base) {
                             icon: 'link',
                             buttons: {
                                 url: {
-                                    __name: '',
+                                    __name: Ediphy.i18n.t('Webpage.URL_copypaste'),
                                     type: 'text',
-                                    value: base.getState().url,
+                                    value: state.url,
                                     autoManaged: false,
                                 },
                             },
@@ -88,10 +89,11 @@ export function Webpage(base) {
             };
         },
         getRenderTemplate: function(state) {
-            return (<iframe title="Webpage" style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none' }} src={state.url}/>);
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
+
+            return (<iframe style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none', border: '1px solid grey' }} src={state.url}/>);
+
         },
     };
 }
+
+/* eslint-enable react/prop-types */

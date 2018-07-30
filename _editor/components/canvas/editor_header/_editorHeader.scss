@@ -13,7 +13,7 @@
   }
 }
 
-/*Container for all buttons*/
+/*Container  for all buttons*/
 #editorTitleButtons {
   text-align: center;
 }
@@ -53,12 +53,6 @@
   box-sizing: border-box;
 }
 
-/*EditorTitle is on config mode*/
-.selectedTitle {
-  // border: 1px dashed grey;
-}
-
-
 .title {
   display: block;
   background-color: transparent;
@@ -73,6 +67,24 @@
       color: $blueprimary;
       font-family: 'Ubuntu', sans-serif;
     }
+    .editCourseTitle{
+      font-size: 1em;
+      height: auto;
+      border-radius: 0;
+      border-color: $blueprimary;
+    }
+    .editNavTitle{
+      font-size: 0.8em;
+      height: auto;
+      border-radius: 0;
+      border-color: $blueprimary;
+    }.editNavSubTitle{
+       font-size: 0.6em;
+       height: auto;
+       border-radius: 0;
+       border-color: $blueprimary;
+     }
+
     h1{
       margin: 10px 0 0;
       font-size: 1em;
@@ -143,5 +155,14 @@
   color: #555;
   vertical-align: top;
   margin-left: 5px;
+  position: absolute;
+  top: 35px;
+  right: 35px;
 }
 
+
+.ediphyHeader {
+  h1,h2,h3 {
+    cursor: text;
+  }
+}

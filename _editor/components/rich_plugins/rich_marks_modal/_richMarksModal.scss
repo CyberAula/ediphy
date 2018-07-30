@@ -1,7 +1,22 @@
-.richMarksModal .modal-body .control-label {
-  color: #444 !important;
-}
 
+.richMarksModal{
+  .modal-body{
+    .row{
+      margin: 5px 0 10px;
+      .col-md-2{
+        text-align: right;
+      }
+      textarea{
+        height: 120px;
+        width: 350px;
+        margin-bottom: 15px;
+      }
+    }
+    .control-label {
+      color: #444 !important;
+    }
+  }
+}
 .colorPanel.rc-color-picker-panel {
   border-radius: 0%;
   box-shadow: none;

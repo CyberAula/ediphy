@@ -1,6 +1,6 @@
 module.exports = {
     "DataTable": {
-        "PluginName": "DataTable",
+        "PluginName": "Table",
         "style": "Style",
         "margin": "Margin",
         "left": "Left",
@@ -19,6 +19,7 @@ module.exports = {
         "y_grid": "Y axis grid",
         "line_color": "Line color",
         "file": "Choose File",
+        "Graph": "Graph",
         "edit": "Edit",
         "options": {
             "ascending": "Ascending",
@@ -32,11 +33,11 @@ module.exports = {
             "labels": "Labels",
             "noDataLabel": "Empty table message",
             "noDataLabel_txt": "No data",
-            "pageSizeLabel": 'Rows/pag',
+            "pageSizeLabel": 'Label NºRows/pag',
             "pageSizeLabel_txt": 'Rows/page',
-            "searchLabel": 'Filter rows',
+            "searchLabel": 'Filter label',
             "searchLabel_txt": 'Filter rows',
-            "searchPlaceholder": 'Search placeholder',
+            "searchPlaceholder": 'Filter placeholder',
             "searchPlaceholder_txt": '',
         },
         "or": "Or",
@@ -52,6 +53,8 @@ module.exports = {
         "confirm": "Confirm",
         "fill_in": "Or fill in a table",
         "show": "Show",
+        "Row": "Row",
+        "row_name": "Row name",
         "header": {
             "options": "Table options",
             "origin": "Data origin",

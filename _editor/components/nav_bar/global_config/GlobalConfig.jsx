@@ -30,23 +30,27 @@ export default class GlobalConfig extends Component {
         super(props);
         /* State from props is an anti-pattern*/
         this.state = {
-            title: this.props.globalConfig.title || "",
+            title: this.props.globalConfig.title,
             author: this.props.globalConfig.author || "",
             canvasRatio: this.props.globalConfig.canvasRatio || 16 / 9,
-            age: this.props.globalConfig.age || { min: 0, max: 100 },
+            age: this.props.globalConfig.age || { min: 0, max: 0 },
             typicalLearningTime: this.props.globalConfig.typicalLearningTime || { h: 0, m: 0, s: 0 },
-            difficulty: this.props.globalConfig.difficulty || 'easy',
+            difficulty: this.props.globalConfig.difficulty,
             rights: this.props.globalConfig.rights || 1,
             description: this.props.globalConfig.description || '',
             thumbnail: this.props.globalConfig.thumbnail || img_place_holder,
-            language: this.props.globalConfig.language || undefined,
+            language: this.props.globalConfig.language,
             keywords: this.props.globalConfig.keywords || [],
             version: this.props.globalConfig.version || '0.0.0',
             status: this.props.globalConfig.status || 'draft',
-            context: this.props.globalConfig.context || 'school',
+            context: this.props.globalConfig.context,
+            hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
+            minTimeProgress: this.props.globalConfig.minTimeProgress || 30,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
             modifiedState: false,
             showAlert: false,
+            everPublished: this.props.globalConfig.everPublished,
+
         };
         // Tag handling functions
         this.handleDelete = this.handleDelete.bind(this);
@@ -60,13 +64,7 @@ export default class GlobalConfig extends Component {
      * @returns {code}
      */
     render() {
-        const Licenses = (
-            <Popover id="info_licenses" className="advancedPopover" title="Licencias">
-                {i18n.t('global_config.rights_short_txt')}
-                <a target="_blank" href={"https://creativecommons.org/licenses/?lang=" + i18n.t('currentLang')}> [{i18n.t('Read_more')}] </a>
-            </Popover>
-        );
-        const { title, author, canvasRatio, age, typicalLearningTime, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context } = this.state;
+        const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context } = this.state;
         return (
             <Modal className="pageModal"
                 show={this.props.show}
@@ -95,7 +93,7 @@ export default class GlobalConfig extends Component {
                         bool ? this.saveState() : this.cancel();
                         // Anyway close the alert
                         this.setState({ showAlert: false });
-                        this.props.close();
+                        // this.props.close();
                     }}>
                     {i18n.t("global_config.prompt")}
                 </Alert>
@@ -108,18 +106,21 @@ export default class GlobalConfig extends Component {
                                     <FormGroup>
                                         <ControlLabel>{i18n.t('global_config.avatar')}</ControlLabel>
                                         <div className="cont_avatar">
-                                            <img alt="Avatar" height={100} src={this.state.thumbnail} className="avatar" />
+                                            <img alt="Avatar" src={this.state.thumbnail} className="avatar" />
                                             <div>
-                                                <FileInput onChange={this.fileChanged} className="fileInput" accept=".jpeg,.gif,.png">
+                                                {/* <FileInput onChange={this.fileChanged} className="fileInput" accept=".jpeg,.gif,.png">
                                                     <div className="fileDrag">
                                                         <span style={{ display: this.state.name ? 'none' : 'block' }}><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b></span>
                                                         <span className="fileUploaded" style={{ display: this.state.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.state.name || '' }</span>
                                                     </div>
-                                                </FileInput>
-                                                <Button bsStyle="primary" onClick={()=>{
+                                                </FileInput>*/}
+                                                <Button bsStyle="primary" className="avatarButtons" onClick={()=>{
+                                                    this.props.toggleFileUpload('avatar', 'image/*');
+                                                }}>{i18n.t('global_config.avatar_import')}</Button><br/>
+                                                <Button bsStyle="primary" className="avatarButtons" onClick={()=>{
                                                     this.getCurrentPageAvatar();
-                                                }}>{i18n.t('global_config.avatar_screenshot')}</Button>
-                                                <Button bsStyle="default" disabled={ this.state.thumbnail === img_place_holder } onClick={()=>{
+                                                }}>{i18n.t('global_config.avatar_screenshot')}</Button><br/>
+                                                <Button bsStyle="default" className="avatarButtons" disabled={ this.state.thumbnail === img_place_holder } onClick={()=>{
                                                     this.setState({ thumbnail: img_place_holder });
                                                 }}>{i18n.t('global_config.avatar_delete_img')}</Button>
                                             </div>
@@ -129,7 +130,7 @@ export default class GlobalConfig extends Component {
                                         <ControlLabel>{i18n.t('global_config.course_title')}</ControlLabel>
                                         <FormControl type="text"
                                             value={title}
-                                            placeholder=""
+                                            placeholder={i18n.t('global_config.course_title')}
                                             onChange={e => {this.setState({ modifiedState: true, title: e.target.value });}}/>
                                     </FormGroup>
                                     <FormGroup >
@@ -159,11 +160,15 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.rights')}</ControlLabel>
-                                        <OverlayTrigger trigger="click" placement="top" overlay={Licenses}>
+                                        <OverlayTrigger trigger="click" rootClose placement="top"
+                                            overlay={<Popover id="info_licenses" className="advancedPopover" title="Licencias">
+                                                {i18n.t('global_config.rights_short_txt')}
+                                                <a target="_blank" href={"https://creativecommons.org/licenses/?lang=" + i18n.t('currentLang')}> [{i18n.t('Read_more')}] </a>
+                                            </Popover>}>
                                             <Button className="miniIcon"><i className="material-icons">help</i></Button>
                                         </OverlayTrigger>
                                         <br/>
-                                        <Select
+                                        <Select disabled={status === 'final' || this.state.everPublished} className={(status === 'final' || this.state.everPublished) ? 'select-disabled' : ''} title={(status === 'final' || this.state.everPublished) ? i18n.t("messages.forbidden") : undefined}
                                             name="form-field-name-rights"
                                             value={rights}
                                             options={rightsOptions()}
@@ -217,7 +222,7 @@ export default class GlobalConfig extends Component {
                                                 value={typicalLearningTime.h}
                                                 min={0}
                                                 max={100}
-                                                placeholder="hour"
+                                                placeholder="h"
                                                 onChange={e => {this.setState({ modifiedState: true, typicalLearningTime: { h: e.target.value, m: typicalLearningTime.m, s: typicalLearningTime.s } });}}/>
                                             <InputGroup.Addon>h</InputGroup.Addon>
                                         </InputGroup>
@@ -226,7 +231,7 @@ export default class GlobalConfig extends Component {
                                                 value={typicalLearningTime.m}
                                                 min={0}
                                                 max={59}
-                                                placeholder="min"
+                                                placeholder="m"
                                                 onChange={e => {this.setState({ modifiedState: true, typicalLearningTime: { h: typicalLearningTime.h, m: e.target.value, s: typicalLearningTime.s } });}}/>
                                             <InputGroup.Addon>m</InputGroup.Addon>
                                         </InputGroup>{/*
@@ -235,11 +240,31 @@ export default class GlobalConfig extends Component {
                                                       value={typicalLearningTime.s}
                                                       min={0}
                                                       max={59}
-                                                      placeholder="sec"
+                                                      placeholder="s"
                                                       onChange={e => {this.setState({typicalLearningTime: {h:typicalLearningTime.h, m:typicalLearningTime.m, s:e.target.value}})}}/>
                                         <InputGroup.Addon>s</InputGroup.Addon>
                                       </InputGroup>*/}
                                     </FormGroup>
+
+                                    <FormGroup >
+                                        <ControlLabel className="inlineLabel">{i18n.t('global_config.hideGlobalScore')}</ControlLabel>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, hideGlobalScore: !this.state.hideGlobalScore });}} checked={!hideGlobalScore}/>
+
+                                    </FormGroup>
+                                    <FormGroup >
+                                        <ControlLabel>{i18n.t('global_config.minTimeProgress')}</ControlLabel><br/>
+                                        <InputGroup className="inputGroup">
+                                            <FormControl type="number"
+                                                value={minTimeProgress}
+                                                min={1}
+                                                max={500}
+                                                placeholder="s"
+                                                onChange={e => {this.setState({ modifiedState: true, minTimeProgress: e.target.value });}}/>
+                                            <InputGroup.Addon>s</InputGroup.Addon>
+                                        </InputGroup>
+
+                                    </FormGroup>
+
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.context')}</ControlLabel><br/>
                                         <Select
@@ -283,7 +308,7 @@ export default class GlobalConfig extends Component {
                     </Grid>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button bsStyle="default" id="insert_plugin_config_modal" onClick={e => {
+                    <Button bsStyle="default" id="cancel_insert_plugin_config_modal" onClick={e => {
                         this.cancel(); e.preventDefault();
                     }}>{i18n.t("global_config.Discard")}</Button>
                     <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
@@ -329,7 +354,6 @@ export default class GlobalConfig extends Component {
         // mutate array
         tags.splice(currPos, 1);
         tags.splice(newPos, 0, tag);
-        console.log(tags, this.state.keywords);
         // re-render
         this.setState({ modifiedState: true, keywords: tags });
     }
@@ -352,7 +376,9 @@ export default class GlobalConfig extends Component {
         }
 
         let clone = element.cloneNode(true);
+
         let style = clone.style;
+        style.width = '600px';
         style.position = 'relative';
         style.top = window.innerHeight + 'px';
         style.left = 0;
@@ -373,7 +399,7 @@ export default class GlobalConfig extends Component {
                 // a.click();
 
                 document.body.removeChild(clone);
-                this.setState({ thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
+                this.setState({ modifiedState: true, thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
 
             },
             useCORS: true });
@@ -394,7 +420,7 @@ export default class GlobalConfig extends Component {
                 canvas.height = canvas.width * (img.height / img.width);
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                gc.setState({ thumbnail: canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
+                gc.setState({ modifiedState: true, thumbnail: canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
             };
             img.src = data;
         };
@@ -406,12 +432,12 @@ export default class GlobalConfig extends Component {
      */
     cancel() {
         this.setState({
-            title: this.props.globalConfig.title || "",
+            title: this.props.globalConfig.title,
             author: this.props.globalConfig.author || "",
             canvasRatio: this.props.globalConfig.canvasRatio || 16 / 9,
-            age: this.props.globalConfig.age || { min: 0, max: 100 },
+            age: this.props.globalConfig.age || { min: 0, max: 0 },
             typicalLearningTime: this.props.globalConfig.typicalLearningTime || { h: 0, m: 0, s: 0 },
-            difficulty: this.props.globalConfig.difficulty || 'easy',
+            difficulty: this.props.globalConfig.difficulty,
             rights: this.props.globalConfig.rights || 1,
             description: this.props.globalConfig.description || '',
             language: this.props.globalConfig.language || undefined,
@@ -419,9 +445,12 @@ export default class GlobalConfig extends Component {
             thumbnail: this.props.globalConfig.thumbnail || img_place_holder,
             version: this.props.globalConfig.version || '0.0.0',
             status: this.props.globalConfig.status || 'draft',
-            context: this.props.globalConfig.context || 'school',
+            context: this.props.globalConfig.context,
+            hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
+            minTimeProgress: this.props.globalConfig.minTimeProgress || 30,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
             modifiedState: false,
+            everPublished: this.props.everPublished,
         });
 
         //  Comment the following line if you don't want to exit when changes are discarded
@@ -444,25 +473,68 @@ export default class GlobalConfig extends Component {
                 status: nextProps.globalConfig.status || "draft",
             });
         }
+        if (this.props.fileModalResult &&
+          nextProps.fileModalResult &&
+          nextProps.fileModalResult.value !== this.props.fileModalResult.value &&
+          nextProps.fileModalResult.value &&
+          nextProps.fileModalResult.id === 'avatar') {
+            this.setState({
+                thumbnail: nextProps.fileModalResult.value, modifiedState: true,
+            });
+        }
+
+        if (!this.props.show && nextProps.show) {
+            this.setState({
+                title: nextProps.globalConfig.title || "",
+                author: nextProps.globalConfig.author || "",
+                canvasRatio: nextProps.globalConfig.canvasRatio || 16 / 9,
+                age: nextProps.globalConfig.age || { min: 0, max: 0 },
+                typicalLearningTime: nextProps.globalConfig.typicalLearningTime || { h: 0, m: 0, s: 0 },
+                difficulty: nextProps.globalConfig.difficulty,
+                rights: nextProps.globalConfig.rights || 1,
+                description: nextProps.globalConfig.description || '',
+                thumbnail: nextProps.globalConfig.thumbnail || img_place_holder,
+                language: nextProps.globalConfig.language,
+                keywords: nextProps.globalConfig.keywords || [],
+                version: nextProps.globalConfig.version || '0.0.0',
+                status: nextProps.globalConfig.status || 'draft',
+                context: nextProps.globalConfig.context,
+                hideGlobalScore: nextProps.globalConfig.hideGlobalScore || false,
+                minTimeProgress: nextProps.globalConfig.minTimeProgress || 30,
+                visorNav: nextProps.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
+                modifiedState: false,
+                showAlert: false,
+                everPublished: nextProps.globalConfig.everPublished,
+
+            });
+        }
     }
 
 }
 
 GlobalConfig.propTypes = {
     /**
-     * Indica si se debe mostrar la ventana de configuración del curso u ocultar
+     * Indicates whether the course configuration modal should be shown or hidden
      */
     show: PropTypes.bool,
     /**
-     * Diccionario que contiene la configuración del curso. Objeto idéntico a ***globalConfig*** en el estado de Redux.
+     * Configuration course dictionary. Object identical to Redux state ***globalConfig*** .
      */
     globalConfig: PropTypes.object.isRequired,
     /**
-     * Guarda la nueva configuración
+     * Saves new configuration
      */
     changeGlobalConfig: PropTypes.func.isRequired,
     /**
-     * Cierra la ventana de configuración
+     * Closes course configuration modal
      */
     close: PropTypes.func.isRequired,
+    /**
+     * Callback for opening the file upload modal
+     */
+    toggleFileUpload: PropTypes.func.isRequired,
+    /**
+     * Last files uploaded to server or searched in modal
+     */
+    fileModalResult: PropTypes.object,
 };

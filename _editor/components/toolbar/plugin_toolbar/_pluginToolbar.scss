@@ -69,17 +69,19 @@
         font-size: inherit;
         font-weight: 500;
     }
-
-    .radio {
-        margin-left: 20px;
+    .control-label{
+        margin: 8px 0 !important;
     }
-
+    .radio {
+        margin-left: 25px;
+    }
     .toolbarButton {
         border-radius: 0;
         background-color: $blueprimary;
         color: white;
         border: 0;
         width: 100%;
+        margin: 10px 0;
 
         /*Edit text button when CKEditor is active */
         &.textediting {
@@ -255,6 +257,7 @@ a.toggle-switch---switch---3EchW {
     top: 50px;
     right: 4px;
     font-size: 0.9em;
+    margin-top:9px;
 }
 
 .toolbarIcons {
@@ -408,7 +411,6 @@ a.toggle-switch---switch---3EchW {
     }
 
     .markNameInToolbar {
-        //margin-left: 5px;
         text-overflow: ellipsis;
         position: relative;
         white-space: nowrap;
@@ -419,22 +421,9 @@ a.toggle-switch---switch---3EchW {
         -webkit-transition-timing-function: linear; /* Safari and Chrome */
         transition-timing-function: linear;
         line-height: 1.2em;
-        //-webkit-transition: left 3s, width 3s;
-        //-moz-transition: left 3s, width 3s;
-        //transition: left 3s, width 3s;
     }
 
 }
-.marksListButton {
-    margin-bottom: 7px;
-}
-
-//.markValueInToolbar{
-  //  font-size: 8px;
-  //  margin-left: 2px;
-  //  vertical-align: super;
-  //  color:#222;
-//}
 
 .advancedPopover popover.bottom > .arrow:after {
     border-bottom-color: #2c2c2c;

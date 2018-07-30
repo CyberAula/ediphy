@@ -11,19 +11,19 @@ export const srcTree = (lang = "es") => {
     let langPath = lang === "en" ? "" : "_" + lang;
     return {
         1: {
-            path: '/',
+            path: '/home',
             title: i18n.t("title.Home"),
             children: {},
             self: true,
             componentName: "Home",
         },
-        2: {
+        /* 2: {
             path: '/about',
             title: i18n.t("title.About"),
             children: {},
             self: true,
             componentName: "About",
-        },
+        },*/
         3: {
             path: '/manual',
             title: i18n.t("title.UserManual"),
@@ -51,6 +51,20 @@ export const srcTree = (lang = "es") => {
                     src: ("Manual/Manual_Plugins" + langPath + ".md"),
                 },
                 4: {
+                    path: '/manual/import',
+                    title: i18n.t("title.Import"),
+                    md: true,
+                    fromURL: true,
+                    src: ("Manual/Manual_Import" + langPath + ".md"),
+                },
+                5: {
+                    path: '/manual/export',
+                    title: i18n.t("title.Export"),
+                    md: true,
+                    fromURL: true,
+                    src: ("Manual/Manual_Export" + langPath + ".md"),
+                },
+                6: {
                     path: '/manual/acciones',
                     title: i18n.t("title.Additional"),
                     md: true,

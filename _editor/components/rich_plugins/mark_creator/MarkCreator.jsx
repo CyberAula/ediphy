@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import i18n from 'i18next';
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../common/constants';
 import { nextAvailName } from '../../../../common/utils';
+import { findBox } from '../../../../common/common_tools';
 
 /**
  * Mark Creator overlay component
@@ -64,11 +65,8 @@ export default class MarkCreator extends Component {
      * @param nextState
      */
     componentWillUpdate(nextProps, nextState) {
-        /* if (this.state.showAlert && this.state.promptRes !== "" && nextState.promptRes === "") {
-            nextState.promptRes = this.state.promptRes;
-        }*/
-        if(this.props.content !== undefined && !this.state.modalToggled) {
-            let element = this.props.content;
+        if(!this.state.modalToggled) {
+            let element = findBox(this.props.currentId);
             let dom_element = ReactDOM.findDOMNode(element);
             let dropableElement = dom_element.getElementsByClassName('dropableRichZone')[0];
 
@@ -88,11 +86,20 @@ export default class MarkCreator extends Component {
 
                 let cursor_x_offset = 12;
                 let cursor_y_offset = 20;
+                let cursorStyle = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+                let thisBox = findBox(this.props.markCreatorId);
+                if (thisBox) {
+                    thisBox.style.cursor = cursorStyle;
+                }
+                let markCreatorId = this.props.markCreatorId;
 
-                document.body.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+                document.body.style.cursor = cursorStyle;
+                // overlay.parentNode.style.cursor = cursorStyle;
+                let boxSelected = nextProps.boxSelected;
                 /* OVERLAY */
 
                 let component = this;
+
                 let parseRichMarkInput = this.props.parseRichMarkInput;
                 let toolbarState = this.props.toolbar.state;
 
@@ -117,10 +124,9 @@ export default class MarkCreator extends Component {
                     let height = square.bottom - square.top;
 
                     let richMarkValues = [];
-                    let value = parseRichMarkInput(x, y, width, height, richMarkValues, toolbarState);
-
+                    let value = parseRichMarkInput(x, y, width, height, richMarkValues, toolbarState, boxSelected);
                     component.setState({ value: value });
-                    component.props.onRichMarksModalToggled(value);
+                    component.props.onRichMarksModalToggled(value, boxSelected);
                     component.exitFunction();
                 };
 
@@ -146,7 +152,7 @@ export default class MarkCreator extends Component {
      * After mark is created, overlay disappears
      */
     exitFunction() {
-        let element = this.props.content;
+        let element = findBox(this.props.currentId);
         let dom_element = ReactDOM.findDOMNode(element);
         let dropableElement = dom_element.getElementsByClassName('dropableRichZone')[0];
         let overlay = document.getElementById('markOverlay');
@@ -195,12 +201,12 @@ export default class MarkCreator extends Component {
             header: {
                 elementContent: {
                     documentTitle: pageName,
-                    documentSubTitle: '',
+                    documentSubtitle: '',
                     numPage: '' },
                 display: {
                     courseTitle: 'hidden',
                     documentTitle: 'expanded',
-                    documentSubTitle: 'hidden',
+                    documentSubtitle: 'hidden',
                     breadcrumb: "hidden",
                     pageNumber: "hidden" },
             },
@@ -246,10 +252,6 @@ MarkCreator.propTypes = {
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * DOM element where marks creation is added
-     */
-    content: PropTypes.any,
-    /**
      * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
@@ -278,7 +280,7 @@ MarkCreator.propTypes = {
      */
     pageType: PropTypes.string.isRequired,
     /**
-     * Muestra/oculta el modal de edición de marcas -- Show / Hide marks editing modal
+     * Show / Hide marks editing modal
      */
     onRichMarksModalToggled: PropTypes.func.isRequired,
 };

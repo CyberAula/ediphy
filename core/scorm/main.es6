@@ -1,43 +1,54 @@
 import Ediphy from '../editor/main';
+import { translateLicense } from "../../common/common_tools";
 import { ID_PREFIX_SECTION } from '../../common/constants';
-import { isSection } from '../../common/utils';
 export default {
-    createSPAimsManifest: function(navsIds, sections, globalConfig) {
+    createSPAimsManifest: function(exercisesObj, sections, globalConfig, is2004) {
         let doc = document.implementation.createDocument("", "", null);
 
         // /     ROOT MANIFEST
         let manifest = doc.createElement("manifest");
         manifest.setAttribute("identifier", "com.ediphy.presentation");
         manifest.setAttribute("version", "1.0");
-        manifest.setAttribute("xmlns", "http://www.imsglobal.org/xsd/imscp_v1p1");
-        manifest.setAttribute("xmlns:adlcp", "http://www.adlnet.org/xsd/adlcp_v1p3");
-        manifest.setAttribute("xmlns:adlseq", "http://www.adlnet.org/xsd/adlseq_v1p3");
-        manifest.setAttribute("xmlns:adlnav", "http://www.adlnet.org/xsd/adlnav_v1p3");
-        manifest.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        manifest.setAttribute("xmlns:imsss", "http://www.imsglobal.org/xsd/imsss");
-        manifest.setAttribute("xsi:schemaLocation", "http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd");
+        if (is2004) {
+            manifest.setAttribute("xmlns", "http://www.imsglobal.org/xsd/imscp_v1p1");
+            manifest.setAttribute("xmlns:adlcp", "http://www.adlnet.org/xsd/adlcp_v1p3");
+            manifest.setAttribute("xmlns:adlseq", "http://www.adlnet.org/xsd/adlseq_v1p3");
+            manifest.setAttribute("xmlns:adlnav", "http://www.adlnet.org/xsd/adlnav_v1p3");
+            manifest.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+            manifest.setAttribute("xmlns:imsss", "http://www.imsglobal.org/xsd/imsss");
+            manifest.setAttribute("xsi:schemaLocation", "http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd");
 
-        // /      METADATA
-        let metadata = doc.createElement("metadata");
-        let schema = doc.createElement("schema");
+        } else {
+            manifest.setAttribute("xmlns", "http://www.imsproject.org/xsd/imscp_rootv1p1p2");
+            manifest.setAttribute("xmlns:adlcp", "http://www.adlnet.org/xsd/adlcp_rootv1p2");
+            manifest.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+            manifest.setAttribute("xsi:schemaLocation", "http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd");
+
+        }
+
         let schema_txt = doc.createTextNode("ADL SCORM");
+        let schema = doc.createElement("schema");
         schema.appendChild(schema_txt);
+
+        let metadata = doc.createElement("metadata");
         metadata.appendChild(schema);
+
         let schemaVersion = doc.createElement("schemaversion");
-        let schema_version_txt = doc.createTextNode("2004 3rd Edition");
+        let schema_version_txt = doc.createTextNode(is2004 ? "2004 4th Edition" : "1.2");
         schemaVersion.appendChild(schema_version_txt);
         metadata.appendChild(schemaVersion);
+
         metadata = this.lomCreator(globalConfig, doc, metadata);
 
         // /       ORGANIZATION (USED DEFAULT)
-        let organizations = this.organizationsCreator(globalConfig, navsIds, sections, doc);
+        let organizations = this.organizationsCreator(globalConfig, exercisesObj, sections, doc, is2004);
 
         // /   RESOURCE ITEMS
         let resources = doc.createElement("resources");
         let resource = doc.createElement("resource");
         resource.setAttribute("identifier", "resource_1");
         resource.setAttribute("type", "webcontent");
-        resource.setAttribute("adlcp:scormType", "sco");
+        resource.setAttribute((is2004 ? "adlcp:scormType" : "adlcp:scormtype"), "sco");
         resource.setAttribute("href", "dist/index.html");
         let file = doc.createElement("file");
         file.setAttribute("href", "dist/index.html");
@@ -52,7 +63,6 @@ export default {
         manifest.appendChild(resources);
 
         doc.appendChild(manifest);
-
         return (this.beautifyXML(new XMLSerializer().serializeToString(doc)));
     },
     lomCreator: function(gc, doc, metadata) {
@@ -148,7 +158,7 @@ export default {
         genStrucSource.appendChild(genStrucSourceTxt);
         genStruc.appendChild(genStrucSource);
         let genStrucVal = doc.createElement('value');
-        let genStrucValTxt = doc.createTextNode('linear'); // DEFAULT
+        let genStrucValTxt = doc.createTextNode('hierarchical'); // DEFAULT
         genStrucVal.appendChild(genStrucValTxt);
         genStruc.appendChild(genStrucVal);
         general.appendChild(genStruc);
@@ -158,7 +168,7 @@ export default {
         genAggLevelSource.appendChild(genAggLevelSourceTxt);
         genAggLevel.appendChild(genAggLevelSource);
         let genAggLVal = doc.createElement('value');
-        let genAggLValTxt = doc.createTextNode('3'); // DEFAULT
+        let genAggLValTxt = doc.createTextNode('2'); // DEFAULT
         genAggLVal.appendChild(genAggLValTxt);
         genAggLevel.appendChild(genAggLVal);
         general.appendChild(genAggLevel);
@@ -208,6 +218,7 @@ export default {
         lcsv.appendChild(lcsvTxt);
         lcs.appendChild(lcsv);
         lifeCycle.appendChild(lcs);
+
         let lcc = doc.createElement('contribute');
         let lccrole = doc.createElement('role');
         let lccrolesource = doc.createElement('source');
@@ -215,12 +226,13 @@ export default {
         lccrolesource.appendChild(lccrolesourcetxt);
         lccrole.appendChild(lccrolesource);
         let lccroleval = doc.createElement('value');
-        let lccrolevaltxt = doc.createTextNode('technical implementer');
+        let lccrolevaltxt = doc.createTextNode('author');
         lccroleval.appendChild(lccrolevaltxt);
         lccrole.appendChild(lccroleval);
         lcc.appendChild(lccrole);
+
         let lccEntity = doc.createElement('entity'); // Entity
-        let lcEntTxt = doc.createTextNode('BEGIN:VCARD&#xD;VERSION:3.0&#xD;N:Authoring Tool Ediphy Editor (http://github.com/ging/ediphy)&#xD;FN:Authoring Tool Ediphy Editor (http://github.com/ging/ediphy)&#xD;END:VCARD'); // / Yet to determine
+        let lcEntTxt = doc.createTextNode('BEGIN:VCARD&amp;#xD;VERSION:3.0&amp;#xD;N:' + (gc.author || 'anonymous') + '&amp;#xD;FN:Sonsoles López Pernas&amp;#xD;END:VCARD'); // / Yet to determine
         lccEntity.appendChild(lcEntTxt);
         lcc.appendChild(lccEntity);
         let lccDate = doc.createElement('date'); // Date
@@ -230,6 +242,30 @@ export default {
         lccDate.appendChild(lccDateTime);
         lcc.appendChild(lccDate);
         lifeCycle.appendChild(lcc);
+
+        let lcca = doc.createElement('contribute');
+        let lccrolea = doc.createElement('role');
+        let lccrolesourcea = doc.createElement('source');
+        let lccrolesourcetxta = doc.createTextNode('LOMv1.0');
+        lccrolesourcea.appendChild(lccrolesourcetxta);
+        lccrolea.appendChild(lccrolesourcea);
+        let lccrolevala = doc.createElement('value');
+        let lccrolevaltxta = doc.createTextNode('technical implementer');
+        lccrolevala.appendChild(lccrolevaltxta);
+        lccrolea.appendChild(lccrolevala);
+        lcca.appendChild(lccrolea);
+        let lccEntitya = doc.createElement('entity'); // Entity
+        let lcEntTxta = doc.createTextNode('BEGIN:VCARD&#xD;VERSION:3.0&#xD;N:Authoring Tool Ediphy Editor (http://github.com/ging/ediphy)&#xD;FN:Authoring Tool Ediphy Editor (http://github.com/ging/ediphy)&#xD;END:VCARD'); // / Yet to determine
+        lccEntitya.appendChild(lcEntTxta);
+        lcca.appendChild(lccEntitya);
+        let lccDatea = doc.createElement('date'); // Date
+        let lccDateTimea = doc.createElement('dateTime');
+        let lccDateTimeTxta = doc.createTextNode(date);
+        lccDateTimea.appendChild(lccDateTimeTxta);
+        lccDatea.appendChild(lccDateTimea);
+        lcca.appendChild(lccDatea);
+        lifeCycle.appendChild(lcca);
+
         return lifeCycle;
     },
     technicalCreator: function(gc, doc) {
@@ -260,7 +296,7 @@ export default {
         orCNSource.appendChild(orcnsTxt);
         orCName.appendChild(orCNSource);
         let orCNValue = doc.createElement('value');
-        let orcnvTxt = doc.createTextNode('browser');
+        let orcnvTxt = doc.createTextNode('any');
         orCNValue.appendChild(orcnvTxt);
         orCName.appendChild(orCNValue);
         orComposite.appendChild(orCName);
@@ -351,7 +387,7 @@ export default {
         ilSource.appendChild(ilSourceTxt);
         interactivityLevel.appendChild(ilSource);
         let ilValue = doc.createElement('value');
-        let ilValueTxt = doc.createTextNode('medium');// ///////// Yet to determine
+        let ilValueTxt = doc.createTextNode('very high');// ///////// Yet to determine
         ilValue.appendChild(ilValueTxt);
         interactivityLevel.appendChild(ilValue);
         educational.appendChild(interactivityLevel);
@@ -375,37 +411,55 @@ export default {
         ieurValue.appendChild(ieurValueTxt);
         intendedEndUserRole.appendChild(ieurValue);
         educational.appendChild(intendedEndUserRole);
-        let context = doc.createElement('context');
-        let contSource = doc.createElement('source');
-        let contSourceTxt = doc.createTextNode('LOMv1.0');
-        contSource.appendChild(contSourceTxt);
-        context.appendChild(contSource);
-        let contValue = doc.createElement('value');
-        let contValueTxt = doc.createTextNode(gc.context || 'other');
-        contValue.appendChild(contValueTxt);
-        context.appendChild(contValue);
-        educational.appendChild(context);
-        let typicalAgeRange = doc.createElement('typicalAgeRange');
-        let taeString = doc.createElement('string');
-        taeString.setAttribute('language', 'en');
-        let taeStringTxt = doc.createTextNode((gc.age.min || 0) + '-' + (gc.age.max || ''));
-        taeString.appendChild(taeStringTxt);
-        typicalAgeRange.appendChild(taeString);
-        educational.appendChild(typicalAgeRange);
-        let difficulty = doc.createElement('difficulty');
-        let diffSource = doc.createElement('source');
-        let diffSourceTxt = doc.createTextNode('LOMv1.0');
-        diffSource.appendChild(diffSourceTxt);
-        difficulty.appendChild(diffSource);
-        let diffValue = doc.createElement('value');
-        let diffValueTxt = doc.createTextNode(gc.difficulty || 'easy');
-        diffValue.appendChild(diffValueTxt);
-        difficulty.appendChild(diffValue);
-        educational.appendChild(difficulty);
+        if (gc.context) {
+            let context = doc.createElement('context');
+            let contSource = doc.createElement('source');
+            let contSourceTxt = doc.createTextNode('LOMv1.0');
+            contSource.appendChild(contSourceTxt);
+            context.appendChild(contSource);
+            let contValue = doc.createElement('value');
+            let realContext = gc.context;
+            switch(realContext) {
+            case 'preschool':
+            case 'peducation':
+            case 'seducation':
+                realContext = 'school';
+                break;
+            default:
+                break;
+            }
+            let contValueTxt = doc.createTextNode(realContext);
+            contValue.appendChild(contValueTxt);
+            context.appendChild(contValue);
+            educational.appendChild(context);
+        }
+
+        if (gc.age && !(gc.age.min === 0 && gc.age.max === 100)) {
+            let typicalAgeRange = doc.createElement('typicalAgeRange');
+            let taeString = doc.createElement('string');
+            taeString.setAttribute('language', 'en');
+            let taeStringTxt = doc.createTextNode((gc.age.min || 0) + '-' + (gc.age.max || ''));
+            taeString.appendChild(taeStringTxt);
+            typicalAgeRange.appendChild(taeString);
+            educational.appendChild(typicalAgeRange);
+        }
+        if (gc.difficulty) {
+            let difficulty = doc.createElement('difficulty');
+            let diffSource = doc.createElement('source');
+            let diffSourceTxt = doc.createTextNode('LOMv1.0');
+            diffSource.appendChild(diffSourceTxt);
+            difficulty.appendChild(diffSource);
+            let diffValue = doc.createElement('value');
+            let diffValueTxt = doc.createTextNode(gc.difficulty);
+            diffValue.appendChild(diffValueTxt);
+            difficulty.appendChild(diffValue);
+            educational.appendChild(difficulty);
+        }
+
         let tlt = gc.typicalLearningTime;
-        let hh = tlt && tlt.h !== 0 && tlt.h !== '';
-        let mm = tlt && tlt.m !== 0 && tlt.m !== '';
-        let ss = tlt && tlt.s !== 0 && tlt.s !== '';
+        let hh = tlt && tlt.h;
+        let mm = tlt && tlt.m;
+        let ss = tlt && tlt.s;
         if (hh || mm || ss) {
             let typicalLearningTime = doc.createElement('typicalLearningTime');
             let tltDur = doc.createElement('duration');
@@ -421,10 +475,13 @@ export default {
             typicalLearningTime.appendChild(tltDesc);
             educational.appendChild(typicalLearningTime);
         }
-        let eduLanguage = doc.createElement('language');
-        let eduLangTxt = doc.createTextNode(lang);
-        eduLanguage.appendChild(eduLangTxt);
-        educational.appendChild(eduLanguage);
+        if (gc.language) {
+            let eduLanguage = doc.createElement('language');
+            let eduLangTxt = doc.createTextNode(lang);
+            eduLanguage.appendChild(eduLangTxt);
+            educational.appendChild(eduLanguage);
+        }
+
         return educational;
     },
     relationCreator: function(gc, doc) {
@@ -485,11 +542,13 @@ export default {
         let caorValueTxt = doc.createTextNode('yes');
         caorValue.appendChild(caorValueTxt);
         copyrightAndOtherRestrictions.appendChild(caorValue);
-        rights.appendChild(copyrightAndOtherRestrictions);
+        if (gc.status !== 'Open Domain') {
+            rights.appendChild(copyrightAndOtherRestrictions);
+        }
         let rightsDesc = doc.createElement('description');
         let rightsDescStr = doc.createElement("string");
         rightsDescStr.setAttribute('language', 'en');
-        let rightsDescStrTxt = doc.createTextNode('Open License');
+        let rightsDescStrTxt = doc.createTextNode(translateLicense(gc.rights));
         rightsDescStr.appendChild(rightsDescStrTxt);
         rightsDesc.appendChild(rightsDescStr);
         rights.appendChild(rightsDesc);
@@ -502,77 +561,6 @@ export default {
     },
     getIndex: function(navs) {
         return (new EJS({ url: Ediphy.Config.scorm_ejs }).render({ navs: navs }));
-    },
-    xmlOrganizationBranch: function(root_child, actual_child, sections, doc, resource_elements) {
-        let branch_elements = [];
-        if(sections[actual_child].children.length !== 0) {
-            while(sections[actual_child].children.length > 0) {
-                let iteration_child = sections[actual_child].children.shift();
-                if(iteration_child.indexOf(ID_PREFIX_SECTION) !== -1) {
-                    if(!sections[iteration_child].hidden) {
-                        branch_elements.push(this.xmlOrganizationBranch(root_child, iteration_child, sections, doc, resource_elements));
-                    }
-                } else if(!sections[iteration_child].hidden) {
-                    let actual_section = iteration_child;
-
-                    let element = doc.createElement("item");
-                    element.setAttribute("identifier", this.santinize_id(sections[actual_section].id) + "_item");
-                    element.setAttribute("identifierref", this.santinize_id(sections[actual_section].id) + "_resource");
-                    let element_title = doc.createElement("title");
-                    let element_text = doc.createTextNode(sections[actual_section].name);
-                    element_title.appendChild(element_text);
-                    element.appendChild(element_title);
-
-                    let unit;
-                    if(typeof sections[actual_section].unitNumber === "undefined") {
-                        unit = "blank";
-                    } else {
-                        unit = sections[actual_section].unitNumber;
-                    }
-
-                    resource_elements.push({
-                        path: "unit" + unit + "/" + this.santinize_id(sections[actual_section].id) + ".html",
-                        id: sections[actual_section].id,
-                    });
-
-                    branch_elements.push(element);
-                }
-            }
-        }
-        if(!sections[actual_child].hidden) {
-            let actual_section = actual_child;
-            let element = doc.createElement("item");
-            element.setAttribute("identifier", this.santinize_id(sections[actual_section].id) + "_item");
-            if (Ediphy.Config.sections_have_content || (sections[actual_section].id.indexOf(ID_PREFIX_SECTION) === -1)) {
-                element.setAttribute("identifierref", this.santinize_id(sections[actual_section].id) + "_resource");
-            }
-            let element_title = doc.createElement("title");
-            let element_text = doc.createTextNode(sections[actual_section].name);
-            element_title.appendChild(element_text);
-
-            element.appendChild(element_title);
-
-            let unit;
-            if(typeof sections[actual_section].unitNumber === "undefined") {
-                unit = "blank";
-            } else {
-                unit = sections[actual_section].unitNumber;
-            }
-
-            resource_elements.push({
-                path: "unit" + unit + "/" + this.santinize_id(sections[actual_section].id) + ".html",
-                id: sections[actual_section].id,
-            });
-
-            if(branch_elements.length !== 0) {
-                for(let n = 0; n < branch_elements.length; n++) {
-                    element.appendChild(branch_elements[n]);
-                }
-            }
-
-            return element;
-        }
-        return "";
     },
     beautifyXML: function(xml) {
         let reg = /(>)\s*(<)(\/*)/g; // updated Mar 30, 2015
@@ -627,28 +615,27 @@ export default {
         }
         return formatted;
     },
-    objCreator: function(navsIds, sections, doc) {
-        console.log(sections);
+    objCreator: function(exercises, sections, doc) {
         let objectives = doc.createElement("imsss:objectives");
         let primaryObjective = doc.createElement("imsss:primaryObjective");
         primaryObjective.setAttribute("objectiveID", "PRIMARYOBJ");
         primaryObjective.setAttribute("satisfiedByMeasure", "true");
         let minNorMeas = doc.createElement("imsss:minNormalizedMeasure");
-        let mnmTxt = doc.createTextNode(0.8);
+        let mnmTxt = doc.createTextNode(0.5);
         minNorMeas.appendChild(mnmTxt);
         primaryObjective.appendChild(minNorMeas);
         objectives.appendChild(primaryObjective);
-        for (let i = 0; i < navsIds.length; i++) {
-            let id = navsIds[i];
-            if (Ediphy.Config.sections_have_content || (!Ediphy.Config.sections_have_content && !isSection(id))) {
+        Object.keys(exercises).map((page, pageIndex)=>{
+            Object.keys(exercises[page].exercises).map((box, index)=>{
                 let newObjective = doc.createElement("imsss:objective");
-                newObjective.setAttribute("objectiveID", id);
+                newObjective.setAttribute("objectiveID", box);
                 objectives.appendChild(newObjective);
-            }
-        }
+            });
+
+        });
         return objectives;
     },
-    organizationsCreator: function(gc, navsIds, sections, doc) {
+    organizationsCreator: function(gc, exercisesObj, sections, doc, is2004) {
         let title = gc.title;
         let organizations = doc.createElement("organizations");
         organizations.setAttribute("default", "GING");
@@ -662,155 +649,43 @@ export default {
         organization.appendChild(title_org);
 
         let root_element = doc.createElement("item");
+
         root_element.setAttribute("identifierref", "resource_1");
         root_element.setAttribute("identifier", "item_1");
+        root_element.setAttribute("isvisible", "true");
         let root_title = doc.createElement("title");
-        let item_title = doc.createTextNode(title);
-        root_title.appendChild(item_title);
+        let root_title_text = doc.createTextNode(title);
+
+        root_title.appendChild(root_title_text);
         root_element.appendChild(root_title);
+        let mastery_score = doc.createElement("adlcp:masteryscore");
+        let mastery_score_text = doc.createTextNode("50");
+        mastery_score.appendChild(mastery_score_text);
+        root_element.appendChild(mastery_score);
         let root_seq = doc.createElement("imsss:sequencing");
-        let objectives = this.objCreator(navsIds, sections, doc);
+        let objectives = this.objCreator(exercisesObj, sections, doc);
         root_seq.appendChild(objectives);
         let deliveryControls = doc.createElement("imsss:deliveryControls");
         deliveryControls.setAttribute("completionSetByContent", "true");
         deliveryControls.setAttribute("objectiveSetByContent", "true");
         root_seq.appendChild(deliveryControls);
-        root_element.appendChild(root_seq);
+        /* if (is2004) {
+            root_element.appendChild(root_seq);
+        } */
         organization.appendChild(root_element);
         let ims_org = doc.createElement("imsss:sequencing");
         let ims_controlMode = doc.createElement("imsss:controlMode");
         ims_controlMode.setAttribute("choice", "true");
         ims_controlMode.setAttribute("flow", "true");
-        organization.appendChild(ims_org);
+
+        if (is2004) {
+            organization.appendChild(ims_org);
+        }
 
         organizations.appendChild(organization);
         return organizations;
     },
     santinize_id: function(str) {
         return str.replace(/\-/g, "\_");
-    },
-    createOldimsManifest: function(title, sections) {
-        let doc = document.implementation.createDocument("", "", null);
-
-        // /     ROOT MANIFEST
-        let manifest = doc.createElement("manifest");
-        manifest.setAttribute("xmlns", "http://www.imsproject.org/xsd/imscp_rootv1p1p2");
-        manifest.setAttribute("xmlns:adlcp", "http://www.adlnet.org/xsd/adlcp_rootv1p2");
-        manifest.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        manifest.setAttribute("identifier", "com.ediphy.presentation");
-        manifest.setAttribute("version", "1.0");
-        manifest.setAttribute("xsi:schemaLocation", "http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd");
-
-        // /      METADATA
-        let metadata = doc.createElement("metadata");
-        let schema = doc.createElement("schema");
-        let schema_txt = doc.createTextNode("ADL SCORM");
-        schema.appendChild(schema_txt);
-        metadata.appendChild(schema);
-
-        let schemaVersion = doc.createElement("schemaversion");
-        let schema_version_txt = doc.createTextNode("1.2");
-        schemaVersion.appendChild(schema_version_txt);
-        metadata.appendChild(schemaVersion);
-
-        // /       ORGANIZATION (USED DEFAULT)
-        let organizations = doc.createElement("organizations");
-        organizations.setAttribute("default", "defaultOrganization");
-        let organization = doc.createElement("organization");
-        organization.setAttribute("identifier", "defaultOrganization");
-
-        //        ORGANIZATION _TITLE
-        let title_org = doc.createElement("title");
-        let title_item_txt = doc.createTextNode(title);
-        title_org.appendChild(title_item_txt);
-        organization.appendChild(title_org);
-
-        // Create Organization Item Tree
-        let root_elements = sections[0].children;
-        // Resource XLM elements array
-        let resource_elements = [];
-
-        //        ORGANIZATION_ITEMS
-        for (let n = 0; n < root_elements.length; n ++) {
-            let root_section = root_elements[n];
-
-            if(!sections[root_section].hidden) {
-                let children_elements = [];
-
-                let root_element = doc.createElement("item");
-
-                root_element.setAttribute("identifier", this.santinize_id(root_section) + "_item");
-                if (Ediphy.Config.sections_have_content || root_section.indexOf(ID_PREFIX_SECTION) === -1) {
-                    root_element.setAttribute("identifierref", this.santinize_id(sections[root_section].id) + "_resource");
-                }
-
-                let root_element_title = doc.createElement("title");
-                let root_element_text = doc.createTextNode(sections[root_section].name);
-                root_element_title.appendChild(root_element_text);
-                root_element.appendChild(root_element_title);
-
-                let sections_copy = JSON.parse(JSON.stringify(sections));
-                children_elements = sections_copy[root_section].children;
-
-                let unit;
-                if(typeof sections[root_section].unitNumber === "undefined") {
-                    unit = "blank";
-                } else {
-                    unit = sections[root_section].unitNumber;
-                }
-                // Added root element for resource iteration
-                resource_elements.push({
-                    path: "unit" + unit + "/" + this.santinize_id(sections[root_section].id) + ".html",
-                    id: sections[root_section].id,
-                });
-
-                // Unit children Tree
-                while (children_elements.length !== 0) {
-                    let actual_child = children_elements.shift();
-                    let branch = this.xmlOrganizationBranch(actual_child, actual_child, sections_copy, doc, resource_elements);
-                    if(typeof branch !== "undefined") {
-                        root_element.appendChild(branch);
-                    }
-                }
-
-                // end children Tree
-                organization.appendChild(root_element);
-            }
-
-        }
-        // end of Organization Item Tree
-
-        organizations.appendChild(organization);
-
-        // /   RESOURCE ITEMS
-        let resources = doc.createElement("resources");
-        for (let i = 0; i < resource_elements.length; i++) {
-            if (!Ediphy.Config.sections_have_content && (resource_elements[i].id.indexOf(ID_PREFIX_SECTION) !== -1)) {
-
-            }
-            let resource = doc.createElement("resource");
-            resource.setAttribute("identifier", this.santinize_id(resource_elements[i].id) + "_resource");
-            resource.setAttribute("type", "webcontent");
-            resource.setAttribute("adlcp:scormtype", "sco");
-            resource.setAttribute("href", resource_elements[i].path);
-
-            let file = doc.createElement("file");
-            file.setAttribute("href", resource_elements[i].path);
-            resource.appendChild(file);
-
-            resources.appendChild(resource);
-            // End of pieze of code to iterate
-        }
-
-        // Common DATA
-
-        // / APPEND DATA
-        manifest.appendChild(metadata);
-        manifest.appendChild(organizations);
-        manifest.appendChild(resources);
-
-        doc.appendChild(manifest);
-
-        return (this.beautifyXML(new XMLSerializer().serializeToString(doc)));
     },
 };

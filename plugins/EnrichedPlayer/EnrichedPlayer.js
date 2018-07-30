@@ -18,13 +18,13 @@ export function EnrichedPlayer(base) {
                 initialHeightSlide: '30%',
                 icon: "play_arrow",
                 aspectRatioButtonConfig: {
-                    location: ["main", "__sortable"],
+                    location: ["main", "structure"],
                     defaultValue: true,
                 },
                 marksType: [{ name: i18n.t("EnrichedPlayer.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" }],
             };
         },
-        getToolbar: function() {
+        getToolbar: function(state) {
             return {
                 main: {
                     __name: "Main",
@@ -35,14 +35,15 @@ export function EnrichedPlayer(base) {
                             buttons: {
                                 url: {
                                     __name: Ediphy.i18n.t('EnrichedPlayer.URL'),
-                                    type: 'text',
-                                    value: base.getState().url,
+                                    type: 'external_provider',
+                                    value: state.url,
+                                    accept: "video/*",
                                     autoManaged: false,
                                 },
                                 controls: {
                                     __name: Ediphy.i18n.t('EnrichedPlayer.Show_controls'),
                                     type: 'checkbox',
-                                    checked: base.getState().controls,
+                                    checked: state.controls,
                                     autoManaged: false,
                                 },
                             },
@@ -51,13 +52,6 @@ export function EnrichedPlayer(base) {
                             __name: Ediphy.i18n.t('EnrichedPlayer.box_style'),
                             icon: 'palette',
                             buttons: {
-                                padding: {
-                                    __name: Ediphy.i18n.t('EnrichedPlayer.padding'),
-                                    type: 'number',
-                                    value: 0,
-                                    min: 0,
-                                    max: 100,
-                                },
                                 borderWidth: {
                                     __name: Ediphy.i18n.t('EnrichedPlayer.border_size'),
                                     type: 'number',
@@ -104,19 +98,19 @@ export function EnrichedPlayer(base) {
                 controls: true,
             };
         },
-        getRenderTemplate: function(state) {
+        getRenderTemplate: function(state, props) {
             return (
                 <div style={{ width: "100%", height: "100%" }}>
-                    <EnrichedPlayerPluginEditor style={{ width: "100%", height: "100%" }} state={state} base={base} />
+                    <EnrichedPlayerPluginEditor style={{ width: "100%", height: "100%" }} state={state} base={base} props={props}/>
                 </div>
             );
+        },
+        getDefaultMarkValue(state) {
+            return '50%';
         },
         parseRichMarkInput: function(...value) {
             let parsed_value = (value[0] + 10) * 100 / value[2];
             return parsed_value.toFixed(2) + "%";
-        },
-        handleToolbar: function(name, value) {
-            base.setState(name, value);
         },
         validateValueInput: function(value) {
             let regex = /(^\d+(?:\.\d*)?%$)/g;
@@ -136,3 +130,4 @@ export function EnrichedPlayer(base) {
 
     };
 }
+/* eslint-enable react/prop-types */

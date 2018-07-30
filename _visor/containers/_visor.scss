@@ -1,6 +1,13 @@
 @import "../../sass/general/_variables.scss";
 @import "../components/canvas/_cv_animations.scss";
 
+
+#visorAppContent {
+  user-select: text;
+  -moz-user-select: text;
+  -webkit-user-select: text;
+  -ms-user-selectelect: text;
+}
 .thumb {
   font-size: 16px;
   color: #f87060;
@@ -51,10 +58,12 @@
 
 #root{
   height:100%;
+
 }
 
 .visor * {
   pointer-events: all !important;
+
 }
 
 
@@ -104,6 +113,10 @@
         .close {
           color: white;
           text-shadow: none;
+          opacity: 0.7;
+          &:hover{
+            opacity: 1;
+          }
         }
       }
     }
@@ -111,11 +124,13 @@
 }
 #previewTitle {
   background-color: transparent;
-  font-weight: bold;
+  //font-weight: bold;
 }
 
 /********************Sidebar*************************/
-
+#tituloCurso {
+  font-size: 16px;
+}
 #player {
   position:fixed;
   top: 0;
@@ -154,6 +169,16 @@
     background-color: #ddd !important;
 }
 
+
+.progressBall {
+  display: inline-block;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  height: 36px;
+  width: 14px;
+  margin-left: 6px;
+ }
 /* Toggle Styles */
 .visorwrapper {
     padding-left: 0;
@@ -189,7 +214,7 @@
     width: 250px !important;
 }
 
-#page-content-wrapper {
+#page-content-wrapper, .page-content-wrapper {
     width: 100%;
     background-color: #9a9a9a;
     position: absolute;
@@ -199,9 +224,11 @@
     padding:0 !important;
  }
 
-.visorwrapper.toggled #page-content-wrapper {
+.visorwrapper.toggled {
+  #page-content-wrapper, .page-content-wrapper {
     position: absolute !important;
     margin-right: -250px !important;
+  }
 }
 
 /* Sidebar Styles */
@@ -280,6 +307,10 @@
           vertical-align: middle;
           margin-right: 5px;
         }
+        .svgIcon {
+          padding: 0 0px;
+          margin-right: 5px;
+        }
       }
     }
     .sidebar-brand {
@@ -309,26 +340,29 @@
 }
 
 @media(min-width:768px) {
-  .visorwrapper {
-      padding-left: 0;
-  }
-  .visorwrapper.toggled {
-      padding-left: 250px !important;
-  }
-  #sidebar-wrapper {
-      width: 0;
-  }
-  .visorwrapper.toggled #sidebar-wrapper {
-      width: 250px !important;
-  }
-  #page-content-wrapper {
-      position: relative;
-      background-color: #9a9a9a;
-  }
-  .visorwrapper.toggled #page-content-wrapper {
-      position: relative !important;
-      margin-right: 0 !important;
-  }
+    .visorwrapper {
+        padding-left: 0;
+    }
+    .visorwrapper.toggled {
+        padding-left: 250px !important;
+    }
+    #sidebar-wrapper {
+        width: 0;
+    }
+    .visorwrapper.toggled #sidebar-wrapper {
+        width: 250px !important;
+    }
+    #page-content-wrapper, .page-content-wrapper {
+        position: relative;
+        background-color: #9a9a9a;
+    }
+    .visorwrapper.toggled{
+      #page-content-wrapper, .page-content-wrapper {
+        position: relative !important;
+        margin-right: 0 !important;
+      }
+    }
+
 }
 
 
@@ -348,29 +382,117 @@ li > .selectedNavItemVisor {
   display:block;
 }
 
+/*.visorwrapper #airlayer,  .visorwrapper #airlayer_cv{
+  min-height: 100%;
+  min-height: calc(100vh - 135px);
+}*/
 
+#canvas, #containedCanvas {
+  &.canvasDocClass {
+    padding: 10px 8px 0px 8px;
+  }
+  &.canvasSliClass {
+    padding: 33px 8px 33px 8px;
+  }
+}
 .visorwrapper #containedCanvas {
-  min-height: 100% !important;  
+  min-height: 100% !important;
 }
 
+
+.visorwrapper #containedCanvas #airlayer{
+  //min-height: 100vh ;
+}
 
 .indexElementTitle {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: inline-block;
-  padding-right: 10px;
-  border: none;
-  width: 100%;
-  background: inherit;
-  text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    padding-right: 10px;
 }
-
-
 .doc, .sli, #maincontent, #airlayer {
   overflow: visible;
 }
 
 .cvBackButton {
    z-index:9999;
-} 
+}
+
+.submitButton {
+  background-color: $blueprimarytransparent;
+  padding: 5px 25px;
+  border-radius: 0;
+  border: 2px solid $blueprimary;
+  color: $blueprimary;
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+.pageFooter {
+  text-align: center; //right;
+  margin: 15px;
+  margin-bottom: 0px;
+  bottom: 0;
+  padding-bottom: 15px;
+  min-height: 150px;
+  line-height: 150px;
+
+}
+
+.pageScore {
+  text-align: center;
+  line-height: 2em;
+  font-size: 1.5em;
+  padding: 5px 15px;
+  border-radius: 3px;
+  margin: auto;
+  max-width: 50%;
+  //position: absolute;
+  //right: 20px;
+  //top: 50px;
+  span {
+    font-size: 2.2em;
+  }
+}
+
+.scorePass {
+  color: $detailgreen;
+  border: 1px solid $detailgreen;
+  background-color: $detailgreentransparent;
+}
+.scoreFail {
+  color: $lightred;
+  border: 1px solid $lightred;
+  background-color: $lightredtransparent;
+}
+
+
+.hidden {
+  display: none;
+}
+.sli {
+  .pageFooter {
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    height: auto;
+    min-height:1px;
+    line-height: 100%;
+    width: auto;
+    .pageScore{
+      position: static;
+      max-width: 100%;
+    }
+  }
+}
+
+.printApp #airlayer{
+  height: 100%;
+}
+
+
+.arrowSection {
+  margin-left: 10px !important;
+  margin-right: 2px !important;
+}
