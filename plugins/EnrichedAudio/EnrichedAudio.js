@@ -34,7 +34,6 @@ export function EnrichedAudio(base) {
                                     type: 'external_provider',
                                     value: state.url,
                                     accept: "audio/*",
-                                    autoManaged: false,
                                 },
 
                             },
@@ -47,13 +46,11 @@ export function EnrichedAudio(base) {
                                     __name: Ediphy.i18n.t('EnrichedAudio.Autoplay'),
                                     type: 'checkbox',
                                     checked: state.autoplay,
-                                    autoManaged: false,
                                 },
                                 waves: {
                                     __name: Ediphy.i18n.t('EnrichedAudio.Waves'),
                                     type: 'checkbox',
                                     checked: state.waves,
-                                    autoManaged: false,
                                 },
                                 barWidth: {
                                     __name: Ediphy.i18n.t('EnrichedAudio.BarWidth'),
@@ -61,7 +58,6 @@ export function EnrichedAudio(base) {
                                     min: 0,
                                     max: 5,
                                     value: state.barWidth,
-                                    autoManaged: false,
                                 },
                                 progressColor: {
                                     __name: Ediphy.i18n.t('EnrichedAudio.ProgressColor'),

@@ -28,8 +28,7 @@ export function Webpage(base) {
                                     __name: Ediphy.i18n.t('Webpage.URL_copypaste'),
                                     type: 'text',
                                     value: state.url,
-                                    autoManaged: false,
-                                },
+                                                                    },
                             },
                         },
                         style: {

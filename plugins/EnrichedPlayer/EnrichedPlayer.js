@@ -38,13 +38,11 @@ export function EnrichedPlayer(base) {
                                     type: 'external_provider',
                                     value: state.url,
                                     accept: "video/*",
-                                    autoManaged: false,
                                 },
                                 controls: {
                                     __name: Ediphy.i18n.t('EnrichedPlayer.Show_controls'),
                                     type: 'checkbox',
                                     checked: state.controls,
-                                    autoManaged: false,
                                 },
                             },
                         },

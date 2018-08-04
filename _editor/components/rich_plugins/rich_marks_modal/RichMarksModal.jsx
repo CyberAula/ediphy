@@ -92,7 +92,7 @@ export default class RichMarksModal extends Component {
         }
         let currentNavItemType = this.props.navItems[this.props.navItemSelected].type;
         let plugin = (this.props.pluginToolbar && this.props.pluginToolbar.pluginId && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId)) ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId) : undefined;
-        let defaultMarkValue = plugin ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getDefaultMarkValue(this.props.pluginToolbar.state) : '';
+        let defaultMarkValue = plugin ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getDefaultMarkValue(this.props.pluginToolbar.state, this.props.boxSelected) : '';
         let pluginType = (this.props.pluginToolbar && this.props.pluginToolbar.config) ? this.props.pluginToolbar.config.displayName : 'Plugin';
         let config = plugin ? plugin.getConfig() : null;
         return (

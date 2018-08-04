@@ -160,7 +160,6 @@ export function ${options.name}(base) {
                                     __name: 'Config',
                                     type: 'text',
                                     value: state.name,
-                                    autoManaged: false,
                                 },
                             },
                         },
@@ -355,7 +354,6 @@ export function ${options.name}(base) {
                                     type: 'number',
                                     value: state.nBoxes,
                                     min: 1,
-                                    autoManaged: false,
                                 },
                                 showFeedback: {
                                     __name: i18n.t("${options.name}.ShowFeedback"),

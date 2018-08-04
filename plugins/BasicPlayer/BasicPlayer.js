@@ -35,13 +35,11 @@ export function BasicPlayer(base) {
                                     __name: Ediphy.i18n.t('BasicPlayer.URL'),
                                     type: 'text',
                                     value: state.url,
-                                    autoManaged: false,
                                 },
                                 controls: {
                                     __name: Ediphy.i18n.t('BasicPlayer.Show_controls'),
                                     type: 'checkbox',
                                     checked: state.controls,
-                                    autoManaged: false,
                                 },
                             },
                         },

@@ -35,7 +35,6 @@ export function FlashObject(base) {
                                     type: 'external_provider',
                                     value: state.url,
                                     accept: 'swf',
-                                    autoManaged: false,
                                 },
                             },
                         },

@@ -29,8 +29,7 @@ export function Youtube(base) {
                                     __name: Ediphy.i18n.t('Youtube.URL'),
                                     type: 'text',
                                     value: state.url,
-                                    autoManaged: false,
-                                },
+                                                                    },
                             },
                         },
                         style: {

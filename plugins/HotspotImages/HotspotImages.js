@@ -41,8 +41,7 @@ export function HotspotImages(base) {
                                     type: 'external_provider',
                                     value: state.url,
                                     accept: "image/*",
-                                    autoManaged: false,
-                                },
+                                                                    },
                             },
                         },
                         style: {

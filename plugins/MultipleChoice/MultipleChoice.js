@@ -34,8 +34,7 @@ export function MultipleChoice(base) {
                                     type: 'number',
                                     value: state.nBoxes,
                                     min: 1,
-                                    autoManaged: false,
-                                },
+                                                                    },
                                 showFeedback: {
                                     __name: i18n.t("MultipleChoice.ShowFeedback"),
                                     type: 'checkbox',

@@ -53,8 +53,7 @@ export function EnrichedPDF(base) {
                                     type: 'external_provider',
                                     value: state.url,
                                     accept: "application/pdf",
-                                    autoManaged: false,
-                                },
+                                 },
                             },
                         },
                         style: {
@@ -127,11 +126,11 @@ export function EnrichedPDF(base) {
             base.setState(name, value);
         },
 
-        getDefaultMarkValue(state) {
+        getDefaultMarkValue(state, boxId) {
             let x = 5.37;
             let y = 8.67;
-            let numPage = state.pageNumber;
-            // let numPage = document.querySelector(".pdfPage").getAttribute("data-page-number");
+            let page = document.querySelector("#box-" + boxId + " .pdfPage");
+            let numPage = page.getAttribute("data-page-number");
             return y + ',' + x + ',' + numPage;
         },
         parseRichMarkInput: function(x, y, width, height, toolbarState, boxId) {

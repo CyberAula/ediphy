@@ -33,8 +33,7 @@ export function Rating(base) {
                                     type: 'number',
                                     value: state.range,
                                     min: 1,
-                                    autoManaged: false,
-                                },
+                                                                    },
                                 stars: {
                                     __name: i18n.t("Rating.ShowStars"),
                                     type: 'checkbox',

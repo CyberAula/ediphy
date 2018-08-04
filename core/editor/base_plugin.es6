@@ -293,13 +293,9 @@ export default function() {
                     for (buttonKey in buttons) {
                         button = buttons[buttonKey];
                         button.__name = defaultFor(button.__name, buttonKey, "Property __name in button '" + buttonKey + "' not found");
-                        button.autoManaged = defaultFor(button.autoManaged, true);
                         if(button.type === "radio" || button.type === "select") {
                             button.options = defaultFor(button.options, []);
                         }
-                        /* if (!button.callback && !button.autoManaged) {
-                            button.callback = this.update.bind(this);
-                        }*/
                     }
                     if (accordions[accordionKey].accordions || accordions[accordionKey].order) {
                         let accordions2 = defaultFor(accordions[accordionKey].accordions, {});
@@ -316,13 +312,9 @@ export default function() {
                             for (buttonKey in buttons) {
                                 button = buttons[buttonKey];
                                 button.__name = defaultFor(button.__name, buttonKey, "Property __name in button '" + buttonKey + "' not found");
-                                button.autoManaged = defaultFor(button.autoManaged, true);
                                 if(button.type === "radio" || button.type === "select") {
                                     button.options = defaultFor(button.options, []);
                                 }
-                                /* if (!button.callback && !button.autoManaged) {
-                                    button.callback = this.update.bind(this);
-                                }*/
                             }
                         }
                     }
@@ -354,9 +346,9 @@ export default function() {
             }
             return undefined;
         },
-        getDefaultMarkValue: function() {
+        getDefaultMarkValue: function(state, value) {
             if(descendant.getDefaultMarkValue) {
-                return descendant.getDefaultMarkValue();
+                return descendant.getDefaultMarkValue(state, value);
             }
             if (descendant.getConfig() && descendant.getConfig().marksType) {
                 let markType = descendant.getConfig().marksType;

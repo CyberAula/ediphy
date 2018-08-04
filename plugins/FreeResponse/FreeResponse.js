@@ -40,7 +40,6 @@ export function FreeResponse(base) {
                                 characters: {
                                     __name: i18n.t("FreeResponse.Characters"),
                                     type: 'checkbox',
-                                    autoManaged: false,
                                     hide: state.type !== "text",
                                     checked: state.characters,
                                 },

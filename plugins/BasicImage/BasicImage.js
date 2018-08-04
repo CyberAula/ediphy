@@ -86,7 +86,6 @@ export function BasicImage(base) {
                                     type: 'external_provider',
                                     accept: "image/*",
                                     value: state.url,
-                                    autoManaged: false,
                                 },
                             },
                         },

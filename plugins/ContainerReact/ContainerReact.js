@@ -27,7 +27,6 @@ export function ContainerReact(base) {
                                     type: 'number',
                                     value: state.nBoxes,
                                     min: 1,
-                                    autoManaged: false,
                                 },
                             },
                         },

@@ -29,8 +29,7 @@ export function ScormPackage(base) {
                                     type: 'external_provider',
                                     value: state.url,
                                     accept: "scormpackage",
-                                    autoManaged: false,
-                                },
+                                                                    },
                             },
                         },
                         style: {

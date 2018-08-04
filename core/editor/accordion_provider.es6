@@ -128,7 +128,6 @@ export function createAspectRatioButton(controls, config) {
         __name: arb.name,
         type: "checkbox",
         checked: arb.defaultValue,
-        autoManaged: true,
     };
     if (arb.location.length === 2) {
         controls[arb.location[0]].accordions[arb.location[1]].buttons.aspectRatio = button;
@@ -171,7 +170,6 @@ export function createAliasButton(controls, state) {
                 __name: 'Alias',
                 type: 'text',
                 value: "",
-                autoManaged: true,
                 isAttribute: true,
             };
         }else{
@@ -261,7 +259,6 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         min: 0,
         max: units === '%' ? 100 : 100000,
         auto: displayValue === "auto",
-        autoManaged: true,
     };
     // if (state === null) {
     let initialHeight = initialParams.initialHeight;
@@ -303,7 +300,6 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         min: 0,
         max: units === '%' ? 100 : 100000,
         auto: displayValue === "auto",
-        autoManaged: true,
     };
 
     controls.main.accordions.structure.buttons.rotation = {
@@ -312,7 +308,6 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         value: 0,
         min: 0,
         max: 360,
-        autoManaged: false,
     };
 
     // This will be commented until it's working correctly
@@ -322,7 +317,7 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
             type: 'radio',
             value: 'relative',
             options: ['absolute', 'relative'],
-            autoManaged: true,
+
         };*/
 
     } else {
@@ -335,7 +330,6 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
                 type: 'radio',
                 value: state.controls.main.accordions.structure.buttons.position.value,
                 options: ['absolute', 'relative'],
-                autoManaged: true,
             };
         }
 
@@ -470,9 +464,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 value = button.min ? button.min : 0;
             }
 
-            if (!button.autoManaged && button.callback) {
-                // button.callback(state, buttonKey, value, id, UPDATE_PLUGIN_TOOLBAR);
-            }
+            
         },
         onChange: e => {
             let value;
@@ -586,13 +578,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                             let ctx = canvas.getContext('2d');
                             ctx.drawImage(img, 0, 0, 1200, 1200);
                             toolbar_props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, canvas.toDataURL("image/jpeg"));
-                            /* if (!button.autoManaged) {
-                                if (!button.callback) {
-                                    this.handlecanvasToolbar(buttonKey, data);
-                                } /* else {
-                                    button.callback(state, buttonKey, data, id, UPDATE_TOOLBAR);
-                                }
-                            }*/
+ 
                         };
                         img.src = data;
                     };

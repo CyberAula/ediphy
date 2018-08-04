@@ -24,7 +24,6 @@ export function ContainerJS(base) {
                                     type: 'number',
                                     value: state.boxes,
                                     min: 1,
-                                    autoManaged: false,
                                 },
                             },
                         },
