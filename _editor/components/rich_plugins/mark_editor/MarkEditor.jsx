@@ -195,7 +195,7 @@ export default class MarkEditor extends Component {
             const y = event.clientY - square.top - cursor_y_offset;// event.offsetY;
             const width = square.right - square.left;
             const height = square.bottom - square.top;
-            const value = parseRichMarkInput(x, y, width, height, [], toolbarState, boxId);
+            const value = parseRichMarkInput(x, y, width, height, toolbarState, boxId);
 
             document.body.style.cursor = 'default';
             boxStyle.classList.remove('norotate');

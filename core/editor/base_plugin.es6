@@ -348,9 +348,9 @@ export default function() {
             }
             return undefined;
         },
-        parseRichMarkInput: function(...values) {
+        parseRichMarkInput: function(x, y, width, height, toolbarState, boxId) {
             if(descendant.parseRichMarkInput) {
-                return descendant.parseRichMarkInput(...values);
+                return descendant.parseRichMarkInput(x, y, width, height, toolbarState, boxId);
             }
             return undefined;
         },

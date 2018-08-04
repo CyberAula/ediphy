@@ -202,9 +202,9 @@ export function ${options.name}(base) {
         },
          
         ${options.isRich ? `
-        parseRichMarkInput: function(...value) {
-            let x = (value[0] + 12) * 100 / value[2];
-            let y = (value [1] + 26) * 100 / value[3];
+        parseRichMarkInput: function(x, y, width, height, toolbarState, boxId) {
+            let x = (x + 12) * 100 / width;
+            let y = (y + 26) * 100 / height;
             let finalValue = y.toFixed(2) + "," + x.toFixed(2);
 
             return finalValue;
