@@ -1,0 +1,8 @@
+{
+  "name" : "BasicAudio",
+  "version" : "0.1.1",
+  "dependencies": {
+    "wavesurfer.js": "^1.4.0",
+    "react-wavesurfer": "^0.8.6"
+  }
+}

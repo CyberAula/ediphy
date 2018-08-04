@@ -49,7 +49,7 @@ export default class SoundCloudComponent extends React.Component {
                                     <div
                                         className={"audioItem"} key={index} style={{ border: border, backgroundColor: background }}
                                         onClick={e => {
-                                            this.props.onElementSelected(item.title, item.url, 'video');
+                                            this.props.onElementSelected(item.title, item.url, 'audio');
                                         }}>
                                         <img key={index} src={item.thumbnail || placeholder} className={'soundCloudSong'} onError={(e)=>{
                                             e.target.src = placeholder;
@@ -87,7 +87,7 @@ export default class SoundCloudComponent extends React.Component {
                             title: song.title,
                             userName: song.user.username,
                             duration: song.duration,
-                            url: song.stream_url,
+                            url: song.uri, // song.uri
                             thumbnail: song.artwork_url, // TODO Add default
                         };
                     });
@@ -95,6 +95,7 @@ export default class SoundCloudComponent extends React.Component {
                     this.setState({ results, msg: results.length > 0 ? '' : i18n.t("FileModal.APIProviders.no_files") });
                 }
             }).catch(e=>{
+                // eslint-disable-next-line no-console
                 console.error(e);
                 this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
             });

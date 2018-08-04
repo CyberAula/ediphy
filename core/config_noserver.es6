@@ -42,6 +42,8 @@ export default {
         'VirtualTour',
         'Webpage',
         'HotspotImages',
+        'EnrichedAudio',
+        'EnrichedPDF',
         // 'ContainerReact',
         'MultipleChoice',
         'MultipleAnswer',

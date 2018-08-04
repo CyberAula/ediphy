@@ -110,6 +110,7 @@ let es = {
                 'video': 'Vídeo',
                 'audio': 'Audio',
                 'image': 'Imagen',
+                'Object3D': 'Objeto 3D',
                 'cancel': 'Cancelar',
                 'custom': 'Archivo personalizado',
             },

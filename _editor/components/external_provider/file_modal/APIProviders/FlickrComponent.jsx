@@ -62,7 +62,6 @@ export default class FlickrComponent extends React.Component {
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
         $.getJSON(flickrURL, (imgs)=>{
             try{
-                // console.log(imgs);
                 if (imgs) {
                     if (imgs && imgs.items) {
                         let results = imgs.items.map(img=>{
@@ -75,6 +74,7 @@ export default class FlickrComponent extends React.Component {
                     }
                 }
             } catch (e) {
+                // eslint-disable-next-line no-console
                 console.error(e);
                 this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
             }

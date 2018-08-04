@@ -25,14 +25,16 @@ export default class MyFilesComponent extends React.Component {
         let empty = true;
         let files = Object.keys(this.props.filesUploaded).map(f => {
             let file = this.props.filesUploaded[f];
-            let type;
+            let type = file.mimetype;
             let icon = "attach_file";
             for (let e in extensions) {
                 let ext = extensions[e];
-                if (file.mimetype.match(ext.value)) {
+
+                if (ext.value !== '' && type.match(ext.value)) {
                     type = ext.value;
                     icon = ext.icon;
                 }
+
             }
             if(((file.name && file.name.match(this.state.filter)) || (file.mimetype && file.mimetype.match(this.state.filter))) // Matches written filter
                 && (this.state.extensionFilter === "*" || (file.mimetype && file.mimetype.match(this.state.extensionFilter))) // Matches extension filter
@@ -83,6 +85,8 @@ export default class MyFilesComponent extends React.Component {
             <Grid>
                 <Row className="myFilesRow" onClick={e=>{this.props.onElementSelected(undefined, undefined, undefined);}}>
                     {files.map((file, i)=>{
+                        let split = file.name.split('.');
+                        let filetype = file.type; // ? file.type : ((split && (split.length > 1)? split[split.length-1]:'application'));
                         let isActive = (file.id === this.props.idSelected);
                         return (<Col key={i} className={"myFile" + (file.hide ? ' hidden' : '')} xs={12} sm={6} md={4} lg={3}>
                             {isActive ? <Button className="deleteButton" onClick={(e)=>{
@@ -94,8 +98,9 @@ export default class MyFilesComponent extends React.Component {
                                 download.action();}}>
                                 <i className="material-icons">cloud_download</i>
                             </Button> : null}
-                            <Button style={{ backgroundImage: file.type === 'image' ? ("url(" + file.url + ")") : "" }} onClick={(e)=>{
-                                this.props.onElementSelected(file.name, file.url, file.type, file.id);
+                            <Button style={{ backgroundImage: filetype === 'image' ? ("url(" + file.url + ")") : "" }} onClick={(e)=>{
+                                console.log(filetype);
+                                this.props.onElementSelected(file.name, file.url, filetype, file.id);
                                 e.stopPropagation();
                             }} className={"myFileContent" + (isActive ? " active" : "")}>
                                 {file.type === 'image' ? "" : <i className="material-icons">{file.icon || "attach_file"}</i>}

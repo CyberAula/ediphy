@@ -88,6 +88,7 @@ export default class YoutubeComponent extends React.Component {
                     this.setState({ results, msg: results.length > 0 ? '' : i18n.t("FileModal.APIProviders.no_files") });
                 }
             }).catch(e=>{
+                // eslint-disable-next-line no-console
                 console.error(e);
 
                 this.setState({ msg: i18n.t("FileModal.APIProviders.error") });

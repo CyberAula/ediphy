@@ -171,9 +171,9 @@ export default class PDFHandler extends Component {
                             <Radio name="radioImport" inline defaultChecked onChange={e => {this.setState({ ImportAs: 'Custom' });}}>
                                 {i18n.t("importFile.importAs.customSize")}
                             </Radio>
-                            {/* <Radio name="radioImport" inline  onChange={e => {this.setState({ ImportAs: 'PDFViewer' });}}>
+                            <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'PDFViewer' });}}>
                                 {i18n.t("importFile.importAs.PDFViewer")}
-                            </Radio>*/}
+                            </Radio>
                         </FormGroup>
                         <div className="import_file_buttons">
                             <Button bsStyle="default" className="import_file_buttons" id="import_file_button" onClick={ e => {
@@ -236,9 +236,10 @@ export default class PDFHandler extends Component {
         let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected);
         let cvSli = cv && isSlide(this.props.containedViews[this.props.containedViewSelected].type);
         let cvDoc = cv && !isSlide(this.props.containedViews[this.props.containedViewSelected].type);
-        let inASlide = isSlide(this.props.navItemSelected.type) || cvSli;
+        let inASlide = (this.props.navItemSelected !== 0 && isSlide(this.props.navItems[this.props.navItemSelected].type)) || cvSli;
         let page = cv ? this.props.containedViewSelected : this.props.navItemSelected;
         let initialParams;
+        console.log(cv, cvSli, cvDoc, inASlide, page);
         // If slide
         if (inASlide) {
             let position = {
@@ -250,17 +251,20 @@ export default class PDFHandler extends Component {
                 parent: cvSli ? this.props.containedViewSelected : this.props.navItemSelected,
                 container: 0,
                 position: position,
-                url: this.props.url, page,
+                url: this.props.url,
+                page,
             };
         } else {
             initialParams = {
                 parent: cvDoc ? this.props.containedViews[this.props.containedViewSelected].boxes[0] : this.props.navItems[this.props.navItemSelected].boxes[0],
                 container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
-                url: this.props.url, page,
+                url: this.props.url,
+                page,
             };
         }
         initialParams.id = ID_PREFIX_BOX + Date.now();
-        createBox(initialParams, "PDFViewer", inASlide, this.props.onBoxAdded, this.props.boxes);
+        console.log(initialParams, this.props.navItemSelected);
+        createBox(initialParams, "EnrichedPDF", inASlide, this.props.onBoxAdded, this.props.boxes);
 
     }
 
@@ -294,6 +298,7 @@ export default class PDFHandler extends Component {
     PreviewFile(page) {
         let preview = document.getElementById('FilePreview');
         let firstCanvas = document.getElementById('can' + page);
+
         preview.src = firstCanvas.toDataURL();
         if (firstCanvas.width > firstCanvas.height) {
             preview.style.width = '100%';

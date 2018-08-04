@@ -101,11 +101,16 @@ export default class UploadComponent extends React.Component {
             } else if (this.props.isBusy.msg === FILE_UPLOADING && isFile(nextProps.isBusy.msg)) {
                 let newFile = this.props.filesUploaded[nextProps.isBusy.msg];
                 let extension = newFile.mimetype;
+
                 for (let e in extensions) {
                     let ext = extensions[e];
                     if (newFile && newFile.mimetype && newFile.mimetype.match && newFile.mimetype.match(ext.value)) {
                         extension = ext.value;
+                        // if (newFile.mimetype === 'stl') {
+                        //     extension === 'application';
+                        // }
                     }
+
                 }
                 this.props.onElementSelected(newFile.name, newFile.url, extension, nextProps.isBusy.msg);
                 this.setState({ error: false, uploading: false, uploaded: true });

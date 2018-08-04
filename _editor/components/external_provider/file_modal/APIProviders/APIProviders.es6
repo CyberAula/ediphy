@@ -3,20 +3,22 @@ import MyFilesComponent from './MyFilesComponent';
 import UploadComponent from './UploadComponent';
 import SearchVishComponent from './SearchVishComponent';
 import SoundCloudComponent from './SoundCloudComponent';
+// import AudioBlocksComponent from './AudioBlocksComponent';
 import YoutubeComponent from './YoutubeComponent';
 import EuropeanaComponent from './EuropeanaComponent';
 import FlickrComponent from './FlickrComponent';
-import PhetComponent from './PhetComponent';
-import OpenClipArtComponent from './OpenClipArtComponent';
-import GiphyComponent from './GiphyComponent';
+// import PhetComponent from './PhetComponent';
+// import OpenClipArtComponent from './OpenClipArtComponent';
+// import GiphyComponent from './GiphyComponent';
 
 import VISHIcon from './logos/vish.svg';
 import FlickrIcon from './logos/flickrsvg.svg';
 import EuropeanaIcon from './logos/europeanaalt.svg';
 import YoutubeIcon from './logos/youtube.svg';
 import SoundCloudIcon from './logos/soundcloud_logo_0.png';
-import OpenClipArtIcon from './logos/openclipart.svg';
-import GiphyIcon from './logos/giphy.png';
+// import OpenClipArtIcon from './logos/openclipart.svg';
+// import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
+// import GiphyIcon from './logos/giphy.png';
 
 import i18n from 'i18next';
 
@@ -119,19 +121,32 @@ export default function menus(self) {
             component: GiphyComponent,
             props: { ...commonProps },
         },*/
-        /* {
+        {
             name: 'SoundCloud',
             icon: SoundCloudIcon,
-            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('video')),
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('audio')),
             component: SoundCloudComponent,
             props: { ...commonProps },
         },
-        {
+        /* {
+            name: 'AudioBlocks',
+            icon: AudioBlocksIcon,
+            show: (allowedMIME === "*" || allowedMIME.match('audio')),
+            component: AudioBlocksComponent
+        },*/
+        /* {
             name: 'OpenClipArt',
             icon: OpenClipArtIcon,
             show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
             component: OpenClipArtComponent,
             props: { ...commonProps },
         },*/
+        /* {
+          name: 'Thingiverse',
+          icon: ThingiverseIcon,
+          show: (allowedMIME === "*" || allowedMIME.match('application')),
+          component: ThingiverseComponent,
+          props: { ...commonProps },
+      }*/
     ];
 }

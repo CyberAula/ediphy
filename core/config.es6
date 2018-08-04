@@ -33,7 +33,9 @@ export default {
     autosave_time: 0, // Any value below 1000 will not autosave
     zip_files_forbidden: true,
     pluginList: [
+        'EnrichedAudio',
         // 'BasicImage',
+        'EnrichedPDF',
         'BasicText',
         // 'BasicPlayer',
         'DataTable',
@@ -50,6 +52,7 @@ export default {
         'GraficaD3',
         'TrueFalse',
         'ScormPackage',
+        // 'Visor3D',
         'FlashObject',
         'Rating',
     ],

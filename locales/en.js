@@ -111,6 +111,7 @@ let en = {
                 'audio': 'Audio',
                 'image': 'Image',
                 'cancel': 'Cancel',
+                'Object3D': 'Object 3D',
                 'custom': 'Custom file',
             },
             'Title': 'Import resource...',

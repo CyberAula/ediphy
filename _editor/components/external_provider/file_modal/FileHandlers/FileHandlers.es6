@@ -7,6 +7,7 @@ import parseMoodleXML from '../../../../../core/editor/moodleXML';
 import i18n from 'i18next';
 
 export let extensions = [
+
     { label: i18n.t("vish_search_types.All"), value: '', icon: 'attach_file' },
     { label: i18n.t("vish_search_types.Picture"), value: 'image', icon: 'image' },
     { label: i18n.t("vish_search_types.Audio"), value: 'audio', icon: 'audiotrack' },
@@ -18,6 +19,10 @@ export let extensions = [
     { label: i18n.t("vish_search_types.Link"), value: 'webapp', icon: 'link' },
     { label: i18n.t("vish_search_types.Swf"), value: 'swf', icon: 'flash_on' },
     { label: i18n.t("vish_search_types.XML"), value: 'xml', icon: 'code' },
+    // { label: "Objeto 3D", value: 'sla', icon: 'devices_other' },
+    // { label: "Objeto 3D", value: 'octet-stream', icon: 'devices_other' },
+    // { label: "Objeto 3D", value: 'stl', icon: 'devices_other' },
+    // { label: "Otro", value: 'application', icon: 'devices_other' },
 ];
 export default function handlers(self) {
     let type = self.state.type;
@@ -73,12 +78,12 @@ export default function handlers(self) {
             icon: 'audiotrack',
             buttons: [
                 {
-                    title: (currentPlugin && currentPlugin === 'EnrichedPlayer') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.audio')),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
+                    title: (currentPlugin && currentPlugin === 'EnrichedAudio') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.audio')),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'EnrichedAudio'),
                     action: ()=>{
                         if (self.props.fileModalResult && !self.props.fileModalResult.id) {
                             initialParams.url = self.state.element;
-                            createBox(initialParams, "EnrichedPlayer", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                            createBox(initialParams, "EnrichedAudio", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
                             self.close();
                         } else {
                             self.close({ id: self.props.fileModalResult.id, value: self.state.element });
@@ -88,12 +93,13 @@ export default function handlers(self) {
                 // download,
             ] };
     case 'pdf' :
+        console.log('ss');
         return {
             icon: 'picture_as_pdf',
             buttons: [
                 {
-                    title: (currentPlugin && currentPlugin === 'BasicPDF') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' pdf'),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
+                    title: (currentPlugin && currentPlugin === 'EnrichedPDF') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' PDF'),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'EnrichedPDF') /* || (self.props.fileModalResult && self.props.fileModalResult.id)*/,
                     action: ()=>{ // Open side view
                         if (self.state.element) {
                             if (self.props.fileModalResult && !self.props.fileModalResult.id) {
@@ -205,12 +211,32 @@ export default function handlers(self) {
                 },
                 // download,
             ] };
+
+        /*
+    case 'sla' :
+    case 'octet-stream' :
+    case 'stl':
+        return {
+            icon: 'devices_other',
+            buttons: [
+                {
+                    title: (currentPlugin && currentPlugin === 'Visor3D') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.Object3D')),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (!self.state.name.match('stl') && !self.state.element.match('thingiverse')) || (currentPlugin && currentPlugin !== 'Visor3D'),
+                    action: ()=>{
+                        if (self.props.fileModalResult && !self.props.fileModalResult.id) {
+                            initialParams.url = self.state.element;
+                            createBox(initialParams, "Visor3D", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                            self.close();
+                        } else {
+                            self.close({ id: self.props.fileModalResult.id, value: self.state.element });
+*/
+
     case 'scormpackage':
         return {
             icon: 'extension',
             buttons: [
                 {
-                    title: (currentPlugin && currentPlugin === 'ScormPackage') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' SCORM Package'),
+                    title: (currentPlugin && currentPlugin === 'ScormPackage') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t("vish_search_types.Scormfile")),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
                     action: ()=>{
                         if (self.state.element) {
@@ -231,7 +257,7 @@ export default function handlers(self) {
             icon: 'link',
             buttons: [
                 {
-                    title: (currentPlugin && currentPlugin === 'Webpage') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' Webpage'),
+                    title: (currentPlugin && currentPlugin === 'Webpage') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t("vish_search_types.Webapp")),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
                     action: ()=>{
                         if (self.state.element) {
@@ -252,7 +278,7 @@ export default function handlers(self) {
             icon: 'flash_on',
             buttons: [
                 {
-                    title: (currentPlugin && currentPlugin === 'FlashObject') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' Flash Object'),
+                    title: (currentPlugin && currentPlugin === 'FlashObject') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t("vish_search_types.Swf")),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
                     action: ()=>{
                         if (self.state.element) {
