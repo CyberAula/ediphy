@@ -171,7 +171,7 @@ export function VirtualTour(base) {
         },
         parseRichMarkInput: function(x, y, width, height, toolbarState, boxId) {
             let state = toolbarState;
-            if (!window.google || !window.navigator.onLine || !window.mapList[value[6] || state.num]) {
+            if (!window.google || !window.navigator.onLine || !window.mapList[boxId || state.num]) {
                 return '0,0';
             }
             let clickX = x + 12;
@@ -182,7 +182,7 @@ export function VirtualTour(base) {
             let num = state.num;
 
             let maps = window.google.maps;
-            let map = window.mapList[boxId|| state.num];
+            let map = window.mapList[boxId || state.num];
             let topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
             let bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
             let scale = Math.pow(2, map.getZoom());

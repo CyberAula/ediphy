@@ -53,7 +53,7 @@ export function EnrichedPDF(base) {
                                     type: 'external_provider',
                                     value: state.url,
                                     accept: "application/pdf",
-                                 },
+                                },
                             },
                         },
                         style: {
@@ -130,18 +130,23 @@ export function EnrichedPDF(base) {
             let x = 5.37;
             let y = 8.67;
             let page = document.querySelector("#box-" + boxId + " .pdfPage");
-            let numPage = page.getAttribute("data-page-number");
+            let numPage = 1;
+            if (page) {
+                numPage = page.getAttribute("data-page-number");
+
+            }
             return y + ',' + x + ',' + numPage;
+
         },
         parseRichMarkInput: function(x, y, width, height, toolbarState, boxId) {
             let page = document.querySelector("#box-" + boxId + " .pdfPage");
             let scrollElement = document.querySelector("#box-" + boxId + ' .react-pdf__Document');
-            let x = (x + 12 + scrollElement.scrollLeft) * 100 / page.clientWidth;
-            let y = (y + 26 + scrollElement.scrollTop) * 100 / page.clientHeight;
+            let xx = (x + 12 + scrollElement.scrollLeft) * 100 / page.clientWidth;
+            let yy = (y + 26 + scrollElement.scrollTop) * 100 / page.clientHeight;
             // console.log(value);
             let numPage = page.getAttribute("data-page-number");
             // let numPage = document.querySelector(".pdfPage").getAttribute("data-page-number");
-            return x.toFixed(2) + ',' + y.toFixed(2) + ',' + numPage;
+            return xx.toFixed(2) + ',' + yy.toFixed(2) + ',' + numPage;
         },
         validateValueInput: function(value) {
             let regex = /(^-?\d+(?:\.\d*)?),(-?\d+(?:\.\d*)?),(\d+$)/g;

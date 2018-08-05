@@ -36,7 +36,7 @@ export function Visor3D(base) {
                                     type: 'external_provider',
                                     value: state.url,
                                     accept: "application/*",
-                                                                    },
+                                },
                             },
                         },
                         style: {
@@ -103,7 +103,7 @@ export function Visor3D(base) {
                                     __name: Ediphy.i18n.t('Visor3D.Auto_rotate'),
                                     type: 'checkbox',
                                     checked: state.rotate,
-                                                                    },
+                                },
                             },
                         },
                     },

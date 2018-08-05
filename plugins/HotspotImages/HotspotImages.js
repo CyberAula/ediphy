@@ -41,7 +41,7 @@ export function HotspotImages(base) {
                                     type: 'external_provider',
                                     value: state.url,
                                     accept: "image/*",
-                                                                    },
+                                },
                             },
                         },
                         style: {
@@ -151,9 +151,9 @@ export function HotspotImages(base) {
             );
         },
         parseRichMarkInput: function(x, y, width, height, toolbarState, boxId) {
-            let x = (x + 12) * 100 / width;
-            let y = (y + 26) * 100 / height;
-            let finalValue = y.toFixed(2) + "," + x.toFixed(2);
+            let xx = (x + 12) * 100 / width;
+            let yy = (y + 26) * 100 / height;
+            let finalValue = yy.toFixed(2) + "," + xx.toFixed(2);
 
             return finalValue;
         },

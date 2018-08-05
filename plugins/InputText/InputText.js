@@ -33,7 +33,7 @@ export function InputText(base) {
                                     type: 'select',
                                     value: state.type,
                                     options: ['text', 'number'],
-                                                                    },
+                                },
                                 precision: {
                                     __name: i18n.t("InputText.Precision"),
                                     type: 'number',

@@ -464,7 +464,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 value = button.min ? button.min : 0;
             }
 
-            
         },
         onChange: e => {
             let value;
@@ -578,7 +577,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                             let ctx = canvas.getContext('2d');
                             ctx.drawImage(img, 0, 0, 1200, 1200);
                             toolbar_props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, canvas.toDataURL("image/jpeg"));
- 
+
                         };
                         img.src = data;
                     };
