@@ -4,9 +4,8 @@ import i18n from 'i18next';
 import { Button, Row, Col, Grid, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import Select from 'react-select';
 import '../../../nav_bar/global_config/_reactTags.scss';
-import { extensions } from '../FileHandlers/FileHandlers';
 import Alert from "../../../common/alert/Alert";
-
+import { extensionHandlers as extensions } from '../FileHandlers/FileHandlers';
 export default class MyFilesComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -77,7 +76,7 @@ export default class MyFilesComponent extends React.Component {
                         name="form-field-extensions"
                         value={currentExtension}
                         disabled = {this.props.show !== "*"}
-                        options={extensions}
+                        options={Object.values(extensions)}
                         className="selectD"
                         onChange={e => {this.setState({ extensionFilter: e.value });}} />
                 </FormGroup>

@@ -19,7 +19,8 @@ export function Visor3D(base) {
                 initialHeightSlide: '30%',
                 icon: '3d_rotation',
                 needsPointerEventsAllowed: true,
-
+                createFromLibrary: ['application/*', 'url'],
+                searchIcon: true,
             };
         },
         getToolbar: function(state) {

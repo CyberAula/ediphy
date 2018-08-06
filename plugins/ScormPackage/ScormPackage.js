@@ -13,6 +13,8 @@ export function ScormPackage(base) {
                 initialWidthSlide: '70%',
                 initialHeightSlide: '60%',
                 flavor: 'react',
+                createFromLibrary: ['scormpackage', 'url'],
+                searchIcon: true,
             };
         },
         getToolbar: function(state) {

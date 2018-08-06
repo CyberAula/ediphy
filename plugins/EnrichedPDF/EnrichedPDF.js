@@ -37,6 +37,8 @@ export function EnrichedPDF(base) {
                     default: '40.452,-3.727,1',
                     defaultColor: '#000002',
                 }],
+                createFromLibrary: ["application/pdf", 'url'],
+                searchIcon: true,
             };
         },
         getToolbar: function(state) {

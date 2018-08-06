@@ -22,6 +22,8 @@ export function EnrichedPlayer(base) {
                     defaultValue: true,
                 },
                 marksType: [{ name: i18n.t("EnrichedPlayer.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" }],
+                createFromLibrary: ['video/*', 'url'],
+                searchIcon: true,
             };
         },
         getToolbar: function(state) {

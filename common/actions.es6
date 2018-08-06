@@ -487,6 +487,9 @@ export function uploadEdiphyResourceAsync(file, keywords = "", callback) {
                 reader.readAsDataURL(file);
                 let filenameDeconstructed = file.name.split('.');
                 let mimetype = file.type && file.type !== "" ? file.type : filenameDeconstructed[filenameDeconstructed.length - 1];
+                if (mimetype === 'application/vnd.ms-excel') {
+                    mimetype = 'csv';
+                }
                 reader.onload = () =>{
                     dispatch(uploadFile(id, reader.result, file.name, keywords, mimetype));
                     if (callback) {
@@ -546,6 +549,9 @@ export function uploadVishResourceAsync(query, keywords = "", callback) {
 
                 let id = ID_PREFIX_FILE + Date.now();
                 mimetype = (result.type === 'scormpackage' || result.type === 'webapp') ? result.type : mimetype;
+                if (mimetype === 'application/vnd.ms-excel') {
+                    mimetype = 'csv';
+                }
                 dispatch(uploadFile(id, result.src, query.name, keywords, mimetype));
                 if (callback) {
                     callback(result.src);

@@ -25,6 +25,8 @@ export function HotspotImages(base) {
                 },
                 isRich: true,
                 marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#000001' }],
+                createFromLibrary: ['image/*', 'url'],
+                searchIcon: true,
             };
         },
         getToolbar: function(state) {

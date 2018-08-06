@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import i18n from 'i18next';
 import { Button, Row, Col, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import ExternalDropzone from './ExternalDropzone';
-import { extensions } from '../FileHandlers/FileHandlers';
+import { extensionHandlers as extensions } from './../FileHandlers/FileHandlers';
 import '../../../nav_bar/global_config/_reactTags.scss';
 import { ID_PREFIX_FILE, FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../common/constants';
 import { isFile } from '../../../../../common/utils';
@@ -106,11 +106,11 @@ export default class UploadComponent extends React.Component {
                     let ext = extensions[e];
                     if (newFile && newFile.mimetype && newFile.mimetype.match && newFile.mimetype.match(ext.value)) {
                         extension = ext.value;
-                        // if (newFile.mimetype === 'stl') {
-                        //     extension === 'application';
-                        // }
-                    }
 
+                    }
+                    if (newFile.mimetype === 'application/vnd.ms-excel') {
+                        extension === 'csv';
+                    }
                 }
                 this.props.onElementSelected(newFile.name, newFile.url, extension, nextProps.isBusy.msg);
                 this.setState({ error: false, uploading: false, uploaded: true });

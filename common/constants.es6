@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 export const ID_PREFIX_SECTION = "se-";
 export const ID_PREFIX_PAGE = "pa-";
 export const ID_PREFIX_SLIDE = "sl-";
@@ -19,3 +20,17 @@ export const PAGE_TYPES = {
     SECTION: "section",
 };
 
+console.log(i18n);
+
+export const extensions = [
+    'all',
+    'image',
+    'audio',
+    'video',
+    'csv',
+    'pdf',
+    'scormpackage',
+    'webapp',
+    'swf',
+    'xml',
+];

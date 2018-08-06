@@ -22,6 +22,8 @@ export function GraficaD3(base) {
                 initialHeight: "300px",
                 initialWidthSlide: '70%',
                 initialHeightSlide: '60%',
+                createFromLibrary: ['csv', 'url'],
+                searchIcon: false,
             };
         },
         getToolbar: function(state) {

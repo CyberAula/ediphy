@@ -79,7 +79,7 @@ export default function menus(self) {
         {
             name: 'VISH',
             icon: VISHIcon,
-            show: !(avatar) ? (allowedMIME) : false,
+            show: !(avatar) ? ((allowedMIME && allowedMIME != 'csv') ? allowedMIME : false) : false,
             component: SearchVishComponent,
             props: { ...commonProps,
             },

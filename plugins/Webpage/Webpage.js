@@ -13,6 +13,8 @@ export function Webpage(base) {
                 initialWidthSlide: '70%',
                 initialHeightSlide: '60%',
                 flavor: 'react',
+                createFromLibrary: ['webapp', 'url'],
+                searchIcon: 'type',
             };
         },
         getToolbar: function(state) {

@@ -6,125 +6,51 @@ import { isSlide, isBox, isDataURL, dataURItoBlob } from '../../../../../common/
 import parseMoodleXML from '../../../../../core/editor/moodleXML';
 import i18n from 'i18next';
 
-export let extensions = [
-
-    { label: i18n.t("vish_search_types.All"), value: '', icon: 'attach_file' },
-    { label: i18n.t("vish_search_types.Picture"), value: 'image', icon: 'image' },
-    { label: i18n.t("vish_search_types.Audio"), value: 'audio', icon: 'audiotrack' },
-    { label: i18n.t("vish_search_types.Video"), value: 'video', icon: 'play_arrow' },
-    { label: i18n.t("vish_search_types.CSV"), value: 'csv', icon: 'view_agenda' },
-    // { label: i18n.t("vish_search_types.JSON"), value: 'json', icon: 'view_agenda' },
-    { label: i18n.t("vish_search_types.Officedoc"), value: 'pdf', icon: 'picture_as_pdf' },
-    { label: i18n.t("vish_search_types.Scormfile"), value: 'scormpackage', icon: 'extension' },
-    { label: i18n.t("vish_search_types.Link"), value: 'webapp', icon: 'link' },
-    { label: i18n.t("vish_search_types.Swf"), value: 'swf', icon: 'flash_on' },
-    { label: i18n.t("vish_search_types.XML"), value: 'xml', icon: 'code' },
-    // { label: "Objeto 3D", value: 'sla', icon: 'devices_other' },
+export const extensionHandlers = {
+    'all': { label: i18n.t("vish_search_types.All"), value: '', icon: 'attach_file' },
+    'image': { label: i18n.t("vish_search_types.Picture"), value: 'image', icon: 'image' },
+    'audio': { label: i18n.t("vish_search_types.Audio"), value: 'audio', icon: 'audiotrack' },
+    'video': { label: i18n.t("vish_search_types.Video"), value: 'video', icon: 'play_arrow' },
+    'csv': { label: i18n.t("vish_search_types.CSV"), value: 'csv', icon: 'view_agenda' },
+    'pdf': { label: i18n.t("vish_search_types.Officedoc"), value: 'pdf', icon: 'picture_as_pdf' },
+    'scormpackage': { label: i18n.t("vish_search_types.Scormfile"), value: 'scormpackage', icon: 'extension' },
+    'webapp': { label: i18n.t("vish_search_types.Link"), value: 'webapp', icon: 'link' },
+    'swf': { label: i18n.t("vish_search_types.Swf"), value: 'swf', icon: 'flash_on' },
+    'xml': { label: i18n.t("vish_search_types.XML"), value: 'xml', icon: 'code' },
+    // 'json': { label: i18n.t("vish_search_types.JSON"), value: 'json', icon: 'view_agenda' }
+    // 'sla': { label: "Objeto 3D", value: 'sla', icon: 'devices_other' },
     // { label: "Objeto 3D", value: 'octet-stream', icon: 'devices_other' },
     // { label: "Objeto 3D", value: 'stl', icon: 'devices_other' },
     // { label: "Otro", value: 'application', icon: 'devices_other' },
-];
+};
+
 export default function handlers(self) {
     let type = self.state.type;
     let page = self.currentPage();
     let { initialParams, isTargetSlide } = getInitialParams(self, page);
     let currentPlugin = (self.props.fileModalResult && self.props.fileModalResult.id && self.props.pluginToolbars[self.props.fileModalResult.id]) ? self.props.pluginToolbars[self.props.fileModalResult.id].pluginId : null;
     let apiPlugin = currentPlugin ? Ediphy.Plugins.get(currentPlugin) : undefined;
-    switch(type) {
-    case 'image' :
-        return{
-            icon: 'image',
-            buttons: [
-                {
-                    title: (currentPlugin && currentPlugin === 'HotspotImages') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.image')),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
-                    action: ()=>{
-                        if (self.state.element) {
-                            if (self.props.fileModalResult && !self.props.fileModalResult.id) {
-                                initialParams.url = self.state.element;
-                                createBox(initialParams, "HotspotImages", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-                                self.close();
-                            } else {
-                                self.close({ id: self.props.fileModalResult.id, value: self.state.element });
-                            }
-                        }
+    let pluginsAllowed = Ediphy.Config.pluginFileMap[(type === '') ? 'all' : type] || [];
+    let ext = extensionHandlers[(type === '') ? 'all' : type];
+    let icon = ext ? ext.icon : 'attach_file';
 
-                    },
-                },
-                // download,
-            ],
-        };
-    case 'video' :
-        return {
-            icon: 'play_arrow',
-            buttons: [
-                {
-                    title: (currentPlugin && currentPlugin === 'EnrichedPlayer') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.video')),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
+    let buttons = [];
+
+    if (self.state.element) {
+        if (self.props.fileModalResult && !self.props.fileModalResult.id) {
+            Object.keys(pluginsAllowed).map(pluginName=>{
+                let key = pluginsAllowed[pluginName];
+                buttons.push({
+                    title: type === 'pdf' ? '' : (i18n.t('FileModal.FileHandlers.insert') + ' ' + Ediphy.Plugins[pluginName].getConfig().displayName || pluginName),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
+
                     action: ()=>{
-                        if (self.props.fileModalResult && !self.props.fileModalResult.id) {
-                            initialParams.url = self.state.element;
-                            createBox(initialParams, "EnrichedPlayer", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-                            self.close();
-                        } else {
-                            self.close({ id: self.props.fileModalResult.id, value: self.state.element });
-                        }
-                    },
-                },
-                // download,
-            ] };
-    case 'audio' :
-        return {
-            icon: 'audiotrack',
-            buttons: [
-                {
-                    title: (currentPlugin && currentPlugin === 'EnrichedAudio') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.audio')),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'EnrichedAudio'),
-                    action: ()=>{
-                        if (self.props.fileModalResult && !self.props.fileModalResult.id) {
-                            initialParams.url = self.state.element;
-                            createBox(initialParams, "EnrichedAudio", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-                            self.close();
-                        } else {
-                            self.close({ id: self.props.fileModalResult.id, value: self.state.element });
-                        }
-                    },
-                },
-                // download,
-            ] };
-    case 'pdf' :
-        console.log('ss');
-        return {
-            icon: 'picture_as_pdf',
-            buttons: [
-                {
-                    title: (currentPlugin && currentPlugin === 'EnrichedPDF') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' PDF'),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'EnrichedPDF') /* || (self.props.fileModalResult && self.props.fileModalResult.id)*/,
-                    action: ()=>{ // Open side view
-                        if (self.state.element) {
-                            if (self.props.fileModalResult && !self.props.fileModalResult.id) {
-                                self.setState({ pdfSelected: true });
-                            } else {
-                                self.close({ id: self.props.fileModalResult.id, value: self.state.element });
-                            }
-                        }
-                    },
-                },
-                // download,
-            ] };
-    case 'csv' :
-        /* case 'json':*/
-        return {
-            icon: 'view_agenda',
-            buttons: [
-                {
-                    title: (currentPlugin && currentPlugin === 'DataTable') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.table')),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'DataTable'),
-                    action: () => {
-                        if (self.state.element) {
+                        if (type === 'pdf') {
+                            self.setState({ pdfSelected: true });
+                        } else if (type === 'csv') {
                             let xhr = new XMLHttpRequest(),
                                 fileReader = new FileReader();
-                            fileReader.onload = (e)=>dataToState(e, self, type, initialParams, isTargetSlide, 'DataTable');
+                            fileReader.onload = (e)=>dataToState(e, self, type, initialParams, isTargetSlide, pluginName);
                             fileReader.onerror = (e)=>{alert(i18n.t('error.generic'));};
                             if(isDataURL(self.state.element)) {
                                 fileReader.readAsBinaryString(dataURItoBlob(self.state.element));
@@ -142,165 +68,52 @@ export default function handlers(self) {
                                 // Send XHR
                                 xhr.send();
                             }
-
+                        } else {
+                            initialParams.initialState = { [key]: self.state.element };
+                            createBox(initialParams, pluginName, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                            self.close();
                         }
 
                     },
-                },
-                {
-                    title: (currentPlugin && currentPlugin === 'GraficaD3') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.graph')),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (currentPlugin && currentPlugin !== 'GraficaD3'),
-                    action: () => {
-                        if (self.state.element) {
-                            let xhr = new XMLHttpRequest(),
-                                fileReader = new FileReader();
-                            fileReader.onload = (e)=>dataToState(e, self, type, initialParams, isTargetSlide, 'GraficaD3');
-                            if(isDataURL(self.state.element)) {
-                                fileReader.readAsBinaryString(dataURItoBlob(self.state.element));
-                                fileReader.onerror = (e)=>{alert(i18n.t('error.generic'));};
-                            } else {
-                                xhr.open("GET", self.state.element, true);
-                                xhr.responseType = "blob";
+                });
+            });
 
-                                xhr.addEventListener("load", function() {
-                                    if (xhr.status === 200) {
-                                        fileReader.readAsBinaryString(xhr.response);
-                                    } else {
-                                        alert(i18n.t('error.generic'));
-                                    }
-                                }, false);
-                                // Send XHR
-                                xhr.send();
-                            }
-
-                        }
-
-                    },
-                },
-                // download,
-            ] };
-    case 'xml' :
-        return {
-            icon: 'link',
-            buttons: [
-                {
+            if (type === 'xml') {
+                buttons.push({
                     title: 'Insert MoodleXML', // (currentPlugin && apiPlugin.getConfig().category  === 'evaluation') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' MoodleXML'),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
                     action: ()=>{ // Open side view
-                        if (self.props.fileModalResult && !self.props.fileModalResult.id) {
-                            parseMoodleXML(self.state.element, msg=>{
-                                if (msg && msg.success && msg.question) {
-                                    initialParams.exercises = msg.question;
-                                    initialParams.initialState = msg.question.state;
-                                    if (msg.question.id) {
-                                        initialParams.id = msg.question.id;
-                                    }
-
-                                    createBox(initialParams, msg.question.name, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-                                    self.close();
-                                } else {
-                                    alert(msg ? (msg.msg || 'ERROR') : 'ERROR');
+                        parseMoodleXML(self.state.element, msg=>{
+                            if (msg && msg.success && msg.question) {
+                                initialParams.exercises = msg.question;
+                                initialParams.initialState = msg.question.state;
+                                if (msg.question.id) {
+                                    initialParams.id = msg.question.id;
                                 }
 
-                            });
-
-                        } else {
-                            // self.close({ id: self.props.fileModalResult.id, value: self.state.element });
-                        }
-                    },
-                },
-                // download,
-            ] };
-
-        /*
-    case 'sla' :
-    case 'octet-stream' :
-    case 'stl':
-        return {
-            icon: 'devices_other',
-            buttons: [
-                {
-                    title: (currentPlugin && currentPlugin === 'Visor3D') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t('FileModal.FileHandlers.Object3D')),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (!self.state.name.match('stl') && !self.state.element.match('thingiverse')) || (currentPlugin && currentPlugin !== 'Visor3D'),
-                    action: ()=>{
-                        if (self.props.fileModalResult && !self.props.fileModalResult.id) {
-                            initialParams.url = self.state.element;
-                            createBox(initialParams, "Visor3D", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-                            self.close();
-                        } else {
-                            self.close({ id: self.props.fileModalResult.id, value: self.state.element });
-*/
-
-    case 'scormpackage':
-        return {
-            icon: 'extension',
-            buttons: [
-                {
-                    title: (currentPlugin && currentPlugin === 'ScormPackage') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t("vish_search_types.Scormfile")),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
-                    action: ()=>{
-                        if (self.state.element) {
-                            if (self.props.fileModalResult && !self.props.fileModalResult.id) {
-                                initialParams.url = self.state.element;
-                                createBox(initialParams, "ScormPackage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                                createBox(initialParams, msg.question.name, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
                                 self.close();
                             } else {
-                                self.close({ id: self.props.fileModalResult.id, value: self.state.element });
+                                alert(msg ? (msg.msg || 'ERROR') : 'ERROR');
                             }
-                        }
+
+                        });
                     },
+                });
+            }
+        } else {
+            buttons.push({
+                title: i18n.t('FileModal.FileHandlers.replace'),
+                action: ()=>{
+                    self.close({ id: self.props.fileModalResult.id, value: self.state.element });
                 },
-                // download,
-            ] };
-    case 'webapp':
-        return {
-            icon: 'link',
-            buttons: [
-                {
-                    title: (currentPlugin && currentPlugin === 'Webpage') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t("vish_search_types.Webapp")),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
-                    action: ()=>{
-                        if (self.state.element) {
-                            if (self.props.fileModalResult && !self.props.fileModalResult.id) {
-                                initialParams.url = self.state.element;
-                                createBox(initialParams, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-                                self.close();
-                            } else {
-                                self.close({ id: self.props.fileModalResult.id, value: self.state.element });
-                            }
-                        }
-                    },
-                },
-                // download,
-            ] };
-    case 'swf':
-        return {
-            icon: 'flash_on',
-            buttons: [
-                {
-                    title: (currentPlugin && currentPlugin === 'FlashObject') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t("vish_search_types.Swf")),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type,
-                    action: ()=>{
-                        if (self.state.element) {
-                            if (self.props.fileModalResult && !self.props.fileModalResult.id) {
-                                initialParams.url = self.state.element;
-                                createBox(initialParams, "FlashObject", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-                                self.close();
-                            } else {
-                                self.close({ id: self.props.fileModalResult.id, value: self.state.element });
-                            }
-                        }
-                    },
-                },
-                // download,
-            ] };
-    default :
-        return {
-            icon: 'attach_file',
-            buttons: [
-                // download,
-            ] };
+            });
+        }
     }
+    return {
+        icon,
+        buttons,
+    };
 }
 function getInitialParams(self, page) {
     let ids = {};

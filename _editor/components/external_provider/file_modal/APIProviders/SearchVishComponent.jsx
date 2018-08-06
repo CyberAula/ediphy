@@ -6,7 +6,7 @@ import i18n from 'i18next';
 import PropTypes from 'prop-types';
 import SearchComponent from './SearchComponent';
 import ImageComponent from './ImageComponent';
-import { extensions } from '../FileHandlers/FileHandlers';
+import { extensionHandlers as extensions } from '../FileHandlers/FileHandlers';
 
 const categories = {
     "Picture": { label: i18n.t("vish_search_types.Picture"), type: "image", icon: "picture" },
@@ -46,6 +46,7 @@ export default class SearchVishComponent extends React.Component {
     render() {
         console.log(this.props);
         let type = categories[this.state.types] ? categories[this.state.types].type : "*";
+        console.log(type, this.state.types);
         return (
             <div className="contentComponent">
                 <Form horizontal action="javascript:void(0);">

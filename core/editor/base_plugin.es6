@@ -199,7 +199,7 @@ export default function() {
 
         },
         getConfig: function() {
-            let name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig, needsPointerEventsAllowed,
+            let name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig, needsPointerEventsAllowed, createFromLibrary, searchIcon,
                 needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isComplex, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance, initialWidth, initialHeight, initialWidthSlide, initialHeightSlide, defaultCorrectAnswer, defaultCurrentAnswer;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
@@ -227,6 +227,8 @@ export default function() {
                 initialHeight = cfg.initialHeight;
                 defaultCorrectAnswer = cfg.defaultCorrectAnswer;
                 defaultCurrentAnswer = cfg.defaultCurrentAnswer;
+                searchIcon = cfg.searchIcon;
+                createFromLibrary = cfg.createFromLibrary;
             }
 
             name = defaultFor(name, 'PluginName', "Plugin name not assigned");
@@ -251,6 +253,8 @@ export default function() {
             initialHeightSlide = defaultFor(initialHeightSlide, initialHeight);
             defaultCorrectAnswer = defaultFor(defaultCorrectAnswer, false);
             defaultCurrentAnswer = defaultFor(defaultCurrentAnswer, defaultCorrectAnswer);
+            createFromLibrary = defaultFor(createFromLibrary, createFromLibrary ? ['all', 'url'] : false);
+            searchIcon = defaultFor(searchIcon, false);
 
             if (aspectRatioButtonConfig) {
                 aspectRatioButtonConfig.name = Ediphy.i18n.t("Aspect_ratio");
@@ -266,7 +270,7 @@ export default function() {
                 name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition,
                 extraTextConfig, needsXMLEdition, aspectRatioButtonConfig, allowFloatingBox, icon,
                 iconFromUrl, isRich, isComplex, marksType, flavor, needsPointerEventsAllowed, limitToOneInstance,
-                initialWidth, initialWidthSlide, initialHeightSlide, initialHeight, defaultCorrectAnswer, defaultCurrentAnswer,
+                initialWidth, initialWidthSlide, initialHeightSlide, initialHeight, defaultCorrectAnswer, defaultCurrentAnswer, searchIcon, createFromLibrary,
             };
         },
         getRenderTemplate: function(render_state, props) {

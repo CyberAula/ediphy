@@ -18,7 +18,8 @@ export function FlashObject(base) {
                 initialWidthSlide: '30%',
                 initialHeightSlide: '30%',
                 icon: 'flash_on',
-
+                createFromLibrary: ['swf', 'url'],
+                searchIcon: true,
             };
         },
         getToolbar: function(state) {
