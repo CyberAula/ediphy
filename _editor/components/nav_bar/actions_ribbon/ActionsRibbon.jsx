@@ -6,7 +6,10 @@ import './_ActionsRibbon.scss';
 import Alert from '../../common/alert/Alert';
 import Clipboard from '../../clipboard/Clipboard';
 import { isSlide, isBox, isSortableBox } from '../../../../common/utils';
-export default class ActionsRibbon extends Component {
+import { connect } from 'react-redux';
+import { changeBoxLayer } from '../../../../common/actions';
+
+class ActionsRibbon extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -26,6 +29,7 @@ export default class ActionsRibbon extends Component {
      * @returns {code}
      */
     render() {
+
         let onClick = (e)=>{this.setState({ clipboardAlert: !this.state.clipboardAlert }); return true;};
         // TODO document.queryCommandSupported(act.key)
         let clipboardActions = [
@@ -51,10 +55,19 @@ export default class ActionsRibbon extends Component {
             disable_bt = this.props.boxSelected === -1 || page.boxes.length === 2;
         } */
         let layerActions = [
-            { key: "BringtoFront", i18nkey: "order.BringtoFront", icon: "flip_to_front", disabled: (disable_bt || box_layer === boxes.length - 1), onClick: () => { this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'front', boxes);} },
-            { key: "Ahead", i18nkey: "order.Ahead", icon: "flip_to_front", disabled: (disable_bt || box_layer === boxes.length - 1), onClick: () => { this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'ahead', boxes);} },
-            { key: "Behind", i18nkey: "order.Behind", icon: "flip_to_back", disabled: (disable_bt || box_layer === 0), onClick: () => { this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'behind', boxes);} },
-            { key: "SendtoBack", i18nkey: "order.SendtoBack", icon: "flip_to_back", disabled: (disable_bt || box_layer === 0), onClick: () => { this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'back', boxes);} },
+            { key: "BringtoFront", i18nkey: "order.BringtoFront", icon: "flip_to_front", disabled: (disable_bt || box_layer === boxes.length - 1), onClick: () => {
+                this.props.dispatch(changeBoxLayer(this.props.boxSelected, page.id, container, 'front', boxes));
+            } },
+            { key: "Ahead", i18nkey: "order.Ahead", icon: "flip_to_front", disabled: (disable_bt || box_layer === boxes.length - 1), onClick: () => {
+                this.props.dispatch(changeBoxLayer(this.props.boxSelected, page.id, container, 'ahead', boxes));
+            } },
+            { key: "Behind", i18nkey: "order.Behind", icon: "flip_to_back", disabled: (disable_bt || box_layer === 0), onClick: () => {
+                this.props.dispatch(changeBoxLayer(this.props.boxSelected, page.id, container, 'behind', boxes));
+            } },
+            { key: "SendtoBack", i18nkey: "order.SendtoBack", icon: "flip_to_back", disabled: (disable_bt || box_layer === 0), onClick: () => {
+                this.props.dispatch(changeBoxLayer(this.props.boxSelected, page.id, container, 'back', boxes));
+
+            } },
             "separator",
             { key: "Grid", i18nkey: "Grid", icon: "grid_on", disabled: false, onClick: this.props.onGridToggle },
             "separator",
@@ -82,19 +95,7 @@ export default class ActionsRibbon extends Component {
                             return <span id="vs" key={ind} />;
                         }
                         return button(act, ind);}) : null }
-                    <Clipboard boxes={this.props.boxes} key="clipboard"
-                        boxSelected={this.props.boxSelected}
-                        navItemSelected={this.props.navItemSelected}
-                        containedViewSelected={this.props.containedViewSelected}
-                        navItems={this.props.navItems}
-                        containedViews={this.props.containedViews}
-                        toolbars={this.props.pluginToolbars}
-                        marks={this.props.marks}
-                        exercises={this.props.exercises}
-                        onBoxPasted={this.props.onBoxPasted}
-                        onBoxAdded={this.props.onBoxAdded}
-                        uploadFunction={this.props.uploadFunction}
-                        onBoxDeleted={this.props.onBoxDeleted} >
+                    <Clipboard key="clipboard" >
                         { clipboardActions.map((act, ind)=>{
                             return button(act, ind);
                         })}
@@ -120,6 +121,22 @@ export default class ActionsRibbon extends Component {
 
         </Alert>;
     }
+}
+
+export default connect(mapStateToProps)(ActionsRibbon);
+
+function mapStateToProps(state) {
+    return {
+        navItemSelected: state.undoGroup.present.navItemSelected,
+        containedViewSelected: state.undoGroup.present.containedViewSelected,
+        boxSelected: state.undoGroup.present.boxSelected,
+        boxes: state.undoGroup.present.boxesById,
+        navItems: state.undoGroup.present.navItemsById,
+        marks: state.undoGroup.present.marksById,
+        exercises: state.undoGroup.present.exercises,
+        containedViews: state.undoGroup.present.containedViewsById,
+        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+    };
 }
 
 ActionsRibbon.propTypes = {

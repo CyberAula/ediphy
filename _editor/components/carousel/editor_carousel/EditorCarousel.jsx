@@ -30,43 +30,12 @@ export default class EditorCarousel extends Component {
                 }}>
                 <CarouselHeader carouselFull={this.props.carouselFull}
                     carouselShow={this.props.carouselShow}
-                    courseTitle={this.props.globalConfig.title}
+                    courseTitle={this.props.title}
                     onTitleChanged={this.props.onTitleChanged}
                     onToggleFull={this.props.onToggleFull}
                     onToggleWidth={this.props.onToggleWidth} />
-                <CarouselList id={0}
-                    carouselShow={this.props.carouselShow}
-                    containedViews={this.props.containedViews}
-                    containedViewSelected={this.props.containedViewSelected}
-                    boxes={this.props.boxes}
-                    navItemsIds={this.props.navItemsIds}
-                    navItems={this.props.navItems}
-                    navItemSelected={this.props.navItemSelected}
-                    indexSelected={this.props.indexSelected}
-                    onBoxAdded={this.props.onBoxAdded}
-                    onContainedViewDeleted={this.props.onContainedViewDeleted}
-                    onContainedViewSelected={this.props.onContainedViewSelected}
-                    onContainedViewNameChanged={this.props.onContainedViewNameChanged}
-                    onNavItemNameChanged={this.props.onNavItemNameChanged}
-                    onNavItemAdded={this.props.onNavItemAdded}
-                    onNavItemSelected={this.props.onNavItemSelected}
-                    onIndexSelected={this.props.onIndexSelected}
-                    onNavItemExpanded={this.props.onNavItemExpanded}
-                    onNavItemDeleted={this.props.onNavItemDeleted}
-                    onNavItemReordered={this.props.onNavItemReordered}
-                    viewToolbars={this.props.viewToolbars} />
-                <CarouselButtons boxes={this.props.boxes}
-                    carouselShow={this.props.carouselShow}
-                    containedViews={this.props.containedViews}
-                    indexSelected={this.props.indexSelected}
-                    navItems={this.props.navItems}
-                    navItemsIds={this.props.navItemsIds}
-                    onNavItemAdded={this.props.onNavItemAdded}
-                    onNavItemReordered={this.props.onNavItemReordered}
-                    onBoxAdded={this.props.onBoxAdded}
-                    onIndexSelected={this.props.onIndexSelected}
-                    onContainedViewDeleted={this.props.onContainedViewDeleted}
-                    onNavItemDeleted={this.props.onNavItemDeleted} />
+                <CarouselList id={0} carouselShow={this.props.carouselShow} />
+                <CarouselButtons carouselShow={this.props.carouselShow} />
             </div>
         );
     }
@@ -75,85 +44,9 @@ export default class EditorCarousel extends Component {
 
 EditorCarousel.propTypes = {
     /**
-     * Contained views dictionary (identified by its ID)
+     * Document title
      */
-    containedViews: PropTypes.object.isRequired,
-    /**
-     * Selected contained view (by ID)
-     */
-    containedViewSelected: PropTypes.any,
-    /**
-     * Object containing all created boxes (by id)
-     */
-    boxes: PropTypes.object.isRequired,
-    /**
-     * Objects Array that contains all created views (identified by its *id*)
-     */
-    navItemsIds: PropTypes.array.isRequired,
-    /**
-     * Object containing all views (by id)
-     */
-    navItems: PropTypes.object.isRequired,
-    /**
-     * Current selected view (by ID)
-     */
-    navItemSelected: PropTypes.any,
-    /**
-     * View/Contained view selected at the index
-     */
-    indexSelected: PropTypes.any,
-    /**
-     * Callback for adding a box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
-    /**
-     *  Removes a contained view
-     */
-    onContainedViewDeleted: PropTypes.func.isRequired,
-    /**
-     *  Callback for selecting contained view
-     */
-    onContainedViewSelected: PropTypes.func.isRequired,
-    /**
-     * Callback for renaming contained view
-     */
-    onContainedViewNameChanged: PropTypes.func.isRequired,
-    /**
-     * Callback for renaming view
-     */
-    onNavItemNameChanged: PropTypes.func.isRequired,
-    /**
-     * Function for adding a new view
-     */
-    onNavItemAdded: PropTypes.func.isRequired,
-    /**
-     * Selects view
-     */
-    onNavItemSelected: PropTypes.func.isRequired,
-    /**
-     * Selects a view/contained view in the index's context
-     */
-    onIndexSelected: PropTypes.func.isRequired,
-    /**
-     * Expands navItem (only for sections)
-     */
-    onNavItemExpanded: PropTypes.func.isRequired,
-    /**
-     * Removes a view
-     */
-    onNavItemDeleted: PropTypes.func.isRequired,
-    /**
-     * Callback for reordering navItems
-     */
-    onNavItemReordered: PropTypes.func.isRequired,
-    /**
-     * Modifies the course's title
-     */
-    onTitleChanged: PropTypes.func.isRequired,
-    /**
-     * Course title
-     */
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     /**
      * Indicates whether the index has been expanded or not
      */
@@ -170,16 +63,5 @@ EditorCarousel.propTypes = {
      * Modifies the index's width
      */
     onToggleWidth: PropTypes.func.isRequired,
-    /**
-     *  Object that cointains the course's global configuration, stored in the Redux state
-     */
-    globalConfig: PropTypes.object,
-    /**
-     * Object containing all the pages' toolbars
-     */
-    viewToolbars: PropTypes.object,
-    /**
-     * Function that updates the toolbar of a view
-     */
-    onToolbarUpdated: PropTypes.func,
+
 };

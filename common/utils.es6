@@ -443,3 +443,15 @@ export function getDescendantBoxesFromContainer(box, container, boxes, contained
     }
     return selected;
 }
+
+export function getDescendantViews(view, views) {
+    let selected = [];
+
+    for (let i = 0; i < view.children.length; i++) {
+        let vw = view.children[i];
+        selected.push(vw);
+        selected = selected.concat(getDescendantViews(views[vw]), views);
+    }
+
+    return selected;
+}

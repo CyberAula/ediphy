@@ -33,19 +33,13 @@ export default class EditorNavBar extends Component {
                 <div className="grad1" />
                 <div className="identity"><span className="highlight">ED</span>iphy</div>
                 <PluginsMenu category={this.props.category} hideTab={this.props.hideTab} setcat={this.props.setcat} />
-                <NavActionButtons boxSelected={this.props.boxSelected}
-                    changeGlobalConfig={this.props.changeGlobalConfig}
-                    globalConfig={this.props.globalConfig}
-                    navItemSelected={this.props.navItemSelected}
-                    navItems={this.props.navItems}
+                <NavActionButtons
                     onTextEditorToggled={this.props.onTextEditorToggled}
-                    redo={this.props.redo}
                     redoDisabled={this.props.redoDisabled}
+                    undoDisabled={this.props.undoDisabled}
                     publishing={this.props.publishing}
                     save={this.props.save}
                     serverModalOpen={this.props.serverModalOpen}
-                    undo={this.props.undo}
-                    undoDisabled={this.props.undoDisabled}
                     visor={this.props.visor} />
                 <NavDropdown /* export={this.props.export}*/
                     navItemSelected={this.props.navItemSelected}
@@ -167,46 +161,11 @@ EditorNavBar.propTypes = {
      * Cambia la categoría de plugins seleccionada
      */
     setcat: PropTypes.func.isRequired,
-    /**
-     * Adds a view
-     */
-    onNavItemAdded: PropTypes.func.isRequired,
-    /**
-   * Adds several views
-   */
-    onNavItemsAdded: PropTypes.func.isRequired,
+
     /**
    * Select view/contained view in the index context
    */
     onIndexSelected: PropTypes.func.isRequired,
-    /**
-   * Select view
-   */
-    onNavItemSelected: PropTypes.func.isRequired,
-    /**
-   * Objects Array that contains all created views (identified by its *id*)
-   */
-    navItemsIds: PropTypes.array.isRequired,
-    /**
-   * Object that contains all created views (identified by its *id*)
-   */
-    navItems: PropTypes.object.isRequired,
-    /**
-   * Contained views dictionary (identified by its ID)
-   */
-    containedViews: PropTypes.object.isRequired,
-    /**
-   * Selected contained view (by ID)
-   */
-    containedViewSelected: PropTypes.any,
-    /**
-     * Object containing all created boxes (by id)
-     */
-    boxes: PropTypes.object,
-    /**
-     * Callback for adding a box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
 
 };
 

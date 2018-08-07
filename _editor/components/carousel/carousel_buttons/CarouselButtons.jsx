@@ -3,11 +3,18 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Tooltip, Button, OverlayTrigger, Popover, Overlay } from 'react-bootstrap';
+import {
+    selectContainedView,
+    addNavItem, addBox,
+    expandNavItem, updateViewToolbar,
+    reorderNavItem,
+    selectIndex,
+    deleteContainedView, deleteNavItem } from '../../../../common/actions';
 
 import { ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../common/constants';
-import { isSection, isContainedView, calculateNewIdOrder } from '../../../../common/utils';
+import { isSection, isContainedView, calculateNewIdOrder, getDescendantLinkedBoxes, getDescendantBoxes, getDescendantViews } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
-
+import { connect } from 'react-redux';
 import './_carouselButtons.scss';
 import TemplatesModal from "../templates_modal/TemplatesModal";
 
@@ -15,7 +22,7 @@ import TemplatesModal from "../templates_modal/TemplatesModal";
  * Ediphy CarouselButtons Component
  * Buttons at the bottom of the carousel, that allow creating new views and removing existing ones
  */
-export default class CarouselButtons extends Component {
+class CarouselButtons extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -88,6 +95,7 @@ export default class CarouselButtons extends Component {
     * @returns {code}
     */
     render() {
+        let dispatch = this.props.dispatch;
         return (
             <div id="addbuttons" className="bottomGroup" style={{ display: this.props.carouselShow ? 'block' : 'none' }}>
                 <div className="bottomLine" />
@@ -97,34 +105,11 @@ export default class CarouselButtons extends Component {
                         disabled={ this.props.indexSelected === -1 || isContainedView(this.props.indexSelected) || this.props.navItems[this.props.indexSelected].level >= 10}
                         onClick={e => {
                             let idnuevo = ID_PREFIX_SECTION + Date.now();
-                            this.props.onNavItemAdded(
-                                idnuevo,
+                            dispatch(addNavItem(idnuevo,
                                 i18n.t("section"),
                                 this.getParent().id,
                                 PAGE_TYPES.SECTION,
-                                this.calculatePosition()
-                            );
-                            // TODO: finish this code to reorder after add a section
-                            // this.props.onNavItemReordered(
-                            //     this.props.indexSelected, // item moved
-                            //     idnuevo, // new parent
-                            //     this.props.navItems[this.props.indexSelected].parent, // old parent
-                            //     calculateNewIdOrder(this.props.navItemsIds, [this.props.indexSelected], idnuevo, this.props.indexSelected, this.props.navItems),
-                            //     [this.props.indexSelected]
-                            // );
-
-                            /*
-                            if(Ediphy.Config.sections_have_content) {
-                                this.props.onBoxAdded({
-                                    parent: idnuevo,
-                                    container: 0,
-                                    id: ID_PREFIX_SORTABLE_BOX + Date.now(), page: idnuevo },
-                                false,
-                                false
-                                );
-                            }
-                            */
-
+                                this.calculatePosition()));
                             e.stopPropagation();
 
                         }}><i className="material-icons">create_new_folder</i>
@@ -139,7 +124,7 @@ export default class CarouselButtons extends Component {
                         disabled={isContainedView(this.props.indexSelected)}
                         onClick={e =>{
                             let newId = ID_PREFIX_PAGE + Date.now();
-                            this.props.onNavItemAdded(
+                            dispatch(addNavItem(
                                 newId,
                                 i18n.t("page"),
                                 this.getParent().id,
@@ -150,7 +135,7 @@ export default class CarouselButtons extends Component {
                                 false,
                                 false,
                                 ID_PREFIX_SORTABLE_BOX + Date.now(),
-                            );
+                            ));
                         }}><i className="material-icons">note_add</i></Button>
                 </OverlayTrigger>
 
@@ -162,33 +147,9 @@ export default class CarouselButtons extends Component {
                         disabled={isContainedView(this.props.indexSelected)}
                         onClick={e => {
                             this.toggleTemplatesModal();
-                            // let newId = ID_PREFIX_PAGE + Date.now();
-                            // this.props.onNavItemAdded(
-                            //     newId,
-                            //     i18n.t("slide"),
-                            //     this.getParent().id,
-                            //     PAGE_TYPES.SLIDE,
-                            //     this.calculatePosition(),
-                            //     "rgb(255,255,255)",
-                            //     0,
-                            // );
-                            // this.props.onIndexSelected(newId);
                         }}><i className="material-icons">slideshow</i>
                     </Button>
                 </OverlayTrigger>
-                {/*
-                 <OverlayTrigger placement="top" overlay={
-                 <Tooltip  id="hideNavItemTooltip">{i18n.t('display')}
-                 </Tooltip>}>
-                 <Button className="carouselButton">
-                 <i className="material-icons"
-                 onClick={e => {
-                 this.props.onNavItemToggled(this.props.navItemSelected);
-                 }}>{this.props.navItems[this.props.navItemSelected].hidden ? "visibility_off" : "visibility"}</i>
-                 </Button>
-                 </OverlayTrigger>
-                 */}
-
                 <OverlayTrigger placement="top" overlay={
                     <Tooltip id="deleteTooltip">{i18n.t('delete')}
                     </Tooltip>}>
@@ -231,12 +192,31 @@ export default class CarouselButtons extends Component {
                             onClick={(e) => {
                                 if(this.props.indexSelected !== 0) {
                                     if (isContainedView(this.props.indexSelected) /* && this.canDeleteContainedView(this.props.indexSelected)*/) {
-                                        this.props.onContainedViewDeleted(this.props.indexSelected);
+                                        let cvid = this.props.indexSelected;
+                                        let boxesRemoving = [];
+                                        containedViews[cvid].boxes.map(boxId => {
+                                            boxesRemoving.push(boxId);
+                                            boxesRemoving = boxesRemoving.concat(getDescendantBoxes(boxes[boxId], boxes));
+                                        });
+
+                                        dispatch(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
                                     } else {
-                                        this.props.onNavItemDeleted(this.props.indexSelected);
+                                        let navsel = this.props.indexSelected;
+                                        let viewRemoving = [navsel].concat(getDescendantViews(this.props.navItems[navsel]));
+                                        let boxesRemoving = [];
+                                        let containedRemoving = {};
+                                        viewRemoving.map(id => {
+                                            this.props.navItems[id].boxes.map(boxId => {
+                                                boxesRemoving.push(boxId);
+                                                boxesRemoving = boxesRemoving.concat(getDescendantBoxes(boxes[boxId], boxes));
+                                            });
+                                        });
+                                        let marksRemoving = getDescendantLinkedBoxes(viewRemoving, this.props.navItems) || [];
+                                        dispatch(deleteNavItem(viewRemoving, this.props.navItems[navsel].parent, boxesRemoving, containedRemoving, marksRemoving));
+
                                     }
                                 }
-                                this.props.onIndexSelected(0);
+                                dispatch(selectIndex(0));
                                 this.setState({ showOverlay: false });}}>
 
                             {i18n.t("Accept")}
@@ -249,10 +229,10 @@ export default class CarouselButtons extends Component {
                     close={this.toggleTemplatesModal}
                     navItems={this.props.navItems}
                     boxes={this.props.boxes}
-                    onNavItemAdded={(id, name, type, color, num, extra)=> {this.props.onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra);}}
-                    onIndexSelected={this.props.onIndexSelected}
+                    onNavItemAdded={(id, name, type, color, num, extra)=> {dispatch(addNavItem(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra));}}
+                    onIndexSelected={(...params)=>{dispatch(selectIndex(...params));}}
                     indexSelected={this.props.indexSelected}
-                    onBoxAdded={this.props.onBoxAdded}
+                    onBoxAdded={(...props)=>{dispatch(addBox(...props));}}
                     calculatePosition={this.calculatePosition}/>
             </div>
         );
@@ -265,6 +245,17 @@ export default class CarouselButtons extends Component {
             showTemplates: !prevState.showTemplates,
         }));
     }
+}
+export default connect(mapStateToProps)(CarouselButtons);
+
+function mapStateToProps(state) {
+    return {
+        boxes: state.undoGroup.present.boxesById,
+        containedViews: state.undoGroup.present.containedViewsById,
+        indexSelected: state.undoGroup.present.indexSelected,
+        navItems: state.undoGroup.present.navItemsById,
+        navItemsIds: state.undoGroup.present.navItemsIds,
+    };
 }
 
 CarouselButtons.propTypes = {
@@ -288,26 +279,6 @@ CarouselButtons.propTypes = {
      * Array containing all created views, each identified by its *id*
      */
     navItemsIds: PropTypes.array.isRequired,
-    /**
-     * Adds a view
-     */
-    onNavItemAdded: PropTypes.func.isRequired,
-    /**
-     * Callback for adding a box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
-    /**
-     * Selects a view/contained view in the index's context
-     */
-    onIndexSelected: PropTypes.func.isRequired,
-    /**
-     * Removes a contained view
-     */
-    onContainedViewDeleted: PropTypes.func.isRequired,
-    /**
-     * Removes a view
-     */
-    onNavItemDeleted: PropTypes.func.isRequired,
     /**
      * Index displayed indicator
      */

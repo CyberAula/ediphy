@@ -8,10 +8,13 @@ import { ADD_BOX } from '../../../common/actions';
 import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent, isURL, copyText } from './clipboard.utils';
 import i18n from 'i18next';
 import { instanceExists, scrollElement, findBox, createBox } from '../../../common/common_tools';
+import { connect } from 'react-redux';
+import { uploadVishResourceAsync, uploadEdiphyResourceAsync, deleteBox, addBox } from '../../../common/actions';
+
 /**
  * Component for managing the clipboard
  */
-export default class Clipboard extends Component {
+class Clipboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -111,7 +114,7 @@ export default class Clipboard extends Component {
         let fromPlugin = this.copyListener(event);
         if (fromPlugin) {
             let box = this.props.boxes[this.props.boxSelected];
-            this.props.onBoxDeleted(box.id, box.parent, box.container, this.currentPage());
+            this.props.dispatch(deleteBox(box.id, box.parent, box.container, this.currentPage()));
         }
     }
     /**
@@ -211,9 +214,7 @@ export default class Clipboard extends Component {
                 newMarks[newId] = newMark;
             }
         }
-
-        this.props.onBoxPasted({ ...ids, config }, transformedBox.newBox, transformedToolbar, transformedChildren, index, newMarks, data.score);
-
+        this.props.dispatch(pasteBox({ ...ids, config }, transformedBox.newBox, transformedToolbar, transformedChildren, index, newMarks, data.score));
     }
 
     /**
@@ -302,12 +303,14 @@ export default class Clipboard extends Component {
                     };
                     // If it is an image
                     let noImage = true;
+                    let onBoxAdded = (...params)=>this.props.dispatch(addBox(...params));
                     try {
-                        let uploadFunction = this.props.uploadFunction;
+                        let uploadFunctionAction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? uploadVishResourceAsync : uploadEdiphyResourceAsync;
+                        let uploadFunction = (...params) => {return this.props.dispatch(uploadFunctionAction(...params));};
                         noImage = retrieveImageFromClipboardAsBase64(event, uploadFunction, (url) => {
                             if (url) {
                                 initialParams.url = url; // URLObj.createObjectURL(imageBlob);
-                                createBox(initialParams, "HotspotImages", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                createBox(initialParams, "HotspotImages", isTargetSlide, onBoxAdded, this.props.boxes);
                                 return;
                             }
                         }
@@ -327,16 +330,16 @@ export default class Clipboard extends Component {
                             if (tag === 'IFRAME') {
                                 if (type === 'scormpackage') {
                                     initialParams.url = src;
-                                    createBox(initialParams, "ScormPackage", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                    createBox(initialParams, "ScormPackage", isTargetSlide, onBoxAdded, this.props.boxes);
                                     return;
                                 }
                                 initialParams.url = src;
-                                createBox(initialParams, "Webpage", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                createBox(initialParams, "Webpage", isTargetSlide, onBoxAdded, this.props.boxes);
                                 return;
 
                             } else if (tag === "EMBED") {
                                 initialParams.url = src;
-                                createBox(initialParams, "FlashObject", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                createBox(initialParams, "FlashObject", isTargetSlide, onBoxAdded, this.props.boxes);
                                 return;
                             }
                         } catch(err) {
@@ -347,7 +350,7 @@ export default class Clipboard extends Component {
                         if (isURL(initialParams.text)) {
                             initialParams.text = '<a href="' + initialParams.text + '">' + initialParams.text + '</a>';
                         }
-                        createBox(initialParams, "BasicText", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                        createBox(initialParams, "BasicText", isTargetSlide, onBoxAdded, this.props.boxes);
 
                     }
                 }
@@ -475,15 +478,24 @@ export default class Clipboard extends Component {
     }
 
 }
+
+export default connect(mapStateToProps)(Clipboard);
+
+function mapStateToProps(state) {
+    return {
+        navItemSelected: state.undoGroup.present.navItemSelected,
+        containedViewSelected: state.undoGroup.present.containedViewSelected,
+        boxSelected: state.undoGroup.present.boxSelected,
+        boxes: state.undoGroup.present.boxesById,
+        navItems: state.undoGroup.present.navItemsById,
+        marks: state.undoGroup.present.marksById,
+        exercises: state.undoGroup.present.exercises,
+        containedViews: state.undoGroup.present.containedViewsById,
+        toolbars: state.undoGroup.present.pluginToolbarsById,
+    };
+}
+
 Clipboard.propTypes = {
-    /**
-     * Paste box function
-     */
-    onBoxPasted: PropTypes.func.isRequired,
-    /**
-     * Delete box function
-     */
-    onBoxDeleted: PropTypes.func.isRequired,
     /**
       * Selected box
       */
@@ -496,10 +508,6 @@ Clipboard.propTypes = {
       * Object containing all created boxes (by id)
       */
     boxes: PropTypes.object,
-    /**
-   * Current selected view (by ID)
-   */
-    navItemSelected: PropTypes.any,
     /**
    * Contained view selected
    */
@@ -521,16 +529,7 @@ Clipboard.propTypes = {
      */
     marks: PropTypes.object,
     /**
-     * Function for adding a new box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
-    /**
        * Object containing all exercises
        */
     exercises: PropTypes.object,
-    /**
-     *  Function for uploading a file to the server
-     */
-    uploadFunction: PropTypes.func.isRequired,
 };
-

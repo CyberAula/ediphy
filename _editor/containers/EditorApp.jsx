@@ -7,8 +7,7 @@ import {
     addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeBackground, changeSortableProps,
     reorderBoxes, verticallyAlignBox, selectIndex,
-    toggleTextEditor, toggleTitleMode, pasteBox, changeBoxLayer,
-    changeDisplayMode, configScore,
+    toggleTextEditor, toggleTitleMode, pasteBox, changeBoxLayer, configScore,
     exportStateAsync, importStateAsync, importState, changeGlobalConfig,
     uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
@@ -134,7 +133,7 @@ class EditorApp extends Component {
     render() {
         const { dispatch, boxes, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, filesUploaded, indexSelected, exercises,
-            undoDisabled, redoDisabled, displayMode, isBusy, pluginToolbars, viewToolbars, marks, lastActionDispatched, globalConfig } = this.props;
+            undoDisabled, redoDisabled, isBusy, pluginToolbars, viewToolbars, marks, lastActionDispatched, globalConfig } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
         let status = this.props.status;
@@ -151,26 +150,11 @@ class EditorApp extends Component {
                     {this.createInitModal()}
                     {this.state.alert}
                     <EditorNavBar hideTab={this.state.hideTab} boxes={boxes}
-                        onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                         globalConfig={{ ...globalConfig, status, everPublished }}
                         changeGlobalConfig={(prop, value) => {dispatch(changeGlobalConfig(prop, value));}}
-                        onIndexSelected={(id) => dispatch(selectIndex(id))}
-                        onNavItemSelected={id => dispatch(selectNavItem(id))}
-                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
-                        onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
                         onTextEditorToggled={this.onTextEditorToggled}
-                        onToolbarUpdated={this.onToolbarUpdated}
-                        onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
                         undoDisabled={undoDisabled}
                         redoDisabled={redoDisabled}
-                        navItemsIds={navItemsIds}
-                        navItems={navItems}
-                        containedViews={containedViews}
-                        containedViewSelected={containedViewSelected}
-                        navItemSelected={navItemSelected}
-                        boxSelected={boxSelected}
-                        undo={() => {dispatch(ActionCreators.undo());}}
-                        redo={() => {dispatch(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
                         publishing={() =>this.setState({ publishing: true })}
                         openExitModal={()=>this.setState({ showExitModal: true })}
@@ -198,49 +182,8 @@ class EditorApp extends Component {
                 </Row>
                 <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
                     <EditorCarousel boxes={boxes}
-                        globalConfig={globalConfig}
                         onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig(id, titleStr));}}
                         title={title}
-                        containedViews={containedViews}
-                        containedViewSelected={containedViewSelected}
-                        indexSelected={indexSelected}
-                        navItemsIds={navItemsIds}
-                        navItems={navItems}
-                        navItemSelected={navItemSelected}
-                        displayMode={displayMode}
-                        viewToolbars={viewToolbars}
-                        onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
-                        onIndexSelected={(id) => dispatch(selectIndex(id))}
-                        onContainedViewNameChanged={(id, titleStr) => dispatch(updateViewToolbar(id, titleStr))}
-                        onContainedViewSelected={ (id) => dispatch(selectContainedView(id)) }
-                        onContainedViewDeleted={(cvid)=>{
-                            let boxesRemoving = [];
-                            containedViews[cvid].boxes.map(boxId => {
-                                boxesRemoving.push(boxId);
-                                boxesRemoving = boxesRemoving.concat(getDescendantBoxes(boxes[boxId], boxes));
-                            });
-
-                            dispatch(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
-                        }}
-                        onNavItemNameChanged={(id, titleStr) => dispatch(updateViewToolbar(id, titleStr))}
-                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
-                        onNavItemSelected={id => dispatch(selectNavItem(id))}
-                        onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
-                        onNavItemDeleted={(navsel) => {
-                            let viewRemoving = [navsel].concat(this.getDescendantViews(navItems[navsel]));
-                            let boxesRemoving = [];
-                            let containedRemoving = {};
-                            viewRemoving.map(id => {
-                                navItems[id].boxes.map(boxId => {
-                                    boxesRemoving.push(boxId);
-                                    boxesRemoving = boxesRemoving.concat(getDescendantBoxes(boxes[boxId], boxes));
-                                });
-                            });
-                            let marksRemoving = getDescendantLinkedBoxes(viewRemoving, navItems) || [];
-                            dispatch(deleteNavItem(viewRemoving, navItems[navsel].parent, boxesRemoving, containedRemoving, marksRemoving));
-                        }}
-                        onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => dispatch(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
-                        onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))}
                         carouselShow={this.state.carouselShow}
                         carouselFull={this.state.carouselFull}
                         onToggleFull={() => {
@@ -253,7 +196,7 @@ class EditorApp extends Component {
                         onToggleWidth={()=>{
                             if(this.state.carouselShow) {
                                 this.setState({ carouselFull: false, carouselShow: false });
-                            }else{
+                            } else {
                                 this.setState({ carouselShow: true });
                             }
                         }}/>
@@ -264,20 +207,6 @@ class EditorApp extends Component {
                         <Row id="actionsRibbon">
                             <ActionsRibbon onGridToggle={()=> {this.setState({ grid: !this.state.grid });}}
                                 grid={this.state.grid}
-                                onBoxLayerChanged={(id, parent, container, value, boxes_array) => dispatch(changeBoxLayer(id, parent, container, value, boxes_array))}
-                                navItemSelected={navItemSelected}
-                                containedViewSelected={containedViewSelected}
-                                boxSelected={boxSelected}
-                                boxes={boxes}
-                                navItems={navItems}
-                                marks={marks}
-                                exercises={exercises}
-                                containedViews={containedViews}
-                                pluginToolbars={pluginToolbars}
-                                onBoxPasted={(ids, box, toolbar, children, index, markList, score)=>dispatch(pasteBox(ids, box, toolbar, children, index, markList, score))}
-                                onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
-                                onBoxDeleted={this.onBoxDeleted}
-                                uploadFunction={(query, keywords, callback) => dispatch(uploadFunction(query, keywords, callback))}
                                 ribbonHeight={ribbonHeight + 'px'}/>
                         </Row>
 
@@ -481,7 +410,6 @@ class EditorApp extends Component {
                     onBackgroundChanged={(id, background) => dispatch(changeBackground(id, background))}
                     onNavItemToggled={ id => dispatch(toggleNavItem(navItemSelected)) }
                     onNavItemSelected={id => dispatch(selectNavItem(id))}
-                    onNavItemNameChanged={(id, titleStr) => dispatch(changeNavItemName(id, titleStr))}
                     onContainedViewSelected={id => dispatch(selectContainedView(id))}
                     onColsChanged={(id, parent, distribution, boxesAffected) => dispatch(changeCols(id, parent, distribution, boxesAffected))}
                     onRowsChanged={(id, parent, column, distribution, boxesAffected) => dispatch(changeRows(id, parent, column, distribution, boxesAffected))}
@@ -817,18 +745,6 @@ class EditorApp extends Component {
         } else {
             this.props.dispatch(updateViewToolbar(id, tab, accordion, name, value));
         }
-    }
-
-    getDescendantViews(view) {
-        let selected = [];
-
-        for (let i = 0; i < view.children.length; i++) {
-            let vw = view.children[i];
-            selected.push(vw);
-            selected = selected.concat(this.getDescendantViews(this.props.navItems[vw]));
-        }
-
-        return selected;
     }
 
     onRichMarkUpdated(mark, createNew) {
