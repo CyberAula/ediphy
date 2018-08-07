@@ -2,7 +2,7 @@ import React from 'react';
 import { createBox } from '../../../../../common/common_tools';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../common/constants';
 import { randomPositionGenerator } from '../../../clipboard/clipboard.utils';
-import { isSlide, isBox, isDataURL, dataURItoBlob } from '../../../../../common/utils';
+import { isSlide, isBox, isDataURL, dataURItoBlob, isCanvasElement } from '../../../../../common/utils';
 import parseMoodleXML from '../../../../../core/editor/moodleXML';
 import i18n from 'i18next';
 
@@ -102,8 +102,9 @@ export default function handlers(self) {
                 });
             }
         } else {
+
             buttons.push({
-                title: i18n.t('FileModal.FileHandlers.replace'),
+                title: isCanvasElement(self.props.fileModalResult.id) ? i18n.t('FileModal.FileHandlers.replace_bckg') : i18n.t('FileModal.FileHandlers.replace'),
                 action: ()=>{
                     self.close({ id: self.props.fileModalResult.id, value: self.state.element });
                 },

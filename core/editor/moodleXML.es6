@@ -69,7 +69,7 @@ function xml2jsonParser(xmlDoc, callback) {
                         question: questiontext,
                         feedback,
                         state: {
-                            nBoxes: 3,
+                            nBoxes: answerTexts.length,
                             showFeedback,
                             letters: !useNumbers,
                         },

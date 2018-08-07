@@ -105,6 +105,7 @@ let en = {
                 'downloadAsFile': 'Download File',
                 'insert': 'Insert',
                 'replace': 'Replace',
+                'replace_bckg': 'Replace background',
                 'table': 'Table',
                 'graph': 'Graph',
                 'video': 'Video',
