@@ -410,3 +410,36 @@ export function dataURItoBlob(dataURI) {
     return blob;
 
 }
+
+export function getDescendantBoxes(box, boxes) {
+    let selected = [];
+
+    for (let i = 0; i < box.children.length; i++) {
+        for (let j = 0; j < box.sortableContainers[box.children[i]].children.length; j++) {
+            let bx = box.sortableContainers[box.children[i]].children[j];
+            selected.push(bx);
+            selected = selected.concat(getDescendantBoxes(boxes[bx], boxes));
+        }
+    }
+    return selected;
+}
+
+export function getDescendantBoxesFromContainer(box, container, boxes, containedViews) {
+    let selected = [];
+
+    for (let j = 0; j < box.sortableContainers[container].children.length; j++) {
+        let bx = box.sortableContainers[container].children[j];
+        selected.push(bx);
+        selected = selected.concat(getDescendantBoxes(boxes[bx], boxes));
+    }
+
+    for (let i = 0; i < box.containedViews.length; i++) {
+        let cv = box.containedViews[i];
+        for (let j = 0; j < containedViews[cv].boxes.length; j++) {
+            let bx = containedViews[cv].boxes[j];
+            selected.push(bx);
+            selected = selected.concat(getDescendantBoxes(boxes[bx], boxes));
+        }
+    }
+    return selected;
+}

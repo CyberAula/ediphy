@@ -37,6 +37,7 @@ import printToPDF from '../../core/editor/print';
 import {
     isSortableBox, isSection, isContainedView,
     getDescendantLinkedBoxes, isBox,
+    getDescendantBoxes, getDescendantBoxesFromContainer,
 } from '../../common/utils';
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
@@ -65,19 +66,15 @@ class EditorApp extends Component {
             pluginTab: '',
             hideTab: 'show',
             visorVisible: false,
-            xmlEditorVisible: false,
             richMarksVisible: false,
             markCreatorVisible: false,
-            containedViewsVisible: false,
             currentRichMark: null,
             carouselShow: true,
             carouselFull: false,
             serverModal: false,
             catalogModal: false,
-            lastAction: "",
             grid: false,
             pluginConfigModal: false,
-            accordions: {},
             publishing: false,
             blockDrag: false,
             showFileUpload: false,
@@ -97,7 +94,7 @@ class EditorApp extends Component {
         this.beforeUnloadAlert = this.beforeUnloadAlert.bind(this);
         this.dropListener = (ev) => {
             if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
-
+                //
             } else {
                 ev.preventDefault();
             }
@@ -220,7 +217,7 @@ class EditorApp extends Component {
                             let boxesRemoving = [];
                             containedViews[cvid].boxes.map(boxId => {
                                 boxesRemoving.push(boxId);
-                                boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
+                                boxesRemoving = boxesRemoving.concat(getDescendantBoxes(boxes[boxId], boxes));
                             });
 
                             dispatch(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
@@ -236,7 +233,7 @@ class EditorApp extends Component {
                             viewRemoving.map(id => {
                                 navItems[id].boxes.map(boxId => {
                                     boxesRemoving.push(boxId);
-                                    boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
+                                    boxesRemoving = boxesRemoving.concat(getDescendantBoxes(boxes[boxId], boxes));
                                 });
                             });
                             let marksRemoving = getDescendantLinkedBoxes(viewRemoving, navItems) || [];
@@ -244,11 +241,6 @@ class EditorApp extends Component {
                         }}
                         onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => dispatch(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
                         onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))}
-                        containedViewsVisible={this.state.containedViewsVisible}
-                        onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
-                        onContainedViewsExpand={()=>{
-                            this.setState({ containedViewsVisible: !this.state.containedViewsVisible });
-                        }}
                         carouselShow={this.state.carouselShow}
                         carouselFull={this.state.carouselFull}
                         onToggleFull={() => {
@@ -304,7 +296,6 @@ class EditorApp extends Component {
                         </Row>
                         <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
                             <EditorCanvas boxes={boxes}
-                                accordions={this.state.accordions}
                                 grid={this.state.grid}
                                 canvasRatio={canvasRatio}
                                 boxSelected={boxSelected}
@@ -363,7 +354,6 @@ class EditorApp extends Component {
                                 openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept, fileUploadTab: 1 });}}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}/>
                             <ContainedCanvas boxes={boxes}
-                                accordions={this.state.accordions}
                                 grid={this.state.grid}
                                 boxSelected={boxSelected}
                                 canvasRatio={canvasRatio}
@@ -449,7 +439,6 @@ class EditorApp extends Component {
                     visible={this.state.catalogModal}
                     onExternalCatalogToggled={() => this.setState({ catalogModal: !this.state.catalogModal })}/>}
                 <RichMarksModal boxSelected={boxSelected}
-                    accordions={this.state.accordions}
                     pluginToolbar={pluginToolbars[boxSelected]}
                     navItemSelected={navItemSelected}
                     pluginToolbars={pluginToolbars}
@@ -474,7 +463,6 @@ class EditorApp extends Component {
                         }
                     }}/>
                 <Toolbar top={(60 + ribbonHeight) + 'px'}
-                    accordions={this.state.accordions}
                     pluginToolbars={pluginToolbars}
                     openConfigModal={(id)=>{ this.setState({ pluginConfigModal: id }); } }
                     viewToolbars={viewToolbars}
@@ -507,7 +495,6 @@ class EditorApp extends Component {
                     onToolbarUpdated={this.toolbarUpdated}
                     onScoreConfig={(id, button, value, page)=>{dispatch(configScore(id, button, value, page));}}
                     onBoxDeleted={this.onBoxDeleted}
-                    onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}
                     onRichMarksModalToggled={() => {
                         this.setState({ richMarksVisible: !this.state.richMarksVisible });
                         if(this.state.richMarksVisible) {
@@ -539,7 +526,7 @@ class EditorApp extends Component {
                                                 let boxesRemoving = [];
                                                 containedViews[cvid].boxes.map(boxId => {
                                                     boxesRemoving.push(boxId);
-                                                    boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
+                                                    boxesRemoving = boxesRemoving.concat(getDescendantBoxes(boxes[boxId], this.props.boxes));
                                                 });
 
                                                 dispatch(deleteContainedView([cvid], boxesRemoving, thiscv.parent));
@@ -595,14 +582,6 @@ class EditorApp extends Component {
         );
     }
 
-    /**
-     * Dispatches Redux action and records it in React state as well
-     * @param actionCreator
-     */
-    dispatchAndSetState(actionCreator) {
-        let lastAction = this.props.dispatch(actionCreator);
-        this.setState({ lastAction: lastAction });
-    }
     /* Help Modal */
     createHelpModal() {
         return <Modal className="pageModal welcomeModal helpModal"
@@ -762,7 +741,7 @@ class EditorApp extends Component {
         }
     }
     onBoxDeleted(id, parent, container, page) {
-        let bx = this.getDescendantBoxes(this.props.boxes[id]);
+        let bx = getDescendantBoxes(this.props.boxes[id], this.props.boxes);
         let cvs = [...this.props.boxes[id].containedViews];
         bx.map(box=>{
             cvs = [...cvs, ...this.props.boxes[box].containedViews];
@@ -852,77 +831,6 @@ class EditorApp extends Component {
         return selected;
     }
 
-    getDescendantBoxes(box) {
-        let selected = [];
-
-        for (let i = 0; i < box.children.length; i++) {
-            for (let j = 0; j < box.sortableContainers[box.children[i]].children.length; j++) {
-                let bx = box.sortableContainers[box.children[i]].children[j];
-                selected.push(bx);
-                selected = selected.concat(this.getDescendantBoxes(this.props.boxes[bx]));
-            }
-        }
-        return selected;
-    }
-
-    getDescendantBoxesFromContainer(box, container) {
-        let selected = [];
-
-        for (let j = 0; j < box.sortableContainers[container].children.length; j++) {
-            let bx = box.sortableContainers[container].children[j];
-            selected.push(bx);
-            selected = selected.concat(this.getDescendantBoxes(this.props.boxes[bx]));
-        }
-
-        for (let i = 0; i < box.containedViews.length; i++) {
-            let cv = box.containedViews[i];
-            for (let j = 0; j < this.props.containedViews[cv].boxes.length; j++) {
-                let bx = this.props.containedViews[cv].boxes[j];
-                selected.push(bx);
-                selected = selected.concat(this.getDescendantBoxes(this.props.boxes[bx]));
-            }
-        }
-        return selected;
-    }
-
-    getDescendantContainedViews(box) {
-        let selected = [];
-
-        for (let i = 0; i < box.children.length; i++) {
-            for (let j = 0; j < box.sortableContainers[box.children[i]].children.length; j++) {
-                let bx = box.sortableContainers[box.children[i]].children[j];
-                selected = selected.concat(this.getDescendantContainedViews(this.props.boxes[bx]));
-            }
-        }
-        for (let i = 0; i < box.containedViews.length; i++) {
-            let cv = box.containedViews[i];
-            selected.push(cv);
-            for (let j = 0; j < this.props.containedViews[cv].boxes.length; j++) {
-                selected = selected.concat(this.getDescendantContainedViews(this.props.boxes[this.props.containedViews[cv].boxes[j]]));
-            }
-        }
-
-        return selected;
-    }
-
-    getDescendantContainedViewsFromContainer(box, container) {
-        let selected = [];
-
-        for (let j = 0; j < box.sortableContainers[container].children.length; j++) {
-            let bx = box.sortableContainers[container].children[j];
-            selected = selected.concat(this.getDescendantContainedViews(this.props.boxes[bx]));
-        }
-        for (let i = 0; i < box.containedViews.length; i++) {
-            let cv = box.containedViews[i];
-            selected.push(cv);
-            for (let j = 0; j < this.props.containedViews[cv].boxes.length; j++) {
-                selected = selected.concat(this.getDescendantContainedViews(this.props.boxes[this.props.containedViews[cv].boxes[j]]));
-            }
-        }
-
-        return selected;
-    }
-
     onRichMarkUpdated(mark, createNew) {
         let boxSelected = this.props.boxSelected;
         let mark_exist = this.props.marks[mark.id] !== undefined;
@@ -946,7 +854,7 @@ class EditorApp extends Component {
         let boxes = this.props.boxes;
         let containedViews = this.props.containedViews;
         let page = this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
-        let descBoxes = this.getDescendantBoxesFromContainer(boxes[parent], id);
+        let descBoxes = getDescendantBoxesFromContainer(boxes[parent], id, this.props.boxes, this.props.containedViews);
         let cvs = {};
         for (let b in descBoxes) {
             let box = boxes[descBoxes[b]];
@@ -958,21 +866,9 @@ class EditorApp extends Component {
                 }
             }
         }
-        this.props.dispatch(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/, page));
+        this.props.dispatch(deleteSortableContainer(id, parent, descBoxes, cvs, page));
     }
 
-    buildPluginToolbar(detail) {
-        let state = detail.state;
-        let styles = {};
-        // TODO Revisar
-        try {
-            Object.keys(detail.toolbar.main.accordions.style.buttons).map((e) => {
-                styles[e] = detail.toolbar.main.accordions.style.buttons[e].value;
-            });
-            // eslint-disable-next-line no-console
-        } catch(e) {console.error(e);}
-        return { state, styles };
-    }
     onTextEditorToggled(caller, value, text, content) {
         let pluginToolbar = this.props.pluginToolbars[caller];
         if(pluginToolbar && pluginToolbar.pluginId !== "sortable_container") {

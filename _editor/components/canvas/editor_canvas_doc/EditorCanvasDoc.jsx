@@ -96,7 +96,6 @@ export default class EditorCanvasDoc extends Component {
                 </div>
                 <EditorShortcuts
                     openConfigModal={this.props.openConfigModal}
-                    accordions={this.props.accordions}
                     box={this.props.boxes[this.props.boxSelected]}
                     containedViewSelected={this.props.containedViewSelected}
                     isContained={this.props.fromCV}
