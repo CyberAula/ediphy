@@ -15,11 +15,12 @@ import VISHIcon from './logos/vish.svg';
 import FlickrIcon from './logos/flickrsvg.svg';
 import EuropeanaIcon from './logos/europeanaalt.svg';
 import YoutubeIcon from './logos/youtube.svg';
+import PolyComponent from './PolyComponent';
 import SoundCloudIcon from './logos/soundcloud_logo_0.png';
 // import OpenClipArtIcon from './logos/openclipart.svg';
 // import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
 // import GiphyIcon from './logos/giphy.png';
-
+import PolyIcon from './logos/PolyLogo.png';
 import i18n from 'i18next';
 
 export default function menus(self) {
@@ -33,7 +34,7 @@ export default function menus(self) {
     return [
         {
             name: <span><i className="material-icons">file_upload</i>{i18n.t('FileModal.APIProviders.UploadFiles')}</span>,
-            show: allowedMIME,
+            show: allowedMIME && allowedMIME !== 'obj',
             component: UploadComponent,
             props: {
                 ...commonProps,
@@ -79,7 +80,7 @@ export default function menus(self) {
         {
             name: 'VISH',
             icon: VISHIcon,
-            show: !(avatar) ? ((allowedMIME && allowedMIME != 'csv') ? allowedMIME : false) : false,
+            show: !(avatar) ? ((allowedMIME && allowedMIME != 'csv' && allowedMIME != 'obj') ? allowedMIME : false) : false,
             component: SearchVishComponent,
             props: { ...commonProps,
             },
@@ -126,6 +127,13 @@ export default function menus(self) {
             icon: SoundCloudIcon,
             show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('audio')),
             component: SoundCloudComponent,
+            props: { ...commonProps },
+        },
+        {
+            name: 'Google Poly',
+            icon: PolyIcon,
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('webapp')),
+            component: PolyComponent,
             props: { ...commonProps },
         },
         /* {

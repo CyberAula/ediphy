@@ -499,6 +499,7 @@ let es = {
             "XML": "XML",
             "JSON": "JSON",
             "CSV": "CSV",
+            "OBJ": "OBJ",
             "All": "Todos",
             "Writing": "Escrito",
             "Zipfile": "Fichero ZIP",

@@ -1,20 +1,20 @@
 import React from 'react';
 /* eslint-disable react/prop-types */
-export function Webpage(base) {
+export function Google3DPolyObject(base) {
     return {
         getConfig: function() {
             return {
-                name: 'Webpage',
-                displayName: Ediphy.i18n.t('Webpage.PluginName'),
+                name: 'Google3DPolyObject',
+                displayName: Ediphy.i18n.t('Google3DPolyObject.PluginName'),
                 category: 'objects',
-                icon: 'public',
+                icon: '3d_rotation',
                 initialWidth: '70%',
                 initialHeight: "500px",
                 initialWidthSlide: '70%',
                 initialHeightSlide: '60%',
                 flavor: 'react',
-                createFromLibrary: ['webapp', 'url'],
-                searchIcon: 'type',
+                createFromLibrary: ['obj', 'url'],
+                searchIcon: true,
             };
         },
         getToolbar: function(state) {
@@ -23,18 +23,18 @@ export function Webpage(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: Ediphy.i18n.t('Webpage.URL'),
+                            __name: Ediphy.i18n.t('Google3DPolyObject.URL'),
                             icon: 'link',
                             buttons: {
                                 url: {
-                                    __name: Ediphy.i18n.t('Webpage.URL_copypaste'),
+                                    __name: Ediphy.i18n.t('Google3DPolyObject.URL_copypaste'),
                                     type: 'text',
                                     value: state.url,
                                 },
                             },
                         },
                         style: {
-                            __name: Ediphy.i18n.t('Webpage.box_style'),
+                            __name: Ediphy.i18n.t('Google3DPolyObject.box_style'),
                             icon: 'palette',
                             buttons: {
                                 padding: {
@@ -45,32 +45,32 @@ export function Webpage(base) {
                                     max: 100,
                                 },
                                 borderWidth: {
-                                    __name: Ediphy.i18n.t('Webpage.border_size'),
+                                    __name: Ediphy.i18n.t('Google3DPolyObject.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 10,
                                 },
                                 borderStyle: {
-                                    __name: Ediphy.i18n.t('Webpage.border_style'),
+                                    __name: Ediphy.i18n.t('Google3DPolyObject.border_style'),
                                     type: 'select',
                                     value: 'solid',
                                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
-                                    __name: Ediphy.i18n.t('Webpage.border_color'),
+                                    __name: Ediphy.i18n.t('Google3DPolyObject.border_color'),
                                     type: 'color',
                                     value: '#000000',
                                 },
                                 borderRadius: {
-                                    __name: Ediphy.i18n.t('Webpage.radius'),
+                                    __name: Ediphy.i18n.t('Google3DPolyObject.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 50,
                                 },
                                 opacity: {
-                                    __name: Ediphy.i18n.t('Webpage.opacity'),
+                                    __name: Ediphy.i18n.t('Google3DPolyObject.opacity'),
                                     type: 'range',
                                     value: 1,
                                     min: 0,
@@ -86,14 +86,11 @@ export function Webpage(base) {
         },
         getInitialState: function() {
             return {
-                url: 'http://vishub.org',
+                url: 'https://poly.google.com/view/0ivy-FxYrz9/embed',
             };
         },
         getRenderTemplate: function(state) {
-            if (state.url && state.url.match("poly.google.com")) {
-                return(<iframe width="100%" height="100%" src={state.url} frameBorder="0" style={{ width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0, border: '1px solid grey' }} allowvr="yes" allow="vr; xr; accelerometer; magnetometer; gyroscope; autoplay;" allowFullScreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel="" />);
-            }
-            return (<iframe style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none', border: '1px solid grey' }} src={state.url}/>);
+	        return(<iframe width="100%" height="100%" src={state.url} frameBorder="0" style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none', border: '1px solid grey' }} allowvr="yes" allow="vr; xr; accelerometer; magnetometer; gyroscope; autoplay;" allowFullScreen mozAllowFullScreen webkitAllowFullScreen onMouseWheel="" />);
         },
     };
 }

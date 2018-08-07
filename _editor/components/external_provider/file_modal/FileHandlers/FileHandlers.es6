@@ -17,6 +17,7 @@ export const extensionHandlers = {
     'webapp': { label: i18n.t("vish_search_types.Link"), value: 'webapp', icon: 'link' },
     'swf': { label: i18n.t("vish_search_types.Swf"), value: 'swf', icon: 'flash_on' },
     'xml': { label: i18n.t("vish_search_types.XML"), value: 'xml', icon: 'code' },
+    'obj': { label: i18n.t("vish_search_types.OBJ"), value: 'obj', icon: '3d_rotation' },
     // 'json': { label: i18n.t("vish_search_types.JSON"), value: 'json', icon: 'view_agenda' }
     // 'sla': { label: "Objeto 3D", value: 'sla', icon: 'devices_other' },
     // { label: "Objeto 3D", value: 'octet-stream', icon: 'devices_other' },
