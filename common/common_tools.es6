@@ -218,8 +218,9 @@ export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
     }
     addBox({ ...ids, config: apiPlugin.getConfig() }, true, slide, template, styles, state, undefined, initialParams);
     let basePrefix = ID_PREFIX_BOX + Date.now();
+    console.log(newBoxes);
     newBoxes.map((box, ind) => {
-        box.ids.id = basePrefix + ind;
+        box.ids.id = basePrefix + '_' + ind;
         if (box.ids && ids.exercises) {
             if (box.ids.container === 'sc-Question') {
                 box.ids.text = ids.exercises.question || box.ids.text;

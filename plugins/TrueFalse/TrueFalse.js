@@ -134,7 +134,10 @@ export function TrueFalse(base) {
                             onChange={()=>{clickHandler(i, "false");}} />
                     </div>
                     <div className={"col-xs-10"}>
-                        <PluginPlaceholder {...props} key={i + 1} plugin-data-display-name={i18n.t("TrueFalse.Answer") + " " + (i + 1)} plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("TrueFalse.Answer") + " " + (1 + i) + '</p>'} pluginContainer={"Answer" + i} />
+                        <PluginPlaceholder {...props} key={i + 1}
+                            plugin-data-display-name={i18n.t("TrueFalse.Answer") + " " + (i + 1)}
+                            pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("TrueFalse.Answer") + " " + (1 + i) + '</p>' } }]}
+                            pluginContainer={"Answer" + i} />
                     </div>
                 </div>
                 );
@@ -142,7 +145,10 @@ export function TrueFalse(base) {
             return <div className={"exercisePlugin truefalsePlugin"}>
                 <div className={"row"} key={-1}>
                     <div className={"col-xs-12"}>
-                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={i18n.t("TrueFalse.Question")} plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("TrueFalse.Statement") + '</p>'} pluginContainer={"Question"} />
+                        <PluginPlaceholder {...props} key="1"
+                            plugin-data-display-name={i18n.t("TrueFalse.Question")}
+                            pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("TrueFalse.Statement") + '</p>' } }]}
+                            pluginContainer={"Question"} />
                     </div>
                 </div>
                 <div className={"row TFRow"} key={0}>
@@ -156,7 +162,10 @@ export function TrueFalse(base) {
                 {answers}
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
                     <div className={"col-xs-12 feedback"}>
-                        <PluginPlaceholder {...props} key="-2" plugin-data-display-name={i18n.t("TrueFalse.Feedback")} plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("TrueFalse.FeedbackMsg") + '</p>'} pluginContainer={"Feedback"} />
+                        <PluginPlaceholder {...props} key="-2"
+                            plugin-data-display-name={i18n.t("TrueFalse.Feedback")}
+                            pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("TrueFalse.FeedbackMsg") + '</p>' } }/* , {plugin: 'HotspotImages', initialState:{url: 'nooo'}}*/]}
+                            pluginContainer={"Feedback"} />
                     </div>
                 </div>
             </div>;

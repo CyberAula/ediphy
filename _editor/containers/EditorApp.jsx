@@ -801,18 +801,21 @@ class EditorApp extends Component {
                                 this.props.dispatch(updatePluginToolbar(id, tab, accordion,
                                     [name, "__pluginContainerIds"],
                                     [value, pluginContainerIds]));
-                                createBox({
-                                    parent: id,
-                                    page,
-                                    container: s,
-                                    isDefaultPlugin: true,
-                                    text: defaultBoxes[s].__text,
-                                    id: ID_PREFIX_BOX + Date.now(),
-                                    draggable: true,
-                                    resizable: this.props.boxes[id].resizable,
-                                }, defaultBoxes[s].type, false,
-                                (ids, draggable, resizable, content, style, state, structure, initialParams)=>{this.props.dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams));},
-                                this.props.boxes);
+                                defaultBoxes[s].map((newBox, ind) => {
+                                    createBox({
+                                        parent: id,
+                                        page,
+                                        container: s,
+                                        isDefaultPlugin: true,
+                                        initialState: newBox.initialState,
+                                        id: ID_PREFIX_BOX + Date.now() + '_' + ind,
+                                        draggable: true,
+                                        resizable: this.props.boxes[id].resizable,
+                                    }, newBox.type, false,
+                                    (ids, draggable, resizable, content, style, state, structure, initialParams)=>{this.props.dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams));},
+                                    this.props.boxes);
+                                });
+
                                 return;
                             }
                         }

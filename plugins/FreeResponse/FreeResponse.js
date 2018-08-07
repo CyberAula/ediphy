@@ -114,15 +114,22 @@ export function FreeResponse(base) {
             return <div className={"exercisePlugin freeResponsePlugin"} > {/* <h1>Free Response</h1>*/}
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
-                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={i18n.t('FreeResponse.Question') } plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("FreeResponse.Statement") + '</p>'} pluginContainer={'Question'} />
-                        <textarea disabled={!state.correct} className="form-control textAreaQuiz" placeholder={i18n.t('FreeResponse.PlaceholderEditor')} value={props.exercises.correctAnswer} onChange={clickHandler}/>
+                        <PluginPlaceholder {...props} key="1"
+                            plugin-data-display-name={i18n.t('FreeResponse.Question') }
+                            pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("FreeResponse.Statement") + '</p>' } }]}
+                            pluginContainer={'Question'} />
+                        <textarea disabled={!state.correct} className="form-control textAreaQuiz"
+                            placeholder={i18n.t('FreeResponse.PlaceholderEditor')} value={props.exercises.correctAnswer} onChange={clickHandler}/>
                         {(state.correct && props.exercises.correctAnswer && props.exercises.correctAnswer.length && props.exercises.correctAnswer.length > 100) ? (
                             <div className={"tooManyCharacters"}>{i18n.t('FreeResponse.TooMany')}</div>) : null}
                     </div>
                 </div>
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
                     <div className={"col-xs-12 feedback"}>
-                        <PluginPlaceholder {...props} key="-2" plugin-data-display-name={i18n.t("FreeResponse.Feedback")} plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("FreeResponse.FeedbackMsg") + '</p>'} pluginContainer={"Feedback"} />
+                        <PluginPlaceholder {...props} key="-2"
+                            plugin-data-display-name={i18n.t("FreeResponse.Feedback")}
+                            pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("FreeResponse.FeedbackMsg") + '</p>' } }]}
+                            pluginContainer={"Feedback"} />
                     </div>
                 </div>
             </div>;
