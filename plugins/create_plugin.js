@@ -144,7 +144,7 @@ export function ${options.name}(base) {
                 initialHeightSlide: '30%',
                 icon: 'label',
                 ${options.isRich ? "isRich: true," : ""}
-                ${options.isRich ? "marksType: [{ name: 'Mark', key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#222222' }]," : ""}
+                ${options.isRich ? "marksType: { name: 'Mark', key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#222222' }," : ""}
             };
         },
         getToolbar: function(state) {
@@ -442,7 +442,10 @@ export function ${options.name}(base) {
                             onChange={clickHandler} />
                     </div>
                     <div className={"col-xs-10"}>
-                        <PluginPlaceholder {...props} key={i + 1} plugin-data-display-name={i18n.t("${options.name}.Answer") + " " + (i + 1)} plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("${options.name}.Answer") + " " + (1 + i) + '</p>'} pluginContainer={"Answer" + i} />
+                        <PluginPlaceholder {...props} key={i + 1} 
+                        plugin-data-display-name={i18n.t("${options.name}.Answer") + " " + (i + 1)} 
+                        pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("${options.name}.Answer") + " " + (1 + i) + '</p>' } }]}
+                        pluginContainer={"Answer" + i} />
                     </div>
                 </div>
                 );
@@ -450,13 +453,17 @@ export function ${options.name}(base) {
             return <div className={"exercisePlugin ${options.camelCaseName}Plugin"}>
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
-                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={i18n.t("${options.name}.Question")} plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("${options.name}.Statement") + '</p>'} pluginContainer={"Question"} />
+                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={i18n.t("${options.name}.Question")} 
+                            pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("${options.name}.Statement") + '</p>' } }]}
+                            pluginContainer={"Question"} />
                     </div>
                 </div>
                 {answers}
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
                     <div className={"col-xs-12 feedback"}>
-                        <PluginPlaceholder {...props} key="-2" plugin-data-display-name={i18n.t("${options.name}.Feedback")} plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("${options.name}.FeedbackMsg") + '</p>'} pluginContainer={"Feedback"} />
+                        <PluginPlaceholder {...props} key="-2" plugin-data-display-name={i18n.t("${options.name}.Feedback")} 
+                        pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("${options.name}.FeedbackMsg") + '</p>' } }]}
+                        pluginContainer={"Feedback"} />
                     </div>
                 </div>
             </div>;

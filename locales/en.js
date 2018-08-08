@@ -358,6 +358,12 @@ let en = {
             "undo": "Undo the last action",
             "unpublish": "Makes the document unavailable for the public",
         },
+        "MoodleXML": {
+            'are_you_sure': 'Are you sure it\'s MoodleXML?',
+            'parse_error': 'Error when parsing the file',
+            'unrecognized': 'Unrecognized exercise type',
+            'not_supported': 'Not yet supported',
+        },
         "Multimedia": "Media",
         "NavItem_name": "Page name",
         "NavItem_title": "Page title",

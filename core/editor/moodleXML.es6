@@ -1,7 +1,7 @@
 import { isDataURL, dataURItoBlob } from '../../common/utils';
 import xml2json from 'basic-xml2json';
 import { ID_PREFIX_BOX } from '../../common/constants';
-
+import i18n from 'i18next';
 export default function parseMoodleXML(file, callback) {
     let parser = new DOMParser();
     let xmlDoc = "";
@@ -11,7 +11,7 @@ export default function parseMoodleXML(file, callback) {
             try {
                 xml2jsonParser(e.srcElement.result, callback);
             } catch (e) {
-                callback({ success: false, msg: 'Error al parsear el fichero' });
+                callback({ success: false, msg: i18n.t('MoodleXML.parse_error') });
             }
         };
 
@@ -22,7 +22,7 @@ export default function parseMoodleXML(file, callback) {
         }).then(xml => {
             xml2jsonParser(xml, callback);
         }).catch(e=>{
-            callback({ success: false, msg: 'Error al parsear el fichero' });
+            callback({ success: false, msg: i18n.t('MoodleXML.parse_error') });
         });
     }
 
@@ -43,12 +43,13 @@ function xml2jsonParser(xmlDoc, callback) {
                 feedback = showFeedback ? feedback[0].content : "";
                 questiontext = children.filter(child => child.name === 'questiontext');
                 questiontext = questiontext.length > 0 ? (questiontext[0].content || (questiontext[0].children.map(c=>c.content)).join('<br/>')) : "";
+                if (!questiontext) {
+                    // throw new UnknownErrorException();
+                }
                 switch(question.attributes.type) {
                 case "multichoice":
                     answers = children.filter(child => child.name === 'answer');
-                    answerTexts = answers.map(ans => ans.children.filter(el=>el.name === 'text')[0].content);
                     scores = answers.map(ans => parseInt(ans.attributes.fraction, 0));
-
                     let single = children.some(child => child.name === 'single' && (!child.content || child.content === 'true'));
                     if (single) {
                         correctAnswer = scores.indexOf(100);
@@ -153,21 +154,22 @@ function xml2jsonParser(xmlDoc, callback) {
                 case "matching":
                 case "cloze":
                 case "description":
-                    callback({ success: false, msg: 'Not yet supported' });
+                    callback({ success: false, msg: i18n.t('MoodleXML.not_supported') });
                     break;
                 default:
-                    callback({ success: false, msg: 'Unrecognized exercise type' });
+                    callback({ success: false, msg: i18n.t('MoodleXML.unrecognized') });
                     break;
                 }
                 callback({ success: true, question: { ...question, id: (ID_PREFIX_BOX + '_' + q + '_' + Date.now()) } });
             }
 
         } else {
-            callback({ success: false, msg: 'Seguro que es MoodleXML?' });
+            callback({ success: false, msg: i18n.t('MoodleXML.are_you_sure') });
         }
 
     } catch (e) {
-        callback({ success: false, msg: 'Error al parsear el fichero' });
+        console.error(e);
+        callback({ success: false, msg: i18n.t('MoodleXML.parse_error') });
     }
 }
 

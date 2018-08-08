@@ -223,16 +223,18 @@ export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
         box.ids.id = basePrefix + '_' + ind;
         if (box.ids && ids.exercises) {
             if (box.ids.container === 'sc-Question') {
-                box.ids.text = ids.exercises.question || box.ids.text;
+                box.ids.initialState = { __text: ids.exercises.question || box.ids.initialState };
             }
+
             let ans = box.ids.container.match(/sc-Answer(\d+)/);
             if(ans && ans.length > 1 && !isNaN(ans[1])) {
-                box.ids.text = ids.exercises.answers[ans[1]] || box.ids.text;
+                box.ids.initialState = { __text: ids.exercises.answers[ans[1]] || box.ids.initialState };
             }
             if (box.ids.container === 'sc-Feedback') {
-                box.ids.text = ids.exercises.feedback || box.ids.text;
+                box.ids.initialState = { __text: ids.exercises.feedback || box.ids.initialState };
             }
         }
+        console.log(box);
 
         createBox(box.ids, box.name, false, addBox, boxes);
 

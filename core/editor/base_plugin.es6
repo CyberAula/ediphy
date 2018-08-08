@@ -238,7 +238,7 @@ export default function() {
             iconFromUrl = defaultFor(iconFromUrl, false);
             isRich = defaultFor(isRich, false);
             isComplex = defaultFor(isComplex, false);
-            marksType = defaultFor(marksType, [{ name: 'value', key: 'value' }]);
+            marksType = defaultFor(marksType, { name: 'value', key: 'value' });
             flavor = defaultFor(flavor, 'plain');
             allowFloatingBox = defaultFor(allowFloatingBox, true);
             needsConfigModal = defaultFor(needsConfigModal, false);

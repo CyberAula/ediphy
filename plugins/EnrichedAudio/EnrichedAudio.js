@@ -17,7 +17,7 @@ export function EnrichedAudio(base) {
                 initialWidthSlide: '30%',
                 initialHeightSlide: '30%',
                 icon: 'audiotrack',
-                marksType: [{ name: i18n.t("EnrichedAudio.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" }],
+                marksType: { name: i18n.t("EnrichedAudio.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" },
                 createFromLibrary: ['audio/*', 'url'],
                 searchIcon: true,
             };

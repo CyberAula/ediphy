@@ -358,7 +358,12 @@ let es = {
             "undo": "Deshace la última acción",
             "unpublish": "Hace que el documento deje de estar accesible al público",
         },
-
+        "MoodleXML": {
+            'are_you_sure': 'Seguro que es MoodleXML?',
+            'parse_error': 'Error al parsear el fichero',
+            'unrecognized': 'Tipo de ejercicio deseconocido',
+            'not_supported': 'No soportado',
+        },
         "Multimedia": "Media",
         "NavItem_name": "Nombre de la página",
         "NavItem_title": "Título de la página",

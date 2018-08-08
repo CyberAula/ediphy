@@ -31,13 +31,13 @@ export function VirtualTour(base) {
                 initialHeight: '250px',
                 initialHeightSlide: '60%',
                 isRich: true,
-                marksType: [{
+                marksType: {
                     name: i18n.t('VirtualTour.Coords'),
                     key: 'value',
                     format: '[Lat,Lng]',
                     default: '40.452,-3.727',
                     defaultColor: '#000002',
-                }],
+                },
                 needsPointerEventsAllowed: true,
                 // limitToOneInstance: true,
             };
