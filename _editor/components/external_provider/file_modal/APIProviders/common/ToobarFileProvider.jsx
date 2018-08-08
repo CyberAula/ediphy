@@ -58,5 +58,37 @@ export default class ToolbarFileProvider extends Component {
 }
 
 ToolbarFileProvider.propTypes = {
+    /**
+     * Toolbar input inherited props
+     */
+    formControlProps: PropTypes.object,
+    /**
+     * Input Value
+     */
+    value: PropTypes.any,
+    /**
+     * Open File Modal
+     */
+    openModal: PropTypes.object,
+    /**
+     * Id of the box/page being edited
+     */
+    id: PropTypes.any,
+    /**
+     * Mime Type accepted
+     */
+    accept: PropTypes.string,
+    /**
+     * Button text
+     */
+    buttontext: PropTypes.string,
+    /**
+     * Last files uploaded to server or searched in modal
+     */
+    fileModalResult: PropTypes.object,
+    /**
+     * Toolbar change callback
+     */
+    onChange: PropTypes.object,
 
 };

@@ -1,4 +1,5 @@
 import Joyride from 'react-joyride';
+import PropTypes from 'prop-types';
 import React from 'react';
 import i18n from 'i18next';
 import './_joyride.scss';
@@ -196,3 +197,13 @@ export default class EdiphyTour extends React.Component {
     }
 }
 
+EdiphyTour.propTypes = {
+    /**
+     * Whether the joyride is shown or not
+     */
+    showTour: PropTypes.bool,
+    /**
+     * Opens/closes the joyride
+     */
+    toggleTour: PropTypes.func.isRequired,
+};

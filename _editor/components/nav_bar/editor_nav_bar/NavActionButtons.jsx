@@ -246,7 +246,19 @@ NavActionButtons.propTypes = {
      */
     undoDisabled: PropTypes.bool,
     /**
+     * Current selected box
+     */
+    boxSelected: PropTypes.any.isRequired,
+    /**
      * Enables the preview mode
      */
     visor: PropTypes.func.isRequired,
+    /**
+     * Callback for toggling the CKEDitor
+     */
+    onTextEditorToggled: PropTypes.func.isRequired,
+    /**
+     * Whether the document is being published
+     */
+    publishing: PropTypes.bool,
 };

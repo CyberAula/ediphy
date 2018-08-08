@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
-import Ediphy from '../../../../../core/editor/main';
+import Ediphy from '../../../../../../core/editor/main';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
-import SearchComponent from './SearchComponent';
-import ImageComponent from './ImageComponent';
-import placeholder from './logos/soundcloud_placeholder.png';
+import SearchComponent from '../common/SearchComponent';
 
-export default class ThingiverseComponent extends React.Component {
+import placeholder from '../logos/soundcloud_placeholder.png';
+export default class SoundCloudComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -46,19 +45,22 @@ export default class ThingiverseComponent extends React.Component {
                                 let border = item.url === this.props.elementSelected ? "solid #17CFC8 2px" : "solid transparent 2px";
                                 let background = item.url === this.props.elementSelected ? "rgba(23,207,200,0.1)" : "transparent";
                                 let duration = new Date(item.duration);
-                                return (<div
-                                    className={"audioItem"} key={index} style={{ border: border, backgroundColor: background }}
-                                    onClick={e => {
-                                        this.props.onElementSelected(item.title, item.url, 'application');
-                                    }}>
-                                    <img key={index} src={item.thumbnail || placeholder} className={'soundCloudSong'} onError={(e)=>{
-                                        e.target.src = placeholder;
-                                    }} />
-                                    <div className={"videoInfo"}>
-                                        <div><strong>{item.title}</strong></div>
-                                        <div className={"lightFont"}>{item.userName}</div>
+                                return (
+                                    <div
+                                        className={"audioItem"} key={index} style={{ border: border, backgroundColor: background }}
+                                        onClick={e => {
+                                            this.props.onElementSelected(item.title, item.url, 'audio');
+                                        }}>
+                                        <img key={index} src={item.thumbnail || placeholder} className={'soundCloudSong'} onError={(e)=>{
+                                            e.target.src = placeholder;
+                                        }} />
+                                        <div className={"videoInfo"}>
+                                            <div><strong>{item.title}</strong></div>
+                                            <div className={"lightFont"}>{item.userName}</div>
+                                            <div className={"lightFont"}>{duration.toLocaleString(undefined, { minute: '2-digit', second: '2-digit' })}</div>
+                                        </div>
                                     </div>
-                                </div>);
+                                );
                             })}
                         </FormGroup>
                     ) :
@@ -73,37 +75,48 @@ export default class ThingiverseComponent extends React.Component {
     }
 
     onSearch(text) {
-
-        let BASE_URL = "https://api.thingiverse.com/search/" + encodeURI(text) + "?access_token=ba43247763f24b07796999ce24d0e2d6";
-        this.setState({ msg: i18n.t("FileModal.APIProviders.searching") });
-        fetch(BASE_URL)
-            .then(res => { return res.json();})
-            .then(objs => {
-                if (objs) {
-                    let results = objs.map(s=>{
-                        return { title: s.name, url: 'https://www.thingiverse.com/download:' + s.id, thumbnail: s.thumbnail, userName: (s.creator && s.creator.name) ? s.creator.name : 'Unknown' };
+        const BASE = 'https://api.soundcloud.com/tracks?client_id=bb5aebd03b5d55670ba8fa5b5c3a3da5&q=' + text + '&format=json';
+        this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
+        fetch(encodeURI(BASE))
+            .then(res => res.text()
+            ).then(audioStr => {
+                let songs = JSON.parse(audioStr);
+                if (songs) {
+                    let results = songs.map(song=>{
+                        return {
+                            title: song.title,
+                            userName: song.user.username,
+                            duration: song.duration,
+                            url: song.uri, // song.uri
+                            thumbnail: song.artwork_url, // TODO Add default
+                        };
                     });
-                    this.setState({ results, msg: results.length > 0 ? '' : 'No hay resultados' });
 
-                } else {
-                    this.setState({ results: [], msg: 'No hay resultados' });
+                    this.setState({ results, msg: results.length > 0 ? '' : i18n.t("FileModal.APIProviders.no_files") });
                 }
-
             }).catch(e=>{
                 // eslint-disable-next-line no-console
                 console.error(e);
-                this.setState({ msg: 'Ha habido un error' });
+                this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
             });
-
     }
 }
-ThingiverseComponent.propTypes = {
+SoundCloudComponent.propTypes = {
     /**
-   * Selected Element
-   */
+     * Selected Element
+     */
     elementSelected: PropTypes.any,
     /**
-   * Select element callback
-   */
+     * Select element callback
+     */
     onElementSelected: PropTypes.func.isRequired,
+    /**
+     * Icon that identifies the API provider
+     */
+    icon: PropTypes.any,
+    /**
+     * API Provider name
+     */
+    name: PropTypes.string,
 };
+

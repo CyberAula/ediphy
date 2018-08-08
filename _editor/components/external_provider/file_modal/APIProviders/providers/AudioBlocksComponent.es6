@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
-import Ediphy from '../../../../../core/editor/main';
+import Ediphy from '../../../../../../core/editor/main';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
-import SearchComponent from './SearchComponent';
+import SearchComponent from '../common/SearchComponent';
 
-import placeholder from './logos/soundcloud_placeholder.png';
+import placeholder from '../logos/soundcloud_placeholder.png';
 export default class SoundCloudComponent extends React.Component {
     constructor(props) {
         super(props);

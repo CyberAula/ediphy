@@ -92,6 +92,10 @@ export default class EditorNavBar extends Component {
 
 EditorNavBar.propTypes = {
     /**
+     * Callback for toggling the CKEDitor
+     */
+    onTextEditorToggled: PropTypes.func.isRequired,
+    /**
      *  Muestra o oculta la barra de plugins
      */
     hideTab: PropTypes.oneOf(["show", "hide"]).isRequired,
@@ -116,27 +120,27 @@ EditorNavBar.propTypes = {
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Caja seleccionada
+     * Current selected box
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * Deshace el último cambio
+     * Undoes the last change
      */
     undo: PropTypes.func.isRequired,
     /**
-     * Rehace el último cambio
+     * Redoes the last change
      */
     redo: PropTypes.func.isRequired,
     /**
-     * Activa el modo previsualización
+     * Activates preview mode
      */
     visor: PropTypes.func.isRequired,
     /**
-     * Exporta el curso en HTML
+     * Exports the document to HTML
      */
     export: PropTypes.func.isRequired,
     /**
-     * Exporta el curso en SCORM
+     * Exports the document to SCORM
      */
     scorm: PropTypes.func.isRequired,
     /**
@@ -180,6 +184,10 @@ EditorNavBar.propTypes = {
      * Opens Tour Modal
      */
     openTour: PropTypes.func.isRequired,
+    /**
+     * Whether the document is being published
+     */
+    publishing: PropTypes.bool,
 };
 
 /**

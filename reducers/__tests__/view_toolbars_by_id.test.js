@@ -30,7 +30,7 @@ describe('# view_toolbars_by_id reducer', ()=>{
                     "documentSubtitle": "hidden",
                     "documentSubtitleContent": i18n.t("subtitle"),
                     "documentTitle": "expanded",
-                    "documentTitleContent": i18n.t('Title') + i18n.t('document'),
+                    "documentTitleContent": "",
                     "id": "pa-1511252985429",
                 },
             };

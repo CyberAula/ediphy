@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, FormControl, Col, Form, FormGroup, InputGroup, Glyphicon, ControlLabel, Button } from 'react-bootstrap';
-import Ediphy from '../../../../../core/editor/main';
+import Ediphy from '../../../../../../core/editor/main';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
-import SearchComponent from './SearchComponent';
-import ImageComponent from './ImageComponent';
+import SearchComponent from '../common/SearchComponent';
+import ImageComponent from '../common/ImageComponent';
 
-export default class GiphyComponent extends React.Component {
+export default class OpenClipArtComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -42,9 +42,8 @@ export default class GiphyComponent extends React.Component {
                             <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                             <br />
                             {this.state.results.map((item, index) => {
-                                let border = item.url === this.props.elementSelected ? "solid #17CFC8 3px" : "solid transparent 3px";
-                                return (<ImageComponent item={item} title={item.title} url={item.url} thumbnail={item.thumbnail} onElementSelected={this.props.onElementSelected} isSelected={item.url === this.props.elementSelected} />
-                                );
+                                return (<ImageComponent key={index} url={item.thumbnail} title={item.title} onElementSelected={()=>{this.props.onElementSelected(item.title, item.url, 'image');}} isSelected={item.url === this.props.elementSelected}/>);
+
                             })}
                         </FormGroup>
                     ) :
@@ -59,45 +58,47 @@ export default class GiphyComponent extends React.Component {
     }
 
     onSearch(text) {
-        const BASE = text ? ('http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=' + text) : ('http://api.giphy.com/v1/gifs/trending');
+        const BASE_OPENCLIPART = "https://openclipart.org";
+        const BASE = BASE_OPENCLIPART + "/search/json/?query=" + encodeURI(text) + "&amount=200";
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
-        fetch(encodeURI(BASE))
-            .then(res => res.text()
-            ).then(imgStr => {
-                let imgs = JSON.parse(imgStr);
-                if (imgs && imgs.data) {
-                    let results = imgs.data.map(img=>{
+        fetch((BASE))
+            .then(res => res.json()
+            ).then(imgs => {
+                if (imgs && imgs.payload) {
+                    let results = imgs.payload.map(img=>{
                         return {
                             title: img.title,
-                            thumbnail: img.images.fixed_height_downsampled.url,
-                            url: img.images.original.url,
+                            url: (img.svg.url || img.svg.png_2400px),
+                            thumbnail: (img.svg.url || img.svg.png_thumb),
                         };
                     });
 
                     this.setState({ results, msg: results.length > 0 ? '' : i18n.t("FileModal.APIProviders.no_files") });
                 }
             }).catch(e=>{
-            // eslint-disable-next-line no-console
+                // eslint-disable-next-line no-console
                 console.error(e);
                 this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
             });
     }
 }
-GiphyComponent.propTypes = {
+
+OpenClipArtComponent.propTypes = {
     /**
-   * Selected Element
-   */
+     * Selected Element
+     */
     elementSelected: PropTypes.any,
     /**
-   * Select element callback
-   */
+     * Select element callback
+     */
     onElementSelected: PropTypes.func.isRequired,
     /**
-   * Icon that identifies the API provider
-   */
+     * Icon that identifies the API provider
+     */
     icon: PropTypes.any,
     /**
-   * API Provider name
-   */
+     * API Provider name
+     */
     name: PropTypes.string,
 };
+

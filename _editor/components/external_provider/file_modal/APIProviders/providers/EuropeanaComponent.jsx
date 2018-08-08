@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
-import Ediphy from '../../../../../core/editor/main';
+import { Modal, FormControl, Col, Form, FormGroup, InputGroup, Glyphicon, ControlLabel, Button } from 'react-bootstrap';
+import Ediphy from '../../../../../../core/editor/main';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
-import SearchComponent from './SearchComponent';
-import ImageComponent from './ImageComponent';
+import SearchComponent from '../common/SearchComponent';
+import ImageComponent from '../common/ImageComponent';
 
-export default class PhetComponent extends React.Component {
+export default class EuropeanaComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -42,7 +42,9 @@ export default class PhetComponent extends React.Component {
                             <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                             <br />
                             {this.state.results.map((item, index) => {
-                                return (<ImageComponent key={index} url={item.url} title={item.title} onElementSelected={this.props.onElementSelected} isSelected={item.url === this.props.elementSelected}/>);
+                                let border = item.url === this.props.elementSelected ? "solid #17CFC8 3px" : "solid transparent 3px";
+                                return (<ImageComponent item={item} title={item.title} url={item.url} thumbnail={item.thumbnail} onElementSelected={this.props.onElementSelected} isSelected={item.url === this.props.elementSelected} />
+                                );
                             })}
                         </FormGroup>
                     ) :
@@ -57,64 +59,32 @@ export default class PhetComponent extends React.Component {
     }
 
     onSearch(text) {
-
-        let PhetURL = "https://phet.colorado.edu/en/simulations/category/html";
-        /* $.getJSON('https://phet.colorado.edu/en/simulations/category/html&callback=?', function(response) {
-            console.log(response)
-        });*/
-        $.ajax({
-            method: 'GET',
-            url: PhetURL,
-            dataType: 'jsonp', // change the datatype to 'jsonp' works in most cases
-            success: (res) => {
-                // eslint-disable-next-line no-console
-                console.log(res);
-            },
-        });
-        /* let flickrURL = "http://api.flickr.com/services/feeds/photos_public.gne?tags=" + encodeURI(text) + "&tagmode=any&format=json&jsoncallback=?";
+        const BASE = 'https://www.europeana.eu/api/v2/search.json?wskey=ZDcCZqSZ5&query=' + (text || "europeana") + '&qf=TYPE:IMAGE&profile=RICH&media=true&rows=100&qf=IMAGE_SIZE:small';
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
-        $.getJSON(flickrURL, (imgs)=>{
-            try{
-                // console.log(imgs);
-                if (imgs) {
-                    if (imgs && imgs.items) {
-                        let results = imgs.items.map(img=>{
-                            return {
-                                title: img.title,
-                                url: img.media.m.replace(/_m/i, ""),
-                            };
-                        });
-                        this.setState({ results, msg: results.length > 0 ? '' : i18n.t("FileModal.APIProviders.no_files") });
-                    }
+        fetch(encodeURI(BASE))
+            .then(res => res.text()
+            ).then(imgStr => {
+                let imgs = JSON.parse(imgStr);
+                if (imgs && imgs.items) {
+                    let results = imgs.items.map(img=>{
+                        return {
+                            title: img.title[0],
+                            url: img.edmIsShownBy,
+                            thumbnail: img.edmPreview,
+                        };
+                    });
+
+                    this.setState({ results, msg: results.length > 0 ? '' : i18n.t("FileModal.APIProviders.no_files") });
                 }
-            } catch (e) {
+            }).catch(e=>{
+                // eslint-disable-next-line no-console
                 console.error(e);
                 this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
-            }
-
-        });*/
-
-        /*        fetch(encodeURI(BASE) )
-         .then(res => res.text()
-         ).then(imgStr => {
-         console.log(imgStr)
-         let imgs = JSON.parse(imgStr)
-         if (imgs && imgs.items) {
-         let results = imgs.items.map(img=>{
-         return {
-         title: img.title,
-         url: img.media.m,
-         }
-         })
-
-         this.setState({results})
-         }
-         }).catch(e=>{
-         console.error(e)
-         });*/
+            });
     }
 }
-PhetComponent.propTypes = {
+
+EuropeanaComponent.propTypes = {
     /**
      * Selected Element
      */

@@ -187,4 +187,8 @@ ActionsRibbon.propTypes = {
      * Object containing all the exercises
      */
     exercises: PropTypes.object.isRequired,
+    /**
+     *  Function for uploading a file to the server
+     */
+    uploadFunction: PropTypes.func.isRequired,
 };

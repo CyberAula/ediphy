@@ -422,10 +422,6 @@ export default class PDFHandler extends Component {
 
 PDFHandler.propTypes = {
     /**
-     * Whether the import file modal should be shown or hidden
-     */
-    show: PropTypes.bool,
-    /**
      * Closes import file modal
      */
     close: PropTypes.func.isRequired,
@@ -469,4 +465,8 @@ PDFHandler.propTypes = {
      * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * PDF File URL
+     */
+    url: PropTypes.string,
 };

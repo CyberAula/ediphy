@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import i18n from 'i18next';
 import { Button, Row, Col, Grid, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import Select from 'react-select';
-import '../../../nav_bar/global_config/_reactTags.scss';
-import Alert from "../../../common/alert/Alert";
-import { extensionHandlers as extensions } from '../FileHandlers/FileHandlers';
+import '../../../../nav_bar/global_config/_reactTags.scss';
+import Alert from "../../../../common/alert/Alert";
+import { extensionHandlers as extensions } from '../../FileHandlers/FileHandlers';
 export default class MyFilesComponent extends React.Component {
     constructor(props) {
         super(props);

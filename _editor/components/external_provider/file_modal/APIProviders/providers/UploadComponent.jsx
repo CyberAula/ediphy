@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
 import { Button, Row, Col, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-import ExternalDropzone from './ExternalDropzone';
-import { extensionHandlers as extensions } from './../FileHandlers/FileHandlers';
-import '../../../nav_bar/global_config/_reactTags.scss';
-import { ID_PREFIX_FILE, FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../common/constants';
-import { isFile } from '../../../../../common/utils';
-let spinner = require('../../../../../dist/images/spinner.svg');
+import ExternalDropzone from '../common/ExternalDropzone';
+import { extensionHandlers as extensions } from '../../FileHandlers/FileHandlers';
+import '../../../../nav_bar/global_config/_reactTags.scss';
+import { ID_PREFIX_FILE, FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../../common/constants';
+import { isFile } from '../../../../../../common/utils';
+let spinner = require('../../../../../../dist/images/spinner.svg');
 
 export default class UploadComponent extends React.Component {
     constructor(props) {
@@ -193,7 +193,28 @@ export default class UploadComponent extends React.Component {
 
 UploadComponent.propTypes = {
     /**
-   * Boolean that shows/hide the file upload modal
-   */
-    callback: PropTypes.func,
+     * Format allowed
+     */
+    show: PropTypes.any,
+    /**
+     * Files uploaded to server
+     */
+    filesUploaded: PropTypes.any,
+    /**
+     * File selected id
+     */
+    idSelected: PropTypes.any,
+    /**
+     * Selects Element
+     */
+    onElementSelected: PropTypes.func.isRequired,
+    /**
+     * Server busy
+     */
+    isBusy: PropTypes.any,
+    /**
+     * Uploads file to server
+     */
+    uploadFunction: PropTypes.any,
+
 };
