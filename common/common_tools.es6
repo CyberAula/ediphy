@@ -11,10 +11,11 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", 
     let ratio = ratioparam;
     let canvas = document.getElementById(idParent);
     let parent = document.getElementById(idEl);
-    let height = canvas.style.height;
-    let width = canvas.style.width;
-    let marginTop = canvas.style.marginTop;
-    let marginBottom = canvas.style.marginBottom;
+
+    let height = canvas ? canvas.style.height : 0;
+    let width = canvas ? canvas.style.width : 0;
+    let marginTop = canvas ? canvas.style.marginTop : 0;
+    let marginBottom = canvas ? canvas.style.marginBottom : 0;
 
     /* this is to avoid get values from react flow when using event listeners that do not exist in react
      * get the values from window.object */
@@ -49,7 +50,7 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", 
     } else {
         height = customSize.height + 'px';
         width = customSize.width + 'px';
-        marginTop = ((canvas.offsetHeight - 66 - customSize.height) / 2 - 1);
+        marginTop = canvas ? ((canvas.offsetHeight - 66 - customSize.height) / 2 - 1) : 0;
         marginTop = marginTop > 0 ? marginTop : 0;
         marginTop += 'px';
         // marginBottom = '10px';
@@ -218,7 +219,6 @@ export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
     }
     addBox({ ...ids, config: apiPlugin.getConfig() }, true, slide, template, styles, state, undefined, initialParams);
     let basePrefix = ID_PREFIX_BOX + Date.now();
-    console.log(newBoxes);
     newBoxes.map((box, ind) => {
         box.ids.id = basePrefix + '_' + ind;
         if (box.ids && ids.exercises) {
@@ -234,7 +234,6 @@ export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
                 box.ids.initialState = { __text: ids.exercises.feedback || box.ids.initialState };
             }
         }
-        console.log(box);
 
         createBox(box.ids, box.name, false, addBox, boxes);
 

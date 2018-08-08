@@ -243,7 +243,7 @@ function dataToState(e, self, format, initialParams, isTargetSlide, plugin) {
             self.close({ id: self.props.fileModalResult.id, value });
         }
         self.close();
-    } catch(e) {
+    } catch(_e) {
         alert(i18n.t('error.generic'));
         return;
     }

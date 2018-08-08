@@ -8,7 +8,6 @@ module.exports = {
         "Feedback": "Feedback",
         "FeedbackMsg": "Here you can provide some feedback about the answer",
         "ShowFeedback": "Show feedback",
-        "Number": "Number  of answers",
         "ShowStars": "Show stars instead of numbers",
         "background_color": "Background color",
         "border_color": "Border color",

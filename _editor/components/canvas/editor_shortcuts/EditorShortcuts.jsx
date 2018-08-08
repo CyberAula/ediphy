@@ -143,7 +143,6 @@ export default class EditorShortcuts extends Component {
                                 }>
                                 <button id="open_conf" className={"editorTitleButton"}
                                     onClick={(e) => {
-                                        console.log(box.id, accept, callbackKey);
                                         this.props.openFileModal(box.id, accept);
                                         this.setState({ open: true, callbackKey });
                                     }}>
@@ -498,8 +497,7 @@ EditorShortcuts.propTypes = {
      */
     fileModalResult: PropTypes.object,
     /**
-     * Callback for opening the file upload modal
+     * Function that opens the file search modal
      */
-    toggleFileUpload: PropTypes.func.isRequired,
-
+    openFileModal: PropTypes.func.isRequired,
 };

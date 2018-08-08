@@ -350,9 +350,9 @@ export default function() {
             }
             return undefined;
         },
-        getDefaultMarkValue: function(state, value) {
+        getDefaultMarkValue: function(_state, value) {
             if(descendant.getDefaultMarkValue) {
-                return descendant.getDefaultMarkValue(state, value);
+                return descendant.getDefaultMarkValue(_state, value);
             }
             if (descendant.getConfig() && descendant.getConfig().marksType) {
                 let markType = descendant.getConfig().marksType;

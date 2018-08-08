@@ -97,7 +97,6 @@ export default class SoundCloudComponent extends React.Component {
             });
     /* $.ajax(BASE, (result)=>{
       try{
-        console.log(JSON.stringify(result));
       } catch (e) {
         console.error(e);
         this.setState({ msg: 'Ha habido un error' });

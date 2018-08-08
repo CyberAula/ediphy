@@ -296,10 +296,6 @@ export default class EditorCanvasSli extends Component {
 }
 EditorCanvasSli.propTypes = {
     /**
-     * Object containing every accordion by id
-     */
-    accordions: PropTypes.object.isRequired,
-    /**
      * Check if component rendered from contained view
      */
     fromCV: PropTypes.bool,
@@ -332,7 +328,7 @@ EditorCanvasSli.propTypes = {
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -460,7 +456,7 @@ EditorCanvasSli.propTypes = {
      */
     fileModalResult: PropTypes.object,
     /**
-     * Callback for opening the file upload modal
+     * Function that opens the file search modal
      */
-    toggleFileUpload: PropTypes.func.isRequired,
+    openFileModal: PropTypes.func.isRequired,
 };

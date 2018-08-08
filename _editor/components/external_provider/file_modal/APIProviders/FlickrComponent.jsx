@@ -84,7 +84,6 @@ export default class FlickrComponent extends React.Component {
         /*        fetch(encodeURI(BASE) )
         .then(res => res.text()
         ).then(imgStr => {
-            console.log(imgStr)
         let imgs = JSON.parse(imgStr)
         if (imgs && imgs.items) {
             let results = imgs.items.map(img=>{

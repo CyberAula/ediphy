@@ -55,7 +55,6 @@ export default {
         // 'Visor3D',
         'FlashObject',
         'Rating',
-        'Nuevoplugin',
     ],
     availableLanguages: [
         'en',

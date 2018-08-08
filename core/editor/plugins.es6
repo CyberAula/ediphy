@@ -37,7 +37,6 @@ export default function() {
                         }
                         let allowedExtensions = (extensions).filter(ext=>{ return mime.match(ext);});
                         allowedExtensions.map(ext => {
-                            console.log(ext);
                             Ediphy.Config.pluginFileMap[ext][id] = key;
                         }
                         );

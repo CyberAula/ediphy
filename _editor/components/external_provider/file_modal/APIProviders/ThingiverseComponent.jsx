@@ -81,7 +81,6 @@ export default class ThingiverseComponent extends React.Component {
             .then(objs => {
                 if (objs) {
                     let results = objs.map(s=>{
-                        console.log(s);
                         return { title: s.name, url: 'https://www.thingiverse.com/download:' + s.id, thumbnail: s.thumbnail, userName: (s.creator && s.creator.name) ? s.creator.name : 'Unknown' };
                     });
                     this.setState({ results, msg: results.length > 0 ? '' : 'No hay resultados' });

@@ -1,5 +1,7 @@
 import React from 'react';
 import './_flashObject.scss';
+/* eslint-disable react/prop-types */
+
 export default class FlashObjectComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -16,3 +18,4 @@ export default class FlashObjectComponent extends React.Component {
         }
     }
 }
+/* eslint-enable react/prop-types */

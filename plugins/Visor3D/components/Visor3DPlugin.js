@@ -6,6 +6,8 @@ import { fullScreenListener, isFullScreenOn, toColor } from '../../../common/com
 import '../_visor3D.scss';
 import ReactResizeDetector from 'react-resize-detector';
 import { findParentBySelector } from '../../../common/utils';
+/* eslint-disable react/prop-types */
+
 export default class Visor3DPlugin extends React.Component {
     constructor(props) {
         super(props);
@@ -78,3 +80,4 @@ export default class Visor3DPlugin extends React.Component {
 
     }
 }
+/* eslint-enable react/prop-types */

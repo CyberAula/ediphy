@@ -466,7 +466,7 @@ export default class GlobalConfig extends Component {
             minTimeProgress: this.props.globalConfig.minTimeProgress || 30,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
             modifiedState: false,
-            everPublished: this.props.everPublished,
+            everPublished: this.props.globalConfig.everPublished,
         });
 
         //  Comment the following line if you don't want to exit when changes are discarded

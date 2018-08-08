@@ -118,8 +118,8 @@ NavDropdown.propTypes = {
      */
     onExternalCatalogToggled: PropTypes.func,
     /**
-      * Callback for opening the file upload modal
-      */
+     * Callback for opening the file upload modal
+     */
     toggleFileUpload: PropTypes.func.isRequired,
     /**
      * Load an specific course from the remote server
@@ -145,4 +145,12 @@ NavDropdown.propTypes = {
      * Enables the "undo" feature
      */
     undoDisabled: PropTypes.bool,
+    /**
+     * Shows exit modal
+     */
+    openExitModal: PropTypes.func.isRequired,
+    /**
+     * Opens Tour Modal
+     */
+    openTour: PropTypes.func.isRequired,
 };

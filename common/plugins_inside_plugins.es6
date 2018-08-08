@@ -73,15 +73,12 @@ export function parsePluginContainersReact(obj, state, defaultBoxes = {}) {
                 };
 
                 if (newProps.pluginDefaultContent) {
-                    console.log(newProps.pluginDefaultContent);
                     if (!defaultBoxes[newProps.pluginContainer] || !(defaultBoxes[newProps.pluginContainer] instanceof Array)) {
                         defaultBoxes[newProps.pluginContainer] = [];
                     }
                     newProps.pluginDefaultContent.map(newPlugin => {
                         defaultBoxes[newProps.pluginContainer].push({ type: newPlugin.plugin, initialState: newPlugin.initialState });
                     });
-
-                    console.log('defaultboxxxes', defaultBoxes);
 
                 }
             }

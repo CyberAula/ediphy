@@ -308,11 +308,20 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
     case DELETE_NAV_ITEM:
         let navState = JSON.parse(JSON.stringify(state));
         for (let cv in navState) {
-            for (let box in action.payload.boxes) {
+            /* for (let box in action.payload.boxes) {
+                console.log(action.payload.boxes, navState[cv])
                 if (navState[cv].parent) {
                     let parents = Object.keys(navState[cv].parent).reduce((obj, key) => (obj[navState[cv].parent[key]] = key, obj), {});
                     if(parents[action.payload.boxes[box]]) {
                         delete navState[cv].parent[parents[action.payload.boxes[box]]];
+                    }
+                }
+            } */
+            if (navState[cv].linkedBoxes) {
+                for (let mark in navState[cv].linkedBoxes) {
+                    let box = navState[cv].linkedBoxes[mark];
+                    if (action.payload.boxes.indexOf(box) !== -1) {
+                        delete navState[cv].linkedBoxes[mark];
                     }
                 }
             }

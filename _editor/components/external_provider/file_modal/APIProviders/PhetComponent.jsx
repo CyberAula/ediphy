@@ -67,6 +67,7 @@ export default class PhetComponent extends React.Component {
             url: PhetURL,
             dataType: 'jsonp', // change the datatype to 'jsonp' works in most cases
             success: (res) => {
+                // eslint-disable-next-line no-console
                 console.log(res);
             },
         });

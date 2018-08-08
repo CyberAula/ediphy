@@ -4,6 +4,8 @@ import { findDOMNode } from 'react-dom';
 import WaveSurfer from 'wavesurfer.js';
 import ReactWavesurfer from 'react-wavesurfer';
 import Mark from '../../../common/components/mark/Mark';
+/* eslint-disable react/prop-types */
+
 export default class BasicAudioPlugin extends React.Component {
     constructor(props) {
         super(props);
@@ -35,6 +37,7 @@ export default class BasicAudioPlugin extends React.Component {
                 posPctg: (+e.originalArgs[0] / (this.state.duration || 1)),
             });
         } catch(err) {
+            // eslint-disable-next-line no-console
             console.error(err);
         }
     }
@@ -56,9 +59,10 @@ export default class BasicAudioPlugin extends React.Component {
         if (this.props.state.currentState) {
             try{
                 posPctg = this.props.state.currentState;
-                pos = parseInt(parseInt(posPctg.substr(0, 5)) * duration / 100);
-            }catch(e) {
-                console.log(e);
+                pos = parseInt(parseInt(posPctg.substr(0, 5), 10) * duration / 100, 10);
+            }catch(_e) {
+                // eslint-disable-next-line no-console
+                console.log(_e);
             }
 
         }
@@ -185,3 +189,4 @@ export default class BasicAudioPlugin extends React.Component {
         );
     }
 }
+/* eslint-enable react/prop-types */

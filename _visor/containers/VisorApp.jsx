@@ -196,7 +196,6 @@ export default class Visor extends Component {
         !isCV && navItems[this.getLastCurrentViewElement()] === "slide" ?
             "pcw_slide" : "pcw_doc";
         let currentView = this.getLastCurrentViewElement();
-        let isExport = true || Ediphy.State.export;
         let canvasProps = {
             boxes: boxesById,
             changeCurrentView: (element) => {this.changeCurrentView(element);},
@@ -240,7 +239,7 @@ export default class Visor extends Component {
                         style={{ height: '100%' }}>
                         <Row style={{ height: '100%' }}>
                             <Col lg={12} style={{ height: '100%' }}>
-                                { !isContainedView(currentView) ? (<VisorPlayer show={visorNav.player} hideExportButton={isExport} openDownloadModal={()=>{this.setState({ exportModalOpen: true });}}
+                                { !isContainedView(currentView) ? (<VisorPlayer show={visorNav.player}
                                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
                                     currentViews={this.state.currentView}
                                     navItemsById={navItems}

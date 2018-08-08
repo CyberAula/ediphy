@@ -29,7 +29,6 @@ export default class VisorPlayer extends Component {
      * @returns {code}
      */
     render() {
-
         let navItemsIds = this.props.navItemsIds;
         if (!Ediphy.Config.sections_have_content) {
             navItemsIds = this.props.navItemsIds.filter(this.isntSection);
@@ -95,14 +94,6 @@ export default class VisorPlayer extends Component {
                             (<i className="material-icons">fullscreen</i>)}
                     </Button>
                 </OverlayTrigger>
-                {this.props.hideExportButton ? null : (
-                    <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose overlay={this.createTooltip("Export", i18n.t("player.Export"))}>
-                        <Button className="playerButton"
-                            bsStyle="primary"
-                            onClick={(e)=>{this.props.openDownloadModal();}}>
-                            <i className="material-icons">file_download</i>
-                        </Button>
-                    </OverlayTrigger>)}
             </div>
         );
     }

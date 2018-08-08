@@ -141,4 +141,12 @@ PluginConfigModal.propTypes = {
      *
      */
     updatePluginToolbar: PropTypes.func.isRequired,
+    /**
+     * Last files uploaded to server or searched in modal
+     */
+    fileModalResult: PropTypes.object,
+    /**
+     * Function that opens the file search modal
+     */
+    openFileModal: PropTypes.func.isRequired,
 };

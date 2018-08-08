@@ -196,16 +196,25 @@ export default function(state = {}, action = {}) {
     case DELETE_CONTAINED_VIEW:
         return deleteProps(state, action.payload.ids);
     case DELETE_NAV_ITEM:
-
-        for (let cv in state) {
-            for (let box in action.payload.boxes) {
+        let navState = JSON.parse(JSON.stringify(state));
+        for (let cv in navState) {
+            /* for (let box in action.payload.boxes) {
+                console.log(parents,)
                 let parents = Object.keys(state[cv].parent).reduce((obj, key) => (obj[state[cv].parent[key]] = key, obj), {});
                 if (parents[action.payload.boxes[box]]) {
                     delete state[cv].parent[parents[action.payload.boxes[box]]];
                 }
+            } */
+            if (navState[cv].parent) {
+                for (let mark in navState[cv].parent) {
+                    let box = navState[cv].parent[mark];
+                    if (action.payload.boxes.indexOf(box) !== -1) {
+                        delete navState[cv].parent[mark];
+                    }
+                }
             }
         }
-        return state;
+        return navState;
     case DELETE_SORTABLE_CONTAINER:
         /* let item = findNavItemContainingBox(state,action.payload.parent);
         if(item) {

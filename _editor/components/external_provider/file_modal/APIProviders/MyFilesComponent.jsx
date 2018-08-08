@@ -49,7 +49,6 @@ export default class MyFilesComponent extends React.Component {
         let aux = currentExtension;
         for (let e in extensions) {
             let ext = extensions[e];
-            console.log(currentExtension);
             if (currentExtension.match(ext.value)) {
                 aux = ext.value;
             }
@@ -98,7 +97,6 @@ export default class MyFilesComponent extends React.Component {
                                 <i className="material-icons">cloud_download</i>
                             </Button> : null}
                             <Button style={{ backgroundImage: filetype === 'image' ? ("url(" + file.url + ")") : "" }} onClick={(e)=>{
-                                console.log(filetype);
                                 this.props.onElementSelected(file.name, file.url, filetype, file.id);
                                 e.stopPropagation();
                             }} className={"myFileContent" + (isActive ? " active" : "")}>

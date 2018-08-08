@@ -12,7 +12,6 @@ import i18n from 'i18next';
 function toolbarCreator(state, action) {
     let structure;
     let toolbar = {};
-    console.log(action);
     if(isSortableBox(action.payload.ids.id)) {
         toolbar = {
             [action.payload.ids.id]: {

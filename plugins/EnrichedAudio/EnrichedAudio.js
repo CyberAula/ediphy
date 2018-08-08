@@ -2,6 +2,7 @@ import React from "react";
 import EnrichedAudioPluginEditor from './components/EnrichedAudioPluginEditorWS.js';
 import i18n from 'i18next';
 require('./EnrichedAudio.scss');
+/* eslint-disable react/prop-types */
 
 export function EnrichedAudio(base) {
     return {
@@ -170,3 +171,4 @@ export function EnrichedAudio(base) {
         },
     };
 }
+/* eslint-enable react/prop-types */

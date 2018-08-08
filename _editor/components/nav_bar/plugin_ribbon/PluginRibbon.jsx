@@ -340,4 +340,9 @@ PluginRibbon.propTypes = {
      * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * Closes plugin tab
+     */
+    onTabHide: PropTypes.func.isRequired,
 };
+

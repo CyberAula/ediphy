@@ -75,7 +75,7 @@ export default class EditorCarousel extends Component {
 
 EditorCarousel.propTypes = {
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -178,8 +178,4 @@ EditorCarousel.propTypes = {
      * Object containing all the pages' toolbars
      */
     viewToolbars: PropTypes.object,
-    /**
-     * Function that updates the toolbar of a view
-     */
-    onToolbarUpdated: PropTypes.func,
 };

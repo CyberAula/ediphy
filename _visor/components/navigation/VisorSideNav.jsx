@@ -124,7 +124,7 @@ VisorSideNav.propTypes = {
     /**
      * Título del curso
      */
-    courseTitle: PropTypes.string.isRequired,
+    courseTitle: PropTypes.string,
     /**
      Diccionario que contiene todas las vistas y vistas contenidas, accesibles por su *id*
      */

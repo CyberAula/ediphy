@@ -311,6 +311,7 @@ export function deleteRemoteFileEdiphyAsync(id, url, callback) {
             if (callback) {
                 callback(id);
             }
+
         } else {
             dispatch(setBusy(true, FILE_DELETING));
             let fileId = url.split('/').pop();
@@ -346,6 +347,7 @@ export function deleteRemoteFileEdiphyAsync(id, url, callback) {
                     return false;
                 });
         }
+        return true;
     };
 
 }
@@ -565,7 +567,7 @@ export function uploadVishResourceAsync(query, keywords = "", callback) {
                     }
                 });
 
-            alert(i18n.t("error.file_extension_invalid"));
+            // alert(i18n.t("error.file_extension_invalid"));
 
         }
         alert(i18n.t("error.file_not_selected"));

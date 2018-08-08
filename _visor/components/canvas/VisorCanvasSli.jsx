@@ -192,7 +192,7 @@ VisorCanvasSli.propTypes = {
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -255,4 +255,8 @@ VisorCanvasSli.propTypes = {
      * Function that triggers a mark
      */
     onMarkClicked: PropTypes.func,
+    /**
+     * Indicates if the content is being previewed in order to export it to PDF
+     */
+    fromPDF: PropTypes.bool,
 };

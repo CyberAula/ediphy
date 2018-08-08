@@ -150,7 +150,68 @@ export default class FileModal extends React.Component {
 
 FileModal.propTypes = {
     /**
-   * Accepted MIME type for modal
-   */
-    showFileUploadModal: PropTypes.any,
+     * Whether the file modal is visible or not
+     */
+    visible: PropTypes.func.isRequired,
+    /**
+     * Current selected view (by ID)
+     */
+    navItemSelected: PropTypes.func.isRequired,
+    /**
+     * Callback for adding a new box
+     */
+    onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * Function for adding a new view
+     */
+    onNavItemAdded: PropTypes.func.isRequired,
+    /**
+     * Function for adding multiple new views
+     */
+    onNavItemsAdded: PropTypes.func.isRequired,
+    /**
+     * Function for selecting a view in the index
+     */
+    onIndexSelected: PropTypes.func.isRequired,
+    /**
+     * Function for displaying a view in the canvas
+     */
+    onNavItemSelected: PropTypes.func.isRequired,
+    /**
+     * Array containing the ids of all the views
+     */
+    navItemsIds: PropTypes.func.isRequired,
+    /**
+     * Object containing all views (by id)
+     */
+    navItems: PropTypes.func.isRequired,
+    /**
+     * Object containing all contained views
+     */
+    containedViews: PropTypes.func.isRequired,
+    /**
+     * Selected contained view
+     */
+    containedViewSelected: PropTypes.func.isRequired,
+    /**
+     * Last files uploaded to server or searched in modal
+     */
+    fileModalResult: PropTypes.func.isRequired,
+    /**
+     * Current open tab in File Modal
+     */
+    fileUploadTab: PropTypes.func.isRequired,
+    /**
+     * Object containing all the boxes
+     */
+    boxes: PropTypes.func.isRequired,
+    /**
+     * Current selected box
+     */
+    boxSelected: PropTypes.func.isRequired,
+    /**
+     * Function for closing the File Modal
+     */
+    close: PropTypes.func.isRequired,
+
 };

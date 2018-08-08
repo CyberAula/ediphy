@@ -685,6 +685,7 @@ class EditorApp extends Component {
         if(!this.state.publishing) {
             return i18n.t('messages.exit_page');
         }
+        return undefined;
     }
 
     keyListener(e) {

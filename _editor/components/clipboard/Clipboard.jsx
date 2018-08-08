@@ -359,9 +359,7 @@ export default class Clipboard extends Component {
      * Modifies pasted box so it adapts to its new parent
      */
     transformBox(box, ids, isTargetSlide, isOriginSlide) {
-        console.log(box, ids);
         let samePage = isTargetSlide && box.parent === ids.parent;
-        console.log(samePage);
         let newIds = {};
         let newContainerBoxes = {};
         let ind = 0;
@@ -509,7 +507,7 @@ Clipboard.propTypes = {
    */
     navItems: PropTypes.object,
     /**
-   * Contained views dictionary (identified by its ID)
+   * Object containing all contained views (identified by its ID)
    */
     containedViews: PropTypes.any,
     /**

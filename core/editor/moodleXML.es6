@@ -10,7 +10,7 @@ export default function parseMoodleXML(file, callback) {
         fileReader.onload = (e)=> {
             try {
                 xml2jsonParser(e.srcElement.result, callback);
-            } catch (e) {
+            } catch (_e) {
                 callback({ success: false, msg: i18n.t('MoodleXML.parse_error') });
             }
         };
@@ -35,7 +35,7 @@ function xml2jsonParser(xmlDoc, callback) {
         let answers, questiontext, answerTexts, scores, correctAnswer, currentAnswer, feedback, showFeedback;
         if (xmljson && xmljson.root && xmljson.root.name === "quiz") {
             for (let q in xmljson.root.children) {
-                let question = xmljson.root.children[q];
+                question = xmljson.root.children[q];
                 let children = question.children;
                 // let children = xmljson.root.children;
                 feedback = children.filter(child => child.name === 'generalfeedback');
@@ -168,7 +168,6 @@ function xml2jsonParser(xmlDoc, callback) {
         }
 
     } catch (e) {
-        console.error(e);
         callback({ success: false, msg: i18n.t('MoodleXML.parse_error') });
     }
 }

@@ -6,6 +6,7 @@ import MarkEditor from '../../../_editor/components/rich_plugins/mark_editor/Mar
 import Mark from '../../../common/components/mark/Mark';
 
 import ReactResizeDetector from 'react-resize-detector';
+/* eslint-disable react/prop-types */
 
 export default class BasicAudioPluginEditor extends React.Component {
     constructor(props) {
@@ -183,3 +184,4 @@ export default class BasicAudioPluginEditor extends React.Component {
         );
     }
 }
+/* eslint-enable react/prop-types */

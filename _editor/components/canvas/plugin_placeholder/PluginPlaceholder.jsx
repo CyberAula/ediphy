@@ -262,7 +262,7 @@ PluginPlaceholder.propTypes = {
     /**
      * Object containing every plugin toolbar (by id)
      */
-    pluginToolbars: PropTypes.object.isRequired,
+    pluginToolbars: PropTypes.object,
     /**
      * Last action dispatched in Redux
      */
@@ -328,7 +328,7 @@ PluginPlaceholder.propTypes = {
      */
     pageType: PropTypes.string,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object,
     /**

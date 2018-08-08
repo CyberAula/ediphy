@@ -167,47 +167,19 @@ EditorNavBar.propTypes = {
      * Cambia la categoría de plugins seleccionada
      */
     setcat: PropTypes.func.isRequired,
-    /**
-     * Adds a view
-     */
-    onNavItemAdded: PropTypes.func.isRequired,
-    /**
-   * Adds several views
-   */
-    onNavItemsAdded: PropTypes.func.isRequired,
-    /**
-   * Select view/contained view in the index context
-   */
-    onIndexSelected: PropTypes.func.isRequired,
-    /**
-   * Select view
-   */
-    onNavItemSelected: PropTypes.func.isRequired,
-    /**
-   * Objects Array that contains all created views (identified by its *id*)
-   */
-    navItemsIds: PropTypes.array.isRequired,
+
     /**
    * Object that contains all created views (identified by its *id*)
    */
     navItems: PropTypes.object.isRequired,
     /**
-   * Contained views dictionary (identified by its ID)
-   */
-    containedViews: PropTypes.object.isRequired,
-    /**
-   * Selected contained view (by ID)
-   */
-    containedViewSelected: PropTypes.any,
-    /**
-     * Object containing all created boxes (by id)
+     * Shows exit modal
      */
-    boxes: PropTypes.object,
+    openExitModal: PropTypes.func.isRequired,
     /**
-     * Callback for adding a box
+     * Opens Tour Modal
      */
-    onBoxAdded: PropTypes.func.isRequired,
-
+    openTour: PropTypes.func.isRequired,
 };
 
 /**
