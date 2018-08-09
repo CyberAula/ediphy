@@ -152,7 +152,7 @@ ActionsRibbon.propTypes = {
      */
     grid: PropTypes.bool,
     /**
-     * Caja seleccionada
+     * Selected box
      */
     boxSelected: PropTypes.any,
     /**

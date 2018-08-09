@@ -1,6 +1,6 @@
-import { isDataURL, dataURItoBlob } from '../../common/utils';
+import { isDataURL, dataURItoBlob } from '../../../../../common/utils';
 import xml2json from 'basic-xml2json';
-import { ID_PREFIX_BOX } from '../../common/constants';
+import { ID_PREFIX_BOX } from '../../../../../common/constants';
 import i18n from 'i18next';
 export default function parseMoodleXML(file, callback) {
     let parser = new DOMParser();

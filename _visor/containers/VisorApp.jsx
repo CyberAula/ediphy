@@ -265,11 +265,6 @@ export default class Visor extends Component {
                                 </ScormComponent>
                             </Col>
                         </Row>
-                        {!isExport ? <ExportModal show={this.state.exportModalOpen} hidePDF
-                            export={this.export}
-                            scorm={this.exportToScorm}
-                            close={()=>{this.setState({ exportModalOpen: false });}} /> : null}
-
                     </Grid>
                 </div>
             </div>);

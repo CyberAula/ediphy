@@ -122,23 +122,23 @@ export default class PluginConfigModal extends Component {
 }
 PluginConfigModal.propTypes = {
     /**
-     *
+     * Selected plugin id
      */
     id: PropTypes.any.isRequired,
     /**
-     *
+     * Selected plugin name
      */
     name: PropTypes.string.isRequired,
     /**
-     *
+     * Selected plugin state
      */
     state: PropTypes.object.isRequired,
     /**
-     *
+     * Closes configuration modal
      */
     closeConfigModal: PropTypes.func,
     /**
-     *
+     * Updates plugin toolbar
      */
     updatePluginToolbar: PropTypes.func.isRequired,
     /**

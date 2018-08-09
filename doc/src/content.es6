@@ -31,7 +31,7 @@ export const srcTree = (lang = "es") => {
             pages: {
                 1: {
                     path: '/manual/intro',
-                    title: i18n.t("title.UserManual"),
+                    title: i18n.t("title.UserManual_Intro"),
                     md: true,
                     fromURL: true,
                     src: ("Manual/Manual_Intro" + langPath + ".md"),

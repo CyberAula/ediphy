@@ -96,23 +96,23 @@ EditorNavBar.propTypes = {
      */
     onTextEditorToggled: PropTypes.func.isRequired,
     /**
-     *  Muestra o oculta la barra de plugins
+     *  Shows/hides the plugin tab
      */
     hideTab: PropTypes.oneOf(["show", "hide"]).isRequired,
     /**
-     * Objeto que contiene la configuración global del curso almacenada en el estado de Redux
+     * Object containing the global configuration of the document
      */
     globalConfig: PropTypes.object.isRequired,
     /**
-     * Modifica la configuración global del curso
+     * Modifies the global configuration of the document
      */
     changeGlobalConfig: PropTypes.func.isRequired,
     /**
-     * Permite utilizar la funcionalidad de undo
+     * Allows the use of the undo funtion
      */
     undoDisabled: PropTypes.bool,
     /**
-     * Permite utilizar la funcionalidad de redo
+     * Allows the use of the redo function
      */
     redoDisabled: PropTypes.bool,
     /**
@@ -144,19 +144,19 @@ EditorNavBar.propTypes = {
      */
     scorm: PropTypes.func.isRequired,
     /**
-     * Guarda los cambios en el servidor remoto
+     * Saves the changes in the server
      */
     save: PropTypes.func.isRequired,
     /**
-     * Categoria de plugin mostrada
+     * Selected plugin category
      */
     category: PropTypes.string.isRequired,
     /**
-     * Carga los cambios desde el servidor remoto
+     * Load server changes
      */
     opens: PropTypes.func.isRequired,
     /**
-     * Ventana emergente que indica si la importación/exportación al servidor ha sido correcta
+     * Opens a modal indicating the server operation status
      */
     serverModalOpen: PropTypes.func.isRequired,
     /**
@@ -168,7 +168,7 @@ EditorNavBar.propTypes = {
      */
     fileModalResult: PropTypes.object,
     /**
-     * Cambia la categoría de plugins seleccionada
+     * Changes the category of plugins selected
      */
     setcat: PropTypes.func.isRequired,
 

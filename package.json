@@ -134,7 +134,6 @@
     "@trendmicro/react-toggle-switch": "^0.5.7",
     "EnrichedAudio": "file:plugins/EnrichedAudio",
     "EnrichedPDF": "file:plugins/EnrichedPDF",
-    "BasicPlayer": "file:plugins/BasicPlayer",
     "DataTable": "file:plugins/DataTable",
     "EnrichedPlayer": "file:plugins/EnrichedPlayer",
     "GraficaD3": "file:plugins/GraficaD3",

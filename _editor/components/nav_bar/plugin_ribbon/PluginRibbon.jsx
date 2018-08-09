@@ -313,7 +313,7 @@ function changeOverflow(bool) {
 
 PluginRibbon.propTypes = {
     /**
-    * Indica si los plugins del ribbon están desactivados
+    * Indicates if the plugins are disabled
     */
     disabled: PropTypes.bool,
     /**
@@ -325,7 +325,7 @@ PluginRibbon.propTypes = {
       */
     containedViewSelected: PropTypes.any.isRequired,
     /**
-      * Categoría de plugin seleccionada
+      * Selected plugin category
       */
     category: PropTypes.string,
     /**

@@ -833,8 +833,8 @@ EditorBox.propTypes = {
     */
     setCorrectAnswer: PropTypes.func.isRequired,
     /**
-       * Current page
-       */
+      * Current page
+      */
     page: PropTypes.any,
     /**
     * Function that updates the toolbar of a view
