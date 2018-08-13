@@ -64,7 +64,6 @@ function toolbarCreator(state, action) {
             }
         }
 
-        console.log(action.payload.initialParams.aspectRatio, 222222222222);
         structure = {
             height: initialHeight,
             width: initialWidth,

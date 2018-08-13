@@ -10,6 +10,7 @@ export function BasicText(base) {
                 initialWidth: 'auto',
                 /* initialHeight: '100px',*/
                 icon: 'short_text',
+                flavor: 'plain',
             };
         },
         getToolbar: function(state) {
