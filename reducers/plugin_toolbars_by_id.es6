@@ -64,13 +64,14 @@ function toolbarCreator(state, action) {
             }
         }
 
+        console.log(action.payload.initialParams.aspectRatio, 222222222222);
         structure = {
             height: initialHeight,
             width: initialWidth,
             widthUnit: widthUnit,
             heightUnit: heightUnit,
             rotation: action.payload.initialParams.rotation || 0,
-            aspectRatio: action.payload.initialParams.aspectRatio || false,
+            aspectRatio: (action.payload.initialParams.aspectRatio && action.payload.initialParams.aspectRatio.defaultValue !== undefined) ? action.payload.initialParams.aspectRatio.defaultValue : false,
             position: action.payload.id ? "relative" : "absolute",
         };
 

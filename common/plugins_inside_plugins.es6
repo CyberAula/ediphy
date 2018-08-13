@@ -8,6 +8,7 @@ import { createBox } from './common_tools';
  *
  * @param obj
  * @param state
+ * @params defaultBoxes
  */
 export function parsePluginContainersReact(obj, state, defaultBoxes = {}) {
     if (obj && obj instanceof Array) {
@@ -32,12 +33,12 @@ export function parsePluginContainersReact(obj, state, defaultBoxes = {}) {
         if (obj.props) {
             let height = "auto";
             if (obj.props) {
-                if (obj.props['plugin-data-height']) {
-                    height = obj.props['plugin-data-height'];
-                } else if (obj.props['plugin-data-initial-height']) {
-                    height = obj.props['plugin-data-initial-height'];
+                if (obj.props.pluginDataHeight) {
+                    height = obj.props.pluginDataHeight;
+                } else if (obj.props.pluginDataInitialHeight) {
+                    height = obj.props.pluginDataInitialHeight;
                 } else {
-                    height = obj.props.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto";
+                    height = obj.props.hasOwnProperty('pluginDataResizable') ? "auto" : "auto";
                 }
             }
             newProps = JSON.parse(JSON.stringify(obj.props));
@@ -61,15 +62,15 @@ export function parsePluginContainersReact(obj, state, defaultBoxes = {}) {
             } else {
                 newProps.pluginContainer = isSortableContainer(newProps.pluginContainer) ? newProps.pluginContainer : ID_PREFIX_SORTABLE_CONTAINER + newProps.pluginContainer;
             }
-            if (!newProps['plugin-data-height']) {
-                newProps['plugin-data-height'] = newProps['plugin-data-initial-height'] || (newProps.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto");
+            if (!newProps.pluginDataHeight) {
+                newProps.pluginDataHeight = newProps.pluginDataInitialHeight || (newProps.hasOwnProperty('pluginDataResizable') ? "auto" : "auto");
             }
 
             if (obj.props.pluginContainer && !state[obj.props.pluginContainer]) {
                 state[newProps.pluginContainer] = {
                     id: newProps.pluginContainer,
-                    name: newProps['plugin-data-display-name'] || newProps.pluginContainer,
-                    height: newProps['plugin-data-height'],
+                    name: newProps.pluginContainerName || newProps.pluginContainer,
+                    height: newProps.pluginDataHeight,
                 };
 
                 if (newProps.pluginDefaultContent) {
@@ -231,8 +232,6 @@ export function addDefaultContainerPluginsReact(params, obj, boxes, newBoxes) {
 
     if (obj && obj.type && obj.type === PluginPlaceholder && obj.props.pluginDefaultContent) {
         let idContainer = isSortableContainer(obj.props.pluginContainer) ? obj.props.pluginContainer : ID_PREFIX_SORTABLE_CONTAINER + obj.props.pluginContainer;
-        // let plug_children = boxes[params.id].sortableContainers[idContainer];
-        // if ( plug_children && plug_children.children && plug_children.children.length === 0) {
         obj.props.pluginDefaultContent.map((name, index) => {
             if (!Ediphy.Plugins.get(name.plugin)) {
                 // eslint-disable-next-line no-console
@@ -253,6 +252,5 @@ export function addDefaultContainerPluginsReact(params, obj, boxes, newBoxes) {
             newBoxes.push({ name: name.plugin, ids });
 
         });
-        // }
     }
 }

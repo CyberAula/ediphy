@@ -115,7 +115,7 @@ export function FreeResponse(base) {
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
                         <PluginPlaceholder {...props} key="1"
-                            plugin-data-display-name={i18n.t('FreeResponse.Question') }
+                            pluginContainerName={i18n.t('FreeResponse.Question') }
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("FreeResponse.Statement") + '</p>' } }]}
                             pluginContainer={'Question'} />
                         <textarea disabled={!state.correct} className="form-control textAreaQuiz"
@@ -127,7 +127,7 @@ export function FreeResponse(base) {
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
                     <div className={"col-xs-12 feedback"}>
                         <PluginPlaceholder {...props} key="-2"
-                            plugin-data-display-name={i18n.t("FreeResponse.Feedback")}
+                            pluginContainerName={i18n.t("FreeResponse.Feedback")}
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("FreeResponse.FeedbackMsg") + '</p>' } }]}
                             pluginContainer={"Feedback"} />
                     </div>

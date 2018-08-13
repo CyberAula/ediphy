@@ -158,7 +158,7 @@ export default function() {
             let toolbar = this.getToolbar(state);
             let template = null;
             let params = { ...initParams };
-            params.aspectRatio = !!config.aspectRatioButtonConfig;
+            params.aspectRatio = config.aspectRatioButtonConfig;
             params.name = config.name;
             params.isDefaultPlugin = defaultFor(initParams.isDefaultPlugin, false);
             if (params && Object.keys(params) && Object.keys(params).length > 1) {
@@ -239,7 +239,7 @@ export default function() {
             isRich = defaultFor(isRich, false);
             isComplex = defaultFor(isComplex, false);
             marksType = defaultFor(marksType, { name: 'value', key: 'value' });
-            flavor = defaultFor(flavor, 'plain');
+            flavor = defaultFor(flavor, 'react');
             allowFloatingBox = defaultFor(allowFloatingBox, true);
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsConfirmation = defaultFor(needsConfirmation, false);
@@ -265,7 +265,7 @@ export default function() {
                 }
                 aspectRatioButtonConfig.defaultValue = defaultFor(aspectRatioButtonConfig.defaultValue, "unchecked");
             }
-
+            console.log(displayName, aspectRatioButtonConfig);
             return {
                 name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition,
                 extraTextConfig, needsXMLEdition, aspectRatioButtonConfig, allowFloatingBox, icon,
