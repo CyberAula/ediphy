@@ -22,8 +22,8 @@ function p(text) {
 }
 
 function help() {
-    p(`       
-Uso: yarn run create-plugin \"Nombre del plugin\" <opciones>
+    p(`  
+ Uso: yarn run create-plugin \"Nombre del plugin\" <opciones>
  o bien : npm run create-plugin -- \"Nombre del plugin\"  <opciones> 
  
 Opciones: 
@@ -443,7 +443,7 @@ export function ${options.name}(base) {
                     </div>
                     <div className={"col-xs-10"}>
                         <PluginPlaceholder {...props} key={i + 1} 
-                        plugin-data-display-name={i18n.t("${options.name}.Answer") + " " + (i + 1)} 
+                        pluginContainerName={i18n.t("${options.name}.Answer") + " " + (i + 1)} 
                         pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("${options.name}.Answer") + " " + (1 + i) + '</p>' } }]}
                         pluginContainer={"Answer" + i} />
                     </div>
@@ -453,7 +453,8 @@ export function ${options.name}(base) {
             return <div className={"exercisePlugin ${options.camelCaseName}Plugin"}>
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
-                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={i18n.t("${options.name}.Question")} 
+                        <PluginPlaceholder {...props} key="1" 
+                            pluginContainerName={i18n.t("${options.name}.Question")} 
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("${options.name}.Statement") + '</p>' } }]}
                             pluginContainer={"Question"} />
                     </div>
@@ -461,7 +462,8 @@ export function ${options.name}(base) {
                 {answers}
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
                     <div className={"col-xs-12 feedback"}>
-                        <PluginPlaceholder {...props} key="-2" plugin-data-display-name={i18n.t("${options.name}.Feedback")} 
+                        <PluginPlaceholder {...props} key="-2" 
+                        pluginContainerName={i18n.t("${options.name}.Feedback")} 
                         pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("${options.name}.FeedbackMsg") + '</p>' } }]}
                         pluginContainer={"Feedback"} />
                     </div>
