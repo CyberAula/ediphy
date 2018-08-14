@@ -10,7 +10,7 @@ export default {
     broken_link: "images/broken_link.png",
     scorm_ejs: "./lib/scorm/scorm_nav.ejs",
     visor_ejs: "./lib/visor/index",
-    scorm_zip_2004: "./lib/score/scorm2004.zip",
+    scorm_zip_2004: "./lib/scorm/scorm2004.zip",
     scorm_zip_12: "./lib/scorm/scorm1.2.zip",
     visor_zip: "./lib/visor/dist.zip",
     export_url: false,

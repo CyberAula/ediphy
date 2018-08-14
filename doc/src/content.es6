@@ -217,7 +217,7 @@ export const srcTree = (lang = "es") => {
                             title: i18n.t("title.Interface"),
                             md: true,
                             fromURL: true,
-                            src: ("API/RichPlugins" + langPath + ".md"),
+                            src: ("API/Interfaz" + langPath + ".md"),
                         },
                         5: {
                             path: '/api/visor',
