@@ -30,6 +30,13 @@ let es = {
             "BasePluginVisor": "BasePluginVisor",
             "RichPlugins": "Plugins Enriquecidos",
             "LiveDemo": "Pruébalo!",
+            "Configuration": "Configuración",
+            "ToolbarState": "Estado y barra de herramientas",
+            "Interface": "Interfaz",
+            "Visor": "Visor",
+            "Exercises": "Ejercicios",
+            "PluginPlaceholders": "Contenedores de Plugins",
+            "ConfigModal": "Plugins avanzados",
 
         },
         "Home": {
