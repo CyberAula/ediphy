@@ -126,7 +126,7 @@ export function EnrichedAudio(base) {
         },
         getInitialState: function() {
             return {
-                url: 'http://localhost:8080/playlists/Chopin_Nocturne.mp3',
+                url: 'http://vishub.org/audios/15288.mp3',
                 autoplay: false,
                 controls: true,
                 waves: true,
