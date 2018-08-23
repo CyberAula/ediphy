@@ -185,9 +185,9 @@ EditorNavBar.propTypes = {
      */
     openTour: PropTypes.func.isRequired,
     /**
-     * Whether the document is being published
+     * Publish the document
      */
-    publishing: PropTypes.bool,
+    publishing: PropTypes.func.isRequired,
 };
 
 /**

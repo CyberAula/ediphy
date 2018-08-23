@@ -7,11 +7,10 @@ import {
     addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeBackground, changeSortableProps,
     reorderBoxes, verticallyAlignBox, selectIndex,
-    toggleTextEditor, toggleTitleMode, pasteBox, changeBoxLayer,
-    changeDisplayMode, configScore,
-    exportStateAsync, importStateAsync, importState, changeGlobalConfig,
+    toggleTextEditor, pasteBox, changeBoxLayer,
+    configScore, exportStateAsync, importStateAsync, importState, changeGlobalConfig,
     uploadVishResourceAsync,
-    deleteContainedView, selectContainedView, changeContainedViewName,
+    deleteContainedView, selectContainedView,
     addRichMark, editRichMark, moveRichMark, deleteRichMark, setCorrectAnswer,
     updateViewToolbar, updatePluginToolbar,
     addNavItems, uploadEdiphyResourceAsync, deleteRemoteFileVishAsync, deleteRemoteFileEdiphyAsync,
@@ -240,7 +239,6 @@ class EditorApp extends Component {
                             dispatch(deleteNavItem(viewRemoving, navItems[navsel].parent, boxesRemoving, containedRemoving, marksRemoving));
                         }}
                         onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => dispatch(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
-                        onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))}
                         carouselShow={this.state.carouselShow}
                         carouselFull={this.state.carouselFull}
                         onToggleFull={() => {
@@ -340,7 +338,6 @@ class EditorApp extends Component {
                                 onVerticallyAlignBox={(id, verticalAlign)=>dispatch(verticallyAlignBox(id, verticalAlign))}
                                 onTextEditorToggled={this.onTextEditorToggled}
                                 onBoxesInsideSortableReorder={(parent, container, order) => {dispatch(reorderBoxes(parent, container, order));}}
-                                titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}
                                 onRichMarksModalToggled={(value, boxId = -1) => {
                                     this.setState({ richMarksVisible: !this.state.richMarksVisible, markCursorValue: value });
                                     if(this.state.richMarksVisible) {
@@ -391,7 +388,6 @@ class EditorApp extends Component {
                                 onRichMarkMoved={(mark, value)=>dispatch(moveRichMark(mark, value))}
                                 viewToolbars={viewToolbars}
                                 moveRichMark={(id, value)=> dispatch(moveRichMark(id, value))}
-                                titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}
                                 lastActionDispatched={lastActionDispatched}
                                 onContainedViewSelected={id => dispatch(selectContainedView(id))}
                                 onBoxSelected={(id) => dispatch(selectBox(id, boxes[id]))}
@@ -476,7 +472,6 @@ class EditorApp extends Component {
                     isBusy={isBusy}
                     marks={marks}
                     exercises={exercises}
-                    titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}
                     onContainedViewNameChanged={(id, titleStr) => dispatch(updateViewToolbar(id, titleStr))}
                     onBackgroundChanged={(id, background) => dispatch(changeBackground(id, background))}
                     onNavItemToggled={ id => dispatch(toggleNavItem(navItemSelected)) }

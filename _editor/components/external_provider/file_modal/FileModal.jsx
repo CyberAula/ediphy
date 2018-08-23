@@ -152,11 +152,11 @@ FileModal.propTypes = {
     /**
      * Whether the file modal is visible or not
      */
-    visible: PropTypes.func.isRequired,
+    visible: PropTypes.any.isRequired,
     /**
      * Current selected view (by ID)
      */
-    navItemSelected: PropTypes.func.isRequired,
+    navItemSelected: PropTypes.any.isRequired,
     /**
      * Callback for adding a new box
      */
@@ -180,35 +180,35 @@ FileModal.propTypes = {
     /**
      * Array containing the ids of all the views
      */
-    navItemsIds: PropTypes.func.isRequired,
+    navItemsIds: PropTypes.array.isRequired,
     /**
      * Object containing all views (by id)
      */
-    navItems: PropTypes.func.isRequired,
+    navItems: PropTypes.object.isRequired,
     /**
      * Object containing all contained views
      */
-    containedViews: PropTypes.func.isRequired,
+    containedViews: PropTypes.object.isRequired,
     /**
      * Selected contained view
      */
-    containedViewSelected: PropTypes.func.isRequired,
+    containedViewSelected: PropTypes.any.isRequired,
     /**
      * Last files uploaded to server or searched in modal
      */
-    fileModalResult: PropTypes.func.isRequired,
+    fileModalResult: PropTypes.object,
     /**
      * Current open tab in File Modal
      */
-    fileUploadTab: PropTypes.func.isRequired,
+    fileUploadTab: PropTypes.any,
     /**
      * Object containing all the boxes
      */
-    boxes: PropTypes.func.isRequired,
+    boxes: PropTypes.object.isRequired,
     /**
      * Current selected box
      */
-    boxSelected: PropTypes.func.isRequired,
+    boxSelected: PropTypes.any.isRequired,
     /**
      * Function for closing the File Modal
      */

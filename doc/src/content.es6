@@ -163,24 +163,7 @@ export const srcTree = (lang = "es") => {
                             title: i18n.t("title.Plugins"),
                             md: true,
                             fromURL: true,
-                            src: ("PluginDev" + langPath + ".md"),
-                            subpages: {
-                                1: {
-                                    path: '/docs/plugins/api',
-                                    title: i18n.t("title.Communication"),
-                                    md: true,
-                                    fromURL: true,
-                                    src: ("API" + langPath + ".md"),
-                                },
-                                2: {
-                                    path: '/docs/plugins/uso',
-                                    title: i18n.t("title.PluginUse"),
-                                    md: true,
-                                    fromURL: true,
-                                    src: ("Plugins" + langPath + ".md"),
-                                },
-
-                            },
+                            src: ("Plugins" + langPath + ".md"),
                         },
 
                     },

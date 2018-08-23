@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col } from "react-bootstrap";
 import i18n from 'i18next';
-import ToolbarFileProvider from '../../../_editor/components/external_provider/file_modal/APIProviders/common/ToobarFileProvider';
+import ToolbarFileProvider from '../../../_editor/components/external_provider/file_modal/APIProviders/common/ToolbarFileProvider';
 
 /* eslint-disable react/prop-types */
 

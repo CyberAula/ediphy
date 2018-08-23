@@ -28,11 +28,11 @@ export function FlashObject(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: Ediphy.i18n.t('FlashObject.config'),
+                            __name: 'URL',
                             icon: 'link',
                             buttons: {
                                 url: {
-                                    __name: 'URL',
+                                    __name: '',
                                     type: 'external_provider',
                                     value: state.url,
                                     accept: 'swf',

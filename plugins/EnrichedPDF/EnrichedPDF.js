@@ -47,7 +47,7 @@ export function EnrichedPDF(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: i18n.t('EnrichedPDF.source'),
+                            __name: 'PDF',
                             icon: 'link',
                             buttons: {
                                 url: {

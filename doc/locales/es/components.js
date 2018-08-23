@@ -519,7 +519,7 @@ let components = {
         "fileModalResult": "Objeto que presenta el fichero seleccionado en el modal de importación de contenido",
         "openExitModal": "Función para abrir el modal de salida",
         "openTour": "Función para abrir el tour",
-        "publishing": "Indica si se está publicando el documento",
+        "publishing": "Publica el documento",
     },
     "ExternalCatalogModal": {
         "visible": "Indica si el modal está visible",
@@ -733,7 +733,7 @@ let components = {
         "undoDisabled": "Activa/desactiva la funcionalidad: deshacer",
         "visor": "Activa el modo Previsualizar",
         "navItems": "Objeto que contiene todas las vistas creadas, accesibles por su *id*",
-        "publishing": "Publicación en progreso",
+        "publishing": "Publica el documento",
     },
     "NavDropdown": {
         "export": "Exporta el curso como HTML",

@@ -1,6 +1,6 @@
 import {
     ADD_BOX, MOVE_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_BACKGROUND, DELETE_BOX, EXPAND_NAV_ITEM,
-    REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES,
+    REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM,
     DELETE_SORTABLE_CONTAINER, DROP_BOX,
     ADD_RICH_MARK, EDIT_RICH_MARK, DELETE_RICH_MARK,
     IMPORT_STATE, PASTE_BOX, CHANGE_BOX_LAYER, ADD_NAV_ITEMS,
@@ -126,8 +126,6 @@ function singleNavItemReducer(state = {}, action = {}) {
         return state;
     case TOGGLE_NAV_ITEM:
         return changeProp(state, "hidden", action.payload.value);
-    case TOGGLE_TITLE_MODE:
-        return changeProp(state, "header", action.payload.titles);
     case DROP_BOX:
         if (state.id === action.payload.parent) {
             return changeProp(state, "boxes", [...state.boxes, action.payload.id]);
@@ -144,12 +142,6 @@ function singleNavItemReducer(state = {}, action = {}) {
         }
         return changeProp(state, "linkedBoxes", oldParents);
         // return changeProp(state, "linkedBoxes", [...(state.linkedBoxes || []), action.payload.parent]);
-    case UPDATE_NAV_ITEM_EXTRA_FILES:
-        return changeProp(
-            state,
-            "extraFiles",
-            changeProp(state.extraFiles, action.payload.box, action.payload.xml_path)
-        );
     default:
         return state;
     }
@@ -343,8 +335,6 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
             }));
         });
         return changeProps(state, itemsToToggle, itemsToggled);
-    case TOGGLE_TITLE_MODE:
-        return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
     case ADD_RICH_MARK:
         if (action.payload && action.payload.mark && (action.payload.mark.connectMode === 'existing' || action.payload.mark.connectMode === 'new') && action.payload.mark.connection) {
             if (!isContainedView(action.payload.mark.connection) && state[action.payload.mark.connection]) {
@@ -394,8 +384,6 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
             }
         }
         return state;
-    case UPDATE_NAV_ITEM_EXTRA_FILES:
-        return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
     case IMPORT_STATE:
         return action.payload.present.navItemsById || state;
     case DROP_BOX:

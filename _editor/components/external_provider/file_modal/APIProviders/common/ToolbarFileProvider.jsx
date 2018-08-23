@@ -69,7 +69,7 @@ ToolbarFileProvider.propTypes = {
     /**
      * Open File Modal
      */
-    openModal: PropTypes.object,
+    openModal: PropTypes.func,
     /**
      * Id of the box/page being edited
      */
@@ -89,6 +89,6 @@ ToolbarFileProvider.propTypes = {
     /**
      * Toolbar change callback
      */
-    onChange: PropTypes.object,
+    onChange: PropTypes.func,
 
 };
