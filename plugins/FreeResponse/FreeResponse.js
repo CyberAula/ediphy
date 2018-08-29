@@ -24,7 +24,7 @@ export function FreeResponse(base) {
                     __name: "Main",
                     accordions: {
                         __score: {
-                            __name: i18n.t('Score'),
+                            __name: i18n.t('configuration'),
                             icon: 'build',
                             buttons: {
                                 showFeedback: {

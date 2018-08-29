@@ -144,7 +144,7 @@ export default function() {
                 }
             }
 
-            if(config.category === 'evaluation') {
+            /* if(config.category === 'evaluation') {
                 if (!state.__score) {
                     state.__score = {
                         score: 1,
@@ -154,7 +154,7 @@ export default function() {
                     };
                 }
             }
-
+*/
             let toolbar = this.getToolbar(state);
             let template = null;
             let params = { ...initParams };
