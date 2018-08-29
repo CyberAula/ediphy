@@ -110,7 +110,8 @@ export default class PluginPlaceholder extends Component {
         );
     }
     isComplex(pluginName) {
-        return Ediphy.Plugins.get(pluginName) && Ediphy.Plugins.get(pluginName).getConfig().isComplex;
+        let plug = Ediphy.Plugins.get(pluginName);
+        return plug && (plug.getConfig().isComplex || plug.getConfig().category === 'evaluation');
     }
     configureDropZone(node, selector, extraParams) {
         let alert = (msg)=>{return (<Alert className="pageModal"
@@ -156,7 +157,7 @@ export default class PluginPlaceholder extends Component {
                 let parent = forbidden ? this.props.parentBox.parent : this.props.parentBox.id;
                 let container = forbidden ? this.props.parentBox.container : this.idConvert(this.props.pluginContainer);
                 let config = Ediphy.Plugins.get(name).getConfig();
-                let forbidden = isBox(parent) && config.isComplex; // && (parent !== this.props.boxSelected);
+                let forbidden = isBox(parent) && (config.isComplex || config.category === "evaluation"); // && (parent !== this.props.boxSelected);
 
                 let initialParams = {
                     parent: forbidden ? this.props.parentBox.parent : parent,

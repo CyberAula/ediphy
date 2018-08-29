@@ -13,5 +13,7 @@ module.exports = {
         "TooMany": "You have introduced too many characters. The exercise will not be corrected.",
         "Characters": "Ignore case and special characters",
         "Correct": "Correct answer",
+        "Config": "Configuration",
+
     },
 };

@@ -397,7 +397,7 @@ let components = {
         "onMarkCreatorToggled": "Muestra/oculta el overlay de creación de marcas",
         "onBoxDeleted": "Borra una caja",
         "onBoxResized": "Redimensiona una caja",
-        "toolbar": "Toolbar seleccionada",
+        "pluginToolbar": "Toolbar de la caja seleccionada",
         "pointerEventsCallback": "Activa la funcionalidad de manipular el plugin con el ratón/dedo",
         "pluginToolbars": "Objeto que contiene todas las toolbars de las cajas",
         "onToolbarUpdated": "Función que permite modificar un valor de la toolbar",
@@ -762,7 +762,8 @@ let components = {
         "onIndexSelected": "Función para seleccionar una vista en el índice",
         "navItemsIds": "Array que contiene todas las vistas y vistas contenidas, accesibles por su *id*",
         "navItems": "Objeto que contiene todas las vistas creadas, accesibles por su *id*",
-        "navItemSelected": "Función para seleccionar una vista para su visualización y edición",
+        "onNavItemSelected": "Función para seleccionar una vista para su visualización y edición",
+        "navItemSelected": "Identifica la vista que está siendo editada",
         "containedViews": "Objeto que contiene todas las vistas contenidas, accesibles por su *id*",
         "containedViewSelected": "Vista contenida seleccionada, identificada por su *id*",
         "boxes": "Objeto que contiene todas las cajas creadas, accesibles por su *id*",
@@ -959,7 +960,7 @@ let components = {
         "onClick": "Callback al hacer clic en la miniatura",
         "onDoubleClick": "Callback al hacer doble clic en la miniatura",
     },
-    "ToobarFileProvider": {
+    "ToolbarFileProvider": {
         "formControlProps": "Funciones para modificar el valor del campo en el estado de la caja",
         "value": "Valor del input",
         "openModal": "Función que permite abrir el modal de imoortación de contenido",

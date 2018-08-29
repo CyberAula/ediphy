@@ -103,7 +103,7 @@ export function createScoreAccordions(controls = {}, state, exercises) {
         controls.main.accordions.__score = {
             key: '__score',
             __name: i18n.t("configuration"),
-            icon: 'timeline',
+            icon: 'build',
             buttons: {},
         };
     }

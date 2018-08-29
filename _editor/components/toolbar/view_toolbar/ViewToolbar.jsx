@@ -101,11 +101,11 @@ export default class ViewToolbar extends Component {
                         },
                     },
                     __score: {
-                        __name: i18n.t('Score'),
-                        icon: 'school',
+                        __name: i18n.t('configuration'),
+                        icon: 'build',
                         buttons: {
                             weight: {
-                                __name: i18n.t('Weight'),
+                                __name: i18n.t('Score'),
                                 type: 'number',
                                 min: 1,
                                 __defaultField: true,
