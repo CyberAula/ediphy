@@ -83,6 +83,7 @@ export default class BasicAudioPlugin extends React.Component {
     }
     componentWillUpdate(nextProps, nextState) {
         if(nextState.pos !== this.state.pos) {
+            console.log(this.state.toBeTriggered);
             let sudo = this;
             let marks = this.props.props.marks || {};
             let triggerMark = this.props.props.onMarkClicked;
@@ -134,7 +135,7 @@ export default class BasicAudioPlugin extends React.Component {
             let title = marks[id].title;
             let color = marks[id].color;
             let isPopUp = marks[id].connectMode === "popup";
-            let noTrigger = true;
+            let noTrigger = false;
             let isVisor = true;
             return(
                 <div key={id} className="audioMark" style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
@@ -145,6 +146,7 @@ export default class BasicAudioPlugin extends React.Component {
                         isVisor={isVisor}
                         isPopUp={isPopUp}
                         markConnection={marks[id].connection}
+                        onMarkClicked={()=>{console.log(3); this.props.props.onMarkClicked(id, value, true);}}
                         noTrigger={noTrigger}/>
                 </div>
             );

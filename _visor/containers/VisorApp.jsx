@@ -120,7 +120,7 @@ export default class Visor extends Component {
                 let shiftPop = nextState.triggeredMarks;
                 shiftPop.shift();
                 let markpop = document.getElementById('mark-' + newMark.id);
-                if (markpop) { markpop.focus();}
+                if (markpop) { markpop.click();}
                 this.setState({
                     showpop: !this.state.showpop,
                     triggeredMarks: shiftPop,

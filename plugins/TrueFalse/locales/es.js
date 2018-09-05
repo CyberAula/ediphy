@@ -7,7 +7,7 @@ module.exports = {
         "Question": "Pregunta",
         "Answer": "Respuesta",
         "Feedback": "Explicación",
-        "FeedbackMsg": "Aquí puedes incluir una explicación acerca de la respuesta",
+        "FeedbackMsg": "Aquí puedes incluir una explicación acerca de la respuesta. Puedes desactivar esta opción en la barra de herramientas.",
         "ShowFeedback": "Mostrar explicación",
         "Number": "Nº de enunciados",
     },

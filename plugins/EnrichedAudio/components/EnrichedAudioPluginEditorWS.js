@@ -33,8 +33,9 @@ export default class BasicAudioPluginEditor extends React.Component {
     }
 
     handlePosChange(e) {
-        this.setState({ pos: +e.originalArgs[0] });
-        this.wavesurfer.seekTo(this.state.pos);
+        let pos = ((e.clientX - e.currentTarget.getBoundingClientRect().left) / e.currentTarget.getBoundingClientRect().width);
+        this.setState({ pos });
+        this.wavesurfer.seekTo(pos);
     }
 
     handleVolumeChange(e) {
@@ -161,20 +162,20 @@ export default class BasicAudioPluginEditor extends React.Component {
 
         return (
             <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}}
-                style={{ width: "100%", height: "100%", pointerEvents: "none" }}>
-                <div className="wavecontainer" style={{ position: 'absolute', height: '100%', width: '100%' }}>
+                style={{ width: "100%", height: "100%", pointerEvents: "all" }}>
+                <div className="wavecontainer" style={{ position: 'absolute', height: '100%', width: '100%' }} >
                     <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{ this.onResize(e);}} />
                     <div className='waveform'>
                         <div className='wave' />
                     </div>
                 </div>
-                <div className="progress-audio-input dropableRichZone" >
+                <div className="progress-audio-input dropableRichZone" onClick={this.handlePosChange.bind(this)}>
                     <div className="markBar"> {markElements}</div>
                 </div>
 
                 <div>
                     {(this.props.state.controls) && (
-                        <div className="audio-controls" style={{ pointerEvents: 'none' }}>
+                        <div className="audio-controls" style={{ pointerEvents: 'all' }}>
                             <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} >{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
                             <input className="volume-audio-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.handleVolumeChange.bind(this)} />
                         </div>

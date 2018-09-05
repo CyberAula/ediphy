@@ -98,7 +98,10 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     onSeekMouseUp(e) {
-        if(e.target.className.indexOf('progress-player-input') !== -1) {
+        if(e.target.className.indexOf('progress-player-input') !== -1 ||
+          e.target.className.indexOf('fakeProgress') !== -1 ||
+          e.target.className.indexOf('mainSlider') !== -1
+        ) {
             this.setState({ seeking: false });
             this.player.seekTo((e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width);
         }
@@ -139,7 +142,10 @@ export default class EnrichedPlayerPlugin extends React.Component {
                         isVisor={isVisor}
                         isPopUp={isPopUp}
                         markConnection={marks[id].connection}
-                        noTrigger={noTrigger}/>
+                        noTrigger={noTrigger}
+                        onMarkClicked={(_id, _value)=>{this.props.props.onMarkClicked(_id, _value, false);}}
+
+                    />
                 </div>
             );
         });
@@ -169,7 +175,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                             onMouseDown={this.onSeekMouseDown.bind(this)}
                             onChange={this.onSeekChange.bind(this)}
                             onMouseUp={this.onSeekMouseUp.bind(this)}>
-                            <div className="fakeProgress" style={{ top: "0" }} />
+                            <div className="fakeProgress" style={{ top: "0", zIndex: 0 }} />
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%", top: "0" }} />
                             {markElements}
                         </div>

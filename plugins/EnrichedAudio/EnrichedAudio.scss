@@ -124,6 +124,7 @@ $track-width: 54% !default;
 //**************************************
 .basic-audio-wrapper{
   overflow: hidden;
+  cursor:default;
 
   @include gradient;
   iframe{
@@ -134,7 +135,7 @@ $track-width: 54% !default;
   }
 
   .waveform>.wave>wave>wave {
-    display:none !important;
+    //display:none !important;
     //height: 100%;
     //width: 100%;
   }
