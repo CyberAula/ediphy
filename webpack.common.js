@@ -22,24 +22,33 @@ module.exports = {
             },
             {
                 test: /\.es6$/,
-                exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['es2015'],
-                        plugins: [require('babel-plugin-transform-object-rest-spread')],
-                    },
+                loader: 'babel-loader',
+                exclude: /(node_modules)/,
+                options: {
+                    presets: [
+                        ['env', {
+                            // debug: true,
+                            modules: false,
+                            loose: true,
+                            useBuiltIns: true,
+                        }],
+                    ],
+                    plugins: [require('babel-plugin-transform-object-rest-spread'), 'syntax-dynamic-import'],
                 },
+                // use: {},
             },
             {
                 test: /\.jsx?$/,
+                loader: 'babel-loader',
                 exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['es2015', 'react'],
-                    },
+                options: {
+                    presets: [
+                        ['env', {
+                            modules: false,
+                        }],
+                        'react'],
                 },
+                // use: {},
             },
             {
                 test: /\.css$/,
@@ -84,7 +93,8 @@ module.exports = {
     },
     resolve: {
         // resolve.alias could be useful for resolving certain modules easily
-        extensions: ['.js', '.jsx', '.es6'],
+        extensions: ['.js', '.jsx', '.es6', '.json'],
+        modules: ['node_modules', 'plugins'],
     },
 
     plugins: [
