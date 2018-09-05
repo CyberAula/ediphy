@@ -207,7 +207,7 @@ export default class Clipboard extends Component {
             let newMark = { ...marks[mark],
                 origin: transformedBox.newIds[marks[mark].origin] || ids.id,
                 id: newId };
-            if ((isContainedView(newMark.connection) && this.props.containedViews[newMark.connection]) || (isView(newMark.connection) && this.props.navItems[newMark.connection]) || newMark.connectMode === 'external') {
+            if ((isContainedView(newMark.connection) && this.props.containedViews[newMark.connection]) || (isView(newMark.connection) && this.props.navItems[newMark.connection]) || newMark.connectMode === 'external' || newMark.connectMode === 'popup') {
                 newMarks[newId] = newMark;
             }
         }
