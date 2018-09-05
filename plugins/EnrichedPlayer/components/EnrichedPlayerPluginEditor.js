@@ -50,9 +50,12 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
     }
 
     onSeekMouseUp(e) {
-        if(e.target.className.indexOf('progress-player-input') !== -1) {
-            this.setState({ seeking: false });
-            this.player.seekTo((e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width);
+        if(e.target.className.indexOf('progress-player-input') !== -1 ||
+            e.target.className.indexOf('fakeProgress') !== -1 ||
+            e.target.className.indexOf('mainSlider') !== -1) {
+            let pos = (e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width;
+            this.player.seekTo(pos);
+            this.setState({ seeking: false, played: pos });
         }
     }
 
@@ -83,7 +86,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
         });
 
         return (
-            <div ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "all" }} className="enriched-player-wrapper">
+            <div ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "none" }} className="enriched-player-wrapper">
                 <ReactPlayer
                     ref={player => { this.player = player; }}
                     style={{ width: "100%", height: "100%" }}

@@ -127,7 +127,6 @@ export default class Visor extends Component {
                 });
             }
         }
-
     }
 
     componentDidMount() {
@@ -351,7 +350,6 @@ export default class Visor extends Component {
         let marks = this.getAllMarks();
         let triggered_event = { id, value, stateElement };
         let triggered_marks = this.getTriggeredMarks(marks, triggered_event);
-
         // clearMark | If actual Triggered Mark have passed e.detail.value and actual value is different or actual element doesn't need to clear the value
         triggered_marks = this.clearTriggeredValues(triggered_event, triggered_marks);
 
@@ -688,9 +686,9 @@ export default class Visor extends Component {
      *
      */
     isNotInStateElement(triggered_event, richElementsState) {
-        if(richElementsState[triggered_event.id] === triggered_event.value) {
+        /* if(richElementsState[triggered_event.id] === triggered_event.value) {
             return false;
-        }
+        }*/
         return true;
     }
 

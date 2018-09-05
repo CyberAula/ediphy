@@ -59,7 +59,7 @@ export default class BasicAudioPlugin extends React.Component {
         if (this.props.state.currentState) {
             try{
                 posPctg = this.props.state.currentState;
-                pos = parseInt(parseInt(posPctg.substr(0, 5), 10) * duration / 100, 10);
+                pos = parseInt((parseInt(posPctg.substr(0, 5), 10)) * duration / 100, 10) + 0.5;
             }catch(_e) {
                 // eslint-disable-next-line no-console
                 console.log(_e);
@@ -83,13 +83,16 @@ export default class BasicAudioPlugin extends React.Component {
     }
     componentWillUpdate(nextProps, nextState) {
         if(nextState.pos !== this.state.pos) {
-            console.log(this.state.toBeTriggered);
+            // console.log(this.state.toBeTriggered);
+            let prevPos = parseFloat(this.state.posPctg).toFixed(3);
+            let nextPos = parseFloat(nextState.posPctg).toFixed(3);
             let sudo = this;
             let marks = this.props.props.marks || {};
             let triggerMark = this.props.props.onMarkClicked;
             let triggerArray = this.state.toBeTriggered;
+
             triggerArray.forEach(function(e) {
-                if ((parseFloat(e.value) / 100).toFixed(3) < parseFloat(nextState.posPctg).toFixed(3)) {
+                if (((parseFloat(e.value) / 100).toFixed(3) < nextPos) && (nextPos - prevPos) < 0.05) {
                     let toBeTriggered = triggerArray;
                     triggerMark(sudo.props.props.id, e.value, true);
                     toBeTriggered.splice(e, 1);
@@ -105,8 +108,8 @@ export default class BasicAudioPlugin extends React.Component {
                         notInArray = false;
                     }
                 });
-
-                if(notInArray && parseFloat(nextState.posPctg).toFixed(3) <= (parseFloat(marks[key].value) / 100).toFixed(3) && parseFloat(parseFloat(nextState.posPctg).toFixed(3)) + 0.1 >= parseFloat((parseFloat(marks[key].value) / 100).toFixed(3))) {
+                let mValue = (parseFloat(marks[key].value) / 100).toFixed(3);
+                if(notInArray && nextPos <= mValue && parseFloat(nextPos) + 0.1 >= parseFloat(mValue) && (nextPos - prevPos) < 0.05) {
                     let toBeTriggered = triggerArray;
                     toBeTriggered.push(marks[key]);
                     sudo.setState({ toBeTriggered: toBeTriggered });
@@ -146,8 +149,8 @@ export default class BasicAudioPlugin extends React.Component {
                         isVisor={isVisor}
                         isPopUp={isPopUp}
                         markConnection={marks[id].connection}
-                        onMarkClicked={()=>{console.log(3); this.props.props.onMarkClicked(id, value, true);}}
-                        noTrigger={noTrigger}/>
+                        noTrigger={noTrigger}
+                        onMarkClicked={()=>{this.props.props.onMarkClicked(this.props.props.id, value, true);}}/>
                 </div>
             );
         });

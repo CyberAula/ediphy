@@ -128,6 +128,7 @@ $track-width: 54% !default;
 
 .enriched-player-wrapper{
   overflow: hidden;
+  cursor: default;
   iframe{
     margin-bottom: -4px;
   }

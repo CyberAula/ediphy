@@ -25,7 +25,6 @@ export default class EnrichedPlayerPlugin extends React.Component {
     componentWillUpdate(nextProps, nextState) {
         if(nextState.played !== this.state.played) {
             let sudo = this;
-
             let marks = this.props.props.marks || {};
             let triggerMark = this.props.props.onMarkClicked;
             let triggerArray = this.state.toBeTriggered;
@@ -59,7 +58,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
     componentWillMount() {
         if(this.props.state.currentState !== undefined) {
-            this.setState({ initialPoint: parseFloat(this.props.state.currentState) / 100 });
+            this.setState({ initialPoint: Math.ceil(parseFloat(this.props.state.currentState + 0.5)) / 100 });
         }
     }
     componentDidMount() {
@@ -100,10 +99,10 @@ export default class EnrichedPlayerPlugin extends React.Component {
     onSeekMouseUp(e) {
         if(e.target.className.indexOf('progress-player-input') !== -1 ||
           e.target.className.indexOf('fakeProgress') !== -1 ||
-          e.target.className.indexOf('mainSlider') !== -1
-        ) {
-            this.setState({ seeking: false });
-            this.player.seekTo((e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width);
+          e.target.className.indexOf('mainSlider') !== -1) {
+            let pos = (e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width;
+            this.player.seekTo(pos);
+            this.setState({ seeking: false, played: pos });
         }
     }
 
@@ -131,7 +130,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let title = marks[id].title;
             let color = marks[id].color;
             let isPopUp = marks[id].connectMode === "popup";
-            let noTrigger = true;
+            let noTrigger = false;
             let isVisor = true;
             return(
                 <div key={id} className="videoMark" style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
@@ -143,7 +142,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                         isPopUp={isPopUp}
                         markConnection={marks[id].connection}
                         noTrigger={noTrigger}
-                        onMarkClicked={(_id, _value)=>{this.props.props.onMarkClicked(_id, _value, false);}}
+                        onMarkClicked={()=>{this.props.props.onMarkClicked(this.props.props.id, value, true);}}
 
                     />
                 </div>
