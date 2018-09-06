@@ -34,6 +34,7 @@ export default class RichMarksModal extends Component {
             viewNames: this.returnAllViews(this.props),
             showAlert: false,
         };
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
     /**
@@ -454,10 +455,10 @@ export default class RichMarksModal extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener('keyup', this.toggleModal.bind(this));
+        window.addEventListener('keyup', this.toggleModal);
     }
     componentWillUnmount() {
-        window.removeEventListener('keyup', this.toggleModal.bind(this));
+        window.removeEventListener('keyup', this.toggleModal);
     }
 
 }

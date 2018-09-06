@@ -28,12 +28,12 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let marks = this.props.props.marks || {};
             let triggerMark = this.props.props.onMarkClicked;
             let triggerArray = this.state.toBeTriggered;
-            triggerArray.forEach(function(e) {
+            triggerArray.forEach(function(e, i) {
                 if ((parseFloat(e.value) / 100).toFixed(3) < parseFloat(nextState.played).toFixed(3)) {
                     let toBeTriggered = triggerArray;
                     triggerMark(sudo.props.props.id, e.value, true);
-                    toBeTriggered.splice(e, 1);
-                    sudo.setState({ toBeTriggered: toBeTriggered });
+                    toBeTriggered.splice(i, 1);
+                    sudo.setState({ toBeTriggered });
                 }
             });
 
@@ -41,16 +41,18 @@ export default class EnrichedPlayerPlugin extends React.Component {
                 let notInArray = true;
 
                 triggerArray.forEach(function(mark) {
-                    if(mark === key) {
+                    if(mark.id === key) {
                         notInArray = false;
                     }
 
                 });
 
-                if(notInArray && parseFloat(nextState.played).toFixed(3) <= (parseFloat(marks[key].value) / 100).toFixed(3) && parseFloat(parseFloat(nextState.played).toFixed(3)) + 0.1 >= parseFloat((parseFloat(marks[key].value) / 100).toFixed(3))) {
+                if(notInArray &&
+                    parseFloat(nextState.played).toFixed(3) <= (parseFloat(marks[key].value) / 100).toFixed(3) &&
+                    parseFloat(parseFloat(nextState.played).toFixed(3)) + 0.05 >= parseFloat((parseFloat(marks[key].value) / 100).toFixed(3))) {
                     let toBeTriggered = triggerArray;
                     toBeTriggered.push(marks[key]);
-                    sudo.setState({ toBeTriggered: toBeTriggered });
+                    sudo.setState({ toBeTriggered });
                 }
             });
         }

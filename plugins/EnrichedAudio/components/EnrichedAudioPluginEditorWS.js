@@ -25,6 +25,7 @@ export default class BasicAudioPluginEditor extends React.Component {
         };
         this.onProgress = this.onProgress.bind(this);
         this.onReady = this.onReady.bind(this);
+        this.onMouseMove = this.onMouseMove.bind(this);
     }
 
     handleTogglePlay() {
@@ -33,9 +34,24 @@ export default class BasicAudioPluginEditor extends React.Component {
     }
 
     handlePosChange(e) {
-        let pos = ((e.clientX - e.currentTarget.getBoundingClientRect().left) / e.currentTarget.getBoundingClientRect().width);
-        this.setState({ pos });
-        this.wavesurfer.seekTo(pos);
+        let dragging = this.state.dragging;
+        if (!dragging) {
+            let pos = ((e.clientX - e.currentTarget.getBoundingClientRect().left) / e.currentTarget.getBoundingClientRect().width);
+            this.setState({ pos });
+            this.wavesurfer.seekTo(pos);
+        }
+        document.removeEventListener('mousemove', this.onMouseMove);
+    }
+
+    onMouseDown(e) {
+        this.setState({ dragging: false });
+        document.addEventListener('mousemove', this.onMouseMove);
+    }
+
+    onMouseMove(e) {
+        if (!this.state.dragging) {
+            this.setState({ dragging: true });
+        }
     }
 
     handleVolumeChange(e) {
@@ -169,14 +185,18 @@ export default class BasicAudioPluginEditor extends React.Component {
                         <div className='wave' />
                     </div>
                 </div>
-                <div className="progress-audio-input dropableRichZone" onClick={this.handlePosChange.bind(this)}>
+                <div className="progress-audio-input dropableRichZone"
+                    onMouseUp={this.handlePosChange.bind(this)}
+                    onMouseDown={this.onMouseDown.bind(this)}>
                     <div className="markBar"> {markElements}</div>
                 </div>
 
                 <div>
                     {(this.props.state.controls) && (
                         <div className="audio-controls" style={{ pointerEvents: 'all' }}>
-                            <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} >{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
+                            <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} >
+                                {this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}
+                            </button>
                             <input className="volume-audio-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.handleVolumeChange.bind(this)} />
                         </div>
                     )}

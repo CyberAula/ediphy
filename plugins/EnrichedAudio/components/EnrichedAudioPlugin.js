@@ -59,7 +59,7 @@ export default class BasicAudioPlugin extends React.Component {
         if (this.props.state.currentState) {
             try{
                 posPctg = this.props.state.currentState;
-                pos = parseInt((parseInt(posPctg.substr(0, 5), 10)) * duration / 100, 10) + 0.5;
+                pos = (parseInt(posPctg.substr(0, 5), 10) + 2) * duration / 100;
             }catch(_e) {
                 // eslint-disable-next-line no-console
                 console.log(_e);
@@ -91,11 +91,11 @@ export default class BasicAudioPlugin extends React.Component {
             let triggerMark = this.props.props.onMarkClicked;
             let triggerArray = this.state.toBeTriggered;
 
-            triggerArray.forEach(function(e) {
-                if (((parseFloat(e.value) / 100).toFixed(3) < nextPos) && (nextPos - prevPos) < 0.05) {
+            triggerArray.forEach(function(e, i) {
+                if (((parseFloat(e.value) / 100).toFixed(3) < nextPos) && (nextPos - prevPos) < 0.04) {
                     let toBeTriggered = triggerArray;
                     triggerMark(sudo.props.props.id, e.value, true);
-                    toBeTriggered.splice(e, 1);
+                    toBeTriggered.splice(i, 1);
                     sudo.setState({ toBeTriggered: toBeTriggered });
                 }
             });
@@ -104,12 +104,12 @@ export default class BasicAudioPlugin extends React.Component {
                 let notInArray = true;
 
                 triggerArray.forEach(function(mark) {
-                    if(mark === key) {
+                    if(mark.id === key) {
                         notInArray = false;
                     }
                 });
                 let mValue = (parseFloat(marks[key].value) / 100).toFixed(3);
-                if(notInArray && nextPos <= mValue && parseFloat(nextPos) + 0.1 >= parseFloat(mValue) && (nextPos - prevPos) < 0.05) {
+                if(notInArray && nextPos <= mValue && parseFloat(nextPos) + 0.05 >= parseFloat(mValue) && (nextPos - prevPos) < 0.04) {
                     let toBeTriggered = triggerArray;
                     toBeTriggered.push(marks[key]);
                     sudo.setState({ toBeTriggered: toBeTriggered });
