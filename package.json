@@ -33,6 +33,7 @@
     "add-all"
   ],
   "jest": {
+    "testURL": "http://localhost/",
     "transform": {
       "^.+\\.*?$": "./node_modules/babel-jest"
     },
