@@ -287,14 +287,13 @@ function boxReducer(state = {}, action = {}) {
         if (state.sortableContainers) {
             sortableContainersObj = JSON.parse(JSON.stringify(state.sortableContainers));
             for (let sc in sortableContainersObj) {
-
-                let children = sortableContainersObj[sc].children.forEach(child=>{
+                let children_boxes = sortableContainersObj[sc].children.map(child=>{
                     return action.payload.boxes[child];
                 });
-                sortableContainersObj[sc].children = children;
+                sortableContainersObj[sc].children = children_boxes;
             }
         }
-        return { ...state, id, parent, sortableContainersObj };
+        return { ...state, id, parent, sortableContainers: sortableContainersObj };
     default:
         return state;
     }

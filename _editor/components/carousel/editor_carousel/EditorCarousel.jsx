@@ -179,4 +179,8 @@ EditorCarousel.propTypes = {
      * Object containing all the pages' toolbars
      */
     viewToolbars: PropTypes.object,
+    /**
+     * Duplicate nav item
+     */
+    onNavItemDuplicated: PropTypes.func.isRequired,
 };

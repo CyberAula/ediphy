@@ -437,22 +437,30 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
     case DUPLICATE_NAV_ITEM:
         let oldNavItem = state[action.payload.id];
         let newState2 = JSON.parse(JSON.stringify(state));
-        let newNavItem = newState2[action.payload.id];
+        let newNavItem = { ...newState2[action.payload.id] };
         newNavItem.id = action.payload.newId;
         oldNavItem.boxes.map((box, ind)=>{
             newNavItem.boxes[ind] = action.payload.boxes[box];
         });
+
         for (let nav in newState2) {
             if (newState2[nav].linkedBoxes) {
                 for (let lb in newState2[nav].linkedBoxes) {
-                    let ind = Object.keys(action.payload.boxes).indexOf(newState2[nav].linkedBoxes[lb]);
+                    let linkedBox = newState2[nav].linkedBoxes[lb];
+                    let newMarkName = lb + action.payload.suffix;
+                    let ind = Object.keys(action.payload.boxes).indexOf(linkedBox);
                     if(ind > -1) {
-                        newState2[nav] = { ...newState2[nav], linkedBoxes: [...newState2[nav].linkedBoxes, action.payload.boxes[newState2[nav].linkedBoxes[lb]]] };
+                        newState2[nav] = {
+                            ...newState2[nav],
+                            linkedBoxes: {
+                                ...newState2[nav].linkedBoxes,
+                                [newMarkName]: action.payload.boxes[linkedBox],
+                            },
+                        };
                     }
                 }
             }
         }
-        console.log(newState2);
 
         return { ...newState2,
             [newNavItem.parent]: { ...state[newNavItem.parent], children: [...state[newNavItem.parent].children, action.payload.newId] },

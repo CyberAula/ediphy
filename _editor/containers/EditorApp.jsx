@@ -762,7 +762,6 @@ class EditorApp extends Component {
             let newBoxes = [];
             let navItem = this.props.navItems[id];
             let linkedCVs = {};
-            let linkedNavs = [];
             if (navItem.boxes) {
                 newBoxes = newBoxes.concat(navItem.boxes);
                 navItem.boxes.forEach(b => {
@@ -792,7 +791,7 @@ class EditorApp extends Component {
                 linkedCVs[box] = [...this.props.boxes[box].containedViews];
                 newBoxesMap[box] = box + Date.now(); });
 
-            this.props.dispatch(duplicateNavItem(id, id + Date.now(), newBoxesMap, Date.now(), linkedCVs, linkedNavs));
+            this.props.dispatch(duplicateNavItem(id, id + Date.now(), newBoxesMap, Date.now(), linkedCVs));
         }
     }
 

@@ -201,8 +201,8 @@ export function toggleTextEditor(id, value, text, content) {
     return { type: TOGGLE_TEXT_EDITOR, payload: { id, value, text, content } };
 }
 
-export function duplicateNavItem(id, newId, boxes, suffix, linkedCvs, linkedNavs) {
-    return { type: DUPLICATE_NAV_ITEM, payload: { id, newId, boxes, suffix, linkedCvs, linkedNavs } };
+export function duplicateNavItem(id, newId, boxes, suffix, linkedCvs) {
+    return { type: DUPLICATE_NAV_ITEM, payload: { id, newId, boxes, suffix, linkedCvs } };
 }
 
 export function pasteBox(ids, box, toolbar, children, index, marks, score) {

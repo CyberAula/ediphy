@@ -53,6 +53,7 @@ let es = {
         "display": "Visualización",
         "display_page": "Incluir en documento",
         "document": "Documento",
+        "DuplicateNavItem": "Duplicar vista",
         "edit_text": "Editar texto",
         "empty": {
             "cv_empty": "Aún no has creado ninguna vista contenida.",
@@ -400,6 +401,7 @@ let es = {
         "Read_more": "Saber más",
         "Redo": "Rehacer",
         "Reorder": "Reordenar",
+        "repeatedItemCopied": "(copia)",
         "Rotate": "Rotar (º)",
         "Save": "Guardar",
         "Score": "Puntuación",

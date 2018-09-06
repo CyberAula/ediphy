@@ -99,7 +99,7 @@ export default function(state = {}, action = {}) {
         return action.payload.present.viewToolbarsById || state;
     case DUPLICATE_NAV_ITEM:
         return { ...state,
-            [action.payload.newId]: { ...state[action.payload.id], id: action.payload.newId, viewName: state[action.payload.id].viewName + " 2" },
+            [action.payload.newId]: { ...state[action.payload.id], id: action.payload.newId, viewName: state[action.payload.id].viewName + " " + i18n.t("repeatedItemCopied") },
         };
     default:
         return state;

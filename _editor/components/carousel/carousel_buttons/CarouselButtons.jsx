@@ -194,7 +194,7 @@ export default class CarouselButtons extends Component {
                     <Button className="carouselButton"
                         name="duplicateNav"
                         disabled={isContainedView(this.props.indexSelected)}
-                        onClick={e => { console.log(e);
+                        onClick={e => {
                             this.props.onNavItemDuplicated(this.props.indexSelected);
                         }}>
                         <i className="material-icons">control_point_duplicate </i>
@@ -324,4 +324,8 @@ CarouselButtons.propTypes = {
      * Index displayed indicator
      */
     carouselShow: PropTypes.bool.isRequired,
+    /**
+     * Duplicate nav item
+     */
+    onNavItemDuplicated: PropTypes.func.isRequired,
 };

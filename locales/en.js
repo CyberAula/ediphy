@@ -53,6 +53,7 @@ let en = {
         "display": "Display",
         "display_page": "Include in document",
         "document": "Document",
+        "DuplicateNavItem": "Duplicate view",
         "edit_text": "Edit text",
         "exitModal": {
             "Body": "Do you really want to exit Ediphy?",
@@ -400,6 +401,7 @@ let en = {
         "Redo": "Redo",
         "Reorder": "Reorder",
         "Rotate": "Rotate (deg)",
+        "repeatedItemCopied": "(copy)",
         "row_number": "Number of rows in col ",
         "Save": "Save",
         "Score": "Score",

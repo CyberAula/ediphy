@@ -260,12 +260,10 @@ export default function(state = {}, action = {}) {
     case DUPLICATE_NAV_ITEM:
         let modifiedMarks = {};
         let modifiedCvs = {};
-        console.log(state);
         for (let b in action.payload.linkedCvs) {
             for (let cv_i in action.payload.linkedCvs[b]) {
                 let cv = action.payload.linkedCvs[b][cv_i];
                 let cvObj = state[cv];
-                console.log(state, cv, action.payload.linkedCvs);
                 if(state[cv]) {
                     for (let mb in cvObj.parent) {
                         if (cvObj.parent[mb] === b) {
