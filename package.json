@@ -137,6 +137,8 @@
   },
   "dependencies": {
     "@trendmicro/react-toggle-switch": "^0.5.7",
+    "BasicAudio": "file:plugins/EnrichedAudio",
+    "BasicPDF": "file:plugins/EnrichedPDF",
     "DataTable": "file:plugins/DataTable",
     "EnrichedAudio": "file:plugins/EnrichedAudio",
     "EnrichedPDF": "file:plugins/EnrichedPDF",
@@ -151,6 +153,7 @@
     "basic-xml2json": "^1.0.4",
     "bootstrap": "^3.3.7",
     "deepmerge": "^2.0.1",
+    "ediphy-server": "file:ediphy_server",
     "ediphy_server": "file:ediphy_server",
     "es6-promise": "^4.1.1",
     "file-saver": "^1.3.3",
