@@ -10,7 +10,11 @@ import Ediphy from '../../../../core/editor/main';
 import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView, isBox } from '../../../../common/utils';
 import './_editorBox.scss';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
-import CKEDitorComponent from './CKEDitorComponent';
+// import CKEDitorComponent from './CKEDitorComponent';
+import CKEditor from '@ckeditor/ckeditor5-react';
+import ClassicEditor from 'ClassicEditor';
+// import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
+import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
 const SNAP_DRAG = 5;
 const SNAP_SIZE = 2;
 let html2json = require('html2json').html2json;
@@ -184,9 +188,16 @@ export default class EditorBox extends Component {
                 style={wholeBoxStyle}>
                 {border}
                 {toolbar.showTextEditor ? null : content }
-                {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxes[this.props.id]}
-                    style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.pluginToolbars} id={this.props.id}
-                    onBlur={this.blurTextarea}/> : null}
+                {toolbar.state.__text ?
+                    <CKEditor onInit={ editor => console.log('Editor is ready to use!', editor) }
+                        onChange={ (event, editor) => console.log({ event, editor })}
+                        config={{
+                            plugins: [Essentials],
+                            // toolbar: ['heading', '|', 'bold', 'italic', '|', 'undo', 'redo',]
+                        }}
+                        editor={ ClassicEditor }
+                        data="<p>Hello from CKEditor 5!</p>"
+                    /> : null}
                 <div className="boxOverlay" style={{ display: showOverlay }} />
                 <MarkCreator
                     addMarkShortcut={this.props.addMarkShortcut}

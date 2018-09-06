@@ -3,6 +3,8 @@ let ZipBundlePlugin = require('./webpack_plugins/bundle_zip_plugin.js');
 let dependency_loader = require('./webpack_plugins/dependencies_loader.js');
 let path = require('path');
 let ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const { styles } = require('@ckeditor/ckeditor5-dev-utils');
+const CKEditorWebpackPlugin = require('@ckeditor/ckeditor5-dev-webpack-plugin');
 
 module.exports = {
     node: {
@@ -10,6 +12,33 @@ module.exports = {
     },
     module: {
         rules: [
+            // {
+            //     test: /\.svg$/,
+            //     // test: /ckeditor5-[^/]+\/theme\/icons\/[^/]+\.svg$/,
+            //     exclude: [/node_modules/],
+            //     use: ['raw-loader'],
+            // },
+            // {
+            //     test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css/,
+            //     exclude: [/node_modules/],
+            //     use: [
+            //         {
+            //             loader: 'style-loader',
+            //             options: {
+            //                 singleton: true,
+            //             },
+            //         },
+            //         {
+            //             loader: 'postcss-loader',
+            //             options: styles.getPostCssConfig({
+            //                 themeImporter: {
+            //                     themePath: require.resolve('@ckeditor/ckeditor5-theme-lark'),
+            //                 },
+            //                 minify: true,
+            //             }),
+            //         },
+            //     ],
+            // },
             {
                 enforce: 'pre',
                 test: /\.(es6|jsx|js)$/,
@@ -30,6 +59,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
+                // exclude: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css/,
                 use: [
                     "style-loader",
                     "css-loader",
@@ -61,7 +91,8 @@ module.exports = {
                     loader: 'expose-loader',
                     options: '$',
                 }],
-            }, {
+            },
+            {
                 test: /\.ejs$/,
                 use: [{
                     loader: 'ejs-compiled-loader',
@@ -81,8 +112,13 @@ module.exports = {
         'react/addons': true,
         'react/lib/ReactContext': 'window',
         'entities': 'window',
+        'ClassicEditor': 'ClassicEditor',
     },
     plugins: [
+        new CKEditorWebpackPlugin({
+            // See https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
+            language: 'es',
+        }),
         new ProgressBarPlugin({}),
         // new webpack.ContextReplacementPlugin(/package\.json$/, "./plugins/"),
         new webpack.ProvidePlugin(Object.assign({
