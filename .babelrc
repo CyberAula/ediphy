@@ -1,4 +1,11 @@
 {
-  "presets": ["env", "react", "stage-0"],
-  "plugins": ["react-hot-loader/babel"]
+
+  "presets": [
+    "react",
+    ["env", {
+      "useBuiltIns": true,
+      "targets": { "browsers": [ "last 2 Chrome versions", "last 2 Firefox versions", "last 2 Edge versions" ] }
+    }]
+  ],
+  "plugins": ["syntax-dynamic-import","babel-plugin-transform-object-rest-spread","react-hot-loader/babel"]
 }

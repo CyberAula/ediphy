@@ -4,6 +4,7 @@ const common = require('./webpack.doc.common.js');
 let path = require('path');
 
 module.exports = merge.smart(common, {
+    mode: "development",
     entry: {
         'doc': [
             'webpack-dev-server/client?http://localhost:8082/', // WebpackDevServer host and port

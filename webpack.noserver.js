@@ -5,6 +5,7 @@ const common = require('./webpack.common.js');
 let path = require('path');
 
 module.exports = merge.smart(common, {
+    mode: "production",
     entry: {
         'app': [
             'bootstrap-loader', // Loads Twitter Bootstrap
@@ -24,8 +25,8 @@ module.exports = merge.smart(common, {
          ediphy: 'ediphy_editor_json',
     },*/
     plugins: [
-        new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.optimize.ModuleConcatenationPlugin(),
+        // new webpack.optimize.OccurrenceOrderPlugin(),
+        // new webpack.optimize.ModuleConcatenationPlugin(),
 
         new webpack.DefinePlugin({
             'process.env': {

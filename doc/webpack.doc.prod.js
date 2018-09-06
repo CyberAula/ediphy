@@ -5,6 +5,7 @@ const common = require('./webpack.doc.common.js');
 let path = require('path');
 
 module.exports = merge.smart(common, {
+    mode: "production",
     entry: {
         'doc': [
             path.join(__dirname, '/index.jsx'),
@@ -18,17 +19,17 @@ module.exports = merge.smart(common, {
     },
     devtool: 'source-map',
     plugins: [
-        new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-            compressor: {
-                warnings: false,
-            },
-        }),
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('production'),
-            },
-        }),
+        // new webpack.optimize.OccurrenceOrderPlugin(),
+        // new webpack.optimize.UglifyJsPlugin({
+        //     compressor: {
+        //         warnings: false,
+        //     },
+        // }),
+        // new webpack.DefinePlugin({
+        //     'process.env': {
+        //         'NODE_ENV': JSON.stringify('production'),
+        //     },
+        // }),
     ],
 });
 // eslint-disable-next-line no-console

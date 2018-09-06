@@ -21,34 +21,12 @@ module.exports = {
                 use: 'raw-loader',
             },
             {
-                test: /\.es6$/,
-                loader: 'babel-loader',
-                exclude: /(node_modules)/,
-                options: {
-                    presets: [
-                        ['env', {
-                            // debug: true,
-                            modules: false,
-                            loose: true,
-                            useBuiltIns: true,
-                        }],
-                    ],
-                    plugins: [require('babel-plugin-transform-object-rest-spread'), 'syntax-dynamic-import'],
-                },
-                // use: {},
-            },
-            {
-                test: /\.jsx?$/,
-                loader: 'babel-loader',
+                test: /\.(js|jsx|es6|json)$/,
                 exclude: /node_modules/,
-                options: {
-                    presets: [
-                        ['env', {
-                            modules: false,
-                        }],
-                        'react'],
+                type: 'javascript/auto',
+                use: {
+                    loader: 'babel-loader',
                 },
-                // use: {},
             },
             {
                 test: /\.css$/,
@@ -96,10 +74,17 @@ module.exports = {
         extensions: ['.js', '.jsx', '.es6', '.json'],
         modules: ['node_modules', 'plugins'],
     },
-
+    externals: {
+        'jsdom': 'window',
+        'cheerio': 'window',
+        'react/lib/ExecutionEnvironment': true,
+        'react/addons': true,
+        'react/lib/ReactContext': 'window',
+        'entities': 'window',
+    },
     plugins: [
         new ProgressBarPlugin({}),
-        new webpack.ContextReplacementPlugin(/package\.json$/, "./plugins/"),
+        // new webpack.ContextReplacementPlugin(/package\.json$/, "./plugins/"),
         new webpack.ProvidePlugin(Object.assign({
             '$': 'jquery',
             'jQuery': 'jquery',

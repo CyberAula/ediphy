@@ -1,13 +1,13 @@
 let webpack = require('webpack');
 const merge = require('webpack-merge');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const common = require('./webpack.common.js');
 let path = require('path');
 
 module.exports = merge.smart(common, {
+    mode: "production",
     entry: {
         'app': [
-            'babel-polyfill',
             'bootstrap-loader', // Loads Twitter Bootstrap
             './index.jsx',
         ], // Appʼs entry point
@@ -28,10 +28,19 @@ module.exports = merge.smart(common, {
         // new webpack.optimize.OccurrenceOrderPlugin(),
         // new webpack.optimize.ModuleConcatenationPlugin(),
         // new webpack.LoaderOptionsPlugin({ options: {} }),
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('production'),
-            },
-        }),
+        // new webpack.DefinePlugin({
+        //     'process.env': {
+        //         'NODE_ENV': JSON.stringify('production'),
+        //     },
+        // }),
     ],
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: true,
+            }),
+        ],
+    },
 });
