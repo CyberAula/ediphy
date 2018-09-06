@@ -6,7 +6,7 @@ import {
     addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
     addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeBackground, changeSortableProps,
-    reorderBoxes, verticallyAlignBox, selectIndex,
+    reorderBoxes, verticallyAlignBox, selectIndex, duplicateNavItem,
     toggleTextEditor, pasteBox, changeBoxLayer,
     configScore, exportStateAsync, importStateAsync, importState, changeGlobalConfig,
     uploadVishResourceAsync,
@@ -91,6 +91,7 @@ class EditorApp extends Component {
         this.onSortableContainerDeleted = this.onSortableContainerDeleted.bind(this);
         this.keyListener = this.keyListener.bind(this);
         this.beforeUnloadAlert = this.beforeUnloadAlert.bind(this);
+        this.duplicateNavItem = this.duplicateNavItem.bind(this);
         this.dropListener = (ev) => {
             if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
                 //
@@ -225,6 +226,7 @@ class EditorApp extends Component {
                         onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
                         onNavItemSelected={id => dispatch(selectNavItem(id))}
                         onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
+                        onNavItemDuplicated={(id)=> { this.duplicateNavItem(id);}}
                         onNavItemDeleted={(navsel) => {
                             let viewRemoving = [navsel].concat(this.getDescendantViews(navItems[navsel]));
                             let boxesRemoving = [];
@@ -705,6 +707,11 @@ class EditorApp extends Component {
                 this.props.dispatch(ActionCreators.redo());
             }
         }
+        // Ctrl + A
+        if (key === 192 && e.ctrlKey) {
+            this.duplicateNavItem(this.props.navItemSelected);
+        }
+
         if (key === 80 && e.ctrlKey && e.shiftKey) {
             e.cancelBubble = true;
             e.preventDefault();
@@ -749,6 +756,46 @@ class EditorApp extends Component {
             cvs,
             page));
     }
+
+    duplicateNavItem(id) {
+        if (id && this.props.navItems[id]) {
+            let newBoxes = [];
+            let navItem = this.props.navItems[id];
+            let linkedCVs = {};
+            let linkedNavs = [];
+            if (navItem.boxes) {
+                newBoxes = newBoxes.concat(navItem.boxes);
+                navItem.boxes.forEach(b => {
+                    let box = this.props.boxes[b];
+                    if (box.sortableContainers) {
+                        for (let sc in box.sortableContainers) {
+                            if (box.sortableContainers[sc].children) {
+                                newBoxes = newBoxes.concat(box.sortableContainers[sc].children);
+                                box.sortableContainers[sc].children.forEach(bo => {
+                                    let bx = this.props.boxes[bo];
+                                    if (bx.sortableContainers) {
+                                        for (let scc in bx.sortableContainers) {
+                                            if (bx.sortableContainers[scc].children) {
+                                                newBoxes = newBoxes.concat(bx.sortableContainers[scc].children);
+
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+            }
+            let newBoxesMap = {};
+            newBoxes.map(box => {
+                linkedCVs[box] = [...this.props.boxes[box].containedViews];
+                newBoxesMap[box] = box + Date.now(); });
+
+            this.props.dispatch(duplicateNavItem(id, id + Date.now(), newBoxesMap, Date.now(), linkedCVs, linkedNavs));
+        }
+    }
+
     toolbarUpdated(id, tab, accordion, name, value) {
         if (isBox(id) || isSortableBox(id)) {
             let toolbar = this.props.pluginToolbars[id];

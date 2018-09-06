@@ -1,6 +1,6 @@
 import {
     ADD_BOX, MOVE_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_BACKGROUND, DELETE_BOX, EXPAND_NAV_ITEM,
-    REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM,
+    REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM, DUPLICATE_NAV_ITEM,
     DELETE_SORTABLE_CONTAINER, DROP_BOX,
     ADD_RICH_MARK, EDIT_RICH_MARK, DELETE_RICH_MARK,
     IMPORT_STATE, PASTE_BOX, CHANGE_BOX_LAYER, ADD_NAV_ITEMS,
@@ -434,6 +434,32 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
             }
         }
         return newState;
+    case DUPLICATE_NAV_ITEM:
+        let oldNavItem = state[action.payload.id];
+        let newState2 = JSON.parse(JSON.stringify(state));
+        let newNavItem = newState2[action.payload.id];
+        newNavItem.id = action.payload.newId;
+        oldNavItem.boxes.map((box, ind)=>{
+            newNavItem.boxes[ind] = action.payload.boxes[box];
+        });
+        for (let nav in newState2) {
+            if (newState2[nav].linkedBoxes) {
+                for (let lb in newState2[nav].linkedBoxes) {
+                    let ind = Object.keys(action.payload.boxes).indexOf(newState2[nav].linkedBoxes[lb]);
+                    if(ind > -1) {
+                        newState2[nav] = { ...newState2[nav], linkedBoxes: [...newState2[nav].linkedBoxes, action.payload.boxes[newState2[nav].linkedBoxes[lb]]] };
+                    }
+                }
+            }
+        }
+        console.log(newState2);
+
+        return { ...newState2,
+            [newNavItem.parent]: { ...state[newNavItem.parent], children: [...state[newNavItem.parent].children, action.payload.newId] },
+            [action.payload.newId]: newNavItem,
+            [action.payload.id]: { ...state[action.payload.id] },
+        };
+
     default:
         return state;
     }

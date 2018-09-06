@@ -37,6 +37,7 @@ export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
 export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
 // export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
 export const SET_BUSY = 'SET_BUSY';
+export const DUPLICATE_NAV_ITEM = 'DUPLICATE_NAV_ITEM';
 
 export const CONFIG_SCORE = 'CONFIG_SCORE';
 export const UPDATE_PLUGIN_TOOLBAR = 'UPDATE_PLUGIN_TOOLBAR';
@@ -198,6 +199,10 @@ export function selectContainedView(id) {
 
 export function toggleTextEditor(id, value, text, content) {
     return { type: TOGGLE_TEXT_EDITOR, payload: { id, value, text, content } };
+}
+
+export function duplicateNavItem(id, newId, boxes, suffix, linkedCvs, linkedNavs) {
+    return { type: DUPLICATE_NAV_ITEM, payload: { id, newId, boxes, suffix, linkedCvs, linkedNavs } };
 }
 
 export function pasteBox(ids, box, toolbar, children, index, marks, score) {

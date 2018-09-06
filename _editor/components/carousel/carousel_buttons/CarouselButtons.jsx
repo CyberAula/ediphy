@@ -188,7 +188,18 @@ export default class CarouselButtons extends Component {
                  </Button>
                  </OverlayTrigger>
                  */}
-
+                <OverlayTrigger placement="top" overlay={
+                    <Tooltip id="duplicateNavTooltip">{i18n.t('DuplicateNavItem')}
+                    </Tooltip>}>
+                    <Button className="carouselButton"
+                        name="duplicateNav"
+                        disabled={isContainedView(this.props.indexSelected)}
+                        onClick={e => { console.log(e);
+                            this.props.onNavItemDuplicated(this.props.indexSelected);
+                        }}>
+                        <i className="material-icons">control_point_duplicate </i>
+                    </Button>
+                </OverlayTrigger>
                 <OverlayTrigger placement="top" overlay={
                     <Tooltip id="deleteTooltip">{i18n.t('delete')}
                     </Tooltip>}>
@@ -224,6 +235,7 @@ export default class CarouselButtons extends Component {
                             style={{ float: 'right' }} >
                             {i18n.t("Cancel")}
                         </Button>
+
                         <Button className="popoverButton"
                             name="popoverAcceptButton"
                             disabled={/* (isContainedView(this.props.indexSelected) && !this.canDeleteContainedView(this.props.indexSelected)) || */this.props.indexSelected === 0}

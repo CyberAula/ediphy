@@ -66,6 +66,7 @@ export default class EditorCarousel extends Component {
                     onBoxAdded={this.props.onBoxAdded}
                     onIndexSelected={this.props.onIndexSelected}
                     onContainedViewDeleted={this.props.onContainedViewDeleted}
+                    onNavItemDuplicated={this.props.onNavItemDuplicated}
                     onNavItemDeleted={this.props.onNavItemDeleted} />
             </div>
         );

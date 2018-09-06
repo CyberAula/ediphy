@@ -1,4 +1,7 @@
-import { ADD_NAV_ITEM, DELETE_NAV_ITEM, SELECT_NAV_ITEM, IMPORT_STATE, INDEX_SELECT } from '../common/actions';
+import {
+    ADD_NAV_ITEM, DELETE_NAV_ITEM, SELECT_NAV_ITEM, IMPORT_STATE, INDEX_SELECT,
+    DUPLICATE_NAV_ITEM,
+} from '../common/actions';
 import { isPage } from '../common/utils';
 
 export default function(state = 0, action = {}) {
@@ -22,6 +25,8 @@ export default function(state = 0, action = {}) {
         return state;
     case IMPORT_STATE:
         return action.payload.present.navItemSelected || state;
+    case DUPLICATE_NAV_ITEM:
+        return action.payload.newId;
     default:
         return state;
     }

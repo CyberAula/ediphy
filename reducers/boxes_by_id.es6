@@ -7,7 +7,7 @@ import {
     DROP_BOX,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE, PASTE_BOX, UPDATE_PLUGIN_TOOLBAR, TOGGLE_TEXT_EDITOR,
-    RESIZE_BOX,
+    RESIZE_BOX, DUPLICATE_NAV_ITEM,
 } from '../common/actions';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX } from '../common/constants';
 
@@ -80,7 +80,7 @@ function boxCreator(state, action) {
         showTextEditor: false,
         fragment: {},
         children: children,
-        sortableContainers: sortableContainers,
+        sortableContainers,
         containedViews: [],
     };
 }
@@ -277,6 +277,24 @@ function boxReducer(state = {}, action = {}) {
                 sortableContainers,
             ]
         );
+    case DUPLICATE_NAV_ITEM:
+        let id = action.payload.boxes[state.id];
+        let parent = action.payload.boxes[state.parent] ? action.payload.boxes[state.parent] : state.parent;
+        if (parent === action.payload.id) {
+            parent = action.payload.newId;
+        }
+        let sortableContainersObj = {};
+        if (state.sortableContainers) {
+            sortableContainersObj = JSON.parse(JSON.stringify(state.sortableContainers));
+            for (let sc in sortableContainersObj) {
+
+                let children = sortableContainersObj[sc].children.forEach(child=>{
+                    return action.payload.boxes[child];
+                });
+                sortableContainersObj[sc].children = children;
+            }
+        }
+        return { ...state, id, parent, sortableContainersObj };
     default:
         return state;
     }
@@ -604,7 +622,13 @@ export default function(state = {}, action = {}) {
         return deleteProps(state, action.payload.boxes);
     case IMPORT_STATE:
         return action.payload.present.boxesById || state;
-
+    case DUPLICATE_NAV_ITEM:
+        let newBoxesArr = {};
+        for (let box in action.payload.boxes) {
+            let newId = action.payload.boxes[box];
+            newBoxesArr[newId] = boxReducer(state[box], action);
+        }
+        return { ...state, ...newBoxesArr };
     default:
         return state;
     }

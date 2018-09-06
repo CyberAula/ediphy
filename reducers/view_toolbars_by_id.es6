@@ -2,7 +2,7 @@ import {
     DELETE_CONTAINED_VIEW, ADD_NAV_ITEM,
     ADD_RICH_MARK, EDIT_RICH_MARK,
     DELETE_NAV_ITEM, UPDATE_VIEW_TOOLBAR,
-    IMPORT_STATE, ADD_CONTAINED_VIEW, ADD_NAV_ITEMS,
+    IMPORT_STATE, ADD_CONTAINED_VIEW, ADD_NAV_ITEMS, DUPLICATE_NAV_ITEM,
 } from '../common/actions';
 import i18n from 'i18next';
 import {
@@ -97,6 +97,10 @@ export default function(state = {}, action = {}) {
         return newState;
     case IMPORT_STATE:
         return action.payload.present.viewToolbarsById || state;
+    case DUPLICATE_NAV_ITEM:
+        return { ...state,
+            [action.payload.newId]: { ...state[action.payload.id], id: action.payload.newId, viewName: state[action.payload.id].viewName + " 2" },
+        };
     default:
         return state;
     }

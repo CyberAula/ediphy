@@ -1,6 +1,6 @@
 import {
     ADD_NAV_ITEM, ADD_NAV_ITEMS, DELETE_NAV_ITEM, ADD_BOX, DELETE_BOX, PASTE_BOX, SET_CORRECT_ANSWER, IMPORT_STATE,
-    DELETE_SORTABLE_CONTAINER, ADD_RICH_MARK, CONFIG_SCORE, EDIT_RICH_MARK, DELETE_CONTAINED_VIEW,
+    DELETE_SORTABLE_CONTAINER, ADD_RICH_MARK, CONFIG_SCORE, EDIT_RICH_MARK, DELETE_CONTAINED_VIEW, DUPLICATE_NAV_ITEM,
 } from '../common/actions';
 
 import { isBox, existsAndIsViewOrContainedView, changeProp, changeProps, deleteProp, deleteProps, isContainedView } from '../common/utils';
@@ -145,6 +145,16 @@ export default function(state = {}, action = {}) {
         return changeProp(state, action.payload.page, singlePageReducer(state[action.payload.page], action));
     case IMPORT_STATE:
         return action.payload.present.exercises || state;
+    case DUPLICATE_NAV_ITEM:
+        let newExercise = JSON.parse(JSON.stringify(state[action.payload.id]));
+        newExercise.id = action.payload.newId;
+        let newExercises = {};
+        for (let ex in newExercise.exercises) {
+            let newId = action.payload.boxes[ex];
+            newExercises[newId] = { ...newExercise.exercises[ex], id: newId };
+        }
+        newExercise.exercises = newExercises;
+        return { ...state, [action.payload.newId]: newExercise };
     default:
         return state;
     }
