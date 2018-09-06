@@ -17,6 +17,7 @@ module.exports = {
             {
                 test: /\.es6$/,
                 exclude: /(node_modules|bower_components)/,
+                type: 'javascript/auto',
                 use: {
                     loader: 'babel-loader',
                     options: {

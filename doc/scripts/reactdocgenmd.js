@@ -68,7 +68,7 @@ function getFiles(filePath, renderer, lang) {
 function writeModuleFile(modPath, lang) {
     let content = "";
     files.map(file=>{
-        content += "export * as " + file + "_" + lang + " from './files/" + lang + "/" + file + ".md';\n";// export " + file + ';\n';
+        content += "export { default as " + file + "_" + lang + " } from './files/" + lang + "/" + file + ".md';\n";// export " + file + ';\n';
     });
 
     fs.appendFileSync(modPath, content);
