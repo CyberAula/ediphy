@@ -52,7 +52,7 @@ let components = {
         "onBoxAdded": "Función para añadir una  caja",
         "onContainedViewDeleted": "Borra vista contenida",
         "onContainedViewSelected": "Selecciona vista contenida",
-        "onContainedViewNameChanged": "Renombre vista contenida",
+        "onContainedViewNameChanged": "Renombra vista contenida",
         "onNavItemNameChanged": "Renombra vista",
         "onNavItemAdded": "Añade vista",
         "onNavItemSelected": "Selecciona vista",
@@ -61,6 +61,7 @@ let components = {
         "onNavItemDeleted": "Elimina vista/vista contenida",
         "onNavItemReordered": "Reordena elementos del índice",
         "carouselShow": "Indicador de si el índice desplegado",
+        "onNavItemDuplicated": "Duplica una vista",
     },
     "CarouselHeader": {
         "carouselShow": "Indicador de si el índice desplegado",
@@ -469,6 +470,7 @@ let components = {
         "onToggleFull": "Expande el índice para que ocupe el 100% del ancho",
         "onToggleWidth": "Modifica el ancho del índice",
         "viewToolbars": "Objeto que contiene todas las toolbars de las vistas",
+        "onNavItemDuplicated": "Duplica una vista",
     },
     "ExportModal": {
         "show": "Indica si se muestra el modal",

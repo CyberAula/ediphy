@@ -48,7 +48,7 @@
     height: 0px;
 }
 
-.selected.classIndexSelected {
+.classIndexSelected i, .classIndexSelected .actualSectionTitle {
     color: $blueprimary;
 }
 
@@ -57,9 +57,9 @@
     font-size: 12px;
     background-color: #222;
     color: white;
-    .actualSectionTitle{
+    /*.actualSectionTitle{
         color: $blueprimary;
-    }
+    }*/
 }
 
 /*NavItem NOT Selected*/
@@ -70,18 +70,13 @@
         cursor: pointer;
     }
 }
+.selected {
+    color: $grismedio !important;
+}
 
 .classIndexSelected {
     color: $blueprimary !important;
 }
-
-.selected.classIndexSelected {
-    color: $blueprimary !important;
-}
-.selected.classIndexSelected .selected {
-    color: $blueprimary !important;
-}
-
 
 /*Each NavItem*/
 .navItemBlock {

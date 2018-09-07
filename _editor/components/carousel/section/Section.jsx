@@ -55,7 +55,7 @@ export default class Section extends Component {
                                 {navItem.isExpanded ? "keyboard_arrow_down" : "keyboard_arrow_right"}
                             </i>
                         </button>
-                        <span className={classSelected} style={{ display: 'inline' }}>
+                        <span className={classSelected + classIndexSelected} style={{ display: 'inline' }}>
                             <EditorIndexTitle id={this.props.id}
                                 title={this.props.viewToolbars[this.props.id].viewName}
                                 index={navItem.level === 1 ?

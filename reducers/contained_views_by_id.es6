@@ -2,7 +2,7 @@
 import {
     ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_RICH_MARK, EDIT_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW,
     CHANGE_CONTAINED_VIEW_NAME, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, PASTE_BOX, IMPORT_STATE,
-    CHANGE_BOX_LAYER, CHANGE_BACKGROUND, DROP_BOX,
+    CHANGE_BOX_LAYER, CHANGE_BACKGROUND, DROP_BOX, DUPLICATE_NAV_ITEM,
 } from '../common/actions';
 
 import { changeProp, deleteProps, isContainedView, findNavItemContainingBox } from '../common/utils';
@@ -257,6 +257,24 @@ export default function(state = {}, action = {}) {
         return newState;
     case IMPORT_STATE:
         return action.payload.present.containedViewsById || state;
+    case DUPLICATE_NAV_ITEM:
+        let modifiedMarks = {};
+        let modifiedCvs = {};
+        for (let b in action.payload.linkedCvs) {
+            for (let cv_i in action.payload.linkedCvs[b]) {
+                let cv = action.payload.linkedCvs[b][cv_i];
+                let cvObj = state[cv];
+                if(state[cv]) {
+                    for (let mb in cvObj.parent) {
+                        if (cvObj.parent[mb] === b) {
+                            modifiedMarks[cv] = { ...modifiedMarks[cv], [mb + action.payload.suffix]: action.payload.boxes[b] };
+                        }
+                    }
+                    modifiedCvs[cv] = { ...state[cv], parent: { ...state[cv].parent, ... modifiedMarks[cv] } };
+                }
+            }
+        }
+        return { ...state, ...modifiedCvs };
     default:
         return state;
     }
