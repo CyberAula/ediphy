@@ -39,15 +39,16 @@ export function MultipleAnswer(base) {
                                     type: 'checkbox',
                                     checked: state.showFeedback,
                                 },
-                                letters: {
-                                    __name: i18n.t("MultipleAnswer.ShowLettersInsteadOfNumbers"),
-                                    type: 'checkbox',
-                                    checked: state.letters,
-                                },
                                 allowPartialScore: {
                                     __name: i18n.t("MultipleAnswer.AllowPartialScore"),
                                     type: 'checkbox',
                                     checked: state.allowPartialScore,
+                                },
+                                letters: {
+                                    __name: i18n.t("MultipleAnswer.ShowLettersInsteadOfNumbers"),
+                                    type: 'radio',
+                                    value: state.letters,
+                                    options: [i18n.t("MultipleAnswer.ShowLetters"), i18n.t("MultipleAnswer.ShowNumbers")],
                                 },
                                 quizColor: {
                                     __name: Ediphy.i18n.t('MultipleChoice.QuizColor'),
@@ -115,7 +116,7 @@ export function MultipleAnswer(base) {
             return {
                 nBoxes: 3,
                 showFeedback: true,
-                letters: true,
+                letters: i18n.t("MultipleAnswer.ShowLetters"),
                 allowPartialScore: false,
                 quizColor: 'rgba(0, 173, 156, 1)',
             };
@@ -130,7 +131,7 @@ export function MultipleAnswer(base) {
                 let checked = (props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1);
                 answers.push(<div key={i + 1} className={"row answerRow"}>
                     <div className={"col-xs-2 answerPlaceholder"}>
-                        <div className={"answer_letter"} style={{ backgroundColor: state.quizColor }}>{state.letters ? letterFromNumber(i) : (i + 1)}</div>
+                        <div className={"answer_letter"} style={{ backgroundColor: state.quizColor }}>{(state.letters === i18n.t("MultipleAnswer.ShowLetters")) ? letterFromNumber(i) : (i + 1)}</div>
                         <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
                             let newCorrectAnswer = props.exercises.correctAnswer.filter((c)=>{
                                 return (c < answers.length);

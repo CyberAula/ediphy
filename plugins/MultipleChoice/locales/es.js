@@ -9,7 +9,9 @@ module.exports = {
         "ShowFeedback": "Mostrar explicación",
         "Answer": "Respuesta",
         "Number": "Número de respuestas",
-        "ShowLettersInsteadOfNumbers": "Mostrar letra en vez de nº",
+        "ShowLettersInsteadOfNumbers": "Tipo de etiqueta",
+        "ShowLetters": "Letras",
+        "ShowNumbers": "Números",
         "QuizColor": "Color de la pregunta",
 
     },

@@ -44,8 +44,9 @@ export function MultipleChoice(base) {
                                 },
                                 letters: {
                                     __name: i18n.t("MultipleChoice.ShowLettersInsteadOfNumbers"),
-                                    type: 'checkbox',
-                                    checked: state.letters,
+                                    type: 'radio',
+                                    value: state.letters,
+                                    options: [i18n.t("MultipleChoice.ShowLetters"), i18n.t("MultipleChoice.ShowNumbers")],
                                 },
                                 quizColor: {
                                     __name: Ediphy.i18n.t('MultipleChoice.QuizColor'),
@@ -113,7 +114,7 @@ export function MultipleChoice(base) {
             return {
                 nBoxes: 3,
                 showFeedback: true,
-                letters: true,
+                letters: i18n.t("MultipleChoice.ShowLetters"),
                 quizColor: 'rgba(0, 173, 156, 1)',
             };
         },
@@ -129,7 +130,7 @@ export function MultipleChoice(base) {
                 };
                 answers.push(<div key={i + 1} className={"row answerRow"}>
                     <div className={"col-xs-2 answerPlaceholder"} >
-                        <div className={"answer_letter"} style={{ backgroundColor: state.quizColor }}>{state.letters ? letterFromNumber(i) : (i + 1)}</div>
+                        <div className={"answer_letter"} style={{ backgroundColor: state.quizColor }}>{(state.letters === i18n.t("MultipleChoice.ShowLetters")) ? letterFromNumber(i) : (i + 1)}</div>
                         <input type="radio" className="radioQuiz" name={props.id} value={i} checked={props.exercises.correctAnswer === i /* ? 'checked' : 'unchecked'*/ }
                             onChange={clickHandler}
                             style={{ backgroundColor: state.quizColor }}/>

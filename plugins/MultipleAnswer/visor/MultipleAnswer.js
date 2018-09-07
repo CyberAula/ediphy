@@ -2,6 +2,7 @@ import React from 'react';
 import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
 import { letterFromNumber } from '../../../common/common_tools';
 import { correctArrayUnordered } from '../../../core/visor/correction_functions';
+import i18n from "i18next";
 /* eslint-disable react/prop-types */
 
 export function MultipleAnswer() {
@@ -36,7 +37,7 @@ export function MultipleAnswer() {
                 content.push(
                     <div key={i + 1} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : "")}>
                         <div className={"col-xs-2 answerPlaceholder"}>
-                            <div className={"answer_letter"} style={{ backgroundColor: state.quizColor }}>{state.letters ? letterFromNumber(i) : (i + 1)}</div>
+                            <div className={"answer_letter"} style={{ backgroundColor: state.quizColor }}>{(state.letters === i18n.t("MultipleChoice.ShowLetters")) ? letterFromNumber(i) : (i + 1)}</div>
                             <input type="checkbox" disabled={attempted} className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
                                 // props.setAnswer(e.target.value);
                                 setAnswer(i);

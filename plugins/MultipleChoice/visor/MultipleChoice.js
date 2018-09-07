@@ -15,6 +15,8 @@ export function MultipleChoice() {
             score = (score) + "/" + (props.exercises.weight || 0);
             let showFeedback = attempted && state.showFeedback;
 
+            console.log(state.letters);
+
             function setRgbaAlpha(color, alpha) {
                 return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
             }
@@ -26,7 +28,7 @@ export function MultipleChoice() {
                 content.push(
                     <div key={i + 1} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")}>
                         <div className={"col-xs-2 answerPlaceholder"}>
-                            <div className={"answer_letter"} style={{ backgroundColor: state.quizColor }}>{state.letters ? letterFromNumber(i) : (i + 1)}</div>
+                            <div className={"answer_letter"} style={{ backgroundColor: state.quizColor }}>{(state.letters === i18n.t("MultipleChoice.ShowLetters")) ? letterFromNumber(i) : (i + 1)}</div>
                             <input type="radio" disabled={attempted} className="radioQuiz" name={props.id}
                                 value={i} checked={ checked}
                                 style={{ backgroundColor: state.quizColor }}
