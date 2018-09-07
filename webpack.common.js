@@ -12,12 +12,12 @@ module.exports = {
     },
     module: {
         rules: [
-            // {
-            //     test: /\.svg$/,
-            //     // test: /ckeditor5-[^/]+\/theme\/icons\/[^/]+\.svg$/,
-            //     exclude: [/node_modules/],
-            //     use: ['raw-loader'],
-            // },
+            {
+                // test: /\.svg$/,
+                test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
+                exclude: [/node_modules/],
+                use: ['raw-loader'],
+            },
             // {
             //     test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css/,
             //     exclude: [/node_modules/],
@@ -112,12 +112,12 @@ module.exports = {
         'react/addons': true,
         'react/lib/ReactContext': 'window',
         'entities': 'window',
-        'ClassicEditor': 'ClassicEditor',
     },
+    // [string | object { <key>: string | object | boolean } | function | RegExp | [(recursive)]]
     plugins: [
         new CKEditorWebpackPlugin({
             // See https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
-            language: 'es',
+            language: 'en',
         }),
         new ProgressBarPlugin({}),
         // new webpack.ContextReplacementPlugin(/package\.json$/, "./plugins/"),

@@ -11,10 +11,7 @@ import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedVie
 import './_editorBox.scss';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 // import CKEDitorComponent from './CKEDitorComponent';
-import CKEditor from '@ckeditor/ckeditor5-react';
-import ClassicEditor from 'ClassicEditor';
-// import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
-import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
+
 const SNAP_DRAG = 5;
 const SNAP_SIZE = 2;
 let html2json = require('html2json').html2json;
@@ -188,16 +185,7 @@ export default class EditorBox extends Component {
                 style={wholeBoxStyle}>
                 {border}
                 {toolbar.showTextEditor ? null : content }
-                {toolbar.state.__text ?
-                    <CKEditor onInit={ editor => console.log('Editor is ready to use!', editor) }
-                        onChange={ (event, editor) => console.log({ event, editor })}
-                        config={{
-                            plugins: [Essentials],
-                            // toolbar: ['heading', '|', 'bold', 'italic', '|', 'undo', 'redo',]
-                        }}
-                        editor={ ClassicEditor }
-                        data="<p>Hello from CKEditor 5!</p>"
-                    /> : null}
+                {toolbar.state.__text ? <div id="editor" /> : null}
                 <div className="boxOverlay" style={{ display: showOverlay }} />
                 <MarkCreator
                     addMarkShortcut={this.props.addMarkShortcut}

@@ -52,6 +52,10 @@ import Cookies from 'universal-cookie';
 import ExitModal from "../components/exit_modal/ExitModal";
 const cookies = new Cookies();
 
+import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
+import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
+import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
+
 /**
  * EditorApp. Main application component that renders everything else
  */
@@ -643,6 +647,17 @@ class EditorApp extends Component {
      * Loads plugin API and sets listeners for plugin events, marks and keyboard keys pressed
      */
     componentDidMount() {
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                plugins: [Essentials, Alignment],
+                toolbar: ['alignment'],
+            })
+            .then(editor => {
+                console.log('Editor was initialized', editor);
+            })
+            .catch(error => {
+                console.error(error.stack);
+            });
         if (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' && ediphy_editor_json && ediphy_editor_json !== 'undefined') {
             this.props.dispatch(importState(serialize(JSON.parse(ediphy_editor_json))));
 
