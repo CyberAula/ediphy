@@ -193,7 +193,7 @@ export default class CarouselButtons extends Component {
                     </Tooltip>}>
                     <Button className="carouselButton"
                         name="duplicateNav"
-                        disabled={isContainedView(this.props.indexSelected)}
+                        disabled={ this.props.indexSelected === 0 || isContainedView(this.props.indexSelected) || isSection(this.props.indexSelected)}
                         onClick={e => {
                             this.props.onNavItemDuplicated(this.props.indexSelected);
                         }}>

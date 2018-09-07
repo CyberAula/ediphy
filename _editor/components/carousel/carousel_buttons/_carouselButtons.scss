@@ -51,4 +51,7 @@
         color: white !important;
         background-color: transparent !important;
     }
+    &[disabled ]{
+        opacity: 0.15;
+    }
 }
