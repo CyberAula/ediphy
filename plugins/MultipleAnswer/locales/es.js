@@ -9,7 +9,7 @@ module.exports = {
         "ShowFeedback": "Mostrar explicación",
         "Answer": "Respuesta",
         "Number": "Número de respuestas",
-        "ShowLettersInsteadOfNumbers": "Tipo de etiqueta",
+        "ShowLettersInsteadOfNumbers": "Etiquetas para las respuestas",
         "ShowLetters": "Letras",
         "ShowNumbers": "Números",
         "AllowPartialScore": "Permitir aciertos parciales",
