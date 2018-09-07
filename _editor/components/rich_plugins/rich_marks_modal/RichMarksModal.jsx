@@ -402,7 +402,7 @@ export default class RichMarksModal extends Component {
     }
 
     /**
-     * Mapping method that joins cointained views and navItems in array but excluding the ones that can't be
+     * Mapping method that joins contained views and navItems in array but excluding the ones that can't be
      * @param props Component's props
      * @returns {Array} Array of views
      */
