@@ -10,5 +10,6 @@ module.exports = {
         "ShowFeedback": "Show feedback",
         "Number": "Number  of answers",
         "ShowLettersInsteadOfNumbers": "Show letters instead of numbers",
+        "QuizColor": "Quiz color",
     },
 };

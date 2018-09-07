@@ -49,6 +49,11 @@ export function MultipleAnswer(base) {
                                     type: 'checkbox',
                                     checked: state.allowPartialScore,
                                 },
+                                quizColor: {
+                                    __name: Ediphy.i18n.t('MultipleChoice.QuizColor'),
+                                    type: 'color',
+                                    value: state.quizColor,
+                                },
                             },
                         },
                         style: {
@@ -112,16 +117,20 @@ export function MultipleAnswer(base) {
                 showFeedback: true,
                 letters: true,
                 allowPartialScore: false,
+                quizColor: 'rgba(0, 173, 156, 1)',
             };
         },
         getRenderTemplate: function(state, props = {}) {
 
             let answers = [];
+            function setRgbaAlpha(color, alpha) {
+                return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
+            }
             for (let i = 0; i < state.nBoxes; i++) {
                 let checked = (props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1);
                 answers.push(<div key={i + 1} className={"row answerRow"}>
                     <div className={"col-xs-2 answerPlaceholder"}>
-                        <div className={"answer_letter"}>{state.letters ? letterFromNumber(i) : (i + 1)}</div>
+                        <div className={"answer_letter"} style={{ backgroundColor: state.quizColor }}>{state.letters ? letterFromNumber(i) : (i + 1)}</div>
                         <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
                             let newCorrectAnswer = props.exercises.correctAnswer.filter((c)=>{
                                 return (c < answers.length);
@@ -157,7 +166,7 @@ export function MultipleAnswer(base) {
                 </div>
                 {answers}
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"}>
+                    <div className={"col-xs-12 feedback"} style={{ color: state.quizColor, borderColor: state.quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.25) }}>
                         <PluginPlaceholder {...props} key="-2"
                             pluginContainerName={i18n.t("MultipleAnswer.Feedback")}
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("MultipleAnswer.FeedbackMsg") + '</p>' } }/* , {plugin: 'HotspotImages', initialState:{url: 'nooo'}}*/]}

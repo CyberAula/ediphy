@@ -14,6 +14,10 @@ export function MultipleAnswer() {
             score = (score) + "/" + (props.exercises.weight || 0);
             let showFeedback = attempted && state.showFeedback;
 
+            function setRgbaAlpha(color, alpha) {
+                return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
+            }
+
             let setAnswer = (i) => {
                 let newCurrentAnswer = props.exercises.currentAnswer ? Object.assign([], props.exercises.currentAnswer) : [];
                 let index = newCurrentAnswer.indexOf(i);
@@ -32,7 +36,7 @@ export function MultipleAnswer() {
                 content.push(
                     <div key={i + 1} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : "")}>
                         <div className={"col-xs-2 answerPlaceholder"}>
-                            <div className={"answer_letter"} >{state.letters ? letterFromNumber(i) : (i + 1)}</div>
+                            <div className={"answer_letter"} style={{ backgroundColor: state.quizColor }}>{state.letters ? letterFromNumber(i) : (i + 1)}</div>
                             <input type="checkbox" disabled={attempted} className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
                                 // props.setAnswer(e.target.value);
                                 setAnswer(i);
@@ -55,11 +59,11 @@ export function MultipleAnswer() {
                 </div>
                 {content}
                 <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"}>
+                    <div className={"col-xs-12 feedback"} style={{ color: state.quizColor, borderColor: state.quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.25) }}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
                     </div>
                 </div>
-                <div key={-1} className={"exerciseScore"}>{score}</div>
+                <div key={-1} className={"exerciseScore"} style={{ color: state.quizColor }}>{score}</div>
             </div>;
         },
         /* checkAnswer(current, correct, state) {
