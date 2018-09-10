@@ -16,17 +16,19 @@ export function MultipleChoice() {
             let showFeedback = attempted && state.showFeedback;
 
             function setRgbaAlpha(color, alpha) {
-
-                if (color.charAt(0) === "#") {
-                    let cutHex = color.substring(1, 7);
-                    let r = parseInt(cutHex.substring(0, 2), 16);
-                    let g = parseInt(cutHex.substring(2, 4), 16);
-                    let b = parseInt(cutHex.substring(4, 6), 16);
-                    color = 'rgba(' + r + ',' + g + ',' + b + ',0.25)';
-                    console.log(color);
+                if (color) {
+                    if (color.charAt(0) === "#") {
+                        let cutHex = color.substring(1, 7);
+                        let r = parseInt(cutHex.substring(0, 2), 16);
+                        let g = parseInt(cutHex.substring(2, 4), 16);
+                        let b = parseInt(cutHex.substring(4, 6), 16);
+                        color = 'rgba(' + r + ',' + g + ',' + b + ',0.25)';
+                    }
+                    return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
                 }
-                return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
+                return 'rgba(0, 173, 156, 0.25)';
             }
+            let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
 
             for (let i = 0; i < state.nBoxes; i++) {
                 let correct = attempted && props.exercises.correctAnswer === i; // && props.exercises.currentAnswer === i ;
@@ -35,7 +37,7 @@ export function MultipleChoice() {
                 content.push(
                     <div key={i + 1} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")}>
                         <div className={"col-xs-2 answerPlaceholder"}>
-                            <div className={"answer_letter"} style={{ backgroundColor: state.quizColor }}>{(state.letters === i18n.t("MultipleChoice.ShowLetters")) ? letterFromNumber(i) : (i + 1)}</div>
+                            <div className={"answer_letter"} style={{ backgroundColor: quizColor }}>{(state.letters === i18n.t("MultipleChoice.ShowLetters")) ? letterFromNumber(i) : (i + 1)}</div>
                             <input type="radio" disabled={attempted} className="radioQuiz" name={props.id}
                                 value={i} checked={ checked}
                                 onChange={(e)=>{
@@ -58,18 +60,18 @@ export function MultipleChoice() {
                 </div>
                 {content}
                 <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"} style={{ color: state.quizColor, borderColor: state.quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.15) }}>
+                    <div className={"col-xs-12 feedback"} style={{ color: quizColor, borderColor: quizColor, backgroundColor: setRgbaAlpha(quizColor, 0.15) }}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
                     </div>
                 </div>
-                <div className={"exerciseScore"} style={{ color: state.quizColor }}>{score}</div>
+                <div className={"exerciseScore"} style={{ color: quizColor }}>{score}</div>
                 <style dangerouslySetInnerHTML={{
                     __html: `
                     .multipleChoicePlugin input[type="radio"]  {
                       background-color: transparent;
                     }
                    .multipleChoicePlugin input[type="radio"]:checked:after {
-                      background-color: ${state.quizColor};
+                      background-color: ${quizColor};
                     }
                   `,
                 }} />

@@ -121,25 +121,26 @@ export function MultipleChoice(base) {
         getRenderTemplate: function(state, props = {}) {
             let answers = [];
             function setRgbaAlpha(color, alpha) {
-
-                if (color.charAt(0) === "#") {
-                    let cutHex = color.substring(1, 7);
-                    let r = parseInt(cutHex.substring(0, 2), 16);
-                    let g = parseInt(cutHex.substring(2, 4), 16);
-                    let b = parseInt(cutHex.substring(4, 6), 16);
-                    color = 'rgba(' + r + ',' + g + ',' + b + ',0.25)';
-                    console.log(color);
+                if (color) {
+                    if (color.charAt(0) === "#") {
+                        let cutHex = color.substring(1, 7);
+                        let r = parseInt(cutHex.substring(0, 2), 16);
+                        let g = parseInt(cutHex.substring(2, 4), 16);
+                        let b = parseInt(cutHex.substring(4, 6), 16);
+                        color = 'rgba(' + r + ',' + g + ',' + b + ',0.25)';
+                    }
+                    return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
                 }
-                return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
+                return 'rgba(0, 173, 156, 0.25)';
             }
-
+            let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
             for (let i = 0; i < state.nBoxes; i++) {
                 let clickHandler = (e)=>{
                     props.setCorrectAnswer(parseInt(e.target.value, 10));
                 };
                 answers.push(<div key={i + 1} className={"row answerRow"}>
                     <div className={"col-xs-2 answerPlaceholder"} >
-                        <div className={"answer_letter"} style={{ backgroundColor: state.quizColor }}>{(state.letters === i18n.t("MultipleChoice.ShowLetters")) ? letterFromNumber(i) : (i + 1)}</div>
+                        <div className={"answer_letter"} style={{ backgroundColor: quizColor }}>{(state.letters === i18n.t("MultipleChoice.ShowLetters")) ? letterFromNumber(i) : (i + 1)}</div>
                         <input type="radio" className="radioQuiz" name={props.id} value={i} checked={props.exercises.correctAnswer === i /* ? 'checked' : 'unchecked'*/ }
                             onChange={clickHandler} />
                     </div>
@@ -163,7 +164,7 @@ export function MultipleChoice(base) {
                 </div>
                 {answers}
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"} style={{ color: state.quizColor, borderColor: state.quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.15) }}>
+                    <div className={"col-xs-12 feedback"} style={{ color: quizColor, borderColor: quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.15) }}>
                         <PluginPlaceholder {...props} key="-2"
                             pluginContainerName={i18n.t("MultipleChoice.Feedback")}
                             pluginContainer={"Feedback"}
@@ -177,7 +178,7 @@ export function MultipleChoice(base) {
                       background-color: transparent;
                     }
                    .multipleChoicePlugin input[type="radio"]:checked:after {
-                      background-color: ${state.quizColor};
+                      background-color: ${quizColor};
                     }
                   `,
                 }} />
