@@ -15,6 +15,15 @@ export function TrueFalse() {
             score = Math.round(score * 100) / 100;
             score = (score) + "/" + (props.exercises.weight || 0);
             function setRgbaAlpha(color, alpha) {
+
+                if (color.charAt(0) === "#") {
+                    let cutHex = color.substring(1, 7);
+                    let r = parseInt(cutHex.substring(0, 2), 16);
+                    let g = parseInt(cutHex.substring(2, 4), 16);
+                    let b = parseInt(cutHex.substring(4, 6), 16);
+                    color = 'rgba(' + r + ',' + g + ',' + b + ',0.25)';
+                    console.log(color);
+                }
                 return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
             }
             let showFeedback = attempted && state.showFeedback;
