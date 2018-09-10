@@ -24,7 +24,7 @@ export default function(state = 0, action = {}) {
         }
         return state;
     case IMPORT_STATE:
-        return action.payload.present.navItemSelected || state;
+        return action.payload.present.navItemSelected || 0;
     case DUPLICATE_NAV_ITEM:
         return action.payload.newId;
     default:

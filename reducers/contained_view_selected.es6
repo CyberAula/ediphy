@@ -24,7 +24,7 @@ export default function(state = 0, action = {}) {
         }
         return state;
     case IMPORT_STATE:
-        return action.payload.present.containedViewSelected || state;
+        return action.payload.present.containedViewSelected || 0;
     default:
         return state;
     }

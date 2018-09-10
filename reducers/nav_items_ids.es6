@@ -18,7 +18,7 @@ export default function(state = [], action = {}) {
     case REORDER_NAV_ITEM:
         return action.payload.idsInOrder;
     case IMPORT_STATE:
-        return action.payload.present.navItemsIds || state;
+        return action.payload.present.navItemsIds || [];
     case DUPLICATE_NAV_ITEM:
         let dup = state.indexOf(action.payload.id);
         let temp2 = state.slice();
