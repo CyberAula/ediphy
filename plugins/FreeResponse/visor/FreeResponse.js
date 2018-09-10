@@ -14,16 +14,19 @@ export function FreeResponse() {
             score = Math.round(score * 100) / 100;
             score = (score) + "/" + (props.exercises.weight || 0);
             let showFeedback = attempted && state.showFeedback;
+            function setRgbaAlpha(color, alpha) {
+                return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
+            }
             return <div className={"exercisePlugin freeResponsePlugin " + (attempted ? " attempted" : "")} > {/* <h1>Free Response</h1>*/}
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Question"}/>
                         <textarea autoCapitalize="sentences" value={props.exercises.currentAnswer} disabled={attempted} spellCheck placeholder={"..."/* i18n.t('FreeResponse.Placeholder')*/} onChange={e=>{ props.setAnswer(e.target.value);}} className="form-control textAreaQuiz textAreaQuizVisor"/>
-                        <div className={"exerciseScore"}>{score}</div>
+                        <div className={"exerciseScore"} style={{ color: state.quizColor }}>{score}</div>
                     </div>
                 </div>
                 <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"}>
+                    <div className={"col-xs-12 feedback"} style={{ color: state.quizColor, borderColor: state.quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.15) }}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
                     </div>
                 </div>

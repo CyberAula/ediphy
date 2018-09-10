@@ -43,6 +43,12 @@ export function FreeResponse(base) {
                                     hide: state.type !== "text",
                                     checked: state.characters,
                                 },
+                                quizColor: {
+                                    __name: Ediphy.i18n.t('FreeResponse.FeedbackColor'),
+                                    type: 'color',
+                                    value: state.quizColor,
+                                    hide: state.showFeedback === false,
+                                },
                             },
                         },
                         style: {
@@ -105,12 +111,16 @@ export function FreeResponse(base) {
                 showFeedback: true,
                 characters: true,
                 correct: true,
+                quizColor: 'rgba(0, 173, 156, 1)',
             };
         },
         getRenderTemplate: function(state, props) {
             let clickHandler = (e)=>{
                 props.setCorrectAnswer(e.target.value);
             };
+            function setRgbaAlpha(color, alpha) {
+                return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
+            }
             return <div className={"exercisePlugin freeResponsePlugin"} > {/* <h1>Free Response</h1>*/}
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
@@ -125,7 +135,7 @@ export function FreeResponse(base) {
                     </div>
                 </div>
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"}>
+                    <div className={"col-xs-12 feedback"} style={{ color: state.quizColor, borderColor: state.quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.15) }}>
                         <PluginPlaceholder {...props} key="-2"
                             pluginContainerName={i18n.t("FreeResponse.Feedback")}
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("FreeResponse.FeedbackMsg") + '</p>' } }]}
