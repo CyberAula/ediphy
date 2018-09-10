@@ -251,3 +251,7 @@ body {
     border-color: $blueprimary; //rgb(95, 204, 199);
     background-color: $blueprimary; //rgb(95, 204, 199);
 }
+
+input[type="radio"]{
+    background: none;
+}

@@ -1,9 +1,9 @@
 @import "../../sass/general/_variables.scss";
 
 .inputTextPlugin {
-  height:auto;
+  height:100%;
   display: flex;
-
+  align-items: center;
   .inputText {
     width:100%;
     resize: horizontal;

@@ -1,5 +1,7 @@
 @import "../../sass/general/_variables.scss";
 .multipleAnswerPlugin {
+  display: flex;
+  flex-direction: column;
   padding: 10px;
   .checkQuiz {
     margin: 4px 5px 0 20px;
@@ -76,6 +78,8 @@
   }
 
   .answerRow {
+    display: flex;
+    flex-direction: row;
     margin: 0;
     .col-xs-10{
       margin: 2px 0;
