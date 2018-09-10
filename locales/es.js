@@ -58,6 +58,7 @@ let es = {
         "empty": {
             "cv_empty": "Aún no has creado ninguna vista contenida.",
         },
+        "EmptyPresentation": "Este documento esta vacío",
         "error": {
             "exporting": "Ha ocurrido un error al realizar la operación",
             "generic": "Ha ocurrido un error",

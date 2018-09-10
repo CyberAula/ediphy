@@ -497,3 +497,16 @@ li > .selectedNavItemVisor {
   margin-left: 10px !important;
   margin-right: 2px !important;
 }
+
+
+.emptyPresentation {
+    height: 100%;
+    margin-top:-15px;
+    line-height: 100%;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    font-size: 35px;
+    font-size: 5vh;
+}

@@ -214,8 +214,9 @@ export default class Visor extends Component {
             viewsArray: this.state.currentView,
             exportModalOpen: false,
         };
-        let visorContent = !isContainedView(currentView) ? (
-            <VisorCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") === -1} />) : (<VisorContainedCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") !== -1} />);
+        let visorContent = currentView ? (!isContainedView(currentView) ? (
+            <VisorCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") === -1} />) : (<VisorContainedCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") !== -1} />)) : (
+            <div className="emptyPresentation">{i18n.t("EmptyPresentation")}</div>);
         return (
             <div id="app" ref={'app'}
                 className={wrapperClasses} >

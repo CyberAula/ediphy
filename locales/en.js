@@ -65,6 +65,7 @@ let en = {
         "empty": {
             "cv_empty": "You have not created any contained view yet.",
         },
+        "EmptyPresentation": "This document is empty",
         "error": {
             "exporting": "There was an error when performing the operation",
             "generic": "There was an error",
