@@ -795,7 +795,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         delete props.style.width;
         return React.createElement(
             FormGroup,
-            { key: (button.__name), style: { display: button.hide ? 'none' : 'block' } },
+            { key: (button.__name), style: { display: button.hide ? 'none' : 'flex' } },
             [React.createElement(
                 ToggleSwitch,
                 props,

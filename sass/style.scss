@@ -205,13 +205,13 @@ body {
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
-    -ms-user-selectelect: none;
+    -ms-user-select: none;
 
     textarea {
         user-select: text;
         -moz-user-select: text;
         -webkit-user-select: text;
-        -ms-user-selectelect: text;
+        -ms-user-select: text;
     }
 }
 .alert-warning {
@@ -247,6 +247,9 @@ body {
     transform: scale(0.1);
 }
 
+a.toggle-switch---switch---3EchW {
+    margin-right: 10px;
+}
 .toggle-switch---switch---3EchW.toggle-switch---checked---3aC9B .toggle-switch---toggle---mncCu {
     border-color: $blueprimary; //rgb(95, 204, 199);
     background-color: $blueprimary; //rgb(95, 204, 199);
@@ -255,3 +258,4 @@ body {
 input[type="radio"]{
     background: none;
 }
+
