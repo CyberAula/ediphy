@@ -2,14 +2,18 @@
 
 .inputTextPlugin {
   height:auto;
- .inputText {
-   pointer-events: none;
-   border-radius: 0px;
-   min-height: 29px;
-   margin-right: 3px;
-   border: 1px solid #ccc;
-   padding: 0px 2px;
- }
+  display: flex;
+
+  .inputText {
+    width:100%;
+    resize: horizontal;
+    pointer-events: none;
+    border-radius: 0px;
+    min-height: 29px;
+    margin-right: 3px;
+    border: 1px solid #ccc;
+    padding: 0px 2px;
+  }
   &.attempted.showFeedback {
     &.correct .inputText {
       border: 2px solid $detailgreen;
@@ -20,25 +24,29 @@
     }
   }
 
- .dragHandleInputPlugin {
-   padding: 2px 0;
-   .material-icons {
-     vertical-align: middle;
-     color: $grismedio;
-   }
-   min-height: 29px;
-   min-width: 29px;
-   display:inline-block;
-   vertical-align: top;
- }
+  .dragHandleInputPlugin {
+    padding: 2px 0;
+    display: flex;
+    justify-content: right;
+    .material-icons {
+      vertical-align: middle;
+      color: $grismedio;
+    }
+    min-height: 29px;
+    min-width: 29px;
+    vertical-align: top;
+  }
   .exerciseScore {
     display: none;
     text-align: right;
   }
   &.attempted  .exerciseScore{
-    display: initial;
+      display: flex;
     color: $blueprimary;
     font-size: 10px;
+    width: 20px;
+    height: 100%;
+    margin-top: auto;
   }
 }
 
