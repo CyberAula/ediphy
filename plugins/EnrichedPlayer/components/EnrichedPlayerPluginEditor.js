@@ -108,7 +108,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                 {this.props.state.controls ?
                     <div className="player-media-controls" style={{ pointerEvents: 'all' }}>
                         <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
-                        <div className="progress-player-input dropableRichZone" style={{ height: "20px", position: "relative", bottom: '5px' }}
+                        <div className="progress-player-input dropableRichZone" style={{ height: "25px", position: "relative", bottom: '5px' }}
                             onMouseDown={this.onSeekMouseDown.bind(this)}
                             onChange={this.onSeekChange.bind(this)}
                             onMouseUp={this.onSeekMouseUp.bind(this)}>
