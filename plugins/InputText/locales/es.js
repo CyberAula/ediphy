@@ -6,7 +6,9 @@ module.exports = {
         "answerType": "Tipo de respuesta",
         "Precision": "Máx. error permitido",
         "Placeholder": "Introduce la respuesta esperada",
-        "Characters": "Ignorar mayúsculas y tildes",
+        "Characters": "Ignorar mayús. y tildes",
         "General": "Avanzado",
+        "text": "Texto",
+        "number": "Número",
     },
 };

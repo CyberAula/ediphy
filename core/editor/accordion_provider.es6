@@ -712,7 +712,8 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     if (!children) {
                         children = [];
                     }
-                    children.push(React.createElement('option', { key: 'child_' + index, value: option }, option));
+                    let label = button.labels && button.labels[index] ? button.labels[index] : option;
+                    children.push(React.createElement('option', { key: 'child_' + index, value: option }, label));
                 });
                 props.componentClass = 'select';
                 return React.createElement(
@@ -766,7 +767,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     id: (button.__name + radio),
                     onChange: props.onChange,
                     checked: (button.value === button.options[index]),
-                }, radio));
+                }, button.labels && button.labels[index] ? button.labels[index] : radio));
             });
             return React.createElement(FormGroup, props, children);
         }

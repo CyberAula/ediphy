@@ -24,15 +24,16 @@ export function InputText(base) {
                 main: {
                     __name: "Main",
                     accordions: {
-                        _general: {
-                            __name: i18n.t("InputText.General"),
-                            icon: 'web',
+                        __score: {
+                            __name: i18n.t('configuration'),
+                            icon: 'build',
                             buttons: {
                                 type: {
                                     __name: i18n.t("InputText.answerType"),
-                                    type: 'select',
+                                    type: 'radio',
                                     value: state.type,
                                     options: ['text', 'number'],
+                                    labels: [i18n.t("InputText.text"), i18n.t("InputText.number")],
                                 },
                                 precision: {
                                     __name: i18n.t("InputText.Precision"),
