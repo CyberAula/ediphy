@@ -51,7 +51,7 @@ export function MultipleAnswer(base) {
                                     options: [i18n.t("MultipleAnswer.ShowLetters"), i18n.t("MultipleAnswer.ShowNumbers")],
                                 },
                                 quizColor: {
-                                    __name: Ediphy.i18n.t('MultipleChoice.QuizColor'),
+                                    __name: state.letters + " " + Ediphy.i18n.t('MultipleChoice.Color'),
                                     type: 'color',
                                     value: state.quizColor,
                                 },
@@ -167,13 +167,21 @@ export function MultipleAnswer(base) {
                 </div>
                 {answers}
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"} style={{ color: state.quizColor, borderColor: state.quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.25) }}>
+                    <div className={"col-xs-12 feedback"} style={{ color: state.quizColor, borderColor: state.quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.15) }}>
                         <PluginPlaceholder {...props} key="-2"
                             pluginContainerName={i18n.t("MultipleAnswer.Feedback")}
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("MultipleAnswer.FeedbackMsg") + '</p>' } }/* , {plugin: 'HotspotImages', initialState:{url: 'nooo'}}*/]}
                             pluginContainer={"Feedback"} />
                     </div>
                 </div>
+                <style dangerouslySetInnerHTML={{
+                    __html: `
+                   .multipleAnswerPlugin .checkQuiz:checked:after {
+                      color: ${state.quizColor};
+                    }
+                  `,
+                }} />
+                <div className='my-special-div' />
             </div>;
 
         },

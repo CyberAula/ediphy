@@ -13,5 +13,6 @@ module.exports = {
         "ShowLetters": "Letters",
         "ShowNumbers": "Numbers",
         "AllowPartialScore": "Allow partial score",
+        "Color": " color",
     },
 };

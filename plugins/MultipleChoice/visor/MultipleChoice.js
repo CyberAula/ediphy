@@ -15,8 +15,6 @@ export function MultipleChoice() {
             score = (score) + "/" + (props.exercises.weight || 0);
             let showFeedback = attempted && state.showFeedback;
 
-            console.log(state.letters);
-
             function setRgbaAlpha(color, alpha) {
                 return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
             }
@@ -31,7 +29,6 @@ export function MultipleChoice() {
                             <div className={"answer_letter"} style={{ backgroundColor: state.quizColor }}>{(state.letters === i18n.t("MultipleChoice.ShowLetters")) ? letterFromNumber(i) : (i + 1)}</div>
                             <input type="radio" disabled={attempted} className="radioQuiz" name={props.id}
                                 value={i} checked={ checked}
-                                style={{ backgroundColor: state.quizColor }}
                                 onChange={(e)=>{
                                     props.setAnswer(parseInt(e.target.value, 10));
                                 }}/>
@@ -52,11 +49,21 @@ export function MultipleChoice() {
                 </div>
                 {content}
                 <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"} style={{ color: state.quizColor, borderColor: state.quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.25) }}>
+                    <div className={"col-xs-12 feedback"} style={{ color: state.quizColor, borderColor: state.quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.15) }}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
                     </div>
                 </div>
                 <div className={"exerciseScore"} style={{ color: state.quizColor }}>{score}</div>
+                <style dangerouslySetInnerHTML={{
+                    __html: `
+                    .multipleChoicePlugin input[type="radio"]  {
+                      background-color: transparent;
+                    }
+                   .multipleChoicePlugin input[type="radio"]:checked:after {
+                      background-color: ${state.quizColor};
+                    }
+                  `,
+                }} />
             </div>;
         },
         /* checkAnswer(current, correct) {

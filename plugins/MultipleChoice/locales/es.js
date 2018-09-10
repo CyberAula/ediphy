@@ -13,6 +13,6 @@ module.exports = {
         "ShowLetters": "Letras",
         "ShowNumbers": "Números",
         "QuizColor": "Color de la pregunta",
-
+        "Color": " color",
     },
 };

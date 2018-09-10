@@ -13,5 +13,6 @@ module.exports = {
         "ShowLetters": "Letters",
         "ShowNumbers": "Numbers",
         "QuizColor": "Quiz color",
+        "Color": " color",
     },
 };

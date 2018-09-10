@@ -49,7 +49,7 @@ export function MultipleChoice(base) {
                                     options: [i18n.t("MultipleChoice.ShowLetters"), i18n.t("MultipleChoice.ShowNumbers")],
                                 },
                                 quizColor: {
-                                    __name: Ediphy.i18n.t('MultipleChoice.QuizColor'),
+                                    __name: state.letters + " " + Ediphy.i18n.t('MultipleChoice.Color'),
                                     type: 'color',
                                     value: state.quizColor,
                                 },
@@ -132,8 +132,7 @@ export function MultipleChoice(base) {
                     <div className={"col-xs-2 answerPlaceholder"} >
                         <div className={"answer_letter"} style={{ backgroundColor: state.quizColor }}>{(state.letters === i18n.t("MultipleChoice.ShowLetters")) ? letterFromNumber(i) : (i + 1)}</div>
                         <input type="radio" className="radioQuiz" name={props.id} value={i} checked={props.exercises.correctAnswer === i /* ? 'checked' : 'unchecked'*/ }
-                            onChange={clickHandler}
-                            style={{ backgroundColor: state.quizColor }}/>
+                            onChange={clickHandler} />
                     </div>
                     <div className={"col-xs-10"}>
                         <PluginPlaceholder {...props} key={i + 1}
@@ -155,7 +154,7 @@ export function MultipleChoice(base) {
                 </div>
                 {answers}
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"} style={{ color: state.quizColor, borderColor: state.quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.25) }}>
+                    <div className={"col-xs-12 feedback"} style={{ color: state.quizColor, borderColor: state.quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.15) }}>
                         <PluginPlaceholder {...props} key="-2"
                             pluginContainerName={i18n.t("MultipleChoice.Feedback")}
                             pluginContainer={"Feedback"}
@@ -163,6 +162,16 @@ export function MultipleChoice(base) {
                         />
                     </div>
                 </div>
+                <style dangerouslySetInnerHTML={{
+                    __html: `
+                    .multipleChoicePlugin input[type="radio"]  {
+                      background-color: transparent;
+                    }
+                   .multipleChoicePlugin input[type="radio"]:checked:after {
+                      background-color: ${state.quizColor};
+                    }
+                  `,
+                }} />
             </div>;
 
         },

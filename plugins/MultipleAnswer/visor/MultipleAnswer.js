@@ -60,11 +60,18 @@ export function MultipleAnswer() {
                 </div>
                 {content}
                 <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"} style={{ color: state.quizColor, borderColor: state.quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.25) }}>
+                    <div className={"col-xs-12 feedback"} style={{ color: state.quizColor, borderColor: state.quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.15) }}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
                     </div>
                 </div>
                 <div key={-1} className={"exerciseScore"} style={{ color: state.quizColor }}>{score}</div>
+                <style dangerouslySetInnerHTML={{
+                    __html: `
+                   .multipleAnswerPlugin .checkQuiz:checked:after {
+                      color: ${state.quizColor};
+                    }
+                  `,
+                }} />
             </div>;
         },
         /* checkAnswer(current, correct, state) {
