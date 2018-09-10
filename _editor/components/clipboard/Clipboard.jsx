@@ -330,6 +330,14 @@ export default class Clipboard extends Component {
                                     createBox(initialParams, "ScormPackage", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
                                     return;
                                 }
+
+                                // check if it is a youtube iframe
+                                if (isURL(src) && src.includes('youtube')) {
+                                    initialParams.url = src;
+                                    createBox(initialParams, "EnrichedPlayer", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                    return;
+                                }
+
                                 initialParams.url = src;
                                 createBox(initialParams, "Webpage", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
                                 return;
