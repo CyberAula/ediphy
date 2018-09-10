@@ -14,6 +14,8 @@
 }
 
 .truefalsePlugin {
+  display: flex;
+  flex-direction: column;
 
   .radioQuiz {
     transform: scale(1.4);
@@ -35,10 +37,13 @@
   .TFRow {
     margin: 10px 15px;
     font-size: 20px;
+    display: flex;
+    flex-direction: row;
   }
   .answerRow {
     margin: 0 15px;
     display: flex;
+    flex-direction: row;
     i{
       margin: 7px -15px;
       &.correct{
