@@ -45,6 +45,11 @@ export function TrueFalse(base) {
                                     type: 'checkbox',
                                     checked: state.allowPartialScore,
                                 },
+                                quizColor: {
+                                    __name: Ediphy.i18n.t('TrueFalse.QuizColor'),
+                                    type: 'color',
+                                    value: state.quizColor,
+                                },
                             },
                         },
                         style: {
@@ -107,10 +112,14 @@ export function TrueFalse(base) {
                 nBoxes: 3,
                 showFeedback: true,
                 allowPartialScore: true,
+                quizColor: 'rgba(0, 173, 156, 1)',
             };
         },
         getRenderTemplate: function(state, props = {}) {
             let answers = [];
+            function setRgbaAlpha(color, alpha) {
+                return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
+            }
             for (let i = 0; i < state.nBoxes; i++) {
                 let clickHandler = (index, value)=>{
                     if(props.exercises && props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array)) {
@@ -161,13 +170,23 @@ export function TrueFalse(base) {
                     <div className={"col-xs-10"} /></div>
                 {answers}
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"}>
+                    <div className={"col-xs-12 feedback"} style={{ color: state.quizColor, borderColor: state.quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.15) }}>
                         <PluginPlaceholder {...props} key="-2"
                             pluginContainerName={i18n.t("TrueFalse.Feedback")}
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("TrueFalse.FeedbackMsg") + '</p>' } }/* , {plugin: 'HotspotImages', initialState:{url: 'nooo'}}*/]}
                             pluginContainer={"Feedback"} />
                     </div>
                 </div>
+                <style dangerouslySetInnerHTML={{
+                    __html: `
+                    .truefalsePlugin input[type="radio"]  {
+                      background-color: transparent;
+                    }
+                   .truefalsePlugin input[type="radio"]:checked:after {
+                      background-color: ${state.quizColor};
+                    }
+                  `,
+                }} />
             </div>;
 
         },

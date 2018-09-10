@@ -14,6 +14,9 @@ export function TrueFalse() {
             let score = props.exercises.score || 0;
             score = Math.round(score * 100) / 100;
             score = (score) + "/" + (props.exercises.weight || 0);
+            function setRgbaAlpha(color, alpha) {
+                return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
+            }
             let showFeedback = attempted && state.showFeedback;
             for (let i = 0; i < state.nBoxes; i++) {
                 let correct = attempted && props.exercises.correctAnswer[i] === props.exercises.currentAnswer[i];
@@ -66,11 +69,21 @@ export function TrueFalse() {
                 </div>
                 {content}
                 <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"}>
+                    <div className={"col-xs-12 feedback"} style={{ color: state.quizColor, borderColor: state.quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.15) }}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
                     </div>
                 </div>
-                <div className={"exerciseScore"}>{score}</div>
+                <div className={"exerciseScore"} style={{ color: state.quizColor }}>{score}</div>
+                <style dangerouslySetInnerHTML={{
+                    __html: `
+                    .truefalsePlugin input[type="radio"]  {
+                      background-color: transparent;
+                    }
+                   .truefalsePlugin input[type="radio"]:checked:after {
+                      background-color: ${state.quizColor};
+                    }
+                  `,
+                }} />
             </div>;
         },
         checkAnswer(current, correct, state) {

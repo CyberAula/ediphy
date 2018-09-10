@@ -14,6 +14,7 @@ module.exports = {
         "Characters": "Ignore case and special characters",
         "Correct": "Correct answer",
         "Config": "Configuration",
+        "FeedbackColor": "Feedback color",
 
     },
 };
