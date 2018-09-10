@@ -12,9 +12,8 @@ module.exports = {
         "PlaceholderEditor": "The student will type the answer here",
         "TooMany": "You have introduced too many characters. The exercise will not be corrected.",
         "Characters": "Ignore case and special characters",
-        "Correct": "Correct answer",
+        "Correct": "Exact answer",
         "Config": "Configuration",
-        "FeedbackColor": "Feedback color",
-
+        "FeedbackColor": "Color",
     },
 };

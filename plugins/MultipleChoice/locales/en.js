@@ -9,10 +9,10 @@ module.exports = {
         "FeedbackMsg": "Here you can provide some feedback about the answer. In order to disable this feature, turn it off in the toolbar.",
         "ShowFeedback": "Show feedback",
         "Number": "Number  of answers",
-        "ShowLettersInsteadOfNumbers": "Tags used for answers",
+        "ShowLettersInsteadOfNumbers": "Numbering",
         "ShowLetters": "Letters",
         "ShowNumbers": "Numbers",
         "QuizColor": "Quiz color",
-        "Color": " color",
+        "Color": "Color",
     },
 };

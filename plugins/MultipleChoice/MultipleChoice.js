@@ -49,7 +49,7 @@ export function MultipleChoice(base) {
                                     options: [i18n.t("MultipleChoice.ShowLetters"), i18n.t("MultipleChoice.ShowNumbers")],
                                 },
                                 quizColor: {
-                                    __name: state.letters + " " + Ediphy.i18n.t('MultipleChoice.Color'),
+                                    __name: Ediphy.i18n.t('MultipleChoice.Color'),
                                     type: 'color',
                                     value: state.quizColor,
                                 },

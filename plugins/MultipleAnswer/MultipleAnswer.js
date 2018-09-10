@@ -51,7 +51,7 @@ export function MultipleAnswer(base) {
                                     options: [i18n.t("MultipleAnswer.ShowLetters"), i18n.t("MultipleAnswer.ShowNumbers")],
                                 },
                                 quizColor: {
-                                    __name: state.letters + " " + Ediphy.i18n.t('MultipleChoice.Color'),
+                                    __name: Ediphy.i18n.t('MultipleChoice.Color'),
                                     type: 'color',
                                     value: state.quizColor,
                                 },

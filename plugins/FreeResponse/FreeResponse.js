@@ -27,27 +27,26 @@ export function FreeResponse(base) {
                             __name: i18n.t('configuration'),
                             icon: 'build',
                             buttons: {
+                                correct: {
+                                    __name: i18n.t("FreeResponse.Correct"),
+                                    type: 'checkbox',
+                                    checked: state.correct,
+                                },
                                 showFeedback: {
                                     __name: i18n.t("FreeResponse.ShowFeedback"),
                                     type: 'checkbox',
                                     checked: state.showFeedback,
                                 },
-                                correct: {
-                                    __name: i18n.t("FreeResponse.Correct"),
-                                    type: 'checkbox',
-                                    checked: state.correct,
+                                quizColor: {
+                                    __name: Ediphy.i18n.t('FreeResponse.FeedbackColor'),
+                                    type: 'color',
+                                    value: state.quizColor,
                                 },
                                 characters: {
                                     __name: i18n.t("FreeResponse.Characters"),
                                     type: 'checkbox',
                                     hide: state.type !== "text",
                                     checked: state.characters,
-                                },
-                                quizColor: {
-                                    __name: Ediphy.i18n.t('FreeResponse.FeedbackColor'),
-                                    type: 'color',
-                                    value: state.quizColor,
-                                    hide: state.showFeedback === false,
                                 },
                             },
                         },

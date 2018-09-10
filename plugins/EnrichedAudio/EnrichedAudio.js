@@ -42,8 +42,8 @@ export function EnrichedAudio(base) {
                             },
                         },
                         config: {
-                            __name: Ediphy.i18n.t('EnrichedAudio.player'),
-                            icon: 'play_arrow',
+                            __name: Ediphy.i18n.t('configuration'),
+                            icon: 'build',
                             buttons: {
                                 autoplay: {
                                     __name: Ediphy.i18n.t('EnrichedAudio.Autoplay'),

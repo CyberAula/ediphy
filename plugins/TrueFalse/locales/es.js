@@ -10,6 +10,6 @@ module.exports = {
         "FeedbackMsg": "Aquí puedes incluir una explicación acerca de la respuesta. Puedes desactivar esta opción en la barra de herramientas.",
         "ShowFeedback": "Mostrar explicación",
         "Number": "Nº de enunciados",
-        "QuizColor": "Color de la pregunta",
+        "QuizColor": "Color",
     },
 };

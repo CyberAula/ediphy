@@ -9,10 +9,10 @@ module.exports = {
         "ShowFeedback": "Mostrar explicación",
         "Answer": "Respuesta",
         "Number": "Número de respuestas",
-        "ShowLettersInsteadOfNumbers": "Etiquetas para las respuestas",
+        "ShowLettersInsteadOfNumbers": "Numeración",
         "ShowLetters": "Letras",
         "ShowNumbers": "Números",
         "AllowPartialScore": "Permitir aciertos parciales",
-        "Color": " color",
+        "Color": "Color",
     },
 };
