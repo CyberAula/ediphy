@@ -185,7 +185,7 @@ export default class EditorBox extends Component {
                 style={wholeBoxStyle}>
                 {border}
                 {toolbar.showTextEditor ? null : content }
-                {toolbar.state.__text ? <div id="editor" /> : null}
+                {toolbar.state.__text ? <div id="ckeditor5" /> : null}
                 <div className="boxOverlay" style={{ display: showOverlay }} />
                 <MarkCreator
                     addMarkShortcut={this.props.addMarkShortcut}

@@ -52,6 +52,7 @@ module.exports = {
             {
                 test: /\.(js|jsx|es6|json)$/,
                 exclude: /node_modules/,
+                include: '/node_modules/@ckeditor/',
                 type: 'javascript/auto',
                 use: {
                     loader: 'babel-loader',
@@ -103,7 +104,8 @@ module.exports = {
     resolve: {
         // resolve.alias could be useful for resolving certain modules easily
         extensions: ['.js', '.jsx', '.es6', '.json'],
-        modules: ['node_modules', 'plugins'],
+        modules: ['./node_modules', './plugins'],
+
     },
     externals: {
         'jsdom': 'window',
@@ -112,8 +114,9 @@ module.exports = {
         'react/addons': true,
         'react/lib/ReactContext': 'window',
         'entities': 'window',
+        "ckeditor5": "CKE5",
     },
-    // [string | object { <key>: string | object | boolean } | function | RegExp | [(recursive)]]
+
     plugins: [
         new CKEditorWebpackPlugin({
             // See https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html

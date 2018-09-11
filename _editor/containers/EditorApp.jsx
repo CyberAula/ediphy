@@ -152,6 +152,7 @@ class EditorApp extends Component {
                     {this.state.showTour ? <EdiphyTour toggleTour={(showTour)=>{this.setState({ showTour });}} showTour={this.state.showTour}/> : null}
                     {this.createHelpModal()}
                     {this.createInitModal()}
+                    {this.createEditor()}
                     {this.state.alert}
                     <EditorNavBar hideTab={this.state.hideTab} boxes={boxes}
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
@@ -354,6 +355,7 @@ class EditorApp extends Component {
                                 fileModalResult={this.state.fileModalResult}
                                 openFileModal={(id, accept)=>{ this.setState({ fileModalResult: { id, value: undefined }, showFileUpload: accept, fileUploadTab: 1 });}}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}/>
+                            <div id={"ckeditor5"} />
                             <ContainedCanvas boxes={boxes}
                                 grid={this.state.grid}
                                 boxSelected={boxSelected}
@@ -646,9 +648,10 @@ class EditorApp extends Component {
      * After component mounts
      * Loads plugin API and sets listeners for plugin events, marks and keyboard keys pressed
      */
+
     componentDidMount() {
         ClassicEditor
-            .create(document.querySelector('#editor'), {
+            .create(document.querySelector('ckeditor5'), {
                 plugins: [Essentials, Alignment],
                 toolbar: ['alignment'],
             })
