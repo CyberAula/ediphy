@@ -4,8 +4,10 @@
   height:100%;
   display: flex;
   align-items: center;
+  min-width: 29px;
   .inputText {
     width:100%;
+    min-width: 29px;
     resize: horizontal;
     pointer-events: none;
     border-radius: 0px;
@@ -14,6 +16,8 @@
     border: 1px solid #ccc;
     padding: 0px 2px;
   }
+
+
   &.attempted.showFeedback {
     &.correct .inputText {
       border: 2px solid $detailgreen;
@@ -25,9 +29,10 @@
   }
 
   .dragHandleInputPlugin {
+    visibility: hidden;
+    position: absolute;
+    right: 0;
     padding: 2px 0;
-    display: flex;
-    justify-content: right;
     .material-icons {
       vertical-align: middle;
       color: $grismedio;
@@ -58,4 +63,8 @@
 }
 #visorAppContent .inputText {
   pointer-events: all !important;
+}
+
+.selectedBox  .dragHandleInputPlugin{
+  visibility: visible !important;
 }
