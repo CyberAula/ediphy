@@ -52,7 +52,7 @@ module.exports = {
             {
                 test: /\.(js|jsx|es6|json)$/,
                 exclude: /node_modules/,
-                include: '/node_modules/@ckeditor/',
+                // include: '/node_modules/@ckeditor/',
                 type: 'javascript/auto',
                 use: {
                     loader: 'babel-loader',
@@ -104,7 +104,7 @@ module.exports = {
     resolve: {
         // resolve.alias could be useful for resolving certain modules easily
         extensions: ['.js', '.jsx', '.es6', '.json'],
-        modules: ['./node_modules', './plugins'],
+        modules: ['./node_modules', './plugins', '/node_modules/@ckeditor/'], // Berto esta es tu corazonada!! :)
 
     },
     externals: {
@@ -114,7 +114,6 @@ module.exports = {
         'react/addons': true,
         'react/lib/ReactContext': 'window',
         'entities': 'window',
-        "ckeditor5": "CKE5",
     },
 
     plugins: [
