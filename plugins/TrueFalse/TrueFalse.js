@@ -48,7 +48,7 @@ export function TrueFalse(base) {
                                 quizColor: {
                                     __name: Ediphy.i18n.t('TrueFalse.QuizColor'),
                                     type: 'color',
-                                    value: state.quizColor,
+                                    value: state.quizColor || 'rgba(0, 173, 156, 1)',
                                 },
                             },
                         },

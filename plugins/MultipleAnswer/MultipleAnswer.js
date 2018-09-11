@@ -53,7 +53,7 @@ export function MultipleAnswer(base) {
                                 quizColor: {
                                     __name: Ediphy.i18n.t('MultipleChoice.Color'),
                                     type: 'color',
-                                    value: state.quizColor,
+                                    value: state.quizColor || 'rgba(0, 173, 156, 1)',
                                 },
                             },
                         },

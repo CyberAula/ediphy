@@ -84,7 +84,7 @@ export default function printToPDF(state, callback) {
             pdf.internal.scaleFactor = 1;
             setTimeout(function() {
                 pdf.addHTML(pageContainer, { useCORS: true, pagesplit: true, retina: true }, function() {
-                    // document.body.removeChild(pageContainer);
+                    document.body.removeChild(pageContainer);
                     if (last) {
                         pdf.save(title.split(" ").join("") + '.pdf');
                         callback();
