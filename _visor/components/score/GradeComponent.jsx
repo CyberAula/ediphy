@@ -156,7 +156,7 @@ export default class ScormComponent extends Component {
     }
     setAnswer(id, answer, page) {
         let exercises = JSON.parse(JSON.stringify(this.state.exercises));
-        if (exercises[page] && exercises[page].exercises[id]) {
+        if (exercises[page] && exercises[page].exercises[id] && !exercises[page].attempted) {
             exercises[page].exercises[id].currentAnswer = answer;
             this.setState({ exercises });
         }
