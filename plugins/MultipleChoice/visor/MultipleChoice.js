@@ -29,6 +29,7 @@ export function MultipleChoice() {
                 return 'rgba(0, 173, 156, 0.25)';
             }
             let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
+            let correctAnswers = i18n.t("MultipleChoice.correctAnswerFeedback") + ": ";
 
             for (let i = 0; i < state.nBoxes; i++) {
                 let correct = attempted && props.exercises.correctAnswer === i; // && props.exercises.currentAnswer === i ;
@@ -47,11 +48,20 @@ export function MultipleChoice() {
                         <div className={"col-xs-10"} onClick={(e)=>{props.setAnswer(parseInt(i, 10));}}>
                             <VisorPluginPlaceholder {...props} key={i + 1} pluginContainer={"Answer" + i} />
                         </div>
-                        <i className={ "material-icons " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")} style={{ display: (correct || incorrect) ? "block" : "none" }}>{(correct ? "done " : "clear")}</i>
+                        {/* <i className={ "material-icons " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")} style={{ display: (correct || incorrect) ? "block" : "none" }}>{(correct ? "done " : "clear")}</i>*/}
+                        {(checked && correct) ? <i className={ "material-icons correct"}>done</i> : null}
+                        {(checked && incorrect) ? <i className={ "material-icons incorrect"}>clear</i> : null}
                     </div>);
+                if (correct) {correctAnswers += state.letters === i18n.t("MultipleChoice.ShowLetters") ? letterFromNumber(i) : (i + 1);}
 
             }
-
+            let checkEmptyFeedback = !props.boxes[props.id].sortableContainers['sc-Feedback'].children ||
+            props.boxes[props.id].sortableContainers['sc-Feedback'].children.length === 0 ||
+            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === "<p>" + i18n.t("text_here") + "</p>" ||
+            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI("<p>" + i18n.t("text_here") + "</p>") ||
+            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI("<p>" + i18n.t("text_here") + "</p>\n") ||
+            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI('<p>' + i18n.t("MultipleChoice.FeedbackMsg") + '</p>\n') ||
+            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === '<p>' + i18n.t("MultipleChoice.FeedbackMsg") + '</p>';
             return <div className={"exercisePlugin multipleChoicePlugin" + (attempted ? " attempted " : " ") + (props.exercises.showFeedback ? "showFeedback" : "")}>
                 <div className={"row"} key={0} >
                     <div className={"col-xs-12"}>
@@ -59,11 +69,16 @@ export function MultipleChoice() {
                     </div>
                 </div>
                 {content}
-                <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
+
+                {checkEmptyFeedback ? null : <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
+                    {}
                     <div className={"col-xs-12 feedback"} style={{ color: quizColor, borderColor: quizColor, backgroundColor: setRgbaAlpha(quizColor, 0.15) }}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
                     </div>
-                </div>
+                </div>}
+                {attempted ? <div className="correctAnswerFeedback" style={{ color: quizColor }}>
+                    {correctAnswers}
+                </div> : null}
                 <div className={"exerciseScore"} style={{ color: quizColor }}>{score}</div>
                 <style dangerouslySetInnerHTML={{
                     __html: `

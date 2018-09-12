@@ -250,7 +250,7 @@ module.exports = {
         "Question": "Question",
         "Feedback": "Feedback",
         "FeedbackMsg": "Here you can provide some feedback about the answer. In order to disable this feature, turn it off in the toolbar.",
-        "ShowFeedback": "Show feedback",
+        "ShowFeedback": "Show feedback msg.",
         "Number": "Number  of answers",
         "ShowLettersInsteadOfNumbers": "Show letters instead of numbers",
         "background_color": "Background color",

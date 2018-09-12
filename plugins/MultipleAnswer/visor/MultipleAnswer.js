@@ -29,6 +29,7 @@ export function MultipleAnswer() {
                 return 'rgba(0, 173, 156, 0.25)';
             }
             let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
+            let correctAnswers = i18n.t("MultipleChoice.correctAnswerFeedback") + ": ";
 
             let setAnswer = (i) => {
                 let newCurrentAnswer = props.exercises.currentAnswer ? Object.assign([], props.exercises.currentAnswer) : [];
@@ -40,11 +41,17 @@ export function MultipleAnswer() {
                 }
                 props.setAnswer(newCurrentAnswer);
             };
+            function removeLastChar(s) {
+                if (!s || s.length === 0) {
+                    return s;
+                }
+                return s.substring(0, s.length - 1);
+            }
             for (let i = 0; i < state.nBoxes; i++) {
                 let checked = (props.exercises.currentAnswer && (props.exercises.currentAnswer instanceof Array) && props.exercises.currentAnswer.indexOf(i) > -1);
                 let correctAnswer = (props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1);
-                let correct = attempted && correctAnswer;
-                let incorrect = attempted && !correctAnswer && checked;
+                let correct = attempted && ((correctAnswer && checked) || (!correctAnswer && !checked));
+                let incorrect = attempted && ((!correctAnswer && checked) || (correctAnswer && !checked));
                 content.push(
                     <div key={i + 1} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : "")}>
                         <div className={"col-xs-2 answerPlaceholder"}>
@@ -57,10 +64,28 @@ export function MultipleAnswer() {
                         <div className={"col-xs-10"} onClick={(e)=>{setAnswer(i);}}>
                             <VisorPluginPlaceholder {...props} key={i + 1} pluginContainer={"Answer" + (i + 1)} />
                         </div>
-                        <i className={ "material-icons " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")} style={{ display: (correct || incorrect) ? "block" : "none" }}>{(correct ? "done " : "clear")}</i>
+                        {/* <i className={ "material-icons " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")} style={{ display: (correct || incorrect) ? "block" : "none" }}>{(correct ? "done " : "clear")}</i>*/}
+                        {(correct) ? <i className={ "material-icons correct"}>done</i> : null}
+                        {(incorrect) ? <i className={ "material-icons incorrect"}>clear</i> : null}
                     </div>);
 
+                if (correctAnswer) {
+                    correctAnswers += (state.letters === i18n.t("MultipleChoice.ShowLetters") ? letterFromNumber(i) : (i + 1)) + ", ";
+                }
+
             }
+            if (!props.exercises.correctAnswer || props.exercises.correctAnswer.length === 0) {
+                correctAnswers += i18n.t("MultipleAnswer.None") + ".";
+            } else {
+                correctAnswers = removeLastChar(removeLastChar(correctAnswers)) + ".";
+            }
+            let checkEmptyFeedback = !props.boxes[props.id].sortableContainers['sc-Feedback'].children ||
+                props.boxes[props.id].sortableContainers['sc-Feedback'].children.length === 0 ||
+                props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === "<p>" + i18n.t("text_here") + "</p>" ||
+                props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI("<p>" + i18n.t("text_here") + "</p>") ||
+                props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI("<p>" + i18n.t("text_here") + "</p>\n") ||
+                props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI('<p>' + i18n.t("MultipleAnswer.FeedbackMsg") + '</p>\n') ||
+                props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === '<p>' + i18n.t("MultipleAnswer.FeedbackMsg") + '</p>';
 
             return <div className={"exercisePlugin multipleAnswerPlugin" + (attempted ? " attempted " : " ") + (props.exercises.showFeedback ? "showFeedback" : "")}>{/* <h1>Multiple Answer</h1>*/}
                 <div className={"row"} key={0}>
@@ -70,11 +95,14 @@ export function MultipleAnswer() {
 
                 </div>
                 {content}
-                <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
+                {checkEmptyFeedback ? null : <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
                     <div className={"col-xs-12 feedback"} style={{ color: quizColor, borderColor: quizColor, backgroundColor: setRgbaAlpha(quizColor, 0.15) }}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
                     </div>
-                </div>
+                </div> }
+                {attempted ? <div className="correctAnswerFeedback" style={{ color: quizColor }}>
+                    {correctAnswers}
+                </div> : null}
                 <div key={-1} className={"exerciseScore"} style={{ color: quizColor }}>{score}</div>
                 <style dangerouslySetInnerHTML={{
                     __html: `

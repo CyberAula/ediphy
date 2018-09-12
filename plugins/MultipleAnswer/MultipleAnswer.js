@@ -138,7 +138,15 @@ export function MultipleAnswer(base) {
                 }
                 return 'rgba(0, 173, 156, 0.25)';
             }
+
+            function removeLastChar(s) {
+                if (!s || s.length === 0) {
+                    return s;
+                }
+                return s.substring(0, s.length - 1);
+            }
             let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
+            let correctAnswers = i18n.t("MultipleAnswer.correctAnswerFeedback") + ": ";
             for (let i = 0; i < state.nBoxes; i++) {
                 let checked = (props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1);
                 answers.push(<div key={i + 1} className={"row answerRow"}>
@@ -166,6 +174,15 @@ export function MultipleAnswer(base) {
                     </div>
                 </div>
                 );
+                if (checked) {
+                    correctAnswers += (state.letters === i18n.t("MultipleChoice.ShowLetters") ? letterFromNumber(i) : (i + 1)) + ", ";
+                }
+
+            }
+            if (!props.exercises.correctAnswer || props.exercises.correctAnswer.length === 0) {
+                correctAnswers += i18n.t("MultipleAnswer.None") + ".";
+            } else {
+                correctAnswers = removeLastChar(removeLastChar(correctAnswers)) + ".";
             }
             return <div className={"exercisePlugin multipleAnswerPlugin"}>
                 {/* <h1>Multiple Answer</h1>*/}
@@ -186,6 +203,9 @@ export function MultipleAnswer(base) {
                             pluginContainer={"Feedback"} />
                     </div>
                 </div>
+                <div className="correctAnswerFeedback" style={{ color: quizColor }}>
+                    {correctAnswers}
+                </div>
                 <style dangerouslySetInnerHTML={{
                     __html: `
                    .multipleAnswerPlugin .checkQuiz:checked:after {
@@ -193,7 +213,6 @@ export function MultipleAnswer(base) {
                     }
                   `,
                 }} />
-                <div className='my-special-div' />
             </div>;
 
         },

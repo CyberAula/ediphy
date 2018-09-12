@@ -14,5 +14,6 @@ module.exports = {
         "ShowNumbers": "Números",
         "QuizColor": "Color de la pregunta",
         "Color": "Color",
+        "correctAnswerFeedback": "Respuesta correcta",
     },
 };

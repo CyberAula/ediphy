@@ -14,5 +14,8 @@ module.exports = {
         "ShowNumbers": "Números",
         "AllowPartialScore": "Permitir aciertos parciales",
         "Color": "Color",
+        "correctAnswerFeedback": "Respuesta correcta",
+        "None": "Ninguna",
+
     },
 };

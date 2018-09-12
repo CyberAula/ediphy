@@ -134,14 +134,17 @@ export function MultipleChoice(base) {
                 return 'rgba(0, 173, 156, 0.25)';
             }
             let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
+            let correctAnswers = i18n.t("MultipleChoice.correctAnswerFeedback") + ": ";
+
             for (let i = 0; i < state.nBoxes; i++) {
                 let clickHandler = (e)=>{
                     props.setCorrectAnswer(parseInt(e.target.value, 10));
                 };
+                let isCorrect = props.exercises.correctAnswer === i;
                 answers.push(<div key={i + 1} className={"row answerRow"}>
                     <div className={"col-xs-2 answerPlaceholder"} >
                         <div className={"answer_letter"} style={{ backgroundColor: quizColor }}>{(state.letters === i18n.t("MultipleChoice.ShowLetters")) ? letterFromNumber(i) : (i + 1)}</div>
-                        <input type="radio" className="radioQuiz" name={props.id} value={i} checked={props.exercises.correctAnswer === i /* ? 'checked' : 'unchecked'*/ }
+                        <input type="radio" className="radioQuiz" name={props.id} value={i} checked={isCorrect /* ? 'checked' : 'unchecked'*/ }
                             onChange={clickHandler} />
                     </div>
                     <div className={"col-xs-10"}>
@@ -152,6 +155,7 @@ export function MultipleChoice(base) {
                     </div>
                 </div>
                 );
+                if (isCorrect) {correctAnswers += state.letters === i18n.t("MultipleChoice.ShowLetters") ? letterFromNumber(i) : (i + 1);}
             }
             return <div className={"exercisePlugin multipleChoicePlugin"}>
                 <div className={"row"} key={0}>
@@ -171,6 +175,9 @@ export function MultipleChoice(base) {
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("MultipleChoice.FeedbackMsg") + '</p>' } }/* , {plugin: 'HotspotImages', initialState:{url: 'nooo'}}*/]}
                         />
                     </div>
+                </div>
+                <div className="correctAnswerFeedback" style={{ color: quizColor }}>
+                    {correctAnswers}
                 </div>
                 <style dangerouslySetInnerHTML={{
                     __html: `

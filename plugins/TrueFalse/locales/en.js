@@ -8,7 +8,7 @@ module.exports = {
         "Answer": "Answer",
         "Feedback": "Feedback",
         "FeedbackMsg": "Here you can provide some feedback about the answer. In order to disable this feature, turn it off in the toolbar.",
-        "ShowFeedback": "Show feedback",
+        "ShowFeedback": "Show feedback msg.",
         "Number": "Number of statements",
         "QuizColor": "Color",
     },
