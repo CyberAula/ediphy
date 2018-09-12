@@ -45,6 +45,11 @@ export function HotspotImages(base) {
                                     value: state.url,
                                     accept: "image/*",
                                 },
+                                hyperlink: {
+                                    __name: Ediphy.i18n.t('HotspotImages.hyperlink'),
+                                    type: 'text',
+                                    value: state.hyperlink,
+                                },
                             },
                         },
                         style: {
@@ -122,7 +127,6 @@ export function HotspotImages(base) {
             let marks = props.marks || {};
             // let Mark = ({ idKey, title, style, color }) => (
             //     );
-
             let markElements = Object.keys(marks).map((id) =>{
                 let value = marks[id].value;
                 let title = marks[id].title;
@@ -143,10 +147,12 @@ export function HotspotImages(base) {
 
             return (
                 <div style={{ height: "100%", width: "100%" }}>
+
                     <img className="basicImageClass" style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
                         e.target.onError = null;
                         e.target.src = img_broken; // Ediphy.Config.broken_link;
                     }}/>
+
                     <div className="dropableRichZone" style={{ height: "100%", width: "100%", position: 'absolute', top: 0, left: 0 }}>
 
                         {markElements}

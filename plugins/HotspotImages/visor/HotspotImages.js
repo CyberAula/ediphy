@@ -9,6 +9,26 @@ export function HotspotImages(base) {
             let marks = props.marks || {};
             let box_id = props.id;
 
+            // Checks if link is provided. If so, it formats it to 'http://www...' in case it was 'www...'. Returns false if no link is provided.
+            function checkHyperlink() {
+                let hyperlink = state.hyperlink;
+                if (hyperlink === null || hyperlink === undefined) {
+                    return false;
+                }
+
+                hyperlink = state.hyperlink.replace(/\s/g, "");
+
+                if (hyperlink === "") {
+                    return false;
+                }
+
+                if (hyperlink.substring(0, 4) === "www.") {
+                    state.hyperlink = "http://" + hyperlink;
+                }
+                return true;
+
+            }
+
             let markElements = Object.keys(marks).map((e) =>{
                 let position = marks[e].value.split(',');
                 let title = marks[e].title;
@@ -31,11 +51,13 @@ export function HotspotImages(base) {
 
             return(
                 <div style={{ overflow: "hidden", height: "100%" }}>
-                    <img style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
-                        e.target.onError = null;
-                        e.target.src = img; // Ediphy.Config.broken_link;
-                    }}/>
-                    {markElements}
+                    <a href={state.hyperlink} target="_blank" style={{ pointerEvents: checkHyperlink() ? "auto" : "none" }}>
+                        <img style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
+                            e.target.onError = null;
+                            e.target.src = img; // Ediphy.Config.broken_link;
+                        }}/>
+                        {markElements}
+                    </a>
                 </div>);
         },
 
