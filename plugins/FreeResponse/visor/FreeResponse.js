@@ -3,6 +3,7 @@ import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPlugi
 import './../_freeResponse.scss';
 import i18n from 'i18next';
 import { correctLongAnswer } from '../../../core/visor/correction_functions';
+import { setRgbaAlpha } from "../../../common/common_tools";
 
 /* eslint-disable react/prop-types */
 
@@ -14,19 +15,6 @@ export function FreeResponse() {
             score = Math.round(score * 100) / 100;
             score = (score) + "/" + (props.exercises.weight || 0);
             let showFeedback = attempted && state.showFeedback;
-            function setRgbaAlpha(color, alpha) {
-                if (color) {
-                    if (color.charAt(0) === "#") {
-                        let cutHex = color.substring(1, 7);
-                        let r = parseInt(cutHex.substring(0, 2), 16);
-                        let g = parseInt(cutHex.substring(2, 4), 16);
-                        let b = parseInt(cutHex.substring(4, 6), 16);
-                        color = 'rgba(' + r + ',' + g + ',' + b + ',0.25)';
-                    }
-                    return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
-                }
-                return 'rgba(0, 173, 156, 0.25)';
-            }
             let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
             let checkEmptyFeedback = !props.boxes[props.id].sortableContainers['sc-Feedback'].children ||
             props.boxes[props.id].sortableContainers['sc-Feedback'].children.length === 0 ||

@@ -5,6 +5,7 @@ import MarkEditor from '../../_editor/components/rich_plugins/mark_editor/MarkEd
 import Mark from '../../common/components/mark/Mark';
 import img_broken from './../../dist/images/broken_link.png';
 import img_placeholder from './../../dist/images/placeholder.svg';
+
 /* eslint-disable react/prop-types */
 
 export function HotspotImages(base) {
@@ -44,6 +45,12 @@ export function HotspotImages(base) {
                                     type: 'external_provider',
                                     value: state.url,
                                     accept: "image/*",
+                                },
+                                hyperlink: {
+                                    __name: Ediphy.i18n.t('HotspotImages.hyperlink'),
+                                    type: 'text',
+                                    value: state.hyperlink,
+                                    placeholder: 'Introduzca link',
                                 },
                             },
                         },
@@ -122,7 +129,6 @@ export function HotspotImages(base) {
             let marks = props.marks || {};
             // let Mark = ({ idKey, title, style, color }) => (
             //     );
-
             let markElements = Object.keys(marks).map((id) =>{
                 let value = marks[id].value;
                 let title = marks[id].title;
@@ -143,10 +149,12 @@ export function HotspotImages(base) {
 
             return (
                 <div style={{ height: "100%", width: "100%" }}>
+
                     <img className="basicImageClass" style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
                         e.target.onError = null;
                         e.target.src = img_broken; // Ediphy.Config.broken_link;
                     }}/>
+
                     <div className="dropableRichZone" style={{ height: "100%", width: "100%", position: 'absolute', top: 0, left: 0 }}>
 
                         {markElements}

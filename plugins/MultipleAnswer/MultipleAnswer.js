@@ -2,7 +2,7 @@ import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import i18n from 'i18next';
 import './_multipleAnswer.scss';
-import { letterFromNumber } from '../../common/common_tools';
+import { letterFromNumber, setRgbaAlpha } from '../../common/common_tools';
 /* eslint-disable react/prop-types */
 
 export function MultipleAnswer(base) {
@@ -124,20 +124,6 @@ export function MultipleAnswer(base) {
         getRenderTemplate: function(state, props = {}) {
 
             let answers = [];
-
-            function setRgbaAlpha(color, alpha) {
-                if (color) {
-                    if (color.charAt(0) === "#") {
-                        let cutHex = color.substring(1, 7);
-                        let r = parseInt(cutHex.substring(0, 2), 16);
-                        let g = parseInt(cutHex.substring(2, 4), 16);
-                        let b = parseInt(cutHex.substring(4, 6), 16);
-                        color = 'rgba(' + r + ',' + g + ',' + b + ',0.25)';
-                    }
-                    return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
-                }
-                return 'rgba(0, 173, 156, 0.25)';
-            }
 
             function removeLastChar(s) {
                 if (!s || s.length === 0) {
