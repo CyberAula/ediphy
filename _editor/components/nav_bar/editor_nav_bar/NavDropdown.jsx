@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Dropdown, MenuItem } from 'react-bootstrap';
 
 import Ediphy from '../../../../core/editor/main';
-
+import Alert from '../../common/alert/Alert';
 /**
  * Dropdown menu in the editor's navbar
  */
@@ -14,6 +14,9 @@ export default class NavDropdown extends Component {
      */
     constructor(props) {
         super(props);
+        this.state = {
+            alert: undefined,
+        };
     }
 
     /**
@@ -21,6 +24,7 @@ export default class NavDropdown extends Component {
      * @returns {code}
      */
     render() {
+
         return (
             <Dropdown id="dropdown-menu" style={{ float: 'right' }}>
                 <Dropdown.Toggle noCaret className="navButton">
@@ -92,7 +96,7 @@ export default class NavDropdown extends Component {
                         </button>
                     </MenuItem>
                     {(Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button) &&
-                    [<MenuItem disabled={false} eventKey="7" key="7">
+                    <MenuItem disabled={false} eventKey="7" key="7">
                         <button className="dropdownButton" title={i18n.t('messages.help')}
                             disabled={false}
                             onClick={(e) => {
@@ -100,21 +104,41 @@ export default class NavDropdown extends Component {
                             }}><i className="material-icons">exit_to_app</i>
                             {i18n.t('messages.exit')}
                         </button>
-                    </MenuItem>,
-                    <MenuItem disabled={false} eventKey="8" key="8">
+                    </MenuItem>}
+                    {(this.isAlreadySaved()) ? <MenuItem disabled={false} eventKey="8" key="8">
                         <button className="dropdownButton" title={i18n.t('delete')}
                             disabled={false}
-                            onClick={(e) => {
-                                alert("Borrar");
-                                // Sacar diálogo de confirmación
-                                // POST a http://vishub.org/ediphy_documents/NUMERO?_method=delete
-                            }}><i className="material-icons">delete</i>
+                            onClick={this.onDeleteDocument.bind(this)}><i className="material-icons">delete</i>
                             {i18n.t('delete')}
                         </button>
-                    </MenuItem>]}
+                    </MenuItem> : null}
                 </Dropdown.Menu>
+                {this.state.alert}
             </Dropdown>
         );
+    }
+    isAlreadySaved() {
+        let reg = /.*ediphy_documents\/\d+\/edit/;
+        let matched = window.location.href.toString().match(reg);
+        return matched && matched.length > 0;
+    }
+    onDeleteDocument() {
+        let alertComponent = (
+            <Alert className="pageModal"
+                show
+                hasHeader
+                title={<span><i style={{ fontSize: '14px', marginRight: '5px', color: "orange" }} className="material-icons">warning</i>{i18n.t("messages.delete_ediphy_document")}</span>}
+                cancelButton
+                acceptButtonText={i18n.t("messages.OK")}
+                onClose={(bool)=>{
+                    if (bool) {
+                        let BASE_URL = window.location.href.replace("/edit", "?_method=delete");
+                        window.location = BASE_URL;
+                    }
+                    this.setState({ alert: null });}}>
+                <span> {i18n.t("messages.delete_ediphy_document_message")} </span><br/>
+            </Alert>);
+        this.setState({ alert: alertComponent });
     }
 }
 

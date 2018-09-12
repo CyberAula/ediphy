@@ -312,6 +312,8 @@ let en = {
             "delete_busy_cv": "All the marks that link to this view will be deleted.",
             "delete_container": "This action will erase all the content in this block.",
             "delete_contained_canvas": "This action will erase this contained view",
+            "delete_ediphy_document": "Delete Ediphy Document",
+            "delete_ediphy_document_message": "Are you sure you want to delete this document? You will lose all the content you have created.",
             "delete_page": "This action will erase all the content in this page and the marks that link to it.",
             "delete_section": "This action will erase all the content in this section and its children, and the marks that link to them.",
             "docs": "Read documentation",
