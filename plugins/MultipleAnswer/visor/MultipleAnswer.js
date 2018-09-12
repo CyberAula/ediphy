@@ -1,6 +1,7 @@
 import React from 'react';
 import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
 import { letterFromNumber } from '../../../common/common_tools';
+import { setRgbaAlpha } from "../../../common/common_tools";
 import { correctArrayUnordered } from '../../../core/visor/correction_functions';
 import i18n from "i18next";
 /* eslint-disable react/prop-types */
@@ -15,19 +16,6 @@ export function MultipleAnswer() {
             score = (score) + "/" + (props.exercises.weight || 0);
             let showFeedback = attempted && state.showFeedback;
 
-            function setRgbaAlpha(color, alpha) {
-                if (color) {
-                    if (color.charAt(0) === "#") {
-                        let cutHex = color.substring(1, 7);
-                        let r = parseInt(cutHex.substring(0, 2), 16);
-                        let g = parseInt(cutHex.substring(2, 4), 16);
-                        let b = parseInt(cutHex.substring(4, 6), 16);
-                        color = 'rgba(' + r + ',' + g + ',' + b + ',0.25)';
-                    }
-                    return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
-                }
-                return 'rgba(0, 173, 156, 0.25)';
-            }
             let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
             let correctAnswers = i18n.t("MultipleChoice.correctAnswerFeedback") + ": ";
 

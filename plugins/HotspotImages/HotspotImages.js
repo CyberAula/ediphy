@@ -5,6 +5,7 @@ import MarkEditor from '../../_editor/components/rich_plugins/mark_editor/MarkEd
 import Mark from '../../common/components/mark/Mark';
 import img_broken from './../../dist/images/broken_link.png';
 import img_placeholder from './../../dist/images/placeholder.svg';
+
 /* eslint-disable react/prop-types */
 
 export function HotspotImages(base) {
@@ -49,6 +50,7 @@ export function HotspotImages(base) {
                                     __name: Ediphy.i18n.t('HotspotImages.hyperlink'),
                                     type: 'text',
                                     value: state.hyperlink,
+                                    placeholder: 'Introduzca link',
                                 },
                             },
                         },

@@ -2,6 +2,7 @@ import React from 'react';
 import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
 import i18n from 'i18next';
 import { letterFromNumber } from '../../../common/common_tools';
+import { setRgbaAlpha } from "../../../common/common_tools";
 import { correctArrayOrdered } from '../../../core/visor/correction_functions';
 
 /* eslint-disable react/prop-types */
@@ -14,19 +15,7 @@ export function TrueFalse() {
             let score = props.exercises.score || 0;
             score = Math.round(score * 100) / 100;
             score = (score) + "/" + (props.exercises.weight || 0);
-            function setRgbaAlpha(color, alpha) {
-                if (color) {
-                    if (color.charAt(0) === "#") {
-                        let cutHex = color.substring(1, 7);
-                        let r = parseInt(cutHex.substring(0, 2), 16);
-                        let g = parseInt(cutHex.substring(2, 4), 16);
-                        let b = parseInt(cutHex.substring(4, 6), 16);
-                        color = 'rgba(' + r + ',' + g + ',' + b + ',0.25)';
-                    }
-                    return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
-                }
-                return 'rgba(0, 173, 156, 0.25)';
-            }
+
             let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
             let showFeedback = attempted && state.showFeedback;
             for (let i = 0; i < state.nBoxes; i++) {
