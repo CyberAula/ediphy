@@ -92,7 +92,7 @@ export default class NavDropdown extends Component {
                         </button>
                     </MenuItem>
                     {(Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button) &&
-                    <MenuItem disabled={false} eventKey="7" key="7">
+                    [<MenuItem disabled={false} eventKey="7" key="7">
                         <button className="dropdownButton" title={i18n.t('messages.help')}
                             disabled={false}
                             onClick={(e) => {
@@ -100,7 +100,18 @@ export default class NavDropdown extends Component {
                             }}><i className="material-icons">exit_to_app</i>
                             {i18n.t('messages.exit')}
                         </button>
-                    </MenuItem>}
+                    </MenuItem>,
+                    <MenuItem disabled={false} eventKey="8" key="8">
+                        <button className="dropdownButton" title={i18n.t('delete')}
+                            disabled={false}
+                            onClick={(e) => {
+                                alert("Borrar");
+                                // Sacar diálogo de confirmación
+                                // POST a http://vishub.org/ediphy_documents/NUMERO?_method=delete
+                            }}><i className="material-icons">delete</i>
+                            {i18n.t('delete')}
+                        </button>
+                    </MenuItem>]}
                 </Dropdown.Menu>
             </Dropdown>
         );
