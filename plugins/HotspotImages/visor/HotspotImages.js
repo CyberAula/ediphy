@@ -1,6 +1,8 @@
 import React from "react";
 import img from './../../../dist/images/broken_link.png';
 import Mark from '../../../common/components/mark/Mark';
+import { isURL } from "../../../_editor/components/clipboard/clipboard.utils";
+
 /* eslint-disable react/prop-types */
 
 export function HotspotImages(base) {
@@ -23,9 +25,14 @@ export function HotspotImages(base) {
                 }
 
                 if (hyperlink.substring(0, 4) === "www.") {
-                    state.hyperlink = "http://" + hyperlink;
+                    hyperlink = "http://" + hyperlink;
+                    if (isURL(hyperlink)) {
+                        state.hyperlink = hyperlink;
+                        return true;
+                    }
                 }
-                return true;
+
+                return false;
 
             }
 
