@@ -603,13 +603,7 @@ function templateExerciseSCSS() {
   &.attempted.showFeedback .answerRow {
     margin-top: 2px;
     padding: 0;
-      &.correct {
-        background-color: $detailgreentransparent;
-      }
 
-      &.incorrect {
-        background-color: $lightredtransparent;
-      }
   }
   .feedbackRow {
     padding: 10px 0;

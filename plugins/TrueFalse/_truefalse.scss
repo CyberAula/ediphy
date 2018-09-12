@@ -65,12 +65,12 @@
   }
 
   &.attempted.showFeedback .answerRow {
-    margin-top: 2px;
+    //margin-top: 2px;
     &.correct {
-      background-color: $detailgreentransparent;
+      //background-color: $detailgreentransparent;
     }
     &.incorrect {
-      background-color: $lightredtransparent;
+      //background-color: $lightredtransparent;
     }
   }
   .truefalse {

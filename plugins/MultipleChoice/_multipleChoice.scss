@@ -59,14 +59,14 @@
   }
 
   &.attempted.showFeedback .answerRow {
-    margin-top: 2px;
-    padding: 0;
+    //margin-top: 2px;
+    //padding: 0;
       &.correct {
-        background-color: $detailgreentransparent;
+        //background-color: $detailgreentransparent;
       }
 
       &.incorrect {
-        background-color: $lightredtransparent;
+        //background-color: $lightredtransparent;
       }
   }
   .feedbackRow {

@@ -109,13 +109,13 @@
   }
 
   &.attempted.showFeedback .answerRow {
-    margin-top: 2px;
-    border: 2px solid transparent;
+    //margin-top: 2px;
+    //border: 2px solid transparent;
     &.correct {
-      background-color: $detailgreentransparent;
+      //background-color: $detailgreentransparent;
     }
     &.incorrect {
-      background-color: $lightredtransparent;
+      //background-color: $lightredtransparent;
     }
   }
   .feedbackRow {
