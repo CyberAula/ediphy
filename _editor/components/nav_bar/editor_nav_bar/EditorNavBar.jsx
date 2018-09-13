@@ -58,6 +58,7 @@ export default class EditorNavBar extends Component {
                     toggleImportFile={this.toggleImportFile}
                     toggleExport={this.toggleExport}
                     toggleFileUpload={this.props.toggleFileUpload}
+                    isBusy={this.props.isBusy}
                     undoDisabled={this.props.undoDisabled} />
                 <GlobalConfig show={this.state.showGlobalConfig}
                     globalConfig={this.props.globalConfig}
@@ -188,6 +189,10 @@ EditorNavBar.propTypes = {
      * Publish the document
      */
     publishing: PropTypes.func.isRequired,
+    /**
+       * Indicates if there is a current server operation
+       */
+    isBusy: PropTypes.any,
 };
 
 /**

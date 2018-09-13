@@ -24,7 +24,7 @@ export default class NavDropdown extends Component {
      * @returns {code}
      */
     render() {
-
+        let isBusy = this.props.isBusy.toString(); // Only to trigger render
         return (
             <Dropdown id="dropdown-menu" style={{ float: 'right' }}>
                 <Dropdown.Toggle noCaret className="navButton">
@@ -95,8 +95,15 @@ export default class NavDropdown extends Component {
                             {i18n.t('messages.help')}
                         </button>
                     </MenuItem>
+                    {(this.isAlreadySaved()) ? <MenuItem disabled={false} eventKey="7" key="7">
+                        <button className="dropdownButton" title={i18n.t('delete')}
+                            disabled={false}
+                            onClick={this.onDeleteDocument.bind(this)}><i className="material-icons">delete</i>
+                            {i18n.t('delete')}
+                        </button>
+                    </MenuItem> : null}
                     {(Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button) &&
-                    <MenuItem disabled={false} eventKey="7" key="7">
+                    <MenuItem disabled={false} eventKey="8" key="8">
                         <button className="dropdownButton" title={i18n.t('messages.help')}
                             disabled={false}
                             onClick={(e) => {
@@ -105,13 +112,7 @@ export default class NavDropdown extends Component {
                             {i18n.t('messages.exit')}
                         </button>
                     </MenuItem>}
-                    {(this.isAlreadySaved()) ? <MenuItem disabled={false} eventKey="8" key="8">
-                        <button className="dropdownButton" title={i18n.t('delete')}
-                            disabled={false}
-                            onClick={this.onDeleteDocument.bind(this)}><i className="material-icons">delete</i>
-                            {i18n.t('delete')}
-                        </button>
-                    </MenuItem> : null}
+
                 </Dropdown.Menu>
                 {this.state.alert}
             </Dropdown>
@@ -119,7 +120,7 @@ export default class NavDropdown extends Component {
     }
     isAlreadySaved() {
         let reg = /.*ediphy_documents\/\d+\/edit/;
-        let matched = window.location.href.toString().match(reg);
+        let matched = window.parent.location.href.toString().match(reg);
         return matched && matched.length > 0;
     }
     onDeleteDocument() {
@@ -131,11 +132,27 @@ export default class NavDropdown extends Component {
                 cancelButton
                 acceptButtonText={i18n.t("messages.OK")}
                 onClose={(bool)=>{
-                    if (bool) {
-                        let BASE_URL = window.location.href.replace("/edit", "?_method=delete");
-                        window.location = BASE_URL;
+                    if (bool && ediphy_editor_params) {
+                        let form = new FormData();
+                        form.append("authenticity_token", ediphy_editor_params.authenticity_token);
+                        form.append("_method", 'delete');
+
+                        fetch(ediphy_editor_params.export_url, {
+                            credentials: 'same-origin',
+                            method: 'POST',
+                            body: form,
+                        })
+                            .then(response => {
+                                if (response.status >= 400) {
+                                    throw new Error(i18n.t("error.exporting"));
+                                }
+                                window.parent.location = response.url;
+                            })
+                            .catch(e =>{
+                            });
                     }
-                    this.setState({ alert: null });}}>
+                    this.setState({ alert: null });
+                }}>
                 <span> {i18n.t("messages.delete_ediphy_document_message")} </span><br/>
             </Alert>);
         this.setState({ alert: alertComponent });
@@ -188,4 +205,8 @@ NavDropdown.propTypes = {
      * Opens Tour Modal
      */
     openTour: PropTypes.func.isRequired,
+    /**
+   * Indicates if there is a current server operation
+   */
+    isBusy: PropTypes.any,
 };
