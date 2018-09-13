@@ -150,7 +150,7 @@ class EditorApp extends Component {
                     {this.createHelpModal()}
                     {this.createInitModal()}
                     {this.state.alert}
-                    <EditorNavBar hideTab={this.state.hideTab} boxes={boxes}
+                    <EditorNavBar hideTab={this.state.hideTab} boxes={boxes} isBusy={isBusy}
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                         globalConfig={{ ...globalConfig, status, everPublished }}
                         changeGlobalConfig={(prop, value) => {dispatch(changeGlobalConfig(prop, value));}}
