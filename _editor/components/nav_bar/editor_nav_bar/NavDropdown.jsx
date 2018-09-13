@@ -149,6 +149,7 @@ export default class NavDropdown extends Component {
                                 window.parent.location = response.url;
                             })
                             .catch(e =>{
+                                alert("There was an error");
                             });
                     }
                     this.setState({ alert: null });
