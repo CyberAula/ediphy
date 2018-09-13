@@ -15,7 +15,7 @@ export default {
     visor_zip: "./lib/visor/dist.zip",
     export_url: false,
     import_url: false,
-    search_vish_url: "http://vishub.org/apis/search/",
+    search_vish_url: "https://vishub.org/apis/search/",
     upload_vish_url: false,
     defaultAspectRatio: 16 / 9,
     // OPTIONS

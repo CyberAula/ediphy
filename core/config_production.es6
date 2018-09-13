@@ -16,7 +16,7 @@ export default {
     visor_zip: "/assets/lib/visor/dist.zip",
     export_url: "/ediphy_documents/",
     import_url: "/ediphy_documents/",
-    search_vish_url: "http://vishub.org/apis/search/",
+    search_vish_url: "https://vishub.org/apis/search/",
     upload_vish_url: "/documents.json",
     defaultAspectRatio: 4 / 3,
     // OPTIONS
