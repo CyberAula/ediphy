@@ -156,7 +156,8 @@
   }
   &:disabled {
     cursor: not-allowed !important;
-    background-color: #ddd !important;
+    background-color: #777 !important;
+    opacity: 1 !important;
   }
   i {
     vertical-align: middle;
@@ -166,8 +167,30 @@
   }
 }
 
+.playerSpan {
+  font-size: 16px;
+  background-color: #777;
+  color: white;
+  padding: 5px 15px 5px 15px;
+  display: inline-block;
+  vertical-align: top;
+  height: 38px;
+  input {
+    border: none;
+    background-color: #777;
+    -webkit-box-shadow: inset 0 0 8px 2px rgba(0,0,0,0.55);
+    -moz-box-shadow: inset 0 0 8px 2px rgba(0,0,0,0.55);
+    box-shadow: inset 0 0 8px 2px rgba(0,0,0,0.55);
+    width: 29px;
+    padding:2px;
+    margin-right: 5px;
+    text-align: center;
+    color: white;
+  }
+}
+
 .btn[disabled].btn-primary.playerButton {
-    background-color: #ddd !important;
+    background-color: #aaa !important;
 }
 
 
