@@ -436,26 +436,27 @@ input[type="radio"] {
     background-color: #fff;
     background-image: -webkit-linear-gradient(0deg, transparent 20%, hsla(0,0%,100%,.7), transparent 80%),
     -webkit-linear-gradient(90deg, transparent 20%, hsla(0,0%,100%,.7), transparent 80%);
-    border-radius: 10px;
+    border-radius: 50%;
     cursor: pointer;
     display: inline-block;
-    height: 16px;
-    margin-right: 16px;
+    height: 1em;
+    margin-right: 1em;
     position: relative;
-    width: 16px;
-    border: 2px solid #ccc;
+    width:  1em;
+    border: 0.1em solid #ccc;
     -webkit-appearance: none;
+    -moz-appearance: none;
 }
 input[type="radio"]:after {
     background-color: #fff;
     border-radius: 50%;
     content: '';
     display: block;
-    height: 8px;
-    left: 2px;
+    height: 0.5em;
+    left: 0.15em;
     position: relative;
-    top: 2px;
-    width: 8px;
+    top: 0.15em;
+    width: 0.5em;
 }
 input[type="radio"]:checked:after {
     background-color: #17CFC8;

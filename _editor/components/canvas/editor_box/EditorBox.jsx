@@ -429,7 +429,9 @@ export default class EditorBox extends Component {
                         let parentRect = parent.getBoundingClientRect();
                         let x = originalRect.left - parentRect.left;
                         let y = originalRect.top - parentRect.top;
-
+                        if ($('.canvasSliClass')) {
+                            clone.style.fontSize = $('.canvasSliClass').css('font-size');
+                        }
                         clone.setAttribute("id", "clone");
                         clone.setAttribute('data-x', x);
                         clone.setAttribute('data-y', y);

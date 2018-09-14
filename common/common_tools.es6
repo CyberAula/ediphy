@@ -16,7 +16,6 @@ export function fontString() {
     return fontsString;
 }
 export function changeFontBase(width = 1200) {
-    console.log(parseFloat(width));
     const DEFAULT_FONT_BASE = 14;
     const DEFAULT_WIDTH_BASE = 1200;
     let calculatedFontSize = DEFAULT_FONT_BASE * parseFloat(width) / DEFAULT_WIDTH_BASE;
