@@ -74,7 +74,7 @@ export default class EditorBox extends Component {
             }
         });
 
-        style = { ...style, ...toolbar.style };
+        style = { ...style, ...toolbar.style, fontSize: this.props.fontBase ? (this.props.fontBase + 'px') : '14px' };
         if (toolbar.structure.height === 'auto' && config.needsTextEdition) {
             style.height = 'auto';
         }
@@ -184,7 +184,7 @@ export default class EditorBox extends Component {
                 style={wholeBoxStyle}>
                 {border}
                 {toolbar.showTextEditor ? null : content }
-                {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxes[this.props.id]}
+                {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} fontBase={this.props.fontBase} boxSelected={this.props.boxSelected} box={this.props.boxes[this.props.id]}
                     style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.pluginToolbars} id={this.props.id}
                     onBlur={this.blurTextarea}/> : null}
                 <div className="boxOverlay" style={{ display: showOverlay }} />

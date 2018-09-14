@@ -2,3 +2,25 @@
     font-family: 'Ubuntu', sans-serif;
     outline:none !important;
 }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6{
+    font-size: inherit;
+}
+
+.canvasVisorSli {
+    .boxStyle {
+        h1, .h1 {
+            font-size: 3em;
+        }
+    }
+}

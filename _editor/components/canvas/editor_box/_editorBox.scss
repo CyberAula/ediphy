@@ -1,6 +1,9 @@
 @import "../../../../sass/general/_variables.scss";
 @import "../../../../sass/general/mixins/_mixins.scss";
 
+.p_class{
+  color: red;
+}
 /*Resize box squares*/
 .helpersResizable {
     border: 1px solid #777;
@@ -14,6 +17,7 @@
     width: 100%;
     height: 100%;
     line-height: normal;
+    //font-size: 14px;
 }
 
 .boxStyle {

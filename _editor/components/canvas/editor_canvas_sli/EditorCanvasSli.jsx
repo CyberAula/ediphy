@@ -9,7 +9,7 @@ import EditorHeader from '../editor_header/EditorHeader';
 import interact from 'interactjs';
 import { ADD_BOX, changeGlobalConfig, changeNavItemName } from '../../../../common/actions';
 import { isSlide, isSortableBox } from '../../../../common/utils';
-import { aspectRatio, createBox, instanceExists } from '../../../../common/common_tools';
+import { aspectRatio, createBox, instanceExists, changeFontBase } from '../../../../common/common_tools';
 import Ediphy from '../../../../core/editor/main';
 import ReactResizeDetector from 'react-resize-detector';
 import i18n from 'i18next';
@@ -118,6 +118,7 @@ export default class EditorCanvasSli extends Component {
                             return <EditorBox key={id}
                                 id={id}
                                 grid={gridOn}
+                                fontBase={this.state.fontBase}
                                 page={itemSelected ? itemSelected.id : 0}
                                 addMarkShortcut={this.props.addMarkShortcut}
                                 boxes={this.props.boxes}
@@ -263,6 +264,8 @@ export default class EditorCanvasSli extends Component {
             },
         });
         this.aspectRatio(this.props, this.state);
+        this.setState({ fontBase: changeFontBase(this.state.width) });
+
         window.addEventListener("resize", this.aspectRatioListener.bind(this));
     }
 
@@ -272,6 +275,7 @@ export default class EditorCanvasSli extends Component {
     }
     aspectRatioListener() {
         this.aspectRatio();
+        this.setState({ fontBase: changeFontBase(this.state.width) });
     }
     aspectRatio(props = this.props, state = this.state) {
         let ar = props.canvasRatio;

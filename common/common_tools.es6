@@ -6,6 +6,23 @@ import {
 import { ID_PREFIX_BOX } from './constants';
 let html2json = require('html2json').html2json;
 import i18n from 'i18next';
+
+export function fontString(fontBase = 14) {
+    // let canvas = document.getElementById('canvas');
+    let fontArray = [8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72];
+    // let fonts_length = fontArray.map((number) => number + '/' + (Math.round(number / (window.innerWidth * 0.01) * 100) / 100) + 'vw');
+    let fonts_length = fontArray.map((number) => number + '/' + (number / fontBase) + 'em');
+    let fontsString = fonts_length.join(";");
+    return fontsString;
+}
+export function changeFontBase(width = 1200) {
+    console.log(parseFloat(width));
+    const DEFAULT_FONT_BASE = 14;
+    const DEFAULT_WIDTH_BASE = 1200;
+    let calculatedFontSize = DEFAULT_FONT_BASE * parseFloat(width) / DEFAULT_WIDTH_BASE;
+    $('.boxStyle').css("font-size", calculatedFontSize + "px");
+    return calculatedFontSize;
+}
 export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", customSize = 0) {
     // change ratio to the global ratio store in the app
     let ratio = ratioparam;
@@ -33,6 +50,22 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", 
         if (w > ratio * h) {
             width = (ratio * h) + "px";
             height = h + "px";
+            // change text font-size
+            // let p_array = document.querySelectorAll(".p_class > span");
+            // if (p_array.length > 0) {
+            //     for (let i = 0; i < p_array.length; i++) {
+            //         //let p_size = window.getComputedStyle(p_array[i]).fontSize;
+            //         let p_size = p_array[i].style.fontSize;
+            //         console.log(p_size, p_size.search("px"));
+            //         if (p_size.search("px") > 0) {
+            //             let vw = Math.round(p_size.replace("px", "") / (window.innerWidth * 0.01) * 100) / 100 + 'vw';
+            //             p_array[i].style.fontSize = vw;
+            //         }
+            //
+            //
+            //     }
+            // }
+
         } else if (h > w / ratio) {
             let newHeight = w / ratio;
             height = newHeight + "px";
