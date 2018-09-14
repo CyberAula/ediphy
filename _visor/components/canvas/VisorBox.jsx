@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import PluginPlaceholderVisor from './VisorPluginPlaceholder';
 import { isSortableBox, isAncestorOrSibling } from '../../../common/utils';
+import { isUnitlessNumber } from '../../../common/cssNonUnitProps';
 
 export default class VisorBox extends Component {
     constructor(props) {
@@ -46,7 +47,15 @@ export default class VisorBox extends Component {
         }
 
         // style.transform = style.WebkitTransform = style.MsTransform = rotate;
-        style = { ...style, ...toolbar.style };
+        let toolbarStyle = {};
+        for (let propCSS in toolbar.style) {
+            if (!isNaN(toolbar.style[propCSS]) && isUnitlessNumber.indexOf(propCSS) === -1) {
+                toolbarStyle[propCSS] = toolbar.style[propCSS] / 7 + 'em';
+            } else {
+                toolbarStyle[propCSS] = toolbar.style[propCSS];
+            }
+        }
+        style = { ...style, ...toolbarStyle };
 
         /* TODO: Reassign object if it's rich to have marks as property box.content.props*/
         let marks = {};

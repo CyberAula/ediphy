@@ -42,4 +42,13 @@
     pre{
       font-size: 1em;
     }
+    blockquote {
+        padding: 0.8em 1.2em;
+        margin: 0 0 1.2em;
+        font-size: 1.15em;
+        border-left: 0.32em solid #eee;
+    }
+    ul, ol {
+        margin-bottom: 0.8em;
+    }
 }
