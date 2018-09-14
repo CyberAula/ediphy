@@ -107,6 +107,15 @@
     .breadcrumb a{
       margin: 0.4em 0 0;
     }
+    .infoIcon {
+      cursor: help;
+      font-size: 0.9em;
+      color: #555;
+      vertical-align: top;
+      position: absolute;
+      top: 0.7em;
+      right: 0.7em;
+    }
   }
 }
 /* Information about contained view origin*/
@@ -152,16 +161,7 @@
   font-family: 'Ubuntu' !important;
 }
 
-.infoIcon {
-  cursor: help;
-  font-size: 24px;
-  color: #555;
-  vertical-align: top;
-  margin-left: 5px;
-  position: absolute;
-  top: 35px;
-  right: 35px;
-}
+
 
 
 .ediphyHeader {
