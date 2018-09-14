@@ -50,7 +50,7 @@ export function HotspotImages(base) {
                                     __name: Ediphy.i18n.t('HotspotImages.hyperlink'),
                                     type: 'text',
                                     value: state.hyperlink,
-                                    placeholder: 'Introduzca link',
+                                    placeholder: Ediphy.i18n.t('HotspotImages.link_placeholder'),
                                 },
                             },
                         },

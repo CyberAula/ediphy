@@ -29,10 +29,10 @@ export function HotspotImages(base) {
                             onMarkClicked={props.onMarkClicked}/></div>
                 );
             });
-
+            let hyperlink = this.checkHyperlink(state.hyperlink);
             return(
                 <div style={{ overflow: "hidden", height: "100%" }}>
-                    <a href={state.hyperlink} target="_blank" style={{ pointerEvents: this.checkHyperlink(state.hyperlink) ? "initial" : "none" }}>
+                    <a href={hyperlink} target="_blank" style={{ pointerEvents: hyperlink ? "initial" : "none" }}>
                         <img style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
                             e.target.onError = null;
                             e.target.src = img; // Ediphy.Config.broken_link;
@@ -54,7 +54,7 @@ export function HotspotImages(base) {
                 hyperlink = "http://" + hyperlink;
             }
             if (isURL(hyperlink)) {
-                return true;
+                return hyperlink;
             }
             return false;
         },

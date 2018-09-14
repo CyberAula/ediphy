@@ -12,6 +12,7 @@ module.exports = {
         "radius": "Radius",
         "source": "Source",
         "message_mark_xy": "You've chosen an incorrect value. You must introduce two numbers separated by a comma. E.g. 4.56,90.76",
-        "hyperlink": "Redirects to",
+        "hyperlink": "Directs to",
+        "link_placeholder": "http://...",
     },
 };
