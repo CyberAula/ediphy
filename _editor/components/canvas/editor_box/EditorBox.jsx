@@ -6,6 +6,7 @@ import interact from 'interactjs';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import { EDIT_PLUGIN_TEXT } from '../../../../common/actions';
 import { releaseClick, findBox } from '../../../../common/common_tools';
+import { isUnitlessNumber } from '../../../../common/cssNonUnitProps';
 import Ediphy from '../../../../core/editor/main';
 import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView, isBox } from '../../../../common/utils';
 import './_editorBox.scss';
@@ -74,7 +75,15 @@ export default class EditorBox extends Component {
             }
         });
 
-        style = { ...style, ...toolbar.style, fontSize: this.props.fontBase ? (this.props.fontBase + 'px') : '14px' };
+        let toolbarStyle = {};
+        for (let propCSS in toolbar.style) {
+            if (!isNaN(toolbar.style[propCSS]) && isUnitlessNumber.indexOf(propCSS) === -1) {
+                toolbarStyle[propCSS] = toolbar.style[propCSS] / 7 + 'em';
+            } else {
+                toolbarStyle[propCSS] = toolbar.style[propCSS];
+            }
+        }
+        style = { ...style, ...toolbarStyle };
         if (toolbar.structure.height === 'auto' && config.needsTextEdition) {
             style.height = 'auto';
         }
@@ -184,7 +193,7 @@ export default class EditorBox extends Component {
                 style={wholeBoxStyle}>
                 {border}
                 {toolbar.showTextEditor ? null : content }
-                {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} fontBase={this.props.fontBase} boxSelected={this.props.boxSelected} box={this.props.boxes[this.props.id]}
+                {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxes[this.props.id]}
                     style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.pluginToolbars} id={this.props.id}
                     onBlur={this.blurTextarea}/> : null}
                 <div className="boxOverlay" style={{ display: showOverlay }} />

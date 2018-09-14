@@ -7,11 +7,11 @@ import { ID_PREFIX_BOX } from './constants';
 let html2json = require('html2json').html2json;
 import i18n from 'i18next';
 
-export function fontString(fontBase = 14) {
+export function fontString() {
     // let canvas = document.getElementById('canvas');
     let fontArray = [8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72];
     // let fonts_length = fontArray.map((number) => number + '/' + (Math.round(number / (window.innerWidth * 0.01) * 100) / 100) + 'vw');
-    let fonts_length = fontArray.map((number) => number + '/' + (number / fontBase) + 'em');
+    let fonts_length = fontArray.map((number) => number + '/' + (number / 14) + 'em');
     let fontsString = fonts_length.join(";");
     return fontsString;
 }
@@ -20,7 +20,7 @@ export function changeFontBase(width = 1200) {
     const DEFAULT_FONT_BASE = 14;
     const DEFAULT_WIDTH_BASE = 1200;
     let calculatedFontSize = DEFAULT_FONT_BASE * parseFloat(width) / DEFAULT_WIDTH_BASE;
-    $('.boxStyle').css("font-size", calculatedFontSize + "px");
+    // $('.boxStyle').css("font-size", calculatedFontSize + "px");
     return calculatedFontSize;
 }
 export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", customSize = 0) {

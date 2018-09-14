@@ -35,8 +35,7 @@ export default class CKEDitorComponent extends Component {
             }*/
 
             let editor = CKEDITOR.inline(this.refs.textarea);
-            console.log(fontString(window.fontBase), this.props.fontBase);
-            editor.config.fontSize_sizes = fontString(this.props.fontBase);
+            editor.config.fontSize_sizes = fontString();
             editor.config.font_defaultLabel = 'Arial';
             editor.config.fontSize_defaultLabel = '14';
 

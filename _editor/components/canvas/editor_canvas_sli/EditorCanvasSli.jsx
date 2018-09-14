@@ -25,6 +25,7 @@ export default class EditorCanvasSli extends Component {
         this.state = {
             alert: null,
             width: 0, height: 0, marginTop: 0, marginBottom: 0,
+            fontBase: 14,
         };
         this.aspectRatio = this.aspectRatio.bind(this);
     }
@@ -61,6 +62,7 @@ export default class EditorCanvasSli extends Component {
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12}
                 className="canvasSliClass" onMouseDown={()=>{this.props.onBoxSelected(-1);}}
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial',
+                    fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px',
                 }}>
                 <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
                     className={'slide_air parentRestrict'}
@@ -118,7 +120,6 @@ export default class EditorCanvasSli extends Component {
                             return <EditorBox key={id}
                                 id={id}
                                 grid={gridOn}
-                                fontBase={this.state.fontBase}
                                 page={itemSelected ? itemSelected.id : 0}
                                 addMarkShortcut={this.props.addMarkShortcut}
                                 boxes={this.props.boxes}
@@ -263,8 +264,8 @@ export default class EditorCanvasSli extends Component {
                 event.target.classList.remove("drop-target");
             },
         });
-        this.aspectRatio(this.props, this.state);
-        this.setState({ fontBase: changeFontBase(this.state.width) });
+        let calculated = this.aspectRatio(this.props, this.state);
+        this.setState({ fontBase: changeFontBase(calculated.width) });
 
         window.addEventListener("resize", this.aspectRatioListener.bind(this));
     }
@@ -274,8 +275,8 @@ export default class EditorCanvasSli extends Component {
         window.removeEventListener("resize", this.aspectRatioListener.bind(this));
     }
     aspectRatioListener() {
-        this.aspectRatio();
-        this.setState({ fontBase: changeFontBase(this.state.width) });
+        let calculated = this.aspectRatio();
+        this.setState({ fontBase: changeFontBase(calculated.width) });
     }
     aspectRatio(props = this.props, state = this.state) {
         let ar = props.canvasRatio;
@@ -288,12 +289,14 @@ export default class EditorCanvasSli extends Component {
         if (JSON.stringify(calculated) !== JSON.stringify(current)) {
             this.setState({ ...calculated });
         }
+        return calculated;
     }
 
     componentWillUpdate(nextProps, nextState) {
         if (this.props.canvasRatio !== nextProps.canvasRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
             window.canvasRatio = nextProps.canvasRatio;
-            this.aspectRatio(nextProps, nextState);
+            let calculated = this.aspectRatio(nextProps, nextState);
+            this.setState({ fontBase: changeFontBase(calculated.width) });
         }
 
     }
