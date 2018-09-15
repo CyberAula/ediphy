@@ -27,6 +27,7 @@ export default class EnrichedPDFPlugin extends React.Component {
         };
         this.onDocumentLoad = ({ numPages }) => {
             let pageNumber = 1;
+            console.log(this.props.state.currentState);
             if (this.props.state.currentState) {
                 try{
                     pageNumber = parseInt(this.props.state.currentState.split(',')[2], 10);
@@ -139,7 +140,7 @@ export default class EnrichedPDFPlugin extends React.Component {
                             markConnection={marks[id].connection}
                             markValue={marks[id].value}
                             boxID={this.props.props.id}
-                            onMarkClicked={(_id, _value)=>{this.props.props.onMarkClicked(_id, _value, false);}}
+                            onMarkClicked={(_id, _value)=>{this.props.props.onMarkClicked(_id, _value, true);}}
                         />
                     </div> : null);
         });

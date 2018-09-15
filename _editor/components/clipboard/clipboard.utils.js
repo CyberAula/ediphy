@@ -123,6 +123,14 @@ export function randomPositionGenerator(min, max) {
  * @param data Clipboard data in HTML or plain text
  * @returns {string} Resulting CKEditor content
  */
+
+function replacerPt(str, p1) {
+    return "" + Math.round(p1 * 2 / 21 * 1000) / 1000 + "em";
+}
+function replacerPx(str, p1, p2, offset, s) {
+    return "" + Math.round(p1 / 14 * 1000) / 1000 + "em";
+}
+
 export function getCKEDITORAdaptedContent(data) {
     // Parse HTML version
     // let filter = new CKEDITOR.filter( 'p b' ),
@@ -131,7 +139,22 @@ export function getCKEDITORAdaptedContent(data) {
     let writer = new CKEDITOR.htmlParser.basicWriter();
 
     fragment.writeHtml(writer);
-    return encodeURI(writer.getHtml());
+    let parsedHTML = writer.getHtml();
+
+    // parsedHTML = parsedHTML.replace(/([1-9]\d*(\.\d+)?)px/gim, replacerPx)
+    // parsedHTML = parsedHTML.replace(/([1-9]\d*(\.\d+)?)pt/gim, replacerPt)
+
+    parsedHTML = parsedHTML.replace(/style=\"(.*;)*\"/gim, function(str, p1, p2) {
+        let styled = (p1.replace(/([0-9]\d*(\.\d+)?)pt/gim, replacerPt));
+        styled = styled.replace(/([0-9]\d*(\.\d+)?)px/gim, replacerPx);
+        return "style=\"" + styled + "\"";
+    });
+    parsedHTML = parsedHTML.replace(/<style>(.*;)*<\/style>/gim, function(str, p1, p2) {
+        let styled = (p1.replace(/([0-9]\d*(\.\d+)?)pt/gim, replacerPt));
+        styled = styled.replace(/([0-9]\d*(\.\d+)?)px/gim, replacerPx);
+        return "<style>" + styled + "</style>";
+    });
+    return encodeURI(parsedHTML);
     /* return encodeURI(
      decodeURI(
      CKEDITOR.tools.htmlEncode(data)

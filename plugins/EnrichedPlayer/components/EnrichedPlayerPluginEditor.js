@@ -78,9 +78,9 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
             let title = marks[id].title;
             let color = marks[id].color;
             return(
-                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "5px" }} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.onRichMarkMoved} state={this.props.state} base={this.props.base}>
+                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.3em" }} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.onRichMarkMoved} state={this.props.state} base={this.props.base}>
                     <div className="videoMark" style={{ background: color || "#17CFC8" }}>
-                        <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }} color={color || "#17CFC8"} idKey={id} title={title} />
+                        <Mark style={{ position: 'relative', top: "-1.7em", left: "-0.75em" }} color={color || "#17CFC8"} idKey={id} title={title} />
                     </div>
                 </MarkEditor>);
         });
@@ -108,7 +108,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                 {this.props.state.controls ?
                     <div className="player-media-controls" style={{ pointerEvents: 'all' }}>
                         <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
-                        <div className="progress-player-input dropableRichZone" style={{ height: "25px", position: "relative", bottom: '5px' }}
+                        <div className="progress-player-input dropableRichZone" style={{ height: "1.7em", position: "relative", bottom: '0.3em' }}
                             onMouseDown={this.onSeekMouseDown.bind(this)}
                             onChange={this.onSeekChange.bind(this)}
                             onMouseUp={this.onSeekMouseUp.bind(this)}>
@@ -121,7 +121,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                         <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
                     </div> :
                     <div className="player-media-controls" style={{ pointerEvents: 'all' }}>
-                        <div className="progress-player-input dropableRichZone" style={{ height: "20px", position: "relative", bottom: '5px' }}>
+                        <div className="progress-player-input dropableRichZone" style={{ height: "1.7em", position: "relative", bottom: '0.3em' }}>
                             <div className="fakeProgress" />
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
                             {markElements}
