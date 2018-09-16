@@ -26,6 +26,7 @@
 .searchBox {
   max-width:98%;
   max-width:calc(99% - 0.3em);
+  overflow: hidden;
   width:12em;
   position: absolute;
   top: 0.2em;
@@ -35,6 +36,21 @@
 }
 .selectedBox .searchBox {
   pointer-events: all !important;
+  .input-group {
+    .form-control {
+      height: 2.3em;
+      padding: 0.4em 0.8em;
+      font-size: 1em;
+    }
+    .input-group-addon {
+      font-size: 1.2em;
+      height: 1.7em;
+      .material-icons {
+        font-size: 1.2em;
+      }
+
+    }
+  }
 }
 
 .wholeboxvisor .virtualMap {

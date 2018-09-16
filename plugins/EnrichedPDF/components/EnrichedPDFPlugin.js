@@ -27,7 +27,6 @@ export default class EnrichedPDFPlugin extends React.Component {
         };
         this.onDocumentLoad = ({ numPages }) => {
             let pageNumber = 1;
-            console.log(this.props.state.currentState);
             if (this.props.state.currentState) {
                 try{
                     pageNumber = parseInt(this.props.state.currentState.split(',')[2], 10);

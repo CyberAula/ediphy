@@ -38,6 +38,7 @@
     line-height: 1.25em;
     padding-right: 0em;
     margin-right: -0.5em;
+    cursor: move;
     .material-icons {
       font-size: inherit;
       vertical-align: middle;
@@ -57,9 +58,10 @@
       display: flex;
     color: $blueprimary;
     font-size: 1em;
-    width: 1.3em;
+    width: auto;
+    padding-left: 0.25em;
     height: 100%;
-    margin-top: auto;
+    word-break: keep-all;
   }
 }
 

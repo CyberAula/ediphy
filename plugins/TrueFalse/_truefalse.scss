@@ -20,6 +20,9 @@
     .row{
       margin-left: -1em;
       margin-right: -1em;
+      .col-xs-12 {
+        padding: 0px;
+      }
     }
    .radioQuiz {
     /*transform: scale(1.3);

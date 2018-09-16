@@ -143,4 +143,12 @@
       border-radius: 0.2em;
     }
   }
+  .correctAnswerFeedback {
+    text-align: left;
+    text-transform: uppercase;
+    .correctAnswerLabel{
+      text-transform: none;
+
+    }
+  }
 }

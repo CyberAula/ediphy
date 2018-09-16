@@ -5,7 +5,7 @@ $blueprimary: #17CFC8;
 }
 
 .d3Options, .d3Axes{
-    padding-left: 32px;
+    padding-left: 2.5em;
 }
 .form-group div p{
     font-weight: bold;
@@ -14,7 +14,7 @@ $blueprimary: #17CFC8;
     padding: 0px;
     position: fixed;
     right: 2.7em;
-    z-index: 10px;
+    z-index: 10;
 }
 
 
@@ -63,6 +63,12 @@ $blueprimary: #17CFC8;
     }
     .pagination li {
         margin-left: 0px;
+        width: 2.5em;
+        svg {
+            width: 1em;
+            height: 1em;
+            vertical-align: middle;
+        }
     }
 }
 
@@ -119,6 +125,13 @@ $blueprimary: #17CFC8;
     .tableContainer {
         * {
             border-radius: 0px !important;
+        }
+        .table  {
+            svg {
+                width: 1em;
+                height: 1em;
+                vertical-align: middle;
+            }
         }
         &.theme-striped {
             tr:nth-child(even){background-color: #f2f2f2}

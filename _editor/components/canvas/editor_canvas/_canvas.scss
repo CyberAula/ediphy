@@ -116,10 +116,11 @@
   border:0;
   padding:0;
   position: absolute;
-  top: 15px;
-  right: 15px;
-  i{
+  top: 1em;
+  right:  1em;
+  i.material-icons{
     color: white;
+    font-size: 1.3em;
     background-color: $blueprimary;
   }
   z-index:9999;
