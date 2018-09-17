@@ -46,6 +46,7 @@ export default function printToPDF(state, callback) {
     let addHTML = function(navs, last) {
 
         let currentView = navs[0];
+        console.log(currentView);
         let slide = ((isCV && isSlide(containedViews[currentView].type)) ||
         (!isCV && isSlide(navItems[currentView].type)));
 
@@ -56,13 +57,20 @@ export default function printToPDF(state, callback) {
         let i = notSections.length - navs.length;
 
         pdf.addPage(viewport.width, viewport.height);
-
+        // Me creo un div para la página
         let pageContainer = document.createElement('div');
+        // Añado div al DOM
         document.body.appendChild(pageContainer);
+        // Deduzco si slide o page
         let slideClass = slide ? "pcw_slide" : "pcw_doc";
         pageContainer.id = "pageContainer_" + i;
+        pageContainer.className = "pageToPrint";
+        // Asigno la anchura y altura del div dependiendo si es page o slide
         pageContainer.style.width = viewport.width + 'px';
+        console.log('Viewport width: ' + viewport.width);
         pageContainer.style.height = slide ? (viewport.height + 'px') : 'auto';
+        // Añado pagebreak después del div FUNCIONA?
+        pageContainer.style.pageBreakAfter = 'always';
         let isCV = isContainedView(currentView);
         let props = {
             boxes, changeCurrentView: (element) => { }, canvasRatio, containedViews,
@@ -84,7 +92,7 @@ export default function printToPDF(state, callback) {
             pdf.internal.scaleFactor = 1;
             setTimeout(function() {
                 pdf.addHTML(pageContainer, { useCORS: true, pagesplit: true, retina: true }, function() {
-                    document.body.removeChild(pageContainer);
+                    // document.body.removeChild(pageContainer);
                     if (last) {
                         pdf.save(title.split(" ").join("") + '.pdf');
                         callback();

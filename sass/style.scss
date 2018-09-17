@@ -259,3 +259,23 @@ input[type="radio"]{
     background: none;
 }
 
+
+@media print {
+
+    .pageToPrint{
+        // @page { size: 58mm 100mm } /* output size */
+        // body.receipt .sheet { width: 58mm; height: 100mm } /* sheet size */
+        // @media print { body.receipt { width: 58mm } } /* fix for Chrome */
+        page-break-after: always;
+        width: ;
+    }
+
+    .navBar {
+        display: none;
+    }
+
+    #root {
+        display: none;
+    }
+}
+
