@@ -279,7 +279,11 @@ $track-width: 54% !default;
   }
   .audioMark{
     a.mapMarker {
-      left:-0.5em;
+      top: -1.9em;
+      left: -0.7em;
+      width: 1.9em;
+      height: 1.9em;
+      text-align: center;
     }
     width: 0.75em;
     height: 0.75em;

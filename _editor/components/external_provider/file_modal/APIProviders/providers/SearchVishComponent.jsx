@@ -245,6 +245,10 @@ SearchVishComponent.propTypes = {
      */
     elementSelected: PropTypes.any,
     /**
+     * Selected Element type
+     */
+    elementSelectedType: PropTypes.any,
+    /**
      * Select element callback
      */
     onElementSelected: PropTypes.func.isRequired,

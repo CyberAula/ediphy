@@ -189,7 +189,12 @@ $track-width: 54% !default;
     border: 0.1em solid white;
     position: relative;
     a.mapMarker {
-      left:-0.5em;
+     // left:-0.5em;
+      top: -1.9em;
+      left: -0.7em;
+      width: 1.9em;
+      height: 1.9em;
+      text-align: center;
     }
     &:hover{
       @include scale(1.2);
