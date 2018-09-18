@@ -278,6 +278,9 @@ $track-width: 54% !default;
     position:absolute;
   }
   .audioMark{
+    a.mapMarker {
+      left:-0.5em;
+    }
     width: 0.75em;
     height: 0.75em;
     top: -0.55em;
