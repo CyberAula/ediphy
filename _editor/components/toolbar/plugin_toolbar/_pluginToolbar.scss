@@ -452,11 +452,11 @@ input[type="radio"]:after {
     border-radius: 50%;
     content: '';
     display: block;
-    height: 0.6em;
-    left: 0.1em;
+    height: 0.55em;
+    left: 0.15em;
     position: relative;
-    top: 0.1em;
-    width: 0.6em;
+    top: 0.15em;
+    width: 0.55em;
 }
 input[type="radio"]:checked:after {
     background-color: #17CFC8;
