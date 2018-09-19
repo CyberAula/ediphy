@@ -246,7 +246,9 @@ $track-width: 54% !default;
     position: absolute;
     z-index: 3;
   }
-
+  .audio-controls {
+    display: flex;
+  }
   .progress-audio-input {
       background: transparent;
       float:left;

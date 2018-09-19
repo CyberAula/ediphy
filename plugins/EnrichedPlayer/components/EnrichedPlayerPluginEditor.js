@@ -6,6 +6,8 @@ import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/M
 import Mark from '../../../common/components/mark/Mark';
 import { convertHMStoSeconds } from "../../../common/common_tools";
 import img from './../../../dist/images/broken_link.png';
+import { pad } from '../../../common/common_tools';
+
 /* eslint-disable react/prop-types */
 
 export default class EnrichedPlayerPluginEditor extends React.Component {
@@ -61,14 +63,8 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
         }
     }
 
-    pad(str) {
-        str = str.toString();
-        return str.length < 2 ? "0" + str : str;
-    }
-
     onProgress(state) {
         // We only want to update time slider if we are not currently seeking
-        console.log(state);
         if (!this.state.seeking) {
             this.setState(state);
         }
@@ -115,7 +111,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                     onDuration={duration => this.setState({ duration })}
                 />
                 {this.props.state.controls ?
-                    <div className="player-media-controls" style={{ pointerEvents: 'all' }}>
+                    <div className="player-media-controls flexControls" style={{ pointerEvents: 'all' }}>
                         <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
                         <div className="progress-player-input dropableRichZone" style={{ height: "25px", position: "relative", bottom: '5px' }}
                             onMouseDown={this.onSeekMouseDown.bind(this)}
@@ -126,7 +122,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
                             {markElements}
                         </div>
-                        <div>{ Math.trunc(this.state.playedSeconds / 60) + ":" + this.pad(Math.trunc(this.state.playedSeconds % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + this.pad(Math.trunc(this.state.duration % 60))}</div>
+                        <div className="durationField">{ Math.trunc(this.state.playedSeconds / 60) + ":" + pad(Math.trunc(this.state.playedSeconds % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + pad(Math.trunc(this.state.duration % 60))}</div>
                         <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
                         <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
                     </div> :

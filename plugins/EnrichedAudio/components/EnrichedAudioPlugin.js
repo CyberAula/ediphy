@@ -1,4 +1,6 @@
 import React from 'react';
+import { pad } from '../../../common/common_tools';
+
 import { findDOMNode } from 'react-dom';
 // import ReactAudioPlayer from 'react-audio-player';
 import WaveSurfer from 'wavesurfer.js';
@@ -21,6 +23,7 @@ export default class BasicAudioPlugin extends React.Component {
             ondas: null,
             toBeTriggered: [],
             triggering: false,
+            playedSeconds: 0,
         };
     }
 
@@ -186,6 +189,7 @@ export default class BasicAudioPlugin extends React.Component {
                     {(this.props.state.controls) && (
                         <div className="audio-controls" style={{ pointerEvents: 'auto' }}>
                             <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} style={{ zIndex: 9999 }}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
+                            <div className="durationField">{ Math.trunc(this.state.playedSeconds / 60) + ":" + pad(Math.trunc(this.state.playedSeconds % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + pad(Math.trunc(this.state.duration % 60))}</div>
                             <input className="volume-audio-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.handleVolumeChange.bind(this)} />
                         </div>
                     )}

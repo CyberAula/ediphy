@@ -33,7 +33,7 @@ $track-width: 54% !default;
   input[type=range] {
     -webkit-appearance: none;
     -moz-appearance: none;
-    width: 16%;
+    width: 10%;
     margin: 3px 2.5%;
     height: 15px;
   }
@@ -149,6 +149,14 @@ $track-width: 54% !default;
     &:hover{
       opacity: 1;
     }
+
+    &.flexControls {
+      display: flex;
+      align-content: center;
+      .flexControlElement {
+
+      }
+    }
   }
 
   button {
@@ -191,14 +199,20 @@ $track-width: 54% !default;
   }
 
   @include custom_range;
-
+  .durationField {
+    color:white;
+    font-size: 0.8em;
+    line-height: 1.8;
+    padding: 0 0.3em;
+  }
   .progress-player-input {
     background: transparent;
     float:left;
     -webkit-appearance: none;
     margin: 7px 2.5%;
-    width: $track-width;
+    //width: $track-width;
     height: 8px;
+    flex:1;
 
     .mainSlider{
       width: 4px;

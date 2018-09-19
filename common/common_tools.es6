@@ -341,3 +341,8 @@ export function convertHMStoSeconds(time) {
     }
     return finalValue;
 }
+
+export function pad(str) {
+    str = str.toString();
+    return str.length < 2 ? "0" + str : str;
+}
