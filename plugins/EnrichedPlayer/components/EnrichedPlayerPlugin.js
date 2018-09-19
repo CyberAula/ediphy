@@ -32,7 +32,8 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let triggerMark = this.props.props.onMarkClicked;
             let triggerArray = this.state.toBeTriggered;
             triggerArray.forEach(function(e, i) {
-                if ((parseFloat(e.value) / 100).toFixed(3) < parseFloat(nextState.played).toFixed(3)) {
+                // if ((parseFloat(e.value) / 100).toFixed(3) < parseFloat(nextState.played).toFixed(3)) {
+                if (parseInt(convertHMStoSeconds(e.value)) < nextState.playedSeconds) {
                     let toBeTriggered = triggerArray;
                     triggerMark(sudo.props.props.id, e.value, true);
                     toBeTriggered.splice(i, 1);
@@ -50,9 +51,14 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
                 });
 
+                // if(notInArray &&
+                //   parseFloat(nextState.played).toFixed(3) <= (parseFloat(marks[key].value) / 100).toFixed(3) &&
+                //  parseFloat(parseFloat(nextState.played).toFixed(3)) + 0.05 >= parseFloat((parseFloat(marks[key].value) / 100).toFixed(3))) {
+                let valueIntoSeconds = parseInt(convertHMStoSeconds(marks[key].value));
+
                 if(notInArray &&
-                    parseFloat(nextState.played).toFixed(3) <= (parseFloat(marks[key].value) / 100).toFixed(3) &&
-                    parseFloat(parseFloat(nextState.played).toFixed(3)) + 0.05 >= parseFloat((parseFloat(marks[key].value) / 100).toFixed(3))) {
+                    parseInt(nextState.playedSeconds) <= parseInt(convertHMStoSeconds(marks[key].value)) &&
+                    nextState.playedSeconds + 1 >= parseInt(convertHMStoSeconds(marks[key].value))) {
                     let toBeTriggered = triggerArray;
                     toBeTriggered.push(marks[key]);
                     sudo.setState({ toBeTriggered });
@@ -63,12 +69,12 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
     componentWillMount() {
         if(this.props.state.currentState !== undefined) {
-            this.setState({ initialPoint: Math.ceil(parseFloat(this.props.state.currentState + 0.5)) / 100 });
+            this.setState({ initialPoint: parseFloat(convertHMStoSeconds(this.props.state.currentState)) });
         }
     }
     componentDidMount() {
         if(this.player !== undefined && this.state.initialPoint !== undefined) {
-            this.player.seekTo(this.state.initialPoint);
+            this.player.seekTo(this.state.initialPoint + 1);
             this.setState({ initialPoint: undefined, playing: true });
         }
     }

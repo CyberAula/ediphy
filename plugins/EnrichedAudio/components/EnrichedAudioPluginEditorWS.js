@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import WaveSurfer from 'wavesurfer.js';
 import MarkEditor from '../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 import Mark from '../../../common/components/mark/Mark';
-import { pad } from '../../../common/common_tools';
+import { convertHMStoSeconds, pad } from '../../../common/common_tools';
 
 import ReactResizeDetector from 'react-resize-detector';
 /* eslint-disable react/prop-types */
@@ -167,18 +167,20 @@ export default class BasicAudioPluginEditor extends React.Component {
     render() {
         let marks = this.props.props.marks || {}; //
         let markElements = Object.keys(marks).map((id) =>{
-            let value = marks[id].value;
+            let secondsValue = convertHMStoSeconds(marks[id].value);
+            let duration = this.state.duration;
+            let value = (secondsValue * 100 / duration) + "%";
             let title = marks[id].title;
             let color = marks[id].color;
             return(
-                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.1em" }} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.onRichMarkMoved} state={this.props.state} base={this.props.base}>
+                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.1em" }} boxId={this.props.props.id} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.onRichMarkMoved} state={this.props.state} base={this.props.base}>
                     <div className="audioMark" style={{ background: color || "#17CFC8" }}>
                         <Mark style={{ position: 'relative', top: "-1.7em", left: "-0.75em" }} color={color || "#17CFC8"} idKey={id} title={title} />
                     </div>
                 </MarkEditor>);
         });
         return (
-            <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}}
+            <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}} duration={this.state.duration}
                 style={{ width: "100%", height: "100%", pointerEvents: "all" }}>
                 <div className="wavecontainer" style={{ position: 'absolute', height: '100%', width: '100%' }} >
                     <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{ this.onResize(e);}} />

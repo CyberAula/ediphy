@@ -1,5 +1,5 @@
 import React from 'react';
-import { pad } from '../../../common/common_tools';
+import { convertHMStoSeconds, pad } from '../../../common/common_tools';
 
 import { findDOMNode } from 'react-dom';
 // import ReactAudioPlayer from 'react-audio-player';
@@ -87,15 +87,16 @@ export default class BasicAudioPlugin extends React.Component {
     componentWillUpdate(nextProps, nextState) {
         if(nextState.pos !== this.state.pos) {
             // console.log(this.state.toBeTriggered);
-            let prevPos = parseFloat(this.state.posPctg).toFixed(3);
-            let nextPos = parseFloat(nextState.posPctg).toFixed(3);
+            let prevPos = parseFloat(this.state.pos).toFixed(3);
+            let nextPos = parseFloat(nextState.pos).toFixed(3);
             let sudo = this;
             let marks = this.props.props.marks || {};
             let triggerMark = this.props.props.onMarkClicked;
             let triggerArray = this.state.toBeTriggered;
 
             triggerArray.forEach(function(e, i) {
-                if (((parseFloat(e.value) / 100).toFixed(3) < nextPos) && (nextPos - prevPos) < 0.04) {
+                // if (((parseFloat(e.value) / 100).toFixed(3) < nextPos) && (nextPos - prevPos) < 0.04) {
+                if (parseInt(convertHMStoSeconds(e.value)) < (nextPos - prevPos) < 0.04) {
                     let toBeTriggered = triggerArray;
                     triggerMark(sudo.props.props.id, e.value, true);
                     toBeTriggered.splice(i, 1);
@@ -111,8 +112,11 @@ export default class BasicAudioPlugin extends React.Component {
                         notInArray = false;
                     }
                 });
-                let mValue = (parseFloat(marks[key].value) / 100).toFixed(3);
-                if(notInArray && nextPos <= mValue && parseFloat(nextPos) + 0.05 >= parseFloat(mValue) && (nextPos - prevPos) < 0.04) {
+                // let mValue = convertHMStoSeconds(marks[key].value);
+                // if(notInArray && nextPos <= mValue && parseFloat(nextPos) + 0.05 >= parseFloat(mValue) && (nextPos - prevPos) < 0.04) {
+                if(notInArray &&
+                        nextPos <= parseInt(convertHMStoSeconds(marks[key].value)) && parseFloat(nextPos) + 1 >= parseFloat(marks[key].value) &&
+                        (nextPos - prevPos) < 1) {
                     let toBeTriggered = triggerArray;
                     toBeTriggered.push(marks[key]);
                     sudo.setState({ toBeTriggered: toBeTriggered });
@@ -137,7 +141,9 @@ export default class BasicAudioPlugin extends React.Component {
             /* Podemos pasar una devolución de llamada en los refs*/
         let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
-            let value = marks[id].value;
+            let secondsValue = convertHMStoSeconds(marks[id].value);
+            let duration = this.state.duration;
+            let value = (secondsValue * 100 / duration) + "%";
             let title = marks[id].title;
             let color = marks[id].color;
             let isPopUp = marks[id].connectMode === "popup";
@@ -165,7 +171,7 @@ export default class BasicAudioPlugin extends React.Component {
                 <div>
 
                     <div className="markBar"> {markElements}</div>
-                    <div className="react-wavesurfer" style={{ width: "100%", height: "100%" }}>
+                    <div className="react-wavesurfer" duration={this.state.duration} style={{ width: "100%", height: "100%" }}>
                         <ReactWavesurfer
                             style={{ width: "100%", height: "100%" }}
                             height="100%"
