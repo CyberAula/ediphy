@@ -124,9 +124,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     render() {
-
         let marks = this.props.props.marks || {};
-
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;
             let title = marks[id].title;
@@ -180,7 +178,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%", top: "0" }} />
                             {markElements}
                         </div>
-
+                        <div>{ Math.trunc(this.state.playedSeconds / 60) + ":" + this.pad(Math.trunc(this.state.playedSeconds % 60)) }</div>
                         <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
                         <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
                     </div>)}

@@ -14,6 +14,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
             volume: 0.8,
             duration: 0,
             played: 0,
+            playedSeconds: 0,
             seeking: false,
             fullscreen: false,
             // controls: this.props.state.controls || true,
@@ -59,8 +60,14 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
         }
     }
 
+    pad(str) {
+        str = str.toString();
+        return str.length < 2 ? "0" + str : str;
+    }
+
     onProgress(state) {
         // We only want to update time slider if we are not currently seeking
+        console.log(state);
         if (!this.state.seeking) {
             this.setState(state);
         }
@@ -71,7 +78,6 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
     }
 
     render() {
-
         let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;
@@ -117,6 +123,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
                             {markElements}
                         </div>
+                        <div>{ Math.trunc(this.state.playedSeconds / 60) + ":" + this.pad(Math.trunc(this.state.playedSeconds % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + this.pad(Math.trunc(this.state.duration % 60))}</div>
                         <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
                         <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
                     </div> :
