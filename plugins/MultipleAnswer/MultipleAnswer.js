@@ -132,7 +132,7 @@ export function MultipleAnswer(base) {
                 return s.substring(0, s.length - 1);
             }
             let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
-            let correctAnswers = i18n.t("MultipleAnswer.correctAnswerFeedback") + ": ";
+            let correctAnswers = "";
             for (let i = 0; i < state.nBoxes; i++) {
                 let checked = (props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1);
                 answers.push(<div key={i + 1} className={"row answerRow"}>
@@ -190,7 +190,7 @@ export function MultipleAnswer(base) {
                     </div>
                 </div>
                 <div className="correctAnswerFeedback" style={{ color: quizColor }}>
-                    {correctAnswers}
+                    <span className="correctAnswerLabel"> {i18n.t("MultipleAnswer.correctAnswerFeedback") }:</span> {correctAnswers}
                 </div>
                 <style dangerouslySetInnerHTML={{
                     __html: `

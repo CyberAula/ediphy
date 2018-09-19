@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
-import { Button, Row, Col, Grid, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { Button, Row, Col, Grid, FormGroup, FormControl, ControlLabel, ModalBody, Modal } from 'react-bootstrap';
 import Select from 'react-select';
 import '../../../../nav_bar/global_config/_reactTags.scss';
 import Alert from "../../../../common/alert/Alert";
@@ -17,6 +17,7 @@ export default class MyFilesComponent extends React.Component {
             confirmDelete: false,
             errorDeleteAlert: false,
         };
+        this.generatePreview = this.generatePreview.bind(this);
 
     }
     render() {
@@ -81,7 +82,7 @@ export default class MyFilesComponent extends React.Component {
                 </FormGroup>
             </div>
             <Grid>
-                <Row className="myFilesRow" onClick={e=>{this.props.onElementSelected(undefined, undefined, undefined);}}>
+                <Row className="myFilesRow" onClick={e=>{this.setState({ preview: false }); this.props.onElementSelected(undefined, undefined, undefined);}}>
                     {files.map((file, i)=>{
                         let split = file.name.split('.');
                         let filetype = file.type; // ? file.type : ((split && (split.length > 1)? split[split.length-1]:'application'));
@@ -95,6 +96,10 @@ export default class MyFilesComponent extends React.Component {
                             {isActive ? <Button className="downloadButton" onClick={(e)=>{
                                 download.action();}}>
                                 <i className="material-icons">cloud_download</i>
+                            </Button> : null}
+                            {(isActive && this.props.elementSelectedType !== "image") ? <Button className="previewFileButton" onClick={(e)=>{
+                                e.stopPropagation(); this.setState({ preview: true });}}>
+                                {this.props.elementSelectedType === "audio" ? <i className="material-icons">volume_down</i> : <i className="material-icons">remove_red_eye</i>}
                             </Button> : null}
                             <Button style={{ backgroundImage: filetype === 'image' ? ("url(" + file.url + ")") : "" }} onClick={(e)=>{
                                 this.props.onElementSelected(file.name, file.url, filetype, file.id);
@@ -133,6 +138,12 @@ export default class MyFilesComponent extends React.Component {
                     onClose={()=>{ this.setState({ errorDeleteAlert: false }); }}>
                     <span> {i18n.t("error.deleting")} </span><br/>
                 </Alert>) : null}
+                <Modal className="pageModal previewVideoModal" onHide={()=>{this.setState({ preview: false });}} show={this.state.preview && this.props.elementSelected}>
+                    <Modal.Header closeButton><Modal.Title>{i18n.t("Preview")}</Modal.Title></Modal.Header>
+                    <ModalBody>
+                        {this.generatePreview()}
+                    </ModalBody>
+                </Modal>
             </Grid>
         </div>);
     }
@@ -148,7 +159,25 @@ export default class MyFilesComponent extends React.Component {
             // this.props.onElementSelected( undefined, undefined, undefined);
         }
     }
-
+    generatePreview() {
+        let item = this.props.elementSelected;
+        switch(this.props.elementSelectedType) {
+        case "webapp":
+        case "pdf":
+        case "scormpackage":
+            return <iframe src={this.props.elementSelected} frameBorder="0" width={'100%'} height={"400"} />;
+        case "image":
+            return null;
+        case "audio":
+            return <audio src={this.props.elementSelected} controls width={'100%'} height={"400"} style={{ width: '100%' }} />;
+        case "video":
+            return <video src={this.props.elementSelected} controls width={'100%'} height={"400"} />;
+        case "swf":
+            return <embed src={this.props.elementSelected} wmode="opaque" width={'100%'} height={"400"} />;
+        default:
+            return null;
+        }
+    }
 }
 
 MyFilesComponent.propTypes = {
@@ -164,6 +193,10 @@ MyFilesComponent.propTypes = {
      * Identifier of element whose source is being changed (box/slide background). It can be empty
      */
     idSelected: PropTypes.any,
+    /**
+    * Selected Element type
+     */
+    elementSelectedType: PropTypes.any,
     /**
      * Element selected from files
      */

@@ -136,7 +136,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let isVisor = true;
             return(
                 <div key={id} className="videoMark" style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
-                    <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }}
+                    <Mark style={{ position: 'relative', top: "-1.7em", left: "-0.75em" }}
                         color={color || "#17CFC8"}
                         idKey={id}
                         title={title}
@@ -170,7 +170,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                 {(this.state.controls) && (
                     <div className="player-media-controls flexControls" style={{ pointerEvents: 'all' }}>
                         <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
-                        <div className="progress-player-input dropableRichZone" style={{ height: "25px", position: "relative" }}
+                        <div className="progress-player-input dropableRichZone" style={{ height: "1.7em", position: "relative" }}
                             // value={this.state.played}
                             onMouseDown={this.onSeekMouseDown.bind(this)}
                             onChange={this.onSeekChange.bind(this)}

@@ -4,27 +4,29 @@
   height:100%;
   display: flex;
   align-items: center;
-  min-width: 29px;
+  //min-width: 29px;
+  overflow: hidden;
   .inputText {
     width:100%;
-    min-width: 29px;
+    //min-width: 29px;
     resize: horizontal;
     pointer-events: none;
     border-radius: 0px;
-    min-height: 29px;
-    margin-right: 3px;
-    border: 1px solid #ccc;
-    padding: 0px 2px;
+    min-height: 2em;
+    //margin-right: 0.3em;
+    border: 0.1em solid #ccc;
+    padding: 0px 0.2em;
+    line-height: 1;
   }
 
 
   &.attempted.showFeedback {
     &.correct .inputText {
-      border: 2px solid $detailgreen;
+      border: 0.2em solid $detailgreen;
     }
 
     &.incorrect  .inputText{
-      border: 2px solid $lightred;
+      border: 0.2em solid $lightred;
     }
   }
 
@@ -32,13 +34,20 @@
     visibility: hidden;
     position: absolute;
     right: 0;
-    padding: 2px 0;
+    padding: 0.2em 0;
+    line-height: 1.25em;
+    padding-right: 0em;
+    margin-right: -0.5em;
+    cursor: move;
     .material-icons {
+      font-size: inherit;
       vertical-align: middle;
       color: $grismedio;
     }
-    min-height: 29px;
-    min-width: 29px;
+/*    min-height: 29px;
+    min-width: 29px;*/
+    min-height: 2em;
+    min-width: 2em;
     vertical-align: top;
   }
   .exerciseScore {
@@ -48,10 +57,11 @@
   &.attempted  .exerciseScore{
       display: flex;
     color: $blueprimary;
-    font-size: 10px;
-    width: 20px;
+    font-size: 1em;
+    width: auto;
+    padding-left: 0.25em;
     height: 100%;
-    margin-top: auto;
+    word-break: keep-all;
   }
 }
 

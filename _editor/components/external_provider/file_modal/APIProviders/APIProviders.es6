@@ -61,6 +61,7 @@ export default function menus(self) {
             component: MyFilesComponent,
             props: {
                 ...commonProps,
+                elementSelectedType: self.state.type,
                 pdfSelected: self.state.pdfSelected,
                 filesUploaded: self.props.filesUploaded,
                 onNavItemsAdded: self.props.onNavItemsAdded,
@@ -81,7 +82,7 @@ export default function menus(self) {
             icon: VISHIcon,
             show: !(avatar) ? ((allowedMIME && allowedMIME !== 'csv') ? allowedMIME : false) : false,
             component: SearchVishComponent,
-            props: { ...commonProps,
+            props: { ...commonProps, elementSelectedType: self.state.type,
             },
         },
         {

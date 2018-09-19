@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import WaveSurfer from 'wavesurfer.js';
 import MarkEditor from '../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 import Mark from '../../../common/components/mark/Mark';
+import { pad } from '../../../common/common_tools';
 
 import ReactResizeDetector from 'react-resize-detector';
 /* eslint-disable react/prop-types */
@@ -21,6 +22,7 @@ export default class BasicAudioPluginEditor extends React.Component {
             // audioPeaks: null,
             // ondas: false,
             height: 128,
+            playedSeconds: 0,
 
         };
         this.onProgress = this.onProgress.bind(this);
@@ -89,7 +91,7 @@ export default class BasicAudioPluginEditor extends React.Component {
             });
             this.wavesurfer.load(nextProps.state.url);
             this.wavesurfer.on('ready', ()=>{this.onReady(pos, playing);});
-            this.wavesurfer.on('loading', this.onProgress);
+            this.wavesurfer.on('audioprocess', this.onProgress);
 
         }
 
@@ -119,7 +121,7 @@ export default class BasicAudioPluginEditor extends React.Component {
         });
         this.wavesurfer.load(this.props.state.url);
         this.wavesurfer.on('ready', ()=>this.onReady(0, false));
-        this.wavesurfer.on('loading', this.onProgress);
+        this.wavesurfer.on('audioprocess', this.onProgress);
     }
 
     componentWillUnmount() {
@@ -169,13 +171,12 @@ export default class BasicAudioPluginEditor extends React.Component {
             let title = marks[id].title;
             let color = marks[id].color;
             return(
-                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "1px" }} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.onRichMarkMoved} state={this.props.state} base={this.props.base}>
+                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.1em" }} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.onRichMarkMoved} state={this.props.state} base={this.props.base}>
                     <div className="audioMark" style={{ background: color || "#17CFC8" }}>
-                        <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }} color={color || "#17CFC8"} idKey={id} title={title} />
+                        <Mark style={{ position: 'relative', top: "-1.7em", left: "-0.75em" }} color={color || "#17CFC8"} idKey={id} title={title} />
                     </div>
                 </MarkEditor>);
         });
-
         return (
             <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}}
                 style={{ width: "100%", height: "100%", pointerEvents: "all" }}>
@@ -197,6 +198,7 @@ export default class BasicAudioPluginEditor extends React.Component {
                             <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} >
                                 {this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}
                             </button>
+                            <div className="durationField">{ Math.trunc(this.state.pos / 60) + ":" + pad(Math.trunc(this.state.pos % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + pad(Math.trunc(this.state.duration % 60))}</div>
                             <input className="volume-audio-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.handleVolumeChange.bind(this)} />
                         </div>
                     )}

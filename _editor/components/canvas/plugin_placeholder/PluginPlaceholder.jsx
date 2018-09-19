@@ -32,7 +32,7 @@ export default class PluginPlaceholder extends Component {
                 Object.assign({}, {
                     width: "100%",
                     height: container.height ? (container.height === 'auto' ? container.height : container.height + 'px') : "",
-                    minHeight: '35px',
+                    minHeight: '2.3em',
                     textAlign: 'center',
                     lineHeight: '100%',
                     boxSizing: 'border-box',
@@ -118,7 +118,7 @@ export default class PluginPlaceholder extends Component {
             show
             hasHeader
             backdrop={false}
-            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px', color: 'yellow' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+            title={ <span><i className="material-icons" style={{ fontSize: '1em', marginRight: '0.35em', color: 'yellow' }}>warning</i>{ i18n.t("messages.alert") }</span> }
             closeButton onClose={()=>{this.setState({ alert: null });}}>
             <span> {msg} </span>
         </Alert>);};

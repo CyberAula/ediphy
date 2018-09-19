@@ -145,7 +145,7 @@ export default class BasicAudioPlugin extends React.Component {
             let isVisor = true;
             return(
                 <div key={id} className="audioMark" style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
-                    <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }}
+                    <Mark style={{ position: 'relative', top: "-1.7em", left: "-0.75em" }}
                         color={color || "#17CFC8"}
                         idKey={id}
                         title={title}
@@ -181,7 +181,6 @@ export default class BasicAudioPlugin extends React.Component {
                             onPlay={() => this.setState({ playing: true })}
                             onPause={() => this.setState({ playing: false })}
                             onFinish={() => this.setState({ playing: false })}
-                            onLoading={this.onProgress.bind(this)}
                         />
                     </div>
                 </div>
@@ -189,7 +188,7 @@ export default class BasicAudioPlugin extends React.Component {
                     {(this.props.state.controls) && (
                         <div className="audio-controls" style={{ pointerEvents: 'auto' }}>
                             <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} style={{ zIndex: 9999 }}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
-                            <div className="durationField">{ Math.trunc(this.state.playedSeconds / 60) + ":" + pad(Math.trunc(this.state.playedSeconds % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + pad(Math.trunc(this.state.duration % 60))}</div>
+                            <div className="durationField">{ Math.trunc(this.state.pos / 60) + ":" + pad(Math.trunc(this.state.pos % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + pad(Math.trunc(this.state.duration % 60))}</div>
                             <input className="volume-audio-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.handleVolumeChange.bind(this)} />
                         </div>
                     )}

@@ -25,9 +25,9 @@ export default class VisorPluginPlaceholder extends Component {
                 Object.assign({}, {
                     width: "100%",
                     height: container.height === 'auto' ? container.height : container.height + 'px',
-                    minHeight: '35px',
+                    minHeight: '2em',
                     textAlign: 'center',
-                    lineHeight: '100%',
+                    // lineHeight: '100%',
                     boxSizing: 'border-box',
                     position: 'relative',
                     display: 'table',

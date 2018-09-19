@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
+import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button, ModalBody } from 'react-bootstrap';
 import Ediphy from '../../../../../../core/editor/main';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
@@ -31,6 +31,7 @@ export default class SoundCloudComponent extends React.Component {
                             e.preventDefault();
                         }}>{i18n.t("vish_search_button")}
                         </Button>
+
                     </Col>
                 </FormGroup>
 
@@ -50,16 +51,25 @@ export default class SoundCloudComponent extends React.Component {
                                         className={"audioItem"} key={index} style={{ border: border, backgroundColor: background }}
                                         onClick={e => {
                                             this.props.onElementSelected(item.title, item.url, 'audio');
+                                            this.setState({ preview: false });
                                         }}>
-                                        <img key={index} src={item.thumbnail || placeholder} className={'soundCloudSong'} onError={(e)=>{
+                                        <div className={"videoGroupFlex"}> <img key={index} src={item.thumbnail || placeholder} className={'soundCloudSong'} onError={(e)=>{
                                             e.target.src = placeholder;
                                         }} />
                                         <div className={"videoInfo"}>
                                             <div><strong>{item.title}</strong></div>
                                             <div className={"lightFont"}>{item.userName}</div>
                                             <div className={"lightFont"}>{duration.toLocaleString(undefined, { minute: '2-digit', second: '2-digit' })}</div>
-                                        </div>
+                                        </div></div>
+                                        {item.url === this.props.elementSelected ? (
+                                            <Button title={i18n.t("Preview")} onClick={(e)=>{this.setState({ preview: !this.state.preview }); e.stopPropagation();}} className={"previewButton"}>
+                                                <i className="material-icons">volume_up</i>
+                                            </Button>) :
+                                            null}
+                                        {/* {(this.state.preview && this.props.elementSelected === item.url) ? <iframe  width="0px" height="0px" scrolling="no" frameBorder="no" allow="autoplay" src={"https://w.soundcloud.com/player/?url=" + encodeURI(this.props.elementSelected) + "&color=%2317cfc8&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false"} /> : null}*/}
+
                                     </div>
+
                                 );
                             })}
                         </FormGroup>
@@ -70,6 +80,12 @@ export default class SoundCloudComponent extends React.Component {
                         </FormGroup>
                     )
                 }
+                <Modal className="pageModal previewVideoModal" onHide={()=>{this.setState({ preview: false });}} show={this.state.preview && this.props.elementSelected}>
+                    <Modal.Header closeButton><Modal.Title>{i18n.t("Preview")}</Modal.Title></Modal.Header>
+                    <ModalBody>
+                        <iframe width="100%" height="100%" scrolling="no" frameBorder="no" allow="autoplay" src={"https://w.soundcloud.com/player/?url=" + encodeURI(this.props.elementSelected) + "&color=%2317cfc8&auto_play=false&hide_related=true&show_comments=true&show_user=false&show_reposts=false&show_teaser=false&visual=true"} />
+                    </ModalBody>
+                </Modal>
             </Form>
         </div>;
     }
