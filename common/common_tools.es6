@@ -313,3 +313,31 @@ export function setRgbaAlpha(color, alpha) {
     }
     return 'rgba(0, 173, 156, 0.25)';
 }
+
+export function convertSecondsToHMS(time) {
+    let hrs = ~~(time / 3600);
+    let mins = ~~((time % 3600) / 60);
+    let secs = Math.round(time % 60);
+
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    let ret = "";
+
+    if (hrs > 0) {
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+    return ret;
+}
+
+export function convertHMStoSeconds(time) {
+    let a = time.split(':');
+    let finalValue;
+    if (a.length == 2) {
+        finalValue = (+a[0]) * 60 + (+a[1]);
+    } else {
+        finalValue = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+    }
+    return finalValue;
+}

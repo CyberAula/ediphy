@@ -4,6 +4,7 @@ import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 import Mark from '../../../common/components/mark/Mark';
+import { convertHMStoSeconds } from "../../../common/common_tools";
 import img from './../../../dist/images/broken_link.png';
 /* eslint-disable react/prop-types */
 
@@ -80,11 +81,13 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
     render() {
         let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
-            let value = marks[id].value;
+            let secondsValue = convertHMStoSeconds(marks[id].value);
+            let duration = this.state.duration;
+            let value = (secondsValue * 100 / duration) + "%";
             let title = marks[id].title;
             let color = marks[id].color;
             return(
-                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "5px" }} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.onRichMarkMoved} state={this.props.state} base={this.props.base}>
+                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "5px" }} time={1.5} mark={id} marks={marks} boxId={this.props.props.id} onRichMarkMoved={this.props.props.onRichMarkMoved} state={this.props.state} base={this.props.base}>
                     <div className="videoMark" style={{ background: color || "#17CFC8" }}>
                         <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }} color={color || "#17CFC8"} idKey={id} title={title} />
                     </div>
@@ -92,7 +95,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
         });
 
         return (
-            <div ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "none" }} className="enriched-player-wrapper">
+            <div ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "none" }} className="enriched-player-wrapper" duration={this.state.duration}>
                 <ReactPlayer
                     ref={player => { this.player = player; }}
                     style={{ width: "100%", height: "100%" }}

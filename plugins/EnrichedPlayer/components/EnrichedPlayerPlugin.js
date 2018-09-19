@@ -73,6 +73,11 @@ export default class EnrichedPlayerPlugin extends React.Component {
         this.setState({ playing: !this.state.playing });
     }
 
+    pad(str) {
+        str = str.toString();
+        return str.length < 2 ? "0" + str : str;
+    }
+
     onClickFullscreen() {
         if(!this.state.fullscreen) {
             screenfull.request(findDOMNode(this.player_wrapper));
@@ -143,14 +148,13 @@ export default class EnrichedPlayerPlugin extends React.Component {
                         markConnection={marks[id].connection}
                         noTrigger={noTrigger}
                         onMarkClicked={()=>{this.props.props.onMarkClicked(this.props.props.id, value, true);}}
-
                     />
                 </div>
             );
         });
 
         return (
-            <div ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%" }} className="enriched-player-wrapper">
+            <div ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%" }} className="enriched-player-wrapper" duration={this.state.duration}>
                 <ReactPlayer
                     ref={player => { this.player = player; }}
                     style={{ width: "100%", height: "100%" }}
