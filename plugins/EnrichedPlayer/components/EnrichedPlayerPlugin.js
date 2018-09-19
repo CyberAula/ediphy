@@ -5,6 +5,7 @@ import screenfull from 'screenfull';
 import Mark from '../../../common/components/mark/Mark';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import img from './../../../dist/images/broken_link.png';
+import { convertHMStoSeconds } from "../../../common/common_tools";
 /* eslint-disable react/prop-types */
 
 export default class EnrichedPlayerPlugin extends React.Component {
@@ -131,7 +132,9 @@ export default class EnrichedPlayerPlugin extends React.Component {
     render() {
         let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
-            let value = marks[id].value;
+            let secondsValue = convertHMStoSeconds(marks[id].value);
+            let duration = this.state.duration;
+            let value = (secondsValue * 100 / duration) + "%";
             let title = marks[id].title;
             let color = marks[id].color;
             let isPopUp = marks[id].connectMode === "popup";

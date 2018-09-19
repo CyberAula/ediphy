@@ -68,7 +68,6 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
 
     onProgress(state) {
         // We only want to update time slider if we are not currently seeking
-        console.log(state);
         if (!this.state.seeking) {
             this.setState(state);
         }
