@@ -297,7 +297,7 @@ export default class Clipboard extends Component {
                         position: isTargetSlide && container === 0 ? {
                             type: "absolute",
                             x: randomPositionGenerator(20, 40),
-                            y: randomPositionGenerator(20, 40),
+                            y: randomPositionGenerator(20, 30),
                         } : { type: 'relative', x: "0%", y: "0%" },
                     };
                     // If it is an image
@@ -388,7 +388,7 @@ export default class Clipboard extends Component {
             position: isTargetSlide ? {
                 type: "absolute",
                 x: !samePage ? box.position.x : randomPositionGenerator(20, 40),
-                y: !samePage ? box.position.y : randomPositionGenerator(20, 40),
+                y: !samePage ? box.position.y : randomPositionGenerator(20, 30),
             } : { type: "relative", x: "0%", y: "0%" },
             resizable: isTargetSlide,
             row: ids.row || 0,
