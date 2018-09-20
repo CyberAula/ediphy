@@ -247,7 +247,9 @@ $track-width: 54% !default;
     position: absolute;
     z-index: 3;
   }
-
+  .audio-controls {
+    display: flex;
+  }
   .progress-audio-input {
       background: transparent;
       float:left;
@@ -276,6 +278,11 @@ $track-width: 54% !default;
     width: 100%;
     z-index: 9999;
     position:absolute;
+  }
+  .durationField {
+    line-height: 3em;
+    color: white;
+    font-size: 0.8em;
   }
   .audioMark{
     a.mapMarker {

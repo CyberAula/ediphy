@@ -126,11 +126,24 @@ export function pluginToolbars(state) {
     };
     let newState = {};
     state.forEach((element) => { newState.push(deepmerge(toolbarPluginDefault, element));});
+
     return newState;
 }
 
-export function marks(state) {
-    return {};
+export function marksSerializer(state, version) {
+    let newState = { ...state };
+
+    if(version === "1") {
+        [...state].forEach((element)=>{
+            let regex = /(^\d+(?:\.\d*)?%$)/g;
+            let match = regex.exec(element.value);
+            if (match && match.length === 2) {
+                newState[element.id].value = "0:00";
+            }
+        });
+    }
+
+    return newState;
 }
 
 /**

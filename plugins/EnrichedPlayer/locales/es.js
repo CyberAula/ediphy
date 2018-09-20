@@ -16,7 +16,7 @@ module.exports = {
         "pos": "Momento",
         "radius": "Radio",
         "source": "Origen",
-        "message_mark_percentage": "Ha introducido un valor incorrecto. Debe introducir un porcentaje entre 0 y 100. Ej. 45.66%",
+        "message_mark_error": "Ha introducido un valor incorrecto. Debe introducir el tiempo en el formato hh:mm:ss o mm:ss. Ej. 1:33",
 
     },
 };
