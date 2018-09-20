@@ -3,6 +3,7 @@ import {
     PASTE_BOX, IMPORT_STATE, DUPLICATE_NAV_ITEM,
 } from '../common/actions';
 import { deleteProp, changeProp, changeProps, deleteProps, isDocument, isPage, isSection, isSlide } from "../common/utils";
+import { marksSerializer } from "./serializer";
 
 export default function(state = {}, action = {}) {
     let newState;
@@ -93,7 +94,7 @@ export default function(state = {}, action = {}) {
         // return state;
         return { ...state, ...action.payload.marks };
     case IMPORT_STATE:
-        return action.payload.present.marksById || state;
+        return marksSerializer(action.payload.present.marksById) || state;
     case DUPLICATE_NAV_ITEM:
         let candidates = {};
         let suffix = action.payload.suffix;
