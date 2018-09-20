@@ -62,7 +62,7 @@ export default class BasicAudioPlugin extends React.Component {
         if (this.props.state.currentState) {
             try{
                 posPctg = this.props.state.currentState;
-                pos = (parseInt(posPctg.substr(0, 5), 10) + 2) * duration / 100;
+                pos = convertHMStoSeconds(posPctg); // (parseInt(posPctg.substr(0, 5), 10) + 2) * duration / 100;
             }catch(_e) {
                 // eslint-disable-next-line no-console
                 console.log(_e);
@@ -96,7 +96,7 @@ export default class BasicAudioPlugin extends React.Component {
 
             triggerArray.forEach(function(e, i) {
                 // if (((parseFloat(e.value) / 100).toFixed(3) < nextPos) && (nextPos - prevPos) < 0.04) {
-                if (parseInt(convertHMStoSeconds(e.value)) < (nextPos - prevPos) < 0.04) {
+                if (parseFloat(convertHMStoSeconds(e.value)) < nextPos && (nextPos - prevPos) < 0.04) {
                     let toBeTriggered = triggerArray;
                     triggerMark(sudo.props.props.id, e.value, true);
                     toBeTriggered.splice(i, 1);
@@ -115,7 +115,7 @@ export default class BasicAudioPlugin extends React.Component {
                 // let mValue = convertHMStoSeconds(marks[key].value);
                 // if(notInArray && nextPos <= mValue && parseFloat(nextPos) + 0.05 >= parseFloat(mValue) && (nextPos - prevPos) < 0.04) {
                 if(notInArray &&
-                        nextPos <= parseInt(convertHMStoSeconds(marks[key].value)) && parseFloat(nextPos) + 1 >= parseFloat(marks[key].value) &&
+                        nextPos <= parseFloat(convertHMStoSeconds(marks[key].value)) && parseFloat(nextPos) + 0.3 >= parseFloat(marks[key].value) &&
                         (nextPos - prevPos) < 1) {
                     let toBeTriggered = triggerArray;
                     toBeTriggered.push(marks[key]);
@@ -159,7 +159,7 @@ export default class BasicAudioPlugin extends React.Component {
                         isPopUp={isPopUp}
                         markConnection={marks[id].connection}
                         noTrigger={noTrigger}
-                        onMarkClicked={()=>{this.props.props.onMarkClicked(this.props.props.id, value, true);}}/>
+                        onMarkClicked={()=>{this.props.props.onMarkClicked(this.props.props.id, marks[id].value, true);}}/>
                 </div>
             );
         });

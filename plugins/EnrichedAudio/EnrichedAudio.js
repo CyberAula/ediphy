@@ -19,7 +19,7 @@ export function EnrichedAudio(base) {
                 initialWidthSlide: '30%',
                 initialHeightSlide: '30%',
                 icon: 'audiotrack',
-                marksType: { name: i18n.t("EnrichedAudio.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" },
+                marksType: { name: i18n.t("EnrichedAudio.pos"), key: 'value', format: '[h:m:s/m:s]', default: '50%', defaultColor: "#17CFC8" },
                 createFromLibrary: ['audio/*', 'url'],
                 searchIcon: true,
             };
@@ -163,7 +163,7 @@ export function EnrichedAudio(base) {
                 // let val = match[1];
                 return { isWrong: false, value: value };
             }
-            return { isWrong: true, message: i18n.t("EnrichedAudio.message_mark_percentage") };
+            return { isWrong: true, message: i18n.t("EnrichedAudio.message_mark_error") };
 
             return { isWrong: false, value: value };
 

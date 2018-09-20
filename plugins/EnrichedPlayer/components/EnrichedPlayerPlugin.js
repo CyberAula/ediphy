@@ -33,7 +33,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let triggerArray = this.state.toBeTriggered;
             triggerArray.forEach(function(e, i) {
                 // if ((parseFloat(e.value) / 100).toFixed(3) < parseFloat(nextState.played).toFixed(3)) {
-                if (parseInt(convertHMStoSeconds(e.value)) < nextState.playedSeconds) {
+                if (parseFloat(convertHMStoSeconds(e.value)) < nextState.playedSeconds) {
                     let toBeTriggered = triggerArray;
                     triggerMark(sudo.props.props.id, e.value, true);
                     toBeTriggered.splice(i, 1);
@@ -57,8 +57,8 @@ export default class EnrichedPlayerPlugin extends React.Component {
                 let valueIntoSeconds = parseInt(convertHMStoSeconds(marks[key].value));
 
                 if(notInArray &&
-                    parseInt(nextState.playedSeconds) <= parseInt(convertHMStoSeconds(marks[key].value)) &&
-                    nextState.playedSeconds + 1 >= parseInt(convertHMStoSeconds(marks[key].value))) {
+                    parseFloat(nextState.playedSeconds) <= parseFloat(convertHMStoSeconds(marks[key].value)) &&
+                    nextState.playedSeconds + 0.5 >= parseFloat(convertHMStoSeconds(marks[key].value))) {
                     let toBeTriggered = triggerArray;
                     toBeTriggered.push(marks[key]);
                     sudo.setState({ toBeTriggered });
@@ -69,7 +69,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
     componentWillMount() {
         if(this.props.state.currentState !== undefined) {
-            this.setState({ initialPoint: parseFloat(convertHMStoSeconds(this.props.state.currentState)) });
+            this.setState({ initialPoint: parseFloat(convertHMStoSeconds(this.props.state.currentState)) + 0.5 });
         }
     }
     componentDidMount() {
@@ -153,7 +153,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                         isPopUp={isPopUp}
                         markConnection={marks[id].connection}
                         noTrigger={noTrigger}
-                        onMarkClicked={()=>{this.props.props.onMarkClicked(this.props.props.id, value, true);}}
+                        onMarkClicked={()=>{this.props.props.onMarkClicked(this.props.props.id, marks[id].value, true);}}
                     />
                 </div>
             );

@@ -122,7 +122,7 @@ export function EnrichedPlayer(base) {
                 // let val = match[1];
                 return { isWrong: false, value: value };
             }
-            return { isWrong: true, message: i18n.t("EnrichedPlayer.message_mark_percentage") };
+            return { isWrong: true, message: i18n.t("EnrichedPlayer.message_mark_error") };
 
             return { isWrong: false, value: value };
 
