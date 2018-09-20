@@ -62,7 +62,7 @@ export default class BasicAudioPlugin extends React.Component {
         if (this.props.state.currentState) {
             try{
                 posPctg = this.props.state.currentState;
-                pos = convertHMStoSeconds(posPctg); // (parseInt(posPctg.substr(0, 5), 10) + 2) * duration / 100;
+                pos = convertHMStoSeconds(posPctg) + 1; // (parseInt(posPctg.substr(0, 5), 10) + 2) * duration / 100;
             }catch(_e) {
                 // eslint-disable-next-line no-console
                 console.log(_e);
@@ -74,14 +74,12 @@ export default class BasicAudioPlugin extends React.Component {
             pos,
             posPctg,
             autoplay: this.props.state.autoplay,
+            playing: this.props.state.autoplay || this.props.state.currentState,
             waves: this.props.state.waves,
             ondas: this.props.state.waves,
             waveColor: e.wavesurfer.params.waveColor,
             progressColor: e.wavesurfer.params.progressColor,
         });
-        if (this.props.state.autoplay) {
-            this.setState({ playing: true });
-        }
 
     }
     componentWillUpdate(nextProps, nextState) {

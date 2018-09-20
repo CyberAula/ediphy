@@ -164,9 +164,6 @@ export function EnrichedAudio(base) {
                 return { isWrong: false, value: value };
             }
             return { isWrong: true, message: i18n.t("EnrichedAudio.message_mark_error") };
-
-            return { isWrong: false, value: value };
-
         },
     };
 }

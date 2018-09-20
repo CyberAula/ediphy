@@ -349,7 +349,9 @@ export function setRgbaAlpha(color, alpha) {
 }
 
 export function convertSecondsToHMS(time) {
+    // eslint-disable-next-line no-bitwise
     let hrs = ~~(time / 3600);
+    // eslint-disable-next-line no-bitwise
     let mins = ~~((time % 3600) / 60);
     let secs = Math.round(time % 60);
 
@@ -368,7 +370,7 @@ export function convertSecondsToHMS(time) {
 export function convertHMStoSeconds(time) {
     let a = time.split(':');
     let finalValue;
-    if (a.length == 2) {
+    if (a.length === 2) {
         finalValue = (+a[0]) * 60 + (+a[1]);
     } else {
         finalValue = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);

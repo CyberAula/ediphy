@@ -73,7 +73,9 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
     getDuration() {
         return this.state.duration;
     }
-
+    onReady(e) {
+        this.setState({ ready: true });
+    }
     render() {
         let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
@@ -108,6 +110,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                     // onMouseDown={this.onSeekMouseDown.bind(this)}
                     //  onChange={this.onSeekChange.bind(this)}
                     // onMouseUp={this.onSeekMouseUp.bind(this)}
+                    onReady={this.onReady.bind(this)}
                     onDuration={duration => this.setState({ duration })}
                 />
                 {this.props.state.controls ?
@@ -120,7 +123,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                             <div className="fakeProgress" />
 
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
-                            {markElements}
+                            {this.state.ready ? markElements : null}
                         </div>
                         <div className="durationField">{ Math.trunc(this.state.playedSeconds / 60) + ":" + pad(Math.trunc(this.state.playedSeconds % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + pad(Math.trunc(this.state.duration % 60))}</div>
                         <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
@@ -130,7 +133,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                         <div className="progress-player-input dropableRichZone" style={{ height: "1.7em", position: "relative", bottom: '0.3em' }}>
                             <div className="fakeProgress" />
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
-                            {markElements}
+                            {this.state.ready ? markElements : null}
                         </div>
                     </div>}
             </div>

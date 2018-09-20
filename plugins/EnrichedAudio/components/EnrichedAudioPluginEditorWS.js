@@ -143,6 +143,7 @@ export default class BasicAudioPluginEditor extends React.Component {
             progressColor: this.wavesurfer.params.progressColor,
             waves: this.props.state.waves,
             height: this.props.state.waves ? 128 : 0,
+            ready: true,
         });
         // en el estado height se cambia bien
         this.wavesurfer.seekTo(pos);
@@ -152,7 +153,7 @@ export default class BasicAudioPluginEditor extends React.Component {
         }
     }
     onResize(e) {
-        if (this.wavesurfer) {
+        if (this.wavesurfer && this.state.ready) {
             let pos = (this.wavesurfer.getCurrentTime() || 0) / (this.wavesurfer.getDuration() || 1);
             this.wavesurfer.empty();
             this.wavesurfer.pause();

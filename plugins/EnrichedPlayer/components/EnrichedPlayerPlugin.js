@@ -54,7 +54,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                 // if(notInArray &&
                 //   parseFloat(nextState.played).toFixed(3) <= (parseFloat(marks[key].value) / 100).toFixed(3) &&
                 //  parseFloat(parseFloat(nextState.played).toFixed(3)) + 0.05 >= parseFloat((parseFloat(marks[key].value) / 100).toFixed(3))) {
-                let valueIntoSeconds = parseInt(convertHMStoSeconds(marks[key].value));
+                let valueIntoSeconds = parseInt(convertHMStoSeconds(marks[key].value), 10);
 
                 if(notInArray &&
                     parseFloat(nextState.playedSeconds) <= parseFloat(convertHMStoSeconds(marks[key].value)) &&
@@ -69,15 +69,11 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
     componentWillMount() {
         if(this.props.state.currentState !== undefined) {
-            this.setState({ initialPoint: parseFloat(convertHMStoSeconds(this.props.state.currentState)) + 0.5 });
+            let initialPoint = parseFloat(convertHMStoSeconds(this.props.state.currentState)) + 0.5;
+            this.setState({ initialPoint });
         }
     }
-    componentDidMount() {
-        if(this.player !== undefined && this.state.initialPoint !== undefined) {
-            this.player.seekTo(this.state.initialPoint + 1);
-            this.setState({ initialPoint: undefined, playing: true });
-        }
-    }
+
     playPause() {
         this.setState({ playing: !this.state.playing });
     }
@@ -132,6 +128,15 @@ export default class EnrichedPlayerPlugin extends React.Component {
         }
     }
 
+    onReady(e) {
+        if(this.player !== undefined && this.state.initialPoint !== undefined) {
+            this.player.seekTo(this.state.initialPoint);
+            this.setState({ initialPoint: undefined, playing: true, ready: true });
+        } else {
+
+            this.setState({ ready: true });
+        }
+    }
     render() {
         let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
@@ -175,6 +180,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     onEnded={() => this.setState({ playing: false })}
                     onProgress={this.onProgress.bind(this)}
                     onDuration={duration => this.setState({ duration })}
+                    onReady={this.onReady.bind(this)}
                 />
                 {(this.state.controls) && (
                     <div className="player-media-controls flexControls" style={{ pointerEvents: 'all' }}>
@@ -186,7 +192,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                             onMouseUp={this.onSeekMouseUp.bind(this)}>
                             <div className="fakeProgress" style={{ top: "0", zIndex: 0 }} />
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%", top: "0" }} />
-                            {markElements}
+                            {this.state.ready ? markElements : null}
                         </div>
                         <div className="durationField">{ Math.trunc(this.state.playedSeconds / 60) + ":" + pad(Math.trunc(this.state.playedSeconds % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + pad(Math.trunc(this.state.duration % 60))}</div>
                         <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
