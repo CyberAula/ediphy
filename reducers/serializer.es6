@@ -130,15 +130,18 @@ export function pluginToolbars(state) {
     return newState;
 }
 
-export function marksSerializer(state) {
+export function marksSerializer(state, version) {
     let newState = { ...state };
-    [...state].forEach((element)=>{
-        let regex = /(^\d+(?:\.\d*)?%$)/g;
-        let match = regex.exec(element.value);
-        if (match && match.length === 2) {
-            newState[element.id].value = "0:00";
-        }
-    });
+
+    if(version === "1") {
+        [...state].forEach((element)=>{
+            let regex = /(^\d+(?:\.\d*)?%$)/g;
+            let match = regex.exec(element.value);
+            if (match && match.length === 2) {
+                newState[element.id].value = "0:00";
+            }
+        });
+    }
 
     return newState;
 }
