@@ -135,10 +135,9 @@ export function TrueFalse(base) {
 
                 };
                 answers.push(<div key={i + 1} className={"row answerRow"}>
-                    <div className={"col-xs-1 answerPlaceholder"}>
+                    <div className={"col-xs-2 answerPlaceholder"}>
                         <input type="radio" className="radioQuiz" name={props.id + "_" + i} value={"true"} checked={props.exercises && props.exercises.correctAnswer[i] === "true" /* ? 'checked' : 'unchecked'*/ }
-                            onChange={()=>{clickHandler(i, "true");}} /></div>
-                    <div className={"col-xs-1 answerPlaceholder"}>
+                            onChange={()=>{clickHandler(i, "true");}} />
                         <input type="radio" className="radioQuiz" name={props.id + "_" + i} value={"false"} checked={props.exercises && props.exercises.correctAnswer[i] === "false" /* ? 'checked' : 'unchecked'*/ }
                             onChange={()=>{clickHandler(i, "false");}} />
                     </div>
@@ -161,10 +160,8 @@ export function TrueFalse(base) {
                     </div>
                 </div>
                 <div className={"row TFRow"} key={0}>
-                    <div className={"col-xs-1"}>
+                    <div className={"col-xs-2 iconCol"}>
                         <i className="material-icons true">done</i>
-                    </div>
-                    <div className={"col-xs-1"}>
                         <i className="material-icons false">clear</i>
                     </div>
                     <div className={"col-xs-10"} /></div>
