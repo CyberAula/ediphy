@@ -178,11 +178,12 @@ $track-width: 54% !default;
     //padding: 5px;
     //margin: 1px;
     height: 2.5em;
-    opacity: 1;
-    background: -webkit-linear-gradient(transparent, grey);
+    opacity: 0.7;
+    background: #222;
+/*    background: -webkit-linear-gradient(transparent, grey);
     background: -o-linear-gradient(transparent, grey);
     background: -moz-linear-gradient(transparent, grey);
-    background: linear-gradient(transparent, grey);
+    background: linear-gradient(transparent, grey);*/
     &:hover{
       opacity: 1;
     }
@@ -326,5 +327,20 @@ FIJARNOS EN ENRICHED PARA CUALQUIER DUDA, ESTE TIENE BIEN HECHO EL CSS
 
 */
 
-
+  .visorControls {
+    opacity: 0;
+    -webkit-transition: opacity .3s;
+    -moz-transition: opacity .3s;
+    -o-transition: opacity .3s;
+    -ms-transition: opacity .3s;
+    transition: opacity .3s;
+  }
+  &:hover {
+    .visorControls {
+      opacity:0.7;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
 }

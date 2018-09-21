@@ -15,11 +15,11 @@ $track-width: 54% !default;
   @include transform(scale($scale));
 }
 @mixin gradient {
-  background: black; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(transparent, black); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(transparent, black); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(transparent, black); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(transparent, black); /* Standard syntax */
+  background: #222; /* For browsers that do not support gradients */
+/*  background: -webkit-linear-gradient(transparent, black); !* For Safari 5.1 to 6.0 *!
+  background: -o-linear-gradient(transparent, black); !* For Opera 11.1 to 12.0 *!
+  background: -moz-linear-gradient(transparent, black); !* For Firefox 3.6 to 15 *!
+  background: linear-gradient(transparent, black); !* Standard syntax *!*/
 }
 
 @mixin transition {
@@ -133,12 +133,14 @@ $track-width: 54% !default;
   iframe{
     margin-bottom: -0.25em;
   }
+
   .player-media-controls{
     position: absolute;
     bottom: 0;
     width: 100%;
     padding: 0.3em;
     margin: 0;
+
     @include gradient;
     height: 2.5em;
     opacity: 0.7;
@@ -163,7 +165,7 @@ $track-width: 54% !default;
   button {
     border: 0;
     color: white;
-    @include transition;
+    //@include transition;
     &:hover{
       cursor: pointer;
       color: white;
@@ -251,7 +253,20 @@ $track-width: 54% !default;
 /*  video{
     object-fit: inherit;
   }*/
+  .visorControls {
+    opacity: 0;
+    -webkit-transition: opacity .3s;
+    -moz-transition: opacity .3s;
+    -o-transition: opacity .3s;
+    -ms-transition: opacity .3s;
+    transition: opacity .3s;
+  }
+  &:hover {
+    .visorControls {
+      opacity:1;
 
+    }
+  }
 }
 
 .progress-player-input .dropableRichZone {

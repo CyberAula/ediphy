@@ -183,7 +183,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     onReady={this.onReady.bind(this)}
                 />
                 {(this.state.controls) && (
-                    <div className="player-media-controls flexControls" style={{ pointerEvents: 'all' }}>
+                    <div className="player-media-controls flexControls visorControls" style={{ pointerEvents: 'all' }}>
                         <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
                         <div className="progress-player-input dropableRichZone" style={{ height: "1.7em", position: "relative" }}
                             // value={this.state.played}
