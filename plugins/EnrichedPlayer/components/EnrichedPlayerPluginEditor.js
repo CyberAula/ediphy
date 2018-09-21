@@ -129,7 +129,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                         <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
                         <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
                     </div> :
-                    <div className="player-media-controls" style={{ pointerEvents: 'all' }}>
+                    <div className="player-media-controls flexControls" style={{ pointerEvents: 'all', visibility: 'hidden' }}>
                         <div className="progress-player-input dropableRichZone" style={{ height: "1.7em", position: "relative", bottom: '0.3em' }}>
                             <div className="fakeProgress" />
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
