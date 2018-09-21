@@ -41,7 +41,7 @@ export default function handlers(self) {
             Object.keys(pluginsAllowed).map(pluginName=>{
                 let key = pluginsAllowed[pluginName];
                 buttons.push({
-                    title: type === 'pdf' ? '' : (i18n.t('FileModal.FileHandlers.insert') + ' ' + Ediphy.Plugins[pluginName].getConfig().displayName || pluginName),
+                    title: type === 'pdf' ? (i18n.t('FileModal.FileHandlers.insert') + ' PDF...') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + Ediphy.Plugins[pluginName].getConfig().displayName || pluginName),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
 
                     action: ()=>{
