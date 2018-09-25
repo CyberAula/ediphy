@@ -15,9 +15,9 @@ export function fontString() {
     let fontsString = fonts_length.join(";");
     return fontsString;
 }
-export function changeFontBase(width = 900) {
+export function changeFontBase(width = 1100) {
     const DEFAULT_FONT_BASE = 14;
-    const DEFAULT_WIDTH_BASE = 900;
+    const DEFAULT_WIDTH_BASE = 1100;
     let calculatedFontSize = DEFAULT_FONT_BASE * parseFloat(width) / DEFAULT_WIDTH_BASE;
     // $('.boxStyle').css("font-size", calculatedFontSize + "px");
     return calculatedFontSize;

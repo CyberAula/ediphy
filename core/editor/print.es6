@@ -33,7 +33,7 @@ export default function printToPDF(state, callback) {
         return !navItems[nav].hidden && (Ediphy.Config.sections_have_content || !isSection(nav));
     });
 
-    const SLIDE_BASE = 785;
+    const SLIDE_BASE = 1100;
     const DOC_BASE = 990;
     const A4_RATIO = 1.4142;
     let addHTML;
@@ -46,7 +46,7 @@ export default function printToPDF(state, callback) {
         let slide = ((isCV && isSlirde(containedViews[currentView].type)) ||
             (!isCV && isSlide(navItems[currentView].type)));
 
-        let viewport = slide ? { width: SLIDE_BASE * canvasRatio, height: SLIDE_BASE } : {
+        let viewport = slide ? { width: SLIDE_BASE, height: SLIDE_BASE / canvasRatio } : {
             width: DOC_BASE,
             height: DOC_BASE * A4_RATIO,
         };
