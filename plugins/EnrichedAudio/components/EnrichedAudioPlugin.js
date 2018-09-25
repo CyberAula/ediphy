@@ -142,7 +142,7 @@ export default class BasicAudioPlugin extends React.Component {
             let isVisor = true;
             return(
                 <div key={id} className="audioMark" style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
-                    <Mark style={{ position: 'relative', top: "-24px", left: "-10px" }}
+                    <Mark style={{ position: 'relative', top: "-1.7em", left: "-0.75em" }}
                         color={color || "#17CFC8"}
                         idKey={id}
                         title={title}

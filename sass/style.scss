@@ -259,15 +259,40 @@ input[type="radio"]{
     background: none;
 }
 
-
 @media print {
 
+    @page {
+        @top-left {
+            content: "Cascading Style Sheets";
+        }
+        size: A4 portrait !important;
+        margin: 1cm;
+
+    }
+
+
+
     .pageToPrint{
-        // @page { size: 58mm 100mm } /* output size */
-        // body.receipt .sheet { width: 58mm; height: 100mm } /* sheet size */
-        // @media print { body.receipt { width: 58mm } } /* fix for Chrome */
+        border: 1px solid #0a4b3e ;
+        width: 100% !important;
+        height: 39.77% !important;
+
+
+        margin-bottom: 11%;
+        margin-top: 11%;
+        page-break-inside: avoid;
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -o-transform: scale(1);
+        transform: scale(1);
+        -webkit-transform-origin:left top;
+        -moz-transform-origin:left top;
+
+        outline: 1px solid transparent;
+    }
+
+    .breakPage {
         page-break-after: always;
-        width: ;
     }
 
     .navBar {
@@ -277,5 +302,23 @@ input[type="radio"]{
     #root {
         display: none;
     }
+    .pageModal{
+        display: none;
+    }
+
+    .modal-dialog{
+        display: none;
+    }
+
+    *[role="dialog"]{
+        display: none;
+    }
+
+    #maincontent{
+        display: block;
+    }
 }
 
+.material-icons.correct {
+    font-size: 1.7em;
+}

@@ -122,7 +122,7 @@ export function MultipleChoice(base) {
             let answers = [];
 
             let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
-            let correctAnswers = i18n.t("MultipleChoice.correctAnswerFeedback") + ": ";
+            let correctAnswers = "";
 
             for (let i = 0; i < state.nBoxes; i++) {
                 let clickHandler = (e)=>{
@@ -165,7 +165,7 @@ export function MultipleChoice(base) {
                     </div>
                 </div>
                 <div className="correctAnswerFeedback" style={{ color: quizColor }}>
-                    {correctAnswers}
+                    <span className="correctAnswerLabel"> {i18n.t("MultipleChoice.correctAnswerFeedback") }:</span> {correctAnswers}
                 </div>
                 <style dangerouslySetInnerHTML={{
                     __html: `

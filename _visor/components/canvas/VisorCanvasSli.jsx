@@ -5,7 +5,7 @@ import SubmitButton from '../score/SubmitButton';
 import Score from '../score/Score';
 import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import VisorHeader from './VisorHeader';
-import { aspectRatio } from '../../../common/common_tools';
+import { aspectRatio, changeFontBase } from '../../../common/common_tools';
 import ReactResizeDetector from 'react-resize-detector';
 import { isContainedView, isView } from '../../../common/utils';
 import i18n from 'i18next';
@@ -18,6 +18,7 @@ export default class VisorCanvasSli extends Component {
             height: '100%',
             marginTop: 0,
             marginBottom: 0,
+            fontBase: 14,
         };
     }
 
@@ -61,7 +62,7 @@ export default class VisorCanvasSli extends Component {
         let padding = (this.props.fromPDF ? '0px' : '');
         return (
             <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={"canvasSliClass " + (isCV ? animationType : "")}
-                style={{ display: 'initial', width: '100%', padding }}>
+                style={{ display: 'initial', width: '100%', padding, fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px' }}>
 
                 <div id={isCV ? 'airlayer_cv' : 'airlayer'}
                     className={'slide_air'}
@@ -124,6 +125,7 @@ export default class VisorCanvasSli extends Component {
                 <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
                     if (!this.props.fromPDF) {
                         this.aspectRatio(this.props, this.state);
+                        this.setState({ fontBase: changeFontBase(this.state.width) });
                     }
                 }} />
             </Col>
@@ -137,7 +139,8 @@ export default class VisorCanvasSli extends Component {
         let isCV = !isView(this.props.currentView);
         let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         if (!this.props.fromPDF) {
-            this.aspectRatio(this.props, this.state);
+            let calculated = this.aspectRatio(this.props, this.state);
+            this.setState({ fontBase: changeFontBase(calculated.width) });
             window.addEventListener("resize", this.aspectRatioListener.bind(this));
         } else {
 
@@ -149,7 +152,8 @@ export default class VisorCanvasSli extends Component {
     }
 
     aspectRatioListener() {
-        this.aspectRatio();
+        let calculated = this.aspectRatio();
+        this.setState({ fontBase: changeFontBase(calculated.width) });
     }
 
     aspectRatio(props = this.props, state = this.state) {
@@ -163,6 +167,7 @@ export default class VisorCanvasSli extends Component {
         if (JSON.stringify(calculated) !== JSON.stringify(current)) {
             this.setState({ ...calculated });
         }
+        return calculated;
 
     }
 
@@ -172,7 +177,8 @@ export default class VisorCanvasSli extends Component {
         if ((this.props.canvasRatio !== nextProps.canvasRatio) || (itemSel !== nextItemSel)) {
             let isCV = !isView(nextProps.currentView);
             window.canvasRatio = nextProps.canvasRatio;
-            this.aspectRatio(nextProps, nextState);
+            let calculated = this.aspectRatio(nextProps, nextState);
+            this.setState({ fontBase: changeFontBase(calculated.width) });
         }
 
     }

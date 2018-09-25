@@ -17,7 +17,7 @@ export function MultipleAnswer() {
             let showFeedback = attempted && state.showFeedback;
 
             let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
-            let correctAnswers = i18n.t("MultipleChoice.correctAnswerFeedback") + ": ";
+            let correctAnswers = "";
 
             let setAnswer = (i) => {
                 let newCurrentAnswer = props.exercises.currentAnswer ? Object.assign([], props.exercises.currentAnswer) : [];
@@ -89,7 +89,7 @@ export function MultipleAnswer() {
                     </div>
                 </div> }
                 {attempted ? <div className="correctAnswerFeedback" style={{ color: quizColor }}>
-                    {correctAnswers}
+                    <span className="correctAnswerLabel"> {i18n.t("MultipleAnswer.correctAnswerFeedback") }:</span> {correctAnswers}
                 </div> : null}
                 <div key={-1} className={"exerciseScore"} style={{ color: quizColor }}>{score}</div>
                 <style dangerouslySetInnerHTML={{

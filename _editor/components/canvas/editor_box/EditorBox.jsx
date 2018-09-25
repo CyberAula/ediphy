@@ -6,6 +6,7 @@ import interact from 'interactjs';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import { EDIT_PLUGIN_TEXT } from '../../../../common/actions';
 import { releaseClick, findBox } from '../../../../common/common_tools';
+import { isUnitlessNumber } from '../../../../common/cssNonUnitProps';
 import Ediphy from '../../../../core/editor/main';
 import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView, isBox } from '../../../../common/utils';
 import './_editorBox.scss';
@@ -74,7 +75,15 @@ export default class EditorBox extends Component {
             }
         });
 
-        style = { ...style, ...toolbar.style };
+        let toolbarStyle = {};
+        for (let propCSS in toolbar.style) {
+            if (!isNaN(toolbar.style[propCSS]) && isUnitlessNumber.indexOf(propCSS) === -1) {
+                toolbarStyle[propCSS] = toolbar.style[propCSS] / 7 + 'em';
+            } else {
+                toolbarStyle[propCSS] = toolbar.style[propCSS];
+            }
+        }
+        style = { ...style, ...toolbarStyle };
         if (toolbar.structure.height === 'auto' && config.needsTextEdition) {
             style.height = 'auto';
         }
@@ -420,7 +429,9 @@ export default class EditorBox extends Component {
                         let parentRect = parent.getBoundingClientRect();
                         let x = originalRect.left - parentRect.left;
                         let y = originalRect.top - parentRect.top;
-
+                        if ($('.canvasSliClass')) {
+                            clone.style.fontSize = $('.canvasSliClass').css('font-size');
+                        }
                         clone.setAttribute("id", "clone");
                         clone.setAttribute('data-x', x);
                         clone.setAttribute('data-y', y);

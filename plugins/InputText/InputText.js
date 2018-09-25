@@ -75,10 +75,10 @@ export function InputText(base) {
             let clickHandler = (e)=>{
                 props.setCorrectAnswer(e.target.value);
             };
-            let fs = state.fontSize + 'px';
+            let fs = state.fontSize / 14 + 'em';
             return <div className={"exercisePlugin inputTextPlugin"} >
-                <input placeholder={i18n.t("InputText.Placeholder")} type={state.type} style={{ fontSize: fs, lineHeight: fs, height: fs }} className="inputText" name={props.id} value={props.exercises.correctAnswer} onChange={clickHandler}/>
-                <div className="dragHandleInputPlugin" style={{ lineHeight: fs, height: fs, width: fs }}><i className="material-icons">reorder</i></div>
+                <input placeholder={i18n.t("InputText.Placeholder")} type={state.type} style={{ fontSize: fs }} className="inputText" name={props.id} value={props.exercises.correctAnswer} onChange={clickHandler}/>
+                <div className="dragHandleInputPlugin" style={{ fontSize: fs }}><i className="material-icons">reorder</i></div>
             </div>;
 
         },

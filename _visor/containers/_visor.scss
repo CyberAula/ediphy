@@ -445,22 +445,22 @@ li > .selectedNavItemVisor {
 
 .submitButton {
   background-color: $blueprimarytransparent;
-  padding: 5px 25px;
   border-radius: 0;
-  border: 2px solid $blueprimary;
+  border: 0.2em solid $blueprimary;
   color: $blueprimary;
-  font-size: 18px;
   vertical-align: middle;
+  padding: 0.4em 1em;
+  font-size: 1.2em;
 }
 
 .pageFooter {
   text-align: center; //right;
-  margin: 15px;
+  margin: 1em;
   margin-bottom: 0px;
   bottom: 0;
-  padding-bottom: 15px;
-  min-height: 150px;
-  line-height: 150px;
+  padding-bottom: 1em;
+  min-height: 10em;
+  line-height: 10em;
 
 }
 
@@ -468,7 +468,7 @@ li > .selectedNavItemVisor {
   text-align: center;
   line-height: 2em;
   font-size: 1.5em;
-  padding: 5px 15px;
+  padding: 0.45em 1em;
   border-radius: 3px;
   margin: auto;
   max-width: 50%;
@@ -532,4 +532,10 @@ li > .selectedNavItemVisor {
     width: 100%;
     font-size: 35px;
     font-size: 5vh;
+}
+
+@media print {
+  .submitButton{
+    display: none;
+  }
 }

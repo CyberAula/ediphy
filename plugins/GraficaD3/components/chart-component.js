@@ -25,7 +25,7 @@ export default class Chart extends React.Component {
                         <LineChart key={'chart' + this.props.id}
                             data={data}>
                             <XAxis dataKey="name" /* tickCount={data ? data.length : 5}*/ />
-                            <YAxis />
+                            <YAxis mirror/>
                             <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                             <Tooltip />
                             <Legend />
@@ -39,7 +39,7 @@ export default class Chart extends React.Component {
                     <LineChart key={'chart' + this.props.id}
                         data={data}>
                         <XAxis dataKey="name" /* tickCount={data ? data.length : 5}*/ />
-                        <YAxis />
+                        <YAxis mirror/>
                         <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                         <Tooltip />
                         <Legend />
@@ -63,7 +63,7 @@ export default class Chart extends React.Component {
                             })}
                         </defs>
                         <XAxis dataKey="name" />
-                        <YAxis/>
+                        <YAxis mirror/>
                         <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                         <Tooltip />
                         {options.graphs.map((y, o) => <Area key={o + 1} type="monotone" dataKey={y.name} stroke={y.color} fillOpacity={1} fill={"url(#" + (this.props.fromConfig ? "config_" : "") + this.props.id + "_colorUv" + o + ")"}/>)}
@@ -77,7 +77,7 @@ export default class Chart extends React.Component {
                         <BarChart key={'chart' + this.props.id}
                             data={data}>
                             <XAxis dataKey="name"/>
-                            <YAxis/>
+                            <YAxis mirror/>
                             <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                             <Tooltip/>
                             <Legend />
@@ -91,7 +91,7 @@ export default class Chart extends React.Component {
                     <BarChart key={'chart' + this.props.id}
                         data={data}>
                         <XAxis dataKey="name"/>
-                        <YAxis/>
+                        <YAxis mirror/>
                         <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                         <Tooltip/>
                         <Legend />
@@ -133,7 +133,7 @@ export default class Chart extends React.Component {
                 <ResponsiveContainer width="100%" height="100%" key={this.props.id}>
                     <LineChart data={data} key={'chart' + this.props.id}>
                         <XAxis dataKey={options.x} name={options.x}/>
-                        <YAxis/>
+                        <YAxis mirror/>
                         <CartesianGrid
                             horizontal
                             vertical={options.xGrid} />

@@ -1,0 +1,35 @@
+@media print {
+
+  /*@page {
+      size: 1414px 796px;
+      margin: 0; }*/
+
+  @page  {
+    size: 1414px 796px;
+    margin: 0;
+  }
+
+
+  .navBar {
+    display: none;
+  }
+
+  #root {
+    display: none;
+  }
+  .pageModal{
+    display: none;
+  }
+
+  .modal-dialog{
+    display: none;
+  }
+
+  *[role="dialog"]{
+    display: none;
+  }
+}
+
+.material-icons.correct {
+  font-size: 1.7em;
+}

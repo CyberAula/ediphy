@@ -139,7 +139,7 @@ export default class EnrichedPDFPlugin extends React.Component {
                             markConnection={marks[id].connection}
                             markValue={marks[id].value}
                             boxID={this.props.props.id}
-                            onMarkClicked={(_id, _value)=>{this.props.props.onMarkClicked(_id, _value, false);}}
+                            onMarkClicked={(_id, _value)=>{this.props.props.onMarkClicked(_id, _value, true);}}
                         />
                     </div> : null);
         });

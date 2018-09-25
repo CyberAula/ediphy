@@ -18,7 +18,7 @@ export function MultipleChoice() {
             let showFeedback = attempted && state.showFeedback;
 
             let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
-            let correctAnswers = i18n.t("MultipleChoice.correctAnswerFeedback") + ": ";
+            let correctAnswers = "";
 
             for (let i = 0; i < state.nBoxes; i++) {
                 let correct = attempted && props.exercises.correctAnswer === i; // && props.exercises.currentAnswer === i ;
@@ -66,7 +66,7 @@ export function MultipleChoice() {
                     </div>
                 </div>}
                 {attempted ? <div className="correctAnswerFeedback" style={{ color: quizColor }}>
-                    {correctAnswers}
+                    <span className="correctAnswerLabel"> {i18n.t("MultipleChoice.correctAnswerFeedback") }:</span> {correctAnswers}
                 </div> : null}
                 <div className={"exerciseScore"} style={{ color: quizColor }}>{score}</div>
                 <style dangerouslySetInnerHTML={{

@@ -13,7 +13,7 @@ export default class SearchBox extends React.Component {
             <FormGroup id={"map-" + this.props.id} className="searchBox">
                 <InputGroup>
                     <FormControl type="text" ref={"input-" + this.props.id} placeholder={this.props.placeholder}/>
-                    <InputGroup.Addon style={{ padding: "2px 7px" }}>
+                    <InputGroup.Addon style={{ padding: "0.2em 0.5em " }}>
                         <i className="material-icons">search</i>
                         {/* <Glyphicon glyph="search" />*/}
                     </InputGroup.Addon>
