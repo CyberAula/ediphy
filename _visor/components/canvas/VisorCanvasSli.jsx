@@ -126,6 +126,8 @@ export default class VisorCanvasSli extends Component {
                     if (!this.props.fromPDF) {
                         this.aspectRatio(this.props, this.state);
                         this.setState({ fontBase: changeFontBase(this.state.width) });
+                    } else if (this.props.fromPDF) {
+                        this.setState({ fontBase: changeFontBase(this.props.expectedWidth) });
                     }
                 }} />
             </Col>
@@ -265,4 +267,8 @@ VisorCanvasSli.propTypes = {
      * Indicates if the content is being previewed in order to export it to PDF
      */
     fromPDF: PropTypes.bool,
+    /**
+     * Indicates the expected width for PDF exportation.
+     */
+    expectedWidth: PropTypes.number,
 };

@@ -33,18 +33,37 @@ export default function printToPDF(state, callback) {
         return !navItems[nav].hidden && (Ediphy.Config.sections_have_content || !isSection(nav));
     });
 
-    const SLIDE_BASE = 1100;
-    const DOC_BASE = 990;
-    const A4_RATIO = 1.4142;
+    let SLIDE_BASE = 650;
+    let DOC_BASE = 1100;
+    let A4_RATIO = 1.4142;
     let addHTML;
+    let numPages = 0;
+
     addHTML = function(navs, last) {
 
-        console.log('STATE: ' + JSON.stringify(state));
-
+        let elementClass;
         let currentView = navs[0];
-        console.log(currentView);
         let slide = ((isCV && isSlirde(containedViews[currentView].type)) ||
             (!isCV && isSlide(navItems[currentView].type)));
+
+        let slidesPerPage = 2;
+
+        switch(slidesPerPage) {
+        case 1:
+            break;
+        case 2:
+            if (canvasRatio === 4 / 3) {
+                SLIDE_BASE = 650;
+            } else if (canvasRatio === 16 / 9)
+            {SLIDE_BASE = 700;}
+            break;
+        case 4:
+            break;
+        default:
+            break;
+        }
+
+        let slideClass = slide ? "pwc_slide" : "pwc_doc";
 
         let viewport = slide ? { width: SLIDE_BASE, height: SLIDE_BASE / canvasRatio } : {
             width: DOC_BASE,
@@ -59,25 +78,34 @@ export default function printToPDF(state, callback) {
         let pageContainer = document.createElement('div');
         // Añado div al DOM
         document.body.appendChild(pageContainer);
-        // Deduzco si slide o page
-        let slideClass = slide ? "pcw_slide" : "pcw_doc";
-        pageContainer.id = "pageContainer_" + i;
 
-        pageContainer.className = ((i % 2) == 0) ? "pageToPrint" : "pageToPrint breakPage";
         // Asigno la anchura y altura del div dependiendo si es page o slide
         pageContainer.style.width = viewport.width + 'px';
-        console.log('Viewport width: ' + viewport.width);
         pageContainer.style.height = slide ? (viewport.height + 'px') : 'auto';
-        console.log('Viewport height: ' + viewport.height);
-        // Añado pagebreak después del div FUNCIONA?
+        pageContainer.id = "pageContainer_" + i;
 
-        let style = document.createElement('style');
-        style.type = 'text/css';
-        style.media = 'print';
+        elementClass = ((i % 2) === 0) ? "pageToPrint upOnPage" : "pageToPrint breakPage";
 
-        document.getElementsByTagName('head')[0].appendChild(style);
-        console.log(style);
+        // Añado clase según tipo de slide/documento
+        switch (viewport.height) {
+        case SLIDE_BASE * 3 / 4:
+            elementClass = elementClass + " slide43";
+            break;
+        case SLIDE_BASE * 9 / 16:
+            elementClass = elementClass + " slide169";
+            break;
+        case 1555.62:
+            elementClass = elementClass + " pageA4";
+            break;
+        default:
+            elementClass = elementClass + " otherDoc";
+            break;
+        }
+
+        pageContainer.className = elementClass;
+
         let isCV = isContainedView(currentView);
+        let expectedWidth = viewport.width;
         let props = {
             boxes, changeCurrentView: (element) => {
             }, canvasRatio, containedViews,
@@ -87,8 +115,9 @@ export default function printToPDF(state, callback) {
             viewsArray: [currentView], setAnswer: () => {
             }, submitPage: () => {
             }, exercises: exercises[currentView],
+            expectedWidth: expectedWidth,
         };
-        let visorContent = !isCV ? (<VisorCanvas {...props} fromPDF/>) : (<VisorContainedCanvas {...props} fromPDF/>);
+        let visorContent = !isCV ? (<VisorCanvas {...props} fromPDF />) : (<VisorContainedCanvas {...props} fromPDF/>);
         let app = (<div id="page-content-wrapper" className={slideClass + " page-content-wrapper printApp"}
             style={{ height: '100%', backgroundColor: 'white' }}>
             <Grid fluid id="visorAppContent" style={{ height: '100%' }}>
@@ -105,11 +134,18 @@ export default function printToPDF(state, callback) {
                 () => {
                     if(last) {
                         window.print();
+
+                        let toDelete = document.getElementsByClassName('pageToPrint');
+                        while(toDelete.length > 0) {
+                            toDelete[0].parentNode.removeChild(toDelete[0]);
+                        }
                         callback();
                     } else {
+                        numPages++;
+                        console.log('pageContainer_' + numPages);
                         addHTML(navs.slice(1), navs.length <= 2);
                     }
-                }, 5);
+                }, 500);
         });
 
     };
