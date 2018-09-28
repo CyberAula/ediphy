@@ -1,0 +1,155 @@
+import React from 'react';
+import VisorPluginPlaceholder from '../../_visor/components/canvas/VisorPluginPlaceholder';
+import i18n from 'i18next';
+import { setRgbaAlpha } from "../../common/common_tools";
+/* eslint-disable react/prop-types */
+export default class OrderVisor extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            positions: this.generateRandomPositions(this.props.state.nBoxes),
+        };
+    }
+    render() {
+        let { state, props } = this.props;
+        let content = [];
+        let attempted = props.exercises && props.exercises.attempted;
+        let score = props.exercises.score || 0;
+        score = Math.round(score * 100) / 100;
+        score = (score) + "/" + (props.exercises.weight || 0);
+        let showFeedback = attempted && state.showFeedback;
+
+        let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
+        let correctAnswers = "";
+        let positions = attempted ? props.exercises.currentAnswer : this.state.positions;
+        for (let j in positions) {
+            let i = positions[j];
+            // eslint-disable-next-line
+            let correct = attempted && i == j;
+            // eslint-disable-next-line
+            let incorrect = attempted && (j != i);
+            // eslint-disable-next-line
+            let checked = j == i;
+
+            content.push(
+                <div key={j + 1} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")}>
+                    <div className={"col-xs-2 answerPlaceholder"}>
+                        <div className={"answer_letter"} style={{ backgroundColor: quizColor }}>{parseInt(j, 10) + 1}</div>
+                    </div>
+                    <div className={"col-xs-10 answerCol"} >
+                        <div data-id={i} className="orderable">
+                            <i className="material-icons order-drag-handle btnDrag">swap_vert</i>
+                            <VisorPluginPlaceholder {...props} key={i + 1} pluginContainer={"Answer" + i} /></div>
+                    </div>
+                    {/* <i className={ "material-icons " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")} style={{ display: (correct || incorrect) ? "block" : "none" }}>{(correct ? "done " : "clear")}</i>*/}
+                    {(correct) ? <i className={ "material-icons correct"}>done</i> : null}
+                    {(incorrect) ? <i className={ "material-icons incorrect"}>clear</i> : null}
+                </div>);
+
+        }
+        let checkEmptyFeedback = !props.boxes[props.id].sortableContainers['sc-Feedback'].children ||
+            props.boxes[props.id].sortableContainers['sc-Feedback'].children.length === 0 ||
+            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === "<p>" + i18n.t("text_here") + "</p>" ||
+            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI("<p>" + i18n.t("text_here") + "</p>") ||
+            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI("<p>" + i18n.t("text_here") + "</p>\n") ||
+            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI('<p>' + i18n.t("Ordering.FeedbackMsg") + '</p>\n') ||
+            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === '<p>' + i18n.t("Ordering.FeedbackMsg") + '</p>';
+        return (<div className={"exercisePlugin orderingPlugin" + (attempted ? " attempted " : " ") + (props.exercises.showFeedback ? "showFeedback" : "")}>
+            <div className={"row"} key={0} >
+                <div className={"col-xs-12"}>
+                    <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Question"}/>
+                </div>
+            </div>
+            <div id={props.id + "-" + "sortable"}>
+                {content}
+            </div>
+            {checkEmptyFeedback ? null : <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
+                <div className={"col-xs-12 feedback"} style={{ color: quizColor, borderColor: quizColor, backgroundColor: setRgbaAlpha(quizColor, 0.15) }}>
+                    <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
+                </div>
+            </div>}
+
+            <div className={"exerciseScore"} style={{ color: quizColor }}>{score}</div>
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                            .orderingPlugin input[type="radio"]  {
+                              background-color: transparent;
+                            }
+                           .orderingPlugin input[type="radio"]:checked:after {
+                              background-color: ${quizColor};
+                            }
+                          `,
+            }} />
+        </div>);
+
+    }
+    shuffle(array) {
+        let tmp, current, top = array.length;
+        if(top) {while(--top) {
+            current = Math.floor(Math.random() * (top + 1));
+            tmp = array[current];
+            array[current] = array[top];
+            array[top] = tmp;
+        }}
+        return array;
+    }
+    generateRandomPositions(N) {
+        let a = [];
+        for (let i = 0; i < N; ++i) {a[i] = i;}
+        return this.shuffle(a);
+    }
+    componentDidUpdate(prevProps, prevState) {
+        let prevAttempted = prevProps.props.exercises && prevProps.props.exercises.attempted;
+        let attempted = this.props.props.exercises && this.props.props.exercises.attempted;
+        if (!prevAttempted && attempted) {
+            let id = this.props.props.id + "-" + "sortable";
+            let list = $("#" + id);
+            list.sortable("disable");
+        }
+    }
+    componentDidMount() {
+
+        let attempted = this.props.props.exercises && this.props.props.exercises.attempted;
+        if (!attempted) {
+            let id = this.props.props.id + "-" + "sortable";
+            let list = $("#" + id);
+            this.props.props.setAnswer(this.state.positions);
+            list.sortable({
+                handle: '.order-drag-handle',
+                items: '.orderable',
+                // revert: true,
+
+                over: function() {
+                    $(this).addClass('hoveringOrder');
+                },
+                out: function() {
+                    $(this).removeClass('hoveringOrder');
+                },
+                stop: (event, ui) => {
+                    let indexes = [];
+                    let children = list.find(".orderable");
+                    for (let i = 0; i < children.length; i++) {
+                        let index = parseInt(children[i].getAttribute("data-id"), 10);
+                        indexes.push(index);
+                    }
+                    if (indexes.length !== 0) {
+                        this.setState({ positions: indexes });
+                        this.props.props.setAnswer(this.state.positions);
+                    }
+                    list.sortable('cancel');
+                    let ev = document.createEvent('Event');
+                    ev.initEvent('resize', true, true);
+                    window.dispatchEvent(ev);
+                },
+            });
+        }
+
+    }
+    componentWillUnmount() {
+        let id = this.props.props.id + "-" + "sortable";
+        let list = $("#" + id);
+        $(".selector").sortable("disable");
+    }
+}
+
+/* eslint-enable react/prop-types */
