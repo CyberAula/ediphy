@@ -36,7 +36,7 @@
     padding: 0;
     width: auto;
     margin-top: 0.2em;
-    padding-right: 1.2em ;
+    padding-right: 1.8em ;
     .answer_letter{
       color: white;
       background-color: #00ad9c;
@@ -62,13 +62,15 @@
     margin: 0;
     .col-xs-10{
       padding: 0;
-      width: 75%;
+      //width: 75%;
     }
     .order-drag-handle {
       position: absolute;
-      margin-left: -0.8em;
+      left: 0;
+      margin-left: -1em;
       margin-top: 0.3em;
       font-size: 2em;
+      cursor: move;
     }
     i:not(.order-drag-handle){
       //margin: 0.5em -1em;

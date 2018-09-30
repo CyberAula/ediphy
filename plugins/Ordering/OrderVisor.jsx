@@ -41,7 +41,6 @@ export default class OrderVisor extends React.Component {
                             <i className="material-icons order-drag-handle btnDrag">swap_vert</i>
                             <VisorPluginPlaceholder {...props} key={i + 1} pluginContainer={"Answer" + i} /></div>
                     </div>
-                    {/* <i className={ "material-icons " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")} style={{ display: (correct || incorrect) ? "block" : "none" }}>{(correct ? "done " : "clear")}</i>*/}
                     {(correct) ? <i className={ "material-icons correct"}>done</i> : null}
                     {(incorrect) ? <i className={ "material-icons incorrect"}>clear</i> : null}
                 </div>);
@@ -98,57 +97,64 @@ export default class OrderVisor extends React.Component {
         for (let i = 0; i < N; ++i) {a[i] = i;}
         return this.shuffle(a);
     }
-    componentDidUpdate(prevProps, prevState) {
-        let prevAttempted = prevProps.props.exercises && prevProps.props.exercises.attempted;
+    componentDidUpdate(nextProps, nextState) {
+        let id = this.props.props.id + "-" + "sortable";
+        let list = $("#" + id);
+        // list.sortable("refresh");
+        let prevAttempted = nextProps.props.exercises && nextProps.props.exercises.attempted;
         let attempted = this.props.props.exercises && this.props.props.exercises.attempted;
         if (!prevAttempted && attempted) {
-            let id = this.props.props.id + "-" + "sortable";
-            let list = $("#" + id);
-            list.sortable("disable");
+            list.sortable("destroy");
         }
     }
     componentDidMount() {
 
         let attempted = this.props.props.exercises && this.props.props.exercises.attempted;
+
         if (!attempted) {
             let id = this.props.props.id + "-" + "sortable";
             let list = $("#" + id);
-            this.props.props.setAnswer(this.state.positions);
-            list.sortable({
-                handle: '.order-drag-handle',
-                items: '.orderable',
-                // revert: true,
+            setTimeout(()=>{
+                list.sortable({
+                    handle: '.order-drag-handle',
+                    items: '.orderable',
+                    // revert: true,
+                    over: function() {
+                        $(this).addClass('hoveringOrder');
+                    },
+                    out: function() {
+                        $(this).removeClass('hoveringOrder');
+                    },
+                    stop: (event, ui) => {
+                        let indexes = [];
+                        let children = list.find(".orderable");
+                        for (let i = 0; i < children.length; i++) {
+                            let index = parseInt(children[i].getAttribute("data-id"), 10);
+                            indexes.push(index);
+                        }
+                        if (indexes.length !== 0) {
+                            this.setState({ positions: indexes });
+                            this.props.props.setAnswer(this.state.positions);
+                        }
+                        list.sortable('cancel');
+                        let ev = document.createEvent('Event');
+                        ev.initEvent('resize', true, true);
+                        window.dispatchEvent(ev);
+                    },
+                });
+                this.props.props.setAnswer(this.state.positions);
+            }, 50);
 
-                over: function() {
-                    $(this).addClass('hoveringOrder');
-                },
-                out: function() {
-                    $(this).removeClass('hoveringOrder');
-                },
-                stop: (event, ui) => {
-                    let indexes = [];
-                    let children = list.find(".orderable");
-                    for (let i = 0; i < children.length; i++) {
-                        let index = parseInt(children[i].getAttribute("data-id"), 10);
-                        indexes.push(index);
-                    }
-                    if (indexes.length !== 0) {
-                        this.setState({ positions: indexes });
-                        this.props.props.setAnswer(this.state.positions);
-                    }
-                    list.sortable('cancel');
-                    let ev = document.createEvent('Event');
-                    ev.initEvent('resize', true, true);
-                    window.dispatchEvent(ev);
-                },
-            });
         }
 
     }
     componentWillUnmount() {
         let id = this.props.props.id + "-" + "sortable";
         let list = $("#" + id);
-        $(".selector").sortable("disable");
+        let attempted = this.props.props.exercises && this.props.props.exercises.attempted;
+        if (!attempted) {
+            list.sortable("destroy");
+        }
     }
 }
 

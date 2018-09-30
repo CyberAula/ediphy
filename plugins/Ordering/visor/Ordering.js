@@ -8,7 +8,7 @@ export function Ordering() {
     return {
         init: function() {
             // eslint-disable-next-line  no-new
-            new sortable();
+            // new sortable();
         },
         getRenderTemplate: function(state, props) {
             return <OrderVisor state={state} props={props}/>;
