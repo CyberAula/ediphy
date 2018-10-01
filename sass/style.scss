@@ -267,16 +267,9 @@ input[type="radio"]{
         //margin-top: 3cm; Lo quito porque hacía que apareciese una raya abajo de cada página en chrome/opera
     }
 
-
-
-    .pageToPrint{
-
-    }
-
-
     .slide169 {
         margin: 0 auto;
-        margin-top: 1.2cm;
+        margin-top: 1cm;
 
         border: 1px solid black; //OJO el borde quita espacio interior, puede afectar a la disposicion de texto pequeño.
         page-break-inside: avoid;
@@ -285,8 +278,8 @@ input[type="radio"]{
         -moz-transform: scale(1);
         -o-transform: scale(1);
         transform: scale(1);
-        -webkit-transform-origin:left top;
-        -moz-transform-origin:left top;
+        //-webkit-transform-origin:left top;
+        //-moz-transform-origin:left top;
     }
 
     .slide43 {
@@ -311,9 +304,33 @@ input[type="radio"]{
 
     .breakPage {
         page-break-after: always;
+
+    }
+
+    .pageEnd {
+        //page-break-after: always;
+    }
+
+
+    #canvas {
+        overflow-y: visible;
+    }
+
+    .otherDoc {
+        page-break-before: always;
+        page-break-after: always !important;
+        //overflow: visible;
+    }
+
+    .colDist-j {
+      page-break-after: always;
     }
 
     .navBar {
+        display: none;
+    }
+
+    .tooltip.top {
         display: none;
     }
 

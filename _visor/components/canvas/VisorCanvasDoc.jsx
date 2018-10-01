@@ -116,6 +116,8 @@ export default class VisorCanvasDoc extends Component {
                         <Score exercises={this.props.exercises}/>
                     </div>
 
+                    <div className={(this.props.fromPDF === true) ? "pageEnd" : ""} />
+
                 </div>
             </Col>
         );
@@ -202,4 +204,8 @@ VisorCanvasDoc.propTypes = {
      * Function that triggers a mark
      */
     onMarkClicked: PropTypes.func,
+    /**
+     * Indicates if the content is being previewed in order to export it to PDF
+     */
+    fromPDF: PropTypes.bool,
 };
