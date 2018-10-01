@@ -346,6 +346,27 @@ export default class Clipboard extends Component {
                                 initialParams.url = src;
                                 createBox(initialParams, "FlashObject", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
                                 return;
+                            } else if (tag === "AUDIO") {
+                                if (!src) {
+                                    let source = el.find('source');
+                                    if (source && source[0]) {
+                                        src = $(source[0]).attr('src');
+                                    }
+                                }
+                                initialParams.url = src;
+                                createBox(initialParams, "EnrichedAudio", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                return;
+
+                            } else if (tag === "VIDEO") {
+                                if (!src) {
+                                    let source = el.find('source');
+                                    if (source && source[0]) {
+                                        src = $(source[0]).attr('src');
+                                    }
+                                }
+                                initialParams.url = src;
+                                createBox(initialParams, "EnrichedPlayer", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                return;
                             }
                         } catch(err) {
                             // eslint-disable-next-line no-console
