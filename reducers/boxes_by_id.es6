@@ -74,7 +74,7 @@ function boxCreator(state, action) {
         position: position,
         // width: width,
         // height: height,
-        content: action.payload.content,
+        content: {}, // action.payload.content,
         draggable: action.payload.draggable,
         resizable: action.payload.resizable,
         showTextEditor: false,
@@ -268,11 +268,9 @@ function boxReducer(state = {}, action = {}) {
         return changeProps(
             state,
             [
-                "content",
                 "children",
                 "sortableContainers",
             ], [
-                action.payload.content,
                 children,
                 sortableContainers,
             ]

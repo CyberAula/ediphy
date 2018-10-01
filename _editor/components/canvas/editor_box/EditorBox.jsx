@@ -46,7 +46,7 @@ export default class EditorBox extends Component {
         let vis = this.props.boxSelected === this.props.id;
         let style = {
             visibility: (toolbar.showTextEditor ? 'hidden' : 'visible'),
-            // overflow: 'hidden',
+            overflow: 'hidden',
 
         };
 
@@ -130,7 +130,7 @@ export default class EditorBox extends Component {
             </div>
         ) : (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {this.renderChildren(box.content)}
+                {this.renderChildren(html2json(Ediphy.Plugins.get(toolbar.pluginId).getRenderTemplate(toolbar.state, props)))}
             </div>
         );
         let border = (
