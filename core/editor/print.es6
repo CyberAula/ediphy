@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import VisorCanvas from '../../_visor/components/canvas/VisorCanvas';
 import VisorContainedCanvas from '../../_visor/components/canvas/VisorContainedCanvas';
-import { isSection, isContainedView, isSlide } from '../../common/utils';
+import { isSection, isContainedView, isSlide, isDocument } from '../../common/utils';
 import { Grid, Row, Col } from 'react-bootstrap';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -29,6 +29,9 @@ export default function printToPDF(state, callback) {
     let keywords = globalConfig.keywords;
     let canvasRatio = globalConfig.canvasRatio;
     let numPages = 0;
+    let customAspectRatio = 0;
+    let expectedWidth;
+    let expectedHeight;
 
     let notSections = state.navItemsIds.filter(nav=> {
         return !navItems[nav].hidden && (Ediphy.Config.sections_have_content || !isSection(nav));
@@ -36,14 +39,16 @@ export default function printToPDF(state, callback) {
 
     let SLIDE_BASE = 650;
     let DOC_BASE = 700;
-    let A4_RATIO = 1.4142;
+    let A4_RATIO = 1 / 1.4142;
     let addHTML;
 
     let slideCounter = 0;
+    let firstElementPage = true;
+    let forcePageBreak = false;
 
     addHTML = function(navs, last) {
 
-        let elementClass = 'pageToPrint';
+        let elementClass;
         let currentView = navs[0];
         let slide = ((isCV && isSlide(containedViews[currentView].type)) ||
             (!isCV && isSlide(navItems[currentView].type)));
@@ -67,14 +72,74 @@ export default function printToPDF(state, callback) {
 
         let slideClass = slide ? "pwc_slide" : "pwc_doc";
 
+        elementClass = "pageToPrint";
+
         let viewport = slide ? { width: SLIDE_BASE, height: SLIDE_BASE / canvasRatio } : {
             width: DOC_BASE,
             height: "auto",
         };
+
+        expectedWidth = viewport.width;
+
+        // Caso de que sea un documento importado
         if (slide && navItems[currentView] && navItems[currentView].customSize) {
+            if(firstElementPage && forcePageBreak) {
+                elementClass = elementClass + " upOnPage";
+                firstElementPage = false;
+            }
             viewport = navItems[currentView].customSize;
+            customAspectRatio = viewport.width / viewport.height;
+            console.log('Custom aspect ratio is: ' + customAspectRatio);
+
+            if (customAspectRatio < 0.8) {
+                elementClass = elementClass + " portraitDoc heightLimited";
+                expectedHeight = 1000;
+                viewport.height = expectedHeight;
+                expectedWidth = expectedHeight * customAspectRatio;
+                viewport.width = expectedWidth;
+                console.log('Doc expected height: ' + expectedHeight);
+                console.log('Doc expected width: ' + expectedWidth);
+            } else if (customAspectRatio >= 0.8 < 1) {
+                elementClass = elementClass + " portraitDoc widthLimited";
+                expectedWidth = 700;
+                viewport.width = expectedWidth;
+                expectedHeight = expectedWidth / customAspectRatio;
+                viewport.height = expectedHeight;
+                console.log('Doc expected height: ' + expectedHeight);
+                console.log('Doc expected width: ' + expectedWidth);
+            } else if (customAspectRatio >= 1 < (1 / A4_RATIO)) {
+                elementClass = elementClass + " landscapeDoc heightLimited";
+                let expectedHeight = 980 / 2;
+                console.log('Doc expected height: ' + expectedHeight);
+                viewport.height = expectedHeight;
+                expectedWidth = expectedHeight * customAspectRatio;
+                console.log('Doc expected width: ' + expectedWidth);
+                viewport.width = expectedWidth;
+
+            } else {
+                elementClass = elementClass + " landscapeDoc widthLimited";
+                expectedWidth = 700;
+                viewport.width = expectedWidth;
+                expectedHeight = expectedWidth / customAspectRatio;
+                viewport.height = expectedHeight;
+                console.log('Doc expected height: ' + expectedHeight);
+                console.log('Doc expected width: ' + expectedWidth);
+            }
+        } else {
+            firstElementPage = true;
+            if (((slideCounter % 2) === 0) && (slidesPerPage === 2)) {
+                elementClass = elementClass + " upOnPage";
+            } else {
+                elementClass = elementClass + " breakPage";
+            }
         }
+
         let i = notSections.length - navs.length;
+        // Borro div creado anteriormente
+        let toDelete = document.getElementById('pageContainer_' + i);
+        if(toDelete) {
+            toDelete.parentNode.removeChild(toDelete);
+        }
 
         // Me creo un div para la página
         let pageContainer = document.createElement('div');
@@ -86,9 +151,6 @@ export default function printToPDF(state, callback) {
         pageContainer.style.height = slide ? (viewport.height + 'px') : 'auto';
         pageContainer.id = "pageContainer_" + i;
 
-        console.log('Slide counter. ' + (((slideCounter % 2) === 0) && (slidesPerPage === 2)));
-        elementClass = (((slideCounter % 2) === 0) && (slidesPerPage === 2)) ? "pageToPrint upOnPage" : "pageToPrint breakPage";
-
         // Añado clase según tipo de slide/documento
         switch (viewport.height) {
         case SLIDE_BASE * 3 / 4:
@@ -99,11 +161,12 @@ export default function printToPDF(state, callback) {
             elementClass = elementClass + " slide169";
             slideCounter++;
             break;
-        case 1555.62:
-            elementClass = elementClass + " pageA4";
-            break;
         default:
-            elementClass = elementClass + " otherDoc";
+            if (navItems[currentView].customSize) {
+                elementClass = elementClass + " importedDoc";
+            } else {
+                elementClass = elementClass + " otherDoc";
+            }
             slideCounter = 0;
             break;
         }
@@ -111,7 +174,6 @@ export default function printToPDF(state, callback) {
         pageContainer.className = elementClass;
 
         let isCV = isContainedView(currentView);
-        let expectedWidth = viewport.width;
         let props = {
             boxes, changeCurrentView: (element) => {
             }, canvasRatio, containedViews,
@@ -135,9 +197,11 @@ export default function printToPDF(state, callback) {
             </Grid>
 
         </div>);
+
         ReactDOM.render((app), pageContainer, (a) => {
             setTimeout(
                 () => {
+
                     if(last) {
 
                         for(let i = 0; i <= numPages; i++) {
@@ -146,16 +210,15 @@ export default function printToPDF(state, callback) {
                             document.getElementById('pageContainer_' + i).style.height = actualHeight + 'px';
                         }
 
-                        window.print();
-
-                        if(true) {
-                            let toDelete = document.getElementsByClassName('pageToPrint');
-                            while(toDelete.length > 0) {
-                                toDelete[0].parentNode.removeChild(toDelete[0]);
-                            }
+                        try {
+                            document.execCommand('print', false, null);
+                        }
+                        catch(e) {
+                            window.print();
                         }
                         callback();
                     } else {
+
                         addHTML(navs.slice(1), navs.length <= 2);
                         numPages++;
                     }
