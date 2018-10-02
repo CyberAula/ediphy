@@ -14,5 +14,6 @@ module.exports = {
         "message_mark_xy": "Ha introducido un valor incorrecto. Debe introducir dos números separados por coma. Ej. 4.56,90.76",
         "hyperlink": "Enlaza con",
         "link_placeholder": "http://...",
+        "allowDeformed": "Permitir deformar la imagen",
     },
 };

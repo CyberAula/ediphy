@@ -30,10 +30,14 @@ export function HotspotImages(base) {
                 );
             });
             let hyperlink = this.checkHyperlink(state.hyperlink);
+            let scale = state.scale || 1;
+            let translateX = (state.translate ? state.translate.x : 0) || 0;
+            let translateY = (state.translate ? state.translate.y : 0) || 0;
+            let transform = ` scale(${scale}) translate(${translateX}%,${translateY}%)`;
             return(
                 <div style={{ overflow: "hidden", height: "100%" }}>
                     <a href={hyperlink} target="_blank" style={{ pointerEvents: hyperlink ? "initial" : "none" }}>
-                        <img style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
+                        <img style={{ width: "100%", height: state.allowDeformed ? "100%" : "auto", transform }} src={state.url} onError={(e)=>{
                             e.target.onError = null;
                             e.target.src = img; // Ediphy.Config.broken_link;
                         }}/>

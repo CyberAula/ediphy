@@ -14,5 +14,6 @@ module.exports = {
         "message_mark_xy": "You've chosen an incorrect value. You must introduce two numbers separated by a comma. E.g. 4.56,90.76",
         "hyperlink": "Directs to",
         "link_placeholder": "http://...",
+        "allowDeformed": "Allow deformed image",
     },
 };
