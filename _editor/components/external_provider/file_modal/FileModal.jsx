@@ -90,7 +90,7 @@ export default class FileModal extends React.Component {
                                 {(this.state.element && handler && handler.buttons) ? handler.buttons.map((button, key)=>{
                                     return <Button bsStyle="primary" key={key} disabled={button.disabled} onClick={e => {
                                         button.action();
-                                    }}>{button.title}</Button>;
+                                    }}>{i18n.t("FileModal.FileHandlers.insert")}</Button>;
                                 }) : null}
                             </Modal.Footer>
                         </div>
