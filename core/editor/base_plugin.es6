@@ -119,9 +119,10 @@ export default function() {
                 if (!state.__text) {
                     state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
                 }
-                state.__text = getCKEDITORAdaptedContent(state.__text);
+                state.__text = (getCKEDITORAdaptedContent(state.__text));
+                console.log(descendant);
                 if (!descendant.getRenderTemplate) {
-                    descendant.getRenderTemplate = function(stateObj, { exercises: { correctAnswer: [] } }) {
+                    descendant.getRenderTemplate = function(stateObj /* , { exercises: { correctAnswer: [] } }*/) {
                         return stateObj.__text;
                     };
                 }
@@ -273,6 +274,11 @@ export default function() {
             };
         },
         getRenderTemplate: function(render_state, props) {
+            if (!descendant.getRenderTemplate) {
+                descendant.getRenderTemplate = function(stateObj, props /* , { exercises: { correctAnswer: [] } }*/) {
+                    return stateObj.__text;
+                };
+            }
             return descendant.getRenderTemplate(render_state, props);
         },
         getToolbar: function(toolbarState) {

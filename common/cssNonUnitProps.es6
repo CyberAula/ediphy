@@ -40,4 +40,5 @@ export const isUnitlessNumber = [
     "strokeMiterlimit",
     "strokeOpacity",
     "strokeWidth",
+
 ];
