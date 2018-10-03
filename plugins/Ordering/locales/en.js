@@ -2,7 +2,7 @@ module.exports = {
     "Ordering": {
         "PluginName": "Ordering",
         "content_box_name": "Content ",
-        "Statement": "This is a Multiple Choice question with a single correct answer. You can write here the question statement",
+        "Statement": "This is an orderinf exercise. You must write the answers in the correct order. They will appear in a random order when answering. In this space you may write a question statement.",
         "Question": "Question",
         "Answer": "Answer",
         "Feedback": "Feedback",
