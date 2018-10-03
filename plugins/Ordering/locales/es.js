@@ -2,7 +2,7 @@ module.exports = {
     "Ordering": {
         "PluginName": "Ordenar",
         "content_box_name": "Contenedor  ",
-        "Statement": "Esta es una pregunta con varias opciones para responder. Sólo una puede ser correcta. Puedes escribir aquí el enunciado de la pregunta",
+        "Statement": "Esta es una pregunta de ordenación. Escribe las respuestas en el orden correcto. A la hora de responder aparecerán en orden aleatorio. En este espacio puedes escribir el enunciado de la pregunta.",
         "Question": "Pregunta",
         "Feedback": "Explicación",
         "FeedbackMsg": "Aquí puedes incluir una explicación acerca de la respuesta. Puedes desactivar esta opción en la barra de herramientas.",
