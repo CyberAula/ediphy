@@ -136,9 +136,9 @@ export function TrueFalse(base) {
                 };
                 answers.push(<div key={i + 1} className={"row answerRow"}>
                     <div className={"col-xs-2 answerPlaceholder"}>
-                        <input type="radio" className="radioQuiz" name={props.id + "_" + i} value={"true"} checked={props.exercises && props.exercises.correctAnswer[i] === "true" /* ? 'checked' : 'unchecked'*/ }
+                        <input type="radio" className="radioQuiz" name={props.id + "_" + i} value={"true"} checked={props.exercises && props.exercises.correctAnswer[i] === "true" || props.exercises && props.exercises.correctAnswer[i] === true /* ? 'checked' : 'unchecked'*/ }
                             onChange={()=>{clickHandler(i, "true");}} />
-                        <input type="radio" className="radioQuiz" name={props.id + "_" + i} value={"false"} checked={props.exercises && props.exercises.correctAnswer[i] === "false" /* ? 'checked' : 'unchecked'*/ }
+                        <input type="radio" className="radioQuiz" name={props.id + "_" + i} value={"false"} checked={props.exercises && props.exercises.correctAnswer[i] === "false" || props.exercises && props.exercises.correctAnswer[i] === false/* ? 'checked' : 'unchecked'*/ }
                             onChange={()=>{clickHandler(i, "false");}} />
                     </div>
                     <div className={"col-xs-10"}>
