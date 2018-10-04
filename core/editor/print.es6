@@ -46,6 +46,7 @@ export default function printToPDF(state, callback) {
     let firstElementPage = true;
     let forcePageBreak = false;
 
+    let elemsUsed = 0;
     addHTML = function(navs, last) {
 
         let elementClass;
@@ -97,26 +98,30 @@ export default function printToPDF(state, callback) {
                 viewport.height = expectedHeight;
                 expectedWidth = expectedHeight * customAspectRatio;
                 viewport.width = expectedWidth;
+                elemsUsed = -1;
                 console.log('Doc expected height: ' + expectedHeight);
                 console.log('Doc expected width: ' + expectedWidth);
-            } else if (customAspectRatio >= 0.8 < 1) {
+            } else if ((customAspectRatio >= 0.8) && (customAspectRatio < 1)) {
                 elementClass = elementClass + " portraitDoc widthLimited";
                 expectedWidth = 700;
                 viewport.width = expectedWidth;
                 expectedHeight = expectedWidth / customAspectRatio;
                 viewport.height = expectedHeight;
+                elemsUsed = -1;
                 console.log('Doc expected height: ' + expectedHeight);
                 console.log('Doc expected width: ' + expectedWidth);
-            } else if (customAspectRatio >= 1 < (1 / A4_RATIO)) {
+            } else if ((customAspectRatio >= 1) && (customAspectRatio < (1 / A4_RATIO))) {
                 elementClass = elementClass + " landscapeDoc heightLimited";
-                let expectedHeight = 980 / 2;
+
+                let expectedHeight = 960 / 2;
                 console.log('Doc expected height: ' + expectedHeight);
                 viewport.height = expectedHeight;
                 expectedWidth = expectedHeight * customAspectRatio;
                 console.log('Doc expected width: ' + expectedWidth);
                 viewport.width = expectedWidth;
 
-            } else {
+            } else if (customAspectRatio > (1 / A4_RATIO)) {
+
                 elementClass = elementClass + " landscapeDoc widthLimited";
                 expectedWidth = 700;
                 viewport.width = expectedWidth;
@@ -127,11 +132,12 @@ export default function printToPDF(state, callback) {
             }
         } else {
             firstElementPage = true;
+            /*
             if (((slideCounter % 2) === 0) && (slidesPerPage === 2)) {
                 elementClass = elementClass + " upOnPage";
             } else {
                 elementClass = elementClass + " breakPage";
-            }
+            }*/
         }
 
         let i = notSections.length - navs.length;
@@ -166,10 +172,17 @@ export default function printToPDF(state, callback) {
                 elementClass = elementClass + " importedDoc";
             } else {
                 elementClass = elementClass + " otherDoc";
+                elemsUsed = -1;
             }
             slideCounter = 0;
             break;
         }
+
+        let upOrDownSlide = (elemsUsed % slidesPerPage === 0) ? "upOnPage" : "breakPage";
+
+        elementClass = elementClass + " " + upOrDownSlide;
+
+        elemsUsed++;
 
         pageContainer.className = elementClass;
 
@@ -185,6 +198,7 @@ export default function printToPDF(state, callback) {
             }, exercises: exercises[currentView],
             expectedWidth: expectedWidth,
         };
+        console.log('El expectedWidth del container ' + i + ' es ' + expectedWidth);
         let visorContent = !isCV ? (<VisorCanvas {...props} fromPDF />) : (<VisorContainedCanvas {...props} fromPDF/>);
         let app = (<div id="page-content-wrapper" className={slideClass + " page-content-wrapper printApp"}
             style={{ height: '100%', backgroundColor: 'white' }}>
@@ -222,7 +236,7 @@ export default function printToPDF(state, callback) {
                         addHTML(navs.slice(1), navs.length <= 2);
                         numPages++;
                     }
-                }, 500);
+                }, 55);
         });
 
     };

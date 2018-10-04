@@ -267,6 +267,7 @@ input[type="radio"]{
 
 @media print {
 
+
     @page {
         size: A4;
         margin: 1cm;
@@ -310,7 +311,7 @@ input[type="radio"]{
     }
 
     .pageEnd {
-        //page-break-after: always;
+        page-break-after: always;
     }
 
 
@@ -326,6 +327,8 @@ input[type="radio"]{
     .importedDoc {
         margin: 0 auto;
         margin-top: 0.5cm;
+
+        overflow: hidden;
 
         border: 1px solid black; //OJO el borde quita espacio interior, puede afectar a la disposicion de texto pequeño.
         page-break-inside: avoid;
