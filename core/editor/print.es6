@@ -93,7 +93,7 @@ export default function printToPDF(state, callback) {
             console.log('Custom aspect ratio is: ' + customAspectRatio);
 
             if (customAspectRatio < 0.8) {
-                elementClass = elementClass + " portraitDoc heightLimited";
+                elementClass = elementClass + " portraitDoc heightLimited upOnPage";
                 expectedHeight = 1000;
                 viewport.height = expectedHeight;
                 expectedWidth = expectedHeight * customAspectRatio;
@@ -102,7 +102,7 @@ export default function printToPDF(state, callback) {
                 console.log('Doc expected height: ' + expectedHeight);
                 console.log('Doc expected width: ' + expectedWidth);
             } else if ((customAspectRatio >= 0.8) && (customAspectRatio < 1)) {
-                elementClass = elementClass + " portraitDoc widthLimited";
+                elementClass = elementClass + " portraitDoc widthLimited upOnPage";
                 expectedWidth = 700;
                 viewport.width = expectedWidth;
                 expectedHeight = expectedWidth / customAspectRatio;
