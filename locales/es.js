@@ -411,6 +411,7 @@ let es = {
         "Score_feedback": "Tu puntuación es",
         "SCORM Explanation": "Un paquete SCORM es un conjunto de archivos que se empaquetan conforme a un estándar para objetos de aprendizaje. Los paquetes SCORM son ficheros zip que pueden ser integrados en cualquier plataforma de aprendizaje que soporte el estándar (Moodle, Blackboard, …) y que pueden ser utilizados para la presentación de contenidos multimedia y como herramientas de evaluación. Por tanto, puedes integrar este documento en Moodle y otras plataformas de aprendizaje descargándolo como SCORM.",
         "HTML Explanation": "Esta opción exporta un paquete .zip que contiene dos carpetas: una con el archivo index.html del documento, que podrás abrir en cualquier navegador, y otra con los recursos necesarios para su correcta previsualización.",
+        "PDF Explanation": "This option gjcgdschgdhgdhjbdbsdbdbcdbhjc bsdbhdh dbhjsdsdhj dsbcdjdj hsbdbsdbhj sdbhbschbc sdch",
         "Search_in_ViSH": "Buscar en ViSH",
         "Searching": "Buscando...",
         "section": "Sección",

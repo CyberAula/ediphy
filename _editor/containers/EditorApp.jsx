@@ -175,11 +175,11 @@ class EditorApp extends Component {
                         publishing={() =>this.setState({ publishing: true })}
                         openExitModal={()=>this.setState({ showExitModal: true })}
                         openTour={()=>{this.setState({ showHelpButton: true });}}
-                        export={(format, callback, selfContained = false) => {
+                        export={(format, callback, options = false) => {
                             if(format === "PDF") {
-                                printToPDF(this.props.store.getState().undoGroup.present, callback);
+                                printToPDF(this.props.store.getState().undoGroup.present, callback, options);
                             } else {
-                                Ediphy.Visor.exportsHTML({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback, selfContained);
+                                Ediphy.Visor.exportsHTML({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback, options);
                             }}}
                         scorm={(is2004, callback, selfContained = false) => {Ediphy.Visor.exportScorm({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded, status: this.props.store.getState().status }, is2004, callback, selfContained);}}
                         save={(win) => {dispatch(exportStateAsync({ ...this.props.store.getState() }, win)); }}

@@ -17,6 +17,7 @@ export default class ExportModal extends Component {
             showLoader: false,
             selfContained: false,
             showAlert: false,
+            forcePageBreak: false,
         };
     }
 
@@ -38,7 +39,7 @@ export default class ExportModal extends Component {
             { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false, callback, this.state.selfContained); } },
             { format: "SCORM 2004", handler: ()=> {this.props.scorm(true, callback, this.state.selfContained); } },
             { format: "HTML", handler: ()=> {this.props.export('HTML', callback, this.state.selfContained); } },
-            { format: "PDF", formatRender: <span>PDF <sub className={"betaSub"}>BETA</sub></span>, handler: ()=> { this.props.export('PDF', callback, this.state.selfContained);} },
+            { format: "PDF", formatRender: <span>PDF <sub className={"betaSub"}>BETA</sub></span>, handler: ()=> { this.props.export('PDF', callback, this.state);} },
         ];
         return (
             <Modal className="pageModal exportoScormModalBody"
@@ -68,21 +69,26 @@ export default class ExportModal extends Component {
                                                 {format.formatRender || format.format}<br/>
                                             </Radio>);
                                         })}
-
                                     </FormGroup>
                                 </Col>
                                 <Col xs={12} md={12}>
                                     <div className={"explanation"}>
                                         {this.state.format <= 1 ? i18n.t("SCORM Explanation") : null}
                                         {this.state.format === 2 ? i18n.t("HTML Explanation") : null}
+                                        {this.state.format === 3 ? i18n.t("PDF Explanation") : null}
                                     </div>
                                 </Col>
                                 <Col xs={12} className={"explanation"}>
-                                    {this.state.format !== 3 ? <div className={"selfContained"}>
-                                        <div><ToggleSwitch onChange={()=>{this.setState({ selfContained: !this.state.selfContained });}} checked={this.state.selfContained}/></div>
-                                        <div>{i18n.t('messages.selfContained')}</div></div> : null}
-                                </Col>
+                                    {this.state.format !== 3 ?
 
+                                        <div className={"selfContained"}>
+                                            <div><ToggleSwitch onChange={()=>{this.setState({ selfContained: !this.state.selfContained });}} checked={this.state.selfContained}/></div>
+                                            <div>{i18n.t('messages.selfContained')}</div></div> :
+
+                                        <div className={"selfContained"}>
+                                            <div><ToggleSwitch onChange={()=>{this.setState({ forcePageBreak: !this.state.forcePageBreak });}} checked={this.state.forcePageBreak}/></div>
+                                            <div>Quiero que los documentos importados comiencen siempre en una página nueva.</div></div>}
+                                </Col>
                             </Row>
                         </form>
                     </Grid>

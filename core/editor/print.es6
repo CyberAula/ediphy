@@ -11,7 +11,9 @@ import ReactResizeDetector from 'react-resize-detector';
 
 window.html2canvas = html2canvas;
 
-export default function printToPDF(state, callback) {
+export default function printToPDF(state, callback, options = { forcePageBreak: false, slidesPerPage: 2 }) {
+
+    console.log(options);
     if (!jsPDF) {
         callback(true);
         return;
@@ -44,8 +46,8 @@ export default function printToPDF(state, callback) {
 
     let slideCounter = 0;
     let firstElementPage = true;
-    let forcePageBreak = false;
-
+    let forcePageBreak = options.forcePageBreak || false;
+    let slidesPerPage = options.slidesPerPage || 2;
     let elemsUsed = 0;
     let firstPage = true;
 
@@ -55,13 +57,11 @@ export default function printToPDF(state, callback) {
 
     addHTML = function(navs, last) {
 
-        let elementClass;
+        let elementClass = "pageToPrint";
         let requiresFullPage = false;
         let currentView = navs[0];
         let slide = ((isCV && isSlide(containedViews[currentView].type)) ||
             (!isCV && isSlide(navItems[currentView].type)));
-
-        let slidesPerPage = 2;
 
         switch(slidesPerPage) {
         case 1:
@@ -84,8 +84,6 @@ export default function printToPDF(state, callback) {
 
         let slideClass = slide ? "pwc_slide" : "pwc_doc";
 
-        elementClass = "pageToPrint";
-
         let viewport = slide ? { width: SLIDE_BASE, height: SLIDE_BASE / canvasRatio } : {
             width: DOC_BASE,
             height: "auto",
@@ -98,10 +96,10 @@ export default function printToPDF(state, callback) {
             if(firstElementPage && forcePageBreak) {
                 elementClass = elementClass + " upOnPage";
                 firstElementPage = false;
+                elemsUsed = 0;
             }
             viewport = navItems[currentView].customSize;
             customAspectRatio = viewport.width / viewport.height;
-
             if (customAspectRatio < 0.8) {
                 elementClass = elementClass + " portraitDoc heightLimited upOnPage";
                 requiresFullPage = true;
@@ -120,14 +118,11 @@ export default function printToPDF(state, callback) {
                 elemsUsed = -1;
             } else if ((customAspectRatio >= 1) && (customAspectRatio < (1 / A4_RATIO))) {
                 elementClass = elementClass + " pageContainer landscapeDoc heightLimited";
-
                 expectedHeight = isSafari ? SAFARI_HEIGHT / 2 : CHROME_HEIGHT / 2;
                 viewport.height = expectedHeight;
                 expectedWidth = expectedHeight * customAspectRatio;
                 viewport.width = expectedWidth;
-
             } else if (customAspectRatio > (1 / A4_RATIO)) {
-
                 elementClass = elementClass + " pageContainer landscapeDoc widthLimited";
                 expectedWidth = 700;
                 viewport.width = expectedWidth;
@@ -151,8 +146,7 @@ export default function printToPDF(state, callback) {
         document.body.appendChild(pageContainer);
 
         // Asigno la anchura y altura del div dependiendo si es page o slide
-        pageContainer.style.width = '700px';
-        // width for chrome 522.5
+        pageContainer.style.width = DOC_BASE + 'px';
         pageContainer.style.height = (slide && !requiresFullPage) ? ((isSafari) ? SAFARI_HEIGHT / 2 + 'px' : CHROME_HEIGHT / 2 + 'px') : 'auto';
         pageContainer.id = "pageContainer_" + i;
 
@@ -181,7 +175,6 @@ export default function printToPDF(state, callback) {
         firstPage = false;
 
         elementClass = elementClass + " " + upOrDownSlide;
-
         elemsUsed++;
 
         pageContainer.className = elementClass;
@@ -198,8 +191,6 @@ export default function printToPDF(state, callback) {
             }, exercises: exercises[currentView],
             expectedWidth: expectedWidth,
         };
-        console.log('El expectedWidth del container ' + i + ' es ' + expectedWidth);
-        console.log('El expectedHeight del container ' + i + ' es ' + expectedHeight);
 
         let visorContent = !isCV ? (<VisorCanvas {...props} fromPDF />) : (<VisorContainedCanvas {...props} fromPDF/>);
         let app = (<div id="page-content-wrapper" className={slideClass + " page-content-wrapper printApp"}
@@ -211,7 +202,6 @@ export default function printToPDF(state, callback) {
                     </Col>
                 </Row>
             </Grid>
-
         </div>);
 
         ReactDOM.render((app), pageContainer, (a) => {
@@ -219,23 +209,18 @@ export default function printToPDF(state, callback) {
                 () => {
 
                     if(last) {
-
                         for(let i = 0; i <= numPages; i++) {
                             let actualHeight = document.getElementById('pageContainer_' + i).clientHeight;
                             document.getElementById('pageContainer_' + i).style.height = actualHeight + 'px';
                         }
-
                         window.print();
-
                         callback();
                     } else {
-
                         addHTML(navs.slice(1), navs.length <= 2);
                         numPages++;
                     }
                 }, 55);
         });
-
     };
     if(notSections.length > 0) {
         addHTML(notSections, notSections.length === 1);
