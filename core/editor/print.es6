@@ -47,9 +47,16 @@ export default function printToPDF(state, callback) {
     let forcePageBreak = false;
 
     let elemsUsed = 0;
+    let firstPage = true;
+
+    let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
+    const SAFARI_HEIGHT = 977.8;
+    const CHROME_HEIGHT = 1000;
+
     addHTML = function(navs, last) {
 
         let elementClass;
+        let requiresFullPage = false;
         let currentView = navs[0];
         let slide = ((isCV && isSlide(containedViews[currentView].type)) ||
             (!isCV && isSlide(navItems[currentView].type)));
@@ -62,8 +69,12 @@ export default function printToPDF(state, callback) {
         case 2:
             if (canvasRatio === 4 / 3) {
                 SLIDE_BASE = 650;
+                expectedHeight = SLIDE_BASE / canvasRatio;
             } else if (canvasRatio === 16 / 9)
-            {SLIDE_BASE = 700;}
+            {
+                SLIDE_BASE = 700;
+                expectedHeight = SLIDE_BASE / canvasRatio;
+            }
             break;
         case 4:
             break;
@@ -90,54 +101,41 @@ export default function printToPDF(state, callback) {
             }
             viewport = navItems[currentView].customSize;
             customAspectRatio = viewport.width / viewport.height;
-            console.log('Custom aspect ratio is: ' + customAspectRatio);
 
             if (customAspectRatio < 0.8) {
                 elementClass = elementClass + " portraitDoc heightLimited upOnPage";
-                expectedHeight = 1000;
+                requiresFullPage = true;
+                expectedHeight = isSafari ? SAFARI_HEIGHT : CHROME_HEIGHT;
                 viewport.height = expectedHeight;
                 expectedWidth = expectedHeight * customAspectRatio;
                 viewport.width = expectedWidth;
                 elemsUsed = -1;
-                console.log('Doc expected height: ' + expectedHeight);
-                console.log('Doc expected width: ' + expectedWidth);
             } else if ((customAspectRatio >= 0.8) && (customAspectRatio < 1)) {
                 elementClass = elementClass + " portraitDoc widthLimited upOnPage";
+                requiresFullPage = true;
                 expectedWidth = 700;
                 viewport.width = expectedWidth;
                 expectedHeight = expectedWidth / customAspectRatio;
                 viewport.height = expectedHeight;
                 elemsUsed = -1;
-                console.log('Doc expected height: ' + expectedHeight);
-                console.log('Doc expected width: ' + expectedWidth);
             } else if ((customAspectRatio >= 1) && (customAspectRatio < (1 / A4_RATIO))) {
-                elementClass = elementClass + " landscapeDoc heightLimited";
+                elementClass = elementClass + " pageContainer landscapeDoc heightLimited";
 
-                let expectedHeight = 960 / 2;
-                console.log('Doc expected height: ' + expectedHeight);
+                expectedHeight = isSafari ? SAFARI_HEIGHT / 2 : CHROME_HEIGHT / 2;
                 viewport.height = expectedHeight;
                 expectedWidth = expectedHeight * customAspectRatio;
-                console.log('Doc expected width: ' + expectedWidth);
                 viewport.width = expectedWidth;
 
             } else if (customAspectRatio > (1 / A4_RATIO)) {
 
-                elementClass = elementClass + " landscapeDoc widthLimited";
+                elementClass = elementClass + " pageContainer landscapeDoc widthLimited";
                 expectedWidth = 700;
                 viewport.width = expectedWidth;
                 expectedHeight = expectedWidth / customAspectRatio;
                 viewport.height = expectedHeight;
-                console.log('Doc expected height: ' + expectedHeight);
-                console.log('Doc expected width: ' + expectedWidth);
             }
         } else {
             firstElementPage = true;
-            /*
-            if (((slideCounter % 2) === 0) && (slidesPerPage === 2)) {
-                elementClass = elementClass + " upOnPage";
-            } else {
-                elementClass = elementClass + " breakPage";
-            }*/
         }
 
         let i = notSections.length - navs.length;
@@ -153,18 +151,19 @@ export default function printToPDF(state, callback) {
         document.body.appendChild(pageContainer);
 
         // Asigno la anchura y altura del div dependiendo si es page o slide
-        pageContainer.style.width = viewport.width + 'px';
-        pageContainer.style.height = slide ? (viewport.height + 'px') : 'auto';
+        pageContainer.style.width = '700px';
+        // width for chrome 522.5
+        pageContainer.style.height = (slide && !requiresFullPage) ? ((isSafari) ? SAFARI_HEIGHT / 2 + 'px' : CHROME_HEIGHT / 2 + 'px') : 'auto';
         pageContainer.id = "pageContainer_" + i;
 
         // Añado clase según tipo de slide/documento
         switch (viewport.height) {
         case SLIDE_BASE * 3 / 4:
-            elementClass = elementClass + " slide43";
+            elementClass = elementClass + " pageContainer slide43";
             slideCounter++;
             break;
         case SLIDE_BASE * 9 / 16:
-            elementClass = elementClass + " slide169";
+            elementClass = elementClass + " pageContainer slide169";
             slideCounter++;
             break;
         default:
@@ -178,7 +177,8 @@ export default function printToPDF(state, callback) {
             break;
         }
 
-        let upOrDownSlide = (elemsUsed % slidesPerPage === 0) ? "upOnPage" : "breakPage";
+        let upOrDownSlide = (elemsUsed % slidesPerPage === 0) ? (firstPage ? "" : "upOnPage") : "breakPage";
+        firstPage = false;
 
         elementClass = elementClass + " " + upOrDownSlide;
 
@@ -199,9 +199,11 @@ export default function printToPDF(state, callback) {
             expectedWidth: expectedWidth,
         };
         console.log('El expectedWidth del container ' + i + ' es ' + expectedWidth);
+        console.log('El expectedHeight del container ' + i + ' es ' + expectedHeight);
+
         let visorContent = !isCV ? (<VisorCanvas {...props} fromPDF />) : (<VisorContainedCanvas {...props} fromPDF/>);
         let app = (<div id="page-content-wrapper" className={slideClass + " page-content-wrapper printApp"}
-            style={{ height: '100%', backgroundColor: 'white' }}>
+            style={{ width: slide ? expectedWidth : 'auto', height: slide ? expectedHeight : 'auto', backgroundColor: 'white' }}>
             <Grid fluid id="visorAppContent" style={{ height: '100%' }}>
                 <Row style={{ height: '100%' }}>
                     <Col lg={12} style={{ height: '100%', paddingLeft: 0, paddingRight: 0 }}>
@@ -220,16 +222,11 @@ export default function printToPDF(state, callback) {
 
                         for(let i = 0; i <= numPages; i++) {
                             let actualHeight = document.getElementById('pageContainer_' + i).clientHeight;
-                            console.log('La altura de pageConatiner_' + i + ' es ' + actualHeight);
                             document.getElementById('pageContainer_' + i).style.height = actualHeight + 'px';
                         }
 
-                        try {
-                            document.execCommand('print', false, null);
-                        }
-                        catch(e) {
-                            window.print();
-                        }
+                        window.print();
+
                         callback();
                     } else {
 
