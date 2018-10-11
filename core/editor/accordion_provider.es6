@@ -361,6 +361,7 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
             panel.parentNode.classList.remove("extendedPanel");
         },
         header: (
+
             <span key={'span' + key}>
                 <i className="toolbarIcons material-icons">
                     {accordion.icon ? accordion.icon : <span className="toolbarIcons"/>}

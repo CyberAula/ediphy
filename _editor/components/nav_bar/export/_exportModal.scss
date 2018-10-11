@@ -22,6 +22,17 @@
       margin: 20px 0;
       display: flex;
     }
+    .forcePageBreak{
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .pageTemplates{
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
   }
    .modal-body {
     font-size: 1em;
@@ -32,6 +43,11 @@
   }
   .betaSub {
     color: $blueprimary;
+  }
+
+  .slideRadio {
+    margin-left: 25px;
+    margin-right: 5px;
   }
 }
 

@@ -265,7 +265,7 @@ input[type="radio"]{
     }
 }*/
 
-@media print {
+/*@media print {
 
 
     @page {
@@ -360,6 +360,10 @@ input[type="radio"]{
         display: none;
     }
 
+    #navButtonTooltip{
+        display: none;
+    }
+
     #root {
         display: none;
     }
@@ -375,7 +379,7 @@ input[type="radio"]{
         display: none;
     }
 
-}
+}*/
 
 .material-icons.correct {
     font-size: 1.7em;

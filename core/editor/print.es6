@@ -1,24 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import VisorCanvas from '../../_visor/components/canvas/VisorCanvas';
+
 import VisorContainedCanvas from '../../_visor/components/canvas/VisorContainedCanvas';
-import { isSection, isContainedView, isSlide, isDocument } from '../../common/utils';
+import { isSection, isContainedView, isSlide } from '../../common/utils';
 import { Grid, Row, Col } from 'react-bootstrap';
 import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
-import { changeFontBase } from "../../common/common_tools";
-import ReactResizeDetector from 'react-resize-detector';
+import '../../sass/print.css';
 
 window.html2canvas = html2canvas;
 
-export default function printToPDF(state, callback, options = { forcePageBreak: false, slidesPerPage: 2 }) {
+export default function printToPDF(state, callback, options = { forcePageBreak: false, slidesPerPage: 2, slidesWithComments: false, optionName: "defaultOption", drawBorder: true }) {
 
-    console.log(options);
-    if (!jsPDF) {
-        callback(true);
-        return;
-    }
-    let navItemsIds = state.navItemsIds;
     let navItems = state.navItemsById;
     let boxes = state.boxesById;
     let containedViews = state.containedViewsById;
@@ -27,10 +20,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let globalConfig = state.globalConfig;
     let exercises = state.exercises;
     let title = globalConfig.title || 'Ediphy';
-    let author = globalConfig.author || 'Ediphy';
-    let keywords = globalConfig.keywords;
     let canvasRatio = globalConfig.canvasRatio;
-    let numPages = 0;
     let customAspectRatio = 0;
     let expectedWidth;
     let expectedHeight;
@@ -46,43 +36,165 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
     let slideCounter = 0;
     let firstElementPage = true;
-    let forcePageBreak = options.forcePageBreak || false;
-    let slidesPerPage = options.slidesPerPage || 2;
     let elemsUsed = 0;
     let firstPage = true;
+    let numPages = 0;
+
+    let forcePageBreak = options.forcePageBreak || false;
+    let slidesPerPage = options.slidesPerPage || 2;
+    let slidesWithComments = options.slidesWithComments || false;
+    let optionName = options.optionName || "defaultOption";
+    let drawBorder = options.drawBorder || true;
+
+    let hideDocs = false;
+    let hideSlides = false;
 
     let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
-    const SAFARI_HEIGHT = 977.8;
-    const CHROME_HEIGHT = 1000;
+    const SAFARI_HEIGHT = 1395;
+    const CHROME_HEIGHT = 1550;
+
+    let deletePageContainers = function() {
+        let toDelete = document.getElementsByClassName('pageToPrint');
+        while (toDelete.length > 0) {
+            toDelete[0].parentNode.removeChild(toDelete[0]);
+        }
+    };
 
     addHTML = function(navs, last) {
 
         let elementClass = "pageToPrint";
         let requiresFullPage = false;
         let currentView = navs[0];
+        let assignUpDown = true;
         let slide = ((isCV && isSlide(containedViews[currentView].type)) ||
             (!isCV && isSlide(navItems[currentView].type)));
-
-        switch(slidesPerPage) {
-        case 1:
-            break;
-        case 2:
+        console.log(optionName);
+        switch(optionName) {
+        case "fullSlideDoc":
+            slidesPerPage = 1;
+            DOC_BASE = 1550;
+            if (isSafari) {
+                DOC_BASE = 1000;
+            }
             if (canvasRatio === 4 / 3) {
-                SLIDE_BASE = 650;
+                SLIDE_BASE = 900;
                 expectedHeight = SLIDE_BASE / canvasRatio;
             } else if (canvasRatio === 16 / 9)
             {
-                SLIDE_BASE = 700;
+                SLIDE_BASE = 900;
                 expectedHeight = SLIDE_BASE / canvasRatio;
             }
             break;
-        case 4:
+        case "twoSlideDoc":
+            DOC_BASE = 999;
+            slidesPerPage = 2;
+            if(slide && navItems[currentView].customSize === 0) {
+                if (canvasRatio === 4 / 3) {
+                    SLIDE_BASE = 650;
+                    expectedHeight = SLIDE_BASE / canvasRatio;
+                    navItems[currentView].customSize = {
+                        height: expectedHeight * 0.95,
+                        width: expectedHeight * canvasRatio * 0.95,
+                    };
+
+                } else if (canvasRatio === 16 / 9)
+                {
+                    SLIDE_BASE = 700;
+                    expectedHeight = SLIDE_BASE / canvasRatio;
+                    navItems[currentView].customSize = {
+                        height: expectedHeight,
+                        width: expectedHeight * canvasRatio,
+                    };
+
+                }
+            }
+
             break;
-        default:
+        case "fourSlideDoc":
+            // TO DO
+            slidesPerPage = 4;
             break;
+        case "fullSlide":
+            hideDocs = true;
+            slidesPerPage = 1;
+            DOC_BASE = 1550;
+            if (isSafari) {
+                DOC_BASE = 1000;
+            }
+            if (canvasRatio === 4 / 3) {
+                SLIDE_BASE = 900;
+                expectedHeight = SLIDE_BASE / canvasRatio;
+            } else if (canvasRatio === 16 / 9)
+            {
+                SLIDE_BASE = 900;
+                expectedHeight = SLIDE_BASE / canvasRatio;
+            }
+            break;
+        case "twoSlide":
+            hideDocs = true;
+            DOC_BASE = 999;
+            slidesPerPage = 2;
+            if(slide && navItems[currentView].customSize === 0) {
+                if (canvasRatio === 4 / 3) {
+                    SLIDE_BASE = 650;
+                    expectedHeight = SLIDE_BASE / canvasRatio;
+                    navItems[currentView].customSize = {
+                        height: expectedHeight * 0.95,
+                        width: expectedHeight * canvasRatio * 0.95,
+                    };
+
+                } else if (canvasRatio === 16 / 9)
+                {
+                    SLIDE_BASE = 700;
+                    expectedHeight = SLIDE_BASE / canvasRatio;
+                    navItems[currentView].customSize = {
+                        height: expectedHeight,
+                        width: expectedHeight * canvasRatio,
+                    };
+
+                }
+            }
+            break;
+        case "slideComments":
+            hideDocs = true;
+            DOC_BASE = 999;
+            slidesPerPage = 2;
+            if(slide && navItems[currentView].customSize === 0) {
+                if (canvasRatio === 4 / 3) {
+                    SLIDE_BASE = 650;
+                    expectedHeight = SLIDE_BASE / canvasRatio;
+                    navItems[currentView].customSize = {
+                        height: expectedHeight * 0.95,
+                        width: expectedHeight * canvasRatio * 0.95,
+                    };
+
+                } else if (canvasRatio === 16 / 9)
+                {
+                    SLIDE_BASE = 700;
+                    expectedHeight = SLIDE_BASE / canvasRatio;
+                    navItems[currentView].customSize = {
+                        height: expectedHeight,
+                        width: expectedHeight * canvasRatio,
+                    };
+                }
+            }
+            break;
+        case "fourSlide":
+            slidesPerPage = 4;
+            hideDocs = true;
+            break;
+        case "fullDoc":
+            hideSlides = true;
+            slidesPerPage = 1;
+            break;
+        case "twoDoc":
+            slidesPerPage = 2;
+            hideSlides = true;
+            break;
+
         }
 
-        let slideClass = slide ? "pwc_slide" : "pwc_doc";
+        let slideClass = slide ? (drawBorder ? "pwc_slide drawBorders" : "pwc_slide") : "pwc_doc";
 
         let viewport = slide ? { width: SLIDE_BASE, height: SLIDE_BASE / canvasRatio } : {
             width: DOC_BASE,
@@ -91,16 +203,25 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
         expectedWidth = viewport.width;
 
+        if (hideSlides && slide) {
+            elementClass = elementClass + " not_show";
+        }
+
         // Caso de que sea un documento importado
         if (slide && navItems[currentView] && navItems[currentView].customSize) {
+            console.log('lo trato como elemento importado');
             if(firstElementPage && forcePageBreak) {
                 elementClass = elementClass + " upOnPage";
                 firstElementPage = false;
                 elemsUsed = 0;
+                console.log('elems used after firstelementpage: ' + elemsUsed);
             }
             viewport = navItems[currentView].customSize;
             customAspectRatio = viewport.width / viewport.height;
-            if (customAspectRatio < 0.8) {
+
+            console.log('custom aspect ratio is : ' + customAspectRatio);
+
+            if (customAspectRatio < 0.7) {
                 elementClass = elementClass + " portraitDoc heightLimited upOnPage";
                 requiresFullPage = true;
                 expectedHeight = isSafari ? SAFARI_HEIGHT : CHROME_HEIGHT;
@@ -108,10 +229,10 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 expectedWidth = expectedHeight * customAspectRatio;
                 viewport.width = expectedWidth;
                 elemsUsed = -1;
-            } else if ((customAspectRatio >= 0.8) && (customAspectRatio < 1)) {
+            } else if ((customAspectRatio >= 0.7) && (customAspectRatio < 1)) {
                 elementClass = elementClass + " portraitDoc widthLimited upOnPage";
                 requiresFullPage = true;
-                expectedWidth = 700;
+                expectedWidth = DOC_BASE;
                 viewport.width = expectedWidth;
                 expectedHeight = expectedWidth / customAspectRatio;
                 viewport.height = expectedHeight;
@@ -122,9 +243,17 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 viewport.height = expectedHeight;
                 expectedWidth = expectedHeight * customAspectRatio;
                 viewport.width = expectedWidth;
+
+                if(customAspectRatio === (4 / 3)) {
+                    expectedHeight = isSafari ? SAFARI_HEIGHT / 2 * 0.95 : CHROME_HEIGHT / 2 * 0.95;
+                    viewport.height = expectedHeight;
+                    expectedWidth = expectedHeight * customAspectRatio;
+                    viewport.width = expectedWidth;
+                }
+
             } else if (customAspectRatio > (1 / A4_RATIO)) {
                 elementClass = elementClass + " pageContainer landscapeDoc widthLimited";
-                expectedWidth = 700;
+                expectedWidth = DOC_BASE;
                 viewport.width = expectedWidth;
                 expectedHeight = expectedWidth / customAspectRatio;
                 viewport.height = expectedHeight;
@@ -134,11 +263,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         }
 
         let i = notSections.length - navs.length;
-        // Borro div creado anteriormente
-        let toDelete = document.getElementById('pageContainer_' + i);
-        if(toDelete) {
-            toDelete.parentNode.removeChild(toDelete);
-        }
 
         // Me creo un div para la página
         let pageContainer = document.createElement('div');
@@ -148,6 +272,13 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         // Asigno la anchura y altura del div dependiendo si es page o slide
         pageContainer.style.width = DOC_BASE + 'px';
         pageContainer.style.height = (slide && !requiresFullPage) ? ((isSafari) ? SAFARI_HEIGHT / 2 + 'px' : CHROME_HEIGHT / 2 + 'px') : 'auto';
+
+        if (slidesPerPage === 1) {
+            pageContainer.style.height = '975px';
+            if(isSafari) {
+                pageContainer.style.height = '670px';
+            }
+        }
         pageContainer.id = "pageContainer_" + i;
 
         // Añado clase según tipo de slide/documento
@@ -160,24 +291,64 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             elementClass = elementClass + " pageContainer slide169";
             slideCounter++;
             break;
-        default:
+        default: // Se trata de un documento importado o A4
             if (navItems[currentView].customSize) {
                 elementClass = elementClass + " importedDoc";
             } else {
                 elementClass = elementClass + " otherDoc";
-                elemsUsed = -1;
+                if(hideDocs) {
+                    elementClass = elementClass + " not_show";
+                    if(true) {
+                        assignUpDown = false;
+                        elemsUsed--;
+                    }
+                }
+                else{
+                    elemsUsed = -1;
+                }
             }
             slideCounter = 0;
             break;
         }
-
-        let upOrDownSlide = (elemsUsed % slidesPerPage === 0) ? (firstPage ? "" : "upOnPage") : "breakPage";
+        console.log('elemsUssed: ' + elemsUsed);
+        let upOrDownSlide;
+        if(!slidesWithComments && assignUpDown) {
+            upOrDownSlide = (elemsUsed % slidesPerPage === 0) ? (firstPage ? "" : "upOnPage") : "breakPage";
+            console.log('UpOrDownSlide:  ' + upOrDownSlide);
+        }
+        if (slidesWithComments && slide) {
+            let pageContainerComments = document.createElement('div');
+            pageContainerComments.id = 'containerComments_' + i;
+            document.body.appendChild(pageContainerComments);
+            console.log('He añadido un container de comments');
+            pageContainerComments.style.height = pageContainer.style.height;
+            pageContainerComments.style.width = pageContainer.style.width;
+            pageContainerComments.style.pageBreakAfter = "always";
+            pageContainerComments.className = "pageToPrint comment_box";
+        }
         firstPage = false;
 
-        elementClass = elementClass + " " + upOrDownSlide;
+        if(assignUpDown) {
+            elementClass = elementClass + " " + upOrDownSlide;
+
+        }
         elemsUsed++;
 
+        console.log('Elems used final : ' + elemsUsed);
+
         pageContainer.className = elementClass;
+
+        if(slidesPerPage === 1) {
+
+            if (canvasRatio > (1 / A4_RATIO)) {
+                expectedWidth = DOC_BASE;
+                expectedHeight = expectedWidth / canvasRatio;
+            } else {
+                expectedHeight = isSafari ? 670 * 0.95 : 975 * 0.95;
+                expectedWidth = expectedHeight * canvasRatio;
+            }
+            console.log('the canvas ratio is ' + canvasRatio + ' and the expected height is ' + expectedHeight + ' and the expected width is ' + expectedWidth);
+        }
 
         let isCV = isContainedView(currentView);
         let props = {
@@ -214,14 +385,21 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                             document.getElementById('pageContainer_' + i).style.height = actualHeight + 'px';
                         }
                         window.print();
+                        if(!isSafari) {
+                            deletePageContainers();
+                        }
                         callback();
                     } else {
                         addHTML(navs.slice(1), navs.length <= 2);
                         numPages++;
+
                     }
-                }, 55);
+                }, 500);
         });
     };
+    if(isSafari) {
+        deletePageContainers();
+    }
     if(notSections.length > 0) {
         addHTML(notSections, notSections.length === 1);
     }

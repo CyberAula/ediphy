@@ -1,0 +1,128 @@
+
+@media print {
+
+
+  @page {
+    size: A4 landscape portrait;
+    margin: 1cm;
+
+  }
+
+  .pageContainer {
+    margin: 0 auto;
+    /*border: 0.7px solid orange;*/
+    page-break-inside: avoid;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+
+  .pwc_slide {
+  }
+
+  .drawBorders {
+    border: 1px solid black;
+  }
+
+    .comment_box {
+        /*border: 1px dotted dimgrey;*/
+    }
+
+    .not_show {
+      display: none !important;
+    }
+
+
+  .slide169 {
+
+    page-break-inside: avoid;
+
+    display: flex;
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+
+  .slide43 {
+    margin: 0 auto;
+    //margin-top: 0.5cm;
+
+    page-break-inside: avoid;
+
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+
+  .upOnPage {
+    page-break-before: always;
+  }
+
+
+  .breakPage {
+    page-break-after: always;
+
+  }
+
+  .pageEnd {
+    page-break-after: always;
+  }
+
+
+  #canvas {
+    overflow-y: visible;
+  }
+
+  .otherDoc {
+    page-break-before: always;
+    page-break-after: always;
+  }
+
+  .importedDoc {
+    margin: 0 auto;
+    overflow: hidden;
+
+    page-break-inside: avoid;
+
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+
+  .navBar {
+    display: none;
+  }
+
+  .tooltip.top {
+    display: none;
+  }
+
+  #navButtonTooltip{
+    display: none;
+  }
+
+  #root {
+    display: none;
+  }
+  .pageModal{
+    display: none;
+  }
+
+  .modal-dialog{
+    display: none;
+  }
+
+  *[role="dialog"]{
+    display: none;
+  }
+
+}

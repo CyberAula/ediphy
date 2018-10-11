@@ -209,7 +209,7 @@ class EditorApp extends Component {
                         navItemSelected={navItemSelected}
                         displayMode={displayMode}
                         viewToolbars={viewToolbars}
-                        onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => {dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams));}}
+                        onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                         onIndexSelected={(id) => dispatch(selectIndex(id))}
                         onContainedViewNameChanged={(id, titleStr) => dispatch(updateViewToolbar(id, titleStr))}
                         onContainedViewSelected={ (id) => dispatch(selectContainedView(id)) }
@@ -223,7 +223,7 @@ class EditorApp extends Component {
                             dispatch(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
                         }}
                         onNavItemNameChanged={(id, titleStr) => dispatch(updateViewToolbar(id, titleStr))}
-                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
+                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => {dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id)); }}
                         onNavItemSelected={id => dispatch(selectNavItem(id))}
                         onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
                         onNavItemDuplicated={(id)=> { this.duplicateNavItem(id);}}
@@ -312,7 +312,7 @@ class EditorApp extends Component {
                                 onToolbarUpdated={this.toolbarUpdated}
                                 onRichMarkMoved={(mark, value)=>dispatch(moveRichMark(mark, value))}
                                 markCreatorId={this.state.markCreatorVisible}
-                                onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
+                                onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => {dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams)); document.body.scrollTo(0, 0);}}
                                 setCorrectAnswer={(id, correctAnswer, page) => { dispatch(setCorrectAnswer(id, correctAnswer, page));}}
                                 addMarkShortcut= {(mark) => {
                                     let state = JSON.parse(JSON.stringify(toolbars[boxSelected].state));

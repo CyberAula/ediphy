@@ -541,5 +541,44 @@ export const templates = () => { return (
             },
         ],
     },
+    {
+        "name": i18n.t('templates.template12'),
+        "boxes": [
+            {
+                "box": {
+                    "x": "5%",
+                    "y": "5%",
+                    "width": "90%",
+                    "height": "40%",
+                },
+                "toolbar": {
+                    "name": "BasicText",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                },
+                "thumbnail": {
+                    "icon": "",
+                    "icon_color": "",
+                    "color": "#B2B2B2",
+                },
+            },
+            {
+                "box": {
+                    "x": "5%",
+                    "y": "52%",
+                    "width": "90%",
+                    "height": "40%",
+                },
+                "toolbar": {
+                    "name": "BasicText",
+                    "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                },
+                "thumbnail": {
+                    "icon": "",
+                    "icon_color": "",
+                    "color": "#B2B2B2",
+                },
+            },
+        ],
+    },
     ]);
 };
