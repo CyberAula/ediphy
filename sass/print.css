@@ -3,7 +3,6 @@
 
 
   @page {
-    size: A4 landscape portrait;
     margin: 1cm;
 
   }
@@ -52,7 +51,6 @@
 
   .slide43 {
     margin: 0 auto;
-    //margin-top: 0.5cm;
 
     page-break-inside: avoid;
 
@@ -82,11 +80,20 @@
   }
 
   .otherDoc {
+    border: 1px solid black;
+
+    margin: 0 auto;
     page-break-before: always;
     page-break-after: always;
+
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
   }
 
   .importedDoc {
+
     margin: 0 auto;
     overflow: hidden;
 

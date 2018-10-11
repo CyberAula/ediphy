@@ -60,6 +60,20 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         }
     };
 
+    // Me permite indicar desde JS la orientación del PDF, solo funciona en Chrome
+    // https://stackoverflow.com/questions/11160260/can-javascript-change-the-value-of-page-css
+    let cssPagedMedia = (function() {
+        let style = document.createElement('style');
+        document.head.appendChild(style);
+        return function(rule) {
+            style.innerHTML = rule;
+        };
+    })();
+
+    cssPagedMedia.size = function(size) {
+        cssPagedMedia('@page {size: ' + size + '}');
+    };
+
     addHTML = function(navs, last) {
 
         let elementClass = "pageToPrint";
@@ -71,6 +85,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         console.log(optionName);
         switch(optionName) {
         case "fullSlideDoc":
+            cssPagedMedia.size('landscape');
             slidesPerPage = 1;
             DOC_BASE = 1550;
             if (isSafari) {
@@ -86,6 +101,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             }
             break;
         case "twoSlideDoc":
+            cssPagedMedia.size('portrait');
             DOC_BASE = 999;
             slidesPerPage = 2;
             if(slide && navItems[currentView].customSize === 0) {
@@ -278,6 +294,10 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             if(isSafari) {
                 pageContainer.style.height = '670px';
             }
+            if(!slide) {
+                console.log('Este elemento no es del tipo slide');
+                pageContainer.style.height = 'auto';
+            }
         }
         pageContainer.id = "pageContainer_" + i;
 
@@ -313,8 +333,9 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         console.log('elemsUssed: ' + elemsUsed);
         let upOrDownSlide;
         if(!slidesWithComments && assignUpDown) {
-            upOrDownSlide = (elemsUsed % slidesPerPage === 0) ? (firstPage ? "" : "upOnPage") : "breakPage";
-            console.log('UpOrDownSlide:  ' + upOrDownSlide);
+            console.log('[INFO] elemsUsed%slidesPerPage: ' + elemsUsed % slidesPerPage);
+            upOrDownSlide = (elemsUsed % slidesPerPage === 0) ? (firstPage ? "" : (slide) ? "upOnPage" : "breakPage") : "breakPage";
+            console.log('[INFO] UpOrDownSlide:  ' + upOrDownSlide);
         }
         if (slidesWithComments && slide) {
             let pageContainerComments = document.createElement('div');
@@ -382,14 +403,16 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                     if(last) {
                         for(let i = 0; i <= numPages; i++) {
                             let actualHeight = document.getElementById('pageContainer_' + i).clientHeight;
+                            console.log('Page height is :' + actualHeight);
                             document.getElementById('pageContainer_' + i).style.height = actualHeight + 'px';
                         }
                         window.print();
                         if(!isSafari) {
-                            deletePageContainers();
+                            // deletePageContainers();
                         }
                         callback();
                     } else {
+
                         addHTML(navs.slice(1), navs.length <= 2);
                         numPages++;
 

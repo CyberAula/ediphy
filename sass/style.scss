@@ -384,3 +384,13 @@ input[type="radio"]{
 .material-icons.correct {
     font-size: 1.7em;
 }
+
+.panel-group .panel{
+    border-radius: 0px;
+}
+
+.panel-heading {
+border-top-left-radius: 0px;
+border-top-right-radius: 0px;
+
+}
