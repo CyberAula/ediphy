@@ -9,7 +9,7 @@
 
   .pageContainer {
     margin: 0 auto;
-    border: 0.7px solid orange;
+    /*border: 0.7px solid orange;*/
     /*page-break-inside: avoid;*/
 
     display: flex;
@@ -80,7 +80,7 @@
   }
 
   .otherDoc {
-    border: 1px solid #cf1629;
+    /*border: 1px solid #cf1629;*/
 
     margin: 0 auto;
     page-break-before: always;

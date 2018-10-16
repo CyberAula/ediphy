@@ -60,7 +60,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         }
     };
 
-    // Me permite indicar desde JS la orientación del PDF, solo funciona en Chrome
+    // Me permite indicar desde JS la orientación del PDF, solo funciona en Chrome. El usuario en otros browsers tendrá que indicar landscape o portrait en el menú de impresión
     // https://stackoverflow.com/questions/11160260/can-javascript-change-the-value-of-page-css
     let cssPagedMedia = (function() {
         let style = document.createElement('style');
@@ -402,38 +402,42 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 () => {
 
                     let doc = document.getElementById('pageContainer_' + i);
-                    if (doc.className.includes('otherDoc')) {
-                        console.log('[INFO] This element is a page');
-                        let A4Height = isSafari ? SAFARI_HEIGHT : CHROME_HEIGHT;
-                        if (doc.clientHeight > A4Height) {
-                            console.log('Page exceeds A4 dimensions. Slicing document...');
-                            let numSlices = Math.ceil(doc.clientHeight / A4Height);
-                            console.log(numPages);
-                            for (let i = 0; i < numSlices; i++) {
-                                console.log('He entrado al for');
-                                let slice = document.createElement('div');
-                                slice = pageContainer.cloneNode(true);
-                                slice.id = pageContainer.id + '_slice_' + i;
-                                slice.style.height = '1000px';
-                                slice.style.width = A4Height + 'px';
-                                slice.style.overflow = 'hidden';
-                                if (optionName === "fullSlideDoc") {
+                    if (optionName == 'fullSlideDoc') {
+                        if (doc.className.includes('otherDoc')) {
+                            console.log('[INFO] This element is a page');
+                            let A4Height = isSafari ? SAFARI_HEIGHT : CHROME_HEIGHT;
+                            if (doc.clientHeight > A4Height) {
+                                console.log('Page exceeds A4 dimensions. Slicing document...');
+                                let numSlices = Math.ceil(doc.clientHeight / A4Height);
+                                console.log(numPages);
+                                for (let i = 0; i < numSlices; i++) {
+                                    console.log('He entrado al for');
+                                    let slice = document.createElement('div');
+                                    slice = pageContainer.cloneNode(true);
+                                    slice.id = pageContainer.id + '_slice_' + i;
+                                    slice.style.height = '1000px';
+                                    slice.style.width = A4Height + 'px';
+                                    slice.style.overflow = 'hidden';
+                                    if (optionName === "fullSlideDoc") {
 
-                                    slice.children[0].style.height = '1400px';
-                                    slice.children[0].style.width = '999px';
-                                    slice.children[0].style.transformOrigin = 'top left';
-                                    slice.children[0].style.transform = 'scale(0.5) rotate(-90deg) scale(2) translateX(-100%)';
+                                        slice.children[0].style.height = '1400px';
+                                        slice.children[0].style.width = '999px';
+                                        slice.children[0].style.transformOrigin = 'top left';
+                                        let translateX = 100 + 140 * i;
+                                        let translateY = 100 * i;
+                                        slice.children[0].style.transform = 'scale(0.5) rotate(-90deg) scale(2) translateX(-' + translateX + '%) translateY(-' + translateY + '%)';
 
-                                    // contentSlice.children[0].style.transformOrigin = 'top left';
-                                    // contentSlice.children[0].style.transform = 'rotate(-90deg) translateX(-999px)';
+                                        // contentSlice.children[0].style.transformOrigin = 'top left';
+                                        // contentSlice.children[0].style.transform = 'rotate(-90deg) translateX(-999px)';
+                                    }
+                                    slice.children[0].style.marginTop = '-' + A4Height * i + 'px';
+
+                                    document.body.appendChild(slice);
+
+                                    // document.getElementById(slice.id).style.height =  document.getElementById(slice.id).clientHeight + 'px';
                                 }
-                                slice.children[0].style.marginTop = '-' + A4Height * i + 'px';
-
-                                document.body.appendChild(slice);
-
-                                // document.getElementById(slice.id).style.height =  document.getElementById(slice.id).clientHeight + 'px';
+                                document.body.removeChild(document.getElementById(pageContainer.id));
                             }
-                            document.body.removeChild(document.getElementById(pageContainer.id));
                         }
                     }
 
