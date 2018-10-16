@@ -51,7 +51,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
     let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
     const SAFARI_HEIGHT = 1395;
-    const CHROME_HEIGHT = 1550;
+    const CHROME_HEIGHT = 1400;
 
     let deletePageContainers = function() {
         let toDelete = document.getElementsByClassName('pageToPrint');
@@ -368,6 +368,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 expectedHeight = isSafari ? 670 * 0.95 : 975 * 0.95;
                 expectedWidth = expectedHeight * canvasRatio;
             }
+
             console.log('the canvas ratio is ' + canvasRatio + ' and the expected height is ' + expectedHeight + ' and the expected width is ' + expectedWidth);
         }
 
@@ -400,17 +401,58 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             setTimeout(
                 () => {
 
+                    let doc = document.getElementById('pageContainer_' + i);
+                    if (doc.className.includes('otherDoc')) {
+                        console.log('[INFO] This element is a page');
+                        let A4Height = isSafari ? SAFARI_HEIGHT : CHROME_HEIGHT;
+                        if (doc.clientHeight > A4Height) {
+                            console.log('Page exceeds A4 dimensions. Slicing document...');
+                            let numSlices = Math.ceil(doc.clientHeight / A4Height);
+                            console.log(numPages);
+                            for (let i = 0; i < numSlices; i++) {
+                                console.log('He entrado al for');
+                                let slice = document.createElement('div');
+                                slice = pageContainer.cloneNode(true);
+                                slice.id = pageContainer.id + '_slice_' + i;
+                                slice.style.height = '1000px';
+                                slice.style.width = A4Height + 'px';
+                                slice.style.overflow = 'hidden';
+                                if (optionName === "fullSlideDoc") {
+
+                                    slice.children[0].style.height = '1400px';
+                                    slice.children[0].style.width = '999px';
+                                    slice.children[0].style.transformOrigin = 'top left';
+                                    slice.children[0].style.transform = 'scale(0.5) rotate(-90deg) scale(2) translateX(-100%)';
+
+                                    // contentSlice.children[0].style.transformOrigin = 'top left';
+                                    // contentSlice.children[0].style.transform = 'rotate(-90deg) translateX(-999px)';
+                                }
+                                slice.children[0].style.marginTop = '-' + A4Height * i + 'px';
+
+                                document.body.appendChild(slice);
+
+                                // document.getElementById(slice.id).style.height =  document.getElementById(slice.id).clientHeight + 'px';
+                            }
+                            document.body.removeChild(document.getElementById(pageContainer.id));
+                        }
+                    }
+
                     if(last) {
-                        for(let i = 0; i <= numPages; i++) {
-                            let actualHeight = document.getElementById('pageContainer_' + i).clientHeight;
-                            console.log('Page height is :' + actualHeight);
-                            document.getElementById('pageContainer_' + i).style.height = actualHeight + 'px';
+                        for(let i = 0; i < numPages; i++) {
+                            let doc = document.getElementById('pageContainer_' + i);
+                            console.log('[INFO] Trying to read properties of doc ' + i);
+                            if (doc && doc.className.includes('otherDoc')) {
+                                let actualHeight = doc.clientHeight;
+                                console.log('[INFO] Page height is :' + actualHeight);
+                                document.getElementById('pageContainer_' + i).style.height = actualHeight * 1.05 + 'px';
+                            }
                         }
                         window.print();
                         if(!isSafari) {
                             // deletePageContainers();
                         }
                         callback();
+
                     } else {
 
                         addHTML(navs.slice(1), navs.length <= 2);

@@ -9,8 +9,8 @@
 
   .pageContainer {
     margin: 0 auto;
-    /*border: 0.7px solid orange;*/
-    page-break-inside: avoid;
+    border: 0.7px solid orange;
+    /*page-break-inside: avoid;*/
 
     display: flex;
     align-items: center;
@@ -80,7 +80,7 @@
   }
 
   .otherDoc {
-    border: 1px solid black;
+    border: 1px solid #cf1629;
 
     margin: 0 auto;
     page-break-before: always;
@@ -92,13 +92,15 @@
     transform: scale(1);
   }
 
+  .rotate {
+    -webkit-transform: rotate(90deg);  /* to support Safari and Android browser */
+    -ms-transform: rotate(90deg);      /* to support IE 9 */
+    transform: rotate(90deg);
+  }
+
   .importedDoc {
 
     margin: 0 auto;
-    overflow: hidden;
-
-    page-break-inside: avoid;
-
     -webkit-transform: scale(1);
     -moz-transform: scale(1);
     -o-transform: scale(1);
