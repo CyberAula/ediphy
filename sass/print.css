@@ -74,6 +74,10 @@
     page-break-after: always;
   }
 
+  .bigContainer{
+    border: 1px solid #70214e;
+  }
+
 
   #canvas {
     overflow-y: visible;

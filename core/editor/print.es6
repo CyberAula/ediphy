@@ -49,6 +49,8 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let hideDocs = false;
     let hideSlides = false;
 
+    let bigContainer;
+
     let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
     const SAFARI_HEIGHT = 1395;
     const CHROME_HEIGHT = 1400;
@@ -74,6 +76,10 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         cssPagedMedia('@page {size: ' + size + '}');
     };
 
+    cssPagedMedia.display = function(display) {
+        cssPagedMedia('body {display:' + display + '}');
+    };
+
     addHTML = function(navs, last) {
 
         let elementClass = "pageToPrint";
@@ -84,6 +90,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             (!isCV && isSlide(navItems[currentView].type)));
 
         let importedDoc = (currentView.customSize !== 0);
+        let i = notSections.length - navs.length;
         console.log('Es un documento importado: ' + importedDoc);
         console.log(optionName);
         switch(optionName) {
@@ -205,6 +212,14 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             if (isSafari) {
                 DOC_BASE = 500;
             }
+
+            bigContainer = document.createElement('div');
+            if (i % slidesPerPage === 0) {
+                bigContainer.id = 'bigContainer_' + Math.floor(i / slidesPerPage);
+                bigContainer.className = 'pageToPrint bigContainer';
+                document.body.appendChild(bigContainer);
+            }
+
             if(slide && navItems[currentView].customSize === 0) {
                 if (canvasRatio === 4 / 3) {
                     SLIDE_BASE = 325;
@@ -253,17 +268,13 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
         // Caso de que sea un documento importado
         if (slide && navItems[currentView] && navItems[currentView].customSize) {
-            console.log('lo trato como elemento importado');
             if(firstElementPage && forcePageBreak) {
                 elementClass = elementClass + " upOnPage";
                 firstElementPage = false;
                 elemsUsed = 0;
-                console.log('elems used after firstelementpage: ' + elemsUsed);
             }
             viewport = navItems[currentView].customSize;
             customAspectRatio = viewport.width / viewport.height;
-
-            console.log('custom aspect ratio is : ' + customAspectRatio);
 
             if (customAspectRatio < 0.7) {
                 elementClass = elementClass + " portraitDoc heightLimited upOnPage";
@@ -305,8 +316,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         } else {
             firstElementPage = true;
         }
-
-        let i = notSections.length - navs.length;
 
         // Me creo un div para la página
         let pageContainer = document.createElement('div');
@@ -426,6 +435,10 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 </Row>
             </Grid>
         </div>);
+        console.log('[SLIDES]' + slidesPerPage);
+        if(slidesPerPage === 4) {
+            bigContainer.appendChild(pageContainer);
+        }
 
         ReactDOM.render((app), pageContainer, (a) => {
             setTimeout(
@@ -475,7 +488,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         for(let i = 0; i < numPages; i++) {
                             let doc = document.getElementById('pageContainer_' + i);
                             console.log('[INFO] Trying to read properties of doc ' + i);
-                            if (importedDoc || (doc && doc.className.includes('otherDoc'))) {
+                            if ((importedDoc || (doc && doc.className.includes('otherDoc'))) && (slidesPerPage !== 4)) {
                                 let actualHeight = doc.clientHeight;
                                 console.log('[INFO] Page height is :' + actualHeight);
                                 document.getElementById('pageContainer_' + i).style.height = actualHeight * 1.05 + 'px';
