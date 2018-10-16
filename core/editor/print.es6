@@ -30,7 +30,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     });
 
     let SLIDE_BASE = 650;
-    let DOC_BASE = 700;
+    let DOC_BASE = 990;
     let A4_RATIO = 1 / 1.4142;
     let addHTML;
 
@@ -129,11 +129,8 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             }
 
             break;
-        case "fourSlideDoc":
-            // TO DO
-            slidesPerPage = 4;
-            break;
         case "fullSlide":
+            cssPagedMedia.size('landscape');
             hideDocs = true;
             slidesPerPage = 1;
             DOC_BASE = 1550;
@@ -150,6 +147,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             }
             break;
         case "twoSlide":
+            cssPagedMedia.size('portrait');
             hideDocs = true;
             DOC_BASE = 999;
             slidesPerPage = 2;
@@ -175,6 +173,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             }
             break;
         case "slideComments":
+            cssPagedMedia.size('portrait');
             hideDocs = true;
             DOC_BASE = 999;
             slidesPerPage = 2;
@@ -199,14 +198,40 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             }
             break;
         case "fourSlide":
+            cssPagedMedia.size('landscape');
             slidesPerPage = 4;
             hideDocs = true;
+            DOC_BASE = 600;
+            if (isSafari) {
+                DOC_BASE = 500;
+            }
+            if(slide && navItems[currentView].customSize === 0) {
+                if (canvasRatio === 4 / 3) {
+                    SLIDE_BASE = 325;
+                    expectedHeight = SLIDE_BASE / canvasRatio;
+                    navItems[currentView].customSize = {
+                        height: expectedHeight * 0.95,
+                        width: expectedHeight * canvasRatio * 0.95,
+                    };
+
+                } else if (canvasRatio === 16 / 9)
+                {
+                    SLIDE_BASE = 350;
+                    expectedHeight = SLIDE_BASE / canvasRatio;
+                    navItems[currentView].customSize = {
+                        height: expectedHeight,
+                        width: expectedHeight * canvasRatio,
+                    };
+                }
+            }
             break;
         case "fullDoc":
+            cssPagedMedia.size('portrait');
             hideSlides = true;
             slidesPerPage = 1;
             break;
         case "twoDoc":
+            cssPagedMedia.size('landscape');
             slidesPerPage = 2;
             hideSlides = true;
             break;
@@ -301,6 +326,8 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 console.log('Este elemento no es del tipo slide');
                 pageContainer.style.height = 'auto';
             }
+        } else if (slidesPerPage === 4) {
+            pageContainer.style.height = '450px';
         }
         pageContainer.id = "pageContainer_" + i;
 
@@ -405,7 +432,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 () => {
 
                     let doc = document.getElementById('pageContainer_' + i);
-                    if (optionName == 'fullSlideDoc') {
+                    if (optionName == 'none') {
                         if (doc.className.includes('otherDoc')) {
                             console.log('[INFO] This element is a page');
                             let A4Height = isSafari ? SAFARI_HEIGHT : CHROME_HEIGHT;
@@ -451,7 +478,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                             if (importedDoc || (doc && doc.className.includes('otherDoc'))) {
                                 let actualHeight = doc.clientHeight;
                                 console.log('[INFO] Page height is :' + actualHeight);
-                                document.getElementById('pageContainer_' + i).style.height = actualHeight * 1.0 + 'px';
+                                document.getElementById('pageContainer_' + i).style.height = actualHeight * 1.05 + 'px';
                             }
                         }
                         window.print();

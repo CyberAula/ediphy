@@ -122,9 +122,6 @@ export default class ExportModal extends Component {
                                                                             case 1:
                                                                                 this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "twoSlideDoc" });
                                                                                 break;
-                                                                            case 2:
-                                                                                this.setState({ slidesPerPage: 4, slidesWithComments: false, optionName: "fourSlideDoc" });
-                                                                                break;
                                                                             default:
                                                                                 this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "defaultOption" });
                                                                                 break;
