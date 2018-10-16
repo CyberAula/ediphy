@@ -10,7 +10,7 @@
   .pageContainer {
     margin: 0 auto;
     /*border: 0.7px solid orange;*/
-    /*page-break-inside: avoid;*/
+    page-break-inside: avoid;
 
     display: flex;
     align-items: center;

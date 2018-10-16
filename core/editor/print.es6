@@ -82,6 +82,9 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         let assignUpDown = true;
         let slide = ((isCV && isSlide(containedViews[currentView].type)) ||
             (!isCV && isSlide(navItems[currentView].type)));
+
+        let importedDoc = (currentView.customSize !== 0);
+        console.log('Es un documento importado: ' + importedDoc);
         console.log(optionName);
         switch(optionName) {
         case "fullSlideDoc":
@@ -445,10 +448,10 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         for(let i = 0; i < numPages; i++) {
                             let doc = document.getElementById('pageContainer_' + i);
                             console.log('[INFO] Trying to read properties of doc ' + i);
-                            if (doc && doc.className.includes('otherDoc')) {
+                            if (importedDoc || (doc && doc.className.includes('otherDoc'))) {
                                 let actualHeight = doc.clientHeight;
                                 console.log('[INFO] Page height is :' + actualHeight);
-                                document.getElementById('pageContainer_' + i).style.height = actualHeight * 1.05 + 'px';
+                                document.getElementById('pageContainer_' + i).style.height = actualHeight * 1.0 + 'px';
                             }
                         }
                         window.print();
