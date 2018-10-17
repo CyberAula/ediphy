@@ -5,7 +5,7 @@ import {
     TOGGLE_TEXT_EDITOR,
     DELETE_RICH_MARK, ADD_RICH_MARK, DELETE_CONTAINED_VIEW,
     SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPDATE_BOX,
-    UPLOAD_FILE, SELECT_CONTAINED_VIEW, DELETE_FILE, CHANGE_GLOBAL_CONFIG,
+    UPLOAD_FILE, SELECT_CONTAINED_VIEW, DELETE_FILE, CHANGE_GLOBAL_CONFIG, IMPORT_EDI,
 } from '../common/actions';
 import { isSortableBox } from '../common/utils';
 import boxesById from './boxes_by_id';
@@ -60,6 +60,8 @@ function filesUploaded(state = {}, action = {}) {
             }, {});
     case IMPORT_STATE:
         return action.payload.present.filesUploaded || state;
+    case IMPORT_EDI:
+        return { ...state, ...action.payload.state.filesUploaded };
     default:
         return state;
     }

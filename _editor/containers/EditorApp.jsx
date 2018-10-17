@@ -9,7 +9,7 @@ import {
     reorderBoxes, verticallyAlignBox, selectIndex, duplicateNavItem,
     toggleTextEditor, pasteBox, changeBoxLayer,
     configScore, exportStateAsync, importStateAsync, importState, changeGlobalConfig,
-    uploadVishResourceAsync,
+    uploadVishResourceAsync, importEdi,
     deleteContainedView, selectContainedView,
     addRichMark, editRichMark, moveRichMark, deleteRichMark, setCorrectAnswer,
     updateViewToolbar, updatePluginToolbar,
@@ -552,6 +552,7 @@ class EditorApp extends Component {
                     boxSelected={boxSelected}
                     boxes={boxes}
                     isBusy={isBusy}
+                    importEdi={(state) => dispatch(importEdi(state))}
                     fileModalResult={this.state.fileModalResult}
                     navItemsIds={navItemsIds}
                     navItems={navItems}

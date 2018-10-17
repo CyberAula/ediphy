@@ -5,6 +5,7 @@ import { randomPositionGenerator } from '../../../clipboard/clipboard.utils';
 import { isSlide, isBox, isDataURL, dataURItoBlob, isCanvasElement } from '../../../../../common/utils';
 import parseMoodleXML from './moodleXML';
 import i18n from 'i18next';
+import { importEdiphy, importExcursion } from '../APIProviders/providers/_edi';
 
 export const extensionHandlers = {
     'all': { label: i18n.t("vish_search_types.All"), value: '', icon: 'attach_file' },
@@ -43,7 +44,7 @@ export default function handlers(self) {
             Object.keys(pluginsAllowed).map(pluginName=>{
                 let key = pluginsAllowed[pluginName];
                 buttons.push({
-                    title: type === 'pdf' ? (i18n.t('FileModal.FileHandlers.insert') + ' PDF...') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + Ediphy.Plugins[pluginName].getConfig().displayName || pluginName),
+                    title: type === 'pdf' ? (i18n.t('FileModal.FileHandlers.insert') + ' ...') : (i18n.t('FileModal.FileHandlers.insert')),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
                     action: ()=>{
                         if (type === 'pdf') {
@@ -80,25 +81,52 @@ export default function handlers(self) {
             });
             if (type === 'edi') {
                 buttons.push({
-                    title: 'Import Ediphy Document',
+                    title: i18n.t('FileModal.FileHandlers.embed'),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
                     action: ()=>{
-                        alert("Ediphy Doc");
+                        createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
                         self.close();
                     },
                 });
-
+                buttons.push({
+                    title: i18n.t('FileModal.FileHandlers.import'),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
+                    action: ()=>{
+                        importEdiphy(self.state.element, self.props, (res) => {
+                            if (res) {
+                                console.log(res);
+                                self.props.importEdi(res);
+                            } else {
+                                return false;
+                            }
+                        });
+                        self.close();
+                    },
+                });
             } if (type === 'vish') {
                 buttons.push({
-                    title: 'Import VISH',
+                    title: i18n.t('FileModal.FileHandlers.embed'),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
-                    action: ()=>{
-                        alert("Excursion");
-
+                    action: () => {
+                        createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
                         self.close();
                     },
                 });
-
+                buttons.push({
+                    title: i18n.t('FileModal.FileHandlers.import'),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
+                    action: () => {
+                        importExcursion(self.state.element, self.props, (res) => {
+                            if (res) {
+                                console.log(res);
+                                self.props.importEdi(res);
+                            } else {
+                                return false;
+                            }
+                        });
+                        self.props.close();
+                    },
+                });
             } else if (type === 'xml') {
                 buttons.push({
                     title: 'Insert MoodleXML', // (currentPlugin && apiPlugin.getConfig().category  === 'evaluation') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' MoodleXML'),

@@ -106,6 +106,8 @@ let es = {
             'FileHandlers': {
                 'downloadAsFile': 'Descargar Fichero',
                 'insert': 'Insertar',
+                'import': 'Importar',
+                'embed': 'Incrustar',
                 'replace': 'Reemplazar',
                 'replace_bckg': 'Cambiar fondo',
                 'table': 'Tabla',

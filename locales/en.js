@@ -106,6 +106,8 @@ let en = {
             'FileHandlers': {
                 'downloadAsFile': 'Download File',
                 'insert': 'Insert',
+                'import': 'Import',
+                'embed': 'Embed',
                 'replace': 'Replace',
                 'replace_bckg': 'Replace background',
                 'table': 'Table',

@@ -33,7 +33,6 @@ export default class SearchVishComponent extends React.Component {
                 let filt = Object.keys(categories).filter(cat=>categories[cat].type === ext.value);
                 if (filt.length > 0) {
                     types = filt[0];
-
                 }
             }
         }
@@ -67,7 +66,6 @@ export default class SearchVishComponent extends React.Component {
             previewButton = null;
 
         }
-        console.log(this.state.results);
         return (
             <div className="contentComponent">
                 <Form horizontal action="javascript:void(0);">

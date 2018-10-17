@@ -82,7 +82,7 @@ export default class FileModal extends React.Component {
                             <Modal.Footer>
                                 {this.state.element ? (
                                     <div key={-2} className="footerFile">
-                                        <i className="material-icons">{handler.icon || "attach_file"}</i>{this.state.name && this.state.name.length > 30 ? ('...' + this.state.name.substr(this.state.name.length - 30, this.state.name.length)) : this.state.name}</div>
+                                        <i className="material-icons">{handler.icon || "attach_file"}</i>{this.state.name && this.state.name.length > 50 ? ('...' + this.state.name.substr(this.state.name.length - 50, this.state.name.length)) : this.state.name}</div>
                                 ) : null}
                                 <Button key={-1} onClick={e => {
                                     this.close();
@@ -90,7 +90,7 @@ export default class FileModal extends React.Component {
                                 {(this.state.element && handler && handler.buttons) ? handler.buttons.map((button, key)=>{
                                     return <Button bsStyle="primary" key={key} disabled={button.disabled} onClick={e => {
                                         button.action();
-                                    }}>{i18n.t("FileModal.FileHandlers.insert")}</Button>;
+                                    }}>{button.title}</Button>;
                                 }) : null}
                             </Modal.Footer>
                         </div>
@@ -213,5 +213,9 @@ FileModal.propTypes = {
      * Function for closing the File Modal
      */
     close: PropTypes.func.isRequired,
+    /**
+     * Import Ediphy Document
+     */
+    importEdi: PropTypes.func.isRequired,
 
 };

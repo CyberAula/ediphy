@@ -2,7 +2,7 @@
 import {
     ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_RICH_MARK, EDIT_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW,
     CHANGE_CONTAINED_VIEW_NAME, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, PASTE_BOX, IMPORT_STATE,
-    CHANGE_BOX_LAYER, CHANGE_BACKGROUND, DROP_BOX, DUPLICATE_NAV_ITEM,
+    CHANGE_BOX_LAYER, CHANGE_BACKGROUND, DROP_BOX, DUPLICATE_NAV_ITEM, IMPORT_EDI,
 } from '../common/actions';
 
 import { changeProp, deleteProps, isContainedView, findNavItemContainingBox } from '../common/utils';
@@ -275,6 +275,8 @@ export default function(state = {}, action = {}) {
             }
         }
         return { ...state, ...modifiedCvs };
+    case IMPORT_EDI:
+        return { ...state, ...action.payload.state.containedViewsById };
     default:
         return state;
     }
