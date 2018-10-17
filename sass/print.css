@@ -9,7 +9,7 @@
 
   .pageContainer {
     margin: 0 auto;
-    border: 0.7px solid orange;
+    /*border: 0.7px solid orange;*/
     page-break-inside: avoid;
 
     display: flex;
@@ -50,10 +50,10 @@
   }
 
   .slide43 {
-    margin: 0 auto;
 
     page-break-inside: avoid;
 
+    display: flex;
     -webkit-transform: scale(1);
     -moz-transform: scale(1);
     -o-transform: scale(1);
@@ -75,7 +75,12 @@
   }
 
   .bigContainer{
-    border: 1px solid #70214e;
+    /*border: 1px solid #70214e;*/
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+
+    page-break-after: always;
   }
 
 
