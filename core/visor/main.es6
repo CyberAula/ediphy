@@ -241,4 +241,28 @@ export default {
             callback(e);
         }
     },
+    exportsEDI: function(state, callback) {
+        let page = 0;
+        if (state.navItemsIds && state.navItemsIds.length > 0) {
+            if(!Ediphy.Config.sections_have_content) {
+                let i;
+                for (i = 0; i < state.navItemsIds.length; i++) {
+                    if (state.navItemsIds[i].indexOf('se-') === -1) {
+                        page = state.navItemsIds[i];
+                        break;
+                    }
+                }
+            } else {
+                page = state.navItemsIds[0];
+            }
+        }
+        state.navItemSelected = page;
+        let filesUploaded = Object.values(state.filesUploaded);
+        let strState = JSON.stringify({ ...state, export: true });
+        let usedNames = [];
+        strState = strState.replace('http://vishub.org', 'https://vishub.org');
+        let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), false);
+        window.download(strState, "ediphy.edi", "text/json");
+        callback();
+    },
 };

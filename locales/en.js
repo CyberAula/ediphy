@@ -413,6 +413,7 @@ let en = {
         "Score_feedback": "Your score is",
         "SCORM Explanation": "A SCORM package is a collection of files which are packaged according to an agreed standard for learning objects. SCORM packages are zip files that can be integrated in any LMS (Learning Management System) that supports the standard (Moodle, Blackboard, …) and that can be used for presenting multimedia content and as assessment tools. Thus, you can integrate this document in Moodle and other LMSs by downloading it as SCORM.",
         "HTML Explanation": "This option exports a .zip package that contains two folders: one with the index.html file of the document, which you can open in any browser, and another with the necessary resources for its correct preview.",
+        "EDI Explanation": "This option exports a .edi file with the content of your document which you will be able to import in other Ediphy documents, even if they are hosted in different platforms.",
         "Search_in_ViSH": "Search in ViSH",
         "Searching": "Searching...",
         "section": "Section",

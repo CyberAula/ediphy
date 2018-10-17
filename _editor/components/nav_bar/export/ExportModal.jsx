@@ -39,6 +39,7 @@ export default class ExportModal extends Component {
             { format: "SCORM 2004", handler: ()=> {this.props.scorm(true, callback, this.state.selfContained); } },
             { format: "HTML", handler: ()=> {this.props.export('HTML', callback, this.state.selfContained); } },
             { format: "PDF", formatRender: <span>PDF <sub className={"betaSub"}>BETA</sub></span>, handler: ()=> { this.props.export('PDF', callback, this.state.selfContained);} },
+            { format: "EDI", handler: ()=> {this.props.export('edi', callback, this.state.selfContained); } },
         ];
         return (
             <Modal className="pageModal exportoScormModalBody"
@@ -75,10 +76,11 @@ export default class ExportModal extends Component {
                                     <div className={"explanation"}>
                                         {this.state.format <= 1 ? i18n.t("SCORM Explanation") : null}
                                         {this.state.format === 2 ? i18n.t("HTML Explanation") : null}
+                                        {this.state.format === 4 ? i18n.t("EDI Explanation") : null}
                                     </div>
                                 </Col>
                                 <Col xs={12} className={"explanation"}>
-                                    {this.state.format !== 3 ? <div className={"selfContained"}>
+                                    {(this.state.format !== 3 && this.state.format !== 4) ? <div className={"selfContained"}>
                                         <div><ToggleSwitch onChange={()=>{this.setState({ selfContained: !this.state.selfContained });}} checked={this.state.selfContained}/></div>
                                         <div>{i18n.t('messages.selfContained')}</div></div> : null}
                                 </Col>
@@ -89,7 +91,6 @@ export default class ExportModal extends Component {
                 </Modal.Body>
                 <Modal.Footer >
                     <Button bsStyle="default" id="cancel_export_to_scorm" onClick={e => {
-
                         this.props.close(); e.preventDefault();
                     }}>{i18n.t("global_config.Discard")}</Button>
                     <Button bsStyle="primary" id="accept_export_to_scorm" onClick={e => {
