@@ -215,9 +215,15 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             slidesPerPage = 4;
             hideDocs = true;
             DOC_BASE = 600;
+            SLIDE_BASE = 550;
             if (isSafari) {
                 DOC_BASE = 500;
             }
+
+            viewport = (slide) ? { width: SLIDE_BASE, height: SLIDE_BASE / canvasRatio } : {
+                width: DOC_BASE,
+                height: "auto",
+            };
 
             if(treatAsImportedDoc) {
                 console.log('[INFO] This element will be treated as an imported doc.');
@@ -264,6 +270,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 height: "auto",
             };
         }
+        console.log(viewport);
         expectedWidth = viewport.width;
 
         if (hideSlides && slide) {
@@ -294,11 +301,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             // pageContainer.style.width = miniViewport.width + 'px';
             pageContainer.style.height = '49%';
             pageContainer.style.width = '49%';
-
-            console.log(pageContainer.clientHeight);
-            console.log('[MINIVIEWPORT] HEIGHT:' + miniViewport.height);
-            console.log('[MINIVIEWPORT] WIDTH:' + miniViewport.width);
-
         }
         pageContainer.id = "pageContainer_" + i;
 
@@ -441,7 +443,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             viewsArray: [currentView], setAnswer: () => {
             }, submitPage: () => {
             }, exercises: exercises[currentView],
-            expectedWidth: (slidesPerPage = 4) ? miniViewport.width : expectedWidth,
+            expectedWidth: ((slidesPerPage === 4) && slide) ? miniViewport.width : expectedWidth,
         };
 
         let visorContent = !isCV ? (<VisorCanvas {...props} fromPDF />) : (<VisorContainedCanvas {...props} fromPDF/>);
@@ -516,10 +518,14 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                             let index = -1;
                             let containersArray = [];
                             console.log('[INFO] El número de páginas es: ' + numPages);
+                            let counter = 0;
                             for (let i = 0; i < numPages; i++) {
-                                console.log('[INFO] Tratando pageContainer_' + i);
                                 let doc = document.getElementById('pageContainer_' + i);
-                                if (i % 4 === 0) {
+                                doc.id = 'pageContainer_' + counter;
+                                if(doc.className.includes('not_show')) {
+                                    continue;
+                                }
+                                if (counter % 4 === 0) {
                                     index++;
                                     let bigContainer = document.createElement('div');
                                     bigContainer.id = 'bigContainer_' + index;
@@ -530,12 +536,10 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                     document.body.appendChild(containersArray[index]);
                                 }
                                 containersArray[index].appendChild(doc);
-
+                                counter++;
                                 if (i === (numPages - 1)) {
-                                    let left = 3 - (i % 4);
-
+                                    let left = 4 - (counter % 4);
                                     for (let f = left; f > 0; f--) {
-
                                         containersArray[index].appendChild(doc.cloneNode());
 
                                     }
@@ -544,7 +548,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         }
                         window.print();
                         if(!isSafari) {
-                            // deletePageContainers();
+                            deletePageContainers();
                         }
                         callback();
 
