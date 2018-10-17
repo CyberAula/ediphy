@@ -75,7 +75,7 @@ export function HotspotImages(base) {
                                 backgroundColor: {
                                     __name: Ediphy.i18n.t('HotspotImages.background_color'),
                                     type: 'color',
-                                    value: '#ffffff',
+                                    value: 'rgba(255,255,255,0)',
                                 },
                                 borderWidth: {
                                     __name: Ediphy.i18n.t('HotspotImages.border_size'),
@@ -126,6 +126,7 @@ export function HotspotImages(base) {
                 // url:'http://www.amicus.nieruchomosci.pl/grafika/no-image.png'
                 // url: 'https://bytesizemoments.com/wp-content/uploads/2014/04/placeholder.png'
                 url: img_placeholder, // Ediphy.Config.image_placeholder,
+                allowDeformed: false,
             };
         },
         getDefaultMarkValue(state) {

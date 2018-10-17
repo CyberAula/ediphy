@@ -25,7 +25,8 @@ import i18n from 'i18next';
 export default function menus(self) {
     let allowedMIME = self.props.visible || "";
     let commonProps = {
-        onElementSelected: (name, element, type, id) => { self.setState({ name, element, type, id }); },
+        onElementSelected: (name, element, type, id) => { console.log(name, element, type, id);
+            self.setState({ name, element, type, id }); },
         elementSelected: self.state.element,
         idSelected: self.state.id,
     };

@@ -10,7 +10,7 @@ export default class Image extends React.Component {
         let scale = state.scale || 1;
         let translateX = this.state.translateX || (state.translate ? state.translate.x : 0) || 0;
         let translateY = this.state.translateY || (state.translate ? state.translate.y : 0) || 0;
-        let transform = `scale(${scale}) translate(${translateX + (this.state.dragging ? "px" : "%")},${translateY + (this.state.dragging ? "px" : "%")})`;
+        let transform = `translate(${translateX + (this.state.dragging ? "px" : "%")},${translateY + (this.state.dragging ? "px" : "%")}) scale(${scale})`;
         return <div style={{ height: "100%", width: "100%" }} className="draggableImage"
             onDragStart={(e) => {
                 let x = e.pageX;
@@ -29,9 +29,8 @@ export default class Image extends React.Component {
                 this.setState({ translateX: x - this.state.x, translateY: y - this.state.y });
             }}
             onDragEnd={e=>{
-                console.log(e.target);
-                let x = Math.round(100 * (e.pageX - this.state.x) * 100 / e.target.offsetWidth) / 100;
-                let y = Math.round(100 * (e.pageY - this.state.y) * 100 / e.target.offsetHeight) / 100;
+                let x = (e.pageX - this.state.x) * 100 / e.target.offsetWidth;
+                let y = (e.pageY - this.state.y) * 100 / e.target.offsetHeight;
                 this.setState({ translateX: 0, translateY: 0, dragging: false });
                 props.update('translate', { x, y });
             }}
@@ -42,7 +41,7 @@ export default class Image extends React.Component {
         >
             <img ref ="img" id={props.id + "-image"}
                 className="basicImageClass"
-                style={{ height: "100%", width: state.allowDeformed ? "100%" : "auto", transform }}
+                style={{ height: "100%", width: state.allowDeformed ? "auto" : "100%", transform }}
                 src={state.url}
                 onError={(e)=>{
                     e.target.onError = null;

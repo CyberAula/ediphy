@@ -511,6 +511,7 @@ let en = {
             "CSV": "CSV",
             "All": "All",
             "Zipfile": "ZIP File",
+            "EdiphyDocument": "Ediphy Document",
         },
         "vish_upload": "Upload",
         "vish_upload_desc": "Description",

@@ -18,13 +18,15 @@ const categories = {
     "Officedoc": { label: i18n.t("vish_search_types.Officedoc"), type: "pdf", icon: "picture_as_pdf" },
     "Scormfile": { label: i18n.t("vish_search_types.Scormfile"), type: "scormpackage", icon: "extension" },
     "Video": { label: i18n.t("vish_search_types.Video"), type: "video", icon: "play_arrow" },
-    "Webapp": { label: i18n.t("vish_search_types.Webapp"), type: "webapp", icon: "link" } }
+    "Webapp": { label: i18n.t("vish_search_types.Webapp"), type: "webapp", icon: "link" },
+    "EdiphyDocument": { label: i18n.t("vish_search_types.EdiphyDocument"), type: "edi", icon: "widgets" },
+    "Excursion": { label: i18n.t("vish_search_types.Excursion"), type: "vish", icon: "list" } }
 ;
 
 export default class SearchVishComponent extends React.Component {
     constructor(props) {
         super(props);
-        let types = 'Webapp,Scormfile,Link,Audio,Video,Officedoc,Picture,Swf';
+        let types = 'Webapp,Scormfile,Link,Audio,Video,Officedoc,Picture,Swf,Excursion,EdiphyDocument';
         for (let e in extensions) {
             let ext = extensions[e];
             if ((this.props.show || '*').match(ext.value)) {
@@ -59,17 +61,20 @@ export default class SearchVishComponent extends React.Component {
             previewButton = <i className="material-icons">volume_down</i>;
             break;
         case "image":
+        case "edi":
+        case "vish":
         default:
             previewButton = null;
 
         }
+        console.log(this.state.results);
         return (
             <div className="contentComponent">
                 <Form horizontal action="javascript:void(0);">
                     <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}
                         <SearchComponent query={this.state.value} onChange={(e)=>{this.setState({ query: e.target.value });}} onSearch={this.onSearch} />
                         <FormControl disabled={this.props.show !== '*'} value={this.state.types} autoFocus ref="type" className="selectD" componentClass="select" style={{ marginRight: '2%', width: '18%', float: 'right' }} onChange={(e)=>{this.setState({ types: e.target.value });}}>
-                            <option value="Webapp,Scormfile,Link,Audio,Video,Officedoc,Picture,Swf" >All</option>
+                            <option value="Webapp,Scormfile,Link,Audio,Video,Officedoc,Picture,Swf,EdiphyDocument,Excursion" >All</option>
                             {Object.keys(categories).map((c, key)=>{
                                 let cat = categories[c];
                                 return <option key={key} value={c}>{cat.label}</option>;
@@ -122,7 +127,7 @@ export default class SearchVishComponent extends React.Component {
                                 <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                                 <br />
                                 {this.state.results.map((item, index) => {
-                                    let url = item.url_full || item.file_url;
+                                    let url = (item.type === "EdiphyDocument" || item.type === "Excursion") ? item.url : item.url_full || item.file_url;
                                     let border = url === this.props.elementSelected ? "solid #17CFC8 2px" : "solid transparent 2px";
                                     let background = url === this.props.elementSelected ? "rgba(23,207,200,0.1)" : "transparent";
                                     let date = new Date();
@@ -143,7 +148,7 @@ export default class SearchVishComponent extends React.Component {
                                                     <div className={"lightFont"}>{item.author}</div>
                                                     <div className={"lightFont"}>{date.toLocaleString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}</div>
                                                 </div></div>
-                                            {url === this.props.elementSelected && this.props.elementSelectedType !== 'image' ? (
+                                            {url === this.props.elementSelected && previewButton ? (
                                                 <Button title={i18n.t("Preview")} onClick={(e)=>{this.setState({ preview: !this.state.preview }); e.stopPropagation();}} className={"previewButton"}>
                                                     {previewButton}
                                                 </Button>) :

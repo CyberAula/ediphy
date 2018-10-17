@@ -512,6 +512,7 @@ let es = {
             "All": "Todos",
             "Writing": "Escrito",
             "Zipfile": "Fichero ZIP",
+            "EdiphyDocument": "Documento Ediphy",
         },
         "vish_upload": "Subir",
         "vish_upload_desc": "Descripción",

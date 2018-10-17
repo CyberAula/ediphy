@@ -17,6 +17,8 @@ export const extensionHandlers = {
     'webapp': { label: i18n.t("vish_search_types.Link"), value: 'webapp', icon: 'link' },
     'swf': { label: i18n.t("vish_search_types.Swf"), value: 'swf', icon: 'flash_on' },
     'xml': { label: i18n.t("vish_search_types.XML"), value: 'xml', icon: 'code' },
+    'edi': { label: i18n.t("vish_search_types.Ediphy"), value: 'edi', icon: 'widgets' },
+    'vish': { label: i18n.t("vish_search_types.VISH"), value: 'edi', icon: 'list' },
     // 'json': { label: i18n.t("vish_search_types.JSON"), value: 'json', icon: 'view_agenda' }
     // 'sla': { label: "Objeto 3D", value: 'sla', icon: 'devices_other' },
     // { label: "Objeto 3D", value: 'octet-stream', icon: 'devices_other' },
@@ -43,7 +45,6 @@ export default function handlers(self) {
                 buttons.push({
                     title: type === 'pdf' ? (i18n.t('FileModal.FileHandlers.insert') + ' PDF...') : (i18n.t('FileModal.FileHandlers.insert') + ' ' + Ediphy.Plugins[pluginName].getConfig().displayName || pluginName),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
-
                     action: ()=>{
                         if (type === 'pdf') {
                             self.setState({ pdfSelected: true });
@@ -77,8 +78,28 @@ export default function handlers(self) {
                     },
                 });
             });
+            if (type === 'edi') {
+                buttons.push({
+                    title: 'Import Ediphy Document',
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
+                    action: ()=>{
+                        alert("Ediphy Doc");
+                        self.close();
+                    },
+                });
 
-            if (type === 'xml') {
+            } if (type === 'vish') {
+                buttons.push({
+                    title: 'Import VISH',
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
+                    action: ()=>{
+                        alert("Excursion");
+
+                        self.close();
+                    },
+                });
+
+            } else if (type === 'xml') {
                 buttons.push({
                     title: 'Insert MoodleXML', // (currentPlugin && apiPlugin.getConfig().category  === 'evaluation') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' MoodleXML'),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
