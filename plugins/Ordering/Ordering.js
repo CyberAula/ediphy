@@ -162,9 +162,6 @@ export function Ordering(base) {
                         />
                     </div>
                 </div>
-                <div className="correctAnswerFeedback" style={{ color: quizColor }}>
-                    <span className="correctAnswerLabel"> {i18n.t("Ordering.correctAnswerFeedback") }:</span> {correctAnswers}
-                </div>
                 <style dangerouslySetInnerHTML={{
                     __html: `
                     .orderingPlugin input[type="radio"]  {

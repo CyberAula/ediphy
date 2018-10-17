@@ -87,28 +87,20 @@ export function containedView(state) {
  * @returns fixed state with new fields that didn't exist before
  */
 export function globalConfig(state) {
-    let globalConfigDefault = {
-        title: "Ediphy",
-        canvasRatio: 16 / 9,
-        visorNav: {
-            player: true,
-            sidebar: true,
-            keyBindings: true,
-        },
-        trackProgress: true,
-        age: { min: 0, max: 100 },
-        context: 'school',
-        rights: "public",
-        keywords: [],
-        typicalLearningTime: { h: 0, m: 0, s: 0 },
-        version: '1.0.0',
-        thumbnail: '',
-        status: 'draft',
-        structure: 'linear',
-        difficulty: 'easy',
-    };
-    let newState = {};
-    state.forEach((element) => { newState.push(deepmerge(globalConfigDefault, element));});
+
+    let newState = { ...state };
+
+    if (typeof newState.canvasRatio === "string") {
+        newState.canvasRatio = parseFloat(newState.canvasRatio);
+    }
+
+    if (typeof newState.age.min === "string") {
+        newState.age.min = parseInt(newState.age.min);
+    }
+    if (typeof newState.age.max === "string") {
+        newState.age.max = parseInt(newState.age.max);
+    }
+
     return newState;
 }
 
