@@ -54,7 +54,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let treatAsImportedDoc = false;
 
     let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
-    const SAFARI_HEIGHT = 1395;
+    const SAFARI_HEIGHT = 1300;
     const CHROME_HEIGHT = 1400;
 
     let deletePageContainers = function() {
@@ -92,6 +92,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             (!isCV && isSlide(navItems[currentView].type)));
 
         treatAsImportedDoc = ((slide && navItems[currentView].customSize === 0));
+        let isAnImportedDoc = (slide && navItems[currentView].customSize !== 0);
 
         let importedDoc = (currentView.customSize !== 0);
         let i = notSections.length - navs.length;
@@ -120,7 +121,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             cssPagedMedia.size('portrait');
             DOC_BASE = 999;
             slidesPerPage = 2;
-            if(isOnlySlide) {
+            if(treatAsImportedDoc) {
                 if (canvasRatio === 4 / 3) {
                     SLIDE_BASE = 650;
                     expectedHeight = SLIDE_BASE / canvasRatio;
@@ -228,7 +229,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             if(treatAsImportedDoc) {
                 console.log('[INFO] This element will be treated as an imported doc.');
                 if (canvasRatio === 4 / 3) {
-                    SLIDE_BASE = 450;
+                    SLIDE_BASE = isSafari ? 420 : 450;
                     expectedHeight = SLIDE_BASE / canvasRatio;
                     viewport = {
                         height: expectedHeight,
@@ -317,42 +318,52 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
             customAspectRatio = viewport.width / viewport.height;
 
-            if (customAspectRatio < 0.7) {
+            console.log('[ASPECT RATIO] is ' + customAspectRatio);
+
+            if (customAspectRatio < A4_RATIO) {
                 elementClass = elementClass + " portraitDoc heightLimited upOnPage";
                 requiresFullPage = true;
                 expectedHeight = isSafari ? SAFARI_HEIGHT : CHROME_HEIGHT;
                 viewport.height = expectedHeight;
                 expectedWidth = expectedHeight * customAspectRatio;
                 viewport.width = expectedWidth;
+
+                if (slidesPerPage === 4) {
+                    elementClass = elementClass + " pageContainer";
+                }
                 elemsUsed = -1;
-            } else if ((customAspectRatio >= 0.7) && (customAspectRatio < 1)) {
+            } else if ((customAspectRatio >= A4_RATIO) && (customAspectRatio < 1)) {
                 elementClass = elementClass + " portraitDoc widthLimited upOnPage";
                 requiresFullPage = true;
                 expectedWidth = DOC_BASE;
                 viewport.width = expectedWidth;
                 expectedHeight = expectedWidth / customAspectRatio;
                 viewport.height = expectedHeight;
+
+                if (slidesPerPage === 4) {
+                    elementClass = elementClass + " pageContainer";
+                }
                 elemsUsed = -1;
             } else if ((customAspectRatio >= 1) && (customAspectRatio < (1 / A4_RATIO))) {
                 elementClass = elementClass + " pageContainer landscapeDoc heightLimited";
                 expectedHeight = isSafari ? SAFARI_HEIGHT / 2 : CHROME_HEIGHT / 2;
-                viewport.height = (slidesPerPage === 4) ? miniViewport.height : expectedHeight;
+                viewport.height = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.height : expectedHeight;
                 expectedWidth = expectedHeight * customAspectRatio;
-                viewport.width = (slidesPerPage === 4) ? miniViewport.width : expectedWidth;
+                viewport.width = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.width : expectedWidth;
 
                 if(customAspectRatio === (4 / 3)) {
                     expectedHeight = isSafari ? SAFARI_HEIGHT / 2 * 0.95 : CHROME_HEIGHT / 2 * 0.95;
-                    viewport.height = (slidesPerPage === 4) ? miniViewport.height : expectedHeight;
+                    viewport.height = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.height : expectedHeight;
                     expectedWidth = expectedHeight * customAspectRatio;
-                    viewport.width = (slidesPerPage === 4) ? miniViewport.width : expectedWidth;
+                    viewport.width = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.width : expectedWidth;
                 }
 
             } else if (customAspectRatio > (1 / A4_RATIO)) {
                 elementClass = elementClass + " pageContainer landscapeDoc widthLimited";
                 expectedWidth = DOC_BASE;
-                viewport.width = (slidesPerPage === 4) ? miniViewport.width : expectedWidth;
+                viewport.width = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.width : expectedWidth;
                 expectedHeight = expectedWidth / customAspectRatio;
-                viewport.height = (slidesPerPage === 4) ? miniViewport.height : expectedHeight;
+                viewport.height = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.height : expectedHeight;
             }
 
             if(treatAsImportedDoc) {
@@ -443,12 +454,12 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             viewsArray: [currentView], setAnswer: () => {
             }, submitPage: () => {
             }, exercises: exercises[currentView],
-            expectedWidth: ((slidesPerPage === 4) && slide) ? miniViewport.width : expectedWidth,
+            expectedWidth: ((slidesPerPage === 4) && treatAsImportedDoc) ? miniViewport.width : expectedWidth,
         };
 
         let visorContent = !isCV ? (<VisorCanvas {...props} fromPDF />) : (<VisorContainedCanvas {...props} fromPDF/>);
         let app = (<div id="page-content-wrapper" className={slideClass + " page-content-wrapper printApp"}
-            style={{ width: slide ? ((slidesPerPage === 4) ? miniViewport.width : expectedWidth) : 'auto', height: slide ? ((slidesPerPage === 4) ? miniViewport.height : expectedHeight) : 'auto', backgroundColor: 'white' }}>
+            style={{ width: slide ? ((slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.width : expectedWidth) : 'auto', height: slide ? ((slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.height : expectedHeight) : 'auto', backgroundColor: 'white' }}>
             <Grid fluid id="visorAppContent" style={{ height: '100%' }}>
                 <Row style={{ height: '100%' }}>
                     <Col lg={12} style={{ height: '100%', paddingLeft: 0, paddingRight: 0 }}>
@@ -538,7 +549,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                 containersArray[index].appendChild(doc);
                                 counter++;
                                 if (i === (numPages - 1)) {
-                                    let left = 4 - (counter % 4);
+                                    let left = (4 - (counter % 4)) % 4;
                                     for (let f = left; f > 0; f--) {
                                         containersArray[index].appendChild(doc.cloneNode());
 
@@ -548,7 +559,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         }
                         window.print();
                         if(!isSafari) {
-                            deletePageContainers();
+                            // deletePageContainers();
                         }
                         callback();
 
