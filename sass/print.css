@@ -9,7 +9,7 @@
 
   .pageContainer {
     margin: 0 auto;
-    border: 0.7px solid orange;
+    /*border: 0.7px solid orange;*/
     page-break-inside: avoid;
 
     display: flex;
@@ -75,7 +75,7 @@
   }
 
   .bigContainer{
-    border: 1px solid #70214e;
+    /*border: 1px solid #70214e;*/
     display: flex;
     align-content: space-around;
     flex-wrap: wrap;

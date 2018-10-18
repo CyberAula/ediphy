@@ -44,7 +44,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let slidesPerPage = options.slidesPerPage || 2;
     let slidesWithComments = options.slidesWithComments || false;
     let optionName = options.optionName || "defaultOption";
-    let drawBorder = options.drawBorder || true;
+    let drawBorder = options.drawBorder || false;
 
     let hideDocs = false;
     let hideSlides = false;
@@ -262,8 +262,8 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             break;
 
         }
-
-        let slideClass = slide ? (drawBorder ? "pwc_slide drawBorders" : "pwc_slide") : "pwc_doc";
+        console.log('[INFO] Ha seleccionado pintar los bordes: ' + drawBorder);
+        let slideClass = slide ? (drawBorder ? "pwc_slide drawBorders" : "pwc_slide") : (drawBorder ? "pwc_doc drawBorders" : "pwc_doc");
 
         if (slidesPerPage !== 4) {
             viewport = (slide) ? { width: SLIDE_BASE, height: SLIDE_BASE / canvasRatio } : {
@@ -330,6 +330,8 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
                 if (slidesPerPage === 4) {
                     elementClass = elementClass + " pageContainer";
+                    expectedHeight = '100%';
+                    expectedWidth = 100 * A4_RATIO * customAspectRatio + '%';
                 }
                 elemsUsed = -1;
             } else if ((customAspectRatio >= A4_RATIO) && (customAspectRatio < 1)) {
@@ -342,6 +344,8 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
                 if (slidesPerPage === 4) {
                     elementClass = elementClass + " pageContainer";
+                    expectedHeight = '100%';
+                    expectedWidth = 100 * A4_RATIO * customAspectRatio + '%';
                 }
                 elemsUsed = -1;
             } else if ((customAspectRatio >= 1) && (customAspectRatio < (1 / A4_RATIO))) {
@@ -364,6 +368,21 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 viewport.width = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.width : expectedWidth;
                 expectedHeight = expectedWidth / customAspectRatio;
                 viewport.height = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.height : expectedHeight;
+            }
+
+            if (slidesPerPage === 4 && isAnImportedDoc) {
+                elementClass = elementClass + " pageContainer";
+
+                if (customAspectRatio > 1 / A4_RATIO) {
+                    expectedWidth = '100%';
+                    expectedHeight = isSafari ? (((108 / customAspectRatio / A4_RATIO)) + '%') : (((104 / customAspectRatio / A4_RATIO)) + '%');
+                    console.log('expectedHeight:' + expectedHeight);
+                }
+
+                else {
+                    expectedHeight = '100%';
+                    expectedWidth = isSafari ? ((92 * A4_RATIO * customAspectRatio) + '%') : ((96 * A4_RATIO * customAspectRatio) + '%');
+                }
             }
 
             if(treatAsImportedDoc) {
@@ -559,7 +578,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         }
                         window.print();
                         if(!isSafari) {
-                            // deletePageContainers();
+                            deletePageContainers();
                         }
                         callback();
 
