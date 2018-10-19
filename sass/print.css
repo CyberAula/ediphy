@@ -116,6 +116,12 @@
     transform: scale(1);
   }
 
+  .twoColumn{
+    column-count: 2;
+    font-size: 50%;
+    column-fill: auto;
+  }
+
   .navBar {
     display: none;
   }

@@ -259,11 +259,12 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             cssPagedMedia.size('landscape');
             slidesPerPage = 2;
             hideSlides = true;
+            elementClass = elementClass + " twoColumn";
             break;
 
         }
         console.log('[INFO] Ha seleccionado pintar los bordes: ' + drawBorder);
-        let slideClass = slide ? (drawBorder ? "pwc_slide drawBorders" : "pwc_slide") : (drawBorder ? "pwc_doc drawBorders" : "pwc_doc");
+        let slideClass = slide ? (drawBorder ? "pwc_slide drawBorders" : "pwc_slide") : (drawBorder ? "pwc_doc" : "pwc_doc");
 
         if (slidesPerPage !== 4) {
             viewport = (slide) ? { width: SLIDE_BASE, height: SLIDE_BASE / canvasRatio } : {
@@ -288,7 +289,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         console.log(pageContainer.style.width);
         console.log(pageContainer.style.height);
 
-        if (slidesPerPage === 1) {
+        if (slidesPerPage === 1 || optionName === "twoDoc") {
             pageContainer.style.height = '975px';
             if(isSafari) {
                 pageContainer.style.height = '670px';
@@ -494,7 +495,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 () => {
 
                     let doc = document.getElementById('pageContainer_' + i);
-                    if (optionName == 'none') {
+                    if (optionName === 'twoDocNOP') {
                         if (doc.className.includes('otherDoc')) {
                             console.log('[INFO] This element is a page');
                             let A4Height = isSafari ? SAFARI_HEIGHT : CHROME_HEIGHT;
@@ -503,21 +504,20 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                 let numSlices = Math.ceil(doc.clientHeight / A4Height);
                                 console.log(numPages);
                                 for (let i = 0; i < numSlices; i++) {
-                                    console.log('He entrado al for');
                                     let slice = document.createElement('div');
                                     slice = pageContainer.cloneNode(true);
                                     slice.id = pageContainer.id + '_slice_' + i;
                                     slice.style.height = '1000px';
-                                    slice.style.width = A4Height + 'px';
+                                    slice.style.width = A4Height / 2 + 'px';
                                     slice.style.overflow = 'hidden';
-                                    if (optionName === "fullSlideDoc") {
+                                    if (optionName === "twoDoc") {
 
                                         slice.children[0].style.height = '1400px';
                                         slice.children[0].style.width = '999px';
                                         slice.children[0].style.transformOrigin = 'top left';
                                         let translateX = 100 + 140 * i;
                                         let translateY = 100 * i;
-                                        slice.children[0].style.transform = 'scale(0.5) rotate(-90deg) scale(2) translateX(-' + translateX + '%) translateY(-' + translateY + '%)';
+                                        // slice.children[0].style.transform = 'scale(0.5) rotate(-90deg) scale(2) translateX(-' + translateX + '%) translateY(-' + translateY + '%)';
 
                                         // contentSlice.children[0].style.transformOrigin = 'top left';
                                         // contentSlice.children[0].style.transform = 'rotate(-90deg) translateX(-999px)';
@@ -538,7 +538,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         for(let i = 0; i < numPages; i++) {
                             let doc = document.getElementById('pageContainer_' + i);
                             console.log('[INFO] Trying to read properties of doc ' + i);
-                            if ((importedDoc || (doc && doc.className.includes('otherDoc'))) && (slidesPerPage !== 4)) {
+                            if (((doc && doc.className.includes('importedDoc')) || (doc && doc.className.includes('otherDoc'))) && (slidesPerPage !== 4) && (optionName !== "twoDoc")) {
                                 let actualHeight = doc.clientHeight;
                                 console.log('[INFO] Page height is :' + actualHeight);
                                 document.getElementById('pageContainer_' + i).style.height = actualHeight * 1.05 + 'px';
@@ -578,7 +578,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         }
                         window.print();
                         if(!isSafari) {
-                            deletePageContainers();
+                            // deletePageContainers();
                         }
                         callback();
 
@@ -590,7 +590,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         });
     };
     if(isSafari) {
-        deletePageContainers();
+        // deletePageContainers();
     }
     if(notSections.length > 0) {
         addHTML(notSections, notSections.length === 1);
