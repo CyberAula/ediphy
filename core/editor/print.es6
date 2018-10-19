@@ -543,6 +543,14 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                 console.log('[INFO] Page height is :' + actualHeight);
                                 document.getElementById('pageContainer_' + i).style.height = actualHeight * 1.05 + 'px';
                             }
+                            if(optionName === "twoDoc") {
+                                if (doc.className.includes('otherDoc')) {
+                                    let actualHeight = doc.clientHeight;
+                                    console.log('[HEIGHT] La altura del documento es: ' + actualHeight);
+                                    document.getElementById('pageContainer_' + i).style.height = Math.ceil((actualHeight * 0.72 / 975 / 2)) * 975 + 'px';
+                                    document.getElementById('pageContainer_' + i).style.width = '1400px';
+                                }
+                            }
                         }
                         if (slidesPerPage === 4) {
                             let index = -1;
