@@ -6,6 +6,7 @@ import { isBox, isSection } from '../../../../../../common/utils';
 
 export function importEdiphy(url, props, callback) {
     let Url = "http://localhost:3000/ediphy_documents/4088";
+    console.log(url);
     fetch(Url + ".json")
         .then(e => e.json())
         .then(data=>{

@@ -59,7 +59,10 @@ export default class Image extends React.Component {
                     original.setAttribute('data-x', x);
                     original.setAttribute('data-y', y);
                     clone.style.position = 'absolute';
-                    clone.style.WebkitTransform = clone.style.transform = 'translate(' + (x) + 'px, ' + (y) + 'px) scale(' + scale + ')';
+                    clone.style.webkitTransform =
+                    clone.style.MozTransform =
+                      clone.style.msTransform =
+                        clone.style.OTransform = 'translate(' + (x) + 'px, ' + (y) + 'px) scale(' + scale + ')';
                     parent.appendChild(clone);
                     original.style.opacity = 0;
                 },
@@ -70,7 +73,10 @@ export default class Image extends React.Component {
                     let original = event.target.childNodes[0];
                     let x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
                     let y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-                    target.style.WebkitTransform = target.style.transform = 'translate(' + (x) + 'px, ' + (y) + 'px) scale(' + scale + ')';
+                    target.style.webkitTransform =
+                    target.style.MozTransform =
+                      target.style.msTransform =
+                        target.style.OTransform = 'translate(' + (x) + 'px, ' + (y) + 'px) scale(' + scale + ')';
                     target.style.zIndex = '9999';
                     target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
@@ -88,7 +94,7 @@ export default class Image extends React.Component {
                     let actualTop = target.getAttribute('data-y');
                     let x = (parseFloat(actualLeft) / target.parentElement.offsetWidth * 100);
                     let y = (parseFloat(actualTop) / target.parentElement.offsetHeight * 100);
-
+                    console.log(x, y);
                     // Delete clone and unhide original
                     let clone = document.getElementById('clone2');
                     if (clone) {
