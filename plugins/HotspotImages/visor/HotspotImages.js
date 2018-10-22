@@ -33,11 +33,12 @@ export function HotspotImages(base) {
             let scale = state.scale || 1;
             let translateX = (state.translate ? state.translate.x : 0) || 0;
             let translateY = (state.translate ? state.translate.y : 0) || 0;
-            let transform = ` scale(${scale}) translate(${translateX}%,${translateY}%)`;
+            // let transform = ` scale(${scale}) translate(${translateX}%,${translateY}%)`;
+            let transform = `translate(${translateX}%,${translateY}%) scale(${scale})`;
             return(
-                <div style={{ overflow: "hidden", height: "100%" }}>
+                <div style={{ overflow: "hidden", height: "100%" }} className="draggableImageVisor">
                     <a href={hyperlink} target="_blank" style={{ pointerEvents: hyperlink ? "initial" : "none" }}>
-                        <img style={{ width: "100%", height: state.allowDeformed ? "100%" : "auto", transform }} src={state.url} onError={(e)=>{
+                        <img style={{ width: state.allowDeformed ? "100%" : "100%", transform, WebkitTransform: transform, MozTransform: transform, height: state.allowDeformed ? '' : 'auto' }} src={state.url} onError={(e)=>{
                             e.target.onError = null;
                             e.target.src = img; // Ediphy.Config.broken_link;
                         }}/>

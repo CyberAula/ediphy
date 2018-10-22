@@ -94,11 +94,9 @@ export default function handlers(self) {
                     action: ()=>{
                         importEdiphy(self.state.element, self.props, (res) => {
                             if (res) {
-                                console.log(res);
                                 self.props.importEdi(res);
-                            } else {
-                                return false;
                             }
+                            return;
                         });
                         self.close();
                     },
@@ -118,11 +116,9 @@ export default function handlers(self) {
                     action: () => {
                         importExcursion(self.state.element, self.props, (res) => {
                             if (res) {
-                                console.log(res);
                                 self.props.importEdi(res);
-                            } else {
-                                return false;
                             }
+                            return;
                         });
                         self.props.close();
                     },

@@ -216,6 +216,6 @@ FileModal.propTypes = {
     /**
      * Import Ediphy Document
      */
-    importEdi: PropTypes.func.isRequired,
+    // importEdi: PropTypes.func.isRequired,
 
 };

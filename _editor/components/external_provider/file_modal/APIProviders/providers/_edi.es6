@@ -13,6 +13,7 @@ export function importEdiphy(url, props, callback) {
             callback(insertEdi(json, props));
         })
         .catch(e=> {
+            // eslint-disable-next-line no-console
             console.error(e);
             callback(false);
         });
@@ -26,6 +27,7 @@ export function importExcursion(url, props, callback) {
             callback(insertEdi(data, props));
         })
         .catch(e=> {
+            // eslint-disable-next-line no-console
             console.error(e);
             callback(false);
         });
@@ -47,6 +49,7 @@ function insertEdi(resource, props) {
 function replaceState(importedResources, currentResources, importedStateStringified, prefix) {
     let counter = 0;
     for (let el in importedResources) {
+        // eslint-disable-next-line eqeqeq
         if (currentResources[el] && el != 0) {
             importedStateStringified = importedStateStringified.replace(new RegExp(el, 'g'), prefix(el) + Date.now() + '_i_' + counter++);
         }

@@ -95,10 +95,10 @@ export function globalConfig(state) {
     }
 
     if (typeof newState.age.min === "string") {
-        newState.age.min = parseInt(newState.age.min);
+        newState.age.min = parseInt(newState.age.min, 10);
     }
     if (typeof newState.age.max === "string") {
-        newState.age.max = parseInt(newState.age.max);
+        newState.age.max = parseInt(newState.age.max, 10);
     }
 
     return newState;
