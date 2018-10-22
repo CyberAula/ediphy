@@ -116,7 +116,7 @@ export function EnrichedPlayer(base) {
             return convertSecondsToHMS(duration * parsed_value);
         },
         validateValueInput: function(value) {
-            let regex = /^((\d+:)?[0-5]\d?:[0-5]\d$)/g;
+            let regex = /^((\d+:)?[0-5]?[0-9]?:[0-5]\d$)/g;
             let match = regex.exec(value);
             if (match && match.length === 3) {
                 // let val = match[1];
