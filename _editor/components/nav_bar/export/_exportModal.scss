@@ -35,48 +35,90 @@
     }
   }
 
+  .panel .panel-default{
+  }
+
+  .panel-group .panel + .panel {
+    margin-top: 0 !important;
+  }
+
+
+  .panel-default {
+    box-shadow: none;
+    border-color: transparent !important;
+    border-bottom: 1px solid lightgrey;
+  }
+
+  .panel-body{
+    border-top: none !important;
+  }
+
+  .panel-group:first-child {
+    border-top: 1px solid lightgrey;
+  }
+
   .panel-title a{
     display: block;
     cursor: pointer;
     font-weight: bold;
     text-decoration: none;
-    background-color: $blueprimary;
-    color: white;
+    background-color: white;
+    color: $blueprimary;
     padding-left: 15px;
     padding-right: 15px;
     padding-bottom: 10px;
     padding-top: 10px;
   }
 
+  .panel-title a .expandArrow {
+    transition: all 0.25s 0s;
+    transform: rotate(180deg);
+  }
+
   .panel-title a:hover {
     display: block;
     cursor: pointer;
     text-decoration: none;
-    background-color: $blueprimarytransparent;
+    //background-color: $blueprimarytransparent;
+  }
+
+
+  .panel-title a:active .expandArrow{
+    transform: rotate(-180deg);
+
   }
 
   .panel-title a:active {
     display: block;
     cursor: pointer;
     text-decoration: none;
-    background-color: $blueprimary;
-    color: white;
+    //background-color: $blueprimary;
+    color: $blueprimary;
     font-weight: bold;
+  }
+
+  .panel-title .collapsed .expandArrow {
+    transform: rotate(0);
+
   }
 
   .panel-title a:active:hover {
     display: block;
     cursor: pointer;
     text-decoration: none;
-    background-color: $blueprimary;
-    color: white;
+    //background-color: $blueprimary;
+    color: $blueprimary;
     font-weight: bold;
   }
 
   .panel-title .collapsed {
     font-weight: normal;
-    background-color: #f1f1f1;
-    color: #0d0d0d;
+    background-color: white;
+    color: $blueprimary;
+  }
+
+  .panel-group .panel {
+    border-bottom: 1px solid lightgrey !important;
   }
 
   .panel-default > .panel-heading {
@@ -85,6 +127,10 @@
 
   .panel-default > .panel-heading:hover {
     background-color: #ececec;
+  }
+
+  .expandArrow{
+    float: right;
   }
 
   .print-explanation{

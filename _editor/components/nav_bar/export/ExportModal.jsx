@@ -110,7 +110,7 @@ export default class ExportModal extends Component {
                                             <PanelGroup accordion id="accordion-uncontrolled-example" defaultActiveKey="1">
                                                 <Panel eventKey="1">
                                                     <Panel.Heading>
-                                                        <Panel.Title toggle>{i18n.t('messages.slides_and_pages')}</Panel.Title>
+                                                        <Panel.Title toggle>{i18n.t('messages.slides_and_pages')}<em className={"material-icons expandArrow"}>expand_more</em></Panel.Title>
                                                     </Panel.Heading>
                                                     <Panel.Body collapsible>
                                                         <div className={"pageTemplates"}>
@@ -143,7 +143,7 @@ export default class ExportModal extends Component {
                                                 </Panel>
                                                 <Panel eventKey="2">
                                                     <Panel.Heading>
-                                                        <Panel.Title toggle>{i18n.t('messages.only_slides')}</Panel.Title>
+                                                        <Panel.Title toggle>{i18n.t('messages.only_slides')}<em className={"material-icons expandArrow"}>expand_more</em></Panel.Title>
                                                     </Panel.Heading>
                                                     <Panel.Body collapsible>
                                                         <div className={"pageTemplates"}>
@@ -182,7 +182,7 @@ export default class ExportModal extends Component {
                                                 </Panel>
                                                 <Panel eventKey="3">
                                                     <Panel.Heading>
-                                                        <Panel.Title toggle>{i18n.t('messages.only_pages')}</Panel.Title>
+                                                        <Panel.Title toggle>{i18n.t('messages.only_pages')}<em className={"material-icons expandArrow"}>expand_more</em></Panel.Title>
                                                     </Panel.Heading>
                                                     <Panel.Body collapsible>
                                                         <div className={"pageTemplates"}>
