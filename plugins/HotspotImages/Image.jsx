@@ -94,7 +94,6 @@ export default class Image extends React.Component {
                     let actualTop = target.getAttribute('data-y');
                     let x = (parseFloat(actualLeft) / target.parentElement.offsetWidth * 100);
                     let y = (parseFloat(actualTop) / target.parentElement.offsetHeight * 100);
-                    console.log(x, y);
                     // Delete clone and unhide original
                     let clone = document.getElementById('clone2');
                     if (clone) {

@@ -533,3 +533,27 @@ li > .selectedNavItemVisor {
     font-size: 35px;
     font-size: 5vh;
 }
+
+.watermark {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+}
+
+.embedWaterMark {
+  position: absolute;
+  top: 10%;
+  left: 2%;
+  background: transparent;
+  background-position-x: 0%;
+  background-position-y: 0%;
+  background-repeat: repeat;
+  background-image: none;
+  background-size: auto auto;
+  background-repeat: no-repeat;
+  background-image: url("https://vishub.org/assets/images/vicons/watermark.png");
+  background-size: auto 200%;
+  background-position: center 0;
+  width: 100px;
+  height: 80%;
+}

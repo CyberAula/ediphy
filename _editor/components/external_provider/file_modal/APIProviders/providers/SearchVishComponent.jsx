@@ -51,6 +51,8 @@ export default class SearchVishComponent extends React.Component {
         switch(this.props.elementSelectedType) {
         case "webapp":
         case "pdf":
+        case "edi":
+        case "vish":
         case "scormpackage":
         case "video":
         case "swf":
@@ -60,8 +62,7 @@ export default class SearchVishComponent extends React.Component {
             previewButton = <i className="material-icons">volume_down</i>;
             break;
         case "image":
-        case "edi":
-        case "vish":
+
         default:
             previewButton = null;
 
@@ -208,7 +209,6 @@ export default class SearchVishComponent extends React.Component {
             })
             .then(result => {
                 let results = JSON.parse(result).results;
-                console.log(results);
                 this.setState({ results, msg: results.length > 0 ? '' : i18n.t("FileModal.APIProviders.no_files") });
                 return true;
             })
@@ -225,6 +225,9 @@ export default class SearchVishComponent extends React.Component {
     generatePreview() {
         let item = this.props.elementSelected;
         switch(this.props.elementSelectedType) {
+        case "vish":
+        case "edi":
+            return <iframe src={this.props.elementSelected + ".full"} frameBorder="0" width={'100%'} height={"400"} />;
         case "webapp":
         case "pdf":
         case "scormpackage":

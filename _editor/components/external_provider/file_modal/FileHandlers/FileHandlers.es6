@@ -19,7 +19,7 @@ export const extensionHandlers = {
     'swf': { label: i18n.t("vish_search_types.Swf"), value: 'swf', icon: 'flash_on' },
     'xml': { label: i18n.t("vish_search_types.XML"), value: 'xml', icon: 'code' },
     'edi': { label: i18n.t("vish_search_types.Ediphy"), value: 'edi', icon: 'widgets' },
-    'vish': { label: i18n.t("vish_search_types.VISH"), value: 'edi', icon: 'list' },
+    'vish': { label: i18n.t("vish_search_types.VISH"), value: 'vish', icon: 'list' },
     // 'json': { label: i18n.t("vish_search_types.JSON"), value: 'json', icon: 'view_agenda' }
     // 'sla': { label: "Objeto 3D", value: 'sla', icon: 'devices_other' },
     // { label: "Objeto 3D", value: 'octet-stream', icon: 'devices_other' },

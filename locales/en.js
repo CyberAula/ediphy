@@ -144,6 +144,7 @@ let en = {
             "description": "Description",
             "description_placeholder": "Briefly describe what the document is about",
             "dif": {
+                'null': 'not specified',
                 'undefined': 'not specified',
                 'very easy': 'very easy',
                 'easy': 'easy',

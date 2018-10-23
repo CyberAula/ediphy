@@ -106,12 +106,15 @@ export default class UploadComponent extends React.Component {
                     let ext = extensions[e];
                     if (newFile && newFile.mimetype && newFile.mimetype.match && newFile.mimetype.match(ext.value)) {
                         extension = ext.value;
-
                     }
                     if (newFile.mimetype === 'application/vnd.ms-excel') {
                         extension === 'csv';
                     }
+
                 }
+                /* if (extension === "json" && ){
+
+                }*/
                 this.props.onElementSelected(newFile.name, newFile.url, extension, nextProps.isBusy.msg);
                 this.setState({ error: false, uploading: false, uploaded: true });
             }
@@ -121,8 +124,7 @@ export default class UploadComponent extends React.Component {
         this.setState({ file });
         let reader = new FileReader();
         reader.readAsDataURL(file);
-
-        reader.onloadend = () =>{
+        reader.onloadend = () => {
             let extension = file.type;
             for (let e in extensions) {
                 let ext = extensions[e];
@@ -141,7 +143,7 @@ export default class UploadComponent extends React.Component {
     uploadHandler() {
         let keywordsArray = this.state.keywords.map(key => { return key.text; });
         let keywords = keywordsArray.join(",");
-        if (Ediphy.Config.zip_files_forbidden && this.state.file && this.state.file.name && this.state.file.name.match(/\.zip$/)) {
+        if (Ediphy.Config.zip_files_forbidden && this.state.file && this.state.file.name && (this.state.file.name.match(/\.zip$/) || this.state.file.name.match(/\.edi/) || this.state.file.name.match(/\.vish$/))) {
             this.setState({ forbidden: true });
             return;
         }

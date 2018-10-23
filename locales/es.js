@@ -145,6 +145,7 @@ let es = {
             "description": "Descripción",
             "description_placeholder": "Describa brevemente de qué trata el documento",
             "dif": {
+                'null': 'sin especificar',
                 'undefined': 'sin especificar',
                 'very easy': 'muy fácil',
                 'easy': 'fácil',

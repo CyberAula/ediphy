@@ -5,12 +5,14 @@ import {
 import { isBox, isSection } from '../../../../../../common/utils';
 
 export function importEdiphy(url, props, callback) {
-    let Url = "http://localhost:3000/ediphy_documents/4088";
-    console.log(url);
-    fetch(Url + ".json")
+    let isVish = (/ediphy_documents/).test(url);
+    if (isVish) {
+        url += ".json";
+    }
+    fetch(url)
         .then(e => e.json())
         .then(data=>{
-            let json = JSON.parse(data.json);
+            let json = isVish ? JSON.parse(data.json) : data;
             callback(insertEdi(json, props));
         })
         .catch(e=> {
@@ -21,8 +23,11 @@ export function importEdiphy(url, props, callback) {
 }
 
 export function importExcursion(url, props, callback) {
-    let Url = "http://localhost:3000/excursions/511";
-    fetch(Url + "/transpile.json")
+    let isVish = (/excursion/).test(url);
+    if (isVish) {
+        url += "/translate.json";
+    }
+    fetch(url)
         .then(e => e.json())
         .then(data=>{
             callback(insertEdi(data, props));
@@ -32,19 +37,21 @@ export function importExcursion(url, props, callback) {
             console.error(e);
             callback(false);
         });
+
 }
 
-function insertEdi(resource, props) {
+function insertEdi(res, props) {
     let counter = 0;
-    delete resource.present.globalConfig;
+    let resource = res.present ? res.present : res;
+    delete resource.globalConfig;
     let importedStateStringified = JSON.stringify(resource);
-    let state = resource.present;
+    let state = resource;
     importedStateStringified = replaceState(state.boxesById, props.boxes, importedStateStringified, (box) => isBox(box) ? ID_PREFIX_BOX : ID_PREFIX_SORTABLE_BOX);
     importedStateStringified = replaceState(state.navItemsById, props.navItems, importedStateStringified, (page) => isSection(page) ? ID_PREFIX_SECTION : ID_PREFIX_PAGE);
     importedStateStringified = replaceState(state.containedViewsById, props.containedViewsById, importedStateStringified, () => ID_PREFIX_CONTAINED_VIEW);
     importedStateStringified = replaceState(state.marksById, props.marksById, importedStateStringified, () => ID_PREFIX_RICH_MARK);
     importedStateStringified = replaceState(state.filesUploaded, props.filesUploaded, importedStateStringified, () => ID_PREFIX_FILE);
-    return JSON.parse(importedStateStringified).present;
+    return JSON.parse(importedStateStringified);
 }
 
 function replaceState(importedResources, currentResources, importedStateStringified, prefix) {
