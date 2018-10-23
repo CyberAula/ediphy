@@ -34,6 +34,8 @@ export default class ExportModal extends Component {
             slidesWithComments: false,
             optionName: "dafaultOption",
             drawBorder: true,
+            explanation: "",
+            landscape: false,
 
         };
     }
@@ -52,6 +54,9 @@ export default class ExportModal extends Component {
             }
 
         };
+        let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
+        let isFirefox = typeof InstallTrigger !== 'undefined';
+
         let exportFormats = [
             { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false, callback, this.state.selfContained); } },
             { format: "SCORM 2004", handler: ()=> {this.props.scorm(true, callback, this.state.selfContained); } },
@@ -114,13 +119,14 @@ export default class ExportModal extends Component {
                                                                 return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: (index === 0 || index === 2) ? '110px' : '80px', height: (index === 0 || index === 2) ? '80px' : '110px' }}>
                                                                     <TemplateThumbnail key={index} index={index}
                                                                         onClick={e => {
+                                                                            console.log('[INFO] e is ' + e);
                                                                             this.setState({ itemSelected: index });
                                                                             switch (index) {
                                                                             case 0:
-                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, optionName: "fullSlideDoc" });
+                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, optionName: "fullSlideDoc", explanation: i18n.t("export.full_sli_doc"), landscape: true });
                                                                                 break;
                                                                             case 1:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "twoSlideDoc" });
+                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "twoSlideDoc", explanation: i18n.t("export.two_sli_doc"), landscape: false });
                                                                                 break;
                                                                             default:
                                                                                 this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "defaultOption" });
@@ -128,6 +134,7 @@ export default class ExportModal extends Component {
                                                                             }
                                                                         }}
                                                                         boxes={item.boxes}/>
+                                                                    {/* <div className={'template_name'} style={{ display: this.state.itemSelected === index ? 'block' : 'none' }}>{item.name}</div>*/}
                                                                 </div>
                                                                 );
                                                             })}
@@ -148,23 +155,25 @@ export default class ExportModal extends Component {
                                                                             this.setState({ itemSelected: index });
                                                                             switch (index) {
                                                                             case 0:
-                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, optionName: "fullSlide" });
+                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, optionName: "fullSlide", explanation: i18n.t("export.full_sli"), landscape: true });
                                                                                 break;
                                                                             case 1:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "twoSlide" });
+                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "twoSlide", explanation: i18n.t("export.two_sli"), landscape: false });
                                                                                 break;
                                                                             case 2:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: true, optionName: "slideComments" });
+                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: true, optionName: "slideComments", explanation: i18n.t("export.sli_comments"), landscape: false });
                                                                                 break;
                                                                             case 3:
-                                                                                this.setState({ slidesPerPage: 4, slidesWithComments: false, optionName: "fourSlide" });
+                                                                                this.setState({ slidesPerPage: 4, slidesWithComments: false, optionName: "fourSlide", explanation: i18n.t("export.four_sli"), landscape: true });
                                                                                 break;
                                                                             default:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "defaultOption" });
+                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "defaultOption", explanation: i18n.t("export.full_sli") });
                                                                                 break;
                                                                             }
                                                                         }}
                                                                         boxes={item.boxes}/>
+                                                                    {/* <div className={'template_name'} style={{ display: this.state.itemSelected === index ? 'block' : 'none' }}>{item.name}</div>*/}
+
                                                                 </div>
                                                                 );
                                                             })}
@@ -185,10 +194,10 @@ export default class ExportModal extends Component {
                                                                             this.setState({ itemSelected: index });
                                                                             switch (index) {
                                                                             case 0:
-                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, optionName: "fullDoc" });
+                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, optionName: "fullDoc", explanation: i18n.t("export.full_doc"), landscape: false });
                                                                                 break;
                                                                             case 1:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "twoDoc" });
+                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "twoDoc", explanation: i18n.t("export.two_doc"), landscape: true });
                                                                                 break;
                                                                             default:
                                                                                 this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "defaultOption" });
@@ -196,6 +205,7 @@ export default class ExportModal extends Component {
                                                                             }
                                                                         }}
                                                                         boxes={item.boxes}/>
+                                                                    {/* <div className={'template_name'} style={{ display: this.state.itemSelected === index ? 'block' : 'none' }}>{item.name}</div>*/}
                                                                 </div>
                                                                 );
                                                             })}
@@ -204,6 +214,9 @@ export default class ExportModal extends Component {
                                                 </Panel>
                                             </PanelGroup>
 
+                                            <div className={"print-explanation"}> {this.state.explanation} </div>
+
+                                            {(this.state.landscape) ? (isSafari ? <div>{i18n.t("export.safari_landscape")}</div> : (isFirefox ? <div>{i18n.t("export.firefox_landscape")}</div> : null)) : (isSafari ? <div>{i18n.t("export.safari_portrait")}</div> : (isFirefox ? <div>{i18n.t("export.firefox_portrait")}</div> : null))}
                                             <div className={"selfContained"}>
                                                 <div><ToggleSwitch onChange={()=>{this.setState({ drawBorder: !this.state.drawBorder });}} checked={this.state.drawBorder}/></div>
                                                 <div>{i18n.t('messages.draw_borders')}</div>

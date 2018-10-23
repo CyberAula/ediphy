@@ -2,8 +2,25 @@ import i18n from 'i18next';
 export const templatesSliDoc = () => { return (
     [
         {
-            "name": i18n.t('templates.template1'),
+            "name": "Test",
             "boxes": [
+                {
+                    "box": {
+                        "x": "0%",
+                        "y": "0%",
+                        "width": "100%",
+                        "height": "100%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "",
+                        "color": "#ffffff",
+                    },
+                },
                 {
                     "box": {
                         "x": "5%",
@@ -27,6 +44,23 @@ export const templatesSliDoc = () => { return (
         {
             "name": i18n.t('templates.template2'),
             "boxes": [
+                {
+                    "box": {
+                        "x": "0%",
+                        "y": "0%",
+                        "width": "100%",
+                        "height": "100%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "",
+                        "color": "#ffffff",
+                    },
+                },
                 {
                     "box": {
                         "x": "5%",
@@ -73,6 +107,23 @@ export const templatesSli = () => { return (
             "boxes": [
                 {
                     "box": {
+                        "x": "0%",
+                        "y": "0%",
+                        "width": "100%",
+                        "height": "100%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "",
+                        "color": "#ffffff",
+                    },
+                },
+                {
+                    "box": {
                         "x": "5%",
                         "y": "5%",
                         "width": "90%",
@@ -96,6 +147,23 @@ export const templatesSli = () => { return (
             "boxes": [
                 {
                     "box": {
+                        "x": "0%",
+                        "y": "0%",
+                        "width": "100%",
+                        "height": "100%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "",
+                        "color": "#ffffff",
+                    },
+                },
+                {
+                    "box": {
                         "x": "5%",
                         "y": "5%",
                         "width": "90%",
@@ -135,6 +203,23 @@ export const templatesSli = () => { return (
             "boxes": [
                 {
                     "box": {
+                        "x": "0%",
+                        "y": "0%",
+                        "width": "100%",
+                        "height": "100%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "",
+                        "color": "#ffffff",
+                    },
+                },
+                {
+                    "box": {
                         "x": "5%",
                         "y": "5%",
                         "width": "90%",
@@ -155,23 +240,211 @@ export const templatesSli = () => { return (
                         "x": "5%",
                         "y": "52.5%",
                         "width": "90%",
-                        "height": "42.5%",
+                        "height": "1%",
                     },
                     "toolbar": {
                         "name": "BasicText",
                         "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
                     },
                     "thumbnail": {
-                        "icon": "format_align_left",
+                        "icon": "",
                         "icon_color": "#fdfffd",
                         "color": "#d6d6d6",
                     },
                 },
+                {
+                    "box": {
+                        "x": "5%",
+                        "y": "56.5%",
+                        "width": "90%",
+                        "height": "1%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "#fdfffd",
+                        "color": "#d6d6d6",
+                    },
+                },
+                {
+                    "box": {
+                        "x": "5%",
+                        "y": "60.5%",
+                        "width": "90%",
+                        "height": "1%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "#fdfffd",
+                        "color": "#d6d6d6",
+                    },
+                },
+                {
+                    "box": {
+                        "x": "5%",
+                        "y": "64.5%",
+                        "width": "90%",
+                        "height": "1%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "#fdfffd",
+                        "color": "#d6d6d6",
+                    },
+                },
+                {
+                    "box": {
+                        "x": "5%",
+                        "y": "68.5%",
+                        "width": "90%",
+                        "height": "1%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "#fdfffd",
+                        "color": "#d6d6d6",
+                    },
+                },
+                {
+                    "box": {
+                        "x": "5%",
+                        "y": "72.5%",
+                        "width": "90%",
+                        "height": "1%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "#fdfffd",
+                        "color": "#d6d6d6",
+                    },
+                },
+                {
+                    "box": {
+                        "x": "5%",
+                        "y": "76.5%",
+                        "width": "90%",
+                        "height": "1%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "#fdfffd",
+                        "color": "#d6d6d6",
+                    },
+                },
+                {
+                    "box": {
+                        "x": "5%",
+                        "y": "80.5%",
+                        "width": "90%",
+                        "height": "1%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "#fdfffd",
+                        "color": "#d6d6d6",
+                    },
+                },
+                {
+                    "box": {
+                        "x": "5%",
+                        "y": "84.5%",
+                        "width": "90%",
+                        "height": "1%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "#fdfffd",
+                        "color": "#d6d6d6",
+                    },
+                },
+                {
+                    "box": {
+                        "x": "5%",
+                        "y": "88.5%",
+                        "width": "90%",
+                        "height": "1%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "#fdfffd",
+                        "color": "#d6d6d6",
+                    },
+                },
+                {
+                    "box": {
+                        "x": "5%",
+                        "y": "92.5%",
+                        "width": "90%",
+                        "height": "1%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "#fdfffd",
+                        "color": "#d6d6d6",
+                    },
+                },
+
             ],
         },
         {
             "name": i18n.t('templates.template3'),
             "boxes": [
+                {
+                    "box": {
+                        "x": "0%",
+                        "y": "0%",
+                        "width": "100%",
+                        "height": "100%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "",
+                        "color": "#ffffff",
+                    },
+                },
                 {
                     "box": {
                         "x": "5%",
@@ -252,6 +525,23 @@ export const templatesDoc = () => { return (
             "boxes": [
                 {
                     "box": {
+                        "x": "0%",
+                        "y": "0%",
+                        "width": "100%",
+                        "height": "100%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "",
+                        "color": "#ffffff",
+                    },
+                },
+                {
+                    "box": {
                         "x": "5%",
                         "y": "5%",
                         "width": "90%",
@@ -273,6 +563,23 @@ export const templatesDoc = () => { return (
         {
             "name": i18n.t('templates.template2'),
             "boxes": [
+                {
+                    "box": {
+                        "x": "0%",
+                        "y": "0%",
+                        "width": "100%",
+                        "height": "100%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "",
+                        "color": "#ffffff",
+                    },
+                },
                 {
                     "box": {
                         "x": "5%",

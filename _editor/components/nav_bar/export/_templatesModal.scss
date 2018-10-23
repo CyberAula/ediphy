@@ -1,5 +1,5 @@
-@import './../../../../sass/general/mixins/mixins';
-@import './../../../../sass/general/variables';
+@import '../../../../sass/general/mixins/mixins';
+@import '../../../../sass/general/variables';
 .items_container{
   display: flex;
   flex-flow: row wrap;
@@ -23,6 +23,28 @@
       color: white;
       display: none;
     }
+  }
+}
+
+.template_item{
+  cursor: pointer;
+  margin: 0.5em;
+  border-radius: 0.25em;
+  &:hover{
+    @include scale(1.05);
+    @include animacion(all, 0.2s);
+  }
+  .template_name{
+    position: absolute;
+    bottom: -0.25em;
+    width: 100%;
+    background: $blueprimary;
+    padding: 0.2em 0.4em;
+    text-transform: uppercase;
+    font-size: smaller;
+    font-weight: bold;
+    color: white;
+    display: none;
   }
 }
 .template2_item{

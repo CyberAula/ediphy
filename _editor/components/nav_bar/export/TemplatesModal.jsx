@@ -42,7 +42,8 @@ export default class TemplatesModal extends Component {
                                     itemSelected: -1,
                                 });
                                 this.AddNavItem(-1);
-                            }}><div className={'template_name'} style={{ display: this.state.itemSelected === -1 ? 'block' : 'none' }}>{i18n.t('templates.template0')}</div>
+                            }}>
+                            <div className={'template_name'} style={{ display: this.state.itemSelected === -1 ? 'block' : 'none' }}>{i18n.t('templates.template0')}</div>
                         </div>
                         {this.templates.map((item, index) => {
                             let border = this.state.itemSelected === index ? "solid #17CFC8 3px" : "solid #eee 1px";
