@@ -88,6 +88,56 @@
 
   }
 
+  .print-explanation{
+    padding: 8px 10px;
+    background-color: $blueprimarytransparent;
+    color: $blueprimary;
+    border: 1px solid $blueprimary;
+  }
+
+  .print-explanation-title{
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: $blueprimary;
+  }
+
+  .print-explanation-body{
+    color: $blueprimary;
+  }
+
+  .print-explanation-body-sub{
+    color: #607780;
+  }
+
+  .print-settings-explanation li {
+    color: $blueprimary !important;
+    font-weight: bold;
+  }
+
+  .printer-icon{
+    margin-right: 7px;
+  }
+
+  .browser-explanation {
+    margin-top: 8px;
+    padding: 8px 10px;
+    background-color: $naranjaclaro;
+    color: $naranjaadams;
+    border: 1px solid $naranjaadams;
+  }
+
+  .browser-explanation-title{
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: $naranjaadams;
+  }
+
+  .warning-icon{
+    margin-right: 7px;
+  }
+
   .panel-title a:active {
     display: block;
     cursor: pointer;
@@ -143,6 +193,7 @@
       font-size: 1.2em !important;
     }
   }
+
   .betaSub {
     color: $blueprimary;
   }

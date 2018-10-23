@@ -29,6 +29,7 @@ export default class ExportModal extends Component {
             showLoader: false,
             selfContained: false,
             showAlert: false,
+            showPrintAlert: false,
             forcePageBreak: false,
             slidesPerPage: 2,
             slidesWithComments: false,
@@ -46,14 +47,17 @@ export default class ExportModal extends Component {
    */
     render() {
         let callback = (fail)=> {
+            console.log('[INFO] There is nothing to print');
             this.setState({ showLoader: false });
-            if (fail) {
+            if(fail === "nullPrint") {
+                this.setState({ showLoader: false, showPrintAlert: true });
+            } else if (fail) {
                 this.setState({ showAlert: true });
             } else {
                 this.props.close(true);
             }
-
         };
+
         let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
         let isFirefox = typeof InstallTrigger !== 'undefined';
 
@@ -79,8 +83,21 @@ export default class ExportModal extends Component {
                                 <Col xs={12} md={12}>
                                     {this.state.showAlert ? (<Alert className="pageModal" show hasHeader acceptButtonText={i18n.t("messages.OK")}
                                         title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">warning</i>{i18n.t("messages.error")}</span>}
-                                        onClose={()=>{ this.setState({ showAlert: false }); }}>
+                                        onClose={()=>{ this.setState({ showAlert: false, showLoader: false }); }}>
                                         <span> {i18n.t("error.generic")} </span><br/>
+                                    </Alert>) : null}
+
+                                    {this.state.showPrintAlert ? (<Alert className="pageModal" show hasHeader acceptButtonText={i18n.t("messages.OK")}
+                                        title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">warning</i>{i18n.t("messages.error")}</span>}
+                                        onClose={()=>{ this.setState({ showPrintAlert: false, showLoader: false }); }}>
+                                        <div> <p><b>{i18n.t("export.null_print")}</b></p>
+                                            <ul className={"print-settings-explanation"}>
+                                                <li className={"error-setting"}><span className={"setting-title"}>{i18n.t("export.sli_doc")}:</span> <span> {i18n.t("export.sli_doc_explanation")}</span></li>
+                                                <li className={"error-setting"}><span className={"setting-title"}>{i18n.t("export.sli")}:</span> <span> {i18n.t("export.sli_explanation")}</span></li>
+                                                <li className={"error-setting"}><span className={"setting-title"}>{i18n.t("export.doc")}:</span> <span> {i18n.t("export.doc_explanation")}</span></li>
+                                            </ul>
+
+                                        </div><br/>
                                     </Alert>) : null}
                                     <FormGroup >
                                         <ControlLabel> {i18n.t("messages.export_to_label")}</ControlLabel><br/>
@@ -213,10 +230,21 @@ export default class ExportModal extends Component {
                                                     </Panel.Body>
                                                 </Panel>
                                             </PanelGroup>
+                                            <div className={"print-explanation"}>
+                                                <div className={"print-explanation-title"}><em className={"material-icons printer-icon"}>print</em> Print settings</div>
+                                                <div className={"print-explanation-body"}> {this.state.explanation} </div>
+                                            </div>
+                                            {(isSafari || isFirefox) ?
+                                                <div className={"browser-explanation"}>
+                                                    <div className={"browser-explanation-title"}><em className={"material-icons warning-icon"}>warning</em> Warning</div>
 
-                                            <div className={"print-explanation"}> {this.state.explanation} </div>
+                                                    {(this.state.landscape) ? (isSafari ?
+                                                        <div>{i18n.t("export.safari_landscape")}</div> : (isFirefox ?
+                                                            <div>{i18n.t("export.firefox_landscape")}</div> : null)) : (isSafari ?
+                                                        <div>{i18n.t("export.safari_portrait")}</div> : (isFirefox ?
+                                                            <div>{i18n.t("export.firefox_portrait")}</div> : null))}</div>
+                                                : null}
 
-                                            {(this.state.landscape) ? (isSafari ? <div>{i18n.t("export.safari_landscape")}</div> : (isFirefox ? <div>{i18n.t("export.firefox_landscape")}</div> : null)) : (isSafari ? <div>{i18n.t("export.safari_portrait")}</div> : (isFirefox ? <div>{i18n.t("export.firefox_portrait")}</div> : null))}
                                             <div className={"selfContained"}>
                                                 <div><ToggleSwitch onChange={()=>{this.setState({ drawBorder: !this.state.drawBorder });}} checked={this.state.drawBorder}/></div>
                                                 <div>{i18n.t('messages.draw_borders')}</div>
@@ -233,7 +261,7 @@ export default class ExportModal extends Component {
                 </Modal.Body>
                 <Modal.Footer >
                     <Button bsStyle="default" id="cancel_export_to_scorm" onClick={e => {
-
+                        this.setState({ showLoader: false });
                         this.props.close(); e.preventDefault();
                     }}>{i18n.t("global_config.Discard")}</Button>
                     <Button bsStyle="primary" id="accept_export_to_scorm" onClick={e => {
@@ -241,6 +269,7 @@ export default class ExportModal extends Component {
                         exportFormats[this.state.format].handler(); e.preventDefault();
                     }}>{i18n.t("messages.export_course")}</Button>{'   '}
                 </Modal.Footer>
+
             </Modal>
         );
     }

@@ -259,6 +259,15 @@ input[type="radio"]{
     background: none;
 }
 
+.setting-title{
+    color: $blueprimary !important;
+    font-weight: bold;
+}
+
+.print-settings-explanation{
+    margin-left: 15px;
+}
+
 /*@media screen {
     .pageToPrint {
         visibility: hidden;

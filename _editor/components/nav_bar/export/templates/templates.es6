@@ -240,7 +240,7 @@ export const templatesSli = () => { return (
                         "x": "5%",
                         "y": "52.5%",
                         "width": "90%",
-                        "height": "1%",
+                        "height": "2%",
                     },
                     "toolbar": {
                         "name": "BasicText",
@@ -255,26 +255,9 @@ export const templatesSli = () => { return (
                 {
                     "box": {
                         "x": "5%",
-                        "y": "56.5%",
+                        "y": "58.5%",
                         "width": "90%",
-                        "height": "1%",
-                    },
-                    "toolbar": {
-                        "name": "BasicText",
-                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
-                    },
-                    "thumbnail": {
-                        "icon": "",
-                        "icon_color": "#fdfffd",
-                        "color": "#d6d6d6",
-                    },
-                },
-                {
-                    "box": {
-                        "x": "5%",
-                        "y": "60.5%",
-                        "width": "90%",
-                        "height": "1%",
+                        "height": "2%",
                     },
                     "toolbar": {
                         "name": "BasicText",
@@ -291,7 +274,7 @@ export const templatesSli = () => { return (
                         "x": "5%",
                         "y": "64.5%",
                         "width": "90%",
-                        "height": "1%",
+                        "height": "2%",
                     },
                     "toolbar": {
                         "name": "BasicText",
@@ -306,26 +289,9 @@ export const templatesSli = () => { return (
                 {
                     "box": {
                         "x": "5%",
-                        "y": "68.5%",
+                        "y": "70.5%",
                         "width": "90%",
-                        "height": "1%",
-                    },
-                    "toolbar": {
-                        "name": "BasicText",
-                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
-                    },
-                    "thumbnail": {
-                        "icon": "",
-                        "icon_color": "#fdfffd",
-                        "color": "#d6d6d6",
-                    },
-                },
-                {
-                    "box": {
-                        "x": "5%",
-                        "y": "72.5%",
-                        "width": "90%",
-                        "height": "1%",
+                        "height": "2%",
                     },
                     "toolbar": {
                         "name": "BasicText",
@@ -342,7 +308,7 @@ export const templatesSli = () => { return (
                         "x": "5%",
                         "y": "76.5%",
                         "width": "90%",
-                        "height": "1%",
+                        "height": "2%",
                     },
                     "toolbar": {
                         "name": "BasicText",
@@ -357,26 +323,9 @@ export const templatesSli = () => { return (
                 {
                     "box": {
                         "x": "5%",
-                        "y": "80.5%",
+                        "y": "82.5%",
                         "width": "90%",
-                        "height": "1%",
-                    },
-                    "toolbar": {
-                        "name": "BasicText",
-                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
-                    },
-                    "thumbnail": {
-                        "icon": "",
-                        "icon_color": "#fdfffd",
-                        "color": "#d6d6d6",
-                    },
-                },
-                {
-                    "box": {
-                        "x": "5%",
-                        "y": "84.5%",
-                        "width": "90%",
-                        "height": "1%",
+                        "height": "2%",
                     },
                     "toolbar": {
                         "name": "BasicText",
@@ -393,24 +342,7 @@ export const templatesSli = () => { return (
                         "x": "5%",
                         "y": "88.5%",
                         "width": "90%",
-                        "height": "1%",
-                    },
-                    "toolbar": {
-                        "name": "BasicText",
-                        "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
-                    },
-                    "thumbnail": {
-                        "icon": "",
-                        "icon_color": "#fdfffd",
-                        "color": "#d6d6d6",
-                    },
-                },
-                {
-                    "box": {
-                        "x": "5%",
-                        "y": "92.5%",
-                        "width": "90%",
-                        "height": "1%",
+                        "height": "2%",
                     },
                     "toolbar": {
                         "name": "BasicText",

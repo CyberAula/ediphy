@@ -538,7 +538,9 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         console.log('[INFO] Número de páginas que no se van a imprimir: ' + notToPrint);
 
                         if (notToPrint === numPages) {
-
+                            deletePageContainers();
+                            callback("nullPrint");
+                            return;
                         }
                         if (slidesPerPage === 4) {
                             let index = -1;
