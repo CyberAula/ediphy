@@ -27,17 +27,18 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
     componentWillUpdate(nextProps, nextState) {
         if(nextState.played !== this.state.played) {
-            let sudo = this;
+            let plugin = this;
             let marks = this.props.props.marks || {};
             let triggerMark = this.props.props.onMarkClicked;
             let triggerArray = this.state.toBeTriggered;
+            console.log(nextState.playedSeconds);
             triggerArray.forEach(function(e, i) {
                 // if ((parseFloat(e.value) / 100).toFixed(3) < parseFloat(nextState.played).toFixed(3)) {
                 if (parseFloat(convertHMStoSeconds(e.value)) < nextState.playedSeconds) {
                     let toBeTriggered = triggerArray;
-                    triggerMark(sudo.props.props.id, e.value, true);
+                    triggerMark(plugin.props.props.id, e.value, true);
                     toBeTriggered.splice(i, 1);
-                    sudo.setState({ toBeTriggered });
+                    plugin.setState({ toBeTriggered });
                 }
             });
 
@@ -48,20 +49,19 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     if(mark.id === key) {
                         notInArray = false;
                     }
-
                 });
 
                 // if(notInArray &&
                 //   parseFloat(nextState.played).toFixed(3) <= (parseFloat(marks[key].value) / 100).toFixed(3) &&
                 //  parseFloat(parseFloat(nextState.played).toFixed(3)) + 0.05 >= parseFloat((parseFloat(marks[key].value) / 100).toFixed(3))) {
-                let valueIntoSeconds = parseInt(convertHMStoSeconds(marks[key].value), 10);
+                let valueIntoSeconds = parseFloat(convertHMStoSeconds(marks[key].value), 10);
 
                 if(notInArray &&
-                    parseFloat(nextState.playedSeconds) <= parseFloat(convertHMStoSeconds(marks[key].value)) &&
-                    nextState.playedSeconds + 0.5 >= parseFloat(convertHMStoSeconds(marks[key].value))) {
+                    parseFloat(nextState.playedSeconds) <= valueIntoSeconds &&
+                    nextState.playedSeconds + 1.1 >= valueIntoSeconds) {
                     let toBeTriggered = triggerArray;
                     toBeTriggered.push(marks[key]);
-                    sudo.setState({ toBeTriggered });
+                    plugin.setState({ toBeTriggered });
                 }
             });
         }
@@ -69,7 +69,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
     componentWillMount() {
         if(this.props.state.currentState !== undefined) {
-            let initialPoint = parseFloat(convertHMStoSeconds(this.props.state.currentState)) + 0.5;
+            let initialPoint = parseFloat(convertHMStoSeconds(this.props.state.currentState)) + 1.1;
             this.setState({ initialPoint });
         }
     }
