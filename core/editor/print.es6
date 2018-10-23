@@ -125,19 +125,23 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 if (canvasRatio === 4 / 3) {
                     SLIDE_BASE = 650;
                     expectedHeight = SLIDE_BASE / canvasRatio;
-                    navItems[currentView].customSize = {
+                    viewport = {
                         height: expectedHeight * 0.95,
                         width: expectedHeight * canvasRatio * 0.95,
                     };
+
+                    miniViewport = viewport;
 
                 } else if (canvasRatio === 16 / 9)
                 {
                     SLIDE_BASE = 700;
                     expectedHeight = SLIDE_BASE / canvasRatio;
-                    navItems[currentView].customSize = {
+                    viewport = {
                         height: expectedHeight,
                         width: expectedHeight * canvasRatio,
                     };
+
+                    miniViewport = viewport;
 
                 }
             }
@@ -165,23 +169,34 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             hideDocs = true;
             DOC_BASE = 999;
             slidesPerPage = 2;
-            if(slide && navItems[currentView].customSize === 0) {
+            if (isSafari) {
+                DOC_BASE = 999;
+            }
+            viewport = (slide) ? { width: SLIDE_BASE, height: SLIDE_BASE / canvasRatio } : {
+                width: DOC_BASE,
+                height: "auto",
+            };
+            if(treatAsImportedDoc) {
                 if (canvasRatio === 4 / 3) {
                     SLIDE_BASE = 650;
                     expectedHeight = SLIDE_BASE / canvasRatio;
-                    navItems[currentView].customSize = {
+                    viewport = {
                         height: expectedHeight * 0.95,
                         width: expectedHeight * canvasRatio * 0.95,
                     };
+
+                    miniViewport = viewport;
 
                 } else if (canvasRatio === 16 / 9)
                 {
                     SLIDE_BASE = 700;
                     expectedHeight = SLIDE_BASE / canvasRatio;
-                    navItems[currentView].customSize = {
+                    viewport = {
                         height: expectedHeight,
                         width: expectedHeight * canvasRatio,
                     };
+
+                    miniViewport = viewport;
 
                 }
             }
@@ -191,23 +206,32 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             hideDocs = true;
             DOC_BASE = 999;
             slidesPerPage = 2;
-            if(slide && navItems[currentView].customSize === 0) {
+            if (isSafari) {
+                DOC_BASE = 999;
+            }
+            viewport = (slide) ? { width: SLIDE_BASE, height: SLIDE_BASE / canvasRatio } : {
+                width: DOC_BASE,
+                height: "auto",
+            };
+            if(treatAsImportedDoc) {
                 if (canvasRatio === 4 / 3) {
                     SLIDE_BASE = 650;
                     expectedHeight = SLIDE_BASE / canvasRatio;
-                    navItems[currentView].customSize = {
+                    viewport = {
                         height: expectedHeight * 0.95,
                         width: expectedHeight * canvasRatio * 0.95,
                     };
+                    miniViewport = viewport;
 
                 } else if (canvasRatio === 16 / 9)
                 {
                     SLIDE_BASE = 700;
                     expectedHeight = SLIDE_BASE / canvasRatio;
-                    navItems[currentView].customSize = {
+                    viewport = {
                         height: expectedHeight,
                         width: expectedHeight * canvasRatio,
                     };
+                    miniViewport = viewport;
                 }
             }
             break;
@@ -277,6 +301,9 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
         // Me creo un div para la página
         let pageContainer = document.createElement('div');
+
+        console.log('[INFO] is this aslide?' + slide);
+        console.log('[INFO] is this fp?' + requiresFullPage);
 
         // Asigno la anchura y altura del div dependiendo si es page o slide
         pageContainer.style.width = DOC_BASE + 'px';
@@ -568,7 +595,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                     let left = (4 - (counter % 4)) % 4;
                                     for (let f = left; f > 0; f--) {
                                         containersArray[index].appendChild(doc.cloneNode());
-
                                     }
                                 }
                             }
@@ -578,7 +604,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                             // deletePageContainers();
                         }
                         callback();
-
                     } else {
                         addHTML(navs.slice(1), navs.length <= 2);
                         numPages++;
