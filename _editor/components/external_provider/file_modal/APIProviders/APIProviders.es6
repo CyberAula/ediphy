@@ -150,5 +150,6 @@ export default function menus(self) {
           component: ThingiverseComponent,
           props: { ...commonProps },
       }*/
+
     ];
 }

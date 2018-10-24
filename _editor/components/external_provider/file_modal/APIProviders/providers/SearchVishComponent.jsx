@@ -41,6 +41,7 @@ export default class SearchVishComponent extends React.Component {
             query: '',
             types,
             msg: i18n.t("FileModal.APIProviders.no_files"),
+            onlyMyResources: false,
         };
         this.onSearch = this.onSearch.bind(this);
         this.generatePreview = this.generatePreview.bind(this);
@@ -71,7 +72,7 @@ export default class SearchVishComponent extends React.Component {
             <div className="contentComponent">
                 <Form horizontal action="javascript:void(0);">
                     <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}
-                        <SearchComponent query={this.state.value} onChange={(e)=>{this.setState({ query: e.target.value });}} onSearch={this.onSearch} />
+                        <SearchComponent disabled={this.state.onlyMyResources} query={this.state.value} onChange={(e)=>{this.setState({ query: e.target.value });}} onSearch={this.onSearch} />
                         <FormControl disabled={this.props.show !== '*'} value={this.state.types} autoFocus ref="type" className="selectD" componentClass="select" style={{ marginRight: '2%', width: '18%', float: 'right' }} onChange={(e)=>{this.setState({ types: e.target.value });}}>
                             <option value="Webapp,Scormfile,Link,Audio,Video,Officedoc,Picture,Swf,EdiphyDocument,Excursion" >All</option>
                             {Object.keys(categories).map((c, key)=>{
@@ -80,6 +81,11 @@ export default class SearchVishComponent extends React.Component {
                             })}
 
                         </FormControl>
+                        {Ediphy.Config.includeVishProfile ? <div className="myResourcesFormGroup">
+                            <label htmlFor="myResources">Only my resources</label>
+                            <input name="myResources" type="checkbox" value={this.state.onlyMyResources} onChange={e=>{this.setState({ onlyMyResources: !this.state.onlyMyResources });}}/>
+
+                        </div> : null}
                     </h5>
                     <hr />
 
@@ -197,6 +203,9 @@ export default class SearchVishComponent extends React.Component {
             "?q=" + text +
             "&type=" + this.state.types /* ReactDOM.findDOMNode(this.refs.type).value */ +
             "&sort_by=" + "created");
+        if (this.state.onlyMyResources) {
+            query = Ediphy.Config.profile_vish_url(window.ediphy_editor_params ? (window.ediphy_editor_params.name || "").toLowerCase() : 1);
+        }
 
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
 

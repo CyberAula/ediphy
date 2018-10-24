@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 export default class SearchComponent extends React.Component {
     render() {
         return <InputGroup className="searchInputTopBar">
-            <FormControl onChange={this.props.onChange} autoFocus ref="query" type="text" />
+            <FormControl onChange={this.props.onChange} autoFocus ref="query" type="text" disabled={this.props.disabled}/>
             <InputGroup.Addon className="inputSearch" onClick={(e) => {
                 this.props.onSearch(ReactDOM.findDOMNode(this.refs.query).value);
                 e.preventDefault();
@@ -26,4 +26,8 @@ SearchComponent.propTypes = {
      * Function called when the user types on the search box
      */
     onChange: PropTypes.func,
+    /**
+   * Input disabled
+   */
+    disabled: PropTypes.bool,
 };

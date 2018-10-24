@@ -41,7 +41,7 @@ export default class FileModal extends React.Component {
                         <div id="menuColumn">
                             <ListGroup>
                                 {menus.map((cat, i)=>{
-                                    if (cat.show) {
+                                    if (cat && cat.show) {
                                         return <ListGroupItem active={this.state.menu === i} key={i}
                                             onClick={()=>this.clickHandler(i)}
                                             className={"listGroupItem"}>
