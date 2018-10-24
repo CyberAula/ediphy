@@ -36,11 +36,11 @@ export function Webpage(base) {
                                     type: 'checkbox',
                                     checked: state.fixedPosition,
                                 },
-                                scrollY: {
+                                /* scrollY: {
                                     __name: Ediphy.i18n.t('Webpage.y'),
                                     type: 'number',
                                     checked: state.y,
-                                },
+                                },*/
                             },
                         },
                         style: {
@@ -101,7 +101,7 @@ export function Webpage(base) {
             };
         },
         getRenderTemplate: function(state) {
-            return <iframe style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none', border: '1px solid grey' }} onLoad={(e)=>{e.target.scrollTop(state.scrollY);}} scrolling={state.fixedPosition ? 'no' : 'yes'} src={state.url}/>;
+            return <iframe style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none', border: '1px solid grey' }} scrolling={state.fixedPosition ? 'no' : 'yes'} src={state.url}/>;
 
         },
 

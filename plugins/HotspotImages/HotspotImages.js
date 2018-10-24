@@ -56,7 +56,7 @@ export function HotspotImages(base) {
                                 scale: {
                                     __name: Ediphy.i18n.t('HotspotImages.scale'),
                                     type: "range",
-                                    min: 1,
+                                    min: 0,
                                     max: 20,
                                     step: 0.2,
                                     value: state.scale || 1,

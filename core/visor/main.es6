@@ -8,7 +8,6 @@ import { ID_PREFIX_SECTION } from '../../common/constants';
 import { escapeRegExp } from '../../common/utils';
 
 const visor_template = require("../../dist/lib/visor/index.ejs");
-
 let getDistinctName = function(name, namesUsed) {
     namesUsed[name] = namesUsed[name] + 1;
     return name + namesUsed[name];
@@ -96,9 +95,10 @@ export default {
                                         index++;
                                     }
                                     strState = strState.replace('http://vishub.org', 'https://vishub.org');
+                                    strState = strState.replace('http://educainternet.es', 'https://educainternet.es');
                                 }
 
-                                let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), false);
+                                let content = parseEJS(Ediphy.Config.visor_ejs, page, { ...JSON.parse(strState), id: window.ediphy_editor_params ? window.ediphy_editor_params.ediphy_resource_id : null, platform: getPlatform() }, false);
                                 zip.file(Ediphy.Config.dist_index, content);
                                 zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);
                                 zip.file("ediphy.edi", strState);
@@ -214,10 +214,11 @@ export default {
                                             index++;
                                         }
                                         strState = strState.replace('http://vishub.org', 'https://vishub.org');
+                                        strState = strState.replace('http://educainternet.es', 'https://educainternet.es');
 
                                     }
                                     zip.file("ediphy.edi", strState);
-                                    let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), true);
+                                    let content = parseEJS(Ediphy.Config.visor_ejs, page, { ...JSON.parse(strState), id: window.ediphy_editor_params ? window.ediphy_editor_params.ediphy_resource_id : null, platform: getPlatform() }, true);
                                     zip.file(Ediphy.Config.dist_index, content);
                                     zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);
                                     zip_title = state.globalConfig.title || 'Ediphy';
@@ -261,8 +262,20 @@ export default {
         let strState = JSON.stringify({ ...state, export: true });
         let usedNames = [];
         strState = strState.replace('http://vishub.org', 'https://vishub.org');
+        strState = strState.replace('http://educainternet.es', 'https://educainternet.es');
         let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), false);
         window.download(strState, "ediphy.edi", "text/json");
         callback();
     },
 };
+
+function getPlatform() {
+    let allowedDomains = ["vishub.org", "educainternet.es", "localhost:3000", "localhost:8080", "ging.github.io/ediphy", "ging.github.com/ediphy"];
+    let allowedDomain = false;
+    allowedDomains.map((domain, i)=>{
+        if (window.location.href.indexOf(domain) > -1) {
+            allowedDomain = domain;
+        }
+    });
+    return allowedDomain;
+}

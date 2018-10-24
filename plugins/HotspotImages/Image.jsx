@@ -11,14 +11,14 @@ export default class Image extends React.Component {
     render() {
         let { props, state, markElements } = this.props;
         let scale = state.scale || 1;
-        let translateX = this.state.translateX || (state.translate ? state.translate.x : 0) || 0;
-        let translateY = this.state.translateY || (state.translate ? state.translate.y : 0) || 0;
-        let transform = `translate(${translateX + (this.state.dragging ? "px" : "%")},${translateY + (this.state.dragging ? "px" : "%")}) scale(${scale})`;
+        let translateX = (state.translate ? state.translate.x : 0) || 0;
+        let translateY = (state.translate ? state.translate.y : 0) || 0;
+        let transform = `translate(${translateX + "%"},${translateY + "%" }) scale(${scale})`;
 
         return <div style={{ height: "100%", width: "100%" }} className="draggableImage"
             onWheel={(e) => {
                 const delta = Math.sign(e.deltaY);
-                props.update('scale', Math.round(10 * Math.min(20, Math.max(1, scale - delta / 5))) / 10);
+                props.update('scale', Math.round(10 * Math.min(20, Math.max(0, scale - delta / 5))) / 10);
             }}>
             <img ref ="img" id={props.id + "-image"}
                 className="basicImageClass"
@@ -92,8 +92,9 @@ export default class Image extends React.Component {
                     // Get position and if contained in sortableContainer || PluginPlaceHolder, convert to %
                     let actualLeft = target.getAttribute('data-x');
                     let actualTop = target.getAttribute('data-y');
-                    let x = (parseFloat(actualLeft) / target.parentElement.offsetWidth * 100);
-                    let y = (parseFloat(actualTop) / target.parentElement.offsetHeight * 100);
+                    console.log(target.parentElement);
+                    let x = (parseFloat(actualLeft) * 100) / target.parentElement.offsetWidth;
+                    let y = (parseFloat(actualTop) * 100) / target.parentElement.offsetHeight;
                     // Delete clone and unhide original
                     let clone = document.getElementById('clone2');
                     if (clone) {

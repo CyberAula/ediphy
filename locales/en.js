@@ -349,7 +349,7 @@ let en = {
             "no_internet": "You need Internet connection",
             "OK": "Accept",
             "operation_in_progress": "Operation in progress...",
-            "pointer_events": "Activate manual edition of the content mode",
+            "pointer_events": "Allow to manually manipulate the content",
             "popoverUrlTitle": "Change this URL",
             "preview": "Show a preliminary view",
             "publish_tooltip": "Makes the course available for the public",

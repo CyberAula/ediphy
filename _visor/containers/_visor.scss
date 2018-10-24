@@ -542,8 +542,8 @@ li > .selectedNavItemVisor {
 
 .embedWaterMark {
   position: absolute;
-  top: 10%;
-  left: 2%;
+  bottom: 0.2em;
+  right: 0.2em;
   background: transparent;
   background-position-x: 0%;
   background-position-y: 0%;
@@ -551,9 +551,12 @@ li > .selectedNavItemVisor {
   background-image: none;
   background-size: auto auto;
   background-repeat: no-repeat;
-  background-image: url("https://vishub.org/assets/images/vicons/watermark.png");
+  background-image: url("https://vishub.org/assets/vicons/watermark.png");
   background-size: auto 200%;
-  background-position: center 0;
-  width: 100px;
-  height: 80%;
+  background-position: center 100%;
+  width: 66px;
+  height: 24px;
+  &:hover {
+    background-position: center 0%;
+  }
 }

@@ -10,7 +10,8 @@ export default class VisorCanvas extends Component {
     render() {
         return [(isSlide(this.props.navItems[this.props.currentView].type)) ?
             (<VisorCanvasSli key="0" {...this.props} />) :
-            (<VisorCanvasDoc key="0" {...this.props} />), <Watermark key={"1"}/>];
+            (<VisorCanvasDoc key="0" {...this.props} />),
+        <Watermark ediphy_document_id={this.props.ediphy_document_id} ediphy_platform={this.props.ediphy_platform} key={"1"}/>];
 
     }
 
@@ -76,4 +77,12 @@ VisorCanvas.propTypes = {
      *  Array de vistas
      */
     viewsArray: PropTypes.array,
+    /**
+   * Ediphy Document id
+   */
+    ediphy_document_id: PropTypes.any,
+    /**
+   * Platform where excursion is hosted
+   */
+    ediphy_platform: PropTypes.any,
 };
