@@ -31,7 +31,6 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let marks = this.props.props.marks || {};
             let triggerMark = this.props.props.onMarkClicked;
             let triggerArray = this.state.toBeTriggered;
-            console.log(nextState.playedSeconds);
             triggerArray.forEach(function(e, i) {
                 // if ((parseFloat(e.value) / 100).toFixed(3) < parseFloat(nextState.played).toFixed(3)) {
                 if (parseFloat(convertHMStoSeconds(e.value)) < nextState.playedSeconds) {
@@ -58,7 +57,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
                 if(notInArray &&
                     parseFloat(nextState.playedSeconds) <= valueIntoSeconds &&
-                    nextState.playedSeconds + 1.1 >= valueIntoSeconds) {
+                    nextState.playedSeconds + 0.35 >= valueIntoSeconds) {
                     let toBeTriggered = triggerArray;
                     toBeTriggered.push(marks[key]);
                     plugin.setState({ toBeTriggered });
@@ -69,7 +68,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
     componentWillMount() {
         if(this.props.state.currentState !== undefined) {
-            let initialPoint = parseFloat(convertHMStoSeconds(this.props.state.currentState)) + 1.1;
+            let initialPoint = parseFloat(convertHMStoSeconds(this.props.state.currentState)) + 0.35;
             this.setState({ initialPoint });
         }
     }
@@ -171,6 +170,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     style={{ width: "100%", height: "100%" }}
                     height="100%"
                     width="100%"
+                    progressInterval={300}
                     url={this.props.state.url}
                     playing={this.state.playing}
                     volume={this.state.volume}
