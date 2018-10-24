@@ -35,8 +35,10 @@ export default class ExportModal extends Component {
             slidesWithComments: false,
             optionName: "dafaultOption",
             drawBorder: true,
-            explanation: "",
+            explanation: i18n.t("export.full_sli_doc"),
             landscape: false,
+            itemSelected: 0,
+            settingType: 1,
 
         };
     }
@@ -132,21 +134,22 @@ export default class ExportModal extends Component {
                                                     <Panel.Body collapsible>
                                                         <div className={"pageTemplates"}>
                                                             {this.templatesSliDoc.map((item, index) => {
-                                                                let border = this.state.itemSelected === index ? "solid #17CFC8 3px" : "solid #eee 1px";
+                                                                let border = (this.state.itemSelected === index && this.state.settingType === 1) ? "solid #17CFC8 3px" : "solid #eee 1px";
                                                                 return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: (index === 0 || index === 2) ? '110px' : '80px', height: (index === 0 || index === 2) ? '80px' : '110px' }}>
                                                                     <TemplateThumbnail key={index} index={index}
                                                                         onClick={e => {
                                                                             console.log('[INFO] e is ' + e);
                                                                             this.setState({ itemSelected: index });
+                                                                            console.log('[INFO] Item selected: ' + index);
                                                                             switch (index) {
                                                                             case 0:
-                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, optionName: "fullSlideDoc", explanation: i18n.t("export.full_sli_doc"), landscape: true });
+                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 1, optionName: "fullSlideDoc", explanation: i18n.t("export.full_sli_doc"), landscape: true });
                                                                                 break;
                                                                             case 1:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "twoSlideDoc", explanation: i18n.t("export.two_sli_doc"), landscape: false });
+                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 1, optionName: "twoSlideDoc", explanation: i18n.t("export.two_sli_doc"), landscape: false });
                                                                                 break;
                                                                             default:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "defaultOption" });
+                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 1, optionName: "defaultOption" });
                                                                                 break;
                                                                             }
                                                                         }}
@@ -165,26 +168,28 @@ export default class ExportModal extends Component {
                                                     <Panel.Body collapsible>
                                                         <div className={"pageTemplates"}>
                                                             {this.templatesSli.map((item, index) => {
-                                                                let border = this.state.itemSelected === index ? "solid #17CFC8 3px" : "solid #eee 1px";
+                                                                let border = (this.state.itemSelected === index && this.state.settingType === 2) ? "solid #17CFC8 3px" : "solid #eee 1px";
                                                                 return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: (index === 0 || index === 3) ? '110px' : '80px', height: (index === 0 || index === 3) ? '80px' : '110px' }}>
                                                                     <TemplateThumbnail key={index} index={index}
                                                                         onClick={e => {
                                                                             this.setState({ itemSelected: index });
+                                                                            console.log('[INFO] Item selected: ' + index);
+
                                                                             switch (index) {
                                                                             case 0:
-                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, optionName: "fullSlide", explanation: i18n.t("export.full_sli"), landscape: true });
+                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 2, optionName: "fullSlide", explanation: i18n.t("export.full_sli"), landscape: true });
                                                                                 break;
                                                                             case 1:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "twoSlide", explanation: i18n.t("export.two_sli"), landscape: false });
+                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 2, optionName: "twoSlide", explanation: i18n.t("export.two_sli"), landscape: false });
                                                                                 break;
                                                                             case 2:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: true, optionName: "slideComments", explanation: i18n.t("export.sli_comments"), landscape: false });
+                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: true, settingType: 2, optionName: "slideComments", explanation: i18n.t("export.sli_comments"), landscape: false });
                                                                                 break;
                                                                             case 3:
-                                                                                this.setState({ slidesPerPage: 4, slidesWithComments: false, optionName: "fourSlide", explanation: i18n.t("export.four_sli"), landscape: true });
+                                                                                this.setState({ slidesPerPage: 4, slidesWithComments: false, settingType: 2, optionName: "fourSlide", explanation: i18n.t("export.four_sli"), landscape: true });
                                                                                 break;
                                                                             default:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "defaultOption", explanation: i18n.t("export.full_sli") });
+                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 2, optionName: "defaultOption", explanation: i18n.t("export.full_sli") });
                                                                                 break;
                                                                             }
                                                                         }}
@@ -204,20 +209,22 @@ export default class ExportModal extends Component {
                                                     <Panel.Body collapsible>
                                                         <div className={"pageTemplates"}>
                                                             {this.templatesDoc.map((item, index) => {
-                                                                let border = this.state.itemSelected === index ? "solid #17CFC8 3px" : "solid #eee 1px";
+                                                                let border = (this.state.itemSelected === index && this.state.settingType === 3) ? "solid #17CFC8 3px" : "solid #eee 1px";
                                                                 return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: index % 2 === 1 ? '110px' : '80px', height: index % 2 === 1 ? '80px' : '110px' }}>
                                                                     <TemplateThumbnail key={index} index={index}
                                                                         onClick={e => {
                                                                             this.setState({ itemSelected: index });
+                                                                            console.log('[INFO] Item selected: ' + index);
+
                                                                             switch (index) {
                                                                             case 0:
-                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, optionName: "fullDoc", explanation: i18n.t("export.full_doc"), landscape: false });
+                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 3, optionName: "fullDoc", explanation: i18n.t("export.full_doc"), landscape: false });
                                                                                 break;
                                                                             case 1:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "twoDoc", explanation: i18n.t("export.two_doc"), landscape: true });
+                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 3, optionName: "twoDoc", explanation: i18n.t("export.two_doc"), landscape: true });
                                                                                 break;
                                                                             default:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, optionName: "defaultOption" });
+                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 3, optionName: "defaultOption" });
                                                                                 break;
                                                                             }
                                                                         }}

@@ -491,7 +491,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         if (slidesWithComments && slide) {
             let pageContainerComments = document.createElement('div');
             let table = (<div width="100%"><table width="100%">
-
                 <tr><td className={"commentLine firstLine"} /></tr>
                 <tr><td className={"commentLine"} /></tr>
                 <tr><td className={"commentLine"} /></tr>
@@ -507,8 +506,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 <tr><td className={"commentLine"} /></tr>
                 <tr><td className={"commentLine"} /></tr>
                 <tr><td className={"commentLine"} /></tr>
-
-            </table> </div>);
+            </table></div>);
             pageContainerComments.id = 'containerComments_' + i;
             document.body.appendChild(pageContainerComments);
             pageContainerComments.style.height = pageContainer.style.height;
