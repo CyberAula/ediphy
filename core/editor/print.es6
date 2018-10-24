@@ -123,7 +123,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             slidesPerPage = 2;
             if(treatAsImportedDoc) {
                 if (canvasRatio === 4 / 3) {
-                    SLIDE_BASE = 650;
+                    SLIDE_BASE = 800;
                     expectedHeight = SLIDE_BASE / canvasRatio;
                     viewport = {
                         height: expectedHeight * 0.95,
@@ -134,7 +134,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
                 } else if (canvasRatio === 16 / 9)
                 {
-                    SLIDE_BASE = 700;
+                    SLIDE_BASE = 999;
                     expectedHeight = SLIDE_BASE / canvasRatio;
                     viewport = {
                         height: expectedHeight,
@@ -178,7 +178,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             };
             if(treatAsImportedDoc) {
                 if (canvasRatio === 4 / 3) {
-                    SLIDE_BASE = 650;
+                    SLIDE_BASE = 600;
                     expectedHeight = SLIDE_BASE / canvasRatio;
                     viewport = {
                         height: expectedHeight * 0.95,
@@ -189,7 +189,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
                 } else if (canvasRatio === 16 / 9)
                 {
-                    SLIDE_BASE = 700;
+                    SLIDE_BASE = 999;
                     expectedHeight = SLIDE_BASE / canvasRatio;
                     viewport = {
                         height: expectedHeight,
@@ -407,9 +407,12 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             firstElementPage = true;
         }
 
+        console.log('[INFO] Viewport.height is: ' + viewport.height);
+        console.log('[INFO] SLIDE_BASE is: ' + SLIDE_BASE);
+
         // Añado clase según tipo de slide/documento
         switch (viewport.height) {
-        case SLIDE_BASE * 3 / 4:
+        case isSafari ? SAFARI_HEIGHT / 2 * 0.95 : CHROME_HEIGHT / 2 * 0.95:
             elementClass = elementClass + " pageContainer slide43";
             slideCounter++;
             break;
