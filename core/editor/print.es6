@@ -440,16 +440,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         if(!slidesWithComments && assignUpDown) {
             upOrDownSlide = (elemsUsed % slidesPerPage === 0) ? (firstPage ? "" : (slide) ? "upOnPage" : "breakPage") : "breakPage";
         }
-        if (slidesWithComments && slide) {
-            let pageContainerComments = document.createElement('div');
-            pageContainerComments.id = 'containerComments_' + i;
-            document.body.appendChild(pageContainerComments);
-            pageContainerComments.style.height = pageContainer.style.height;
-            pageContainerComments.style.width = pageContainer.style.width;
-            pageContainerComments.style.pageBreakAfter = "always";
-            pageContainerComments.className = "pageToPrint comment_box";
-        }
-        firstPage = false;
 
         if(assignUpDown) {
             elementClass = elementClass + " " + upOrDownSlide;
@@ -497,6 +487,37 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         </div>);
         // Añado div al DOM
         document.body.appendChild(pageContainer);
+
+        if (slidesWithComments && slide) {
+            let pageContainerComments = document.createElement('div');
+            let table = (<div width="100%"><table width="100%">
+
+                <tr><td className={"commentLine firstLine"} /></tr>
+                <tr><td className={"commentLine"} /></tr>
+                <tr><td className={"commentLine"} /></tr>
+                <tr><td className={"commentLine"} /></tr>
+                <tr><td className={"commentLine"} /></tr>
+                <tr><td className={"commentLine"} /></tr>
+                <tr><td className={"commentLine"} /></tr>
+                <tr><td className={"commentLine"} /></tr>
+                <tr><td className={"commentLine"} /></tr>
+                <tr><td className={"commentLine"} /></tr>
+                <tr><td className={"commentLine"} /></tr>
+                <tr><td className={"commentLine"} /></tr>
+                <tr><td className={"commentLine"} /></tr>
+                <tr><td className={"commentLine"} /></tr>
+                <tr><td className={"commentLine"} /></tr>
+
+            </table> </div>);
+            pageContainerComments.id = 'containerComments_' + i;
+            document.body.appendChild(pageContainerComments);
+            pageContainerComments.style.height = pageContainer.style.height;
+            pageContainerComments.style.width = pageContainer.style.width;
+            pageContainerComments.style.pageBreakAfter = "always";
+            pageContainerComments.className = "pageToPrint comment_box";
+            ReactDOM.render((table), pageContainerComments);
+        }
+        firstPage = false;
         ReactDOM.render((app), pageContainer, (a) => {
             setTimeout(
                 () => {

@@ -149,4 +149,17 @@
     display: none;
   }
 
+  table{
+    border-collapse: collapse;
+  }
+
+  .commentLine {
+    height: 45px;
+    border-bottom: 1px solid black;
+  }
+
+  .firstLine{
+    border-top: 1px solid black;
+  }
+
 }
