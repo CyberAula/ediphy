@@ -90,7 +90,7 @@ export default function handlers(self) {
                 });
                 buttons.push({
                     title: i18n.t('FileModal.FileHandlers.import'),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id), // || !self.state.options.allowClone,
                     action: ()=>{
                         importEdiphy(self.state.element, self.props, (res) => {
                             if (res) {
@@ -112,7 +112,7 @@ export default function handlers(self) {
                 });
                 buttons.push({
                     title: i18n.t('FileModal.FileHandlers.import'),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id) || !self.state.options.allowClone,
                     action: () => {
                         importExcursion(self.state.element, self.props, (res) => {
                             if (res) {

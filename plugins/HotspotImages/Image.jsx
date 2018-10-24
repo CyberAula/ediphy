@@ -92,7 +92,6 @@ export default class Image extends React.Component {
                     // Get position and if contained in sortableContainer || PluginPlaceHolder, convert to %
                     let actualLeft = target.getAttribute('data-x');
                     let actualTop = target.getAttribute('data-y');
-                    console.log(target.parentElement);
                     let x = (parseFloat(actualLeft) * 100) / target.parentElement.offsetWidth;
                     let y = (parseFloat(actualTop) * 100) / target.parentElement.offsetHeight;
                     // Delete clone and unhide original

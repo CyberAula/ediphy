@@ -7,7 +7,8 @@ export default class Watermark extends Component {
         let parent = this.whichDomain(window.parent.location.href, id);
         let platform = this.props.ediphy_platform ? (this.props.ediphy_platform + "/ediphy_documents/" + id) : window.location.href;
         let current = this.whichDomain(platform, id) || "https://vishub.org";
-        return parent ? null : <a target="_blank" href={current}><div className={"embedWaterMark"} /></a>;
+        let educa = current.match("educainternet") ? " educa" : "";
+        return parent ? null : <a target="_blank" href={current}><div className={"embedWaterMark" + educa} /></a>;
     }
     whichDomain(windowUrl) {
         let allowedDomains = ["vishub.org", "educainternet.es", "localhost:3000", "localhost:8080", "ging.github.io/ediphy", "ging.github.com/ediphy"];
@@ -27,7 +28,7 @@ export default class Watermark extends Component {
     }
 }
 
-Watermark.PropTypes = {
+Watermark.propTypes = {
     /**
    * Ediphy Document id
    */

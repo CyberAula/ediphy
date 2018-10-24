@@ -559,4 +559,7 @@ li > .selectedNavItemVisor {
   &:hover {
     background-position: center 0%;
   }
+  &.educa {
+    background-image: url("http://educainternet.es/assets/vetheme/watermark_educainternet.png");
+  }
 }

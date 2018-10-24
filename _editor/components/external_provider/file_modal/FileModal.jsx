@@ -17,6 +17,7 @@ const initialState = {
     element: undefined,
     type: undefined,
     pdfSelected: false,
+    options: {},
 };
 export default class FileModal extends React.Component {
     constructor(props) {

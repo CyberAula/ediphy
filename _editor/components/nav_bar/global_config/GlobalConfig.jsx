@@ -408,14 +408,19 @@ export default class GlobalConfig extends Component {
                 extra_canvas.setAttribute('height', 500);
                 let ctx = extra_canvas.getContext('2d');
                 ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 500, 500);
+                extra_canvas.toBlob(blob => {
+                    let file = new File([blob], "avatar.png", { type: "image/png" });
+                    this.props.uploadFunction(file, "", (thumbnail)=>{
+                        this.setState({ modifiedState: true, thumbnail });
+                    }, "image/png");
+                });
 
                 // Uncomment this lines to download the image directly
                 // let a = document.createElement('a');
                 // a.href = a.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
                 // a.click();
-
                 document.body.removeChild(clone);
-                this.setState({ modifiedState: true, thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
+                // this.setState({ modifiedState: true, thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
 
             },
             useCORS: true });
@@ -553,4 +558,8 @@ GlobalConfig.propTypes = {
      * Last files uploaded to server or searched in modal
      */
     fileModalResult: PropTypes.object,
+    /**
+   *  Function for uploading a file to the server
+   */
+    uploadFunction: PropTypes.func.isRequired,
 };
