@@ -7,21 +7,21 @@ export default class Watermark extends Component {
         let parent = this.whichDomain(window.parent.location.href, id);
         let platform = this.props.ediphy_platform ? (this.props.ediphy_platform + "/ediphy_documents/" + id) : window.location.href;
         let current = this.whichDomain(platform, id) || "https://vishub.org";
-        let educa = (current || "").match("educainternet") ? " educa" : "";
+        let educa = (current || "").match(/educainternet/) ? " educa" : "";
         return parent ? null : <a target="_blank" href={current}><div className={"embedWaterMark" + educa} /></a>;
     }
-    whichDomain(windowUrl) {
+    whichDomain(windowUrl, id) {
         let allowedDomains = ["vishub.org", "educainternet.es", "localhost:3000", "localhost:8080", "ging.github.io/ediphy", "ging.github.com/ediphy"];
-        let allowedDomainsHref = [(id)=>"https://vishub.org/ediphy_documents/" + id, (id)=>"https://educainternet.es/ediphy_documents/" + id, (id)=>"http://localhost:3000/ediphy_documents/" + id, "https://ging.github.io/ediphy", "https://ging.github.io/ediphy", "https://ging.github.com/ediphy"];
+        let allowedDomainsHref = ["https://vishub.org/ediphy_documents/" + id, "https://educainternet.es/ediphy_documents/" + id, "http://localhost:3000/ediphy_documents/" + id, "https://ging.github.io/ediphy", "https://ging.github.io/ediphy", "https://ging.github.com/ediphy"];
         let allowedDomain = false;
         allowedDomains.map((domain, i)=>{
             if (windowUrl.indexOf(domain) > -1) {
                 let match = windowUrl.match(/ediphy_documents\/(\d+)/);
-                if(match && match[1]) {
+                /* if(match && match[1]) {
                     allowedDomain = allowedDomainsHref[i](match[1]);
-                } else {
-                    allowedDomain = allowedDomainsHref[i];
-                }
+                } else {*/
+                allowedDomain = allowedDomainsHref[i];
+                // }
             }
         });
         return allowedDomain;

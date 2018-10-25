@@ -14,12 +14,10 @@ export default class Image extends React.Component {
         let translateX = (state.translate ? state.translate.x : 0) || 0;
         let translateY = (state.translate ? state.translate.y : 0) || 0;
         let transform = `translate(${translateX + "%"},${translateY + "%" }) scale(${scale})`;
-
-        return <div style={{ height: "100%", width: "100%" }} className="draggableImage"
-            onWheel={(e) => {
-                const delta = Math.sign(e.deltaY);
-                props.update('scale', Math.round(10 * Math.min(20, Math.max(0, scale - delta / 5))) / 10);
-            }}>
+        return <div style={{ height: "100%", width: "100%" }} className="draggableImage" ref="draggableImage" onWheel={(e) => {
+            const delta = Math.sign(e.deltaY);
+            props.update('scale', Math.round(10 * Math.min(20, Math.max(0, scale - delta / 5))) / 10);
+        }}>
             <img ref ="img" id={props.id + "-image"}
                 className="basicImageClass"
                 style={{ width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto", transform, WebkitTransform: transform, MozTransform: transform }}
@@ -92,8 +90,8 @@ export default class Image extends React.Component {
                     // Get position and if contained in sortableContainer || PluginPlaceHolder, convert to %
                     let actualLeft = target.getAttribute('data-x');
                     let actualTop = target.getAttribute('data-y');
-                    let x = (parseFloat(actualLeft) * 100) / target.parentElement.offsetWidth;
-                    let y = (parseFloat(actualTop) * 100) / target.parentElement.offsetHeight;
+                    let x = (parseFloat(actualLeft) * 100) / target.offsetWidth;
+                    let y = (parseFloat(actualTop) * 100) / target.offsetHeight; //* target.parentElement.offsetHeight / target.offsetHeight;
                     // Delete clone and unhide original
                     let clone = document.getElementById('clone2');
                     if (clone) {
