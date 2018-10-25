@@ -47,6 +47,9 @@ export default class GlobalConfig extends Component {
             hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
             minTimeProgress: this.props.globalConfig.minTimeProgress || 30,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
+            allowClone: this.props.globalConfig.allowClone || true,
+            allowComment: this.props.globalConfig.allowComment || true,
+            allowDownload: this.props.globalConfig.allowDownload || true,
             modifiedState: false,
             showAlert: false,
             everPublished: this.props.globalConfig.everPublished,
@@ -64,7 +67,7 @@ export default class GlobalConfig extends Component {
      * @returns {code}
      */
     render() {
-        const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context } = this.state;
+        const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context, allowDownload, allowClone, allowComment } = this.state;
         return (
             <Modal className="pageModal"
                 show={this.props.show}
@@ -187,6 +190,20 @@ export default class GlobalConfig extends Component {
                                             handleAddition={this.handleAddition}
                                             handleDrag={this.handleDrag} />
                                     </FormGroup>
+                                    <FormGroup >
+                                        <ControlLabel>{i18n.t('global_config.recom_age')}</ControlLabel>
+                                        <RangeSlider
+                                            min={0}
+                                            max={100}
+                                            minRange={1}
+                                            minValue={age.min}
+                                            maxValue={age.max}
+                                            onChange={(state)=>{
+                                                this.setState({ modifiedState: true, age: { max: state.max, min: state.min } });
+                                            }}
+                                            step={1}
+                                        />
+                                    </FormGroup>
 
                                 </Col>
                                 <Col className="advanced-block" xs={12} md={5} lg={5}><br/>
@@ -204,20 +221,7 @@ export default class GlobalConfig extends Component {
                                             </div>
                                         </div>
                                     </FormGroup>
-                                    <FormGroup >
-                                        <ControlLabel>{i18n.t('global_config.recom_age')}</ControlLabel>
-                                        <RangeSlider
-                                            min={0}
-                                            max={100}
-                                            minRange={1}
-                                            minValue={age.min}
-                                            maxValue={age.max}
-                                            onChange={(state)=>{
-                                                this.setState({ modifiedState: true, age: { max: state.max, min: state.min } });
-                                            }}
-                                            step={1}
-                                        />
-                                    </FormGroup>
+
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.typicalLearningTime')}</ControlLabel><br/>
                                         <InputGroup className="inputGroup">
@@ -288,7 +292,7 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup>
                                         <ControlLabel>{i18n.t('global_config.visor_nav.title')}</ControlLabel><br/>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: !visorNav.player, sidebar: visorNav.sidebar, keyBindings: visorNav.keyBindings } });}} checked={visorNav.player}/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, permissions: { player: !visorNav.player, sidebar: visorNav.sidebar, keyBindings: visorNav.keyBindings } });}} checked={visorNav.player}/>
                                         { i18n.t('global_config.visor_nav.player') }&nbsp;&nbsp;&nbsp;&nbsp;
                                         <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: visorNav.player, sidebar: !visorNav.sidebar, keyBindings: visorNav.keyBindings } });}} checked={visorNav.sidebar}/>
                                         { i18n.t('global_config.visor_nav.sidebar') }
@@ -305,7 +309,17 @@ export default class GlobalConfig extends Component {
                                             options={statusOptions()}
                                             onChange={e => {this.setState({ modifiedState: true, status: e.value }); }} />
                                     </FormGroup>
-
+                                    <FormGroup>
+                                        <ControlLabel>{i18n.t('global_config.permissions.title')}</ControlLabel><br/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowClone: !allowClone });}} checked={allowClone}/>
+                                        { i18n.t('global_config.permissions.allow_clone') }&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowComment: !allowComment });}} checked={allowComment}/>
+                                        { i18n.t('global_config.permissions.allow_comments') }
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowDownload: !allowDownload });}} checked={allowDownload}/>
+                                        { i18n.t('global_config.permissions.allow_download') }
+                                    </FormGroup>
                                 </Col>
                                 {/*
                                 <Col xs={12} md={6} lg={6}><br/>

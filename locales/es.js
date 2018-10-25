@@ -182,6 +182,12 @@ let es = {
             "language": "Idioma",
             "minTimeProgress": "Mínimo tiempo por página",
             "no_lang": "Sin especificar",
+            "permissions": {
+                "title": "Permisos",
+                "allow_clone": "Permitir clonar",
+                "allow_comments": "Permitir comentar",
+                "allow_download": "Permitir descargar",
+            },
             "prompt": "¿Desea guardar los cambios antes de salir?",
             "public_domain": "Dominio público",
             "recom_age": "Edad recomendada",
