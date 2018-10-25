@@ -100,6 +100,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         let viewport;
         let miniViewport;
 
+        console.log('[PRINT SETTING]    ' + optionName);
         switch(optionName) {
         case "fullSlideDoc":
             cssPagedMedia.size('landscape');
@@ -314,6 +315,8 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             if(isSafari) {
                 pageContainer.style.height = '670px';
             }
+
+            console.log('[IS SLIDE ?] ' + slide);
             if(!slide) {
                 pageContainer.style.height = 'auto';
             }
@@ -416,7 +419,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             elementClass = elementClass + " pageContainer slide43";
             slideCounter++;
             break;
-        case SLIDE_BASE * 9 / 16:
+        case expectedWidth / customAspectRatio:
             elementClass = elementClass + " pageContainer slide169";
             slideCounter++;
             break;
@@ -440,6 +443,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             break;
         }
         let upOrDownSlide;
+        // !(isSafari && (optionName === "fullSlideDoc" || optionName === "fullSlide")
         if(!slidesWithComments && assignUpDown) {
             upOrDownSlide = (elemsUsed % slidesPerPage === 0) ? (firstPage ? "" : (slide) ? "upOnPage" : "breakPage") : "breakPage";
         }
@@ -452,11 +456,16 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
         pageContainer.className = elementClass;
 
+        console.log('[INFO] Slides per page: ' + slidesPerPage);
         if(slidesPerPage === 1) {
 
+            console.log('[INFO] Canvas ratio is :' + canvasRatio);
+            console.log('[INFO] 1/A4 ratio is ' + 1 / A4_RATIO);
             if (canvasRatio > (1 / A4_RATIO)) {
                 expectedWidth = DOC_BASE;
                 expectedHeight = expectedWidth / canvasRatio;
+                console.log('[INFO] Expected width: ' + expectedWidth);
+                console.log('[INFO] Expected height: ' + expectedHeight);
             } else {
                 expectedHeight = isSafari ? 670 * 0.95 : 975 * 0.95;
                 expectedWidth = expectedHeight * canvasRatio;
@@ -568,7 +577,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         for(let i = 0; i < numPages; i++) {
                             let doc = document.getElementById('pageContainer_' + i);
 
-                            if (((doc && doc.className.includes('importedDoc')) || (doc && doc.className.includes('otherDoc'))) && (slidesPerPage !== 4) && (optionName !== "twoDoc")) {
+                            if (((doc && (doc.className.includes('importedDoc')) && (optionName !== "fullSlideDoc") && (optionName !== "fullSlide")) || (doc && doc.className.includes('otherDoc'))) && (slidesPerPage !== 4) && (optionName !== "twoDoc")) {
                                 let actualHeight = doc.clientHeight;
                                 document.getElementById('pageContainer_' + i).style.height = actualHeight * 1.05 + 'px';
                             }
@@ -576,7 +585,12 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                 if (doc.className.includes('otherDoc')) {
                                     let actualHeight = doc.clientHeight;
                                     document.getElementById('pageContainer_' + i).style.height = Math.ceil((actualHeight * 0.72 / 975 / 2)) * 975 + 'px';
-                                    document.getElementById('pageContainer_' + i).style.width = '1400px';
+                                    document.getElementById('pageContainer_' + i).style.width = isSafari ? '800px' : '1400px';
+
+                                    if (isSafari) {
+                                        document.getElementById('pageContainer_' + i).style.marginLeft = '0px';
+
+                                    }
                                 }
                             }
 
@@ -623,7 +637,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         }
                         window.print();
                         if(!isSafari) {
-                            // deletePageContainers();
+                            deletePageContainers();
                         }
                         callback();
                     } else {
@@ -634,7 +648,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         });
     };
     if(isSafari) {
-        // deletePageContainers();
+        deletePageContainers();
     }
     if(notSections.length > 0) {
         addHTML(notSections, notSections.length === 1);

@@ -33,7 +33,7 @@ export default class ExportModal extends Component {
             forcePageBreak: false,
             slidesPerPage: 2,
             slidesWithComments: false,
-            optionName: "dafaultOption",
+            optionName: "fullSlideDoc",
             drawBorder: true,
             explanation: i18n.t("export.full_sli_doc"),
             landscape: false,
