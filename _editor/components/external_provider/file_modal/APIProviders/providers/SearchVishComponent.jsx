@@ -290,4 +290,5 @@ SearchVishComponent.propTypes = {
      * Current file filter
      */
     show: PropTypes.any,
+
 };
