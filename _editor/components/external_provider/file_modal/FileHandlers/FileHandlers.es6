@@ -94,9 +94,9 @@ export default function handlers(self) {
                     action: ()=>{
                         importEdiphy(self.state.element, self.props, (res) => {
                             if (res) {
-                                self.props.importEdi(res);
+                                return self.props.importEdi(res);
                             }
-                            return;
+                            alert('Error');
                         });
                         self.close();
                     },
@@ -116,9 +116,9 @@ export default function handlers(self) {
                     action: () => {
                         importExcursion(self.state.element, self.props, (res) => {
                             if (res) {
-                                self.props.importEdi(res);
+                                return self.props.importEdi(res);
                             }
-                            return;
+                            alert('Error');
                         });
                         self.props.close();
                     },
