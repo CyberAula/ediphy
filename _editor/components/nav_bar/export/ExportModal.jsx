@@ -219,7 +219,7 @@ export default class ExportModal extends Component {
                                                         <div className={"pageTemplates"}>
                                                             {this.templatesDoc.map((item, index) => {
                                                                 let border = (this.state.itemSelected === index && this.state.settingType === 3) ? "solid #17CFC8 3px" : "solid #eee 1px";
-                                                                return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: index % 2 === 1 ? '110px' : '80px', height: index % 2 === 1 ? '80px' : '110px' }}>
+                                                                return (<div key={index} className="template_item" style={{ display: (isSafari && (index === 1)) ? 'none' : 'flex', position: 'relative', border: border, width: index % 2 === 1 ? '110px' : '80px', height: index % 2 === 1 ? '80px' : '110px' }}>
                                                                     <TemplateThumbnail key={index} index={index}
                                                                         onClick={e => {
                                                                             this.setState({ itemSelected: index });
