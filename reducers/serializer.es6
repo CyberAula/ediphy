@@ -100,6 +100,14 @@ export function globalConfig(state) {
     if (typeof newState.age.max === "string") {
         newState.age.max = parseInt(newState.age.max, 10);
     }
+    newState = {
+        ... {
+            allowComments: true,
+            allowClone: true,
+            allowDownload: true,
+        },
+        ...newState,
+    };
 
     return newState;
 }

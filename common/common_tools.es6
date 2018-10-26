@@ -359,12 +359,22 @@ export function convertSecondsToHMS(time) {
     // Output like "1:01" or "4:03:59" or "123:03:59"
     let ret = "";
 
+    if(secs === 60) {
+        secs = 0;
+        mins += 1;
+    }
+
+    if(mins === 60) {
+        hrs += 1;
+    }
+
     if (hrs > 0) {
         ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
     }
 
     ret += "" + mins + ":" + (secs < 10 ? "0" : "");
     ret += "" + secs;
+
     return ret;
 }
 
