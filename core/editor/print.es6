@@ -54,11 +54,14 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let treatAsImportedDoc = false;
 
     let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
+    let isFirefox = typeof InstallTrigger !== 'undefined';
+    let isChrome = !!window.chrome && !!window.chrome.webstore;
+
     const SAFARI_HEIGHT = 1300;
     const CHROME_HEIGHT = 1400;
 
-    let deletePageContainers = function() {
-        let toDelete = document.getElementsByClassName('pageToPrint');
+    let deletePageContainers = function(className) {
+        let toDelete = document.getElementsByClassName(className);
         while (toDelete.length > 0) {
             toDelete[0].parentNode.removeChild(toDelete[0]);
         }
@@ -604,6 +607,8 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                             if (((doc && (doc.className.includes('importedDoc')) && (optionName !== "fullSlideDoc") && (optionName !== "fullSlide")) || (doc && doc.className.includes('otherDoc'))) && (slidesPerPage !== 4) && (optionName !== "twoDoc")) {
                                 let actualHeight = doc.clientHeight;
                                 document.getElementById('pageContainer_' + i).style.height = actualHeight * 1.05 + 'px';
+
+                                console.log('[INFO] pageContainer_' + i + ' height is: ' + actualHeight * 1.05);
                             }
                             if(optionName === "twoDoc") {
                                 if (doc.className.includes('otherDoc')) {
@@ -625,7 +630,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         console.log('[INFO] Número de páginas que no se van a imprimir: ' + notToPrint);
 
                         if (notToPrint === numPages) {
-                            deletePageContainers();
+                            deletePageContainers('pageToPrint');
                             callback("nullPrint");
                             return;
                         }
@@ -659,9 +664,12 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                 }
                             }
                         }
+                        if (isFirefox) {
+                            deletePageContainers('not_show');
+                        }
                         window.print();
                         if(!isSafari) {
-                            // deletePageContainers();
+                            deletePageContainers('pageToPrint');
                         }
                         callback();
                     } else {
@@ -672,7 +680,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         });
     };
     if(isSafari) {
-        deletePageContainers();
+        deletePageContainers('pageToPrint');
     }
     if(notSections.length > 0) {
         addHTML(notSections, notSections.length === 1);

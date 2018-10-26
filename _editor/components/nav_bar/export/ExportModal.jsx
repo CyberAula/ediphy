@@ -173,7 +173,7 @@ export default class ExportModal extends Component {
                                                         <div className={"pageTemplates"}>
                                                             {this.templatesSli.map((item, index) => {
                                                                 let border = (this.state.itemSelected === index && this.state.settingType === 2) ? "solid #17CFC8 3px" : "solid #eee 1px";
-                                                                return (<div key={index} className="template_item" style={{ display: (index === 0 && !isChrome) ? 'none' : 'flex', position: 'relative', border: border,
+                                                                return (<div key={index} className="template_item" style={{ display: ((index === 0 && !isChrome) || (index === 4 && isFirefox)) ? 'none' : 'flex', position: 'relative', border: border,
                                                                     width: isChrome ? ((index === 0) ? '100px' : ((index === 1 || index === 4) ? '100px' : '70px')) : (index === 0 || index === 1 || index === 4) ? '110px' : '80px',
                                                                     height: isChrome ? ((index === 0) ? (aspectRatio === (16 / 9) ? '60px' : '75px') : ((index === 1 || index === 4) ? '70px' : '100px')) : (index === 0 || index === 1 || index === 4) ? '80px' : '110px' }}>
                                                                     <TemplateThumbnail key={index} index={index}
