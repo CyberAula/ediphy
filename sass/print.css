@@ -3,7 +3,7 @@
 
 
   @page {
-    margin: 1cm;
+    /*margin: 1cm;*/
 
   }
 
@@ -27,6 +27,10 @@
 
   .drawBorders {
     border: 1px solid black;
+  }
+
+  .drawTransparentBorders{
+    border: 1px solid transparent;
   }
 
     .comment_box {

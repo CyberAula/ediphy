@@ -74,8 +74,8 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         };
     })();
 
-    cssPagedMedia.size = function(size) {
-        cssPagedMedia('@page {size: ' + size + '}');
+    cssPagedMedia.size = function(size, margin) {
+        cssPagedMedia('@page {size: ' + size + '; margin: ' + margin + '}');
     };
 
     cssPagedMedia.display = function(display) {
@@ -103,7 +103,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         console.log('[PRINT SETTING]    ' + optionName);
         switch(optionName) {
         case "fullSlideDoc":
-            cssPagedMedia.size('landscape');
+            cssPagedMedia.size('landscape', '1cm');
             slidesPerPage = 1;
             DOC_BASE = 1550;
             if (isSafari) {
@@ -119,7 +119,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             }
             break;
         case "twoSlideDoc":
-            cssPagedMedia.size('portrait');
+            cssPagedMedia.size('portrait', '1cm');
             DOC_BASE = 999;
             slidesPerPage = 2;
             if(treatAsImportedDoc) {
@@ -148,8 +148,25 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             }
 
             break;
+
+        case "fullSlideCustom":
+            SLIDE_BASE = 795;
+            hideDocs = true;
+            slidesPerPage = 1;
+            // drawBorder = tr;
+            viewport = {
+                height: SLIDE_BASE,
+                width: SLIDE_BASE * canvasRatio,
+            };
+
+            expectedHeight = viewport.height;
+            expectedWidth = viewport.width;
+            cssPagedMedia.size((viewport.width) + "px " + (viewport.height + 1) + "px ", "0");
+            console.log((viewport.width) + "px " + (viewport.height + 1) + "px ", "0");
+            break;
+
         case "fullSlide":
-            cssPagedMedia.size('landscape');
+            cssPagedMedia.size('landscape', "1cm");
             hideDocs = true;
             slidesPerPage = 1;
             DOC_BASE = 1550;
@@ -166,7 +183,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             }
             break;
         case "twoSlide":
-            cssPagedMedia.size('portrait');
+            cssPagedMedia.size('portrait', "1cm");
             hideDocs = true;
             DOC_BASE = 999;
             slidesPerPage = 2;
@@ -203,7 +220,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             }
             break;
         case "slideComments":
-            cssPagedMedia.size('portrait');
+            cssPagedMedia.size('portrait', "1cm");
             hideDocs = true;
             DOC_BASE = 999;
             slidesPerPage = 2;
@@ -237,7 +254,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             }
             break;
         case "fourSlide":
-            cssPagedMedia.size('landscape');
+            cssPagedMedia.size('landscape', "1cm");
             slidesPerPage = 4;
             hideDocs = true;
             DOC_BASE = 600;
@@ -275,20 +292,20 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             }
             break;
         case "fullDoc":
-            cssPagedMedia.size('portrait');
+            cssPagedMedia.size('portrait', "1cm");
             hideSlides = true;
             slidesPerPage = 1;
             break;
         case "twoDoc":
-            cssPagedMedia.size('landscape');
+            cssPagedMedia.size('landscape', "1cm");
             slidesPerPage = 2;
             hideSlides = true;
             elementClass = elementClass + " twoColumn";
             break;
         }
-        let slideClass = slide ? (drawBorder ? "pwc_slide drawBorders" : "pwc_slide") : (drawBorder ? "pwc_doc" : "pwc_doc");
+        let slideClass = slide ? (drawBorder ? "pwc_slide drawBorders" : "pwc_slide drawTransparentBorders") : (drawBorder ? "pwc_doc" : "pwc_doc");
 
-        if (slidesPerPage !== 4) {
+        if (slidesPerPage !== 4 && optionName !== "fullSlideCustom") {
             viewport = (slide) ? { width: SLIDE_BASE, height: SLIDE_BASE / canvasRatio } : {
                 width: DOC_BASE,
                 height: "auto",
@@ -307,10 +324,15 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         console.log('[INFO] is this fp?' + requiresFullPage);
 
         // Asigno la anchura y altura del div dependiendo si es page o slide
-        pageContainer.style.width = DOC_BASE + 'px';
-        pageContainer.style.height = (slide && !requiresFullPage) ? ((isSafari) ? SAFARI_HEIGHT / 2 + 'px' : CHROME_HEIGHT / 2 + 'px') : 'auto';
+        if (optionName === "fullSlideCustom") {
+            pageContainer.style.width = viewport.width;
+            pageContainer.style.height = viewport.height;
+        } else {
+            pageContainer.style.width = DOC_BASE + 'px';
+            pageContainer.style.height = (slide && !requiresFullPage) ? ((isSafari) ? SAFARI_HEIGHT / 2 + 'px' : CHROME_HEIGHT / 2 + 'px') : 'auto';
+        }
 
-        if (slidesPerPage === 1 || optionName === "twoDoc") {
+        if ((slidesPerPage === 1 || optionName === "twoDoc") && (optionName !== "fullSlideCustom")) {
             pageContainer.style.height = '975px';
             if(isSafari) {
                 pageContainer.style.height = '670px';
@@ -329,7 +351,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         pageContainer.id = "pageContainer_" + i;
 
         // Caso de que sea un documento importado
-        if (treatAsImportedDoc || navItems[currentView].customSize) {
+        if ((treatAsImportedDoc || navItems[currentView].customSize) && optionName !== "fullSlideCustom") {
             if(firstElementPage && forcePageBreak) {
                 elementClass = elementClass + " upOnPage";
                 firstElementPage = false;
@@ -425,7 +447,9 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             break;
         default: // Se trata de un documento importado o A4
             if (navItems[currentView].customSize || treatAsImportedDoc) {
-                elementClass = elementClass + " importedDoc";
+                if (optionName !== "fullSlideCustom") {
+                    elementClass = elementClass + " importedDoc";
+                }
             } else {
                 elementClass = elementClass + " otherDoc";
                 if(hideDocs) {
@@ -444,11 +468,11 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         }
         let upOrDownSlide;
         // !(isSafari && (optionName === "fullSlideDoc" || optionName === "fullSlide")
-        if(!slidesWithComments && assignUpDown) {
+        if(!slidesWithComments && assignUpDown && optionName !== "fullSlideCustom") {
             upOrDownSlide = (elemsUsed % slidesPerPage === 0) ? (firstPage ? "" : (slide) ? "upOnPage" : "breakPage") : "breakPage";
         }
 
-        if(assignUpDown) {
+        if(assignUpDown && optionName !== "fullSlideCustom") {
             elementClass = elementClass + " " + upOrDownSlide;
 
         }
@@ -457,7 +481,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         pageContainer.className = elementClass;
 
         console.log('[INFO] Slides per page: ' + slidesPerPage);
-        if(slidesPerPage === 1) {
+        if(slidesPerPage === 1 && optionName !== "fullSlideDoc" && optionName !== "fullSlideCustom") {
 
             console.log('[INFO] Canvas ratio is :' + canvasRatio);
             console.log('[INFO] 1/A4 ratio is ' + 1 / A4_RATIO);
@@ -637,7 +661,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         }
                         window.print();
                         if(!isSafari) {
-                            deletePageContainers();
+                            // deletePageContainers();
                         }
                         callback();
                     } else {

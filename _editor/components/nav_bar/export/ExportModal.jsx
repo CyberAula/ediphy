@@ -62,6 +62,10 @@ export default class ExportModal extends Component {
 
         let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
         let isFirefox = typeof InstallTrigger !== 'undefined';
+        let isChrome = !!window.chrome && !!window.chrome.webstore;
+
+        let aspectRatio = this.props.aspectRatio;
+        console.log('[INFO] Aspect ratio is: ' + aspectRatio);
 
         let exportFormats = [
             { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false, callback, this.state.selfContained); } },
@@ -169,7 +173,9 @@ export default class ExportModal extends Component {
                                                         <div className={"pageTemplates"}>
                                                             {this.templatesSli.map((item, index) => {
                                                                 let border = (this.state.itemSelected === index && this.state.settingType === 2) ? "solid #17CFC8 3px" : "solid #eee 1px";
-                                                                return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: (index === 0 || index === 3) ? '110px' : '80px', height: (index === 0 || index === 3) ? '80px' : '110px' }}>
+                                                                return (<div key={index} className="template_item" style={{ display: (index === 0 && !isChrome) ? 'none' : 'flex', position: 'relative', border: border,
+                                                                    width: isChrome ? ((index === 0) ? '100px' : ((index === 1 || index === 4) ? '100px' : '70px')) : (index === 0 || index === 1 || index === 4) ? '110px' : '80px',
+                                                                    height: isChrome ? ((index === 0) ? (aspectRatio === (16 / 9) ? '60px' : '75px') : ((index === 1 || index === 4) ? '70px' : '100px')) : (index === 0 || index === 1 || index === 4) ? '80px' : '110px' }}>
                                                                     <TemplateThumbnail key={index} index={index}
                                                                         onClick={e => {
                                                                             this.setState({ itemSelected: index });
@@ -177,15 +183,18 @@ export default class ExportModal extends Component {
 
                                                                             switch (index) {
                                                                             case 0:
-                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 2, optionName: "fullSlide", explanation: i18n.t("export.full_sli"), landscape: true });
+                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 2, optionName: "fullSlideCustom", explanation: i18n.t("export.full_sli"), landscape: true });
                                                                                 break;
                                                                             case 1:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 2, optionName: "twoSlide", explanation: i18n.t("export.two_sli"), landscape: false });
+                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 2, optionName: "fullSlide", explanation: i18n.t("export.full_sli"), landscape: true });
                                                                                 break;
                                                                             case 2:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: true, settingType: 2, optionName: "slideComments", explanation: i18n.t("export.sli_comments"), landscape: false });
+                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 2, optionName: "twoSlide", explanation: i18n.t("export.two_sli"), landscape: false });
                                                                                 break;
                                                                             case 3:
+                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: true, settingType: 2, optionName: "slideComments", explanation: i18n.t("export.sli_comments"), landscape: false });
+                                                                                break;
+                                                                            case 4:
                                                                                 this.setState({ slidesPerPage: 4, slidesWithComments: false, settingType: 2, optionName: "fourSlide", explanation: i18n.t("export.four_sli"), landscape: true });
                                                                                 break;
                                                                             default:
@@ -300,4 +309,8 @@ ExportModal.propTypes = {
    * Closes course configuration modal
    */
     close: PropTypes.func.isRequired,
+    /**
+     * Aspect ratio
+     */
+    aspectRatio: PropTypes.number,
 };
