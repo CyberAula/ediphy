@@ -16,7 +16,7 @@ export default class Image extends React.Component {
         let transform = `translate(${translateX + "%"},${translateY + "%" }) scale(${scale})`;
         return <div style={{ height: "100%", width: "100%" }} className="draggableImage" ref="draggableImage" onWheel={(e) => {
             const delta = Math.sign(e.deltaY);
-            props.update('scale', Math.round(10 * Math.min(20, Math.max(0, scale - delta / 5))) / 10);
+            props.update('scale', Math.round(10 * Math.min(20, Math.max(0, scale - delta / 10))) / 10);
         }}>
             <img ref ="img" id={props.id + "-image"}
                 className="basicImageClass"
@@ -36,8 +36,13 @@ export default class Image extends React.Component {
     componentDidMount() {
         let scale = this.props.state.scale || 1;
         interact(ReactDOM.findDOMNode(this))
+            // .origin("parent")
             .draggable({
                 enabled: true,
+                // snap: {
+                //     targets: [{ x: 0, y: 0, range: 25 }],
+                //     relativePoints: [{ x: 0, y: 0 }],
+                // },
                 ignoreFrom: 'a, .pointerEventsEnabled, .markeditor',
                 onstart: (event) => {
                     event.stopPropagation();
