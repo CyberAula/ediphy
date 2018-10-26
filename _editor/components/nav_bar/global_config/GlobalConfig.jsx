@@ -47,9 +47,9 @@ export default class GlobalConfig extends Component {
             hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
             minTimeProgress: this.props.globalConfig.minTimeProgress || 30,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
-            allowClone: this.props.globalConfig.allowClone || true,
-            allowComment: this.props.globalConfig.allowComment || true,
-            allowDownload: this.props.globalConfig.allowDownload || true,
+            allowClone: this.props.globalConfig.allowClone,
+            allowComments: this.props.globalConfig.allowComments,
+            allowDownload: this.props.globalConfig.allowDownload,
             modifiedState: false,
             showAlert: false,
             everPublished: this.props.globalConfig.everPublished,
@@ -67,7 +67,7 @@ export default class GlobalConfig extends Component {
      * @returns {code}
      */
     render() {
-        const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context, allowDownload, allowClone, allowComment } = this.state;
+        const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context, allowDownload, allowClone, allowComments } = this.state;
         return (
             <Modal className="pageModal"
                 show={this.props.show}
@@ -313,7 +313,7 @@ export default class GlobalConfig extends Component {
                                         <ControlLabel>{i18n.t('global_config.permissions.title')}</ControlLabel><br/>
                                         <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowClone: !allowClone });}} checked={allowClone}/>
                                         { i18n.t('global_config.permissions.allow_clone') }&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowComment: !allowComment });}} checked={allowComment}/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowComments: !allowComments });}} checked={allowComments}/>
                                         { i18n.t('global_config.permissions.allow_comments') }
                                     </FormGroup>
                                     <FormGroup>
@@ -476,6 +476,9 @@ export default class GlobalConfig extends Component {
             version: this.props.globalConfig.version || '0.0.0',
             status: this.props.globalConfig.status || 'draft',
             context: this.props.globalConfig.context,
+            allowComments: this.props.globalConfig.allowComments,
+            allowClone: this.props.globalConfig.allowClone,
+            allowDownload: this.props.globalConfig.allowDownload,
             hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
             minTimeProgress: this.props.globalConfig.minTimeProgress || 30,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
@@ -529,6 +532,9 @@ export default class GlobalConfig extends Component {
                 version: nextProps.globalConfig.version || '0.0.0',
                 status: nextProps.globalConfig.status || 'draft',
                 context: nextProps.globalConfig.context,
+                allowComments: nextProps.globalConfig.allowComments,
+                allowClone: nextProps.globalConfig.allowClone,
+                allowDownload: nextProps.globalConfig.allowDownload,
                 hideGlobalScore: nextProps.globalConfig.hideGlobalScore || false,
                 minTimeProgress: nextProps.globalConfig.minTimeProgress || 30,
                 visorNav: nextProps.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
