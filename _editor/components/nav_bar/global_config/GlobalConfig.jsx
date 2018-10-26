@@ -47,9 +47,9 @@ export default class GlobalConfig extends Component {
             hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
             minTimeProgress: this.props.globalConfig.minTimeProgress || 30,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
-            allowClone: this.props.globalConfig.allowClone,
-            allowComments: this.props.globalConfig.allowComments,
-            allowDownload: this.props.globalConfig.allowDownload,
+            allowClone: this.props.globalConfig.allowClone ? true : this.props.globalConfig.allowClone === undefined,
+            allowComments: this.props.globalConfig.allowComments ? true : this.props.globalConfig.allowComments === undefined,
+            allowDownload: this.props.globalConfig.allowDownload ? true : this.props.globalConfig.allowDownload === undefined,
             modifiedState: false,
             showAlert: false,
             everPublished: this.props.globalConfig.everPublished,
@@ -309,17 +309,15 @@ export default class GlobalConfig extends Component {
                                             options={statusOptions()}
                                             onChange={e => {this.setState({ modifiedState: true, status: e.value }); }} />
                                     </FormGroup>
-                                    <FormGroup>
+                                    {(process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? <FormGroup className="allowance">
                                         <ControlLabel>{i18n.t('global_config.permissions.title')}</ControlLabel><br/>
                                         <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowClone: !allowClone });}} checked={allowClone}/>
-                                        { i18n.t('global_config.permissions.allow_clone') }&nbsp;&nbsp;&nbsp;&nbsp;
+                                        { i18n.t('global_config.permissions.allow_clone') }<br/>
                                         <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowComments: !allowComments });}} checked={allowComments}/>
-                                        { i18n.t('global_config.permissions.allow_comments') }
-                                    </FormGroup>
-                                    <FormGroup>
+                                        { i18n.t('global_config.permissions.allow_comments') }<br/>
                                         <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowDownload: !allowDownload });}} checked={allowDownload}/>
                                         { i18n.t('global_config.permissions.allow_download') }
-                                    </FormGroup>
+                                    </FormGroup> : null }
                                 </Col>
                                 {/*
                                 <Col xs={12} md={6} lg={6}><br/>
@@ -537,9 +535,9 @@ export default class GlobalConfig extends Component {
                 version: nextProps.globalConfig.version || '0.0.0',
                 status: nextProps.globalConfig.status || 'draft',
                 context: nextProps.globalConfig.context,
-                allowComments: nextProps.globalConfig.allowComments,
-                allowClone: nextProps.globalConfig.allowClone,
-                allowDownload: nextProps.globalConfig.allowDownload,
+                allowComments: nextProps.globalConfig.allowComments ? true : nextProps.globalConfig.allowComments === undefined,
+                allowClone: nextProps.globalConfig.allowClone ? true : nextProps.globalConfig.allowClone === undefined,
+                allowDownload: nextProps.globalConfig.allowDownload ? true : nextProps.globalConfig.allowDownload === undefined,
                 hideGlobalScore: nextProps.globalConfig.hideGlobalScore || false,
                 minTimeProgress: nextProps.globalConfig.minTimeProgress || 30,
                 visorNav: nextProps.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
