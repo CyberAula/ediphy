@@ -175,9 +175,12 @@ class EditorApp extends Component {
                         publishing={() =>this.setState({ publishing: true })}
                         openExitModal={()=>this.setState({ showExitModal: true })}
                         openTour={()=>{this.setState({ showHelpButton: true });}}
+                        uploadFunction={(query, keywords, callback) => dispatch(uploadFunction(query, keywords, callback))}
                         export={(format, callback, selfContained = false) => {
                             if(format === "PDF") {
                                 printToPDF(this.props.store.getState().undoGroup.present, callback);
+                            } else if (format === "edi") {
+                                Ediphy.Visor.exportsEDI({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback);
                             } else {
                                 Ediphy.Visor.exportsHTML({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback, selfContained);
                             }}}

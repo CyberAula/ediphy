@@ -1,6 +1,28 @@
-.pointerEventsEnabled .dropableRichZone {
-  z-index: -1;
+.pointerEventsEnabled {
+  .dropableRichZone {
+    z-index: -1;
+  }
+  img {
+    pointer-events: all !important;
+  }
+  .draggableImage {
+    pointer-events: all !important;
+  }
 }
 
+.draggableImage {
+  pointer-events: none;
+  img {
+    transform-origin: 0 0;
+  }
+}
+:not(.pointerEventsEnabled).dropableRichZone {
+  pointer-events: none !important;
 
-.draggableImage {}
+}
+
+.draggableImageVisor{
+  img {
+    transform-origin: 0 0;
+  }
+}

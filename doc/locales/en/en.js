@@ -53,7 +53,7 @@ let en = {
             },
             "What": {
                 "Header": 'What can you do with <span class="ediphy_blue">EDiphy</span>?',
-                "Version": 'Version 1.0.0',
+                "Version": 'Version 2.0.0',
                 "Subheader": "What makes Ediphy so wonderful and easy to use for creating dynamic and fun content?",
                 "dnd": "Each feature is plugin-based and has drag-and-drop interaction",
                 "featureList": {
@@ -66,6 +66,7 @@ let en = {
                     "image": "Images",
                     "text": "Text",
                     "table": "Tables",
+                    "exercises": "Exercises",
                     "web": "Webs",
                     "video": "Video",
                     "map": "Maps",

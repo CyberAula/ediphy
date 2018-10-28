@@ -8,8 +8,8 @@ export default class What extends Component {
 
     render() {
         let featureList = [i18n.t("Home.What.featureList.editor"), i18n.t("Home.What.featureList.tree"), i18n.t("Home.What.featureList.navigation"), i18n.t("Home.What.featureList.export")];
-        let pluginList = [i18n.t("Home.What.pluginList.image"), i18n.t("Home.What.pluginList.text"), i18n.t("Home.What.pluginList.map"), i18n.t("Home.What.pluginList.video"), i18n.t("Home.What.pluginList.table"), i18n.t("Home.What.pluginList.web")];
-        let pluginIcons = ["crop_original", "text_format", "map", "ondemand_video", "border_all", "web"];
+        let pluginList = [i18n.t("Home.What.pluginList.image"), i18n.t("Home.What.pluginList.text"), i18n.t("Home.What.pluginList.map"), i18n.t("Home.What.pluginList.video"), i18n.t("Home.What.pluginList.exercises"), i18n.t("Home.What.pluginList.web")];
+        let pluginIcons = ["crop_original", "text_format", "map", "ondemand_video", "school", "web"];
 
         return (<Wrapper id="what">
             <Row>

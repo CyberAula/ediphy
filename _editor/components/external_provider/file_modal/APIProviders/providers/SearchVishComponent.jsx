@@ -22,11 +22,12 @@ const categories = {
     "EdiphyDocument": { label: i18n.t("vish_search_types.EdiphyDocument"), type: "edi", icon: "widgets" },
     "Excursion": { label: i18n.t("vish_search_types.Excursion"), type: "vish", icon: "list" } }
 ;
+const everything = 'Webapp,Scormfile,Link,Audio,Video,Officedoc,Picture,Swf,Excursion,EdiphyDocument';
 
 export default class SearchVishComponent extends React.Component {
     constructor(props) {
+        let types = everything;
         super(props);
-        let types = 'Webapp,Scormfile,Link,Audio,Video,Officedoc,Picture,Swf,Excursion,EdiphyDocument';
         for (let e in extensions) {
             let ext = extensions[e];
             if ((this.props.show || '*').match(ext.value)) {
@@ -41,6 +42,7 @@ export default class SearchVishComponent extends React.Component {
             query: '',
             types,
             msg: i18n.t("FileModal.APIProviders.no_files"),
+            onlyMyResources: false,
         };
         this.onSearch = this.onSearch.bind(this);
         this.generatePreview = this.generatePreview.bind(this);
@@ -51,6 +53,8 @@ export default class SearchVishComponent extends React.Component {
         switch(this.props.elementSelectedType) {
         case "webapp":
         case "pdf":
+        case "edi":
+        case "vish":
         case "scormpackage":
         case "video":
         case "swf":
@@ -60,17 +64,22 @@ export default class SearchVishComponent extends React.Component {
             previewButton = <i className="material-icons">volume_down</i>;
             break;
         case "image":
-        case "edi":
-        case "vish":
+
         default:
             previewButton = null;
 
         }
+
+        let results = this.state.results;
+        if (this.state.onlyMyResources) {
+            results = this.state.results.filter(res => (res.type === this.state.types || everything === this.state.types));
+        }
+
         return (
             <div className="contentComponent">
                 <Form horizontal action="javascript:void(0);">
                     <h5>{this.props.icon ? <img className="fileMenuIcon" src={this.props.icon } alt=""/> : this.props.name}
-                        <SearchComponent query={this.state.value} onChange={(e)=>{this.setState({ query: e.target.value });}} onSearch={this.onSearch} />
+                        <SearchComponent disabled={this.state.onlyMyResources} query={this.state.value} onChange={(e)=>{this.setState({ query: e.target.value });}} onSearch={this.onSearch} />
                         <FormControl disabled={this.props.show !== '*'} value={this.state.types} autoFocus ref="type" className="selectD" componentClass="select" style={{ marginRight: '2%', width: '18%', float: 'right' }} onChange={(e)=>{this.setState({ types: e.target.value });}}>
                             <option value="Webapp,Scormfile,Link,Audio,Video,Officedoc,Picture,Swf,EdiphyDocument,Excursion" >All</option>
                             {Object.keys(categories).map((c, key)=>{
@@ -79,6 +88,11 @@ export default class SearchVishComponent extends React.Component {
                             })}
 
                         </FormControl>
+                        {Ediphy.Config.includeVishProfile ? <div className="myResourcesFormGroup">
+                            <label htmlFor="myResources">Only my resources</label>
+                            <input name="myResources" type="checkbox" value={this.state.onlyMyResources} onChange={e=>{this.setState({ onlyMyResources: !this.state.onlyMyResources });}}/>
+
+                        </div> : null}
                     </h5>
                     <hr />
 
@@ -119,12 +133,12 @@ export default class SearchVishComponent extends React.Component {
                 </Form>*/}
 
                 <Form className={"ExternalResults"}>
-                    {this.state.results.length > 0 ?
+                    {results.length > 0 ?
                         (
                             <FormGroup>
-                                <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
+                                <ControlLabel>{ results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                                 <br />
-                                {this.state.results.map((item, index) => {
+                                {results.map((item, index) => {
                                     let url = (item.type === "EdiphyDocument" || item.type === "Excursion") ? item.url : item.url_full || item.file_url;
                                     let border = url === this.props.elementSelected ? "solid #17CFC8 2px" : "solid transparent 2px";
                                     let background = url === this.props.elementSelected ? "rgba(23,207,200,0.1)" : "transparent";
@@ -138,7 +152,8 @@ export default class SearchVishComponent extends React.Component {
                                             className={"videoItem"} key={index} style={{ border: border, backgroundColor: background }}
                                             onClick={e => {
                                                 this.setState({ preview: false });
-                                                this.props.onElementSelected(item.title, url, (item.type && categories[item.type]) ? categories[item.type].type : undefined);
+                                                let allowClone = item.allow_clone || item.allow_clone === undefined;
+                                                this.props.onElementSelected(item.title, url, (item.type && categories[item.type]) ? categories[item.type].type : undefined, undefined, { allowClone });
                                             }}>
                                             <div className={"videoGroupFlex"}>{item.avatar_url ? <img key={index} src={item.avatar_url} className={'youtubeVideo'}/> : <span className="youtubeVideo vishSearchIcon"> <i className="material-icons">{(item.type && categories[item.type]) ? categories[item.type].icon : undefined}</i></span>}
                                                 <div className={"videoInfo"}>
@@ -175,20 +190,22 @@ export default class SearchVishComponent extends React.Component {
         );
     }
     componentWillUpdate(nextProps, nextState) {
-        if (this.state.results.length && (nextState.results.length !== this.state.results.length && nextState.results.length > 0)) {
+        let results = this.state.results;
+        if (results.length && (nextState.results.length !== results.length && nextState.results.length > 0)) {
             let nextEl = nextState.results[0];
             let type = (nextEl.type && categories[nextEl.type]) ? categories[nextEl.type].type : undefined;
+            let allowClone = nextEl.allow_clone || nextEl.allow_clone === undefined;
             let url = nextEl.url_full || nextEl.file_url;
             this.props.onElementSelected(nextEl.title,
                 nextEl.file_url,
-                type);
+                type, undefined, { allowClone });
             // Comprobar ViSH type
             // Poner default thumbnails
 
         }
     }
     resetState() {
-        this.props.onElementSelected(undefined, undefined, undefined);
+        this.props.onElementSelected(undefined, undefined, undefined, undefined, undefined);
 
     }
     onSearch(text) {
@@ -196,6 +213,9 @@ export default class SearchVishComponent extends React.Component {
             "?q=" + text +
             "&type=" + this.state.types /* ReactDOM.findDOMNode(this.refs.type).value */ +
             "&sort_by=" + "created");
+        if (this.state.onlyMyResources) {
+            query = Ediphy.Config.profile_vish_url(window.ediphy_editor_params ? (window.ediphy_editor_params.slug || "").toLowerCase() : 1);
+        }
 
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
 
@@ -224,6 +244,9 @@ export default class SearchVishComponent extends React.Component {
     generatePreview() {
         let item = this.props.elementSelected;
         switch(this.props.elementSelectedType) {
+        case "vish":
+        case "edi":
+            return <iframe src={this.props.elementSelected + ".full"} frameBorder="0" width={'100%'} height={"400"} />;
         case "webapp":
         case "pdf":
         case "scormpackage":
@@ -267,4 +290,5 @@ SearchVishComponent.propTypes = {
      * Current file filter
      */
     show: PropTypes.any,
+
 };

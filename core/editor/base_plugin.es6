@@ -120,7 +120,6 @@ export default function() {
                     state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
                 }
                 state.__text = (getCKEDITORAdaptedContent(state.__text));
-                console.log(descendant);
                 if (!descendant.getRenderTemplate) {
                     descendant.getRenderTemplate = function(stateObj /* , { exercises: { correctAnswer: [] } }*/) {
                         return stateObj.__text;
@@ -275,7 +274,8 @@ export default function() {
         },
         getRenderTemplate: function(render_state, props) {
             if (!descendant.getRenderTemplate) {
-                descendant.getRenderTemplate = function(stateObj, props /* , { exercises: { correctAnswer: [] } }*/) {
+                // eslint-disable-next-line no-shadow
+                descendant.getRenderTemplate = function(stateObj, props /* , { exercises: { correctAnswer: [] } } */) {
                     return stateObj.__text;
                 };
             }

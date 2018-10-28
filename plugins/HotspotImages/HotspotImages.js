@@ -53,6 +53,14 @@ export function HotspotImages(base) {
                                     type: "checkbox",
                                     checked: state.allowDeformed,
                                 },
+                                scale: {
+                                    __name: Ediphy.i18n.t('HotspotImages.scale'),
+                                    type: "range",
+                                    min: 0,
+                                    max: 20,
+                                    step: 0.2,
+                                    value: state.scale || 1,
+                                },
                                 hyperlink: {
                                     __name: Ediphy.i18n.t('HotspotImages.hyperlink'),
                                     type: 'text',

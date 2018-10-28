@@ -96,7 +96,7 @@ export default function(state = {}, action = {}) {
     case IMPORT_STATE:
         return marksSerializer(action.payload.present.marksById, action.payload.present.version) || state;
     case IMPORT_EDI:
-        return { ...state, ...action.payload.state.marksById };
+        return { ...state, ...marksSerializer(action.payload.state.marksById, action.payload.state.version) };
     case DUPLICATE_NAV_ITEM:
         let candidates = {};
         let suffix = action.payload.suffix;

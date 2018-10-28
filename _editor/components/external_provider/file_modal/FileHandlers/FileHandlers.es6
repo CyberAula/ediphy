@@ -19,7 +19,7 @@ export const extensionHandlers = {
     'swf': { label: i18n.t("vish_search_types.Swf"), value: 'swf', icon: 'flash_on' },
     'xml': { label: i18n.t("vish_search_types.XML"), value: 'xml', icon: 'code' },
     'edi': { label: i18n.t("vish_search_types.Ediphy"), value: 'edi', icon: 'widgets' },
-    'vish': { label: i18n.t("vish_search_types.VISH"), value: 'edi', icon: 'list' },
+    'vish': { label: i18n.t("vish_search_types.VISH"), value: 'vish', icon: 'list' },
     // 'json': { label: i18n.t("vish_search_types.JSON"), value: 'json', icon: 'view_agenda' }
     // 'sla': { label: "Objeto 3D", value: 'sla', icon: 'devices_other' },
     // { label: "Objeto 3D", value: 'octet-stream', icon: 'devices_other' },
@@ -90,15 +90,13 @@ export default function handlers(self) {
                 });
                 buttons.push({
                     title: i18n.t('FileModal.FileHandlers.import'),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id) || !self.state.options.allowClone,
                     action: ()=>{
                         importEdiphy(self.state.element, self.props, (res) => {
                             if (res) {
-                                console.log(res);
-                                self.props.importEdi(res);
-                            } else {
-                                return false;
+                                return self.props.importEdi(res);
                             }
+                            alert('Error');
                         });
                         self.close();
                     },
@@ -114,15 +112,13 @@ export default function handlers(self) {
                 });
                 buttons.push({
                     title: i18n.t('FileModal.FileHandlers.import'),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id) || !self.state.options.allowClone,
                     action: () => {
                         importExcursion(self.state.element, self.props, (res) => {
                             if (res) {
-                                console.log(res);
-                                self.props.importEdi(res);
-                            } else {
-                                return false;
+                                return self.props.importEdi(res);
                             }
+                            alert('Error');
                         });
                         self.props.close();
                     },

@@ -179,7 +179,8 @@ export default class Visor extends Component {
         let navItems = Ediphy.State.navItemsById;
         let viewToolbars = Ediphy.State.viewToolbarsById;
         let pluginToolbars = Ediphy.State.pluginToolbarsById;
-
+        let ediphy_document_id = Ediphy.State.id;
+        let ediphy_platform = Ediphy.State.platform;
         let exercises = {};
         Object.keys(Ediphy.State.exercises).map((exercise, index)=>{
             if (containedViewsById[exercise] || (navItems[exercise] && !navItems[exercise].hidden)) {
@@ -204,17 +205,19 @@ export default class Visor extends Component {
             containedViews: containedViewsById,
             currentView: currentView,
             fromScorm: this.state.fromScorm,
-            navItems: navItems,
+            navItems,
             removeLastView: ()=>{this.removeLastView(); },
             richElementsState: this.state.richElementState,
-            title: title,
+            title,
             marks: marksById,
-            viewToolbars: viewToolbars,
-            pluginToolbars: pluginToolbars,
+            viewToolbars,
+            pluginToolbars,
             onMarkClicked: this.onMarkClicked,
             triggeredMarks: this.state.triggeredMarks,
             viewsArray: this.state.currentView,
             exportModalOpen: false,
+            ediphy_document_id,
+            ediphy_platform,
         };
         let visorContent = currentView ? (!isContainedView(currentView) ? (
             <VisorCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") === -1} />) : (<VisorContainedCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") !== -1} />)) : (

@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import VisorCanvasDoc from './VisorCanvasDoc';
 import VisorCanvasSli from './VisorCanvasSli';
+import Watermark from './Watermark';
 import { isSlide } from '../../../common/utils';
 
 export default class VisorCanvas extends Component {
 
     render() {
-        return (isSlide(this.props.navItems[this.props.currentView].type)) ?
-            (<VisorCanvasSli {...this.props} />) :
-            (<VisorCanvasDoc {...this.props} />);
+        return [(isSlide(this.props.navItems[this.props.currentView].type)) ?
+            (<VisorCanvasSli key="0" {...this.props} />) :
+            (<VisorCanvasDoc key="0" {...this.props} />),
+        <Watermark ediphy_document_id={this.props.ediphy_document_id} ediphy_platform={this.props.ediphy_platform} key={"1"}/>];
 
     }
 
@@ -75,4 +77,12 @@ VisorCanvas.propTypes = {
      *  Array de vistas
      */
     viewsArray: PropTypes.array,
+    /**
+   * Ediphy Document id
+   */
+    ediphy_document_id: PropTypes.any,
+    /**
+   * Platform where excursion is hosted
+   */
+    ediphy_platform: PropTypes.any,
 };

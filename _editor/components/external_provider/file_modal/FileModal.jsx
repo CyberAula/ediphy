@@ -17,6 +17,7 @@ const initialState = {
     element: undefined,
     type: undefined,
     pdfSelected: false,
+    options: {},
 };
 export default class FileModal extends React.Component {
     constructor(props) {
@@ -41,7 +42,7 @@ export default class FileModal extends React.Component {
                         <div id="menuColumn">
                             <ListGroup>
                                 {menus.map((cat, i)=>{
-                                    if (cat.show) {
+                                    if (cat && cat.show) {
                                         return <ListGroupItem active={this.state.menu === i} key={i}
                                             onClick={()=>this.clickHandler(i)}
                                             className={"listGroupItem"}>
@@ -216,6 +217,6 @@ FileModal.propTypes = {
     /**
      * Import Ediphy Document
      */
-    importEdi: PropTypes.func.isRequired,
+    // importEdi: PropTypes.func.isRequired,
 
 };
