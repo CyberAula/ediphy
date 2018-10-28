@@ -3,6 +3,7 @@ import MyFilesComponent from './providers/MyFilesComponent';
 import UploadComponent from './providers/UploadComponent';
 import SearchVishComponent from './providers/SearchVishComponent';
 import SoundCloudComponent from './providers/SoundCloudComponent';
+import GoogleDriveComponent from './providers/GoogleDriveComponent';
 // import AudioBlocksComponent from './AudioBlocksComponent';
 import YoutubeComponent from './providers/YoutubeComponent';
 import EuropeanaComponent from './providers/EuropeanaComponent';
@@ -150,6 +151,12 @@ export default function menus(self) {
           component: ThingiverseComponent,
           props: { ...commonProps },
       }*/
-
+        {
+            name: 'Google',
+            icon: SoundCloudIcon,
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
+            component: GoogleDriveComponent,
+            props: { ...commonProps },
+        },
     ];
 }
