@@ -146,6 +146,7 @@
         color: $blueprimary;
     }
     a {
+
         padding: 12px;
         display: block;
         text-decoration: none;
@@ -168,6 +169,10 @@
         &:hover, &:active, &:focus {
             border-left: 3px solid $blueprimary;
             border-radius: 0;
+        }
+
+        .collapsed{
+            border-left: 0px solid transparent;
         }
     }
     .panel-group, .panel {
