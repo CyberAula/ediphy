@@ -686,7 +686,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         }
                         window.print();
                         if(!isSafari) {
-                            // deletePageContainers('pageToPrint');
+                            deletePageContainers('pageToPrint');
                         }
                         callback();
                     } else {
