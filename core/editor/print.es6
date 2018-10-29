@@ -601,6 +601,8 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         let notToPrint = 0;
 
                         console.log('[INFO] EL número de páginas del documento es: ' + numPages);
+
+                        let firstPage = true;
                         for(let i = 0; i < numPages; i++) {
                             let doc = document.getElementById('pageContainer_' + i);
 
@@ -609,6 +611,21 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                 document.getElementById('pageContainer_' + i).style.height = actualHeight * 1.05 + 'px';
 
                                 console.log('[INFO] pageContainer_' + i + ' height is: ' + actualHeight * 1.05);
+
+                                if (doc.className.includes('otherDoc') && isFirefox) {
+                                    if (firstPage) {
+                                        doc.className = doc.className.replace("otherDoc", "");
+                                        doc.className = doc.className.replace("breakPage", "");
+                                        firstPage = false;
+                                    }
+                                    try{
+                                        let child = doc.childNodes.item('page-content-wrapper');
+                                        child.style.width = doc.clientWidth + 'px';
+                                        child.style.height = doc.clientHeight + 'px';
+                                    } catch (error) {
+                                        console.log(error);
+                                    }
+                                }
                             }
                             if(optionName === "twoDoc") {
                                 if (doc.className.includes('otherDoc')) {

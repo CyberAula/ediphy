@@ -1,24 +1,29 @@
 
-@media  print {
+@media   print {
 
 
   @page {
     /*margin: 1cm;*/
-
   }
 
   .pageContainer {
     margin: 0 auto;
-    border: 0.7px solid orange;
+    /*border: 0.7px solid orange;*/
     page-break-inside: avoid;
 
+    display: -webkit-box;
+
+    display: -ms-flexbox;
+
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -ms-flex-pack: distribute;
     justify-content: space-around;
 
     -webkit-transform: scale(1);
-    -moz-transform: scale(1);
-    -o-transform: scale(1);
+    -ms-transform: scale(1);
     transform: scale(1);
   }
 
@@ -33,23 +38,26 @@
     border: 1px solid transparent;
   }
 
-    .comment_box {
-        /*border: 1px dotted dimgrey;*/
-    }
+  .comment_box {
+    /*border: 1px dotted dimgrey;*/
+  }
 
-    .not_show {
-      display: none !important;
-    }
+  .not_show {
+    display: none !important;
+  }
 
 
   .slide169 {
 
     page-break-inside: avoid;
 
+    display: -webkit-box;
+
+    display: -ms-flexbox;
+
     display: flex;
     -webkit-transform: scale(1);
-    -moz-transform: scale(1);
-    -o-transform: scale(1);
+    -ms-transform: scale(1);
     transform: scale(1);
   }
 
@@ -57,10 +65,13 @@
 
     page-break-inside: avoid;
 
+    display: -webkit-box;
+
+    display: -ms-flexbox;
+
     display: flex;
     -webkit-transform: scale(1);
-    -moz-transform: scale(1);
-    -o-transform: scale(1);
+    -ms-transform: scale(1);
     transform: scale(1);
   }
 
@@ -79,10 +90,14 @@
   }
 
   .bigContainer{
-    border: 1px solid #70214e;
+    /*border: 1px solid #70214e;*/
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     -moz-display: inline;
+    -ms-flex-line-pack: distribute;
     align-content: space-around;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 
     page-break-after: always;
@@ -102,8 +117,7 @@
 
 
     -webkit-transform: scale(1);
-    -moz-transform: scale(1);
-    -o-transform: scale(1);
+    -ms-transform: scale(1);
     transform: scale(1);
   }
 
@@ -117,14 +131,15 @@
 
     margin: 0 auto;
     -webkit-transform: scale(1);
-    -moz-transform: scale(1);
-    -o-transform: scale(1);
+    -ms-transform: scale(1);
     transform: scale(1);
   }
 
   .twoColumn{
+    -webkit-column-count: 2;
     column-count: 2;
     font-size: 70%;
+    -webkit-column-fill: auto;
     column-fill: auto;
   }
 
