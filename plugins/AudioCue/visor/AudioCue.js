@@ -2,7 +2,7 @@
 import React from 'react';
 
 /* eslint-disable react/prop-types */
-export function MiniAudio(base) {
+export function AudioCue(base) {
 
     return {
         getRenderTemplate: function(state, props) {

@@ -412,7 +412,9 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
         );
     }
 
-    return React.createElement(Panel, props, children);
+    return <Panel {...props}><Panel.Heading>{props.header}</Panel.Heading><Panel.Body>{children}</Panel.Body></Panel>;
+
+    // React.createElement(Panel, props, children);
 }
 
 /**

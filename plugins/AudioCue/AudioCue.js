@@ -2,12 +2,12 @@ import React from 'react';
 import i18n from 'i18next';
 
 /* eslint-disable react/prop-types */
-export function MiniAudio(base) {
+export function AudioCue(base) {
     return {
         getConfig: function() {
             return {
-                name: 'MiniAudio',
-                displayName: i18n.t('MiniAudio.PluginName'),
+                name: 'AudioCue',
+                displayName: i18n.t('AudioCue.PluginName'),
                 category: "multimedia",
                 flavor: "react",
                 needsConfigModal: false,

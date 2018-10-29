@@ -56,7 +56,7 @@ export default {
         // 'Visor3D',
         'FlashObject',
         // 'Rating',
-        'MiniAudio',
+        'AudioCue',
     ],
     availableLanguages: [
         'en',
