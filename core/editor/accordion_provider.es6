@@ -361,11 +361,11 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
             panel.parentNode.classList.remove("extendedPanel");
         },
         header: (
-            <span key={'span' + key}>
+            <Panel.Title key={'span' + key}>
                 <i className="toolbarIcons material-icons">
                     {accordion.icon ? accordion.icon : <span className="toolbarIcons"/>}
                 </i>{accordion.__name}
-            </span>
+            </Panel.Title>
         ),
     };
     let children = [];
