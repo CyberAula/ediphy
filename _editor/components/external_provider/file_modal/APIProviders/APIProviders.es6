@@ -3,11 +3,12 @@ import MyFilesComponent from './providers/MyFilesComponent';
 import UploadComponent from './providers/UploadComponent';
 import SearchVishComponent from './providers/SearchVishComponent';
 import SoundCloudComponent from './providers/SoundCloudComponent';
-import GoogleDriveComponent from './providers/GoogleDriveComponent';
-// import AudioBlocksComponent from './AudioBlocksComponent';
+import DropboxComponent from './providers/DropboxComponent';
 import YoutubeComponent from './providers/YoutubeComponent';
 import EuropeanaComponent from './providers/EuropeanaComponent';
 import FlickrComponent from './providers/FlickrComponent';
+// import GoogleDriveComponent from './providers/GoogleDriveComponent';
+// import AudioBlocksComponent from './AudioBlocksComponent';
 // import PhetComponent from './PhetComponent';
 // import OpenClipArtComponent from './OpenClipArtComponent';
 // import GiphyComponent from './GiphyComponent';
@@ -17,10 +18,10 @@ import FlickrIcon from './logos/flickrsvg.svg';
 import EuropeanaIcon from './logos/europeanaalt.svg';
 import YoutubeIcon from './logos/youtube.svg';
 import SoundCloudIcon from './logos/soundcloud_logo_0.png';
+import DropboxIcon from './logos/Dropboxlogo.png';
 // import OpenClipArtIcon from './logos/openclipart.svg';
 // import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
 // import GiphyIcon from './logos/giphy.png';
-
 import i18n from 'i18next';
 
 export default function menus(self) {
@@ -40,8 +41,8 @@ export default function menus(self) {
             props: {
                 ...commonProps,
                 isBusy: self.props.isBusy,
-                pdfSelected: self.state.pdfSelected,
                 closeSideBar: (closeAlsoModal)=>{self.setState({ pdfSelected: false }); if (closeAlsoModal) {self.close();}},
+                pdfSelected: self.state.pdfSelected,
                 filesUploaded: self.props.filesUploaded,
                 uploadFunction: self.props.uploadFunction,
                 onUploadEdiphyResource: self.props.onUploadEdiphyResource,
@@ -151,12 +152,27 @@ export default function menus(self) {
           component: ThingiverseComponent,
           props: { ...commonProps },
       }*/
-        {
+        /* {
             name: 'Google',
             icon: SoundCloudIcon,
             show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
             component: GoogleDriveComponent,
             props: { ...commonProps },
+        },*/
+        {
+            name: 'Dropbox',
+            icon: DropboxIcon,
+            show: !(avatar) ? ((allowedMIME) ? allowedMIME : false) : false,
+            component: DropboxComponent,
+            props: {
+                ...commonProps,
+                isBusy: self.props.isBusy,
+                elementSelectedType: self.state.type,
+                allowedMIME,
+                pdfSelected: self.state.pdfSelected,
+                filesUploaded: self.props.filesUploaded,
+                uploadFunction: self.props.uploadFunction,
+            },
         },
     ];
 }

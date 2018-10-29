@@ -179,6 +179,7 @@
     "react-bootstrap-typeahead": "^2.0.0-rc.4",
     "react-datatable-bs": "^1.0.12",
     "react-dom": "^16.1.1",
+    "react-dropbox-chooser": "^0.0.5",
     "react-dropzone": "^4.2.1",
     "react-google-picker": "^0.0.9",
     "react-joyride": "^2.0.0-10",

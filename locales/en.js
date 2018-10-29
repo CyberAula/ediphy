@@ -52,6 +52,8 @@ let en = {
         "delete": "Delete",
         "display": "Display",
         "display_page": "Include in document",
+        "dropbox_msg": "Click here in order to browse your dropbox files",
+        "dropbox_msg_alt": "Choose another file",
         "document": "Document",
         "DuplicateNavItem": "Duplicate view",
         "edit_text": "Edit text",

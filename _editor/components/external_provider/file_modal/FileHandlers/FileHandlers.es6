@@ -86,6 +86,8 @@ export default function handlers(self) {
                     action: ()=>{
                         createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
                         self.close();
+                        return;
+
                     },
                 });
                 buttons.push({
@@ -97,6 +99,8 @@ export default function handlers(self) {
                                 return self.props.importEdi(res);
                             }
                             alert('Error');
+                            return;
+
                         });
                         self.close();
                     },
@@ -108,6 +112,8 @@ export default function handlers(self) {
                     action: () => {
                         createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
                         self.close();
+                        return;
+
                     },
                 });
                 buttons.push({
@@ -119,6 +125,7 @@ export default function handlers(self) {
                                 return self.props.importEdi(res);
                             }
                             alert('Error');
+                            return;
                         });
                         self.props.close();
                     },

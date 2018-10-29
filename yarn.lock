@@ -7411,6 +7411,12 @@ react-dom@^16.1.1:
     prop-types "^15.6.2"
     schedule "^0.5.0"
 
+react-dropbox-chooser@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/react-dropbox-chooser/-/react-dropbox-chooser-0.0.5.tgz#0df0c5792bb1641b559d323c13c33711ece784a2"
+  dependencies:
+    load-script "^1.0.0"
+
 react-dropzone@^4.2.1:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-4.3.0.tgz#facdd7db16509772633c9f5200621ac01aa6706f"

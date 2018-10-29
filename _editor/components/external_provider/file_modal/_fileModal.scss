@@ -410,3 +410,26 @@
 .picker, .picker-dialog {
   z-index: 9999 !important;
 }
+.dropbox-preview{
+
+}
+.dropbox-button {
+  padding: 20px;
+  text-align: center;
+  p {
+    font-size: 16px;
+    color: #777;
+    padding: 10px;
+    //font-weight: bold;
+  }
+  button {
+    span {
+
+    }
+    svg {
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+  }
+  cursor: pointer;
+}
