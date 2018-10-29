@@ -613,7 +613,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                 console.log('[INFO] pageContainer_' + i + ' height is: ' + actualHeight * 1.05);
 
                                 if (doc.className.includes('otherDoc') && isFirefox) {
-                                    if (firstPage) {
+                                    if (firstPage && hideSlides) {
                                         doc.className = doc.className.replace("otherDoc", "");
                                         doc.className = doc.className.replace("breakPage", "");
                                         firstPage = false;
