@@ -103,7 +103,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         let viewport;
         let miniViewport;
 
-        console.log('[PRINT SETTING]    ' + optionName);
         switch(optionName) {
         case "fullSlideDoc":
             cssPagedMedia.size('landscape', '1cm');
@@ -165,7 +164,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             expectedHeight = viewport.height;
             expectedWidth = viewport.width;
             cssPagedMedia.size((viewport.width) + "px " + (viewport.height + 1) + "px ", "0");
-            console.log((viewport.width) + "px " + (viewport.height + 1) + "px ", "0");
             break;
 
         case "fullSlide":
@@ -323,9 +321,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         // Me creo un div para la página
         let pageContainer = document.createElement('div');
 
-        console.log('[INFO] is this aslide?' + slide);
-        console.log('[INFO] is this fp?' + requiresFullPage);
-
         // Asigno la anchura y altura del div dependiendo si es page o slide
         if (optionName === "fullSlideCustom") {
             pageContainer.style.width = viewport.width;
@@ -341,7 +336,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 pageContainer.style.height = '670px';
             }
 
-            console.log('[IS SLIDE ?] ' + slide);
             if(!slide) {
                 pageContainer.style.height = 'auto';
             }
@@ -435,9 +429,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             firstElementPage = true;
         }
 
-        console.log('[INFO] Viewport.height is: ' + viewport.height);
-        console.log('[INFO] SLIDE_BASE is: ' + SLIDE_BASE);
-
         // Añado clase según tipo de slide/documento
         switch (viewport.height) {
         case isSafari ? SAFARI_HEIGHT / 2 * 0.95 : CHROME_HEIGHT / 2 * 0.95:
@@ -483,16 +474,11 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
         pageContainer.className = elementClass;
 
-        console.log('[INFO] Slides per page: ' + slidesPerPage);
         if(slidesPerPage === 1 && optionName !== "fullSlideDoc" && optionName !== "fullSlideCustom") {
 
-            console.log('[INFO] Canvas ratio is :' + canvasRatio);
-            console.log('[INFO] 1/A4 ratio is ' + 1 / A4_RATIO);
             if (canvasRatio > (1 / A4_RATIO)) {
                 expectedWidth = DOC_BASE;
                 expectedHeight = expectedWidth / canvasRatio;
-                console.log('[INFO] Expected width: ' + expectedWidth);
-                console.log('[INFO] Expected height: ' + expectedHeight);
             } else {
                 expectedHeight = isSafari ? 670 * 0.95 : 975 * 0.95;
                 expectedWidth = expectedHeight * canvasRatio;
@@ -600,8 +586,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         numPages++;
                         let notToPrint = 0;
 
-                        console.log('[INFO] EL número de páginas del documento es: ' + numPages);
-
                         let firstPage = true;
                         for(let i = 0; i < numPages; i++) {
                             let doc = document.getElementById('pageContainer_' + i);
@@ -609,8 +593,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                             if (((doc && (doc.className.includes('importedDoc')) && (optionName !== "fullSlideDoc") && (optionName !== "fullSlide")) || (doc && doc.className.includes('otherDoc'))) && (slidesPerPage !== 4) && (optionName !== "twoDoc")) {
                                 let actualHeight = doc.clientHeight;
                                 document.getElementById('pageContainer_' + i).style.height = actualHeight * 1.05 + 'px';
-
-                                console.log('[INFO] pageContainer_' + i + ' height is: ' + actualHeight * 1.05);
 
                                 if (doc.className.includes('otherDoc') && isFirefox) {
                                     if (firstPage && hideSlides) {
@@ -623,7 +605,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                         child.style.width = doc.clientWidth + 'px';
                                         child.style.height = doc.clientHeight + 'px';
                                     } catch (error) {
-                                        console.log(error);
                                     }
                                 }
                             }
@@ -644,8 +625,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                 notToPrint++;
                             }
                         }
-                        console.log('[INFO] Número de páginas que no se van a imprimir: ' + notToPrint);
-
                         if (notToPrint === numPages) {
                             deletePageContainers('pageToPrint');
                             callback("nullPrint");
