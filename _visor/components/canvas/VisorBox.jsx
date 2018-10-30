@@ -8,6 +8,9 @@ export default class VisorBox extends Component {
     constructor(props) {
         super(props);
         this.borderSize = 2;
+        this.state = {
+            show: this.props.show,
+        };
     }
     componentDidUpdate(prevProps, prevState) {
         let toolbar = this.props.toolbars[this.props.id];
@@ -17,7 +20,15 @@ export default class VisorBox extends Component {
             window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
         }
     }
+    componentWillReceiveProps(nextProps) {
+        if (!this.state.show && !this.props.show && nextProps.show) {
+            this.setState({ show: true });
+        }
+    }
     render() {
+        if (!this.state.show) {
+            return null;
+        }
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];
@@ -193,6 +204,10 @@ export default class VisorBox extends Component {
 }
 
 VisorBox.propTypes = {
+    /**
+   * Show the current view
+   */
+    show: PropTypes.bool,
     /**
      * Identificador de la caja
      */

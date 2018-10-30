@@ -58,7 +58,7 @@ $material-font-path:  '../node_modules/material-design-icons-font/iconfont/';
             @include animacion(width, 0.4s);
         }
     }
-    #canvas, #maincontent, #canvasRow {
+    #canvas, #maincontent, #canvasRow, .canvasClass {
         z-index:0 ;
     }
 }
@@ -259,6 +259,153 @@ input[type="radio"]{
     background: none;
 }
 
+.material-icons.correct {
+    font-size: 1.7em;
+}
+.setting-title{
+    color: $blueprimary !important;
+    font-weight: bold;
+}
+
+.print-settings-explanation{
+    margin-left: 15px;
+}
+
+/*@media screen {
+    .pageToPrint {
+        visibility: hidden;
+    }
+}*/
+
+/*@media print {
+
+
+    @page {
+        size: A4;
+        margin: 1cm;
+        //margin-top: 3cm; Lo quito porque hacía que apareciese una raya abajo de cada página en chrome/opera
+    }
+
+    .pageContainer {
+        margin: 0 auto;
+        //border: 0.7px solid orange; //OJO el borde quita espacio interior, puede afectar a la disposicion de texto pequeño.
+        page-break-inside: avoid;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -o-transform: scale(1);
+        transform: scale(1);
+    }
+
+    .pwc_slide {
+        border: 1px solid black;
+    }
+
+    .slide169 {
+
+        page-break-inside: avoid;
+
+        display: flex;
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -o-transform: scale(1);
+        transform: scale(1);
+    }
+
+    .slide43 {
+        margin: 0 auto;
+        //margin-top: 0.5cm;
+
+        page-break-inside: avoid;
+
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -o-transform: scale(1);
+        transform: scale(1);
+    }
+
+    .upOnPage {
+        page-break-before: always;
+    }
+
+
+    .breakPage {
+        page-break-after: always;
+
+    }
+
+    .pageEnd {
+        page-break-after: always;
+    }
+
+
+    #canvas {
+        overflow-y: visible;
+    }
+
+    .otherDoc {
+        page-break-before: always;
+        page-break-after: always;
+    }
+
+    .importedDoc {
+        margin: 0 auto;
+        overflow: hidden;
+
+        page-break-inside: avoid;
+
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -o-transform: scale(1);
+        transform: scale(1);
+    }
+
+    .navBar {
+        display: none;
+    }
+
+    .tooltip.top {
+        display: none;
+    }
+
+    #navButtonTooltip{
+        display: none;
+    }
+
+    #root {
+        display: none;
+    }
+    .pageModal{
+        display: none;
+    }
+
+    .modal-dialog{
+        display: none;
+    }
+
+    *[role="dialog"]{
+        display: none;
+    }
+
+}*/
+
+.material-icons.correct {
+    font-size: 1.7em;
+}
+
+.panel-group .panel{
+    border-radius: 0px;
+}
+
+.panel-heading {
+border-top-left-radius: 0px;
+border-top-right-radius: 0px;
+
+}
 .material-icons.correct {
     font-size: 1.7em;
 }

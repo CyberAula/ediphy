@@ -16,7 +16,7 @@
     transform-origin: 0 0;
   }
 }
-:not(.pointerEventsEnabled).dropableRichZone {
+:not(.pointerEventsEnabled) basicImageClass .dropableRichZone {
   pointer-events: none !important;
 
 }
