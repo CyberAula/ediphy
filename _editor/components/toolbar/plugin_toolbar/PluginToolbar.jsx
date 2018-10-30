@@ -91,7 +91,7 @@ export default class PluginToolbar extends Component {
             children.sort(collator.compare);
             return (
                 <div key={'key_' + index} className="toolbarTab">
-                    <PanelGroup>
+                    <PanelGroup collapsible>
                         {Object.keys(tab.accordions).sort().map((accordionKey, ind) => {
                             return renderAccordion(
                                 tab.accordions[accordionKey],

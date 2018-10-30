@@ -533,3 +533,9 @@ li > .selectedNavItemVisor {
     font-size: 35px;
     font-size: 5vh;
 }
+
+@media print {
+  .submitButton{
+    display: none;
+  }
+}

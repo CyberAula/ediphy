@@ -66,7 +66,7 @@ export default class EditorNavBar extends Component {
                     fileModalResult={this.props.fileModalResult}
                     changeGlobalConfig={this.props.changeGlobalConfig}
                     close={this.toggleGlobalConfig} />
-                <ExportModal show={this.state.showExport} export={this.props.export} scorm={this.props.scorm} close={this.toggleExport} />
+                <ExportModal aspectRatio={this.props.globalConfig.canvasRatio} show={this.state.showExport} export={this.props.export} scorm={this.props.scorm} close={this.toggleExport} />
 
             </Col>
         );
