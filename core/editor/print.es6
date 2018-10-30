@@ -49,8 +49,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let hideDocs = false;
     let hideSlides = false;
 
-    let bigContainer;
-
     let treatAsImportedDoc = false;
 
     let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
@@ -515,8 +513,8 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
         if (slidesWithComments && slide) {
             let pageContainerComments = document.createElement('div');
-            let table = (<div width="100%"><table width="100%">
-                <tr><td className={"commentLine firstLine"} /></tr>
+            let table = (<div width="100%" style={{ display: 'flex', justifyContent: 'center' }}><table width={expectedWidth}>
+                <tr><td className= {customAspectRatio === (4 / 3) ? "commentLine" : "commentLine firstLine"} /></tr>
                 <tr><td className={"commentLine"} /></tr>
                 <tr><td className={"commentLine"} /></tr>
                 <tr><td className={"commentLine"} /></tr>
@@ -665,7 +663,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         }
                         window.print();
                         if(!isSafari) {
-                            deletePageContainers('pageToPrint');
+                            // deletePageContainers('pageToPrint');
                         }
                         callback();
                     } else {
