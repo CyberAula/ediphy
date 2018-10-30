@@ -183,4 +183,8 @@
     border-top: 1px solid black;
   }
 
+  .canvasSliClass p, .canvasSliClass .p_class, #clone p, #clone .p_class{
+    page-break-inside: auto;
+  }
+
 }
