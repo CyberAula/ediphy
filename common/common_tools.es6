@@ -15,7 +15,8 @@ export function fontString() {
     let fontsString = fonts_length.join(";");
     return fontsString;
 }
-export function changeFontBase(width = 1100) {
+
+export function changeFontBase(width = 900) {
     const DEFAULT_FONT_BASE = 14;
     const DEFAULT_WIDTH_BASE = 1100;
     let calculatedFontSize = DEFAULT_FONT_BASE * parseFloat(width) / DEFAULT_WIDTH_BASE;
@@ -350,4 +351,49 @@ export function setRgbaAlpha(color, alpha) {
         return color.replace(/[\d\.]+\)$/g, alpha.toString() + ")");
     }
     return 'rgba(0, 173, 156, 0.25)';
+}
+
+export function convertSecondsToHMS(time) {
+    // eslint-disable-next-line no-bitwise
+    let hrs = ~~(time / 3600);
+    // eslint-disable-next-line no-bitwise
+    let mins = ~~((time % 3600) / 60);
+    let secs = Math.round(time % 60);
+
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    let ret = "";
+
+    if(secs === 60) {
+        secs = 0;
+        mins += 1;
+    }
+
+    if(mins === 60) {
+        hrs += 1;
+    }
+
+    if (hrs > 0) {
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+
+    return ret;
+}
+
+export function convertHMStoSeconds(time) {
+    let a = time.split(':');
+    let finalValue;
+    if (a.length === 2) {
+        finalValue = (+a[0]) * 60 + (+a[1]);
+    } else {
+        finalValue = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+    }
+    return finalValue;
+}
+
+export function pad(str) {
+    str = str.toString();
+    return str.length < 2 ? "0" + str : str;
 }

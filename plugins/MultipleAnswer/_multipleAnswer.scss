@@ -67,7 +67,7 @@
   .answerPlaceholder {
     display: flex;
     font-size: 1.5em;
-    margin: 0.4em 0.4em 0.4em 0.8em;
+    margin: 0.4em 0.1em 0.4em 0.8em;
     text-align: right;
     color: $blueprimarydark;
     padding: 0;
@@ -103,9 +103,11 @@
       margin: 0.5em -1em;
       &.correct{
         color: $detailgreen;
+        font-size: 1.7em;
       }
       &.incorrect{
         color: $lightred;
+        font-size: 1.7em;
       }
     }
   }

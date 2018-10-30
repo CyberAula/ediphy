@@ -3,8 +3,10 @@ import { findDOMNode } from 'react-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 import Mark from '../../../common/components/mark/Mark';
+import { pad } from '../../../common/common_tools';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import img from './../../../dist/images/broken_link.png';
+import { convertHMStoSeconds } from "../../../common/common_tools";
 /* eslint-disable react/prop-types */
 
 export default class EnrichedPlayerPlugin extends React.Component {
@@ -19,21 +21,23 @@ export default class EnrichedPlayerPlugin extends React.Component {
             controls: true,
             toBeTriggered: [],
             triggering: false,
+            playedSeconds: 0,
         };
     }
 
     componentWillUpdate(nextProps, nextState) {
         if(nextState.played !== this.state.played) {
-            let sudo = this;
+            let plugin = this;
             let marks = this.props.props.marks || {};
             let triggerMark = this.props.props.onMarkClicked;
             let triggerArray = this.state.toBeTriggered;
             triggerArray.forEach(function(e, i) {
-                if ((parseFloat(e.value) / 100).toFixed(3) < parseFloat(nextState.played).toFixed(3)) {
+                // if ((parseFloat(e.value) / 100).toFixed(3) < parseFloat(nextState.played).toFixed(3)) {
+                if (parseFloat(convertHMStoSeconds(e.value)) < nextState.playedSeconds) {
                     let toBeTriggered = triggerArray;
-                    triggerMark(sudo.props.props.id, e.value, true);
+                    triggerMark(plugin.props.props.id, e.value, true);
                     toBeTriggered.splice(i, 1);
-                    sudo.setState({ toBeTriggered });
+                    plugin.setState({ toBeTriggered });
                 }
             });
 
@@ -44,15 +48,19 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     if(mark.id === key) {
                         notInArray = false;
                     }
-
                 });
 
+                // if(notInArray &&
+                //   parseFloat(nextState.played).toFixed(3) <= (parseFloat(marks[key].value) / 100).toFixed(3) &&
+                //  parseFloat(parseFloat(nextState.played).toFixed(3)) + 0.05 >= parseFloat((parseFloat(marks[key].value) / 100).toFixed(3))) {
+                let valueIntoSeconds = parseFloat(convertHMStoSeconds(marks[key].value), 10);
+
                 if(notInArray &&
-                    parseFloat(nextState.played).toFixed(3) <= (parseFloat(marks[key].value) / 100).toFixed(3) &&
-                    parseFloat(parseFloat(nextState.played).toFixed(3)) + 0.05 >= parseFloat((parseFloat(marks[key].value) / 100).toFixed(3))) {
+                    parseFloat(nextState.playedSeconds) <= valueIntoSeconds &&
+                    nextState.playedSeconds + 0.35 >= valueIntoSeconds) {
                     let toBeTriggered = triggerArray;
                     toBeTriggered.push(marks[key]);
-                    sudo.setState({ toBeTriggered });
+                    plugin.setState({ toBeTriggered });
                 }
             });
         }
@@ -60,15 +68,11 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
     componentWillMount() {
         if(this.props.state.currentState !== undefined) {
-            this.setState({ initialPoint: Math.ceil(parseFloat(this.props.state.currentState + 0.5)) / 100 });
+            let initialPoint = parseFloat(convertHMStoSeconds(this.props.state.currentState)) + 0.35;
+            this.setState({ initialPoint });
         }
     }
-    componentDidMount() {
-        if(this.player !== undefined && this.state.initialPoint !== undefined) {
-            this.player.seekTo(this.state.initialPoint);
-            this.setState({ initialPoint: undefined, playing: true });
-        }
-    }
+
     playPause() {
         this.setState({ playing: !this.state.playing });
     }
@@ -123,12 +127,21 @@ export default class EnrichedPlayerPlugin extends React.Component {
         }
     }
 
+    onReady(e) {
+        if(this.player !== undefined && this.state.initialPoint !== undefined) {
+            this.player.seekTo(this.state.initialPoint);
+            this.setState({ initialPoint: undefined, playing: true, ready: true });
+        } else {
+
+            this.setState({ ready: true });
+        }
+    }
     render() {
-
         let marks = this.props.props.marks || {};
-
         let markElements = Object.keys(marks).map((id) =>{
-            let value = marks[id].value;
+            let secondsValue = convertHMStoSeconds(marks[id].value);
+            let duration = this.state.duration;
+            let value = (secondsValue * 100 / duration) + "%";
             let title = marks[id].title;
             let color = marks[id].color;
             let isPopUp = marks[id].connectMode === "popup";
@@ -144,20 +157,20 @@ export default class EnrichedPlayerPlugin extends React.Component {
                         isPopUp={isPopUp}
                         markConnection={marks[id].connection}
                         noTrigger={noTrigger}
-                        onMarkClicked={()=>{this.props.props.onMarkClicked(this.props.props.id, value, true);}}
-
+                        onMarkClicked={()=>{this.props.props.onMarkClicked(this.props.props.id, marks[id].value, true);}}
                     />
                 </div>
             );
         });
 
         return (
-            <div ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%" }} className="enriched-player-wrapper">
+            <div ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%" }} className="enriched-player-wrapper" duration={this.state.duration}>
                 <ReactPlayer
                     ref={player => { this.player = player; }}
                     style={{ width: "100%", height: "100%" }}
                     height="100%"
                     width="100%"
+                    progressInterval={300}
                     url={this.props.state.url}
                     playing={this.state.playing}
                     volume={this.state.volume}
@@ -167,9 +180,10 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     onEnded={() => this.setState({ playing: false })}
                     onProgress={this.onProgress.bind(this)}
                     onDuration={duration => this.setState({ duration })}
+                    onReady={this.onReady.bind(this)}
                 />
                 {(this.state.controls) && (
-                    <div className="player-media-controls" style={{ pointerEvents: 'all' }}>
+                    <div className="player-media-controls flexControls visorControls" style={{ pointerEvents: 'all' }}>
                         <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
                         <div className="progress-player-input dropableRichZone" style={{ height: "1.7em", position: "relative" }}
                             // value={this.state.played}
@@ -178,9 +192,9 @@ export default class EnrichedPlayerPlugin extends React.Component {
                             onMouseUp={this.onSeekMouseUp.bind(this)}>
                             <div className="fakeProgress" style={{ top: "0", zIndex: 0 }} />
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%", top: "0" }} />
-                            {markElements}
+                            {this.state.ready ? markElements : null}
                         </div>
-
+                        <div className="durationField">{ Math.trunc(this.state.playedSeconds / 60) + ":" + pad(Math.trunc(this.state.playedSeconds % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + pad(Math.trunc(this.state.duration % 60))}</div>
                         <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
                         <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
                     </div>)}

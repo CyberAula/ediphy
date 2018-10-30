@@ -297,7 +297,7 @@ export default class Clipboard extends Component {
                         position: isTargetSlide && container === 0 ? {
                             type: "absolute",
                             x: randomPositionGenerator(20, 40),
-                            y: randomPositionGenerator(20, 40),
+                            y: randomPositionGenerator(20, 30),
                         } : { type: 'relative', x: "0%", y: "0%" },
                     };
                     // If it is an image
@@ -346,6 +346,27 @@ export default class Clipboard extends Component {
                                 initialParams.url = src;
                                 createBox(initialParams, "FlashObject", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
                                 return;
+                            } else if (tag === "AUDIO") {
+                                if (!src) {
+                                    let source = el.find('source');
+                                    if (source && source[0]) {
+                                        src = $(source[0]).attr('src');
+                                    }
+                                }
+                                initialParams.url = src;
+                                createBox(initialParams, "EnrichedAudio", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                return;
+
+                            } else if (tag === "VIDEO") {
+                                if (!src) {
+                                    let source = el.find('source');
+                                    if (source && source[0]) {
+                                        src = $(source[0]).attr('src');
+                                    }
+                                }
+                                initialParams.url = src;
+                                createBox(initialParams, "EnrichedPlayer", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                return;
                             }
                         } catch(err) {
                             // eslint-disable-next-line no-console
@@ -388,7 +409,7 @@ export default class Clipboard extends Component {
             position: isTargetSlide ? {
                 type: "absolute",
                 x: !samePage ? box.position.x : randomPositionGenerator(20, 40),
-                y: !samePage ? box.position.y : randomPositionGenerator(20, 40),
+                y: !samePage ? box.position.y : randomPositionGenerator(20, 30),
             } : { type: "relative", x: "0%", y: "0%" },
             resizable: isTargetSlide,
             row: ids.row || 0,

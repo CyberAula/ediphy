@@ -124,8 +124,8 @@ export default class VisorCanvasSli extends Component {
                 </div>
                 <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
                     if (!this.props.fromPDF) {
-                        this.aspectRatio(this.props, this.state);
-                        this.setState({ fontBase: changeFontBase(this.state.width) });
+                        let calculated = this.aspectRatio(this.props, this.state);
+                        this.setState({ fontBase: changeFontBase(calculated.width) });
                     } else if (this.props.fromPDF) {
                         this.setState({ fontBase: changeFontBase(this.props.expectedWidth) });
                     }

@@ -151,13 +151,14 @@ export default class EditorCanvasSli extends Component {
                             />;
 
                         })}
-                        <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
-                            this.aspectRatio(this.props, this.state);
-                        }} />
+
                     </div>
 
                 </div>
-
+                <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
+                    let calculated = this.aspectRatio(this.props, this.state);
+                    this.setState({ fontBase: changeFontBase(calculated.width) });
+                }} />
                 <EditorShortcuts
                     openConfigModal={this.props.openConfigModal}
                     box={this.props.boxes[this.props.boxSelected]}

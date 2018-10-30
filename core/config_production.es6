@@ -51,6 +51,7 @@ export default {
         'GraficaD3',
         'EnrichedAudio',
         'EnrichedPDF',
+        'Ordering',
         'ScormPackage',
         'FlashObject',
         // 'Rating',

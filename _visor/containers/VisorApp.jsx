@@ -1,4 +1,6 @@
-import "babel-polyfill";
+if (global && !global._babelPolyfill) {
+    require('babel-polyfill');
+}
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';

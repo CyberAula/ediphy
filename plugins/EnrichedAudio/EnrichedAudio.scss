@@ -178,11 +178,12 @@ $track-width: 54% !default;
     //padding: 5px;
     //margin: 1px;
     height: 2.5em;
-    opacity: 1;
-    background: -webkit-linear-gradient(transparent, grey);
+    opacity: 0.7;
+    background: #222;
+/*    background: -webkit-linear-gradient(transparent, grey);
     background: -o-linear-gradient(transparent, grey);
     background: -moz-linear-gradient(transparent, grey);
-    background: linear-gradient(transparent, grey);
+    background: linear-gradient(transparent, grey);*/
     &:hover{
       opacity: 1;
     }
@@ -247,7 +248,9 @@ $track-width: 54% !default;
     position: absolute;
     z-index: 3;
   }
-
+  .audio-controls {
+    display: flex;
+  }
   .progress-audio-input {
       background: transparent;
       float:left;
@@ -277,7 +280,20 @@ $track-width: 54% !default;
     z-index: 9999;
     position:absolute;
   }
+  .durationField {
+    line-height: 3em;
+    color: white;
+    font-size: 0.8em;
+  }
   .audioMark{
+
+    a.mapMarker {
+      top: -1.9em;
+      left: -0.7em;
+      width: 1.9em;
+      height: 1.9em;
+      text-align: center;
+    }
     width: 0.75em;
     height: 0.75em;
     top: -0.55em;
@@ -312,5 +328,20 @@ FIJARNOS EN ENRICHED PARA CUALQUIER DUDA, ESTE TIENE BIEN HECHO EL CSS
 
 */
 
-
+  .visorControls {
+    opacity: 0;
+    -webkit-transition: opacity .3s;
+    -moz-transition: opacity .3s;
+    -o-transition: opacity .3s;
+    -ms-transition: opacity .3s;
+    transition: opacity .3s;
+  }
+  &:hover {
+    .visorControls {
+      opacity:0.7;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
 }

@@ -50,6 +50,7 @@ export default {
         'InputText',
         // 'ContainerJS',
         'GraficaD3',
+        'Ordering',
         'TrueFalse',
         'ScormPackage',
         // 'Visor3D',

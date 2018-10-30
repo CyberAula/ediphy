@@ -1,6 +1,7 @@
 import React from "react";
 import EnrichedAudioPluginEditor from './components/EnrichedAudioPluginEditorWS.js';
 import i18n from 'i18next';
+import { convertSecondsToHMS } from "../../common/common_tools";
 require('./EnrichedAudio.scss');
 /* eslint-disable react/prop-types */
 
@@ -18,7 +19,7 @@ export function EnrichedAudio(base) {
                 initialWidthSlide: '30%',
                 initialHeightSlide: '30%',
                 icon: 'audiotrack',
-                marksType: { name: i18n.t("EnrichedAudio.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" },
+                marksType: { name: i18n.t("EnrichedAudio.pos"), key: 'value', format: '[h:m:s/m:s]', default: '50%', defaultColor: "#17CFC8" },
                 createFromLibrary: ['audio/*', 'url'],
                 searchIcon: true,
             };
@@ -148,26 +149,21 @@ export function EnrichedAudio(base) {
         },
 
         getDefaultMarkValue(state) {
-            return '50%';
+            return '0:00';
         },
         parseRichMarkInput: function(x, y, width, height, toolbarState, boxId) {
-            let parsed_value = (x + 10) * 100 / width;
-            return parsed_value.toFixed(2) + "%";
+            let parsed_value = (x + 10) / width;
+            let duration = $("#box-" + boxId + " .basic-audio-wrapper").attr("duration");
+            return convertSecondsToHMS(duration * parsed_value);
         },
         validateValueInput: function(value) {
-            let regex = /(^\d+(?:\.\d*)?%$)/g;
+            let regex = /^((\d+:)?[0-5]\d?:[0-5]\d$)/g;
             let match = regex.exec(value);
-            if (match && match.length === 2) {
-                let val = Math.round(parseFloat(match[1]) * 100) / 100;
-                if (isNaN(val) || val > 100) {
-                    return { isWrong: true, message: i18n.t("EnrichedAudio.message_mark_percentage") };
-                }
-                value = val + '%';
-            } else {
-                return { isWrong: true, message: i18n.t("EnrichedAudio.message_mark_percentage") };
+            if (match && match.length === 3) {
+                // let val = match[1];
+                return { isWrong: false, value: value };
             }
-            return { isWrong: false, value: value };
-
+            return { isWrong: true, message: i18n.t("EnrichedAudio.message_mark_error") };
         },
     };
 }

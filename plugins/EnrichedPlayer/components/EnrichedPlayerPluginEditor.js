@@ -4,7 +4,10 @@ import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 import Mark from '../../../common/components/mark/Mark';
+import { convertHMStoSeconds } from "../../../common/common_tools";
 import img from './../../../dist/images/broken_link.png';
+import { pad } from '../../../common/common_tools';
+
 /* eslint-disable react/prop-types */
 
 export default class EnrichedPlayerPluginEditor extends React.Component {
@@ -14,6 +17,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
             volume: 0.8,
             duration: 0,
             played: 0,
+            playedSeconds: 0,
             seeking: false,
             fullscreen: false,
             // controls: this.props.state.controls || true,
@@ -69,16 +73,20 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
     getDuration() {
         return this.state.duration;
     }
-
+    onReady(e) {
+        this.setState({ ready: true });
+    }
     render() {
-
         let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
-            let value = marks[id].value;
+            let secondsValue = convertHMStoSeconds(marks[id].value);
+            let duration = this.state.duration;
+            let value = (secondsValue * 100 / duration) + "%";
             let title = marks[id].title;
             let color = marks[id].color;
             return(
-                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.3em" }} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.onRichMarkMoved} state={this.props.state} base={this.props.base}>
+
+                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.3em" }} boxId={this.props.props.id} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.onRichMarkMoved} state={this.props.state} base={this.props.base}>
                     <div className="videoMark" style={{ background: color || "#17CFC8" }}>
                         <Mark style={{ position: 'relative', top: "-1.7em", left: "-0.75em" }} color={color || "#17CFC8"} idKey={id} title={title} />
                     </div>
@@ -86,7 +94,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
         });
 
         return (
-            <div ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "none" }} className="enriched-player-wrapper">
+            <div ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "none" }} className="enriched-player-wrapper" duration={this.state.duration}>
                 <ReactPlayer
                     ref={player => { this.player = player; }}
                     style={{ width: "100%", height: "100%" }}
@@ -103,10 +111,11 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                     // onMouseDown={this.onSeekMouseDown.bind(this)}
                     //  onChange={this.onSeekChange.bind(this)}
                     // onMouseUp={this.onSeekMouseUp.bind(this)}
+                    onReady={this.onReady.bind(this)}
                     onDuration={duration => this.setState({ duration })}
                 />
                 {this.props.state.controls ?
-                    <div className="player-media-controls" style={{ pointerEvents: 'all' }}>
+                    <div className="player-media-controls flexControls" style={{ pointerEvents: 'all' }}>
                         <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
                         <div className="progress-player-input dropableRichZone" style={{ height: "1.7em", position: "relative", bottom: '0.3em' }}
                             onMouseDown={this.onSeekMouseDown.bind(this)}
@@ -115,16 +124,18 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                             <div className="fakeProgress" />
 
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
-                            {markElements}
+                            {this.state.ready ? markElements : null}
                         </div>
+                        <div className="durationField">{ Math.trunc(this.state.playedSeconds / 60) + ":" + pad(Math.trunc(this.state.playedSeconds % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + pad(Math.trunc(this.state.duration % 60))}</div>
                         <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
                         <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
                     </div> :
-                    <div className="player-media-controls" style={{ pointerEvents: 'all' }}>
+
+                    <div className="player-media-controls flexControls" style={{ pointerEvents: 'all', visibility: 'hidden' }}>
                         <div className="progress-player-input dropableRichZone" style={{ height: "1.7em", position: "relative", bottom: '0.3em' }}>
                             <div className="fakeProgress" />
                             <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
-                            {markElements}
+                            {this.state.ready ? markElements : null}
                         </div>
                     </div>}
             </div>

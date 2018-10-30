@@ -59,7 +59,7 @@ export default class UploadComponent extends React.Component {
                 <Col xs={12} sm={6}>
                     <FormGroup >
                         <div id="fileNameTitle">
-                            <span>{this.state.file.name}</span><br/><br/>
+                            <span>{this.state.file ? this.state.file.name : ""}</span><br/><br/>
                             <Button bsStyle="primary" style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={this.uploadHandler}><i className="material-icons">file_upload</i> {i18n.t("FileModal.APIProviders.upload")}</Button>
                             <Button style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={(e)=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false, allowed: true });}}><i className="material-icons">clear</i> {i18n.t("FileModal.APIProviders.clear")}</Button>
                         </div>

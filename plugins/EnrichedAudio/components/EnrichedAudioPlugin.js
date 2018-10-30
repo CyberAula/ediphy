@@ -1,4 +1,6 @@
 import React from 'react';
+import { convertHMStoSeconds, pad } from '../../../common/common_tools';
+
 import { findDOMNode } from 'react-dom';
 // import ReactAudioPlayer from 'react-audio-player';
 import WaveSurfer from 'wavesurfer.js';
@@ -21,6 +23,7 @@ export default class BasicAudioPlugin extends React.Component {
             ondas: null,
             toBeTriggered: [],
             triggering: false,
+            playedSeconds: 0,
         };
     }
 
@@ -59,7 +62,7 @@ export default class BasicAudioPlugin extends React.Component {
         if (this.props.state.currentState) {
             try{
                 posPctg = this.props.state.currentState;
-                pos = (parseInt(posPctg.substr(0, 5), 10) + 2) * duration / 100;
+                pos = convertHMStoSeconds(posPctg) + 1; // (parseInt(posPctg.substr(0, 5), 10) + 2) * duration / 100;
             }catch(_e) {
                 // eslint-disable-next-line no-console
                 console.log(_e);
@@ -71,28 +74,27 @@ export default class BasicAudioPlugin extends React.Component {
             pos,
             posPctg,
             autoplay: this.props.state.autoplay,
+            playing: this.props.state.autoplay || this.props.state.currentState,
             waves: this.props.state.waves,
             ondas: this.props.state.waves,
             waveColor: e.wavesurfer.params.waveColor,
             progressColor: e.wavesurfer.params.progressColor,
         });
-        if (this.props.state.autoplay) {
-            this.setState({ playing: true });
-        }
 
     }
     componentWillUpdate(nextProps, nextState) {
         if(nextState.pos !== this.state.pos) {
             // console.log(this.state.toBeTriggered);
-            let prevPos = parseFloat(this.state.posPctg).toFixed(3);
-            let nextPos = parseFloat(nextState.posPctg).toFixed(3);
+            let prevPos = parseFloat(this.state.pos).toFixed(3);
+            let nextPos = parseFloat(nextState.pos).toFixed(3);
             let sudo = this;
             let marks = this.props.props.marks || {};
             let triggerMark = this.props.props.onMarkClicked;
             let triggerArray = this.state.toBeTriggered;
 
             triggerArray.forEach(function(e, i) {
-                if (((parseFloat(e.value) / 100).toFixed(3) < nextPos) && (nextPos - prevPos) < 0.04) {
+                // if (((parseFloat(e.value) / 100).toFixed(3) < nextPos) && (nextPos - prevPos) < 0.04) {
+                if (parseFloat(convertHMStoSeconds(e.value)) < nextPos && (nextPos - prevPos) < 0.04) {
                     let toBeTriggered = triggerArray;
                     triggerMark(sudo.props.props.id, e.value, true);
                     toBeTriggered.splice(i, 1);
@@ -108,8 +110,11 @@ export default class BasicAudioPlugin extends React.Component {
                         notInArray = false;
                     }
                 });
-                let mValue = (parseFloat(marks[key].value) / 100).toFixed(3);
-                if(notInArray && nextPos <= mValue && parseFloat(nextPos) + 0.05 >= parseFloat(mValue) && (nextPos - prevPos) < 0.04) {
+                // let mValue = convertHMStoSeconds(marks[key].value);
+                // if(notInArray && nextPos <= mValue && parseFloat(nextPos) + 0.05 >= parseFloat(mValue) && (nextPos - prevPos) < 0.04) {
+                if(notInArray &&
+                        nextPos <= parseFloat(convertHMStoSeconds(marks[key].value)) && parseFloat(nextPos) + 0.3 >= parseFloat(marks[key].value) &&
+                        (nextPos - prevPos) < 1) {
                     let toBeTriggered = triggerArray;
                     toBeTriggered.push(marks[key]);
                     sudo.setState({ toBeTriggered: toBeTriggered });
@@ -134,7 +139,9 @@ export default class BasicAudioPlugin extends React.Component {
             /* Podemos pasar una devolución de llamada en los refs*/
         let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
-            let value = marks[id].value;
+            let secondsValue = convertHMStoSeconds(marks[id].value);
+            let duration = this.state.duration;
+            let value = (secondsValue * 100 / duration) + "%";
             let title = marks[id].title;
             let color = marks[id].color;
             let isPopUp = marks[id].connectMode === "popup";
@@ -150,7 +157,7 @@ export default class BasicAudioPlugin extends React.Component {
                         isPopUp={isPopUp}
                         markConnection={marks[id].connection}
                         noTrigger={noTrigger}
-                        onMarkClicked={()=>{this.props.props.onMarkClicked(this.props.props.id, value, true);}}/>
+                        onMarkClicked={()=>{this.props.props.onMarkClicked(this.props.props.id, marks[id].value, true);}}/>
                 </div>
             );
         });
@@ -162,7 +169,7 @@ export default class BasicAudioPlugin extends React.Component {
                 <div>
 
                     <div className="markBar"> {markElements}</div>
-                    <div className="react-wavesurfer" style={{ width: "100%", height: "100%" }}>
+                    <div className="react-wavesurfer" duration={this.state.duration} style={{ width: "100%", height: "100%" }}>
                         <ReactWavesurfer
                             style={{ width: "100%", height: "100%" }}
                             height="100%"
@@ -178,14 +185,14 @@ export default class BasicAudioPlugin extends React.Component {
                             onPlay={() => this.setState({ playing: true })}
                             onPause={() => this.setState({ playing: false })}
                             onFinish={() => this.setState({ playing: false })}
-                            onLoading={this.onProgress.bind(this)}
                         />
                     </div>
                 </div>
                 <div>
                     {(this.props.state.controls) && (
-                        <div className="audio-controls" style={{ pointerEvents: 'auto' }}>
+                        <div className="audio-controls visorControls" style={{ pointerEvents: 'auto' }}>
                             <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} style={{ zIndex: 9999 }}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
+                            <div className="durationField">{ Math.trunc(this.state.pos / 60) + ":" + pad(Math.trunc(this.state.pos % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + pad(Math.trunc(this.state.duration % 60))}</div>
                             <input className="volume-audio-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.handleVolumeChange.bind(this)} />
                         </div>
                     )}

@@ -101,9 +101,12 @@ CKEDITOR.editorConfig = function (config) {
         'undo,' +
         'widget,' +
         'widgetselection';
-    config.extraPlugins = "tab"
-/*config.keystrokes = [
-    [CKEDITOR.CTRL + 90, 'doNothing']
-    ];*/
+
+    config.extraPlugins = "tab,lineheight,colordialog";
+    config.line_height="1;1.1;1.2;1.3;1.4;1.5;1.8;2;2.2;2.5;2.7;3;3.5;4;4.5;5";
+    config.colorButton_enableMore = true;
+  /*config.keystrokes = [
+      [CKEDITOR.CTRL + 90, 'doNothing']
+      ];*/
  };
  

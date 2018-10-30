@@ -12,5 +12,6 @@ module.exports = {
         "source": "Source",
         "URL": "URL",
         "URL_copypaste": "Copy & paste an URL",
+        "fixedPosition": "Remove scrollbar",
     },
 };

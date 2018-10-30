@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
+import { Col, Form, FormGroup, ControlLabel, Button, Modal, ModalBody } from 'react-bootstrap';
 import i18n from 'i18next';
 import SearchComponent from '../common/SearchComponent';
 
@@ -48,15 +48,22 @@ export default class YoutubeComponent extends React.Component {
                                         onClick={e => {
                                             this.props.onElementSelected(item.title, item.url, 'video');
                                         }}>
-                                        <img key={index} src={item.thumbnail} className={'youtubeVideo'}/>
-                                        <div className={"videoInfo"}>
-                                            <div><strong>{item.title}</strong></div>
-                                            <div className={"lightFont"}>{item.channelTitle}</div>
-                                            <div className={"lightFont"}>{date.toLocaleString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}</div>
-                                        </div>
+                                        <div className={"videoGroupFlex"}><img key={index} src={item.thumbnail} className={'youtubeVideo'}/>
+                                            <div className={"videoInfo"}>
+                                                <div><strong>{item.title}</strong></div>
+                                                <div className={"lightFont"}>{item.channelTitle}</div>
+                                                <div className={"lightFont"}>{date.toLocaleString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+
+                                            </div></div>
+                                        {item.url === this.props.elementSelected ? (
+                                            <Button title={i18n.t("Preview")} onClick={()=>{this.setState({ preview: true });}} className={"previewButton"}>
+                                                <i className="material-icons">remove_red_eye</i>
+                                            </Button>) :
+                                            null}
                                     </div>
                                 );
                             })}
+
                         </FormGroup>
                     ) :
                     (
@@ -66,6 +73,12 @@ export default class YoutubeComponent extends React.Component {
                     )
                 }
             </Form>
+            <Modal className="pageModal previewVideoModal" onHide={()=>{this.setState({ preview: false });}} show={this.state.preview && this.props.elementSelected}>
+                <Modal.Header closeButton><Modal.Title>{i18n.t("Preview")}</Modal.Title></Modal.Header>
+                <ModalBody>
+                    <iframe width="560" height="315" src={this.props.elementSelected} frameBorder={0} order="0" allow="autoplay; encrypted-media" allowFullScreen />
+                </ModalBody>
+            </Modal>
         </div>;
     }
 
