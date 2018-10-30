@@ -15,6 +15,7 @@ export function fontString() {
     let fontsString = fonts_length.join(";");
     return fontsString;
 }
+
 export function changeFontBase(width = 900) {
     const DEFAULT_FONT_BASE = 14;
     const DEFAULT_WIDTH_BASE = 1100;
@@ -205,7 +206,11 @@ export function instanceExists(name) {
 export function scrollElement(node, options) {
     let cfg = options || { duration: 300, centerIfNeeded: true, easing: 'easeInOut' };
     if (node) {
-        scrollIntoViewIfNeeded(node, cfg);
+        let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
+
+        if (!isSafari) {
+            scrollIntoViewIfNeeded(node, cfg);
+        }
     }
 }
 
