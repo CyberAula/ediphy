@@ -77,6 +77,10 @@ export default class VisorPluginPlaceholder extends Component {
 
 VisorPluginPlaceholder.propTypes = {
     /**
+   * Show the current view
+   */
+    show: PropTypes.bool,
+    /**
    * Plugins container name
    */
     pluginContainer: PropTypes.string,

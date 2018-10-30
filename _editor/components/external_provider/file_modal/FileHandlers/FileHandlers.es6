@@ -99,6 +99,7 @@ export default function handlers(self) {
                             alert('Error');
                         });
                         self.close();
+                        return;
                     },
                 });
             } if (type === 'vish') {
@@ -108,6 +109,7 @@ export default function handlers(self) {
                     action: () => {
                         createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
                         self.close();
+                        return;
                     },
                 });
                 buttons.push({
@@ -120,7 +122,9 @@ export default function handlers(self) {
                             }
                             alert('Error');
                         });
-                        self.props.close();
+                        self.close();
+                        return;
+
                     },
                 });
             } else if (type === 'xml') {

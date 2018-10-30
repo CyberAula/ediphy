@@ -184,7 +184,6 @@ export default class Visor extends Component {
                 exercises[exercise] = Ediphy.State.exercises[exercise];
             }
         });
-        console.log(exercises);
         let title = globalConfig.title;
         let ratio = globalConfig.canvasRatio;
         let visorNav = globalConfig.visorNav;

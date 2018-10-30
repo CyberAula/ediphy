@@ -205,6 +205,10 @@ export default class VisorBox extends Component {
 
 VisorBox.propTypes = {
     /**
+   * Show the current view
+   */
+    show: PropTypes.bool,
+    /**
      * Identificador de la caja
      */
     id: PropTypes.string.isRequired,

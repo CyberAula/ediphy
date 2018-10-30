@@ -49,6 +49,10 @@ export default class VisorContainedCanvas extends Component {
 
 VisorContainedCanvas.propTypes = {
     /**
+   * Show the current view
+   */
+    show: PropTypes.bool,
+    /**
      * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,

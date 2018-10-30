@@ -45,7 +45,6 @@ export default class VisorCanvasDoc extends Component {
         let animationType = isCV ? "animation-zoom" : ""; // "animation-slide";
 
         let exercises = this.props.exercises[this.props.currentView];
-        console.log(exercises);
         let toolbar = this.props.viewToolbars[this.props.currentView];
         return (
 
@@ -135,6 +134,10 @@ export default class VisorCanvasDoc extends Component {
 }
 
 VisorCanvasDoc.propTypes = {
+    /**
+   * Show the current view
+   */
+    show: PropTypes.bool,
     /**
      * Object containing all created boxes (by id)
      */

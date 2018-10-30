@@ -65,6 +65,10 @@ export default class VisorBoxSortable extends Component {
 
 VisorBoxSortable.propTypes = {
     /**
+       * Show the current view
+       */
+    show: PropTypes.bool,
+    /**
      * Identificador de la caja
      */
     id: PropTypes.string.isRequired,
