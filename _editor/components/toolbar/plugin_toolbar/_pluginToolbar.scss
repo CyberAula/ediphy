@@ -145,6 +145,20 @@
     .toolbarTab {
         color: $blueprimary;
     }
+
+    .panel-title > a
+    {
+        @include animacion(all, 0.2s);
+        &:hover, &:active, &:focus {
+            border-left: 3px solid $blueprimary;
+            border-radius: 0;
+        }
+        border-left: 3px solid $blueprimary;
+
+
+    }
+
+
     a {
 
         padding: 12px;
@@ -165,15 +179,14 @@
         border-radius: 0;
         color: $lightestgrey;
         background-color: #121212;
-        @include animacion(all, 0.2s);
-        &:hover, &:active, &:focus {
-            border-left: 3px solid $blueprimary;
-            border-radius: 0;
-        }
-
         .collapsed{
             border-left: 0px solid transparent;
         }
+
+    }
+
+    .panel-heading:hover{
+        border-left: 0;
     }
     .panel-group, .panel {
         margin-bottom: 5px !important;
