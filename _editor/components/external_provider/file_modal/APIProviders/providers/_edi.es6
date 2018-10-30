@@ -56,7 +56,6 @@ function insertEdi(res, props) {
 
 function replaceState(importedResources, currentResources, importedStateStringified, prefix) {
     let counter = 0;
-    console.log(currentResources);
     for (let el in importedResources) {
         // eslint-disable-next-line eqeqeq
         if (currentResources[el] && el != 0) {

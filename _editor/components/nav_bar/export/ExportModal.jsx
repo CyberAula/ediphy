@@ -11,7 +11,6 @@ import './_exportModal.scss';
 let spinner = require('../../../../dist/images/spinner.svg');
 
 import { templatesSliDoc, templatesSli, templatesDoc } from "./templates/templates";
-import './_templatesModal.scss';
 import TemplateThumbnail from "./TemplateThumbnail";
 import { createBox } from "../../../../common/common_tools";
 
@@ -123,150 +122,144 @@ export default class ExportModal extends Component {
                                         {(this.state.format !== 3 && this.state.format !== 4) ? <div className={"selfContained"}>
                                             <div><ToggleSwitch onChange={()=>{this.setState({ selfContained: !this.state.selfContained });}} checked={this.state.selfContained}/></div>
                                             <div>{i18n.t('messages.selfContained')}</div></div> : null}
+
+                                        {(this.state.format !== 3) ? null : (
+                                            <div>
+                                                <PanelGroup accordion id="accordion-uncontrolled-example" defaultActiveKey="1">
+                                                    <Panel eventKey="1">
+                                                        <Panel.Heading>
+                                                            <Panel.Title toggle>{i18n.t('messages.slides_and_pages')}<em className={"material-icons expandArrow"}>expand_more</em></Panel.Title>
+                                                        </Panel.Heading>
+                                                        <Panel.Body collapsible>
+                                                            <div className={"pageTemplates"}>
+                                                                {this.templatesSliDoc.map((item, index) => {
+                                                                    let border = (this.state.itemSelected === index && this.state.settingType === 1) ? "solid #17CFC8 3px" : "solid #eee 1px";
+                                                                    return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: (index === 0 || index === 2) ? '110px' : '80px', height: (index === 0 || index === 2) ? '80px' : '110px' }}>
+                                                                        <TemplateThumbnail key={index} index={index}
+                                                                            onClick={e => {
+                                                                                this.setState({ itemSelected: index });
+                                                                                switch (index) {
+                                                                                case 0:
+                                                                                    this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 1, optionName: "fullSlideDoc", explanation: i18n.t("export.full_sli_doc"), landscape: true });
+                                                                                    break;
+                                                                                case 1:
+                                                                                    this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 1, optionName: "twoSlideDoc", explanation: i18n.t("export.two_sli_doc"), landscape: false });
+                                                                                    break;
+                                                                                default:
+                                                                                    this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 1, optionName: "defaultOption" });
+                                                                                    break;
+                                                                                }
+                                                                            }}
+                                                                            boxes={item.boxes}/>
+                                                                        {/* <div className={'template_name'} style={{ display: this.state.itemSelected === index ? 'block' : 'none' }}>{item.name}</div>*/}
+                                                                    </div>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        </Panel.Body>
+                                                    </Panel>
+                                                    <Panel eventKey="2">
+                                                        <Panel.Heading>
+                                                            <Panel.Title toggle>{i18n.t('messages.only_slides')}<em className={"material-icons expandArrow"}>expand_more</em></Panel.Title>
+                                                        </Panel.Heading>
+                                                        <Panel.Body collapsible>
+                                                            <div className={"pageTemplates"}>
+                                                                {this.templatesSli.map((item, index) => {
+                                                                    let border = (this.state.itemSelected === index && this.state.settingType === 2) ? "solid #17CFC8 3px" : "solid #eee 1px";
+                                                                    return (<div key={index} className="template_item" style={{ display: ((index === 0 && !isChrome) || (index === 4 && isFirefox)) ? 'none' : 'flex', position: 'relative', border: border,
+                                                                        width: isChrome ? ((index === 0) ? '100px' : ((index === 1 || index === 4) ? '100px' : '70px')) : (index === 0 || index === 1 || index === 4) ? '110px' : '80px',
+                                                                        height: isChrome ? ((index === 0) ? (aspectRatio === (16 / 9) ? '60px' : '75px') : ((index === 1 || index === 4) ? '70px' : '100px')) : (index === 0 || index === 1 || index === 4) ? '80px' : '110px' }}>
+                                                                        <TemplateThumbnail key={index} index={index}
+                                                                            onClick={e => {
+                                                                                this.setState({ itemSelected: index });
+
+                                                                                switch (index) {
+                                                                                case 0:
+                                                                                    this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 2, optionName: "fullSlideCustom", explanation: i18n.t("export.full_sli"), landscape: true });
+                                                                                    break;
+                                                                                case 1:
+                                                                                    this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 2, optionName: "fullSlide", explanation: i18n.t("export.full_sli"), landscape: true });
+                                                                                    break;
+                                                                                case 2:
+                                                                                    this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 2, optionName: "twoSlide", explanation: i18n.t("export.two_sli"), landscape: false });
+                                                                                    break;
+                                                                                case 3:
+                                                                                    this.setState({ slidesPerPage: 2, slidesWithComments: true, settingType: 2, optionName: "slideComments", explanation: i18n.t("export.sli_comments"), landscape: false });
+                                                                                    break;
+                                                                                case 4:
+                                                                                    this.setState({ slidesPerPage: 4, slidesWithComments: false, settingType: 2, optionName: "fourSlide", explanation: i18n.t("export.four_sli"), landscape: true });
+                                                                                    break;
+                                                                                default:
+                                                                                    this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 2, optionName: "defaultOption", explanation: i18n.t("export.full_sli") });
+                                                                                    break;
+                                                                                }
+                                                                            }}
+                                                                            boxes={item.boxes}/>
+                                                                        {/* <div className={'template_name'} style={{ display: this.state.itemSelected === index ? 'block' : 'none' }}>{item.name}</div>*/}
+
+                                                                    </div>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        </Panel.Body>
+                                                    </Panel>
+                                                    <Panel eventKey="3">
+                                                        <Panel.Heading>
+                                                            <Panel.Title toggle>{i18n.t('messages.only_pages')}<em className={"material-icons expandArrow"}>expand_more</em></Panel.Title>
+                                                        </Panel.Heading>
+                                                        <Panel.Body collapsible>
+                                                            <div className={"pageTemplates"}>
+                                                                {this.templatesDoc.map((item, index) => {
+                                                                    let border = (this.state.itemSelected === index && this.state.settingType === 3) ? "solid #17CFC8 3px" : "solid #eee 1px";
+                                                                    return (<div key={index} className="template_item" style={{ display: ((isSafari || isFirefox) && (index === 1)) ? 'none' : 'flex', position: 'relative', border: border, width: index % 2 === 1 ? '110px' : '80px', height: index % 2 === 1 ? '80px' : '110px' }}>
+                                                                        <TemplateThumbnail key={index} index={index}
+                                                                            onClick={e => {
+                                                                                this.setState({ itemSelected: index });
+                                                                                switch (index) {
+                                                                                case 0:
+                                                                                    this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 3, optionName: "fullDoc", explanation: i18n.t("export.full_doc"), landscape: false });
+                                                                                    break;
+                                                                                case 1:
+                                                                                    this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 3, optionName: "twoDoc", explanation: i18n.t("export.two_doc"), landscape: true });
+                                                                                    break;
+                                                                                default:
+                                                                                    this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 3, optionName: "defaultOption" });
+                                                                                    break;
+                                                                                }
+                                                                            }}
+                                                                            boxes={item.boxes}/>
+                                                                        {/* <div className={'template_name'} style={{ display: this.state.itemSelected === index ? 'block' : 'none' }}>{item.name}</div>*/}
+                                                                    </div>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        </Panel.Body>
+                                                    </Panel>
+                                                </PanelGroup>
+                                                <div className={"print-explanation"}>
+                                                    <div className={"print-explanation-title"}><em className={"material-icons printer-icon"}>print</em> Print settings</div>
+                                                    <div className={"print-explanation-body"}> {this.state.explanation} </div>
+                                                </div>
+                                                {(isSafari || isFirefox) ?
+                                                    <div className={"browser-explanation"}>
+                                                        <div className={"browser-explanation-title"}><em className={"material-icons warning-icon"}>warning</em> Warning</div>
+
+                                                        {(this.state.landscape) ? (isSafari ?
+                                                            <div>{i18n.t("export.safari_landscape")}</div> : (isFirefox ?
+                                                                <div>{i18n.t("export.firefox_landscape")}</div> : null)) : (isSafari ?
+                                                            <div>{i18n.t("export.safari_portrait")}</div> : (isFirefox ?
+                                                                <div>{i18n.t("export.firefox_portrait")}</div> : null))}</div>
+                                                    : null}
+
+                                                <div className={"selfContained"}>
+                                                    <div><ToggleSwitch onChange={()=>{this.setState({ drawBorder: !this.state.drawBorder });}} checked={this.state.drawBorder}/></div>
+                                                    <div>{i18n.t('messages.draw_borders')}</div>
+                                                </div>
+
+                                            </div>)
+
+                                        }
                                     </div>
-                                </Col>
-                                <Col xs={12} className={"explanation"}>
-                                    {this.state.format !== 3 ?
-
-                                        <div className={"selfContained"}>
-                                            <div><ToggleSwitch onChange={()=>{this.setState({ selfContained: !this.state.selfContained });}} checked={this.state.selfContained}/></div>
-                                            <div>{i18n.t('messages.selfContained')}</div></div> :
-                                        <div>
-                                            <PanelGroup accordion id="accordion-uncontrolled-example" defaultActiveKey="1">
-                                                <Panel eventKey="1">
-                                                    <Panel.Heading>
-                                                        <Panel.Title toggle>{i18n.t('messages.slides_and_pages')}<em className={"material-icons expandArrow"}>expand_more</em></Panel.Title>
-                                                    </Panel.Heading>
-                                                    <Panel.Body collapsible>
-                                                        <div className={"pageTemplates"}>
-                                                            {this.templatesSliDoc.map((item, index) => {
-                                                                let border = (this.state.itemSelected === index && this.state.settingType === 1) ? "solid #17CFC8 3px" : "solid #eee 1px";
-                                                                return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: (index === 0 || index === 2) ? '110px' : '80px', height: (index === 0 || index === 2) ? '80px' : '110px' }}>
-                                                                    <TemplateThumbnail key={index} index={index}
-                                                                        onClick={e => {
-                                                                            this.setState({ itemSelected: index });
-                                                                            switch (index) {
-                                                                            case 0:
-                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 1, optionName: "fullSlideDoc", explanation: i18n.t("export.full_sli_doc"), landscape: true });
-                                                                                break;
-                                                                            case 1:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 1, optionName: "twoSlideDoc", explanation: i18n.t("export.two_sli_doc"), landscape: false });
-                                                                                break;
-                                                                            default:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 1, optionName: "defaultOption" });
-                                                                                break;
-                                                                            }
-                                                                        }}
-                                                                        boxes={item.boxes}/>
-                                                                    {/* <div className={'template_name'} style={{ display: this.state.itemSelected === index ? 'block' : 'none' }}>{item.name}</div>*/}
-                                                                </div>
-                                                                );
-                                                            })}
-                                                        </div>
-                                                    </Panel.Body>
-                                                </Panel>
-                                                <Panel eventKey="2">
-                                                    <Panel.Heading>
-                                                        <Panel.Title toggle>{i18n.t('messages.only_slides')}<em className={"material-icons expandArrow"}>expand_more</em></Panel.Title>
-                                                    </Panel.Heading>
-                                                    <Panel.Body collapsible>
-                                                        <div className={"pageTemplates"}>
-                                                            {this.templatesSli.map((item, index) => {
-                                                                let border = (this.state.itemSelected === index && this.state.settingType === 2) ? "solid #17CFC8 3px" : "solid #eee 1px";
-                                                                return (<div key={index} className="template_item" style={{ display: ((index === 0 && !isChrome) || (index === 4 && isFirefox)) ? 'none' : 'flex', position: 'relative', border: border,
-                                                                    width: isChrome ? ((index === 0) ? '100px' : ((index === 1 || index === 4) ? '100px' : '70px')) : (index === 0 || index === 1 || index === 4) ? '110px' : '80px',
-                                                                    height: isChrome ? ((index === 0) ? (aspectRatio === (16 / 9) ? '60px' : '75px') : ((index === 1 || index === 4) ? '70px' : '100px')) : (index === 0 || index === 1 || index === 4) ? '80px' : '110px' }}>
-                                                                    <TemplateThumbnail key={index} index={index}
-                                                                        onClick={e => {
-                                                                            this.setState({ itemSelected: index });
-
-                                                                            switch (index) {
-                                                                            case 0:
-                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 2, optionName: "fullSlideCustom", explanation: i18n.t("export.full_sli"), landscape: true });
-                                                                                break;
-                                                                            case 1:
-                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 2, optionName: "fullSlide", explanation: i18n.t("export.full_sli"), landscape: true });
-                                                                                break;
-                                                                            case 2:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 2, optionName: "twoSlide", explanation: i18n.t("export.two_sli"), landscape: false });
-                                                                                break;
-                                                                            case 3:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: true, settingType: 2, optionName: "slideComments", explanation: i18n.t("export.sli_comments"), landscape: false });
-                                                                                break;
-                                                                            case 4:
-                                                                                this.setState({ slidesPerPage: 4, slidesWithComments: false, settingType: 2, optionName: "fourSlide", explanation: i18n.t("export.four_sli"), landscape: true });
-                                                                                break;
-                                                                            default:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 2, optionName: "defaultOption", explanation: i18n.t("export.full_sli") });
-                                                                                break;
-                                                                            }
-                                                                        }}
-                                                                        boxes={item.boxes}/>
-                                                                    {/* <div className={'template_name'} style={{ display: this.state.itemSelected === index ? 'block' : 'none' }}>{item.name}</div>*/}
-
-                                                                </div>
-                                                                );
-                                                            })}
-                                                        </div>
-                                                    </Panel.Body>
-                                                </Panel>
-                                                <Panel eventKey="3">
-                                                    <Panel.Heading>
-                                                        <Panel.Title toggle>{i18n.t('messages.only_pages')}<em className={"material-icons expandArrow"}>expand_more</em></Panel.Title>
-                                                    </Panel.Heading>
-                                                    <Panel.Body collapsible>
-                                                        <div className={"pageTemplates"}>
-                                                            {this.templatesDoc.map((item, index) => {
-                                                                let border = (this.state.itemSelected === index && this.state.settingType === 3) ? "solid #17CFC8 3px" : "solid #eee 1px";
-                                                                return (<div key={index} className="template_item" style={{ display: ((isSafari || isFirefox) && (index === 1)) ? 'none' : 'flex', position: 'relative', border: border, width: index % 2 === 1 ? '110px' : '80px', height: index % 2 === 1 ? '80px' : '110px' }}>
-                                                                    <TemplateThumbnail key={index} index={index}
-                                                                        onClick={e => {
-                                                                            this.setState({ itemSelected: index });
-                                                                            switch (index) {
-                                                                            case 0:
-                                                                                this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 3, optionName: "fullDoc", explanation: i18n.t("export.full_doc"), landscape: false });
-                                                                                break;
-                                                                            case 1:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 3, optionName: "twoDoc", explanation: i18n.t("export.two_doc"), landscape: true });
-                                                                                break;
-                                                                            default:
-                                                                                this.setState({ slidesPerPage: 2, slidesWithComments: false, settingType: 3, optionName: "defaultOption" });
-                                                                                break;
-                                                                            }
-                                                                        }}
-                                                                        boxes={item.boxes}/>
-                                                                    {/* <div className={'template_name'} style={{ display: this.state.itemSelected === index ? 'block' : 'none' }}>{item.name}</div>*/}
-                                                                </div>
-                                                                );
-                                                            })}
-                                                        </div>
-                                                    </Panel.Body>
-                                                </Panel>
-                                            </PanelGroup>
-                                            <div className={"print-explanation"}>
-                                                <div className={"print-explanation-title"}><em className={"material-icons printer-icon"}>print</em> Print settings</div>
-                                                <div className={"print-explanation-body"}> {this.state.explanation} </div>
-                                            </div>
-                                            {(isSafari || isFirefox) ?
-                                                <div className={"browser-explanation"}>
-                                                    <div className={"browser-explanation-title"}><em className={"material-icons warning-icon"}>warning</em> Warning</div>
-
-                                                    {(this.state.landscape) ? (isSafari ?
-                                                        <div>{i18n.t("export.safari_landscape")}</div> : (isFirefox ?
-                                                            <div>{i18n.t("export.firefox_landscape")}</div> : null)) : (isSafari ?
-                                                        <div>{i18n.t("export.safari_portrait")}</div> : (isFirefox ?
-                                                            <div>{i18n.t("export.firefox_portrait")}</div> : null))}</div>
-                                                : null}
-
-                                            <div className={"selfContained"}>
-                                                <div><ToggleSwitch onChange={()=>{this.setState({ drawBorder: !this.state.drawBorder });}} checked={this.state.drawBorder}/></div>
-                                                <div>{i18n.t('messages.draw_borders')}</div>
-                                            </div>
-
-                                        </div>
-
-                                    }
-
                                 </Col>
                             </Row>
                         </form>
