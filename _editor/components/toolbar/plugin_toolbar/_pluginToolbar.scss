@@ -154,17 +154,12 @@
             border-radius: 0;
         }
         border-left: 3px solid $blueprimary;
-
-
     }
-
-
     a {
-
         padding: 12px;
         display: block;
         text-decoration: none;
-        font-size: 0.9em;
+        font-size: 14.4px;
         cursor: pointer;
     }
     .panel-body {
@@ -182,9 +177,7 @@
         .collapsed{
             border-left: 0px solid transparent;
         }
-
     }
-
     .panel-heading:hover{
         border-left: 0;
     }

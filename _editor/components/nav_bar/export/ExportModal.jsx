@@ -49,7 +49,6 @@ export default class ExportModal extends Component {
    */
     render() {
         let callback = (fail)=> {
-            console.log('[INFO] There is nothing to print');
             this.setState({ showLoader: false });
             if(fail === "nullPrint") {
                 this.setState({ showLoader: false, showPrintAlert: true });
@@ -65,7 +64,6 @@ export default class ExportModal extends Component {
         let isChrome = !!window.chrome && !!window.chrome.webstore;
 
         let aspectRatio = this.props.aspectRatio;
-        console.log('[INFO] Aspect ratio is: ' + aspectRatio);
 
         let exportFormats = [
             { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false, callback, this.state.selfContained); } },
@@ -146,9 +144,7 @@ export default class ExportModal extends Component {
                                                                 return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: (index === 0 || index === 2) ? '110px' : '80px', height: (index === 0 || index === 2) ? '80px' : '110px' }}>
                                                                     <TemplateThumbnail key={index} index={index}
                                                                         onClick={e => {
-                                                                            console.log('[INFO] e is ' + e);
                                                                             this.setState({ itemSelected: index });
-                                                                            console.log('[INFO] Item selected: ' + index);
                                                                             switch (index) {
                                                                             case 0:
                                                                                 this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 1, optionName: "fullSlideDoc", explanation: i18n.t("export.full_sli_doc"), landscape: true });
@@ -183,7 +179,6 @@ export default class ExportModal extends Component {
                                                                     <TemplateThumbnail key={index} index={index}
                                                                         onClick={e => {
                                                                             this.setState({ itemSelected: index });
-                                                                            console.log('[INFO] Item selected: ' + index);
 
                                                                             switch (index) {
                                                                             case 0:
@@ -227,8 +222,6 @@ export default class ExportModal extends Component {
                                                                     <TemplateThumbnail key={index} index={index}
                                                                         onClick={e => {
                                                                             this.setState({ itemSelected: index });
-                                                                            console.log('[INFO] Item selected: ' + index);
-
                                                                             switch (index) {
                                                                             case 0:
                                                                                 this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 3, optionName: "fullDoc", explanation: i18n.t("export.full_doc"), landscape: false });
