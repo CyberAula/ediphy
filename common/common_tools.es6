@@ -289,9 +289,9 @@ export function blurCKEditor(id, callback) {
             CKEDITOR.instances[id].setData((data));
         }
         callback(encodeURI(data), html2json(encodeURI(data)));
-        let airlayer = document.getElementById("airlayer");
-        if (airlayer) {
-            airlayer.focus();
+        let airlayer = document.getElementsByClassName("airlayer");
+        if (airlayer && airlayer.length > 0) {
+            airlayer.forEach(al=>al.focus());
         } else {
             document.body.focus();
         }

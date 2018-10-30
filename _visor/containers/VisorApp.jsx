@@ -10,7 +10,7 @@ import VisorContainedCanvas from '../components/canvas/VisorContainedCanvas';
 import VisorSideNav from '../components/navigation/VisorSideNav';
 import VisorPlayer from './../components/navigation/VisorPlayer';
 
-import { isContainedView, isView, isSection } from '../../common/utils';
+import { isContainedView, isView, isSection, isPage } from '../../common/utils';
 import ScormComponent from '../components/score/GradeComponent';
 import i18n from '../../locales/i18n';
 
@@ -175,18 +175,16 @@ export default class Visor extends Component {
         if (window.State) {
             Ediphy.State = window.State;
         }
-        let { boxSelected, navItemsIds, globalConfig, containedViewsById, boxesById, marksById } = Ediphy.State;
-        let navItems = Ediphy.State.navItemsById;
-        let viewToolbars = Ediphy.State.viewToolbarsById;
-        let pluginToolbars = Ediphy.State.pluginToolbarsById;
+        let { boxSelected, navItemsIds, globalConfig, containedViewsById, boxesById, marksById, navItemsById, viewToolbarsById, pluginToolbarsById } = Ediphy.State;
         let ediphy_document_id = Ediphy.State.id;
         let ediphy_platform = Ediphy.State.platform;
         let exercises = {};
         Object.keys(Ediphy.State.exercises).map((exercise, index)=>{
-            if (containedViewsById[exercise] || (navItems[exercise] && !navItems[exercise].hidden)) {
+            if (containedViewsById[exercise] || (navItemsById[exercise] && !navItemsById[exercise].hidden)) {
                 exercises[exercise] = Ediphy.State.exercises[exercise];
             }
         });
+        console.log(exercises);
         let title = globalConfig.title;
         let ratio = globalConfig.canvasRatio;
         let visorNav = globalConfig.visorNav;
@@ -195,7 +193,7 @@ export default class Visor extends Component {
         let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";
         let isCV = isContainedView(this.state.currentView);
         let isSlide = isCV && containedViewsById[this.getLastCurrentViewElement()] === "slide" ||
-        !isCV && navItems[this.getLastCurrentViewElement()] === "slide" ?
+        !isCV && navItemsById[this.getLastCurrentViewElement()] === "slide" ?
             "pcw_slide" : "pcw_doc";
         let currentView = this.getLastCurrentViewElement();
         let canvasProps = {
@@ -205,23 +203,35 @@ export default class Visor extends Component {
             containedViews: containedViewsById,
             currentView: currentView,
             fromScorm: this.state.fromScorm,
-            navItems,
+            navItems: navItemsById,
             removeLastView: ()=>{this.removeLastView(); },
             richElementsState: this.state.richElementState,
             title,
             marks: marksById,
-            viewToolbars,
-            pluginToolbars,
+            viewToolbars: viewToolbarsById,
+            pluginToolbars: pluginToolbarsById,
             onMarkClicked: this.onMarkClicked,
             triggeredMarks: this.state.triggeredMarks,
             viewsArray: this.state.currentView,
             exportModalOpen: false,
             ediphy_document_id,
             ediphy_platform,
+            exercises,
         };
         let visorContent = currentView ? (!isContainedView(currentView) ? (
-            <VisorCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") === -1} />) : (<VisorContainedCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") !== -1} />)) : (
+            <VisorCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") === -1} />) : (
+            <VisorContainedCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") !== -1} />)) : (
             <div className="emptyPresentation">{i18n.t("EmptyPresentation")}</div>);
+
+        let navItemComponents = Object.keys(navItemsById).filter(nav=>isView(nav)).map((nav, i)=>{
+            return <VisorCanvas key={i} {...canvasProps} currentView={nav} show={nav === currentView} showCanvas={nav.indexOf("cv-") === -1} />;
+        });
+        let cvComponents = Object.keys(containedViewsById).map((nav, i)=>{
+            return <VisorContainedCanvas key={i} {...canvasProps} currentView={nav} show={nav === currentView} showCanvas={nav.indexOf("cv-") !== -1} />;
+        });
+
+        let content = [...navItemComponents, cvComponents];
+        let empty = <div className="emptyPresentation">{i18n.t("EmptyPresentation")}</div>;
         return (
             <div id="app" ref={'app'}
                 className={wrapperClasses} >
@@ -231,9 +241,9 @@ export default class Visor extends Component {
                     show={visorNav.sidebar}
                     showScore={!globalConfig.hideGlobalScore}
                     currentViews={this.state.currentView}
-                    navItemsById={navItems}
-                    navItemsIds={navItemsIds.filter(nav=> {return !navItems[nav].hidden;})}
-                    viewToolbars={viewToolbars}
+                    navItemsById={navItemsById}
+                    navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}
+                    viewToolbars={viewToolbarsById}
                     scoreInfo={this.state.scoreInfo}
                     exercises={exercises}
                     toggled={this.state.toggledSidebar}/>
@@ -247,8 +257,8 @@ export default class Visor extends Component {
                                 { !isContainedView(currentView) ? (<VisorPlayer show={visorNav.player}
                                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
                                     currentViews={this.state.currentView}
-                                    navItemsById={navItems}
-                                    navItemsIds={navItemsIds.filter(nav=> {return !navItems[nav].hidden;})}/>) : null}
+                                    navItemsById={navItemsById}
+                                    navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}/>) : null}
                                 {visorNav.sidebar ? (<Button id="visorNavButton"
                                     className={toggleColor}
                                     bsStyle="primary"
@@ -257,16 +267,16 @@ export default class Visor extends Component {
                                 </Button>) : null}
                                 <ScormComponent
                                     updateScore={(scoreInfo)=>{this.setState({ scoreInfo });}}
-                                    navItemsIds={navItemsIds.filter(nav=> {return !navItems[nav].hidden;})}
+                                    navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}
                                     containedViews={containedViewsById}
                                     currentView={currentView}
-                                    navItemsById={navItems}
+                                    navItemsById={navItemsById}
                                     globalConfig={globalConfig}
                                     exercises={exercises}
-                                    pluginToolbars={pluginToolbars}
+                                    pluginToolbars={pluginToolbarsById}
                                     fromScorm={this.state.fromScorm}
                                     changeCurrentView={(el)=>{this.changeCurrentView(el);}}>
-                                    {visorContent}
+                                    {currentView ? content : empty}
                                 </ScormComponent>
                             </Col>
                         </Row>

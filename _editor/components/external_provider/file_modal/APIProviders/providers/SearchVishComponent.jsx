@@ -131,7 +131,6 @@ export default class SearchVishComponent extends React.Component {
                     </FormGroup>
 
                 </Form>*/}
-
                 <Form className={"ExternalResults"}>
                     {results.length > 0 ?
                         (

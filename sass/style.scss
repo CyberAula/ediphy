@@ -58,7 +58,7 @@ $material-font-path:  '../node_modules/material-design-icons-font/iconfont/';
             @include animacion(width, 0.4s);
         }
     }
-    #canvas, #maincontent, #canvasRow {
+    #canvas, #maincontent, #canvasRow, .canvasClass {
         z-index:0 ;
     }
 }

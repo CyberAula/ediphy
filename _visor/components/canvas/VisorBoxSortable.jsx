@@ -33,6 +33,7 @@ export default class VisorBoxSortable extends Component {
                                                         return (<VisorBox id={idBox}
                                                             key={ind}
                                                             currentView={this.props.currentView}
+                                                            show={this.props.show}
                                                             boxes={this.props.boxes}
                                                             exercises={(this.props.exercises && this.props.exercises.exercises) ? this.props.exercises.exercises[idBox] : undefined}
                                                             changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
