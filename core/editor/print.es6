@@ -5,10 +5,7 @@ import VisorCanvas from '../../_visor/components/canvas/VisorCanvas';
 import VisorContainedCanvas from '../../_visor/components/canvas/VisorContainedCanvas';
 import { isSection, isContainedView, isSlide } from '../../common/utils';
 import { Grid, Row, Col } from 'react-bootstrap';
-import html2canvas from 'html2canvas';
 import '../../sass/print.css';
-
-window.html2canvas = html2canvas;
 
 export default function printToPDF(state, callback, options = { forcePageBreak: false, slidesPerPage: 2, slidesWithComments: false, optionName: "defaultOption", drawBorder: true }) {
 
@@ -493,11 +490,11 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             }, richElementsState: {},
             viewsArray: [currentView], setAnswer: () => {
             }, submitPage: () => {
-            }, exercises: exercises[currentView],
+            }, exercises: exercises,
             expectedWidth: ((slidesPerPage === 4) && treatAsImportedDoc) ? miniViewport.width : expectedWidth,
         };
 
-        let visorContent = !isCV ? (<VisorCanvas {...props} fromPDF />) : (<VisorContainedCanvas {...props} fromPDF/>);
+        let visorContent = !isCV ? (<VisorCanvas {...props} show fromPDF />) : (<VisorContainedCanvas {...props} show fromPDF/>);
         let app = (<div id="page-content-wrapper" className={slideClass + " page-content-wrapper printApp"}
             style={{ width: slide ? ((slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.width : expectedWidth) : 'auto', height: slide ? ((slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.height : expectedHeight) : 'auto', backgroundColor: 'white' }}>
             <Grid fluid id="visorAppContent" style={{ height: '100%' }}>

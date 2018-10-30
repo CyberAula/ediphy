@@ -218,10 +218,6 @@ export default class Visor extends Component {
             ediphy_platform,
             exercises,
         };
-        let visorContent = currentView ? (!isContainedView(currentView) ? (
-            <VisorCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") === -1} />) : (
-            <VisorContainedCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") !== -1} />)) : (
-            <div className="emptyPresentation">{i18n.t("EmptyPresentation")}</div>);
 
         let navItemComponents = Object.keys(navItemsById).filter(nav=>isView(nav)).map((nav, i)=>{
             return <VisorCanvas key={i} {...canvasProps} currentView={nav} show={nav === currentView} showCanvas={nav.indexOf("cv-") === -1} />;

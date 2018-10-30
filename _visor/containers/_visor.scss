@@ -513,7 +513,7 @@ li > .selectedNavItemVisor {
   }
 }
 
-.printApp #airlayer, .printApp  .airlayer{
+.printApp #airlayer, .printApp .airlayer{
   height: 100%;
 }
 
@@ -566,8 +566,3 @@ li > .selectedNavItemVisor {
   }
 }
 
-@media print {
-  .submitButton{
-    display: none;
-  }
-}

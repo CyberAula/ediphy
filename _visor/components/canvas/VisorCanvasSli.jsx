@@ -68,7 +68,7 @@ export default class VisorCanvasSli extends Component {
                 style={{ display: 'initial', width: '100%', padding, fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px' }}>
 
                 <div id={(isCV ? 'airlayer_cv_' : 'airlayer_') + this.props.currentView}
-                    className={'slide_air'}
+                    className={' slide_air airlayer'}
                     style={{ margin: '0 auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden'),
                         width: this.state.width, height: this.state.height, marginTop: this.state.marginTop, marginBottom: this.state.marginBottom,
                     }}>
@@ -118,10 +118,10 @@ export default class VisorCanvasSli extends Component {
                                 richElementsState={this.props.richElementsState}/>;
                         })}
 
-                        <div className={"pageFooter" + (!exercises || !exercises.exercises || Object.keys(exercises.exercises).length === 0 ? " hidden" : "")}>
+                        {this.props.fromPDF ? null : <div className={"pageFooter" + (!exercises || !exercises.exercises || Object.keys(exercises.exercises).length === 0 ? " hidden" : "")}>
                             <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={exercises} />
                             <Score exercises={exercises}/>
-                        </div>
+                        </div>}
 
                     </div>
                 </div>

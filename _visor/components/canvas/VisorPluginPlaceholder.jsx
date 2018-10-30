@@ -53,6 +53,7 @@ export default class VisorPluginPlaceholder extends Component {
                                                 toolbars={this.props.toolbars}
                                                 fromScorm={this.props.fromScorm}
                                                 marks={this.props.allMarks}
+                                                show={this.props.show}
                                                 onMarkClicked={this.props.onMarkClicked}
                                                 richElementsState={this.props.richElementsState}/>);
 
