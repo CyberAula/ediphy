@@ -282,11 +282,11 @@ export default class Visor extends Component {
    * @param callback
    * @param selfContained
    */
-    export(format, callback, selfContained = false) {
+    export(format, callback, options = false) {
         if(format === "PDF") {
-            printToPDF(Ediphy.State, callback);
+            printToPDF(Ediphy.State, callback, options);
         } else {
-            Ediphy.Visor.exportsHTML(Ediphy.State, callback, selfContained);
+            Ediphy.Visor.exportsHTML(Ediphy.State, callback, options);
         }
     }
 

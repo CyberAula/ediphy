@@ -563,3 +563,9 @@ li > .selectedNavItemVisor {
     background-image: url("http://educainternet.es/assets/vetheme/watermark_educainternet.png");
   }
 }
+
+@media print {
+  .submitButton{
+    display: none;
+  }
+}

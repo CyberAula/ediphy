@@ -48,14 +48,15 @@ function insertEdi(res, props) {
     let state = resource;
     importedStateStringified = replaceState(state.boxesById, props.boxes, importedStateStringified, (box) => isBox(box) ? ID_PREFIX_BOX : ID_PREFIX_SORTABLE_BOX);
     importedStateStringified = replaceState(state.navItemsById, props.navItems, importedStateStringified, (page) => isSection(page) ? ID_PREFIX_SECTION : ID_PREFIX_PAGE);
-    importedStateStringified = replaceState(state.containedViewsById, props.containedViewsById, importedStateStringified, () => ID_PREFIX_CONTAINED_VIEW);
-    importedStateStringified = replaceState(state.marksById, props.marksById, importedStateStringified, () => ID_PREFIX_RICH_MARK);
+    importedStateStringified = replaceState(state.containedViewsById, props.containedViews, importedStateStringified, () => ID_PREFIX_CONTAINED_VIEW);
+    importedStateStringified = replaceState(state.marksById, props.marks, importedStateStringified, () => ID_PREFIX_RICH_MARK);
     importedStateStringified = replaceState(state.filesUploaded, props.filesUploaded, importedStateStringified, () => ID_PREFIX_FILE);
     return JSON.parse(importedStateStringified);
 }
 
 function replaceState(importedResources, currentResources, importedStateStringified, prefix) {
     let counter = 0;
+    console.log(currentResources);
     for (let el in importedResources) {
         // eslint-disable-next-line eqeqeq
         if (currentResources[el] && el != 0) {
