@@ -443,10 +443,8 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 elementClass = elementClass + " otherDoc";
                 if(hideDocs) {
                     elementClass = elementClass + " not_show";
-                    if(true) {
-                        assignUpDown = false;
-                        elemsUsed--;
-                    }
+                    assignUpDown = false;
+                    elemsUsed--;
                 }
                 else{
                     elemsUsed = -1;
@@ -540,60 +538,24 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             setTimeout(
                 () => {
 
-                    let doc = document.getElementById('pageContainer_' + i);
-                    if (optionName === 'twoDocNOP') {
-                        if (doc.className.includes('otherDoc')) {
-                            let A4Height = isSafari ? SAFARI_HEIGHT : CHROME_HEIGHT;
-                            if (doc.clientHeight > A4Height) {
-                                let numSlices = Math.ceil(doc.clientHeight / A4Height);
-                                for (let i = 0; i < numSlices; i++) {
-                                    let slice = document.createElement('div');
-                                    slice = pageContainer.cloneNode(true);
-                                    slice.id = pageContainer.id + '_slice_' + i;
-                                    slice.style.height = '1000px';
-                                    slice.style.width = A4Height / 2 + 'px';
-                                    slice.style.overflow = 'hidden';
-                                    if (optionName === "twoDoc") {
-
-                                        slice.children[0].style.height = '1400px';
-                                        slice.children[0].style.width = '999px';
-                                        slice.children[0].style.transformOrigin = 'top left';
-                                        let translateX = 100 + 140 * i;
-                                        let translateY = 100 * i;
-                                        // slice.children[0].style.transform = 'scale(0.5) rotate(-90deg) scale(2) translateX(-' + translateX + '%) translateY(-' + translateY + '%)';
-
-                                        // contentSlice.children[0].style.transformOrigin = 'top left';
-                                        // contentSlice.children[0].style.transform = 'rotate(-90deg) translateX(-999px)';
-                                    }
-                                    slice.children[0].style.marginTop = '-' + A4Height * i + 'px';
-
-                                    document.body.appendChild(slice);
-
-                                    // document.getElementById(slice.id).style.height =  document.getElementById(slice.id).clientHeight + 'px';
-                                }
-                                document.body.removeChild(document.getElementById(pageContainer.id));
-                            }
-                        }
-                    }
-
                     if(last) {
 
                         numPages++;
                         let notToPrint = 0;
 
-                        let firstPage = true;
-                        for(let i = 0; i < numPages; i++) {
-                            let doc = document.getElementById('pageContainer_' + i);
+                        let firstPageFirefox = true;
+                        for(let k = 0; k < numPages; k++) {
+                            let doc = document.getElementById('pageContainer_' + k);
 
                             if (((doc && (doc.className.includes('importedDoc')) && (optionName !== "fullSlideDoc") && (optionName !== "fullSlide")) || (doc && doc.className.includes('otherDoc'))) && (slidesPerPage !== 4) && (optionName !== "twoDoc")) {
                                 let actualHeight = doc.clientHeight;
-                                document.getElementById('pageContainer_' + i).style.height = actualHeight * 1.05 + 'px';
+                                document.getElementById('pageContainer_' + k).style.height = actualHeight * 1.05 + 'px';
 
                                 if (doc.className.includes('otherDoc') && isFirefox) {
-                                    if (firstPage && hideSlides) {
+                                    if (firstPageFirefox && hideSlides) {
                                         doc.className = doc.className.replace("otherDoc", "");
                                         doc.className = doc.className.replace("breakPage", "");
-                                        firstPage = false;
+                                        firstPageFirefox = false;
                                     }
                                     try{
                                         let child = doc.childNodes.item('page-content-wrapper');
@@ -606,11 +568,11 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                             if(optionName === "twoDoc") {
                                 if (doc.className.includes('otherDoc')) {
                                     let actualHeight = doc.clientHeight;
-                                    document.getElementById('pageContainer_' + i).style.height = Math.ceil((actualHeight * 0.72 / 975 / 2)) * 975 + 'px';
-                                    document.getElementById('pageContainer_' + i).style.width = isSafari ? '800px' : '1400px';
+                                    document.getElementById('pageContainer_' + k).style.height = Math.ceil((actualHeight * 0.72 / 975 / 2)) * 975 + 'px';
+                                    document.getElementById('pageContainer_' + k).style.width = isSafari ? '800px' : '1400px';
 
                                     if (isSafari) {
-                                        document.getElementById('pageContainer_' + i).style.marginLeft = '0px';
+                                        document.getElementById('pageContainer_' + k).style.marginLeft = '0px';
 
                                     }
                                 }
@@ -629,28 +591,27 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                             let index = -1;
                             let containersArray = [];
                             let counter = 0;
-                            for (let i = 0; i < numPages; i++) {
-                                let doc = document.getElementById('pageContainer_' + i);
+                            for (let l = 0; l < numPages; l++) {
+                                let doc = document.getElementById('pageContainer_' + l);
                                 doc.id = 'pageContainer_' + counter;
-                                if(doc.className.includes('not_show')) {
-                                    continue;
-                                }
-                                if (counter % 4 === 0) {
-                                    index++;
-                                    let bigContainer = document.createElement('div');
-                                    bigContainer.id = 'bigContainer_' + index;
-                                    bigContainer.className = 'pageToPrint bigContainer';
-                                    bigContainer.style.height = '100%';
-                                    bigContainer.style.width = '100%';
-                                    containersArray.push(bigContainer);
-                                    document.body.appendChild(containersArray[index]);
-                                }
-                                containersArray[index].appendChild(doc);
-                                counter++;
-                                if (i === (numPages - 1)) {
-                                    let left = (4 - (counter % 4)) % 4;
-                                    for (let f = left; f > 0; f--) {
-                                        containersArray[index].appendChild(doc.cloneNode());
+                                if (!doc.className.includes('not_show')) {
+                                    if (counter % 4 === 0) {
+                                        index++;
+                                        let bigContainer = document.createElement('div');
+                                        bigContainer.id = 'bigContainer_' + index;
+                                        bigContainer.className = 'pageToPrint bigContainer';
+                                        bigContainer.style.height = '100%';
+                                        bigContainer.style.width = '100%';
+                                        containersArray.push(bigContainer);
+                                        document.body.appendChild(containersArray[index]);
+                                    }
+                                    containersArray[index].appendChild(doc);
+                                    counter++;
+                                    if (l === (numPages - 1)) {
+                                        let left = (4 - (counter % 4)) % 4;
+                                        for (let f = left; f > 0; f--) {
+                                            containersArray[index].appendChild(doc.cloneNode());
+                                        }
                                     }
                                 }
                             }
