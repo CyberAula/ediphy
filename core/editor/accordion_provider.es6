@@ -9,7 +9,7 @@ import React from "react";
 import FileInput from "../../_editor/components/common/file-input/FileInput";
 import MarksList from "../../_editor/components/rich_plugins/marks_list/MarksList";
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
-import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/APIProviders/ToobarFileProvider";
+import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/APIProviders/common/ToolbarFileProvider";
 /* eslint-disable react/prop-types */
 
 export function toolbarFiller(toolbar, id, state, config, initialParams, container, marks = null, exercises = {}) {
@@ -103,7 +103,7 @@ export function createScoreAccordions(controls = {}, state, exercises) {
         controls.main.accordions.__score = {
             key: '__score',
             __name: i18n.t("configuration"),
-            icon: 'timeline',
+            icon: 'build',
             buttons: {},
         };
     }
@@ -353,19 +353,16 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
     let props = {
         key: key,
         className: "panelPluginToolbar",
-        collapsible: true,
-        onEntered: (panel) => {
-            panel.parentNode.classList.add("extendedPanel");
-        },
-        onExited: (panel) => {
-            panel.parentNode.classList.remove("extendedPanel");
-        },
         header: (
-            <span key={'span' + key}>
-                <i className="toolbarIcons material-icons">
-                    {accordion.icon ? accordion.icon : <span className="toolbarIcons"/>}
-                </i>{accordion.__name}
-            </span>
+            <Panel.Heading key={'span' + key} className={"panel-heading"}>
+                <Panel.Title toggle>
+                    <p className={"titleA"} style={{ color: 'white', paddingTop: '0', paddingBottom: '0', paddingLeft: '0', fontSize: '14.4px' }}>
+                        <i className="toolbarIcons material-icons">
+                            {accordion.icon ? accordion.icon : <span className="toolbarIcons"/>}
+                        </i>{accordion.__name}
+                    </p>
+                </Panel.Title>
+            </Panel.Heading>
         ),
     };
     let children = [];
@@ -412,7 +409,9 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
         );
     }
 
-    return React.createElement(Panel, props, children);
+    return <Panel className={"panelPluginToolbar"}{...props}>{props.header}<Panel.Body collapsible>{children}</Panel.Body></Panel>;
+
+    // React.createElement(Panel, props, children);
 }
 
 /**
@@ -712,7 +711,8 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     if (!children) {
                         children = [];
                     }
-                    children.push(React.createElement('option', { key: 'child_' + index, value: option }, option));
+                    let label = button.labels && button.labels[index] ? button.labels[index] : option;
+                    children.push(React.createElement('option', { key: 'child_' + index, value: option }, label));
                 });
                 props.componentClass = 'select';
                 return React.createElement(
@@ -766,7 +766,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     id: (button.__name + radio),
                     onChange: props.onChange,
                     checked: (button.value === button.options[index]),
-                }, radio));
+                }, button.labels && button.labels[index] ? button.labels[index] : radio));
             });
             return React.createElement(FormGroup, props, children);
         }
@@ -794,7 +794,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         delete props.style.width;
         return React.createElement(
             FormGroup,
-            { key: (button.__name), style: { display: button.hide ? 'none' : 'block' } },
+            { key: (button.__name), style: { display: button.hide ? 'none' : 'flex' } },
             [React.createElement(
                 ToggleSwitch,
                 props,

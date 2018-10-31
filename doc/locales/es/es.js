@@ -8,7 +8,8 @@ let es = {
             "Home": "Home",
             "About": "Acerca de",
             "UserManual": "Manual de usuario",
-            "CourseStructure": "Estructura de un curso",
+            "UserManual_Intro": "Introducción",
+            "CourseStructure": "Estructura de un documento",
             "Plugins": "Plugins",
             "Import": "Importar contenido",
             "Export": "Exportar contenido",
@@ -29,6 +30,13 @@ let es = {
             "BasePluginVisor": "BasePluginVisor",
             "RichPlugins": "Plugins Enriquecidos",
             "LiveDemo": "Pruébalo!",
+            "Configuration": "Configuración",
+            "ToolbarState": "Estado y barra de herramientas",
+            "Interface": "Interfaz",
+            "Visor": "Visor",
+            "Exercises": "Ejercicios",
+            "PluginPlaceholders": "Contenedores de Plugins",
+            "ConfigModal": "Plugins avanzados",
 
         },
         "Home": {
@@ -47,7 +55,7 @@ let es = {
             },
             "What": {
                 "Header": '¿Qué puedes hacer en <span class="ediphy_blue">EDiphy</span>?',
-                "Version": 'Versión 1.0.0',
+                "Version": 'Versión 2.0.0',
                 "Subheader": "¿Qué tiene EDiphy que lo hace tan estupendo y que hará tus presentaciones más fáciles, dinámicas y divertidas?",
                 "dnd": "Además el contenido está basado en plugins con interacción drag and drop",
                 "featureList": {
@@ -60,6 +68,7 @@ let es = {
                     "image": "Imágenes",
                     "text": "Texto",
                     "table": "Tablas",
+                    "exercises": "Ejercicios",
                     "web": "Webs",
                     "video": "Video",
                     "map": "Mapas",

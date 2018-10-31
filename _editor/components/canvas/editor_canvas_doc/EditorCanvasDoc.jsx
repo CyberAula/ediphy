@@ -71,7 +71,7 @@ export default class EditorCanvasDoc extends Component {
                     />
                     <div className="outter canvaseditor" style={{ background: toolbar.background, display: show ? 'block' : 'none' }}>
                         <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
-                            className={'doc_air'}
+                            className={(this.props.fromCV ? 'airlayer_cv' : 'airlayer') + ' doc_air'}
                             style={{ background: toolbar.background, visibility: (show ? 'visible' : 'hidden') }}>
 
                             <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
@@ -96,7 +96,6 @@ export default class EditorCanvasDoc extends Component {
                 </div>
                 <EditorShortcuts
                     openConfigModal={this.props.openConfigModal}
-                    accordions={this.props.accordions}
                     box={this.props.boxes[this.props.boxSelected]}
                     containedViewSelected={this.props.containedViewSelected}
                     isContained={this.props.fromCV}
@@ -117,10 +116,6 @@ export default class EditorCanvasDoc extends Component {
 }
 
 EditorCanvasDoc.propTypes = {
-    /**
-     * Object containing every accordion by id
-     */
-    accordions: PropTypes.object.isRequired,
     /**
      * Check if component is rendered from contained view
      */
@@ -146,7 +141,7 @@ EditorCanvasDoc.propTypes = {
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -278,7 +273,7 @@ EditorCanvasDoc.propTypes = {
      */
     fileModalResult: PropTypes.object,
     /**
-     * Callback for opening the file upload modal
+     * Function that opens the file search modal
      */
-    toggleFileUpload: PropTypes.func.isRequired,
+    openFileModal: PropTypes.func.isRequired,
 };

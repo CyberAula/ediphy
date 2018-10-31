@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
+
 import PropTypes from 'prop-types';
 import VisorBox from './VisorBox';
 import SubmitButton from '../score/SubmitButton';
 import Score from '../score/Score';
 import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import VisorHeader from './VisorHeader';
-import { aspectRatio } from '../../../common/common_tools';
+import { aspectRatio, changeFontBase } from '../../../common/common_tools';
 import ReactResizeDetector from 'react-resize-detector';
 import { isContainedView, isView } from '../../../common/utils';
 import i18n from 'i18next';
-
+import ReactDOM from 'react-dom';
 export default class VisorCanvasSli extends Component {
     constructor(props) {
         super(props);
@@ -18,6 +19,7 @@ export default class VisorCanvasSli extends Component {
             height: '100%',
             marginTop: 0,
             marginBottom: 0,
+            fontBase: 14,
         };
     }
 
@@ -57,14 +59,16 @@ export default class VisorCanvasSli extends Component {
         const tooltip = (
             <Tooltip id="tooltip">{thisView}</Tooltip>
         );
+        let exercises = this.props.exercises[this.props.currentView];
+
         let animationType = "animation-zoom";
         let padding = (this.props.fromPDF ? '0px' : '');
         return (
-            <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={"canvasSliClass " + (isCV ? animationType : "")}
-                style={{ display: 'initial', width: '100%', padding }}>
+            <Col id={(isCV ? "containedCanvas_" : "canvas_") + this.props.currentView} md={12} xs={12} className={(isCV ? "containedCanvasClass " : "canvasClass ") + " canvasSliClass " + (isCV ? animationType : "") + (this.props.show ? "" : " hidden")}
+                style={{ display: 'initial', width: '100%', padding, fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px' }}>
 
-                <div id={isCV ? 'airlayer_cv' : 'airlayer'}
-                    className={'slide_air'}
+                <div id={(isCV ? 'airlayer_cv_' : 'airlayer_') + this.props.currentView}
+                    className={' slide_air airlayer'}
                     style={{ margin: '0 auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden'),
                         width: this.state.width, height: this.state.height, marginTop: this.state.marginTop, marginBottom: this.state.marginBottom,
                     }}>
@@ -79,7 +83,7 @@ export default class VisorCanvasSli extends Component {
                             backgroundPosition: toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full' ? 'center center' : '0% 0%' }}>
                         {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
                             <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }} onClick={a => {
-                                document.getElementById("containedCanvas").classList.add("exitCanvas");
+                                ReactDOM.findDOMNode(this).classList.add("exitCanvas");
                                 setTimeout(function() {
                                     this.props.removeLastView();
                                 }.bind(this), 500);
@@ -101,7 +105,8 @@ export default class VisorCanvasSli extends Component {
                             let box = this.props.boxes[id];
                             return <VisorBox key={id}
                                 id={id}
-                                exercises={(this.props.exercises && this.props.exercises.exercises) ? this.props.exercises.exercises[id] : undefined}
+                                show={this.props.show}
+                                exercises={(exercises && exercises.exercises) ? exercises.exercises[id] : undefined}
                                 boxes={this.props.boxes}
                                 changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
                                 currentView={this.props.currentView}
@@ -111,19 +116,21 @@ export default class VisorCanvasSli extends Component {
                                 setAnswer={this.props.setAnswer}
                                 onMarkClicked={this.props.onMarkClicked}
                                 richElementsState={this.props.richElementsState}/>;
-
                         })}
 
-                        <div className={"pageFooter" + (!this.props.exercises || !this.props.exercises.exercises || Object.keys(this.props.exercises.exercises).length === 0 ? " hidden" : "")}>
-                            <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={this.props.exercises} />
-                            <Score exercises={this.props.exercises}/>
-                        </div>
+                        {this.props.fromPDF ? null : <div className={"pageFooter" + (!exercises || !exercises.exercises || Object.keys(exercises.exercises).length === 0 ? " hidden" : "")}>
+                            <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={exercises} />
+                            <Score exercises={exercises}/>
+                        </div>}
 
                     </div>
                 </div>
                 <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
                     if (!this.props.fromPDF) {
-                        this.aspectRatio(this.props, this.state);
+                        let calculated = this.aspectRatio(this.props, this.state);
+                        this.setState({ fontBase: changeFontBase(calculated.width) });
+                    } else if (this.props.fromPDF) {
+                        this.setState({ fontBase: changeFontBase(this.props.expectedWidth) });
                     }
                 }} />
             </Col>
@@ -137,7 +144,8 @@ export default class VisorCanvasSli extends Component {
         let isCV = !isView(this.props.currentView);
         let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         if (!this.props.fromPDF) {
-            this.aspectRatio(this.props, this.state);
+            let calculated = this.aspectRatio(this.props, this.state);
+            this.setState({ fontBase: changeFontBase(calculated.width) });
             window.addEventListener("resize", this.aspectRatioListener.bind(this));
         } else {
 
@@ -149,7 +157,8 @@ export default class VisorCanvasSli extends Component {
     }
 
     aspectRatioListener() {
-        this.aspectRatio();
+        let calculated = this.aspectRatio();
+        this.setState({ fontBase: changeFontBase(calculated.width) });
     }
 
     aspectRatio(props = this.props, state = this.state) {
@@ -157,12 +166,13 @@ export default class VisorCanvasSli extends Component {
         let ar = props.canvasRatio;
         let itemSel = props.navItems[props.currentView] || props.containedViews[props.currentView];
         let customSize = itemSel.customSize;
-        let calculated = aspectRatio(ar, fromCV ? 'airlayer_cv' : 'airlayer', fromCV ? 'containedCanvas' : 'canvas', customSize);
+        let calculated = aspectRatio(ar, (fromCV ? 'airlayer_cv_' : 'airlayer_') + props.currentView, (fromCV ? 'containedCanvas_' : 'canvas_') + props.currentView, customSize);
         let { width, height, marginTop, marginBottom } = state;
         let current = { width, height, marginTop, marginBottom };
         if (JSON.stringify(calculated) !== JSON.stringify(current)) {
             this.setState({ ...calculated });
         }
+        return calculated;
 
     }
 
@@ -172,13 +182,18 @@ export default class VisorCanvasSli extends Component {
         if ((this.props.canvasRatio !== nextProps.canvasRatio) || (itemSel !== nextItemSel)) {
             let isCV = !isView(nextProps.currentView);
             window.canvasRatio = nextProps.canvasRatio;
-            this.aspectRatio(nextProps, nextState);
+            let calculated = this.aspectRatio(nextProps, nextState);
+            this.setState({ fontBase: changeFontBase(calculated.width) });
         }
 
     }
 }
 
 VisorCanvasSli.propTypes = {
+    /**
+   * Show the current view
+   */
+    show: PropTypes.bool,
     /**
      * Object containing all created boxes (by id)
      */
@@ -192,7 +207,7 @@ VisorCanvasSli.propTypes = {
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -255,4 +270,12 @@ VisorCanvasSli.propTypes = {
      * Function that triggers a mark
      */
     onMarkClicked: PropTypes.func,
+    /**
+     * Indicates if the content is being previewed in order to export it to PDF
+     */
+    fromPDF: PropTypes.bool,
+    /**
+     * Indicates the expected width for PDF exportation.
+     */
+    expectedWidth: PropTypes.number,
 };

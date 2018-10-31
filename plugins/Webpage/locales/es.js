@@ -12,5 +12,7 @@ module.exports = {
         "source": "Origen",
         "URL": "URL",
         "URL_copypaste": "Copia y pega una URL",
+        "fixedPosition": "Quitar scroll",
+
     },
 };

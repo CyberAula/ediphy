@@ -13,6 +13,7 @@ import { setOptions, Document, Page } from 'react-pdf';
 setOptions({
     workerSrc: pdflib.PDFJS.workerSrc,
 });
+/* eslint-disable react/prop-types */
 
 export default class EnrichedPDFPlugin extends React.Component {
     constructor(props) {
@@ -28,7 +29,7 @@ export default class EnrichedPDFPlugin extends React.Component {
             let pageNumber = 1;
             if (this.props.state.currentState) {
                 try{
-                    pageNumber = parseInt(this.props.state.currentState.split(',')[2]);
+                    pageNumber = parseInt(this.props.state.currentState.split(',')[2], 10);
                 } catch (e) { }
 
             }
@@ -138,7 +139,7 @@ export default class EnrichedPDFPlugin extends React.Component {
                             markConnection={marks[id].connection}
                             markValue={marks[id].value}
                             boxID={this.props.props.id}
-                            onMarkClicked={(id, value)=>{this.props.props.onMarkClicked(id, value, true);}}
+                            onMarkClicked={(_id, _value)=>{this.props.props.onMarkClicked(_id, _value, true);}}
                         />
                     </div> : null);
         });
@@ -192,3 +193,4 @@ export default class EnrichedPDFPlugin extends React.Component {
         );
     }
 }
+/* eslint-enable react/prop-types */

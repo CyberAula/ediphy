@@ -29,7 +29,6 @@ export default class VisorPlayer extends Component {
      * @returns {code}
      */
     render() {
-
         let navItemsIds = this.props.navItemsIds;
         if (!Ediphy.Config.sections_have_content) {
             navItemsIds = this.props.navItemsIds.filter(this.isntSection);
@@ -48,7 +47,7 @@ export default class VisorPlayer extends Component {
                         <OverlayTrigger placement="bottom" delayShow={50} trigger={['hover']} overlay={this.createTooltip("first", i18n.t("player.First"))}>
                             <Button className="playerButton"
                                 bsStyle="primary"
-                                disabled={maxIndex === 0}
+                                disabled={index === 0 || maxIndex === 0}
                                 onClick={(e)=>{this.props.changeCurrentView(navItemsIds[0]);}}>
                                 <i className="material-icons">first_page</i>
                             </Button>
@@ -62,6 +61,16 @@ export default class VisorPlayer extends Component {
                                 <i className="material-icons">chevron_left</i>
                             </Button>
                         </OverlayTrigger>
+                        <span className="playerSpan"
+                            disabled={index === 0 || maxIndex === 0} >
+                            <input type="text" value={index + 1} onChange={(e)=>{
+                                let newInd = e.target.value;
+                                if (newInd && !isNaN(newInd) && newInd > 0 && newInd <= navItemsIds.length) {
+                                    this.props.changeCurrentView(navItemsIds[Math.min(Math.max(newInd - 1, 0), navItemsIds.length - 1)]);
+                                }
+                            }}/>
+                               / {navItemsIds.length}
+                        </span>
                         <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose overlay={this.createTooltip("next", i18n.t("player.Next"))}>
                             <Button className="playerButton"
                                 bsStyle="primary"
@@ -73,7 +82,7 @@ export default class VisorPlayer extends Component {
                         <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose overlay={this.createTooltip("last", i18n.t("player.Last"))}>
                             <Button className="playerButton"
                                 bsStyle="primary"
-                                disabled={maxIndex === 0}
+                                disabled={index === maxIndex - 1 || maxIndex === 0}
                                 onClick={(e)=>{this.props.changeCurrentView(navItemsIds[maxIndex - 1]);}}>
                                 <i className="material-icons">last_page</i>
                             </Button>
@@ -95,14 +104,6 @@ export default class VisorPlayer extends Component {
                             (<i className="material-icons">fullscreen</i>)}
                     </Button>
                 </OverlayTrigger>
-                {this.props.hideExportButton ? null : (
-                    <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose overlay={this.createTooltip("Export", i18n.t("player.Export"))}>
-                        <Button className="playerButton"
-                            bsStyle="primary"
-                            onClick={(e)=>{this.props.openDownloadModal();}}>
-                            <i className="material-icons">file_download</i>
-                        </Button>
-                    </OverlayTrigger>)}
             </div>
         );
     }

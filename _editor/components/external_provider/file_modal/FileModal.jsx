@@ -17,6 +17,7 @@ const initialState = {
     element: undefined,
     type: undefined,
     pdfSelected: false,
+    options: {},
 };
 export default class FileModal extends React.Component {
     constructor(props) {
@@ -41,7 +42,7 @@ export default class FileModal extends React.Component {
                         <div id="menuColumn">
                             <ListGroup>
                                 {menus.map((cat, i)=>{
-                                    if (cat.show) {
+                                    if (cat && cat.show) {
                                         return <ListGroupItem active={this.state.menu === i} key={i}
                                             onClick={()=>this.clickHandler(i)}
                                             className={"listGroupItem"}>
@@ -82,7 +83,7 @@ export default class FileModal extends React.Component {
                             <Modal.Footer>
                                 {this.state.element ? (
                                     <div key={-2} className="footerFile">
-                                        <i className="material-icons">{handler.icon || "attach_file"}</i>{this.state.name && this.state.name.length > 30 ? ('...' + this.state.name.substr(this.state.name.length - 30, this.state.name.length)) : this.state.name}</div>
+                                        <i className="material-icons">{handler.icon || "attach_file"}</i>{this.state.name && this.state.name.length > 50 ? ('...' + this.state.name.substr(this.state.name.length - 50, this.state.name.length)) : this.state.name}</div>
                                 ) : null}
                                 <Button key={-1} onClick={e => {
                                     this.close();
@@ -150,7 +151,72 @@ export default class FileModal extends React.Component {
 
 FileModal.propTypes = {
     /**
-   * Accepted MIME type for modal
-   */
-    showFileUploadModal: PropTypes.any,
+     * Whether the file modal is visible or not
+     */
+    visible: PropTypes.any.isRequired,
+    /**
+     * Current selected view (by ID)
+     */
+    navItemSelected: PropTypes.any.isRequired,
+    /**
+     * Callback for adding a new box
+     */
+    onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * Function for adding a new view
+     */
+    onNavItemAdded: PropTypes.func.isRequired,
+    /**
+     * Function for adding multiple new views
+     */
+    onNavItemsAdded: PropTypes.func.isRequired,
+    /**
+     * Function for selecting a view in the index
+     */
+    onIndexSelected: PropTypes.func.isRequired,
+    /**
+     * Function for displaying a view in the canvas
+     */
+    onNavItemSelected: PropTypes.func.isRequired,
+    /**
+     * Array containing the ids of all the views
+     */
+    navItemsIds: PropTypes.array.isRequired,
+    /**
+     * Object containing all views (by id)
+     */
+    navItems: PropTypes.object.isRequired,
+    /**
+     * Object containing all contained views
+     */
+    containedViews: PropTypes.object.isRequired,
+    /**
+     * Selected contained view
+     */
+    containedViewSelected: PropTypes.any.isRequired,
+    /**
+     * Last files uploaded to server or searched in modal
+     */
+    fileModalResult: PropTypes.object,
+    /**
+     * Current open tab in File Modal
+     */
+    fileUploadTab: PropTypes.any,
+    /**
+     * Object containing all the boxes
+     */
+    boxes: PropTypes.object.isRequired,
+    /**
+     * Current selected box
+     */
+    boxSelected: PropTypes.any.isRequired,
+    /**
+     * Function for closing the File Modal
+     */
+    close: PropTypes.func.isRequired,
+    /**
+     * Import Ediphy Document
+     */
+    // importEdi: PropTypes.func.isRequired,
+
 };

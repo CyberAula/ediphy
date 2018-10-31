@@ -90,11 +90,11 @@ export default class ColorPicker extends Component {
 
 ColorPicker.propTypes = {
     /**
-     * Valor del color seleccionado
+     * Value of the selected color
      */
     value: PropTypes.string.isRequired,
     /**
-     * Cambia el color seleccionado
+     * Changes the selected color
      */
     onChange: PropTypes.func.isRequired,
 };

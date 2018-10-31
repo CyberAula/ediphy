@@ -101,11 +101,11 @@ export default class ViewToolbar extends Component {
                         },
                     },
                     __score: {
-                        __name: i18n.t('Score'),
-                        icon: 'school',
+                        __name: i18n.t('configuration'),
+                        icon: 'build',
                         buttons: {
                             weight: {
-                                __name: i18n.t('Weight'),
+                                __name: i18n.t('Score'),
                                 type: 'number',
                                 min: 1,
                                 __defaultField: true,
@@ -155,7 +155,7 @@ export default class ViewToolbar extends Component {
             let tab = controls[tabKey];
             return (
                 <div key={'key_' + index} className="toolbarTab">
-                    <PanelGroup>
+                    <PanelGroup id="panel-group">
                         {Object.keys(tab.accordions).sort().map((accordionKey, ind) => {
                             return renderAccordion(
                                 tab.accordions[accordionKey],
@@ -176,7 +176,7 @@ export default class ViewToolbar extends Component {
 
 ViewToolbar.propTypes = {
     /**
-   * Object containing all views (by id)
+     * Object containing all views (by id)
     */
     navItems: PropTypes.object.isRequired,
     /**
@@ -184,7 +184,7 @@ ViewToolbar.propTypes = {
    */
     navItemSelected: PropTypes.any.isRequired,
     /**
-   * Contained views dictionary (identified by its ID)
+   * Object containing all contained views (identified by its ID)
    */
     containedViews: PropTypes.object.isRequired,
     /**

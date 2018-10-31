@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
-import { scrollElement, findBox, blurCKEditor } from '../../../../common/common_tools';
+import { scrollElement, findBox, blurCKEditor, fontString } from '../../../../common/common_tools';
 
 export default class CKEDitorComponent extends Component {
     constructor(props) {
@@ -29,13 +29,22 @@ export default class CKEDitorComponent extends Component {
         let config = Ediphy.Plugins.get(toolbar.pluginId).getConfig();
         if (config && config.needsTextEdition) {
             CKEDITOR.disableAutoInline = true;
+            // CKEDITOR.addCss('p span{font-size: 1vw} p{font-size: 1vw}');
             /* for (let key in config.extraTextConfig) {
                 CKEDITOR.config[key] += toolbar.config.extraTextConfig[key] + ",";
             }*/
-            // TODO Scale text
-            let editor = CKEDITOR.inline(this.refs.textarea /* , {
-                fontSize_sizes: '1/1vh;2/2vh;3/3vh;4/4vh;5/5vh;6/6vh;'
-            }*/);
+
+            let editor = CKEDITOR.inline(this.refs.textarea);
+            editor.config.fontSize_sizes = fontString();
+            editor.config.font_defaultLabel = 'Arial';
+            editor.config.fontSize_defaultLabel = '14';
+
+            // editor.config.fontSize_style = {
+            //     element:        'span',
+            //     styles:         { 'font-size': '#(size)' },
+            //     overrides:      [ { element: 'font', attributes: { 'size': null } } ]
+            // };
+
             if (toolbar.state.__text) {
                 editor.setData(decodeURI(toolbar.state.__text));
 

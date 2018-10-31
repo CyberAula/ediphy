@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import VisorBox from './VisorBox';
 import SubmitButton from '../score/SubmitButton';
@@ -43,17 +44,17 @@ export default class VisorCanvasDoc extends Component {
 
         let animationType = isCV ? "animation-zoom" : ""; // "animation-slide";
 
-        let marks = {};
+        let exercises = this.props.exercises[this.props.currentView];
         let toolbar = this.props.viewToolbars[this.props.currentView];
         return (
 
-            <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={animationType}
+            <Col id={(isCV ? "containedCanvas_" : "canvas_") + this.props.currentView} md={12} xs={12} className={(isCV ? "containedCanvasClass " : "canvasClass ") + animationType + (this.props.show ? "" : " hidden")}
                 style={{ display: 'initial', padding: '0', width: '100%' }}>
                 <div className="scrollcontainer" style={{ background: toolbar.background }}>
                     {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
                         <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
                             onClick={a => {
-                                document.getElementById("containedCanvas").classList.add("exitCanvas");
+                                ReactDOM.findDOMNode(this).classList.add("exitCanvas");
                                 setTimeout(function() {
                                     this.props.removeLastView();
                                 }.bind(this), 500);
@@ -68,8 +69,8 @@ export default class VisorCanvasDoc extends Component {
                         containedViews={this.props.containedViews}
                         showButton/>
                     <div className="outter canvasvisor">
-                        <div id={isCV ? 'airlayer_cv' : 'airlayer'}
-                            className={'doc_air'}
+                        <div id={(isCV ? 'airlayer_cv_' : 'airlayer_') + this.props.currentView}
+                            className={(isCV ? 'airlayer_cv' : 'airlayer') + ' doc_air'}
                             style={{ background: itemSelected.background, visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                             <div id={isCV ? "contained_maincontent" : "maincontent"}
@@ -96,7 +97,8 @@ export default class VisorCanvasDoc extends Component {
                                     }
                                     return <VisorBoxSortable key={id}
                                         id={id}
-                                        exercises={this.props.exercises}
+                                        exercises={exercises}
+                                        show={this.props.show}
                                         boxes={this.props.boxes}
                                         changeCurrentView={this.props.changeCurrentView}
                                         currentView={this.props.currentView}
@@ -111,10 +113,12 @@ export default class VisorCanvasDoc extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className={"pageFooter" + (!this.props.exercises || !this.props.exercises.exercises || Object.keys(this.props.exercises.exercises).length === 0 ? " hidden" : "")}>
-                        <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={this.props.exercises} />
-                        <Score exercises={this.props.exercises}/>
-                    </div>
+                    {this.props.fromPDF ? null : <div className={"pageFooter" + (!exercises || !exercises.exercises || Object.keys(exercises.exercises).length === 0 ? " hidden" : "")}>
+                        <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={exercises} />
+                        <Score exercises={exercises}/>
+                    </div>}
+
+                    <div className={(this.props.fromPDF === true) ? "pageEnd" : ""} />
 
                 </div>
             </Col>
@@ -122,14 +126,18 @@ export default class VisorCanvasDoc extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.currentView.id !== nextProps.currentView.id) {
+        /* if (this.props.currentView.id !== nextProps.currentView.id) {
             document.getElementById(!isView(this.props.currentView) ? "contained_maincontent" : "maincontent").scrollTop = 0;
-        }
+        }*/
     }
 
 }
 
 VisorCanvasDoc.propTypes = {
+    /**
+   * Show the current view
+   */
+    show: PropTypes.bool,
     /**
      * Object containing all created boxes (by id)
      */
@@ -139,7 +147,7 @@ VisorCanvasDoc.propTypes = {
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -202,4 +210,8 @@ VisorCanvasDoc.propTypes = {
      * Function that triggers a mark
      */
     onMarkClicked: PropTypes.func,
+    /**
+     * Indicates if the content is being previewed in order to export it to PDF
+     */
+    fromPDF: PropTypes.bool,
 };

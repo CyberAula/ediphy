@@ -20,8 +20,6 @@ export const PAGE_TYPES = {
     SECTION: "section",
 };
 
-console.log(i18n);
-
 export const extensions = [
     'all',
     'image',
@@ -34,4 +32,6 @@ export const extensions = [
     'swf',
     'xml',
     'obj',
+    'edi',
+    'vish',
 ];

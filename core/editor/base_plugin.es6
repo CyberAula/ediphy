@@ -119,9 +119,9 @@ export default function() {
                 if (!state.__text) {
                     state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
                 }
-                state.__text = getCKEDITORAdaptedContent(state.__text);
+                state.__text = (getCKEDITORAdaptedContent(state.__text));
                 if (!descendant.getRenderTemplate) {
-                    descendant.getRenderTemplate = function(stateObj, { exercises: { correctAnswer: [] } }) {
+                    descendant.getRenderTemplate = function(stateObj /* , { exercises: { correctAnswer: [] } }*/) {
                         return stateObj.__text;
                     };
                 }
@@ -144,7 +144,7 @@ export default function() {
                 }
             }
 
-            if(config.category === 'evaluation') {
+            /* if(config.category === 'evaluation') {
                 if (!state.__score) {
                     state.__score = {
                         score: 1,
@@ -154,11 +154,11 @@ export default function() {
                     };
                 }
             }
-
+*/
             let toolbar = this.getToolbar(state);
             let template = null;
             let params = { ...initParams };
-            params.aspectRatio = !!config.aspectRatioButtonConfig;
+            params.aspectRatio = config.aspectRatioButtonConfig;
             params.name = config.name;
             params.isDefaultPlugin = defaultFor(initParams.isDefaultPlugin, false);
             if (params && Object.keys(params) && Object.keys(params).length > 1) {
@@ -238,8 +238,8 @@ export default function() {
             iconFromUrl = defaultFor(iconFromUrl, false);
             isRich = defaultFor(isRich, false);
             isComplex = defaultFor(isComplex, false);
-            marksType = defaultFor(marksType, [{ name: 'value', key: 'value' }]);
-            flavor = defaultFor(flavor, 'plain');
+            marksType = defaultFor(marksType, { name: 'value', key: 'value' });
+            flavor = defaultFor(flavor, 'react');
             allowFloatingBox = defaultFor(allowFloatingBox, true);
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsConfirmation = defaultFor(needsConfirmation, false);
@@ -265,7 +265,6 @@ export default function() {
                 }
                 aspectRatioButtonConfig.defaultValue = defaultFor(aspectRatioButtonConfig.defaultValue, "unchecked");
             }
-
             return {
                 name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition,
                 extraTextConfig, needsXMLEdition, aspectRatioButtonConfig, allowFloatingBox, icon,
@@ -274,6 +273,12 @@ export default function() {
             };
         },
         getRenderTemplate: function(render_state, props) {
+            if (!descendant.getRenderTemplate) {
+                // eslint-disable-next-line no-shadow
+                descendant.getRenderTemplate = function(stateObj, props /* , { exercises: { correctAnswer: [] } } */) {
+                    return stateObj.__text;
+                };
+            }
             return descendant.getRenderTemplate(render_state, props);
         },
         getToolbar: function(toolbarState) {
@@ -350,9 +355,9 @@ export default function() {
             }
             return undefined;
         },
-        getDefaultMarkValue: function(state, value) {
+        getDefaultMarkValue: function(_state, value) {
             if(descendant.getDefaultMarkValue) {
-                return descendant.getDefaultMarkValue(state, value);
+                return descendant.getDefaultMarkValue(_state, value);
             }
             if (descendant.getConfig() && descendant.getConfig().marksType) {
                 let markType = descendant.getConfig().marksType;

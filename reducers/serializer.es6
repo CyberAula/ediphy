@@ -87,28 +87,28 @@ export function containedView(state) {
  * @returns fixed state with new fields that didn't exist before
  */
 export function globalConfig(state) {
-    let globalConfigDefault = {
-        title: "Ediphy",
-        canvasRatio: 16 / 9,
-        visorNav: {
-            player: true,
-            sidebar: true,
-            keyBindings: true,
+
+    let newState = { ...state };
+
+    if (typeof newState.canvasRatio === "string") {
+        newState.canvasRatio = parseFloat(newState.canvasRatio);
+    }
+
+    if (typeof newState.age.min === "string") {
+        newState.age.min = parseInt(newState.age.min, 10);
+    }
+    if (typeof newState.age.max === "string") {
+        newState.age.max = parseInt(newState.age.max, 10);
+    }
+    newState = {
+        ... {
+            allowComments: true,
+            allowClone: true,
+            allowDownload: true,
         },
-        trackProgress: true,
-        age: { min: 0, max: 100 },
-        context: 'school',
-        rights: "public",
-        keywords: [],
-        typicalLearningTime: { h: 0, m: 0, s: 0 },
-        version: '1.0.0',
-        thumbnail: '',
-        status: 'draft',
-        structure: 'linear',
-        difficulty: 'easy',
+        ...newState,
     };
-    let newState = {};
-    state.forEach((element) => { newState.push(deepmerge(globalConfigDefault, element));});
+
     return newState;
 }
 
@@ -126,11 +126,24 @@ export function pluginToolbars(state) {
     };
     let newState = {};
     state.forEach((element) => { newState.push(deepmerge(toolbarPluginDefault, element));});
+
     return newState;
 }
 
-export function marks(state) {
-    return {};
+export function marksSerializer(state, version) {
+    let newState = { ...state };
+
+    if(version === "1") {
+        [...state].forEach((element)=>{
+            let regex = /(^\d+(?:\.\d*)?%$)/g;
+            let match = regex.exec(element.value);
+            if (match && match.length === 2) {
+                newState[element.id].value = "0:00";
+            }
+        });
+    }
+
+    return newState;
 }
 
 /**

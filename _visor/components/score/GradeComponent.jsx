@@ -77,7 +77,7 @@ export default class ScormComponent extends Component {
                 key: i,
                 setAnswer: this.setAnswer,
                 submitPage: this.submitPage,
-                exercises: this.state.exercises[this.props.currentView] }));
+                exercises: this.state.exercises }));
         return [...childrenWithProps, this.props.globalConfig.hideGlobalScore ? null : null,
             <GlobalScore key="-1" scoreInfo={scoreInfo} show={!globalConfig.hideGlobalScore && !globalConfig.visorNav.sidebar}/>,
         ];
@@ -156,7 +156,7 @@ export default class ScormComponent extends Component {
     }
     setAnswer(id, answer, page) {
         let exercises = JSON.parse(JSON.stringify(this.state.exercises));
-        if (exercises[page] && exercises[page].exercises[id]) {
+        if (exercises[page] && exercises[page].exercises[id] && !exercises[page].attempted) {
             exercises[page].exercises[id].currentAnswer = answer;
             this.setState({ exercises });
         }

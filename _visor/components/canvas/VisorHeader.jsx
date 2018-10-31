@@ -91,7 +91,7 @@ VisorHeader.propTypes = {
     /**
      * Título del curso
      */
-    courseTitle: PropTypes.string.isRequired,
+    courseTitle: PropTypes.string,
     /**
      * Vista actual
      */

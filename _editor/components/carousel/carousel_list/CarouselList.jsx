@@ -129,16 +129,18 @@ export default class CarouselList extends Component {
 
                     {
                         Object.keys(this.props.containedViews).map((id, key)=>{
+                            let classIndexSelected = id === this.props.indexSelected ? ' classIndexSelected ' : ' ';
+                            let containedViewSelected = id === this.props.containedViewSelected ? ' selected ' : ' notSelected ';
                             return (
                                 <div key={id}
-                                    className={id === this.props.indexSelected ? 'navItemBlock classIndexSelected' : 'navItemBlock'}
+                                    className={'navItemBlock' + classIndexSelected + containedViewSelected}
                                     style={{
                                         width: "100%",
                                         height: "20px",
                                         paddingTop: "10px",
                                         paddingLeft: "10px",
                                         paddingBottom: "25px",
-                                        color: (this.props.containedViewSelected === id) ? "white" : "#9A9A9A",
+                                        color: (this.props.indexSelected === id && this.props.containedViewSelected === id) ? "white" : "#9A9A9A",
                                         backgroundColor: (this.props.containedViewSelected === id) ? "#222" : "transparent",
                                     }}
                                     onDoubleClick={e => {
@@ -249,7 +251,7 @@ CarouselList.propTypes = {
      */
     carouselShow: PropTypes.bool,
     /**
-     *  Contained views dictionary (identified by its ID)
+     *  Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**

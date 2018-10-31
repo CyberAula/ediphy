@@ -49,7 +49,7 @@ export default class TemplatesModal extends Component {
                         </div>
                         {this.templates.map((item, index) => {
                             let border = this.state.itemSelected === index ? "solid #17CFC8 3px" : "solid #eee 1px";
-                            return (<div className="template_item" style={{ position: 'relative', border: border, width: '120px', height: '80px' }}>
+                            return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: '120px', height: '80px' }}>
                                 <TemplateThumbnail key={index} index={index}
                                     onClick={e => { this.setState({ itemSelected: index });}}
                                     onDoubleClick={e => {

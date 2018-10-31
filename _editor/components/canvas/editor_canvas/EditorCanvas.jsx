@@ -61,7 +61,7 @@ EditorCanvas.propTypes = {
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -80,10 +80,6 @@ EditorCanvas.propTypes = {
      * Object containing every plugin toolbar (by id)
      */
     pluginToolbars: PropTypes.object.isRequired,
-    /**
-     * Object containing every accordion (by id)
-     */
-    accordions: PropTypes.object.isRequired,
     /**
      * Last action dispatched in Redux
      */

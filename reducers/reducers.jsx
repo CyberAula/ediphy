@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import undoable from 'redux-undo';
 import {
-    ADD_BOX, SELECT_BOX, INCREASE_LEVEL, INDEX_SELECT, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES,
+    ADD_BOX, SELECT_BOX, INCREASE_LEVEL, INDEX_SELECT, SELECT_NAV_ITEM, EXPAND_NAV_ITEM,
     TOGGLE_TEXT_EDITOR,
     DELETE_RICH_MARK, ADD_RICH_MARK, DELETE_CONTAINED_VIEW,
-    TOGGLE_TITLE_MODE, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPDATE_BOX,
-    UPLOAD_FILE, SELECT_CONTAINED_VIEW, DELETE_FILE, CHANGE_GLOBAL_CONFIG,
+    SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPDATE_BOX,
+    UPLOAD_FILE, SELECT_CONTAINED_VIEW, DELETE_FILE, CHANGE_GLOBAL_CONFIG, IMPORT_EDI,
 } from '../common/actions';
 import { isSortableBox } from '../common/utils';
 import boxesById from './boxes_by_id';
@@ -23,12 +23,12 @@ import viewToolbarsById from './view_toolbars_by_id';
 import globalConfig from './global_config';
 import exercises from './exercises';
 import lastActionDispatched from './lastActionDispatched';
-const version = "1";
+const version = "2";
 
 function changeDisplayMode(state = "", action = {}) {
     switch (action.type) {
-    case CHANGE_DISPLAY_MODE:
-        return action.payload.mode;
+    // case CHANGE_DISPLAY_MODE:
+    //     return action.payload.mode;
     case IMPORT_STATE:
         return action.payload.present.displayMode || state;
     default:
@@ -60,6 +60,8 @@ function filesUploaded(state = {}, action = {}) {
             }, {});
     case IMPORT_STATE:
         return action.payload.present.filesUploaded || state;
+    case IMPORT_EDI:
+        return { ...state, ...action.payload.state.filesUploaded };
     default:
         return state;
     }
@@ -131,7 +133,7 @@ const GlobalState = combineReducers({
             }
 
             switch (action.type) {
-            case CHANGE_DISPLAY_MODE:
+            // case CHANGE_DISPLAY_MODE:
             case EXPAND_NAV_ITEM:
             case IMPORT_STATE:
             case INCREASE_LEVEL:
@@ -141,8 +143,6 @@ const GlobalState = combineReducers({
             case SELECT_CONTAINED_VIEW:
             case SET_BUSY:
             case TOGGLE_TEXT_EDITOR:
-            case TOGGLE_TITLE_MODE:
-            case UPDATE_NAV_ITEM_EXTRA_FILES:
             case UPLOAD_FILE:
             case DELETE_FILE:
             // case UPDATE_BOX:

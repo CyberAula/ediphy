@@ -8,6 +8,7 @@ import { createBox } from './common_tools';
  *
  * @param obj
  * @param state
+ * @params defaultBoxes
  */
 export function parsePluginContainersReact(obj, state, defaultBoxes = {}) {
     if (obj && obj instanceof Array) {
@@ -32,12 +33,12 @@ export function parsePluginContainersReact(obj, state, defaultBoxes = {}) {
         if (obj.props) {
             let height = "auto";
             if (obj.props) {
-                if (obj.props['plugin-data-height']) {
-                    height = obj.props['plugin-data-height'];
-                } else if (obj.props['plugin-data-initial-height']) {
-                    height = obj.props['plugin-data-initial-height'];
+                if (obj.props.pluginDataHeight) {
+                    height = obj.props.pluginDataHeight;
+                } else if (obj.props.pluginDataInitialHeight) {
+                    height = obj.props.pluginDataInitialHeight;
                 } else {
-                    height = obj.props.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto";
+                    height = obj.props.hasOwnProperty('pluginDataResizable') ? "auto" : "auto";
                 }
             }
             newProps = JSON.parse(JSON.stringify(obj.props));
@@ -61,23 +62,26 @@ export function parsePluginContainersReact(obj, state, defaultBoxes = {}) {
             } else {
                 newProps.pluginContainer = isSortableContainer(newProps.pluginContainer) ? newProps.pluginContainer : ID_PREFIX_SORTABLE_CONTAINER + newProps.pluginContainer;
             }
-            if (!newProps['plugin-data-height']) {
-                newProps['plugin-data-height'] = newProps['plugin-data-initial-height'] || (newProps.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto");
+            if (!newProps.pluginDataHeight) {
+                newProps.pluginDataHeight = newProps.pluginDataInitialHeight || (newProps.hasOwnProperty('pluginDataResizable') ? "auto" : "auto");
             }
 
             if (obj.props.pluginContainer && !state[obj.props.pluginContainer]) {
                 state[newProps.pluginContainer] = {
                     id: newProps.pluginContainer,
-                    name: newProps['plugin-data-display-name'] || newProps.pluginContainer,
-                    height: newProps['plugin-data-height'],
+                    name: newProps.pluginContainerName || newProps.pluginContainer,
+                    height: newProps.pluginDataHeight,
                 };
-                if (newProps['plugin-data-default']) {
-                    defaultBoxes[newProps.pluginContainer] = { type: newProps['plugin-data-default'] };
-                    if (newProps['plugin-data-text']) {
-                        defaultBoxes[newProps.pluginContainer].__text = newProps['plugin-data-text'];
-                    }
-                }
 
+                if (newProps.pluginDefaultContent) {
+                    if (!defaultBoxes[newProps.pluginContainer] || !(defaultBoxes[newProps.pluginContainer] instanceof Array)) {
+                        defaultBoxes[newProps.pluginContainer] = [];
+                    }
+                    newProps.pluginDefaultContent.map(newPlugin => {
+                        defaultBoxes[newProps.pluginContainer].push({ type: newPlugin.plugin, initialState: newPlugin.initialState });
+                    });
+
+                }
             }
         }
     }
@@ -85,7 +89,7 @@ export function parsePluginContainersReact(obj, state, defaultBoxes = {}) {
 }
 
 /**
- *
+ * @deprecated
  * @param obj
  * @param state
  */
@@ -161,6 +165,12 @@ export function hasExerciseBox(navItemId, navItems, state, boxes) {
     return false;
 }
 
+/**
+ * @deprecated
+ * @param ids
+ * @param obj
+ * @param boxes
+ */
 export function addDefaultContainerPlugins(ids, obj, boxes) {
 
     if (obj && obj.child) {
@@ -197,6 +207,13 @@ export function addDefaultContainerPlugins(ids, obj, boxes) {
         }
     }
 }
+/**
+ *
+ * @param params
+ * @param obj
+ * @param boxes
+ * @param newBoxes
+ */
 export function addDefaultContainerPluginsReact(params, obj, boxes, newBoxes) {
     if (obj && obj instanceof Array) {
         for (let i = 0; i < obj.length; i++) {
@@ -212,14 +229,13 @@ export function addDefaultContainerPluginsReact(params, obj, boxes, newBoxes) {
             addDefaultContainerPluginsReact(params, obj.props.children, boxes, newBoxes);
         }
     }
-    if (obj && obj.type && obj.type === PluginPlaceholder && obj.props['plugin-data-default']) {
+
+    if (obj && obj.type && obj.type === PluginPlaceholder && obj.props.pluginDefaultContent) {
         let idContainer = isSortableContainer(obj.props.pluginContainer) ? obj.props.pluginContainer : ID_PREFIX_SORTABLE_CONTAINER + obj.props.pluginContainer;
-        // let plug_children = boxes[params.id].sortableContainers[idContainer];
-        // if ( plug_children && plug_children.children && plug_children.children.length === 0) {
-        obj.props['plugin-data-default'].split(",").map(name => {
-            if (!Ediphy.Plugins.get(name)) {
+        obj.props.pluginDefaultContent.map((name, index) => {
+            if (!Ediphy.Plugins.get(name.plugin)) {
                 // eslint-disable-next-line no-console
-                console.error("Plugin " + name + " does not exist");
+                console.error("Plugin " + name.plugin + " does not exist");
                 return;
             }
             let ids = {
@@ -229,13 +245,12 @@ export function addDefaultContainerPluginsReact(params, obj, boxes, newBoxes) {
                 isDefaultPlugin: true,
             };
 
-            let config = Ediphy.Plugins.get(name).getConfig();
-            if (obj.props['plugin-data-text'] && config.needsTextEdition) {
-                ids.text = obj.props['plugin-data-text'];
+            let config = Ediphy.Plugins.get(name.plugin).getConfig();
+            if (name.initialState) {
+                ids.initialState = name.initialState;
             }
-            newBoxes.push({ name, ids });
+            newBoxes.push({ name: name.plugin, ids });
 
         });
-        // }
     }
 }

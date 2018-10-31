@@ -2,6 +2,7 @@ import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import i18n from 'i18next';
 import './_freeResponse.scss';
+import { setRgbaAlpha } from "../../common/common_tools";
 /* eslint-disable react/prop-types */
 
 export function FreeResponse(base) {
@@ -24,18 +25,23 @@ export function FreeResponse(base) {
                     __name: "Main",
                     accordions: {
                         __score: {
-                            __name: i18n.t('Score'),
+                            __name: i18n.t('configuration'),
                             icon: 'build',
                             buttons: {
+                                correct: {
+                                    __name: i18n.t("FreeResponse.Correct"),
+                                    type: 'checkbox',
+                                    checked: state.correct,
+                                },
                                 showFeedback: {
                                     __name: i18n.t("FreeResponse.ShowFeedback"),
                                     type: 'checkbox',
                                     checked: state.showFeedback,
                                 },
-                                correct: {
-                                    __name: i18n.t("FreeResponse.Correct"),
-                                    type: 'checkbox',
-                                    checked: state.correct,
+                                quizColor: {
+                                    __name: Ediphy.i18n.t('FreeResponse.FeedbackColor'),
+                                    type: 'color',
+                                    value: state.quizColor || 'rgba(0, 173, 156, 1)',
                                 },
                                 characters: {
                                     __name: i18n.t("FreeResponse.Characters"),
@@ -105,24 +111,34 @@ export function FreeResponse(base) {
                 showFeedback: true,
                 characters: true,
                 correct: true,
+                quizColor: 'rgba(0, 173, 156, 1)',
             };
         },
         getRenderTemplate: function(state, props) {
             let clickHandler = (e)=>{
                 props.setCorrectAnswer(e.target.value);
             };
+
+            let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
             return <div className={"exercisePlugin freeResponsePlugin"} > {/* <h1>Free Response</h1>*/}
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
-                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={i18n.t('FreeResponse.Question') } plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("FreeResponse.Statement") + '</p>'} pluginContainer={'Question'} />
-                        <textarea disabled={!state.correct} className="form-control textAreaQuiz" placeholder={i18n.t('FreeResponse.PlaceholderEditor')} value={props.exercises.correctAnswer} onChange={clickHandler}/>
+                        <PluginPlaceholder {...props} key="1"
+                            pluginContainerName={i18n.t('FreeResponse.Question') }
+                            pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("FreeResponse.Statement") + '</p>' } }]}
+                            pluginContainer={'Question'} />
+                        <textarea disabled={!state.correct} className="form-control textAreaQuiz"
+                            placeholder={i18n.t('FreeResponse.PlaceholderEditor')} value={props.exercises.correctAnswer} onChange={clickHandler}/>
                         {(state.correct && props.exercises.correctAnswer && props.exercises.correctAnswer.length && props.exercises.correctAnswer.length > 100) ? (
                             <div className={"tooManyCharacters"}>{i18n.t('FreeResponse.TooMany')}</div>) : null}
                     </div>
                 </div>
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"}>
-                        <PluginPlaceholder {...props} key="-2" plugin-data-display-name={i18n.t("FreeResponse.Feedback")} plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("FreeResponse.FeedbackMsg") + '</p>'} pluginContainer={"Feedback"} />
+                    <div className={"col-xs-12 feedback"} style={{ color: quizColor, borderColor: quizColor, backgroundColor: setRgbaAlpha(quizColor, 0.15) }}>
+                        <PluginPlaceholder {...props} key="-2"
+                            pluginContainerName={i18n.t("FreeResponse.Feedback")}
+                            pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("FreeResponse.FeedbackMsg") + '</p>' } }]}
+                            pluginContainer={"Feedback"} />
                     </div>
                 </div>
             </div>;

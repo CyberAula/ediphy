@@ -73,51 +73,51 @@ export default class Alert extends Component {
 
 Alert.propTypes = {
     /**
-     * Indica si se muestra o se oculta la alerta
+     * Whether the alert should be shown
      */
     show: PropTypes.bool,
     /**
-     * Clases CSS para aplicar al modal de la alerta
+     * CSS classes applied to the alert
      */
     className: PropTypes.string,
     /**
-     * Estilo de Bootstrap para los botones de la alerta
+     * Bootstrap style for the alert buttons
      */
     bsStyle: PropTypes.oneOf(["success", "warning", "danger", "info", "default", "primary", "link"]),
     /**
-     * Indica si el modal de la alerta debe tener barra de encabezado
+     * Whether the alert should have a header
      */
     hasHeader: PropTypes.bool,
     /**
-     * Indica si se debe incluir un fondo negro semitransparente detrás de la alerta (true). Si se especifica `static`, no se ocultará la alerta al hacer click.
+     * Whether the alert needs a backdrop overlay
      */
     backdrop: PropTypes.oneOf(['static', true, false]),
     /**
-     * Título para el encabezado. Sólo se mostrará si la propedad `hasHeader` es `true`. Puede ser una cadena de texto o un componente de React.
+     * Alert title
      */
     title: PropTypes.any,
     /**
-     * Indica si se debe incluir un botón de cerrar en el encabezado. Sólo se mostrará si la propedad `hasHeader` es `true`
+     * Whether the alert needs a close button
      */
     closeButton: PropTypes.bool,
     /**
-     * Texto del botón de aceptar
+     * Accept button text
      */
     acceptButtonText: PropTypes.string,
     /**
-     * Indica si se incluye un botón de cancelar
+     * Whether the alert has a cancel button
      */
     cancelButton: PropTypes.bool,
     /**
-     * Texto del botón de cancelar (si lo hay)
+     * Cancel button text
      */
     cancelButtonText: PropTypes.string,
     /**
-     * Cierra la alerta
+     * Closes the alertta
      */
     onClose: PropTypes.func.isRequired,
     /**
-     * Componentes que forman el interior de la alerta. Si son componentes controlados, debe gestionarse su estado desde el componente padre.
+     * Components inside the alert
      */
     children: PropTypes.any,
 };

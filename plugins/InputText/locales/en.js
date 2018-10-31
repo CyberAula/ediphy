@@ -8,5 +8,7 @@ module.exports = {
         "Placeholder": "Enter the expected answer",
         "Characters": "Ignore case and special characters",
         "General": "Advanced",
+        "text": "Text",
+        "number": "Number",
     },
 };

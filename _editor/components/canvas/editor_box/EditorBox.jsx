@@ -6,6 +6,7 @@ import interact from 'interactjs';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import { EDIT_PLUGIN_TEXT } from '../../../../common/actions';
 import { releaseClick, findBox } from '../../../../common/common_tools';
+import { isUnitlessNumber } from '../../../../common/cssNonUnitProps';
 import Ediphy from '../../../../core/editor/main';
 import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView, isBox } from '../../../../common/utils';
 import './_editorBox.scss';
@@ -45,7 +46,7 @@ export default class EditorBox extends Component {
         let vis = this.props.boxSelected === this.props.id;
         let style = {
             visibility: (toolbar.showTextEditor ? 'hidden' : 'visible'),
-            // overflow: 'hidden',
+            overflow: 'hidden',
 
         };
 
@@ -74,7 +75,15 @@ export default class EditorBox extends Component {
             }
         });
 
-        style = { ...style, ...toolbar.style };
+        let toolbarStyle = {};
+        for (let propCSS in toolbar.style) {
+            if (!isNaN(toolbar.style[propCSS]) && isUnitlessNumber.indexOf(propCSS) === -1) {
+                toolbarStyle[propCSS] = toolbar.style[propCSS] / 7 + 'em';
+            } else {
+                toolbarStyle[propCSS] = toolbar.style[propCSS];
+            }
+        }
+        style = { ...style, ...toolbarStyle };
         if (toolbar.structure.height === 'auto' && config.needsTextEdition) {
             style.height = 'auto';
         }
@@ -121,7 +130,7 @@ export default class EditorBox extends Component {
             </div>
         ) : (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {this.renderChildren(box.content)}
+                {this.renderChildren(html2json(Ediphy.Plugins.get(toolbar.pluginId).getRenderTemplate(toolbar.state, props)))}
             </div>
         );
         let border = (
@@ -420,7 +429,9 @@ export default class EditorBox extends Component {
                         let parentRect = parent.getBoundingClientRect();
                         let x = originalRect.left - parentRect.left;
                         let y = originalRect.top - parentRect.top;
-
+                        if ($('.canvasSliClass')) {
+                            clone.style.fontSize = $('.canvasSliClass').css('font-size');
+                        }
                         clone.setAttribute("id", "clone");
                         clone.setAttribute('data-x', x);
                         clone.setAttribute('data-y', y);
@@ -617,8 +628,11 @@ export default class EditorBox extends Component {
                     x += event.deltaRect.left;
                     y += event.deltaRect.top;
                     if(box.resizable) { // Only in slide
-                        target.style.webkitTransform = target.style.transform =
-                        'translate(' + x + 'px,' + y + 'px)';
+                        target.style.webkitTransform =
+                        target.style.MozTransform =
+                          target.style.msTransform =
+                            target.style.OTransform =
+                            'translate(' + x + 'px,' + y + 'px)';
 
                         target.setAttribute('data-x', x);
                         target.setAttribute('data-y', y);
@@ -675,7 +689,11 @@ export default class EditorBox extends Component {
                         y: box.resizable ? ((parseFloat(target.style.top) / 100 * target.parentElement.offsetHeight + parseFloat(target.getAttribute('data-y'))) * 100 / target.parentElement.offsetHeight + '%') : 0,
                     });
 
-                    target.style.webkitTransform = target.style.transform =
+                    target.style.webkitTransform =
+                      target.style.MozTransform =
+                        target.style.msTransform =
+                          target.style.OTransform =
+                            target.style.transform =
                         'translate(0px, 0px)';
 
                     target.setAttribute('data-x', 0);
@@ -741,7 +759,7 @@ EditorBox.propTypes = {
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -833,8 +851,8 @@ EditorBox.propTypes = {
     */
     setCorrectAnswer: PropTypes.func.isRequired,
     /**
-       * Current page
-       */
+      * Current page
+      */
     page: PropTypes.any,
     /**
     * Function that updates the toolbar of a view

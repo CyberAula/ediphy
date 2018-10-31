@@ -34,6 +34,7 @@ export default class RichMarksModal extends Component {
             viewNames: this.returnAllViews(this.props),
             showAlert: false,
         };
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
     /**
@@ -79,7 +80,7 @@ export default class RichMarksModal extends Component {
      */
     render() {
         let richMarkValue = null;
-        let marksType = this.props.pluginToolbar && this.props.pluginToolbar.pluginId && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId) && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig() && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig().marksType && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig().marksType[0] ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig().marksType[0] : {};
+        let marksType = this.props.pluginToolbar && this.props.pluginToolbar.pluginId && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId) && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig() && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig().marksType ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig().marksType : {};
         function getRichMarkInput(value) {
             richMarkValue = value;
         }
@@ -243,9 +244,9 @@ export default class RichMarksModal extends Component {
                                 <ControlLabel style={{ color: 'grey', fontWeight: 'lighter', marginTop: '-5px' }}>
                                     {(config &&
                                     config.marksType &&
-                                    config.marksType[0] &&
-                                    config.marksType[0].format) ?
-                                        config.marksType[0].format : "x,y"}
+                                    config.marksType &&
+                                    config.marksType.format) ?
+                                        config.marksType.format : "x,y"}
                                 </ControlLabel>
 
                             </Col>
@@ -401,7 +402,7 @@ export default class RichMarksModal extends Component {
     }
 
     /**
-     * Mapping method that joins cointained views and navItems in array but excluding the ones that can't be
+     * Mapping method that joins contained views and navItems in array but excluding the ones that can't be
      * @param props Component's props
      * @returns {Array} Array of views
      */
@@ -454,10 +455,10 @@ export default class RichMarksModal extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener('keyup', this.toggleModal.bind(this));
+        window.addEventListener('keyup', this.toggleModal);
     }
     componentWillUnmount() {
-        window.removeEventListener('keyup', this.toggleModal.bind(this));
+        window.removeEventListener('keyup', this.toggleModal);
     }
 
 }
@@ -480,7 +481,7 @@ RichMarksModal.propTypes = {
      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**

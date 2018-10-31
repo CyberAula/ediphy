@@ -239,7 +239,6 @@ export default class PDFHandler extends Component {
         let inASlide = (this.props.navItemSelected !== 0 && isSlide(this.props.navItems[this.props.navItemSelected].type)) || cvSli;
         let page = cv ? this.props.containedViewSelected : this.props.navItemSelected;
         let initialParams;
-        console.log(cv, cvSli, cvDoc, inASlide, page);
         // If slide
         if (inASlide) {
             let position = {
@@ -263,7 +262,6 @@ export default class PDFHandler extends Component {
             };
         }
         initialParams.id = ID_PREFIX_BOX + Date.now();
-        console.log(initialParams, this.props.navItemSelected);
         createBox(initialParams, "EnrichedPDF", inASlide, this.props.onBoxAdded, this.props.boxes);
 
     }
@@ -424,10 +422,6 @@ export default class PDFHandler extends Component {
 
 PDFHandler.propTypes = {
     /**
-     * Whether the import file modal should be shown or hidden
-     */
-    show: PropTypes.bool,
-    /**
      * Closes import file modal
      */
     close: PropTypes.func.isRequired,
@@ -456,7 +450,7 @@ PDFHandler.propTypes = {
      */
     navItemSelected: PropTypes.any,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -471,4 +465,8 @@ PDFHandler.propTypes = {
      * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * PDF File URL
+     */
+    url: PropTypes.string,
 };

@@ -1,4 +1,6 @@
-import "babel-polyfill";
+if (global && !global._babelPolyfill) {
+    require('babel-polyfill');
+}
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
@@ -8,7 +10,7 @@ import VisorContainedCanvas from '../components/canvas/VisorContainedCanvas';
 import VisorSideNav from '../components/navigation/VisorSideNav';
 import VisorPlayer from './../components/navigation/VisorPlayer';
 
-import { isContainedView, isView, isSection } from '../../common/utils';
+import { isContainedView, isView, isSection, isPage } from '../../common/utils';
 import ScormComponent from '../components/score/GradeComponent';
 import i18n from '../../locales/i18n';
 
@@ -120,14 +122,13 @@ export default class Visor extends Component {
                 let shiftPop = nextState.triggeredMarks;
                 shiftPop.shift();
                 let markpop = document.getElementById('mark-' + newMark.id);
-                if (markpop) { markpop.focus();}
+                if (markpop) { markpop.click();}
                 this.setState({
                     showpop: !this.state.showpop,
                     triggeredMarks: shiftPop,
                 });
             }
         }
-
     }
 
     componentDidMount() {
@@ -174,14 +175,12 @@ export default class Visor extends Component {
         if (window.State) {
             Ediphy.State = window.State;
         }
-        let { boxSelected, navItemsIds, globalConfig, containedViewsById, boxesById, marksById } = Ediphy.State;
-        let navItems = Ediphy.State.navItemsById;
-        let viewToolbars = Ediphy.State.viewToolbarsById;
-        let pluginToolbars = Ediphy.State.pluginToolbarsById;
-
+        let { boxSelected, navItemsIds, globalConfig, containedViewsById, boxesById, marksById, navItemsById, viewToolbarsById, pluginToolbarsById } = Ediphy.State;
+        let ediphy_document_id = Ediphy.State.id;
+        let ediphy_platform = Ediphy.State.platform;
         let exercises = {};
         Object.keys(Ediphy.State.exercises).map((exercise, index)=>{
-            if (containedViewsById[exercise] || (navItems[exercise] && !navItems[exercise].hidden)) {
+            if (containedViewsById[exercise] || (navItemsById[exercise] && !navItemsById[exercise].hidden)) {
                 exercises[exercise] = Ediphy.State.exercises[exercise];
             }
         });
@@ -193,10 +192,9 @@ export default class Visor extends Component {
         let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";
         let isCV = isContainedView(this.state.currentView);
         let isSlide = isCV && containedViewsById[this.getLastCurrentViewElement()] === "slide" ||
-        !isCV && navItems[this.getLastCurrentViewElement()] === "slide" ?
+        !isCV && navItemsById[this.getLastCurrentViewElement()] === "slide" ?
             "pcw_slide" : "pcw_doc";
         let currentView = this.getLastCurrentViewElement();
-        let isExport = true || Ediphy.State.export;
         let canvasProps = {
             boxes: boxesById,
             changeCurrentView: (element) => {this.changeCurrentView(element);},
@@ -204,20 +202,31 @@ export default class Visor extends Component {
             containedViews: containedViewsById,
             currentView: currentView,
             fromScorm: this.state.fromScorm,
-            navItems: navItems,
+            navItems: navItemsById,
             removeLastView: ()=>{this.removeLastView(); },
             richElementsState: this.state.richElementState,
-            title: title,
+            title,
             marks: marksById,
-            viewToolbars: viewToolbars,
-            pluginToolbars: pluginToolbars,
+            viewToolbars: viewToolbarsById,
+            pluginToolbars: pluginToolbarsById,
             onMarkClicked: this.onMarkClicked,
             triggeredMarks: this.state.triggeredMarks,
             viewsArray: this.state.currentView,
             exportModalOpen: false,
+            ediphy_document_id,
+            ediphy_platform,
+            exercises,
         };
-        let visorContent = !isContainedView(currentView) ? (
-            <VisorCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") === -1} />) : (<VisorContainedCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") !== -1} />);
+
+        let navItemComponents = Object.keys(navItemsById).filter(nav=>isView(nav)).map((nav, i)=>{
+            return <VisorCanvas key={i} {...canvasProps} currentView={nav} show={nav === currentView} showCanvas={nav.indexOf("cv-") === -1} />;
+        });
+        let cvComponents = Object.keys(containedViewsById).map((nav, i)=>{
+            return <VisorContainedCanvas key={i} {...canvasProps} currentView={nav} show={nav === currentView} showCanvas={nav.indexOf("cv-") !== -1} />;
+        });
+
+        let content = [...navItemComponents, cvComponents];
+        let empty = <div className="emptyPresentation">{i18n.t("EmptyPresentation")}</div>;
         return (
             <div id="app" ref={'app'}
                 className={wrapperClasses} >
@@ -227,9 +236,9 @@ export default class Visor extends Component {
                     show={visorNav.sidebar}
                     showScore={!globalConfig.hideGlobalScore}
                     currentViews={this.state.currentView}
-                    navItemsById={navItems}
-                    navItemsIds={navItemsIds.filter(nav=> {return !navItems[nav].hidden;})}
-                    viewToolbars={viewToolbars}
+                    navItemsById={navItemsById}
+                    navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}
+                    viewToolbars={viewToolbarsById}
                     scoreInfo={this.state.scoreInfo}
                     exercises={exercises}
                     toggled={this.state.toggledSidebar}/>
@@ -240,11 +249,11 @@ export default class Visor extends Component {
                         style={{ height: '100%' }}>
                         <Row style={{ height: '100%' }}>
                             <Col lg={12} style={{ height: '100%' }}>
-                                { !isContainedView(currentView) ? (<VisorPlayer show={visorNav.player} hideExportButton={isExport} openDownloadModal={()=>{this.setState({ exportModalOpen: true });}}
+                                { !isContainedView(currentView) ? (<VisorPlayer show={visorNav.player}
                                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
                                     currentViews={this.state.currentView}
-                                    navItemsById={navItems}
-                                    navItemsIds={navItemsIds.filter(nav=> {return !navItems[nav].hidden;})}/>) : null}
+                                    navItemsById={navItemsById}
+                                    navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}/>) : null}
                                 {visorNav.sidebar ? (<Button id="visorNavButton"
                                     className={toggleColor}
                                     bsStyle="primary"
@@ -253,24 +262,19 @@ export default class Visor extends Component {
                                 </Button>) : null}
                                 <ScormComponent
                                     updateScore={(scoreInfo)=>{this.setState({ scoreInfo });}}
-                                    navItemsIds={navItemsIds.filter(nav=> {return !navItems[nav].hidden;})}
+                                    navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}
                                     containedViews={containedViewsById}
                                     currentView={currentView}
-                                    navItemsById={navItems}
+                                    navItemsById={navItemsById}
                                     globalConfig={globalConfig}
                                     exercises={exercises}
-                                    pluginToolbars={pluginToolbars}
+                                    pluginToolbars={pluginToolbarsById}
                                     fromScorm={this.state.fromScorm}
                                     changeCurrentView={(el)=>{this.changeCurrentView(el);}}>
-                                    {visorContent}
+                                    {currentView ? content : empty}
                                 </ScormComponent>
                             </Col>
                         </Row>
-                        {!isExport ? <ExportModal show={this.state.exportModalOpen} hidePDF
-                            export={this.export}
-                            scorm={this.exportToScorm}
-                            close={()=>{this.setState({ exportModalOpen: false });}} /> : null}
-
                     </Grid>
                 </div>
             </div>);
@@ -283,11 +287,11 @@ export default class Visor extends Component {
    * @param callback
    * @param selfContained
    */
-    export(format, callback, selfContained = false) {
+    export(format, callback, options = false) {
         if(format === "PDF") {
-            printToPDF(Ediphy.State, callback);
+            printToPDF(Ediphy.State, callback, options);
         } else {
-            Ediphy.Visor.exportsHTML(Ediphy.State, callback, selfContained);
+            Ediphy.Visor.exportsHTML(Ediphy.State, callback, options);
         }
     }
 
@@ -357,7 +361,6 @@ export default class Visor extends Component {
         let marks = this.getAllMarks();
         let triggered_event = { id, value, stateElement };
         let triggered_marks = this.getTriggeredMarks(marks, triggered_event);
-
         // clearMark | If actual Triggered Mark have passed e.detail.value and actual value is different or actual element doesn't need to clear the value
         triggered_marks = this.clearTriggeredValues(triggered_event, triggered_marks);
 
@@ -694,9 +697,9 @@ export default class Visor extends Component {
      *
      */
     isNotInStateElement(triggered_event, richElementsState) {
-        if(richElementsState[triggered_event.id] === triggered_event.value) {
+        /* if(richElementsState[triggered_event.id] === triggered_event.value) {
             return false;
-        }
+        }*/
         return true;
     }
 

@@ -30,13 +30,13 @@ export function EnrichedPDF(base) {
                 initialWidthSlide: '30%',
                 initialHeightSlide: '70%',
                 icon: 'description',
-                marksType: [{
+                marksType: {
                     name: i18n.t('EnrichedPDF.Coords'),
                     key: 'value',
                     format: '[x,y,Pag]',
                     default: '40.452,-3.727,1',
                     defaultColor: '#000002',
-                }],
+                },
                 createFromLibrary: ["application/pdf", 'url'],
                 searchIcon: true,
             };
@@ -47,7 +47,7 @@ export function EnrichedPDF(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: i18n.t('EnrichedPDF.source'),
+                            __name: 'PDF',
                             icon: 'link',
                             buttons: {
                                 url: {

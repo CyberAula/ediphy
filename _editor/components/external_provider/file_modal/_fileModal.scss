@@ -55,6 +55,7 @@
         padding: 20px 0;
         min-height: 447px;
         //min-height: 53vh;
+
         h5 {
           margin: 0;
           padding: 0 20px;
@@ -68,6 +69,24 @@
             width: auto;
             height: 24px;
           }
+          .myResourcesFormGroup {
+            display: flex;
+            flex-flow: nowrap row;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            margin-bottom: -15px;
+            label, input {
+              margin: 0.6em 0px;
+            }
+            label {
+              margin-right: 5px;
+              color: #777;
+              font-weight: normal;
+              font-size: 0.85em;
+
+            }
+           }
         }
         hr{ margin: 20px 0 0 0; }
       }
@@ -84,9 +103,23 @@
           text-align: right;
           margin: 0;
         }
+        .polyInfo {
+          flex: 1;
+        }
         .videoItem, .audioItem{
           display: flex;
+          background-color: transparent;
+          flex-flow: nowrap row;
+          justify-content: space-between;
+          align-items: flex-start;
           padding: 5px;
+          border: 2px solid rgb(23, 207, 200);
+          .videoGroupFlex {
+            display: flex;
+            flex-flow: nowrap row;
+            justify-content: flex-start;
+            align-items: flex-start;
+          }
           .youtubeVideo{
             margin-right: 10px;
             width: 120px;
@@ -236,7 +269,7 @@
         &.hidden {
           display: none;
         }
-        .deleteButton, .downloadButton {
+        .deleteButton, .downloadButton, .previewFileButton {
           background-color: $blueprimary;
           color: white;
           position: absolute;
@@ -246,6 +279,7 @@
         }
         .deleteButton{ top: 11px; right: 11px; }
         .downloadButton{ top: 11px; right: 46px; }
+        .previewFileButton{ top: 11px; right: 81px; }
         height: 160px;
         transition: all 0.2s ease;
         &:hover {
@@ -372,6 +406,7 @@
       }
     }
   }
+
   .selectD:disabled, .selectD.is-disabled{
       -webkit-appearance: none;
       -moz-appearance: none;

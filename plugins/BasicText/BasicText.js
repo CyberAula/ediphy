@@ -8,8 +8,10 @@ export function BasicText(base) {
                 needsConfigModal: false,
                 needsTextEdition: true,
                 initialWidth: 'auto',
+                initialWidthSlide: '30%',
                 /* initialHeight: '100px',*/
                 icon: 'short_text',
+                flavor: 'plain',
             };
         },
         getToolbar: function(state) {

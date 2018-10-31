@@ -1,16 +1,26 @@
 @import "../../sass/general/_variables.scss";
 
 .freeResponsePlugin  {
+  .row {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  .col-xs-12 {
+    padding: 0;
+  }
   .textAreaQuiz {
-    width:98%;
-    height: 200px !important;
-    margin: 10px 1%;
+    height: 14em !important;
     resize: none !important;
     background-color: white;
     border-radius: 0px;
     box-shadow: none;
     overflow:visible;
+    font-size: 1em;
+    padding: 1em;
     pointer-events: all !important;
+    margin: 0 1.5%;
+    width: 97%;
+    border: 0.1em solid #ccc;
   }
   .textAreaQuiz[disabled] {
     background-color: white;
@@ -18,6 +28,7 @@
   .textAreaQuizVisor {
     resize: vertical !important;
     pointer-events: all !important;
+    padding: 1em;
   }
   .exerciseScore {
     display: none;
@@ -26,22 +37,22 @@
   .tooManyCharacters {
     color: red;
     text-align: left;
-    padding-left: 10px;
+    padding-left: 0.8em;
   }
   &.attempted  .exerciseScore{
       display: block;
       color: $blueprimary;
-      font-size: 10px;
+      font-size: 0.8em;
   }
   .feedbackRow {
-    padding:10px;
+    padding:0.8em;
     margin:0;
     .feedback {
       background-color: $blueprimarytransparent;
       margin:0;
-      border: 1px solid $blueprimary;
+      border: 0.07em solid $blueprimary;
       color: $blueprimary;
-      border-radius: 3px;
+      border-radius: 0.2em;
       padding:0;
     }
   }

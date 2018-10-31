@@ -13,6 +13,7 @@ import { setOptions, Document, Page } from 'react-pdf';
 setOptions({
     workerSrc: pdflib.PDFJS.workerSrc,
 });
+/* eslint-disable react/prop-types */
 
 export default class EnrichedPDFPluginEditor extends React.Component {
     constructor(props) {
@@ -113,3 +114,4 @@ export default class EnrichedPDFPluginEditor extends React.Component {
 
     }
 }
+/* eslint-enable react/prop-types */

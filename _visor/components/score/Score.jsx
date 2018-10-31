@@ -6,7 +6,7 @@ export default class Score extends React.Component {
     render() {
         let score = this.props.exercises.score * 100;
         let pass = (this.props.exercises.minForPass || 50) <= score;
-
+        score = Math.round((score) * 1000) / 1000;
         if (this.props.exercises.attempted) {
             return <div className={"pageScore score" + (pass ? "Pass" : "Fail")}>
                 {i18n.t("Score_feedback")} <br/>

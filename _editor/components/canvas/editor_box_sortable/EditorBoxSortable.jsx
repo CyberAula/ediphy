@@ -485,7 +485,7 @@ EditorBoxSortable.propTypes = {
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**

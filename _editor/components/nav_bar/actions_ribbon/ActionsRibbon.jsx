@@ -136,7 +136,7 @@ ActionsRibbon.propTypes = {
      */
     navItems: PropTypes.object,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object,
     /**
@@ -152,7 +152,7 @@ ActionsRibbon.propTypes = {
      */
     grid: PropTypes.bool,
     /**
-     * Caja seleccionada
+     * Selected box
      */
     boxSelected: PropTypes.any,
     /**
@@ -187,4 +187,8 @@ ActionsRibbon.propTypes = {
      * Object containing all the exercises
      */
     exercises: PropTypes.object.isRequired,
+    /**
+     *  Function for uploading a file to the server
+     */
+    uploadFunction: PropTypes.func.isRequired,
 };
