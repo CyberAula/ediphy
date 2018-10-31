@@ -92,7 +92,7 @@ export default function handlers(self) {
                 });
                 buttons.push({
                     title: i18n.t('FileModal.FileHandlers.import'),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id) || !self.state.options.allowClone,
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id) || self.state.options.allowClone === false,
                     action: ()=>{
                         importEdiphy(self.state.element, self.props, (res) => {
                             if (res) {
@@ -103,6 +103,7 @@ export default function handlers(self) {
 
                         });
                         self.close();
+                        return;
                     },
                 });
             } if (type === 'vish') {
@@ -113,12 +114,11 @@ export default function handlers(self) {
                         createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
                         self.close();
                         return;
-
                     },
                 });
                 buttons.push({
                     title: i18n.t('FileModal.FileHandlers.import'),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id) || !self.state.options.allowClone,
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id) || self.state.options.allowClone === false,
                     action: () => {
                         importExcursion(self.state.element, self.props, (res) => {
                             if (res) {
@@ -127,7 +127,9 @@ export default function handlers(self) {
                             alert('Error');
                             return;
                         });
-                        self.props.close();
+                        self.close();
+                        return;
+
                     },
                 });
             } else if (type === 'xml') {

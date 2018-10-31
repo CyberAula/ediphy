@@ -58,7 +58,7 @@ $material-font-path:  '../node_modules/material-design-icons-font/iconfont/';
             @include animacion(width, 0.4s);
         }
     }
-    #canvas, #maincontent, #canvasRow {
+    #canvas, #maincontent, #canvasRow, .canvasClass {
         z-index:0 ;
     }
 }
@@ -263,23 +263,110 @@ input[type="radio"]{
     font-size: 1.7em;
 }
 
-#uploadedMsg {
-    width: 50%;
+.ExternalResults>div{
     display: flex;
-    align-items: center;
-    align-self: right;
-    color: $detailgreen;
-    border: 1px solid $detailgreen;
-    background-color: $detailgreentransparent;
+    flex: 1;
 }
 
-.ExternalResults{
+.ExternalResults {
+
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
+    wrap: nowrap;
 
-    iframe{
-        width: 50%;
-        height: 100%;
+    #fileNameTitle {
+        height: 68px;
     }
+
+    .dropbox-modal {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        .left-side {
+            width: 50%;
+            flex: 1;
+            display: flex;
+        }
+
+        .right-side {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+
+            .uploadModalMsg {
+                padding: 12px;
+                width: 90%;
+            }
+
+            #uploadedMsg {
+                width: 90%;
+                display: flex;
+                align-items: center;
+                align-self: right;
+                color: $detailgreen;
+                border: 1px solid $detailgreen;
+                background-color: $detailgreentransparent;
+            }
+        }
+    }
+
+    iframe {
+        border: 1px solid grey;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+        width: 100%;
+        flex: 1;
+        height: auto;
+    }
+
+    .dropbox-container{
+        display: flex;
+        flex: 1;
+    }
+
+    .dropbox-click-upload{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+
+        .dropbox-button{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+    }
+
+
 }
+
+    .setting-title {
+        color: $blueprimary !important;
+        font-weight: bold;
+    }
+    .print-settings-explanation {
+        margin-left: 15px;
+    }
+    .material-icons.correct {
+        font-size: 1.7em;
+    }
+
+    .panel-group .panel {
+        border-radius: 0px;
+    }
+
+    .panel-heading {
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+
+    }
+    .material-icons.correct {
+        font-size: 1.7em;
+    }
+

@@ -16,9 +16,10 @@ export default class Image extends React.Component {
         let translateY = (state.translate ? state.translate.y : 0) || 0;
         let transform = `translate(${translateX}%,${translateY}%) scale(${scale})`;
         return(
-            <div style={{ overflow: "hidden", height: "100%" }} className="draggableImageVisor" ref="draggableImageVisor">
+            <div style={{ overflow: "hidden", height: "100%", width: "100%" }} className="draggableImageVisor" ref="draggableImageVisor">
                 <a href={hyperlink} target="_blank" style={{ pointerEvents: hyperlink ? "initial" : "none" }}>
                     <img ref="img"
+                        className="basicImageClass"
                         style={{ width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto", transform, WebkitTransform: transform, MozTransform: transform }}
                         src={state.url}
                         onError={(e)=>{

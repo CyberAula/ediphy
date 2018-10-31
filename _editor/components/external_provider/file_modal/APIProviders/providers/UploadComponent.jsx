@@ -61,7 +61,7 @@ export default class UploadComponent extends React.Component {
                         <div id="fileNameTitle">
                             <span>{this.state.file ? this.state.file.name : ""}</span><br/><br/>
                             <Button bsStyle="primary" style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={this.uploadHandler}><i className="material-icons">file_upload</i> {i18n.t("FileModal.APIProviders.upload")}</Button>
-                            <Button style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={(e)=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false, allowed: true });}}><i className="material-icons">clear</i> {i18n.t("FileModal.APIProviders.clear")}</Button>
+                            <Button style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={(e)=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false, allowed: true, forbidden: false });}}><i className="material-icons">clear</i> {i18n.t("FileModal.APIProviders.clear")}</Button>
                         </div>
                         {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={spinner} alt=""/></div> : null}
                         {/* <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
@@ -97,7 +97,7 @@ export default class UploadComponent extends React.Component {
             if (nextProps.isBusy.msg === FILE_UPLOADING && this.props.isBusy.msg !== FILE_UPLOADING) {
                 // this.setState({error: false, uploading: true, uploaded: false})
             } else if (this.props.isBusy.msg === FILE_UPLOADING && nextProps.isBusy.msg === FILE_UPLOAD_ERROR) {
-                this.setState({ error: true, uploaded: false, uploading: false, allowed: true });
+                this.setState({ error: true, uploaded: false, uploading: false, allowed: true, forbidden: false });
             } else if (this.props.isBusy.msg === FILE_UPLOADING && isFile(nextProps.isBusy.msg)) {
                 let newFile = this.props.filesUploaded[nextProps.isBusy.msg];
                 let extension = newFile.mimetype;

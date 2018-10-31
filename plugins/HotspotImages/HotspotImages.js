@@ -134,7 +134,7 @@ export function HotspotImages(base) {
                 // url:'http://www.amicus.nieruchomosci.pl/grafika/no-image.png'
                 // url: 'https://bytesizemoments.com/wp-content/uploads/2014/04/placeholder.png'
                 url: img_placeholder, // Ediphy.Config.image_placeholder,
-                allowDeformed: false,
+                allowDeformed: true,
             };
         },
         getDefaultMarkValue(state) {

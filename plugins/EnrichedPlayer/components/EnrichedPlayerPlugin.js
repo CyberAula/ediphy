@@ -37,7 +37,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     let toBeTriggered = triggerArray;
                     triggerMark(plugin.props.props.id, e.value, true);
                     toBeTriggered.splice(i, 1);
-                    plugin.setState({ toBeTriggered });
+                    plugin.setState({ toBeTriggered, playing: false });
                 }
             });
 

@@ -361,11 +361,15 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
             panel.parentNode.classList.remove("extendedPanel");
         },
         header: (
-            <span key={'span' + key}>
-                <i className="toolbarIcons material-icons">
-                    {accordion.icon ? accordion.icon : <span className="toolbarIcons"/>}
-                </i>{accordion.__name}
-            </span>
+            <Panel.Heading key={'span' + key} className={"panel-heading"}>
+                <Panel.Title toggle className={"Hola"}>
+                    <a className={"titleA"} style={{ color: 'white', paddingTop: '0', paddingBottom: '0', paddingLeft: '0', fontSize: '14.4px' }}>
+                        <i className="toolbarIcons material-icons">
+                            {accordion.icon ? accordion.icon : <span className="toolbarIcons"/>}
+                        </i>{accordion.__name}
+                    </a>
+                </Panel.Title>
+            </Panel.Heading>
         ),
     };
     let children = [];
@@ -412,7 +416,9 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
         );
     }
 
-    return React.createElement(Panel, props, children);
+    return <Panel className={"panelPluginToolbar"}{...props}>{props.header}<Panel.Body collapsible>{children}</Panel.Body></Panel>;
+
+    // React.createElement(Panel, props, children);
 }
 
 /**
