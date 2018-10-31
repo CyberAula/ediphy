@@ -7,6 +7,7 @@ import DropboxComponent from './providers/DropboxComponent';
 import YoutubeComponent from './providers/YoutubeComponent';
 import EuropeanaComponent from './providers/EuropeanaComponent';
 import FlickrComponent from './providers/FlickrComponent';
+import PolyComponent from './providers/PolyComponent';
 // import GoogleDriveComponent from './providers/GoogleDriveComponent';
 // import AudioBlocksComponent from './AudioBlocksComponent';
 // import PhetComponent from './PhetComponent';
@@ -19,6 +20,7 @@ import EuropeanaIcon from './logos/europeanaalt.svg';
 import YoutubeIcon from './logos/youtube.svg';
 import SoundCloudIcon from './logos/soundcloud_logo_0.png';
 import DropboxIcon from './logos/Dropboxlogo.png';
+import PolyIcon from './logos/PolyLogo.png';
 // import OpenClipArtIcon from './logos/openclipart.svg';
 // import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
 // import GiphyIcon from './logos/giphy.png';
@@ -36,7 +38,7 @@ export default function menus(self) {
     return [
         {
             name: <span><i className="material-icons">file_upload</i>{i18n.t('FileModal.APIProviders.UploadFiles')}</span>,
-            show: allowedMIME,
+            show: allowedMIME && allowedMIME !== 'obj',
             component: UploadComponent,
             props: {
                 ...commonProps,
@@ -173,6 +175,13 @@ export default function menus(self) {
                 filesUploaded: self.props.filesUploaded,
                 uploadFunction: self.props.uploadFunction,
             },
+        },
+        {
+            name: 'Google Poly',
+            icon: PolyIcon,
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('webapp')),
+            component: PolyComponent,
+            props: { ...commonProps },
         },
     ];
 }

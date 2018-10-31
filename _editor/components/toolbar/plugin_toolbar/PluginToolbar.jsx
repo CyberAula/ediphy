@@ -91,7 +91,7 @@ export default class PluginToolbar extends Component {
             children.sort(collator.compare);
             return (
                 <div key={'key_' + index} className="toolbarTab">
-                    <PanelGroup collapsible>
+                    <PanelGroup id="panel-group">
                         {Object.keys(tab.accordions).sort().map((accordionKey, ind) => {
                             return renderAccordion(
                                 tab.accordions[accordionKey],
@@ -106,32 +106,26 @@ export default class PluginToolbar extends Component {
                             let container = this.props.box.sortableContainers[id];
                             if (tabKey === "main") {
                                 return (
-                                    <Panel key={'panel_' + id}
-                                        className="panelPluginToolbar"
-                                        collapsible
-                                        onEnter={(panel) => {
-                                            panel.parentNode.classList.add("extendedPanel");
-                                        }}
-                                        onExited={(panel) => {
-                                            panel.parentNode.classList.remove("extendedPanel");
-                                        }}
-                                        header={
-                                            <span>
+                                    <Panel key={'panel_' + id} className={"panelPluginToolbar"}>
+                                        <Panel.Heading key={'panel_' + id} className={"panel-heading"}>
+                                            <Panel.Title toggle className={"titleA"} style={{ color: 'white', paddingTop: '0', paddingBottom: '0', paddingLeft: '0', fontSize: '14.4px' }}>
                                                 <i className="toolbarIcons material-icons">web_asset</i>
                                                 {(toolbar.state.__pluginContainerIds && toolbar.state.__pluginContainerIds[container.key].name) ?
                                                     toolbar.state.__pluginContainerIds[container.key].name :
                                                     (i18n.t('Block') + ' ' + (ind + 1))
                                                 }
-                                            </span>
-                                        }>
-                                        <GridConfigurator id={id}
-                                            parentId={this.props.box.id}
-                                            container={container}
-                                            onColsChanged={this.props.onColsChanged}
-                                            onRowsChanged={this.props.onRowsChanged}
-                                            sortableProps={this.props.box.sortableContainers[id]}
-                                            onSortablePropsChanged={this.props.onSortablePropsChanged}
-                                            onSortableContainerResized={this.props.onSortableContainerResized}/>
+                                            </Panel.Title>
+                                        </Panel.Heading>
+                                        <Panel.Body collapsible>
+                                            <GridConfigurator id={id}
+                                                parentId={this.props.box.id}
+                                                container={container}
+                                                onColsChanged={this.props.onColsChanged}
+                                                onRowsChanged={this.props.onRowsChanged}
+                                                sortableProps={this.props.box.sortableContainers[id]}
+                                                onSortablePropsChanged={this.props.onSortablePropsChanged}
+                                                onSortableContainerResized={this.props.onSortableContainerResized}/>
+                                        </Panel.Body>
                                     </Panel>);
                             }
                             return null;

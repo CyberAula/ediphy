@@ -155,7 +155,7 @@ export default class ViewToolbar extends Component {
             let tab = controls[tabKey];
             return (
                 <div key={'key_' + index} className="toolbarTab">
-                    <PanelGroup>
+                    <PanelGroup id="panel-group">
                         {Object.keys(tab.accordions).sort().map((accordionKey, ind) => {
                             return renderAccordion(
                                 tab.accordions[accordionKey],
