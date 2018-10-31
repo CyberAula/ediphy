@@ -179,7 +179,7 @@ export default class DropboxComponent extends React.Component {
         case "scormpackage":
             return <iframe src={this.props.elementSelected} frameBorder="0" width={'100%'} height={"400"} />;
         case "image":
-            return null;
+            return <img src={this.props.elementSelected} width={'100%'} />;
         case "audio":
             return <audio src={this.props.elementSelected} controls width={'100%'} height={"400"} style={{ width: '100%' }} />;
         case "video":
