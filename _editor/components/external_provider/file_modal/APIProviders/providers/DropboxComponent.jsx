@@ -96,17 +96,6 @@ export default class DropboxComponent extends React.Component {
 
             </Form>
             <div className={"ExternalResults"}>
-                <div id="fileNameTitle">
-                    <span>{this.state.file ? this.state.file.name : ""}</span><br/><br/>
-                    <Button bsStyle="primary" style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={this.uploadHandler}><i className="material-icons">file_upload</i> {i18n.t("FileModal.APIProviders.upload")}</Button>
-                    <Button style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={(e)=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false, allowed: true });}}><i className="material-icons">clear</i> {i18n.t("FileModal.APIProviders.clear")}</Button>
-                </div>
-                {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={spinner} alt=""/></div> : null}
-                {this.state.error ? <div id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i><div>{i18n.t("FileModal.APIProviders.error")}</div></div> : null }
-                {(this.state.uploaded) ? <div id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i><div> {i18n.t("FileModal.APIProviders.uploaded")}</div></div> : null }
-                {!this.state.allowed ? <div id="warningMsg" className="uploadModalMsg"><i className="material-icons">warning</i>{i18n.t("FileModal.APIProviders.warning_allowed")}</div> : null}
-                {this.state.forbidden ? <div id="warningMsg" className="uploadModalMsg"><i className="material-icons">warning</i>{i18n.t("FileModal.APIProviders.warning_forbidden")}</div> : null}
-
                 <DropboxChooser
                     appKey={'x9y6stdvs6vgb29'}
                     success={files => this.onSuccess(files, type)}
@@ -114,26 +103,41 @@ export default class DropboxComponent extends React.Component {
                     // multiselect={true}
                     folderselect={false}
                     linkType="direct"
-                    extensions={extensions} >
+                    extensions={extensions}
+                >
                     {
                         this.props.elementSelected ? (
-                            <div>
+                            <div className={"dropbox-modal"}>
+                                <div className={"left-side"}>
+                                    {this.generatePreview()}
+                                </div>
+                                <div className={"right-side"}>
+                                    {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={spinner} alt=""/></div> : null}
+                                    {this.state.error ? <div id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i><div>{i18n.t("FileModal.APIProviders.error")}</div></div> : null }
+                                    {(this.state.uploaded) ? <div id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i><div> {i18n.t("FileModal.APIProviders.uploaded")}</div></div> : null }
+                                    {!this.state.allowed ? <div id="warningMsg" className="uploadModalMsg"><i className="material-icons">warning</i>{i18n.t("FileModal.APIProviders.warning_allowed")}</div> : null}
+                                    {this.state.forbidden ? <div id="warningMsg" className="uploadModalMsg"><i className="material-icons">warning</i>{i18n.t("FileModal.APIProviders.warning_forbidden")}</div> : null}
+                                    <div className="dropbox-button">
+                                        <Button><svg className="maestro-nav__logo" aria-label="Inicio" xmlns="http://www.w3.org/2000/svg" role="img" width="32px" height="32px" viewBox="0 0 32 32" style={{ fill: "#007EE5" }} >
+                                            <path d="M8 2.4l8 5.1-8 5.1-8-5.1 8-5.1zm16 0l8 5.1-8 5.1-8-5.1 8-5.1zM0 17.7l8-5.1 8 5.1-8 5.1-8-5.1zm24-5.1l8 5.1-8 5.1-8-5.1 8-5.1zM8 24.5l8-5.1 8 5.1-8 5.1-8-5.1z" />
+                                        </svg><span>{i18n.t("dropbox_msg_alt")}</span>
+                                        </Button>
 
-                                {this.generatePreview()}
+                                    </div></div></div>
+                        ) : (<div className={"dropbox-container"}>
+                            <div className={"dropbox-click-upload"}>
+                                {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={spinner} alt=""/></div> : null}
+                                {this.state.error ? <div id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i><div>{i18n.t("FileModal.APIProviders.error")}</div></div> : null }
+                                {(this.state.uploaded) ? <div id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i><div> {i18n.t("FileModal.APIProviders.uploaded")}</div></div> : null }
+                                {!this.state.allowed ? <div id="warningMsg" className="uploadModalMsg"><i className="material-icons">warning</i>{i18n.t("FileModal.APIProviders.warning_allowed")}</div> : null}
+                                {this.state.forbidden ? <div id="warningMsg" className="uploadModalMsg"><i className="material-icons">warning</i>{i18n.t("FileModal.APIProviders.warning_forbidden")}</div> : null}
+
                                 <div className="dropbox-button">
-                                    <Button><svg className="maestro-nav__logo" aria-label="Inicio" xmlns="http://www.w3.org/2000/svg" role="img" width="32px" height="32px" viewBox="0 0 32 32" style={{ fill: "#007EE5" }} >
+                                    <p> {this.state.uploading ? "Your file is being uploaded" : i18n.t("dropbox_msg")}</p>
+                                    <svg className="maestro-nav__logo" aria-label="Inicio" xmlns="http://www.w3.org/2000/svg" role="img" width="122px" height="122px" viewBox="0 0 32 32" style={{ fill: "#007EE5" }} >
                                         <path d="M8 2.4l8 5.1-8 5.1-8-5.1 8-5.1zm16 0l8 5.1-8 5.1-8-5.1 8-5.1zM0 17.7l8-5.1 8 5.1-8 5.1-8-5.1zm24-5.1l8 5.1-8 5.1-8-5.1 8-5.1zM8 24.5l8-5.1 8 5.1-8 5.1-8-5.1z" />
-                                    </svg><span>{i18n.t("dropbox_msg_alt")}</span>
-                                    </Button>
-
-                                </div></div>
-                        ) : (
-                            <div className="dropbox-button">
-                                <p>{i18n.t("dropbox_msg")}</p>
-                                <svg className="maestro-nav__logo" aria-label="Inicio" xmlns="http://www.w3.org/2000/svg" role="img" width="122px" height="122px" viewBox="0 0 32 32" style={{ fill: "#007EE5" }} >
-                                    <path d="M8 2.4l8 5.1-8 5.1-8-5.1 8-5.1zm16 0l8 5.1-8 5.1-8-5.1 8-5.1zM0 17.7l8-5.1 8 5.1-8 5.1-8-5.1zm24-5.1l8 5.1-8 5.1-8-5.1 8-5.1zM8 24.5l8-5.1 8 5.1-8 5.1-8-5.1z" />
-                                </svg>
-                            </div>)
+                                    </svg>
+                                </div></div></div>)
                     }
                 </DropboxChooser>
 

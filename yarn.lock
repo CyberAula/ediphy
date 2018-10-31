@@ -8554,6 +8554,7 @@ react-dom@^16.1.1:
 react-dropbox-chooser@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/react-dropbox-chooser/-/react-dropbox-chooser-0.0.5.tgz#0df0c5792bb1641b559d323c13c33711ece784a2"
+  integrity sha512-AhxXtT3fht67NNO2YSKPoMYFh/WkbJDd9/0s+qjz3D4LEq7qTgGw/dG0X32wBJBIIJomJ9eUHAx7QNiQPw9ndg==
   dependencies:
     load-script "^1.0.0"
 
@@ -8587,6 +8588,7 @@ react-gmaps@^1.6.0:
 react-google-picker@^0.0.9:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/react-google-picker/-/react-google-picker-0.0.9.tgz#9ac062f4960e1de8015b461677f482ab4e762853"
+  integrity sha512-QI0TH99gJ2UawB87ec1z461TkpN+qP2dzfuxYU3fMXezjkCue8BXKx5OY8UMYeD1NTG13bfb+5PdtLYrr7thkQ==
   dependencies:
     load-script "^1.0.0"
 
