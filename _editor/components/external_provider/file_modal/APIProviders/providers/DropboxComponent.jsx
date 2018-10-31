@@ -143,17 +143,15 @@ export default class DropboxComponent extends React.Component {
         </div>;
     }
     onSuccess(files) {
+        this.setState({ uploading: true });
         try {
             if (files && files.length > 0) {
                 let { name, link } = files[0];
                 let ext = name.match(/\.(\w+)$/);
                 ext = this.convertType((ext && ext.length > 1) ? ext[1] : 'file');
-                console.log(ext);
                 fetch(link).then(response=>response.blob())
                     .then(blob=>{
                         let file = new File([blob], name, { type: ext });
-                        this.setState({ uploading: true });
-                        console.log(file);
                         this.props.uploadFunction(file, "");
                     });
                 // this.props.onElementSelected(name, link, this.convertType(ext));
@@ -200,7 +198,6 @@ export default class DropboxComponent extends React.Component {
             } else if (this.props.isBusy.msg === FILE_UPLOADING && isFile(nextProps.isBusy.msg)) {
                 let newFile = this.props.filesUploaded[nextProps.isBusy.msg];
                 let extension = newFile.mimetype;
-                console.log(extension);
                 for (let e in extensions) {
                     let ext = extensions[e];
                     if (newFile && newFile.mimetype && newFile.mimetype.match && newFile.mimetype.match(ext.value)) {
