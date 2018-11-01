@@ -105,6 +105,12 @@
         max-height: 358px;
         margin-bottom: -20px;
         padding: 0 20px;
+        .attribution {
+          float: left;
+          position: absolute;
+          margin: -5px;
+          width: 188px;
+        }
         .control-label{
           width: 100%;
           text-align: right;

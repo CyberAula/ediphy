@@ -12,7 +12,7 @@ import PolyComponent from './providers/PolyComponent';
 // import AudioBlocksComponent from './AudioBlocksComponent';
 // import PhetComponent from './PhetComponent';
 import OpenClipArtComponent from './providers/OpenClipArtComponent';
-// import GiphyComponent from './GiphyComponent';
+import GiphyComponent from './providers/GiphyComponent';
 
 import VISHIcon from './logos/vish.svg';
 import FlickrIcon from './logos/flickrsvg.svg';
@@ -23,7 +23,7 @@ import DropboxIcon from './logos/Dropboxlogo.png';
 import PolyIcon from './logos/PolyLogo.png';
 import OpenClipArtIcon from './logos/openclipart.svg';
 // import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
-// import GiphyIcon from './logos/giphy.png';
+import GiphyIcon from './logos/giphy.png';
 import i18n from 'i18next';
 
 export default function menus(self) {
@@ -142,7 +142,7 @@ export default function menus(self) {
             component: PhetComponent,
             props: { ...commonProps },
         },*/
-        /* {
+        /*      {
             name: 'Giphy',
             icon: GiphyIcon,
             show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
@@ -156,12 +156,12 @@ export default function menus(self) {
             component: SoundCloudComponent,
             props: { ...commonProps },
         },
-        /* {
-            name: 'AudioBlocks',
-            icon: AudioBlocksIcon,
-            show: (allowedMIME === "*" || allowedMIME.match('audio')),
-            component: AudioBlocksComponent
-        },*/
+        // {
+        //     name: 'AudioBlocks',
+        //     icon: AudioBlocksIcon,
+        //     show: (allowedMIME === "*" || allowedMIME.match('audio')),
+        //     component: AudioBlocksComponent
+        // },
         {
             name: 'OpenClipArt',
             icon: OpenClipArtIcon,
