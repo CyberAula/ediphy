@@ -1,5 +1,8 @@
 @import "../../../../sass/general/_variables.scss";
 .pageModal.fileModal {
+  modal-footer {
+    height: 62px;
+  }
   .modal-body {
     padding: 0;
     .row-eq-height {
@@ -9,11 +12,13 @@
       display:         flex;
     }
     #menuColumn {
-      width: 160px;
+      width: 172px;
       padding: 0;
       border-right: 1px solid grey;
       flex-shrink: 0;
       background-color: $lightestgrey;
+      max-height: 520px;
+      overflow: auto;
       .list-group {
         margin: 0;
         .listGroupItem {
@@ -50,12 +55,15 @@
       padding: 0;
       flex-grow: 1;
       align-self: stretch;
-      max-width: calc(100% - 180px);
+      max-width: calc(100% - 172px);
+      display: flex;
+      flex-direction: column;
+
       .contentComponent{
         padding: 20px 0;
-        min-height: 447px;
-        //min-height: 53vh;
-
+        min-height: 557px;
+        min-height: 57vh;
+        flex: 1;
         h5 {
           margin: 0;
           padding: 0 20px;
@@ -94,8 +102,7 @@
         min-height:  370px;
         min-height: 44vh;
         overflow-y: auto;
-        max-height: 490px;
-        max-height: 58vh;
+        max-height: 358px;
         margin-bottom: -20px;
         padding: 0 20px;
         .control-label{
@@ -160,7 +167,7 @@
       }
       .uploadComponent {
         padding: 20px;
-        hr{ margin: 25px 0 20px; }
+        hr{     margin: 25px -20px; }
         h5{ padding: 0}
         .fileInput{
           &.dragging {
@@ -235,10 +242,13 @@
       }
       .myFilesComponent{
         padding: 20px;
-        hr{ margin: 25px 0 0; }
+        max-height: 458px;
+        overflow: auto;
+        hr{     margin: 25px -20px; }
         h5{ padding: 0}
         .filters{
           display: flex;
+          margin-top: -20px;
           .form-group{
             padding: 15px 5px 0;
             width: 100%;
@@ -450,17 +460,12 @@
   cursor: pointer;
 }
 
-.ExternalResults>div{
-  display: flex;
-  flex: 1;
+.DropboxResults {
 
-}
-
-.ExternalResults {
-
-  display: flex;
-  flex-direction: column;
-  wrap: nowrap;
+   >div{
+    display: flex;
+    flex: 1;
+  }
 
   #fileNameTitle {
     height: 68px;

@@ -11,7 +11,7 @@ import PolyComponent from './providers/PolyComponent';
 // import GoogleDriveComponent from './providers/GoogleDriveComponent';
 // import AudioBlocksComponent from './AudioBlocksComponent';
 // import PhetComponent from './PhetComponent';
-// import OpenClipArtComponent from './OpenClipArtComponent';
+import OpenClipArtComponent from './providers/OpenClipArtComponent';
 // import GiphyComponent from './GiphyComponent';
 
 import VISHIcon from './logos/vish.svg';
@@ -21,7 +21,7 @@ import YoutubeIcon from './logos/youtube.svg';
 import SoundCloudIcon from './logos/soundcloud_logo_0.png';
 import DropboxIcon from './logos/Dropboxlogo.png';
 import PolyIcon from './logos/PolyLogo.png';
-// import OpenClipArtIcon from './logos/openclipart.svg';
+import OpenClipArtIcon from './logos/openclipart.svg';
 // import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
 // import GiphyIcon from './logos/giphy.png';
 import i18n from 'i18next';
@@ -91,6 +91,35 @@ export default function menus(self) {
             },
         },
         {
+            name: 'Dropbox',
+            icon: DropboxIcon,
+            show: !(avatar) ? ((allowedMIME) ? allowedMIME : false) : false,
+            component: DropboxComponent,
+            props: {
+                ...commonProps,
+                isBusy: self.props.isBusy,
+                elementSelectedType: self.state.type,
+                allowedMIME,
+                pdfSelected: self.state.pdfSelected,
+                filesUploaded: self.props.filesUploaded,
+                uploadFunction: self.props.uploadFunction,
+            },
+        },
+        /* {
+         name: 'Google',
+         icon: SoundCloudIcon,
+         show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
+         component: GoogleDriveComponent,
+         props: { ...commonProps },
+         },*/
+        {
+            name: 'Youtube',
+            icon: YoutubeIcon,
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('video')),
+            component: YoutubeComponent,
+            props: { ...commonProps },
+        },
+        {
             name: 'Flickr',
             icon: FlickrIcon,
             show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
@@ -105,13 +134,6 @@ export default function menus(self) {
             component: EuropeanaComponent,
             props: { ...commonProps,
             },
-        },
-        {
-            name: 'Youtube',
-            icon: YoutubeIcon,
-            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('video')),
-            component: YoutubeComponent,
-            props: { ...commonProps },
         },
         /* {
             name: 'Phet',
@@ -140,13 +162,13 @@ export default function menus(self) {
             show: (allowedMIME === "*" || allowedMIME.match('audio')),
             component: AudioBlocksComponent
         },*/
-        /* {
+        {
             name: 'OpenClipArt',
             icon: OpenClipArtIcon,
             show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
             component: OpenClipArtComponent,
             props: { ...commonProps },
-        },*/
+        },
         /* {
           name: 'Thingiverse',
           icon: ThingiverseIcon,
@@ -154,28 +176,6 @@ export default function menus(self) {
           component: ThingiverseComponent,
           props: { ...commonProps },
       }*/
-        /* {
-            name: 'Google',
-            icon: SoundCloudIcon,
-            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
-            component: GoogleDriveComponent,
-            props: { ...commonProps },
-        },*/
-        {
-            name: 'Dropbox',
-            icon: DropboxIcon,
-            show: !(avatar) ? ((allowedMIME) ? allowedMIME : false) : false,
-            component: DropboxComponent,
-            props: {
-                ...commonProps,
-                isBusy: self.props.isBusy,
-                elementSelectedType: self.state.type,
-                allowedMIME,
-                pdfSelected: self.state.pdfSelected,
-                filesUploaded: self.props.filesUploaded,
-                uploadFunction: self.props.uploadFunction,
-            },
-        },
         {
             name: 'Google Poly',
             icon: PolyIcon,

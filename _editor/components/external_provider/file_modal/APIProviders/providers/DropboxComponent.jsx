@@ -95,7 +95,7 @@ export default class DropboxComponent extends React.Component {
                 <hr />
 
             </Form>
-            <div className={"ExternalResults"}>
+            <div className={"ExternalResults DropboxResults"}>
                 <DropboxChooser
                     appKey={'x9y6stdvs6vgb29'}
                     success={files => this.onSuccess(files, type)}
