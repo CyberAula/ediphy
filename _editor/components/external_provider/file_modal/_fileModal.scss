@@ -17,7 +17,7 @@
       border-right: 1px solid grey;
       flex-shrink: 0;
       background-color: $lightestgrey;
-      max-height: 520px;
+      //max-height: 520px;
       overflow: auto;
       .list-group {
         margin: 0;
@@ -102,7 +102,7 @@
         min-height:  370px;
         min-height: 44vh;
         overflow-y: auto;
-        max-height: 358px;
+        max-height: 480px;
         margin-bottom: -20px;
         padding: 0 20px;
         .attribution {
@@ -468,6 +468,9 @@
 
 .DropboxResults {
 
+  height: 100%;
+  display: flex;
+
    >div{
     display: flex;
     flex: 1;
@@ -493,37 +496,68 @@
 
     .right-side {
       width: 50%;
-      height: 100%;
+      //height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
+      justify-content: space-between;
       align-items: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
 
-      .uploadModalMsg {
-        padding: 12px;
+      .info-messages{
         width: 90%;
+        .uploadModalMsg {
+          padding: 12px;
+          margin: 10px 0px;
+          display: flex;
+          i {
+            vertical-align: middle;
+            margin-right: 10px;
+          }
+          &#errorMsg {
+            color: $lightred;
+            border: 1px solid $lightred;
+            background-color: $lightredtransparent;
+          }
+          &#uploadedMsg{
+            color: $detailgreen;
+            border: 1px solid $detailgreen;
+            background-color: $detailgreentransparent;
+          }
+          &#warningMsg{
+            color: $naranjaadams;
+            border: 1px solid $naranjaadams;
+            background-color: $naranjaclaro;
+          }
+        }
       }
 
-      #uploadedMsg {
-        width: 90%;
+
+
+
+      #spinnerFloatContainer{
         display: flex;
+        justify-content: space-around;
         align-items: center;
-        align-self: center;
-        color: $detailgreen;
-        border: 1px solid $detailgreen;
-        background-color: $detailgreentransparent;
+      }
+
+      .dropbox-button{
+        width: 90%;
+        padding: 0;
+        margin-bottom: 10px;
+        button{
+          width: 100%;
+        }
       }
     }
   }
 
   iframe {
     border: 1px solid grey;
-    margin-top: 10px;
-    margin-bottom: 10px;
     margin-right: 10px;
     width: 100%;
     flex: 1;
-    height: auto;
+    height: 100%;
   }
 
   .dropbox-container{
@@ -533,16 +567,16 @@
 
   .dropbox-click-upload{
     display: flex;
-    flex-direction: column;
     align-items: center;
     flex: 1;
 
     .dropbox-button{
-      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       width: 100%;
+
+
     }
   }
 
