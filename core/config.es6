@@ -59,6 +59,7 @@ export default {
         // 'Visor3D',
         'FlashObject',
         // 'Rating',
+        // 'Google3DPolyObject',
     ],
     availableLanguages: [
         'en',

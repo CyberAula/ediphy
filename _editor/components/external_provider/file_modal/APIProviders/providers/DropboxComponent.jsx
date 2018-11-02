@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 import DropboxChooser from 'react-dropbox-chooser';
-import { extensionHandlers as extensions } from '../../FileHandlers/FileHandlers';
+import { extensionHandlers as extensionsH } from '../../FileHandlers/FileHandlers';
 import { FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../../common/constants';
 import { isFile } from '../../../../../../common/utils';
 let spinner = require('../../../../../../dist/images/spinner.svg');
@@ -27,8 +27,8 @@ export default class DropboxComponent extends React.Component {
     }
     convertExtensions(show) {
         let type = show;
-        for (let e in extensions) {
-            let ext = extensions[e];
+        for (let e in extensionsH) {
+            let ext = extensionsH[e];
 
             if (ext.value !== '' && type.match(ext.value)) {
                 type = ext.value;
@@ -59,7 +59,6 @@ export default class DropboxComponent extends React.Component {
             'ogv': 'videoogg',
             'webm': 'video/webm',
             '3gp': 'video/3gpp',
-            '3gp': 'video/3gpp2',
             'mp4': 'video/mp4',
             'mpg': 'video/mpg',
             'aac': 'audio/aac',
@@ -68,7 +67,6 @@ export default class DropboxComponent extends React.Component {
             'oga': 'audio/ogg',
             'wav': 'audio/x-wav',
             'weba': 'audio/weba',
-            '3gp': 'audio/3gp',
             'mp3': 'audio/mp3',
             'm4a': 'audio/m4a',
             'csv': 'text/csv',
@@ -98,7 +96,7 @@ export default class DropboxComponent extends React.Component {
                 <hr />
 
             </Form>
-            <div className={"ExternalResults"}>
+            <div className={"ExternalResults DropboxResults"}>
                 <DropboxChooser
                     appKey={'x9y6stdvs6vgb29'}
                     success={files => this.onSuccess(files, type)}
@@ -170,6 +168,7 @@ export default class DropboxComponent extends React.Component {
             }
         } catch(e) {
             alert(i18n.t('error.generic'));
+            // eslint-disable-next-line no-console
             console.error(e);
         }
 
@@ -188,7 +187,7 @@ export default class DropboxComponent extends React.Component {
         case "scormpackage":
             return <iframe src={this.props.elementSelected} frameBorder="0" width={'100%'} height={"400"} />;
         case "image":
-            return null;
+            return <img src={this.props.elementSelected} width={'100%'} />;
         case "audio":
             return <audio src={this.props.elementSelected} controls width={'100%'} height={"400"} style={{ width: '100%' }} />;
         case "video":
@@ -210,8 +209,8 @@ export default class DropboxComponent extends React.Component {
             } else if (this.props.isBusy.msg === FILE_UPLOADING && isFile(nextProps.isBusy.msg)) {
                 let newFile = this.props.filesUploaded[nextProps.isBusy.msg];
                 let extension = newFile.mimetype;
-                for (let e in extensions) {
-                    let ext = extensions[e];
+                for (let e in extensionsH) {
+                    let ext = extensionsH[e];
                     if (newFile && newFile.mimetype && newFile.mimetype.match && newFile.mimetype.match(ext.value)) {
                         extension = ext.value;
                     }
@@ -232,6 +231,10 @@ DropboxComponent.propTypes = {
      */
     elementSelected: PropTypes.any,
     /**
+     * Selected Element Type
+     */
+    elementSelectedType: PropTypes.any,
+    /**
      * Select element callback
      */
     onElementSelected: PropTypes.func.isRequired,
@@ -243,4 +246,20 @@ DropboxComponent.propTypes = {
      * API Provider name
      */
     name: PropTypes.string,
+    /**
+       * Format allowed
+       */
+    show: PropTypes.any,
+    /**
+       * Files uploaded to server
+       */
+    filesUploaded: PropTypes.any,
+    /**
+       * Server busy
+       */
+    isBusy: PropTypes.any,
+    /**
+       * Uploads file to server
+       */
+    uploadFunction: PropTypes.any,
 };

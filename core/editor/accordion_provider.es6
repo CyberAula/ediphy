@@ -353,21 +353,14 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
     let props = {
         key: key,
         className: "panelPluginToolbar",
-        collapsible: true,
-        onEntered: (panel) => {
-            panel.parentNode.classList.add("extendedPanel");
-        },
-        onExited: (panel) => {
-            panel.parentNode.classList.remove("extendedPanel");
-        },
         header: (
             <Panel.Heading key={'span' + key} className={"panel-heading"}>
-                <Panel.Title toggle className={"Hola"}>
-                    <a className={"titleA"} style={{ color: 'white', paddingTop: '0', paddingBottom: '0', paddingLeft: '0', fontSize: '14.4px' }}>
+                <Panel.Title toggle>
+                    <p className={"titleA"} style={{ color: 'white', paddingTop: '0', paddingBottom: '0', paddingLeft: '0', fontSize: '14.4px' }}>
                         <i className="toolbarIcons material-icons">
                             {accordion.icon ? accordion.icon : <span className="toolbarIcons"/>}
                         </i>{accordion.__name}
-                    </a>
+                    </p>
                 </Panel.Title>
             </Panel.Heading>
         ),

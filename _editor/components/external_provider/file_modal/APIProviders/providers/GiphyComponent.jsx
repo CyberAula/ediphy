@@ -6,7 +6,7 @@ import i18n from 'i18next';
 import ReactDOM from 'react-dom';
 import SearchComponent from '../common/SearchComponent';
 import ImageComponent from '../common/ImageComponent';
-
+import attribution from '../logos/PoweredBy_200px-White_HorizText.png';
 export default class GiphyComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -36,9 +36,10 @@ export default class GiphyComponent extends React.Component {
 
             </Form>
             <Form className={"ExternalResults"}>
+
                 {this.state.results.length > 0 ?
-                    (
-                        <FormGroup>
+                    ([<img key="0" className="attribution" src={attribution}/>,
+                        <FormGroup key="1">
                             <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                             <br />
                             {this.state.results.map((item, index) => {
@@ -46,7 +47,7 @@ export default class GiphyComponent extends React.Component {
                                 return (<ImageComponent item={item} title={item.title} url={item.url} thumbnail={item.thumbnail} onElementSelected={this.props.onElementSelected} isSelected={item.url === this.props.elementSelected} />
                                 );
                             })}
-                        </FormGroup>
+                        </FormGroup>]
                     ) :
                     (
                         <FormGroup>
@@ -59,7 +60,8 @@ export default class GiphyComponent extends React.Component {
     }
 
     onSearch(text) {
-        const BASE = text ? ('http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=' + text) : ('http://api.giphy.com/v1/gifs/trending');
+        const API_KEY = "?api_key=5hg9DsqhxUmAbgvhtnAbvV3vUXA2VISo";
+        const BASE = text ? ('http://api.giphy.com/v1/gifs/search' + API_KEY + '&q=' + text) : ('http://api.giphy.com/v1/gifs/trending' + API_KEY);
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
         fetch(encodeURI(BASE))
             .then(res => res.text()
