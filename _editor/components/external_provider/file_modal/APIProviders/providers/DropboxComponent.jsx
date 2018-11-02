@@ -7,6 +7,7 @@ import { extensionHandlers as extensions } from '../../FileHandlers/FileHandlers
 import { FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../../common/constants';
 import { isFile } from '../../../../../../common/utils';
 let spinner = require('../../../../../../dist/images/spinner.svg');
+let loadingBox = require('../../../../../../dist/images/loading-box.gif');
 
 export default class DropboxComponent extends React.Component {
     constructor(props) {
@@ -114,7 +115,7 @@ export default class DropboxComponent extends React.Component {
                                     {this.generatePreview()}
                                 </div>
                                 <div className={"right-side"}>
-                                    {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={spinner} alt=""/></div> : null}
+                                    {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={loadingBox} width={"30%"} alt=""/></div> : null}
                                     {this.state.error ? <div id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i><div>{i18n.t("FileModal.APIProviders.error")}</div></div> : null }
                                     {(this.state.uploaded) ? <div id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i><div> {i18n.t("FileModal.APIProviders.uploaded")}</div></div> : null }
                                     {!this.state.allowed ? <div id="warningMsg" className="uploadModalMsg"><i className="material-icons">warning</i>{i18n.t("FileModal.APIProviders.warning_allowed")}</div> : null}
@@ -128,7 +129,6 @@ export default class DropboxComponent extends React.Component {
                                     </div></div></div>
                         ) : (<div className={"dropbox-container"}>
                             <div className={"dropbox-click-upload"}>
-                                {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={spinner} alt=""/></div> : null}
                                 {this.state.error ? <div id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i><div>{i18n.t("FileModal.APIProviders.error")}</div></div> : null }
                                 {(this.state.uploaded) ? <div id="uploadedMsg" className="uploadModalMsg"><i className="material-icons">check_circle</i><div> {i18n.t("FileModal.APIProviders.uploaded")}</div></div> : null }
                                 {!this.state.allowed ? <div id="warningMsg" className="uploadModalMsg"><i className="material-icons">warning</i>{i18n.t("FileModal.APIProviders.warning_allowed")}</div> : null}
@@ -136,9 +136,17 @@ export default class DropboxComponent extends React.Component {
 
                                 <div className="dropbox-button">
                                     <p> {this.state.uploading ? "Your file is being uploaded" : i18n.t("dropbox_msg")}</p>
-                                    <svg className="maestro-nav__logo" aria-label="Inicio" xmlns="http://www.w3.org/2000/svg" role="img" width="122px" height="122px" viewBox="0 0 32 32" style={{ fill: "#007EE5" }} >
-                                        <path d="M8 2.4l8 5.1-8 5.1-8-5.1 8-5.1zm16 0l8 5.1-8 5.1-8-5.1 8-5.1zM0 17.7l8-5.1 8 5.1-8 5.1-8-5.1zm24-5.1l8 5.1-8 5.1-8-5.1 8-5.1zM8 24.5l8-5.1 8 5.1-8 5.1-8-5.1z" />
-                                    </svg>
+                                    {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={loadingBox} width={"30%"} alt=""/></div> :
+                                        <svg className="maestro-nav__logo" aria-label="Inicio" xmlns="http://www.w3.org/2000/svg" role="img" width="122px" height="122px" viewBox="0 0 32 32" style={{ fill: "#007EE5" }} >
+                                            <path d="M8 2.4l8 5.1-8 5.1-8-5.1 8-5.1zm16 0l8 5.1-8 5.1-8-5.1 8-5.1zM0 17.7l8-5.1 8 5.1-8 5.1-8-5.1zm24-5.1l8 5.1-8 5.1-8-5.1 8-5.1zM8 24.5l8-5.1 8 5.1-8 5.1-8-5.1z" />
+                                        </svg>}
+
+                                    {this.state.uploading ? null :
+                                    /* <svg className="maestro-nav__logo" aria-label="Inicio" xmlns="http://www.w3.org/2000/svg" role="img" width="122px" height="122px" viewBox="0 0 32 32" style={{ fill: "#007EE5" }} >
+                                            <path d="M8 2.4l8 5.1-8 5.1-8-5.1 8-5.1zm16 0l8 5.1-8 5.1-8-5.1 8-5.1zM0 17.7l8-5.1 8 5.1-8 5.1-8-5.1zm24-5.1l8 5.1-8 5.1-8-5.1 8-5.1zM8 24.5l8-5.1 8 5.1-8 5.1-8-5.1z" />
+                                        </svg>*/null
+                                    }
+
                                 </div></div></div>)
                     }
                 </DropboxChooser>
