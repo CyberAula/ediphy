@@ -34,18 +34,18 @@ export function AudioCue(base) {
                             icon: 'link',
                             buttons: {
                                 url: {
-                                    __name: 'URL',
+                                    __name: i18n.t('AudioCue.URL'),
                                     type: 'external_provider',
                                     value: state.url,
                                     accept: "audio/*",
                                 },
                                 autoplay: {
-                                    __name: 'Autoplay',
+                                    __name: i18n.t('AudioCue.AutoPlay'),
                                     type: 'checkbox',
                                     checked: state.autoplay,
                                 },
                                 icon: {
-                                    __name: 'Image',
+                                    __name: i18n.t('AudioCue.Image'),
                                     type: 'external_provider',
                                     value: state.icon,
                                     accept: "image/*",
