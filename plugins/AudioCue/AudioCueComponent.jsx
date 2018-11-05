@@ -12,22 +12,15 @@ export default class AudioCueComponent extends React.Component {
         };
     }
     render() {
+        let { props, state } = this.props;
         return(
-            <div style={{ height: "100%", width: "100%" }} className={"draggableImage"} ref={"draggableImage"}>
+            <a style={{ height: "100%", width: "100%" }} className={"draggableImage"} ref={"draggableImage"}>
                 <img ref ="img"
                     className="basicImageClass"
-                    style={{ width: this.state.allowDeformed ? "100%" : "100%", height: this.state.allowDeformed ? "" : "auto", transform, WebkitTransform: transform, MozTransform: transform }}
-                    src={state.url}
-                    onError={(e) => {
-                        e.target.onError = null;
-                        e.target.src = img_broken; // Ediphy.Config.broken_link;
-                    }}
+                    style={{ width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto" }}
+                    src={state.icon}
                 />
-                <audio controls>
-                    <source src={this.state.url}/>
-                    Your browser does not support the audio element.
-                </audio>
-            </div>
+            </a>
         );
     }
 

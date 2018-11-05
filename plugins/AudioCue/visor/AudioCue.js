@@ -1,17 +1,15 @@
-
 import React from 'react';
+import i18n from 'i18next';
+import AudioCueComponent from './AudioCueComponent';
+import img_placeholder from './../../../dist/images/placeholder.svg';
 
 /* eslint-disable react/prop-types */
 export function AudioCue(base) {
-
     return {
         getRenderTemplate: function(state, props) {
+            return (<AudioCueComponent props={props} state={state}/>);
 
-            return <div style={{ height: "100%", width: "100%" }} >Hello {state.name}
-
-            </div>;
         },
     };
 }
 /* eslint-enable react/prop-types */
-

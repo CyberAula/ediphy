@@ -1,7 +1,7 @@
 import React from 'react';
 import i18n from 'i18next';
 import AudioCueComponent from './AudioCueComponent';
-import img_placeholder from './../../dist/images/placeholder.svg';
+import audio_placeholder from './../../dist/images/audio-cue.svg';
 
 /* eslint-disable react/prop-types */
 export function AudioCue(base) {
@@ -14,12 +14,12 @@ export function AudioCue(base) {
                 flavor: "react",
                 needsConfigModal: false,
                 needsTextEdition: false,
-                initialWidth: '480px',
-                initialHeight: "270px",
-                initialWidthSlide: '30%',
-                initialHeightSlide: '30%',
+                initialWidth: '80px',
+                initialHeight: "80px",
+                initialWidthSlide: '6.86%',
+                initialHeightSlide: '12.58%',
                 icon: 'volume_up',
-                createFromLibrary: true,
+                createFromLibrary: ['audio/*', 'url'],
                 searchIcon: true,
 
             };
@@ -37,26 +37,18 @@ export function AudioCue(base) {
                                     __name: 'URL',
                                     type: 'external_provider',
                                     value: state.url,
+                                    accept: "audio/*",
+                                },
+                                autoplay: {
+                                    __name: 'Autoplay',
+                                    type: 'checkbox',
+                                    checked: state.autoplay,
+                                },
+                                icon: {
+                                    __name: 'Image',
+                                    type: 'external_provider',
+                                    value: state.icon,
                                     accept: "image/*",
-                                },
-                                allowDeformed: {
-                                    __name: Ediphy.i18n.t('HotspotImages.allowDeformed'),
-                                    type: "checkbox",
-                                    checked: state.allowDeformed,
-                                },
-                                scale: {
-                                    __name: Ediphy.i18n.t('HotspotImages.scale'),
-                                    type: "range",
-                                    min: 0,
-                                    max: 20,
-                                    step: 0.2,
-                                    value: state.scale || 1,
-                                },
-                                hyperlink: {
-                                    __name: Ediphy.i18n.t('HotspotImages.hyperlink'),
-                                    type: 'text',
-                                    value: state.hyperlink,
-                                    placeholder: Ediphy.i18n.t('HotspotImages.link_placeholder'),
                                 },
                             },
                         },
@@ -68,7 +60,7 @@ export function AudioCue(base) {
             return {
                 url: 'http://vishub.org/audios/15288.mp3',
                 autoplay: false,
-                icon: img_placeholder,
+                icon: audio_placeholder,
             };
         },
         getRenderTemplate: function(state, props) {
