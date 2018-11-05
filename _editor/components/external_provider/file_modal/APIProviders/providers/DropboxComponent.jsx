@@ -21,6 +21,7 @@ export default class DropboxComponent extends React.Component {
             uploaded: false,
             allowed: true,
             forbidden: false,
+            fileName: 'fileName',
         };
         this.generatePreview = this.generatePreview.bind(this);
         this.onSuccess = this.onSuccess.bind(this);
@@ -105,6 +106,12 @@ export default class DropboxComponent extends React.Component {
                                 {this.generatePreview()}
                             </div>
                             <div className={"right-side"}>
+
+                                <div className={"fileNameTitle"}>
+                                    <span> {this.state.fileName}</span>
+                                    <br/>
+                                    <br/>
+                                </div>
                                 <div className={"info-messages"}>
                                     {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={loadingBox} width={"30%"} alt=""/></div> : null}
                                     {this.state.error ? <div id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i><div>{i18n.t("FileModal.APIProviders.error")}</div></div> : null }
@@ -113,20 +120,22 @@ export default class DropboxComponent extends React.Component {
                                     {this.state.forbidden ? <div id="warningMsg" className="uploadModalMsg"><i className="material-icons">warning</i>{i18n.t("FileModal.APIProviders.warning_forbidden")}</div> : null}
                                 </div>
                                 <div className="dropbox-button">
-                                    <DropboxChooser
-                                        appKey={'x9y6stdvs6vgb29'}
-                                        success={files => this.onSuccess(files, type)}
-                                        cancel={() => this.onCancel()}
-                                        // multiselect={true}
-                                        folderselect={false}
-                                        linkType="direct"
-                                        extensions={extensions}
-                                    ><Button><svg className="maestro-nav__logo" aria-label="Inicio" xmlns="http://www.w3.org/2000/svg" role="img" width="32px" height="32px" viewBox="0 0 32 32" style={{ fill: "#007EE5" }} >
-                                            <path d="M8 2.4l8 5.1-8 5.1-8-5.1 8-5.1zm16 0l8 5.1-8 5.1-8-5.1 8-5.1zM0 17.7l8-5.1 8 5.1-8 5.1-8-5.1zm24-5.1l8 5.1-8 5.1-8-5.1 8-5.1zM8 24.5l8-5.1 8 5.1-8 5.1-8-5.1z" />
-                                        </svg><span>{i18n.t("dropbox_msg_alt")}</span>
-                                        </Button></DropboxChooser>
+                                    <div className="dropbox-button">
+                                        <DropboxChooser
+                                            appKey={'x9y6stdvs6vgb29'}
+                                            success={files => this.onSuccess(files, type)}
+                                            cancel={() => this.onCancel()}
+                                            // multiselect={true}
+                                            folderselect={false}
+                                            linkType="direct"
+                                            extensions={extensions}
+                                        >
+                                            <Button><svg className="maestro-nav__logo" aria-label="Inicio" xmlns="http://www.w3.org/2000/svg" role="img" width="32px" height="32px" viewBox="0 0 32 32" style={{ fill: "#007EE5" }} >
+                                                <path d="M8 2.4l8 5.1-8 5.1-8-5.1 8-5.1zm16 0l8 5.1-8 5.1-8-5.1 8-5.1zM0 17.7l8-5.1 8 5.1-8 5.1-8-5.1zm24-5.1l8 5.1-8 5.1-8-5.1 8-5.1zM8 24.5l8-5.1 8 5.1-8 5.1-8-5.1z" />
+                                            </svg><span>{i18n.t("dropbox_msg_alt")}</span>
+                                            </Button></DropboxChooser>
 
-                                </div></div></div>
+                                    </div></div></div></div>
                     ) : (<DropboxChooser
                         appKey={'x9y6stdvs6vgb29'}
                         success={files => this.onSuccess(files, type)}
@@ -228,7 +237,7 @@ export default class DropboxComponent extends React.Component {
                     }
                 }
                 this.props.onElementSelected(newFile.name, newFile.url, extension, nextProps.isBusy.msg);
-                this.setState({ error: false, uploading: false, uploaded: true });
+                this.setState({ error: false, uploading: false, uploaded: true, fileName: newFile.name });
             }
         }
     }
