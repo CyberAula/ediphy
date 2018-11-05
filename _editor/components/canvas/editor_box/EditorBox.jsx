@@ -628,8 +628,11 @@ export default class EditorBox extends Component {
                     x += event.deltaRect.left;
                     y += event.deltaRect.top;
                     if(box.resizable) { // Only in slide
-                        target.style.webkitTransform = target.style.transform =
-                        'translate(' + x + 'px,' + y + 'px)';
+                        target.style.webkitTransform =
+                        target.style.MozTransform =
+                          target.style.msTransform =
+                            target.style.OTransform =
+                            'translate(' + x + 'px,' + y + 'px)';
 
                         target.setAttribute('data-x', x);
                         target.setAttribute('data-y', y);
@@ -686,7 +689,11 @@ export default class EditorBox extends Component {
                         y: box.resizable ? ((parseFloat(target.style.top) / 100 * target.parentElement.offsetHeight + parseFloat(target.getAttribute('data-y'))) * 100 / target.parentElement.offsetHeight + '%') : 0,
                     });
 
-                    target.style.webkitTransform = target.style.transform =
+                    target.style.webkitTransform =
+                      target.style.MozTransform =
+                        target.style.msTransform =
+                          target.style.OTransform =
+                            target.style.transform =
                         'translate(0px, 0px)';
 
                     target.setAttribute('data-x', 0);

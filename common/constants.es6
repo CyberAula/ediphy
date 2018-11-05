@@ -31,4 +31,6 @@ export const extensions = [
     'webapp',
     'swf',
     'xml',
+    'edi',
+    'vish',
 ];

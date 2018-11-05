@@ -15,10 +15,12 @@ export function fontString() {
     let fontsString = fonts_length.join(";");
     return fontsString;
 }
+
 export function changeFontBase(width = 900) {
     const DEFAULT_FONT_BASE = 14;
     const DEFAULT_WIDTH_BASE = 1100;
     let calculatedFontSize = DEFAULT_FONT_BASE * parseFloat(width) / DEFAULT_WIDTH_BASE;
+    window.FONT_BASE = calculatedFontSize;
     // $('.boxStyle').css("font-size", calculatedFontSize + "px");
     return calculatedFontSize;
 }
@@ -204,7 +206,11 @@ export function instanceExists(name) {
 export function scrollElement(node, options) {
     let cfg = options || { duration: 300, centerIfNeeded: true, easing: 'easeInOut' };
     if (node) {
-        scrollIntoViewIfNeeded(node, cfg);
+        let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
+
+        if (!isSafari) {
+            scrollIntoViewIfNeeded(node, cfg);
+        }
     }
 }
 
@@ -288,9 +294,9 @@ export function blurCKEditor(id, callback) {
             CKEDITOR.instances[id].setData((data));
         }
         callback(encodeURI(data), html2json(encodeURI(data)));
-        let airlayer = document.getElementById("airlayer");
-        if (airlayer) {
-            airlayer.focus();
+        let airlayer = document.getElementsByClassName("airlayer");
+        if (airlayer && airlayer.length > 0) {
+            airlayer.forEach(al=>al.focus());
         } else {
             document.body.focus();
         }

@@ -411,7 +411,7 @@ li > .selectedNavItemVisor {
   min-height: calc(100vh - 135px);
 }*/
 
-#canvas, #containedCanvas {
+#canvas, #containedCanvas, .canvasClass, .containedCanvasClass {
   &.canvasDocClass {
     padding: 10px 8px 0px 8px;
   }
@@ -419,13 +419,15 @@ li > .selectedNavItemVisor {
   &.canvasSliClass {
     padding: 33px 8px 33px 8px;
   }
-}
-.visorwrapper #containedCanvas {
-  min-height: 100% !important;
-}
 
-.visorwrapper #containedCanvas #airlayer{
-  //min-height: 100vh ;
+  &.hidden {
+    display: none;
+  }
+}
+.visorwrapper {
+  .containedCanvasClass, #containedCanvas {
+    min-height: 100% !important;
+  }
 }
 
 .indexElementTitle {
@@ -436,7 +438,7 @@ li > .selectedNavItemVisor {
     padding-right: 10px;
 
 }
-.doc, .sli, #maincontent, #airlayer {
+.doc, .sli, #maincontent, #airlayer, .airlayer {
   overflow: visible;
 }
 .cvBackButton {
@@ -511,7 +513,7 @@ li > .selectedNavItemVisor {
   }
 }
 
-.printApp #airlayer{
+.printApp #airlayer, .printApp .airlayer{
   height: 100%;
 }
 
@@ -533,3 +535,34 @@ li > .selectedNavItemVisor {
     font-size: 35px;
     font-size: 5vh;
 }
+
+.watermark {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+}
+
+.embedWaterMark {
+  position: absolute;
+  bottom: 0.2em;
+  right: 0.2em;
+  background: transparent;
+  background-position-x: 0%;
+  background-position-y: 0%;
+  background-repeat: repeat;
+  background-image: none;
+  background-size: auto auto;
+  background-repeat: no-repeat;
+  background-image: url("https://vishub.org/assets/vicons/watermark.png");
+  background-size: auto 200%;
+  background-position: center 100%;
+  width: 66px;
+  height: 24px;
+  &:hover {
+    background-position: center 0%;
+  }
+  &.educa {
+    background-image: url("http://educainternet.es/assets/vetheme/watermark_educainternet.png");
+  }
+}
+

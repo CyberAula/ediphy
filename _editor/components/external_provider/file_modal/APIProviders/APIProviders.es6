@@ -25,7 +25,8 @@ import i18n from 'i18next';
 export default function menus(self) {
     let allowedMIME = self.props.visible || "";
     let commonProps = {
-        onElementSelected: (name, element, type, id) => { self.setState({ name, element, type, id }); },
+        onElementSelected: (name, element, type, id, options = {}) => {
+            self.setState({ name, element, type, id, options }); },
         elementSelected: self.state.element,
         idSelected: self.state.id,
     };
@@ -149,5 +150,6 @@ export default function menus(self) {
           component: ThingiverseComponent,
           props: { ...commonProps },
       }*/
+
     ];
 }

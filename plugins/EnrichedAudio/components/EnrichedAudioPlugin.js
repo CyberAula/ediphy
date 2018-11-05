@@ -98,7 +98,7 @@ export default class BasicAudioPlugin extends React.Component {
                     let toBeTriggered = triggerArray;
                     triggerMark(sudo.props.props.id, e.value, true);
                     toBeTriggered.splice(i, 1);
-                    sudo.setState({ toBeTriggered: toBeTriggered });
+                    sudo.setState({ toBeTriggered: toBeTriggered, playing: false });
                 }
             });
 

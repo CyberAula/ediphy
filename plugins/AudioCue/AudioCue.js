@@ -1,5 +1,7 @@
 import React from 'react';
 import i18n from 'i18next';
+import AudioCueComponent from './AudioCueComponent';
+import img_placeholder from './../../dist/images/placeholder.svg';
 
 /* eslint-disable react/prop-types */
 export function AudioCue(base) {
@@ -16,7 +18,9 @@ export function AudioCue(base) {
                 initialHeight: "270px",
                 initialWidthSlide: '30%',
                 initialHeightSlide: '30%',
-                icon: 'label',
+                icon: 'volume_up',
+                createFromLibrary: true,
+                searchIcon: true,
 
             };
         },
@@ -29,10 +33,30 @@ export function AudioCue(base) {
                             __name: 'Config',
                             icon: 'link',
                             buttons: {
-                                name: {
-                                    __name: 'Config',
+                                url: {
+                                    __name: 'URL',
+                                    type: 'external_provider',
+                                    value: state.url,
+                                    accept: "image/*",
+                                },
+                                allowDeformed: {
+                                    __name: Ediphy.i18n.t('HotspotImages.allowDeformed'),
+                                    type: "checkbox",
+                                    checked: state.allowDeformed,
+                                },
+                                scale: {
+                                    __name: Ediphy.i18n.t('HotspotImages.scale'),
+                                    type: "range",
+                                    min: 0,
+                                    max: 20,
+                                    step: 0.2,
+                                    value: state.scale || 1,
+                                },
+                                hyperlink: {
+                                    __name: Ediphy.i18n.t('HotspotImages.hyperlink'),
                                     type: 'text',
-                                    value: state.name,
+                                    value: state.hyperlink,
+                                    placeholder: Ediphy.i18n.t('HotspotImages.link_placeholder'),
                                 },
                             },
                         },
@@ -42,13 +66,13 @@ export function AudioCue(base) {
         },
         getInitialState: function() {
             return {
-                name: "Ediphy",
+                url: 'http://vishub.org/audios/15288.mp3',
+                autoplay: false,
+                icon: img_placeholder,
             };
         },
         getRenderTemplate: function(state, props) {
-            return (<div style={{ height: "100%", width: "100%" }} className="dropableRichZone">
-                Hello {state.name}
-            </div>);
+            return (<AudioCueComponent props={props} state={state}/>);
 
         },
     };

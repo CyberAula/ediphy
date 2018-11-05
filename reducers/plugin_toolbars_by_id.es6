@@ -2,7 +2,7 @@ import {
     ADD_BOX, ADD_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW,
     DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER,
     TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_PLUGIN_TOOLBAR,
-    VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX, ADD_NAV_ITEM, DUPLICATE_NAV_ITEM,
+    VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX, ADD_NAV_ITEM, DUPLICATE_NAV_ITEM, IMPORT_EDI,
 } from '../common/actions';
 import Utils, {
     changeProps, deleteProps, isSortableBox, isPage,
@@ -246,6 +246,8 @@ export default function(state = {}, action = {}) {
             newToolbars[nt] = { ...state[t], id: nt };
         }
         return { ...state, ...newToolbars };
+    case IMPORT_EDI:
+        return { ...state, ...action.payload.state.pluginToolbarsById };
     default:
         return state;
     }

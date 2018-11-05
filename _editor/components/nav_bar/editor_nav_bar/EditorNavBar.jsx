@@ -65,8 +65,9 @@ export default class EditorNavBar extends Component {
                     toggleFileUpload={this.props.toggleFileUpload}
                     fileModalResult={this.props.fileModalResult}
                     changeGlobalConfig={this.props.changeGlobalConfig}
+                    uploadFunction={this.props.uploadFunction}
                     close={this.toggleGlobalConfig} />
-                <ExportModal show={this.state.showExport} export={this.props.export} scorm={this.props.scorm} close={this.toggleExport} />
+                <ExportModal aspectRatio={this.props.globalConfig.canvasRatio} show={this.state.showExport} export={this.props.export} scorm={this.props.scorm} close={this.toggleExport} />
 
             </Col>
         );
@@ -193,6 +194,10 @@ EditorNavBar.propTypes = {
        * Indicates if there is a current server operation
        */
     isBusy: PropTypes.any,
+    /**
+   *  Function for uploading a file to the server
+   */
+    uploadFunction: PropTypes.func.isRequired,
 };
 
 /**

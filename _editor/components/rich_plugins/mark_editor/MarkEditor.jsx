@@ -48,7 +48,7 @@ export default class MarkEditor extends Component {
      */
     end(e) {
         this.setState({ start: 0, holding: false, ended: true });
-        // e.stopPropagation()
+        e.stopPropagation();
     }
 
     /**
@@ -106,6 +106,7 @@ export default class MarkEditor extends Component {
                 }}
                 onTouchCancel={this.end}
                 onTouchEnd={this.end}
+                onDragStart={(e)=>{e.stopPropagation();}}
                 onDoubleClick={(e) => e.stopPropagation()}
                 onDrag={(e)=>e.stopPropagation()} >
                 {this.props.children}
