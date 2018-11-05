@@ -1,5 +1,5 @@
 import React from 'react';
-require('./../AudioCue.scss');
+require('../AudioCue.scss');
 
 /* eslint-disable react/prop-types */
 
@@ -41,7 +41,7 @@ export default class AudioCueComponent extends React.Component {
         };
         return(
             <div>
-                <div className="loader" onClick={clickAudio} style={{ visibility: "hidden", position: "absolute" }}>
+                {/* <div className="loader" onClick={clickAudio} style={{ visibility: "hidden", position: "absolute" }}>
                     <svg id="wave" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 38.05">
                         <title>Audio Wave</title>
                         <path id="Line_1" data-name="Line 1" d="M0.91,15L0.78,15A1,1,0,0,0,0,16v6a1,1,0,1,0,2,0s0,0,0,0V16a1,1,0,0,0-1-1H0.91Z"/>
@@ -54,7 +54,34 @@ export default class AudioCueComponent extends React.Component {
                         <path id="Line_8" data-name="Line 8" d="M42.91,9L42.78,9A1,1,0,0,0,42,10V28a1,1,0,1,0,2,0s0,0,0,0V10a1,1,0,0,0-1-1H42.91Z"/>
                         <path id="Line_9" data-name="Line 9" d="M48.91,15l-0.12,0A1,1,0,0,0,48,16v6a1,1,0,1,0,2,0s0,0,0,0V16a1,1,0,0,0-1-1H48.91Z"/>
                     </svg>
+                </div>*/}
+
+                <div className={"loader"} id="bars" onClick={clickAudio} style={{ visibility: "hidden", position: "absolute" }}>
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+                    <div className="bar" />
+
                 </div>
+
                 <button onClick={clickAudio} style={{ height: "100%", width: "100%", pointerEvents: "initial" }} className={"draggableImage"} ref={"draggableImage"}>
                     <img ref ="img"
                         className="basicImageClass"
