@@ -11,10 +11,13 @@ export default class AudioCueComponent extends React.Component {
             icon: this.props.state.icon,
             allowDeformed: this.props.state.allowDeformed,
         };
+        this.audio = new Audio();
     }
     render() {
         let { props, state } = this.props;
-        let audio = new Audio(state.url);
+        let audio = this.audio;
+        audio.setAttribute('src', state.url);
+        audio.load();
         let playing = false;
         if (state.autoplay) {
             audio.autoplay = true;
