@@ -21,6 +21,7 @@ export default class DropboxComponent extends React.Component {
             uploaded: false,
             allowed: true,
             forbidden: false,
+            fileName: 'fileName',
         };
         this.generatePreview = this.generatePreview.bind(this);
         this.onSuccess = this.onSuccess.bind(this);
@@ -113,6 +114,11 @@ export default class DropboxComponent extends React.Component {
                                     {this.generatePreview()}
                                 </div>
                                 <div className={"right-side"}>
+                                    <div className={"fileNameTitle"}>
+                                        <span> {this.state.fileName}</span>
+                                        <br/>
+                                        <br/>
+                                    </div>
                                     <div className={"info-messages"}>
                                         {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={loadingBox} width={"30%"} alt=""/></div> : null}
                                         {this.state.error ? <div id="errorMsg" className="uploadModalMsg"><i className="material-icons">error</i><div>{i18n.t("FileModal.APIProviders.error")}</div></div> : null }
@@ -221,7 +227,7 @@ export default class DropboxComponent extends React.Component {
                     }
                 }
                 this.props.onElementSelected(newFile.name, newFile.url, extension, nextProps.isBusy.msg);
-                this.setState({ error: false, uploading: false, uploaded: true });
+                this.setState({ error: false, uploading: false, uploaded: true, fileName: newFile.name });
             }
         }
     }

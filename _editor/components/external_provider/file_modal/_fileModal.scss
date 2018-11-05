@@ -487,11 +487,11 @@
 
     .left-side {
       width: 50%;
+      padding: 15px 10px;
       flex: 1;
       display: flex;
       justify-content: flex-start;
       align-items: self-start;
-      padding: 10px;
     }
 
     .right-side {
@@ -499,13 +499,24 @@
       //height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
+      //align-items: center;
       margin-top: 20px;
       margin-bottom: 20px;
+      padding-left: 15px;
+
+      .fileNameTitle{
+        align-self: flex-start;
+        color: #555;
+        font-size: 16px;
+        font-weight: bold;
+      }
 
       .info-messages{
-        width: 90%;
+        width: 100%;
+
+        .spinnerFloat{
+          width: 10%;
+        }
         .uploadModalMsg {
           padding: 12px;
           margin: 10px 0px;
@@ -542,11 +553,12 @@
       }
 
       .dropbox-button{
-        width: 90%;
+        //width: 90%;
         padding: 0;
         margin-bottom: 10px;
+        text-align: left;
         button{
-          width: 100%;
+          //width: 100%;
         }
       }
     }
