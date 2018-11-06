@@ -81,7 +81,7 @@ export default class AudioCueComponent extends React.Component {
                     <img className={"playButton"} src={imagePlayPause} />
                     <img ref ="img"
                         className="basicImageClass"
-                        style={{ width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "100%" }}
+                        style={{ width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "100%", visibility: "hidden" }}
                         src={state.icon}
                     />
                 </button>
