@@ -1,11 +1,23 @@
 $blueprimary: #17CFC8;
 .draggableImage {
-  background-color: $blueprimary;
+  border: none;
+
+  .colorBackground{
+
+  }
 }
+
 #bars {
   height: 30%;
   //left: 50%;
   //margin: -30px 0 0 -20px;
+  position: absolute;
+  bottom: 10%;
+  width: 100%;
+}
+
+.barsPaused{
+  height: 30%;
   position: absolute;
   bottom: 10%;
   width: 100%;
@@ -18,6 +30,7 @@ $blueprimary: #17CFC8;
   position: absolute;
   width: 4%;
   animation: sound 0ms -800ms linear infinite alternate;
+  animation-play-state: paused;
 }
 
 .barDown {
@@ -27,7 +40,48 @@ $blueprimary: #17CFC8;
   position: absolute;
   width: 4%;
   animation: sound 0ms -800ms linear infinite alternate;
+  animation-play-state: paused;
+
 }
+.playButton{
+  height: 45%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-right: auto;
+  margin-left: auto;
+  top: 10%;
+  transition: transform .1s;
+
+}
+
+.draggableImage:hover{
+  .colorBackground{
+    filter: brightness(80%);
+  }
+  .playButton{
+    transform-origin: center;
+    transform: scale(1.05, 1.05);
+  }
+  /*.barUp{
+    animation-play-state: running !important;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+    //animation-iteration-count: unset;
+    animation-iteration-count: initial;
+    animation-direction: reverse;
+  }
+  .barDown{
+    animation-play-state: running !important;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+    animation-direction: reverse;
+    animation-iteration-count: initial;
+
+  }*/
+}
+
+
 
 
 @keyframes sound {
@@ -55,32 +109,25 @@ $blueprimary: #17CFC8;
 .barUp:nth-child(12)  { left: 77%; animation-duration: 487ms; }
 .barUp:nth-child(13)  { left: 84%; animation-duration: 414ms; }
 .barUp:nth-child(14)  { left: 91%; animation-duration: 400ms; }
+.barUp:nth-child(15)  { left: 98%; animation-duration: 450ms; }
 
-.barDown:nth-child(15)  {left: 0%; animation-duration: 474ms;}
-.barDown:nth-child(16)  {left: 7%; animation-duration: 433ms;}
-.barDown:nth-child(17)  { left: 14%; animation-duration: 407ms; }
-.barDown:nth-child(18)  { left: 21%; animation-duration: 458ms; }
-.barDown:nth-child(19)  { left: 28%; animation-duration: 400ms; }
-.barDown:nth-child(20)  { left: 35%; animation-duration: 427ms; }
-.barDown:nth-child(21)  { left: 42%; animation-duration: 441ms; }
-.barDown:nth-child(22)  { left: 49%; animation-duration: 419ms; }
-.barDown:nth-child(23)  { left: 56%; animation-duration: 487ms; }
-.barDown:nth-child(24)  { left: 63%; animation-duration: 427ms; }
-.barDown:nth-child(25)  { left: 70%; animation-duration: 407ms; }
-.barDown:nth-child(26)  { left: 77%; animation-duration: 487ms; }
-.barDown:nth-child(27)  { left: 84%; animation-duration: 414ms; }
-.barDown:nth-child(28)  { left: 91%; animation-duration: 400ms; }
+.barDown:nth-child(16)  {left: 0%; animation-duration: 474ms;}
+.barDown:nth-child(17)  {left: 7%; animation-duration: 433ms;}
+.barDown:nth-child(18)  { left: 14%; animation-duration: 407ms; }
+.barDown:nth-child(19)  { left: 21%; animation-duration: 458ms; }
+.barDown:nth-child(20)  { left: 28%; animation-duration: 400ms; }
+.barDown:nth-child(21)  { left: 35%; animation-duration: 427ms; }
+.barDown:nth-child(22)  { left: 42%; animation-duration: 441ms; }
+.barDown:nth-child(23)  { left: 49%; animation-duration: 419ms; }
+.barDown:nth-child(24)  { left: 56%; animation-duration: 487ms; }
+.barDown:nth-child(25)  { left: 63%; animation-duration: 427ms; }
+.barDown:nth-child(26)  { left: 70%; animation-duration: 407ms; }
+.barDown:nth-child(27)  { left: 77%; animation-duration: 487ms; }
+.barDown:nth-child(28)  { left: 84%; animation-duration: 414ms; }
+.barDown:nth-child(29)  { left: 91%; animation-duration: 400ms; }
+.barDown:nth-child(30)  { left: 98%; animation-duration: 450ms; }
 
 
-.playButton{
-  height: 45%;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin-right: auto;
-  margin-left: auto;
-  top: 10%;
 
-}
 
 

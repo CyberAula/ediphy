@@ -31,7 +31,7 @@ export function AudioCue(base) {
                     accordions: {
                         basic: {
                             __name: 'Config',
-                            icon: 'link',
+                            icon: 'build',
                             buttons: {
                                 url: {
                                     __name: i18n.t('AudioCue.URL'),
@@ -43,6 +43,16 @@ export function AudioCue(base) {
                                     __name: i18n.t('AudioCue.AutoPlay'),
                                     type: 'checkbox',
                                     checked: state.autoplay,
+                                },
+                                quizColor: {
+                                    __name: Ediphy.i18n.t('TrueFalse.QuizColor'),
+                                    type: 'color',
+                                    value: state.colorCue || 'rgba(0, 173, 156, 1)',
+                                },
+                                useImage: {
+                                    __name: i18n.t("MultipleAnswer.ShowFeedback"),
+                                    type: 'checkbox',
+                                    checked: state.useImage,
                                 },
                                 icon: {
                                     __name: i18n.t('AudioCue.Image'),
@@ -61,6 +71,8 @@ export function AudioCue(base) {
                 url: 'http://vishub.org/audios/15288.mp3',
                 autoplay: false,
                 icon: audio_placeholder,
+                colorCue: 'rgba(0, 173, 156, 1)',
+                useImage: false,
             };
         },
         getRenderTemplate: function(state, props) {

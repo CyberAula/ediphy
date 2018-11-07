@@ -15,6 +15,8 @@ export default class AudioCueComponent extends React.Component {
             icon: this.props.state.icon,
             allowDeformed: this.props.state.allowDeformed,
             playing: false,
+            useImage: this.props.state.useImage,
+            colorCue: this.props.state.colorCue,
         };
         this.audio = new Audio(props.url);
     }
@@ -44,40 +46,45 @@ export default class AudioCueComponent extends React.Component {
             this.audio.pause();
         }
         return(
-            <div>
-                <div className={"loader"} id="bars" onClick={this.playPause.bind(this)} style={{ visibility: this.state.playing ? "visible" : "hidden", position: "absolute" }}>
-                    <div className="barUp" />
-                    <div className="barUp" />
-                    <div className="barUp" />
-                    <div className="barUp" />
-                    <div className="barUp" />
-                    <div className="barUp" />
-                    <div className="barUp" />
-                    <div className="barUp" />
-                    <div className="barUp" />
-                    <div className="barUp" />
-                    <div className="barUp" />
-                    <div className="barUp" />
-                    <div className="barUp" />
-                    <div className="barUp" />
-                    <div className="barDown" />
-                    <div className="barDown" />
-                    <div className="barDown" />
-                    <div className="barDown" />
-                    <div className="barDown" />
-                    <div className="barDown" />
-                    <div className="barDown" />
-                    <div className="barDown" />
-                    <div className="barDown" />
-                    <div className="barDown" />
-                    <div className="barDown" />
-                    <div className="barDown" />
-                    <div className="barDown" />
-                    <div className="barDown" />
-
-                </div>
+            <div className={"audioCueConatiner"} style={{ width: "100%", height: "100%" }}>
 
                 <button onClick={this.playPause.bind(this)} style={{ height: "100%", width: "100%", pointerEvents: "initial" }} className={"draggableImage"} ref={"draggableImage"}>
+                    <div className={"colorBackground"} style={{ height: "100%", width: "100%", pointerEvents: "initial", backgroundColor: this.state.colorCue }} />
+
+                    <div className={"loader"} id="bars" onClick={this.playPause.bind(this)} style={{ visibility: "visible", position: "absolute" }}>
+                        <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+
+                        <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+                        <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
+
+                    </div>
                     <img className={"playButton"} src={imagePlayPause} />
                     <img ref ="img"
                         className="basicImageClass"
