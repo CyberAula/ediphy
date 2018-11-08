@@ -41,12 +41,12 @@ export function AudioCue(base) {
                                     checked: state.autoplay,
                                 },
                                 colorCue: {
-                                    __name: 'Color',
+                                    __name: i18n.t('AudioCue.Color'),
                                     type: 'color',
                                     value: state.colorCue || 'rgba(0, 173, 156, 1)',
                                 },
                                 useImage: {
-                                    __name: 'Use image background',
+                                    __name: i18n.t('AudioCue.UseImage'),
                                     type: 'checkbox',
                                     checked: state.useImage,
                                 },
@@ -56,6 +56,11 @@ export function AudioCue(base) {
                                     hide: !state.useImage,
                                     value: state.icon,
                                     accept: "image/*",
+                                },
+                                hideAnimation: {
+                                    __name: i18n.t('AudioCue.HideAnimation'),
+                                    type: 'checkbox',
+                                    checked: state.hideAnimation,
                                 },
                             },
                         },

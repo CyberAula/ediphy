@@ -51,7 +51,7 @@ export default class AudioCueComponent extends React.Component {
                         style={{ width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "100%" : "100%", visibility: useImage ? "visible" : "hidden", position: "absolute" }}
                         src={state.icon}
                     />
-                    <div className={"loader"} id="bars" onClick={this.playPause.bind(this)} style={{ position: "absolute" }}>
+                    <div className={"loader"} id="bars" onClick={this.playPause.bind(this)} style={{ position: "absolute", display: state.hideAnimation ? "none" : "block" }}>
                         <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
                         <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
                         <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
@@ -85,7 +85,7 @@ export default class AudioCueComponent extends React.Component {
                         <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
 
                     </div>
-                    <img className={"playButton"} src={imagePlayPause} />
+                    <img className={ state.hideAnimation ? "playButtonCentered" : "playButton"} src={imagePlayPause} />
 
                 </button>
             </div>
