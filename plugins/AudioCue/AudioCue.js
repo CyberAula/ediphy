@@ -12,16 +12,12 @@ export function AudioCue(base) {
                 displayName: i18n.t('AudioCue.PluginName'),
                 category: "multimedia",
                 flavor: "react",
-                needsConfigModal: false,
                 needsTextEdition: false,
-                initialWidth: '80px',
-                initialHeight: "80px",
                 initialWidthSlide: '6.86%',
                 initialHeightSlide: '12.58%',
                 icon: 'volume_up',
                 createFromLibrary: ['audio/*', 'url'],
                 searchIcon: true,
-
             };
         },
         getToolbar: function(state) {
@@ -44,13 +40,13 @@ export function AudioCue(base) {
                                     type: 'checkbox',
                                     checked: state.autoplay,
                                 },
-                                quizColor: {
-                                    __name: Ediphy.i18n.t('TrueFalse.QuizColor'),
+                                colorCue: {
+                                    __name: 'Color',
                                     type: 'color',
                                     value: state.colorCue || 'rgba(0, 173, 156, 1)',
                                 },
                                 useImage: {
-                                    __name: i18n.t("MultipleAnswer.ShowFeedback"),
+                                    __name: 'Use image background',
                                     type: 'checkbox',
                                     checked: state.useImage,
                                 },
@@ -59,6 +55,7 @@ export function AudioCue(base) {
                                     type: 'external_provider',
                                     value: state.icon,
                                     accept: "image/*",
+                                    hide: state.useImage !== true,
                                 },
                             },
                         },
@@ -70,9 +67,10 @@ export function AudioCue(base) {
             return {
                 url: 'http://vishub.org/audios/15288.mp3',
                 autoplay: false,
-                icon: audio_placeholder,
-                colorCue: 'rgba(0, 173, 156, 1)',
+                colorCue: 'rgba(0, 173, 157, 1)',
                 useImage: false,
+                icon: audio_placeholder,
+
             };
         },
         getRenderTemplate: function(state, props) {
