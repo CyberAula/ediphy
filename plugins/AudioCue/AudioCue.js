@@ -53,9 +53,9 @@ export function AudioCue(base) {
                                 icon: {
                                     __name: i18n.t('AudioCue.Image'),
                                     type: 'external_provider',
+                                    hide: state.useImage,
                                     value: state.icon,
                                     accept: "image/*",
-                                    hide: state.useImage !== true,
                                 },
                             },
                         },

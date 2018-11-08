@@ -41,15 +41,22 @@ export default class AudioCueComponent extends React.Component {
             console.log('[INFO] Audio pausado');
         }
 
+        let useImage = state.useImage;
         console.log('[INFO] El color del plugin es :' + state.colorCue);
         console.log('[INFO] useImage = ' + state.useImage);
         console.log('[INFO] autoPlay = ' + state.autoplay);
+        console.log('[INFO] icon = ' + state.icon);
 
         return(
             <div className={"audioCueConatiner"} style={{ width: "100%", height: "100%" }}>
 
                 <button onClick={this.playPause.bind(this)} style={{ height: "100%", width: "100%", pointerEvents: "initial" }} className={"draggableImage"} ref={"draggableImage"}>
-                    <div className={"colorBackground"} style={{ height: "100%", width: "100%", pointerEvents: "initial", backgroundColor: state.colorCue }} />
+                    <div className={"colorBackground"} style={{ height: "100%", width: "100%", pointerEvents: "initial", backgroundColor: state.colorCue, visibility: useImage ? "hidden" : "visible" }} />
+                    <img ref ="img"
+                        className="basicImageClass"
+                        style={{ width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "100%" : "100%", visibility: useImage ? "visible" : "hidden", position: "absolute" }}
+                        src={state.icon}
+                    />
                     <div className={"loader"} id="bars" onClick={this.playPause.bind(this)} style={{ position: "absolute" }}>
                         <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
                         <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
@@ -85,11 +92,7 @@ export default class AudioCueComponent extends React.Component {
 
                     </div>
                     <img className={"playButton"} src={imagePlayPause} />
-                    <img ref ="img"
-                        className="basicImageClass"
-                        style={{ width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto", visibility: "hidden" }}
-                        src={state.icon}
-                    />
+
                 </button>
             </div>
         );

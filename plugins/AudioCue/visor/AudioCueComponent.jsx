@@ -10,13 +10,8 @@ export default class AudioCueComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            url: this.props.state.url,
             autoplay: this.props.state.autoplay,
-            icon: this.props.state.icon,
-            allowDeformed: this.props.state.allowDeformed,
-            playing: false,
-            useImage: this.props.state.useImage,
-            colorCue: this.props.state.colorCue,
+
         };
         this.audio = new Audio(props.url);
     }
@@ -39,6 +34,7 @@ export default class AudioCueComponent extends React.Component {
         // this.audio.load();
 
         let imagePlayPause = this.state.playing ? imagePause : imagePlay;
+        let useImage = state.useImage;
 
         if(this.state.playing) {
             this.audio.play();
@@ -49,9 +45,13 @@ export default class AudioCueComponent extends React.Component {
             <div className={"audioCueConatiner"} style={{ width: "100%", height: "100%" }}>
 
                 <button onClick={this.playPause.bind(this)} style={{ height: "100%", width: "100%", pointerEvents: "initial" }} className={"draggableImage"} ref={"draggableImage"}>
-                    <div className={"colorBackground"} style={{ height: "100%", width: "100%", pointerEvents: "initial", backgroundColor: this.state.colorCue }} />
-
-                    <div className={"loader"} id="bars" onClick={this.playPause.bind(this)} style={{ visibility: "visible", position: "absolute" }}>
+                    <div className={"colorBackground"} style={{ height: "100%", width: "100%", pointerEvents: "initial", backgroundColor: state.colorCue, visibility: useImage ? "hidden" : "visible" }} />
+                    <img ref ="img"
+                        className="basicImageClass"
+                        style={{ width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "100%" : "100%", visibility: useImage ? "visible" : "hidden", position: "absolute" }}
+                        src={state.icon}
+                    />
+                    <div className={"loader"} id="bars" onClick={this.playPause.bind(this)} style={{ position: "absolute" }}>
                         <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
                         <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
                         <div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
@@ -86,11 +86,7 @@ export default class AudioCueComponent extends React.Component {
 
                     </div>
                     <img className={"playButton"} src={imagePlayPause} />
-                    <img ref ="img"
-                        className="basicImageClass"
-                        style={{ width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "100%", visibility: "hidden" }}
-                        src={state.icon}
-                    />
+
                 </button>
             </div>
         );
