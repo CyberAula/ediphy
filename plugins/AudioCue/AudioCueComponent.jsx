@@ -13,15 +13,6 @@ export default class AudioCueComponent extends React.Component {
         this.audio = new Audio(props.url);
     }
     playPause() {
-        console.log('[INFO] this.state.playing is: ' + this.state.playing);
-        if (this.state.playing) {
-            console.log();
-            // this.audio.pause();
-            console.log('[INFO] Audio pausado');
-        } else {
-            // console.log(this.audio.play());
-            console.log('[INFO] Audio iniciado');
-        }
         this.setState({ playing: !this.state.playing });
     }
     // If deleted while playing, audio should be stopped
@@ -35,17 +26,11 @@ export default class AudioCueComponent extends React.Component {
         let imagePlayPause = this.state.playing ? imagePause : imagePlay;
         if(this.state.playing) {
             this.audio.play();
-            console.log('[INFO] Audio iniciado');
         } else {
             this.audio.pause();
-            console.log('[INFO] Audio pausado');
         }
 
         let useImage = state.useImage;
-        console.log('[INFO] El color del plugin es :' + state.colorCue);
-        console.log('[INFO] useImage = ' + state.useImage);
-        console.log('[INFO] autoPlay = ' + state.autoplay);
-        console.log('[INFO] icon = ' + state.icon);
 
         return(
             <div className={"audioCueConatiner"} style={{ width: "100%", height: "100%" }}>
