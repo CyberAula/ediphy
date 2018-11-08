@@ -26,8 +26,11 @@ export default class AudioCueComponent extends React.Component {
         let imagePlayPause = this.state.playing ? imagePause : imagePlay;
         if(this.state.playing) {
             this.audio.play();
+            console.log('Reproduciendo');
         } else {
             this.audio.pause();
+            console.log('Parando');
+
         }
 
         let useImage = state.useImage;
