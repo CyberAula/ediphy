@@ -1,7 +1,7 @@
 import React from 'react';
 import i18n from 'i18next';
 import AudioCueComponent from './AudioCueComponent';
-import audio_placeholder from './../../dist/images/audio-cue.svg';
+import audio_placeholder from './../../dist/images/meadow.jpg';
 
 /* eslint-disable react/prop-types */
 export function AudioCue(base) {
@@ -53,7 +53,7 @@ export function AudioCue(base) {
                                 icon: {
                                     __name: i18n.t('AudioCue.Image'),
                                     type: 'external_provider',
-                                    hide: state.useImage,
+                                    hide: !state.useImage,
                                     value: state.icon,
                                     accept: "image/*",
                                 },

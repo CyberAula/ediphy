@@ -29,7 +29,7 @@ export default class ToolbarFileProvider extends Component {
         let props = { ...this.props.formControlProps,
             placeholder: isURI ? 'http://...' : '',
             value: isURI ? '' : bckg };
-        return (<FormGroup>
+        return (<FormGroup style={{ display: this.props.hide ? "none" : "block" }}>
             {this.props.formControlProps ? [<ControlLabel key={1}>{props.label}</ControlLabel>,
                 <FormControl key={2}{...props} onChange={e => {
                     props.onChange(e);
@@ -90,5 +90,9 @@ ToolbarFileProvider.propTypes = {
      * Toolbar change callback
      */
     onChange: PropTypes.func,
+    /**
+     * Hide external provider input type
+     */
+    hide: PropTypes.bool,
 
 };

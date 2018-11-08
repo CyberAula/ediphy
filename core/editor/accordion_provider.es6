@@ -963,6 +963,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             fileModalResult: toolbar_props.fileModalResult,
             onChange: props.onChange,
             accept: button.accept,
+            hide: button.hide,
         }, null);
 
     }
