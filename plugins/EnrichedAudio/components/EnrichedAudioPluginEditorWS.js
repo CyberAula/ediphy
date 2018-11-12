@@ -166,6 +166,8 @@ export default class BasicAudioPluginEditor extends React.Component {
 
     }
     render() {
+
+        console.log('rendering richAUDIOPlugin...');
         let marks = this.props.props.marks || {}; //
         let markElements = Object.keys(marks).map((id) =>{
             let secondsValue = convertHMStoSeconds(marks[id].value);
