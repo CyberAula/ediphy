@@ -84,7 +84,6 @@ export default class BasicAudioPlugin extends React.Component {
     }
     componentWillUpdate(nextProps, nextState) {
         if(nextState.pos !== this.state.pos) {
-            // console.log(this.state.toBeTriggered);
             let prevPos = parseFloat(this.state.pos).toFixed(3);
             let nextPos = parseFloat(nextState.pos).toFixed(3);
             let sudo = this;
@@ -98,7 +97,7 @@ export default class BasicAudioPlugin extends React.Component {
                     let toBeTriggered = triggerArray;
                     triggerMark(sudo.props.props.id, e.value, true);
                     toBeTriggered.splice(i, 1);
-                    sudo.setState({ toBeTriggered: toBeTriggered, playing: false });
+                    sudo.setState({ toBeTriggered: toBeTriggered, comingFromMark: true, playing: false });
                 }
             });
 
@@ -121,6 +120,13 @@ export default class BasicAudioPlugin extends React.Component {
                 }
 
             });
+        }
+        if(nextProps.props.show && !this.props.props.show && nextState.comingFromMark) {
+            this.setState({ comingFromMark: false, playing: true });
+
+        }
+        if (!nextProps.props.show && this.props.props.show) {
+            this.setState({ playing: false });
         }
     }
     render() {
@@ -149,7 +155,7 @@ export default class BasicAudioPlugin extends React.Component {
             let isVisor = true;
             return(
                 <div key={id} className="audioMark" style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
-                    <Mark style={{ position: 'relative', top: "-1.7em", left: "-0.75em" }}
+                    <Mark style={{ position: 'relative', top: "-1.7em", left: "-1em" }}
                         color={color || "#17CFC8"}
                         idKey={id}
                         title={title}

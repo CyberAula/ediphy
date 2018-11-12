@@ -60,6 +60,7 @@ export default {
         'FlashObject',
         // 'Rating',
         'AudioCue',
+        // 'Google3DPolyObject',
     ],
     availableLanguages: [
         'en',

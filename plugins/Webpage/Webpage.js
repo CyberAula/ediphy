@@ -28,7 +28,8 @@ export function Webpage(base) {
                             buttons: {
                                 url: {
                                     __name: Ediphy.i18n.t('Webpage.URL_copypaste'),
-                                    type: 'text',
+                                    type: 'external_provider',
+                                    accept: "webapp",
                                     value: state.url,
                                 },
                                 fixedPosition: {
@@ -101,6 +102,9 @@ export function Webpage(base) {
             };
         },
         getRenderTemplate: function(state) {
+            if (state.url && state.url.match("poly.google.com")) {
+                return(<iframe width="100%" height="100%" src={state.url} frameBorder="0" style={{ width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0, border: '1px solid grey' }} allowvr="yes" allow="vr; xr; accelerometer; magnetometer; gyroscope; autoplay;" allowFullScreen mozallowfullscreen="true" webkitallowfullscreen="true" onMouseWheel="" scrolling={"no"}/>);
+            }
             return <iframe style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none', border: '1px solid grey' }} scrolling={state.fixedPosition ? 'no' : 'yes'} src={state.url}/>;
 
         },

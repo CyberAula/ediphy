@@ -10,37 +10,37 @@ export default class AudioCueComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            autoplay: this.props.state.autoplay,
-
+            playing: false,
         };
-        this.audio = new Audio(props.url);
+        this.audio = new Audio(props.state.url);
     }
     playPause() {
         this.setState({ playing: !this.state.playing });
     }
-
-    componentWillMount() {
-        if(this.state.autoplay) {
-            this.setState({ playing: true });
-        }
-    }
+    // If deleted while playing, audio should be stopped
     componentWillUnmount() {
         this.audio.pause();
     }
-
+    componentWillMount() {
+        if(this.props.state.autoplay) {
+            this.setState({ playing: true });
+        }
+    }
+    componentWillReceiveProps(nextProps) {
+        if (this.props.state.url !== nextProps.state.url) {
+            this.audio.setAttribute('src', nextProps.state.url);
+        }
+    }
     render() {
         let { props, state } = this.props;
-        this.audio.setAttribute('src', state.url);
-        // this.audio.load();
-
         let imagePlayPause = this.state.playing ? imagePause : imagePlay;
-        let useImage = state.useImage;
-
         if(this.state.playing) {
             this.audio.play();
         } else {
             this.audio.pause();
         }
+
+        let useImage = state.useImage;
         return(
             <div className={"audioCueConatiner"} style={{ width: "100%", height: "100%" }}>
 
@@ -83,13 +83,14 @@ export default class AudioCueComponent extends React.Component {
                         <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
                         <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
                         <div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: this.state.playing ? "running" : "paused" }}/>
-
                     </div>
                     <img className={ state.hideAnimation ? "playButtonCentered" : "playButton"} src={imagePlayPause} />
-
                 </button>
             </div>
         );
     }
 
 }
+
+/* eslint-enable react/prop-types */
+
