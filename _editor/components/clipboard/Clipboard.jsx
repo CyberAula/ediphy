@@ -76,10 +76,12 @@ export default class Clipboard extends Component {
                 if (!this.containsCKEDitorText(activeElement)) {
                     event.preventDefault();
                     event.clipboardData.setData("text/plain", JSON.stringify(this.copyData()));
+                    document.activeElement.blur();
                     return true;
                 }
             }
         }
+        document.activeElement.blur();
         return false;
     }
 
@@ -113,6 +115,7 @@ export default class Clipboard extends Component {
             let box = this.props.boxes[this.props.boxSelected];
             this.props.onBoxDeleted(box.id, box.parent, box.container, this.currentPage());
         }
+        document.activeElement.blur();
     }
     /**
      * Calculates current page (nav or cv)
@@ -145,6 +148,7 @@ export default class Clipboard extends Component {
         }
         let ids = { id, parent, container, page: page ? page.id : 0 };
         this.pasteBox(data, ids, isTargetSlide, newInd);
+        document.activeElement.blur();
     }
 
     /**

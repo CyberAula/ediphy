@@ -38,7 +38,7 @@ export default function menus(self) {
     return [
         {
             name: <span><i className="material-icons">file_upload</i>{i18n.t('FileModal.APIProviders.UploadFiles')}</span>,
-            show: allowedMIME && allowedMIME !== 'obj',
+            show: (allowedMIME),
             component: UploadComponent,
             props: {
                 ...commonProps,
