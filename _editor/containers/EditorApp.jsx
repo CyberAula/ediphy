@@ -818,11 +818,9 @@ class EditorApp extends Component {
                     let content = pluginAPI.getRenderTemplate(newPluginState, { exercises: { correctAnswer: true } });
                     parsePluginContainersReact(content, pluginContainerIds, defaultBoxes);
                 }
-                console.log(defaultBoxes, pluginContainerIds);
                 if (toolbar.state.__pluginContainerIds && (Object.keys(toolbar.state.__pluginContainerIds).length < Object.keys(pluginContainerIds).length)) {
                     for (let s in pluginContainerIds) {
                         if (!toolbar.state.__pluginContainerIds[s]) {
-                            console.log(defaultBoxes, s);
                             if (defaultBoxes[s]) {
                                 let page = this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
                                 this.props.dispatch(updatePluginToolbar(id, tab, accordion,

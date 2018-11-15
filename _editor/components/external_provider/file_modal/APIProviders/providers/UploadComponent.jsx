@@ -43,7 +43,6 @@ export default class UploadComponent extends React.Component {
                 icon = ext.icon || icon;
             }
         }
-        console.log(this.props.show);
         let fileSelected = this.props.filesUploaded[this.props.idSelected];
         return(<div className="contentComponent uploadComponent">
             <h5>{i18n.t("FileModal.APIProviders.UploadFilesTitle")}</h5>
