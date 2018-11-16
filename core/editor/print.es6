@@ -62,13 +62,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         }
     };
 
-    let cle = function(className) {
-        let toDelete = document.getElementsByClassName(className);
-        while (toDelete.length > 0) {
-            toDelete[0].parentNode.removeChild(toDelete[0]);
-        }
-    };
-
     // Me permite indicar desde JS la orientación del PDF, solo funciona en Chrome. El usuario en otros browsers tendrá que indicar landscape o portrait en el menú de impresión
     // https://stackoverflow.com/questions/11160260/can-javascript-change-the-value-of-page-css
     let cssPagedMedia = (function() {
@@ -105,7 +98,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         treatAsImportedDoc = ((slide && navItems[currentView].customSize === 0));
         let isAnImportedDoc = (slide && navItems[currentView].customSize !== 0);
 
-        let importedDoc = (currentView.customSize !== 0);
         let i = notSections.length - navs.length;
 
         let viewport;
@@ -140,9 +132,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         height: expectedHeight * 0.95,
                         width: expectedHeight * canvasRatio * 0.95,
                     };
-
                     miniViewport = viewport;
-
                 } else if (canvasRatio === 16 / 9)
                 {
                     SLIDE_BASE = 999;
@@ -151,14 +141,10 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         height: expectedHeight,
                         width: expectedHeight * canvasRatio,
                     };
-
                     miniViewport = viewport;
-
                 }
             }
-
             break;
-
         case "fullSlideCustom":
             SLIDE_BASE = 795;
             hideDocs = true;
@@ -168,12 +154,10 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 height: SLIDE_BASE,
                 width: SLIDE_BASE * canvasRatio,
             };
-
             expectedHeight = viewport.height;
             expectedWidth = viewport.width;
             cssPagedMedia.size((viewport.width) + "px " + (viewport.height + 1) + "px ", "0");
             break;
-
         case "fullSlide":
             cssPagedMedia.size('landscape', "1cm");
             hideDocs = true;
@@ -211,9 +195,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         height: expectedHeight * 0.95,
                         width: expectedHeight * canvasRatio * 0.95,
                     };
-
                     miniViewport = viewport;
-
                 } else if (canvasRatio === 16 / 9)
                 {
                     SLIDE_BASE = 999;
@@ -222,9 +204,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         height: expectedHeight,
                         width: expectedHeight * canvasRatio,
                     };
-
                     miniViewport = viewport;
-
                 }
             }
             break;
@@ -348,8 +328,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 pageContainer.style.height = 'auto';
             }
         } else if (slidesPerPage === 4) {
-            // pageContainer.style.height = miniViewport.height + 'px';
-            // pageContainer.style.width = miniViewport.width + 'px';
             pageContainer.style.height = '49%';
             pageContainer.style.width = '49%';
         }
@@ -368,7 +346,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
             if (customAspectRatio < A4_RATIO) {
                 elementClass = elementClass + " portraitDoc heightLimited upOnPage";
-                requiresFullPage = true;
                 expectedHeight = isSafari ? SAFARI_HEIGHT : CHROME_HEIGHT;
                 viewport.height = expectedHeight;
                 expectedWidth = expectedHeight * customAspectRatio;
@@ -382,7 +359,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 elemsUsed = -1;
             } else if ((customAspectRatio >= A4_RATIO) && (customAspectRatio < 1)) {
                 elementClass = elementClass + " portraitDoc widthLimited upOnPage";
-                requiresFullPage = true;
                 expectedWidth = DOC_BASE;
                 viewport.width = expectedWidth;
                 expectedHeight = expectedWidth / customAspectRatio;
@@ -549,7 +525,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         ReactDOM.render((app), pageContainer, (a) => {
             setTimeout(
                 () => {
-
                     if (ended) {
                         deletePageContainers('pageToPrint');
                         document.body.removeEventListener('canceled', function() {
@@ -558,9 +533,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         callback();
                         return;
                     }
-
                     if(last) {
-
                         numPages++;
                         let notToPrint = 0;
 
@@ -629,6 +602,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                     }
                                     containersArray[index].appendChild(doc);
                                     counter++;
+                                    // relleno con containers para forzar alineamiento
                                     if (l === (numPages - 1)) {
                                         let left = (4 - (counter % 4)) % 4;
                                         for (let f = left; f > 0; f--) {
