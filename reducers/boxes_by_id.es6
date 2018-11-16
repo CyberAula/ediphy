@@ -7,7 +7,7 @@ import {
     DROP_BOX,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE, PASTE_BOX, UPDATE_PLUGIN_TOOLBAR, TOGGLE_TEXT_EDITOR,
-    RESIZE_BOX, DUPLICATE_NAV_ITEM,
+    RESIZE_BOX, DUPLICATE_NAV_ITEM, IMPORT_EDI,
 } from '../common/actions';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX } from '../common/constants';
 
@@ -619,6 +619,8 @@ export default function(state = {}, action = {}) {
         return deleteProps(state, action.payload.boxes);
     case IMPORT_STATE:
         return action.payload.present.boxesById || state;
+    case IMPORT_EDI:
+        return { ...state, ...action.payload.state.boxesById };
     case DUPLICATE_NAV_ITEM:
         let newBoxesArr = {};
         for (let box in action.payload.boxes) {

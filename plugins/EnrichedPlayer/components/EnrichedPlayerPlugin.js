@@ -37,7 +37,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     let toBeTriggered = triggerArray;
                     triggerMark(plugin.props.props.id, e.value, true);
                     toBeTriggered.splice(i, 1);
-                    plugin.setState({ toBeTriggered });
+                    plugin.setState({ toBeTriggered, playing: false, comingFromMark: true });
                 }
             });
 
@@ -124,6 +124,10 @@ export default class EnrichedPlayerPlugin extends React.Component {
             this.setState({ controls: true });
         } else if (nextProps.state.controls === false && this.state.controls !== this.props.state.controls) {
             this.setState({ controls: false });
+        }
+        if (nextProps.props.show !== this.props.props.show) {
+            this.setState({ playing: this.state.comingFromMark || this.props.props.autoplay,
+                comingFromMark: nextProps.props.show ? false : this.state.comingFromMark });
         }
     }
 

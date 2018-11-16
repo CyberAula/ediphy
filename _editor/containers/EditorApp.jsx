@@ -9,7 +9,7 @@ import {
     reorderBoxes, verticallyAlignBox, selectIndex, duplicateNavItem,
     toggleTextEditor, pasteBox, changeBoxLayer,
     configScore, exportStateAsync, importStateAsync, importState, changeGlobalConfig,
-    uploadVishResourceAsync,
+    uploadVishResourceAsync, importEdi,
     deleteContainedView, selectContainedView,
     addRichMark, editRichMark, moveRichMark, deleteRichMark, setCorrectAnswer,
     updateViewToolbar, updatePluginToolbar,
@@ -175,9 +175,12 @@ class EditorApp extends Component {
                         publishing={() =>this.setState({ publishing: true })}
                         openExitModal={()=>this.setState({ showExitModal: true })}
                         openTour={()=>{this.setState({ showHelpButton: true });}}
+                        uploadFunction={(query, keywords, callback) => dispatch(uploadFunction(query, keywords, callback))}
                         export={(format, callback, options = false) => {
                             if(format === "PDF") {
                                 printToPDF(this.props.store.getState().undoGroup.present, callback, options);
+                            } else if (format === "edi") {
+                                Ediphy.Visor.exportsEDI({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback);
                             } else {
                                 Ediphy.Visor.exportsHTML({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback, options);
                             }}}
@@ -552,6 +555,7 @@ class EditorApp extends Component {
                     boxSelected={boxSelected}
                     boxes={boxes}
                     isBusy={isBusy}
+                    importEdi={(state) => dispatch(importEdi(state))}
                     fileModalResult={this.state.fileModalResult}
                     navItemsIds={navItemsIds}
                     navItems={navItems}
@@ -561,6 +565,7 @@ class EditorApp extends Component {
                     navItemSelected={navItemSelected}
                     filesUploaded={filesUploaded}
                     pluginToolbars={pluginToolbars}
+                    marks={marks}
                     deleteFileFromServer={(id, url, callback) => dispatch(deleteFunction(id, url, callback))}
                     onIndexSelected={(id) => dispatch(selectIndex(id))}
                     fileUploadTab={this.state.fileUploadTab}
@@ -813,7 +818,6 @@ class EditorApp extends Component {
                     let content = pluginAPI.getRenderTemplate(newPluginState, { exercises: { correctAnswer: true } });
                     parsePluginContainersReact(content, pluginContainerIds, defaultBoxes);
                 }
-
                 if (toolbar.state.__pluginContainerIds && (Object.keys(toolbar.state.__pluginContainerIds).length < Object.keys(pluginContainerIds).length)) {
                     for (let s in pluginContainerIds) {
                         if (!toolbar.state.__pluginContainerIds[s]) {
@@ -837,10 +841,10 @@ class EditorApp extends Component {
                                     this.props.boxes);
                                 });
 
-                                return;
                             }
                         }
                     }
+                    return;
                 } else if (toolbar.state.__pluginContainerIds && (Object.keys(toolbar.state.__pluginContainerIds).length > Object.keys(pluginContainerIds).length)) {
                     for (let s in toolbar.state.__pluginContainerIds) {
                         if (!pluginContainerIds[s]) {

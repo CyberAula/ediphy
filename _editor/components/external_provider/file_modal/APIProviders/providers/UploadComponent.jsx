@@ -61,7 +61,7 @@ export default class UploadComponent extends React.Component {
                         <div id="fileNameTitle">
                             <span>{this.state.file ? this.state.file.name : ""}</span><br/><br/>
                             <Button bsStyle="primary" style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={this.uploadHandler}><i className="material-icons">file_upload</i> {i18n.t("FileModal.APIProviders.upload")}</Button>
-                            <Button style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={(e)=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false, allowed: true });}}><i className="material-icons">clear</i> {i18n.t("FileModal.APIProviders.clear")}</Button>
+                            <Button style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={(e)=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false, allowed: true, forbidden: false });}}><i className="material-icons">clear</i> {i18n.t("FileModal.APIProviders.clear")}</Button>
                         </div>
                         {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={spinner} alt=""/></div> : null}
                         {/* <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
@@ -97,7 +97,7 @@ export default class UploadComponent extends React.Component {
             if (nextProps.isBusy.msg === FILE_UPLOADING && this.props.isBusy.msg !== FILE_UPLOADING) {
                 // this.setState({error: false, uploading: true, uploaded: false})
             } else if (this.props.isBusy.msg === FILE_UPLOADING && nextProps.isBusy.msg === FILE_UPLOAD_ERROR) {
-                this.setState({ error: true, uploaded: false, uploading: false, allowed: true });
+                this.setState({ error: true, uploaded: false, uploading: false, allowed: true, forbidden: false });
             } else if (this.props.isBusy.msg === FILE_UPLOADING && isFile(nextProps.isBusy.msg)) {
                 let newFile = this.props.filesUploaded[nextProps.isBusy.msg];
                 let extension = newFile.mimetype;
@@ -106,12 +106,15 @@ export default class UploadComponent extends React.Component {
                     let ext = extensions[e];
                     if (newFile && newFile.mimetype && newFile.mimetype.match && newFile.mimetype.match(ext.value)) {
                         extension = ext.value;
-
                     }
                     if (newFile.mimetype === 'application/vnd.ms-excel') {
                         extension === 'csv';
                     }
+
                 }
+                /* if (extension === "json" && ){
+
+                }*/
                 this.props.onElementSelected(newFile.name, newFile.url, extension, nextProps.isBusy.msg);
                 this.setState({ error: false, uploading: false, uploaded: true });
             }
@@ -121,8 +124,7 @@ export default class UploadComponent extends React.Component {
         this.setState({ file });
         let reader = new FileReader();
         reader.readAsDataURL(file);
-
-        reader.onloadend = () =>{
+        reader.onloadend = () => {
             let extension = file.type;
             for (let e in extensions) {
                 let ext = extensions[e];
@@ -141,7 +143,7 @@ export default class UploadComponent extends React.Component {
     uploadHandler() {
         let keywordsArray = this.state.keywords.map(key => { return key.text; });
         let keywords = keywordsArray.join(",");
-        if (Ediphy.Config.zip_files_forbidden && this.state.file && this.state.file.name && this.state.file.name.match(/\.zip$/)) {
+        if (Ediphy.Config.zip_files_forbidden && this.state.file && this.state.file.name && (this.state.file.name.match(/\.zip$/) || this.state.file.name.match(/\.edi/) || this.state.file.name.match(/\.vish$/))) {
             this.setState({ forbidden: true });
             return;
         }

@@ -166,6 +166,7 @@ export default class BasicAudioPluginEditor extends React.Component {
 
     }
     render() {
+
         let marks = this.props.props.marks || {}; //
         let markElements = Object.keys(marks).map((id) =>{
             let secondsValue = convertHMStoSeconds(marks[id].value);
@@ -174,10 +175,9 @@ export default class BasicAudioPluginEditor extends React.Component {
             let title = marks[id].title;
             let color = marks[id].color;
             return(
-
                 <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.1em" }} boxId={this.props.props.id} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.onRichMarkMoved} state={this.props.state} base={this.props.base}>
                     <div className="audioMark" style={{ background: color || "#17CFC8" }}>
-                        <Mark style={{ position: 'relative', top: "-1.7em", left: "-0.75em" }} color={color || "#17CFC8"} idKey={id} title={title} />
+                        <Mark style={{ position: 'relative', top: "-1.7em", left: "-1em" }} color={color || "#17CFC8"} idKey={id} title={title} />
                     </div>
                 </MarkEditor>);
         });

@@ -1,5 +1,8 @@
 @import "../../../../sass/general/_variables.scss";
 .pageModal.fileModal {
+  modal-footer {
+    height: 62px;
+  }
   .modal-body {
     padding: 0;
     .row-eq-height {
@@ -9,11 +12,13 @@
       display:         flex;
     }
     #menuColumn {
-      width: 160px;
+      width: 172px;
       padding: 0;
       border-right: 1px solid grey;
       flex-shrink: 0;
       background-color: $lightestgrey;
+      //max-height: 520px;
+      overflow: auto;
       .list-group {
         margin: 0;
         .listGroupItem {
@@ -50,10 +55,15 @@
       padding: 0;
       flex-grow: 1;
       align-self: stretch;
+      max-width: calc(100% - 172px);
+      display: flex;
+      flex-direction: column;
+
       .contentComponent{
         padding: 20px 0;
-        min-height: 447px;
-        //min-height: 53vh;
+        min-height: 557px;
+        min-height: 57vh;
+        flex: 1;
         h5 {
           margin: 0;
           padding: 0 20px;
@@ -67,6 +77,24 @@
             width: auto;
             height: 24px;
           }
+          .myResourcesFormGroup {
+            display: flex;
+            flex-flow: nowrap row;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            margin-bottom: -15px;
+            label, input {
+              margin: 0.6em 0px;
+            }
+            label {
+              margin-right: 5px;
+              color: #777;
+              font-weight: normal;
+              font-size: 0.85em;
+
+            }
+           }
         }
         hr{ margin: 20px 0 0 0; }
       }
@@ -74,14 +102,22 @@
         min-height:  370px;
         min-height: 44vh;
         overflow-y: auto;
-        max-height: 490px;
-        max-height: 58vh;
+        max-height: 480px;
         margin-bottom: -20px;
         padding: 0 20px;
+        .attribution {
+          float: left;
+          position: absolute;
+          margin: -5px;
+          width: 188px;
+        }
         .control-label{
           width: 100%;
           text-align: right;
           margin: 0;
+        }
+        .polyInfo {
+          flex: 1;
         }
         .videoItem, .audioItem{
           display: flex;
@@ -114,6 +150,13 @@
             .lightFont{
               color: #888;
               font-weight: lighter;
+              &.overflowHidden {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                word-break: break-word;
+                word-wrap: no-wrap;
+                max-width: 100%;
+              }
             }
           }
           .soundCloudSong{
@@ -121,11 +164,16 @@
             width: 100px;
             height: 100px;
           }
+          .polyObj{
+            margin-right: 10px;
+            width: 100px;
+            height: 75px;
+          }
         }
       }
       .uploadComponent {
         padding: 20px;
-        hr{ margin: 25px 0 20px; }
+        hr{     margin: 25px -20px; }
         h5{ padding: 0}
         .fileInput{
           &.dragging {
@@ -200,10 +248,13 @@
       }
       .myFilesComponent{
         padding: 20px;
-        hr{ margin: 25px 0 0; }
+        max-height: 458px;
+        overflow: auto;
+        hr{     margin: 25px -20px; }
         h5{ padding: 0}
         .filters{
           display: flex;
+          margin-top: -20px;
           .form-group{
             padding: 15px 5px 0;
             width: 100%;
@@ -371,6 +422,7 @@
       }
     }
   }
+
   .selectD:disabled, .selectD.is-disabled{
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -387,3 +439,158 @@
 }
 
 
+.picker, .picker-dialog {
+  z-index: 9999 !important;
+}
+.dropbox-preview{
+
+}
+.dropbox-button {
+  padding: 20px;
+  text-align: center;
+  p {
+    font-size: 16px;
+    color: #777;
+    padding: 10px;
+    //font-weight: bold;
+  }
+  button {
+    span {
+
+    }
+    svg {
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+  }
+  cursor: pointer;
+}
+
+.DropboxResults {
+
+  height: 100%;
+  display: flex;
+
+   >div{
+    display: flex;
+    flex: 1;
+  }
+
+  #fileNameTitle {
+    height: 68px;
+  }
+
+  .dropbox-modal {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+
+    .left-side {
+      width: 50%;
+      padding: 15px 10px;
+      flex: 1;
+      display: flex;
+      justify-content: flex-start;
+      align-items: self-start;
+    }
+
+    .right-side {
+      width: 50%;
+      //height: 100%;
+      display: flex;
+      flex-direction: column;
+      //align-items: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      padding-left: 15px;
+
+      .fileNameTitle{
+        align-self: flex-start;
+        color: #555;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .info-messages{
+        width: 100%;
+
+        .spinnerFloat{
+          width: 10%;
+        }
+        .uploadModalMsg {
+          padding: 12px;
+          margin: 10px 0px;
+          display: flex;
+          i {
+            vertical-align: middle;
+            margin-right: 10px;
+          }
+          &#errorMsg {
+            color: $lightred;
+            border: 1px solid $lightred;
+            background-color: $lightredtransparent;
+          }
+          &#uploadedMsg{
+            color: $detailgreen;
+            border: 1px solid $detailgreen;
+            background-color: $detailgreentransparent;
+          }
+          &#warningMsg{
+            color: $naranjaadams;
+            border: 1px solid $naranjaadams;
+            background-color: $naranjaclaro;
+          }
+        }
+      }
+
+
+
+
+      #spinnerFloatContainer{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      .dropbox-button{
+        //width: 90%;
+        padding: 0;
+        margin-bottom: 10px;
+        text-align: left;
+        button{
+          //width: 100%;
+        }
+      }
+    }
+  }
+
+  iframe {
+    border: 1px solid grey;
+    margin-right: 10px;
+    width: 100%;
+    flex: 1;
+    height: 100%;
+  }
+
+  .dropbox-container{
+    display: flex;
+    flex: 1;
+  }
+
+  .dropbox-click-upload{
+    display: flex;
+    align-items: center;
+    flex: 1;
+
+    .dropbox-button{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+
+
+    }
+  }
+
+
+}

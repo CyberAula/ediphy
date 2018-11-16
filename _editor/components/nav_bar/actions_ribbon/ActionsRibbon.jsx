@@ -65,7 +65,7 @@ export default class ActionsRibbon extends Component {
                 className={(act.key === "Grid" && this.props.grid) ? "ActionBtn active" : "ActionBtn"}
                 disabled={act.disabled}
                 name={act.key}
-                onClick={ act.onClick }>
+                onClick={(e)=>{act.onClick(e); document.activeElement.blur();}}>
                 <i className="material-icons">{act.icon}</i>
                 <span className="hideonresize">{ i18n.t(act.i18nkey) }</span>
             </button>;

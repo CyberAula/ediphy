@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { isSlide } from '../../../common/utils';
 import VisorCanvasDoc from './VisorCanvasDoc';
 import VisorCanvasSli from './VisorCanvasSli';
+import Watermark from './Watermark';
 import { CSSTransition } from 'react-transition-group';
 
 export default class VisorContainedCanvas extends Component {
@@ -17,7 +18,7 @@ export default class VisorContainedCanvas extends Component {
             visorContent = <VisorCanvasDoc {...this.props} />;
         }
         return (
-            <CSSTransition
+            [<CSSTransition
                 key="anim"
                 classNames={{
                     appear: 'appear',
@@ -29,7 +30,8 @@ export default class VisorContainedCanvas extends Component {
                 }}
                 timeout={{ enter: 500, exit: 300 }}>
                 {visorContent}
-            </CSSTransition>
+            </CSSTransition>,
+            <Watermark ediphy_document_id={this.props.ediphy_document_id} ediphy_platform={this.props.ediphy_platform} key={"1"}/>]
         );
     }
 
@@ -46,6 +48,10 @@ export default class VisorContainedCanvas extends Component {
 }
 
 VisorContainedCanvas.propTypes = {
+    /**
+   * Show the current view
+   */
+    show: PropTypes.bool,
     /**
      * Object containing all created boxes (by id)
      */
@@ -98,5 +104,13 @@ VisorContainedCanvas.propTypes = {
      *  Array de vistas
      */
     viewsArray: PropTypes.array,
+    /**
+   * Ediphy Document id
+   */
+    ediphy_document_id: PropTypes.any,
+    /**
+   * Platform where excursion is hosted
+   */
+    ediphy_platform: PropTypes.any,
 
 };

@@ -1,6 +1,6 @@
 
-@media   print {
-
+@media print {
+  /*-webkit-print-color-adjust: exact;*/
 
   @page {
     /*margin: 1cm;*/
@@ -104,7 +104,7 @@
   }
 
 
-  #canvas {
+  #canvas, .canvasClass {
     overflow-y: visible;
   }
 
@@ -185,6 +185,10 @@
 
   .canvasSliClass p, .canvasSliClass .p_class, #clone p, #clone .p_class{
     page-break-inside: auto;
+  }
+
+  .submitButton{
+    display: none;
   }
 
 }

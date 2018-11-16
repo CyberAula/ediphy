@@ -42,8 +42,9 @@ export default class OpenClipArtComponent extends React.Component {
                             <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                             <br />
                             {this.state.results.map((item, index) => {
-                                return (<ImageComponent key={index} url={item.thumbnail} title={item.title} onElementSelected={()=>{this.props.onElementSelected(item.title, item.url, 'image');}} isSelected={item.url === this.props.elementSelected}/>);
-
+                                let border = item.url === this.props.elementSelected ? "solid #17CFC8 3px" : "solid transparent 3px";
+                                return (<ImageComponent item={item} title={item.title} url={item.url} thumbnail={item.thumbnail} onElementSelected={this.props.onElementSelected} isSelected={item.url === this.props.elementSelected} />
+                                );
                             })}
                         </FormGroup>
                     ) :
@@ -59,7 +60,7 @@ export default class OpenClipArtComponent extends React.Component {
 
     onSearch(text) {
         const BASE_OPENCLIPART = "https://openclipart.org";
-        const BASE = BASE_OPENCLIPART + "/search/json/?query=" + encodeURI(text) + "&amount=200";
+        const BASE = BASE_OPENCLIPART + "/search/json/?query=" + encodeURI(text) + "&amount=20";
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
         fetch((BASE))
             .then(res => res.json()

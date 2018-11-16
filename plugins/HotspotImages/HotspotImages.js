@@ -5,7 +5,8 @@ import MarkEditor from '../../_editor/components/rich_plugins/mark_editor/MarkEd
 import Mark from '../../common/components/mark/Mark';
 import img_broken from './../../dist/images/broken_link.png';
 import img_placeholder from './../../dist/images/placeholder.svg';
-
+import './_hotspotsImages.scss';
+import Image from "./Image";
 /* eslint-disable react/prop-types */
 
 export function HotspotImages(base) {
@@ -28,6 +29,7 @@ export function HotspotImages(base) {
                 marksType: { name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#000001' },
                 createFromLibrary: ['image/*', 'url'],
                 searchIcon: true,
+                needsPointerEventsAllowed: true,
                 // searchIcon: ['image/*', 'url'],
             };
         },
@@ -45,6 +47,19 @@ export function HotspotImages(base) {
                                     type: 'external_provider',
                                     value: state.url,
                                     accept: "image/*",
+                                },
+                                allowDeformed: {
+                                    __name: Ediphy.i18n.t('HotspotImages.allowDeformed'),
+                                    type: "checkbox",
+                                    checked: state.allowDeformed,
+                                },
+                                scale: {
+                                    __name: Ediphy.i18n.t('HotspotImages.scale'),
+                                    type: "range",
+                                    min: 0,
+                                    max: 20,
+                                    step: 0.2,
+                                    value: state.scale || 1,
                                 },
                                 hyperlink: {
                                     __name: Ediphy.i18n.t('HotspotImages.hyperlink'),
@@ -68,7 +83,7 @@ export function HotspotImages(base) {
                                 backgroundColor: {
                                     __name: Ediphy.i18n.t('HotspotImages.background_color'),
                                     type: 'color',
-                                    value: '#ffffff',
+                                    value: 'rgba(255,255,255,0)',
                                 },
                                 borderWidth: {
                                     __name: Ediphy.i18n.t('HotspotImages.border_size'),
@@ -119,7 +134,7 @@ export function HotspotImages(base) {
                 // url:'http://www.amicus.nieruchomosci.pl/grafika/no-image.png'
                 // url: 'https://bytesizemoments.com/wp-content/uploads/2014/04/placeholder.png'
                 url: img_placeholder, // Ediphy.Config.image_placeholder,
-
+                allowDeformed: true,
             };
         },
         getDefaultMarkValue(state) {
@@ -148,17 +163,7 @@ export function HotspotImages(base) {
             });
 
             return (
-                <div style={{ height: "100%", width: "100%" }}>
-
-                    <img className="basicImageClass" style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
-                        e.target.onError = null;
-                        e.target.src = img_broken; // Ediphy.Config.broken_link;
-                    }}/>
-
-                    <div className="dropableRichZone" style={{ height: "100%", width: "100%", position: 'absolute', top: 0, left: 0 }}>
-
-                        {markElements}
-                    </div></div>
+                <Image markElements={markElements} state={state} props={props}/>
             );
         },
         parseRichMarkInput: function(x, y, width, height, toolbarState, boxId) {

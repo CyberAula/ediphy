@@ -1,7 +1,6 @@
 import React from "react";
-import img from './../../../dist/images/broken_link.png';
+import Image from "./Image";
 import Mark from '../../../common/components/mark/Mark';
-import { isURL } from "../../../_editor/components/clipboard/clipboard.utils";
 
 /* eslint-disable react/prop-types */
 
@@ -29,34 +28,7 @@ export function HotspotImages(base) {
                             onMarkClicked={props.onMarkClicked}/></div>
                 );
             });
-            let hyperlink = this.checkHyperlink(state.hyperlink);
-            return(
-                <div style={{ overflow: "hidden", height: "100%" }}>
-                    <a href={hyperlink} target="_blank" style={{ pointerEvents: hyperlink ? "initial" : "none" }}>
-                        <img style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
-                            e.target.onError = null;
-                            e.target.src = img; // Ediphy.Config.broken_link;
-                        }}/>
-                        {markElements}
-                    </a>
-                </div>);
-        },
-        // Checks if link is provided. If so, it formats it to 'http://www...' in case it was 'www...'. Returns false if no link is provided.
-        checkHyperlink: function(hyperlink) {
-            if (hyperlink === null || hyperlink === undefined) {
-                return false;
-            }
-            hyperlink = hyperlink.replace(/\s/g, "");
-            if (hyperlink === "") {
-                return false;
-            }
-            if (hyperlink.substring(0, 4) === "www.") {
-                hyperlink = "http://" + hyperlink;
-            }
-            if (isURL(hyperlink)) {
-                return hyperlink;
-            }
-            return false;
+            return <Image markElements={markElements} props={props} state={state}/>;
         },
 
     };

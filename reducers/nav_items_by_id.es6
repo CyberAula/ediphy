@@ -3,7 +3,7 @@ import {
     REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM, DUPLICATE_NAV_ITEM,
     DELETE_SORTABLE_CONTAINER, DROP_BOX,
     ADD_RICH_MARK, EDIT_RICH_MARK, DELETE_RICH_MARK,
-    IMPORT_STATE, PASTE_BOX, CHANGE_BOX_LAYER, ADD_NAV_ITEMS,
+    IMPORT_STATE, PASTE_BOX, CHANGE_BOX_LAYER, ADD_NAV_ITEMS, IMPORT_EDI,
 } from '../common/actions';
 import { ID_PREFIX_BOX } from '../common/constants';
 import { changeProp, changeProps, deleteProp, deleteProps, isView, isSlide, isDocument, findNavItemContainingBox, findDescendantNavItems, isContainedView } from '../common/utils';
@@ -434,6 +434,11 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
             }
         }
         return newState;
+    case IMPORT_EDI:
+        let zero = { ...state[0] };
+        let newZero = { ...action.payload.state.navItemsById[0] };
+        return { ...state, ...action.payload.state.navItemsById, 0: { ...zero, children: [...zero.children, ...newZero.children] } };
+
     case DUPLICATE_NAV_ITEM:
         let oldNavItem = state[action.payload.id];
         let newState2 = JSON.parse(JSON.stringify(state));

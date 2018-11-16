@@ -71,7 +71,7 @@ export default class EditorCanvasDoc extends Component {
                     />
                     <div className="outter canvaseditor" style={{ background: toolbar.background, display: show ? 'block' : 'none' }}>
                         <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
-                            className={'doc_air'}
+                            className={(this.props.fromCV ? 'airlayer_cv' : 'airlayer') + ' doc_air'}
                             style={{ background: toolbar.background, visibility: (show ? 'visible' : 'hidden') }}>
 
                             <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}

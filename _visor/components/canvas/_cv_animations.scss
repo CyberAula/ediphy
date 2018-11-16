@@ -1,30 +1,33 @@
 
-#page-content-wrapper #containedCanvas.exitCanvas {
 
-  animation-duration: 0.5s;
-  -webkit-animation-duration: 0.5s;
 
-  animation-timing-function: ease-in-out;
-  -webkit-animation-timing-function: ease-in-out;
+#page-content-wrapper {
+  #containedCanvas, #canvas, .containedCanvasClass, .canvasClass  {
 
-  animation-fill-mode: backwards;
-  -webkit-animation-fill-mode: backwards; /* Safari 4.0 - 8.0 */
+    animation-duration: 0.5s;
+    -webkit-animation-duration: 0.5s;
 
-  visibility: visible !important;
-}
+    animation-timing-function: ease-in-out;
+    -webkit-animation-timing-function: ease-in-out;
 
-#page-content-wrapper #containedCanvas, #page-content-wrapper #canvas {
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards; /* Safari 4.0 - 8.0 */
 
-  animation-duration: 0.5s;
-  -webkit-animation-duration: 0.5s;
+    visibility: visible !important;
+  }
+  #containedCanvas, .containedCanvasClass.exitCanvas {
 
-  animation-timing-function: ease-in-out;
-  -webkit-animation-timing-function: ease-in-out;
+    animation-duration: 0.5s;
+    -webkit-animation-duration: 0.5s;
 
-  animation-fill-mode: forwards;
-  -webkit-animation-fill-mode: forwards; /* Safari 4.0 - 8.0 */
+    animation-timing-function: ease-in-out;
+    -webkit-animation-timing-function: ease-in-out;
 
-  visibility: visible !important;
+    animation-fill-mode: backwards;
+    -webkit-animation-fill-mode: backwards; /* Safari 4.0 - 8.0 */
+
+    visibility: visible !important;
+  }
 }
 
 /*ZOOM ANIMATION*/

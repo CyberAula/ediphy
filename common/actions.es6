@@ -43,6 +43,7 @@ export const CONFIG_SCORE = 'CONFIG_SCORE';
 export const UPDATE_PLUGIN_TOOLBAR = 'UPDATE_PLUGIN_TOOLBAR';
 export const UPDATE_VIEW_TOOLBAR = 'UPDATE_VIEW_TOOLBAR';
 
+export const IMPORT_EDI = 'IMPORT_EDI';
 export const IMPORT_STATE = 'IMPORT_STATE';
 export const CHANGE_GLOBAL_CONFIG = 'CHANGE_GLOBAL_CONFIG';
 
@@ -247,6 +248,10 @@ export function deleteFile(id) {
 
 export function setCorrectAnswer(id, correctAnswer, page) {
     return { type: SET_CORRECT_ANSWER, payload: { id, correctAnswer, page } };
+}
+
+export function importEdi(state) {
+    return { type: IMPORT_EDI, payload: { state } };
 }
 
 export function deleteRemoteFileVishAsync(id, url, callback) {
