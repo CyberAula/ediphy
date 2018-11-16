@@ -335,6 +335,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             }
 
             if(!slide) {
+                console.log('Pongo la altura del pageContainer a auto');
                 pageContainer.style.height = 'auto';
             }
         } else if (slidesPerPage === 4) {
@@ -459,7 +460,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             break;
         }
         let upOrDownSlide;
-        // !(isSafari && (optionName === "fullSlideDoc" || optionName === "fullSlide")
         if(!slidesWithComments && assignUpDown && optionName !== "fullSlideCustom") {
             upOrDownSlide = (elemsUsed % slidesPerPage === 0) ? (firstPage ? "" : (slide) ? "upOnPage" : "breakPage") : "breakPage";
         }
@@ -496,6 +496,8 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             }, exercises: exercises[currentView],
             expectedWidth: ((slidesPerPage === 4) && treatAsImportedDoc) ? miniViewport.width : expectedWidth,
         };
+
+        console.log('Is slide:' + slide);
 
         let visorContent = !isCV ? (<VisorCanvas {...props} fromPDF />) : (<VisorContainedCanvas {...props} fromPDF/>);
         let app = (<div id="page-content-wrapper" className={slideClass + " page-content-wrapper printApp"}
@@ -588,8 +590,9 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         for(let i = 0; i < numPages; i++) {
                             let doc = document.getElementById('pageContainer_' + i);
 
-                            if (((doc && (doc.className.includes('importedDoc')) && (optionName !== "fullSlideDoc") && (optionName !== "fullSlide")) || (doc && doc.className.includes('otherDoc'))) && (slidesPerPage !== 4) && (optionName !== "twoDoc")) {
-                                let actualHeight = doc.clientHeight;
+                            if (((doc && doc.firstChild && (doc.className.includes('importedDoc')) && (optionName !== "fullSlideDoc") && (optionName !== "fullSlide")) || (doc && doc.className.includes('otherDoc'))) && (slidesPerPage !== 4) && (optionName !== "twoDoc")) {
+                                let actualHeight = doc.firstChild.clientHeight;
+                                console.log(actualHeight);
                                 document.getElementById('pageContainer_' + i).style.height = actualHeight * 1.05 + 'px';
 
                                 if (doc.className.includes('otherDoc') && isFirefox) {
@@ -607,8 +610,9 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                 }
                             }
                             if(optionName === "twoDoc") {
-                                if (doc.className.includes('otherDoc')) {
-                                    let actualHeight = doc.clientHeight;
+                                if (doc.className.includes('otherDoc') && doc.firstChild) {
+                                    let actualHeight = doc.firstChild.clientHeight;
+                                    console.log('The height is: ' + actualHeight);
                                     document.getElementById('pageContainer_' + i).style.height = Math.ceil((actualHeight * 0.72 / 975 / 2)) * 975 + 'px';
                                     document.getElementById('pageContainer_' + i).style.width = isSafari ? '800px' : '1400px';
 
@@ -663,7 +667,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         }
                         window.print();
                         if(!isSafari) {
-                            deletePageContainers('pageToPrint');
+                            // deletePageContainers('pageToPrint');
                         }
                         callback();
                     } else {
