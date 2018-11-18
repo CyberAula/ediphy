@@ -35,6 +35,7 @@ export function Ordering(base) {
                                     __name: i18n.t("Ordering.Number"),
                                     type: 'number',
                                     value: state.nBoxes,
+                                    max: 10,
                                     min: 1,
                                 },
                                 showFeedback: {
