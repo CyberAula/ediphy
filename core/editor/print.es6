@@ -9,6 +9,7 @@ import '../../sass/print.css';
 
 export default function printToPDF(state, callback, options = { forcePageBreak: false, slidesPerPage: 2, slidesWithComments: false, optionName: "defaultOption", drawBorder: true }) {
 
+    console.log(state);
     let navItems = state.navItemsById;
     let boxes = state.boxesById;
     let containedViews = state.containedViewsById;
@@ -21,6 +22,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let customAspectRatio = 0;
     let expectedWidth;
     let expectedHeight;
+    let marksById = state.marksById;
 
     let notSections = state.navItemsIds.filter(nav=> {
         return !navItems[nav].hidden && (Ediphy.Config.sections_have_content || !isSection(nav));
@@ -477,6 +479,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             viewsArray: [currentView], setAnswer: () => {
             }, submitPage: () => {
             }, exercises: exercises,
+            marks: marksById,
             expectedWidth: ((slidesPerPage === 4) && treatAsImportedDoc) ? miniViewport.width : expectedWidth,
         };
 
@@ -617,14 +620,14 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         }
                         window.print();
                         if(!isSafari) {
-                            deletePageContainers('pageToPrint');
+                            // deletePageContainers('pageToPrint');
                         }
                         callback();
                     } else {
                         addHTML(navs.slice(1), navs.length <= 2);
                         numPages++;
                     }
-                }, 500);
+                }, 700);
         });
     };
     if(isSafari) {
