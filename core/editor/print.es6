@@ -80,6 +80,12 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         cssPagedMedia('body {display:' + display + '}');
     };
 
+    let ended = false;
+
+    document.body.addEventListener('canceled', function() {
+        ended = true;
+    });
+
     addHTML = function(navs, last) {
 
         let elementClass = "pageToPrint";
@@ -92,7 +98,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         treatAsImportedDoc = ((slide && navItems[currentView].customSize === 0));
         let isAnImportedDoc = (slide && navItems[currentView].customSize !== 0);
 
-        let importedDoc = (currentView.customSize !== 0);
         let i = notSections.length - navs.length;
 
         let viewport;
@@ -127,9 +132,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         height: expectedHeight * 0.95,
                         width: expectedHeight * canvasRatio * 0.95,
                     };
-
                     miniViewport = viewport;
-
                 } else if (canvasRatio === 16 / 9)
                 {
                     SLIDE_BASE = 999;
@@ -138,14 +141,10 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         height: expectedHeight,
                         width: expectedHeight * canvasRatio,
                     };
-
                     miniViewport = viewport;
-
                 }
             }
-
             break;
-
         case "fullSlideCustom":
             SLIDE_BASE = 795;
             hideDocs = true;
@@ -155,12 +154,10 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 height: SLIDE_BASE,
                 width: SLIDE_BASE * canvasRatio,
             };
-
             expectedHeight = viewport.height;
             expectedWidth = viewport.width;
             cssPagedMedia.size((viewport.width) + "px " + (viewport.height + 1) + "px ", "0");
             break;
-
         case "fullSlide":
             cssPagedMedia.size('landscape', "1cm");
             hideDocs = true;
@@ -198,9 +195,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         height: expectedHeight * 0.95,
                         width: expectedHeight * canvasRatio * 0.95,
                     };
-
                     miniViewport = viewport;
-
                 } else if (canvasRatio === 16 / 9)
                 {
                     SLIDE_BASE = 999;
@@ -209,9 +204,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         height: expectedHeight,
                         width: expectedHeight * canvasRatio,
                     };
-
                     miniViewport = viewport;
-
                 }
             }
             break;
@@ -335,8 +328,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 pageContainer.style.height = 'auto';
             }
         } else if (slidesPerPage === 4) {
-            // pageContainer.style.height = miniViewport.height + 'px';
-            // pageContainer.style.width = miniViewport.width + 'px';
             pageContainer.style.height = '49%';
             pageContainer.style.width = '49%';
         }
@@ -355,7 +346,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
             if (customAspectRatio < A4_RATIO) {
                 elementClass = elementClass + " portraitDoc heightLimited upOnPage";
-                requiresFullPage = true;
                 expectedHeight = isSafari ? SAFARI_HEIGHT : CHROME_HEIGHT;
                 viewport.height = expectedHeight;
                 expectedWidth = expectedHeight * customAspectRatio;
@@ -369,7 +359,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 elemsUsed = -1;
             } else if ((customAspectRatio >= A4_RATIO) && (customAspectRatio < 1)) {
                 elementClass = elementClass + " portraitDoc widthLimited upOnPage";
-                requiresFullPage = true;
                 expectedWidth = DOC_BASE;
                 viewport.width = expectedWidth;
                 expectedHeight = expectedWidth / customAspectRatio;
@@ -454,7 +443,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             break;
         }
         let upOrDownSlide;
-        // !(isSafari && (optionName === "fullSlideDoc" || optionName === "fullSlide")
         if(!slidesWithComments && assignUpDown && optionName !== "fullSlideCustom") {
             upOrDownSlide = (elemsUsed % slidesPerPage === 0) ? (firstPage ? "" : (slide) ? "upOnPage" : "breakPage") : "breakPage";
         }
@@ -537,9 +525,15 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         ReactDOM.render((app), pageContainer, (a) => {
             setTimeout(
                 () => {
-
+                    if (ended) {
+                        deletePageContainers('pageToPrint');
+                        document.body.removeEventListener('canceled', function() {
+                            ended = false;
+                        });
+                        callback();
+                        return;
+                    }
                     if(last) {
-
                         numPages++;
                         let notToPrint = 0;
 
@@ -547,8 +541,8 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         for(let k = 0; k < numPages; k++) {
                             let doc = document.getElementById('pageContainer_' + k);
 
-                            if (((doc && (doc.className.includes('importedDoc')) && (optionName !== "fullSlideDoc") && (optionName !== "fullSlide")) || (doc && doc.className.includes('otherDoc'))) && (slidesPerPage !== 4) && (optionName !== "twoDoc")) {
-                                let actualHeight = doc.clientHeight;
+                            if (((doc && doc.firstChild && (doc.className.includes('importedDoc')) && (optionName !== "fullSlideDoc") && (optionName !== "fullSlide")) || (doc && doc.className.includes('otherDoc'))) && (slidesPerPage !== 4) && (optionName !== "twoDoc")) {
+                                let actualHeight = doc.firstChild.clientHeight;
                                 document.getElementById('pageContainer_' + k).style.height = actualHeight * 1.05 + 'px';
 
                                 if (doc.className.includes('otherDoc') && isFirefox) {
@@ -566,9 +560,10 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                 }
                             }
                             if(optionName === "twoDoc") {
-                                if (doc.className.includes('otherDoc')) {
-                                    let actualHeight = doc.clientHeight;
-                                    document.getElementById('pageContainer_' + k).style.height = Math.ceil((actualHeight * 0.72 / 975 / 2)) * 975 + 'px';
+                                if (doc.className.includes('otherDoc') && doc.firstChild) {
+                                    let actualHeight = doc.firstChild.clientHeight;
+                                    let calculatedHeight = Math.ceil((actualHeight * 0.72 / 960 / 2)) * 960;
+                                    document.getElementById('pageContainer_' + k).style.height = calculatedHeight + 'px';
                                     document.getElementById('pageContainer_' + k).style.width = isSafari ? '800px' : '1400px';
 
                                     if (isSafari) {
@@ -607,6 +602,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                     }
                                     containersArray[index].appendChild(doc);
                                     counter++;
+                                    // relleno con containers para forzar alineamiento
                                     if (l === (numPages - 1)) {
                                         let left = (4 - (counter % 4)) % 4;
                                         for (let f = left; f > 0; f--) {

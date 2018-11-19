@@ -35,6 +35,7 @@ export function MultipleChoice(base) {
                                     __name: i18n.t("MultipleChoice.Number"),
                                     type: 'number',
                                     value: state.nBoxes,
+                                    max: 10,
                                     min: 1,
                                 },
                                 showFeedback: {

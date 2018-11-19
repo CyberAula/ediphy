@@ -8,7 +8,7 @@ export const initialState = (config) => { return { filesUploaded: {},
             globalConfig: {
                 title: undefined,
                 canvasRatio: config.defaultAspectRatio || 16 / 9,
-                minTimeProgress: 10,
+                minTimeProgress: 0,
                 visorNav: {
                     player: true,
                     sidebar: true,
