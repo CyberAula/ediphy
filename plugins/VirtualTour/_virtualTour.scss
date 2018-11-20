@@ -65,6 +65,7 @@ a.mapMarker .material-icons{
   font-size: 1.8em;
 }
 a.mapMarker {
+  text-decoration: none;
   position: absolute;
   pointer-events: all !important;
   top: -1.9em;

@@ -191,4 +191,17 @@
     display: none;
   }
 
+
+  #contained_maincontent{
+    visibility: visible !important;
+  }
+
+  .containedCanvasClass{
+    background-color: transparent;
+  }
+
+  .cvBackButton{
+    display: none;
+  }
+
 }
