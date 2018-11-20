@@ -57,6 +57,8 @@ export default {
         'ScormPackage',
         'FlashObject',
         // 'Rating',
+        'AudioCue',
+
     ],
     availableLanguages: [
         'en',
