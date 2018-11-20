@@ -13,6 +13,12 @@ export default class RangeSlider extends Component {
         super();
         let min = props.minValue || props.min;
         let max = props.maxValue || props.max;
+
+        console.log('Props max is: ' + props.max);
+        console.log('Props min is: ' + props.min);
+
+        console.log('min is ' + min);
+        console.log('max is ' + max);
         /**
          * Co;ponent's initial state
          */
@@ -32,6 +38,18 @@ export default class RangeSlider extends Component {
     componentWillReceiveProps(props) {
         let min = this.props.minValue || this.props.min;
         let max = this.props.maxValue || this.props.max;
+        console.log('min is ' + min);
+        console.log('max is ' + max);
+        this.state.minElement.value = min;
+        this.state.maxElement.value = max;
+        this.setState({ min: min, max: max });
+    }
+
+    componentWillMount(props) {
+        let min = this.props.minValue || this.props.min;
+        let max = this.props.maxValue || this.props.max;
+        console.log('min is ' + min);
+        console.log('max is ' + max);
         this.state.minElement.value = min;
         this.state.maxElement.value = max;
         this.setState({ min: min, max: max });
@@ -43,6 +61,7 @@ export default class RangeSlider extends Component {
      */
     render() {
         let classN = (this.props.className ? this.props.className : '') + ' W(100%)';
+        console.log(this.state);
         return (
             <div style={this.props.style} className={classN}>
                 <div className="D(ib) C(#4e5b65)">{this.state.min}</div>
@@ -64,6 +83,7 @@ export default class RangeSlider extends Component {
                     </div>
                     <input onChange={
                         (ev)=>{
+                            console.log(parseInt(ev.target.value, 10));
                             if (ev.target.value < this.state.max - this.state.minRange) {
                                 this.setState(
                                     { min: parseInt(ev.target.value, 10) },
@@ -86,9 +106,11 @@ export default class RangeSlider extends Component {
                     min={this.props.min}
                     max={this.props.max}
                     step={this.props.step}
+                    defaultValue={0}
                     type="range" />
                     <input onChange={
                         (ev)=>{
+                            console.log(parseInt(ev.target.value, 10));
                             if (ev.target.value > this.state.min + this.state.minRange) {
                                 this.setState(
                                     { max: parseInt(ev.target.value, 10) },
@@ -110,9 +132,10 @@ export default class RangeSlider extends Component {
                     }
                     ref={(el)=>{this.state.maxElement = el;}}
                     min={this.props.min}
-                    max={this.props.max}
+                    max={this.props.max }
+                    defaultValue={100}
                     step={this.props.step}
-                    type="range" />
+                    type="range"/>
                 </div>
             </div>
         );
