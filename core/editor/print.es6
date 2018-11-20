@@ -8,11 +8,10 @@ import { Grid, Row, Col } from 'react-bootstrap';
 import '../../sass/print.css';
 
 export default function printToPDF(state, callback, options = { forcePageBreak: false, slidesPerPage: 2, slidesWithComments: false, optionName: "defaultOption", drawBorder: true }) {
-    console.log('State to be printed');
-    console.log(state);
-    let navItemsOnly = state.navItemsById;
-    let boxes = state.boxesById;
-    let containedViews = state.containedViewsById;
+
+    let navItemsOnly = JSON.parse(JSON.stringify(state.navItemsById));
+    let boxes = JSON.parse(JSON.stringify(state.boxesById));
+    let containedViews = JSON.parse(JSON.stringify(state.containedViewsById));
     let viewToolbars = state.viewToolbarsById;
     let pluginToolbars = state.pluginToolbarsById;
     let globalConfig = state.globalConfig;
@@ -23,33 +22,15 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let expectedWidth;
     let expectedHeight;
     let marksById = state.marksById;
-
-    console.log('Los navItems normales son: ');
-    console.log(navItemsOnly);
-
-    console.log('Las contained views son: ');
-    console.log(containedViews);
-
-    let navItemsOriginals = Object.assign({}, navItemsOnly);
-
+    let navItemsOriginals = navItemsOnly;
     let navItems = Object.assign(navItemsOriginals, containedViews);
+    let idList = Object.keys(navItems);
+    idList.splice(0, 1);
 
-    let listaIDs = Object.keys(navItems);
-    listaIDs.splice(0, 1);
-    console.log('Los ids son: ');
-    console.log(listaIDs);
-
-    console.log(navItems);
-    console.log('navItems are:');
-    console.log(navItems);
-    let notSections = state.navItemsIds.filter(nav=> {
+    let notSections = idList.filter(nav=> {
         return !navItems[nav].hidden && (Ediphy.Config.sections_have_content || !isSection(nav));
     });
 
-    notSections = listaIDs;
-
-    console.log('Not sections are: ');
-    console.log(notSections);
     let SLIDE_BASE = 650;
     let DOC_BASE = 990;
     let A4_RATIO = 1 / 1.4142;
@@ -111,25 +92,17 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     });
 
     addHTML = function(navs, last) {
-
         let elementClass = "pageToPrint";
         let requiresFullPage = false;
         let currentView = navs[0];
-        console.log('Current view is: ');
-        console.log(currentView);
-
         let assignUpDown = true;
         let slide = ((isCV && isSlide(containedViews[currentView].type)) ||
             (!isCV && isSlide(navItems[currentView].type)));
-
         treatAsImportedDoc = ((slide && navItems[currentView].customSize === 0));
         let isAnImportedDoc = (slide && navItems[currentView].customSize !== 0);
-
         let i = notSections.length - navs.length;
-
         let viewport;
         let miniViewport;
-
         switch(optionName) {
         case "fullSlideDoc":
             cssPagedMedia.size('landscape', '1cm');
@@ -368,7 +341,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         // Caso de que sea un documento importado
         if ((treatAsImportedDoc || navItems[currentView].customSize) && optionName !== "fullSlideCustom") {
 
-            console.log('[INFO] Element will be treated as an imported doc');
             if(firstElementPage && forcePageBreak) {
                 elementClass = elementClass + " upOnPage";
                 firstElementPage = false;
@@ -449,7 +421,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
         // Añado clase según tipo de slide/documento
 
-        console.log('[INFO] Viewport.height is: ' + viewport.height);
         switch (viewport.height) {
         case isSafari ? SAFARI_HEIGHT / 2 * 0.95 : CHROME_HEIGHT / 2 * 0.95:
             elementClass = elementClass + " pageContainer slide43";
@@ -516,11 +487,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             marks: marksById,
             expectedWidth: ((slidesPerPage === 4) && treatAsImportedDoc) ? miniViewport.width : expectedWidth,
         };
-
-        console.log('Expected wifth is: ' + expectedWidth);
-        console.log(((slidesPerPage === 4) && treatAsImportedDoc) ? miniViewport.width : expectedWidth);
-        console.log(slide ? ((slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.width : expectedWidth) : 'auto');
-
         let visorContent = !isCV ? (<VisorCanvas {...props} show fromPDF />) : (<VisorContainedCanvas {...props} show fromPDF/>);
         let app = (<div id="page-content-wrapper" className={slideClass + " page-content-wrapper printApp"}
             style={{ width: slide ? ((slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.width : expectedWidth) : 'auto', height: slide ? ((slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.height : expectedHeight) : 'auto', backgroundColor: 'white' }}>
@@ -534,7 +500,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         </div>);
         // Añado div al DOM
         document.body.appendChild(pageContainer);
-
         if (slidesWithComments && slide) {
             let pageContainerComments = document.createElement('div');
             let table = (<div width="100%" style={{ display: 'flex', justifyContent: 'center' }}><table width={expectedWidth}>
@@ -623,6 +588,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                             callback("nullPrint");
                             return;
                         }
+                        let slideToFill = 0;
                         if (slidesPerPage === 4) {
                             let index = -1;
                             let containersArray = [];
@@ -631,6 +597,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                 let doc = document.getElementById('pageContainer_' + l);
                                 doc.id = 'pageContainer_' + counter;
                                 if (!doc.className.includes('not_show')) {
+                                    slideToFill = l;
                                     if (counter % 4 === 0) {
                                         index++;
                                         let bigContainer = document.createElement('div');
@@ -644,11 +611,13 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                     containersArray[index].appendChild(doc);
                                     counter++;
                                     // relleno con containers para forzar alineamiento
-                                    if (l === (numPages - 1)) {
-                                        let left = (4 - (counter % 4)) % 4;
-                                        for (let f = left; f > 0; f--) {
-                                            containersArray[index].appendChild(doc.cloneNode());
-                                        }
+                                }
+                                if (l === (numPages - 1)) {
+                                    let left = (4 - (counter % 4)) % 4;
+                                    for (let f = left; f > 0; f--) {
+                                        let clone = doc.cloneNode();
+                                        clone.className = clone.className.replace("not_show", "");
+                                        containersArray[index].appendChild(clone);
                                     }
                                 }
                             }
@@ -658,7 +627,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         }
                         window.print();
                         if(!isSafari) {
-                            // deletePageContainers('pageToPrint');
+                            deletePageContainers('pageToPrint');
                         }
                         callback();
                     } else {
