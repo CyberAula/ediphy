@@ -85,6 +85,7 @@ export default class RangeSlider extends Component {
                     ref={(el)=>{this.state.minElement = el;}}
                     min={this.props.min}
                     max={this.props.max}
+                    defaultValue={0}
                     step={this.props.step}
                     type="range" />
                     <input onChange={
@@ -111,6 +112,7 @@ export default class RangeSlider extends Component {
                     ref={(el)=>{this.state.maxElement = el;}}
                     min={this.props.min}
                     max={this.props.max}
+                    defaultValue={100}
                     step={this.props.step}
                     type="range" />
                 </div>
