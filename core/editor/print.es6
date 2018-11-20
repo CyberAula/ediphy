@@ -9,7 +9,6 @@ import '../../sass/print.css';
 
 export default function printToPDF(state, callback, options = { forcePageBreak: false, slidesPerPage: 2, slidesWithComments: false, optionName: "defaultOption", drawBorder: true }) {
 
-    console.log(state);
     let navItems = state.navItemsById;
     let boxes = state.boxesById;
     let containedViews = state.containedViewsById;
@@ -620,7 +619,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         }
                         window.print();
                         if(!isSafari) {
-                            // deletePageContainers('pageToPrint');
+                            deletePageContainers('pageToPrint');
                         }
                         callback();
                     } else {
