@@ -12,6 +12,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let navItemsOnly = JSON.parse(JSON.stringify(state.navItemsById));
     let boxes = JSON.parse(JSON.stringify(state.boxesById));
     let containedViews = JSON.parse(JSON.stringify(state.containedViewsById));
+
     let viewToolbars = state.viewToolbarsById;
     let pluginToolbars = state.pluginToolbarsById;
     let globalConfig = state.globalConfig;
