@@ -32,6 +32,7 @@ export function MultipleAnswer(base) {
                                     __name: i18n.t("MultipleAnswer.Number"),
                                     type: 'number',
                                     value: state.nBoxes,
+                                    max: 10,
                                     min: 1,
                                 },
                                 showFeedback: {

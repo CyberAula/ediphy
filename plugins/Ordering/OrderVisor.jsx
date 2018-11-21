@@ -32,7 +32,7 @@ export default class OrderVisor extends React.Component {
             let checked = j == i;
 
             content.push(
-                <div key={j + 1} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")}>
+                <div key={j + 1} data-id={i} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")}>
                     <div className={"col-xs-2 answerPlaceholder"}>
                         <div className={"answer_letter"} style={{ backgroundColor: quizColor }}>{parseInt(j, 10) + 1}</div>
                     </div>
@@ -117,7 +117,7 @@ export default class OrderVisor extends React.Component {
             setTimeout(()=>{
                 list.sortable({
                     handle: '.order-drag-handle',
-                    items: '.orderable',
+                    items: '.answerRow',
                     // revert: true,
                     over: function() {
                         $(this).addClass('hoveringOrder');
@@ -127,7 +127,7 @@ export default class OrderVisor extends React.Component {
                     },
                     stop: (event, ui) => {
                         let indexes = [];
-                        let children = list.find(".orderable");
+                        let children = list.find(".answerRow");
                         for (let i = 0; i < children.length; i++) {
                             let index = parseInt(children[i].getAttribute("data-id"), 10);
                             indexes.push(index);

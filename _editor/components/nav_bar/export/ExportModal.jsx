@@ -64,6 +64,8 @@ export default class ExportModal extends Component {
 
         let aspectRatio = this.props.aspectRatio;
 
+        let cancelEvent = new Event('canceled');
+
         let exportFormats = [
             { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false, callback, this.state.selfContained); } },
             { format: "SCORM 2004", handler: ()=> {this.props.scorm(true, callback, this.state.selfContained); } },
@@ -269,6 +271,7 @@ export default class ExportModal extends Component {
                     <Button bsStyle="default" id="cancel_export_to_scorm" onClick={e => {
                         this.setState({ showLoader: false });
                         this.props.close(); e.preventDefault();
+                        document.body.dispatchEvent(cancelEvent);
                     }}>{i18n.t("global_config.Discard")}</Button>
                     <Button bsStyle="primary" id="accept_export_to_scorm" onClick={e => {
                         this.setState({ showLoader: true });
