@@ -13,6 +13,7 @@ export default class RangeSlider extends Component {
         super();
         let min = props.minValue || props.min;
         let max = props.maxValue || props.max;
+
         /**
          * Co;ponent's initial state
          */
@@ -32,6 +33,16 @@ export default class RangeSlider extends Component {
     componentWillReceiveProps(props) {
         let min = this.props.minValue || this.props.min;
         let max = this.props.maxValue || this.props.max;
+
+        this.state.minElement.value = min;
+        this.state.maxElement.value = max;
+        this.setState({ min: min, max: max });
+    }
+
+    componentWillMount(props) {
+        let min = this.props.minValue || this.props.min;
+        let max = this.props.maxValue || this.props.max;
+
         this.state.minElement.value = min;
         this.state.maxElement.value = max;
         this.setState({ min: min, max: max });
@@ -114,7 +125,7 @@ export default class RangeSlider extends Component {
                     max={this.props.max}
                     defaultValue={100}
                     step={this.props.step}
-                    type="range" />
+                    type="range"/>
                 </div>
             </div>
         );

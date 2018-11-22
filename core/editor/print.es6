@@ -48,26 +48,20 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let slidesWithComments = options.slidesWithComments || false;
     let optionName = options.optionName || "defaultOption";
     let drawBorder = options.drawBorder || false;
-
     let hideDocs = false;
     let hideSlides = false;
-
     let treatAsImportedDoc = false;
-
     let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
     let isFirefox = typeof InstallTrigger !== 'undefined';
     let isChrome = !!window.chrome && !!window.chrome.webstore;
-
     const SAFARI_HEIGHT = 1300;
     const CHROME_HEIGHT = 1400;
-
     let deletePageContainers = function(className) {
         let toDelete = document.getElementsByClassName(className);
         while (toDelete.length > 0) {
             toDelete[0].parentNode.removeChild(toDelete[0]);
         }
     };
-
     // Me permite indicar desde JS la orientación del PDF, solo funciona en Chrome. El usuario en otros browsers tendrá que indicar landscape o portrait en el menú de impresión
     // https://stackoverflow.com/questions/11160260/can-javascript-change-the-value-of-page-css
     let cssPagedMedia = (function() {
@@ -113,7 +107,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 DOC_BASE = 1000;
             }
             if (canvasRatio === 4 / 3) {
-                SLIDE_BASE = 900;
+                SLIDE_BASE = 1000;
                 expectedHeight = SLIDE_BASE / canvasRatio;
             } else if (canvasRatio === 16 / 9)
             {
@@ -379,16 +373,27 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 elemsUsed = -1;
             } else if ((customAspectRatio >= 1) && (customAspectRatio < (1 / A4_RATIO))) {
                 elementClass = elementClass + " pageContainer landscapeDoc heightLimited";
+
                 expectedHeight = isSafari ? SAFARI_HEIGHT / 2 : CHROME_HEIGHT / 2;
                 viewport.height = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.height : expectedHeight;
                 expectedWidth = expectedHeight * customAspectRatio;
                 viewport.width = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.width : expectedWidth;
 
                 if(customAspectRatio === (4 / 3)) {
-                    expectedHeight = isSafari ? SAFARI_HEIGHT / 2 * 0.95 : CHROME_HEIGHT / 2 * 0.95;
-                    viewport.height = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.height : expectedHeight;
-                    expectedWidth = expectedHeight * customAspectRatio;
-                    viewport.width = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.width : expectedWidth;
+                    if ((optionName === "twoSlideDoc") || (optionName === "twoSlide") || (optionName === "slideComments")) {
+                        expectedHeight = isSafari ? SAFARI_HEIGHT / 2 * 0.95 : CHROME_HEIGHT / 2 * 0.95;
+                        viewport.height = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.height : expectedHeight;
+                        expectedWidth = expectedHeight * customAspectRatio;
+                        viewport.width = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.width : expectedWidth;
+                    }
+                    else if ((optionName === "fullSlideDoc") || (optionName === "fullSlide")) {
+                        expectedHeight = isSafari ? SAFARI_HEIGHT / 2 : CHROME_HEIGHT / 1.5;
+                        viewport.height = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.height : expectedHeight;
+                        expectedWidth = expectedHeight * customAspectRatio;
+                        viewport.width = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.width : expectedWidth;
+
+                    }
+
                 }
 
             } else if (customAspectRatio > (1 / A4_RATIO)) {
@@ -628,7 +633,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         }
                         window.print();
                         if(!isSafari) {
-                            deletePageContainers('pageToPrint');
+                            // deletePageContainers('pageToPrint');
                         }
                         callback();
                     } else {
