@@ -12,6 +12,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let navItemsOnly = JSON.parse(JSON.stringify(state.navItemsById));
     let boxes = JSON.parse(JSON.stringify(state.boxesById));
     let containedViews = JSON.parse(JSON.stringify(state.containedViewsById));
+
     let viewToolbars = state.viewToolbarsById;
     let pluginToolbars = state.pluginToolbarsById;
     let globalConfig = state.globalConfig;
@@ -112,7 +113,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 DOC_BASE = 1000;
             }
             if (canvasRatio === 4 / 3) {
-                SLIDE_BASE = 900;
+                SLIDE_BASE = 1000;
                 expectedHeight = SLIDE_BASE / canvasRatio;
             } else if (canvasRatio === 16 / 9)
             {
@@ -378,12 +379,16 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 elemsUsed = -1;
             } else if ((customAspectRatio >= 1) && (customAspectRatio < (1 / A4_RATIO))) {
                 elementClass = elementClass + " pageContainer landscapeDoc heightLimited";
+                console.log('He entrado aquí');
+                console.log("expected height is: " + expectedHeight);
+                console.log("expected width is: " + expectedWidth);
+
                 expectedHeight = isSafari ? SAFARI_HEIGHT / 2 : CHROME_HEIGHT / 2;
                 viewport.height = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.height : expectedHeight;
                 expectedWidth = expectedHeight * customAspectRatio;
                 viewport.width = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.width : expectedWidth;
 
-                if(customAspectRatio === (4 / 3)) {
+                if(customAspectRatio === (4 / 3) && ((optionName === "twoSlideDoc") || (optionName === "twoSlide") || (optionName === "slideComments"))) {
                     expectedHeight = isSafari ? SAFARI_HEIGHT / 2 * 0.95 : CHROME_HEIGHT / 2 * 0.95;
                     viewport.height = (slidesPerPage === 4 && treatAsImportedDoc) ? miniViewport.height : expectedHeight;
                     expectedWidth = expectedHeight * customAspectRatio;
@@ -627,7 +632,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         }
                         window.print();
                         if(!isSafari) {
-                            deletePageContainers('pageToPrint');
+                            // deletePageContainers('pageToPrint');
                         }
                         callback();
                     } else {

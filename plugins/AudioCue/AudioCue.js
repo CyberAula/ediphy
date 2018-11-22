@@ -13,6 +13,8 @@ export function AudioCue(base) {
                 category: "multimedia",
                 flavor: "react",
                 needsTextEdition: false,
+                initialWidth: '60px',
+                initialHeight: '60px',
                 initialWidthSlide: '6.86%',
                 initialHeightSlide: '12.58%',
                 icon: 'volume_up',

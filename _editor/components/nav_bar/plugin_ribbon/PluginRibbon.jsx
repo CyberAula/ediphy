@@ -259,7 +259,7 @@ export default class PluginRibbon extends Component {
             event.stopPropagation();
             return;
         }
-        let inASlide = isSlide(this.props.navItemSelected.type) || cvslide;
+        let inASlide = (!cv && isSlide(this.props.navItemSelected.type)) || cvslide;
 
         let SelectedNav = inASlide ? (cvslide ? this.props.containedViewSelected.id : this.props.navItemSelected.id) : 0;
         let parentBox = inASlide ? 0 : (cvdoc ? this.props.containedViewSelected.boxes[0] : this.props.navItemSelected.boxes[0]);
