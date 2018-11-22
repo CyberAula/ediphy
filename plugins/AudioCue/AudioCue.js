@@ -77,7 +77,6 @@ export function AudioCue(base) {
                 colorCue: 'rgba(0, 173, 157, 1)',
                 useImage: false,
                 icon: audio_placeholder,
-
             };
         },
         getRenderTemplate: function(state, props) {
