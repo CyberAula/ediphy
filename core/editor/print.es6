@@ -151,7 +151,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             };
             expectedHeight = viewport.height;
             expectedWidth = viewport.width;
-            cssPagedMedia.size((viewport.width) + "px " + (viewport.height + 1) + "px ", "0");
+            cssPagedMedia.size((viewport.width) + "px " + ((canvasRatio === (4 / 3)) ? viewport.height + 1 : viewport.height + 1) + "px ", "0");
             break;
         case "fullSlide":
             cssPagedMedia.size('landscape', "1cm");
@@ -308,6 +308,13 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         if (optionName === "fullSlideCustom") {
             pageContainer.style.width = viewport.width;
             pageContainer.style.height = viewport.height;
+
+            if(canvasRatio === (4 / 3)) {
+                elementClass = elementClass + " breakPage";
+                pageContainer.style.height = viewport.height;
+
+            }
+
         } else {
             pageContainer.style.width = DOC_BASE + 'px';
             pageContainer.style.height = (slide && !requiresFullPage) ? ((isSafari) ? SAFARI_HEIGHT / 2 + 'px' : CHROME_HEIGHT / 2 + 'px') : 'auto';
@@ -633,7 +640,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                         }
                         window.print();
                         if(!isSafari) {
-                            // deletePageContainers('pageToPrint');
+                            deletePageContainers('pageToPrint');
                         }
                         callback();
                     } else {
