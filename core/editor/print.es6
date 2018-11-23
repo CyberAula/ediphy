@@ -54,6 +54,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
     let isFirefox = typeof InstallTrigger !== 'undefined';
     let isChrome = !!window.chrome && !!window.chrome.webstore;
+    let isLandscape = false;
     const SAFARI_HEIGHT = 1300;
     const CHROME_HEIGHT = 1400;
     let deletePageContainers = function(className) {
@@ -98,9 +99,12 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         let i = notSections.length - navs.length;
         let viewport;
         let miniViewport;
+        let avoidComments = false;
+
         switch(optionName) {
         case "fullSlideDoc":
             cssPagedMedia.size('landscape', '1cm');
+            isLandscape = true;
             slidesPerPage = 1;
             DOC_BASE = 1550;
             if (isSafari) {
@@ -117,6 +121,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             break;
         case "twoSlideDoc":
             cssPagedMedia.size('portrait', '1cm');
+            isLandscape = false;
             DOC_BASE = 999;
             slidesPerPage = 2;
             if(treatAsImportedDoc) {
@@ -155,6 +160,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             break;
         case "fullSlide":
             cssPagedMedia.size('landscape', "1cm");
+            isLandscape = true;
             hideDocs = true;
             slidesPerPage = 1;
             DOC_BASE = 1550;
@@ -239,6 +245,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             break;
         case "fourSlide":
             cssPagedMedia.size('landscape', "1cm");
+            isLandscape = true;
             slidesPerPage = 4;
             hideDocs = true;
             DOC_BASE = 600;
@@ -282,6 +289,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             break;
         case "twoDoc":
             cssPagedMedia.size('landscape', "1cm");
+            isLandscape = true;
             slidesPerPage = 2;
             hideSlides = true;
             elementClass = elementClass + " twoColumn";
@@ -353,8 +361,23 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             customAspectRatio = viewport.width / viewport.height;
 
             if (customAspectRatio < A4_RATIO) {
+                // pageContainer.style.height = '100%';
+
                 elementClass = elementClass + " portraitDoc heightLimited upOnPage";
-                expectedHeight = isSafari ? SAFARI_HEIGHT : CHROME_HEIGHT;
+
+                if (isLandscape && ((optionName === "fullSlideDoc") || (optionName === "fullSlide") || (optionName === "fullSlideCustom"))) {
+                    pageContainer.style.height = isSafari ? '670px' : '975px';
+                    expectedHeight = isSafari ? 670 : 975;
+                } else {
+                    if (optionName === "slideComments") {
+                        avoidComments = true;
+                    }
+                    if (optionName !== "fourSlide") {
+                        pageContainer.style.height = isSafari ? SAFARI_HEIGHT + 'px' : CHROME_HEIGHT + 'px';
+                        expectedHeight = isSafari ? SAFARI_HEIGHT : CHROME_HEIGHT;
+                    }
+
+                }
                 viewport.height = expectedHeight;
                 expectedWidth = expectedHeight * customAspectRatio;
                 viewport.width = expectedWidth;
@@ -367,6 +390,19 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                 elemsUsed = -1;
             } else if ((customAspectRatio >= A4_RATIO) && (customAspectRatio < 1)) {
                 elementClass = elementClass + " portraitDoc widthLimited upOnPage";
+
+                if (isLandscape && ((optionName === "fullSlideDoc") || (optionName === "fullSlide") || (optionName === "fullSlideCustom"))) {
+                    pageContainer.style.height = isSafari ? '670px' : '975px';
+                    expectedHeight = isSafari ? 670 : 975;
+                } else {
+                    if (optionName === "slideComments") {
+                        avoidComments = true;
+                    }
+                    if (optionName !== "fourSlide") {
+                        pageContainer.style.height = isSafari ? SAFARI_HEIGHT + 'px' : CHROME_HEIGHT + 'px';
+                        expectedHeight = isSafari ? SAFARI_HEIGHT : CHROME_HEIGHT;
+                    }
+                }
                 expectedWidth = DOC_BASE;
                 viewport.width = expectedWidth;
                 expectedHeight = expectedWidth / customAspectRatio;
@@ -513,7 +549,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         </div>);
         // Añado div al DOM
         document.body.appendChild(pageContainer);
-        if (slidesWithComments && slide) {
+        if (slidesWithComments && slide && !avoidComments) {
             let pageContainerComments = document.createElement('div');
             let table = (<div width="100%" style={{ display: 'flex', justifyContent: 'center' }}><table width={expectedWidth}>
                 <tr><td className= {customAspectRatio === (4 / 3) ? "commentLine" : "commentLine firstLine"} /></tr>
