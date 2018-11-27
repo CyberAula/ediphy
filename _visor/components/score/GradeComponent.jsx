@@ -255,7 +255,7 @@ ScormComponent.propTypes = {
       */
     updateScore: PropTypes.func.isRequired,
     /**
-   * Boxes toolbars
-   */
+    * Boxes toolbars
+    */
     pluginToolbars: PropTypes.object,
 };
