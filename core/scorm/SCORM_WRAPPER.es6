@@ -126,7 +126,7 @@ export function changeInitialState(exercises, nums, numPages, suspendDataCalcula
         for (let ex in page.exercises) {
             let box = page.exercises[ex];
             attempted = box.attempted;
-            pageScore += parseFloat(box.score * box.weight);
+            pageScore += parseFloat(box.score);
             totalExWeight += box.weight;
         }
         pageScore = pageScore / (totalExWeight || 1);
