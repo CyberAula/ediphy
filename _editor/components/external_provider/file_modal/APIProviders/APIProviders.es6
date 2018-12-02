@@ -8,6 +8,7 @@ import YoutubeComponent from './providers/YoutubeComponent';
 import EuropeanaComponent from './providers/EuropeanaComponent';
 import FlickrComponent from './providers/FlickrComponent';
 import PolyComponent from './providers/PolyComponent';
+import LogoComponent from './providers/LogoComponent';
 // import GoogleDriveComponent from './providers/GoogleDriveComponent';
 // import AudioBlocksComponent from './AudioBlocksComponent';
 // import PhetComponent from './PhetComponent';
@@ -20,12 +21,13 @@ import EuropeanaIcon from './logos/europeanaalt.svg';
 import YoutubeIcon from './logos/youtube.svg';
 import SoundCloudIcon from './logos/soundcloud_logo_0.png';
 import DropboxIcon from './logos/Dropboxlogo.png';
+// import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
 import PolyIcon from './logos/PolyLogo.png';
 import OpenClipArtIcon from './logos/openclipart.svg';
-// import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
 import GiphyIcon from './logos/giphy.png';
-import i18n from 'i18next';
+import LogoIcon from './logos/avatar-gallery.png';
 
+import i18n from 'i18next';
 export default function menus(self) {
     let allowedMIME = self.props.visible || "";
     let commonProps = {
@@ -181,6 +183,13 @@ export default function menus(self) {
             icon: PolyIcon,
             show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('webapp')),
             component: PolyComponent,
+            props: { ...commonProps },
+        },
+        {
+            name: 'Avatar',
+            icon: LogoIcon,
+            show: (avatar),
+            component: LogoComponent,
             props: { ...commonProps },
         },
     ];

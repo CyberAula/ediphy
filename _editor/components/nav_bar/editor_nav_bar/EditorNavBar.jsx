@@ -17,13 +17,11 @@ export default class EditorNavBar extends Component {
         super(props);
 
         this.state = {
-            showGlobalConfig: false,
             showImportFile: false,
             showExport: false,
             isFullScreenOn: screenfull.isFullscreen,
         };
 
-        this.toggleGlobalConfig = this.toggleGlobalConfig.bind(this);
         this.toggleExport = this.toggleExport.bind(this);
     }
 
@@ -54,32 +52,23 @@ export default class EditorNavBar extends Component {
                     openExitModal={this.props.openExitModal}
                     openTour={this.props.openTour}
                     serverModalOpen={this.props.serverModalOpen}
-                    toggleGlobalConfig={this.toggleGlobalConfig}
+                    toggleGlobalConfig={this.props.toggleGlobalConfig}
                     toggleImportFile={this.toggleImportFile}
                     toggleExport={this.toggleExport}
                     toggleFileUpload={this.props.toggleFileUpload}
                     isBusy={this.props.isBusy}
                     undoDisabled={this.props.undoDisabled} />
-                <GlobalConfig show={this.state.showGlobalConfig}
+                <GlobalConfig show={this.props.showGlobalConfig}
                     globalConfig={this.props.globalConfig}
                     toggleFileUpload={this.props.toggleFileUpload}
                     fileModalResult={this.props.fileModalResult}
                     changeGlobalConfig={this.props.changeGlobalConfig}
                     uploadFunction={this.props.uploadFunction}
-                    close={this.toggleGlobalConfig} />
+                    close={this.props.toggleGlobalConfig} />
                 <ExportModal aspectRatio={this.props.globalConfig.canvasRatio} show={this.state.showExport} export={this.props.export} scorm={this.props.scorm} close={this.toggleExport} />
 
             </Col>
         );
-    }
-
-    /**
-     * Shows/Hides the global configuration menu
-     */
-    toggleGlobalConfig() {
-        this.setState((prevState, props) => ({
-            showGlobalConfig: !prevState.showGlobalConfig,
-        }));
     }
 
     /**
@@ -109,6 +98,14 @@ EditorNavBar.propTypes = {
      * Modifies the global configuration of the document
      */
     changeGlobalConfig: PropTypes.func.isRequired,
+    /**
+     * Shows the global configuration of the document
+     */
+    showGlobalConfig: PropTypes.bool.isRequired,
+    /**
+     * Toggles the global configuration of the document
+     */
+    toggleGlobalConfig: PropTypes.func.isRequired,
     /**
      * Allows the use of the undo funtion
      */
