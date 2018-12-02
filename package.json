@@ -21,6 +21,7 @@
     "test:reducers": "jest /reducers/* --colors --watch",
     "test:verbose": "jest --watch --colors --verbose || true",
     "test:coverage": "jest --watch --colors --coverage --verbose || true",
+    "test:coveralls": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "eslint": "eslint . --fix --ext .js,.jsx,.es6",
     "doc": "cat ediphy && babel-node --presets es2015 doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js & webpack --config doc/webpack.doc.prod.js & webpack -p --config webpack.noserver.js & node doc/scripts/bringtodist.js",
     "dev-doc": "cat ediphy && babel-node --presets es2015  doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js &  webpack --config webpack.noserver.js & node doc/scripts/bringtodist.js & webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
@@ -33,6 +34,7 @@
     "add-all"
   ],
   "jest": {
+    "testURL": "http://localhost/",
     "transform": {
       "^.+\\.*?$": "./node_modules/babel-jest"
     },

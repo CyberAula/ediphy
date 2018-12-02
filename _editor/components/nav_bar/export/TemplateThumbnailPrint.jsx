@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class TemplateThumbnail extends React.Component {
+export default class TemplateThumbnailPrint extends React.Component {
     constructor(props) {
         super(props);
 
@@ -38,7 +38,7 @@ export default class TemplateThumbnail extends React.Component {
 
 }
 
-TemplateThumbnail.propTypes = {
+TemplateThumbnailPrint.propTypes = {
     /**
      * CSS Class to apply
      */
