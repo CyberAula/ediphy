@@ -149,9 +149,16 @@
   border-radius: 0;
   background-color: #777;
   padding: 7px 10px;
-  &:hover, &:active, &:focus {
+  &:hover, &:active {
     cursor: pointer;
     color: white !important;
+    background-color: $blueprimary !important;
+  }
+  &:focus{
+    background-color: #777 !important;
+  }
+  &:focus:hover{
+    cursor: pointer;
     background-color: $blueprimary !important;
   }
   &:disabled {
