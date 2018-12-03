@@ -126,7 +126,9 @@ export function changeInitialState(exercises, nums, numPages, suspendDataCalcula
         for (let ex in page.exercises) {
             let box = page.exercises[ex];
             attempted = box.attempted;
-            pageScore += parseFloat(box.score);
+            if(box.weight !== 0) {
+                pageScore += parseFloat(box.score);
+            }
             totalExWeight += box.weight;
         }
         if (totalExWeight === 0 && attempted) {
@@ -198,16 +200,16 @@ export function finish() {
 }
 
 function setScore(min, max, raw, scaled, completion_status, success_status) {
+    let ratio = max / 100;
     scorm.setvalue("cmi.mode", "normal");
     scorm.setvalue("cmi.score.scaled", scaled);
-    scorm.setvalue("cmi.score.min", min);
-    scorm.setvalue("cmi.score.max", max);
-    if(scorm.API.version === "1.2") {
+    scorm.setvalue("cmi.score.min", min / ratio);
+    scorm.setvalue("cmi.score.max", max / ratio);
+    /* if(scorm.API.version === "1.2" && max > 100) {
         raw = parseFloat(parseFloat(scaled * 100).toFixed(0));
-    }
-    scorm.setvalue("cmi.score.raw", raw);
+    }*/
+    scorm.setvalue("cmi.score.raw", raw / ratio);
     scorm.setvalue("cmi.success_status", success_status);
     scorm.setvalue("cmi.completion_status", completion_status);
-
     return commit();
 }
