@@ -13,7 +13,7 @@ export function FreeResponse() {
             let attempted = props.exercises && props.exercises.attempted;
             let score = props.exercises.score || 0;
             score = Math.round(score * 100) / 100;
-            score = (score) + "/" + (props.exercises.weight || 0);
+            score = (props.exercises.weight === 0) ? i18n.t("FreeResponse.notCount") : ((score) + "/" + (props.exercises.weight));
             let showFeedback = attempted && state.showFeedback;
             let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
             let checkEmptyFeedback = !props.boxes[props.id].sortableContainers['sc-Feedback'].children ||

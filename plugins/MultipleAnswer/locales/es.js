@@ -16,6 +16,7 @@ module.exports = {
         "Color": "Color",
         "correctAnswerFeedback": "Respuesta correcta",
         "None": "Ninguna",
+        "notCount": "Este ejercicio no añade puntos a la nota",
 
     },
 };

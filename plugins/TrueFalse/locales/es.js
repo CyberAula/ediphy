@@ -11,5 +11,7 @@ module.exports = {
         "ShowFeedback": "Mostrar explicación",
         "Number": "Nº de enunciados",
         "QuizColor": "Color",
+        "notCount": "Este ejercicio no añade puntos a la nota",
+
     },
 };

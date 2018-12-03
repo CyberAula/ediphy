@@ -14,7 +14,8 @@ export function TrueFalse() {
             let attempted = props.exercises && props.exercises.attempted;
             let score = props.exercises.score || 0;
             score = Math.round(score * 100) / 100;
-            score = (score) + "/" + (props.exercises.weight || 0);
+
+            score = (props.exercises.weight === 0) ? i18n.t("TrueFalse.notCount") : ((score) + "/" + (props.exercises.weight));
 
             let checkEmptyFeedback = !props.boxes[props.id].sortableContainers['sc-Feedback'].children ||
             props.boxes[props.id].sortableContainers['sc-Feedback'].children.length === 0 ||

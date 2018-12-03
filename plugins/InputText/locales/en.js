@@ -10,5 +10,7 @@ module.exports = {
         "General": "Advanced",
         "text": "Text",
         "number": "Number",
+        "notCount": "This exercise does not add points",
+
     },
 };

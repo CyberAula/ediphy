@@ -11,5 +11,7 @@ module.exports = {
         "ShowFeedback": "Show feedback msg.",
         "Number": "Number of statements",
         "QuizColor": "Color",
+        "notCount": "This exercise does not add points",
+
     },
 };

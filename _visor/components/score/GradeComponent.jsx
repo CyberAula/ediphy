@@ -126,7 +126,7 @@ export default class ScormComponent extends Component {
             let ind = Object.keys(this.state.exercises).indexOf(this.props.currentView);
             suspendData.pages[ind] = true;
             let completionProgress = this.calculateVisitPctg(suspendData.pages);
-            let totalScore = this.state.totalScore;
+            let totalScore = parseFloat(this.state.totalScore);
             // If we remove the next comments and instead comment the general if, we will track progress of the scorable pages separately from the exercises
             // if (!this.state.exercises[currentView].visited && Object.keys(exercises[currentView].exercises).length === 0) {
             exercises[currentView].attempted = true;
@@ -166,10 +166,13 @@ export default class ScormComponent extends Component {
         let suspendData = JSON.parse(JSON.stringify(this.state.suspendData));
         let total = 0;
         let points = 0;
+        let pointsNoWeight = 0;
         let bx = exercises[page].exercises;
+        let noWeight = 0;
 
         for (let ex in bx) {
             total += bx[ex].weight;
+            noWeight = (bx[ex].weight === 0) ? (noWeight + 1) : noWeight;
             bx[ex].score = 0;
             let plug = Ediphy.Visor.Plugins.get(bx[ex].name);
             let toolbar = this.props.pluginToolbars[ex];
@@ -178,14 +181,15 @@ export default class ScormComponent extends Component {
                 let exScore = bx[ex].weight;
                 try {
                     if(!isNaN(parseFloat(checkAnswer))) {
-                        exScore = exScore * checkAnswer;
+                        exScore = exScore === 0 ? checkAnswer : exScore * checkAnswer;
                     }
+
                 } catch(e) {}
                 points += exScore;
+                pointsNoWeight += (bx[ex].weight === 0) ? 0 : exScore;
                 bx[ex].score = exScore;
 
             }
-
             bx[ex].attempted = true;
             suspendData.exercises[bx[ex].num - 1] = {
                 a: bx[ex].currentAnswer,
@@ -193,14 +197,23 @@ export default class ScormComponent extends Component {
                 c: bx[ex].attempted ? "completed" : "incomplete" };
 
         }
+        let scoreWithoutNoWeight = total;
+        total += noWeight;
+
         let ind = Object.keys(this.state.exercises).indexOf(this.props.currentView);
         suspendData.pages[ind] = true;
 
         exercises[page].attempted = true;
         exercises[page].visited = true;
-        let pageScore = points / total;
+        let pageScore = points / (total || (noWeight || 1));
+        let pageScoreWithoutNoWeight = pointsNoWeight / (scoreWithoutNoWeight || (noWeight || 1));
         exercises[page].score = parseFloat(pageScore.toFixed(2));
-        let totalScore = parseFloat((this.state.totalScore + pageScore * exercises[page].weight).toFixed(2));
+        // let totalScore = parseFloat((parseFloat(this.state.totalScore) + (pageScore * exercises[page].weight).toFixed(2)));
+        // Si el ejercicio no puntua, añado el peso de la pagina independientemente de como haga el ejercicio.
+
+        // PROBLEMA: COMO CAMBIO TOTAL ENTONCES AHORA NO ME AÑADE EL VALOR POR DEFECTO DEL PESO DE LA PAGINA
+        let toAdd = parseFloat((scoreWithoutNoWeight === 0) ? exercises[page].weight : pageScoreWithoutNoWeight * exercises[page].weight);
+        let totalScore = parseFloat((parseFloat(parseFloat(this.state.totalScore) + toAdd)).toFixed(2));
         let completionProgress = this.calculateVisitPctg(suspendData.pages);
         this.setState({ exercises, totalScore, suspendData, completionProgress });
         if(API.isConnected()) {

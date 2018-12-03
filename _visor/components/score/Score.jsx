@@ -23,5 +23,4 @@ Score.propTypes = {
    * Object containing all the exercises in the course
    */
     exercises: PropTypes.object.isRequired,
-
 };

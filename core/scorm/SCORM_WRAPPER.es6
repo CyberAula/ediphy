@@ -129,6 +129,9 @@ export function changeInitialState(exercises, nums, numPages, suspendDataCalcula
             pageScore += parseFloat(box.score);
             totalExWeight += box.weight;
         }
+        if (totalExWeight === 0 && attempted) {
+            pageScore = 1;
+        }
         pageScore = pageScore / (totalExWeight || 1);
         page.visited = suspendData.pages[i];
         if (page.visited) {
@@ -171,7 +174,7 @@ export function setSCORMScore(score, maxScore, completionProgress, suspendData) 
 
     isPassed = ((score / maxScore) >= thresholdSc) ? "passed" : "failed";
     isComplete = completionProgress >= thresholdV ? "completed" : "incomplete";
-    let scoreRounded = parseFloat(score.toFixed(2));
+    let scoreRounded = parseFloat(parseFloat(score).toFixed(2));
     let scoreScaled = parseFloat((score / maxScore).toFixed(2));
     setScore(0, maxScore, scoreRounded, scoreScaled, isComplete, isPassed);
     scorm.setvalue("cmi.suspend_data", JSON.stringify(suspendData));
@@ -199,6 +202,9 @@ function setScore(min, max, raw, scaled, completion_status, success_status) {
     scorm.setvalue("cmi.score.scaled", scaled);
     scorm.setvalue("cmi.score.min", min);
     scorm.setvalue("cmi.score.max", max);
+    if(scorm.API.version === "1.2") {
+        raw = parseFloat(parseFloat(scaled * 100).toFixed(0));
+    }
     scorm.setvalue("cmi.score.raw", raw);
     scorm.setvalue("cmi.success_status", success_status);
     scorm.setvalue("cmi.completion_status", completion_status);

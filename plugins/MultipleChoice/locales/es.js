@@ -15,5 +15,7 @@ module.exports = {
         "QuizColor": "Color de la pregunta",
         "Color": "Color",
         "correctAnswerFeedback": "Respuesta correcta",
+        "notCount": "Este ejercicio no añade puntos a la nota",
+
     },
 };
