@@ -75,6 +75,7 @@ class EditorApp extends Component {
             grid: false,
             pluginConfigModal: false,
             publishing: false,
+            showGlobalConfig: false, // cookies.get("ediphy_visitor"),
             blockDrag: false,
             showFileUpload: false,
             fileUploadTab: 0,
@@ -151,6 +152,8 @@ class EditorApp extends Component {
                     {this.createInitModal()}
                     {this.state.alert}
                     <EditorNavBar hideTab={this.state.hideTab} boxes={boxes} isBusy={isBusy}
+                        showGlobalConfig={this.state.showGlobalConfig}
+                        toggleGlobalConfig={()=>{this.setState({ showGlobalConfig: !this.state.showGlobalConfig });}}
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                         globalConfig={{ ...globalConfig, status, everPublished }}
                         changeGlobalConfig={(prop, value) => {dispatch(changeGlobalConfig(prop, value));}}
