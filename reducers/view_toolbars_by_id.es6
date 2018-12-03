@@ -49,7 +49,7 @@ function toolbarElementCreator(state, action, containedView = false) {
         courseTitle: 'hidden',
         documentSubtitle: 'hidden',
         documentSubtitleContent: i18n.t("subtitle"),
-        documentTitle: action.payload.hideTitles ? 'hidden' : 'expanded',
+        documentTitle: (action.payload.hideTitles || (action.payload.toolbar && action.payload.toolbar.hideTitles)) ? 'hidden' : 'expanded',
         documentTitleContent: pagetitle,
         numPage: 'hidden',
         numPageContent: action.payload.position || "",

@@ -5,12 +5,18 @@ import Alert from './../../common/alert/Alert';
 import Picker from 'rc-color-picker';
 import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Radio } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
-import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../common/constants';
+import {
+    ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES,
+    ID_PREFIX_PAGE, ID_PREFIX_BOX,
+} from '../../../../common/constants';
 import i18n from 'i18next';
 import { isSection, isContainedView, nextAvailName } from '../../../../common/utils';
 import './_richMarksModal.scss';
 import './../../../../node_modules/rc-color-picker/assets/index.css';
 import Ediphy from '../../../../core/editor/main';
+
+import TemplatesModal from '../templates_modal/TemplatesModal';
+import { createBox } from "../../../../common/common_tools";
 /**
  * Modal component to edit marks' configuration
  */
@@ -33,8 +39,12 @@ export default class RichMarksModal extends Component {
             newType: PAGE_TYPES.SLIDE,
             viewNames: this.returnAllViews(this.props),
             showAlert: false,
+            showTemplates: false,
+            boxes: [],
         };
         this.toggleModal = this.toggleModal.bind(this);
+        this.toggleTemplatesModal = this.toggleTemplatesModal.bind(this);
+        this.templateClick = this.templateClick.bind(this);
     }
 
     /**
@@ -96,6 +106,7 @@ export default class RichMarksModal extends Component {
         let defaultMarkValue = plugin ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getDefaultMarkValue(this.props.pluginToolbar.state, this.props.boxSelected) : '';
         let pluginType = (this.props.pluginToolbar && this.props.pluginToolbar.config) ? this.props.pluginToolbar.config.displayName : 'Plugin';
         let config = plugin ? plugin.getConfig() : null;
+        let newId = "";
         return (
             <Modal className="pageModal richMarksModal" backdrop bsSize="large" show={this.props.visible}>
                 <Modal.Header>
@@ -192,6 +203,8 @@ export default class RichMarksModal extends Component {
                                     <option value={PAGE_TYPES.SLIDE}>{i18n.t("marks.new_slide")}</option>
                                 </FormControl>
 
+                                <Button style={{ display: this.state.newType === "slide" ? 'initial' : 'none' }} onClick={this.toggleTemplatesModal} > Select </Button>
+
                             </FormGroup>
                             <FormGroup style={{ display: this.state.connectMode === "existing" ? "initial" : "none" }}>
                                 <ControlLabel>{i18n.t("marks.existing_content_label")}</ControlLabel>
@@ -267,7 +280,7 @@ export default class RichMarksModal extends Component {
                     }}>Cancel</Button>
                     <Button bsStyle="primary" onClick={e => {
                         let title = ReactDOM.findDOMNode(this.refs.title).value;
-                        let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
+                        newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
                         let newMark = current && current.id ? current.id : ID_PREFIX_RICH_MARK + Date.now();
                         let connectMode = this.state.connectMode;
                         let color = this.state.color || marksType.defaultColor || '#222222';
@@ -293,7 +306,6 @@ export default class RichMarksModal extends Component {
                             }
                         }
                         let sortable_id = ID_PREFIX_SORTABLE_BOX + Date.now();
-
                         switch (connectMode) {
                         case "new":
                             markState = {
@@ -320,6 +332,7 @@ export default class RichMarksModal extends Component {
                                     id: newId,
                                     doc_type: this.state.newType,
                                     viewName: name,
+                                    hideTitles: true,
                                 },
                             };
                             break;
@@ -380,13 +393,12 @@ export default class RichMarksModal extends Component {
                         } else{
                             this.props.onRichMarkUpdated(markState.mark, markState.view, markState.viewToolbar);
                         }
-
                         /* this.props.onRichMarkUpdated({ id: (current ? current.id : newMark), title, connectMode, connection, displayMode, value, color }, this.state.newSelected === "");
                         if(connectMode === 'new' && !this.props.toolbars[connection.id || connection] && this.state.newType === PAGE_TYPES.DOCUMENT) {
                             this.props.onBoxAdded({ parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now(), page: newId }, false, false);
                         }*/
+                        this.generateTemplateBoxes(this.state.boxes, newId);
                         this.props.onRichMarksModalToggled();
-
                     }}>Save changes</Button>
                 </Modal.Footer>
                 <Alert className="pageModal"
@@ -396,6 +408,18 @@ export default class RichMarksModal extends Component {
                     closeButton onClose={()=>{this.setState({ showAlert: false });}}>
                     <span> {this.state.alertMsg} </span>
                 </Alert>
+                <TemplatesModal
+                    show={this.state.showTemplates}
+                    close={this.toggleTemplatesModal}
+                    navItems={this.props.navItems}
+                    boxes={this.props.boxes}
+                    // onNavItemAdded={(id, name, type, color, num, extra)=> {this.props.onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra);}}
+                    onIndexSelected={this.props.onIndexSelected}
+                    indexSelected={this.props.indexSelected}
+                    onBoxAdded={this.props.onBoxAdded}
+                    calculatePosition={this.calculatePosition}
+                    templateClick={this.templateClick}
+                    idSlide = {newId || ""}/>
             </Modal>
         );
 
@@ -446,11 +470,54 @@ export default class RichMarksModal extends Component {
     remapInObject(...objects) {
         return Object.assign({}, ...objects);
     }
-
     toggleModal(e) {
         let key = e.keyCode ? e.keyCode : e.which;
         if (key === 27 && this.props.visible) {
             this.props.onRichMarksModalToggled();
+        }
+    }
+    /**
+     * Shows/Hides the Import file modal
+     */
+    toggleTemplatesModal() {
+        this.setState((prevState, props) => ({
+            showTemplates: !prevState.showTemplates,
+        }));
+    }
+    templateClick(boxes) {
+        this.setState({
+            boxes: boxes,
+        });
+
+    }
+
+    generateTemplateBoxes(boxes, newId) {
+        if(boxes.length > 0) {
+            boxes.map((item, index) => {
+                let position = {
+                    x: item.box.x,
+                    y: item.box.y,
+                    type: 'absolute',
+                };
+                let initialParams = {
+                    id: ID_PREFIX_BOX + Date.now() + "_" + index,
+                    parent: newId,
+                    container: 0,
+                    col: 0, row: 0,
+                    width: item.box.width,
+                    height: item.box.height,
+                    position: position,
+                    name: item.toolbar.name,
+                    isDefaultPlugin: true,
+                    page: newId,
+                };
+                if (item.toolbar.text) {
+                    initialParams.text = item.toolbar.text;
+                } else if (item.toolbar.url) {
+                    initialParams.url = item.toolbar.url;
+                }
+                createBox(initialParams, item.toolbar.name, true, this.props.onBoxAdded, this.props.boxes, item.toolbar.style);
+            });
         }
     }
 
