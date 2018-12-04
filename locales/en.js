@@ -298,6 +298,7 @@ let en = {
             "popup_placeholder": "Write the text you want to show when you click on mark",
             "value": "Value",
             "wrong_value": "Wrong value",
+            "save_changes": "Save changes",
         },
         "messages": {
             "add_new_mark": "Add new mark",

@@ -298,6 +298,7 @@ let es = {
             "popup_placeholder": "Escribe el texto que quieres que aparezca al hacer click en la marca",
             "value": "Valor",
             "wrong_value": "Valor incorrecto",
+            "save_changes": "Guardar",
         },
         "messages": {
             "add_new_mark": "Añadir nueva marca",

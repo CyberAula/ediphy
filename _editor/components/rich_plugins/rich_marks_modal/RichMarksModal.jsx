@@ -191,20 +191,22 @@ export default class RichMarksModal extends Component {
                                 <ControlLabel style={{
                                     display: this.state.newSelected === "" ? "initial" : "none",
                                 }}>{i18n.t("marks.new_content_label")}</ControlLabel>
-                                <FormControl componentClass="select"
-                                    defaultValue={this.state.newType}
-                                    style={{
-                                        display: this.state.newSelected === "" ? "initial" : "none",
-                                    }}
-                                    onChange={e => {
-                                        this.setState({ newType: e.nativeEvent.target.value });
-                                    }}>
-                                    <option value={PAGE_TYPES.DOCUMENT}>{i18n.t("marks.new_document")}</option>
-                                    <option value={PAGE_TYPES.SLIDE}>{i18n.t("marks.new_slide")}</option>
-                                </FormControl>
+                                <div className={"typeSelector"}>
+                                    <FormControl componentClass="select"
+                                        defaultValue={this.state.newType}
+                                        style={{
+                                            display: this.state.newSelected === "" ? "initial" : "none",
+                                            width: "80%",
+                                        }}
+                                        onChange={e => {
+                                            this.setState({ newType: e.nativeEvent.target.value });
+                                        }}>
+                                        <option value={PAGE_TYPES.DOCUMENT}>{i18n.t("marks.new_document")}</option>
+                                        <option value={PAGE_TYPES.SLIDE}>{i18n.t("marks.new_slide")}</option>
+                                    </FormControl>
 
-                                <Button style={{ display: this.state.newType === "slide" ? 'initial' : 'none' }} onClick={this.toggleTemplatesModal} > Select </Button>
-
+                                    <Button className={"templateSettingMarks"} style={{ display: this.state.newType === "slide" ? 'flex' : 'none' }} onClick={this.toggleTemplatesModal} > <i className={"material-icons"}>settings</i> </Button>
+                                </div>
                             </FormGroup>
                             <FormGroup style={{ display: this.state.connectMode === "existing" ? "initial" : "none" }}>
                                 <ControlLabel>{i18n.t("marks.existing_content_label")}</ControlLabel>
@@ -277,6 +279,7 @@ export default class RichMarksModal extends Component {
                     {/* <span>También puedes arrastrar el icono <i className="material-icons">room</i> dentro del plugin del vídeo para añadir una nueva marca</span>*/}
                     <Button onClick={e => {
                         this.props.onRichMarksModalToggled();
+                        this.restoreDefaultTemplate();
                     }}>Cancel</Button>
                     <Button bsStyle="primary" onClick={e => {
                         let title = ReactDOM.findDOMNode(this.refs.title).value;
@@ -332,7 +335,7 @@ export default class RichMarksModal extends Component {
                                     id: newId,
                                     doc_type: this.state.newType,
                                     viewName: name,
-                                    hideTitles: true,
+                                    hideTitles: this.state.boxes.length > 0,
                                 },
                             };
                             break;
@@ -398,8 +401,9 @@ export default class RichMarksModal extends Component {
                             this.props.onBoxAdded({ parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now(), page: newId }, false, false);
                         }*/
                         this.generateTemplateBoxes(this.state.boxes, newId);
+                        this.restoreDefaultTemplate();
                         this.props.onRichMarksModalToggled();
-                    }}>Save changes</Button>
+                    }}>{i18n.t("marks.save_changes")}</Button>
                 </Modal.Footer>
                 <Alert className="pageModal"
                     show={this.state.showAlert}
@@ -488,7 +492,12 @@ export default class RichMarksModal extends Component {
         this.setState({
             boxes: boxes,
         });
+    }
 
+    restoreDefaultTemplate() {
+        this.setState({
+            boxes: [],
+        });
     }
 
     generateTemplateBoxes(boxes, newId) {
@@ -587,4 +596,20 @@ RichMarksModal.propTypes = {
      * Object containing all the viewTollbars
      */
     viewToolbars: PropTypes.object,
+    /**
+     *  Object containing all created boxes (by id)
+     */
+    boxes: PropTypes.object,
+    /**
+     * Function for adding a new box
+     */
+    onBoxAdded: PropTypes.func,
+    /**
+     * Function for getting the id of the selected template
+     */
+    onIndexSelected: PropTypes.func,
+    /**
+     * Contains the id of the selected template
+     */
+    indexSelected: PropTypes.func,
 };

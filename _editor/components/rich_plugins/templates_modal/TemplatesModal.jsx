@@ -103,21 +103,8 @@ TemplatesModal.propTypes = {
      */
     close: PropTypes.func.isRequired,
     /**
-     * Function for adding a new view
-     */
-    onNavItemAdded: PropTypes.func.isRequired,
-    /**
-     *  Object containing all created boxes (by id)
-     */
-    boxes: PropTypes.object.isRequired,
-    /**
-     * Function for adding a new box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
-    /**
-     * Function for adding a new box
+     * Function for getting template ID
      */
     templateClick: PropTypes.func.isRequired,
 
-    idSlide: PropTypes.array,
 };

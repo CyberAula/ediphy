@@ -48,3 +48,19 @@
     }
   }
 }
+.typeSelector{
+  display: flex;
+  align-items: center;
+  .templateSettingMarks{
+    margin-left: 2px;
+    height: 34px;
+    width: 34px;
+    background-color: #555;
+    color: white;
+    padding: 0;
+    i{
+      margin: 0 auto;
+    }
+  }
+
+}
