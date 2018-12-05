@@ -41,7 +41,9 @@ export default class VisorPlayer extends Component {
         let maxIndex = navItemsIds.length;
 
         return(
-            <div id="player">
+            <div id="player"
+                className={this.props.fadePlayerClass}
+            >
                 {this.props.show ?
                     (<span>
                         <OverlayTrigger placement="bottom" delayShow={50} trigger={['hover']} overlay={this.createTooltip("first", i18n.t("player.First"))}>
@@ -165,4 +167,8 @@ VisorPlayer.propTypes = {
      * Objects Array that contains all created views (identified by its *id*)
      */
     navItemsIds: PropTypes.array.isRequired,
+    /**
+     * Clase CSS para ocultar el Player al dejar de mover el raton
+     */
+    fadePlayerClass: PropTypes.string,
 };

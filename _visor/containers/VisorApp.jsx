@@ -43,6 +43,8 @@ export default class Visor extends Component {
             }
         }
 
+        this.timer = false;
+
         this.state = {
             currentView: [initialView], /* This is the actual view rendering*/
             triggeredMarks: [],
@@ -52,8 +54,11 @@ export default class Visor extends Component {
             toggledSidebar: false, // Ediphy.State.globalConfig.visorNav.sidebar ? Ediphy.State.globalConfig.visorNav.sidebar : (Ediphy.State.globalConfig.visorNav.sidebar === undefined),
             fromScorm: Ediphy.State.fromScorm,
             scoreInfo: { userName: "Anonymous", totalScore: 0, totalWeight: 0, completionProgress: 0 },
+            mouseMoving: false,
         };
         this.onMarkClicked = this.onMarkClicked.bind(this);
+        this._onMouseMove = this._onMouseMove.bind(this);
+
         if (!Ediphy.State.export) {
             window.export = (format = 'HTML') => {
                 switch(format) {
@@ -72,6 +77,20 @@ export default class Visor extends Component {
             };
         }
 
+    }
+
+    _onMouseMove(e) {
+        if(!this.state.mouseMoving) {
+            this.setState({ mouseMoving: true });
+        }
+        else {
+            if(this.timer) {
+                clearTimeout(this.timer);
+            }
+            this.timer = setTimeout(() => {
+                this.setState({ mouseMoving: false });
+            }, 2500);
+        }
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -227,9 +246,11 @@ export default class Visor extends Component {
 
         let content = [...navItemComponents, cvComponents];
         let empty = <div className="emptyPresentation">{i18n.t("EmptyPresentation")}</div>;
+        let visorNavButtonClass = this.state.mouseMoving ? ' appearButton' : ' fadeButton';
         return (
             <div id="app" ref={'app'}
-                className={wrapperClasses} >
+                className={wrapperClasses}
+                onMouseMove={this._onMouseMove}>
                 <VisorSideNav
                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
                     courseTitle={title}
@@ -249,17 +270,23 @@ export default class Visor extends Component {
                         style={{ height: '100%' }}>
                         <Row style={{ height: '100%' }}>
                             <Col lg={12} style={{ height: '100%', paddingLeft: '0px', paddingRight: '0px' }}>
-                                { !isContainedView(currentView) ? (<VisorPlayer show={visorNav.player}
+                                { !isContainedView(currentView) ? (<VisorPlayer
+                                    fadePlayerClass={visorNavButtonClass}
+                                    show={visorNav.player}
                                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
                                     currentViews={this.state.currentView}
                                     navItemsById={navItemsById}
                                     navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}/>) : null}
                                 {visorNav.sidebar ? (<Button id="visorNavButton"
-                                    className={toggleColor}
+                                    // style={{visibility: this.state.mouseMoving ? 'visible' : 'hidden'}}
+                                    className={toggleColor + visorNavButtonClass}
                                     bsStyle="primary"
                                     onClick={e => {this.setState({ toggledSidebar: !this.state.toggledSidebar });}}>
                                     <i className="material-icons">{toggleIcon}</i>
                                 </Button>) : null}
+                                {
+
+                                }
                                 <ScormComponent
                                     updateScore={(scoreInfo)=>{this.setState({ scoreInfo });}}
                                     navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}

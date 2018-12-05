@@ -141,6 +141,17 @@
   padding:0;
   border:0;
   z-index: 9999;
+
+  &.appearButton{
+    opacity: 1;
+    -webkit-transition: all 0.5s ease-in-out;
+  }
+
+  &.fadeButton{
+    opacity: 0;
+    -webkit-transition: all 0.5s ease-in-out;
+  }
+
 }
 
 .playerButton {
@@ -282,6 +293,17 @@
   z-index: 9999;
   position: absolute;
   opacity: 0.5;
+
+
+  &.appearButton{
+    opacity: 0.5;
+    -webkit-transition: all 0.5s ease-in-out;
+  }
+
+  &.fadeButton{
+    opacity: 0;
+    -webkit-transition: all 0.5s ease-in-out;
+  }
   &:hover, &:active, &:focus {
     color: #777 !important;
     background-color: $grey !important;

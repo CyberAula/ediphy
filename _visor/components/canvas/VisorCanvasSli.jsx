@@ -63,8 +63,7 @@ export default class VisorCanvasSli extends Component {
 
         let animationType = "animation-zoom";
         let padding = (this.props.fromPDF ? '0px' : '0px');
-        console.log('The State is: ');
-        console.log(this.state);
+
         return (
             <Col id={(isCV ? "containedCanvas_" : "canvas_") + this.props.currentView} md={12} xs={12} className={(isCV ? "containedCanvasClass " : "canvasClass ") + " canvasSliClass " + (isCV ? animationType : "") + (this.props.show ? "" : " hidden")}
                 style={{ display: 'initial', width: '100%', padding, fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px' }}>
@@ -130,10 +129,6 @@ export default class VisorCanvasSli extends Component {
                 <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
                     if (!this.props.fromPDF) {
                         let calculated = this.aspectRatio(this.props, this.state);
-                        console.log('calcualted');
-                        console.log(this.props);
-                        console.log(this.state);
-                        console.log(calculated);
                         this.setState({ fontBase: changeFontBase(calculated.width) });
                     } else if (this.props.fromPDF) {
                         this.setState({ fontBase: changeFontBase(this.props.expectedWidth) });
@@ -174,19 +169,11 @@ export default class VisorCanvasSli extends Component {
         let customSize = itemSel.customSize;
         let fromVisor = true;
         let calculated = aspectRatio(ar, (fromCV ? 'airlayer_cv_' : 'airlayer_') + props.currentView, (fromCV ? 'containedCanvas_' : 'canvas_') + props.currentView, customSize, fromVisor);
-        console.log('first calculated');
-        console.log(calculated);
         let { width, height, marginTop, marginBottom } = state;
         let current = { width, height, marginTop, marginBottom };
-        console.log('current');
-        console.log(current);
-        console.log('sate');
-        console.log(state);
         if (JSON.stringify(calculated) !== JSON.stringify(current)) {
             this.setState({ ...calculated });
         }
-        console.log('calculateddddd');
-        console.log(calculated);
         return calculated;
 
     }
