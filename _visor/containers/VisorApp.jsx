@@ -248,7 +248,7 @@ export default class Visor extends Component {
                     <Grid fluid id="visorAppContent"
                         style={{ height: '100%' }}>
                         <Row style={{ height: '100%' }}>
-                            <Col lg={12} style={{ height: '100%' }}>
+                            <Col lg={12} style={{ height: '100%', paddingLeft: '0px', paddingRight: '0px' }}>
                                 { !isContainedView(currentView) ? (<VisorPlayer show={visorNav.player}
                                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
                                     currentViews={this.state.currentView}

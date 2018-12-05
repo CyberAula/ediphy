@@ -24,7 +24,7 @@ export function changeFontBase(width = 900) {
     // $('.boxStyle').css("font-size", calculatedFontSize + "px");
     return calculatedFontSize;
 }
-export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", customSize = 0) {
+export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", customSize = 0, fromVisor = false) {
     // change ratio to the global ratio store in the app
     let ratio = ratioparam;
     let canvas = document.getElementById(idParent);
@@ -38,16 +38,19 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", 
     /* this is to avoid get values from react flow when using event listeners that do not exist in react
      * get the values from window.object */
     if(canvas) {
+        console.log('custom size is: ');
+        console.log(customSize);
         if (customSize === 0) {
-            height = canvas.offsetHeight - 66;
-            width = canvas.offsetWidth - 36;
+            height = fromVisor ? canvas.offsetHeight : canvas.offsetHeight - 66;
+            width = fromVisor ? canvas.offsetWidth : canvas.offsetWidth - 36;
             if (window.canvasRatio === undefined) {
                 window.canvasRatio = ratio; // https://stackoverflow.com/questions/19014250/reactjs-rerender-on-browser-resize
             } else {
                 ratio = window.canvasRatio;
             }
-            let w = canvas.offsetWidth - 36;
-            let h = canvas.offsetHeight - 66;
+            console.log('Ratio is ' + ratio);
+            let w = fromVisor ? canvas.offsetWidth : canvas.offsetWidth - 36;
+            let h = fromVisor ? canvas.offsetHeight : canvas.offsetHeight - 66;
             marginTop = 0 + 'px';
             if (w > ratio * h) {
                 width = (ratio * h) + "px";
@@ -76,19 +79,46 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", 
                     marginTop = ((h - newHeight) / 2) + 'px';
                 }
             }
-        } else if (customSize.width > canvas.offsetWidth - 36) {
+        } else if (fromVisor) {
+            console.log('canvas.offsetWidth is : ' + canvas.offsetWidth);
+            console.log('canvas.offsetHeight is : ' + canvas.offsetHeight);
+
+            let customRatio = customSize.width / customSize.height;
+            console.log('customRatio is: ' + customRatio);
+
+            if (customRatio > ratio) {
+                console.log('he entrado en el if');
+                width = canvas.offsetWidth + 'px';
+                height = canvas.offsetWidth / customRatio + 'px';
+            }
+            else {
+                console.log('he entrado en el else');
+                height = canvas.offsetHeight + 'px';
+                width = canvas.offsetHeight * customRatio + 'px';
+            }
+        }
+        else if (customSize.width > fromVisor ? canvas.offsetWidth : (canvas.offsetWidth - 36)) {
+            console.log('canvas offsetWidth is ' + canvas.offsetWidth);
+            console.log('canvas offsdetHeight is ' + canvas.offsetHeight);
+
             height = (customSize.height) + 'px';
             width = (customSize.width) + 'px';
-            marginTop = ((canvas.offsetHeight - 66 - customSize.height) / 2 - 1);
+            marginTop = ((canvas.offsetHeight - (fromVisor ? 0 : 66) - customSize.height) / 2 - 1);
             marginTop = marginTop > 0 ? marginTop : 0;
             marginTop += 'px';
         } else {
             height = customSize.height + 'px';
             width = customSize.width + 'px';
-            marginTop = canvas ? ((canvas.offsetHeight - 66 - customSize.height) / 2 - 1) : 0;
+            marginTop = canvas ? ((canvas.offsetHeight - (fromVisor ? 0 : 66) - customSize.height) / 2 - 1) : 0;
             marginTop = marginTop > 0 ? marginTop : 0;
             marginTop += 'px';
         // marginBottom = '10px';
+        }
+
+        if(fromVisor) {
+            console.log('w ' + width);
+            console.log('h :' + height);
+            console.log(customSize);
         }
     }
     return { width, height, marginTop, marginBottom };
