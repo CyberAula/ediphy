@@ -281,7 +281,10 @@ export default class Visor extends Component {
                                     // style={{visibility: this.state.mouseMoving ? 'visible' : 'hidden'}}
                                     className={toggleColor + visorNavButtonClass}
                                     bsStyle="primary"
-                                    onClick={e => {this.setState({ toggledSidebar: !this.state.toggledSidebar });}}>
+                                    onClick={e => {
+                                        this.setState({ toggledSidebar: !this.state.toggledSidebar });
+                                        document.activeElement.blur();
+                                    }}>
                                     <i className="material-icons">{toggleIcon}</i>
                                 </Button>) : null}
                                 {
