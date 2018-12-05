@@ -134,8 +134,11 @@
 }
 #player {
   position:fixed;
-  top: 0;
-  right: 0;
+  //top: 0;
+  //right: 0;
+  width: 100%;
+  background-color: #777;
+  bottom: 0;
   padding:0;
   margin:0;
   padding:0;
