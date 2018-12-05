@@ -133,7 +133,7 @@
   font-size: 16px;
 }
 #player {
-  position:fixed;
+  position:absolute;
   //top: 0;
   //right: 0;
   width: 100%;
@@ -153,6 +153,27 @@
   &.fadeButton{
     opacity: 0;
     -webkit-transition: all 0.5s ease-in-out;
+  }
+
+  .playerControllers{
+    width: 100%;
+    display: flex;
+
+    span{
+      width: 90%;
+      display: flex;
+      button{
+        width: 20%;
+      }
+      span{
+        width: 20%;
+        display: flex;
+        justify-content: center;
+      }
+    }
+    button{
+      width: 10%;
+    }
   }
 
 }
@@ -211,7 +232,10 @@
 }
 
 .btn[disabled].btn-primary.playerButton {
-    background-color: #aaa !important;
+    background-color: #a2a2a2 !important;
+  i{
+    color: #7a7a7a;
+  }
 }
 
 

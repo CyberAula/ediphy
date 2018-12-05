@@ -41,7 +41,7 @@ export default class VisorPlayer extends Component {
         let maxIndex = navItemsIds.length;
 
         return(
-            <div id="player" className={this.props.fadePlayerClass}>
+            <div id="player" className={this.props.fadePlayerClass} style={{ width: '100%' }}>
                 <div className={"playerControllers"}>
                     {this.props.show ?
                         (<span>
