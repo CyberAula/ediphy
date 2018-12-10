@@ -157,10 +157,9 @@
 
   .playerControllers{
     width: 100%;
-    display: flex;
 
     span{
-      width: 90%;
+      width: 100%;
       display: flex;
       button{
         width: 20%;
@@ -171,8 +170,17 @@
         justify-content: center;
       }
     }
-    button{
-      width: 10%;
+    .fullScreenButton{
+      width: 50px;
+      position: fixed;
+      bottom: 0px;
+      right: 0px;
+      &:hover{
+        background-color: $blueprimary !important;
+        i{
+          transform: scale(1) !important;
+        }
+      }
     }
   }
 
@@ -185,22 +193,32 @@
   background-color: #777;
   padding: 7px 10px;
   &:hover, &:active {
+    i{
+      transform: scale(1.4);
+      transition: transform 0.2s;
+    }
     cursor: pointer;
     color: white !important;
-    background-color: $blueprimary !important;
+    background-color: #777 !important;
   }
   &:focus{
     background-color: #777 !important;
   }
   &:focus:hover{
     cursor: pointer;
-    background-color: $blueprimary !important;
+    background-color: #777 !important;
   }
   &:disabled {
-    cursor: not-allowed !important;
-    background-color: #777 !important;
-    opacity: 1 !important;
-  }
+     transform: scale(1) !important;
+     cursor: not-allowed !important;
+     opacity: 1 !important;
+     background-color: #777 !important;
+     i{
+       transform: scale(1) !important;
+       color: #7a7a7a !important;
+     }
+   }
+
   i {
     vertical-align: middle;
     margin: 0;
@@ -232,9 +250,9 @@
 }
 
 .btn[disabled].btn-primary.playerButton {
-    background-color: #a2a2a2 !important;
+    background-color: #777 !important;
   i{
-    color: #7a7a7a;
+    color: #989898 !important;
   }
 }
 

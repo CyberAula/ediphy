@@ -92,7 +92,7 @@ export default class VisorPlayer extends Component {
                         </span>) :
                         null }
                     <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose overlay={this.createTooltip("fullscreen", i18n.t("messages.fullscreen"))}>
-                        <Button className="playerButton"
+                        <Button className="playerButton fullScreenButton"
                             bsStyle="primary"
                             onClick={(e)=> {
                                 let el = document.getElementById('root');
