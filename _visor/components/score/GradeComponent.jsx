@@ -165,12 +165,15 @@ export default class ScormComponent extends Component {
         let exercises = JSON.parse(JSON.stringify(this.state.exercises));
         let suspendData = JSON.parse(JSON.stringify(this.state.suspendData));
         let total = 0;
+        // Variable que guarda la puntuación de todos los ejs (los que tienen peso 0 asume peso 1)
         let points = 0;
+        // Variable que guarda la puntuación de solo los ejs que cuentan para nota
         let pointsNoWeight = 0;
         let bx = exercises[page].exercises;
         let noWeight = 0;
 
         for (let ex in bx) {
+            console.log('bx[ex].weight: ' + bx[ex].weight);
             total += bx[ex].weight;
             noWeight = (bx[ex].weight === 0) ? (noWeight + 1) : noWeight;
             bx[ex].score = 0;
@@ -179,6 +182,7 @@ export default class ScormComponent extends Component {
             let checkAnswer = plug.checkAnswer(bx[ex].currentAnswer, bx[ex].correctAnswer, toolbar.state);
             if (checkAnswer) {
                 let exScore = bx[ex].weight;
+                console.log('exScore: ' + exScore);
                 try {
                     if(!isNaN(parseFloat(checkAnswer))) {
                         exScore = exScore === 0 ? checkAnswer : exScore * checkAnswer;
@@ -186,7 +190,9 @@ export default class ScormComponent extends Component {
 
                 } catch(e) {}
                 points += exScore;
+                console.log('points: ' + points);
                 pointsNoWeight += (bx[ex].weight === 0) ? 0 : exScore;
+                console.log('pointsNoWeight: ' + pointsNoWeight);
                 bx[ex].score = exScore;
 
             }
@@ -197,7 +203,14 @@ export default class ScormComponent extends Component {
                 c: bx[ex].attempted ? "completed" : "incomplete" };
 
         }
+
         let scoreWithoutNoWeight = total;
+
+        console.log('POINTS NO WEIGHT: ' + pointsNoWeight);
+        console.log('SCOREWITHOUTNOWEIGHT: ' + scoreWithoutNoWeight);
+        console.log('Exercises[page].weight: ' + exercises[page].weight);
+        console.log('Expected score: ' + pointsNoWeight / scoreWithoutNoWeight);
+        let totalOnlyCountingEx = total;
         total += noWeight;
 
         let ind = Object.keys(this.state.exercises).indexOf(this.props.currentView);
@@ -205,13 +218,21 @@ export default class ScormComponent extends Component {
 
         exercises[page].attempted = true;
         exercises[page].visited = true;
-        let pageScore = points / (total || (noWeight || 1));
+        console.log('totalOnlyCountingEx: ' + totalOnlyCountingEx);
+        console.log('points ' + points);
+        console.log('total ' + total);
+        console.log('noWeight ' + noWeight);
+
         let pageScoreWithoutNoWeight = pointsNoWeight / (scoreWithoutNoWeight || (noWeight || 1));
+        let pageScore = (totalOnlyCountingEx === 0) ? points / (total || (noWeight || 1)) : pageScoreWithoutNoWeight;
         exercises[page].score = parseFloat(pageScore.toFixed(2));
+        console.log('pageScore ' + exercises[page].score);
+        console.log('pageScoreWithoutNoWeight: ' + pageScoreWithoutNoWeight);
         // let totalScore = parseFloat((parseFloat(this.state.totalScore) + (pageScore * exercises[page].weight).toFixed(2)));
         // Si el ejercicio no puntua, añado el peso de la pagina independientemente de como haga el ejercicio.
 
         // PROBLEMA: COMO CAMBIO TOTAL ENTONCES AHORA NO ME AÑADE EL VALOR POR DEFECTO DEL PESO DE LA PAGINA
+        console.log('PageScoreWithoutNoWeight: ' + pageScoreWithoutNoWeight);
         let toAdd = parseFloat((scoreWithoutNoWeight === 0) ? exercises[page].weight : pageScoreWithoutNoWeight * exercises[page].weight);
         let totalScore = parseFloat((parseFloat(parseFloat(this.state.totalScore) + toAdd)).toFixed(2));
         let completionProgress = this.calculateVisitPctg(suspendData.pages);
