@@ -159,7 +159,10 @@
     width: 100%;
 
     .playerControllersSpan{
-      width: 50%;
+      width: 80%;
+      @media screen and (min-width: 600px){
+        width: 40%;
+      }
       margin: 0 auto;
       display: flex;
       button{
