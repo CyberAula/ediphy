@@ -137,8 +137,11 @@ export default class VisorCanvasSli extends Component {
             </Col>
         );
     }
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         // aspectRatio(this.props.canvasRatio);
+        if(this.props.show && !prevProps.show) {
+            this.aspectRatioListener();
+        }
     }
 
     componentDidMount() {
