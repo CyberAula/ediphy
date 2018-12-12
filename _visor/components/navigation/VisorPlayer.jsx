@@ -44,7 +44,7 @@ export default class VisorPlayer extends Component {
             <div id="player" className={this.props.fadePlayerClass} style={{ width: '100%' }}>
                 <div className={"playerControllers"}>
                     {this.props.show ?
-                        (<span>
+                        (<span className={"playerControllersSpan"}>
                             <OverlayTrigger placement="bottom" delayShow={50} trigger={['hover']} overlay={this.createTooltip("first", i18n.t("player.First"))}>
                                 <Button className="playerButton"
                                     bsStyle="primary"

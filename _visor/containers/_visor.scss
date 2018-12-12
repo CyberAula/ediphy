@@ -158,8 +158,9 @@
   .playerControllers{
     width: 100%;
 
-    span{
-      width: 100%;
+    .playerControllersSpan{
+      width: 50%;
+      margin: 0 auto;
       display: flex;
       button{
         width: 20%;
@@ -235,6 +236,7 @@
   display: inline-block;
   vertical-align: top;
   height: 38px;
+  line-height: 26px;
   input {
     border: none;
     background-color: #777;
