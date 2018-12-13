@@ -198,10 +198,7 @@ export default {
                                     state.fromScorm = true;
                                     state.navItemSelected = page;
                                     let filesUploaded = Object.values(state.filesUploaded);
-                                    console.log(filesUploaded);
                                     let strState = JSON.stringify({ ...state, export: true });
-                                    console.log(strState);
-                                    console.log('is it selfcontained? ' + selfContained);
                                     strState = strState.replace('http://vishubcode.org', 'https://vishubcode.org');
                                     strState = strState.replace('http://vishub.org', 'https://vishub.org');
                                     strState = strState.replace('http://educainternet.es', 'https://educainternet.es');
