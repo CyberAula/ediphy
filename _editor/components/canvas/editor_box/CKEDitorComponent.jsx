@@ -25,6 +25,7 @@ export default class CKEDitorComponent extends Component {
     }
 
     componentDidMount() {
+        console.log(CKEDITOR);
         let toolbar = this.props.toolbars[this.props.id];
         let config = Ediphy.Plugins.get(toolbar.pluginId).getConfig();
         if (config && config.needsTextEdition) {
@@ -35,16 +36,19 @@ export default class CKEDitorComponent extends Component {
             }*/
 
             let editor = CKEDITOR.inline(this.refs.textarea);
+
+            /* editor.document.$.body.disabled = true;
+            editor.document.$.body.contentEditable = false;
+            editor.document.$.designMode="off";*/
+
             editor.config.fontSize_sizes = fontString();
             editor.config.font_defaultLabel = 'Arial';
             editor.config.fontSize_defaultLabel = '14';
-
             // editor.config.fontSize_style = {
             //     element:        'span',
             //     styles:         { 'font-size': '#(size)' },
             //     overrides:      [ { element: 'font', attributes: { 'size': null } } ]
             // };
-
             if (toolbar.state.__text) {
                 editor.setData(decodeURI(toolbar.state.__text));
 
@@ -84,21 +88,6 @@ export default class CKEDitorComponent extends Component {
             // $.event.trigger({ type : 'keypress' });
             }
 
-            /* TODO Scale text
-            // buildPreview() is called every time "size" dropdowm is opened
-            CKEDITOR.style.prototype.buildPreviewOriginal = CKEDITOR.style.prototype.buildPreview;
-            CKEDITOR.style.prototype.buildPreview = function (label) {
-            var result = this.buildPreviewOriginal (label);
-            var match = /^(.*)font-size:(\d+)vh(.*)$/.exec (result);
-            if (match) {
-                // apparently ckeditor uses iframe or something that breaks vh units
-                // we shall use current window height to convert vh to px here
-                var pixels = Math.round (0.01 * window.innerHeight * parseInt (match[2]));
-                result = match[1] + 'font-size:' + pixels + 'px' + match[3];
-            }
-            return result;
-        };
-        */
         }
         if (window.MathJax) {
             window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
