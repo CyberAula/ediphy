@@ -582,6 +582,18 @@ let components = {
         "isBusy": "Indica si el servidor se encuentra ocupado",
         "uploadFunction": "Función que sube el archivo seleccionado al servidor",
     },
+    "GoogleDriveComponent": {
+        "elementSelected": "Elemento seleccionado para insertar en el documento",
+        "onElementSelected": "Función que permite seleccionar un elemento",
+        "icon": "Icono de la API",
+        "name": "Nombre de la API",
+    },
+    "LogoComponent": {
+        "elementSelected": "Elemento seleccionado para insertar en el documento",
+        "onElementSelected": "Función que permite seleccionar un elemento",
+        "icon": "Icono de la API",
+        "name": "Nombre de la API",
+    },
     "EuropeanaComponent": {
         "elementSelected": "Elemento seleccionado para insertar en el documento",
         "onElementSelected": "Función que permite seleccionar un elemento",
@@ -618,6 +630,12 @@ let components = {
         "name": "Nombre de la API",
     },
     "PhetComponent": {
+        "elementSelected": "Elemento seleccionado para insertar en el documento",
+        "onElementSelected": "Función que permite seleccionar un elemento",
+        "icon": "Icono de la API",
+        "name": "Nombre de la API",
+    },
+    "PolyComponent": {
         "elementSelected": "Elemento seleccionado para insertar en el documento",
         "onElementSelected": "Función que permite seleccionar un elemento",
         "icon": "Icono de la API",
