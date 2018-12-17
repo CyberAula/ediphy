@@ -571,6 +571,17 @@ let components = {
         "icon": "Icono de la API",
         "name": "Nombre de la API",
     },
+    "DropboxComponent": {
+        "elementSelected": "Elemento seleccionado para insertar en el documento",
+        "elementSelectedType": "Tipo de elemento seleccionado para insertar en el documento",
+        "onElementSelected": "Función que permite seleccionar un elemento",
+        "icon": "Icono de la API",
+        "name": "Nombre de la API",
+        "show": "Tipo de formato permitido",
+        "filesUploaded": "Arcivos subidos al servidor",
+        "isBusy": "Indica si el servidor se encuentra ocupado",
+        "uploadFunction": "Función que sube el archivo seleccionado al servidor",
+    },
     "EuropeanaComponent": {
         "elementSelected": "Elemento seleccionado para insertar en el documento",
         "onElementSelected": "Función que permite seleccionar un elemento",
