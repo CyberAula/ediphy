@@ -5,7 +5,7 @@ import { ID_PREFIX_BOX, ID_PREFIX_PAGE, PAGE_TYPES } from '../../../../common/co
 import i18n from 'i18next';
 import { templates } from "./templates/templates";
 import './_templatesModal.scss';
-import TemplateThumbnail from "./TemplateThumbnail";
+import TemplateThumbnailRich from "./TemplateThumbnailRich";
 import { createBox } from "../../../../common/common_tools";
 
 export default class TemplatesModalRich extends Component {
@@ -47,7 +47,7 @@ export default class TemplatesModalRich extends Component {
                         {this.templates.map((item, index) => {
                             let border = this.state.itemSelected === index ? "solid #17CFC8 3px" : "solid #eee 1px";
                             return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: '120px', height: '80px' }}>
-                                <TemplateThumbnail key={index} index={index}
+                                <TemplateThumbnailRich key={index} index={index}
                                     onClick={e => { this.setState({ itemSelected: index });}}
                                     onDoubleClick={e => {
                                         this.setState({ itemSelected: index });

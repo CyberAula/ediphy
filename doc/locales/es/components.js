@@ -1001,6 +1001,13 @@ let components = {
         "onClick": "Callback al hacer clic en la miniatura",
         "onDoubleClick": "Callback al hacer doble clic en la miniatura",
     },
+    "TemplateThumbnailRich": {
+        "className": "Clase que se le aplica a la miniatura",
+        "boxes": "Objeto que contiene todas las cajas accesibles por su *id*",
+        "style": "Estilo que se le aplica a la miniatura",
+        "onClick": "Callback al hacer clic en la miniatura",
+        "onDoubleClick": "Callback al hacer doble clic en la miniatura",
+    },
     "TemplateThumbnailPrint": {
         "className": "Clase que se le aplica a la miniatura",
         "boxes": "Objeto que contiene todas las cajas accesibles por su *id*",
