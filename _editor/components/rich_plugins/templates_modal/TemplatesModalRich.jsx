@@ -8,7 +8,7 @@ import './_templatesModal.scss';
 import TemplateThumbnail from "./TemplateThumbnail";
 import { createBox } from "../../../../common/common_tools";
 
-export default class TemplatesModal extends Component {
+export default class TemplatesModalRich extends Component {
     constructor(props) {
         super(props);
         this.index = 0;
@@ -93,7 +93,7 @@ export default class TemplatesModal extends Component {
         this.props.templateClick(boxes);
     }
 }
-TemplatesModal.propTypes = {
+TemplatesModalRich.propTypes = {
     /**
      * Whether the import file modal should be shown or hidden
      */

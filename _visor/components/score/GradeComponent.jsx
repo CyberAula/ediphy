@@ -253,7 +253,7 @@ ScormComponent.propTypes = {
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
-     * Vista actual
+     * Current view
      */
     currentView: PropTypes.any.isRequired,
     /**
@@ -261,7 +261,7 @@ ScormComponent.propTypes = {
      */
     globalConfig: PropTypes.object.isRequired,
     /**
-     * Cambia la vista actual
+     * Change current view
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
@@ -277,8 +277,8 @@ ScormComponent.propTypes = {
      */
     exercises: PropTypes.object.isRequired,
     /**
-      * Inform the rest of the application of the SCORM Information
-      */
+     * Inform the rest of the application of the SCORM Information
+     * */
     updateScore: PropTypes.func.isRequired,
     /**
     * Boxes toolbars

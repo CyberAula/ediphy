@@ -577,7 +577,7 @@ GlobalConfig.propTypes = {
      */
     fileModalResult: PropTypes.object,
     /**
-   *  Function for uploading a file to the server
-   */
+     *  Function for uploading a file to the server
+     */
     uploadFunction: PropTypes.func.isRequired,
 };

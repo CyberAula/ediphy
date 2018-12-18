@@ -135,15 +135,15 @@ export default class VisorCanvasDoc extends Component {
 
 VisorCanvasDoc.propTypes = {
     /**
-   * Show the current view
-   */
+    * Show the current view
+    */
     show: PropTypes.bool,
     /**
      * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
-     * Cambia la vista actual
+     * Changes current view
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
@@ -151,7 +151,7 @@ VisorCanvasDoc.propTypes = {
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Vista actual
+     * Current view
      */
     currentView: PropTypes.any,
     /**
@@ -159,23 +159,23 @@ VisorCanvasDoc.propTypes = {
      */
     navItems: PropTypes.object.isRequired,
     /**
-     * Elimina la última vista
+     * Function to delete last view
      */
     removeLastView: PropTypes.func.isRequired,
     /**
-     * Estado del plugin enriquecido en la transición
+     * Rich plugin state during transition
      */
     richElementsState: PropTypes.object,
     /**
-     * Indicador de si se muestra el canvas (tiene que haber un navItem seleccionado)
+     * Show canvas (a navItem needs to be chosen)
      */
     showCanvas: PropTypes.bool,
     /**
-     * Título del curso
+     * Course title
      */
     title: PropTypes.any,
     /**
-     *  Array de vistas
+     *  Contains created views
      */
     viewsArray: PropTypes.array,
     /**

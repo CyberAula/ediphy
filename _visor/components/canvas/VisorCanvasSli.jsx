@@ -204,11 +204,11 @@ VisorCanvasSli.propTypes = {
      */
     boxes: PropTypes.object.isRequired,
     /**
-     * Relación de aspecto para las diapositivas
+     * Slide aspect ratio
      */
     canvasRatio: PropTypes.number.isRequired,
     /**
-     * Cambia la vista actual
+     * Changes current view
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
@@ -216,7 +216,7 @@ VisorCanvasSli.propTypes = {
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Vista actual
+     * Current view
      */
     currentView: PropTypes.any,
     /**
@@ -224,23 +224,23 @@ VisorCanvasSli.propTypes = {
      */
     navItems: PropTypes.object.isRequired,
     /**
-     * Elimina la última vista
+     * Function to delete last view
      */
     removeLastView: PropTypes.func.isRequired,
     /**
-     * Estado del plugin enriquecido en la transición
+     * Rich plugin state during transition
      */
     richElementsState: PropTypes.object,
     /**
-     * Indicador de si se muestra el canvas (tiene que haber un navItem seleccionado)
+     * Show canvas (a navItem needs to be chosen)
      */
     showCanvas: PropTypes.bool,
     /**
-     * Título del curso
+     * Course title
      */
     title: PropTypes.any,
     /**
-     *  Array de vistas
+     *  Contains created views
      */
     viewsArray: PropTypes.array,
     /**
