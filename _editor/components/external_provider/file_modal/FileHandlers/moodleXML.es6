@@ -44,9 +44,10 @@ function convert(res, callback) {
                 let question = {};
                 switch(qu.type) {
                 case "multichoice":
+                    let single = qu.correctAnswer.length === 1;
                     correctAnswer = qu.single ? qu.correctAnswer[0] : qu.correctAnswer;
                     question = {
-                        name: qu.single ? 'MultipleChoice' : 'MultipleAnswer',
+                        name: single ? 'MultipleChoice' : 'MultipleAnswer',
                         correctAnswer,
                         currentAnswer: false,
                         answers: qu.answers.map(ans=>"<p>" + ans.text + "</p>"),
@@ -58,7 +59,7 @@ function convert(res, callback) {
                             letters: qu.answernumbering !== '123',
                         },
                     };
-                    if (qu.single) {
+                    if (single) {
                         question.state.allowPartialScore = false;
                     }
                     console.log(question);
