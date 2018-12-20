@@ -154,10 +154,10 @@ export function MultipleAnswer(base) {
                         }}/>
                     </div>
                     <div className={"col-xs-10"}>
-                        <PluginPlaceholder {...props} key={i + 1}
+                        <PluginPlaceholder {...props} key={i }
                             pluginContainerName={i18n.t("MultipleAnswer.Answer") + " " + (i + 1)}
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("MultipleAnswer.Answer") + " " + (1 + i) + '</p>' } }]}
-                            pluginContainer={"Answer" + (i + 1)} />
+                            pluginContainer={"Answer" + (i)} />
                     </div>
                 </div>
                 );
@@ -175,7 +175,7 @@ export function MultipleAnswer(base) {
                 {/* <h1>Multiple Answer</h1>*/}
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
-                        <PluginPlaceholder {...props} key="1"
+                        <PluginPlaceholder {...props} key="0"
                             pluginContainerName={i18n.t("MultipleAnswer.Question")}
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("MultipleAnswer.Statement") + '</p>' } }]}
                             pluginContainer={"Question"} />

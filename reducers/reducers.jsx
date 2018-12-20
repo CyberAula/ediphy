@@ -23,7 +23,7 @@ import viewToolbarsById from './view_toolbars_by_id';
 import globalConfig from './global_config';
 import exercises from './exercises';
 import lastActionDispatched from './lastActionDispatched';
-const version = "2";
+const version = "3";
 
 function changeDisplayMode(state = "", action = {}) {
     switch (action.type) {
