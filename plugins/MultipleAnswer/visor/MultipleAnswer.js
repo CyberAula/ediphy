@@ -50,7 +50,7 @@ export function MultipleAnswer() {
                             }}/>
                         </div>
                         <div className={"col-xs-10"} onClick={(e)=>{setAnswer(i);}}>
-                            <VisorPluginPlaceholder {...props} key={i + 1} pluginContainer={"Answer" + (i + 1)} />
+                            <VisorPluginPlaceholder {...props} key={i } pluginContainer={"Answer" + (i)} />
                         </div>
                         {/* <i className={ "material-icons " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")} style={{ display: (correct || incorrect) ? "block" : "none" }}>{(correct ? "done " : "clear")}</i>*/}
                         {(correct) ? <i className={ "material-icons correct"}>done</i> : null}
