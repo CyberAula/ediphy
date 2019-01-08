@@ -145,6 +145,21 @@ export default function handlers(self) {
                                     initialParams.id = msg.question.id;
                                 }
 
+                                if(msg.question.name === 'InputText') {
+                                    let y = (parseFloat(initialParams.position.y) - 6).toString() + '%';
+                                    let x = (parseFloat(initialParams.position.x) - 2).toString() + '%';
+                                    let textParams = {
+                                        ...initialParams,
+                                        id: initialParams.id + '_0',
+                                        text: msg.question.question,
+                                        exercises: undefined,
+                                        initialState: undefined,
+                                        position: isTargetSlide ? { ...initialParams.position, y: y, x: x } : initialParams.position,
+
+                                    };
+                                    createBox(textParams, "BasicText", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                                }
+
                                 createBox(initialParams, msg.question.name, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
                                 self.close();
                             } else {

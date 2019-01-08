@@ -37,7 +37,6 @@ function convert(res, callback) {
                 console.error(e);
             }
             let questions = data.questions.filter(q=>q.type && q.type !== "category");
-            console.log(questions);
             let answers, questiontext, answerTexts, scores, correctAnswer, currentAnswer, feedback, showFeedback;
             for (let q in questions) {
                 let qu = questions[q];
@@ -61,7 +60,6 @@ function convert(res, callback) {
                     if (qu.single) {
                         question.state.allowPartialScore = false;
                     }
-                    console.log(question);
                     break;
                 case "truefalse":
                     question = {
@@ -82,6 +80,7 @@ function convert(res, callback) {
                         name: 'InputText',
                         correctAnswer: qu.answers.map(q=>q.text).join('//'),
                         currentAnswer: "",
+                        question: qu.questiontext,
                         state: {
                             type: 'text',
                             fontSize: 14,
@@ -126,11 +125,9 @@ function convert(res, callback) {
                     console.error("Not supported");
 
                 }
-                console.log(question);
                 callback({ success: true, question: { ...question, id: (ID_PREFIX_BOX + '_' + q + '_' + Date.now()) } });
             }
         }catch(err) {
-            console.error(err);
             callback({ success: false, msg: i18n.t('MoodleXML.parse_error') });
         }
 
@@ -275,17 +272,15 @@ function xml2jsonParser(xmlDoc, callback) {
                     callback({ success: false, msg: i18n.t('MoodleXML.unrecognized') });
                     break;
                 }
-                console.log(question);
                 // callback({ success: true, question: { ...question, id: (ID_PREFIX_BOX + '_' + q + '_' + Date.now()) } });
             }
 
         } else {
-            console.error(e);
             callback({ success: false, msg: i18n.t('MoodleXML.are_you_sure') });
         }
 
     } catch (e) {
-        console.error(e);
+        console.log(e);
         callback({ success: false, msg: i18n.t('MoodleXML.parse_error') });
     }
 }
