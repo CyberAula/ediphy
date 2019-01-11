@@ -39,7 +39,12 @@ export default class MoodleHandler extends Component {
             FileName: '',
             FileType: '',
             ImportAs: 'Custom',
-            questions: [],
+            questions: [["John Doe", 16, "USA"],
+                ["Mary Smith", 23, "Canada"],
+                ["Marion  Gilbert", 18, "Australia"],
+                ["Bruce Johnson", 21, "UK"],
+                ["Ronald Armstrong", 31, "Ireland"],
+                ["Brianna Reardown", 37, "Malta"]],
         };
         this.AddPlugins = this.AddPlugins.bind(this);
         this.importFile = this.importFile.bind(this);
@@ -72,9 +77,16 @@ export default class MoodleHandler extends Component {
             let questions = [];
             parseMoodleXML(this.props.element, msg => {
                 console.log(msg);
-                if (msg.success === "true") {
-                    questions.push(msg.question);
+                if (msg.success === true) {
+                    console.log('was succesfull');
+                    msg.filtered.map((question, index) => {
+                        console.log(question);
+                        questions.push([index, question.question, question.name]);
+                    });
                 }
+                console.log(questions);
+                this.setState({ questions: questions });
+
             });
             console.log('The questions are: ');
             console.log(questions);
@@ -87,12 +99,7 @@ export default class MoodleHandler extends Component {
      */
     render() {
 
-        let data = [["John Doe", 16, "USA"],
-            ["Mary Smith", 23, "Canada"],
-            ["Marion  Gilbert", 18, "Australia"],
-            ["Bruce Johnson", 21, "UK"],
-            ["Ronald Armstrong", 31, "Ireland"],
-            ["Brianna Reardown", 37, "Malta"]];
+        let data = this.state.questions;
 
         let keys = data[0].map((i, index) => index);
         console.log(keys);
