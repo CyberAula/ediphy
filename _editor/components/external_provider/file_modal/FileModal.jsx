@@ -7,6 +7,8 @@ import { isContainedView, isSortableContainer } from '../../../../common/utils';
 import FileHandlers from './FileHandlers/FileHandlers';
 import APIProviders from './APIProviders/APIProviders';
 import PDFHandler from "./FileHandlers/PDFHandler";
+import MoodleHandler from "./FileHandlers/MoodleHandler";
+
 import i18n from 'i18next';
 
 const initialState = {
@@ -17,6 +19,7 @@ const initialState = {
     element: undefined,
     type: undefined,
     pdfSelected: false,
+    moodleSelected: false,
     options: {},
 };
 export default class FileModal extends React.Component {
@@ -56,7 +59,7 @@ export default class FileModal extends React.Component {
                         <div id="contentColumn">
                             {React.createElement(menus[this.state.menu].component,
                                 { ...(menus[this.state.menu].props || {}), icon: menus[this.state.menu].icon, name: menus[this.state.menu].name, show: menus[this.state.menu].show }, null)}
-                            <div id="sideBar" className={this.state.pdfSelected ? "showBar" : ""}>
+                            <div id="sideBar" className={(this.state.pdfSelected || this.state.moodleSelected) ? "showBar" : ""}>
                                 {this.state.pdfSelected ? (<div id="wrapper">
                                     <div id="sideArrow">
                                         <button onClick={()=>{this.closeSideBar(false);}}><i className="material-icons">keyboard_arrow_right</i></button>
@@ -75,6 +78,27 @@ export default class FileModal extends React.Component {
                                             containedViewSelected={this.props.containedViewSelected}
                                             show
                                             url={this.state.element}
+                                            close={this.closeSideBar}
+                                        /></div>
+                                </div>) : null }
+                                {this.state.moodleSelected ? (<div id="wrapper">
+                                    <div id="sideArrow">
+                                        <button onClick={()=>{this.closeSideBar(false);}}><i className="material-icons">keyboard_arrow_right</i></button>
+                                    </div>
+                                    <div id="pdfContent">
+                                        <MoodleHandler navItemSelected={this.props.navItemSelected}
+                                            boxes={this.props.boxes}
+                                            onBoxAdded={this.props.onBoxAdded}
+                                            onNavItemAdded={this.props.onNavItemAdded}
+                                            onNavItemsAdded={this.props.onNavItemsAdded}
+                                            onIndexSelected={this.props.onIndexSelected}
+                                            onNavItemSelected={this.props.onNavItemSelected}
+                                            navItemsIds={this.props.navItemsIds}
+                                            navItems={this.props.navItems}
+                                            containedViews={this.props.containedViews}
+                                            containedViewSelected={this.props.containedViewSelected}
+                                            show
+                                            element={this.state.element}
                                             close={this.closeSideBar}
                                         /></div>
                                 </div>) : null }
@@ -141,7 +165,7 @@ export default class FileModal extends React.Component {
     }
 
     closeSideBar(closeAlsoModal) {
-        this.setState({ pdfSelected: false });
+        this.setState({ pdfSelected: false, moodleSelected: false });
         if (closeAlsoModal) {
             this.close();
         }

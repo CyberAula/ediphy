@@ -28,9 +28,10 @@ function exercisesReducer(state = {}, action = {}) {
         let name = action.type === 'ADD_BOX' ? action.payload.initialParams.name : action.payload.toolbar.pluginId;
         let config = action.payload.ids.config; // Ediphy.Plugins.get(name).getConfig();
         if (config && config.category === 'evaluation') {
+            console.time("exercises");
             let defaultCorrectAnswer = (config.defaultCorrectAnswer === null || config.defaultCorrectAnswer === undefined) ? true : config.defaultCorrectAnswer;
             let defaultCurrentAnswer = (config.defaultCurrentAnswer === null || config.defaultCurrentAnswer === undefined) ? true : config.defaultCurrentAnswer;
-            return changeProp(state, action.payload.ids.id, action.payload.score ? { ...action.payload.score, id: action.payload.ids.id } : {
+            let r = changeProp(state, action.payload.ids.id, action.payload.score ? { ...action.payload.score, id: action.payload.ids.id } : {
                 name,
                 id: action.payload.ids.id,
                 weight: 1,
@@ -40,8 +41,13 @@ function exercisesReducer(state = {}, action = {}) {
                 attempted: false,
                 score: 0,
             });
+            console.timeEnd("exercises");
+            return r;
         }
-        return state;
+        console.time("exxx");
+        let s = state;
+        console.timeEnd("exxx");
+        return s;
     case SET_CORRECT_ANSWER:
     case CONFIG_SCORE:
         return changeProp(state, action.payload.id, singleExerciseReducer(state[action.payload.id], action));
@@ -88,7 +94,10 @@ function singlePageReducer(state = {}, action = {}) {
     case SET_CORRECT_ANSWER:
     case DELETE_BOX:
     case DELETE_SORTABLE_CONTAINER:
-        return changeProp(state, "exercises", exercisesReducer(state.exercises, action));
+        console.time("exer2");
+        let a = changeProp(state, "exercises", exercisesReducer(state.exercises, action));
+        console.timeEnd("exer2");
+        return a;
     case CONFIG_SCORE:
         if (isBox(action.payload.id)) {
             return changeProp(state, "exercises", exercisesReducer(state.exercises, action));
@@ -127,7 +136,11 @@ export default function(state = {}, action = {}) {
     case ADD_BOX:
     case PASTE_BOX:
         if (action.payload.ids && isBox(action.payload.ids.id || "") && existsAndIsViewOrContainedView(action.payload.ids.page)) {
-            return changeProp(state, action.payload.ids.page, singlePageReducer(state[action.payload.ids.page], action));
+            console.time("ex3");
+            let a = changeProp(state, action.payload.ids.page, singlePageReducer(state[action.payload.ids.page], action));
+            console.log(action);
+            console.timeEnd("ex3");
+            return a;
         }
         return state;
     case DELETE_NAV_ITEM:

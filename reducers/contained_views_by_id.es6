@@ -10,7 +10,10 @@ import { changeProp, deleteProps, isContainedView, findNavItemContainingBox } fr
 function singleContainedViewReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
-        return changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
+        console.time("RED_cv_by_id");
+        let a = changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
+        console.timeEnd("RED_cv_by_id");
+        return a;
     case CHANGE_BOX_LAYER:
         let boxes = JSON.parse(JSON.stringify(action.payload.boxes_array));
         let x = boxes.indexOf(action.payload.id);
@@ -67,12 +70,14 @@ function singleContainedViewReducer(state = {}, action = {}) {
 export default function(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
+        console.time("RED_contained_views_by_id2");
         if (isContainedView(action.payload.ids.parent)) {
             return changeProp(
                 state,
                 action.payload.ids.parent,
                 singleContainedViewReducer(state[action.payload.ids.parent], action));
         }
+        console.timeEnd("RED_contained_views_by_id2");
         return state;
     case ADD_RICH_MARK:
         let view = action.payload.view;

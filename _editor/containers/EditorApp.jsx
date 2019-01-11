@@ -318,7 +318,7 @@ class EditorApp extends Component {
                                 onToolbarUpdated={this.toolbarUpdated}
                                 onRichMarkMoved={(mark, value)=>dispatch(moveRichMark(mark, value))}
                                 markCreatorId={this.state.markCreatorVisible}
-                                onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => {dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams)); document.body.scrollTo(0, 0);}}
+                                onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => {console.time("inDispatch"); dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams)); document.body.scrollTo(0, 0); console.timeEnd("inDispatch");}}
                                 setCorrectAnswer={(id, correctAnswer, page) => { dispatch(setCorrectAnswer(id, correctAnswer, page));}}
                                 addMarkShortcut= {(mark) => {
                                     let state = JSON.parse(JSON.stringify(toolbars[boxSelected].state));
@@ -554,7 +554,7 @@ class EditorApp extends Component {
                     updateViewToolbar={(id, toolbar)=> dispatch(updateViewToolbar(id, toolbar))}
                 />
                 <FileModal visible={this.state.showFileUpload} disabled={disabled}
-                    onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
+                    onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => {console.time("AAA"); console.log("AAA STARTED"); dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams)); console.timeEnd("AAA"); console.log(ids, draggable, resizable, content, style, state, structure, initialParams);}}
                     boxSelected={boxSelected}
                     boxes={boxes}
                     isBusy={isBusy}
