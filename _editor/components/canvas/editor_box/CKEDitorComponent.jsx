@@ -7,7 +7,6 @@ export default class CKEDitorComponent extends Component {
     constructor(props) {
         super(props);
         this.onBlur = this.onBlur.bind(this);
-
     }
 
     onBlur() {
@@ -16,10 +15,11 @@ export default class CKEDitorComponent extends Component {
 
     render() {
         return (
-            <div id={this.props.id}
+            <div
+                id={this.props.id}
                 ref={"textarea"}
                 className={this.props.className}
-                contentEditable
+                contentEditable = "true"
                 style={this.props.style} />
         );
     }
@@ -33,21 +33,33 @@ export default class CKEDitorComponent extends Component {
             /* for (let key in config.extraTextConfig) {
                 CKEDITOR.config[key] += toolbar.config.extraTextConfig[key] + ",";
             }*/
-
             let editor = CKEDITOR.inline(this.refs.textarea);
+
+            /* editor.document.$.body.disabled = true;
+            editor.document.$.body.contentEditable = false;
+            editor.document.$.designMode="off";*/
+
             editor.config.fontSize_sizes = fontString();
             editor.config.font_defaultLabel = 'Arial';
             editor.config.fontSize_defaultLabel = '14';
-
             // editor.config.fontSize_style = {
             //     element:        'span',
             //     styles:         { 'font-size': '#(size)' },
             //     overrides:      [ { element: 'font', attributes: { 'size': null } } ]
             // };
-
             if (toolbar.state.__text) {
                 editor.setData(decodeURI(toolbar.state.__text));
 
+            }
+
+            editor.focus();
+
+            // SAFARI FIX: Problema con CKEditor y Safari al intentar crear un editor inline sobre un div con display: none. Solución propuesta en: https://dev.ckeditor.com/ticket/9814
+            let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
+            if (isSafari) {
+                editor.on('focus', () => {
+                    editor.setReadOnly(false);
+                });
             }
         }
     }
@@ -66,7 +78,6 @@ export default class CKEDitorComponent extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (this.props.toolbars[this.props.id].showTextEditor && prevProps.toolbars[prevProps.id] && !prevProps.toolbars[prevProps.id].showTextEditor) {
             this.refs.textarea.focus();
-
             // Focus cursor at end of content
             // https://recalll.co/ask/v/topic/fckeditor-How-to-set-cursor-position-to-end-of-text-in-CKEditor/5541ec6304ce0209458b9107#59f908ff1126f4577eec64ec
 
@@ -80,25 +91,9 @@ export default class CKEDitorComponent extends Component {
                     range.moveToElementEditEnd(range.root);
                     myEditor.getSelection().selectRanges([range]);
                 }
-
             // $.event.trigger({ type : 'keypress' });
             }
-
-            /* TODO Scale text
-            // buildPreview() is called every time "size" dropdowm is opened
-            CKEDITOR.style.prototype.buildPreviewOriginal = CKEDITOR.style.prototype.buildPreview;
-            CKEDITOR.style.prototype.buildPreview = function (label) {
-            var result = this.buildPreviewOriginal (label);
-            var match = /^(.*)font-size:(\d+)vh(.*)$/.exec (result);
-            if (match) {
-                // apparently ckeditor uses iframe or something that breaks vh units
-                // we shall use current window height to convert vh to px here
-                var pixels = Math.round (0.01 * window.innerHeight * parseInt (match[2]));
-                result = match[1] + 'font-size:' + pixels + 'px' + match[3];
-            }
-            return result;
-        };
-        */
+            this.refs.textarea.focus();
         }
         if (window.MathJax) {
             window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
@@ -126,11 +121,11 @@ export default class CKEDitorComponent extends Component {
             } else if (this.props.toolbars[this.props.id].showTextEditor === false && nextProps.toolbars[nextProps.id].showTextEditor === true) {
                 let CKstring = CKEDITOR.instances[nextProps.id].getData();
                 let initString = "<p>" + i18n.t("text_here") + "</p>\n";
-                /* if(CKstring === initString) {
+                if(CKstring === initString) {
                     CKEDITOR.instances[nextProps.id].setData("");
                 } else {
                     CKEDITOR.instances[nextProps.id].setData(decodeURI(nextProps.toolbars[nextProps.id].state.__text));
-                }*/
+                }
 
             }
         }

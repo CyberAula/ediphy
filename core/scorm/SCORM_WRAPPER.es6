@@ -100,10 +100,8 @@ export function changeInitialState(exercises, nums, numPages, suspendDataCalcula
     }
 
     for (let i = 0; i < exLength; i++) {
-
         let obj = suspendData.exercises[i].s;
         let comp = suspendData.exercises[i].c;
-
         updatedExercises[nums[i].page].exercises[nums[i].box].attempted = (comp === "completed");
         updatedExercises[nums[i].page].exercises[nums[i].box].num = (i + 1);
         if (comp === "completed") {
@@ -200,6 +198,11 @@ export function finish() {
 }
 
 function setScore(min, max, raw, scaled, completion_status, success_status) {
+    let currentStatus = scorm.getvalue('cmi.completion_status');
+    // FIX to let SCORM 1.2 update score on reload after completed status
+    if (currentStatus === "completed" && scorm.API.version === "1.2") {
+        scorm.API.mode = "normal";
+    }
     let ratio = max / 100;
     scorm.setvalue("cmi.mode", "normal");
     scorm.setvalue("cmi.score.scaled", scaled);
