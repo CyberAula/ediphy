@@ -22,7 +22,7 @@ export default function parseMoodleXML(file, callback) {
         fetch(file).then(res => {
             return res.text();
         }).then(xml => {
-            xml2jsonParser(xml, callback);
+            convert(xml, callback);
         }).catch(e=>{
             callback({ success: false, msg: i18n.t('MoodleXML.parse_error') });
         });
@@ -37,7 +37,6 @@ function convert(res, callback) {
                 console.error(e);
             }
             let questions = data.questions.filter(q=>q.type && q.type !== "category");
-            console.log(questions);
             let answers, questiontext, answerTexts, scores, correctAnswer, currentAnswer, feedback, showFeedback;
             for (let q in questions) {
                 let qu = questions[q];
@@ -126,7 +125,6 @@ function convert(res, callback) {
                     console.error("Not supported");
 
                 }
-                console.log(question);
                 callback({ success: true, question: { ...question, id: (ID_PREFIX_BOX + '_' + q + '_' + Date.now()) } });
             }
         }catch(err) {

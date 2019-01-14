@@ -144,7 +144,7 @@ export default function handlers(self) {
                                 if (msg.question.id) {
                                     initialParams.id = msg.question.id;
                                 }
-
+                                initialParams.isDefaultPlugin = true;
                                 createBox(initialParams, msg.question.name, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
                                 self.close();
                             } else {

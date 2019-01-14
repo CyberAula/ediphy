@@ -266,12 +266,18 @@ export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
             addDefaultContainerPlugins(ids, template, boxes, newBoxes);
             parsePluginContainers(template, newPluginState);
         } else {
+
             addDefaultContainerPluginsReact(ids, template, boxes, newBoxes);
             parsePluginContainersReact(template, newPluginState);
+
         }
         state.__pluginContainerIds = newPluginState;
     }
+    console.time("callback");
+
     addBox({ ...ids, config: apiPlugin.getConfig() }, true, slide, template, styles, state, undefined, initialParams);
+    console.timeEnd("callback");
+
     let basePrefix = ID_PREFIX_BOX + Date.now();
     newBoxes.map((box, ind) => {
         box.ids.id = basePrefix + '_' + ind;
