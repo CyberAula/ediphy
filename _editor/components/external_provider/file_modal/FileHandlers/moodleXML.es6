@@ -13,6 +13,7 @@ export default function parseMoodleXML(file, callback) {
                 convert(e.srcElement.result, callback);
                 // xml2jsonParser(e.srcElement.result, callback);
             } catch (_e) {
+                console.log(_e);
                 callback({ success: false, msg: i18n.t('MoodleXML.parse_error') });
             }
         };
@@ -50,6 +51,7 @@ function convert(res, callback) {
                         currentAnswer: false,
                         answers: qu.answers.map(ans=>"<p>" + ans.text + "</p>"),
                         question: "<p>" + qu.questiontext + "</p>",
+                        img: qu.img || null,
                         feedback: qu.generalfeedback || "<p></p>",
                         state: {
                             nBoxes: qu.answers.length,
@@ -60,7 +62,6 @@ function convert(res, callback) {
                     if (qu.single) {
                         question.state.allowPartialScore = false;
                     }
-                    console.log(question);
                     break;
                 case "truefalse":
                     question = {
@@ -69,6 +70,7 @@ function convert(res, callback) {
                         currentAnswer: ["false"],
                         answers: ["<p>" + qu.questiontext + "</p>"],
                         question: "<p>Indica si la siguiente afirmación es verdadera o falsa</p>",
+                        img: qu.img || null,
                         feedback: qu.generalfeedback || "<p></p>",
                         state: {
                             nBoxes: 1,
@@ -81,6 +83,8 @@ function convert(res, callback) {
                         name: 'InputText',
                         correctAnswer: qu.answers.map(q=>q.text).join('//'),
                         currentAnswer: "",
+                        question: qu.questiontext,
+                        img: qu.img || null,
                         state: {
                             type: 'text',
                             fontSize: 14,
@@ -96,6 +100,7 @@ function convert(res, callback) {
                         correctAnswer: true,
                         currentAnswer: false,
                         question: qu.questiontext,
+                        img: qu.img || null,
                         feedback: qu.generalfeedback || "<p></p>",
                         state: {
                             showFeedback: !!qu.generalfeedback,
@@ -108,6 +113,7 @@ function convert(res, callback) {
                         correctAnswer: qu.correctAnswer.join("//"),
                         currentAnswer: "",
                         question: qu.questiontext,
+                        img: qu.img || null,
                         feedback: qu.generalfeedback || "<p></p>",
                         state: {
                             type: 'number',
@@ -128,7 +134,7 @@ function convert(res, callback) {
                 callback({ success: true, question: { ...question, id: (ID_PREFIX_BOX + '_' + q + '_' + Date.now()) } });
             }
         }catch(err) {
-            console.error(err);
+            console.log(err);
             callback({ success: false, msg: i18n.t('MoodleXML.parse_error') });
         }
 
@@ -273,17 +279,15 @@ function xml2jsonParser(xmlDoc, callback) {
                     callback({ success: false, msg: i18n.t('MoodleXML.unrecognized') });
                     break;
                 }
-                console.log(question);
                 // callback({ success: true, question: { ...question, id: (ID_PREFIX_BOX + '_' + q + '_' + Date.now()) } });
             }
 
         } else {
-            console.error(e);
             callback({ success: false, msg: i18n.t('MoodleXML.are_you_sure') });
         }
 
     } catch (e) {
-        console.error(e);
+        console.log(e);
         callback({ success: false, msg: i18n.t('MoodleXML.parse_error') });
     }
 }

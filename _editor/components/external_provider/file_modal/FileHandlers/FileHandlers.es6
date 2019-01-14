@@ -2,7 +2,7 @@ import React from 'react';
 import { createBox } from '../../../../../common/common_tools';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../common/constants';
 import { randomPositionGenerator } from '../../../clipboard/clipboard.utils';
-import { isSlide, isBox, isDataURL, dataURItoBlob, isCanvasElement } from '../../../../../common/utils';
+import { isSlide, isBox, isContainedView, isPage, isSortableBox, isDataURL, dataURItoBlob, isCanvasElement } from '../../../../../common/utils';
 import parseMoodleXML from './moodleXML';
 import i18n from 'i18next';
 import { importEdiphy, importExcursion } from '../APIProviders/providers/_edi';
@@ -144,8 +144,38 @@ export default function handlers(self) {
                                 if (msg.question.id) {
                                     initialParams.id = msg.question.id;
                                 }
-                                initialParams.isDefaultPlugin = true;
-                                createBox(initialParams, msg.question.name, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                                if(msg.question.name === 'InputText') {
+                                    let y = (parseFloat(initialParams.position.y) - 6).toString() + '%';
+                                    let x = (parseFloat(initialParams.position.x) - 2).toString() + '%';
+                                    let textParams = {
+                                        ...initialParams,
+                                        id: initialParams.id + '_0',
+                                        text: msg.question.question,
+                                        position: isTargetSlide ? { ...initialParams.position, y: y, x: x } : initialParams.position,
+                                    };
+                                    delete textParams.exercises;
+                                    delete textParams.initialState;
+                                    createBox(textParams, "BasicText", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                                }
+
+                                let sanitized = sanitizeInitialParams(initialParams, self.props.boxes);
+                                createBox(sanitized, msg.question.name, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+
+                                if(msg.question.img) {
+                                    let imgParams = {
+                                        ...initialParams,
+                                        id: initialParams.id + '_I',
+                                        url: msg.question.img,
+                                        container: "sc-Question",
+                                        parent: initialParams.id,
+                                        index: 0,
+                                        position: { type: "relative", x: 0, y: 0 },
+                                    };
+                                    delete imgParams.exercises;
+                                    delete imgParams.initialState;
+                                    createBox(imgParams, "HotspotImages", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+
+                                }
                                 self.close();
                             } else {
                                 alert(msg ? (msg.msg || 'ERROR') : 'ERROR');
@@ -211,6 +241,21 @@ function getInitialParams(self, page) {
     }
 
     return { initialParams, isTargetSlide };
+}
+
+function sanitizeInitialParams(initialParams, boxes) {
+    let parent = initialParams.parent;
+
+    if(isSortableBox(parent) || isPage(parent) || isContainedView(parent)) {
+        return initialParams;
+    }
+
+    if(isBox(parent)) {
+        let box = boxes[parent];
+        return { ...initialParams, parent: box.parent, container: box.container };
+    }
+
+    return initialParams;
 }
 function csvToState(csv) {
     let lines = csv.split("\n");
