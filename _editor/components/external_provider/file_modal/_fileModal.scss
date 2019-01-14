@@ -385,10 +385,22 @@
           margin-left: 40px;
           height: 100%;
           .import_file_buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             text-align: right;
             margin:5px;
             button {
               margin: 5px;
+            }
+            .selectAll{
+              margin-left: 20px;
+              label{
+                margin-left: 5px;
+              }
+            }
+            .moodleButtons{
+              display: flex;
             }
           }
         }

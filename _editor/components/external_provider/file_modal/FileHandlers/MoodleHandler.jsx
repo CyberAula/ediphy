@@ -15,17 +15,10 @@ require('react-datatable-bs/css/table-twbs.css');
 import { parseMoodleXML } from "./moodleXML";
 // styles
 import './_ImportFile.scss';
+import './_DataTable.scss';
+
 import { createBox } from '../../../../../common/common_tools';
 let spinner = require('../../../../../dist/images/spinner.svg');
-
-// PDF Library conf.
-const pdflib = require('pdfjs-dist');
-const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.js');
-
-const pdfjsWorkerBlob = new Blob([pdfjsWorker]);
-const pdfjsWorkerBlobURL = URL.createObjectURL(pdfjsWorkerBlob);
-
-pdflib.PDFJS.workerSrc = pdfjsWorkerBlobURL;
 
 /**
  * Generic import file modal
@@ -45,10 +38,14 @@ export default class MoodleHandler extends Component {
                 ["Bruce Johnson", 21, "UK"],
                 ["Ronald Armstrong", 31, "Ireland"],
                 ["Brianna Reardown", 37, "Malta"]],
+            selectedQuestions: [],
+            selectAll: false,
         };
         this.AddPlugins = this.AddPlugins.bind(this);
         this.importFile = this.importFile.bind(this);
         this.start = this.start.bind(this);
+        this.isChecked = this.isChecked.bind(this);
+
     }
     componentWillUnmount() {
         for (let i = 1; i <= this.state.FilePages; i++) {
@@ -72,6 +69,12 @@ export default class MoodleHandler extends Component {
         }
     }
 
+    isChecked(q) {
+        console.log('index' + q);
+        console.log(this.state.selectedQuestions[q]);
+        return this.state.selectedQuestions[q];
+    }
+
     start() {
         if(this.props.element) {
             let questions = [];
@@ -80,16 +83,14 @@ export default class MoodleHandler extends Component {
                 if (msg.success === true) {
                     console.log('was succesfull');
                     msg.filtered.map((question, index) => {
-                        console.log(question);
-                        questions.push([index, question.question, question.name]);
+                        if (question && question.question) {
+                            let questionText = question.question.replace("<p>", "").replace("</p>", "");
+                            questions.push([questionText, question.name]);
+                        }
                     });
+                    this.setState({ questions: questions, selectedQuestions: new Array(questions.length).fill(false) });
                 }
-                console.log(questions);
-                this.setState({ questions: questions });
-
             });
-            console.log('The questions are: ');
-            console.log(questions);
         }
 
     }
@@ -99,12 +100,25 @@ export default class MoodleHandler extends Component {
      */
     render() {
 
-        let data = this.state.questions;
+        let questionsData = this.state.questions;
+        let data = questionsData.map((q, index) => {
+            let input =
+                <input type='checkbox'
+                    key={index}
+                    onChange={()=> {
+                        this.setState({ selectedQuestions: this.state.selectedQuestions.map((ques, i) => i === index ? !ques : ques), selectAll: false,
+                        });
+                    }}
+                    // defaultChecked={false}
+                    checked={this.isChecked(index)}/>;
+            return [input, q[0], q[1]];
+
+        });
 
         let keys = data[0].map((i, index) => index);
-        console.log(keys);
-        let realKeys = ["Name", "Age", "Country"];
+        let realKeys = ["Selected", "Question", "Type"];
         let cols = [];
+
         keys.forEach(key =>{
             cols.push({ title: realKeys[key], prop: key });
         });
@@ -117,7 +131,7 @@ export default class MoodleHandler extends Component {
             searchLabel: i18n.t('DataTable.options.searchLabel_txt'),
             searchPlaceholder: '',
             noDataLabel: i18n.t("DataTable.options.noDataLabel_txt"),
-            initialPageLength: 5,
+            initialPageLength: 7,
             initialSort: keys[0] || 0,
             initialOrder: 'descending',
             theme: 'solid',
@@ -128,12 +142,12 @@ export default class MoodleHandler extends Component {
                     <h2>{i18n.t("Preview")}</h2>
                 </div>
                 <Row style={{ display: 'block' }}>
-                    <Col xs={12} md={6} lg={6}>
+                    <Col xs={12} md={12} lg={12}>
                         <DataTable key={keys || 0}
                             keys="name"
                             columns={cols}
                             initialData={data}
-                            initialPageLength={5}
+                            initialPageLength={options.initialPageLength}
                             disablePagination={options.disablePagination}
                             disableFilter={options.disableFilter}
                             disableRowChoice={options.disableRowChoice}
@@ -143,16 +157,30 @@ export default class MoodleHandler extends Component {
                             searchPlaceholder={options.searchPlaceholder}
                             pageLengthOptions={options.pageLengthOptions}
                             paginationBottom
-                            initialSortBy={{ prop: "name", order: options.initialOrder } /* { prop: cols[0].title, order: 'descending' }*/}
+                            initialSortBy={{ prop: "name", order: options.initialOrder }}
                         />
 
                         <div className="import_file_buttons">
-                            <Button bsStyle="default" className="import_file_buttons" id="import_file_button" onClick={ e => {
-                                this.closeModal(); e.preventDefault();
-                            }}>{i18n.t("importFile.footer.cancel")}</Button>
-                            <Button bsStyle="primary" className="import_file_buttons" id="cancel_button" onClick={ (e) => {
-                                this.importFile(e); e.preventDefault();
-                            }}>{i18n.t("importFile.footer.ok")}</Button>
+                            <div className={"selectAll"}>
+                                <input type='checkbox'
+                                    id={"selectAll"}
+                                    placeholder={"Select all"}
+                                    onChange={(e)=> {
+                                        this.setState({ selectAll: e.target.checked, selectedQuestions: new Array(this.state.questions.length).fill(e.target.checked),
+                                        });
+                                    }}
+                                    checked={this.state.selectAll}
+                                />
+                                <label htmlFor={"selectAll"}>  Select all  </label>
+                            </div>
+                            <div className={"moodleButtons"}>
+                                <Button bsStyle="default" className="import_file_buttons" id="import_file_button" onClick={ e => {
+                                    this.closeModal(); e.preventDefault();
+                                }}>{i18n.t("importFile.footer.cancel")}</Button>
+                                <Button bsStyle="primary" className="import_file_buttons" id="cancel_button" onClick={ (e) => {
+                                    this.importFile(e); e.preventDefault();
+                                }}>{i18n.t("importFile.footer.ok")}</Button>
+                            </div>
                         </div>
                     </Col>
                 </Row>
