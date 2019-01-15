@@ -124,7 +124,7 @@ export default class MoodleHandler extends Component {
             disableRowChoice: true,
             disablePagination: false,
             pageSizeLabel: i18n.t('DataTable.options.pageSizeLabel_txt'),
-            searchLabel: i18n.t('DataTable.options.searchLabel_txt'),
+            searchLabel: ' ',
             searchPlaceholder: '',
             noDataLabel: i18n.t("DataTable.options.noDataLabel_txt"),
             initialPageLength: 7,
