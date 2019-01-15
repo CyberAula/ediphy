@@ -4,7 +4,7 @@ import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup
 import i18n from 'i18next';
 import FileInput from "../../../common/file-input/FileInput";
 import { ADD_BOX } from "../../../../../common/actions";
-import { isBox, isContainedView, isSlide } from "../../../../../common/utils";
+import { isBox, isContainedView, isPage, isSlide, isSortableBox } from "../../../../../common/utils";
 import { randomPositionGenerator } from "../../../clipboard/clipboard.utils";
 import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from '../../../../../common/constants';
 import Ediphy from "../../../../../core/editor/main";
@@ -41,7 +41,6 @@ export default class MoodleHandler extends Component {
             selectedQuestions: [],
             selectAll: false,
         };
-        this.AddPlugins = this.AddPlugins.bind(this);
         this.importFile = this.importFile.bind(this);
         this.start = this.start.bind(this);
         this.isChecked = this.isChecked.bind(this);
@@ -232,167 +231,72 @@ export default class MoodleHandler extends Component {
             return { initialParams, isTargetSlide };
         };
 
+        let sanitizeInitialParams = (initialParams, boxes) => {
+            let parent = initialParams.parent;
+
+            if(isSortableBox(parent) || isPage(parent) || isContainedView(parent)) {
+                return initialParams;
+            }
+
+            if(isBox(parent)) {
+                let box = boxes[parent];
+                return { ...initialParams, parent: box.parent, container: box.container };
+            }
+
+            return initialParams;
+        };
+
         let questions = this.state.questions;
         let selectedQuestions = this.state.selectedQuestions;
 
         let toAdd = questions.filter((item, index) => selectedQuestions[index]);
 
         for (let question of toAdd) {
-            console.log('toAdd');
-            console.log(question);
             let { initialParams, isTargetSlide } = getInitialParams(this.props.self, this.props.self.currentPage());
-            initialParams.exercises = question.question;
+            initialParams.exercises = question;
             initialParams.initialState = question.state;
 
             if(question.id) {
                 initialParams.id = question.id;
             }
-            console.log(initialParams);
-            console.log(this.props);
-            console.log('initialParams');
-            console.log(initialParams);
-            createBox(initialParams, question.name, isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+
+            if(question.name === 'InputText') {
+                let y = (parseFloat(initialParams.position.y) - 6).toString() + '%';
+                let x = (parseFloat(initialParams.position.x) - 2).toString() + '%';
+                let textParams = {
+                    ...initialParams,
+                    id: initialParams.id + '_0',
+                    text: question.question,
+                    position: isTargetSlide ? { ...initialParams.position, y: y, x: x } : initialParams.position,
+                };
+                delete textParams.exercises;
+                delete textParams.initialState;
+                createBox(textParams, "BasicText", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+            }
+
+            let sanitized = sanitizeInitialParams(initialParams, this.props.boxes);
+            createBox(sanitized, question.name, isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+
+            if(question.img) {
+                let imgParams = {
+                    ...initialParams,
+                    id: initialParams.id + '_I',
+                    url: question.img,
+                    container: "sc-Question",
+                    parent: initialParams.id,
+                    index: 0,
+                    position: { type: "relative", x: 0, y: 0 },
+                    isDefaultPlugin: 'true',
+                };
+                delete imgParams.exercises;
+                delete imgParams.initialState;
+                createBox(imgParams, "HotspotImages", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+
+            }
 
         }
 
         this.props.self.close();
-
-        //         initialParams.exercises = msg.question;
-        //         initialParams.initialState = msg.question.state;
-        //         if (msg.question.id) {
-        //             initialParams.id = msg.question.id;
-        //         }
-        //
-        //         if(msg.question.name === 'InputText') {
-        //             let y = (parseFloat(initialParams.position.y) - 6).toString() + '%';
-        //             let x = (parseFloat(initialParams.position.x) - 2).toString() + '%';
-        //             let textParams = {
-        //                 ...initialParams,
-        //                 id: initialParams.id + '_0',
-        //                 text: msg.question.question,
-        //                 position: isTargetSlide ? { ...initialParams.position, y: y, x: x } : initialParams.position,
-        //             };
-        //             delete textParams.exercises;
-        //             delete textParams.initialState;
-        //             createBox(textParams, "BasicText", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-        //         }
-        //
-        //         console.timeEnd("first block");
-        //         console.time("second block");
-        //         let sanitized = sanitizeInitialParams(initialParams, self.props.boxes);
-        //         console.time("secccc");
-        //         console.log("Sanitized");
-        //         console.log(sanitized);
-        //         createBox(sanitized, msg.question.name, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-        //         console.timeEnd("secccc");
-        //
-        //         console.timeEnd("second block");
-        //         console.time("third block");
-        //
-        //         if(msg.question.img) {
-        //             let imgParams = {
-        //                 ...initialParams,
-        //                 id: initialParams.id + '_I',
-        //                 url: msg.question.img,
-        //                 container: "sc-Question",
-        //                 parent: initialParams.id,
-        //                 index: 0,
-        //                 position: { type: "relative", x: 0, y: 0 },
-        //                 isDefaultPlugin: 'true',
-        //             };
-        //             delete imgParams.exercises;
-        //             delete imgParams.initialState;
-        //             createBox(imgParams, "HotspotImages", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-        //
-        //         }
-        //         console.timeEnd("third block");
-        //
-        //         console.time("4 block");
-        //
-        //
-        //         self.close();
-        //
-        //         console.timeEnd("4 block");
-        //     } else {
-        //         console.time("alert");
-        //         alert(msg ? (msg.msg || 'ERROR') : 'ERROR');
-        //         console.timeEnd("alert");
-        //     }
-        //     console.timeEnd("parseMoodleXML");
-        //
-        // });
-    }
-
-    AddAsPDFViewer() {
-        // insert image plugins
-        let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected);
-        let cvSli = cv && isSlide(this.props.containedViews[this.props.containedViewSelected].type);
-        let cvDoc = cv && !isSlide(this.props.containedViews[this.props.containedViewSelected].type);
-        let inASlide = (this.props.navItemSelected !== 0 && isSlide(this.props.navItems[this.props.navItemSelected].type)) || cvSli;
-        let page = cv ? this.props.containedViewSelected : this.props.navItemSelected;
-        let initialParams;
-        // If slide
-        if (inASlide) {
-            let position = {
-                x: randomPositionGenerator(20, 40),
-                y: randomPositionGenerator(20, 40),
-                type: 'absolute', page,
-            };
-            initialParams = {
-                parent: cvSli ? this.props.containedViewSelected : this.props.navItemSelected,
-                container: 0,
-                position: position,
-                url: this.props.element,
-                page,
-            };
-        } else {
-            initialParams = {
-                parent: cvDoc ? this.props.containedViews[this.props.containedViewSelected].boxes[0] : this.props.navItems[this.props.navItemSelected].boxes[0],
-                container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
-                url: this.props.element,
-                page,
-            };
-        }
-        initialParams.id = ID_PREFIX_BOX + Date.now();
-        createBox(initialParams, "EnrichedPDF", inASlide, this.props.onBoxAdded, this.props.boxes);
-
-    }
-
-    AddPlugins() {
-        // insert image plugins
-        let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected);
-        let cvSli = cv && isSlide(this.props.containedViews[this.props.containedViewSelected].type);
-        let cvDoc = cv && !isSlide(this.props.containedViews[this.props.containedViewSelected].type);
-        let inASlide = (!cv && isSlide(this.props.navItems[this.props.navItemSelected].type)) || cvSli;
-        let page = cv ? this.props.containedViewSelected : this.props.navItemSelected;
-        for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
-            let canvas = document.getElementById('can' + i);
-            let dataURL = canvas.toDataURL("image/jpeg", 1.0);
-            let initialParams;
-            // If slide
-            if (inASlide) {
-                let position = {
-                    x: randomPositionGenerator(20, 40),
-                    y: randomPositionGenerator(20, 40),
-                    type: 'absolute', page,
-                };
-                initialParams = {
-                    parent: cvSli ? this.props.containedViewSelected : this.props.navItemSelected,
-                    container: 0,
-                    position: position,
-                    url: dataURL, page,
-                };
-            } else {
-                initialParams = {
-                    parent: cvDoc ? this.props.containedViews[this.props.containedViewSelected].boxes[0] : this.props.navItems[this.props.navItemSelected].boxes[0],
-                    container: ID_PREFIX_SORTABLE_CONTAINER + Date.now() + '_' + i,
-                    url: dataURL, page,
-                };
-            }
-            initialParams.id = ID_PREFIX_BOX + Date.now() + '_' + i;
-            createBox(initialParams, "HotspotImages", inASlide, this.props.onBoxAdded, this.props.boxes);
-
-        }
 
     }
 

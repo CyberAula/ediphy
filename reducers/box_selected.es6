@@ -10,23 +10,18 @@ export default function(state = -1, action = {}) {
     switch (action.type) {
     case ADD_BOX:
         // When we create a new document, new EditorBoxSortable is created aswell; we don't want it to be selected
-        console.time("RED_box_selected");
         if (isSortableBox(action.payload.ids.id)) {
             if (isContainedView(action.payload.ids.parent)) {
-                console.timeEnd("RED_box_selected");
                 return state;
             }
-            console.timeEnd("RED_box_selected");
             return -1;
         }
         // When we create a new box with default plugins, we don't want them to be selected
         if (action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
             let a = state;
-            console.timeEnd("RED_box_selected");
             return a;
         }
         // Just normal situation
-        console.timeEnd("RED_box_selected");
         return action.payload.ids.id;
 
     case ADD_NAV_ITEM:

@@ -11,10 +11,8 @@ export function parseMoodleXML(file, callback) {
         let fileReader = new FileReader();
         fileReader.onload = (e)=> {
             try {
-                console.time("onLoad");
                 convert(e.srcElement.result, callback);
                 // xml2jsonParser(e.srcElement.result, callback);
-                console.timeEnd("onLoad");
 
             } catch (_e) {
                 console.log(_e);
@@ -39,7 +37,6 @@ export function parseMoodleXML(file, callback) {
 function convert(res, callback) {
     moodlexml2j(res, (data, e)=>{
 
-        console.time("moodlePARSER");
         try {
             if(e) {
                 console.error(e);
@@ -139,10 +136,8 @@ function convert(res, callback) {
                     console.error("Not supported");
                 }
 
-                console.time("callBack");
                 if (question.name) {filteredQuestions.push({ ...question, id: (ID_PREFIX_BOX + '_' + q + '_' + Date.now()) });}
                 // callback({ success: true, question: { ...question, id: (ID_PREFIX_BOX + '_' + q + '_' + Date.now()) }, filtered: filteredQuestions });
-                console.timeEnd("callBack");
 
             }
 
@@ -151,8 +146,6 @@ function convert(res, callback) {
             console.log(err);
             callback({ success: false, msg: i18n.t('MoodleXML.parse_error') });
         }
-        console.timeEnd("moodlePARSER");
-
     });
 }
 

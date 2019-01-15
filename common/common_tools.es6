@@ -241,7 +241,6 @@ export function letterFromNumber(ind) {
 }
 
 export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
-    console.time("cb1");
     let apiPlugin = Ediphy.Plugins.get(name);
     if (!apiPlugin) {
         return;
@@ -259,7 +258,6 @@ export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
         // eslint-disable-next-line no-console
         console.error(e);
     }
-    console.timeEnd("cb1");
 
     let newBoxes = [];
     let newPluginState = {};
@@ -273,13 +271,8 @@ export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
         }
         state.__pluginContainerIds = newPluginState;
     }
-    console.time("cb2");
 
     addBox({ ...ids, config: apiPlugin.getConfig() }, true, slide, template, styles, state, undefined, initialParams);
-    console.log({ ...ids, config: apiPlugin.getConfig() });
-    console.log(state);
-    console.log(initialParams);
-    console.timeEnd("cb2");
 
     let basePrefix = ID_PREFIX_BOX + Date.now();
 
@@ -298,9 +291,7 @@ export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
                 box.ids.initialState = { __text: ids.exercises.feedback || box.ids.initialState };
             }
         }
-        console.time("cbMap");
         createBox(box.ids, box.name, false, addBox, boxes);
-        console.timeEnd("cbMap");
 
     });
     setTimeout(()=>{

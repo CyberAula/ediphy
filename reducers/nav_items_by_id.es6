@@ -27,9 +27,7 @@ function singleNavItemReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
     case PASTE_BOX:
-        console.time("nav_items_by_id");
         let a = changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
-        console.timeEnd("nav_items_by_id");
         return a;
     case CHANGE_BOX_LAYER:
         let boxes = JSON.parse(JSON.stringify(action.payload.boxes_array));
@@ -153,18 +151,12 @@ function singleNavItemReducer(state = {}, action = {}) {
 export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0, type: '', hidden: false } }, action = {}) {
     switch (action.type) {
     case ADD_BOX:
-        console.log(action);
         if (isView(action.payload.ids.parent)) {
-            console.log('it is a View');
-            console.time("insideView");
             let b = changeProp(state, action.payload.ids.parent, singleNavItemReducer(state[action.payload.ids.parent], action));
-            console.timeEnd("insideView");
             return b;
         }
-        console.log('its not a view');
-        console.time("nav_items_by_id2");
+
         let s = state;
-        console.timeEnd("nav_items_by_id2");
         return s;
     case MOVE_BOX:
         if (action.payload.container === 0 && action.payload.position === 'absolute' && !isContainedView(action.payload.parent)) {

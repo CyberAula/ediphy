@@ -21,8 +21,6 @@ export default class TableComponent extends React.Component {
         let data = this.props.data;
         let options = this.props.options;
         let keys = Object.keys(this.props.data[0]);
-        console.log('KEYS');
-        console.log(keys);
         let realKeys = this.props.keys;
         let cols = [];
         keys.forEach(key =>{

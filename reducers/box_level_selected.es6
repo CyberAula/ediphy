@@ -7,13 +7,10 @@ import { isSortableBox, isBox } from '../common/utils';
 export default function(state = 0, action = {}) {
     switch (action.type) {
     case ADD_BOX:
-        console.time("RED_box_level_selected");
         if (action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
-            console.timeEnd("RED_box_level_selected");
             return 0;
         }
         let a = isBox(action.payload.ids.parent) ? 1 : 0;
-        console.timeEnd("RED_box_level_selected");
         return a;
     case INCREASE_LEVEL:
         return state + 1;

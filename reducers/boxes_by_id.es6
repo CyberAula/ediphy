@@ -110,7 +110,6 @@ function boxReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
     case PASTE_BOX:
-        console.time("boxes_by_id");
         let a = changeProps(
             state,
             [
@@ -123,7 +122,6 @@ function boxReducer(state = {}, action = {}) {
                 sortableContainersReducer(state.sortableContainers, action),
             ]
         );
-        console.timeEnd("boxes_by_id");
         return a;
     case ADD_RICH_MARK:
         return changeProp(state, "containedViews", [...state.containedViews, action.payload.mark.connection]);
@@ -304,13 +302,11 @@ function singleSortableContainerReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
     case PASTE_BOX:
-        console.time("boxes_by_id_2");
         if (action.payload.index || (action.payload.initialParams && action.payload.initialParams.index)) {
             let newOrder = [...state.children];
             newOrder.splice(action.payload.index || action.payload.initialParams.index, 0, action.payload.ids.id);
             return changeProp(state, "children", newOrder);
         }
-        console.timeEnd("boxes_by_id_2");
         return changeProp(state, "children", [...state.children, action.payload.ids.id]);
     case CHANGE_COLS:
         let cols = state.cols;
@@ -378,7 +374,6 @@ function sortableContainersReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
     case PASTE_BOX:
-        console.time("boxes_by_id_3");
         let a = changeProp(
             state,
             action.payload.ids.container,
@@ -386,7 +381,6 @@ function sortableContainersReducer(state = {}, action = {}) {
                 singleSortableContainerReducer(state[action.payload.ids.container], action) :
                 sortableContainerCreator(action.payload.ids.container, [action.payload.ids.id], "auto", action.payload.ids.parent)
         );
-        console.timeEnd("boxes_by_id_3");
         return a;
     case ADD_NAV_ITEM:
     case ADD_RICH_MARK:
@@ -442,7 +436,6 @@ export default function(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
         // if box is contained in sortableContainer, add it as well to its children
-        console.time("RED_boxes_by_id_4");
         if (isSortableContainer(action.payload.ids.container)) {
             let r = changeProps(
                 state,
@@ -454,12 +447,10 @@ export default function(state = {}, action = {}) {
                     boxReducer(state[action.payload.ids.parent], action),
                 ]
             );
-            console.timeEnd("RED_boxes_by_id_4");
             return r;
         }
 
         let a = changeProp(state, action.payload.ids.id, boxCreator(state, action));
-        console.timeEnd("RED_boxes_by_id_4");
 
         return a;
     case REORDER_SORTABLE_CONTAINER:
