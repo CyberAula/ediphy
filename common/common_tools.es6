@@ -259,11 +259,7 @@ export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
         }
         state.__pluginContainerIds = newPluginState;
     }
-    console.time("callback");
-
     addBox({ ...ids, config: apiPlugin.getConfig() }, true, slide, template, styles, state, undefined, initialParams);
-    console.timeEnd("callback");
-
     let basePrefix = ID_PREFIX_BOX + Date.now();
     newBoxes.map((box, ind) => {
         box.ids.id = basePrefix + '_' + ind;
