@@ -87,6 +87,7 @@ export default class FileModal extends React.Component {
                                     </div>
                                     <div id="pdfContent">
                                         <MoodleHandler navItemSelected={this.props.navItemSelected}
+                                            self={this}
                                             boxes={this.props.boxes}
                                             onBoxAdded={this.props.onBoxAdded}
                                             onNavItemAdded={this.props.onNavItemAdded}

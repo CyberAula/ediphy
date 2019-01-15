@@ -4,7 +4,7 @@ import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup
 import i18n from 'i18next';
 import FileInput from "../../../common/file-input/FileInput";
 import { ADD_BOX } from "../../../../../common/actions";
-import { isContainedView, isSlide } from "../../../../../common/utils";
+import { isBox, isContainedView, isSlide } from "../../../../../common/utils";
 import { randomPositionGenerator } from "../../../clipboard/clipboard.utils";
 import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from '../../../../../common/constants';
 import Ediphy from "../../../../../core/editor/main";
@@ -70,8 +70,6 @@ export default class MoodleHandler extends Component {
     }
 
     isChecked(q) {
-        console.log('index' + q);
-        console.log(this.state.selectedQuestions[q]);
         return this.state.selectedQuestions[q];
     }
 
@@ -79,13 +77,10 @@ export default class MoodleHandler extends Component {
         if(this.props.element) {
             let questions = [];
             parseMoodleXML(this.props.element, msg => {
-                console.log(msg);
                 if (msg.success === true) {
-                    console.log('was succesfull');
-                    msg.filtered.map((question, index) => {
+                    msg.filtered.map((question) => {
                         if (question && question.question) {
-                            let questionText = question.question.replace("<p>", "").replace("</p>", "");
-                            questions.push([questionText, question.name]);
+                            questions.push(question);
                         }
                     });
                     this.setState({ questions: questions, selectedQuestions: new Array(questions.length).fill(false) });
@@ -111,7 +106,9 @@ export default class MoodleHandler extends Component {
                     }}
                     // defaultChecked={false}
                     checked={this.isChecked(index)}/>;
-            return [input, q[0], q[1]];
+
+            let qu = q.question ? q.question.replace("<p>", "").replace("</p>", "") : q[1];
+            return [input, qu, q.name];
 
         });
 
@@ -146,7 +143,7 @@ export default class MoodleHandler extends Component {
                         <DataTable key={keys || 0}
                             keys="name"
                             columns={cols}
-                            initialData={data}
+                            initialData={data || []}
                             initialPageLength={options.initialPageLength}
                             disablePagination={options.disablePagination}
                             disableFilter={options.disableFilter}
@@ -192,42 +189,138 @@ export default class MoodleHandler extends Component {
     }
 
     importFile() {
-        switch(this.state.FileType) {
-        case '(.pdf)':
-            switch(this.state.ImportAs) {
-            case 'Image':
-                this.AddPlugins();
-                break;
-            case 'SliBackground':
-                this.AddAsNavItem();
-                break;
-            case 'Custom':
-                this.AddAsNavItem(true);
-                break;
-            case 'PDFViewer':
-                this.AddAsPDFViewer();
-                break;
+        let getInitialParams = (self, page) => {
+            let ids = {};
+            let initialParams;
+            let isTargetSlide = false;
+
+            if (page) {
+                let containerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
+                let id = ID_PREFIX_BOX + Date.now();
+                isTargetSlide = isSlide(page.type);
+                let parent = isTargetSlide ? page.id : page.boxes[0];
+                let row = 0;
+                let col = 0;
+                let container = isTargetSlide ? 0 : containerId;
+                let newInd;
+                if (self.props.boxSelected && self.props.boxes[self.props.boxSelected] && isBox(self.props.boxSelected)) {
+                    parent = self.props.boxes[self.props.boxSelected].parent;
+                    container = self.props.boxes[self.props.boxSelected].container;
+                    isTargetSlide = container === 0;
+                    row = self.props.boxes[self.props.boxSelected].row;
+                    col = self.props.boxes[self.props.boxSelected].col;
+                    newInd = self.getIndex(parent, container);
+                }
+
+                ids = { id, parent, container, row, col, page: page ? page.id : 0 };
+                initialParams = {
+                    id: ID_PREFIX_BOX + Date.now(),
+                    parent: parent, //
+                    container: container,
+                    row: row,
+                    col: col,
+                    index: newInd,
+                    page: page ? page.id : 0,
+                    position: isTargetSlide ? {
+                        type: "absolute",
+                        x: randomPositionGenerator(20, 40),
+                        y: randomPositionGenerator(20, 40),
+                    } : { type: 'relative', x: "0%", y: "0%" },
+                };
             }
+
+            return { initialParams, isTargetSlide };
+        };
+
+        let questions = this.state.questions;
+        let selectedQuestions = this.state.selectedQuestions;
+
+        let toAdd = questions.filter((item, index) => selectedQuestions[index]);
+
+        for (let question of toAdd) {
+            console.log('toAdd');
+            console.log(question);
+            let { initialParams, isTargetSlide } = getInitialParams(this.props.self, this.props.self.currentPage());
+            initialParams.exercises = question.question;
+            initialParams.initialState = question.state;
+
+            if(question.id) {
+                initialParams.id = question.id;
+            }
+            console.log(initialParams);
+            console.log(this.props);
+            console.log('initialParams');
+            console.log(initialParams);
+            createBox(initialParams, question.name, isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+
         }
 
-        // delete canvas preview util
-        for (let i = 1; i <= this.state.FilePages; i++) {
-            let canvas = document.getElementById('can' + i);
-            document.body.removeChild(canvas);
-        }
-        // reset state
-        this.setState({
-            FileURL: '',
-            FileLoaded: false,
-            FileName: '',
-            FilePages: 0,
-            FileType: '',
-            ImportAs: '',
-            PagesFrom: 1,
-            PagesTo: 1,
-        });
+        this.props.self.close();
 
-        this.closeModal(true);
+        //         initialParams.exercises = msg.question;
+        //         initialParams.initialState = msg.question.state;
+        //         if (msg.question.id) {
+        //             initialParams.id = msg.question.id;
+        //         }
+        //
+        //         if(msg.question.name === 'InputText') {
+        //             let y = (parseFloat(initialParams.position.y) - 6).toString() + '%';
+        //             let x = (parseFloat(initialParams.position.x) - 2).toString() + '%';
+        //             let textParams = {
+        //                 ...initialParams,
+        //                 id: initialParams.id + '_0',
+        //                 text: msg.question.question,
+        //                 position: isTargetSlide ? { ...initialParams.position, y: y, x: x } : initialParams.position,
+        //             };
+        //             delete textParams.exercises;
+        //             delete textParams.initialState;
+        //             createBox(textParams, "BasicText", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+        //         }
+        //
+        //         console.timeEnd("first block");
+        //         console.time("second block");
+        //         let sanitized = sanitizeInitialParams(initialParams, self.props.boxes);
+        //         console.time("secccc");
+        //         console.log("Sanitized");
+        //         console.log(sanitized);
+        //         createBox(sanitized, msg.question.name, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+        //         console.timeEnd("secccc");
+        //
+        //         console.timeEnd("second block");
+        //         console.time("third block");
+        //
+        //         if(msg.question.img) {
+        //             let imgParams = {
+        //                 ...initialParams,
+        //                 id: initialParams.id + '_I',
+        //                 url: msg.question.img,
+        //                 container: "sc-Question",
+        //                 parent: initialParams.id,
+        //                 index: 0,
+        //                 position: { type: "relative", x: 0, y: 0 },
+        //                 isDefaultPlugin: 'true',
+        //             };
+        //             delete imgParams.exercises;
+        //             delete imgParams.initialState;
+        //             createBox(imgParams, "HotspotImages", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+        //
+        //         }
+        //         console.timeEnd("third block");
+        //
+        //         console.time("4 block");
+        //
+        //
+        //         self.close();
+        //
+        //         console.timeEnd("4 block");
+        //     } else {
+        //         console.time("alert");
+        //         alert(msg ? (msg.msg || 'ERROR') : 'ERROR');
+        //         console.timeEnd("alert");
+        //     }
+        //     console.timeEnd("parseMoodleXML");
+        //
+        // });
     }
 
     AddAsPDFViewer() {
@@ -377,4 +470,8 @@ MoodleHandler.propTypes = {
      * PDF File URL
      */
     url: PropTypes.string,
+    /**
+     * FileModal Context
+     */
+    self: PropTypes.object,
 };
