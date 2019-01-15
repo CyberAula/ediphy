@@ -132,54 +132,55 @@ export default class MoodleHandler extends Component {
             initialOrder: 'descending',
             theme: 'solid',
         };
-        return (<div className="pdfFileDialog">
+        return (<div className="moodleDialog">
             <form>
-                <div className="fileLoaded" style={{ display: 'block' }}>
+                <div className="fileLoaded moodleTable" style={{ display: 'block' }}>
                     <h2>{i18n.t("Preview")}</h2>
-                </div>
-                <Row style={{ display: 'block' }}>
-                    <Col xs={12} md={12} lg={12}>
-                        <DataTable key={keys || 0}
-                            keys="name"
-                            columns={cols}
-                            initialData={data || []}
-                            initialPageLength={options.initialPageLength}
-                            disablePagination={options.disablePagination}
-                            disableFilter={options.disableFilter}
-                            disableRowChoice={options.disableRowChoice}
-                            pageSizeLabel={options.pageSizeLabel}
-                            noDataLabel={options.noDataLabel}
-                            searchLabel={options.searchLabel}
-                            searchPlaceholder={options.searchPlaceholder}
-                            pageLengthOptions={options.pageLengthOptions}
-                            paginationBottom
-                            initialSortBy={{ prop: "name", order: options.initialOrder }}
-                        />
 
-                        <div className="import_file_buttons">
-                            <div className={"selectAll"}>
-                                <input type='checkbox'
-                                    id={"selectAll"}
-                                    placeholder={"Select all"}
-                                    onChange={(e)=> {
-                                        this.setState({ selectAll: e.target.checked, selectedQuestions: new Array(this.state.questions.length).fill(e.target.checked),
-                                        });
-                                    }}
-                                    checked={this.state.selectAll}
-                                />
-                                <label htmlFor={"selectAll"}>  Select all  </label>
+                    <Row style={{ display: 'block' }}>
+                        <Col xs={12} md={12} lg={12}>
+                            <DataTable key={keys || 0}
+                                keys="name"
+                                columns={cols}
+                                initialData={data || []}
+                                initialPageLength={options.initialPageLength}
+                                disablePagination={options.disablePagination}
+                                disableFilter={options.disableFilter}
+                                disableRowChoice={options.disableRowChoice}
+                                pageSizeLabel={options.pageSizeLabel}
+                                noDataLabel={options.noDataLabel}
+                                searchLabel={options.searchLabel}
+                                searchPlaceholder={options.searchPlaceholder}
+                                pageLengthOptions={options.pageLengthOptions}
+                                paginationBottom
+                                initialSortBy={{ prop: "name", order: options.initialOrder }}
+                            />
+
+                            <div className="import_file_buttons">
+                                <div className={"selectAll"}>
+                                    <input type='checkbox'
+                                        id={"selectAll"}
+                                        placeholder={"Select all"}
+                                        onChange={(e)=> {
+                                            this.setState({ selectAll: e.target.checked, selectedQuestions: new Array(this.state.questions.length).fill(e.target.checked),
+                                            });
+                                        }}
+                                        checked={this.state.selectAll}
+                                    />
+                                    <label htmlFor={"selectAll"}>  Select all  </label>
+                                </div>
+                                <div className={"moodleButtons"}>
+                                    <Button bsStyle="default" className="import_file_buttons" id="import_file_button" onClick={ e => {
+                                        this.closeModal(); e.preventDefault();
+                                    }}>{i18n.t("importFile.footer.cancel")}</Button>
+                                    <Button bsStyle="primary" className="import_file_buttons" id="cancel_button" onClick={ (e) => {
+                                        this.importFile(e); e.preventDefault();
+                                    }}>{i18n.t("importFile.footer.ok")}</Button>
+                                </div>
                             </div>
-                            <div className={"moodleButtons"}>
-                                <Button bsStyle="default" className="import_file_buttons" id="import_file_button" onClick={ e => {
-                                    this.closeModal(); e.preventDefault();
-                                }}>{i18n.t("importFile.footer.cancel")}</Button>
-                                <Button bsStyle="primary" className="import_file_buttons" id="cancel_button" onClick={ (e) => {
-                                    this.importFile(e); e.preventDefault();
-                                }}>{i18n.t("importFile.footer.ok")}</Button>
-                            </div>
-                        </div>
-                    </Col>
-                </Row>
+                        </Col>
+                    </Row>
+                </div>
 
             </form>
 
