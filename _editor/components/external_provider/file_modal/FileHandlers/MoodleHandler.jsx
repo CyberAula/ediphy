@@ -52,7 +52,6 @@ export default class MoodleHandler extends Component {
             if(canvas) {
                 document.body.removeChild(canvas);
             }
-
         }
     }
     componentDidMount() {
@@ -112,7 +111,7 @@ export default class MoodleHandler extends Component {
         });
 
         let keys = data[0].map((i, index) => index);
-        let realKeys = ["Selected", "Question", "Type"];
+        let realKeys = [i18n.t('FileModal.FileHandlers.selected'), i18n.t('FileModal.FileHandlers.question'), i18n.t('FileModal.FileHandlers.type')];
         let cols = [];
 
         keys.forEach(key =>{
@@ -160,7 +159,7 @@ export default class MoodleHandler extends Component {
                                 <div className={"selectAll"}>
                                     <input type='checkbox'
                                         id={"selectAll"}
-                                        placeholder={"Select all"}
+                                        placeholder={i18n.t('FileModal.FileHandlers.selectAll')}
                                         onChange={(e)=> {
                                             this.setState({ selectAll: e.target.checked, selectedQuestions: new Array(this.state.questions.length).fill(e.target.checked),
                                             });
@@ -190,13 +189,11 @@ export default class MoodleHandler extends Component {
 
     importFile() {
         let getInitialParams = (self, page) => {
-            let ids = {};
             let initialParams;
             let isTargetSlide = false;
 
             if (page) {
                 let containerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
-                let id = ID_PREFIX_BOX + Date.now();
                 isTargetSlide = isSlide(page.type);
                 let parent = isTargetSlide ? page.id : page.boxes[0];
                 let row = 0;
@@ -212,7 +209,6 @@ export default class MoodleHandler extends Component {
                     newInd = self.getIndex(parent, container);
                 }
 
-                ids = { id, parent, container, row, col, page: page ? page.id : 0 };
                 initialParams = {
                     id: ID_PREFIX_BOX + Date.now(),
                     parent: parent, //
@@ -332,38 +328,6 @@ MoodleHandler.propTypes = {
      */
     close: PropTypes.func.isRequired,
     /**
-     * Add several views
-     */
-    onNavItemsAdded: PropTypes.func.isRequired,
-    /**
-     * Select view/contained view in the index context
-     */
-    onIndexSelected: PropTypes.func.isRequired,
-    /**
-     * Select view
-     */
-    onNavItemSelected: PropTypes.func.isRequired,
-    /**
-     * Objects Array that contains all created views (identified by its *id*)
-     */
-    navItemsIds: PropTypes.array.isRequired,
-    /**
-     * Object that contains all created views (identified by its *id*)
-     */
-    navItems: PropTypes.object.isRequired,
-    /**
-     * Current selected view (by ID)
-     */
-    navItemSelected: PropTypes.any,
-    /**
-     * Object containing all contained views (identified by its ID)
-     */
-    containedViews: PropTypes.object.isRequired,
-    /**
-     * Selected contained view (by ID)
-     */
-    containedViewSelected: PropTypes.any,
-    /**
      * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object,
@@ -372,11 +336,11 @@ MoodleHandler.propTypes = {
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
-     * PDF File URL
-     */
-    url: PropTypes.string,
-    /**
      * FileModal Context
      */
     self: PropTypes.object,
+    /**
+     * Element
+     */
+    element: PropTypes.object,
 };

@@ -18,7 +18,6 @@ require('es6-promise').polyfill();
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
-
 import './../../sass/style.scss';
 import '../../core/visor/visor_entrypoint';
 import ExportModal from '../../_editor/components/nav_bar/export/ExportModal';
@@ -55,9 +54,12 @@ export default class Visor extends Component {
             fromScorm: Ediphy.State.fromScorm,
             scoreInfo: { userName: "Anonymous", totalScore: 0, totalWeight: 0, completionProgress: 0 },
             mouseMoving: false,
+            mouseOnPlayer: false,
         };
         this.onMarkClicked = this.onMarkClicked.bind(this);
         this._onMouseMove = this._onMouseMove.bind(this);
+        this.setHoverClass = this.setHoverClass.bind(this);
+        this.deleteHoverClass = this.deleteHoverClass.bind(this);
 
         if (!Ediphy.State.export) {
             window.export = (format = 'HTML') => {
@@ -76,6 +78,28 @@ export default class Visor extends Component {
                 }
             };
         }
+
+    }
+
+    setHoverClass() {
+
+        // let items = document.getElementsByClassName("hoverPlayerSelector");
+        //
+        // for (let i = 0; i < items.length; i++){
+        //     items[i].className = items[i].className + ' hoverPlayerOn';
+        // }
+        this.setState({ mouseOnPlayer: true });
+    }
+
+    deleteHoverClass() {
+        // let items = document.getElementsByClassName("hoverPlayerSelector");
+        // for (let i = 0; i < items.length; i++){
+        //     if (items[i].className.includes('hoverPlayerOn')){
+        //         items[i].className = items[i].className.replace('hoverPlayerOn', '');
+        //     }
+        // }
+
+        this.setState({ mouseOnPlayer: false });
 
     }
 
@@ -246,7 +270,9 @@ export default class Visor extends Component {
 
         let content = [...navItemComponents, cvComponents];
         let empty = <div className="emptyPresentation">{i18n.t("EmptyPresentation")}</div>;
-        let visorNavButtonClass = this.state.mouseMoving ? ' appearButton' : ' fadeButton';
+        let visorNavButtonClass = 'hoverPlayerSelector';
+        visorNavButtonClass = this.state.mouseMoving ? visorNavButtonClass + ' appearButton' : visorNavButtonClass + ' fadeButton';
+        visorNavButtonClass = this.state.mouseOnPlayer ? visorNavButtonClass + ' hoverPlayerOn' : visorNavButtonClass;
         return (
             <div id="app" ref={'app'}
                 className={wrapperClasses}
@@ -270,15 +296,17 @@ export default class Visor extends Component {
                         style={{ height: '100%' }}>
                         <Row style={{ height: '100%' }}>
                             <Col lg={12} style={{ height: '100%', paddingLeft: '0px', paddingRight: '0px' }}>
-                                { !isContainedView(currentView) ? (<VisorPlayer
-                                    fadePlayerClass={visorNavButtonClass}
-                                    show={visorNav.player}
-                                    changeCurrentView={(page)=> {this.changeCurrentView(page);}}
-                                    currentViews={this.state.currentView}
-                                    navItemsById={navItemsById}
-                                    navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}/>) : null}
-                                {visorNav.sidebar ? (<Button id="visorNavButton"
-                                    // style={{visibility: this.state.mouseMoving ? 'visible' : 'hidden'}}
+                                { !isContainedView(currentView) ? (
+                                    <VisorPlayer
+                                        fadePlayerClass={visorNavButtonClass}
+                                        setHover={this.setHoverClass}
+                                        deleteHover = {this.deleteHoverClass}
+                                        show={visorNav.player}
+                                        changeCurrentView={(page)=> {this.changeCurrentView(page);}}
+                                        currentViews={this.state.currentView}
+                                        navItemsById={navItemsById}
+                                        navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}/>) : null}
+                                {visorNav.sidebar ? (<div className={"visorNavButtonDiv"} onMouseEnter={()=> this.setHoverClass()} onMouseLeave={()=>this.deleteHoverClass()}><Button id="visorNavButton"
                                     className={toggleColor + visorNavButtonClass}
                                     bsStyle="primary"
                                     onClick={e => {
@@ -286,7 +314,7 @@ export default class Visor extends Component {
                                         document.activeElement.blur();
                                     }}>
                                     <i className="material-icons">{toggleIcon}</i>
-                                </Button>) : null}
+                                </Button></div>) : null}
                                 {
 
                                 }

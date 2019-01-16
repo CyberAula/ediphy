@@ -43,9 +43,11 @@ export default class VisorPlayer extends Component {
         return(
             <div id="player"
                 className={this.props.fadePlayerClass}
+                onMouseEnter={() => {this.props.setHover();}}
+                onMouseLeave={() => this.props.deleteHover()}
             >
                 {this.props.show ?
-                    (<span>
+                    (<span >
                         <OverlayTrigger placement="bottom" delayShow={50} trigger={['hover']} overlay={this.createTooltip("first", i18n.t("player.First"))}>
                             <Button className="playerButton"
                                 bsStyle="primary"
@@ -55,7 +57,7 @@ export default class VisorPlayer extends Component {
                             </Button>
                         </OverlayTrigger>
 
-                        <OverlayTrigger placement="bottom" delayShow={0} trigger={['hover']} rootClose overlay={this.createTooltip("previous", i18n.t("player.Previous"))}>
+                        <OverlayTrigger placement="bottom" delayShow={0} trigger={['hover']} rootClose overlay={this.createTooltip("previous", i18n.t("player.Previous")) }>
                             <Button className="playerButton"
                                 bsStyle="primary"
                                 disabled={index === 0 || maxIndex === 0}
@@ -171,4 +173,12 @@ VisorPlayer.propTypes = {
      * Clase CSS para ocultar el Player al dejar de mover el raton
      */
     fadePlayerClass: PropTypes.string,
+    /**
+     * Función para añadir la clase hover tanto el player como el boton desplegable
+     */
+    setHover: PropTypes.func,
+    /**
+     * Función para eliminar la clase hover tanto el player como el boton desplegable
+     */
+    deleteHover: PropTypes.func,
 };

@@ -150,9 +150,22 @@
   &.fadeButton{
     opacity: 0;
     -webkit-transition: all 0.5s ease-in-out;
+
+  }
+
+
+  &:hover, &:active, &:focus {
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  &.hoverPlayerOn{
+    opacity: 1 !important;
   }
 
 }
+
+
 
 .playerButton {
   margin:auto;
@@ -282,35 +295,45 @@
 
  }
 
-#visorNavButton {
+.visorNavButtonDiv{
   border:0;
-  background-color: $greyPanelHeadings;
-  border-radius: 5px;
-  padding: 15px 7px 10px 2px;
-  border-radius: 0 30px 30px 0;
-  top: 50%;
-  left: 0px;
-  z-index: 9999;
   position: absolute;
-  opacity: 0.5;
+  top: 50%;
+  //opacity: 0.5;
+  z-index: 9999;
+  left: 0px;
+
+  #visorNavButton {
+    border:0;
+    background-color: $greyPanelHeadings;
+    border-radius: 5px;
+    border-radius: 0 30px 30px 0;
+    padding: 15px 7px 10px 2px;
+
+    &.appearButton{
+      opacity: 0.5;
+      -webkit-transition: all 0.5s ease-in-out;
+    }
+
+    &.fadeButton{
+      opacity: 0;
+      -webkit-transition: all 0.5s ease-in-out;
+    }
+    &.hoverPlayerOn{
+      opacity: 0.5;
+    }
+    &:hover, &:active, &:focus {
+      color: #777 !important;
+      background-color: $grey !important;
+      cursor: pointer;
+      opacity: 1;
+    }
 
 
-  &.appearButton{
-    opacity: 0.5;
-    -webkit-transition: all 0.5s ease-in-out;
-  }
 
-  &.fadeButton{
-    opacity: 0;
-    -webkit-transition: all 0.5s ease-in-out;
-  }
-  &:hover, &:active, &:focus {
-    color: #777 !important;
-    background-color: $grey !important;
-    cursor: pointer;
-    opacity: 1;
   }
 }
+
 
 .visorNavTooltip {
   position: fixed;

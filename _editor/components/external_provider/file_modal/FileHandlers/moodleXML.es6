@@ -86,7 +86,7 @@ function convert(res, callback) {
                 case "shortanswer":
                     question = {
                         name: 'InputText',
-                        correctAnswer: qu.answers.map(q=>q.text).join('//'),
+                        correctAnswer: qu.answers.map(quest=>quest.text).join('//'),
                         currentAnswer: "",
                         question: qu.questiontext,
                         img: qu.img || null,
