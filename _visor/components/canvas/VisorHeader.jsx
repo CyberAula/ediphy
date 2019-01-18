@@ -85,15 +85,15 @@ export default class VisorHeader extends Component {
 
 VisorHeader.propTypes = {
     /**
-     * Array que contiene el título desglosado de la página. Ej: `['Sección 1'. 'Página 1']`
+     * Array that contains the title elements of the page. E.g: `['Section 1'. 'Page 1']`
      */
     titles: PropTypes.array.isRequired,
     /**
-     * Título del curso
+     * Course title
      */
     courseTitle: PropTypes.string,
     /**
-     * Vista actual
+     * Current view
      */
     currentView: PropTypes.any,
     /**

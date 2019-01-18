@@ -49,24 +49,10 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas", 
             let w = fromVisor ? canvas.offsetWidth : canvas.offsetWidth - 36;
             let h = fromVisor ? canvas.offsetHeight : canvas.offsetHeight - 66;
             marginTop = 0 + 'px';
+
             if (w > ratio * h) {
                 width = (ratio * h) + "px";
                 height = h + "px";
-            // change text font-size
-            // let p_array = document.querySelectorAll(".p_class > span");
-            // if (p_array.length > 0) {
-            //     for (let i = 0; i < p_array.length; i++) {
-            //         //let p_size = window.getComputedStyle(p_array[i]).fontSize;
-            //         let p_size = p_array[i].style.fontSize;
-            //         console.log(p_size, p_size.search("px"));
-            //         if (p_size.search("px") > 0) {
-            //             let vw = Math.round(p_size.replace("px", "") / (window.innerWidth * 0.01) * 100) / 100 + 'vw';
-            //             p_array[i].style.fontSize = vw;
-            //         }
-            //
-            //
-            //     }
-            // }
 
             } else if (h > w / ratio) {
                 let newHeight = w / ratio;
@@ -266,8 +252,10 @@ export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
             addDefaultContainerPlugins(ids, template, boxes, newBoxes);
             parsePluginContainers(template, newPluginState);
         } else {
+
             addDefaultContainerPluginsReact(ids, template, boxes, newBoxes);
             parsePluginContainersReact(template, newPluginState);
+
         }
         state.__pluginContainerIds = newPluginState;
     }

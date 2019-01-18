@@ -1,5 +1,4 @@
 import { isDataURL, dataURItoBlob } from '../../../../../common/utils';
-import xml2json from 'basic-xml2json';
 import moodlexml2j from 'moodlexml-to-json';
 import { ID_PREFIX_BOX } from '../../../../../common/constants';
 import i18n from 'i18next';
@@ -12,10 +11,9 @@ export function parseMoodleXML(file, callback) {
         fileReader.onload = (e)=> {
             try {
                 convert(e.srcElement.result, callback);
-                // xml2jsonParser(e.srcElement.result, callback);
-
             } catch (_e) {
-                console.log(_e);
+                // eslint-disable-next-line no-console
+                console.error(_e);
                 callback({ success: false, msg: i18n.t('MoodleXML.parse_error') });
             }
         };
@@ -26,8 +24,7 @@ export function parseMoodleXML(file, callback) {
             return res.text();
         }).then(xml => {
             convert(xml, callback);
-        }).catch(e =>{
-            console.log(e);
+        }).catch(e=>{
             callback({ success: false, msg: i18n.t('MoodleXML.parse_error') });
         });
     }
@@ -39,6 +36,7 @@ function convert(res, callback) {
 
         try {
             if(e) {
+                // eslint-disable-next-line no-console
                 console.error(e);
             }
             let questions = data.questions.filter(q=>q.type && q.type !== "category");
@@ -55,7 +53,7 @@ function convert(res, callback) {
                         correctAnswer,
                         currentAnswer: false,
                         answers: qu.answers.map(ans=>"<p>" + ans.text + "</p>"),
-                        question: "<p>" + qu.questiontext + "</p>",
+                        question: qu.questiontext || "<p></p>",
                         img: qu.img || null,
                         feedback: qu.generalfeedback || "<p></p>",
                         state: {
@@ -88,7 +86,7 @@ function convert(res, callback) {
                         name: 'InputText',
                         correctAnswer: qu.answers.map(quest=>quest.text).join('//'),
                         currentAnswer: "",
-                        question: qu.questiontext,
+                        question: qu.questiontext || "<p></p>",
                         img: qu.img || null,
                         state: {
                             type: 'text',
@@ -102,9 +100,9 @@ function convert(res, callback) {
                 case "essay":
                     question = {
                         name: 'FreeResponse',
-                        correctAnswer: true,
+                        correctAnswer: "",
                         currentAnswer: false,
-                        question: qu.questiontext,
+                        question: qu.questiontext || "<p></p>",
                         img: qu.img || null,
                         feedback: qu.generalfeedback || "<p></p>",
                         state: {
@@ -117,7 +115,7 @@ function convert(res, callback) {
                         name: 'InputText',
                         correctAnswer: qu.correctAnswer.join("//"),
                         currentAnswer: "",
-                        question: qu.questiontext,
+                        question: qu.questiontext || "<p></p>",
                         img: qu.img || null,
                         feedback: qu.generalfeedback || "<p></p>",
                         state: {
@@ -133,6 +131,7 @@ function convert(res, callback) {
                 case "cloze":
                 case "description":
                 default:
+                    // eslint-disable-next-line no-console
                     console.error("Not supported");
                 }
 
@@ -143,9 +142,9 @@ function convert(res, callback) {
 
             callback({ success: true, filtered: filteredQuestions });
         }catch(err) {
+            // eslint-disable-next-line no-console
             console.log(err);
             callback({ success: false, msg: i18n.t('MoodleXML.parse_error') });
         }
     });
 }
-

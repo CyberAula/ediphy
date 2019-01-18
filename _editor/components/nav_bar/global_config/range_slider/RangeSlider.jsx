@@ -134,6 +134,10 @@ export default class RangeSlider extends Component {
 }
 RangeSlider.propTypes = {
     /**
+     * Class to apply
+     */
+    className: PropTypes.string,
+    /**
      * Mínimo valor posible
      */
     min: PropTypes.number.isRequired,
@@ -161,10 +165,6 @@ RangeSlider.propTypes = {
      * Incremento de valor mínimo
      */
     step: PropTypes.number.isRequired,
-    /**
-      * Class to apply
-      */
-    className: PropTypes.string,
     /**
       * Style to apply
       */

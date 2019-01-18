@@ -150,19 +150,19 @@ export default class VisorPlayer extends Component {
 
 VisorPlayer.propTypes = {
     /**
-     * Indica si se muestran o ocultan los botones de navegación
+     * Whether navigation buttons should be displayed or not
      */
     show: PropTypes.bool,
     /**
-     * Cambia la vista actual
+     * Changes current view
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     Diccionario que contiene todas las vistas y vistas contenidas, accesibles por su *id*
+     * Dictionary that contains all views and contained views. The key for each value is the identifier of the view
      */
     currentViews: PropTypes.array.isRequired,
     /**
-     * Diccionario que contiene todas las vistas, accesibles por su *id*
+     * Dictionary that contains all views. The key for each value is the identifier of the view
      */
     navItemsById: PropTypes.object.isRequired,
     /**
@@ -170,7 +170,7 @@ VisorPlayer.propTypes = {
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
-     * Clase CSS para ocultar el Player al dejar de mover el raton
+     * CSS class used to hide player when mouse stops moving
      */
     fadePlayerClass: PropTypes.string,
     /**

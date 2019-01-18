@@ -146,7 +146,6 @@ export default function handlers(self) {
                                 if (msg.question.id) {
                                     initialParams.id = msg.question.id;
                                 }
-
                                 if(msg.question.name === 'InputText') {
                                     let y = (parseFloat(initialParams.position.y) - 6).toString() + '%';
                                     let x = (parseFloat(initialParams.position.x) - 2).toString() + '%';
