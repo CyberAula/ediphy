@@ -124,6 +124,8 @@ let en = {
                 'selected': 'Selected',
                 'question': 'Question',
                 'type': 'Type',
+                'filter_questions': 'Filter questions',
+                'no_matches': 'No matches',
             },
             'Title': 'Import resource...',
         },

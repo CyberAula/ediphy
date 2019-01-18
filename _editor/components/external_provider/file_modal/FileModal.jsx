@@ -64,7 +64,7 @@ export default class FileModal extends React.Component {
                                     <div id="sideArrow">
                                         <button onClick={()=>{this.closeSideBar(false);}}><i className="material-icons">keyboard_arrow_right</i></button>
                                     </div>
-                                    <div id="pdfContent">
+                                    <div id="drawerContent">
                                         <PDFHandler navItemSelected={this.props.navItemSelected}
                                             boxes={this.props.boxes}
                                             onBoxAdded={this.props.onBoxAdded}
@@ -85,7 +85,7 @@ export default class FileModal extends React.Component {
                                     <div id="sideArrow">
                                         <button onClick={()=>{this.closeSideBar(false);}}><i className="material-icons">keyboard_arrow_right</i></button>
                                     </div>
-                                    <div id="pdfContent">
+                                    <div id="drawerContent">
                                         <MoodleHandler navItemSelected={this.props.navItemSelected}
                                             self={this}
                                             boxes={this.props.boxes}

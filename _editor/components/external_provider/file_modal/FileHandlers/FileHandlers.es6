@@ -6,6 +6,7 @@ import { isSlide, isBox, isContainedView, isPage, isSortableBox, isDataURL, data
 import parseMoodleXML from './moodleXML';
 import i18n from 'i18next';
 import { importEdiphy, importExcursion } from '../APIProviders/providers/_edi';
+import './_ImportFile.scss';
 
 export const extensionHandlers = {
     'all': { label: i18n.t("vish_search_types.All"), value: '', icon: 'attach_file' },

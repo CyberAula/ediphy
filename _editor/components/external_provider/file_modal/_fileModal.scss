@@ -248,7 +248,7 @@
       }
       .myFilesComponent{
         padding: 20px;
-        max-height: 458px;
+        //max-height: 458px;
         overflow: auto;
         hr{     margin: 25px -20px; }
         h5{ padding: 0}
@@ -378,7 +378,7 @@
         transition: width 0.5s ease;
         top: 0px;
         z-index: 9999;
-        #pdfContent {
+        #drawerContent {
           padding: 20px;
           width: calc(100% - 30px);
           display: inline-block;
