@@ -13,7 +13,6 @@ require('react-datatable-bs/css/table-twbs.css');
 
 import { createBox } from '../../../../../common/common_tools';
 let spinner = require('../../../../../dist/images/spinner.svg');
-const realKeys = ["", i18n.t('FileModal.FileHandlers.question'), i18n.t('FileModal.FileHandlers.type')];
 export default class MoodleHandler extends Component {
     constructor(props) {
         super(props);
@@ -27,7 +26,23 @@ export default class MoodleHandler extends Component {
         this.createInput = this.createInput.bind(this);
         this.toggleInput = this.toggleInput.bind(this);
         this.createData = this.createData.bind(this);
+        this.selectAllRows = this.selectAllRows.bind(this);
+        this.realKeys = [
+            /* <input type="checkbox"  onChange={(e)=>this.selectAllRows(e.target.checked)} /> */
+            " ",
+            i18n.t('FileModal.FileHandlers.question'),
+            i18n.t('FileModal.FileHandlers.type'),
+        ];
     }
+
+    selectAllRows(select) {
+        let selectedQuestions = [...this.state.selectedQuestions];
+        [].forEach.call(document.getElementsByClassName('moodleXMLquestion'), (el) => {
+            selectedQuestions[parseInt(el.dataset.id, 10)] = select;
+        });
+        this.setState({ selectedQuestions });
+    }
+
     componentDidMount() {
         this.start();
     }
@@ -65,7 +80,7 @@ export default class MoodleHandler extends Component {
     }
 
     createInput(index) {
-        return <input type='checkbox' key={index} onChange={()=>this.toggleInput(index)} checked={this.isChecked(index)}/>;
+        return <input type='checkbox' data-id={index} className="moodleXMLquestion" key={index} onChange={()=>this.toggleInput(index)} checked={this.isChecked(index)}/>;
     }
 
     createData(questionsData) {
@@ -86,7 +101,7 @@ export default class MoodleHandler extends Component {
         let cols = [];
 
         keys.forEach(key =>{
-            cols.push({ title: realKeys[key], prop: key });
+            cols.push({ title: this.realKeys[key], prop: key });
         });
 
         let options = {
@@ -110,7 +125,7 @@ export default class MoodleHandler extends Component {
                     <Row style={{ display: 'block' }}>
                         <Col xs={12} md={12} lg={12}>
                             <div className="tableContainer theme-striped">
-                                <DataTable key={keys || 0}
+                                <DataTable key={0}
                                     keys="name"
                                     columns={cols}
                                     initialData={data || []}
@@ -292,7 +307,7 @@ MoodleHandler.propTypes = {
      */
     self: PropTypes.object,
     /**
-     * Element
+     * Selected element
      */
     element: PropTypes.object,
 };

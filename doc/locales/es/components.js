@@ -128,6 +128,9 @@ let components = {
         "exercises": "Objeto que contiene toda la información relativa a ejercicios",
         "uploadFunction": "Función para subir un archivo",
     },
+    "CodePreview": {
+        "source": "URL Fuente del código",
+    },
     "ColorPicker": {
         "value": "Valor del color seleccionado",
         "onChange": "Cambia el color seleccionado",
@@ -620,6 +623,13 @@ let components = {
         "thumbnail": "URL de la miniatura",
         "url": "URL del elemento",
         "title": "Nombre del eleento",
+    },
+    "MoodleHandler": {
+        "close": "Cierra el modal de importación de ficheros",
+        "boxes": "Objeto que contiene todas las cajas",
+        "onBoxAdded": "Función que permite crear una caja",
+        "self": "Contexto del FileModal",
+        "element": "Elemento seleccionado para importar",
     },
     "MyFilesComponent": {
         "show": "Tipo MIME aceptado para insertar",
@@ -1195,7 +1205,8 @@ let components = {
         "navItemsById": "Objeto que contiene todas las vistas, accesibles por su *id*",
         "navItemsIds": "Array que contiene todas las vistas y vistas contenidas, accesibles por su *id*",
         "fadePlayerClass": "Clase CSS para ocultar el Player al dejar de mover el raton",
-
+        "setHover": "Función para añadir la clase hover tanto el player como el boton desplegable",
+        "deleteHover": "Función para eliminar la clase hover tanto el player como el boton desplegable",
     },
     "VisorNavSection": {
         "display": "Indica si está desplegada o replegada",

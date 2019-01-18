@@ -174,11 +174,11 @@ VisorPlayer.propTypes = {
      */
     fadePlayerClass: PropTypes.string,
     /**
-     * Función para añadir la clase hover tanto el player como el boton desplegable
+     * Function that allows to add the hover class to the player and the arrow tab
      */
     setHover: PropTypes.func,
     /**
-     * Función para eliminar la clase hover tanto el player como el boton desplegable
+     * Function that allows to delete the hover class in he player and the arrow tab
      */
     deleteHover: PropTypes.func,
 };
