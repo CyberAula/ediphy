@@ -122,7 +122,7 @@ export default class PDFHandler extends Component {
      */
     render() {
         return (<div className="pdfFileDialog">
-            <form>
+            <form action="javascript:void(0);" onSubmit={e=>e.preventDefault()}>
                 <div className="fileLoaded" style={{ display: 'block' }}>
                     <h2>{i18n.t("Preview")}</h2>
                 </div>

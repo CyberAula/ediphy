@@ -6,7 +6,7 @@ import { isBox, isContainedView, isPage, isSlide, isSortableBox } from "../../..
 import { randomPositionGenerator } from "../../../clipboard/clipboard.utils";
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../common/constants';
 import Ediphy from "../../../../../core/editor/main";
-import './_DataTable.scss';
+import './_MoodleXMLDataTable.scss';
 import { DataTable } from 'react-datatable-bs';
 import { parseMoodleXML } from "./moodleXML";
 require('react-datatable-bs/css/table-twbs.css');
@@ -41,6 +41,8 @@ export default class MoodleHandler extends Component {
             selectedQuestions[parseInt(el.dataset.id, 10)] = select;
         });
         this.setState({ selectedQuestions });
+        this.forceResetSearch();
+
     }
 
     componentDidMount() {
@@ -66,7 +68,7 @@ export default class MoodleHandler extends Component {
                             questions.push(question);
                         }
                     });
-                    this.setState({ questions: questions, selectedQuestions: new Array(questions.length).fill(false) });
+                    this.setState({ questions, selectedQuestions: new Array(questions.length).fill(false) });
                 }
             });
         }
@@ -77,10 +79,28 @@ export default class MoodleHandler extends Component {
         this.setState({
             selectedQuestions: this.state.selectedQuestions.map((ques, i) => i === index ? !ques : ques),
         });
+
+        this.forceResetSearch();
+
+    }
+
+    forceResetSearch() {
+        let element = document.querySelector('.moodleDialog #search-field');
+        const val = element.value;
+        let nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
+        nativeInputValueSetter.call(element, "");
+        let ev2 = new Event('input', { bubbles: true });
+        element.dispatchEvent(ev2);
+        setTimeout(()=>{
+            element = document.querySelector('.moodleDialog #search-field');
+            nativeInputValueSetter.call(element, val);
+            let ev3 = new Event('input', { bubbles: true });
+            element.dispatchEvent(ev3);
+        }, 2);
     }
 
     createInput(index) {
-        return <input type='checkbox' data-id={index} className="moodleXMLquestion" key={index} onChange={()=>this.toggleInput(index)} checked={this.isChecked(index)}/>;
+        return <input type='checkbox' data-id={index} className="moodleXMLquestion" key={index} onChange={()=>this.toggleInput(index)} defaultChecked={this.isChecked(index)}/>;
     }
 
     createData(questionsData) {
@@ -118,14 +138,14 @@ export default class MoodleHandler extends Component {
             theme: 'striped',
         };
         return (<div className="moodleDialog">
-            <form>
+            <form action="javascript:void(0);" onSubmit={e=>e.preventDefault()}>
                 <div className="fileLoaded moodleTable" style={{ display: 'block' }}>
                     <h2>{i18n.t("Preview")}</h2>
 
                     <Row style={{ display: 'block' }}>
                         <Col xs={12} md={12} lg={12}>
                             <div className="tableContainer theme-striped">
-                                <DataTable key={0}
+                                <DataTable key={1}
                                     keys="name"
                                     columns={cols}
                                     initialData={data || []}
@@ -309,5 +329,5 @@ MoodleHandler.propTypes = {
     /**
      * Selected element
      */
-    element: PropTypes.object,
+    element: PropTypes.any,
 };
