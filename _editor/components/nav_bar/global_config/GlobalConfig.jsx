@@ -53,6 +53,7 @@ export default class GlobalConfig extends Component {
             modifiedState: false,
             showAlert: false,
             everPublished: this.props.globalConfig.everPublished,
+            fixedPlayer: this.props.fixedPlayer || true,
 
         };
         // Tag handling functions
@@ -67,7 +68,7 @@ export default class GlobalConfig extends Component {
      * @returns {code}
      */
     render() {
-        const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context, allowDownload, allowClone, allowComments } = this.state;
+        const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context, allowDownload, allowClone, allowComments, fixedPlayer } = this.state;
         return (
             <Modal className="pageModal"
                 show={this.props.show}
@@ -298,6 +299,8 @@ export default class GlobalConfig extends Component {
                                         { i18n.t('global_config.visor_nav.sidebar') }
                                     </FormGroup>
                                     <FormGroup>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, fixedPlayer: !fixedPlayer });}} checked={fixedPlayer}/>
+                                        { i18n.t('global_config.visor_nav.fixedPlayer') }
                                         <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: visorNav.player, sidebar: visorNav.sidebar, keyBindings: !visorNav.keyBindings } });}} checked={visorNav.keyBindings}/>
                                         { i18n.t('global_config.visor_nav.keybindings') }
                                     </FormGroup>

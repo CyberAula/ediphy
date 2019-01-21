@@ -221,6 +221,8 @@ let en = {
                 "player": "Button bar",
                 "sidebar": "Side navbar",
                 "title": "Preview navigation",
+                "fixedPlayer": "Fixed Player  ",
+
             },
         },
         "fullscreen": "Fullscreen",

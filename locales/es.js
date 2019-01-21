@@ -222,6 +222,8 @@ let es = {
                 "player": "Barra de botones",
                 "sidebar": "Barra lateral",
                 "title": "Navegación al previsualizar",
+                "fixedPlayer": "Navegación fija ",
+
             },
         },
         "Header": "Cabecera",
