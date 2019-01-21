@@ -237,6 +237,9 @@ export default class Visor extends Component {
         let isSlide = isCV && containedViewsById[this.getLastCurrentViewElement()] === "slide" ||
         !isCV && navItemsById[this.getLastCurrentViewElement()] === "slide" ?
             "pcw_slide" : "pcw_doc";
+        // TODO
+        // OBTENER DESDE EL GLOBALCONFIG
+        let vishPlayer = false;
         let currentView = this.getLastCurrentViewElement();
         let canvasProps = {
             boxes: boxesById,
@@ -294,7 +297,7 @@ export default class Visor extends Component {
                     style={{ height: '100%' }}>
                     <Grid fluid id="visorAppContent"
                         style={{ height: '100%' }}>
-                        <Row style={{ height: 'calc(100% - 38px)' }}>
+                        <Row style={{ height: vishPlayer ? 'calc(100% - 38px)' : '100%' }}>
                             <Col lg={12} style={{ height: '100%', paddingLeft: '0px', paddingRight: '0px' }}>
                                 <ScormComponent
                                     updateScore={(scoreInfo)=>{this.setState({ scoreInfo });}}
@@ -309,6 +312,16 @@ export default class Visor extends Component {
                                     changeCurrentView={(el)=>{this.changeCurrentView(el);}}>
                                     {currentView ? content : empty}
                                 </ScormComponent>
+                                { (!isContainedView(currentView) && !vishPlayer) ? (
+                                    <VisorPlayer
+                                        fadePlayerClass={visorNavButtonClass}
+                                        setHover={this.setHoverClass}
+                                        deleteHover = {this.deleteHoverClass}
+                                        show={visorNav.player}
+                                        changeCurrentView={(page)=> {this.changeCurrentView(page);}}
+                                        currentViews={this.state.currentView}
+                                        navItemsById={navItemsById}
+                                        navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}/>) : null}
                                 {visorNav.sidebar ? (<div className={"visorNavButtonDiv"} onMouseEnter={()=> this.setHoverClass()} onMouseLeave={()=>this.deleteHoverClass()}><Button id="visorNavButton"
                                     className={toggleColor + visorNavButtonClass}
                                     bsStyle="primary"
@@ -320,7 +333,7 @@ export default class Visor extends Component {
                                 </Button></div>) : null}
                             </Col>
                         </Row>
-                        <Row style={{ height: '38px' }}>
+                        <Row style={{ height: '38px', display: vishPlayer ? 'block' : 'none' }}>
                             <Col lg={12} style={{ height: '100%', paddingLeft: '0px', paddingRight: '0px' }}>
                                 { !isContainedView(currentView) ? (
                                     <VisorPlayer
