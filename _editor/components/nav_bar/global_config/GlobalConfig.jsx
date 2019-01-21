@@ -53,7 +53,7 @@ export default class GlobalConfig extends Component {
             modifiedState: false,
             showAlert: false,
             everPublished: this.props.globalConfig.everPublished,
-            fixedPlayer: this.props.fixedPlayer || true,
+            fixedPlayer: this.props.globalConfig.fixedPlayer || true,
 
         };
         // Tag handling functions
