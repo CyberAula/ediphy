@@ -18,7 +18,8 @@ export default function(state = -1, action = {}) {
         }
         // When we create a new box with default plugins, we don't want them to be selected
         if (action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
-            return state;
+            let a = state;
+            return a;
         }
         // Just normal situation
         return action.payload.ids.id;

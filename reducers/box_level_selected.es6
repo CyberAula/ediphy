@@ -10,7 +10,8 @@ export default function(state = 0, action = {}) {
         if (action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
             return 0;
         }
-        return isBox(action.payload.ids.parent) ? 1 : 0;
+        let a = isBox(action.payload.ids.parent) ? 1 : 0;
+        return a;
     case INCREASE_LEVEL:
         return state + 1;
     case MOVE_BOX:

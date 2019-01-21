@@ -83,15 +83,15 @@ export default class VisorNavSection extends Component {
 
 VisorNavSection.propTypes = {
     /**
-     * Indica si está desplegada o replegada
+     * Whether the section is collapsed or not
      */
     display: PropTypes.bool,
     /**
-     * Nombre de la sección
+     * Section name
      */
     pageName: PropTypes.string.isRequired,
     /**
-     * Diccionario que contiene todas las vistas, accesibles por su *id*
+     * Dictionary that contains all views. The key for each value is the identifier of the view
      */
     navItemsById: PropTypes.object.isRequired,
     /**
@@ -99,12 +99,12 @@ VisorNavSection.propTypes = {
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Cambia la vista actual
+     * Changes current view
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-   * Objects Array that contains all created views (identified by its *id*)
-   */
+    * Object Array that contains all created views (identified by its *id*)
+    */
     navItemsIds: PropTypes.array.isRequired,
     /**
    * First navitem visible

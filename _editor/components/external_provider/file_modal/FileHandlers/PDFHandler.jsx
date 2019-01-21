@@ -9,7 +9,6 @@ import { randomPositionGenerator } from "../../../clipboard/clipboard.utils";
 import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from '../../../../../common/constants';
 import Ediphy from "../../../../../core/editor/main";
 // styles
-import './_ImportFile.scss';
 import { createBox } from '../../../../../common/common_tools';
 let spinner = require('../../../../../dist/images/spinner.svg');
 
@@ -123,7 +122,7 @@ export default class PDFHandler extends Component {
      */
     render() {
         return (<div className="pdfFileDialog">
-            <form>
+            <form action="javascript:void(0);" onSubmit={e=>e.preventDefault()}>
                 <div className="fileLoaded" style={{ display: 'block' }}>
                     <h2>{i18n.t("Preview")}</h2>
                 </div>

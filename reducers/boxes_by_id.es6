@@ -110,7 +110,7 @@ function boxReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
     case PASTE_BOX:
-        return changeProps(
+        let a = changeProps(
             state,
             [
                 "children",
@@ -122,6 +122,7 @@ function boxReducer(state = {}, action = {}) {
                 sortableContainersReducer(state.sortableContainers, action),
             ]
         );
+        return a;
     case ADD_RICH_MARK:
         return changeProp(state, "containedViews", [...state.containedViews, action.payload.mark.connection]);
     case CHANGE_COLS:
@@ -373,13 +374,14 @@ function sortableContainersReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
     case PASTE_BOX:
-        return changeProp(
+        let a = changeProp(
             state,
             action.payload.ids.container,
             state[action.payload.ids.container] ?
                 singleSortableContainerReducer(state[action.payload.ids.container], action) :
                 sortableContainerCreator(action.payload.ids.container, [action.payload.ids.id], "auto", action.payload.ids.parent)
         );
+        return a;
     case ADD_NAV_ITEM:
     case ADD_RICH_MARK:
         return state;
@@ -435,7 +437,7 @@ export default function(state = {}, action = {}) {
     case ADD_BOX:
         // if box is contained in sortableContainer, add it as well to its children
         if (isSortableContainer(action.payload.ids.container)) {
-            return changeProps(
+            let r = changeProps(
                 state,
                 [
                     action.payload.ids.id,
@@ -445,9 +447,12 @@ export default function(state = {}, action = {}) {
                     boxReducer(state[action.payload.ids.parent], action),
                 ]
             );
+            return r;
         }
 
-        return changeProp(state, action.payload.ids.id, boxCreator(state, action));
+        let a = changeProp(state, action.payload.ids.id, boxCreator(state, action));
+
+        return a;
     case REORDER_SORTABLE_CONTAINER:
         return {
             ...state,

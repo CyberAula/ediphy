@@ -554,7 +554,7 @@ class EditorApp extends Component {
                     updateViewToolbar={(id, toolbar)=> dispatch(updateViewToolbar(id, toolbar))}
                 />
                 <FileModal visible={this.state.showFileUpload} disabled={disabled}
-                    onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
+                    onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => { dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams));}}
                     boxSelected={boxSelected}
                     boxes={boxes}
                     isBusy={isBusy}

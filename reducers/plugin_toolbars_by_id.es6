@@ -94,7 +94,8 @@ export default function(state = {}, action = {}) {
     let newState;
     switch (action.type) {
     case ADD_BOX:
-        return { ...state, ...toolbarCreator(state, action) };
+        let a = { ...state, ...toolbarCreator(state, action) };
+        return a;
     case ADD_NAV_ITEM:
         if(action.payload.type === "document") {
             return {

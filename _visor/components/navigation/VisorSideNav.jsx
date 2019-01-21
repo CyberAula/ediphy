@@ -118,19 +118,19 @@ export default class VisorSideNav extends Component {
 
 VisorSideNav.propTypes = {
     /**
-     * Cambia la vista actual
+     * Changes current view
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     * Título del curso
+     * Course title
      */
     courseTitle: PropTypes.string,
     /**
-     Diccionario que contiene todas las vistas y vistas contenidas, accesibles por su *id*
+     * Dictionary that contains all views and contained views. The key for each value is the identifier of the view
      */
     currentViews: PropTypes.array.isRequired,
     /**
-     * Diccionario que contiene todas las vistas, accesibles por su *id*
+     * Dictionary that contains all views. The key for each value is the identifier of the view
      */
     navItemsById: PropTypes.object.isRequired,
     /**

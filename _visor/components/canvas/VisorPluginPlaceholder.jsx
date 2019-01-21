@@ -101,7 +101,7 @@ VisorPluginPlaceholder.propTypes = {
      */
     boxLevelSelected: PropTypes.any,
     /**
-     * Cambia la vista actual
+     * Changes current view
      */
     changeCurrentView: PropTypes.func,
     /**
@@ -109,11 +109,11 @@ VisorPluginPlaceholder.propTypes = {
      */
     fromScorm: PropTypes.bool,
     /**
-     * Diccionario que contiene todas las toolbars
+     * Contains all toolbars
      */
     toolbars: PropTypes.object,
     /**
-     * Estado del plugin enriquecido en la transición
+     * Rich plugin state during transition
      */
     richElementsState: PropTypes.object,
     /**

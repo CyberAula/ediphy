@@ -15,7 +15,7 @@ import './_richMarksModal.scss';
 import './../../../../node_modules/rc-color-picker/assets/index.css';
 import Ediphy from '../../../../core/editor/main';
 
-import TemplatesModal from '../templates_modal/TemplatesModal';
+import TemplatesModalRich from '../templates_modal/TemplatesModalRich';
 import { createBox } from "../../../../common/common_tools";
 /**
  * Modal component to edit marks' configuration
@@ -412,7 +412,7 @@ export default class RichMarksModal extends Component {
                     closeButton onClose={()=>{this.setState({ showAlert: false });}}>
                     <span> {this.state.alertMsg} </span>
                 </Alert>
-                <TemplatesModal
+                <TemplatesModalRich
                     show={this.state.showTemplates}
                     close={this.toggleTemplatesModal}
                     navItems={this.props.navItems}

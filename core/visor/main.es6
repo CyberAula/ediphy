@@ -80,6 +80,9 @@ export default {
                                 state.navItemSelected = page;
                                 let filesUploaded = Object.values(state.filesUploaded);
                                 let strState = JSON.stringify({ ...state, export: true });
+                                strState = strState.replace(/http:\/\/vishubcode.org/g, 'https://vishubcode.org');
+                                strState = strState.replace(/http:\/\/vishub.org/g, 'https://vishub.org');
+                                strState = strState.replace(/http:\/\/educainternet.es/g, 'https://educainternet.es');
                                 let usedNames = [];
                                 if (selfContained) {
                                     let index = 0;
@@ -94,8 +97,6 @@ export default {
                                         strState = strState.replace(r, '../images/' + name);
                                         index++;
                                     }
-                                    strState = strState.replace('http://vishub.org', 'https://vishub.org');
-                                    strState = strState.replace('http://educainternet.es', 'https://educainternet.es');
                                 }
 
                                 let content = parseEJS(Ediphy.Config.visor_ejs, page, { ...JSON.parse(strState), id: window.ediphy_editor_params ? window.ediphy_editor_params.ediphy_resource_id : null, platform: getPlatform() }, false);
@@ -198,6 +199,9 @@ export default {
                                     state.navItemSelected = page;
                                     let filesUploaded = Object.values(state.filesUploaded);
                                     let strState = JSON.stringify({ ...state, export: true });
+                                    strState = strState.replace(/http:\/\/vishubcode.org/g, 'https://vishubcode.org');
+                                    strState = strState.replace(/http:\/\/vishub.org/g, 'https://vishub.org');
+                                    strState = strState.replace(/http:\/\/educainternet.es/g, 'https://educainternet.es');
                                     let usedNames = [];
                                     if (selfContained) {
                                         let index = 0;
@@ -213,9 +217,6 @@ export default {
                                             strState = strState.replace(r, '../images/' + name);
                                             index++;
                                         }
-                                        strState = strState.replace('http://vishub.org', 'https://vishub.org');
-                                        strState = strState.replace('http://educainternet.es', 'https://educainternet.es');
-
                                     }
                                     zip.file("ediphy.edi", strState);
                                     let content = parseEJS(Ediphy.Config.visor_ejs, page, { ...JSON.parse(strState), id: window.ediphy_editor_params ? window.ediphy_editor_params.ediphy_resource_id : null, platform: getPlatform() }, true);
@@ -261,8 +262,9 @@ export default {
         let filesUploaded = Object.values(state.filesUploaded);
         let strState = JSON.stringify({ ...state, export: true });
         let usedNames = [];
-        strState = strState.replace('http://vishub.org', 'https://vishub.org');
-        strState = strState.replace('http://educainternet.es', 'https://educainternet.es');
+        strState = strState.replace(/http:\/\/vishubcode.org/g, 'https://vishubcode.org');
+        strState = strState.replace(/http:\/\/vishub.org/g, 'https://vishub.org');
+        strState = strState.replace(/http:\/\/educainternet.es/g, 'https://educainternet.es');
         let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), false);
         window.download(strState, "ediphy.edi", "text/json");
         callback();

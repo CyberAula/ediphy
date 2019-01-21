@@ -26,7 +26,7 @@
           border-radius: 0;
           border: none;
           font-size: 1.05em;
-          padding: 20px;
+          padding: 15px;
           i {
             font-size: 1.1em;
             vertical-align: middle;
@@ -102,7 +102,7 @@
         min-height:  370px;
         min-height: 44vh;
         overflow-y: auto;
-        max-height: 480px;
+        max-height: 390px;
         margin-bottom: -20px;
         padding: 0 20px;
         .attribution {
@@ -248,7 +248,7 @@
       }
       .myFilesComponent{
         padding: 20px;
-        max-height: 458px;
+        //max-height: 458px;
         overflow: auto;
         hr{     margin: 25px -20px; }
         h5{ padding: 0}
@@ -378,17 +378,29 @@
         transition: width 0.5s ease;
         top: 0px;
         z-index: 9999;
-        #pdfContent {
+        #drawerContent {
           padding: 20px;
           width: calc(100% - 30px);
           display: inline-block;
           margin-left: 40px;
           height: 100%;
           .import_file_buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             text-align: right;
             margin:5px;
             button {
               margin: 5px;
+            }
+            .selectAll{
+              margin-left: 20px;
+              label{
+                margin-left: 5px;
+              }
+            }
+            .moodleButtons{
+              display: flex;
             }
           }
         }
@@ -408,7 +420,9 @@
           position:absolute;
           color: white;
           display:inline-block;
-          button {background-color: transparent;
+          button {
+            cursor: pointer;
+            background-color: transparent;
             margin:auto;
             border: none;
             box-shadow: none;

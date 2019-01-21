@@ -70,13 +70,13 @@ CVInfo.propTypes = {
      */
     containedView: PropTypes.any.isRequired,
     /**
-     * Object containing box marks
-     */
-    marks: PropTypes.object,
-    /**
      *  Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
+    /**
+     * Object containing box marks
+     */
+    marks: PropTypes.object,
     /**
      * View toolbars
      */

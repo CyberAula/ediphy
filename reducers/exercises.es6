@@ -30,7 +30,7 @@ function exercisesReducer(state = {}, action = {}) {
         if (config && config.category === 'evaluation') {
             let defaultCorrectAnswer = (config.defaultCorrectAnswer === null || config.defaultCorrectAnswer === undefined) ? true : config.defaultCorrectAnswer;
             let defaultCurrentAnswer = (config.defaultCurrentAnswer === null || config.defaultCurrentAnswer === undefined) ? true : config.defaultCurrentAnswer;
-            return changeProp(state, action.payload.ids.id, action.payload.score ? { ...action.payload.score, id: action.payload.ids.id } : {
+            let r = changeProp(state, action.payload.ids.id, action.payload.score ? { ...action.payload.score, id: action.payload.ids.id } : {
                 name,
                 id: action.payload.ids.id,
                 weight: 1,
@@ -40,8 +40,10 @@ function exercisesReducer(state = {}, action = {}) {
                 attempted: false,
                 score: 0,
             });
+            return r;
         }
-        return state;
+        let s = state;
+        return s;
     case SET_CORRECT_ANSWER:
     case CONFIG_SCORE:
         return changeProp(state, action.payload.id, singleExerciseReducer(state[action.payload.id], action));
@@ -88,7 +90,8 @@ function singlePageReducer(state = {}, action = {}) {
     case SET_CORRECT_ANSWER:
     case DELETE_BOX:
     case DELETE_SORTABLE_CONTAINER:
-        return changeProp(state, "exercises", exercisesReducer(state.exercises, action));
+        let a = changeProp(state, "exercises", exercisesReducer(state.exercises, action));
+        return a;
     case CONFIG_SCORE:
         if (isBox(action.payload.id)) {
             return changeProp(state, "exercises", exercisesReducer(state.exercises, action));
@@ -127,7 +130,8 @@ export default function(state = {}, action = {}) {
     case ADD_BOX:
     case PASTE_BOX:
         if (action.payload.ids && isBox(action.payload.ids.id || "") && existsAndIsViewOrContainedView(action.payload.ids.page)) {
-            return changeProp(state, action.payload.ids.page, singlePageReducer(state[action.payload.ids.page], action));
+            let a = changeProp(state, action.payload.ids.page, singlePageReducer(state[action.payload.ids.page], action));
+            return a;
         }
         return state;
     case DELETE_NAV_ITEM:

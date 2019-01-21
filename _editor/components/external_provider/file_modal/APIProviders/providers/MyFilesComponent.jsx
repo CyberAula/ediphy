@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
-import { Button, Row, Col, Grid, FormGroup, FormControl, ControlLabel, ModalBody, Modal } from 'react-bootstrap';
+import { Button, Row, Col, Grid, FormGroup, FormControl, ModalBody, Modal } from 'react-bootstrap';
+import CodePreview from "./CodePreview";
 import Select from 'react-select';
 import '../../../../nav_bar/global_config/_reactTags.scss';
 import Alert from "../../../../common/alert/Alert";
@@ -21,7 +22,6 @@ export default class MyFilesComponent extends React.Component {
 
     }
     render() {
-        // let keywords = this.state.keywords;
         let empty = true;
         let files = Object.keys(this.props.filesUploaded).map(f => {
             let file = this.props.filesUploaded[f];
@@ -174,6 +174,11 @@ export default class MyFilesComponent extends React.Component {
             return <video src={this.props.elementSelected} controls width={'100%'} height={"400"} />;
         case "swf":
             return <embed src={this.props.elementSelected} wmode="opaque" width={'100%'} height={"400"} />;
+        case "xml":
+        case "csv":
+        case "edi":
+        case "vish":
+            return <CodePreview source={this.props.elementSelected}/>;
         default:
             return null;
         }

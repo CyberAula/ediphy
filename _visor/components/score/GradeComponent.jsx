@@ -164,29 +164,42 @@ export default class ScormComponent extends Component {
     submitPage(page) {
         let exercises = JSON.parse(JSON.stringify(this.state.exercises));
         let suspendData = JSON.parse(JSON.stringify(this.state.suspendData));
-        let total = 0;
-        let points = 0;
-        let pointsNoWeight = 0;
         let bx = exercises[page].exercises;
+        // Peso de los ejercicios. Si todos valen cero se añadira peso 1 por ejercicio.
+        let total = 0;
+        // Puntuación de todos los ejs (los que tienen peso 0 asume peso 1)
+        let points = 0;
+        // Puntuación de solo los ejs que cuentan para nota
+        let pointsNoWeight = 0;
+        // Numero de ejercicios sin peso
         let noWeight = 0;
 
         for (let ex in bx) {
+            // Añado el peso del ejercicio
             total += bx[ex].weight;
+            // Si el ejercicio no tiene peso, lo contabilizo
             noWeight = (bx[ex].weight === 0) ? (noWeight + 1) : noWeight;
+            // Pongo a cero la puntuación del ejercicio
             bx[ex].score = 0;
+
             let plug = Ediphy.Visor.Plugins.get(bx[ex].name);
             let toolbar = this.props.pluginToolbars[ex];
             let checkAnswer = plug.checkAnswer(bx[ex].currentAnswer, bx[ex].correctAnswer, toolbar.state);
             if (checkAnswer) {
+                // La puntuación máxima del ejercicio será su peso
                 let exScore = bx[ex].weight;
                 try {
                     if(!isNaN(parseFloat(checkAnswer))) {
+                        // Si el peso del ejercicio es 0, simulo 1 al calcular su nota
                         exScore = exScore === 0 ? checkAnswer : exScore * checkAnswer;
                     }
 
                 } catch(e) {}
+                // Sumo la nota obtenida en el ejercicio
                 points += exScore;
+                // Si el ejercicio cuenta para nota, contabilizo su nota
                 pointsNoWeight += (bx[ex].weight === 0) ? 0 : exScore;
+                // Pongo como nota del ejercicio la calculada
                 bx[ex].score = exScore;
 
             }
@@ -197,22 +210,22 @@ export default class ScormComponent extends Component {
                 c: bx[ex].attempted ? "completed" : "incomplete" };
 
         }
-        let scoreWithoutNoWeight = total;
-        total += noWeight;
+        // Peso total. Si ningun ejercicio cuenta para nota es el numero de ejs
+        let noCountingExercises = (total === 0);
+        total = (noCountingExercises) ? noWeight : total;
+        points = (noCountingExercises) ? points : pointsNoWeight;
+
+        let pageScore = points / total;
 
         let ind = Object.keys(this.state.exercises).indexOf(this.props.currentView);
         suspendData.pages[ind] = true;
 
         exercises[page].attempted = true;
         exercises[page].visited = true;
-        let pageScore = points / (total || (noWeight || 1));
-        let pageScoreWithoutNoWeight = pointsNoWeight / (scoreWithoutNoWeight || (noWeight || 1));
         exercises[page].score = parseFloat(pageScore.toFixed(2));
-        // let totalScore = parseFloat((parseFloat(this.state.totalScore) + (pageScore * exercises[page].weight).toFixed(2)));
-        // Si el ejercicio no puntua, añado el peso de la pagina independientemente de como haga el ejercicio.
 
-        // PROBLEMA: COMO CAMBIO TOTAL ENTONCES AHORA NO ME AÑADE EL VALOR POR DEFECTO DEL PESO DE LA PAGINA
-        let toAdd = parseFloat((scoreWithoutNoWeight === 0) ? exercises[page].weight : pageScoreWithoutNoWeight * exercises[page].weight);
+        // Calculo el peso proporcional a añadir de la pagina (si ningun ejercicio cuenta para nota, añado full weight)
+        let toAdd = parseFloat((noCountingExercises) ? exercises[page].weight : pageScore * exercises[page].weight);
         let totalScore = parseFloat((parseFloat(parseFloat(this.state.totalScore) + toAdd)).toFixed(2));
         let completionProgress = this.calculateVisitPctg(suspendData.pages);
         this.setState({ exercises, totalScore, suspendData, completionProgress });
@@ -240,7 +253,7 @@ ScormComponent.propTypes = {
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
-     * Vista actual
+     * Current view
      */
     currentView: PropTypes.any.isRequired,
     /**
@@ -248,7 +261,7 @@ ScormComponent.propTypes = {
      */
     globalConfig: PropTypes.object.isRequired,
     /**
-     * Cambia la vista actual
+     * Change current view
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
@@ -264,8 +277,8 @@ ScormComponent.propTypes = {
      */
     exercises: PropTypes.object.isRequired,
     /**
-      * Inform the rest of the application of the SCORM Information
-      */
+     * Inform the rest of the application of the SCORM Information
+     * */
     updateScore: PropTypes.func.isRequired,
     /**
     * Boxes toolbars

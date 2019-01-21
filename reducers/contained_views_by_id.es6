@@ -10,7 +10,8 @@ import { changeProp, deleteProps, isContainedView, findNavItemContainingBox } fr
 function singleContainedViewReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
-        return changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
+        let a = changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
+        return a;
     case CHANGE_BOX_LAYER:
         let boxes = JSON.parse(JSON.stringify(action.payload.boxes_array));
         let x = boxes.indexOf(action.payload.id);

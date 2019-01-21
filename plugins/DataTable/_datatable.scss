@@ -95,8 +95,11 @@ $blueprimary: #17CFC8;
         padding-top: 0px;
         vertical-align: middle;
     }
-    .chartContainer *  {
+    #chartContainer *  {
         cursor: not-allowed;
+        table{
+            border-collapse: collapse;
+        }
     }
 
     #previewOverlay {

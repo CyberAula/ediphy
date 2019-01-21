@@ -381,7 +381,6 @@ export default class Clipboard extends Component {
                             initialParams.text = '<a href="' + initialParams.text + '">' + initialParams.text + '</a>';
                         }
                         createBox(initialParams, "BasicText", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
-
                     }
                 }
             }

@@ -41,7 +41,11 @@ export default class VisorPlayer extends Component {
         let maxIndex = navItemsIds.length;
 
         return(
-            <div id="player" className={this.props.fadePlayerClass} style={{ width: '100%' }}>
+            <div id="player"
+                className={this.props.fadePlayerClass}
+                onMouseEnter={() => {this.props.setHover();}}
+                onMouseLeave={() => this.props.deleteHover()}
+            >
                 <div className={"playerControllers"}>
                     {this.props.show ?
                         (<span className={"playerControllersSpan"}>
@@ -54,7 +58,7 @@ export default class VisorPlayer extends Component {
                                 </Button>
                             </OverlayTrigger>
 
-                            <OverlayTrigger placement="bottom" delayShow={0} trigger={['hover']} rootClose overlay={this.createTooltip("previous", i18n.t("player.Previous"))}>
+                            <OverlayTrigger placement="bottom" delayShow={0} trigger={['hover']} rootClose overlay={this.createTooltip("previous", i18n.t("player.Previous")) }>
                                 <Button className="playerButton"
                                     bsStyle="primary"
                                     disabled={index === 0 || maxIndex === 0}
@@ -148,19 +152,19 @@ export default class VisorPlayer extends Component {
 
 VisorPlayer.propTypes = {
     /**
-     * Indica si se muestran o ocultan los botones de navegación
+     * Whether navigation buttons should be displayed or not
      */
     show: PropTypes.bool,
     /**
-     * Cambia la vista actual
+     * Changes current view
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     Diccionario que contiene todas las vistas y vistas contenidas, accesibles por su *id*
+     * Dictionary that contains all views and contained views. The key for each value is the identifier of the view
      */
     currentViews: PropTypes.array.isRequired,
     /**
-     * Diccionario que contiene todas las vistas, accesibles por su *id*
+     * Dictionary that contains all views. The key for each value is the identifier of the view
      */
     navItemsById: PropTypes.object.isRequired,
     /**
@@ -168,7 +172,15 @@ VisorPlayer.propTypes = {
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
-     * Clase CSS para ocultar el Player al dejar de mover el raton
+     * CSS class used to hide player when mouse stops moving
      */
     fadePlayerClass: PropTypes.string,
+    /**
+     * Function that allows to add the hover class to the player and the arrow tab
+     */
+    setHover: PropTypes.func,
+    /**
+     * Function that allows to delete the hover class in he player and the arrow tab
+     */
+    deleteHover: PropTypes.func,
 };
