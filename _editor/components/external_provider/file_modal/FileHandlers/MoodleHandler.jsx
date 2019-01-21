@@ -100,7 +100,7 @@ export default class MoodleHandler extends Component {
     }
 
     createInput(index) {
-        return <input type='checkbox' data-id={index} className="moodleXMLquestion" key={index} onChange={()=>this.toggleInput(index)} defaultChecked={this.isChecked(index)}/>;
+        return <input type='checkbox' data-id={index} className="moodleXMLquestion" key={index} onChange={()=>this.toggleInput(index)} checked={this.isChecked(index)}/>;
     }
 
     createData(questionsData) {
@@ -173,7 +173,7 @@ export default class MoodleHandler extends Component {
                                         }}
                                         defaultChecked={false}
                                     />
-                                    <label htmlFor={"selectAll"}>  Select all  </label>
+                                    <label htmlFor={"selectAll"}>  {i18n.t('FileModal.FileHandlers.selectAll')}  </label>
                                 </div>
                                 <div className={"moodleButtons"}>
                                     <Button bsStyle="default" className="import_file_buttons" id="import_file_button" onClick={ e => {
