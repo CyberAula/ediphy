@@ -238,7 +238,7 @@ export default class Visor extends Component {
         !isCV && navItemsById[this.getLastCurrentViewElement()] === "slide" ?
             "pcw_slide" : "pcw_doc";
 
-        let vishPlayer = globalConfig.fixedPlayer;
+        let vishPlayer = (globalConfig.visorNav && globalConfig.visorNav.fixedPlayer !== undefined) ? globalConfig.visorNav.fixedPlayer : true;
         let currentView = this.getLastCurrentViewElement();
         let canvasProps = {
             boxes: boxesById,

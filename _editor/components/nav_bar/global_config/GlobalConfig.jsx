@@ -46,14 +46,17 @@ export default class GlobalConfig extends Component {
             context: this.props.globalConfig.context,
             hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
             minTimeProgress: this.props.globalConfig.minTimeProgress || 3,
-            visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
+            visorNav: { ...(this.props.globalConfig.visorNav || {}),
+                player: this.props.globalConfig.visorNav.player === undefined ? true : this.props.globalConfig.visorNav.player,
+                sidebar: this.props.globalConfig.visorNav.sidebar === undefined ? true : this.props.globalConfig.visorNav.sidebar,
+                keyBindings: this.props.globalConfig.visorNav.player === undefined ? true : this.props.globalConfig.visorNav.keyBindings,
+                fixedPlayer: this.props.globalConfig.visorNav.fixedPlayer === undefined ? true : this.props.globalConfig.visorNav.player },
             allowClone: this.props.globalConfig.allowClone ? true : this.props.globalConfig.allowClone === undefined,
             allowComments: this.props.globalConfig.allowComments ? true : this.props.globalConfig.allowComments === undefined,
             allowDownload: this.props.globalConfig.allowDownload ? true : this.props.globalConfig.allowDownload === undefined,
             modifiedState: false,
             showAlert: false,
             everPublished: this.props.globalConfig.everPublished,
-            fixedPlayer: this.props.globalConfig.fixedPlayer || true,
 
         };
         // Tag handling functions
@@ -68,7 +71,7 @@ export default class GlobalConfig extends Component {
      * @returns {code}
      */
     render() {
-        const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context, allowDownload, allowClone, allowComments, fixedPlayer } = this.state;
+        const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context, allowDownload, allowClone, allowComments } = this.state;
         return (
             <Modal className="pageModal"
                 show={this.props.show}
@@ -293,15 +296,15 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup>
                                         <ControlLabel>{i18n.t('global_config.visor_nav.title')}</ControlLabel><br/>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, permissions: { player: !visorNav.player, sidebar: visorNav.sidebar, keyBindings: visorNav.keyBindings } });}} checked={visorNav.player}/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, player: !visorNav.player, fixedPlayer: false } });}} checked={visorNav.player}/>
                                         { i18n.t('global_config.visor_nav.player') }&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: visorNav.player, sidebar: !visorNav.sidebar, keyBindings: visorNav.keyBindings } });}} checked={visorNav.sidebar}/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, sidebar: !visorNav.sidebar } });}} checked={visorNav.sidebar}/>
                                         { i18n.t('global_config.visor_nav.sidebar') }
                                     </FormGroup>
                                     <FormGroup>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, fixedPlayer: !fixedPlayer });}} checked={fixedPlayer}/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, fixedPlayer: !visorNav.fixedPlayer } });}} checked={visorNav.fixedPlayer}/>
                                         { i18n.t('global_config.visor_nav.fixedPlayer') }
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: visorNav.player, sidebar: visorNav.sidebar, keyBindings: !visorNav.keyBindings } });}} checked={visorNav.keyBindings}/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, keyBindings: !visorNav.keyBindings } });}} checked={visorNav.keyBindings}/>
                                         { i18n.t('global_config.visor_nav.keybindings') }
                                     </FormGroup>
                                     <FormGroup >
@@ -543,7 +546,12 @@ export default class GlobalConfig extends Component {
                 allowDownload: nextProps.globalConfig.allowDownload ? true : nextProps.globalConfig.allowDownload === undefined,
                 hideGlobalScore: nextProps.globalConfig.hideGlobalScore || false,
                 minTimeProgress: nextProps.globalConfig.minTimeProgress || 3,
-                visorNav: nextProps.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
+                visorNav: { ...(nextProps.globalConfig.visorNav || {}),
+                    player: nextProps.globalConfig.visorNav.player === undefined ? true : nextProps.globalConfig.visorNav.player,
+                    sidebar: nextProps.globalConfig.visorNav.sidebar === undefined ? true : nextProps.globalConfig.visorNav.sidebar,
+                    keyBindings: nextProps.globalConfig.visorNav.keyBindings === undefined ? true : nextProps.globalConfig.visorNav.keyBindings,
+                    fixedPlayer: nextProps.globalConfig.visorNav.fixedPlayer === undefined ? true : nextProps.globalConfig.visorNav.fixedPlayer,
+                },
                 modifiedState: false,
                 showAlert: false,
                 everPublished: nextProps.globalConfig.everPublished,
