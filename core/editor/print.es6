@@ -248,8 +248,8 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             isLandscape = true;
             slidesPerPage = 4;
             hideDocs = true;
-            DOC_BASE = 600;
-            SLIDE_BASE = 550;
+            DOC_BASE = 650;
+            SLIDE_BASE = 600;
             if (isSafari) {
                 DOC_BASE = 500;
             }
@@ -261,7 +261,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
             if(treatAsImportedDoc) {
                 if (canvasRatio === 4 / 3) {
-                    SLIDE_BASE = isSafari ? 420 : 450;
+                    SLIDE_BASE = isSafari ? 420 : 570;
                     expectedHeight = SLIDE_BASE / canvasRatio;
                     viewport = {
                         height: expectedHeight,
@@ -271,7 +271,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
                 } else if (canvasRatio === 16 / 9)
                 {
-                    SLIDE_BASE = 550;
+                    SLIDE_BASE = 700;
                     expectedHeight = SLIDE_BASE / canvasRatio;
                     viewport = {
                         height: expectedHeight,
