@@ -53,7 +53,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let treatAsImportedDoc = false;
     let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
     let isFirefox = typeof InstallTrigger !== 'undefined';
-    let isChrome = !!window.chrome && !!window.chrome.webstore;
+    let isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
     let isLandscape = false;
     const SAFARI_HEIGHT = 1300;
     const CHROME_HEIGHT = 1400;
