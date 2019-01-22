@@ -84,7 +84,7 @@ export default function handlers(self) {
             if (type === 'edi') {
                 buttons.push({
                     title: i18n.t('FileModal.FileHandlers.embed'),
-                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || self.state.name.match(/\.edi$/) || (self.props.fileModalResult && self.props.fileModalResult.id),
                     action: ()=>{
                         createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
                         self.close();

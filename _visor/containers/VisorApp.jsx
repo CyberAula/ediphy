@@ -1,3 +1,5 @@
+import { serialize } from '../../reducers/serializer';
+
 if (global && !global._babelPolyfill) {
     require('babel-polyfill');
 }
@@ -216,7 +218,7 @@ export default class Visor extends Component {
 
     render() {
         if (window.State) {
-            Ediphy.State = window.State;
+            Ediphy.State = serialize({ "present": { ...window.State } }).present;
         }
         let { boxSelected, navItemsIds, globalConfig, containedViewsById, boxesById, marksById, navItemsById, viewToolbarsById, pluginToolbarsById } = Ediphy.State;
         let ediphy_document_id = Ediphy.State.id;
