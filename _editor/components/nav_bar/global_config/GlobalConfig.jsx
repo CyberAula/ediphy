@@ -186,16 +186,13 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
-                                        <ReactTags tags={(keywords || []).map((text, i)=>{return {
-                                            id: i + 1,
-                                            text,
-                                        };})}
-                                        suggestions={suggestions()}
-                                        placeholder={i18n.t('global_config.keyw.Add_tag')}
-                                        delimiters={[188, 13]}
-                                        handleDelete={this.handleDelete}
-                                        handleAddition={this.handleAddition}
-                                        handleDrag={this.handleDrag} />
+                                        <ReactTags tags={(keywords || [])}
+                                            suggestions={suggestions()}
+                                            placeholder={i18n.t('global_config.keyw.Add_tag')}
+                                            delimiters={[188, 13]}
+                                            handleDelete={this.handleDelete}
+                                            handleAddition={this.handleAddition}
+                                            handleDrag={this.handleDrag} />
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.recom_age')}</ControlLabel>
