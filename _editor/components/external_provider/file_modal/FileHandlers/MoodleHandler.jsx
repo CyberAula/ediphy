@@ -29,6 +29,7 @@ export default class MoodleHandler extends Component {
         this.createData = this.createData.bind(this);
         this.selectAllRows = this.selectAllRows.bind(this);
         this.filterSearch = this.filterSearch.bind(this);
+        this.feedbackProvider = this.feedbackProvider.bind(this);
         this.realKeys = [
             /* <input type="checkbox"  onChange={(e)=>this.selectAllRows(e.target.checked)} /> */
             " ",
@@ -45,6 +46,10 @@ export default class MoodleHandler extends Component {
         this.setState({ selectedQuestions });
         this.forceResetSearch();
 
+    }
+
+    componentDidMount() {
+        this.start();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -120,11 +125,28 @@ export default class MoodleHandler extends Component {
         });
     }
 
+    feedbackProvider() {
+        let numberOfExercises = this.state.selectedQuestions.filter(Boolean).length;
+        switch(numberOfExercises) {
+        case 0:
+            return i18n.t('FileModal.FileHandlers.feedback0');
+            break;
+        case 1:
+            return i18n.t('FileModal.FileHandlers.feedback1s');
+            break;
+        default:
+            return i18n.t('FileModal.FileHandlers.feedback1p') + ' ' + numberOfExercises + ' ' + i18n.t('FileModal.FileHandlers.feedback2p');
+        }
+    }
+
     render() {
 
         let data = this.createData(this.state.questions);
         let keys = data[0].map((i, index) => index);
         let cols = [];
+
+        let feedback = this.feedbackProvider();
+        console.log(feedback);
 
         keys.forEach(key =>{
             cols.push({ title: this.realKeys[key], prop: key });
@@ -181,6 +203,9 @@ export default class MoodleHandler extends Component {
                                     />
                                     <label htmlFor={"selectAll"}>  {i18n.t('FileModal.FileHandlers.selectAll')}  </label>
                                 </div>
+                                <div className={'moodleXmlFeedback'}>
+                                    <p>{feedback}</p>
+                                </div>
                                 <div className={"moodleButtons"}>
                                     <Button bsStyle="default" className="import_file_buttons" id="import_file_button" onClick={ e => {
                                         this.closeModal(); e.preventDefault();
@@ -192,6 +217,7 @@ export default class MoodleHandler extends Component {
                             </div>
                         </Col>
                     </Row>
+
                 </div>
 
             </form>
