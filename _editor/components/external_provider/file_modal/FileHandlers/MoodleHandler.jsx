@@ -29,7 +29,6 @@ export default class MoodleHandler extends Component {
         this.createData = this.createData.bind(this);
         this.selectAllRows = this.selectAllRows.bind(this);
         this.filterSearch = this.filterSearch.bind(this);
-        this.myPrint = this.myPrint.bind(this);
         this.realKeys = [
             /* <input type="checkbox"  onChange={(e)=>this.selectAllRows(e.target.checked)} /> */
             " ",
@@ -48,21 +47,10 @@ export default class MoodleHandler extends Component {
 
     }
 
-    componentDidMount() {
-        this.start();
-        let element = document.querySelector('.moodleDialog');
-        element.addEventListener('input', () => this.myPrint());
-    }
     componentDidUpdate(prevProps, prevState) {
         if(prevProps.element !== this.props.element) {
             this.start();
         }
-    }
-
-    myPrint() {
-        let element = document.querySelector('.moodleDialog #search-field');
-        console.log(element.value);
-        this.setState({ selectedQuestions: this.state.questions.map((q, index) => { return; }) });
     }
 
     isChecked(q) {
@@ -95,14 +83,11 @@ export default class MoodleHandler extends Component {
 
     }
 
-    filterSearch(data, checked, callback) {
+    filterSearch(data, checked) {
         let element = document.querySelector('.moodleDialog #search-field');
         const val = element.value;
-        this.setState({ selectedQuestions: checked ? data.map((q) => q[1].toLowerCase().includes(val.toLowerCase().replace(/ /g, ''))) : new Array(data.length).fill(false) }, () => {
-            // this.forceResetSearch();
-            callback();
-        });
-        // this.forceResetSearch();
+        this.setState({ selectedQuestions: checked ? data.map((q) => q[1].toLowerCase().includes(val.toLowerCase().replace(/ /g, ''))) : new Array(data.length).fill(false) });
+        this.forceResetSearch();
     }
 
     forceResetSearch() {
@@ -189,7 +174,7 @@ export default class MoodleHandler extends Component {
                                         id={"selectAll"}
                                         placeholder={i18n.t('FileModal.FileHandlers.selectAll')}
                                         onChange={(e)=> {
-                                            this.filterSearch(data, e.target.checked, () => {});
+                                            this.filterSearch(data, e.target.checked);
                                             this.setState({ selectAll: e.target.checked });
                                         }}
                                         defaultChecked={false}
