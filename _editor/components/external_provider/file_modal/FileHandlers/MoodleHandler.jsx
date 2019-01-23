@@ -146,7 +146,6 @@ export default class MoodleHandler extends Component {
         let cols = [];
 
         let feedback = this.feedbackProvider();
-        console.log(feedback);
 
         keys.forEach(key =>{
             cols.push({ title: this.realKeys[key], prop: key });
