@@ -183,6 +183,7 @@ export default function handlers(self) {
                             } else {
                                 alert(msg ? (msg.msg || 'ERROR') : 'ERROR');
                             }
+                            return;
 
                         });
 

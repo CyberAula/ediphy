@@ -111,7 +111,7 @@ export default class MoodleHandler extends Component {
     }
 
     createInput(index) {
-        return <input type='checkbox' data-id={index} className="moodleXMLquestion" key={index} onChange={()=>this.toggleInput(index)} checked={this.isChecked(index)}/>;
+        return <input type='checkbox' data-id={index} className="moodleXMLquestion" key={index} checked={this.isChecked(index)} onChange={()=>this.toggleInput(index)} />;
     }
 
     createData(questionsData) {
@@ -130,10 +130,8 @@ export default class MoodleHandler extends Component {
         switch(numberOfExercises) {
         case 0:
             return i18n.t('FileModal.FileHandlers.feedback0');
-            break;
         case 1:
             return i18n.t('FileModal.FileHandlers.feedback1s');
-            break;
         default:
             return i18n.t('FileModal.FileHandlers.feedback1p') + ' ' + numberOfExercises + ' ' + i18n.t('FileModal.FileHandlers.feedback2p');
         }
