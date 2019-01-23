@@ -1,4 +1,4 @@
-import Joyride from 'react-joyride';
+import Joyride, { ACTIONS, EVENTS } from 'react-joyride';
 import PropTypes from 'prop-types';
 import React from 'react';
 import i18n from 'i18next';
@@ -11,7 +11,6 @@ import add from './add.svg';
 import importExport from './exportImport.svg';
 import preview from './preview.svg';
 import help from './help.svg';
-import { ACTIONS, EVENTS } from 'react-joyride/es/constants';
 
 export default class EdiphyTour extends React.Component {
     constructor(props) {

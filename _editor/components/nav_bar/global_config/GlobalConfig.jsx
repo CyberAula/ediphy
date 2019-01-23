@@ -146,7 +146,7 @@ export default class GlobalConfig extends Component {
                                             componentClass="textarea"
                                             placeholder={i18n.t('global_config.description_placeholder')}
                                             value={description}
-                                            onInput={e => {this.setState({ modifiedState: true, description: e.target.value });}} />
+                                            onChange={e => {this.setState({ modifiedState: true, description: e.target.value });}} />
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.author')}</ControlLabel>
@@ -186,7 +186,7 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
-                                        <ReactTags tags={(keywords || [])}
+                                        <ReactTags tags={(keywords || []).map((text, id) => (typeof text === "string") ? { id: id.toString(), text } : text)}
                                             suggestions={suggestions()}
                                             placeholder={i18n.t('global_config.keyw.Add_tag')}
                                             delimiters={[188, 13]}
@@ -369,7 +369,7 @@ export default class GlobalConfig extends Component {
      */
     handleAddition(tag) {
         let tags = Object.assign([], this.state.keywords);
-        tags.push(tag);
+        tags.push(tag.text);
         this.setState({ modifiedState: true, keywords: tags });
     }
 
@@ -383,7 +383,7 @@ export default class GlobalConfig extends Component {
         let tags = Object.assign([], this.state.keywords);
         // mutate array
         tags.splice(currPos, 1);
-        tags.splice(newPos, 0, tag);
+        tags.splice(newPos, 0, tag.text);
         // re-render
         this.setState({ modifiedState: true, keywords: tags });
     }
