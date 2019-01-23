@@ -3,6 +3,7 @@ import Ediphy from '../core/editor/main';
 import i18n from 'i18next';
 import { ID_PREFIX_FILE, FILE_UPLOAD_ERROR, FILE_UPLOADING, FILE_DELETING, FILE_DELETE_ERROR } from './constants';
 import { isDataURL } from './utils';
+import { serialize } from '../reducers/serializer';
 export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';
 export const MOVE_BOX = 'MOVE_BOX';
@@ -435,7 +436,7 @@ export function importStateAsync() {
             })
             .then(result => {
                 // eslint-disable-next-line no-console
-                dispatch(importState(JSON.parse(result)));
+                dispatch(importState(serialize(JSON.parse(result))));
                 return true;
             })
             .then(() => {
