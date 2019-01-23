@@ -186,13 +186,16 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
-                                        <ReactTags tags={keywords}
-                                            suggestions={suggestions()}
-                                            placeholder={i18n.t('global_config.keyw.Add_tag')}
-                                            delimiters={[188, 13]}
-                                            handleDelete={this.handleDelete}
-                                            handleAddition={this.handleAddition}
-                                            handleDrag={this.handleDrag} />
+                                        <ReactTags tags={(keywords || []).map((text, i)=>{return {
+                                            id: i + 1,
+                                            text,
+                                        };})}
+                                        suggestions={suggestions()}
+                                        placeholder={i18n.t('global_config.keyw.Add_tag')}
+                                        delimiters={[188, 13]}
+                                        handleDelete={this.handleDelete}
+                                        handleAddition={this.handleAddition}
+                                        handleDrag={this.handleDrag} />
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.recom_age')}</ControlLabel>
@@ -369,10 +372,7 @@ export default class GlobalConfig extends Component {
      */
     handleAddition(tag) {
         let tags = Object.assign([], this.state.keywords);
-        tags.push({
-            id: tags.length + 1,
-            text: tag,
-        });
+        tags.push(tag);
         this.setState({ modifiedState: true, keywords: tags });
     }
 
@@ -384,7 +384,6 @@ export default class GlobalConfig extends Component {
      */
     handleDrag(tag, currPos, newPos) {
         let tags = Object.assign([], this.state.keywords);
-
         // mutate array
         tags.splice(currPos, 1);
         tags.splice(newPos, 0, tag);

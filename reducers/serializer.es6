@@ -5,8 +5,7 @@ import i18n from 'i18next';
 export function serialize(state) {
     if(state && state.present) {
         switch(state.present.version) {
-        case 2:
-        case "2":
+        case 2: case "2":
             return multipleAnswerSerializer(state);
         default:
             return state;
