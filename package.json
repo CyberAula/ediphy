@@ -64,9 +64,7 @@
   },
   "browserslist": [
     "last 4 version",
-    "> 1%",
-    "maintained node versions",
-    "not dead"
+    "> 1%"
   ],
   "devDependencies": {
     "async": "^2.6.0",
