@@ -62,6 +62,12 @@
       "**/?(*.)(test|spec).js?(x)"
     ]
   },
+  "browserslist": [
+    "last 4 version",
+    "> 1%",
+    "maintained node versions",
+    "not dead"
+  ],
   "devDependencies": {
     "async": "^2.6.0",
     "babel-cli": "^6.26.0",
@@ -109,6 +115,7 @@
     "node-dir": "^0.1.17",
     "node-sass": "^4.6.1",
     "package-json-validator": "^0.6.2",
+    "postcss-loader": "^3.0.0",
     "pre-commit": "^1.2.2",
     "progress-bar-webpack-plugin": "^1.10.0",
     "react-docgen": "^2.20.0",
@@ -144,6 +151,7 @@
     "VirtualTour": "file:plugins/VirtualTour",
     "Visor3D": "file:plugins/Visor3D",
     "animated": "^0.2.1",
+    "autoprefixer": "^9.4.6",
     "babel-jest": "^22.1.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-stage-0": "^6.24.1",
