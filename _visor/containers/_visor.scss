@@ -162,15 +162,16 @@ $playerColor: #555;
     opacity: 1;
   }
 
-  &.hoverPlayerOn{
+  &.hoverPlayerOn {
     opacity: 1 !important;
   }
 
-  .playerControllers{
+  .playerControllers {
     width: 100%;
 
-    .playerControllersSpan{
+    .playerControllersSpan {
       width: 80%;
+
       @media screen and (min-width: 600px){
         width: 40%;
       }
@@ -184,6 +185,8 @@ $playerColor: #555;
         min-width: 110px;
         display: flex;
         justify-content: center;
+        align-items: center;
+        flex-flow: row;
       }
     }
     .fullScreenButton{

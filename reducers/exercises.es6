@@ -30,7 +30,7 @@ function exercisesReducer(state = {}, action = {}) {
         if (config && config.category === 'evaluation') {
             let defaultCorrectAnswer = (config.defaultCorrectAnswer === null || config.defaultCorrectAnswer === undefined) ? true : config.defaultCorrectAnswer;
             let defaultCurrentAnswer = (config.defaultCurrentAnswer === null || config.defaultCurrentAnswer === undefined) ? true : config.defaultCurrentAnswer;
-            let r = changeProp(state, action.payload.ids.id, action.payload.score ? { ...action.payload.score, id: action.payload.ids.id } : {
+            return changeProp(state, action.payload.ids.id, action.payload.score ? { ...action.payload.score, id: action.payload.ids.id } : {
                 name,
                 id: action.payload.ids.id,
                 weight: 1,
@@ -40,10 +40,8 @@ function exercisesReducer(state = {}, action = {}) {
                 attempted: false,
                 score: 0,
             });
-            return r;
         }
-        let s = state;
-        return s;
+        return state;
     case SET_CORRECT_ANSWER:
     case CONFIG_SCORE:
         return changeProp(state, action.payload.id, singleExerciseReducer(state[action.payload.id], action));
@@ -90,8 +88,7 @@ function singlePageReducer(state = {}, action = {}) {
     case SET_CORRECT_ANSWER:
     case DELETE_BOX:
     case DELETE_SORTABLE_CONTAINER:
-        let a = changeProp(state, "exercises", exercisesReducer(state.exercises, action));
-        return a;
+        return changeProp(state, "exercises", exercisesReducer(state.exercises, action));
     case CONFIG_SCORE:
         if (isBox(action.payload.id)) {
             return changeProp(state, "exercises", exercisesReducer(state.exercises, action));
