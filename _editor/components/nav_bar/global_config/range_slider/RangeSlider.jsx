@@ -13,6 +13,7 @@ export default class RangeSlider extends Component {
         super();
         let min = props.minValue || props.min;
         let max = props.maxValue || props.max;
+
         /**
          * Co;ponent's initial state
          */
@@ -32,6 +33,16 @@ export default class RangeSlider extends Component {
     componentWillReceiveProps(props) {
         let min = this.props.minValue || this.props.min;
         let max = this.props.maxValue || this.props.max;
+
+        this.state.minElement.value = min;
+        this.state.maxElement.value = max;
+        this.setState({ min: min, max: max });
+    }
+
+    componentWillMount(props) {
+        let min = this.props.minValue || this.props.min;
+        let max = this.props.maxValue || this.props.max;
+
         this.state.minElement.value = min;
         this.state.maxElement.value = max;
         this.setState({ min: min, max: max });
@@ -85,6 +96,7 @@ export default class RangeSlider extends Component {
                     ref={(el)=>{this.state.minElement = el;}}
                     min={this.props.min}
                     max={this.props.max}
+                    defaultValue={(this.state.min > 0) ? this.state.min : 0}
                     step={this.props.step}
                     type="range" />
                     <input onChange={
@@ -95,6 +107,7 @@ export default class RangeSlider extends Component {
                                     function() {
                                         this.props.onChange(this.state);
                                     }
+
                                 );
                             }
                             else {
@@ -111,14 +124,19 @@ export default class RangeSlider extends Component {
                     ref={(el)=>{this.state.maxElement = el;}}
                     min={this.props.min}
                     max={this.props.max}
+                    defaultValue={(this.state.min < 100) ? this.state.max : 100}
                     step={this.props.step}
-                    type="range" />
+                    type="range"/>
                 </div>
             </div>
         );
     }
 }
 RangeSlider.propTypes = {
+    /**
+     * Class to apply
+     */
+    className: PropTypes.string,
     /**
      * Mínimo valor posible
      */
@@ -147,10 +165,6 @@ RangeSlider.propTypes = {
      * Incremento de valor mínimo
      */
     step: PropTypes.number.isRequired,
-    /**
-      * Class to apply
-      */
-    className: PropTypes.string,
     /**
       * Style to apply
       */

@@ -20,6 +20,7 @@ export function DataTable(base) {
                 initialHeight: "auto",
                 initialWidthSlide: '60%',
                 initialHeightSlide: 'auto',
+                createFromLibrary: ['csv,application/vnd.ms-excel', 'url'],
             };
         },
         getToolbar: function(state) {

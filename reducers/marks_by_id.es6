@@ -1,8 +1,9 @@
 import {
     ADD_RICH_MARK, DELETE_BOX, MOVE_RICH_MARK, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, EDIT_RICH_MARK,
-    PASTE_BOX, IMPORT_STATE,
+    PASTE_BOX, IMPORT_STATE, DUPLICATE_NAV_ITEM, IMPORT_EDI,
 } from '../common/actions';
 import { deleteProp, changeProp, changeProps, deleteProps, isDocument, isPage, isSection, isSlide } from "../common/utils";
+import { marksSerializer } from "./serializer";
 
 export default function(state = {}, action = {}) {
     let newState;
@@ -93,7 +94,20 @@ export default function(state = {}, action = {}) {
         // return state;
         return { ...state, ...action.payload.marks };
     case IMPORT_STATE:
-        return action.payload.present.marksById || state;
+        return marksSerializer(action.payload.present.marksById, action.payload.present.version) || state;
+    case IMPORT_EDI:
+        return { ...state, ...marksSerializer(action.payload.state.marksById, action.payload.state.version) };
+    case DUPLICATE_NAV_ITEM:
+        let candidates = {};
+        let suffix = action.payload.suffix;
+        for (let mark_id in state) {
+            let mark = state[mark_id];
+            let isCandidate = Object.keys(action.payload.boxes).indexOf(mark.origin);
+            if (isCandidate > -1) {
+                candidates[mark_id + suffix] = { ...mark, id: mark_id + suffix, origin: action.payload.boxes[mark.origin] };
+            }
+        }
+        return { ...state, ...candidates };
     default:
         return state;
     }

@@ -7,8 +7,11 @@ module.exports = {
         "Question": "Question",
         "Answer": "Answer",
         "Feedback": "Feedback",
-        "FeedbackMsg": "Here you can provide some feedback about the answer",
-        "ShowFeedback": "Show feedback",
+        "FeedbackMsg": "Here you can provide some feedback about the answer. In order to disable this feature, turn it off in the toolbar.",
+        "ShowFeedback": "Show feedback msg.",
         "Number": "Number of statements",
+        "QuizColor": "Color",
+        "notCount": "This exercise does not add points",
+
     },
 };

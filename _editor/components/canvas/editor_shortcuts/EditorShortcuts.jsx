@@ -42,21 +42,19 @@ export default class EditorShortcuts extends Component {
         let hasURL = false;
         let hasURLnotextprov = false;
         let accept = '*';
-        if (toolbarAcc.main && toolbarAcc.main.accordions) {
-            for (let acc in toolbarAcc.main.accordions) {
-                for (let but in toolbarAcc.main.accordions[acc].buttons) {
-                    let button = toolbarAcc.main.accordions[acc].buttons[but];
-                    if (but === 'url' && button.type === 'external_provider') {
-                        hasURL = true;
-                        accept = toolbarAcc.main.accordions[acc].buttons[but].accept;
-                    }
-                    if (but === 'url' && !hasURL) {
-                        hasURLnotextprov = true;
-                    }
-                }
+        let callbackKey = "url";
+        let createFromLibrary = config.createFromLibrary;
+        let searchIcon = config.searchIcon;
+        if (searchIcon) {
+
+            if (searchIcon === 'type') {
+                hasURLnotextprov = true;
+            } else {
+                hasURL = (searchIcon && searchIcon instanceof Array && searchIcon.length > 1) ? searchIcon : ((createFromLibrary && createFromLibrary instanceof Array && createFromLibrary.length > 1) ? createFromLibrary : ["*", "url"]);
+                accept = hasURL[0];
+                callbackKey = hasURL[1];
             }
         }
-
         let boxEl = findBox((box ? box.id : ''));
         let nBoxes = [{
             i18nKey: 'add_answer',
@@ -145,9 +143,8 @@ export default class EditorShortcuts extends Component {
                                 }>
                                 <button id="open_conf" className={"editorTitleButton"}
                                     onClick={(e) => {
-
                                         this.props.openFileModal(box.id, accept);
-                                        this.setState({ open: true });
+                                        this.setState({ open: true, callbackKey });
                                     }}>
                                     <i className="material-icons">search</i>
                                 </button>
@@ -381,8 +378,8 @@ export default class EditorShortcuts extends Component {
             nextProps.box.id === nextProps.fileModalResult.id
             && nextProps.fileModalResult.value &&
             this.state.open && this.props.fileModalResult.value !== nextProps.fileModalResult.value) {
-            this.props.onToolbarUpdated(nextProps.box.id, "main", "state", 'url', nextProps.fileModalResult.value);
-            this.setState({ open: false });
+            this.props.onToolbarUpdated(nextProps.box.id, "main", "state", this.state.callbackKey || 'url', nextProps.fileModalResult.value);
+            this.setState({ open: false, callbackKey: undefined });
         }
     }
     componentDidUpdate(prevProps, prevState) {
@@ -500,8 +497,7 @@ EditorShortcuts.propTypes = {
      */
     fileModalResult: PropTypes.object,
     /**
-     * Callback for opening the file upload modal
+     * Function that opens the file search modal
      */
-    toggleFileUpload: PropTypes.func.isRequired,
-
+    openFileModal: PropTypes.func.isRequired,
 };

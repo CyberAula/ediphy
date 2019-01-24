@@ -1,8 +1,0 @@
-{
-  "name" : "BasicPlayer",
-  "version" : "0.1.0",
-  "dependencies": {
-    "react-player": "^0.18.0",
-    "screenfull": "^3.2.2"
-  }
-}

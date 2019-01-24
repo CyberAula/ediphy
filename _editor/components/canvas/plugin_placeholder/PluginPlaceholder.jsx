@@ -32,7 +32,7 @@ export default class PluginPlaceholder extends Component {
                 Object.assign({}, {
                     width: "100%",
                     height: container.height ? (container.height === 'auto' ? container.height : container.height + 'px') : "",
-                    minHeight: '35px',
+                    minHeight: '2.3em',
                     textAlign: 'center',
                     lineHeight: '100%',
                     boxSizing: 'border-box',
@@ -110,14 +110,15 @@ export default class PluginPlaceholder extends Component {
         );
     }
     isComplex(pluginName) {
-        return Ediphy.Plugins.get(pluginName) && Ediphy.Plugins.get(pluginName).getConfig().isComplex;
+        let plug = Ediphy.Plugins.get(pluginName);
+        return plug && (plug.getConfig().isComplex || plug.getConfig().category === 'evaluation');
     }
     configureDropZone(node, selector, extraParams) {
         let alert = (msg)=>{return (<Alert className="pageModal"
             show
             hasHeader
             backdrop={false}
-            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px', color: 'yellow' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+            title={ <span><i className="material-icons" style={{ fontSize: '1em', marginRight: '0.35em', color: 'yellow' }}>warning</i>{ i18n.t("messages.alert") }</span> }
             closeButton onClose={()=>{this.setState({ alert: null });}}>
             <span> {msg} </span>
         </Alert>);};
@@ -156,7 +157,7 @@ export default class PluginPlaceholder extends Component {
                 let parent = forbidden ? this.props.parentBox.parent : this.props.parentBox.id;
                 let container = forbidden ? this.props.parentBox.container : this.idConvert(this.props.pluginContainer);
                 let config = Ediphy.Plugins.get(name).getConfig();
-                let forbidden = isBox(parent) && config.isComplex; // && (parent !== this.props.boxSelected);
+                let forbidden = isBox(parent) && (config.isComplex || config.category === "evaluation"); // && (parent !== this.props.boxSelected);
 
                 let initialParams = {
                     parent: forbidden ? this.props.parentBox.parent : parent,
@@ -262,7 +263,7 @@ PluginPlaceholder.propTypes = {
     /**
      * Object containing every plugin toolbar (by id)
      */
-    pluginToolbars: PropTypes.object.isRequired,
+    pluginToolbars: PropTypes.object,
     /**
      * Last action dispatched in Redux
      */
@@ -328,7 +329,7 @@ PluginPlaceholder.propTypes = {
      */
     pageType: PropTypes.string,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object,
     /**

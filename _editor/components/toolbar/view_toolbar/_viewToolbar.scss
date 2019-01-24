@@ -431,33 +431,3 @@ a.toggle-switch---switch---3EchW {
   border-bottom-color: inherit;
 }
 
-
-input[type="radio"] {
-  background-color: #fff;
-  background-image: -webkit-linear-gradient(0deg, transparent 20%, hsla(0,0%,100%,.7), transparent 80%),
-  -webkit-linear-gradient(90deg, transparent 20%, hsla(0,0%,100%,.7), transparent 80%);
-  border-radius: 10px;
-  cursor: pointer;
-  display: inline-block;
-  height: 16px;
-  margin-right: 16px;
-  position: relative;
-  width: 16px;
-  border: 2px solid #ccc;
-  -webkit-appearance: none;
-}
-input[type="radio"]:after {
-  background-color: #fff;
-  border-radius: 50%;
-  content: '';
-  display: block;
-  height: 8px;
-  left: 2px;
-  position: relative;
-  top: 2px;
-  width: 8px;
-}
-input[type="radio"]:checked:after {
-  background-color: #17CFC8;
-
-}

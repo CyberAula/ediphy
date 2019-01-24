@@ -7,6 +7,8 @@ import { isContainedView, isSortableContainer } from '../../../../common/utils';
 import FileHandlers from './FileHandlers/FileHandlers';
 import APIProviders from './APIProviders/APIProviders';
 import PDFHandler from "./FileHandlers/PDFHandler";
+import MoodleHandler from "./FileHandlers/MoodleHandler";
+
 import i18n from 'i18next';
 
 const initialState = {
@@ -17,6 +19,8 @@ const initialState = {
     element: undefined,
     type: undefined,
     pdfSelected: false,
+    moodleSelected: false,
+    options: {},
 };
 export default class FileModal extends React.Component {
     constructor(props) {
@@ -41,7 +45,7 @@ export default class FileModal extends React.Component {
                         <div id="menuColumn">
                             <ListGroup>
                                 {menus.map((cat, i)=>{
-                                    if (cat.show) {
+                                    if (cat && cat.show) {
                                         return <ListGroupItem active={this.state.menu === i} key={i}
                                             onClick={()=>this.clickHandler(i)}
                                             className={"listGroupItem"}>
@@ -55,12 +59,12 @@ export default class FileModal extends React.Component {
                         <div id="contentColumn">
                             {React.createElement(menus[this.state.menu].component,
                                 { ...(menus[this.state.menu].props || {}), icon: menus[this.state.menu].icon, name: menus[this.state.menu].name, show: menus[this.state.menu].show }, null)}
-                            <div id="sideBar" className={this.state.pdfSelected ? "showBar" : ""}>
+                            <div id="sideBar" className={(this.state.pdfSelected || this.state.moodleSelected) ? "showBar" : ""}>
                                 {this.state.pdfSelected ? (<div id="wrapper">
                                     <div id="sideArrow">
                                         <button onClick={()=>{this.closeSideBar(false);}}><i className="material-icons">keyboard_arrow_right</i></button>
                                     </div>
-                                    <div id="pdfContent">
+                                    <div id="drawerContent">
                                         <PDFHandler navItemSelected={this.props.navItemSelected}
                                             boxes={this.props.boxes}
                                             onBoxAdded={this.props.onBoxAdded}
@@ -77,12 +81,34 @@ export default class FileModal extends React.Component {
                                             close={this.closeSideBar}
                                         /></div>
                                 </div>) : null }
+                                {this.state.moodleSelected ? (<div id="wrapper">
+                                    <div id="sideArrow">
+                                        <button onClick={()=>{this.closeSideBar(false);}}><i className="material-icons">keyboard_arrow_right</i></button>
+                                    </div>
+                                    <div id="drawerContent">
+                                        <MoodleHandler navItemSelected={this.props.navItemSelected}
+                                            self={this}
+                                            boxes={this.props.boxes}
+                                            onBoxAdded={this.props.onBoxAdded}
+                                            onNavItemAdded={this.props.onNavItemAdded}
+                                            onNavItemsAdded={this.props.onNavItemsAdded}
+                                            onIndexSelected={this.props.onIndexSelected}
+                                            onNavItemSelected={this.props.onNavItemSelected}
+                                            navItemsIds={this.props.navItemsIds}
+                                            navItems={this.props.navItems}
+                                            containedViews={this.props.containedViews}
+                                            containedViewSelected={this.props.containedViewSelected}
+                                            show
+                                            element={this.state.element}
+                                            close={this.closeSideBar}
+                                        /></div>
+                                </div>) : null }
                             </div>
                             <hr className="fileModalFooter"/>
                             <Modal.Footer>
                                 {this.state.element ? (
                                     <div key={-2} className="footerFile">
-                                        <i className="material-icons">{handler.icon || "attach_file"}</i>{this.state.name && this.state.name.length > 30 ? ('...' + this.state.name.substr(this.state.name.length - 30, this.state.name.length)) : this.state.name}</div>
+                                        <i className="material-icons">{handler.icon || "attach_file"}</i>{this.state.name && this.state.name.length > 50 ? ('...' + this.state.name.substr(this.state.name.length - 50, this.state.name.length)) : this.state.name}</div>
                                 ) : null}
                                 <Button key={-1} onClick={e => {
                                     this.close();
@@ -140,7 +166,7 @@ export default class FileModal extends React.Component {
     }
 
     closeSideBar(closeAlsoModal) {
-        this.setState({ pdfSelected: false });
+        this.setState({ pdfSelected: false, moodleSelected: false });
         if (closeAlsoModal) {
             this.close();
         }
@@ -150,7 +176,72 @@ export default class FileModal extends React.Component {
 
 FileModal.propTypes = {
     /**
-   * Accepted MIME type for modal
-   */
-    showFileUploadModal: PropTypes.any,
+     * Whether the file modal is visible or not
+     */
+    visible: PropTypes.any.isRequired,
+    /**
+     * Current selected view (by ID)
+     */
+    navItemSelected: PropTypes.any.isRequired,
+    /**
+     * Callback for adding a new box
+     */
+    onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * Function for adding a new view
+     */
+    onNavItemAdded: PropTypes.func.isRequired,
+    /**
+     * Function for adding multiple new views
+     */
+    onNavItemsAdded: PropTypes.func.isRequired,
+    /**
+     * Function for selecting a view in the index
+     */
+    onIndexSelected: PropTypes.func.isRequired,
+    /**
+     * Function for displaying a view in the canvas
+     */
+    onNavItemSelected: PropTypes.func.isRequired,
+    /**
+     * Array containing the ids of all the views
+     */
+    navItemsIds: PropTypes.array.isRequired,
+    /**
+     * Object containing all views (by id)
+     */
+    navItems: PropTypes.object.isRequired,
+    /**
+     * Object containing all contained views
+     */
+    containedViews: PropTypes.object.isRequired,
+    /**
+     * Selected contained view
+     */
+    containedViewSelected: PropTypes.any.isRequired,
+    /**
+     * Last files uploaded to server or searched in modal
+     */
+    fileModalResult: PropTypes.object,
+    /**
+     * Current open tab in File Modal
+     */
+    fileUploadTab: PropTypes.any,
+    /**
+     * Object containing all the boxes
+     */
+    boxes: PropTypes.object.isRequired,
+    /**
+     * Current selected box
+     */
+    boxSelected: PropTypes.any.isRequired,
+    /**
+     * Function for closing the File Modal
+     */
+    close: PropTypes.func.isRequired,
+    /**
+     * Import Ediphy Document
+     */
+    // importEdi: PropTypes.func.isRequired,
+
 };

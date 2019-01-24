@@ -1,6 +1,6 @@
 import {
     ADD_BOX, INCREASE_LEVEL, SELECT_BOX, SELECT_NAV_ITEM, DELETE_NAV_ITEM, IMPORT_STATE,
-    PASTE_BOX, MOVE_BOX, DROP_BOX, DELETE_BOX,
+    PASTE_BOX, MOVE_BOX, DROP_BOX, DELETE_BOX, DUPLICATE_NAV_ITEM,
 } from '../common/actions';
 import { isSortableBox, isBox } from '../common/utils';
 
@@ -10,7 +10,8 @@ export default function(state = 0, action = {}) {
         if (action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
             return 0;
         }
-        return isBox(action.payload.ids.parent) ? 1 : 0;
+        let a = isBox(action.payload.ids.parent) ? 1 : 0;
+        return a;
     case INCREASE_LEVEL:
         return state + 1;
     case MOVE_BOX:
@@ -32,6 +33,8 @@ export default function(state = 0, action = {}) {
         return 0;
     case DROP_BOX:
         return isBox(action.payload.parent) ? 1 : 0;
+    case DUPLICATE_NAV_ITEM:
+        return 0;
     default:
         return state;
     }

@@ -160,4 +160,8 @@ Toolbar.propTypes = {
      * Object containing all exercises
      */
     exercises: PropTypes.object,
+    /**
+     * Object containing all views (by id)
+     */
+    navItems: PropTypes.object.isRequired,
 };

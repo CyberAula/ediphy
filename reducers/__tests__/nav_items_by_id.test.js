@@ -322,33 +322,6 @@ describe('# nav_items_by_id reducer', ()=>{
             expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle TOGGLE_TITLE_MODE', ()=>{
-        test('If toggle course title option', () => {
-            const action = {
-                type: ActionTypes.TOGGLE_TITLE_MODE,
-                payload: {
-                    id: 'pa-1',
-                    titles: {
-                        elementContent: {
-                            documentTitle: "",
-                            documentSubtitle: "",
-                            numPage: "",
-                        },
-                        display: {
-                            courseTitle: "reduced",
-                            documentTitle: "expanded",
-                            documentSubtitle: "hidden",
-                            breadcrumb: "reduced",
-                            pageNumber: "hidden",
-                        },
-                    },
-                },
-            };
-            const newState = JSON.parse(JSON.stringify(state));
-            newState['pa-1'].header = action.payload.titles;
-            expect(nav_items_by_id(state, action)).toEqual(newState);
-        });
-    });
     describe('handle ADD_RICH_MARK', () => {
         // the anv_item_by_id reducer only need test in case mark links with an existing page
         test('If rich mark added & connected to an existing page (not a contained view)', () => {
@@ -455,12 +428,6 @@ describe('# nav_items_by_id reducer', ()=>{
             const newState = JSON.parse(JSON.stringify(state));
             newState['pa-2'].boxes = ['bo-2', 'bo-4'];
             expect(nav_items_by_id(state, action)).toEqual(newState);
-        });
-    });
-    describe('handle UPDATE_NAV_ITEM_EXTRA_FILES  ***************** TODO (Adams heritage ??)', () => {
-        test('If updated nav items extra files', () => {
-        // TODO
-            // expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
     describe('handle IMPORT_STATE', () => {

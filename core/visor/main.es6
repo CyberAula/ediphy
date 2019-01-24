@@ -8,7 +8,6 @@ import { ID_PREFIX_SECTION } from '../../common/constants';
 import { escapeRegExp } from '../../common/utils';
 
 const visor_template = require("../../dist/lib/visor/index.ejs");
-
 let getDistinctName = function(name, namesUsed) {
     namesUsed[name] = namesUsed[name] + 1;
     return name + namesUsed[name];
@@ -81,6 +80,9 @@ export default {
                                 state.navItemSelected = page;
                                 let filesUploaded = Object.values(state.filesUploaded);
                                 let strState = JSON.stringify({ ...state, export: true });
+                                strState = strState.replace(/http:\/\/vishubcode.org/g, 'https://vishubcode.org');
+                                strState = strState.replace(/http:\/\/vishub.org/g, 'https://vishub.org');
+                                strState = strState.replace(/http:\/\/educainternet.es/g, 'https://educainternet.es');
                                 let usedNames = [];
                                 if (selfContained) {
                                     let index = 0;
@@ -97,11 +99,11 @@ export default {
                                     }
                                 }
 
-                                let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), false);
+                                let content = parseEJS(Ediphy.Config.visor_ejs, page, { ...JSON.parse(strState), id: window.ediphy_editor_params ? window.ediphy_editor_params.ediphy_resource_id : null, platform: getPlatform() }, false);
                                 zip.file(Ediphy.Config.dist_index, content);
                                 zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);
                                 zip.file("ediphy.edi", strState);
-                                Ediphy.Visor.includeImage(zip, Object.values(state.filesUploaded), usedNames, (zipFile) => {
+                                Ediphy.Visor.includeImage(zip, selfContained ? filesUploaded : [], usedNames, (zipFile) => {
                                     zipFile.generateAsync({ type: "blob" }).then(function(blob) {
                                         // FileSaver.saveAs(blob, "ediphyvisor.zip");
                                         FileSaver.saveAs(blob, zip_title.toLowerCase().replace(/\s/g, '') + Math.round(+new Date() / 1000) + "_HTML.zip");
@@ -139,7 +141,7 @@ export default {
         }
     },
     exportPage: function(state) {
-        if (Object.keys(state.navItemsById[state.navItemSelected].extraFiles).length !== 0) {
+        if (state.navItemSelected && Object.keys(state.navItemsById[state.navItemSelected].extraFiles).length !== 0) {
             let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
             let extraFileContainer = state.pluginToolbarsById[extraFileBox];
             state.fromScorm = false;
@@ -197,6 +199,9 @@ export default {
                                     state.navItemSelected = page;
                                     let filesUploaded = Object.values(state.filesUploaded);
                                     let strState = JSON.stringify({ ...state, export: true });
+                                    strState = strState.replace(/http:\/\/vishubcode.org/g, 'https://vishubcode.org');
+                                    strState = strState.replace(/http:\/\/vishub.org/g, 'https://vishub.org');
+                                    strState = strState.replace(/http:\/\/educainternet.es/g, 'https://educainternet.es');
                                     let usedNames = [];
                                     if (selfContained) {
                                         let index = 0;
@@ -214,11 +219,11 @@ export default {
                                         }
                                     }
                                     zip.file("ediphy.edi", strState);
-                                    let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), true);
+                                    let content = parseEJS(Ediphy.Config.visor_ejs, page, { ...JSON.parse(strState), id: window.ediphy_editor_params ? window.ediphy_editor_params.ediphy_resource_id : null, platform: getPlatform() }, true);
                                     zip.file(Ediphy.Config.dist_index, content);
                                     zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);
                                     zip_title = state.globalConfig.title || 'Ediphy';
-                                    Ediphy.Visor.includeImage(zip, filesUploaded, usedNames, (zipFile) => {
+                                    Ediphy.Visor.includeImage(zip, selfContained ? filesUploaded : [], usedNames, (zipFile) => {
 
                                         zipFile.generateAsync({ type: "blob" }).then(function(blob) {
                                             // FileSaver.saveAs(blob, "ediphyvisor.zip");
@@ -238,4 +243,41 @@ export default {
             callback(e);
         }
     },
+    exportsEDI: function(state, callback) {
+        let page = 0;
+        if (state.navItemsIds && state.navItemsIds.length > 0) {
+            if(!Ediphy.Config.sections_have_content) {
+                let i;
+                for (i = 0; i < state.navItemsIds.length; i++) {
+                    if (state.navItemsIds[i].indexOf('se-') === -1) {
+                        page = state.navItemsIds[i];
+                        break;
+                    }
+                }
+            } else {
+                page = state.navItemsIds[0];
+            }
+        }
+        state.navItemSelected = page;
+        let filesUploaded = Object.values(state.filesUploaded);
+        let strState = JSON.stringify({ ...state, export: true });
+        let usedNames = [];
+        strState = strState.replace(/http:\/\/vishubcode.org/g, 'https://vishubcode.org');
+        strState = strState.replace(/http:\/\/vishub.org/g, 'https://vishub.org');
+        strState = strState.replace(/http:\/\/educainternet.es/g, 'https://educainternet.es');
+        let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), false);
+        window.download(strState, "ediphy.edi", "text/json");
+        callback();
+    },
 };
+
+function getPlatform() {
+    let allowedDomains = ["vishub.org", "educainternet.es", "localhost:3000", "localhost:8080", "ging.github.io/ediphy", "ging.github.com/ediphy"];
+    let allowedDomain = false;
+    allowedDomains.map((domain, i)=>{
+        if (window.location.href.indexOf(domain) > -1) {
+            allowedDomain = domain;
+        }
+    });
+    return allowedDomain;
+}

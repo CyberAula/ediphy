@@ -2,7 +2,7 @@ import {
     ADD_BOX, ADD_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW,
     DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER,
     TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_PLUGIN_TOOLBAR,
-    VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX, ADD_NAV_ITEM,
+    VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX, ADD_NAV_ITEM, DUPLICATE_NAV_ITEM, IMPORT_EDI,
 } from '../common/actions';
 import Utils, {
     changeProps, deleteProps, isSortableBox, isPage,
@@ -12,7 +12,6 @@ import i18n from 'i18next';
 function toolbarCreator(state, action) {
     let structure;
     let toolbar = {};
-    console.log(action);
     if(isSortableBox(action.payload.ids.id)) {
         toolbar = {
             [action.payload.ids.id]: {
@@ -71,7 +70,7 @@ function toolbarCreator(state, action) {
             widthUnit: widthUnit,
             heightUnit: heightUnit,
             rotation: action.payload.initialParams.rotation || 0,
-            aspectRatio: action.payload.initialParams.aspectRatio || false,
+            aspectRatio: (action.payload.initialParams.aspectRatio && action.payload.initialParams.aspectRatio.defaultValue !== undefined) ? action.payload.initialParams.aspectRatio.defaultValue : false,
             position: action.payload.id ? "relative" : "absolute",
         };
 
@@ -95,7 +94,8 @@ export default function(state = {}, action = {}) {
     let newState;
     switch (action.type) {
     case ADD_BOX:
-        return { ...state, ...toolbarCreator(state, action) };
+        let a = { ...state, ...toolbarCreator(state, action) };
+        return a;
     case ADD_NAV_ITEM:
         if(action.payload.type === "document") {
             return {
@@ -240,6 +240,15 @@ export default function(state = {}, action = {}) {
         return action.payload.present.pluginToolbarsById || state;
     case PASTE_BOX:
         return changeProps(state, [action.payload.ids.id, ...Object.keys(action.payload.children)], [action.payload.toolbar, ...Object.keys(action.payload.children).map(k=>{return action.payload.children[k].toolbar;})]);
+    case DUPLICATE_NAV_ITEM:
+        let newToolbars = {};
+        for (let t in action.payload.boxes) {
+            let nt = action.payload.boxes[t];
+            newToolbars[nt] = { ...state[t], id: nt };
+        }
+        return { ...state, ...newToolbars };
+    case IMPORT_EDI:
+        return { ...state, ...action.payload.state.pluginToolbarsById };
     default:
         return state;
     }

@@ -6,8 +6,8 @@ import Ediphy from "../../../../core/editor/main";
  */
 export function suggestions() {
     let subjects = ["Art", "Biology", "Chemistry", "Citizenship", "Computerscience", "Economics", "Education", "Engineering", "Foreignlanguages", "Generalculture", "Geography", "Geology", "History", "Humanities", "Literature", "Maths", "Music", "Naturalscience", "Physics", "Technology"];
-    return subjects.map(sub => {
-        return i18n.t("global_config.keylist." + sub);
+    return subjects.map((sub) => {
+        return { id: sub.toLowerCase(), text: i18n.t("global_config.keylist." + sub) };
     });
 }
 

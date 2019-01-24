@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { isSlide } from '../../../common/utils';
 import VisorCanvasDoc from './VisorCanvasDoc';
 import VisorCanvasSli from './VisorCanvasSli';
+import Watermark from './Watermark';
 import { CSSTransition } from 'react-transition-group';
 
 export default class VisorContainedCanvas extends Component {
@@ -17,7 +18,7 @@ export default class VisorContainedCanvas extends Component {
             visorContent = <VisorCanvasDoc {...this.props} />;
         }
         return (
-            <CSSTransition
+            [<CSSTransition
                 key="anim"
                 classNames={{
                     appear: 'appear',
@@ -29,7 +30,8 @@ export default class VisorContainedCanvas extends Component {
                 }}
                 timeout={{ enter: 500, exit: 300 }}>
                 {visorContent}
-            </CSSTransition>
+            </CSSTransition>,
+            <Watermark ediphy_document_id={this.props.ediphy_document_id} ediphy_platform={this.props.ediphy_platform} key={"1"}/>]
         );
     }
 
@@ -47,23 +49,27 @@ export default class VisorContainedCanvas extends Component {
 
 VisorContainedCanvas.propTypes = {
     /**
+    * Show the current view
+    */
+    show: PropTypes.bool,
+    /**
      * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
-     * Relación de aspecto para las diapositivas
+     * Slide aspect ratio
      */
     canvasRatio: PropTypes.number.isRequired,
     /**
-     * Cambia la vista actual
+     * Changes current view
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Vista actual
+     * Current view
      */
     currentView: PropTypes.any,
     /**
@@ -71,32 +77,40 @@ VisorContainedCanvas.propTypes = {
      */
     navItems: PropTypes.object.isRequired,
     /**
-     * Elimina la última vista
+     * Function to delete last view
      */
     removeLastView: PropTypes.func.isRequired,
     /**
-     * Estado del plugin enriquecido en la transición
+     * Rich plugin state during transition
      */
     richElementsState: PropTypes.object,
     /**
-     * Indicador de si se muestra el canvas (tiene que haber un navItem seleccionado)
+     * Show canvas (a navItem needs to be chosen)
      */
     showCanvas: PropTypes.bool,
     /**
-     * Título del curso
+     * Course title
      */
     title: PropTypes.any,
     /**
-     * Diccionario que contiene todas las istas creadas , accesibles por su *id*
+     * Pages toolbars
      */
     viewToolbars: PropTypes.object.isRequired,
     /**
-     * Diccionario que contiene todos los valores de cajas, accesibles por su *id*
+     * Boxes toolbars
      */
     pluginToolbars: PropTypes.object.isRequired,
     /**
-     *  Array de vistas
+     *  Contains created views
      */
     viewsArray: PropTypes.array,
+    /**
+   * Ediphy Document id
+   */
+    ediphy_document_id: PropTypes.any,
+    /**
+   * Platform where excursion is hosted
+   */
+    ediphy_platform: PropTypes.any,
 
 };

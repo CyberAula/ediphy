@@ -36,10 +36,12 @@ export default class CVInfo extends Component {
             if (isSortableBox(el.parent)) {
                 let origin = this.props.boxes[el.parent].parent;
                 from = this.props.viewToolbars[origin].viewName;
-            } else if (isBox(el.parent)) {
+            } else if (isBox(el.parent) && this.props.boxes[el.parent].resizable) {
+                let origin = this.props.boxes[el.parent].parent;
+                from = this.props.viewToolbars[origin].viewName;
+            } else if (isBox(el.parent) && !this.props.boxes[el.parent].resizable) {
                 let origin = this.props.boxes[this.props.boxes[el.parent].parent].parent;
                 from = this.props.viewToolbars[origin].viewName;
-
             } else if (isCanvasElement(el.parent)) {
                 from = this.props.viewToolbars[el.parent].viewName;
             } else {
@@ -60,7 +62,6 @@ export default class CVInfo extends Component {
         </OverlayTrigger>);
 
     }
-
 }
 
 CVInfo.propTypes = {
@@ -69,13 +70,13 @@ CVInfo.propTypes = {
      */
     containedView: PropTypes.any.isRequired,
     /**
-     * Object containing box marks
-     */
-    marks: PropTypes.object,
-    /**
      *  Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
+    /**
+     * Object containing box marks
+     */
+    marks: PropTypes.object,
     /**
      * View toolbars
      */

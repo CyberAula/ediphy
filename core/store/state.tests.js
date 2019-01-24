@@ -34,6 +34,9 @@ export const testState = {
                 "status": "draft",
                 "structure": "linear",
                 "difficulty": "easy",
+                "allowClone": true,
+                "allowDownload": true,
+                "allowComments": true,
             },
             "boxesById": {
                 "bs-1497983247797": {

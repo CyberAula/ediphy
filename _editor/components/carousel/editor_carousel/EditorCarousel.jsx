@@ -66,7 +66,7 @@ export default class EditorCarousel extends Component {
                     onBoxAdded={this.props.onBoxAdded}
                     onIndexSelected={this.props.onIndexSelected}
                     onContainedViewDeleted={this.props.onContainedViewDeleted}
-                    onToolbarUpdated={this.props.onToolbarUpdated}
+                    onNavItemDuplicated={this.props.onNavItemDuplicated}
                     onNavItemDeleted={this.props.onNavItemDeleted} />
             </div>
         );
@@ -76,7 +76,7 @@ export default class EditorCarousel extends Component {
 
 EditorCarousel.propTypes = {
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -180,7 +180,7 @@ EditorCarousel.propTypes = {
      */
     viewToolbars: PropTypes.object,
     /**
-     * Function that updates the toolbar of a view
+     * Duplicate nav item
      */
-    onToolbarUpdated: PropTypes.func,
+    onNavItemDuplicated: PropTypes.func.isRequired,
 };

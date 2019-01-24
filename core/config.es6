@@ -15,8 +15,11 @@ export default {
     visor_zip: "./lib/visor/dist.zip",
     export_url: "http://127.0.0.1:8081/saveConfig",
     import_url: "http://127.0.0.1:8081/getConfig",
-    search_vish_url: "http://vishub.org/apis/search/",
+    search_vish_url: "https://vishub.org/apis/search/",
+    // search_vish_url: "http://localhost:3000/apis/search/",
     upload_vish_url: "http://127.0.0.1:8081/upload",
+    profile_vish_url: (id)=>`http://localhost:3000/users/demo/all_resources.json`,
+    // includeVishProfile: true,
     // OPTIONS
     external_providers: {
         enable_search: true,
@@ -33,7 +36,9 @@ export default {
     autosave_time: 0, // Any value below 1000 will not autosave
     zip_files_forbidden: true,
     pluginList: [
+        'EnrichedAudio',
         // 'BasicImage',
+        'EnrichedPDF',
         'BasicText',
         // 'BasicPlayer',
         'DataTable',
@@ -48,10 +53,14 @@ export default {
         'InputText',
         // 'ContainerJS',
         'GraficaD3',
+        'Ordering',
         'TrueFalse',
         'ScormPackage',
+        // 'Visor3D',
         'FlashObject',
-        'Rating',
+        // 'Rating',
+        'AudioCue',
+        // 'Google3DPolyObject',
     ],
     availableLanguages: [
         'en',

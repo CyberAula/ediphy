@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export default function WAPP(IframeMessenger, handler) {
 
     let _createWAPPMessage = function(method, params, destination, destinationId, mode) {
@@ -77,3 +79,4 @@ export default function WAPP(IframeMessenger, handler) {
     this.processWAPPMessage = processWAPPMessage;
 
 }
+/* eslint-enable  */

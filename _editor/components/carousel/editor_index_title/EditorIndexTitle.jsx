@@ -129,7 +129,7 @@ EditorIndexTitle.propTypes = {
     /**
      * Selected index title
      */
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     /**
      * Selected index number
      */

@@ -31,5 +31,8 @@ module.exports = merge.smart(common, {
         hot: true,
         inline: true,
         port: 8080,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+        },
     },
 });

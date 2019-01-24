@@ -16,8 +16,10 @@ export default {
     visor_zip: "/assets/lib/visor/dist.zip",
     export_url: "/ediphy_documents/",
     import_url: "/ediphy_documents/",
-    search_vish_url: "http://vishub.org/apis/search/",
+    search_vish_url: "/apis/search/",
     upload_vish_url: "/documents.json",
+    profile_vish_url: (id)=>`/users/${id}/all_resources.json`,
+    includeVishProfile: true,
     defaultAspectRatio: 4 / 3,
     // OPTIONS
     external_providers: {
@@ -49,9 +51,14 @@ export default {
         'InputText',
         'TrueFalse',
         'GraficaD3',
-        'FlashObject',
+        'EnrichedAudio',
+        'EnrichedPDF',
+        'Ordering',
         'ScormPackage',
+        'FlashObject',
         // 'Rating',
+        'AudioCue',
+
     ],
     availableLanguages: [
         'en',

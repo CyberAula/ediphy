@@ -119,9 +119,9 @@ export default function() {
                 if (!state.__text) {
                     state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
                 }
-                state.__text = getCKEDITORAdaptedContent(state.__text);
+                state.__text = (getCKEDITORAdaptedContent(state.__text));
                 if (!descendant.getRenderTemplate) {
-                    descendant.getRenderTemplate = function(stateObj, { exercises: { correctAnswer: [] } }) {
+                    descendant.getRenderTemplate = function(stateObj /* , { exercises: { correctAnswer: [] } }*/) {
                         return stateObj.__text;
                     };
                 }
@@ -144,7 +144,7 @@ export default function() {
                 }
             }
 
-            if(config.category === 'evaluation') {
+            /* if(config.category === 'evaluation') {
                 if (!state.__score) {
                     state.__score = {
                         score: 1,
@@ -154,11 +154,11 @@ export default function() {
                     };
                 }
             }
-
+*/
             let toolbar = this.getToolbar(state);
             let template = null;
             let params = { ...initParams };
-            params.aspectRatio = !!config.aspectRatioButtonConfig;
+            params.aspectRatio = config.aspectRatioButtonConfig;
             params.name = config.name;
             params.isDefaultPlugin = defaultFor(initParams.isDefaultPlugin, false);
             if (params && Object.keys(params) && Object.keys(params).length > 1) {
@@ -199,7 +199,7 @@ export default function() {
 
         },
         getConfig: function() {
-            let name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig, needsPointerEventsAllowed,
+            let name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig, needsPointerEventsAllowed, createFromLibrary, searchIcon,
                 needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isComplex, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance, initialWidth, initialHeight, initialWidthSlide, initialHeightSlide, defaultCorrectAnswer, defaultCurrentAnswer;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
@@ -227,6 +227,8 @@ export default function() {
                 initialHeight = cfg.initialHeight;
                 defaultCorrectAnswer = cfg.defaultCorrectAnswer;
                 defaultCurrentAnswer = cfg.defaultCurrentAnswer;
+                searchIcon = cfg.searchIcon;
+                createFromLibrary = cfg.createFromLibrary;
             }
 
             name = defaultFor(name, 'PluginName', "Plugin name not assigned");
@@ -236,8 +238,8 @@ export default function() {
             iconFromUrl = defaultFor(iconFromUrl, false);
             isRich = defaultFor(isRich, false);
             isComplex = defaultFor(isComplex, false);
-            marksType = defaultFor(marksType, [{ name: 'value', key: 'value' }]);
-            flavor = defaultFor(flavor, 'plain');
+            marksType = defaultFor(marksType, { name: 'value', key: 'value' });
+            flavor = defaultFor(flavor, 'react');
             allowFloatingBox = defaultFor(allowFloatingBox, true);
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsConfirmation = defaultFor(needsConfirmation, false);
@@ -251,6 +253,8 @@ export default function() {
             initialHeightSlide = defaultFor(initialHeightSlide, initialHeight);
             defaultCorrectAnswer = defaultFor(defaultCorrectAnswer, false);
             defaultCurrentAnswer = defaultFor(defaultCurrentAnswer, defaultCorrectAnswer);
+            createFromLibrary = defaultFor(createFromLibrary, createFromLibrary ? ['all', 'url'] : false);
+            searchIcon = defaultFor(searchIcon, false);
 
             if (aspectRatioButtonConfig) {
                 aspectRatioButtonConfig.name = Ediphy.i18n.t("Aspect_ratio");
@@ -261,15 +265,20 @@ export default function() {
                 }
                 aspectRatioButtonConfig.defaultValue = defaultFor(aspectRatioButtonConfig.defaultValue, "unchecked");
             }
-
             return {
                 name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition,
                 extraTextConfig, needsXMLEdition, aspectRatioButtonConfig, allowFloatingBox, icon,
                 iconFromUrl, isRich, isComplex, marksType, flavor, needsPointerEventsAllowed, limitToOneInstance,
-                initialWidth, initialWidthSlide, initialHeightSlide, initialHeight, defaultCorrectAnswer, defaultCurrentAnswer,
+                initialWidth, initialWidthSlide, initialHeightSlide, initialHeight, defaultCorrectAnswer, defaultCurrentAnswer, searchIcon, createFromLibrary,
             };
         },
         getRenderTemplate: function(render_state, props) {
+            if (!descendant.getRenderTemplate) {
+                // eslint-disable-next-line no-shadow
+                descendant.getRenderTemplate = function(stateObj, props /* , { exercises: { correctAnswer: [] } } */) {
+                    return stateObj.__text;
+                };
+            }
             return descendant.getRenderTemplate(render_state, props);
         },
         getToolbar: function(toolbarState) {
@@ -293,13 +302,9 @@ export default function() {
                     for (buttonKey in buttons) {
                         button = buttons[buttonKey];
                         button.__name = defaultFor(button.__name, buttonKey, "Property __name in button '" + buttonKey + "' not found");
-                        button.autoManaged = defaultFor(button.autoManaged, true);
                         if(button.type === "radio" || button.type === "select") {
                             button.options = defaultFor(button.options, []);
                         }
-                        /* if (!button.callback && !button.autoManaged) {
-                            button.callback = this.update.bind(this);
-                        }*/
                     }
                     if (accordions[accordionKey].accordions || accordions[accordionKey].order) {
                         let accordions2 = defaultFor(accordions[accordionKey].accordions, {});
@@ -316,13 +321,9 @@ export default function() {
                             for (buttonKey in buttons) {
                                 button = buttons[buttonKey];
                                 button.__name = defaultFor(button.__name, buttonKey, "Property __name in button '" + buttonKey + "' not found");
-                                button.autoManaged = defaultFor(button.autoManaged, true);
                                 if(button.type === "radio" || button.type === "select") {
                                     button.options = defaultFor(button.options, []);
                                 }
-                                /* if (!button.callback && !button.autoManaged) {
-                                    button.callback = this.update.bind(this);
-                                }*/
                             }
                         }
                     }
@@ -348,15 +349,15 @@ export default function() {
             }
             return undefined;
         },
-        parseRichMarkInput: function(...values) {
+        parseRichMarkInput: function(x, y, width, height, toolbarState, boxId) {
             if(descendant.parseRichMarkInput) {
-                return descendant.parseRichMarkInput(...values);
+                return descendant.parseRichMarkInput(x, y, width, height, toolbarState, boxId);
             }
             return undefined;
         },
-        getDefaultMarkValue: function() {
+        getDefaultMarkValue: function(_state, value) {
             if(descendant.getDefaultMarkValue) {
-                return descendant.getDefaultMarkValue();
+                return descendant.getDefaultMarkValue(_state, value);
             }
             if (descendant.getConfig() && descendant.getConfig().marksType) {
                 let markType = descendant.getConfig().marksType;

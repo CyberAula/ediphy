@@ -65,7 +65,7 @@ export default class ActionsRibbon extends Component {
                 className={(act.key === "Grid" && this.props.grid) ? "ActionBtn active" : "ActionBtn"}
                 disabled={act.disabled}
                 name={act.key}
-                onClick={ act.onClick }>
+                onClick={(e)=>{act.onClick(e); document.activeElement.blur();}}>
                 <i className="material-icons">{act.icon}</i>
                 <span className="hideonresize">{ i18n.t(act.i18nkey) }</span>
             </button>;
@@ -136,7 +136,7 @@ ActionsRibbon.propTypes = {
      */
     navItems: PropTypes.object,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object,
     /**
@@ -152,7 +152,7 @@ ActionsRibbon.propTypes = {
      */
     grid: PropTypes.bool,
     /**
-     * Caja seleccionada
+     * Selected box
      */
     boxSelected: PropTypes.any,
     /**
@@ -187,4 +187,8 @@ ActionsRibbon.propTypes = {
      * Object containing all the exercises
      */
     exercises: PropTypes.object.isRequired,
+    /**
+     *  Function for uploading a file to the server
+     */
+    uploadFunction: PropTypes.func.isRequired,
 };

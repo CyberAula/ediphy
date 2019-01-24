@@ -1,0 +1,42 @@
+
+
+  /*@page {
+      size: 1414px 796px;
+      margin: 0; }*/
+
+  @page  {
+    size: 1414px 796px;
+    margin: 0;
+  }
+
+  .pageToPrint16{
+    // @page { size: 58mm 100mm } /* output size */
+    // body.receipt .sheet { width: 58mm; height: 100mm } /* sheet size */
+    // @media print { body.receipt { width: 58mm } } /* fix for Chrome */
+    page-break-after: always;
+    page: pg16;
+  }
+
+  .navBar {
+    display: none;
+  }
+
+  #root {
+    display: none;
+  }
+  .pageModal{
+    display: none;
+  }
+
+  .modal-dialog{
+    display: none;
+  }
+
+  *[role="dialog"]{
+    display: none;
+  }
+
+
+.material-icons.correct {
+  font-size: 1.7em;
+}

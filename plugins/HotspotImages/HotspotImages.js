@@ -5,6 +5,8 @@ import MarkEditor from '../../_editor/components/rich_plugins/mark_editor/MarkEd
 import Mark from '../../common/components/mark/Mark';
 import img_broken from './../../dist/images/broken_link.png';
 import img_placeholder from './../../dist/images/placeholder.svg';
+import './_hotspotsImages.scss';
+import Image from "./Image";
 /* eslint-disable react/prop-types */
 
 export function HotspotImages(base) {
@@ -24,7 +26,11 @@ export function HotspotImages(base) {
                     defaultValue: true,
                 },
                 isRich: true,
-                marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#000001' }],
+                marksType: { name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#000001' },
+                createFromLibrary: ['image/*', 'url'],
+                searchIcon: true,
+                needsPointerEventsAllowed: true,
+                // searchIcon: ['image/*', 'url'],
             };
         },
         getToolbar: function(state) {
@@ -41,7 +47,25 @@ export function HotspotImages(base) {
                                     type: 'external_provider',
                                     value: state.url,
                                     accept: "image/*",
-                                    autoManaged: false,
+                                },
+                                allowDeformed: {
+                                    __name: Ediphy.i18n.t('HotspotImages.allowDeformed'),
+                                    type: "checkbox",
+                                    checked: state.allowDeformed,
+                                },
+                                scale: {
+                                    __name: Ediphy.i18n.t('HotspotImages.scale'),
+                                    type: "range",
+                                    min: 0,
+                                    max: 20,
+                                    step: 0.2,
+                                    value: state.scale || 1,
+                                },
+                                hyperlink: {
+                                    __name: Ediphy.i18n.t('HotspotImages.hyperlink'),
+                                    type: 'text',
+                                    value: state.hyperlink,
+                                    placeholder: Ediphy.i18n.t('HotspotImages.link_placeholder'),
                                 },
                             },
                         },
@@ -59,7 +83,7 @@ export function HotspotImages(base) {
                                 backgroundColor: {
                                     __name: Ediphy.i18n.t('HotspotImages.background_color'),
                                     type: 'color',
-                                    value: '#ffffff',
+                                    value: 'rgba(255,255,255,0)',
                                 },
                                 borderWidth: {
                                     __name: Ediphy.i18n.t('HotspotImages.border_size'),
@@ -110,7 +134,7 @@ export function HotspotImages(base) {
                 // url:'http://www.amicus.nieruchomosci.pl/grafika/no-image.png'
                 // url: 'https://bytesizemoments.com/wp-content/uploads/2014/04/placeholder.png'
                 url: img_placeholder, // Ediphy.Config.image_placeholder,
-
+                allowDeformed: true,
             };
         },
         getDefaultMarkValue(state) {
@@ -120,7 +144,6 @@ export function HotspotImages(base) {
             let marks = props.marks || {};
             // let Mark = ({ idKey, title, style, color }) => (
             //     );
-
             let markElements = Object.keys(marks).map((id) =>{
                 let value = marks[id].value;
                 let title = marks[id].title;
@@ -140,21 +163,13 @@ export function HotspotImages(base) {
             });
 
             return (
-                <div style={{ height: "100%", width: "100%" }}>
-                    <img className="basicImageClass" style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
-                        e.target.onError = null;
-                        e.target.src = img_broken; // Ediphy.Config.broken_link;
-                    }}/>
-                    <div className="dropableRichZone" style={{ height: "100%", width: "100%", position: 'absolute', top: 0, left: 0 }}>
-
-                        {markElements}
-                    </div></div>
+                <Image markElements={markElements} state={state} props={props}/>
             );
         },
-        parseRichMarkInput: function(...value) {
-            let x = (value[0] + 12) * 100 / value[2];
-            let y = (value [1] + 26) * 100 / value[3];
-            let finalValue = y.toFixed(2) + "," + x.toFixed(2);
+        parseRichMarkInput: function(x, y, width, height, toolbarState, boxId) {
+            let xx = (x + 12) * 100 / width;
+            let yy = (y + 26) * 100 / height;
+            let finalValue = yy.toFixed(2) + "," + xx.toFixed(2);
 
             return finalValue;
         },

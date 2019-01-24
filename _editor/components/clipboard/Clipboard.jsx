@@ -76,10 +76,12 @@ export default class Clipboard extends Component {
                 if (!this.containsCKEDitorText(activeElement)) {
                     event.preventDefault();
                     event.clipboardData.setData("text/plain", JSON.stringify(this.copyData()));
+                    document.activeElement.blur();
                     return true;
                 }
             }
         }
+        document.activeElement.blur();
         return false;
     }
 
@@ -113,6 +115,7 @@ export default class Clipboard extends Component {
             let box = this.props.boxes[this.props.boxSelected];
             this.props.onBoxDeleted(box.id, box.parent, box.container, this.currentPage());
         }
+        document.activeElement.blur();
     }
     /**
      * Calculates current page (nav or cv)
@@ -145,6 +148,7 @@ export default class Clipboard extends Component {
         }
         let ids = { id, parent, container, page: page ? page.id : 0 };
         this.pasteBox(data, ids, isTargetSlide, newInd);
+        document.activeElement.blur();
     }
 
     /**
@@ -207,7 +211,7 @@ export default class Clipboard extends Component {
             let newMark = { ...marks[mark],
                 origin: transformedBox.newIds[marks[mark].origin] || ids.id,
                 id: newId };
-            if ((isContainedView(newMark.connection) && this.props.containedViews[newMark.connection]) || (isView(newMark.connection) && this.props.navItems[newMark.connection]) || newMark.connectMode === 'external') {
+            if ((isContainedView(newMark.connection) && this.props.containedViews[newMark.connection]) || (isView(newMark.connection) && this.props.navItems[newMark.connection]) || newMark.connectMode === 'external' || newMark.connectMode === 'popup') {
                 newMarks[newId] = newMark;
             }
         }
@@ -241,7 +245,7 @@ export default class Clipboard extends Component {
                 data = JSON.parse(clipboardData);
             } catch (err) {
                 // eslint-disable-next-line no-console
-                // console.log(err);
+                // console.log(err, event);
             }
 
             let page = this.currentPage();
@@ -297,7 +301,7 @@ export default class Clipboard extends Component {
                         position: isTargetSlide && container === 0 ? {
                             type: "absolute",
                             x: randomPositionGenerator(20, 40),
-                            y: randomPositionGenerator(20, 40),
+                            y: randomPositionGenerator(20, 30),
                         } : { type: 'relative', x: "0%", y: "0%" },
                     };
                     // If it is an image
@@ -330,6 +334,14 @@ export default class Clipboard extends Component {
                                     createBox(initialParams, "ScormPackage", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
                                     return;
                                 }
+
+                                // check if it is a youtube iframe
+                                if (isURL(src) && src.includes('youtube')) {
+                                    initialParams.url = src;
+                                    createBox(initialParams, "EnrichedPlayer", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                    return;
+                                }
+
                                 initialParams.url = src;
                                 createBox(initialParams, "Webpage", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
                                 return;
@@ -337,6 +349,27 @@ export default class Clipboard extends Component {
                             } else if (tag === "EMBED") {
                                 initialParams.url = src;
                                 createBox(initialParams, "FlashObject", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                return;
+                            } else if (tag === "AUDIO") {
+                                if (!src) {
+                                    let source = el.find('source');
+                                    if (source && source[0]) {
+                                        src = $(source[0]).attr('src');
+                                    }
+                                }
+                                initialParams.url = src;
+                                createBox(initialParams, "EnrichedAudio", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                                return;
+
+                            } else if (tag === "VIDEO") {
+                                if (!src) {
+                                    let source = el.find('source');
+                                    if (source && source[0]) {
+                                        src = $(source[0]).attr('src');
+                                    }
+                                }
+                                initialParams.url = src;
+                                createBox(initialParams, "EnrichedPlayer", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
                                 return;
                             }
                         } catch(err) {
@@ -348,7 +381,6 @@ export default class Clipboard extends Component {
                             initialParams.text = '<a href="' + initialParams.text + '">' + initialParams.text + '</a>';
                         }
                         createBox(initialParams, "BasicText", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
-
                     }
                 }
             }
@@ -359,9 +391,7 @@ export default class Clipboard extends Component {
      * Modifies pasted box so it adapts to its new parent
      */
     transformBox(box, ids, isTargetSlide, isOriginSlide) {
-        console.log(box, ids);
         let samePage = isTargetSlide && box.parent === ids.parent;
-        console.log(samePage);
         let newIds = {};
         let newContainerBoxes = {};
         let ind = 0;
@@ -382,7 +412,7 @@ export default class Clipboard extends Component {
             position: isTargetSlide ? {
                 type: "absolute",
                 x: !samePage ? box.position.x : randomPositionGenerator(20, 40),
-                y: !samePage ? box.position.y : randomPositionGenerator(20, 40),
+                y: !samePage ? box.position.y : randomPositionGenerator(20, 30),
             } : { type: "relative", x: "0%", y: "0%" },
             resizable: isTargetSlide,
             row: ids.row || 0,
@@ -509,7 +539,7 @@ Clipboard.propTypes = {
    */
     navItems: PropTypes.object,
     /**
-   * Contained views dictionary (identified by its ID)
+   * Object containing all contained views (identified by its ID)
    */
     containedViews: PropTypes.any,
     /**

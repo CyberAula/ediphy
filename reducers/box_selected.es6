@@ -1,7 +1,7 @@
 import {
     ADD_BOX, ADD_NAV_ITEM, DELETE_BOX, DELETE_SORTABLE_CONTAINER, DELETE_NAV_ITEM, SELECT_BOX,
     DELETE_CONTAINED_VIEW,
-    SELECT_CONTAINED_VIEW, SELECT_NAV_ITEM, IMPORT_STATE, PASTE_BOX, INDEX_SELECT,
+    SELECT_CONTAINED_VIEW, SELECT_NAV_ITEM, IMPORT_STATE, PASTE_BOX, INDEX_SELECT, DUPLICATE_NAV_ITEM,
 } from '../common/actions';
 import { ID_PREFIX_BOX } from '../common/constants';
 import { isBox, isSortableBox, isContainedView, isPage } from '../common/utils';
@@ -18,7 +18,8 @@ export default function(state = -1, action = {}) {
         }
         // When we create a new box with default plugins, we don't want them to be selected
         if (action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
-            return state;
+            let a = state;
+            return a;
         }
         // Just normal situation
         return action.payload.ids.id;
@@ -55,6 +56,8 @@ export default function(state = -1, action = {}) {
         return -1;
     case PASTE_BOX:
         return action.payload.ids.id;
+    case DUPLICATE_NAV_ITEM:
+        return -1;
     default:
         return state;
     }

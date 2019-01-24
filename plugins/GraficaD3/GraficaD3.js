@@ -22,6 +22,8 @@ export function GraficaD3(base) {
                 initialHeight: "300px",
                 initialWidthSlide: '70%',
                 initialHeightSlide: '60%',
+                createFromLibrary: ['csv', 'url'],
+                searchIcon: false,
             };
         },
         getToolbar: function(state) {
@@ -46,7 +48,6 @@ export function GraficaD3(base) {
                                     value: 0,
                                     min: 0,
                                     max: 10,
-                                    units: "px",
                                 },
                                 borderStyle: {
                                     __name: Ediphy.i18n.t("GraficaD3.border_style"),

@@ -24,29 +24,27 @@ export function InputText(base) {
                 main: {
                     __name: "Main",
                     accordions: {
-                        _general: {
-                            __name: i18n.t("InputText.General"),
-                            icon: 'web',
+                        __score: {
+                            __name: i18n.t('configuration'),
+                            icon: 'build',
                             buttons: {
                                 type: {
                                     __name: i18n.t("InputText.answerType"),
-                                    type: 'select',
+                                    type: 'radio',
                                     value: state.type,
                                     options: ['text', 'number'],
-                                    autoManaged: false,
+                                    labels: [i18n.t("InputText.text"), i18n.t("InputText.number")],
                                 },
                                 precision: {
                                     __name: i18n.t("InputText.Precision"),
                                     type: 'number',
                                     step: 0.01,
-                                    autoManaged: false,
                                     hide: state.type !== "number",
                                     value: state.precision,
                                 },
                                 characters: {
                                     __name: i18n.t("InputText.Characters"),
                                     type: 'checkbox',
-                                    autoManaged: false,
                                     hide: state.type !== "text",
                                     checked: state.characters,
                                 },
@@ -57,7 +55,6 @@ export function InputText(base) {
                                     min: 8,
                                     max: 72,
                                     step: 1,
-                                    autoManaged: false,
                                 },
 
                             },
@@ -78,10 +75,10 @@ export function InputText(base) {
             let clickHandler = (e)=>{
                 props.setCorrectAnswer(e.target.value);
             };
-            let fs = state.fontSize + 'px';
+            let fs = state.fontSize / 14 + 'em';
             return <div className={"exercisePlugin inputTextPlugin"} >
-                <input placeholder={i18n.t("InputText.Placeholder")} type={state.type} style={{ fontSize: fs, lineHeight: fs, height: fs }} className="inputText" name={props.id} value={props.exercises.correctAnswer} onChange={clickHandler}/>
-                <div className="dragHandleInputPlugin" style={{ lineHeight: fs, height: fs, width: fs }}><i className="material-icons">reorder</i></div>
+                <input placeholder={i18n.t("InputText.Placeholder")} type={state.type} style={{ fontSize: fs }} className="inputText" name={props.id} value={props.exercises.correctAnswer} onChange={clickHandler}/>
+                <div className="dragHandleInputPlugin" style={{ fontSize: fs }}><i className="material-icons">reorder</i></div>
             </div>;
 
         },

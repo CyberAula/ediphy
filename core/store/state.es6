@@ -1,14 +1,14 @@
 import i18n from 'i18next';
 
 export const initialState = (config) => { return { filesUploaded: {},
+    status: 'draft',
+    everPublished: false,
     undoGroup: {
         present: {
-            status: 'draft',
-            everPublished: false,
             globalConfig: {
                 title: undefined,
                 canvasRatio: config.defaultAspectRatio || 16 / 9,
-                minTimeProgress: 10,
+                minTimeProgress: 0,
                 visorNav: {
                     player: true,
                     sidebar: true,
@@ -32,6 +32,7 @@ export const initialState = (config) => { return { filesUploaded: {},
                 thumbnail: '',
                 structure: 'linear',
                 difficulty: undefined,
+                allowClone: true, allowDownload: true, allowComments: true,
             },
             indexSelected: 'pa-1497983247795',
             boxesById: {},

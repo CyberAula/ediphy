@@ -1,16 +1,16 @@
-import Joyride from 'react-joyride';
+import Joyride, { ACTIONS, EVENTS } from 'react-joyride';
+import PropTypes from 'prop-types';
 import React from 'react';
 import i18n from 'i18next';
 import './_joyride.scss';
 import dragdrop from './dragdrop.svg';
 import edit from './edit.svg';
-import index from './index.svg';
+import indexImg from './index.svg';
 import canvas from './canvas.svg';
 import add from './add.svg';
 import importExport from './exportImport.svg';
 import preview from './preview.svg';
 import help from './help.svg';
-import { ACTIONS, EVENTS } from 'react-joyride/es/constants';
 
 export default class EdiphyTour extends React.Component {
     constructor(props) {
@@ -74,7 +74,7 @@ export default class EdiphyTour extends React.Component {
                 { // Index
                     target: "#colLeft",
                     content: (<div>
-                        <img src={index} alt="" style={{ width: '100%' }}/>
+                        <img src={indexImg} alt="" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.index')}</div>
                     </div>),
                     placement: 'auto',
@@ -196,3 +196,13 @@ export default class EdiphyTour extends React.Component {
     }
 }
 
+EdiphyTour.propTypes = {
+    /**
+     * Whether the joyride is shown or not
+     */
+    showTour: PropTypes.bool,
+    /**
+     * Opens/closes the joyride
+     */
+    toggleTour: PropTypes.func.isRequired,
+};

@@ -16,7 +16,7 @@ module.exports = {
         "PluginName": "Video Player",
         "radius": "Radius",
         "source": "Source",
-        "message_mark_percentage": "You've chosen an incorrect value. You must introduce a percentage between 0 and 100. E.g.. 45.66%",
+        "message_mark_error": "You've chosen an incorrect value. You must introduce a time like in the format of h:mm:ss or mm:ss. E.g. 1:33",
 
     },
 };

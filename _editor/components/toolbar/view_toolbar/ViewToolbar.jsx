@@ -47,7 +47,6 @@ export default class ViewToolbar extends Component {
                                 __name: i18n.t('NavItem_name'),
                                 type: 'text',
                                 value: viewToolbar.viewName,
-                                autoManaged: false,
                             },
                         },
                     },
@@ -59,20 +58,17 @@ export default class ViewToolbar extends Component {
                                 __name: i18n.t('course_title'),
                                 type: 'checkbox',
                                 checked: viewToolbar.courseTitle && viewToolbar.courseTitle !== 'hidden',
-                                autoManaged: false,
                             },
                             display_pagetitle: {
                                 __name: i18n.t('Title') + doc_type,
                                 type: 'checkbox',
                                 checked: viewToolbar.documentTitle && viewToolbar.documentTitle !== 'hidden',
-                                autoManaged: false,
 
                             },
                             pagetitle_name: {
                                 __name: "custom_title",
                                 type: 'conditionalText',
                                 associatedKey: 'display_pagetitle',
-                                autoManaged: false,
                                 display: false,
                                 placeholder: viewToolbar.viewName,
                                 value: viewToolbar.documentTitleContent,
@@ -81,13 +77,11 @@ export default class ViewToolbar extends Component {
                                 __name: i18n.t('subtitle'),
                                 type: 'checkbox',
                                 checked: viewToolbar.documentSubtitle && viewToolbar.documentSubtitle !== 'hidden',
-                                autoManaged: false,
                             },
                             pagesubtitle_name: {
                                 __name: "custom_subtitle",
                                 type: 'conditionalText',
                                 associatedKey: 'display_pagesubtitle',
-                                autoManaged: false,
                                 display: false,
                                 value: viewToolbar.documentSubtitleContent,
                             },
@@ -103,16 +97,15 @@ export default class ViewToolbar extends Component {
                                 __name: i18n.t('background.background_image'),
                                 type: 'background_picker',
                                 value: { background: viewToolbar.background, backgroundAttr: viewToolbar.background_attr } || { background: "#ffffff", backgroundAttr: "full" },
-                                autoManaged: false,
                             },
                         },
                     },
                     __score: {
-                        __name: i18n.t('Score'),
-                        icon: 'school',
+                        __name: i18n.t('configuration'),
+                        icon: 'build',
                         buttons: {
                             weight: {
-                                __name: i18n.t('Weight'),
+                                __name: i18n.t('Score'),
                                 type: 'number',
                                 min: 1,
                                 __defaultField: true,
@@ -129,20 +122,17 @@ export default class ViewToolbar extends Component {
                 __name: i18n.t('Breadcrumb'),
                 type: 'checkbox',
                 checked: viewToolbar.breadcrumb !== 'hidden',
-                autoManaged: false,
             };
             controls.main.accordions.__header.buttons.display_pagenumber = {
                 __name: doc_type + " " + i18n.t('pagenumber'),
                 type: 'checkbox',
                 checked: viewToolbar.numPage !== 'hidden',
-                autoManaged: false,
             };
             controls.main.accordions.__header.buttons.pagenumber_name = {
                 __name: "custom_pagenum",
                 type: 'conditionalText',
                 associatedKey: 'display_pagenumber',
                 value: viewToolbar.numPageContent,
-                autoManaged: false,
                 display: false,
 
             };
@@ -152,7 +142,7 @@ export default class ViewToolbar extends Component {
                 __name: i18n.t('display_page'),
                 type: 'checkbox',
                 checked: !pageObj.hidden,
-                autoManaged: false };
+            };
         }
 
         if (!isCanvasElement(this.props.navItemSelected, Ediphy.Config.sections_have_content)) {
@@ -165,7 +155,7 @@ export default class ViewToolbar extends Component {
             let tab = controls[tabKey];
             return (
                 <div key={'key_' + index} className="toolbarTab">
-                    <PanelGroup>
+                    <PanelGroup id="panel-group">
                         {Object.keys(tab.accordions).sort().map((accordionKey, ind) => {
                             return renderAccordion(
                                 tab.accordions[accordionKey],
@@ -186,7 +176,7 @@ export default class ViewToolbar extends Component {
 
 ViewToolbar.propTypes = {
     /**
-   * Object containing all views (by id)
+     * Object containing all views (by id)
     */
     navItems: PropTypes.object.isRequired,
     /**
@@ -194,7 +184,7 @@ ViewToolbar.propTypes = {
    */
     navItemSelected: PropTypes.any.isRequired,
     /**
-   * Contained views dictionary (identified by its ID)
+   * Object containing all contained views (identified by its ID)
    */
     containedViews: PropTypes.object.isRequired,
     /**

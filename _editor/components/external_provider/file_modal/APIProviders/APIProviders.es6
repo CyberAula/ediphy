@@ -1,29 +1,38 @@
 import React from 'react';
-import MyFilesComponent from './MyFilesComponent';
-import UploadComponent from './UploadComponent';
-import SearchVishComponent from './SearchVishComponent';
-import SoundCloudComponent from './SoundCloudComponent';
-import YoutubeComponent from './YoutubeComponent';
-import EuropeanaComponent from './EuropeanaComponent';
-import FlickrComponent from './FlickrComponent';
-import PhetComponent from './PhetComponent';
-import OpenClipArtComponent from './OpenClipArtComponent';
-import GiphyComponent from './GiphyComponent';
+import MyFilesComponent from './providers/MyFilesComponent';
+import UploadComponent from './providers/UploadComponent';
+import SearchVishComponent from './providers/SearchVishComponent';
+import SoundCloudComponent from './providers/SoundCloudComponent';
+import DropboxComponent from './providers/DropboxComponent';
+import YoutubeComponent from './providers/YoutubeComponent';
+import EuropeanaComponent from './providers/EuropeanaComponent';
+import FlickrComponent from './providers/FlickrComponent';
+import PolyComponent from './providers/PolyComponent';
+import LogoComponent from './providers/LogoComponent';
+// import GoogleDriveComponent from './providers/GoogleDriveComponent';
+// import AudioBlocksComponent from './AudioBlocksComponent';
+// import PhetComponent from './PhetComponent';
+import OpenClipArtComponent from './providers/OpenClipArtComponent';
+import GiphyComponent from './providers/GiphyComponent';
 
 import VISHIcon from './logos/vish.svg';
 import FlickrIcon from './logos/flickrsvg.svg';
 import EuropeanaIcon from './logos/europeanaalt.svg';
 import YoutubeIcon from './logos/youtube.svg';
 import SoundCloudIcon from './logos/soundcloud_logo_0.png';
+import DropboxIcon from './logos/Dropboxlogo.png';
+// import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
+import PolyIcon from './logos/PolyLogo.png';
 import OpenClipArtIcon from './logos/openclipart.svg';
 import GiphyIcon from './logos/giphy.png';
+import LogoIcon from './logos/avatar-gallery.png';
 
 import i18n from 'i18next';
-
 export default function menus(self) {
     let allowedMIME = self.props.visible || "";
     let commonProps = {
-        onElementSelected: (name, element, type, id) => { self.setState({ name, element, type, id }); },
+        onElementSelected: (name, element, type, id, options = {}) => {
+            self.setState({ name, element, type, id, options }); },
         elementSelected: self.state.element,
         idSelected: self.state.id,
     };
@@ -31,13 +40,13 @@ export default function menus(self) {
     return [
         {
             name: <span><i className="material-icons">file_upload</i>{i18n.t('FileModal.APIProviders.UploadFiles')}</span>,
-            show: allowedMIME,
+            show: (allowedMIME),
             component: UploadComponent,
             props: {
                 ...commonProps,
                 isBusy: self.props.isBusy,
-                pdfSelected: self.state.pdfSelected,
                 closeSideBar: (closeAlsoModal)=>{self.setState({ pdfSelected: false }); if (closeAlsoModal) {self.close();}},
+                pdfSelected: self.state.pdfSelected,
                 filesUploaded: self.props.filesUploaded,
                 uploadFunction: self.props.uploadFunction,
                 onUploadEdiphyResource: self.props.onUploadEdiphyResource,
@@ -59,6 +68,7 @@ export default function menus(self) {
             component: MyFilesComponent,
             props: {
                 ...commonProps,
+                elementSelectedType: self.state.type,
                 pdfSelected: self.state.pdfSelected,
                 filesUploaded: self.props.filesUploaded,
                 onNavItemsAdded: self.props.onNavItemsAdded,
@@ -77,10 +87,39 @@ export default function menus(self) {
         {
             name: 'VISH',
             icon: VISHIcon,
-            show: !(avatar) ? (allowedMIME) : false,
+            show: !(avatar) ? ((allowedMIME && allowedMIME !== 'csv') ? allowedMIME : false) : false,
             component: SearchVishComponent,
-            props: { ...commonProps,
+            props: { ...commonProps, elementSelectedType: self.state.type,
             },
+        },
+        {
+            name: 'Dropbox',
+            icon: DropboxIcon,
+            show: !(avatar) ? ((allowedMIME) ? allowedMIME : false) : false,
+            component: DropboxComponent,
+            props: {
+                ...commonProps,
+                isBusy: self.props.isBusy,
+                elementSelectedType: self.state.type,
+                allowedMIME,
+                pdfSelected: self.state.pdfSelected,
+                filesUploaded: self.props.filesUploaded,
+                uploadFunction: self.props.uploadFunction,
+            },
+        },
+        /* {
+         name: 'Google',
+         icon: SoundCloudIcon,
+         show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
+         component: GoogleDriveComponent,
+         props: { ...commonProps },
+         },*/
+        {
+            name: 'Youtube',
+            icon: YoutubeIcon,
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('video')),
+            component: YoutubeComponent,
+            props: { ...commonProps },
         },
         {
             name: 'Flickr',
@@ -98,13 +137,6 @@ export default function menus(self) {
             props: { ...commonProps,
             },
         },
-        {
-            name: 'Youtube',
-            icon: YoutubeIcon,
-            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('video')),
-            component: YoutubeComponent,
-            props: { ...commonProps },
-        },
         /* {
             name: 'Phet',
             icon: YoutubeIcon,
@@ -112,26 +144,53 @@ export default function menus(self) {
             component: PhetComponent,
             props: { ...commonProps },
         },*/
-        /* {
+        /*      {
             name: 'Giphy',
             icon: GiphyIcon,
             show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
             component: GiphyComponent,
             props: { ...commonProps },
         },*/
-        /* {
+        {
             name: 'SoundCloud',
             icon: SoundCloudIcon,
-            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('video')),
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('audio')),
             component: SoundCloudComponent,
             props: { ...commonProps },
         },
+        // {
+        //     name: 'AudioBlocks',
+        //     icon: AudioBlocksIcon,
+        //     show: (allowedMIME === "*" || allowedMIME.match('audio')),
+        //     component: AudioBlocksComponent
+        // },
         {
             name: 'OpenClipArt',
             icon: OpenClipArtIcon,
             show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
             component: OpenClipArtComponent,
             props: { ...commonProps },
-        },*/
+        },
+        /* {
+          name: 'Thingiverse',
+          icon: ThingiverseIcon,
+          show: (allowedMIME === "*" || allowedMIME.match('application')),
+          component: ThingiverseComponent,
+          props: { ...commonProps },
+      }*/
+        {
+            name: 'Google Poly',
+            icon: PolyIcon,
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('webapp')),
+            component: PolyComponent,
+            props: { ...commonProps },
+        },
+        {
+            name: 'Avatar',
+            icon: LogoIcon,
+            show: (avatar),
+            component: LogoComponent,
+            props: { ...commonProps },
+        },
     ];
 }

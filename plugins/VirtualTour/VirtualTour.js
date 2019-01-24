@@ -31,13 +31,13 @@ export function VirtualTour(base) {
                 initialHeight: '250px',
                 initialHeightSlide: '60%',
                 isRich: true,
-                marksType: [{
+                marksType: {
                     name: i18n.t('VirtualTour.Coords'),
                     key: 'value',
                     format: '[Lat,Lng]',
                     default: '40.452,-3.727',
                     defaultColor: '#000002',
-                }],
+                },
                 needsPointerEventsAllowed: true,
                 // limitToOneInstance: true,
             };
@@ -169,20 +169,20 @@ export function VirtualTour(base) {
             let cfg = state.config;
             return Math.round(cfg.lat * 100000) / 100000 + ',' + Math.round(cfg.lng * 100000) / 100000;
         },
-        parseRichMarkInput: function(...value) {
-            let state = value[5];
-            if (!window.google || !window.navigator.onLine || !window.mapList[value[6] || state.num]) {
+        parseRichMarkInput: function(x, y, width, height, toolbarState, boxId) {
+            let state = toolbarState;
+            if (!window.google || !window.navigator.onLine || !window.mapList[boxId || state.num]) {
                 return '0,0';
             }
-            let clickX = value[0] + 12;
-            let clickY = value[1] + 26;
+            let clickX = x + 12;
+            let clickY = y + 26;
             let latCenter = state.config.lat;
             let lngCenter = state.config.lng;
             let zoom = state.config.zoom;
             let num = state.num;
 
             let maps = window.google.maps;
-            let map = window.mapList[value[6] || state.num];
+            let map = window.mapList[boxId || state.num];
             let topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
             let bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
             let scale = Math.pow(2, map.getZoom());

@@ -25,9 +25,9 @@ export default class VisorPluginPlaceholder extends Component {
                 Object.assign({}, {
                     width: "100%",
                     height: container.height === 'auto' ? container.height : container.height + 'px',
-                    minHeight: '35px',
+                    minHeight: '2em',
                     textAlign: 'center',
-                    lineHeight: '100%',
+                    // lineHeight: '100%',
                     boxSizing: 'border-box',
                     position: 'relative',
                     display: 'table',
@@ -53,6 +53,7 @@ export default class VisorPluginPlaceholder extends Component {
                                                 toolbars={this.props.toolbars}
                                                 fromScorm={this.props.fromScorm}
                                                 marks={this.props.allMarks}
+                                                show={this.props.show}
                                                 onMarkClicked={this.props.onMarkClicked}
                                                 richElementsState={this.props.richElementsState}/>);
 
@@ -76,6 +77,10 @@ export default class VisorPluginPlaceholder extends Component {
 
 VisorPluginPlaceholder.propTypes = {
     /**
+   * Show the current view
+   */
+    show: PropTypes.bool,
+    /**
    * Plugins container name
    */
     pluginContainer: PropTypes.string,
@@ -96,7 +101,7 @@ VisorPluginPlaceholder.propTypes = {
      */
     boxLevelSelected: PropTypes.any,
     /**
-     * Cambia la vista actual
+     * Changes current view
      */
     changeCurrentView: PropTypes.func,
     /**
@@ -104,11 +109,11 @@ VisorPluginPlaceholder.propTypes = {
      */
     fromScorm: PropTypes.bool,
     /**
-     * Diccionario que contiene todas las toolbars
+     * Contains all toolbars
      */
     toolbars: PropTypes.object,
     /**
-     * Estado del plugin enriquecido en la transición
+     * Rich plugin state during transition
      */
     richElementsState: PropTypes.object,
     /**

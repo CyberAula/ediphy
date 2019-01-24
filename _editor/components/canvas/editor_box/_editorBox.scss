@@ -1,6 +1,8 @@
 @import "../../../../sass/general/_variables.scss";
 @import "../../../../sass/general/mixins/_mixins.scss";
 
+
+
 /*Resize box squares*/
 .helpersResizable {
     border: 1px solid #777;
@@ -14,6 +16,7 @@
     width: 100%;
     height: 100%;
     line-height: normal;
+    //font-size: 14px;
 }
 
 .boxStyle {
@@ -68,6 +71,9 @@
   height: 40px;
   margin-top: -40px;
   .editorTitleButton {
+     i{
+       vertical-align: top;
+     }
     background-color: #bababa !important;
     &:hover {
       background-color: $blueprimary !important;

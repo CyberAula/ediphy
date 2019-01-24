@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Picker from 'rc-color-picker';
 import './../../../../node_modules/rc-color-picker/assets/index.css';
 import './color_picker_input.scss';
+import { toColor } from '../../../../common/common_tools';
 /**
  * React input color component
  */
@@ -59,13 +60,7 @@ export default class ColorPicker extends Component {
      * @returns {object}
      */
     internalFormat(rgba) {
-        let regex = /rgba\((\d+),(\d+),(\d+),(.+)\)/;
-        let oldColor = regex.exec(rgba);
-        if(oldColor && oldColor.length > 0) {
-            let newColor = '#' + this.rgbtoHex(oldColor[1]) + this.rgbtoHex(oldColor[2]) + this.rgbtoHex(oldColor[3]);
-            return { newColor: newColor, alpha: oldColor[4] * 100 };
-        }
-        return { newColor: rgba, alpha: 100 };
+        return toColor(rgba);
     }
 
     /**
@@ -90,23 +85,16 @@ export default class ColorPicker extends Component {
      * @param n R, G or B part or the color
      * @returns {*} Two digits corresponding to the hex value of the color part
      */
-    rgbtoHex(n) {
-        n = parseInt(n, 10);
-        if (isNaN(n)) {return "00";}
-        n = Math.max(0, Math.min(n, 255));
-        let num = "0123456789ABCDEF".charAt((n - n % 16) / 16)
-            + "0123456789ABCDEF".charAt(n % 16);
-        return num;
-    }
+
 }
 
 ColorPicker.propTypes = {
     /**
-     * Valor del color seleccionado
+     * Value of the selected color
      */
     value: PropTypes.string.isRequired,
     /**
-     * Cambia el color seleccionado
+     * Changes the selected color
      */
     onChange: PropTypes.func.isRequired,
 };
