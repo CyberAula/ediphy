@@ -80,7 +80,7 @@ export default class EditorCanvasSli extends Component {
                             e.stopPropagation();
                         }}
                         className={'innercanvas sli'}
-                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: isColor ? toolbar.background : '',
+                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: isColor ? toolbar.background : '', zIndex: '0',
                             backgroundImage: (!isColor && toolbar && toolbar.background) ? 'url(' + toolbar.background + ')' : '',
                             backgroundSize: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'repeat')) ? 'auto 100%' : 'cover',
                             backgroundRepeat: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full')) ? 'no-repeat' : 'repeat',
