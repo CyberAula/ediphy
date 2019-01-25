@@ -947,7 +947,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                         ControlLabel,
                         { key: 'label_zoom' },
                         i18n.t('background.background_zoom')),
-                    <span className="rangeOutput" style={{ marginTop: 0 }}>{background_attr_zoom}</span>,
+                    <span className="rangeOutput" style={{ marginTop: 0 }}>{background_attr_zoom}%</span>,
                     <input key="image_display_zoom" name='image_display_zoom' type='range' min={1} max={200} value={ background_attr_zoom} style={{ display: isColor ? "none" : "block" }} onChange={props.onChange} />,
                 ], <br/>,
                 React.createElement(
