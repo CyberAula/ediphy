@@ -86,7 +86,7 @@ export default class EditorCanvasSli extends Component {
                             backgroundRepeat: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full')) ? 'no-repeat' : 'repeat',
                             backgroundPosition: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full')) ? 'center center' : '0% 0%' }}>
                         {this.state.alert}
-                        {gridOn ? <div onClick={()=>{this.props.onBoxSelected(-1);}}><SnapGrid key={this.props.fromCV}/></div> : null}
+                        {gridOn ? <div style={{ zIndex: '-1' }} onClick={()=>{this.props.onBoxSelected(-1);}}><SnapGrid key={this.props.fromCV}/></div> : null}
                         <EditorHeader titles={titles}
                             onBoxSelected={this.props.onBoxSelected}
                             courseTitle={this.props.title}
