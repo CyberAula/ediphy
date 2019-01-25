@@ -279,8 +279,4 @@ MarkCreator.propTypes = {
      * Type of current page
      */
     pageType: PropTypes.string.isRequired,
-    /**
-     * Show / Hide marks editing modal
-     */
-    onRichMarksModalToggled: PropTypes.func.isRequired,
 };

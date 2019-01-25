@@ -136,12 +136,12 @@ export default class VisorPlayer extends Component {
     }
 
     getCurrentNavItem(ids) {
-        return ids.reduce(e=>{
-            if (isPage(e)) {
-                return e;
+        for (let id of ids) {
+            if (isPage(id)) {
+                return id;
             }
-            return null;
-        });
+        }
+        return null;
     }
 
     checkFullScreen() {
