@@ -610,8 +610,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     value = { background: e.currentTarget.value, backgroundAttr: 'full', backgroundZoom: 100 };
                 }
                 // console.log(button, e.target.name)
-                if (e.target.name === "image_display_zoom") {
-
+                if (e.target && e.target.name === "image_display_zoom") {
                     value = { background: button.value.background, backgroundAttr: (toolbar_props.viewToolbars[id].backgroundAttr) ? toolbar_props.viewToolbars[id].backgroundAttr : 'repeat', backgroundZoom: e.target.value };
                 }
                 if (e.target && e.target.files) {
