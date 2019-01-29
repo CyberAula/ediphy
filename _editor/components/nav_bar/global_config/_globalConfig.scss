@@ -130,6 +130,11 @@ textarea#descTA{
 	}
 }
 
+.aspectRatioGroup {
+  display: flex;
+  flex-direction: row;
+}
+
 .allowance{
   a {
   margin-bottom: 4px;

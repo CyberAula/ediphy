@@ -286,24 +286,25 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.aspect_ratio')}</ControlLabel><br/>
-                                        <Radio name="radioGroup" inline checked={canvasRatio === 16 / 9 } onChange={e => {this.setState({ modifiedState: true, canvasRatio: 16 / 9 });}}>
-                                            16/9
-                                        </Radio>
-                                        {' '}
-                                        <Radio name="radioGroup" inline checked={canvasRatio === 4 / 3 } onChange={e => {this.setState({ modifiedState: true, canvasRatio: 4 / 3 });}}>
-                                            4/3
-                                        </Radio>
+                                        <div className={"aspectRatioGroup"}>
+                                            <Radio name="radioGroup" inline checked={canvasRatio === 16 / 9 } onChange={e => {this.setState({ modifiedState: true, canvasRatio: 16 / 9 });}}>
+                                                16/9
+                                            </Radio>
+                                            <Radio name="radioGroup" inline checked={canvasRatio === 4 / 3 } onChange={e => {this.setState({ modifiedState: true, canvasRatio: 4 / 3 });}}>
+                                                4/3
+                                            </Radio>
+
+                                        </div>
+
                                     </FormGroup>
-                                    <FormGroup>
+                                    <FormGroup className={"allowance"}>
                                         <ControlLabel>{i18n.t('global_config.visor_nav.title')}</ControlLabel><br/>
                                         <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, player: !visorNav.player, fixedPlayer: false } });}} checked={visorNav.player}/>
-                                        { i18n.t('global_config.visor_nav.player') }&nbsp;&nbsp;&nbsp;&nbsp;
+                                        { i18n.t('global_config.visor_nav.player') } <br/>
                                         <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, sidebar: !visorNav.sidebar } });}} checked={visorNav.sidebar}/>
-                                        { i18n.t('global_config.visor_nav.sidebar') }
-                                    </FormGroup>
-                                    <FormGroup>
+                                        { i18n.t('global_config.visor_nav.sidebar') } <br/>
                                         <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, fixedPlayer: !visorNav.fixedPlayer } });}} checked={visorNav.fixedPlayer}/>
-                                        { i18n.t('global_config.visor_nav.fixedPlayer') }
+                                        { i18n.t('global_config.visor_nav.fixedPlayer') } <br/>
                                         <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, keyBindings: !visorNav.keyBindings } });}} checked={visorNav.keyBindings}/>
                                         { i18n.t('global_config.visor_nav.keybindings') }
                                     </FormGroup>
