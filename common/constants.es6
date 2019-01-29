@@ -35,3 +35,10 @@ export const extensions = [
     'edi',
     'vish',
 ];
+
+export const MESSAGE_TYPES = {
+    NOTIFICATION: "notification",
+    FAVOR: "favor",
+};
+
+MESSAGE_TYPES.NOTIFICATION;

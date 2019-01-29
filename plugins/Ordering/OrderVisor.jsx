@@ -8,6 +8,7 @@ export default class OrderVisor extends React.Component {
         super(props);
         this.state = {
             positions: this.generateRandomPositions(this.props.state.nBoxes),
+            initiallyAttempted: this.props.props.exercises && this.props.props.exercises.attempted,
         };
     }
     render() {
@@ -103,7 +104,7 @@ export default class OrderVisor extends React.Component {
         // list.sortable("refresh");
         let prevAttempted = nextProps.props.exercises && nextProps.props.exercises.attempted;
         let attempted = this.props.props.exercises && this.props.props.exercises.attempted;
-        if (!prevAttempted && attempted) {
+        if (!prevAttempted && attempted && !this.state.initiallyAttempted) {
             list.sortable("destroy");
         }
     }
