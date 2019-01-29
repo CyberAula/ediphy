@@ -1,4 +1,5 @@
 # Ediphy Editor
+[![Build Status](https://travis-ci.org/ging/ediphy.svg?branch=master)](https://travis-ci.org/ging/ediphy)
 
 **Ediphy Editor** is an open source e-learning authoring tool to create different types of resources (web documents, slides and more coming up soon).
 
