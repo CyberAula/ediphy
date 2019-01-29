@@ -8,7 +8,6 @@ export default class OrderVisor extends React.Component {
         super(props);
         this.state = {
             positions: this.generateRandomPositions(this.props.state.nBoxes),
-            initializedSortable: false,
         };
     }
     render() {
@@ -104,9 +103,8 @@ export default class OrderVisor extends React.Component {
         // list.sortable("refresh");
         let prevAttempted = nextProps.props.exercises && nextProps.props.exercises.attempted;
         let attempted = this.props.props.exercises && this.props.props.exercises.attempted;
-        if (!prevAttempted && attempted && this.state.initializedSortable) {
+        if (!prevAttempted && attempted && list && list.sortable("instance")) {
             list.sortable("destroy");
-            this.setState({ initializedSortable: false });
         }
     }
     componentDidMount() {
@@ -144,7 +142,6 @@ export default class OrderVisor extends React.Component {
                         window.dispatchEvent(ev);
                     },
                 });
-                this.setState({ initializedSortable: true });
                 this.props.props.setAnswer(this.state.positions);
             }, 50);
 
@@ -155,8 +152,7 @@ export default class OrderVisor extends React.Component {
         let id = this.props.props.id + "-" + "sortable";
         let list = $("#" + id);
         let attempted = this.props.props.exercises && this.props.props.exercises.attempted;
-        if (!attempted && this.state.initializedSortable) {
-            list.sortable("destroy");
+        if (!attempted && list && list.sortable("instance")) {
             this.setState({ initializedSortable: false });
 
         }
