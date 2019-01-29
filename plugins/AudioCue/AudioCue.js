@@ -28,7 +28,7 @@ export function AudioCue(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: 'Config',
+                            __name: i18n.t('AudioCue.config'),
                             icon: 'build',
                             buttons: {
                                 url: {

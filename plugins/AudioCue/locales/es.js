@@ -1,6 +1,7 @@
 
 module.exports = {
     "AudioCue": {
+        "config": "Configuración",
         "PluginName": "Sonido",
         "AutoPlay": "Reproducir automáticamente",
         "URL": "URL del audio",
