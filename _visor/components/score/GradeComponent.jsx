@@ -36,7 +36,7 @@ export default class ScormComponent extends Component {
                 this.timer = 500;
             }
         } else {
-            this.timer = 30;
+            this.timer = 3;
         }
         this.timer *= 1000;
     }
