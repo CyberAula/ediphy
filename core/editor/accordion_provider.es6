@@ -590,24 +590,28 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
             if (button.type === 'background_picker') {
                 if(e.color) {
-                    value = { background: e.color, backgroundAttr: 'full' };
+                    value = { background: e.color, backgroundAttr: 'full', backgroundZoom: 100 };
                     if (!value) {
                         return;
                     }
                 }
 
                 if(e.target && e.target.type === "radio") {
-                    value = { background: button.value.background, backgroundAttr: e.target.value };
+                    value = { background: button.value.background, backgroundAttr: e.target.value, backgroundZoom: 100 };
                 }
 
                 if(e.target && e.target.type === "text") {
                     value = { background: e.target.value, backgroundAttr: 'full' };
                 }
                 if(e.value) {
-                    value = { background: e.value, backgroundAttr: (button.value && button.value.backgroundAttr) ? button.value.backgroundAttr : 'full' };
+                    value = { background: e.value, backgroundAttr: (button.value && button.value.backgroundAttr) ? button.value.backgroundAttr : 'full', backgroundZoom: 100 };
                 }
                 if(e.currentTarget && e.currentTarget.type === "button") {
-                    value = { background: e.currentTarget.value, backgroundAttr: 'full' };
+                    value = { background: e.currentTarget.value, backgroundAttr: 'full', backgroundZoom: 100 };
+                }
+                // console.log(button, e.target.name)
+                if (e.target && e.target.name === "image_display_zoom") {
+                    value = { background: button.value.background, backgroundAttr: (toolbar_props.viewToolbars[id].backgroundAttr) ? toolbar_props.viewToolbars[id].backgroundAttr : 'repeat', backgroundZoom: e.target.value };
                 }
                 if (e.target && e.target.files) {
                     if(e.target.files.length === 1) {
@@ -620,7 +624,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                 let canvas = document.createElement('canvas');
                                 let ctx = canvas.getContext('2d');
                                 ctx.drawImage(img, 0, 0, 1200, 1200);
-                                handlecanvasToolbar(buttonKey, { background: data, backgroundAttr: 'full' }, accordion, toolbar_props);
+                                handlecanvasToolbar(buttonKey, { background: data, backgroundAttr: 'full', backgroundZoom: 100 }, accordion, toolbar_props);
                             };
                             img.src = data;
                         };
@@ -650,7 +654,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             }
 
             // toolbar_props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
-
             if (toolbar_props.boxSelected === -1) {
                 handlecanvasToolbar(buttonKey, value, accordion, toolbar_props, buttonKey);
             } else if (currentElement === '__score') {
@@ -871,6 +874,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         let default_background = "#ffffff";
         let isSli = isSlide(toolbar_props.navItems[id].type);
         let background_attr = toolbar_props.viewToolbars[id].backgroundAttr;
+        let background_attr_zoom = toolbar_props.viewToolbars[id].backgroundZoom === undefined ? 100 : toolbar_props.viewToolbars[id].backgroundZoom;
         return React.createElement(
             FormGroup,
             { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
@@ -938,6 +942,14 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                         (!isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display', checked: background_attr === 'centered', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'centered' }, i18n.t('background.centered')),
                     ]
                 ),
+                (!isColor && background_attr !== "full") && [
+                    React.createElement(
+                        ControlLabel,
+                        { key: 'label_zoom' },
+                        i18n.t('background.background_zoom')),
+                    <span className="rangeOutput" style={{ marginTop: 0 }}>{background_attr_zoom}%</span>,
+                    <input key="image_display_zoom" name='image_display_zoom' type='range' min={1} max={200} value={ background_attr_zoom} style={{ display: isColor ? "none" : "block" }} onChange={props.onChange} />,
+                ], <br/>,
                 React.createElement(
                     ControlLabel,
                     { key: 'label_' + button.__name },

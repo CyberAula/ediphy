@@ -79,7 +79,7 @@ export default class VisorCanvasSli extends Component {
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'),
                             background: isColor ? toolbar.background : '',
                             backgroundImage: !isColor ? 'url(' + toolbar.background + ')' : '',
-                            backgroundSize: toolbar.backgroundAttr === 'full' ? 'cover' : 'auto 100%',
+                            backgroundSize: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'repeat')) ? (toolbar.backgroundZoom !== undefined ? (toolbar.backgroundZoom + '%') : '100%') : 'cover',
                             backgroundRepeat: toolbar.backgroundAttr === 'centered' ? 'no-repeat' : 'repeat',
                             backgroundPosition: toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full' ? 'center center' : '0% 0%' }}>
                         {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>

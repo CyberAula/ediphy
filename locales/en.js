@@ -12,6 +12,7 @@ let en = {
             "background": "Background",
             "background_color": "Change color",
             "background_image": "Background image",
+            "background_zoom": "Background zoom",
             "reset_background": "Restore background",
             "background_input_url": "URL Image",
             "cover": "Cover page",

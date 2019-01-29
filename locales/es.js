@@ -12,6 +12,7 @@ let es = {
             "background": "Fondo",
             "background_color": "Cambiar color",
             "background_image": "Imagen de fondo",
+            "background_zoom": "Zoom del fondo",
             "reset_background": "Restablecer",
             "background_input_url": "Imágen URL",
             "cover": "Cubrir página",
