@@ -299,11 +299,11 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup className={"allowance"}>
                                         <ControlLabel>{i18n.t('global_config.visor_nav.title')}</ControlLabel><br/>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, player: !visorNav.player, fixedPlayer: false } });}} checked={visorNav.player}/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, player: !visorNav.player, fixedPlayer: !visorNav.player } });}} checked={visorNav.player}/>
                                         { i18n.t('global_config.visor_nav.player') } <br/>
                                         <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, sidebar: !visorNav.sidebar } });}} checked={visorNav.sidebar}/>
                                         { i18n.t('global_config.visor_nav.sidebar') } <br/>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, fixedPlayer: !visorNav.fixedPlayer } });}} checked={visorNav.fixedPlayer}/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, fixedPlayer: !visorNav.fixedPlayer } });}} disabled={!visorNav.player} checked={visorNav.fixedPlayer}/>
                                         { i18n.t('global_config.visor_nav.fixedPlayer') } <br/>
                                         <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, keyBindings: !visorNav.keyBindings } });}} checked={visorNav.keyBindings}/>
                                         { i18n.t('global_config.visor_nav.keybindings') }
