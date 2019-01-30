@@ -98,7 +98,7 @@ export default class OrderVisor extends React.Component {
         return this.shuffle(a);
     }
     componentDidUpdate(nextProps, nextState) {
-        let id = this.props.props.id + "-" + "sortab''le";
+        let id = this.props.props.id + "-" + "sortable";
         let list = $("#" + id);
         // list.sortable("refresh");
         let prevAttempted = nextProps.props.exercises && nextProps.props.exercises.attempted;
