@@ -32,6 +32,10 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
+      
+      .template_item{
+        cursor: pointer;
+      }
     }
   }
 
