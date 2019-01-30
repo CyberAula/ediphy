@@ -80,29 +80,14 @@ export default class Visor extends Component {
                 }
             };
         }
-
     }
 
     setHoverClass() {
-
-        // let items = document.getElementsByClassName("hoverPlayerSelector");
-        //
-        // for (let i = 0; i < items.length; i++){
-        //     items[i].className = items[i].className + ' hoverPlayerOn';
-        // }
         this.setState({ mouseOnPlayer: true });
     }
 
     deleteHoverClass() {
-        // let items = document.getElementsByClassName("hoverPlayerSelector");
-        // for (let i = 0; i < items.length; i++){
-        //     if (items[i].className.includes('hoverPlayerOn')){
-        //         items[i].className = items[i].className.replace('hoverPlayerOn', '');
-        //     }
-        // }
-
         this.setState({ mouseOnPlayer: false });
-
     }
 
     _onMouseMove(e) {
@@ -177,7 +162,6 @@ export default class Visor extends Component {
     }
 
     componentDidMount() {
-
         /*
         * Add Key bindings to app
         * */
@@ -301,6 +285,9 @@ export default class Visor extends Component {
                         <Row style={{ height: vishPlayer ? 'calc(100% - 38px)' : '100%' }}>
                             <Col lg={12} style={{ height: '100%', paddingLeft: '0px', paddingRight: '0px' }}>
                                 <ScormComponent
+                                    fadePlayerClass={visorNavButtonClass}
+                                    setHover={this.setHoverClass}
+                                    deleteHover = {this.deleteHoverClass}
                                     updateScore={(scoreInfo)=>{this.setState({ scoreInfo });}}
                                     navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}
                                     containedViews={containedViewsById}

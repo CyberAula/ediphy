@@ -79,7 +79,12 @@ export default class ScormComponent extends Component {
                 submitPage: this.submitPage,
                 exercises: this.state.exercises }));
         return [...childrenWithProps, this.props.globalConfig.hideGlobalScore ? null : null,
-            <GlobalScore key="-1" scoreInfo={scoreInfo} show={!globalConfig.hideGlobalScore && !globalConfig.visorNav.sidebar}/>,
+            <GlobalScore key="-1"
+                scoreInfo={scoreInfo}
+                fadePlayerClass={this.props.fadePlayerClass}
+                setHover={this.props.setHover}
+                deleteHover = {this.props.deleteHover}
+                show={!globalConfig.hideGlobalScore && !globalConfig.visorNav.sidebar}/>,
         ];
 
     }
@@ -284,4 +289,16 @@ ScormComponent.propTypes = {
     * Boxes toolbars
     */
     pluginToolbars: PropTypes.object,
+    /**
+     * CSS class used to hide player when mouse stops moving
+     */
+    fadePlayerClass: PropTypes.string,
+    /**
+     * Function that allows to add the hover class to the player and the arrow tab
+     */
+    setHover: PropTypes.func,
+    /**
+     * Function that allows to delete the hover class in he player and the arrow tab
+     */
+    deleteHover: PropTypes.func,
 };
