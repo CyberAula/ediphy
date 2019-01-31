@@ -575,6 +575,9 @@ let components = {
         "exercises": "Objeto que contiene toda la información relativa a ejercicios",
         "updateScore": "Función para actualizar la puntuación",
         "pluginToolbars": "Objeto que contiene todas las toolbars de las cajas",
+        "fadePlayerClass": "Clase CSS usada para esconder la navegación cuando se deja de mover el cursor",
+        "setHover": "Función para añadir la clase de hover en la navegación",
+        "deleteHover": "Función para eliminar la clase de hover en la navegación",
     },
     "FlickrComponent": {
         "elementSelected": "Elemento seleccionado para insertar en el documento",
@@ -709,6 +712,9 @@ let components = {
     "GlobalScore": {
         "scoreInfo": "Objeto que contiene información acerca de la puntuación global del curso",
         "show": "Indica si se debe mostrar la puntuación",
+        "fadePlayerClass": "Función CSS usada para ocultar la puntuación cuando se deja de mover el cursor",
+        "setHover": "Función para añadir la clase de hover en la navegación",
+        "deleteHover": "Función para eliminar la clase de hover en la navegación",
     },
     "GridConfigurator": {
         "id": "Identificador del elemento del DOM",
