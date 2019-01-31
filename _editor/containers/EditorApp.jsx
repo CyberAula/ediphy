@@ -558,7 +558,7 @@ class EditorApp extends Component {
                     boxSelected={boxSelected}
                     boxes={boxes}
                     isBusy={isBusy}
-                    importEdi={(state) => dispatch(importEdi(state))}
+                    importEdi={(state) => dispatch(serialize(importEdi(state)))}
                     fileModalResult={this.state.fileModalResult}
                     navItemsIds={navItemsIds}
                     navItems={navItems}
