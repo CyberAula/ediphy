@@ -35,6 +35,8 @@ export default class ViewToolbar extends Component {
             doc_type = i18n.t('section');
         }
         let viewToolbar = this.props.viewToolbars[id];
+        console.log('viewToolbar props');
+        console.log(viewToolbar);
         let controls = {
             main: {
                 __name: "Main",
@@ -98,6 +100,13 @@ export default class ViewToolbar extends Component {
                                 type: 'background_picker',
                                 value: { background: viewToolbar.background, backgroundAttr: viewToolbar.background_attr } || { background: "#ffffff", backgroundAttr: "full" },
                             },
+
+                            theme: {
+                                __name: '&&Theme',
+                                type: 'select',
+                                options: ['test1', 'test2', 'test3', 'test4'],
+                                value: viewToolbar.theme,
+                            },
                         },
                     },
                     __score: {
@@ -157,6 +166,8 @@ export default class ViewToolbar extends Component {
                 <div key={'key_' + index} className="toolbarTab">
                     <PanelGroup id="panel-group">
                         {Object.keys(tab.accordions).sort().map((accordionKey, ind) => {
+                            console.log('props');
+                            console.log(this.props);
                             return renderAccordion(
                                 tab.accordions[accordionKey],
                                 tabKey,

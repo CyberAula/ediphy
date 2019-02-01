@@ -427,6 +427,9 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
      */
 export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key, toolbar_props) {
     let button = accordion.buttons[buttonKey];
+
+    console.log('The button is:');
+    console.log(button);
     let children = null;
 
     let id = (toolbar_props.boxSelected !== -1) ?
@@ -545,7 +548,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                         value = button.max;
                     }
                 }
-
             }
 
             if (button.type === 'checkbox') {

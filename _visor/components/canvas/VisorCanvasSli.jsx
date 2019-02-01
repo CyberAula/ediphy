@@ -11,6 +11,9 @@ import ReactResizeDetector from 'react-resize-detector';
 import { isContainedView, isView } from '../../../common/utils';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
+
+import './themes.css';
+
 export default class VisorCanvasSli extends Component {
     constructor(props) {
         super(props);
@@ -29,6 +32,9 @@ export default class VisorCanvasSli extends Component {
         let itemSelected = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         let isCV = !isView(this.props.currentView);
         let toolbar = this.props.viewToolbars[this.props.currentView];
+
+        console.log('The toolbar is:');
+        console.log(toolbar);
 
         if (itemSelected !== 0 && !isCV) {
             let title = this.props.viewToolbars[this.props.currentView].viewName;
@@ -75,7 +81,7 @@ export default class VisorCanvasSli extends Component {
                     }}>
 
                     <div id={isCV ? "contained_maincontent" : "maincontent"}
-                        className={'innercanvas sli'}
+                        className={'innercanvas sli ' + toolbar.theme}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'),
                             background: isColor ? toolbar.background : '',
                             backgroundImage: !isColor ? 'url(' + toolbar.background + ')' : '',

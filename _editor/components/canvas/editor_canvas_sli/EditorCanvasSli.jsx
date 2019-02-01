@@ -15,6 +15,9 @@ import ReactResizeDetector from 'react-resize-detector';
 import i18n from 'i18next';
 import { SnapGrid } from './SnapGrid';
 import { ID_PREFIX_BOX } from '../../../../common/constants';
+
+import './../../../../common/themes/themes.scss';
+
 /**
  * EditorCanvasSli component
  * Canvas component to display slides
@@ -79,7 +82,7 @@ export default class EditorCanvasSli extends Component {
 
                             e.stopPropagation();
                         }}
-                        className={'innercanvas sli'}
+                        className={'innercanvas sli ' + toolbar.theme}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: isColor ? toolbar.background : '', zIndex: '0',
                             backgroundImage: (!isColor && toolbar && toolbar.background) ? 'url(' + toolbar.background + ')' : '',
                             backgroundSize: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'repeat')) ? (toolbar.backgroundZoom !== undefined ? (toolbar.backgroundZoom + '%') : '100%') : 'cover',
