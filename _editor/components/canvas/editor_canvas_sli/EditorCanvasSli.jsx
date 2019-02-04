@@ -17,6 +17,7 @@ import { SnapGrid } from './SnapGrid';
 import { ID_PREFIX_BOX } from '../../../../common/constants';
 
 import { loadTheme } from '../../../../common/themes/theme_loader';
+import { loadBackground } from "../../../../common/themes/background_loader";
 
 import './../../../../common/themes/themes.scss';
 
@@ -61,6 +62,7 @@ export default class EditorCanvasSli extends Component {
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if(toolbar.theme) {
             loadTheme(toolbar.theme);
+            let defaultBackground = loadBackground(toolbar.theme);
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
@@ -90,8 +92,8 @@ export default class EditorCanvasSli extends Component {
                             e.stopPropagation();
                         }}
                         className={'innercanvas sli ' + toolbar.theme}
-                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: isColor ? toolbar.background : '', zIndex: '0',
-                            backgroundImage: (!isColor && toolbar && toolbar.background) ? 'url(' + toolbar.background + ')' : '',
+                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: isColor ? toolbar.background : loadBackground(toolbar.theme), zIndex: '0',
+                            backgroundImage: (!isColor && toolbar && toolbar.background) ? 'url(' + toolbar.background + ')' : loadBackground(toolbar.theme),
                             backgroundSize: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'repeat')) ? (toolbar.backgroundZoom !== undefined ? (toolbar.backgroundZoom + '%') : '100%') : 'cover',
                             backgroundRepeat: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full')) ? 'no-repeat' : 'repeat',
                             backgroundPosition: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full')) ? 'center center' : '0% 0%' }}>

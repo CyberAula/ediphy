@@ -3,9 +3,15 @@ import loadFont from './font_loader';
 export const THEMES = {
     default: {
         fonts: 'Ubuntu',
+        background: [
+            "light-grey",
+        ],
     },
     orange: {
         fonts: 'Merriweather',
+        background: [
+            'url("/themes/orange/background_images/orange0.jpg")',
+        ],
     },
     test0: {
         fonts: 'Indie Flower',
