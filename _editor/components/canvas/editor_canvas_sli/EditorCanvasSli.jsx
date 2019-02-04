@@ -62,13 +62,15 @@ export default class EditorCanvasSli extends Component {
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if(toolbar.theme) {
             loadTheme(toolbar.theme);
-            let defaultBackground = loadBackground(toolbar.theme);
         }
+        console.log('rendering...');
+        console.log(toolbar);
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
         let backgroundIsUri = toolbar && (/data\:/).test(toolbar.background);
         let isColor = toolbar && (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(toolbar.background);
+        console.log('Is it color ? ' + isColor);
         let gridOn = this.props.grid && ((this.props.containedViewSelected !== 0) === this.props.fromCV);
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12}

@@ -12,6 +12,8 @@ import ColorPicker from "../../_editor/components/common/color-picker/ColorPicke
 import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/APIProviders/common/ToolbarFileProvider";
 /* eslint-disable react/prop-types */
 
+import { loadBackground } from "../../common/themes/background_loader";
+
 export function toolbarFiller(toolbar, id, state, config, initialParams, container, marks = null, exercises = {}) {
 
     if (isSortableBox(id)) {
@@ -860,7 +862,11 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     if (button.type === "background_picker") {
         let isURI = (/data\:/).test(props.value.background);
         let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background) || (/#/).test(props.value.background);
-        let default_background = "#ffffff";
+        let theme = toolbar_props.viewToolbars[id].theme ? toolbar_props.viewToolbars[id].theme : null;
+        console.log('THEME' + theme);
+        let default_background = (loadBackground(theme) !== '') ? loadBackground(theme) : "#ffffff";
+        console.log(default_background);
+
         let isSli = isSlide(toolbar_props.navItems[id].type);
         let background_attr = toolbar_props.viewToolbars[id].backgroundAttr;
         let background_attr_zoom = toolbar_props.viewToolbars[id].backgroundZoom === undefined ? 100 : toolbar_props.viewToolbars[id].backgroundZoom;

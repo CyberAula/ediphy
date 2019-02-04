@@ -4,7 +4,7 @@ export const THEMES = {
     default: {
         fonts: 'Ubuntu',
         background: [
-            "light-grey",
+            "white",
         ],
     },
     orange: {
