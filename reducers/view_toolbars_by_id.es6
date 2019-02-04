@@ -41,7 +41,7 @@ function toolbarElementCreator(state, action, containedView = false) {
     // name =nextAvailName(name, state, 'viewName');
     let background = action.payload.background ? action.payload.background.background : "#ffffff";
     let backgroundAttr = action.payload.background ? action.payload.background.backgroundAttr : "";
-    let theme = action.payload.theme ? action.payload.theme : 'test1';
+    let theme = action.payload.theme ? action.payload.theme : 'default';
     let toolbar = {
         id: id,
         breadcrumb: isSlide(type) ? 'hidden' : 'reduced',
@@ -58,7 +58,7 @@ function toolbarElementCreator(state, action, containedView = false) {
         aspectRatio: true,
         background: background || "#ffffff",
         backgroundAttr: backgroundAttr || "",
-        theme: theme || 'test1',
+        theme: theme || 'default',
     };
 
     return toolbar;

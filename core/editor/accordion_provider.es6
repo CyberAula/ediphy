@@ -242,13 +242,6 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         }
     }
 
-    /* } else {
-        let width = controls.main.accordions.__sortable.buttons.__width;
-        displayValue = width.displayValue;
-        value = width.value;
-        units = width.units;
-        type = width.type;
-    }*/
     controls.main.accordions.structure.buttons.width = {
         __name: i18n.t('Width'),
         type: type,
@@ -428,8 +421,6 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
 export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key, toolbar_props) {
     let button = accordion.buttons[buttonKey];
 
-    console.log('The button is:');
-    console.log(button);
     let children = null;
 
     let id = (toolbar_props.boxSelected !== -1) ?
@@ -469,12 +460,8 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
         },
         onChange: e => {
-            let value;
-            if (typeof e.target !== 'undefined') {
-                value = e.target.value;
-            } else {
-                value = e.value;
-            }
+            let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
+
             if (currentElement === 'structure' && (buttonKey === 'width' || buttonKey === 'height' || buttonKey === "aspectRatio")) {
                 let type = e.target.type;
                 if (!type && e.target.classList.contains('toggle-switch---toggle---mncCu')) {
@@ -1197,8 +1184,14 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
             numPage: pagenumber,
         });
         break;
+    case 'theme':
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            theme: value,
+        });
+        break;
     case 'weight':
         toolbar_props.onScoreConfig(toolbar_props.navItemSelected, 'weight', value);
+        break;
     default:
         break;
     }

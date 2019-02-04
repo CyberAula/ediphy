@@ -12,7 +12,7 @@ import { isContainedView, isView } from '../../../common/utils';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
 
-import './themes.css';
+import '../../../common/themes/themes.scss';
 
 export default class VisorCanvasSli extends Component {
     constructor(props) {
@@ -32,9 +32,6 @@ export default class VisorCanvasSli extends Component {
         let itemSelected = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         let isCV = !isView(this.props.currentView);
         let toolbar = this.props.viewToolbars[this.props.currentView];
-
-        console.log('The toolbar is:');
-        console.log(toolbar);
 
         if (itemSelected !== 0 && !isCV) {
             let title = this.props.viewToolbars[this.props.currentView].viewName;

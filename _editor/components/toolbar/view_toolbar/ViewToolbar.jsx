@@ -6,6 +6,7 @@ import { PanelGroup, Panel } from "react-bootstrap";
 import Ediphy from "../../../../core/editor/main";
 import './_viewToolbar.scss';
 import { renderAccordion } from "../../../../core/editor/accordion_provider";
+import { getThemes } from "../../../../common/themes/theme_loader";
 
 export default class ViewToolbar extends Component {
     constructor(props) {
@@ -27,22 +28,16 @@ export default class ViewToolbar extends Component {
             doc_type = i18n.t('slide');
         }
 
-        /* if(isDocument(type)) {
-            doc_type = i18n.t('document');
-        }*/
-
         if(isSection(id)) {
             doc_type = i18n.t('section');
         }
         let viewToolbar = this.props.viewToolbars[id];
-        console.log('viewToolbar props');
-        console.log(viewToolbar);
         let controls = {
             main: {
                 __name: "Main",
                 accordions: { // define accordions for section
                     __basic: {
-                        __name: "Generales",
+                        __name: "&&Generales",
                         icon: 'settings',
                         buttons: {
                             navitem_name: {
@@ -92,7 +87,7 @@ export default class ViewToolbar extends Component {
 
                     },
                     __background: {
-                        __name: "Fondo",
+                        __name: "&&Fondo",
                         icon: "crop_original",
                         buttons: {
                             background: {
@@ -104,7 +99,7 @@ export default class ViewToolbar extends Component {
                             theme: {
                                 __name: '&&Theme',
                                 type: 'select',
-                                options: ['test1', 'test2', 'test3', 'test4'],
+                                options: getThemes(),
                                 value: viewToolbar.theme,
                             },
                         },
@@ -166,8 +161,6 @@ export default class ViewToolbar extends Component {
                 <div key={'key_' + index} className="toolbarTab">
                     <PanelGroup id="panel-group">
                         {Object.keys(tab.accordions).sort().map((accordionKey, ind) => {
-                            console.log('props');
-                            console.log(this.props);
                             return renderAccordion(
                                 tab.accordions[accordionKey],
                                 tabKey,

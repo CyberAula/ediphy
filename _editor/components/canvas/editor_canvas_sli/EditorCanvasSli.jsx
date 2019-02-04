@@ -16,6 +16,8 @@ import i18n from 'i18next';
 import { SnapGrid } from './SnapGrid';
 import { ID_PREFIX_BOX } from '../../../../common/constants';
 
+import { loadTheme } from '../../../../common/themes/theme_loader';
+
 import './../../../../common/themes/themes.scss';
 
 /**
@@ -56,6 +58,11 @@ export default class EditorCanvasSli extends Component {
             actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
         }
         let toolbar = this.props.viewToolbars[itemSelected.id];
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if(toolbar.theme) {
+            loadTheme(toolbar.theme);
+        }
+
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
         let backgroundIsUri = toolbar && (/data\:/).test(toolbar.background);

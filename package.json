@@ -208,6 +208,7 @@
     "stl-viewer": "^0.7.0",
     "typeface-source-sans-pro": "0.0.44",
     "typeface-ubuntu": "0.0.44",
-    "universal-cookie": "^2.1.5"
+    "universal-cookie": "^2.1.5",
+    "webfontloader": "^1.6.28"
   }
 }
