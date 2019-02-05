@@ -1195,6 +1195,7 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     case 'theme':
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
             theme: value,
+            theme_background: 0,
         });
         break;
     case 'theme_background':

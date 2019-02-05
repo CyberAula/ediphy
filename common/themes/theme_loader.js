@@ -36,6 +36,8 @@ export const THEMES = {
         fonts: 'Anton',
         background: [
             'url(/themes/test3/background_images/test30.jpg)',
+            'url(/themes/test3/background_images/test30.jpg)',
+
         ],
     },
     test4: {
