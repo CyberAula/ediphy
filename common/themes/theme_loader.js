@@ -37,7 +37,7 @@ export const THEMES = {
         background: [
             'url(/themes/test3/background_images/test30.jpg)',
             'url(/themes/test3/background_images/test30.jpg)',
-
+            'orange',
         ],
     },
     test4: {

@@ -12,7 +12,7 @@ import ColorPicker from "../../_editor/components/common/color-picker/ColorPicke
 import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/APIProviders/common/ToolbarFileProvider";
 /* eslint-disable react/prop-types */
 
-import { loadBackground } from "../../common/themes/background_loader";
+import { loadBackground, getBackgroundIndex, isBackgroundColor, getBackground } from "../../common/themes/background_loader";
 
 export function toolbarFiller(toolbar, id, state, config, initialParams, container, marks = null, exercises = {}) {
 
@@ -602,7 +602,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 }
                 // Restore background button
                 if(e.currentTarget && e.currentTarget.type === "button") {
-                    value = { background: e.currentTarget.value, backgroundAttr: 'full', backgroundZoom: 100, customBackground: false };
+                    value = { background: e.currentTarget.value, backgroundAttr: 'full', backgroundZoom: 100, customBackground: false, themeBackground: 0 };
                 }
                 // console.log(button, e.target.name)
                 if (e.target && e.target.name === "image_display_zoom") {
@@ -619,7 +619,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                 let canvas = document.createElement('canvas');
                                 let ctx = canvas.getContext('2d');
                                 ctx.drawImage(img, 0, 0, 1200, 1200);
-                                handlecanvasToolbar(buttonKey, { background: data, backgroundAttr: 'full', backgroundZoom: 100, customBackground: true }, accordion, toolbar_props);
+                                handlecanvasToolbar(buttonKey, { background: 'url(' + data + ')', backgroundAttr: 'full', backgroundZoom: 100, customBackground: true }, accordion, toolbar_props);
                             };
                             img.src = data;
                         };
@@ -865,9 +865,9 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
     if (button.type === "background_picker") {
         let isURI = (/data\:/).test(props.value.background);
-        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background) || (/#/).test(props.value.background);
-        let theme = toolbar_props.viewToolbars[id].theme ? toolbar_props.viewToolbars[id].theme : null;
-        let default_background = (loadBackground(theme, 0) !== '') ? loadBackground(theme, 0) : "#ffffff";
+        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background) || (/#/).test(props.value.background) || !(/url/).test(props.value.background);
+        let theme = toolbar_props.viewToolbars[id].theme ? toolbar_props.viewToolbars[id].theme : 'default';
+        let default_background = loadBackground(theme, 0);
 
         let isSli = isSlide(toolbar_props.navItems[id].type);
         let background_attr = toolbar_props.viewToolbars[id].backgroundAttr;
@@ -1195,12 +1195,14 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     case 'theme':
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
             theme: value,
-            theme_background: 0,
+            themeBackground: 0,
+            background: getBackground(value, 0),
         });
         break;
     case 'theme_background':
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
-            theme_background: value,
+            themeBackground: value,
+            background: value,
         });
         break;
     case 'weight':
