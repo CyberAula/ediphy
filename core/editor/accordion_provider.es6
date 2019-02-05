@@ -581,7 +581,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
             if (button.type === 'background_picker') {
                 if(e.color) {
-                    value = { background: e.color, backgroundAttr: 'full', backgroundZoom: 100 };
+                    value = { background: e.color, backgroundAttr: 'full', backgroundZoom: 100, customBackground: true };
                     if (!value) {
                         return;
                     }
@@ -595,10 +595,14 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     value = { background: e.target.value, backgroundAttr: 'full' };
                 }
                 if(e.value) {
-                    value = { background: e.value, backgroundAttr: (button.value && button.value.backgroundAttr) ? button.value.backgroundAttr : 'full', backgroundZoom: 100 };
+                    value = { background: e.value,
+                        backgroundAttr: (button.value && button.value.backgroundAttr) ? button.value.backgroundAttr : 'full',
+                        backgroundZoom: 100,
+                        customBackground: true };
                 }
+                // Restore background button
                 if(e.currentTarget && e.currentTarget.type === "button") {
-                    value = { background: e.currentTarget.value, backgroundAttr: 'full', backgroundZoom: 100 };
+                    value = { background: e.currentTarget.value, backgroundAttr: 'full', backgroundZoom: 100, customBackground: false };
                 }
                 // console.log(button, e.target.name)
                 if (e.target && e.target.name === "image_display_zoom") {
@@ -615,7 +619,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                 let canvas = document.createElement('canvas');
                                 let ctx = canvas.getContext('2d');
                                 ctx.drawImage(img, 0, 0, 1200, 1200);
-                                handlecanvasToolbar(buttonKey, { background: data, backgroundAttr: 'full', backgroundZoom: 100 }, accordion, toolbar_props);
+                                handlecanvasToolbar(buttonKey, { background: data, backgroundAttr: 'full', backgroundZoom: 100, customBackground: true }, accordion, toolbar_props);
                             };
                             img.src = data;
                         };
@@ -863,9 +867,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         let isURI = (/data\:/).test(props.value.background);
         let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background) || (/#/).test(props.value.background);
         let theme = toolbar_props.viewToolbars[id].theme ? toolbar_props.viewToolbars[id].theme : null;
-        console.log('THEME' + theme);
         let default_background = (loadBackground(theme) !== '') ? loadBackground(theme) : "#ffffff";
-        console.log(default_background);
 
         let isSli = isSlide(toolbar_props.navItems[id].type);
         let background_attr = toolbar_props.viewToolbars[id].backgroundAttr;

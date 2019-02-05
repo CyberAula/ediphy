@@ -11,6 +11,8 @@ import {
 } from '../common/utils';
 import Utils from "../common/utils";
 
+import { loadBackground } from "../common/themes/background_loader";
+
 function toolbarElementCreator(state, action, containedView = false) {
     let doc_type;
     let id = containedView ? action.payload.mark.connection : action.payload.id;
@@ -39,9 +41,11 @@ function toolbarElementCreator(state, action, containedView = false) {
 
     let name = action.payload.name ? action.payload.name : containedView ? action.payload.toolbar.viewName : doc_type;
     // name =nextAvailName(name, state, 'viewName');
-    let background = action.payload.background ? action.payload.background.background : "#ffffff";
-    let backgroundAttr = action.payload.background ? action.payload.background.backgroundAttr : "";
     let theme = action.payload.theme ? action.payload.theme : 'default';
+    let background = action.payload.background ? action.payload.background.background : loadBackground(theme);
+    let backgroundAttr = action.payload.background ? action.payload.background.backgroundAttr : "full";
+    let customBackground = action.payload.background ? action.payload.background.customBackground : false;
+
     let toolbar = {
         id: id,
         breadcrumb: isSlide(type) ? 'hidden' : 'reduced',
@@ -56,8 +60,9 @@ function toolbarElementCreator(state, action, containedView = false) {
         numPageContent: action.payload.position || "",
         customSize: 0,
         aspectRatio: true,
-        background: background || "#ffffff",
-        backgroundAttr: backgroundAttr || "",
+        background: background || loadBackground(theme),
+        backgroundAttr: backgroundAttr || "full",
+        customBackground: customBackground || false,
         theme: theme || 'default',
     };
 

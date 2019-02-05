@@ -17,7 +17,7 @@ import { SnapGrid } from './SnapGrid';
 import { ID_PREFIX_BOX } from '../../../../common/constants';
 
 import { loadTheme } from '../../../../common/themes/theme_loader';
-import { loadBackground } from "../../../../common/themes/background_loader";
+import { loadBackground, loadBackgroundStyle } from "../../../../common/themes/background_loader";
 
 import './../../../../common/themes/themes.scss';
 
@@ -60,17 +60,11 @@ export default class EditorCanvasSli extends Component {
         }
         let toolbar = this.props.viewToolbars[itemSelected.id];
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        if(toolbar.theme) {
-            loadTheme(toolbar.theme);
-        }
-        console.log('rendering...');
-        console.log(toolbar);
+        loadTheme(toolbar.theme);
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
-        let backgroundIsUri = toolbar && (/data\:/).test(toolbar.background);
-        let isColor = toolbar && (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(toolbar.background);
-        console.log('Is it color ? ' + isColor);
+
         let gridOn = this.props.grid && ((this.props.containedViewSelected !== 0) === this.props.fromCV);
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12}
@@ -94,11 +88,7 @@ export default class EditorCanvasSli extends Component {
                             e.stopPropagation();
                         }}
                         className={'innercanvas sli ' + toolbar.theme}
-                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: isColor ? toolbar.background : loadBackground(toolbar.theme), zIndex: '0',
-                            backgroundImage: (!isColor && toolbar && toolbar.background) ? 'url(' + toolbar.background + ')' : loadBackground(toolbar.theme),
-                            backgroundSize: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'repeat')) ? (toolbar.backgroundZoom !== undefined ? (toolbar.backgroundZoom + '%') : '100%') : 'cover',
-                            backgroundRepeat: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full')) ? 'no-repeat' : 'repeat',
-                            backgroundPosition: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full')) ? 'center center' : '0% 0%' }}>
+                        style={ loadBackgroundStyle(this.props.showCanvas, toolbar, false) }>
                         {this.state.alert}
                         {gridOn ? <div style={{ zIndex: '-1' }} onClick={()=>{this.props.onBoxSelected(-1);}}><SnapGrid key={this.props.fromCV}/></div> : null}
                         <EditorHeader titles={titles}

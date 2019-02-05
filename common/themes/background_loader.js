@@ -1,14 +1,28 @@
 import { THEMES } from './theme_loader';
 
-export function loadBackground(theme, back = 0) {
-
-    // if (THEMES[theme]){
-    //     console.log('loading background...');
-    //     console.log(THEMES[theme].background ? THEMES[theme].background[back] : '#ffffff');
-    //     return THEMES[theme].background ? THEMES[theme].background[back] : '#ffffff';
-    // } else {
-    //     return '';
-    // }
-
-    return (THEMES[theme] && THEMES[theme].background) ? THEMES[theme].background[back] : '';
+export function loadBackground(theme = 'default', back = 0, visor = false) {
+    return (THEMES[theme] && THEMES[theme].background) ? THEMES[theme].background[back] : '#ffffff';
 }
+
+export function isBackgroundColor(theme, back = 0) {
+    return (THEMES[theme] && THEMES[theme].background && THEMES[theme].background[back] && THEMES[theme].background[back].indexOf('url') === -1);
+}
+
+export function loadBackgroundStyle(show, toolbar, visor = false) {
+
+    let isColor = toolbar && (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(toolbar.background);
+    let isCustom = toolbar && toolbar.customBackground;
+    let isCustomColor = (toolbar && toolbar.theme) ? isBackgroundColor(toolbar.theme) : false;
+    let { background, backgroundAttr, backgroundZoom, theme } = toolbar;
+
+    let visibility = show ? 'visible' : 'hidden';
+    let backgroundColor = isCustom ? isColor ? background : '' : isCustomColor ? loadBackground(theme) : '';
+    let backgroundImage = isCustom ? !isColor ? 'url(' + background + ')' : '' : !isCustomColor ? loadBackground(theme) : '';
+    let backgroundSize = (toolbar && background && (backgroundAttr === 'centered' || backgroundAttr === 'repeat')) ? (backgroundZoom !== undefined ? (backgroundZoom + '%') : '100%') : 'cover';
+    let backgroundRepeat = (toolbar && background && (backgroundAttr === 'centered' || backgroundAttr === 'full')) ? 'no-repeat' : 'repeat';
+    let backgroundPosition = (toolbar && background && (backgroundAttr === 'centered' || backgroundAttr === 'full')) ? 'center center' : '0% 0%';
+    let zIndex = visor ? '' : '0';
+
+    return { visibility, backgroundColor, backgroundSize, backgroundRepeat, backgroundPosition, zIndex, backgroundImage };
+}
+

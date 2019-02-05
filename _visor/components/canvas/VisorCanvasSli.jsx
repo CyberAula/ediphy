@@ -13,6 +13,7 @@ import i18n from 'i18next';
 import ReactDOM from 'react-dom';
 
 import '../../../common/themes/themes.scss';
+import { loadBackgroundStyle } from "../../../common/themes/background_loader";
 
 export default class VisorCanvasSli extends Component {
     constructor(props) {
@@ -56,9 +57,6 @@ export default class VisorCanvasSli extends Component {
         let boxes = isCV ? this.props.containedViews[this.props.currentView].boxes || [] : this.props.navItems[this.props.currentView].boxes || [];
         let thisView = this.props.viewsArray && this.props.viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(this.props.viewsArray[this.props.viewsArray.length - 2]) ? this.props.viewToolbars[this.props.viewsArray[this.props.viewsArray.length - 2]].viewName : this.props.viewToolbars[this.props.viewsArray[this.props.viewsArray.length - 2]].viewName)) : i18n.t('messages.go_back');
 
-        let backgroundIsUri = (/data\:/).test(toolbar.background);
-        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(toolbar.background);
-
         const tooltip = (
             <Tooltip id="tooltip">{thisView}</Tooltip>
         );
@@ -79,19 +77,13 @@ export default class VisorCanvasSli extends Component {
 
                     <div id={isCV ? "contained_maincontent" : "maincontent"}
                         className={'innercanvas sli ' + toolbar.theme}
-                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'),
-                            background: isColor ? toolbar.background : '',
-                            backgroundImage: !isColor ? 'url(' + toolbar.background + ')' : '',
-                            backgroundSize: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'repeat')) ? (toolbar.backgroundZoom !== undefined ? (toolbar.backgroundZoom + '%') : '100%') : 'cover',
-                            backgroundRepeat: toolbar.backgroundAttr === 'centered' ? 'no-repeat' : 'repeat',
-                            backgroundPosition: toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full' ? 'center center' : '0% 0%' }}>
+                        style={ loadBackgroundStyle(this.props.showCanvas, toolbar, true) }>
                         {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
                             <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }} onClick={a => {
                                 ReactDOM.findDOMNode(this).classList.add("exitCanvas");
                                 setTimeout(function() {
                                     this.props.removeLastView();
                                 }.bind(this), 500);
-
                                 a.stopPropagation();
                             }}><i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
                         <VisorHeader titles={titles}
