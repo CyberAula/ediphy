@@ -8,8 +8,20 @@ export function isBackgroundColor(theme, index = 0) {
     return (THEMES[theme] && THEMES[theme].background && THEMES[theme].background[index] && THEMES[theme].background[index].indexOf('url') === -1);
 }
 
-export function loadBackgroundStyle(show, toolbar, visor = false) {
+export function getThemeBackgrounds(theme) {
+    theme = (theme === undefined || theme === null) ? 'default' : theme;
+    return THEMES[theme].background;
+}
 
+export function getBackgroundIndex(theme = 'default', back = 0) {
+    return back ? getThemeBackgrounds(theme).indexOf(back) : 0;
+}
+
+export function getBackground(theme = 'default', index = 0) {
+    return THEMES[theme].background[index];
+}
+
+export function loadBackgroundStyle(show, toolbar, visor = false) {
     let { background, backgroundAttr, backgroundZoom, theme, themeBackground } = toolbar;
     let index = getBackgroundIndex(theme, themeBackground);
 
@@ -26,17 +38,4 @@ export function loadBackgroundStyle(show, toolbar, visor = false) {
     let zIndex = visor ? '' : '0';
 
     return { visibility, backgroundColor, backgroundSize, backgroundRepeat, backgroundPosition, zIndex, backgroundImage };
-}
-
-export function getThemeBackgrounds(theme) {
-    theme = (theme === undefined || theme === null) ? 'default' : theme;
-    return THEMES[theme].background;
-}
-
-export function getBackgroundIndex(theme = 'default', back = 0) {
-    return back ? getThemeBackgrounds(theme).indexOf(back) : 0;
-}
-
-export function getBackground(theme = 'default', index = 0) {
-    return THEMES[theme].background[index];
 }
