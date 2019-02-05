@@ -42,7 +42,8 @@ function toolbarElementCreator(state, action, containedView = false) {
     let name = action.payload.name ? action.payload.name : containedView ? action.payload.toolbar.viewName : doc_type;
     // name =nextAvailName(name, state, 'viewName');
     let theme = action.payload.theme ? action.payload.theme : 'default';
-    let background = action.payload.background ? action.payload.background.background : loadBackground(theme);
+    let theme_background = action.payload.theme_background ? action.payload.theme_background : 0;
+    let background = action.payload.background ? action.payload.background.background : loadBackground(theme, theme_background);
     let backgroundAttr = action.payload.background ? action.payload.background.backgroundAttr : "full";
     let customBackground = action.payload.background ? action.payload.background.customBackground : false;
 
@@ -60,10 +61,11 @@ function toolbarElementCreator(state, action, containedView = false) {
         numPageContent: action.payload.position || "",
         customSize: 0,
         aspectRatio: true,
-        background: background || loadBackground(theme),
+        background: background || loadBackground(theme, 0),
         backgroundAttr: backgroundAttr || "full",
         customBackground: customBackground || false,
         theme: theme || 'default',
+        theme_background: theme_background || 0,
     };
 
     return toolbar;

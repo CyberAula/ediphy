@@ -867,7 +867,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         let isURI = (/data\:/).test(props.value.background);
         let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background) || (/#/).test(props.value.background);
         let theme = toolbar_props.viewToolbars[id].theme ? toolbar_props.viewToolbars[id].theme : null;
-        let default_background = (loadBackground(theme) !== '') ? loadBackground(theme) : "#ffffff";
+        let default_background = (loadBackground(theme, 0) !== '') ? loadBackground(theme, 0) : "#ffffff";
 
         let isSli = isSlide(toolbar_props.navItems[id].type);
         let background_attr = toolbar_props.viewToolbars[id].backgroundAttr;
@@ -1195,6 +1195,11 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     case 'theme':
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
             theme: value,
+        });
+        break;
+    case 'theme_background':
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            theme_background: value,
         });
         break;
     case 'weight':

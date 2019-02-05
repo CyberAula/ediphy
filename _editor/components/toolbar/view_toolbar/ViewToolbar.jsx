@@ -6,7 +6,9 @@ import { PanelGroup, Panel } from "react-bootstrap";
 import Ediphy from "../../../../core/editor/main";
 import './_viewToolbar.scss';
 import { renderAccordion } from "../../../../core/editor/accordion_provider";
+
 import { getThemes } from "../../../../common/themes/theme_loader";
+import { getThemeBackgrounds } from "../../../../common/themes/background_loader";
 
 export default class ViewToolbar extends Component {
     constructor(props) {
@@ -101,6 +103,13 @@ export default class ViewToolbar extends Component {
                                 type: 'select',
                                 options: getThemes(),
                                 value: viewToolbar.theme,
+                            },
+
+                            theme_background: {
+                                __name: '&&Theme Background',
+                                type: 'select',
+                                options: getThemeBackgrounds(viewToolbar.theme),
+                                value: viewToolbar.theme_background,
                             },
                         },
                     },

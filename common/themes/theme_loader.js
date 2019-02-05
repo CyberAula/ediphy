@@ -11,6 +11,7 @@ export const THEMES = {
         fonts: 'Merriweather',
         background: [
             'url(/themes/orange/background_images/orange0.jpg)',
+            'url(/themes/orange/background_images/orange1.jpg)',
         ],
     },
     test0: {
