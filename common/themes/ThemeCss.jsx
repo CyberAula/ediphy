@@ -4,6 +4,6 @@ export default class ThemeCss extends React.Component {
 
         console.log('ThemeCss');
         console.log(this.props.theme);
-        return <link rel="stylesheet" type="text/css" href={customCss} />;
+        return null;
     }
 }
