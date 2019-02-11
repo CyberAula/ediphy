@@ -9743,6 +9743,11 @@ sass-loader@^6.0.6:
     neo-async "^2.5.0"
     pify "^3.0.0"
 
+sass.js@^0.10.13:
+  version "0.10.13"
+  resolved "https://registry.yarnpkg.com/sass.js/-/sass.js-0.10.13.tgz#6f39698755a14d7a7795f9dc85175f122ad91d9b"
+  integrity sha512-kgx2iuK+Rg2GM9mNTL9nYsJVTRp64JcHTIgkkHb+TsZY/+C2X6gd3rD7j+SPohNNHewEIBLZ9zpTpDGXX/3Ksg==
+
 sax@>=0.6.0, sax@^1.1.4, sax@^1.2.1, sax@^1.2.4, sax@~1.2.1:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"

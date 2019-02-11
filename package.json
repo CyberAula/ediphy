@@ -203,6 +203,7 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "redux-undo": "^0.6.1",
+    "sass.js": "^0.10.13",
     "screenfull": "^3.3.2",
     "scroll-into-view-if-needed": "^1.4.0",
     "stl-viewer": "^0.7.0",
