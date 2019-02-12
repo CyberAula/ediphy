@@ -53,13 +53,13 @@ export default class ThemeCss extends React.Component {
     }
 
     getThemeCSS(theme) {
-        let { css, themesIndex } = this.state;
+        let { css, themesStartIndex } = this.state;
         let themeNames = Object.keys(THEMES);
 
         let isLastTheme = themeNames.indexOf(theme) === themeNames.length - 1;
         let nextLevel = themeNames[(themeNames.indexOf(theme) + 1)];
-        let nextLevelIndex = isLastTheme ? css.length() : themesIndex[nextLevel];
-        let currentThemeIndex = themesIndex[theme];
+        let nextLevelIndex = isLastTheme ? css.length() : themesStartIndex[nextLevel];
+        let currentThemeIndex = themesStartIndex[theme];
 
         let chunkArr = css.slice(currentThemeIndex, nextLevelIndex);
         let chunkStr = Object.values(chunkArr).reduce((l1, l2) => l1 + '\n' + l2);
