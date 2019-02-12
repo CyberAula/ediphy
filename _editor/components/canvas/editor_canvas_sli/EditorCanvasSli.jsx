@@ -67,7 +67,7 @@ export default class EditorCanvasSli extends Component {
         let gridOn = this.props.grid && ((this.props.containedViewSelected !== 0) === this.props.fromCV);
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12}
-                className="canvasSliClass wrapped" onMouseDown={()=>{this.props.onBoxSelected(-1);}}
+                className="canvasSliClass safeZone" onMouseDown={()=>{this.props.onBoxSelected(-1);}}
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial',
                     fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px',
                 }}>

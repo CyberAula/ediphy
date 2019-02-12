@@ -1,69 +1,83 @@
 import React from 'react';
+import { THEMES } from './theme_loader';
+import PropTypes from "prop-types";
+import EditorCanvasSli from "../../_editor/components/canvas/editor_canvas_sli/EditorCanvasSli";
+
 export default class ThemeCss extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             css: '',
-            themes: {},
+            themesStartIndex: {},
+            currentThemeCSS: '',
         };
-        this.publishThemeStyle = this.publishThemeStyle.bind(this);
-        this.loadThemes = this.loadThemes.bind(this);
-        this.addClass = this.addClass.bind(this);
+        this.loadCSS = this.loadCSS.bind(this);
         this.processCSS = this.processCSS.bind(this);
+        this.getThemeCSS = this.getThemeCSS.bind(this);
 
-        this.loadThemes();
-
+        this.loadCSS();
     }
 
     componentWillUpdate(nextProps, nextState) {
         if (nextProps.theme !== this.props.theme) {
-            // this.publishThemeStyle(nextProps.theme);
+            this.getThemeCSS(nextProps.theme);
         }
     }
 
-    loadThemes() {
-        fetch(`/theme.css`)
+    loadCSS() {
+        fetch(`/theme.css`) // Webpack output CSS
             .then(res => res.text())
             .then(data => {
-                console.log('CSS GENERATED');
-                console.log(this.processCSS(data).reduce((a, b) => a + '\n' + b));
+                let processedData = this.processCSS(data);
+                this.setState({ themesStartIndex: processedData.themesStartIndex, css: processedData.safeCSS });
             });
-    }
-
-    addClass(line, newClass) {
-        return '.' + newClass + ' ' + line;
     }
 
     processCSS(css) {
         let lines = css.split('\n');
-        return lines.map(line => {
+        let themesStartIndex = {};
+        let themeNames = Object.keys(THEMES);
+        let safeCSS = lines.map((line, index) => {
             if (!line.includes('{')) {
                 return line;
             }
-            line = this.addClass(line, 'wrapped');
+            line = '.safeZone ' + line;
+            if (line.includes('.' + themeNames[0])) {
+                themesStartIndex[themeNames[0]] = index;
+                themeNames.splice(0, 1);
+            }
             return line;
-
         });
+
+        return { safeCSS, themesStartIndex };
     }
 
-    publishThemeStyle(theme) {
-        fetch(`/theme.css`)
-            .then(response => response.text())
-            .then((data) => {
-                let lines = data.split('\n');
-                let linesTabbed = lines.map((line) => '\n\t' + line);
-                let innerString = linesTabbed.reduce((a, b) => (b === '\n\t') ? a : a + b);
-                let themeCss = '.wrapped {' + innerString + '\n}';
+    getThemeCSS(theme) {
+        let { css, themesIndex } = this.state;
+        let themeNames = Object.keys(THEMES);
 
-                this.setState({ css: themeCss });
-            });
+        let isLastTheme = themeNames.indexOf(theme) === themeNames.length - 1;
+        let nextLevel = themeNames[(themeNames.indexOf(theme) + 1)];
+        let nextLevelIndex = isLastTheme ? css.length() : themesIndex[nextLevel];
+        let currentThemeIndex = themesIndex[theme];
 
+        let chunkArr = css.slice(currentThemeIndex, nextLevelIndex);
+        let chunkStr = Object.values(chunkArr).reduce((l1, l2) => l1 + '\n' + l2);
+
+        this.setState({ currentThemeCSS: chunkStr });
     }
 
     render() {
         return <style dangerouslySetInnerHTML={{
-            __html: this.state.css,
+            __html: this.state.currentThemeCSS,
         }} />;
     }
 }
+
+ThemeCss.propTypes = {
+    /**
+     * Current theme
+     */
+    theme: PropTypes.string,
+};
