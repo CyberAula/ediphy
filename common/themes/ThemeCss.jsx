@@ -1,7 +1,6 @@
 import React from 'react';
 import { THEMES } from './theme_loader';
 import PropTypes from "prop-types";
-import EditorCanvasSli from "../../_editor/components/canvas/editor_canvas_sli/EditorCanvasSli";
 
 export default class ThemeCss extends React.Component {
 
