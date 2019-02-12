@@ -6,7 +6,7 @@ import { serialize } from '../../reducers/serializer';
 
 require('../../sass/style.scss');
 
-// This requires dynamically all scss' kept in component's folders
+// This requires dynamically all scss-files' kept in component's folders
 let scss_context = require.context('../../_editor', true, /\.scss$/);
 scss_context.keys().map(scss_context);
 let scss_visor_context = require.context('../../_visor', true, /\.scss$/);

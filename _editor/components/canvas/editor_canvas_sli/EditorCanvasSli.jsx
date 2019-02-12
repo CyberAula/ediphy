@@ -20,8 +20,6 @@ import { loadTheme } from '../../../../common/themes/theme_loader';
 import ThemeCss from '../../../../common/themes/ThemeCss';
 import { loadBackground, loadBackgroundStyle } from "../../../../common/themes/background_loader";
 
-import './../../../../common/themes/themes.scss';
-
 /**
  * EditorCanvasSli component
  * Canvas component to display slides

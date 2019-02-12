@@ -12,7 +12,6 @@ import { isContainedView, isView } from '../../../common/utils';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
 
-import '../../../common/themes/themes.scss';
 import { loadBackgroundStyle } from "../../../common/themes/background_loader";
 
 export default class VisorCanvasSli extends Component {

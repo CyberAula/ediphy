@@ -3,6 +3,7 @@ let ZipBundlePlugin = require('./webpack_plugins/bundle_zip_plugin.js');
 let dependency_loader = require('./webpack_plugins/dependencies_loader.js');
 let path = require('path');
 let ProgressBarPlugin = require('progress-bar-webpack-plugin');
+let ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     node: {
@@ -51,12 +52,23 @@ module.exports = {
             },
             {
                 test: /\.(scss|sass)$/,
-                exclude: /(node_modules|bower_components)/,
+                exclude: /(node_modules|bower_components|scss-files|themes.scss)/,
                 use: [
                     'style-loader',
                     'css-loader',
                     { loader: 'sass-loader', options: { sourceMap: true } },
                 ],
+            },
+            {
+                test: /scss-files/,
+                exclude: /(node_modules|bower_components)/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader',
+                        { loader: 'sass-loader', options: { sourceMap: true } },
+                    ],
+                }),
+
             },
             {
                 test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2|json|xml|ico)$/,
@@ -90,6 +102,7 @@ module.exports = {
     },
 
     plugins: [
+        new ExtractTextPlugin({ filename: '[name].css' }),
         new ProgressBarPlugin({}),
         new webpack.ContextReplacementPlugin(/package\.json$/, "./plugins/"),
         new webpack.ProvidePlugin(Object.assign({

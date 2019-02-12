@@ -1,47 +1,67 @@
 import React from 'react';
-import Sass from 'sass.js';
 export default class ThemeCss extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             css: '',
+            themes: {},
         };
         this.publishThemeStyle = this.publishThemeStyle.bind(this);
-        this.publishThemeStyle(this.props.theme);
+        this.loadThemes = this.loadThemes.bind(this);
+        this.addClass = this.addClass.bind(this);
+        this.processCSS = this.processCSS.bind(this);
+
+        this.loadThemes();
+
     }
 
     componentWillUpdate(nextProps, nextState) {
-        console.log(nextProps.theme, this.props.theme);
         if (nextProps.theme !== this.props.theme) {
-            this.publishThemeStyle(nextProps.theme);
+            // this.publishThemeStyle(nextProps.theme);
         }
     }
 
+    loadThemes() {
+        fetch(`/theme.css`)
+            .then(res => res.text())
+            .then(data => {
+                console.log('CSS GENERATED');
+                console.log(this.processCSS(data).reduce((a, b) => a + '\n' + b));
+            });
+    }
+
+    addClass(line, newClass) {
+        return '.' + newClass + ' ' + line;
+    }
+
+    processCSS(css) {
+        let lines = css.split('\n');
+        return lines.map(line => {
+            if (!line.includes('{')) {
+                return line;
+            }
+            line = this.addClass(line, 'wrapped');
+            return line;
+
+        });
+    }
+
     publishThemeStyle(theme) {
-        fetch(`/themes/${theme}/${theme}.scss`)
+        fetch(`/theme.css`)
             .then(response => response.text())
             .then((data) => {
                 let lines = data.split('\n');
                 let linesTabbed = lines.map((line) => '\n\t' + line);
                 let innerString = linesTabbed.reduce((a, b) => (b === '\n\t') ? a : a + b);
                 let themeCss = '.wrapped {' + innerString + '\n}';
-                let self = this;
 
-                Sass.compile(themeCss, function(result) {
-                    console.log(result.text);
-                    if (result.status === 0) {
-                        self.setState({ css: result.text });
-                    }
-                });
-
+                this.setState({ css: themeCss });
             });
 
     }
 
     render() {
-
-        console.log(this.state.css);
         return <style dangerouslySetInnerHTML={{
             __html: this.state.css,
         }} />;
