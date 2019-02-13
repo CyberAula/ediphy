@@ -1205,6 +1205,16 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
             background: value,
         });
         break;
+    case 'theme_primary_color':
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            themePrimaryColor: value,
+        });
+        break;
+    case 'theme_secondary_color':
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            themeSecondaryColor: value,
+        });
+        break;
     case 'weight':
         toolbar_props.onScoreConfig(toolbar_props.navItemSelected, 'weight', value);
         break;

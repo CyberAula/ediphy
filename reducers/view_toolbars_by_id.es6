@@ -46,6 +46,8 @@ function toolbarElementCreator(state, action, containedView = false) {
     let background = action.payload.background ? action.payload.background.background : loadBackground(theme, theme_background);
     let backgroundAttr = action.payload.background ? action.payload.background.backgroundAttr : "full";
     let customBackground = action.payload.background ? action.payload.background.customBackground : false;
+    let themePrimaryColor = action.payload.themePrimaryColor ? action.payload.themePrimaryColor : '#ffffff';
+    let themeSecondaryColor = action.payload.themeSecondaryColor ? action.payload.themeSecondaryColor : '#ffffff';
 
     let toolbar = {
         id: id,
@@ -66,6 +68,8 @@ function toolbarElementCreator(state, action, containedView = false) {
         customBackground: customBackground || false,
         theme: theme || 'default',
         themeBackground: themeBackground || 0,
+        themePrimaryColor: themePrimaryColor || '#ffffff',
+        themeSecondaryColor: themeSecondaryColor || '#ffffff',
     };
 
     return toolbar;

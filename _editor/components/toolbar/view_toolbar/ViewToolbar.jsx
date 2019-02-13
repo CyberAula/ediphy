@@ -62,7 +62,6 @@ export default class ViewToolbar extends Component {
                                 __name: i18n.t('Title') + doc_type,
                                 type: 'checkbox',
                                 checked: viewToolbar.documentTitle && viewToolbar.documentTitle !== 'hidden',
-
                             },
                             pagetitle_name: {
                                 __name: "custom_title",
@@ -110,6 +109,18 @@ export default class ViewToolbar extends Component {
                                 type: 'select',
                                 options: getThemeBackgrounds(viewToolbar.theme),
                                 value: viewToolbar.theme_background,
+                            },
+
+                            theme_primary_color: {
+                                __name: '&&Primary Color',
+                                type: 'color',
+                                value: viewToolbar.theme_primary_color,
+                            },
+
+                            theme_secondary_color: {
+                                __name: '&&Secondary Color',
+                                type: 'color',
+                                value: viewToolbar.theme_secondary_color,
                             },
                         },
                     },

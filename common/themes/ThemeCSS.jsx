@@ -2,7 +2,7 @@ import React from 'react';
 import { THEMES } from './theme_loader';
 import PropTypes from "prop-types";
 
-export default class ThemeCss extends React.Component {
+export default class ThemeCSS extends React.Component {
 
     constructor(props) {
         super(props);
@@ -14,12 +14,12 @@ export default class ThemeCss extends React.Component {
         this.loadCSS = this.loadCSS.bind(this);
         this.processCSS = this.processCSS.bind(this);
         this.getThemeCSS = this.getThemeCSS.bind(this);
+        this.updateCustomProperty = this.updateCustomProperty.bind(this);
 
         this.loadCSS();
     }
 
     componentWillMount() {
-        console.log('I am mounting...');
         this.loadCSS();
     }
 
@@ -27,10 +27,14 @@ export default class ThemeCss extends React.Component {
         if (nextProps.theme !== this.props.theme) {
             this.getThemeCSS(nextProps.theme);
         }
-    }
 
-    componentWillUnmount() {
-        console.log('I am unmounting');
+        if (nextProps.toolbar.themePrimaryColor !== this.props.toolbar.themePrimaryColor) {
+            this.updateCustomProperty('--colorprimary', nextProps.toolbar.themePrimaryColor);
+        }
+
+        if (nextProps.toolbar.themeSecondaryColor !== this.props.toolbar.themeSecondaryColor) {
+            this.updateCustomProperty('--colorsecondary', nextProps.toolbar.themeSecondaryColor);
+        }
     }
 
     loadCSS() {
@@ -78,6 +82,10 @@ export default class ThemeCss extends React.Component {
         this.setState({ currentThemeCSS: chunkStr });
     }
 
+    updateCustomProperty(property, newValue) {
+        document.documentElement.style.setProperty(property, newValue);
+    }
+
     render() {
         return <style dangerouslySetInnerHTML={{
             __html: this.state.currentThemeCSS,
@@ -85,7 +93,7 @@ export default class ThemeCss extends React.Component {
     }
 }
 
-ThemeCss.propTypes = {
+ThemeCSS.propTypes = {
     /**
      * Current theme
      */
@@ -93,5 +101,5 @@ ThemeCss.propTypes = {
     /**
      * Current selected view (by ID)
      */
-    navItemSelected: PropTypes.any.isRequired,
+    toolbar: PropTypes.any.isRequired,
 };

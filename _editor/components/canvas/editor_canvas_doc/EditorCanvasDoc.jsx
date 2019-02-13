@@ -7,7 +7,7 @@ import { Col } from 'react-bootstrap';
 import EditorHeader from '../editor_header/EditorHeader';
 import Ediphy from '../../../../core/editor/main';
 import { isSortableBox } from '../../../../common/utils';
-import ThemeCss from "../../../../common/themes/ThemeCss";
+import ThemeCSS from "../../../../common/themes/ThemeCSS";
 
 export default class EditorCanvasDoc extends Component {
     render() {
@@ -96,7 +96,7 @@ export default class EditorCanvasDoc extends Component {
                         </div>
                     </div>
                 </div>
-                <ThemeCss
+                <ThemeCSS
                     theme={ theme }
                     navItemSelected={ this.props.navItemSelected }
                 />

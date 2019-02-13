@@ -17,7 +17,7 @@ import { SnapGrid } from './SnapGrid';
 import { ID_PREFIX_BOX } from '../../../../common/constants';
 
 import { loadTheme } from '../../../../common/themes/theme_loader';
-import ThemeCss from '../../../../common/themes/ThemeCss';
+import ThemeCSS from '../../../../common/themes/ThemeCSS';
 import { loadBackground, loadBackgroundStyle } from "../../../../common/themes/background_loader";
 
 /**
@@ -158,9 +158,10 @@ export default class EditorCanvasSli extends Component {
                     </div>
 
                 </div>
-                <ThemeCss
+                <ThemeCSS
                     theme={ theme }
                     navItemSelected={this.props.navItemSelected}
+                    toolbar = {toolbar}
                 />
                 <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
                     let calculated = this.aspectRatio(this.props, this.state);
