@@ -1,6 +1,7 @@
 .orange {
 
   --color: red;
+  $blueprimary: var(--color);
   font-family: 'Merriweather', serif;
   font-size: 1.3em;
 

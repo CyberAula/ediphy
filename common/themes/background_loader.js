@@ -22,7 +22,8 @@ export function getBackground(theme = 'default', index = 0) {
 }
 
 export function loadBackgroundStyle(show, toolbar, visor = false) {
-    let { background, backgroundAttr, backgroundZoom, theme, themeBackground } = toolbar;
+    let { background, backgroundAttr, backgroundZoom, themeBackground } = toolbar;
+    let theme = toolbar.theme === undefined ? 'default' : toolbar.theme;
     let index = getBackgroundIndex(theme, themeBackground);
 
     let isColor = toolbar && (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(background);

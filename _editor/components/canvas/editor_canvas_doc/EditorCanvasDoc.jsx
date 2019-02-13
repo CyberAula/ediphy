@@ -42,13 +42,12 @@ export default class EditorCanvasDoc extends Component {
         };
 
         let toolbar = this.props.viewToolbars[itemSelected.id];
-        console.log(this.props);
-        console.log(toolbar);
+        let theme = toolbar.theme === undefined ? 'default' : toolbar.theme;
         return (
             <Col id={(this.props.fromCV ? 'containedCanvas' : 'canvas')} md={12} xs={12} className="canvasDocClass safeZone"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
 
-                <div className={"scrollcontainer parentRestrict " + toolbar.theme}
+                <div className={"scrollcontainer parentRestrict " + theme}
                     style={{ backgroundColor: show ? toolbar.background : 'transparent', display: show ? 'block' : 'none' }}
                     onMouseDown={e => {
                         if (e.target === e.currentTarget) {
@@ -97,7 +96,10 @@ export default class EditorCanvasDoc extends Component {
                         </div>
                     </div>
                 </div>
-                <ThemeCss theme={ toolbar.theme === undefined ? 'default' : toolbar.theme}/>
+                <ThemeCss
+                    theme={ theme }
+                    navItemSelected={ this.props.navItemSelected }
+                />
                 <EditorShortcuts
                     openConfigModal={this.props.openConfigModal}
                     box={this.props.boxes[this.props.boxSelected]}

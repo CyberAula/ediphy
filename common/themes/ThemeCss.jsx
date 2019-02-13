@@ -18,10 +18,19 @@ export default class ThemeCss extends React.Component {
         this.loadCSS();
     }
 
+    componentWillMount() {
+        console.log('I am mounting...');
+        this.loadCSS();
+    }
+
     componentWillUpdate(nextProps, nextState) {
         if (nextProps.theme !== this.props.theme) {
             this.getThemeCSS(nextProps.theme);
         }
+    }
+
+    componentWillUnmount() {
+        console.log('I am unmounting');
     }
 
     loadCSS() {
@@ -29,7 +38,9 @@ export default class ThemeCss extends React.Component {
             .then(res => res.text())
             .then(data => {
                 let processedData = this.processCSS(data);
-                this.setState({ themesStartIndex: processedData.themesStartIndex, css: processedData.safeCSS });
+                this.setState({ themesStartIndex: processedData.themesStartIndex, css: processedData.safeCSS }, () => {
+                    this.getThemeCSS(this.props.theme);
+                });
             });
     }
 
@@ -78,5 +89,9 @@ ThemeCss.propTypes = {
     /**
      * Current theme
      */
-    theme: PropTypes.string,
+    theme: PropTypes.string.isRequired,
+    /**
+     * Current selected view (by ID)
+     */
+    navItemSelected: PropTypes.any.isRequired,
 };

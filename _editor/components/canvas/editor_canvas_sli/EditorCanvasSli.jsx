@@ -58,6 +58,7 @@ export default class EditorCanvasSli extends Component {
             actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
         }
         let toolbar = this.props.viewToolbars[itemSelected.id];
+        let theme = toolbar.theme === undefined ? 'default' : toolbar.theme;
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         loadTheme(toolbar.theme);
 
@@ -86,7 +87,7 @@ export default class EditorCanvasSli extends Component {
 
                             e.stopPropagation();
                         }}
-                        className={'innercanvas sli ' + toolbar.theme}
+                        className={'innercanvas sli ' + theme}
                         style={ loadBackgroundStyle(this.props.showCanvas, toolbar, false) }>
                         {this.state.alert}
                         {gridOn ? <div style={{ zIndex: '-1' }} onClick={()=>{this.props.onBoxSelected(-1);}}><SnapGrid key={this.props.fromCV}/></div> : null}
@@ -152,13 +153,15 @@ export default class EditorCanvasSli extends Component {
                                 setCorrectAnswer={this.props.setCorrectAnswer}
                                 pageType={itemSelected.type || 0}
                             />;
-
                         })}
 
                     </div>
 
                 </div>
-                <ThemeCss theme={ toolbar.theme === undefined ? 'default' : toolbar.theme}/>
+                <ThemeCss
+                    theme={ theme }
+                    navItemSelected={this.props.navItemSelected}
+                />
                 <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
                     let calculated = this.aspectRatio(this.props, this.state);
                     this.setState({ fontBase: changeFontBase(calculated.width) });

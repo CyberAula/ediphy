@@ -359,7 +359,6 @@ export default class EditorShortcuts extends Component {
 
                 return { left, top, width };
                 // this.setState({ left: left, top: top, width: width });
-
             }
         }
         return { left: 0, top: 0, width: 0 };
