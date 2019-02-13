@@ -227,7 +227,6 @@ body {
 
 .radio {
     position: relative;
-    //display: inline-block;
     line-height: 1.7em;
     margin: 5px 0;
     input[type="radio"]{
@@ -265,27 +264,24 @@ input[type="radio"]{
 
 
 
-    .setting-title {
-        color: $blueprimary !important;
-        font-weight: bold;
-    }
-    .print-settings-explanation {
-        margin-left: 15px;
-    }
-    .material-icons.correct {
-        font-size: 1.7em;
-    }
+.setting-title {
+    color: $blueprimary !important;
+    font-weight: bold;
+}
+.print-settings-explanation {
+    margin-left: 15px;
+}
+.material-icons.correct {
+    font-size: 1.7em;
+}
 
-    .panel-group .panel {
-        border-radius: 0px;
-    }
+.panel-group .panel {
+    border-radius: 0px;
+}
 
-    .panel-heading {
-        border-top-left-radius: 0px;
-        border-top-right-radius: 0px;
+.panel-heading {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
 
-    }
-    .material-icons.correct {
-        font-size: 1.7em;
-    }
+}
 

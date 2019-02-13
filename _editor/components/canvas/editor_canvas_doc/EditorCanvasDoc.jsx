@@ -7,6 +7,7 @@ import { Col } from 'react-bootstrap';
 import EditorHeader from '../editor_header/EditorHeader';
 import Ediphy from '../../../../core/editor/main';
 import { isSortableBox } from '../../../../common/utils';
+import ThemeCss from "../../../../common/themes/ThemeCss";
 
 export default class EditorCanvasDoc extends Component {
     render() {
@@ -41,11 +42,13 @@ export default class EditorCanvasDoc extends Component {
         };
 
         let toolbar = this.props.viewToolbars[itemSelected.id];
+        console.log(this.props);
+        console.log(toolbar);
         return (
-            <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasDocClass"
+            <Col id={(this.props.fromCV ? 'containedCanvas' : 'canvas')} md={12} xs={12} className="canvasDocClass safeZone"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
 
-                <div className="scrollcontainer parentRestrict"
+                <div className={"scrollcontainer parentRestrict " + toolbar.theme}
                     style={{ backgroundColor: show ? toolbar.background : 'transparent', display: show ? 'block' : 'none' }}
                     onMouseDown={e => {
                         if (e.target === e.currentTarget) {
@@ -94,6 +97,7 @@ export default class EditorCanvasDoc extends Component {
                         </div>
                     </div>
                 </div>
+                <ThemeCss theme={ toolbar.theme === undefined ? 'default' : toolbar.theme}/>
                 <EditorShortcuts
                     openConfigModal={this.props.openConfigModal}
                     box={this.props.boxes[this.props.boxSelected]}

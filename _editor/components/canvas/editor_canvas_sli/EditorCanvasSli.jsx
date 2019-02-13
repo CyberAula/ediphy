@@ -158,7 +158,7 @@ export default class EditorCanvasSli extends Component {
                     </div>
 
                 </div>
-                <ThemeCss theme={ toolbar.theme || 'default'}/>
+                <ThemeCss theme={ toolbar.theme === undefined ? 'default' : toolbar.theme}/>
                 <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
                     let calculated = this.aspectRatio(this.props, this.state);
                     this.setState({ fontBase: changeFontBase(calculated.width) });
