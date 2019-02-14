@@ -69,14 +69,14 @@ export default class EditorCanvasDoc extends Component {
                         onViewTitleChanged={this.props.onViewTitleChanged}
                         onTitleChanged={this.props.onTitleChanged}
                     />
-                    <div className="outter canvaseditor" style={{ background: toolbar.background, display: show ? 'block' : 'none' }}>
+                    <div className="outter canvaseditor" style={{ display: show ? 'block' : 'none' }}>
                         <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
                             className={(this.props.fromCV ? 'airlayer_cv' : 'airlayer') + ' doc_air'}
-                            style={{ background: toolbar.background, visibility: (show ? 'visible' : 'hidden') }}>
+                            style={{ visibility: (show ? 'visible' : 'hidden') }}>
 
                             <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                                 className={'innercanvas doc'}
-                                style={{ background: toolbar.background, visibility: (show ? 'visible' : 'hidden'), paddingBottom: '10px' }}>
+                                style={{ visibility: (show ? 'visible' : 'hidden'), paddingBottom: '10px' }}>
 
                                 <br/>
 
