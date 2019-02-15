@@ -1,12 +1,11 @@
 .orange {
 
-  --color: red;
-  $blueprimary: var(--color);
+
   font-family: 'Merriweather', serif;
   font-size: 1.3em;
 
   h2 {
-    color: var(--color);
+    color: var(--themePrimaryColor);
   }
 }
 body {

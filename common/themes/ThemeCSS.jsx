@@ -15,12 +15,14 @@ export default class ThemeCSS extends React.Component {
         this.processCSS = this.processCSS.bind(this);
         this.getThemeCSS = this.getThemeCSS.bind(this);
         this.updateCustomProperty = this.updateCustomProperty.bind(this);
+        this.loadThemeCustomProperties = this.loadThemeCustomProperties.bind(this);
 
         this.loadCSS();
     }
 
     componentWillMount() {
         this.loadCSS();
+        this.loadThemeCustomProperties();
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -28,12 +30,12 @@ export default class ThemeCSS extends React.Component {
             this.getThemeCSS(nextProps.theme);
         }
 
-        if (nextProps.toolbar.themePrimaryColor !== this.props.toolbar.themePrimaryColor) {
-            this.updateCustomProperty('--colorprimary', nextProps.toolbar.themePrimaryColor);
+        if (nextProps.toolbar.colors.themePrimaryColor !== this.props.toolbar.colors.themePrimaryColor) {
+            this.updateCustomProperty('--themePrimaryColor', nextProps.toolbar.colors.themePrimaryColor);
         }
 
-        if (nextProps.toolbar.themeSecondaryColor !== this.props.toolbar.themeSecondaryColor) {
-            this.updateCustomProperty('--colorsecondary', nextProps.toolbar.themeSecondaryColor);
+        if (nextProps.toolbar.colors.themeSecondaryColor !== this.props.toolbar.colors.themeSecondaryColor) {
+            this.updateCustomProperty('--themeSecondaryColor', nextProps.toolbar.colors.themeSecondaryColor);
         }
     }
 
@@ -84,6 +86,14 @@ export default class ThemeCSS extends React.Component {
 
     updateCustomProperty(property, newValue) {
         document.documentElement.style.setProperty(property, newValue);
+    }
+
+    loadThemeCustomProperties() {
+        let colors = THEMES[this.props.theme].colors;
+
+        Object.keys(colors).map((cPropKey) => {
+            this.updateCustomProperty('--' + cPropKey, colors[cPropKey]);
+        });
     }
 
     render() {

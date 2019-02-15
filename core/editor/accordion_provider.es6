@@ -13,6 +13,7 @@ import ToolbarFileProvider from "../../_editor/components/external_provider/file
 /* eslint-disable react/prop-types */
 
 import { loadBackground, getBackgroundIndex, isBackgroundColor, getBackground } from "../../common/themes/background_loader";
+import { sanitizeThemeToolbar } from "../../common/themes/theme_loader";
 
 export function toolbarFiller(toolbar, id, state, config, initialParams, container, marks = null, exercises = {}) {
 
@@ -1096,6 +1097,7 @@ export function renderValue(option) {
 export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     let navitem = toolbar_props.navItems[toolbar_props.navItemSelected];
     let toolbar = accordions;
+    let themeToolbar = sanitizeThemeToolbar(toolbar_props.viewToolbars[toolbar_props.navItemSelected]);
     switch (name) {
     // change page/slide title
     case "background":
@@ -1207,12 +1209,12 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
         break;
     case 'theme_primary_color':
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
-            themePrimaryColor: value,
+            colors: { ...themeToolbar.colors, themePrimaryColor: value },
         });
         break;
     case 'theme_secondary_color':
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
-            themeSecondaryColor: value,
+            colors: { ...themeToolbar.colors, themeSecondaryColor: value },
         });
         break;
     case 'weight':

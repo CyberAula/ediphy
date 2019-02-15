@@ -7,7 +7,7 @@ import Ediphy from "../../../../core/editor/main";
 import './_viewToolbar.scss';
 import { renderAccordion } from "../../../../core/editor/accordion_provider";
 
-import { getThemes } from "../../../../common/themes/theme_loader";
+import { getThemes, getPrimaryColor, sanitizeThemeToolbar } from "../../../../common/themes/theme_loader";
 import { getThemeBackgrounds } from "../../../../common/themes/background_loader";
 
 export default class ViewToolbar extends Component {
@@ -33,7 +33,8 @@ export default class ViewToolbar extends Component {
         if(isSection(id)) {
             doc_type = i18n.t('section');
         }
-        let viewToolbar = this.props.viewToolbars[id];
+        let viewToolbar = sanitizeThemeToolbar(this.props.viewToolbars[id]);
+
         let controls = {
             main: {
                 __name: "Main",
@@ -114,13 +115,13 @@ export default class ViewToolbar extends Component {
                             theme_primary_color: {
                                 __name: '&&Primary Color',
                                 type: 'color',
-                                value: viewToolbar.theme_primary_color,
+                                value: viewToolbar.colors.themePrimaryColor,
                             },
 
                             theme_secondary_color: {
                                 __name: '&&Secondary Color',
                                 type: 'color',
-                                value: viewToolbar.theme_secondary_color,
+                                value: viewToolbar.colors.themeSecondaryColor,
                             },
                         },
                     },
@@ -173,7 +174,7 @@ export default class ViewToolbar extends Component {
             return (null);
         }
         // when no plugin selected, but new navitem
-        let toolbar = this.props.viewToolbars[id];
+        let toolbar = sanitizeThemeToolbar(this.props.viewToolbars[id]);
 
         return Object.keys(controls).map((tabKey, index) => {
             let tab = controls[tabKey];
