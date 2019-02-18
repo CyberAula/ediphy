@@ -1,4 +1,5 @@
 import loadFont from './font_loader';
+import { setRgbaAlpha } from "../common_tools";
 
 export const THEMES = {
     default: {
@@ -118,6 +119,30 @@ export function getThemes() {
 
 export function getThemeColors(theme) {
     return THEMES[theme].colors;
+}
+
+export function getColor(theme, colorOrder = 1) {
+    let colorKey = Object.keys(THEMES[theme].colors)[colorOrder - 1];
+    return THEMES[theme].colors[colorKey];
+}
+
+export function getCurrentColor(theme, colorOrder = 1) {
+    let colorKey = Object.keys(THEMES[theme].colors)[colorOrder - 1];
+    let styles = getComputedStyle(document.documentElement);
+
+    return styles.getPropertyValue('--' + colorKey);
+}
+
+export function generateCustomColors(color, colorOrder = 1, generateTransparents = true) {
+    let colorOrderStr = colorOrder === 1 ? 'Primary' : colorOrder === 2 ? 'Secondary' : colorOrder.toString();
+    let colorName = '--theme' + colorOrderStr + 'Color';
+    let colorTransparentName = colorName + 'Transparent';
+    return generateTransparents ? { [ colorName ]: color, [colorTransparentName]: setRgbaAlpha(color, 0.15) } : { [colorName]: color };
+
+}
+
+export function updateCustomProperty(property, newValue) {
+    document.documentElement.style.setProperty(property, newValue);
 }
 
 export function sanitizeThemeToolbar(toolbar) {

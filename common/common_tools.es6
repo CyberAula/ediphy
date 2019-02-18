@@ -344,7 +344,7 @@ export function translateLicense(license) {
     return dict[license];
 }
 
-export function setRgbaAlpha(color, alpha) {
+export function setRgbaAlpha(color, alpha = 0.15) {
     if (color) {
         if (color.charAt(0) === "#") {
             let cutHex = color.substring(1, 7);

@@ -22,7 +22,7 @@
     margin-top: 0.2em;
     .answer_letter{
       color: white;
-      background-color: var(--color);
+      background-color: var(--themePrimaryColor);
       border-radius: 1em;
       width: 1.5em;
       height: 1.5em;
@@ -82,10 +82,11 @@
     padding: 0.8em 0;
     margin:0;
     .feedback {
-      color: $blueprimary;
+      color: var(--themePrimaryColor);
+      background-color: var(--themePrimaryColorTransparent);
       margin:0;
       padding:0;
-      border: 0.1em solid $blueprimary;
+      border: 0.1em solid var(--themePrimaryColor);
       border-radius: 0.2em;
     }
 

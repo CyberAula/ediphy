@@ -12,6 +12,7 @@ import {
 import Utils from "../common/utils";
 
 import { loadBackground } from "../common/themes/background_loader";
+import { getColor } from "../common/themes/theme_loader";
 
 function toolbarElementCreator(state, action, containedView = false) {
     let doc_type;
@@ -43,11 +44,11 @@ function toolbarElementCreator(state, action, containedView = false) {
     // name =nextAvailName(name, state, 'viewName');
     let theme = action.payload.theme ? action.payload.theme : 'default';
     let themeBackground = action.payload.themeBackground ? action.payload.themeBackground : 0;
-    let background = action.payload.background ? action.payload.background.background : loadBackground(theme, theme_background);
+    let background = action.payload.background ? action.payload.background.background : loadBackground(theme, themeBackground);
     let backgroundAttr = action.payload.background ? action.payload.background.backgroundAttr : "full";
     let customBackground = action.payload.background ? action.payload.background.customBackground : false;
-    let themePrimaryColor = action.payload.colors.themePrimaryColor ? action.payload.colors.themePrimaryColor : '#ffffff';
-    let themeSecondaryColor = action.payload.colors.themeSecondaryColor ? action.payload.colors.themeSecondaryColor : '#ffffff';
+    let themePrimaryColor = action.payload.colors && action.payload.colors.themePrimaryColor ? action.payload.colors.themePrimaryColor : getColor(theme, 1);
+    let themeSecondaryColor = action.payload.colors && action.payload.colors.themeSecondaryColor ? action.payload.colors.themeSecondaryColor : getColor(theme, 2);
 
     let toolbar = {
         id: id,

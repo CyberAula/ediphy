@@ -1,6 +1,7 @@
 import React from 'react';
 import { THEMES } from './theme_loader';
 import PropTypes from "prop-types";
+import { setRgbaAlpha } from "../common_tools";
 
 export default class ThemeCSS extends React.Component {
 
@@ -22,7 +23,7 @@ export default class ThemeCSS extends React.Component {
 
     componentWillMount() {
         this.loadCSS();
-        this.loadThemeCustomProperties();
+        this.loadThemeCustomProperties(THEMES[this.props.theme].colors);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -30,12 +31,8 @@ export default class ThemeCSS extends React.Component {
             this.getThemeCSS(nextProps.theme);
         }
 
-        if (nextProps.toolbar.colors.themePrimaryColor !== this.props.toolbar.colors.themePrimaryColor) {
-            this.updateCustomProperty('--themePrimaryColor', nextProps.toolbar.colors.themePrimaryColor);
-        }
-
-        if (nextProps.toolbar.colors.themeSecondaryColor !== this.props.toolbar.colors.themeSecondaryColor) {
-            this.updateCustomProperty('--themeSecondaryColor', nextProps.toolbar.colors.themeSecondaryColor);
+        if (nextProps.toolbar.colors !== this.props.toolbar.colors) {
+            this.loadThemeCustomProperties(nextProps.toolbar.colors);
         }
     }
 
@@ -88,12 +85,13 @@ export default class ThemeCSS extends React.Component {
         document.documentElement.style.setProperty(property, newValue);
     }
 
-    loadThemeCustomProperties() {
-        let colors = THEMES[this.props.theme].colors;
+    loadThemeCustomProperties(colors) {
 
         Object.keys(colors).map((cPropKey) => {
             this.updateCustomProperty('--' + cPropKey, colors[cPropKey]);
+            this.updateCustomProperty('--' + cPropKey + 'Transparent', setRgbaAlpha(colors[cPropKey], 0.15));
         });
+
     }
 
     render() {

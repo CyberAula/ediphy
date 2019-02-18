@@ -13,6 +13,7 @@ import ToolbarFileProvider from "../../_editor/components/external_provider/file
 /* eslint-disable react/prop-types */
 
 import { loadBackground, getBackgroundIndex, isBackgroundColor, getBackground } from "../../common/themes/background_loader";
+import { getColor, getCurrentColor } from "../../common/themes/theme_loader";
 import { sanitizeThemeToolbar } from "../../common/themes/theme_loader";
 
 export function toolbarFiller(toolbar, id, state, config, initialParams, container, marks = null, exercises = {}) {
@@ -38,14 +39,6 @@ export function toolbarFiller(toolbar, id, state, config, initialParams, contain
 }
 
 export function toolbarMapper(controls, toolbar) {
-    /* if (Object.keys(toolbar.state).length > 0) {
-        Object.keys(toolbar.state).forEach((s)=>{
-            // avoid container ids
-            if(s.indexOf("__") === -1 && (!!controls.main.accordions.basic && !!controls.main.accordions.basic.buttons && !!controls.main.accordions.basic.buttons[s])) {
-                controls.main.accordions.basic.buttons[s].value = toolbar.state[s];
-            }
-        });
-    }*/
 
     if (Object.keys(toolbar.style).length > 0) {
         Object.keys(toolbar.style).forEach((s) => {
@@ -580,6 +573,22 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
             }
 
+            if (button.type === 'custom_color_plugin') {
+                let toolbar = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
+                let theme = toolbar.theme ? toolbar.theme : 'default';
+
+                if (e.color) {
+                    value = { color: e.color, custom: true };
+                    if (!value) {
+                        return;
+                    }
+                }
+
+                if(e.currentTarget && e.currentTarget.type === "button") {
+                    value = { color: getCurrentColor(theme), custom: false };
+                }
+            }
+
             if (button.type === 'background_picker') {
                 if(e.color) {
                     value = { background: e.color, backgroundAttr: 'full', backgroundZoom: 100, customBackground: true };
@@ -660,9 +669,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             } else {
                 toolbar_props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, value);
             }
-
         },
-
     };
     if (button.type === "color") {
         return React.createElement(
@@ -862,6 +869,35 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     )
                 ),
             ]);
+    }
+
+    if (button.type === "custom_color_plugin") {
+        let theme = toolbar_props.viewToolbars[id] && toolbar_props.viewToolbars[id].theme ? toolbar_props.viewToolbars[id].theme : 'default';
+
+        return React.createElement(
+            FormGroup,
+            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
+            [
+                React.createElement(
+                    ControlLabel,
+                    { key: 'label1_' + button.__name },
+                    'Color'),
+                React.createElement(
+                    ColorPicker, { key: "cpicker_" + props.label, value: (props.value && props.value.color) ? props.value.color : getColor(theme), onChange: props.onChange },
+                    []),
+                React.createElement(
+                    ControlLabel,
+                    { key: 'label_' + button.__name },
+                    '&&Restore theme color'),
+                React.createElement(
+                    Button, {
+                        value: getColor(theme),
+                        key: 'button_' + button.__name,
+                        onClick: props.onChange,
+                        className: "toolbarButton",
+                    },
+                    React.createElement("div", { key: props.label }, '&&Restore theme color'),
+                )]);
     }
 
     if (button.type === "background_picker") {
