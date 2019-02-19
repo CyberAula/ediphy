@@ -883,12 +883,8 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     { key: 'label1_' + button.__name },
                     'Color'),
                 React.createElement(
-                    ColorPicker, { key: "cpicker_" + props.label, value: (props.value && props.value.color) ? props.value.color : getColor(theme), onChange: props.onChange },
+                    ColorPicker, { key: "cpicker_" + props.label, value: (props.value && props.value.color && props.value.custom) ? props.value.color : getCurrentColor(theme), onChange: props.onChange },
                     []),
-                React.createElement(
-                    ControlLabel,
-                    { key: 'label_' + button.__name },
-                    '&&Restore theme color'),
                 React.createElement(
                     Button, {
                         value: getColor(theme),

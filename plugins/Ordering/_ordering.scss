@@ -3,7 +3,6 @@
 .orderingPlugin {
   .orderable{
     // https://tailwindcss.com/docs/shadows/
-    //box-shadow:  0 0.2em 0.3em 0 rgba(0,0,0,0.10);
     box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.06);
     &.hoveringOrder {
       background-color: #ccc;
@@ -11,8 +10,6 @@
     }
   }
   .ui-sortable-placeholder{
-    //display: none;
-    //width: 100%;
     background-color: rgba(240,240,240,0.3);
     visibility: visible !important;
   }
@@ -30,16 +27,15 @@
   .answerPlaceholder {
     display: flex;
     font-size: 1.5em;
-    margin: 0.4em 0.14em 0.4em 0.8em;
     text-align: right;
-    color: $blueprimarydark;
-    padding: 0;
+    color: var(--themePrimaryColor);
     width: auto;
-    margin-top: 0.2em;
-    padding-right: 1.8em ;
+    margin: 0.2em 0.14em 0.4em 0.8em;
+    padding: 0 1.8em 0 0;
+
     .answer_letter{
       color: white;
-      background-color: #00ad9c;
+      background-color: var(--themePrimaryColor);
       border-radius: 1em;
       width: 1.5em;
       height: 1.5em;
@@ -47,13 +43,11 @@
       line-height: 1.1em;
       font-weight: 100;
       text-transform: uppercase;
-      padding: 0.15em 0px;
+      padding: 0.15em 0;
       font-size: 1.2em;
     }
     .radioQuiz {
-      //transform: scale(1.3);
       margin: 0.45em 0.3em 0.5em 0.6em;
-      //margin-right: 0px;
     }
   }
   .answerRow {
@@ -88,7 +82,7 @@
   }
   &.attempted  .exerciseScore{
     display: block;
-    color: $blueprimary;
+    color: var(--themePrimaryColor);
     font-size: 0.8em;
   }
 
@@ -96,34 +90,22 @@
 
     .orderable {
       box-shadow: none;
-
     }
     .order-drag-handle {
       visibility: hidden;
     }
   }
-  &.attempted.showFeedback .answerRow {
-    //margin-top: 2px;
-    //padding: 0;
-      &.correct {
-        //background-color: $detailgreentransparent;
-      }
-
-      &.incorrect {
-        //background-color: $lightredtransparent;
-      }
-  }
   .feedbackRow {
     padding: 0.8em 0;
     margin:0;
     .feedback {
-      color: $blueprimary;
+      color: var(--themePrimaryColor);
+      background-color: var(--themePrimaryColorTransparent);
       margin:0;
       padding:0;
-      border: 0.1em solid $blueprimary;
+      border: 0.1em solid var(--themePrimaryColor);
       border-radius: 0.2em;
     }
-
   }
   .correctAnswerFeedback {
     text-align: left;

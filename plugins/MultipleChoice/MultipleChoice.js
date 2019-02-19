@@ -54,7 +54,7 @@ export function MultipleChoice(base) {
                                 quizColor: {
                                     __name: Ediphy.i18n.t('MultipleChoice.Color'),
                                     type: 'custom_color_plugin',
-                                    value: state.quizColor || 'rgba(0, 173, 156, 1)',
+                                    value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryColor'),
                                 },
                             },
                         },
@@ -124,8 +124,9 @@ export function MultipleChoice(base) {
         getRenderTemplate: function(state, props = {}) {
 
             let answers = [];
-            let quizColor = state.quizColor.color;
             let correctAnswers = "";
+
+            let quizColor = state.quizColor.color;
             let customStyle = generateCustomColors(quizColor, 1, true);
 
             for (let i = 0; i < state.nBoxes; i++) {

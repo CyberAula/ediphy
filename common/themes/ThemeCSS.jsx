@@ -19,11 +19,14 @@ export default class ThemeCSS extends React.Component {
         this.loadThemeCustomProperties = this.loadThemeCustomProperties.bind(this);
 
         this.loadCSS();
+
     }
 
     componentWillMount() {
+
         this.loadCSS();
-        this.loadThemeCustomProperties(THEMES[this.props.theme].colors);
+        let colors = Object.keys(this.props.toolbar.colors).length ? this.props.toolbar.colors : THEMES[this.props.theme].colors;
+        this.loadThemeCustomProperties(colors);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -82,12 +85,14 @@ export default class ThemeCSS extends React.Component {
     }
 
     updateCustomProperty(property, newValue) {
+        console.log(document);
         document.documentElement.style.setProperty(property, newValue);
     }
 
     loadThemeCustomProperties(colors) {
 
         Object.keys(colors).map((cPropKey) => {
+            console.log(cPropKey, colors[cPropKey]);
             this.updateCustomProperty('--' + cPropKey, colors[cPropKey]);
             this.updateCustomProperty('--' + cPropKey + 'Transparent', setRgbaAlpha(colors[cPropKey], 0.15));
         });

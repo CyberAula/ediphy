@@ -2,8 +2,8 @@
 
 .freeResponsePlugin  {
   .row {
-    margin-left: 0px;
-    margin-right: 0px;
+    margin-left: 0;
+    margin-right: 0;
   }
   .col-xs-12 {
     padding: 0;
@@ -12,7 +12,7 @@
     height: 14em !important;
     resize: none !important;
     background-color: white;
-    border-radius: 0px;
+    border-radius: 0;
     box-shadow: none;
     overflow:visible;
     font-size: 1em;
@@ -41,17 +41,17 @@
   }
   &.attempted  .exerciseScore{
       display: block;
-      color: $blueprimary;
+      color: var(--themePrimaryColor);
       font-size: 0.8em;
   }
   .feedbackRow {
     padding:0.8em;
     margin:0;
     .feedback {
-      background-color: $blueprimarytransparent;
+      background-color: var(--themePrimaryColorTransparent);
       margin:0;
-      border: 0.07em solid $blueprimary;
-      color: $blueprimary;
+      border: 0.07em solid var(--themePrimaryColor);
+      color: var(--themePrimaryColor);
       border-radius: 0.2em;
       padding:0;
     }

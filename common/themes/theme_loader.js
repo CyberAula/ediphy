@@ -141,10 +141,6 @@ export function generateCustomColors(color, colorOrder = 1, generateTransparents
 
 }
 
-export function updateCustomProperty(property, newValue) {
-    document.documentElement.style.setProperty(property, newValue);
-}
-
 export function sanitizeThemeToolbar(toolbar) {
     let theme = toolbar.theme ? toolbar.theme : 'default';
     return {

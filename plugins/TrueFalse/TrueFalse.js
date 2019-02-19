@@ -4,6 +4,7 @@ import './_truefalse.scss';
 import i18n from 'i18next';
 import { letterFromNumber } from '../../common/common_tools';
 import { setRgbaAlpha } from "../../common/common_tools";
+import { generateCustomColors } from "../../common/themes/theme_loader";
 /* eslint-disable react/prop-types */
 
 export function TrueFalse(base) {
@@ -48,9 +49,9 @@ export function TrueFalse(base) {
                                     checked: state.allowPartialScore,
                                 },
                                 quizColor: {
-                                    __name: Ediphy.i18n.t('TrueFalse.QuizColor'),
-                                    type: 'color',
-                                    value: state.quizColor || 'rgba(0, 173, 156, 1)',
+                                    __name: Ediphy.i18n.t('Ordering.Color'),
+                                    type: 'custom_color_plugin',
+                                    value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryColor'),
                                 },
                             },
                         },
@@ -120,7 +121,9 @@ export function TrueFalse(base) {
         getRenderTemplate: function(state, props = {}) {
             let answers = [];
 
-            let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
+            let quizColor = state.quizColor.color;
+            let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
+
             for (let i = 0; i < state.nBoxes; i++) {
                 let clickHandler = (index, value)=>{
                     if(props.exercises && props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array)) {
@@ -137,9 +140,9 @@ export function TrueFalse(base) {
                 };
                 answers.push(<div key={i + 1} className={"row answerRow"}>
                     <div className={"col-xs-2 answerPlaceholder"}>
-                        <input type="radio" className="radioQuiz" name={props.id + "_" + i} value={"true"} checked={props.exercises && props.exercises.correctAnswer[i] === "true" || props.exercises && props.exercises.correctAnswer[i] === true /* ? 'checked' : 'unchecked'*/ }
+                        <input type="radio" className="radioQuiz" name={props.id + "_" + i} value={"true"} checked={props.exercises && props.exercises.correctAnswer[i] === "true" || props.exercises && props.exercises.correctAnswer[i] === true}
                             onChange={()=>{clickHandler(i, "true");}} />
-                        <input type="radio" className="radioQuiz" name={props.id + "_" + i} value={"false"} checked={props.exercises && props.exercises.correctAnswer[i] === "false" || props.exercises && props.exercises.correctAnswer[i] === false/* ? 'checked' : 'unchecked'*/ }
+                        <input type="radio" className="radioQuiz" name={props.id + "_" + i} value={"false"} checked={props.exercises && props.exercises.correctAnswer[i] === "false" || props.exercises && props.exercises.correctAnswer[i] === false}
                             onChange={()=>{clickHandler(i, "false");}} />
                     </div>
                     <div className={"col-xs-10"}>
@@ -151,7 +154,7 @@ export function TrueFalse(base) {
                 </div>
                 );
             }
-            return <div className={"exercisePlugin truefalsePlugin"}>
+            return <div className={"exercisePlugin truefalsePlugin"} style={ state.quizColor.custom ? customStyle : null}>
                 <div className={"row"} key={-1}>
                     <div className={"col-xs-12"}>
                         <PluginPlaceholder {...props} key="1"
@@ -168,7 +171,7 @@ export function TrueFalse(base) {
                     <div className={"col-xs-10"} /></div>
                 {answers}
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"} style={{ color: quizColor, borderColor: quizColor, backgroundColor: setRgbaAlpha(quizColor, 0.15) }}>
+                    <div className={"col-xs-12 feedback"}>
                         <PluginPlaceholder {...props} key="-2"
                             pluginContainerName={i18n.t("TrueFalse.Feedback")}
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("TrueFalse.FeedbackMsg") + '</p>' } }/* , {plugin: 'HotspotImages', initialState:{url: 'nooo'}}*/]}
@@ -181,7 +184,7 @@ export function TrueFalse(base) {
                       background-color: transparent;
                     }
                    .truefalsePlugin input[type="radio"]:checked:after {
-                      background-color: ${quizColor};
+                      background-color: var(--themePrimaryColor);
                     }
                   `,
                 }} />

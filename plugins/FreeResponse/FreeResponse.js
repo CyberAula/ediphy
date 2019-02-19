@@ -2,7 +2,7 @@ import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import i18n from 'i18next';
 import './_freeResponse.scss';
-import { setRgbaAlpha } from "../../common/common_tools";
+import { generateCustomColors } from "../../common/themes/theme_loader";
 /* eslint-disable react/prop-types */
 
 export function FreeResponse(base) {
@@ -40,8 +40,8 @@ export function FreeResponse(base) {
                                 },
                                 quizColor: {
                                     __name: Ediphy.i18n.t('FreeResponse.FeedbackColor'),
-                                    type: 'color',
-                                    value: state.quizColor || 'rgba(0, 173, 156, 1)',
+                                    type: 'custom_color_plugin',
+                                    value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryColor'),
                                 },
                                 characters: {
                                     __name: i18n.t("FreeResponse.Characters"),
@@ -111,7 +111,7 @@ export function FreeResponse(base) {
                 showFeedback: true,
                 characters: true,
                 correct: true,
-                quizColor: 'rgba(0, 173, 156, 1)',
+                quizColor: { color: 'rgba(0, 173, 156, 1)', custom: false },
             };
         },
         getRenderTemplate: function(state, props) {
@@ -119,8 +119,10 @@ export function FreeResponse(base) {
                 props.setCorrectAnswer(e.target.value);
             };
 
-            let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
-            return <div className={"exercisePlugin freeResponsePlugin"} > {/* <h1>Free Response</h1>*/}
+            let quizColor = state.quizColor.color;
+            let customStyle = generateCustomColors(quizColor, 1, true);
+
+            return <div className={"exercisePlugin freeResponsePlugin"} style={ state.quizColor.custom ? customStyle : null }>
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
                         <PluginPlaceholder {...props} key="1"
@@ -134,7 +136,7 @@ export function FreeResponse(base) {
                     </div>
                 </div>
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"} style={{ color: quizColor, borderColor: quizColor, backgroundColor: setRgbaAlpha(quizColor, 0.15) }}>
+                    <div className={"col-xs-12 feedback"}>
                         <PluginPlaceholder {...props} key="-2"
                             pluginContainerName={i18n.t("FreeResponse.Feedback")}
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("FreeResponse.FeedbackMsg") + '</p>' } }]}

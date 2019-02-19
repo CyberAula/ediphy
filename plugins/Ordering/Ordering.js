@@ -5,6 +5,7 @@ import i18n from 'i18next';
 import { letterFromNumber, getRandomColor, setRgbaAlpha } from '../../common/common_tools';
 
 import colorManager from '../../_editor/components/common/color-picker/ColorPicker';
+import { generateCustomColors } from "../../common/themes/theme_loader";
 /* eslint-disable react/prop-types */
 
 export function Ordering(base) {
@@ -50,8 +51,8 @@ export function Ordering(base) {
                                 },
                                 quizColor: {
                                     __name: Ediphy.i18n.t('Ordering.Color'),
-                                    type: 'color',
-                                    value: state.quizColor || 'rgba(0, 173, 156, 1)',
+                                    type: 'custom_color_plugin',
+                                    value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryColor'),
                                 },
                             },
                         },
@@ -120,19 +121,16 @@ export function Ordering(base) {
         },
         getRenderTemplate: function(state, props = {}) {
             let answers = [];
-
-            let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
             let correctAnswers = "";
 
+            let quizColor = state.quizColor.color;
+            let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
+
             for (let i = 0; i < state.nBoxes; i++) {
-                // let clickHandler = (e)=>{
-                //     props.setCorrectAnswer(parseInt(e.target.value, 10));
-                // };
                 let isCorrect = props.exercises.correctAnswer === i;
                 answers.push(<div key={i + 1} className={"row answerRow"} >
                     <div className={"col-xs-2 answerPlaceholder"} >
-                        <div className={"answer_letter"} style={{ backgroundColor: quizColor }}>{ (i + 1)}</div>
-
+                        <div className={"answer_letter"}>{ (i + 1)}</div>
                     </div>
                     <div className={"col-xs-10"} >
                         <PluginPlaceholder {...props} key={i + 1}
@@ -144,7 +142,7 @@ export function Ordering(base) {
                 );
                 if (isCorrect) {correctAnswers += state.letters === i18n.t("Ordering.ShowLetters") ? letterFromNumber(i) : (i + 1);}
             }
-            return <div className={"exercisePlugin orderingPlugin"}>
+            return <div className={"exercisePlugin orderingPlugin"} style={ state.quizColor.custom ? customStyle : null }>
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
                         <PluginPlaceholder {...props} key="1"
@@ -155,7 +153,7 @@ export function Ordering(base) {
                 </div>
                 {answers}
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"} style={{ color: quizColor, borderColor: quizColor, backgroundColor: setRgbaAlpha(state.quizColor, 0.15) }}>
+                    <div className={"col-xs-12 feedback"}>
                         <PluginPlaceholder {...props} key="-2"
                             pluginContainerName={i18n.t("Ordering.Feedback")}
                             pluginContainer={"Feedback"}
@@ -169,7 +167,7 @@ export function Ordering(base) {
                       background-color: transparent;
                     }
                    .orderingPlugin input[type="radio"]:checked:after {
-                      background-color: ${quizColor};
+                      background-color: var(--themePrimaryColor);
                     }
                   `,
                 }} />

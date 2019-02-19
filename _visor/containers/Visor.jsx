@@ -11,11 +11,6 @@ export default class Visor extends Component {
     }
 
     render() {
-        /* if (this.props.state.navItemSelected === 0) {
-            return (
-                <div />
-            );
-        }*/
 
         return (
             <Modal className="visor modalVisorContainer"

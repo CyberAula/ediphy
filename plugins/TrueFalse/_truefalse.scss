@@ -88,19 +88,10 @@
   }
   &.attempted  .exerciseScore{
     display: block;
-    color: $blueprimary;
+    color: var(--themePrimaryColor);
     font-size: 0.8em;
   }
 
-  &.attempted.showFeedback .answerRow {
-    //margin-top: 2px;
-    &.correct {
-      //background-color: $detailgreentransparent;
-    }
-    &.incorrect {
-      //background-color: $lightredtransparent;
-    }
-  }
   .truefalse {
     word-break: keep-all;
   }
@@ -108,10 +99,10 @@
     padding: 0.8em;
     margin:0;
     .feedback {
-      background-color: $blueprimarytransparent;
+      background-color: var(--themePrimaryColorTransparent);
       margin:0;
-      border: 0.1em solid $blueprimary;
-      color: $blueprimary;
+      border: 0.1em solid var(--themePrimaryColor);
+      color: var(--themePrimaryColor);
       border-radius: 0.2em;
       padding:0;
     }
