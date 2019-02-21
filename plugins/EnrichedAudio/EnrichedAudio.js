@@ -65,13 +65,8 @@ export function EnrichedAudio(base) {
                                 },
                                 progressColor: {
                                     __name: Ediphy.i18n.t('EnrichedAudio.ProgressColor'),
-                                    type: 'color',
-                                    value: state.progressColor,
-                                },
-                                waveColor: {
-                                    __name: Ediphy.i18n.t('EnrichedAudio.WaveColor'),
-                                    type: 'color',
-                                    value: state.waveColor,
+                                    type: 'custom_color_plugin',
+                                    value: state.progressColor || getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryColor'),
                                 },
                             },
                         },
@@ -79,13 +74,6 @@ export function EnrichedAudio(base) {
                             __name: Ediphy.i18n.t('EnrichedAudio.box_style'),
                             icon: 'palette',
                             buttons: {
-                                /* padding: {
-                                    __name: Ediphy.i18n.t('EnrichedAudio.padding'),
-                                    type: 'number',
-                                    value: 0,
-                                    min: 0,
-                                    max: 100,
-                                },*/
                                 borderWidth: {
                                     __name: Ediphy.i18n.t('EnrichedAudio.border_size'),
                                     type: 'number',
@@ -132,12 +120,13 @@ export function EnrichedAudio(base) {
                 controls: true,
                 waves: true,
                 barWidth: 2,
-                progressColor: '#ccc',
-                waveColor: '#178582',
+                progressColor: { color: getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryColor'), custom: false },
+                waveColor: { color: '#178582', custom: false },
                 scroll: false,
             };
         },
         getRenderTemplate: function(state, props) {
+
             if (state.url.match(/^https?\:\/\/api.soundcloud.com\//g)) {
                 return <iframe style={{ pointerEvents: 'none' }} width="100%" height="100%" scrolling="no" frameBorder="no" allow="autoplay" src={"https://w.soundcloud.com/player/?url=" + encodeURI(state.url) + "&color=%2317cfc8&auto_play=false&hide_related=true&show_comments=true&show_user=false&show_reposts=false&show_teaser=false&visual=" + (state.waves ? "false" : "true")} />;
             }
@@ -160,7 +149,6 @@ export function EnrichedAudio(base) {
             let regex = /^((\d+:)?[0-5]\d?:[0-5]\d$)/g;
             let match = regex.exec(value);
             if (match && match.length === 3) {
-                // let val = match[1];
                 return { isWrong: false, value: value };
             }
             return { isWrong: true, message: i18n.t("EnrichedAudio.message_mark_error") };

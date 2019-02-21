@@ -1,9 +1,8 @@
 import React from 'react';
 import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
 import i18n from 'i18next';
-import { letterFromNumber } from '../../../common/common_tools';
-import { setRgbaAlpha } from "../../../common/common_tools";
 import { correctArrayOrdered } from '../../../core/visor/correction_functions';
+import { generateCustomColors } from "../../../common/themes/theme_loader";
 
 /* eslint-disable react/prop-types */
 
@@ -14,19 +13,21 @@ export function TrueFalse() {
             let attempted = props.exercises && props.exercises.attempted;
             let score = props.exercises.score || 0;
             score = Math.round(score * 100) / 100;
-
             score = (props.exercises.weight === 0) ? i18n.t("TrueFalse.notCount") : ((score) + "/" + (props.exercises.weight));
 
+            let showFeedback = attempted && state.showFeedback;
+            let feedbackText = props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text;
             let checkEmptyFeedback = !props.boxes[props.id].sortableContainers['sc-Feedback'].children ||
             props.boxes[props.id].sortableContainers['sc-Feedback'].children.length === 0 ||
-            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === "<p>" + i18n.t("text_here") + "</p>" ||
-            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI("<p>" + i18n.t("text_here") + "</p>") ||
-            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI("<p>" + i18n.t("text_here") + "</p>\n") ||
-            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI('<p>' + i18n.t("MultipleAnswer.FeedbackMsg") + '</p>\n') ||
-            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === '<p>' + i18n.t("MultipleAnswer.FeedbackMsg") + '</p>';
+                feedbackText === "<p>" + i18n.t("text_here") + "</p>" ||
+                feedbackText === encodeURI("<p>" + i18n.t("text_here") + "</p>") ||
+                feedbackText === encodeURI("<p>" + i18n.t("text_here") + "</p>\n") ||
+                feedbackText === encodeURI('<p>' + i18n.t("TrueFalse.FeedbackMsg") + '</p>\n') ||
+                feedbackText === '<p>' + i18n.t("TrueFalse.FeedbackMsg") + '</p>';
 
-            let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
-            let showFeedback = attempted && state.showFeedback;
+            let quizColor = state.quizColor.color || 'rgba(0, 173, 156, 1)';
+            let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
+
             for (let i = 0; i < state.nBoxes; i++) {
                 let correct = attempted && props.exercises.correctAnswer[i] === props.exercises.currentAnswer[i];
                 let incorrect = attempted && !correct;
@@ -62,7 +63,8 @@ export function TrueFalse() {
 
             }
 
-            return <div className={"exercisePlugin truefalsePlugin" + (attempted ? " attempted " : " ") + (props.exercises.showFeedback ? "showFeedback" : "")}>
+            let exClassName = "exercisePlugin truefalsePlugin" + (attempted ? " attempted " : " ") + (props.exercises.showFeedback ? "showFeedback" : "");
+            return <div className={ exClassName } style={ customStyle }>
                 <div className={"row"} key={0} >
                     <div className={"col-xs-12"}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Question"}/>
@@ -77,18 +79,18 @@ export function TrueFalse() {
                 </div>
                 {content}
                 {checkEmptyFeedback ? null : <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"} style={{ color: quizColor, borderColor: quizColor, backgroundColor: setRgbaAlpha(quizColor, 0.15) }}>
+                    <div className={"col-xs-12 feedback"}>
                         <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
                     </div>
                 </div>}
-                <div className={"exerciseScore"} style={{ color: quizColor }}>{score}</div>
+                <div className={"exerciseScore"}>{score}</div>
                 <style dangerouslySetInnerHTML={{
                     __html: `
                     .truefalsePlugin input[type="radio"]  {
                       background-color: transparent;
                     }
                    .truefalsePlugin input[type="radio"]:checked:after {
-                      background-color: ${quizColor};
+                      background-color: var(--themePrimaryColor);
                     }
                   `,
                 }} />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { convertHMStoSeconds, pad } from '../../../common/common_tools';
+import { convertHMStoSeconds, pad, setRgbaAlpha } from '../../../common/common_tools';
 
 import { findDOMNode } from 'react-dom';
 // import ReactAudioPlayer from 'react-audio-player';
@@ -19,7 +19,6 @@ export default class BasicAudioPlugin extends React.Component {
             duration: 1,
             waves: this.props.state.waves,
             autoplay: this.props.state.autoplay,
-            // audioPeaks: null,
             ondas: null,
             toBeTriggered: [],
             triggering: false,
@@ -130,14 +129,15 @@ export default class BasicAudioPlugin extends React.Component {
         }
     }
     render() {
+        let color = this.props.state.progressColor.custom ? this.props.state.progressColor.color : this.props.props.themeColors.themePrimaryColor;
+
         const waveOptions = {
             scrollParent: false, // muestra toda la onda
             hideScrollbar: false,
-            progressColor: this.props.state.progressColor,
-            waveColor: this.props.state.waveColor,
+            progressColor: color,
+            waveColor: setRgbaAlpha(color, 0.5),
             normalize: true,
             barWidth: (this.props.state.barWidth > 0 ? this.props.state.barWidth : undefined),
-            // peaks: this.state.peaks,
             cursorColor: 'grey',
             height: this.props.state.waves ? 128 : 0,
         };

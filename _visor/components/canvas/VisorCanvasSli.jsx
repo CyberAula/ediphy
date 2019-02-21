@@ -14,6 +14,8 @@ import ReactDOM from 'react-dom';
 
 import { loadBackgroundStyle } from "../../../common/themes/background_loader";
 import ThemeCSS from '../../../common/themes/ThemeCSS';
+import { getThemeColors } from "../../../common/themes/theme_loader";
+import EditorBox from "../../../_editor/components/canvas/editor_canvas_sli/EditorCanvasSli";
 
 export default class VisorCanvasSli extends Component {
     constructor(props) {
@@ -113,7 +115,9 @@ export default class VisorCanvasSli extends Component {
                                 marks={this.props.marks}
                                 setAnswer={this.props.setAnswer}
                                 onMarkClicked={this.props.onMarkClicked}
-                                richElementsState={this.props.richElementsState}/>;
+                                richElementsState={this.props.richElementsState}
+                                themeColors={toolbar.colors ? toolbar.colors : getThemeColors(theme)}
+                            />;
                         })}
 
                         {this.props.fromPDF ? null : <div className={"pageFooter" + (!exercises || !exercises.exercises || Object.keys(exercises.exercises).length === 0 ? " hidden" : "")}>

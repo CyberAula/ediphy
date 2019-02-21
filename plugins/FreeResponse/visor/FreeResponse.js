@@ -14,17 +14,19 @@ export function FreeResponse() {
             let score = props.exercises.score || 0;
             score = Math.round(score * 100) / 100;
             score = (props.exercises.weight === 0) ? i18n.t("FreeResponse.notCount") : ((score) + "/" + (props.exercises.weight));
-            let showFeedback = attempted && state.showFeedback;
 
-            let quizColor = state.quizColor.color;
+            let quizColor = state.quizColor.color || 'rgba(0, 173, 156, 1)';
             let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
+
+            let showFeedback = attempted && state.showFeedback;
+            let feedbackText = props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text;
             let checkEmptyFeedback = !props.boxes[props.id].sortableContainers['sc-Feedback'].children ||
             props.boxes[props.id].sortableContainers['sc-Feedback'].children.length === 0 ||
-            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === "<p>" + i18n.t("text_here") + "</p>" ||
-            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI("<p>" + i18n.t("text_here") + "</p>") ||
-            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI("<p>" + i18n.t("text_here") + "</p>\n") ||
-            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI('<p>' + i18n.t("FreeResponse.FeedbackMsg") + '</p>\n') ||
-            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === '<p>' + i18n.t("FreeResponse.FeedbackMsg") + '</p>';
+                feedbackText === "<p>" + i18n.t("text_here") + "</p>" ||
+                feedbackText === encodeURI("<p>" + i18n.t("text_here") + "</p>") ||
+                feedbackText === encodeURI("<p>" + i18n.t("text_here") + "</p>\n") ||
+                feedbackText === encodeURI('<p>' + i18n.t("FreeResponse.FeedbackMsg") + '</p>\n') ||
+                feedbackText === '<p>' + i18n.t("FreeResponse.FeedbackMsg") + '</p>';
 
             return <div className={"exercisePlugin freeResponsePlugin " + (attempted ? " attempted" : "")} style={ customStyle }>
                 <div className={"row"} key={0}>

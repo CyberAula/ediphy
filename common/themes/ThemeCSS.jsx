@@ -85,18 +85,14 @@ export default class ThemeCSS extends React.Component {
     }
 
     updateCustomProperty(property, newValue) {
-        console.log(document);
         document.documentElement.style.setProperty(property, newValue);
     }
 
     loadThemeCustomProperties(colors) {
-
         Object.keys(colors).map((cPropKey) => {
-            console.log(cPropKey, colors[cPropKey]);
             this.updateCustomProperty('--' + cPropKey, colors[cPropKey]);
             this.updateCustomProperty('--' + cPropKey + 'Transparent', setRgbaAlpha(colors[cPropKey], 0.15));
         });
-
     }
 
     render() {

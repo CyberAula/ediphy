@@ -41,6 +41,7 @@ export default class EditorBox extends Component {
      * @returns {code} React rendered component
      */
     render() {
+
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.pluginToolbars[this.props.id];

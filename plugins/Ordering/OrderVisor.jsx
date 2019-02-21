@@ -1,7 +1,7 @@
 import React from 'react';
 import VisorPluginPlaceholder from '../../_visor/components/canvas/VisorPluginPlaceholder';
 import i18n from 'i18next';
-import { setRgbaAlpha } from "../../common/common_tools";
+import { generateCustomColors } from "../../common/themes/theme_loader";
 /* eslint-disable react/prop-types */
 export default class OrderVisor extends React.Component {
     constructor(props) {
@@ -19,8 +19,9 @@ export default class OrderVisor extends React.Component {
         score = (props.exercises.weight === 0) ? i18n.t("Ordering.notCount") : ((score) + "/" + (props.exercises.weight));
         let showFeedback = attempted && state.showFeedback;
 
-        let quizColor = state.quizColor || 'rgba(0, 173, 156, 1)';
-        let correctAnswers = "";
+        let quizColor = state.quizColor.color || 'rgba(0, 173, 156, 1)';
+        let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
+
         let positions = attempted ? props.exercises.currentAnswer : this.state.positions;
         for (let j in positions) {
             let i = positions[j];
@@ -28,13 +29,11 @@ export default class OrderVisor extends React.Component {
             let correct = attempted && i == j;
             // eslint-disable-next-line
             let incorrect = attempted && (j != i);
-            // eslint-disable-next-line
-            let checked = j == i;
 
             content.push(
                 <div key={j + 1} data-id={i} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")}>
                     <div className={"col-xs-2 answerPlaceholder"}>
-                        <div className={"answer_letter"} style={{ backgroundColor: quizColor }}>{parseInt(j, 10) + 1}</div>
+                        <div className={"answer_letter"}>{parseInt(j, 10) + 1}</div>
                     </div>
                     <div className={"col-xs-10 answerCol"} >
                         <div data-id={i} className="orderable">
@@ -46,14 +45,18 @@ export default class OrderVisor extends React.Component {
                 </div>);
 
         }
+
+        let feedbackText = props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text;
         let checkEmptyFeedback = !props.boxes[props.id].sortableContainers['sc-Feedback'].children ||
             props.boxes[props.id].sortableContainers['sc-Feedback'].children.length === 0 ||
-            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === "<p>" + i18n.t("text_here") + "</p>" ||
-            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI("<p>" + i18n.t("text_here") + "</p>") ||
-            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI("<p>" + i18n.t("text_here") + "</p>\n") ||
-            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === encodeURI('<p>' + i18n.t("Ordering.FeedbackMsg") + '</p>\n') ||
-            props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text === '<p>' + i18n.t("Ordering.FeedbackMsg") + '</p>';
-        return (<div className={"exercisePlugin orderingPlugin" + (attempted ? " attempted " : " ") + (props.exercises.showFeedback ? "showFeedback" : "")}>
+            feedbackText === "<p>" + i18n.t("text_here") + "</p>" ||
+            feedbackText === encodeURI("<p>" + i18n.t("text_here") + "</p>") ||
+            feedbackText === encodeURI("<p>" + i18n.t("text_here") + "</p>\n") ||
+            feedbackText === encodeURI('<p>' + i18n.t("Ordering.FeedbackMsg") + '</p>\n') ||
+            feedbackText === '<p>' + i18n.t("Ordering.FeedbackMsg") + '</p>';
+
+        let exClassName = "exercisePlugin orderingPlugin" + (attempted ? " attempted " : " ") + (props.exercises.showFeedback ? "showFeedback" : "");
+        return (<div className={ exClassName } style={ customStyle }>
             <div className={"row"} key={0} >
                 <div className={"col-xs-12"}>
                     <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Question"}/>
@@ -63,19 +66,19 @@ export default class OrderVisor extends React.Component {
                 {content}
             </div>
             {checkEmptyFeedback ? null : <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
-                <div className={"col-xs-12 feedback"} style={{ color: quizColor, borderColor: quizColor, backgroundColor: setRgbaAlpha(quizColor, 0.15) }}>
+                <div className={"col-xs-12 feedback"}>
                     <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
                 </div>
             </div>}
 
-            <div className={"exerciseScore"} style={{ color: quizColor }}>{score}</div>
+            <div className={"exerciseScore"}>{score}</div>
             <style dangerouslySetInnerHTML={{
                 __html: `
                             .orderingPlugin input[type="radio"]  {
                               background-color: transparent;
                             }
                            .orderingPlugin input[type="radio"]:checked:after {
-                              background-color: ${quizColor};
+                              background-color: var(--themePrimaryColor);
                             }
                           `,
             }} />

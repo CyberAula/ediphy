@@ -3,8 +3,6 @@ import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholde
 import './_ordering.scss';
 import i18n from 'i18next';
 import { letterFromNumber, getRandomColor, setRgbaAlpha } from '../../common/common_tools';
-
-import colorManager from '../../_editor/components/common/color-picker/ColorPicker';
 import { generateCustomColors } from "../../common/themes/theme_loader";
 /* eslint-disable react/prop-types */
 

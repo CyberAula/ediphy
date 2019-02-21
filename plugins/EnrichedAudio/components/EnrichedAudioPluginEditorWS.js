@@ -5,6 +5,7 @@ import WaveSurfer from 'wavesurfer.js';
 import MarkEditor from '../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 import Mark from '../../../common/components/mark/Mark';
 import { convertHMStoSeconds, pad } from '../../../common/common_tools';
+import { setRgbaAlpha } from "../../../common/common_tools";
 
 import ReactResizeDetector from 'react-resize-detector';
 /* eslint-disable react/prop-types */
@@ -19,8 +20,6 @@ export default class BasicAudioPluginEditor extends React.Component {
             duration: 1,
             waves: true,
             autoplay: false,
-            // audioPeaks: null,
-            // ondas: false,
             height: 128,
             playedSeconds: 0,
 
@@ -62,8 +61,8 @@ export default class BasicAudioPluginEditor extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-
-        if (nextProps.state !== this.props.state) {
+        let colorThemeChanged = !this.props.state.progressColor.custom && nextProps.props.themeColors !== {} && this.state.color !== nextProps.props.themeColors.themePrimaryColor;
+        if (nextProps.state !== this.props.state || colorThemeChanged) {
             let pos = 0;
             let playing = false;
             if (this.props.state.url === nextProps.state.url) {
@@ -79,15 +78,16 @@ export default class BasicAudioPluginEditor extends React.Component {
 
             this.$el = ReactDOM.findDOMNode(this);
             this.$waveform = this.$el.querySelector('.wave');
-            const waveOptions = this.createOptions(nextProps, this.state);
+            const waveOptions = this.createOptions(nextProps, this.state, true);
             this.wavesurfer = WaveSurfer.create({
                 container: this.$waveform,
                 ...waveOptions,
             });
+            let color = this.props.state.progressColor.custom ? this.props.state.progressColor.color : nextProps.props.themeColors.themePrimaryColor;
             this.setState({
                 playing: false,
                 waves: nextProps.state.waves,
-                // height: nextProps.state.waves ? 1 : 0,
+                color: color,
             });
             this.wavesurfer.load(nextProps.state.url);
             this.wavesurfer.on('ready', ()=>{this.onReady(pos, playing);});
@@ -97,14 +97,16 @@ export default class BasicAudioPluginEditor extends React.Component {
 
     }
     createOptions(props, state) {
+
+        let color = props.state.progressColor.custom ? props.state.progressColor.color : props.props.themeColors.themePrimaryColor;
+
         return {
             scrollParent: props.state.scroll,
             hideScrollbar: !props.state.scroll,
-            progressColor: props.state.progressColor,
-            waveColor: props.state.waveColor,
+            progressColor: color,
+            waveColor: setRgbaAlpha(color, 0.5),
             normalize: true,
             barWidth: (props.state.barWidth > 0 ? props.state.barWidth : undefined),
-            // peaks: state.peaks,
             cursorColor: 'grey',
             height: props.state.waves ? 128 : 0,
         };
@@ -133,14 +135,15 @@ export default class BasicAudioPluginEditor extends React.Component {
     }
 
     onReady(pos, playing) {
+
         this.setState({
             duration: this.wavesurfer.backend.buffer.duration,
             pos: 0,
             playing: false,
             autoplay: this.props.state.autoplay,
             ondas: this.props.state.waves ? this.wavesurfer.backend.mergedPeaks : [0, 0, 0, 0],
-            waveColor: this.wavesurfer.params.waveColor,
-            progressColor: this.wavesurfer.params.progressColor,
+            waveColor: this.wavesurfer.params.waveColor.color,
+            progressColor: this.wavesurfer.params.progressColor.color,
             waves: this.props.state.waves,
             height: this.props.state.waves ? 128 : 0,
             ready: true,
@@ -165,6 +168,7 @@ export default class BasicAudioPluginEditor extends React.Component {
         }
 
     }
+
     render() {
 
         let marks = this.props.props.marks || {}; //
@@ -176,7 +180,7 @@ export default class BasicAudioPluginEditor extends React.Component {
             let color = marks[id].color;
             return(
                 <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.1em" }} boxId={this.props.props.id} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.onRichMarkMoved} state={this.props.state} base={this.props.base}>
-                    <div className="audioMark" style={{ background: color || "#17CFC8" }}>
+                    <div className="audioMark" style={{ background: color || "var(--themePrimaryColor)" }}>
                         <Mark style={{ position: 'relative', top: "-1.7em", left: "-1em" }} color={color || "#17CFC8"} idKey={id} title={title} />
                     </div>
                 </MarkEditor>);

@@ -42,10 +42,10 @@ export function AudioCue(base) {
                                     type: 'checkbox',
                                     checked: state.autoplay,
                                 },
-                                colorCue: {
-                                    __name: i18n.t('AudioCue.Color'),
-                                    type: 'color',
-                                    value: state.colorCue || 'rgba(0, 173, 156, 1)',
+                                cueColor: {
+                                    __name: Ediphy.i18n.t('AudioCue.Color'),
+                                    type: 'custom_color_plugin',
+                                    value: state.cueColor || getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryColor'),
                                 },
                                 useImage: {
                                     __name: i18n.t('AudioCue.UseImage'),
@@ -74,14 +74,13 @@ export function AudioCue(base) {
             return {
                 url: 'http://vishub.org/audios/15288.mp3',
                 autoplay: false,
-                colorCue: 'rgba(0, 173, 157, 1)',
+                cueColor: { color: 'rgba(0, 173, 157, 1)', custom: false },
                 useImage: false,
                 icon: audio_placeholder,
             };
         },
         getRenderTemplate: function(state, props) {
             return (<AudioCueComponent props={props} state={state}/>);
-
         },
     };
 }

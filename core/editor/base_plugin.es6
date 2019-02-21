@@ -144,17 +144,6 @@ export default function() {
                 }
             }
 
-            /* if(config.category === 'evaluation') {
-                if (!state.__score) {
-                    state.__score = {
-                        score: 1,
-                        correctAnswer: config.defaultCorrectAnswer,
-                        currentAnswer: config.defaultCurrentAnswer,
-
-                    };
-                }
-            }
-*/
             let toolbar = this.getToolbar(state);
             let template = null;
             let params = { ...initParams };
@@ -169,10 +158,6 @@ export default function() {
                 if (config.initialHeight && !initParams.height) {
                     params.height = floatingBox && config.initialHeightSlide ? config.initialHeightSlide : config.initialHeight;
                 }
-                //
-                // if (needsConfigModal) {
-                //     Do stuff
-                // } else {
 
                 if (config.flavor !== "react") {
                     template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });

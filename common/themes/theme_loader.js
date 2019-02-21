@@ -129,7 +129,6 @@ export function getColor(theme, colorOrder = 1) {
 export function getCurrentColor(theme, colorOrder = 1) {
     let colorKey = Object.keys(THEMES[theme].colors)[colorOrder - 1];
     let styles = getComputedStyle(document.documentElement);
-
     return styles.getPropertyValue('--' + colorKey);
 }
 

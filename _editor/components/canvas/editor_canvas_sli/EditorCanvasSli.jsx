@@ -16,7 +16,7 @@ import i18n from 'i18next';
 import { SnapGrid } from './SnapGrid';
 import { ID_PREFIX_BOX } from '../../../../common/constants';
 
-import { loadTheme } from '../../../../common/themes/theme_loader';
+import { loadTheme, getThemeColors } from '../../../../common/themes/theme_loader';
 import ThemeCSS from '../../../../common/themes/ThemeCSS';
 import { loadBackground, loadBackgroundStyle } from "../../../../common/themes/background_loader";
 
@@ -151,6 +151,7 @@ export default class EditorCanvasSli extends Component {
                                 onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                 onTextEditorToggled={this.props.onTextEditorToggled}
                                 setCorrectAnswer={this.props.setCorrectAnswer}
+                                themeColors={toolbar.colors ? toolbar.colors : getThemeColors(theme)}
                                 pageType={itemSelected.type || 0}
                             />;
                         })}
