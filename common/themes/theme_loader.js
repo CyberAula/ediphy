@@ -29,7 +29,7 @@ export const THEMES = {
             "black",
         ],
         colors: {
-            themePrimaryColor: '#17CFC8',
+            themePrimaryColor: '#AFB2B1',
             themeSecondaryColor: '#17CFC8',
         },
     },

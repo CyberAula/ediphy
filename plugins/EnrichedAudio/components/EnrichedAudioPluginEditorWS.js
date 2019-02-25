@@ -64,6 +64,7 @@ export default class BasicAudioPluginEditor extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         let colorThemeChanged = !this.props.state.progressColor.custom && nextProps.props.themeColors !== {} && this.state.color !== nextProps.props.themeColors.themePrimaryColor;
+
         if (nextProps.state !== this.props.state || colorThemeChanged) {
             let pos = 0;
             let playing = false;
@@ -91,6 +92,7 @@ export default class BasicAudioPluginEditor extends React.Component {
                 playing: false,
                 waves: nextProps.state.waves,
                 color: color,
+                ready: false,
             }, () => {
                 this.wavesurfer.load(nextProps.state.url);
                 this.wavesurfer.on('ready', ()=>{this.onReady(pos, playing);});
@@ -138,7 +140,6 @@ export default class BasicAudioPluginEditor extends React.Component {
     }
 
     onReady(pos, playing) {
-
         this.setState({
             duration: this.wavesurfer.backend.buffer.duration,
             pos: 0,
