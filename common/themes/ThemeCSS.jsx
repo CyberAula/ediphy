@@ -2,6 +2,7 @@ import React from 'react';
 import { getThemeColors, THEMES } from './theme_loader';
 import PropTypes from "prop-types";
 import { setRgbaAlpha } from "../common_tools";
+import { translatePxToEm } from "./cssParser";
 
 export default class ThemeCSS extends React.Component {
 
@@ -17,7 +18,6 @@ export default class ThemeCSS extends React.Component {
         this.getThemeCSS = this.getThemeCSS.bind(this);
         this.updateCustomProperty = this.updateCustomProperty.bind(this);
         this.loadThemeCustomProperties = this.loadThemeCustomProperties.bind(this);
-        this.translatePxtoEm = this.translatePxtoEm.bind(this);
 
         this.loadCSS();
 
@@ -56,8 +56,7 @@ export default class ThemeCSS extends React.Component {
         let themesStartIndex = {};
         let themeNames = Object.keys(THEMES);
         let safeCSS = lines.map((line, index) => {
-
-            line = line.includes('{') ? '.safeZone ' + line : this.translatePxtoEm(line);
+            line = line.includes('{') ? '.safeZone ' + line : translatePxToEm(line);
             if (line.includes('.' + themeNames[0])) {
                 themesStartIndex[themeNames[0]] = index;
                 themeNames.splice(0, 1);
@@ -81,16 +80,6 @@ export default class ThemeCSS extends React.Component {
         let chunkStr = Object.values(chunkArr).reduce((l1, l2) => l1 + '\n' + l2);
 
         this.setState({ currentThemeCSS: chunkStr });
-    }
-
-    translatePxtoEm(line) {
-        let newLine = line.replace(/(\d+\.?\d*)\s?px/g, (a, b)=>{
-            let em = parseFloat(b) / 14;
-            em = Math.round(em * 100) / 100;
-            return em + 'em';
-        });
-
-        return newLine;
     }
 
     updateCustomProperty(property, newValue) {
