@@ -161,7 +161,6 @@ export default class EditorCanvasSli extends Component {
                 </div>
                 <ThemeCSS
                     theme={ theme }
-                    navItemSelected={this.props.navItemSelected}
                     toolbar = {{ ...toolbar, colors: toolbar.colors ? toolbar.colors : {} }}
                 />
                 <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{

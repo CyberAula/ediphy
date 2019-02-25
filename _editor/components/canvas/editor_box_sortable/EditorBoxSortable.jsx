@@ -121,7 +121,8 @@ export default class EditorBoxSortable extends Component {
                                                                 onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                                                 page={this.props.page}
                                                                 setCorrectAnswer={this.props.setCorrectAnswer}
-                                                                pageType={this.props.pageType}/>);
+                                                                pageType={this.props.pageType}
+                                                                themeColors={this.props.themeColors}/>);
 
                                                         } else if (ind === container.children.length - 1) {
                                                             return (<span key={ind}><br/><br/></span>);
@@ -247,13 +248,8 @@ export default class EditorBoxSortable extends Component {
                     bar.classList.remove('hidden');
                 }
                 let ev;
-                // window.dispatchEvent(new Event('resize'));
-                // if(typeof(Event) === 'function') {
-                //   ev = new Event('resize')
-                // }else{
                 ev = document.createEvent('Event');
                 ev.initEvent('resize', true, true);
-                // }
                 window.dispatchEvent(ev);
             },
         });
@@ -592,4 +588,8 @@ EditorBoxSortable.propTypes = {
      * Function that updates the toolbar of a view
      */
     onToolbarUpdated: PropTypes.func,
+    /**
+     * Object containing current theme colors
+     */
+    themeColors: PropTypes.object,
 };

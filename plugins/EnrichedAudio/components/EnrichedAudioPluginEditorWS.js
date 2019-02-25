@@ -8,6 +8,7 @@ import { convertHMStoSeconds, pad } from '../../../common/common_tools';
 import { setRgbaAlpha } from "../../../common/common_tools";
 
 import ReactResizeDetector from 'react-resize-detector';
+import { getThemeColors, getCurrentColor } from "../../../common/themes/theme_loader";
 /* eslint-disable react/prop-types */
 
 export default class BasicAudioPluginEditor extends React.Component {
@@ -22,6 +23,7 @@ export default class BasicAudioPluginEditor extends React.Component {
             autoplay: false,
             height: 128,
             playedSeconds: 0,
+            color: getCurrentColor('default'),
 
         };
         this.onProgress = this.onProgress.bind(this);
@@ -78,21 +80,22 @@ export default class BasicAudioPluginEditor extends React.Component {
 
             this.$el = ReactDOM.findDOMNode(this);
             this.$waveform = this.$el.querySelector('.wave');
-            const waveOptions = this.createOptions(nextProps, this.state, true);
+            const waveOptions = this.createOptions(nextProps, this.state);
             this.wavesurfer = WaveSurfer.create({
                 container: this.$waveform,
                 ...waveOptions,
             });
+
             let color = this.props.state.progressColor.custom ? this.props.state.progressColor.color : nextProps.props.themeColors.themePrimaryColor;
             this.setState({
                 playing: false,
                 waves: nextProps.state.waves,
                 color: color,
+            }, () => {
+                this.wavesurfer.load(nextProps.state.url);
+                this.wavesurfer.on('ready', ()=>{this.onReady(pos, playing);});
+                this.wavesurfer.on('audioprocess', this.onProgress);
             });
-            this.wavesurfer.load(nextProps.state.url);
-            this.wavesurfer.on('ready', ()=>{this.onReady(pos, playing);});
-            this.wavesurfer.on('audioprocess', this.onProgress);
-
         }
 
     }
@@ -156,6 +159,7 @@ export default class BasicAudioPluginEditor extends React.Component {
         }
     }
     onResize(e) {
+
         if (this.wavesurfer && this.state.ready) {
             let pos = (this.wavesurfer.getCurrentTime() || 0) / (this.wavesurfer.getDuration() || 1);
             this.wavesurfer.empty();
@@ -181,7 +185,7 @@ export default class BasicAudioPluginEditor extends React.Component {
             return(
                 <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.1em" }} boxId={this.props.props.id} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.onRichMarkMoved} state={this.props.state} base={this.props.base}>
                     <div className="audioMark" style={{ background: color || "var(--themePrimaryColor)" }}>
-                        <Mark style={{ position: 'relative', top: "-1.7em", left: "-1em" }} color={color || "#17CFC8"} idKey={id} title={title} />
+                        <Mark style={{ position: 'relative', top: "-1.7em", left: "-1em" }} color={color || this.state.color || "#17CFC8"} idKey={id} title={title} />
                     </div>
                 </MarkEditor>);
         });

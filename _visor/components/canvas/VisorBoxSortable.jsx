@@ -42,7 +42,9 @@ export default class VisorBoxSortable extends Component {
                                                             marks={this.props.marks}
                                                             onMarkClicked={this.props.onMarkClicked}
                                                             setAnswer={this.props.setAnswer}
-                                                            richElementsState={this.props.richElementsState}/>);
+                                                            richElementsState={this.props.richElementsState}
+                                                            themeColors = {this.props.themeColors}
+                                                        />);
 
                                                     } else if (ind === container.children.length - 1) {
                                                         return (<span key={ind}><br/><br/></span>);
@@ -112,4 +114,8 @@ VisorBoxSortable.propTypes = {
      * Function that triggers a mark
      */
     onMarkClicked: PropTypes.func,
+    /**
+     * Object containing current theme colors
+     */
+    themeColors: PropTypes.object,
 };

@@ -68,8 +68,6 @@ export default class EditorBox extends Component {
             textareaStyle.textAlign = "left";
             style.textAlign = "left";
         }
-        let container = box.parent;
-        // let controls = apiPlugin.getToolbar();
         let marks = {};
         Object.keys(this.props.marks || {}).forEach(mark =>{
             if(this.props.marks[mark].origin === this.props.id) {

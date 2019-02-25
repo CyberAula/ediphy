@@ -8,6 +8,7 @@ import EditorHeader from '../editor_header/EditorHeader';
 import Ediphy from '../../../../core/editor/main';
 import { isSortableBox } from '../../../../common/utils';
 import ThemeCSS from "../../../../common/themes/ThemeCSS";
+import { getThemeColors } from "../../../../common/themes/theme_loader";
 
 export default class EditorCanvasDoc extends Component {
     render() {
@@ -26,23 +27,18 @@ export default class EditorCanvasDoc extends Component {
             titles.reverse();
         }
 
-        let maincontent = document.getElementById(this.props.fromCV ? "contained_maincontent" : "maincontent");
-        let actualHeight;
-        if (maincontent) {
-            actualHeight = parseInt(maincontent.scrollHeight, 10);
-            actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
-        }
-
-        let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
         let show = itemSelected && itemSelected.id !== 0;
 
-        let commonProps = { ...this.props,
-            pageType: itemSelected.type || 0,
-        };
-
         let toolbar = this.props.viewToolbars[itemSelected.id];
         let theme = toolbar.theme === undefined ? 'default' : toolbar.theme;
+        let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
+
+        let commonProps = { ...this.props,
+            pageType: itemSelected.type || 0,
+            themeColors: colors,
+        };
+
         return (
             <Col id={(this.props.fromCV ? 'containedCanvas' : 'canvas')} md={12} xs={12} className="canvasDocClass safeZone"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
@@ -83,22 +79,19 @@ export default class EditorCanvasDoc extends Component {
                                 <br/>
 
                                 {boxes.map(id => {
-                                    let box = boxes[id];
                                     if (!isSortableBox(id)) {
                                         return null;
-                                        // return <EditorBox key={id} id={id} {...commonProps} exercises={itemSelected ? (this.props.exercises[itemSelected.id].exercises[id]) : undefined} />;
                                     }
                                     return <EditorBoxSortable key={id} {...commonProps}
-                                        id={id} exercises={this.props.exercises} page={itemSelected ? itemSelected.id : 0} />;
-
+                                        id={id} exercises={this.props.exercises} page={itemSelected ? itemSelected.id : 0} themeColors={colors} />;
                                 })}
                             </div>
                         </div>
                     </div>
                 </div>
                 <ThemeCSS
-                    theme={ theme }
-                    navItemSelected={ this.props.navItemSelected }
+                    theme={theme}
+                    toolbar={{ ...toolbar, colors: colors }}
                 />
                 <EditorShortcuts
                     openConfigModal={this.props.openConfigModal}

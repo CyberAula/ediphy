@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import PluginPlaceholderVisor from './VisorPluginPlaceholder';
-import { isSortableBox, isAncestorOrSibling } from '../../../common/utils';
 import { isUnitlessNumber } from '../../../common/cssNonUnitProps';
 
 export default class VisorBox extends Component {
@@ -29,7 +28,6 @@ export default class VisorBox extends Component {
         if (!this.state.show) {
             return null;
         }
-        let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];
         let pluginAPI = Ediphy.Visor.Plugins[toolbar.pluginId];
