@@ -19,7 +19,7 @@ export const THEMES = {
             'url(/themes/orange/background_images/orange1.jpg)',
         ],
         colors: {
-            themePrimaryColor: '#17CFC8',
+            themePrimaryColor: '#D1550F',
             themeSecondaryColor: '#17CFC8',
         },
     },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { THEMES } from './theme_loader';
+import { getThemeColors, THEMES } from './theme_loader';
 import PropTypes from "prop-types";
 import { setRgbaAlpha } from "../common_tools";
 
@@ -32,6 +32,7 @@ export default class ThemeCSS extends React.Component {
     componentWillUpdate(nextProps, nextState) {
         if (nextProps.theme !== this.props.theme) {
             this.getThemeCSS(nextProps.theme);
+            this.loadThemeCustomProperties(getThemeColors(nextProps.theme));
         }
 
         if (nextProps.toolbar.colors !== this.props.toolbar.colors) {
