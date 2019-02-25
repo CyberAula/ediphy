@@ -1,7 +1,7 @@
 .orange {
 
 
-  font-family: 'Merriweather', serif;
+  font-family: var(--themePrimaryFont, 'Ubuntu');
   font-size: 1.3em;
 
   h2 {

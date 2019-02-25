@@ -1,6 +1,7 @@
 import React from 'react';
-import { getThemeColors, THEMES } from './theme_loader';
 import PropTypes from "prop-types";
+import { getThemeColors, getThemeFont, THEMES } from './theme_loader';
+import loadFont from './font_loader';
 import { setRgbaAlpha } from "../common_tools";
 import { translatePxToEm } from "./cssParser";
 
@@ -27,12 +28,17 @@ export default class ThemeCSS extends React.Component {
         this.loadCSS();
         let colors = Object.keys(this.props.toolbar.colors).length ? this.props.toolbar.colors : THEMES[this.props.theme].colors;
         this.loadThemeCustomProperties(colors);
+        loadFont(getThemeFont(this.props.toolbar.theme));
+        this.updateCustomProperty('--themePrimaryFont', getThemeFont(this.props.toolbar.theme));
     }
 
     componentWillUpdate(nextProps, nextState) {
         if (nextProps.theme !== this.props.theme) {
             this.getThemeCSS(nextProps.theme);
             this.loadThemeCustomProperties(getThemeColors(nextProps.theme));
+            loadFont(getThemeFont(nextProps.theme));
+            this.updateCustomProperty('--themePrimaryFont', getThemeFont(nextProps.theme));
+
         }
 
         if (nextProps.toolbar.colors !== this.props.toolbar.colors) {

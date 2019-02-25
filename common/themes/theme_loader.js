@@ -140,6 +140,10 @@ export function generateCustomColors(color, colorOrder = 1, generateTransparents
 
 }
 
+export function getThemeFont(theme = 'default') {
+    return THEMES[theme].fonts;
+}
+
 export function sanitizeThemeToolbar(toolbar) {
     let theme = toolbar.theme ? toolbar.theme : 'default';
     return {
