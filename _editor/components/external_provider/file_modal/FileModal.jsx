@@ -114,6 +114,7 @@ export default class FileModal extends React.Component {
                                     this.close();
                                 }}>{i18n.t("FileModal.FileHandlers.cancel")}</Button>
                                 {(this.state.element && handler && handler.buttons) ? handler.buttons.map((button, key)=>{
+                                    console.log(button);
                                     return <Button bsStyle="primary" key={key} disabled={button.disabled} onClick={e => {
                                         button.action();
                                     }}>{button.title}</Button>;
