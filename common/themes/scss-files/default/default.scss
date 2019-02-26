@@ -1,6 +1,6 @@
 
 .default {
-  font-family: 'Ubuntu', sans-serif;
+  font-family: var(--themePrimaryFont, 'Ubuntu');
 
   .title {
     display: block;
@@ -13,7 +13,7 @@
         padding: 0.2em 0.3em;
         line-height: 1em;
         color: var(--themePrimaryColor);
-        font-family: 'Ubuntu', sans-serif;
+        font-family: var(--themePrimaryFont, 'Ubuntu');
       }
       .editCourseTitle{
         font-size: 1em;
@@ -45,12 +45,10 @@
       h3{
         margin: 0.4em 0 0;
         font-size: 0.7em;
-        //color: $grisadams;
       }
       h4{
         margin: 0.4em 0 0;
         font-size: 0.6em;
-        //color: $grismedio;
       }
       .breadcrumb a{
         margin: 0.4em 0 0;
