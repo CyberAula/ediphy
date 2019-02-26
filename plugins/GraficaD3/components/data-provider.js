@@ -21,6 +21,7 @@ export default class DataProvider extends React.Component {
         this.keyChanged = this.keyChanged.bind(this);
         this.dataChanged = this.dataChanged.bind(this);
         this.processInput = this.processInput.bind(this);
+        this.parseCSV = this.parseCSV.bind(this);
 
         this.state = {
             cols: cols,
@@ -131,6 +132,17 @@ export default class DataProvider extends React.Component {
         this.setState({ ...value });
     }
 
+    parseCSV(base64URI) {
+        let base64File = base64URI.split('base64,')[1];
+        let decodedArray = atob(base64File).split('\n');
+        let keys = decodedArray[0].split(',');
+        decodedArray.splice(0, 1);
+        let data = decodedArray.map(row => {
+            return row.split(',');
+        });
+        this.setState({ data: data, keys: keys, cols: keys.length, rows: decodedArray.length });
+    }
+
     render() {
         let props = this.props.props;
         return (
@@ -153,16 +165,6 @@ export default class DataProvider extends React.Component {
                         </Col>
                     </FormGroup>
                     <div style={{ marginTop: '10px', overflowX: 'auto' }}>
-                        {/*
-                        <div style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
-                            {Array.apply(0, Array(this.state.cols)).map((x) => {
-
-                                return(
-                                    <FormControl.Static key={x} style={{ display: 'table-cell', padding: '8px', textAlign: 'center' }} />
-                                );
-                            })}
-                        </div>
-                        */}
                         <table className="table bordered hover" >
                             <thead>
                                 <tr>
@@ -200,7 +202,7 @@ export default class DataProvider extends React.Component {
                             id={this.props.id}
                             openModal={props.openFileModal}
                             fileModalResult={props.fileModalResult}
-                            onChange={ (target)=>{this.processInput(target.value);}}
+                            onChange={ (target)=>{this.parseCSV(target.value);}}
                             accept={".csv"}
                             buttontext={i18n.t('importData')}
                         />
