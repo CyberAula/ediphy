@@ -20,7 +20,6 @@ export default class DataProvider extends React.Component {
         this.rowsChanged = this.rowsChanged.bind(this);
         this.keyChanged = this.keyChanged.bind(this);
         this.dataChanged = this.dataChanged.bind(this);
-        this.processInput = this.processInput.bind(this);
         this.parseCSV = this.parseCSV.bind(this);
 
         this.state = {
@@ -60,7 +59,6 @@ export default class DataProvider extends React.Component {
         let newvalue = event.target.value === "" || event.target.value === null ? "" : event.target.value;
         data[row][col] = newvalue;
         this.setState({ data: data });
-        // this.props.dataChanged(data);
     }
 
     colsChanged(event) {
@@ -77,14 +75,13 @@ export default class DataProvider extends React.Component {
                 });
             } else if (value < pre) {
                 let difference = pre - value;
-                keys.splice(value, pre - value);
+                keys.splice(value, difference);
                 data = data.map(ele=>{
                     let ele2 = ele.slice();
-                    ele2.splice(value, pre - value);
+                    ele2.splice(value, difference);
                     return ele2;
                 });
             }
-
             this.setState({ keys: keys, data: data, cols: value });
         }
     }
@@ -126,10 +123,6 @@ export default class DataProvider extends React.Component {
         a = a.sort().toString();
         b = b.sort().toString();
         return a === b;
-    }
-
-    processInput(value) {
-        this.setState({ ...value });
     }
 
     parseCSV(base64URI) {
