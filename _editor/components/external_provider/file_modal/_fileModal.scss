@@ -1,7 +1,17 @@
 @import "../../../../sass/general/_variables.scss";
 .pageModal.fileModal {
-  modal-footer {
+  .modal-footer {
     height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .fileModalButtonsFooter{
+      width: 50%;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
   }
   .modal-body {
     padding: 0;
@@ -103,6 +113,7 @@
         min-height: 44vh;
         overflow-y: auto;
         max-height: 390px;
+        margin-top: -10px;
         margin-bottom: -20px;
         padding: 0 20px;
         .attribution {
@@ -361,7 +372,13 @@
         display: none;
       }
       .footerFile {
+        width: 50%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         float:left;
+        text-align: left;
+        padding-right: 1em;
         i {
           vertical-align: middle;
         }
@@ -369,14 +386,14 @@
       #sideBar {
         background-color: white;
         height: 100%;
-        width: 0px;
+        width: 0;
         position: absolute;
         right: 0;
         -moz-transition: width 0.5s ease;
         -webkit-transition:  width 0.5s ease;
         -o-transition: width 0.5s ease;
         transition: width 0.5s ease;
-        top: 0px;
+        top: 0;
         z-index: 9999;
         #drawerContent {
           padding: 20px;

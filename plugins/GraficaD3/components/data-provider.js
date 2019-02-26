@@ -8,11 +8,10 @@ import ToolbarFileProvider from '../../../_editor/components/external_provider/f
 export default class DataProvider extends React.Component {
     constructor(props) {
         super(props);
-
         let data = this.props.dataProvided.slice();
         let keys = data.splice(0, 1)[0];
         let rows = data.length;
-        let cols = data[0].length;
+        let cols = keys.length;
         this.confirmButton = this.confirmButton.bind(this);
         this.deleteCols = this.deleteCols.bind(this);
         this.colsChanged = this.colsChanged.bind(this);
@@ -20,7 +19,7 @@ export default class DataProvider extends React.Component {
         this.rowsChanged = this.rowsChanged.bind(this);
         this.keyChanged = this.keyChanged.bind(this);
         this.dataChanged = this.dataChanged.bind(this);
-        this.processInput = this.processInput.bind(this);
+        this.parseCSV = this.parseCSV.bind(this);
 
         this.state = {
             cols: cols,
@@ -59,7 +58,6 @@ export default class DataProvider extends React.Component {
         let newvalue = event.target.value === "" || event.target.value === null ? "" : event.target.value;
         data[row][col] = newvalue;
         this.setState({ data: data });
-        // this.props.dataChanged(data);
     }
 
     colsChanged(event) {
@@ -76,14 +74,13 @@ export default class DataProvider extends React.Component {
                 });
             } else if (value < pre) {
                 let difference = pre - value;
-                keys.splice(value, pre - value);
+                keys.splice(value, difference);
                 data = data.map(ele=>{
                     let ele2 = ele.slice();
-                    ele2.splice(value, pre - value);
+                    ele2.splice(value, difference);
                     return ele2;
                 });
             }
-
             this.setState({ keys: keys, data: data, cols: value });
         }
     }
@@ -127,8 +124,15 @@ export default class DataProvider extends React.Component {
         return a === b;
     }
 
-    processInput(value) {
-        this.setState({ ...value });
+    parseCSV(base64URI) {
+        let base64File = base64URI.split('base64,')[1];
+        let decodedArray = atob(base64File).split('\n');
+        let keys = decodedArray[0].split(',');
+        decodedArray.splice(0, 1);
+        let data = decodedArray.map(row => {
+            return row.split(',');
+        });
+        this.setState({ data: data, keys: keys, cols: keys.length, rows: decodedArray.length });
     }
 
     render() {
@@ -153,16 +157,6 @@ export default class DataProvider extends React.Component {
                         </Col>
                     </FormGroup>
                     <div style={{ marginTop: '10px', overflowX: 'auto' }}>
-                        {/*
-                        <div style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
-                            {Array.apply(0, Array(this.state.cols)).map((x) => {
-
-                                return(
-                                    <FormControl.Static key={x} style={{ display: 'table-cell', padding: '8px', textAlign: 'center' }} />
-                                );
-                            })}
-                        </div>
-                        */}
                         <table className="table bordered hover" >
                             <thead>
                                 <tr>
@@ -200,7 +194,7 @@ export default class DataProvider extends React.Component {
                             id={this.props.id}
                             openModal={props.openFileModal}
                             fileModalResult={props.fileModalResult}
-                            onChange={ (target)=>{this.processInput(target.value);}}
+                            onChange={ (target)=>{this.parseCSV(target.value);}}
                             accept={".csv"}
                             buttontext={i18n.t('importData')}
                         />
