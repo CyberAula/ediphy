@@ -8,11 +8,10 @@ import ToolbarFileProvider from '../../../_editor/components/external_provider/f
 export default class DataProvider extends React.Component {
     constructor(props) {
         super(props);
-
         let data = this.props.dataProvided.slice();
         let keys = data.splice(0, 1)[0];
         let rows = data.length;
-        let cols = data[0].length;
+        let cols = keys.length;
         this.confirmButton = this.confirmButton.bind(this);
         this.deleteCols = this.deleteCols.bind(this);
         this.colsChanged = this.colsChanged.bind(this);
