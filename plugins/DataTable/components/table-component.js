@@ -20,12 +20,12 @@ export default class TableComponent extends React.Component {
     render() {
         let data = this.props.data;
         let options = this.props.options;
-        let keys = Object.keys(this.props.data[0]);
         let realKeys = this.props.keys;
         let cols = [];
-        keys.forEach(key =>{
-            cols.push({ title: realKeys[key], prop: key });
+        realKeys.forEach((key, i) =>{
+            cols.push({ title: key, prop: i });
         });
+
         options.pageLengthOptions = [5, 10, 100];
         options.pageLengthOptions = options.pageLengthOptions.filter(a => a <= data.length);
         if (!isNaN(options.initialPageLength) && options.pageLengthOptions.indexOf(options.initialPageLength) === -1) {
