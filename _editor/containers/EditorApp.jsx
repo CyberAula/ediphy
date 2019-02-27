@@ -152,6 +152,8 @@ class EditorApp extends Component {
                     {this.createInitModal()}
                     {this.state.alert}
                     <EditorNavBar hideTab={this.state.hideTab} boxes={boxes} isBusy={isBusy}
+                        onBoxSelected={(id) => dispatch(selectBox(id, boxes[id]))}
+
                         showGlobalConfig={this.state.showGlobalConfig}
                         toggleGlobalConfig={()=>{this.setState({ showGlobalConfig: !this.state.showGlobalConfig });}}
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}

@@ -44,6 +44,7 @@ export default class EditorNavBar extends Component {
                     serverModalOpen={this.props.serverModalOpen}
                     undo={this.props.undo}
                     undoDisabled={this.props.undoDisabled}
+                    onBoxSelected={this.props.onBoxSelected}
                     visor={this.props.visor} />
                 <NavDropdown /* export={this.props.export}*/
                     navItemSelected={this.props.navItemSelected}

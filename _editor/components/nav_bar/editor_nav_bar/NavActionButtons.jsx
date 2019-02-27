@@ -76,7 +76,8 @@ export default class NavActionButtons extends Component {
                 icon: 'visibility',
                 onClick: () => {
                     if (this.props.boxSelected !== 0) {
-                        this.props.onTextEditorToggled(this.props.boxSelected, false);
+                    // this.props.onTextEditorToggled(this.props.boxSelected, false);
+                        this.props.onBoxSelected(-1);
                     }
                     this.props.visor();
                 },
