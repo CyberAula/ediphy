@@ -36,7 +36,6 @@ export default class EditorNavBar extends Component {
                     globalConfig={this.props.globalConfig}
                     navItemSelected={this.props.navItemSelected}
                     navItems={this.props.navItems}
-                    onTextEditorToggled={this.props.onTextEditorToggled}
                     redo={this.props.redo}
                     redoDisabled={this.props.redoDisabled}
                     publishing={this.props.publishing}
@@ -83,10 +82,6 @@ export default class EditorNavBar extends Component {
 }
 
 EditorNavBar.propTypes = {
-    /**
-     * Callback for toggling the CKEDitor
-     */
-    onTextEditorToggled: PropTypes.func.isRequired,
     /**
      *  Shows/hides the plugin tab
      */
@@ -193,9 +188,13 @@ EditorNavBar.propTypes = {
        */
     isBusy: PropTypes.any,
     /**
-   *  Function for uploading a file to the server
-   */
+     *  Function for uploading a file to the server
+     */
     uploadFunction: PropTypes.func.isRequired,
+    /**
+     * Function for selecting a box
+     */
+    onBoxSelected: PropTypes.func.isRequired,
 };
 
 /**

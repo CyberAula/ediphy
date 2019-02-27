@@ -255,11 +255,11 @@ NavActionButtons.propTypes = {
      */
     visor: PropTypes.func.isRequired,
     /**
-     * Callback for toggling the CKEDitor
-     */
-    onTextEditorToggled: PropTypes.func.isRequired,
-    /**
      * Publish the document
      */
     publishing: PropTypes.func.isRequired,
+    /**
+     * Function for selecting a box
+     */
+    onBoxSelected: PropTypes.func.isRequired,
 };
