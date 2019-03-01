@@ -61,7 +61,7 @@ export const THEMES = {
             'orange',
         ],
         colors: {
-            themePrimaryColor: '#17CFC8',
+            themePrimaryColor: '#0f0034',
             themeSecondaryColor: '#17CFC8',
         },
     },
