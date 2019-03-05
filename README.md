@@ -1,4 +1,5 @@
 # Ediphy Editor
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0264bdcdcdae4a198b59a57ca82168fa)](https://app.codacy.com/app/sonsoleslp/ediphy?utm_source=github.com&utm_medium=referral&utm_content=ging/ediphy&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/ging/ediphy.svg?branch=master)](https://travis-ci.org/ging/ediphy)
 
 **Ediphy Editor** is an open source e-learning authoring tool to create different types of resources (web documents, slides and more coming up soon).
