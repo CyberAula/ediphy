@@ -14,6 +14,8 @@ export default class Section extends Component {
      * @returns {code}
      */
     render() {
+
+        // console.log(this.props);
         let navItem = this.props.navItems[this.props.id];
         let classSelected = this.props.navItemSelected === navItem.id ? 'selected' : 'notSelected';
         let classIndexSelected = this.props.indexSelected === navItem.id ? ' classIndexSelected' : '';
@@ -75,7 +77,7 @@ export default class Section extends Component {
                     {navItem.children.map((id, index) => {
                         if (isSection(id)) {
                             return <Section id={id}
-                                key={index}
+                                key={id}
                                 indexSelected={this.props.indexSelected}
                                 navItemsIds={this.props.navItemsIds}
                                 navItems={this.props.navItems}
@@ -93,7 +95,7 @@ export default class Section extends Component {
                             let classSelectedD = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
                             let classIndexSelectedD = this.props.indexSelected === id ? ' classIndexSelected' : '';
                             return (
-                                <div key={index}
+                                <div key={id}
                                     id={id}
                                     className={'navItemBlock ' + classSelectedD + classIndexSelectedD}
                                     onMouseDown={e => {
@@ -174,6 +176,8 @@ export default class Section extends Component {
                         calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.indexSelected, this.props.navItems),
                         newChildren
                     );
+                } else {
+                    list.sortable('cancel');
                 }
             },
             receive: (event, ui) => {

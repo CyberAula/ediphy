@@ -35,10 +35,42 @@ const state = {
         "parent": 0,
         "linkedBoxes": {},
         "children": [
+            "se-3",
         ],
         "hidden": false,
         "boxes": [],
         "level": 1,
+        "type": "section",
+        "extraFiles": {},
+        "customSize": 0,
+    },
+    "se-3": {
+        "id": "se-3",
+        "isExpanded": true,
+        "parent": "se-2",
+        "linkedBoxes": {},
+        "children": [
+            "se-4",
+        ],
+        "hidden": false,
+        "boxes": [],
+        "level": 2,
+        "type": "section",
+        "extraFiles": {},
+        "customSize": 0,
+    },
+    "se-4": {
+        "id": "se-4",
+        "isExpanded": true,
+        "parent": "se-3",
+        "linkedBoxes": {},
+        "children": [
+            "pa-3",
+            "pa-4",
+        ],
+        "hidden": false,
+        "boxes": [],
+        "level": 3,
         "type": "section",
         "extraFiles": {},
         "customSize": 0,
@@ -69,6 +101,38 @@ const state = {
             "bo-4",
         ],
         "level": 2,
+        "type": "slide",
+        "hidden": false,
+        "extraFiles": {},
+        "customSize": 0,
+    },
+    "pa-3": {
+        "id": "pa-3",
+        "isExpanded": true,
+        "parent": "se-4",
+        "linkedBoxes": {},
+        "children": [],
+        "boxes": [
+            "bs-3",
+            "bo-4",
+        ],
+        "level": 4,
+        "type": "slide",
+        "hidden": false,
+        "extraFiles": {},
+        "customSize": 0,
+    },
+    "pa-4": {
+        "id": "pa-4",
+        "isExpanded": true,
+        "parent": "se-4",
+        "linkedBoxes": {},
+        "children": [],
+        "boxes": [
+            "bs-3",
+            "bo-4",
+        ],
+        "level": 4,
         "type": "slide",
         "hidden": false,
         "extraFiles": {},
@@ -299,6 +363,7 @@ describe('# nav_items_by_id reducer', ()=>{
                     id: 'pa-1',
                     newParent: 'se-1',
                     oldParent: 'se-2',
+                    // idsInOrder does not seem to be necessary
                     idsInOrder: ["se-1", "se-2", "pa-1", "pa-2"],
                     childrenInOrder: ["pa-1"],
                 },
@@ -307,7 +372,51 @@ describe('# nav_items_by_id reducer', ()=>{
             newState["se-1"].children = ["pa-1"];
             expect(nav_items_by_id(state, action)).toEqual(newState);
         });
+
+        test('Move level 2 pa-1 under se-2 (bottom)', () => {
+            const action = {
+                type: ActionTypes.REORDER_NAV_ITEM,
+                payload: {
+                    id: 'pa-1',
+                    newParent: 'se-2',
+                    oldParent: 'se-1',
+                    // idsInOrder does not seem to be necessary
+                    // idsInOrder: ["se-1", "se-2", "pa-1", "pa-2", "jejeje"],
+                    childrenInOrder: ["se-3", "pa-1"],
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState["se-2"].children = ["se-3", "pa-1"];
+            newState["se-1"].children = ["pa-2"];
+            newState["pa-1"].parent = "se-2";
+            expect(nav_items_by_id(state, action)).toEqual(newState);
+        });
+
+        test('Move level 2 se-3 under 0 (bottom)', () => {
+            const action = {
+                type: ActionTypes.REORDER_NAV_ITEM,
+                payload: {
+                    id: 'se-3',
+                    newParent: '0',
+                    oldParent: 'se-2',
+                    // idsInOrder does not seem to be necessary
+                    // idsInOrder: ["se-1", "se-2", "pa-1", "pa-2", "jejeje"],
+                    childrenInOrder: ["se-1", "se-2", "se-3"],
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState["se-2"].children = [];
+            newState["se-3"].parent = 0;
+            newState["se-3"].level = 1;
+            newState["se-4"].level = 2;
+            // Está dando error, no sube pa-3 y pa-4 del nivel 4 al nivel 3 ???
+            newState["pa-3"].level = 3;
+            newState["pa-4"].level = 3;
+
+            expect(nav_items_by_id(state, action)).toEqual(newState);
+        });
     });
+
     describe('handle TOGGLE_NAV_ITEM', () => {
         test('If nav item toggled (show/hide)', () => {
             const action = {

@@ -34,6 +34,9 @@ export default class CarouselList extends Component {
     }
 
     render() {
+
+        console.log(this.props);
+
         let containedViewsIncluded = Object.keys(this.props.containedViews).length > 0;
 
         if (!this.props.carouselShow) { return (<div style={{ height: "100%" }}><br /></div>); }
@@ -60,7 +63,7 @@ export default class CarouselList extends Component {
                         if (isSection(id)) {
                             return (
                                 <Section id={id}
-                                    key={index}
+                                    key={id}
                                     indexSelected={this.props.indexSelected}
                                     navItemsIds={this.props.navItemsIds}
                                     navItems={this.props.navItems}
@@ -79,7 +82,7 @@ export default class CarouselList extends Component {
                             let classIndexSelected = this.props.indexSelected === id ? ' classIndexSelected' : '';
                             let widthScroll = Math.max(this.props.viewToolbars[id].viewName.length / 11 * 100, 100);
                             return (
-                                <div key={index}
+                                <div key={id}
                                     id={id}
                                     className={'navItemBlock ' + classSelected + classIndexSelected}
                                     onMouseDown={e => {
@@ -210,6 +213,8 @@ export default class CarouselList extends Component {
                         calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.indexSelected, this.props.navItems),
                         newChildren
                     );
+                } else {
+                    // list.sortable('cancel');
                 }
             },
             receive: (event, ui) => {
@@ -224,6 +229,7 @@ export default class CarouselList extends Component {
                 // This is necessary in order to avoid that JQuery touches the DOM
                 // It has to be BEFORE action is dispatched and React tries to repaint
                 $(ui.sender).sortable('cancel');
+                // list.sortable('cancel');
 
                 this.props.onNavItemReordered(
                     this.props.indexSelected, // item moved
