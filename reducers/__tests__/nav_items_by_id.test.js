@@ -6,7 +6,7 @@ const state = {
     "0": {
         "id": 0,
         "children": [
-            "se-1",
+            "se-1", "se-2",
         ],
         "boxes": [],
         "level": 0,
@@ -397,21 +397,61 @@ describe('# nav_items_by_id reducer', ()=>{
                 type: ActionTypes.REORDER_NAV_ITEM,
                 payload: {
                     id: 'se-3',
-                    newParent: '0',
+                    newParent: 0,
                     oldParent: 'se-2',
-                    // idsInOrder does not seem to be necessary
-                    // idsInOrder: ["se-1", "se-2", "pa-1", "pa-2", "jejeje"],
                     childrenInOrder: ["se-1", "se-2", "se-3"],
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
+            newState[0].children = ["se-1", "se-2", "se-3"];
             newState["se-2"].children = [];
             newState["se-3"].parent = 0;
             newState["se-3"].level = 1;
             newState["se-4"].level = 2;
-            // Está dando error, no sube pa-3 y pa-4 del nivel 4 al nivel 3 ???
             newState["pa-3"].level = 3;
             newState["pa-4"].level = 3;
+
+            expect(nav_items_by_id(state, action)).toEqual(newState);
+        });
+
+        test('Move level 3 se-4 under se-1 (below pa-1)', () => {
+            const action = {
+                type: ActionTypes.REORDER_NAV_ITEM,
+                payload: {
+                    id: 'se-4',
+                    newParent: 'se-1',
+                    oldParent: 'se-3',
+                    childrenInOrder: ["pa-1", "se-4", "pa-2"],
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState["se-3"].children = [];
+            newState["se-4"].parent = "se-1";
+            newState["se-4"].level = 2;
+            newState["se-1"].children = ["pa-1", "se-4", "pa-2"];
+            newState["pa-3"].level = 3;
+            newState["pa-4"].level = 3;
+
+            expect(nav_items_by_id(state, action)).toEqual(newState);
+        });
+
+        test('Move level 1 se-1 under se-3 (above se-4)', () => {
+            const action = {
+                type: ActionTypes.REORDER_NAV_ITEM,
+                payload: {
+                    id: 'se-1',
+                    newParent: 'se-3',
+                    oldParent: 0,
+                    childrenInOrder: ["se-1", "se-4"],
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState[0].children = ["se-2"];
+            newState["se-3"].children = ["se-1", "se-4"];
+            newState["se-1"].parent = "se-3";
+            newState["se-1"].level = 3;
+            newState["pa-1"].level = 4;
+            newState["pa-2"].level = 4;
 
             expect(nav_items_by_id(state, action)).toEqual(newState);
         });

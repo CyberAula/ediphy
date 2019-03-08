@@ -74,7 +74,7 @@ export default class Section extends Component {
                         display: (navItem.isExpanded ? 'block' : 'none'),
                     }}
                     className="sectionList connectedSortables">
-                    {navItem.children.map((id, index) => {
+                    {navItem.children.map(id => {
                         if (isSection(id)) {
                             return <Section id={id}
                                 key={id}
@@ -136,11 +136,12 @@ export default class Section extends Component {
      */
     componentDidMount() {
         let list = jQuery(this.refs.sortableList);
+        console.log(list);
         list.sortable({
             connectWith: '.connectedSortables',
             containment: '.carList',
             appendTo: '.carList',
-            helper: 'clone',
+            // helper: 'clone',
             scroll: true,
             over: (event, ui) => {
                 $(".carList").css("border-left", "none");
@@ -176,13 +177,16 @@ export default class Section extends Component {
                         calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.indexSelected, this.props.navItems),
                         newChildren
                     );
-                } else {
-                    list.sortable('cancel');
                 }
             },
             receive: (event, ui) => {
                 // This is called when an item is dragged from another item's children to this element's children
                 let newChildren = list.sortable('toArray', { attribute: 'id' });
+
+                // If action is done very quickly, jQuery may not notice the update and not detect that a new child was dragged
+                if(newChildren.indexOf(this.props.indexSelected) === -1) {
+                    newChildren.push(this.props.indexSelected);
+                }
 
                 // This is necessary in order to avoid that JQuery touches the DOM
                 // It has to be BEFORE action is dispatched and React tries to repaint

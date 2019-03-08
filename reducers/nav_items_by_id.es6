@@ -103,9 +103,6 @@ function singleNavItemReducer(state = {}, action = {}) {
         if (state.id === action.payload.id) {
             // Action was replaced, payload is different
 
-            console.log(state);
-            console.log(action);
-
             return changeProps(
                 state,
                 [
@@ -133,7 +130,7 @@ function singleNavItemReducer(state = {}, action = {}) {
         };
         if (state.id === action.payload.newParent) {
             let uniqueChildrenOrdered = uniq(action.payload.childrenInOrder);
-            console.log(state, action, uniqueChildrenOrdered);
+
             return changeProp(state, "children", uniqueChildrenOrdered);
         }
         if (state.id === action.payload.oldParent) {
@@ -279,9 +276,6 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
         return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
     case REORDER_NAV_ITEM:
 
-        console.log(state);
-        console.log(action);
-
         let itemsReordered = changeProps(
             state,
             [
@@ -324,7 +318,6 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
                 },
             }));
         }
-        console.log(itemsReordered, descendantsToUpdate, Object.values(newDescendants));
         return changeProps(itemsReordered, descendantsToUpdate, Object.values(newDescendants));
 
     case DELETE_NAV_ITEM:

@@ -59,7 +59,7 @@ export default class CarouselList extends Component {
                         this.props.onIndexSelected(this.props.id);
                         e.stopPropagation();
                     }}>
-                    {this.props.navItems && this.props.navItems.hasOwnProperty(this.props.id) && this.props.navItems[this.props.id].children.map((id, index) => {
+                    {this.props.navItems && this.props.navItems.hasOwnProperty(this.props.id) && this.props.navItems[this.props.id].children.map(id => {
                         if (isSection(id)) {
                             return (
                                 <Section id={id}
@@ -185,7 +185,7 @@ export default class CarouselList extends Component {
             connectWith: '.connectedSortables',
             containment: '.carList',
             appendTo: '.carList',
-            helper: 'clone',
+            // helper: 'clone',
             scroll: true,
             over: (event, ui) => {
                 $(".carList").css("border-left", "3px solid #F47920");
@@ -213,8 +213,6 @@ export default class CarouselList extends Component {
                         calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.indexSelected, this.props.navItems),
                         newChildren
                     );
-                } else {
-                    // list.sortable('cancel');
                 }
             },
             receive: (event, ui) => {
@@ -229,7 +227,6 @@ export default class CarouselList extends Component {
                 // This is necessary in order to avoid that JQuery touches the DOM
                 // It has to be BEFORE action is dispatched and React tries to repaint
                 $(ui.sender).sortable('cancel');
-                // list.sortable('cancel');
 
                 this.props.onNavItemReordered(
                     this.props.indexSelected, // item moved
