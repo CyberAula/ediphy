@@ -5,6 +5,12 @@ import CarouselButtons from '../carousel_buttons/CarouselButtons';
 import CarouselHeader from '../carousel_header/CarouselHeader';
 import CarouselList from '../carousel_list/CarouselList';
 
+import MyApp from '../MyApp';
+import ReactDOM from "react-dom";
+import { DragDropContext } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
+import FileTree from "../FileTree";
+
 /**
  * Index wrapper container
  */
@@ -34,27 +40,28 @@ export default class EditorCarousel extends Component {
                     onTitleChanged={this.props.onTitleChanged}
                     onToggleFull={this.props.onToggleFull}
                     onToggleWidth={this.props.onToggleWidth} />
-                <CarouselList id={0}
-                    carouselShow={this.props.carouselShow}
-                    containedViews={this.props.containedViews}
-                    containedViewSelected={this.props.containedViewSelected}
-                    boxes={this.props.boxes}
-                    navItemsIds={this.props.navItemsIds}
-                    navItems={this.props.navItems}
-                    navItemSelected={this.props.navItemSelected}
-                    indexSelected={this.props.indexSelected}
-                    onBoxAdded={this.props.onBoxAdded}
-                    onContainedViewDeleted={this.props.onContainedViewDeleted}
-                    onContainedViewSelected={this.props.onContainedViewSelected}
-                    onContainedViewNameChanged={this.props.onContainedViewNameChanged}
-                    onNavItemNameChanged={this.props.onNavItemNameChanged}
-                    onNavItemAdded={this.props.onNavItemAdded}
-                    onNavItemSelected={this.props.onNavItemSelected}
-                    onIndexSelected={this.props.onIndexSelected}
-                    onNavItemExpanded={this.props.onNavItemExpanded}
-                    onNavItemDeleted={this.props.onNavItemDeleted}
-                    onNavItemReordered={this.props.onNavItemReordered}
-                    viewToolbars={this.props.viewToolbars} />
+                {/* <CarouselList id={0}*/}
+                {/* carouselShow={this.props.carouselShow}*/}
+                {/* containedViews={this.props.containedViews}*/}
+                {/* containedViewSelected={this.props.containedViewSelected}*/}
+                {/* boxes={this.props.boxes}*/}
+                {/* navItemsIds={this.props.navItemsIds}*/}
+                {/* navItems={this.props.navItems}*/}
+                {/* navItemSelected={this.props.navItemSelected}*/}
+                {/* indexSelected={this.props.indexSelected}*/}
+                {/* onBoxAdded={this.props.onBoxAdded}*/}
+                {/* onContainedViewDeleted={this.props.onContainedViewDeleted}*/}
+                {/* onContainedViewSelected={this.props.onContainedViewSelected}*/}
+                {/* onContainedViewNameChanged={this.props.onContainedViewNameChanged}*/}
+                {/* onNavItemNameChanged={this.props.onNavItemNameChanged}*/}
+                {/* onNavItemAdded={this.props.onNavItemAdded}*/}
+                {/* onNavItemSelected={this.props.onNavItemSelected}*/}
+                {/* onIndexSelected={this.props.onIndexSelected}*/}
+                {/* onNavItemExpanded={this.props.onNavItemExpanded}*/}
+                {/* onNavItemDeleted={this.props.onNavItemDeleted}*/}
+                {/* onNavItemReordered={this.props.onNavItemReordered}*/}
+                {/* viewToolbars={this.props.viewToolbars} />*/}
+                <FileTree/>
                 <CarouselButtons boxes={this.props.boxes}
                     carouselShow={this.props.carouselShow}
                     containedViews={this.props.containedViews}

@@ -50,6 +50,8 @@ import screen from '../components/joyride/pantalla.svg';
 import help from '../components/joyride/help.svg';
 import Cookies from 'universal-cookie';
 import ExitModal from "../components/exit_modal/ExitModal";
+import { DragDropContext } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
 const cookies = new Cookies();
 
 /**
@@ -963,7 +965,10 @@ function mapStateToProps(state) {
     };
 }
 
+// EditorApp = DragDropContext(HTML5Backend)(EditorApp);
 export default connect(mapStateToProps)(EditorApp);
+
+// export default DragDropContext(HTML5Backend)(connect(mapStateToProps)(EditorApp));
 
 EditorApp.propTypes = {
     globalConfig: PropTypes.object.isRequired,

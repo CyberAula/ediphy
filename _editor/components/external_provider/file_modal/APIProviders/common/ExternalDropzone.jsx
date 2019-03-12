@@ -24,6 +24,12 @@ export default class ExternalDropzone extends Component {
          * Binded function
          */
         this.onDrop = this.onDrop.bind(this);
+        this.onDragOver = this.onDragOver.bind(this);
+    }
+
+    onDragOver(e) {
+        event.stopPropagation();
+        event.preventDefault();
     }
 
     /**
@@ -33,6 +39,9 @@ export default class ExternalDropzone extends Component {
      */
     onDrop(event) {
         let files = event.target.files;
+
+        event.preventDefault();
+        console.log(files);
 
         if (event.target.files.length === 1) {
             this.setState({ file: event.target.files[0] });
