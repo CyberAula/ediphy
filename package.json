@@ -138,6 +138,7 @@
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
+    "@silvain-sayduck/react-dnd-html5-backend": "^7.0.2-2",
     "@trendmicro/react-toggle-switch": "^0.5.7",
     "BasicAudio": "file:plugins/EnrichedAudio",
     "BasicPDF": "file:plugins/EnrichedPDF",
@@ -187,7 +188,8 @@
     "react-bootstrap": "^0.32.3",
     "react-bootstrap-typeahead": "^2.0.0-rc.4",
     "react-datatable-bs": "^1.0.12",
-    "react-dnd": "^7.3.1",
+    "react-dnd": "^7.3.2",
+    "react-dnd-dropzone": "^1.1.4",
     "react-dnd-html5-backend": "^7.2.0",
     "react-dom": "^16.1.1",
     "react-dropbox-chooser": "^0.0.5",

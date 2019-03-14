@@ -5,11 +5,33 @@ import PropTypes from 'prop-types';
  * FileInput component for dragging and dropping files
  */
 export default class FileInput extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.handleDnDConflcit = this.handleDnDConflcit.bind(this);
+    }
+
+    handleDnDConflcit(event) {
+        console.log(event);
+        console.log('handling');
+        event.stopPropagation();
+    }
+
+    componentDidMount() {
+        console.log(this.refs);
+        this.refs.fileInput.addEventListener('drop', this.handleDnDConflcit, true);
+    }
+
+    componentWillUnmount() {
+        console.log(this.refs);
+        this.refs.fileInput.removeEventListener('drop', this.handleDnDConflcit, true);
+    }
     /**
      * Render React Component
      * @returns {code}
      */
     render() {
+        console.log(this.refs);
         let { name = 'file',
             disabled,
             accept,
@@ -21,8 +43,9 @@ export default class FileInput extends React.Component {
         style.position = "relative";
         style.display = 'inline-block';
         return (
-            <div style={ style } className={className}>
+            <div style={ style } className={className} onDrop={this.handleDnDConflcit}>
                 <input
+                    ref = "fileInput"
                     type="file"
                     name={name}
                     onChange={onChange}

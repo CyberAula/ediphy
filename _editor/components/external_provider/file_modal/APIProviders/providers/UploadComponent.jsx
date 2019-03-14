@@ -121,6 +121,7 @@ export default class UploadComponent extends React.Component {
         }
     }
     dropHandler(file) {
+        console.log('dropHandler');
         this.setState({ file });
         let reader = new FileReader();
         reader.readAsDataURL(file);

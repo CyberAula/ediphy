@@ -5,12 +5,14 @@ import EditorCanvasDoc from '../editor_canvas_doc/EditorCanvasDoc';
 import { isSlide } from '../../../../common/utils';
 
 import './_canvas.scss';
+import { DragDropContext } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
 
 /**
  * Container component to render documents or slides
  *
  */
-export default class EditorCanvas extends Component {
+class EditorCanvas extends Component {
     constructor(props) {
         super(props);
     }
@@ -30,6 +32,8 @@ export default class EditorCanvas extends Component {
         }
     }
 }
+
+export default DragDropContext(HTML5Backend)(EditorCanvas);
 
 EditorCanvas.propTypes = {
     /**
