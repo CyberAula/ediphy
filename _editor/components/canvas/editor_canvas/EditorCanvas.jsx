@@ -12,7 +12,7 @@ import HTML5Backend from "react-dnd-html5-backend";
  * Container component to render documents or slides
  *
  */
-class EditorCanvas extends Component {
+export default class EditorCanvas extends Component {
     constructor(props) {
         super(props);
     }
@@ -32,8 +32,6 @@ class EditorCanvas extends Component {
         }
     }
 }
-
-export default DragDropContext(HTML5Backend)(EditorCanvas);
 
 EditorCanvas.propTypes = {
     /**

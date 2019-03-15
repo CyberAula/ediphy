@@ -3,8 +3,9 @@ import Sortly, { findDescendants } from 'react-sortly';
 import update from 'immutability-helper';
 
 import ItemRenderer from './ItemRenderer';
-import { DragDropContext } from "react-dnd";
+import { DragDropContext, DragDropContextProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
+import { getFilesFromDragEvent } from "html-dir-content";
 
 const ITEMS = [
     { id: 1, name: 'Section 1', type: 'folder', path: [] },
@@ -70,17 +71,12 @@ class FileTree extends Component {
         const { items } = this.state;
         const descendants = findDescendants(items, index);
 
-        console.log(index);
-        console.log(descendants);
-
         const updateFn = {
             [index]: { $toggle: ['collapsed'] },
         };
         descendants.forEach((item) => {
             updateFn[items.indexOf(item)] = { $toggle: ['collapsed'] };
         });
-
-        console.log(updateFn);
 
         this.setState(update(this.state, {
             items: updateFn,
@@ -89,24 +85,51 @@ class FileTree extends Component {
 
     renderItem(props) { return <ItemRenderer {...props} onToggleCollapse={this.handleToggleCollapse} />; }
 
+    componentWillUpdate() {
+        let colLeft = document.getElementById('colLeft');
+
+        this.DnDScope = colLeft;
+
+        this.DnDScope = {
+            body: colLeft,
+        };
+    }
+
     render() {
         const { items } = this.state;
-        console.log(items);
         return (
-            <section style={{ width: '100%' }}>
-                <div className="row" style={{ width: '100%' }}>
-                    <div className="col-12 col-lg-8 col-xl-6" style={{ width: '100%' }}>
-                        <Sortly
-                            items={items}
-                            itemRenderer={this.renderItem}
-                            onMove={this.handleMove}
-                            onChange={this.handleChange}
-                        />
+            <div className={"DnD-Window"}>
+                <section style={{ width: '100%' }}>
+                    <div className="row" style={{ width: '100%' }}>
+                        <div className="col-12 col-lg-8 col-xl-6" style={{ width: '100%' }}>
+                            <Sortly
+                                items={items}
+                                itemRenderer={this.renderItem}
+                                onMove={this.handleMove}
+                                onChange={this.handleChange}
+                            />
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
         );
     }
 }
 
-export default DragDropContext(HTML5Backend)(FileTree);
+const overrideDropCaptureHandler = (manager) => {
+
+    const backend = HTML5Backend(manager),
+        orgTopDropCapture = backend.handleTopDropCapture;
+
+    backend.handleTopDropCapture = (e) => {
+        if (e.target.tagName === 'INPUT' && e.target.type === 'file') {
+            e.stopPropagation();
+        } else {
+            orgTopDropCapture.call(backend, e);
+        }
+    };
+
+    return backend;
+};
+
+export default DragDropContext(overrideDropCaptureHandler)(FileTree);

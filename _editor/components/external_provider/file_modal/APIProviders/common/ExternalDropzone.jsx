@@ -32,9 +32,6 @@ export default class ExternalDropzone extends Component {
      * @param rejectedFile
      */
     onDrop(event) {
-
-        console.log('onDrop event');
-
         let files = event.target.files;
         if (files.length === 1) {
             this.setState({ file: files[0] });

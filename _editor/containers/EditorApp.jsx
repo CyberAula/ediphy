@@ -97,7 +97,7 @@ class EditorApp extends Component {
         this.duplicateNavItem = this.duplicateNavItem.bind(this);
         this.dropListener = (ev) => {
             if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
-                //
+                console.log(ev);
             } else {
                 ev.preventDefault();
             }
