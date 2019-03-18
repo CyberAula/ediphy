@@ -122,9 +122,11 @@ const overrideDropCaptureHandler = (manager) => {
     const orgTopDropCapture = backend.handleTopDropCapture;
 
     backend.handleTopDropCapture = (e) => {
+
+        let classes = e.target.className.split(' ');
         if (e.target.tagName === 'INPUT' && e.target.type === 'file') {
             e.stopPropagation();
-        } else {
+        } else if (classes.includes('file') || classes.includes('folder')) {
             orgTopDropCapture.call(backend, e);
         }
     };
