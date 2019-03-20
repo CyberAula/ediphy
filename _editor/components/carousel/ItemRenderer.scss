@@ -1,5 +1,5 @@
 
-.container {
+.carousselContainer {
   width: 100%;
   color: white;
   .body {
@@ -20,23 +20,37 @@ button{
 
 .folder {
   color: white;
-  //background-color: #0E2231;
-  padding: 4px;
+  box-sizing: border-box;
   font-size: 15px;
   border: none;
   font-weight: bold;
   margin-top: 4px;
+  padding: 4px;
+
+  i{
+    transition: all 0.25s 0s;
+    transform: rotate(0deg);
+  }
+
+  &.collapsed {
+
+    i{
+      transition: all 0.25s 0s;
+      transform: rotate(-90deg);
+    }
+  }
 }
 
 .file {
   color: white;
   overflow: hidden;
-  padding: 4px;
   height: 28px;
   transition: height .3s;
 
   &.collapsed {
+    box-sizing: border-box;
     height: 0;
+    padding: 0;
   }
 }
 

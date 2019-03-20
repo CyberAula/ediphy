@@ -15,7 +15,6 @@ export default class Section extends Component {
      */
     render() {
 
-        // console.log(this.props);
         let navItem = this.props.navItems[this.props.id];
         let classSelected = this.props.navItemSelected === navItem.id ? 'selected' : 'notSelected';
         let classIndexSelected = this.props.indexSelected === navItem.id ? ' classIndexSelected' : '';
@@ -136,7 +135,6 @@ export default class Section extends Component {
      */
     componentDidMount() {
         let list = jQuery(this.refs.sortableList);
-        console.log(list);
         list.sortable({
             connectWith: '.connectedSortables',
             containment: '.carList',

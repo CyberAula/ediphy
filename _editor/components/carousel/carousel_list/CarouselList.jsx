@@ -198,6 +198,13 @@ export default class CarouselList extends Component {
                 // - An item is dragged from this items's children to another item
                 // - A direct child changes it position at the same level
                 let newChildren = list.sortable('toArray', { attribute: 'id' });
+                //
+                // console.log(newChildren);
+                // console.log(this.props.indexSelected, // item moved
+                //     this.props.id, // new parent
+                //     this.props.navItems[this.props.indexSelected].parent, // old parent
+                //     calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.indexSelected, this.props.navItems),
+                //     newChildren);
 
                 // If item moved is still in this element's children (wasn't moved away) -> update
                 if (newChildren.indexOf(this.props.navItemSelected) !== -1) {
