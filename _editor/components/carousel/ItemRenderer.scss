@@ -1,11 +1,21 @@
 
 .carousselContainer {
+  box-sizing: border-box;
+  background-color: #444;
   width: 100%;
   color: white;
+  display: flex;
+  flex-direction: row;
+
+  &.selected {
+    background-color: #222;
+  }
+
   .body {
     padding: 0px 10px;
     cursor: move;
   }
+
 
   &.mute {
     .body {
@@ -21,19 +31,22 @@ button{
 .folder {
   color: white;
   box-sizing: border-box;
-  font-size: 15px;
+  font-size: 0.9em;
   border: none;
-  font-weight: bold;
-  margin-top: 4px;
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
 
-  i{
+
+
+  .material-icons{
+    color: white;
+    font-size: 1.2em;
+    padding: 4px;
     transition: all 0.25s 0s;
     transform: rotate(0deg);
   }
 
   &.collapsed {
-
     i{
       transition: all 0.25s 0s;
       transform: rotate(-90deg);
@@ -44,13 +57,14 @@ button{
 .file {
   color: white;
   overflow: hidden;
-  height: 28px;
-  transition: height .3s;
+  font-size: 0.9em;
+  transition: height .2s;
 
   &.collapsed {
     box-sizing: border-box;
     height: 0;
     padding: 0;
+    border: none;
   }
 }
 

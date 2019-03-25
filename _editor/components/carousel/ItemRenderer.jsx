@@ -4,15 +4,22 @@ import classNames from 'classnames';
 
 import style from './ItemRenderer.scss';
 import EditorIndexTitle from "./editor_index_title/EditorIndexTitle";
+import { isSlide } from "../../../common/utils";
+import iconPDF from "../../../dist/images/file-pdf.svg";
 
-const Folder = ({ name, collapsed, index, onToggleCollapse, id, navItems, onNavItemNameChanged, viewToolbars }) => {
+const Folder = ({ name, collapsed, index, path, onToggleCollapse, id, navItems, onNavItemNameChanged, viewToolbars, indexSelected, containedViewSelected }) => {
     const handleClick = () => {
         onToggleCollapse(index);
     };
+    const classCollapsed = collapsed ? 'collapsed' : '';
+    const classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
+    console.log(indexSelected);
     return (
-        <div className={collapsed ? 'folder collapsed' : 'folder'} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <div className={ 'folder navItemBlock ' + classCollapsed + classIndexSelected }
+            style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: path.length * 20 }}
+        >
             <button className={'toggleCollapseHandle' } onClick={handleClick}>
-                <i className={collapsed ? "material-icons folder collapsed" : "material-icons folder"}>
+                <i className={collapsed ? "material-icons collapsed" : "material-icons "}>
                     keyboard_arrow_down
                 </i>
             </button>
@@ -20,6 +27,7 @@ const Folder = ({ name, collapsed, index, onToggleCollapse, id, navItems, onNavI
                 index={navItems[navItems[id].parent].children.indexOf(id) + 1 + '.'}
                 title={viewToolbars[id].viewName}
                 hidden={navItems[id].hidden}
+                selected={ indexSelected }
                 onNameChanged={onNavItemNameChanged} />
         </div>
     );
@@ -34,16 +42,24 @@ Folder.defaultProps = {
     collapsed: false,
 };
 
-const File = ({ name, collapsed, id, navItems, onNavItemNameChanged, viewToolbars }) => (
-    <div className={collapsed ? 'file collapsed' : 'file'}>
-        <i className={classNames(style.icon, 'fa fa-file-o')} />
+const File = ({ name, collapsed, id, path, navItems, onNavItemNameChanged, viewToolbars, indexSelected, containedViewSelected }) => {
+    const classCollapsed = collapsed ? 'collapsed' : '';
+    const classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
+    const classContainedViewSelected = id === containedViewSelected ? ' selected ' : ' notSelected ';
+    console.log(indexSelected);
+    return (<div className={ 'file navItemBlock ' + classCollapsed + classIndexSelected + classContainedViewSelected }
+        style={{ marginLeft: path.length * 20 } } >
+        {(navItems[id].customSize === 0) ?
+            <i className="material-icons fileIcon">{isSlide(navItems[id].type) ? "slideshow" : "insert_drive_file"}</i>
+            : <img className="svgIcon" src={iconPDF}/>}
         <EditorIndexTitle id={id}
             index={navItems[navItems[id].parent].children.indexOf(id) + 1 + '.'}
             title={viewToolbars[id].viewName}
             hidden={navItems[id].hidden}
-            onNameChanged={onNavItemNameChanged} />
-    </div>
-);
+            selected={ indexSelected }
+            onNameChanged={onNavItemNameChanged}/>
+    </div>);
+};
 File.propTypes = {
     name: PropTypes.string.isRequired,
     collapsed: PropTypes.bool,
@@ -54,11 +70,20 @@ File.defaultProps = {
 };
 
 const ItemRenderer = (props) => {
-    const { connectDragSource, connectDragPreview, connectDropTarget, isDragging, isClosestDragging, type, path, onIndexSelected }
+    const { id, navItemSelected, connectDragSource, connectDragPreview, connectDropTarget, isDragging, isClosestDragging, type, path, onIndexSelected, onNavItemSelected }
         = props;
-    console.log(props);
+    const collapsed = props.collapsed ? 'collapsed ' : '';
+    const selected = type === 'file' && id === navItemSelected ? 'selected ' : '';
     return connectDragSource(connectDragPreview(connectDropTarget(
-        <div className={"carousselContainer"} style={{ paddingLeft: path.length * 20 }} onMouseDown={() => onIndexSelected(props.id)}>
+        <div className={"carousselContainer " + collapsed + selected}
+            onMouseDown={e => {
+                onIndexSelected(id);
+                e.stopPropagation();
+            }}
+            onDoubleClick={e => {
+                onNavItemSelected(id);
+                e.stopPropagation();
+            }}>
             {type === 'folder' && <Folder {...props} />}
             {type === 'file' && <File {...props} />}
         </div>,

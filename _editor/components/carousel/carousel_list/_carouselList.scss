@@ -52,19 +52,19 @@
     color: $blueprimary;
 }
 
-/*NavItem Selected*/
-.selected {
-    font-size: 12px;
-    background-color: #222;
-    color: white;
-    /*.actualSectionTitle{
-        color: $blueprimary;
-    }*/
-}
+///*NavItem Selected*/
+//.selected {
+//    font-size: 0.9em;
+//    background-color: #222;
+//    color: white;
+//    /*.actualSectionTitle{
+//        color: $blueprimary;
+//    }*/
+//}
 
 /*NavItem NOT Selected*/
 .notSelected {
-    font-size: 12px;
+    font-size: 0.9em;
 
     &:hover {
         cursor: pointer;
@@ -81,9 +81,14 @@
 /*Each NavItem*/
 .navItemBlock {
     color: $grismedio;
-    font-size: 12px;
-    padding: 8px 4px;
-    border-bottom: 1px solid black;
+    font-size: 0.9em;
+    height: 3em;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1;
+
     .editIndexTitleIcon {
         padding: 4px;
     }
@@ -133,11 +138,11 @@
 
 /*Icon for files*/
 .fileIcon {
-    padding: 0 8px 4px 8px;
+    font-size: 10px;
+    padding: 0 8px 0px 8px;
 }
 
 .svgIcon{
-    height: 12px;
     padding: 0 8px;
 }
 /*Collapsed Carrousel*/

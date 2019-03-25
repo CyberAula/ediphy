@@ -5,6 +5,7 @@ import update from 'immutability-helper';
 import ItemRenderer from './ItemRenderer';
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
+import i18n from "i18next";
 
 class FileTree extends Component {
     constructor(props) {
@@ -24,9 +25,15 @@ class FileTree extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        console.log(this.props);
-        console.log(nextProps);
-        if(nextProps.navItems !== this.props.navItems || nextProps.navItemsIds !== this.props.navItemsIds || nextProps.viewToolbars !== this.props.viewToolbars) {
+        if(nextProps.navItems !== this.props.navItems
+            || nextProps.navItemsIds !== this.props.navItemsIds
+            || nextProps.viewToolbars !== this.props.viewToolbars
+            || nextProps.carouselShow !== this.props.carouselShow
+            || nextProps.indexSelected !== this.props.indexSelected) {
+            return true;
+        }
+        if(nextState.showSortableItems !== this.state.showSortableItems
+            || nextState.showContainedViews !== this.state.showContainedViews) {
             return true;
         }
         return false;
@@ -69,13 +76,10 @@ class FileTree extends Component {
             };
 
         });
-        console.log(this.props.navItems);
-        console.log(edItems);
         return convert(edItems);
     }
 
     handleChange(items) {
-        console.log('handle change');
         let movedItem = items.find(i => i.id === this.props.indexSelected);
 
         let oldParentId = this.props.navItems[movedItem.id].parent;
@@ -117,9 +121,13 @@ class FileTree extends Component {
     renderItem(props) { return <ItemRenderer {...props}
         onToggleCollapse={this.handleToggleCollapse}
         onIndexSelected = {this.props.onIndexSelected}
+        onNavItemSelected={this.props.onNavItemSelected}
         onNavItemNameChanged={this.props.onNavItemNameChanged}
         navItems={this.props.navItems}
         viewToolbars={this.props.viewToolbars}
+        containedViewSelected={this.props.containedViewSelected}
+        navItemSelected={this.props.navItemSelected}
+        indexSelected={this.props.indexSelected}
     />; }
 
     getContentHeight() {
@@ -135,26 +143,62 @@ class FileTree extends Component {
     }
 
     render() {
-        let items = this.ediphyNavItemsToSortlyItems(this.props.navItems, this.props.navItemsIds, this.props.viewToolbars);
-
         if (!this.props.carouselShow) { return (<div style={{ height: "100%" }}><br /></div>); }
 
+        console.log(this.props);
+
         return (
-            <div className={"DnD-Window"}
-                style={{ height: (this.state.showSortableItems) ? this.getContentHeight() : '0px', display: 'inherit' }}>
-                <section style={{ width: '100%' }}>
-                    <div className="row" style={{ width: '100%' }}>
-                        <div className="col-12 col-lg-8 col-xl-6" style={{ width: '100%' }}>
-                            <Sortly
-                                items={items}
-                                itemRenderer={this.renderItem}
-                                onMove={this.handleMove}
-                                onChange={this.handleChange}
-                                onDrop={this.onDrop}
-                            />
+            <div>
+                <div id="sortablesCollapse" style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
+                    this.setState({ showSortableItems: !this.state.showSortableItems });
+                }}>
+                    {(this.state.showSortableItems) ?
+                        <i className="material-icons" style={{ color: "gray", fontSize: "22px" }}>{"arrow_drop_down" }</i> :
+                        <i className="material-icons" style={{ color: "gray", fontSize: "15px", marginLeft: "2px", marginRight: "2px" }}>{"play_arrow" }</i>
+                    }
+                    <span style={{ color: "white", fontSize: "11px" }}>{i18n.t("INDEX")}</span>
+                </div>
+                <div className={"DnD-Window"}
+                    style={{ height: (this.state.showSortableItems) ? this.getContentHeight() : '0px', display: this.state.showSortableItems ? 'flex' : 'none' }}>
+                    <section style={{ display: 'flex', flex: 1 }}>
+                        <div className="row" style={{ display: 'flex', flex: 1 }}>
+                            <div className="col-12 col-lg-8 col-xl-6" style={{ width: '100%' }}>
+                                <Sortly
+                                    items={this.ediphyNavItemsToSortlyItems(this.props.navItems, this.props.navItemsIds, this.props.viewToolbars)}
+                                    itemRenderer={this.renderItem}
+                                    onMove={this.handleMove}
+                                    onChange={this.handleChange}
+                                    onDrop={this.onDrop}
+                                />
+                            </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                </div>
+                <div id="scontainedViewsCollapse" style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
+                    this.setState({ showContainedViews: !this.state.showContainedViews });
+                }}>
+                    {(this.state.showContainedViews) ?
+                        <i className="material-icons" style={{ color: "gray", fontSize: "22px" }}>{"arrow_drop_down" }</i> :
+                        <i className="material-icons" style={{ color: "gray", fontSize: "15px", marginLeft: "2px", marginRight: "2px" }}>{"play_arrow" }</i>
+                    }
+                    <span style={{ color: "white", fontSize: "11px" }}>{i18n.t("CONTAINED_VIEWS")}</span>
+                </div>
+                <div className={"DnD-Window"}
+                    style={{ height: (this.state.showSortableItems) ? this.getContentHeight() : '0px', display: this.state.showSortableItems ? 'inherit' : 'none' }}>
+                    <section style={{ width: '100%' }}>
+                        <div className="row" style={{ width: '100%' }}>
+                            <div className="col-12 col-lg-8 col-xl-6" style={{ width: '100%' }}>
+                                {/* <Sortly*/}
+                                {/* items={this.ediphyNavItemsToSortlyItems(this.props.navItems, this.props.navItemsIds, this.props.viewToolbars)}*/}
+                                {/* itemRenderer={this.renderItem}*/}
+                                {/* onMove={this.handleMove}*/}
+                                {/* onChange={this.handleChange}*/}
+                                {/* onDrop={this.onDrop}*/}
+                                {/* />*/}
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </div>
         );
     }

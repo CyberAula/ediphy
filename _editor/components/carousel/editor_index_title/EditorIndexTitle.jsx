@@ -26,6 +26,28 @@ export default class EditorIndexTitle extends Component {
         };
     }
 
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+
+        if (nextProps.selected === this.props.id
+            || (this.props.selected === this.props.id && nextProps.selected !== this.props.id)
+            || (this.props.selected !== this.props.id && nextProps.selected === this.props.id)
+            || (this.state.editing && !nextState.editing)
+            || (!this.state.editing && nextState.editing)
+            || (this.state.editing && !nextState.editing && (nextProps.selected !== nextProps.id))) {
+            console.log(this.props, nextProps);
+            console.log(this.state, nextState);
+            return true;
+        }
+        return false;
+
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevState.editing && prevProps.selected !== prevProps.id) {
+            // this.setState({ editing: true }, () => console.log('componentDiDupdate'));
+        }
+    }
+
     /**
      * Renders React Component
      * @returns {code}
@@ -35,17 +57,17 @@ export default class EditorIndexTitle extends Component {
             <span id={this.props.id}>
                 {!this.state.editing ?
                     (<div className="actualSectionTitle" id={'title_' + this.props.id}
-                        style={{ textDecoration: this.props.hidden ? "line-through" : "initial" }}
-                        onMouseOver={() =>{
-                            // let markEl = document.getElementById('title_' + this.props.id);
-                            // markEl.style.transitionDuration = this.props.scrollW / 100 + 's';
-                            // markEl.style.width = this.props.scrollW + '%';
-                            // markEl.style.left = '-' + (this.props.scrollW - 100) + '%';
-                        }}
-                        onMouseOut={() =>{
-                            // let markEl = document.getElementById('title_' + this.props.id);
-                            // markEl.style.width = '90%';
-                            // markEl.style.left = '0%';
+                        style={{ textDecoration: this.props.hidden ? "line-through" : "initial",
+                            cursor: this.props.selected === this.props.id ? 'text' : 'pointer' }}
+                        onMouseDown={ e => {
+                            console.log('onclick');
+                            console.log(this.state);
+                            console.log(this.props);
+                            if (!this.state.editing && (this.props.selected === this.props.id)) {
+                                this.setState({ editing: true }, () => console.log('onclick', this.state));
+                            }
+                            e.preventDefault();
+                            // e.stopPropagation();
                         }}
                         onDoubleClick={e => {
                             this.setState({ editing: !this.state.editing });
@@ -90,12 +112,15 @@ export default class EditorIndexTitle extends Component {
                         }}
                         onBlur={e => {
                         /* Change to non-edition mode*/
+                            console.log('onBlur');
                             this.setState({ editing: !this.state.editing });
                             if(this.props.courseTitle) {
                                 this.props.onNameChanged('title', this.state.currentValue);
                             } else {
                                 this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? { viewName: this.state.currentValue } : this.getDefaultValue());
                             }
+                            e.preventDefault();
+                            e.stopPropagation();
                         }} />
                     )
                 }
