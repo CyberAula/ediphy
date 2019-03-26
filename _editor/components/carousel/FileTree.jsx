@@ -25,19 +25,23 @@ class FileTree extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        if(nextProps.navItems !== this.props.navItems
+        // console.log(nextProps.navItems !== this.props.navItems)
+        // console.log(nextProps.navItemsIds !== this.props.navItemsIds)
+        // console.log(nextProps.viewToolbars !== this.props.viewToolbars)
+        // console.log(nextProps.carouselShow !== this.props.carouselShow)
+        // console.log(nextProps.indexSelected !== this.props.indexSelected)
+        // console.log(nextState.showSortableItems !== this.state.showSortableItems)
+        // console.log(nextState.showContainedViews !== this.state.showContainedViews)
+        //
+        // console.log(nextProps.navItemsIds, this.props.navItemsIds)
+        // console.log(nextProps.navItems, this.props.navItems)
+        return (nextProps.navItems !== this.props.navItems
             || nextProps.navItemsIds !== this.props.navItemsIds
             || nextProps.viewToolbars !== this.props.viewToolbars
             || nextProps.carouselShow !== this.props.carouselShow
-            || nextProps.indexSelected !== this.props.indexSelected) {
-
-            return true;
-        }
-        if(nextState.showSortableItems !== this.state.showSortableItems
-            || nextState.showContainedViews !== this.state.showContainedViews) {
-            return true;
-        }
-        return false;
+            || nextProps.indexSelected !== this.props.indexSelected
+            || nextState.showSortableItems !== this.state.showSortableItems
+            || nextState.showContainedViews !== this.state.showContainedViews);
     }
 
     handleMove(items, index, newIndex) {
@@ -144,6 +148,7 @@ class FileTree extends Component {
     }
 
     render() {
+
         if (!this.props.carouselShow) { return (<div style={{ height: "100%" }}><br /></div>); }
 
         return (

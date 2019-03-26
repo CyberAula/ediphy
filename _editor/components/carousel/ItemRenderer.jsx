@@ -74,9 +74,9 @@ const ItemRenderer = (props) => {
     const selected = type === 'file' && id === navItemSelected ? 'selected ' : '';
     return connectDragSource(connectDragPreview(connectDropTarget(
         <div className={"carousselContainer " + collapsed + selected}
-            onMouseUp={e => {
+            onMouseDown={e => {
                 onIndexSelected(id);
-                e.stopPropagation();
+                // e.stopPropagation();
             }}
             onDoubleClick={e => {
                 onNavItemSelected(id);
