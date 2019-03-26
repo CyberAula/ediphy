@@ -6,6 +6,9 @@ import ItemRenderer from './ItemRenderer';
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import i18n from "i18next";
+import { isSlide } from "../../../common/utils";
+import EditorIndexTitle from "./editor_index_title/EditorIndexTitle";
+import ContainedViewsList from "./ContainedViewsList";
 
 class FileTree extends Component {
     constructor(props) {
@@ -40,6 +43,8 @@ class FileTree extends Component {
             || nextProps.viewToolbars !== this.props.viewToolbars
             || nextProps.carouselShow !== this.props.carouselShow
             || nextProps.indexSelected !== this.props.indexSelected
+            || nextProps.containedViews !== this.props.containedViews
+            || nextProps.containedViewSelected !== this.props.containedViewSelected
             || nextState.showSortableItems !== this.state.showSortableItems
             || nextState.showContainedViews !== this.state.showContainedViews);
     }
@@ -148,7 +153,6 @@ class FileTree extends Component {
     }
 
     render() {
-
         if (!this.props.carouselShow) { return (<div style={{ height: "100%" }}><br /></div>); }
 
         return (
@@ -188,22 +192,30 @@ class FileTree extends Component {
                     }
                     <span style={{ color: "white", fontSize: "11px" }}>{i18n.t("CONTAINED_VIEWS")}</span>
                 </div>
-                <div className={"DnD-Window"}
-                    style={{ height: (this.state.showSortableItems) ? this.getContentHeight() : '0px', display: this.state.showSortableItems ? 'inherit' : 'none' }}>
-                    <section style={{ width: '100%' }}>
-                        <div className="row" style={{ width: '100%' }}>
-                            <div className="col-12 col-lg-8 col-xl-6" style={{ width: '100%' }}>
-                                {/* <Sortly*/}
-                                {/* items={this.ediphyNavItemsToSortlyItems(this.props.navItems, this.props.navItemsIds, this.props.viewToolbars)}*/}
-                                {/* itemRenderer={this.renderItem}*/}
-                                {/* onMove={this.handleMove}*/}
-                                {/* onChange={this.handleChange}*/}
-                                {/* onDrop={this.onDrop}*/}
-                                {/* />*/}
-                            </div>
-                        </div>
-                    </section>
-                </div>
+                <ContainedViewsList
+                    showContainedViews = {this.state.showContainedViews}
+                    showSortableItems = {this.state.showSortableItems}
+                    carouselShow={this.props.carouselShow}
+                    containedViews={this.props.containedViews}
+                    containedViewSelected={this.props.containedViewSelected}
+                    boxes={this.props.boxes}
+                    navItemsIds={this.props.navItemsIds}
+                    navItems={this.props.navItems}
+                    navItemSelected={this.props.navItemSelected}
+                    indexSelected={this.props.indexSelected}
+                    onBoxAdded={this.props.onBoxAdded}
+                    onContainedViewDeleted={this.props.onContainedViewDeleted}
+                    onContainedViewSelected={this.props.onContainedViewSelected}
+                    onContainedViewNameChanged={this.props.onContainedViewNameChanged}
+                    onNavItemNameChanged={this.props.onNavItemNameChanged}
+                    onNavItemAdded={this.props.onNavItemAdded}
+                    onNavItemSelected={this.props.onNavItemSelected}
+                    onIndexSelected={this.props.onIndexSelected}
+                    onNavItemExpanded={this.props.onNavItemExpanded}
+                    onNavItemDeleted={this.props.onNavItemDeleted}
+                    onNavItemReordered={this.props.onNavItemReordered}
+                    viewToolbars={this.props.viewToolbars}
+                />
             </div>
         );
     }
