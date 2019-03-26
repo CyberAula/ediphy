@@ -54,15 +54,16 @@ button{
   }
 }
 
+
 .file {
   color: white;
   overflow: hidden;
   font-size: 0.9em;
-  transition: height .2s;
+  max-height: 40px;
+  transition: max-height 0.3s ease-in-out;
 
   &.collapsed {
-    //box-sizing: border-box;
-    height: 0;
+    max-height: 0;
     padding: 0;
     border: none;
   }
