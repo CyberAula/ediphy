@@ -30,6 +30,7 @@ class FileTree extends Component {
             || nextProps.viewToolbars !== this.props.viewToolbars
             || nextProps.carouselShow !== this.props.carouselShow
             || nextProps.indexSelected !== this.props.indexSelected) {
+
             return true;
         }
         if(nextState.showSortableItems !== this.state.showSortableItems
@@ -167,6 +168,7 @@ class FileTree extends Component {
                                     onMove={this.handleMove}
                                     onChange={this.handleChange}
                                     onDrop={this.onDrop}
+                                    cancelOnDropOutside
                                 />
                             </div>
                         </div>

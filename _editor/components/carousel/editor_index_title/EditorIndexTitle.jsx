@@ -22,7 +22,7 @@ export default class EditorIndexTitle extends Component {
          */
         this.state = {
             editing: false,
-            currentValue: this.props.title,
+            currentValue: (this.props.courseTitle && this.props.title === undefined) ? i18n.t('Title_document') : this.props.title,
         };
     }
 
@@ -30,18 +30,21 @@ export default class EditorIndexTitle extends Component {
 
         if ((this.props.selected === this.props.id && nextProps.selected !== this.props.id)
             || (this.props.selected !== this.props.id && nextProps.selected === this.props.id)
+            || (this.props.title !== nextProps.title)
+            || (this.props.courseTitle !== nextProps.courseTitle)
             || (this.state.editing && !nextState.editing)
             || (!this.state.editing && nextState.editing)
-            || (this.state.editing && !nextState.editing && (nextProps.selected !== nextProps.id))) {
+            || (this.state.editing && !nextState.editing && (nextProps.selected !== nextProps.id))
+            || (this.state.currentValue !== nextState.currentValue)) {
             return true;
         }
         return false;
-
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevState.editing && this.props.selected !== this.props.id) {
-            this.setState({ editing: false });
+
+        if(this.props.courseTitle && this.props.title !== prevProps.title) {
+            this.setState({ currentValue: this.props.title });
         }
     }
 
@@ -50,14 +53,15 @@ export default class EditorIndexTitle extends Component {
      * @returns {code}
      */
     render() {
+
         return (
             <span id={this.props.id}>
                 {!this.state.editing ?
                     (<div className="actualSectionTitle" id={'title_' + this.props.id}
                         style={{ textDecoration: this.props.hidden ? "line-through" : "initial",
-                            cursor: this.props.selected === this.props.id ? 'text' : 'pointer' }}
+                            cursor: this.props.selected === this.props.id || this.props.courseTitle ? 'text' : 'pointer' }}
                         onMouseUp={ e => {
-                            if (!this.state.editing && (this.props.selected === this.props.id)) {
+                            if (!this.state.editing && (this.props.selected === this.props.id) || this.props.courseTitle) {
                                 this.setState({ editing: true });
                             }
                         }}
