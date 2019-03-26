@@ -145,8 +145,6 @@ class FileTree extends Component {
     render() {
         if (!this.props.carouselShow) { return (<div style={{ height: "100%" }}><br /></div>); }
 
-        console.log(this.props);
-
         return (
             <div>
                 <div id="sortablesCollapse" style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {

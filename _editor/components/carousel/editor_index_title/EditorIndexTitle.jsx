@@ -28,14 +28,11 @@ export default class EditorIndexTitle extends Component {
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
 
-        if (nextProps.selected === this.props.id
-            || (this.props.selected === this.props.id && nextProps.selected !== this.props.id)
+        if ((this.props.selected === this.props.id && nextProps.selected !== this.props.id)
             || (this.props.selected !== this.props.id && nextProps.selected === this.props.id)
             || (this.state.editing && !nextState.editing)
             || (!this.state.editing && nextState.editing)
             || (this.state.editing && !nextState.editing && (nextProps.selected !== nextProps.id))) {
-            console.log(this.props, nextProps);
-            console.log(this.state, nextState);
             return true;
         }
         return false;
@@ -43,8 +40,8 @@ export default class EditorIndexTitle extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevState.editing && prevProps.selected !== prevProps.id) {
-            // this.setState({ editing: true }, () => console.log('componentDiDupdate'));
+        if(prevState.editing && this.props.selected !== this.props.id) {
+            this.setState({ editing: false });
         }
     }
 
@@ -59,15 +56,10 @@ export default class EditorIndexTitle extends Component {
                     (<div className="actualSectionTitle" id={'title_' + this.props.id}
                         style={{ textDecoration: this.props.hidden ? "line-through" : "initial",
                             cursor: this.props.selected === this.props.id ? 'text' : 'pointer' }}
-                        onMouseDown={ e => {
-                            console.log('onclick');
-                            console.log(this.state);
-                            console.log(this.props);
+                        onMouseUp={ e => {
                             if (!this.state.editing && (this.props.selected === this.props.id)) {
-                                this.setState({ editing: true }, () => console.log('onclick', this.state));
+                                this.setState({ editing: true });
                             }
-                            e.preventDefault();
-                            // e.stopPropagation();
                         }}
                         onDoubleClick={e => {
                             this.setState({ editing: !this.state.editing });
@@ -110,10 +102,10 @@ export default class EditorIndexTitle extends Component {
                         /* Save it on component state, not Redux*/
                             this.setState({ currentValue: e.target.value });
                         }}
+
                         onBlur={e => {
                         /* Change to non-edition mode*/
-                            console.log('onBlur');
-                            this.setState({ editing: !this.state.editing });
+                            this.setState({ editing: false });
                             if(this.props.courseTitle) {
                                 this.props.onNameChanged('title', this.state.currentValue);
                             } else {

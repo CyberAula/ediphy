@@ -35,27 +35,6 @@ export default class EditorCarousel extends Component {
                     onTitleChanged={this.props.onTitleChanged}
                     onToggleFull={this.props.onToggleFull}
                     onToggleWidth={this.props.onToggleWidth} />
-                {/* <CarouselList id={0}*/}
-                {/* carouselShow={this.props.carouselShow}*/}
-                {/* containedViews={this.props.containedViews}*/}
-                {/* containedViewSelected={this.props.containedViewSelected}*/}
-                {/* boxes={this.props.boxes}*/}
-                {/* navItemsIds={this.props.navItemsIds}*/}
-                {/* navItems={this.props.navItems}*/}
-                {/* navItemSelected={this.props.navItemSelected}*/}
-                {/* indexSelected={this.props.indexSelected}*/}
-                {/* onBoxAdded={this.props.onBoxAdded}*/}
-                {/* onContainedViewDeleted={this.props.onContainedViewDeleted}*/}
-                {/* onContainedViewSelected={this.props.onContainedViewSelected}*/}
-                {/* onContainedViewNameChanged={this.props.onContainedViewNameChanged}*/}
-                {/* onNavItemNameChanged={this.props.onNavItemNameChanged}*/}
-                {/* onNavItemAdded={this.props.onNavItemAdded}*/}
-                {/* onNavItemSelected={this.props.onNavItemSelected}*/}
-                {/* onIndexSelected={this.props.onIndexSelected}*/}
-                {/* onNavItemExpanded={this.props.onNavItemExpanded}*/}
-                {/* onNavItemDeleted={this.props.onNavItemDeleted}*/}
-                {/* onNavItemReordered={this.props.onNavItemReordered}*/}
-                {/* viewToolbars={this.props.viewToolbars} />*/}
                 <FileTree
                     carouselShow={this.props.carouselShow}
                     containedViews={this.props.containedViews}

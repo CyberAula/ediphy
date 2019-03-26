@@ -13,7 +13,6 @@ const Folder = ({ name, collapsed, index, path, onToggleCollapse, id, navItems, 
     };
     const classCollapsed = collapsed ? 'collapsed' : '';
     const classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
-    console.log(indexSelected);
     return (
         <div className={ 'folder navItemBlock ' + classCollapsed + classIndexSelected }
             style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: path.length * 20 }}
@@ -46,7 +45,6 @@ const File = ({ name, collapsed, id, path, navItems, onNavItemNameChanged, viewT
     const classCollapsed = collapsed ? 'collapsed' : '';
     const classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
     const classContainedViewSelected = id === containedViewSelected ? ' selected ' : ' notSelected ';
-    console.log(indexSelected);
     return (<div className={ 'file navItemBlock ' + classCollapsed + classIndexSelected + classContainedViewSelected }
         style={{ marginLeft: path.length * 20 } } >
         {(navItems[id].customSize === 0) ?
@@ -76,7 +74,7 @@ const ItemRenderer = (props) => {
     const selected = type === 'file' && id === navItemSelected ? 'selected ' : '';
     return connectDragSource(connectDragPreview(connectDropTarget(
         <div className={"carousselContainer " + collapsed + selected}
-            onMouseDown={e => {
+            onMouseUp={e => {
                 onIndexSelected(id);
                 e.stopPropagation();
             }}
