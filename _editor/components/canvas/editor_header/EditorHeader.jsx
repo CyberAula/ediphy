@@ -187,8 +187,7 @@ export default class EditorHeader extends Component {
                                                 onBlur={e => {
                                                     /* Change to non-edition mode*/
                                                     this.setState({ editingNavTitle: !this.state.editingNavTitle });
-                                                    this.props.onViewTitleChanged(navItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue(),
-                                                        viewName: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
+                                                    this.props.onViewTitleChanged(navItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
                                                 }} />)}
                                         {/* Info CV */}
                                         {this.props.containedView !== 0 ?

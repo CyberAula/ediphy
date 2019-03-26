@@ -61,7 +61,7 @@ button{
   transition: height .2s;
 
   &.collapsed {
-    box-sizing: border-box;
+    //box-sizing: border-box;
     height: 0;
     padding: 0;
     border: none;

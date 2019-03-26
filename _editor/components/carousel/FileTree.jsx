@@ -97,7 +97,7 @@ class FileTree extends Component {
         let idsInOrder = items.map(item => item.id);
         let childrenInOrder = this.getImmediateDescendants(items, newParentId);
 
-        const shouldChildExpand = this.props.navItems[newParentId].isExpanded;
+        const shouldChildExpand = movedItem.type === 'file' && this.props.navItems[newParentId].isExpanded;
         this.props.onNavItemExpanded(movedItem.id, shouldChildExpand);
         this.props.onNavItemReordered(movedItem.id, newParentId, oldParentId, idsInOrder, childrenInOrder);
 
@@ -156,7 +156,7 @@ class FileTree extends Component {
         if (!this.props.carouselShow) { return (<div style={{ height: "100%" }}><br /></div>); }
 
         return (
-            <div>
+            <div className={"carousselListContainer"} style={{ height: '100%' }}>
                 <div id="sortablesCollapse" style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
                     this.setState({ showSortableItems: !this.state.showSortableItems });
                 }}>
@@ -166,9 +166,9 @@ class FileTree extends Component {
                     }
                     <span style={{ color: "white", fontSize: "11px" }}>{i18n.t("INDEX")}</span>
                 </div>
-                <div className={"DnD-Window"}
-                    style={{ height: (this.state.showSortableItems) ? this.getContentHeight() : '0px', display: this.state.showSortableItems ? 'flex' : 'none' }}>
-                    <section style={{ display: 'flex', flex: 1 }}>
+                <div className={"DnD-Window carList"}
+                    style={{ height: (this.state.showSortableItems) ? this.getContentHeight() : '0px', display: 'inherit' }}>
+                    <section style={{ display: 'flex', flex: 1, overflowX: 'hidden' }}>
                         <div className="row" style={{ display: 'flex', flex: 1 }}>
                             <div className="col-12 col-lg-8 col-xl-6" style={{ width: '100%' }}>
                                 <Sortly

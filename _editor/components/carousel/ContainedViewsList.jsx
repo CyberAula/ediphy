@@ -25,7 +25,6 @@ export default class ContainedViewsList extends Component {
                                 }}
                                 onMouseDown={e => {
                                     this.props.onIndexSelected(id);
-                                    // e.stopPropagation();
                                 }}>
                                 <i className="material-icons fileIcon">{isSlide(this.props.containedViews[id].type) ? "slideshow" : "insert_drive_file"}</i>
                                 <EditorIndexTitle
