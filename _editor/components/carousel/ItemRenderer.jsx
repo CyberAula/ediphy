@@ -71,9 +71,9 @@ const ItemRenderer = (props) => {
     const { id, navItemSelected, connectDragSource, connectDragPreview, connectDropTarget, isDragging, isClosestDragging, type, path, onIndexSelected, onNavItemSelected }
         = props;
     const collapsed = props.collapsed ? 'collapsed ' : '';
-    const selected = type === 'file' && id === navItemSelected ? 'selected ' : '';
+    const selected = type === 'file' && id === navItemSelected ? 'selected ' : ' ';
     return connectDragSource(connectDragPreview(connectDropTarget(
-        <div className={"carousselContainer " + collapsed + selected}
+        <div className={"carousselContainer " + collapsed + selected + 'is' + type}
             onMouseDown={e => {
                 onIndexSelected(id);
                 // e.stopPropagation();

@@ -167,7 +167,7 @@ class FileTree extends Component {
                     <span style={{ color: "white", fontSize: "11px" }}>{i18n.t("INDEX")}</span>
                 </div>
                 <div className={"DnD-Window carList"}
-                    style={{ height: (this.state.showSortableItems) ? this.getContentHeight() : '0px', display: 'inherit' }}>
+                    style={{ height: (this.state.showSortableItems) ? this.getContentHeight() : '0px', display: 'inherit ' }}>
                     <section style={{ display: 'flex', flex: 1, overflowX: 'hidden' }}>
                         <div className="row" style={{ display: 'flex', flex: 1 }}>
                             <div className="col-12 col-lg-8 col-xl-6" style={{ width: '100%' }}>

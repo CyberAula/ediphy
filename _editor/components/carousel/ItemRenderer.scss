@@ -6,6 +6,15 @@
   color: white;
   display: flex;
   flex-direction: row;
+  border-bottom: 1px solid black;
+
+  &.collapsed{
+    border: none;
+
+    &.isfolder{
+      border-bottom: 1px solid black;
+    }
+  }
 
   &.selected {
     background-color: #222;

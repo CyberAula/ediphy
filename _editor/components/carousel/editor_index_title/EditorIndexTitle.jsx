@@ -32,6 +32,7 @@ export default class EditorIndexTitle extends Component {
             || (this.props.selected !== this.props.id && nextProps.selected === this.props.id)
             || (this.props.title !== nextProps.title)
             || (this.props.courseTitle !== nextProps.courseTitle)
+            || (this.props.hidden !== nextProps.hidden)
             || (this.state.editing && !nextState.editing)
             || (!this.state.editing && nextState.editing)
             || (this.state.editing && !nextState.editing && (nextProps.selected !== nextProps.id))
