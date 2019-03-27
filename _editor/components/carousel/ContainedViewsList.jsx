@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import i18n from "i18next";
 import { isSlide } from "../../../common/utils";
 import EditorIndexTitle from "./editor_index_title/EditorIndexTitle";
+import PropTypes from "prop-types";
+import CarouselList from "./carousel_list/CarouselList";
 
 export default class ContainedViewsList extends Component {
 
@@ -44,3 +46,42 @@ export default class ContainedViewsList extends Component {
 
     }
 }
+
+ContainedViewsList.propTypes = {
+    /**
+     *  Object containing all contained views (identified by its ID)
+     */
+    containedViews: PropTypes.object.isRequired,
+    /**
+     * Selected contained view
+     */
+    containedViewSelected: PropTypes.any,
+    /**
+     * View/Contained view selected at the index
+     */
+    indexSelected: PropTypes.any,
+    /**
+     * Callback for selecting contained view
+     */
+    onContainedViewNameChanged: PropTypes.func.isRequired,
+    /**
+     * Callback for renaming contained view
+     */
+    onContainedViewSelected: PropTypes.func.isRequired,
+    /**
+     * Callback for renaming view
+     */
+    onIndexSelected: PropTypes.func.isRequired,
+    /**
+     * Object containing all the pages' toolbars
+     */
+    viewToolbars: PropTypes.object.isRequired,
+    /**
+     * Indicates if contained views should be displayed
+     */
+    showContainedViews: PropTypes.bool.isRequired,
+    /**
+     * Indicates if sortable items should be displayed
+     */
+    showSortableItems: PropTypes.bool.isRequired,
+};

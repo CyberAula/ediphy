@@ -9,6 +9,7 @@ import i18n from "i18next";
 import { isSlide } from "../../../common/utils";
 import EditorIndexTitle from "./editor_index_title/EditorIndexTitle";
 import ContainedViewsList from "./ContainedViewsList";
+import PropTypes from "prop-types";
 
 class FileTree extends Component {
     constructor(props) {
@@ -237,6 +238,121 @@ const overrideDropCaptureHandler = (manager) => {
     };
 
     return backend;
+};
+
+FileTree.propTypes = {
+    /**
+     * Global parent of navItems (0)
+     */
+    id: PropTypes.number.isRequired,
+    /**
+     * Indicates whether the carousel has been expanded or not
+     */
+    carouselShow: PropTypes.bool,
+    /**
+     *  Object containing all contained views (identified by its ID)
+     */
+    containedViews: PropTypes.object.isRequired,
+    /**
+     * Selected contained view
+     */
+    containedViewSelected: PropTypes.any,
+    /**
+     * View/Contained view selected at the index
+     */
+    indexSelected: PropTypes.any,
+    /**
+     * Dictionary containing all created views, each one with its *id* as the key
+     */
+    navItems: PropTypes.object.isRequired,
+    /**
+     * Current selected view (by ID)
+     */
+    navItemSelected: PropTypes.any,
+    /**
+     *  View/Contained view selected at the index
+     */
+    navItemsIds: PropTypes.array.isRequired,
+    /**
+     * Callback for adding a new box
+     */
+    onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * Callback for selecting contained view
+     */
+    onContainedViewNameChanged: PropTypes.func.isRequired,
+    /**
+     * Callback for renaming contained view
+     */
+    onContainedViewSelected: PropTypes.func.isRequired,
+    /**
+     * Callback for deleting contained view
+     */
+    onContainedViewDeleted: PropTypes.func.isRequired,
+    /**
+     * Callback for renaming view
+     */
+    onIndexSelected: PropTypes.func.isRequired,
+    /**
+     * Adds a new view
+     */
+    onNavItemAdded: PropTypes.func.isRequired,
+    /**
+     * Expands navItem (only for sections)
+     */
+    onNavItemExpanded: PropTypes.func.isRequired,
+    /**
+     * Callback for renaming view
+     */
+    onNavItemNameChanged: PropTypes.func.isRequired,
+    /**
+     * Callback for reordering navItems
+     */
+    onNavItemReordered: PropTypes.func.isRequired,
+    /**
+     * Deletes a view
+     */
+    onNavItemDeleted: PropTypes.func.isRequired,
+    /**
+     * Selects a view
+     */
+    onNavItemSelected: PropTypes.func.isRequired,
+    /**
+     * Object containing all the pages' toolbars
+     */
+    viewToolbars: PropTypes.object.isRequired,
+    /**
+     * Object containing all the pages' toolbars
+     */
+    name: PropTypes.string.isRequired,
+    /**
+     * Object containing all the pages' toolbars
+     */
+    type: PropTypes.oneOf(['folder', 'file']).isRequired,
+    /**
+     * Indicates if objects is collapsed (not expanded)
+     */
+    collapsed: PropTypes.bool,
+    /**
+     * Function to connect Drag source
+     */
+    connectDragSource: PropTypes.func.isRequired,
+    /**
+     * Manages preview when dragging
+     */
+    connectDragPreview: PropTypes.func.isRequired,
+    /**
+     * Function to connect Drop target
+     */
+    connectDropTarget: PropTypes.func.isRequired,
+    /**
+     * Boolean that indicates if object is dragging
+     */
+    isDragging: PropTypes.bool.isRequired,
+    /**
+     *  Object containing all created boxes (by id)
+     */
+    boxes: PropTypes.object.isRequired,
 };
 
 export default DragDropContext(overrideDropCaptureHandler)(FileTree);
