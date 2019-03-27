@@ -91,7 +91,7 @@ export default class EditorIndexTitle extends Component {
                         type="text"
                         ref="titleIndex"
                         placeholder={(this.props.courseTitle) ? i18n.t('Title_document') : i18n.t('Page')}
-                        className={this.props.id ? "editSectionTitle" : "editTitle"}
+                        className={this.props.courseTitle ? "editTitle" : "editSectionTitle"}
                         value={this.state.currentValue}
                         autoFocus
                         onKeyDown={e=> {

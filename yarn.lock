@@ -4362,6 +4362,22 @@ follow-redirects@^1.0.0:
   dependencies:
     debug "=3.1.0"
 
+font-picker-react@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/font-picker-react/-/font-picker-react-2.3.0.tgz#ebd383fd3bfec9bd53b8dadd6089335a1bca0d2d"
+  integrity sha512-XD3hFsZukOTciV7KPtEds9BKqonZeeUDhT5POh0JemNb2v/RiDI55rdqH20sLztBFdQv03Nk73UEs//G2deMkQ==
+  dependencies:
+    font-picker "^2.1.0"
+    lodash.throttle "^4.1.1"
+    prop-types "^15.6.2"
+
+font-picker@^2.1.0:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/font-picker/-/font-picker-2.2.1.tgz#a6f7605f430fc8be367fe2a1e0ecb61da0f4d91c"
+  integrity sha512-y+WmoTxrpHQB5cXzhETO3opVDvACq108InNV9oC6aLNObq1/FG5MW0N+/MgiY6vObnodNCRsqWJHyEarpRfaWw==
+  dependencies:
+    lodash.throttle "^4.1.1"
+
 for-in@^0.1.3:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-0.1.8.tgz#d8773908e31256109952b1fdb9b3fa867d2775e1"

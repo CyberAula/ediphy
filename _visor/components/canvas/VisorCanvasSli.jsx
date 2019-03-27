@@ -66,9 +66,6 @@ export default class VisorCanvasSli extends Component {
             <Tooltip id="tooltip">{thisView}</Tooltip>
         );
         let exercises = this.props.exercises[this.props.currentView];
-        console.log(exercises);
-        console.log(this.props.fromPDF);
-        console.log(this.props.fromPDF || !(exercises) || !(exercises.exercises));
 
         let animationType = "animation-zoom";
         let padding = (this.props.fromPDF ? '0px' : '0px');

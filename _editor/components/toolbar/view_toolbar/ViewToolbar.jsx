@@ -118,8 +118,14 @@ export default class ViewToolbar extends Component {
                                 value: viewToolbar.colors.themePrimaryColor,
                             },
 
-                            theme_secondary_color: {
-                                __name: '&&Secondary Color',
+                            // theme_secondary_color: {
+                            //     __name: '&&Secondary Color',
+                            //     type: 'color',
+                            //     value: viewToolbar.colors.themeSecondaryColor,
+                            // },
+
+                            theme_font: {
+                                __name: '&&Font',
                                 type: 'color',
                                 value: viewToolbar.colors.themeSecondaryColor,
                             },

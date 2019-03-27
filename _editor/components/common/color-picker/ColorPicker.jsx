@@ -46,7 +46,7 @@ export default class ColorPicker extends Component {
                     enableAlpha
                     animation="slide-up"
                     color={this.state.color}
-                    onChange={(e)=>{ console.log(e); this.setState({ color: e.color, alpha: e.alpha });}}
+                    onChange={(e)=>{ this.setState({ color: e.color, alpha: e.alpha });}}
                     onClose={()=>{this.props.onChange({ color: this.hexToRgba(this.state.color, this.state.alpha) });}}
                     mode="RGB"
                     alpha={this.state.alpha} />
