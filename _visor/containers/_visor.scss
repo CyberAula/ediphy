@@ -553,13 +553,17 @@ li > .selectedNavItemVisor {
 }
 
 .submitButton {
-  background-color: $blueprimarytransparent;
+  background-color: var(--themePrimaryColorTransparent);
   border-radius: 0;
-  border: 0.2em solid $blueprimary;
-  color: $blueprimary;
+  border: 0.2em solid var(--themePrimaryColor);
+  color: var(--themePrimaryColor);
   vertical-align: middle;
   padding: 0.4em 1em;
   font-size: 1.2em;
+
+  &:hover{
+    background-color: var(--themePrimaryColorTransparent);
+  }
 }
 
 .pageFooter {

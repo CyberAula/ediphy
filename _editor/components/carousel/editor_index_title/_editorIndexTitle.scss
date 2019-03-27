@@ -1,3 +1,5 @@
+@import "../../../../sass/general/_variables.scss";
+
 /***************Name of every navitem ****************/
 /*Input*/
 .editSectionTitle, .editTitle{
@@ -11,9 +13,10 @@
   border: 0;
   border-radius: 0;
   &:focus {
-    border: 0;
+
     box-shadow: none;
     -moz-box-shadow: none;
+
   }
 }
 .editSectionTitle {
@@ -21,6 +24,17 @@
   height: 20px;
   padding: 0;
   vertical-align: top;
+  &:focus{
+    margin-right: 10px;
+    color: white;
+    border-bottom: 1px solid $blueprimarydark;
+    background-color: transparent;
+  }
+  &::selection{
+    background-color: $blueprimary;
+    color: white;
+    font-weight: bold;
+  }
 }
 #coursetit {
   .editSectionTitle{

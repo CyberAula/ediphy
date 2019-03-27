@@ -102,6 +102,7 @@ function singleNavItemReducer(state = {}, action = {}) {
     case REORDER_NAV_ITEM:
         if (state.id === action.payload.id) {
             // Action was replaced, payload is different
+
             return changeProps(
                 state,
                 [
@@ -117,8 +118,20 @@ function singleNavItemReducer(state = {}, action = {}) {
         }
         // This order is important!!
         // If checked the other way round, when newParent and oldParent are equal, item moved will be deleted from children
+
+        let uniq = (arr) => {
+            let outArr = [];
+            for (let elem of arr) {
+                if (outArr.indexOf(elem) === -1) {
+                    outArr.push(elem);
+                }
+            }
+            return outArr;
+        };
         if (state.id === action.payload.newParent) {
-            return changeProp(state, "children", action.payload.childrenInOrder);
+            let uniqueChildrenOrdered = uniq(action.payload.childrenInOrder);
+
+            return changeProp(state, "children", uniqueChildrenOrdered);
         }
         if (state.id === action.payload.oldParent) {
             return changeProp(state, "children", state.children.filter(id => id !== action.payload.id));
@@ -262,6 +275,7 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
     case EXPAND_NAV_ITEM:
         return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
     case REORDER_NAV_ITEM:
+
         let itemsReordered = changeProps(
             state,
             [
@@ -284,23 +298,28 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
             ]
         );
 
-            // Some properties are inherited from parent (level, hidden, unitNumber, etc.)
-            // We should update item's children with new inherited value
+        // Some properties are inherited from parent (level, hidden, unitNumber, etc.)
+        // We should update item's children with new inherited value
         let descendantsToUpdate = findDescendantNavItems(itemsReordered, action.payload.id);
+
         // We remove the first element (the item we moved)
         descendantsToUpdate.shift();
-        let newDescendants = [];
-        descendantsToUpdate.forEach(it => {
-            // Cheaty sneaky, action is replaced here aswell
-            newDescendants.push(singleNavItemReducer(state[it], {
+
+        // Generate new descendants so level are realigned
+        let newDescendants = {};
+        for (let descendant of descendantsToUpdate) {
+            newDescendants[descendant] = (singleNavItemReducer(state[descendant], {
                 type: REORDER_NAV_ITEM,
                 payload: {
-                    id: it,
-                    newParent: itemsReordered[itemsReordered[it].parent],
+                    id: descendant,
+                    // Choose parent from itemsReordered if it is immediate son else choose parent from already processed descendants
+                    // This line assumes descendantsToUpdate are ordered from lowest to deepest level
+                    newParent: newDescendants[itemsReordered[descendant].parent] || itemsReordered[action.payload.id],
                 },
             }));
-        });
-        return changeProps(itemsReordered, descendantsToUpdate, newDescendants);
+        }
+        return changeProps(itemsReordered, descendantsToUpdate, Object.values(newDescendants));
+
     case DELETE_NAV_ITEM:
         let navState = JSON.parse(JSON.stringify(state));
         for (let cv in navState) {

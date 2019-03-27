@@ -23,6 +23,7 @@ export default class CarouselButtons extends Component {
             showTemplates: false,
         };
         this.toggleTemplatesModal = this.toggleTemplatesModal.bind(this);
+        this.expandSiblings = this.expandSiblings.bind(this);
     }
 
     /**
@@ -38,6 +39,19 @@ export default class CarouselButtons extends Component {
             return this.props.navItems[this.props.indexSelected];
         }
         return this.props.navItems[this.props.navItems[this.props.indexSelected].parent] || this.props.navItems[0];
+    }
+
+    /**
+     * Expand siblings of added navItem
+     */
+    expandSiblings(parentId) {
+        const children = this.props.navItems[parentId].children;
+
+        for (let child of children) {
+            if (this.props.navItems[child].type !== 'section') {
+                this.props.onNavItemExpanded(child, true);
+            }
+        }
     }
 
     /**
@@ -104,26 +118,8 @@ export default class CarouselButtons extends Component {
                                 PAGE_TYPES.SECTION,
                                 this.calculatePosition()
                             );
-                            // TODO: finish this code to reorder after add a section
-                            // this.props.onNavItemReordered(
-                            //     this.props.indexSelected, // item moved
-                            //     idnuevo, // new parent
-                            //     this.props.navItems[this.props.indexSelected].parent, // old parent
-                            //     calculateNewIdOrder(this.props.navItemsIds, [this.props.indexSelected], idnuevo, this.props.indexSelected, this.props.navItems),
-                            //     [this.props.indexSelected]
-                            // );
 
-                            /*
-                            if(Ediphy.Config.sections_have_content) {
-                                this.props.onBoxAdded({
-                                    parent: idnuevo,
-                                    container: 0,
-                                    id: ID_PREFIX_SORTABLE_BOX + Date.now(), page: idnuevo },
-                                false,
-                                false
-                                );
-                            }
-                            */
+                            this.expandSiblings(this.getParent().id);
 
                             e.stopPropagation();
 
@@ -151,6 +147,8 @@ export default class CarouselButtons extends Component {
                                 false,
                                 ID_PREFIX_SORTABLE_BOX + Date.now(),
                             );
+                            this.expandSiblings(this.getParent().id);
+
                         }}><i className="material-icons">note_add</i></Button>
                 </OverlayTrigger>
 
@@ -176,18 +174,6 @@ export default class CarouselButtons extends Component {
                         }}><i className="material-icons">slideshow</i>
                     </Button>
                 </OverlayTrigger>
-                {/*
-                 <OverlayTrigger placement="top" overlay={
-                 <Tooltip  id="hideNavItemTooltip">{i18n.t('display')}
-                 </Tooltip>}>
-                 <Button className="carouselButton">
-                 <i className="material-icons"
-                 onClick={e => {
-                 this.props.onNavItemToggled(this.props.navItemSelected);
-                 }}>{this.props.navItems[this.props.navItemSelected].hidden ? "visibility_off" : "visibility"}</i>
-                 </Button>
-                 </OverlayTrigger>
-                 */}
                 <OverlayTrigger placement="top" overlay={
                     <Tooltip id="duplicateNavTooltip">{i18n.t('DuplicateNavItem')}
                     </Tooltip>}>
@@ -261,7 +247,7 @@ export default class CarouselButtons extends Component {
                     close={this.toggleTemplatesModal}
                     navItems={this.props.navItems}
                     boxes={this.props.boxes}
-                    onNavItemAdded={(id, name, type, color, num, extra)=> {this.props.onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra);}}
+                    onNavItemAdded={(id, name, type, color, num, extra)=> {this.props.onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra); this.expandSiblings(this.getParent().id);}}
                     onIndexSelected={this.props.onIndexSelected}
                     indexSelected={this.props.indexSelected}
                     onBoxAdded={this.props.onBoxAdded}

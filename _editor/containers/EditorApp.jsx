@@ -50,6 +50,8 @@ import screen from '../components/joyride/pantalla.svg';
 import help from '../components/joyride/help.svg';
 import Cookies from 'universal-cookie';
 import ExitModal from "../components/exit_modal/ExitModal";
+import { DragDropContext } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
 const cookies = new Cookies();
 
 /**
@@ -95,7 +97,6 @@ class EditorApp extends Component {
         this.duplicateNavItem = this.duplicateNavItem.bind(this);
         this.dropListener = (ev) => {
             if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
-                //
             } else {
                 ev.preventDefault();
             }
@@ -152,6 +153,7 @@ class EditorApp extends Component {
                     {this.createInitModal()}
                     {this.state.alert}
                     <EditorNavBar hideTab={this.state.hideTab} boxes={boxes} isBusy={isBusy}
+                        onBoxSelected={(id) => dispatch(selectBox(id, boxes[id]))}
                         showGlobalConfig={this.state.showGlobalConfig}
                         toggleGlobalConfig={()=>{this.setState({ showGlobalConfig: !this.state.showGlobalConfig });}}
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
@@ -161,7 +163,6 @@ class EditorApp extends Component {
                         onNavItemSelected={id => dispatch(selectNavItem(id))}
                         onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
                         onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
-                        onTextEditorToggled={this.onTextEditorToggled}
                         onToolbarUpdated={this.onToolbarUpdated}
                         onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
                         undoDisabled={undoDisabled}
@@ -963,7 +964,10 @@ function mapStateToProps(state) {
     };
 }
 
+// EditorApp = DragDropContext(HTML5Backend)(EditorApp);
 export default connect(mapStateToProps)(EditorApp);
+
+// export default DragDropContext(HTML5Backend)(connect(mapStateToProps)(EditorApp));
 
 EditorApp.propTypes = {
     globalConfig: PropTypes.object.isRequired,

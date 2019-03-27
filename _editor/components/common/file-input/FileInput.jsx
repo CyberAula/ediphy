@@ -5,6 +5,11 @@ import PropTypes from 'prop-types';
  * FileInput component for dragging and dropping files
  */
 export default class FileInput extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
     /**
      * Render React Component
      * @returns {code}
@@ -23,6 +28,7 @@ export default class FileInput extends React.Component {
         return (
             <div style={ style } className={className}>
                 <input
+                    ref = "fileInput"
                     type="file"
                     name={name}
                     onChange={onChange}

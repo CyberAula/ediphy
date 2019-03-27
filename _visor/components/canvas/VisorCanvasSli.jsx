@@ -66,6 +66,9 @@ export default class VisorCanvasSli extends Component {
             <Tooltip id="tooltip">{thisView}</Tooltip>
         );
         let exercises = this.props.exercises[this.props.currentView];
+        console.log(exercises);
+        console.log(this.props.fromPDF);
+        console.log(this.props.fromPDF || !(exercises) || !(exercises.exercises));
 
         let animationType = "animation-zoom";
         let padding = (this.props.fromPDF ? '0px' : '0px');
@@ -121,7 +124,7 @@ export default class VisorCanvasSli extends Component {
                             />;
                         })}
 
-                        {this.props.fromPDF ? null : <div className={"pageFooter" + (!exercises || !exercises.exercises || Object.keys(exercises.exercises).length === 0 ? " hidden" : "")}>
+                        {this.props.fromPDF || !exercises || !exercises.exercises ? null : <div className={"pageFooter" + (!exercises || !exercises.exercises || Object.keys(exercises.exercises).length === 0 ? " hidden" : "")}>
                             <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={exercises} />
                             <Score exercises={exercises}/>
                         </div>}

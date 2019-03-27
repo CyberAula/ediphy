@@ -76,7 +76,8 @@ export default class NavActionButtons extends Component {
                 icon: 'visibility',
                 onClick: () => {
                     if (this.props.boxSelected !== 0) {
-                        this.props.onTextEditorToggled(this.props.boxSelected, false);
+                    // this.props.onTextEditorToggled(this.props.boxSelected, false);
+                        this.props.onBoxSelected(-1);
                     }
                     this.props.visor();
                 },
@@ -254,11 +255,11 @@ NavActionButtons.propTypes = {
      */
     visor: PropTypes.func.isRequired,
     /**
-     * Callback for toggling the CKEDitor
-     */
-    onTextEditorToggled: PropTypes.func.isRequired,
-    /**
      * Publish the document
      */
     publishing: PropTypes.func.isRequired,
+    /**
+     * Function for selecting a box
+     */
+    onBoxSelected: PropTypes.func.isRequired,
 };

@@ -33,11 +33,10 @@ export default class ExternalDropzone extends Component {
      */
     onDrop(event) {
         let files = event.target.files;
-
-        if (event.target.files.length === 1) {
-            this.setState({ file: event.target.files[0] });
+        if (files.length === 1) {
+            this.setState({ file: files[0] });
             if(this.props.callback) {
-                this.props.callback(event.target.files[0]);
+                this.props.callback(files[0]);
             }
         }
     }
@@ -72,6 +71,7 @@ export default class ExternalDropzone extends Component {
             </FileInput>
         );
     }
+
 }
 
 ExternalDropzone.propTypes = {

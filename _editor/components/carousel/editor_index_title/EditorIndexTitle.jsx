@@ -22,8 +22,38 @@ export default class EditorIndexTitle extends Component {
          */
         this.state = {
             editing: false,
-            currentValue: this.props.title,
+            secondClick: this.props.selected === this.props.id,
+            currentValue: (this.props.courseTitle && this.props.title === undefined) ? i18n.t('Title_document') : this.props.title,
         };
+    }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return ((this.props.selected === this.props.id && nextProps.selected !== this.props.id)
+            || (this.props.selected !== this.props.id && nextProps.selected === this.props.id)
+            || (this.props.title !== nextProps.title)
+            || (this.props.courseTitle !== nextProps.courseTitle)
+            || (this.props.hidden !== nextProps.hidden)
+            || (this.state.editing && !nextState.editing)
+            || (!this.state.editing && nextState.editing)
+            || (this.state.editing && !nextState.editing && (nextProps.selected !== nextProps.id))
+            || (this.state.currentValue !== nextState.currentValue)
+            || (this.state.secondClick !== nextState.secondClick));
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.props.courseTitle && this.props.title !== prevProps.title) {
+            // If doc title changed from GlobalConfig
+            this.setState({ currentValue: this.props.title });
+        }
+
+        if(!this.state.editing && prevProps.selected !== prevProps.id && this.props.selected === this.props.id) {
+            this.setState({ secondClick: false });
+        }
+
+        if(this.state.editing && prevProps.selected === prevProps.id && this.props.selected !== this.props.id) {
+            this.setState({ secondClick: false });
+        }
+
     }
 
     /**
@@ -31,21 +61,19 @@ export default class EditorIndexTitle extends Component {
      * @returns {code}
      */
     render() {
+
         return (
             <span id={this.props.id}>
                 {!this.state.editing ?
                     (<div className="actualSectionTitle" id={'title_' + this.props.id}
-                        style={{ textDecoration: this.props.hidden ? "line-through" : "initial" }}
-                        onMouseOver={() =>{
-                            // let markEl = document.getElementById('title_' + this.props.id);
-                            // markEl.style.transitionDuration = this.props.scrollW / 100 + 's';
-                            // markEl.style.width = this.props.scrollW + '%';
-                            // markEl.style.left = '-' + (this.props.scrollW - 100) + '%';
-                        }}
-                        onMouseOut={() =>{
-                            // let markEl = document.getElementById('title_' + this.props.id);
-                            // markEl.style.width = '90%';
-                            // markEl.style.left = '0%';
+                        style={{ textDecoration: this.props.hidden ? "line-through" : "initial",
+                            cursor: this.props.selected === this.props.id || this.props.courseTitle ? 'text' : 'pointer' }}
+                        onClick={ e => {
+                            if (this.state.secondClick && !this.state.editing && (this.props.selected === this.props.id) || this.props.courseTitle) {
+                                this.setState({ editing: true });
+                            } else {
+                                this.setState({ secondClick: true });
+                            }
                         }}
                         onDoubleClick={e => {
                             this.setState({ editing: !this.state.editing });
@@ -88,14 +116,18 @@ export default class EditorIndexTitle extends Component {
                         /* Save it on component state, not Redux*/
                             this.setState({ currentValue: e.target.value });
                         }}
+
                         onBlur={e => {
                         /* Change to non-edition mode*/
-                            this.setState({ editing: !this.state.editing });
+                            this.setState({ editing: false });
                             if(this.props.courseTitle) {
                                 this.props.onNameChanged('title', this.state.currentValue);
                             } else {
                                 this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? { viewName: this.state.currentValue } : this.getDefaultValue());
                             }
+
+                            e.preventDefault();
+                            e.stopPropagation();
                         }} />
                     )
                 }
