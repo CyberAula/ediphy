@@ -14,6 +14,7 @@ export default class Section extends Component {
      * @returns {code}
      */
     render() {
+
         let navItem = this.props.navItems[this.props.id];
         let classSelected = this.props.navItemSelected === navItem.id ? 'selected' : 'notSelected';
         let classIndexSelected = this.props.indexSelected === navItem.id ? ' classIndexSelected' : '';
@@ -72,10 +73,10 @@ export default class Section extends Component {
                         display: (navItem.isExpanded ? 'block' : 'none'),
                     }}
                     className="sectionList connectedSortables">
-                    {navItem.children.map((id, index) => {
+                    {navItem.children.map(id => {
                         if (isSection(id)) {
                             return <Section id={id}
-                                key={index}
+                                key={id}
                                 indexSelected={this.props.indexSelected}
                                 navItemsIds={this.props.navItemsIds}
                                 navItems={this.props.navItems}
@@ -93,7 +94,7 @@ export default class Section extends Component {
                             let classSelectedD = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
                             let classIndexSelectedD = this.props.indexSelected === id ? ' classIndexSelected' : '';
                             return (
-                                <div key={index}
+                                <div key={id}
                                     id={id}
                                     className={'navItemBlock ' + classSelectedD + classIndexSelectedD}
                                     onMouseDown={e => {
@@ -138,7 +139,7 @@ export default class Section extends Component {
             connectWith: '.connectedSortables',
             containment: '.carList',
             appendTo: '.carList',
-            helper: 'clone',
+            // helper: 'clone',
             scroll: true,
             over: (event, ui) => {
                 $(".carList").css("border-left", "none");
@@ -179,6 +180,11 @@ export default class Section extends Component {
             receive: (event, ui) => {
                 // This is called when an item is dragged from another item's children to this element's children
                 let newChildren = list.sortable('toArray', { attribute: 'id' });
+
+                // If action is done very quickly, jQuery may not notice the update and not detect that a new child was dragged
+                if(newChildren.indexOf(this.props.indexSelected) === -1) {
+                    newChildren.push(this.props.indexSelected);
+                }
 
                 // This is necessary in order to avoid that JQuery touches the DOM
                 // It has to be BEFORE action is dispatched and React tries to repaint

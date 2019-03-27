@@ -5,6 +5,8 @@ import EditorCanvasDoc from '../editor_canvas_doc/EditorCanvasDoc';
 import { isSlide } from '../../../../common/utils';
 
 import './_canvas.scss';
+import { DragDropContext } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
 
 /**
  * Container component to render documents or slides

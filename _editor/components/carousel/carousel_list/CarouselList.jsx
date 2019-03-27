@@ -34,12 +34,13 @@ export default class CarouselList extends Component {
     }
 
     render() {
+
         let containedViewsIncluded = Object.keys(this.props.containedViews).length > 0;
 
         if (!this.props.carouselShow) { return (<div style={{ height: "100%" }}><br /></div>); }
 
         return (
-            <div style={{ height: "100%" }}>
+            <div id='hello' className={"testttt"} style={{ height: '100%' }}>
                 <div id="sortablesCollapse" style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
                     this.setState({ showSortableItems: !this.state.showSortableItems });
                 }}>
@@ -56,11 +57,11 @@ export default class CarouselList extends Component {
                         this.props.onIndexSelected(this.props.id);
                         e.stopPropagation();
                     }}>
-                    {this.props.navItems && this.props.navItems.hasOwnProperty(this.props.id) && this.props.navItems[this.props.id].children.map((id, index) => {
+                    {this.props.navItems && this.props.navItems.hasOwnProperty(this.props.id) && this.props.navItems[this.props.id].children.map(id => {
                         if (isSection(id)) {
                             return (
                                 <Section id={id}
-                                    key={index}
+                                    key={id}
                                     indexSelected={this.props.indexSelected}
                                     navItemsIds={this.props.navItemsIds}
                                     navItems={this.props.navItems}
@@ -79,7 +80,7 @@ export default class CarouselList extends Component {
                             let classIndexSelected = this.props.indexSelected === id ? ' classIndexSelected' : '';
                             let widthScroll = Math.max(this.props.viewToolbars[id].viewName.length / 11 * 100, 100);
                             return (
-                                <div key={index}
+                                <div key={id}
                                     id={id}
                                     className={'navItemBlock ' + classSelected + classIndexSelected}
                                     onMouseDown={e => {
@@ -182,7 +183,7 @@ export default class CarouselList extends Component {
             connectWith: '.connectedSortables',
             containment: '.carList',
             appendTo: '.carList',
-            helper: 'clone',
+            // helper: 'clone',
             scroll: true,
             over: (event, ui) => {
                 $(".carList").css("border-left", "3px solid #F47920");
@@ -195,6 +196,13 @@ export default class CarouselList extends Component {
                 // - An item is dragged from this items's children to another item
                 // - A direct child changes it position at the same level
                 let newChildren = list.sortable('toArray', { attribute: 'id' });
+                //
+                // console.log(newChildren);
+                // console.log(this.props.indexSelected, // item moved
+                //     this.props.id, // new parent
+                //     this.props.navItems[this.props.indexSelected].parent, // old parent
+                //     calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.indexSelected, this.props.navItems),
+                //     newChildren);
 
                 // If item moved is still in this element's children (wasn't moved away) -> update
                 if (newChildren.indexOf(this.props.navItemSelected) !== -1) {
