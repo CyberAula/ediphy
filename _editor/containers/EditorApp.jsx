@@ -152,6 +152,7 @@ class EditorApp extends Component {
                     {this.createInitModal()}
                     {this.state.alert}
                     <EditorNavBar hideTab={this.state.hideTab} boxes={boxes} isBusy={isBusy}
+                        onBoxSelected={(id) => dispatch(selectBox(id, boxes[id]))}
                         showGlobalConfig={this.state.showGlobalConfig}
                         toggleGlobalConfig={()=>{this.setState({ showGlobalConfig: !this.state.showGlobalConfig });}}
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
@@ -161,7 +162,6 @@ class EditorApp extends Component {
                         onNavItemSelected={id => dispatch(selectNavItem(id))}
                         onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
                         onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
-                        onTextEditorToggled={this.onTextEditorToggled}
                         onToolbarUpdated={this.onToolbarUpdated}
                         onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
                         undoDisabled={undoDisabled}

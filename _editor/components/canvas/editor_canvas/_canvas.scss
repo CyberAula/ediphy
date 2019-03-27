@@ -39,6 +39,7 @@
   background-color: transparent;
 }
 
+
 .outter > .sli {
   padding-bottom: 1%;
 }
@@ -49,6 +50,10 @@
   overflow: hidden;
 }
 
+
+.doc {
+  background-color: transparent;
+}
 .doc, .sli{
   position: relative;
 }
@@ -64,7 +69,7 @@
   overflow: hidden;
   z-index: 0;
   visibility: visible;
-  background-color: white;
+  background-color: transparent;
   margin: 0px;
   position: relative;
   padding: 0 20px;

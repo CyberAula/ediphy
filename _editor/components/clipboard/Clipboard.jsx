@@ -80,6 +80,7 @@ export default class Clipboard extends Component {
                     return true;
                 }
             }
+            return true;
         }
         document.activeElement.blur();
         return false;

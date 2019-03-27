@@ -45,7 +45,7 @@ export default function handlers(self) {
             Object.keys(pluginsAllowed).map(pluginName=>{
                 let key = pluginsAllowed[pluginName];
                 buttons.push({
-                    title: type === 'pdf' ? (i18n.t('FileModal.FileHandlers.insert') + ' ...') : (i18n.t('FileModal.FileHandlers.insert')),
+                    title: type === 'pdf' ? (i18n.t('FileModal.FileHandlers.insert') + ' ...') : getInsertButtonTitle(pluginName),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
                     action: ()=>{
                         if (type === 'pdf') {
@@ -142,7 +142,6 @@ export default function handlers(self) {
                 });
             }
         } else {
-
             buttons.push({
                 title: isCanvasElement(self.props.fileModalResult.id) ? i18n.t('FileModal.FileHandlers.replace_bckg') : i18n.t('FileModal.FileHandlers.replace'),
                 action: ()=>{
@@ -197,6 +196,10 @@ function getInitialParams(self, page) {
     }
 
     return { initialParams, isTargetSlide };
+}
+
+function getInsertButtonTitle(allowedPluginKey) {
+    return i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t(`${allowedPluginKey}.PluginName`).toLowerCase();
 }
 
 function sanitizeInitialParams(initialParams, boxes) {

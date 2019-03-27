@@ -7,7 +7,6 @@ import i18n from 'i18next';
 export default class ChartOptions extends React.Component {
     constructor(props) {
         super(props);
-
         this.typeChanged = this.typeChanged.bind(this);
         this.colorChanged = this.colorChanged.bind(this);
         this.xGridChanged = this.xGridChanged.bind(this);
@@ -22,7 +21,6 @@ export default class ChartOptions extends React.Component {
         this.state = {
             dataProcessed: this.props.dataProcessed,
         };
-
     }
 
     changeAxis(event) {
