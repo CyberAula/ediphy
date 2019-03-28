@@ -6,6 +6,7 @@ import RadioButtonFormGroup from "../../_editor/components/toolbar/radio_button_
 import { UPDATE_PLUGIN_TOOLBAR } from "../../common/actions";
 import ToggleSwitch from "@trendmicro/react-toggle-switch/lib/index";
 import React from "react";
+import FontPicker from "font-picker-react";
 import FileInput from "../../_editor/components/common/file-input/FileInput";
 import MarksList from "../../_editor/components/rich_plugins/marks_list/MarksList";
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
@@ -13,6 +14,7 @@ import ToolbarFileProvider from "../../_editor/components/external_provider/file
 /* eslint-disable react/prop-types */
 
 import { loadBackground, getBackgroundIndex, isBackgroundColor, getBackground } from "../../common/themes/background_loader";
+import loadFont from "../../common/themes/font_loader";
 import { getColor, getCurrentColor } from "../../common/themes/theme_loader";
 import { sanitizeThemeToolbar } from "../../common/themes/theme_loader";
 
@@ -22,6 +24,7 @@ export function toolbarFiller(toolbar, id, state, config, initialParams, contain
         toolbar.config.displayName = i18n.t('Container_');
     }
     if(!isSortableBox(id)) {
+
         createSizeButtons(toolbar, state, config, !isSortableBox(container), container);
         createAliasButton(toolbar, null);
     }
@@ -456,6 +459,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
         },
         onChange: e => {
+            console.log(e);
             let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
 
             if (currentElement === 'structure' && (buttonKey === 'width' || buttonKey === 'height' || buttonKey === "aspectRatio")) {
@@ -586,6 +590,14 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
                 if(e.currentTarget && e.currentTarget.type === "button") {
                     value = { color: getCurrentColor(theme), custom: false };
+                }
+            }
+
+            if(button.type === "font_picker") {
+                console.log(e);
+                value = e.family;
+                if (!value) {
+                    return;
                 }
             }
 
@@ -893,7 +905,44 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                         className: "toolbarButton",
                     },
                     React.createElement("div", { key: props.label }, '&&Restore theme color'),
-                )]);
+                ),
+                React.createElement(
+                    FontPicker, {
+                        apiKey: "AIzaSyCnIyhIyDVg6emwq8XigrPKDPgueOrZ4CE",
+                        activeFont: "Montserrat",
+                        onChange: {},
+                    }, [])]);
+    }
+
+    if(button.type === "font_picker") {
+        let ong = (nf) => {
+            toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+                font: nf.family,
+            });};
+        console.log(props);
+        console.log(toolbar_props);
+
+        return React.createElement(
+            FormGroup,
+            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
+            [
+                React.createElement(
+                    ControlLabel,
+                    { key: 'label1_' + button.__name },
+                    '&& Font'
+                ),
+                React.createElement("div", {
+                    key: props.label,
+                    className: "apply-font",
+                    style: { color: 'black' } },
+                React.createElement(
+                    FontPicker, {
+                        apiKey: "AIzaSyCnIyhIyDVg6emwq8XigrPKDPgueOrZ4CE",
+                        activeFont: props.value,
+                        onChange: ong,
+                    }, [])),
+            ]
+        );
     }
 
     if (button.type === "background_picker") {
@@ -1130,6 +1179,7 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     let navitem = toolbar_props.navItems[toolbar_props.navItemSelected];
     let toolbar = accordions;
     let themeToolbar = sanitizeThemeToolbar(toolbar_props.viewToolbars[toolbar_props.navItemSelected]);
+    console.log(name);
     switch (name) {
     // change page/slide title
     case "background":
@@ -1239,6 +1289,11 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
             background: value,
         });
         break;
+    case 'font_picker':
+        console.log(value);
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, { font: value });
+        break;
+
     case 'theme_primary_color':
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
             colors: { ...themeToolbar.colors, themePrimaryColor: value },

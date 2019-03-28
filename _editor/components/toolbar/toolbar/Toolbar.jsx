@@ -28,7 +28,7 @@ export default class Toolbar extends Component {
         };
     }
 
-    render() {
+    render() { console.log(this.props);
         let exercises = {};
         let toolbar = null;
         let title = "";

@@ -3,7 +3,7 @@ import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholde
 import './_multipleChoice.scss';
 import i18n from 'i18next';
 import { letterFromNumber, getRandomColor, setRgbaAlpha } from '../../common/common_tools';
-import { getThemeColors, getCurrentColor, generateCustomColors } from "../../common/themes/theme_loader";
+import { getThemeColors, getCurrentColor, generateCustomColors, generateCustomFont } from "../../common/themes/theme_loader";
 
 import colorManager from '../../_editor/components/common/color-picker/ColorPicker';
 /* eslint-disable react/prop-types */
@@ -55,6 +55,12 @@ export function MultipleChoice(base) {
                                     __name: Ediphy.i18n.t('MultipleChoice.Color'),
                                     type: 'custom_color_plugin',
                                     value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryColor'),
+                                },
+
+                                quizFont: {
+                                    __name: '&&Font',
+                                    type: 'font_picker',
+                                    value: state.quizFont || getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryFont'),
                                 },
                             },
                         },
@@ -119,15 +125,18 @@ export function MultipleChoice(base) {
                 showFeedback: true,
                 letters: i18n.t("MultipleChoice.ShowLetters"),
                 quizColor: { color: document.documentElement.style.getPropertyValue('--themePrimaryColor'), custom: false },
+                quizFont: document.documentElement.style.getPropertyValue('--themePrimaryFont'),
             };
         },
         getRenderTemplate: function(state, props = {}) {
 
             let answers = [];
             let correctAnswers = "";
-
+            console.log(state);
             let quizColor = state.quizColor.color;
-            let customStyle = generateCustomColors(quizColor, 1, true);
+            let customColor = generateCustomColors(quizColor, 1, true);
+            let customFont = generateCustomFont(state.quizFont);
+            let customStyle = { ...customColor, ...customFont };
 
             for (let i = 0; i < state.nBoxes; i++) {
                 let clickHandler = (e)=>{

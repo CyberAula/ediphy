@@ -137,7 +137,10 @@ export function generateCustomColors(color, colorOrder = 1, generateTransparents
     let colorName = '--theme' + colorOrderStr + 'Color';
     let colorTransparentName = colorName + 'Transparent';
     return generateTransparents ? { [ colorName ]: color, [colorTransparentName]: setRgbaAlpha(color, 0.15) } : { [colorName]: color };
+}
 
+export function generateCustomFont(font) {
+    return { '--themePrimaryFont': font };
 }
 
 export function getThemeFont(theme = 'default') {
@@ -150,6 +153,7 @@ export function sanitizeThemeToolbar(toolbar) {
         ...toolbar,
         theme: theme,
         colors: toolbar.colors ? toolbar.colors : getThemeColors(theme),
+        font: toolbar.font ? toolbar.font : getThemeFont(theme),
     };
 }
 

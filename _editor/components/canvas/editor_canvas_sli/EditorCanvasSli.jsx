@@ -162,6 +162,7 @@ export default class EditorCanvasSli extends Component {
                 <ThemeCSS
                     theme={ theme }
                     toolbar = {{ ...toolbar, colors: toolbar.colors ? toolbar.colors : {} }}
+                    onToolbarUpdated={this.props.onToolbarUpdated}
                 />
                 <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
                     let calculated = this.aspectRatio(this.props, this.state);

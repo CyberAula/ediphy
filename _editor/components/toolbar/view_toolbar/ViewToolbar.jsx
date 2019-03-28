@@ -18,6 +18,7 @@ export default class ViewToolbar extends Component {
     }
 
     render() {
+        console.log(this.props);
         let id = this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
         let pageObj = this.props.containedViewSelected !== 0 ? this.props.containedViews[this.props.containedViewSelected] : this.props.navItems[this.props.navItemSelected];
         let type = pageObj.type;
@@ -34,6 +35,8 @@ export default class ViewToolbar extends Component {
             doc_type = i18n.t('section');
         }
         let viewToolbar = sanitizeThemeToolbar(this.props.viewToolbars[id]);
+
+        console.log(viewToolbar);
 
         let controls = {
             main: {
@@ -105,6 +108,12 @@ export default class ViewToolbar extends Component {
                                 value: viewToolbar.theme,
                             },
 
+                            theme_font: {
+                                __name: '&&Font',
+                                type: 'font_picker',
+                                value: viewToolbar.font,
+                            },
+
                             theme_background: {
                                 __name: '&&Theme Background',
                                 type: 'select',
@@ -116,18 +125,6 @@ export default class ViewToolbar extends Component {
                                 __name: '&&Primary Color',
                                 type: 'color',
                                 value: viewToolbar.colors.themePrimaryColor,
-                            },
-
-                            // theme_secondary_color: {
-                            //     __name: '&&Secondary Color',
-                            //     type: 'color',
-                            //     value: viewToolbar.colors.themeSecondaryColor,
-                            // },
-
-                            theme_font: {
-                                __name: '&&Font',
-                                type: 'color',
-                                value: viewToolbar.colors.themeSecondaryColor,
                             },
                         },
                     },

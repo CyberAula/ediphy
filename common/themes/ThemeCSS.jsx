@@ -26,24 +26,34 @@ export default class ThemeCSS extends React.Component {
 
     componentWillMount() {
         this.loadCSS();
+        console.log(this.props);
         let colors = Object.keys(this.props.toolbar.colors).length ? this.props.toolbar.colors : THEMES[this.props.theme].colors;
+        let font = this.props.toolbar.font ? this.props.toolbar.font : getThemeFont(this.props.toolbar.theme);
         this.loadThemeCustomProperties(colors);
-        loadFont(getThemeFont(this.props.toolbar.theme));
-        this.updateCustomProperty('--themePrimaryFont', getThemeFont(this.props.toolbar.theme));
+        loadFont(font);
+        this.updateCustomProperty('--themePrimaryFont', font);
     }
 
-    componentWillUpdate(nextProps, nextState) {
-        if (nextProps.theme !== this.props.theme) {
-            this.getThemeCSS(nextProps.theme);
-            this.loadThemeCustomProperties(getThemeColors(nextProps.theme));
-            loadFont(getThemeFont(nextProps.theme));
-            this.updateCustomProperty('--themePrimaryFont', getThemeFont(nextProps.theme));
-
+    componentDidUpdate(prevProps, prevState) {
+        console.log(prevProps, this.props);
+        if (prevProps.theme !== this.props.theme) {
+            this.getThemeCSS(this.props.theme);
+            this.loadThemeCustomProperties(getThemeColors(this.props.theme));
+            loadFont(getThemeFont(this.props.theme));
+            if(!prevProps.toolbar.font || !prevProps.toolbar.theme || prevProps.toolbar.font === getThemeFont(prevProps.theme)) {
+                this.updateCustomProperty('--themePrimaryFont', getThemeFont(this.props.theme));
+            }
         }
 
-        if (nextProps.toolbar.colors !== this.props.toolbar.colors) {
-            this.loadThemeCustomProperties(nextProps.toolbar.colors);
+        if (prevProps.toolbar.colors !== this.props.toolbar.colors) {
+            this.loadThemeCustomProperties(this.props.toolbar.colors);
         }
+
+        if (prevProps.toolbar.font !== this.props.toolbar.font) {
+            loadFont(this.props.toolbar.font);
+            this.updateCustomProperty('--themePrimaryFont', this.props.toolbar.font);
+        }
+
     }
 
     loadCSS() {
