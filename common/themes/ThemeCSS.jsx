@@ -50,6 +50,7 @@ export default class ThemeCSS extends React.Component {
         }
 
         if (prevProps.toolbar.font !== this.props.toolbar.font) {
+            console.log(this.props);
             loadFont(this.props.toolbar.font);
             this.updateCustomProperty('--themePrimaryFont', this.props.toolbar.font);
         }

@@ -1,6 +1,7 @@
 @import "../../sass/general/_variables.scss";
 
 .multipleChoicePlugin {
+  font-family: var(--themePrimaryFont);
   .row {
     margin-left: -1em;
     margin-right: -1em;

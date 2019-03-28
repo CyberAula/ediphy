@@ -135,7 +135,7 @@ export function MultipleChoice(base) {
             console.log(state);
             let quizColor = state.quizColor.color;
             let customColor = generateCustomColors(quizColor, 1, true);
-            let customFont = generateCustomFont(state.quizFont);
+            let customFont = generateCustomFont(state.quizFont.font);
             let customStyle = { ...customColor, ...customFont };
 
             for (let i = 0; i < state.nBoxes; i++) {
@@ -159,7 +159,7 @@ export function MultipleChoice(base) {
                 );
                 if (isCorrect) {correctAnswers += state.letters === i18n.t("MultipleChoice.ShowLetters") ? letterFromNumber(i) : (i + 1);}
             }
-            return <div className={"exercisePlugin multipleChoicePlugin"} style={ state.quizColor.custom ? customStyle : null }>
+            return <div className={"exercisePlugin multipleChoicePlugin"} style={ state.quizColor.custom || state.quizFont.font ? customStyle : null }>
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
                         <PluginPlaceholder {...props} key="1"

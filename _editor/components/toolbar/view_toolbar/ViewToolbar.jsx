@@ -110,6 +110,7 @@ export default class ViewToolbar extends Component {
 
                             theme_font: {
                                 __name: '&&Font',
+                                kind: 'theme_font',
                                 type: 'font_picker',
                                 value: viewToolbar.font,
                             },

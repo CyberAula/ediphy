@@ -6,16 +6,17 @@ import RadioButtonFormGroup from "../../_editor/components/toolbar/radio_button_
 import { UPDATE_PLUGIN_TOOLBAR } from "../../common/actions";
 import ToggleSwitch from "@trendmicro/react-toggle-switch/lib/index";
 import React from "react";
-import FontPicker from "font-picker-react";
+
 import FileInput from "../../_editor/components/common/file-input/FileInput";
 import MarksList from "../../_editor/components/rich_plugins/marks_list/MarksList";
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
+import FontPicker from "../../_editor/components/common/font-picker/FontPicker";
 import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/APIProviders/common/ToolbarFileProvider";
 /* eslint-disable react/prop-types */
 
 import { loadBackground, getBackgroundIndex, isBackgroundColor, getBackground } from "../../common/themes/background_loader";
 import loadFont from "../../common/themes/font_loader";
-import { getColor, getCurrentColor } from "../../common/themes/theme_loader";
+import { getColor, getCurrentColor, getThemeFont } from "../../common/themes/theme_loader";
 import { sanitizeThemeToolbar } from "../../common/themes/theme_loader";
 
 export function toolbarFiller(toolbar, id, state, config, initialParams, container, marks = null, exercises = {}) {
@@ -593,11 +594,17 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 }
             }
 
-            if(button.type === "font_picker") {
-                console.log(e);
-                value = e.family;
-                if (!value) {
-                    return;
+            if (button.type === 'font_picker') {
+                let toolbar = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
+                let theme = toolbar.theme ? toolbar.theme : 'default';
+                if (e.family) {
+                    value = button.hasOwnProperty('kind') && button.kind === 'theme_font' ? e.family : { font: e.family, custom: true };
+                    if (!value) {
+                        return;
+                    }
+                }
+                if(e.currentTarget && e.currentTarget.type === "button") {
+                    value = { color: getCurrentColor(theme), custom: false };
                 }
             }
 
@@ -885,7 +892,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
     if (button.type === "custom_color_plugin") {
         let theme = toolbar_props.viewToolbars[id] && toolbar_props.viewToolbars[id].theme ? toolbar_props.viewToolbars[id].theme : 'default';
-
         return React.createElement(
             FormGroup,
             { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
@@ -906,22 +912,12 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     },
                     React.createElement("div", { key: props.label }, '&&Restore theme color'),
                 ),
-                React.createElement(
-                    FontPicker, {
-                        apiKey: "AIzaSyCnIyhIyDVg6emwq8XigrPKDPgueOrZ4CE",
-                        activeFont: "Montserrat",
-                        onChange: {},
-                    }, [])]);
+            ]);
     }
 
     if(button.type === "font_picker") {
-        let ong = (nf) => {
-            toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
-                font: nf.family,
-            });};
-        console.log(props);
+        let theme = toolbar_props.viewToolbars[id] && toolbar_props.viewToolbars[id].theme ? toolbar_props.viewToolbars[id].theme : 'default';
         console.log(toolbar_props);
-
         return React.createElement(
             FormGroup,
             { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
@@ -938,8 +934,9 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 React.createElement(
                     FontPicker, {
                         apiKey: "AIzaSyCnIyhIyDVg6emwq8XigrPKDPgueOrZ4CE",
-                        activeFont: props.value,
-                        onChange: ong,
+                        activeFont: props.value.hasOwnProperty('custom') ? props.value.font : props.value,
+                        onChange: props.onChange,
+                        options: { themeFont: getThemeFont(theme) },
                     }, [])),
             ]
         );
@@ -993,10 +990,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                             FormGroup,
                             { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
                             [
-                            /* React.createElement(
-                                ControlLabel,
-                                { key: 'labelurlinput_' + button.__name },
-                                i18n.t('background.background_input_url')),*/
                                 React.createElement(ToolbarFileProvider, {
                                     id: toolbar_props.navItemSelected,
                                     key: button.__name,
@@ -1009,12 +1002,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                     onChange: props.onChange,
                                     accept: "image/*",
                                 }, null),
-                            /* React.createElement(FormControl,
-                                {
-                                    key: 'urlinput_' + props.label,
-                                    value: (isURI || isColor || props.value) ? '' : props.value.background,
-                                    onChange: props.onChange,
-                                }, null),*/
                             ]),
                         (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: background_attr === 'full', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'full' }, i18n.t('background.cover')),
                         (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: background_attr === 'repeat', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'repeat' }, i18n.t('background.repeat')),
@@ -1289,7 +1276,7 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
             background: value,
         });
         break;
-    case 'font_picker':
+    case 'theme_font':
         console.log(value);
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, { font: value });
         break;
