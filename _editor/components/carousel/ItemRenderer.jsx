@@ -76,7 +76,7 @@ ItemRenderer.propTypes = {
     /**
      * Global parent of navItems (0)
      */
-    id: PropTypes.number.isRequired,
+    id: PropTypes.any,
     /**
      * Indicates whether the carousel has been expanded or not
      */
@@ -84,7 +84,7 @@ ItemRenderer.propTypes = {
     /**
      *  Object containing all contained views (identified by its ID)
      */
-    containedViews: PropTypes.object.isRequired,
+    containedViews: PropTypes.object,
     /**
      * Selected contained view
      */
@@ -96,7 +96,7 @@ ItemRenderer.propTypes = {
     /**
      * Dictionary containing all created views, each one with its *id* as the key
      */
-    navItems: PropTypes.object.isRequired,
+    navItems: PropTypes.object,
     /**
      * Current selected view (by ID)
      */
@@ -104,55 +104,55 @@ ItemRenderer.propTypes = {
     /**
      *  View/Contained view selected at the index
      */
-    navItemsIds: PropTypes.array.isRequired,
+    navItemsIds: PropTypes.array,
     /**
      * Callback for adding a new box
      */
-    onBoxAdded: PropTypes.func.isRequired,
+    onBoxAdded: PropTypes.func,
     /**
      * Callback for selecting contained view
      */
-    onContainedViewNameChanged: PropTypes.func.isRequired,
+    onContainedViewNameChanged: PropTypes.func,
     /**
      * Callback for renaming contained view
      */
-    onContainedViewSelected: PropTypes.func.isRequired,
+    onContainedViewSelected: PropTypes.func,
     /**
      * Callback for renaming view
      */
-    onIndexSelected: PropTypes.func.isRequired,
+    onIndexSelected: PropTypes.func,
     /**
      * Adds a new view
      */
-    onNavItemAdded: PropTypes.func.isRequired,
+    onNavItemAdded: PropTypes.func,
     /**
      * Expands navItem (only for sections)
      */
-    onNavItemExpanded: PropTypes.func.isRequired,
+    onNavItemExpanded: PropTypes.func,
     /**
      * Callback for renaming view
      */
-    onNavItemNameChanged: PropTypes.func.isRequired,
+    onNavItemNameChanged: PropTypes.func,
     /**
      * Callback for reordering navItems
      */
-    onNavItemReordered: PropTypes.func.isRequired,
+    onNavItemReordered: PropTypes.func,
     /**
      * Selects a view
      */
-    onNavItemSelected: PropTypes.func.isRequired,
+    onNavItemSelected: PropTypes.func,
     /**
      * Object containing all the pages' toolbars
      */
-    viewToolbars: PropTypes.object.isRequired,
+    viewToolbars: PropTypes.object,
     /**
      * Object containing all the pages' toolbars
      */
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     /**
      * Object containing all the pages' toolbars
      */
-    type: PropTypes.oneOf(['folder', 'file']).isRequired,
+    type: PropTypes.oneOf(['folder', 'file']),
     /**
      * Indicates if objects is collapsed (not expanded)
      */
@@ -160,34 +160,34 @@ ItemRenderer.propTypes = {
     /**
      * Function to connect Drag source
      */
-    connectDragSource: PropTypes.func.isRequired,
+    connectDragSource: PropTypes.func,
     /**
      * Manages preview when dragging
      */
-    connectDragPreview: PropTypes.func.isRequired,
+    connectDragPreview: PropTypes.func,
     /**
      * Function to connect Drop target
      */
-    connectDropTarget: PropTypes.func.isRequired,
+    connectDropTarget: PropTypes.func,
     /**
      * Boolean that indicates if object is dragging
      */
-    isDragging: PropTypes.bool.isRequired,
+    isDragging: PropTypes.bool,
     /**
      *  Array of navItems path in tree to current navItem
      */
-    path: PropTypes.array.isRequired,
+    path: PropTypes.array,
 };
 
 Folder.propTypes = {
     /**
      * Id of the current sortable element
      */
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
     /**
      * Name of the current sortable element
      */
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     /**
      * Indicates if current sortable element is collapsed
      */
@@ -195,27 +195,27 @@ Folder.propTypes = {
     /**
      * Index number within list of sortable containers
      */
-    index: PropTypes.number.isRequired,
+    index: PropTypes.number,
     /**
      * Callback function for collapsing sections
      */
-    onToggleCollapse: PropTypes.func.isRequired,
+    onToggleCollapse: PropTypes.func,
     /**
      *  Array of navItems path in tree to current navItem
      */
-    path: PropTypes.array.isRequired,
+    path: PropTypes.array,
     /**
      * Dictionary containing all created views, each one with its *id* as the key
      */
-    navItems: PropTypes.object.isRequired,
+    navItems: PropTypes.object,
     /**
      * Callback for renaming view
      */
-    onNavItemNameChanged: PropTypes.func.isRequired,
+    onNavItemNameChanged: PropTypes.func,
     /**
      * Object containing all the pages' toolbars
      */
-    viewToolbars: PropTypes.object.isRequired,
+    viewToolbars: PropTypes.object,
     /**
      * View/Contained view selected at the index
      */
@@ -229,11 +229,11 @@ File.propTypes = {
     /**
      * Id of the current sortable element
      */
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
     /**
      * Name of the current sortable element
      */
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     /**
      * Indicates if current sortable element is collapsed
      */
@@ -241,19 +241,19 @@ File.propTypes = {
     /**
      *  Array of navItems path in tree to current navItem
      */
-    path: PropTypes.array.isRequired,
+    path: PropTypes.array,
     /**
      * Dictionary containing all created views, each one with its *id* as the key
      */
-    navItems: PropTypes.object.isRequired,
+    navItems: PropTypes.object,
     /**
      * Callback for renaming view
      */
-    onNavItemNameChanged: PropTypes.func.isRequired,
+    onNavItemNameChanged: PropTypes.func,
     /**
      * Object containing all the pages' toolbars
      */
-    viewToolbars: PropTypes.object.isRequired,
+    viewToolbars: PropTypes.object,
     /**
      * View/Contained view selected at the index
      */

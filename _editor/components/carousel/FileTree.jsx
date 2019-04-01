@@ -41,7 +41,6 @@ class FileTree extends Component {
     }
 
     handleMove(items, index, newIndex) {
-        // console.log(items, index, newIndex)
         const { path } = items[newIndex];
         const parent = items.find(item => item.id === path[path.length - 1]);
 
@@ -170,8 +169,6 @@ class FileTree extends Component {
                                     itemRenderer={this.renderItem}
                                     onMove={this.handleMove}
                                     onChange={this.handleChange}
-                                    // onDragEnd={(a, b) => console.log(a, b)}
-                                    // cancelOnDropOutside
                                 />
                             </div>
                         </div>
@@ -237,7 +234,7 @@ FileTree.propTypes = {
     /**
      * Global parent of navItems (0)
      */
-    id: PropTypes.number.isRequired,
+    id: PropTypes.number,
     /**
      * Indicates whether the carousel has been expanded or not
      */
@@ -245,7 +242,7 @@ FileTree.propTypes = {
     /**
      *  Object containing all contained views (identified by its ID)
      */
-    containedViews: PropTypes.object.isRequired,
+    containedViews: PropTypes.object,
     /**
      * Selected contained view
      */
@@ -257,7 +254,7 @@ FileTree.propTypes = {
     /**
      * Dictionary containing all created views, each one with its *id* as the key
      */
-    navItems: PropTypes.object.isRequired,
+    navItems: PropTypes.object,
     /**
      * Current selected view (by ID)
      */
@@ -265,63 +262,63 @@ FileTree.propTypes = {
     /**
      *  View/Contained view selected at the index
      */
-    navItemsIds: PropTypes.array.isRequired,
+    navItemsIds: PropTypes.array,
     /**
      * Callback for adding a new box
      */
-    onBoxAdded: PropTypes.func.isRequired,
+    onBoxAdded: PropTypes.func,
     /**
      * Callback for selecting contained view
      */
-    onContainedViewNameChanged: PropTypes.func.isRequired,
+    onContainedViewNameChanged: PropTypes.func,
     /**
      * Callback for renaming contained view
      */
-    onContainedViewSelected: PropTypes.func.isRequired,
+    onContainedViewSelected: PropTypes.func,
     /**
      * Callback for deleting contained view
      */
-    onContainedViewDeleted: PropTypes.func.isRequired,
+    onContainedViewDeleted: PropTypes.func,
     /**
      * Callback for renaming view
      */
-    onIndexSelected: PropTypes.func.isRequired,
+    onIndexSelected: PropTypes.func,
     /**
      * Adds a new view
      */
-    onNavItemAdded: PropTypes.func.isRequired,
+    onNavItemAdded: PropTypes.func,
     /**
      * Expands navItem (only for sections)
      */
-    onNavItemExpanded: PropTypes.func.isRequired,
+    onNavItemExpanded: PropTypes.func,
     /**
      * Callback for renaming view
      */
-    onNavItemNameChanged: PropTypes.func.isRequired,
+    onNavItemNameChanged: PropTypes.func,
     /**
      * Callback for reordering navItems
      */
-    onNavItemReordered: PropTypes.func.isRequired,
+    onNavItemReordered: PropTypes.func,
     /**
      * Deletes a view
      */
-    onNavItemDeleted: PropTypes.func.isRequired,
+    onNavItemDeleted: PropTypes.func,
     /**
      * Selects a view
      */
-    onNavItemSelected: PropTypes.func.isRequired,
+    onNavItemSelected: PropTypes.func,
     /**
      * Object containing all the pages' toolbars
      */
-    viewToolbars: PropTypes.object.isRequired,
+    viewToolbars: PropTypes.object,
     /**
      * Object containing all the pages' toolbars
      */
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     /**
      * Object containing all the pages' toolbars
      */
-    type: PropTypes.oneOf(['folder', 'file']).isRequired,
+    type: PropTypes.oneOf(['folder', 'file']),
     /**
      * Indicates if objects is collapsed (not expanded)
      */
@@ -329,23 +326,23 @@ FileTree.propTypes = {
     /**
      * Function to connect Drag source
      */
-    connectDragSource: PropTypes.func.isRequired,
+    connectDragSource: PropTypes.func,
     /**
      * Manages preview when dragging
      */
-    connectDragPreview: PropTypes.func.isRequired,
+    connectDragPreview: PropTypes.func,
     /**
      * Function to connect Drop target
      */
-    connectDropTarget: PropTypes.func.isRequired,
+    connectDropTarget: PropTypes.func,
     /**
      * Boolean that indicates if object is dragging
      */
-    isDragging: PropTypes.bool.isRequired,
+    isDragging: PropTypes.bool,
     /**
      *  Object containing all created boxes (by id)
      */
-    boxes: PropTypes.object.isRequired,
+    boxes: PropTypes.object,
 };
 
 export default DragDropContext(overrideDropCaptureHandler)(FileTree);
