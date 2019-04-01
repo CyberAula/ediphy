@@ -29,16 +29,6 @@ class FileTree extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        // console.log(nextProps.navItems !== this.props.navItems)
-        // console.log(nextProps.navItemsIds !== this.props.navItemsIds)
-        // console.log(nextProps.viewToolbars !== this.props.viewToolbars)
-        // console.log(nextProps.carouselShow !== this.props.carouselShow)
-        // console.log(nextProps.indexSelected !== this.props.indexSelected)
-        // console.log(nextState.showSortableItems !== this.state.showSortableItems)
-        // console.log(nextState.showContainedViews !== this.state.showContainedViews)
-        //
-        // console.log(nextProps.navItemsIds, this.props.navItemsIds)
-        // console.log(nextProps.navItems, this.props.navItems)
         return (nextProps.navItems !== this.props.navItems
             || nextProps.navItemsIds !== this.props.navItemsIds
             || nextProps.viewToolbars !== this.props.viewToolbars
@@ -51,6 +41,7 @@ class FileTree extends Component {
     }
 
     handleMove(items, index, newIndex) {
+        // console.log(items, index, newIndex)
         const { path } = items[newIndex];
         const parent = items.find(item => item.id === path[path.length - 1]);
 
@@ -98,8 +89,10 @@ class FileTree extends Component {
         let idsInOrder = items.map(item => item.id);
         let childrenInOrder = this.getImmediateDescendants(items, newParentId);
 
-        const shouldChildExpand = movedItem.type === 'file' && this.props.navItems[newParentId].isExpanded;
-        this.props.onNavItemExpanded(movedItem.id, shouldChildExpand);
+        if (newParentId !== 0) {
+            let shouldChildExpand = movedItem.type === 'file' && this.props.navItems[newParentId].isExpanded;
+            this.props.onNavItemExpanded(movedItem.id, shouldChildExpand);
+        }
         this.props.onNavItemReordered(movedItem.id, newParentId, oldParentId, idsInOrder, childrenInOrder);
 
     }
@@ -177,8 +170,8 @@ class FileTree extends Component {
                                     itemRenderer={this.renderItem}
                                     onMove={this.handleMove}
                                     onChange={this.handleChange}
-                                    onDrop={this.onDrop}
-                                    cancelOnDropOutside
+                                    // onDragEnd={(a, b) => console.log(a, b)}
+                                    // cancelOnDropOutside
                                 />
                             </div>
                         </div>
