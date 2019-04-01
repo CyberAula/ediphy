@@ -132,6 +132,11 @@ export function getCurrentColor(theme, colorOrder = 1) {
     return styles.getPropertyValue('--' + colorKey);
 }
 
+export function getCurrentFont() {
+    let styles = getComputedStyle(document.documentElement);
+    return styles.getPropertyValue('--themePrimaryFont');
+}
+
 export function generateCustomColors(color, colorOrder = 1, generateTransparents = true) {
     let colorOrderStr = colorOrder === 1 ? 'Primary' : colorOrder === 2 ? 'Secondary' : colorOrder.toString();
     let colorName = '--theme' + colorOrderStr + 'Color';

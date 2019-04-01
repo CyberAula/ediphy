@@ -165,16 +165,17 @@ export default class FontPicker extends Component {
         let fontList;
         let themeFont;
         let themeFontLi;
+        let themeFontId;
 
         if (this.state.loadingStatus === 'finished') {
-            console.log(this.props);
             themeFont = (this.props.options && this.props.options.themeFont) ? this.fontManager.fonts.find(font => font.family === this.props.options.themeFont) : false;
-            let themeFontId = themeFont.family.replace(/\s+/g, '-').toLowerCase();
+            themeFont = { ...themeFont, themeDefaultFont: true };
+            themeFontId = themeFont.family.replace(/\s+/g, '-').toLowerCase();
             themeFontLi = !themeFont ? null :
                 (
                     <li key={'33'}>
                         <button
-                            style={ { borderBottom: '1px solid #c3c3c3', fontFamily: this.props.options.themeFont }}
+                            style={ { borderTop: '1px solid #c3c3c3', borderBottom: '1px dashed #c3c3c3', fontFamily: this.props.options.themeFont }}
                             type="button"
                             className={`font-${themeFontId}${this.pickerSuffix} ${themeFont.family === this.state.activeFont ? ' active-font' : ''}`}
                             onClick={() => {
@@ -196,7 +197,6 @@ export default class FontPicker extends Component {
                     {this.fontManager.fonts.map(font => {
                         const isActive = font.family === this.state.activeFont;
                         const fontId = font.family.replace(/\s+/g, '-').toLowerCase();
-                        // console.log(font, fontId);
                         return (
                             <li key={font.family}>
                                 <button
@@ -218,23 +218,21 @@ export default class FontPicker extends Component {
                     })}
                 </ul>
             );
-
-            themeFont = (this.props.options && this.props.options.themeFont) ? this.fontManager.fonts.find(font => font.family === this.props.options.themeFont) : false;
-            let isActive = themeFont.family === this.state.activeFont;
-            let fontId = themeFont.family.replace(/\s+/g, '-').toLowerCase();
-
         }
 
         // render font picker button and attach font list to it
+        let activeFontId = this.props.activeFont.replace(/\s+/g, '-').toLowerCase();
+
         return (
-            <div id={`font-picker${this.pickerSuffix}`} title={this.state.errorText}>
+            <div id={`font-picker${this.pickerSuffix}`} className={"font-picker-container"} title={this.state.errorText}>
                 <button
                     type="button"
                     className={`dropdown-button ${this.state.expanded ? 'expanded' : ''}`}
                     onClick={this.toggleExpanded}
                     onKeyPress={this.toggleExpanded}
+                    style={{ backgroundColor: 'white' }}
                 >
-                    <p className="dropdown-font-name">{this.state.activeFont}</p>
+                    <p className={`dropdown-font-name ${activeFontId ? 'font-' + activeFontId + this.pickerSuffix : ''}`}>{this.state.activeFont}</p>
                     <div className={`dropdown-icon ${this.state.loadingStatus}`} />
                 </button>
                 {this.state.loadingStatus === 'finished' && fontList}

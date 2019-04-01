@@ -26,7 +26,6 @@ export default class ThemeCSS extends React.Component {
 
     componentWillMount() {
         this.loadCSS();
-        console.log(this.props);
         let colors = Object.keys(this.props.toolbar.colors).length ? this.props.toolbar.colors : THEMES[this.props.theme].colors;
         let font = this.props.toolbar.font ? this.props.toolbar.font : getThemeFont(this.props.toolbar.theme);
         this.loadThemeCustomProperties(colors);
@@ -35,7 +34,7 @@ export default class ThemeCSS extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log(prevProps, this.props);
+        // User changed theme from toolbar
         if (prevProps.theme !== this.props.theme) {
             this.getThemeCSS(this.props.theme);
             this.loadThemeCustomProperties(getThemeColors(this.props.theme));
@@ -44,13 +43,12 @@ export default class ThemeCSS extends React.Component {
                 this.updateCustomProperty('--themePrimaryFont', getThemeFont(this.props.theme));
             }
         }
-
+        // User changed color from toolbar
         if (prevProps.toolbar.colors !== this.props.toolbar.colors) {
             this.loadThemeCustomProperties(this.props.toolbar.colors);
         }
-
+        // User changed font from toolbar
         if (prevProps.toolbar.font !== this.props.toolbar.font) {
-            console.log(this.props);
             loadFont(this.props.toolbar.font);
             this.updateCustomProperty('--themePrimaryFont', this.props.toolbar.font);
         }

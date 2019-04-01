@@ -18,7 +18,6 @@ export default class ViewToolbar extends Component {
     }
 
     render() {
-        console.log(this.props);
         let id = this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
         let pageObj = this.props.containedViewSelected !== 0 ? this.props.containedViews[this.props.containedViewSelected] : this.props.navItems[this.props.navItemSelected];
         let type = pageObj.type;
@@ -35,8 +34,6 @@ export default class ViewToolbar extends Component {
             doc_type = i18n.t('section');
         }
         let viewToolbar = sanitizeThemeToolbar(this.props.viewToolbars[id]);
-
-        console.log(viewToolbar);
 
         let controls = {
             main: {

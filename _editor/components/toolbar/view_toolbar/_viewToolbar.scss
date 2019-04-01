@@ -91,6 +91,23 @@
       background-color: darken($blueprimary,20%);
     }
   }
+
+  .font-picker-container{
+    .dropdown-button{
+      background-color: white;
+    }
+    button{
+      //background-color: red;
+      background-color: #fcfcfc;
+      &:hover{
+        background-color: $blueprimarytransparent;
+      }
+    }
+    .active-font{
+      //background-color: #0a4b3e;
+      background-color: #dddddd;
+    }
+  }
 }
 
 
