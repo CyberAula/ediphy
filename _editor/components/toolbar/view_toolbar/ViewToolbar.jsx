@@ -89,27 +89,30 @@ export default class ViewToolbar extends Component {
 
                     },
                     __background: {
-                        __name: "&&Fondo",
+                        __name: "&&Appearance",
                         icon: "crop_original",
                         buttons: {
-                            background: {
-                                __name: i18n.t('background.background_image'),
-                                type: 'background_picker',
-                                value: { background: viewToolbar.background, backgroundAttr: viewToolbar.background_attr } || { background: "#ffffff", backgroundAttr: "full" },
-                            },
-
                             theme: {
                                 __name: '&&Theme',
                                 type: 'theme_select',
                                 options: getThemes(),
                                 value: viewToolbar.theme,
                             },
-
+                            theme_primary_color: {
+                                __name: '&&Accent Color',
+                                type: 'color',
+                                value: viewToolbar.colors.themePrimaryColor,
+                            },
                             theme_font: {
                                 __name: '&&Font',
                                 kind: 'theme_font',
                                 type: 'font_picker',
                                 value: viewToolbar.font,
+                            },
+                            background: {
+                                __name: i18n.t('background.background_image'),
+                                type: 'background_picker',
+                                value: { background: viewToolbar.background, backgroundAttr: viewToolbar.background_attr } || { background: "#ffffff", backgroundAttr: "full" },
                             },
 
                             theme_background: {
@@ -119,11 +122,6 @@ export default class ViewToolbar extends Component {
                                 value: viewToolbar.theme_background,
                             },
 
-                            theme_primary_color: {
-                                __name: '&&Primary Color',
-                                type: 'color',
-                                value: viewToolbar.colors.themePrimaryColor,
-                            },
                         },
                     },
                     __score: {

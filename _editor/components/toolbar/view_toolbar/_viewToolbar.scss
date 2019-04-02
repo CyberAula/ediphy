@@ -104,13 +104,21 @@
       }
     }
     .active-font{
-      //background-color: #0a4b3e;
       background-color: #dddddd;
     }
   }
 
   .theme-picker-container{
-
+    .owl-nav{
+      display: flex;
+      flex-direction: row;
+      button{
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
   }
 }
 

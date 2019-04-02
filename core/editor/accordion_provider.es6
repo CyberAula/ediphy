@@ -596,9 +596,15 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 }
             }
 
+            if(button.type === 'theme_picker') {
+                console.log(e);
+                console.log(button);
+            }
+
             if (button.type === 'font_picker') {
                 let toolbar = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
                 let theme = toolbar.theme ? toolbar.theme : 'default';
+                console.log(button);
                 if (e.family) {
                     value = button.hasOwnProperty('kind') && button.kind === 'theme_font' ? e.family : { font: e.family, custom: !e.themeDefaultFont };
                     if (!value) {
@@ -946,7 +952,18 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     }
 
     if(button.type === "theme_select") {
-        return React.createElement(ThemePicker, {}, []);
+        return React.createElement(
+            FormGroup,
+            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
+            [
+                React.createElement(
+                    ControlLabel,
+                    { key: 'label1_' + button.__name },
+                    '&& Theme'
+                ),
+                React.createElement(ThemePicker, {}, []),
+            ]
+        );
     }
 
     if (button.type === "background_picker") {
