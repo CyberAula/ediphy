@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 export default class Watermark extends Component {
     render() {
         let id = this.props.ediphy_document_id || (window.ediphy_editor_params ? window.ediphy_editor_params.ediphy_resource_id : null);
-        let parent = this.whichDomain(window.parent.location.href, id);
+        let parent = null;
+        try {
+            parent = this.whichDomain(window.parent.location.href, id);
+        } catch(e) {}
         let platform = this.props.ediphy_platform ? (this.props.ediphy_platform + "/ediphy_documents/" + id) : window.location.href;
         let current = this.whichDomain(platform, id) || "https://vishub.org";
         let educa = (current || "").match(/educainternet/) ? " educa" : "";

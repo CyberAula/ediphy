@@ -35,8 +35,6 @@ export default class CarouselList extends Component {
 
     render() {
 
-        console.log(this.props);
-
         let containedViewsIncluded = Object.keys(this.props.containedViews).length > 0;
 
         if (!this.props.carouselShow) { return (<div style={{ height: "100%" }}><br /></div>); }

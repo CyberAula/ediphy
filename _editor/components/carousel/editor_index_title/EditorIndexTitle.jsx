@@ -43,14 +43,17 @@ export default class EditorIndexTitle extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(this.props.courseTitle && this.props.title !== prevProps.title) {
             // If doc title changed from GlobalConfig
+            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ currentValue: this.props.title });
         }
 
         if(!this.state.editing && prevProps.selected !== prevProps.id && this.props.selected === this.props.id) {
+            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ secondClick: false });
         }
 
         if(this.state.editing && prevProps.selected === prevProps.id && this.props.selected !== this.props.id) {
+            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ secondClick: false });
         }
 
@@ -178,4 +181,8 @@ EditorIndexTitle.propTypes = {
      * Course title
      */
     courseTitle: PropTypes.any,
+    /**
+     * Selected navItem
+     */
+    selected: PropTypes.string,
 };

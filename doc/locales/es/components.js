@@ -46,7 +46,6 @@ let components = {
         "visorVisible": "Indicador de si se está en modo previsualización",
     },
     "CarouselButtons": {
-        // 20vs12
         "boxes": "Objeto que contiene todas las cajas creadas, accesibles por su *id*",
         "containedViews": "Objeto que contiene todas las vistas contenidas, accesibles por su *id*",
         "indexSelected": "Vista/vista contenida seleccionada en el índice",
@@ -59,24 +58,12 @@ let components = {
         "onNavItemDeleted": "Elimina vista/vista contenida",
         "carouselShow": "Indicador de si el índice desplegado",
         "onNavItemDuplicated": "Duplica una vista",
-
-        // "containedViewSelected": "Vista contenida seleccionada, identificada por su *id*",
-        // "navItemSelected": "Vista seleccionada, identificada por su *id*",
-        // "onContainedViewSelected": "Selecciona vista contenida",
-        // "onContainedViewNameChanged": "Renombra vista contenida",
-        // "onNavItemNameChanged": "Renombra vista",
-        // "onNavItemSelected": "Selecciona vista",
-        // "onNavItemExpanded": "Expande sección",
-        // "onNavItemReordered": "Reordena elementos del índice",
     },
     "CarouselHeader": {
         "carouselShow": "Indicador de si el índice desplegado",
         "courseTitle": "Título del curso",
         "onTitleChanged": "Modifica el título del curso",
         "onToggleWidth": "Modifica el ancho del índice",
-
-        // "onToggleFull": "Expande el índice para que ocupe el 100% del ancho",
-        // "carouselFull": "Indicador de si el índice ocupa el ancho de la pantalla completo",
     },
     "CarouselList": {
         // 21vs18
@@ -712,6 +699,7 @@ let components = {
     "GlobalScore": {
         "scoreInfo": "Objeto que contiene información acerca de la puntuación global del curso",
         "show": "Indica si se debe mostrar la puntuación",
+        "fadePlayerClass": "Función CSS usada para ocultar la puntuación cuando se deja de mover el cursor",
         "setHover": "Función para añadir la clase de hover en la navegación",
         "deleteHover": "Función para eliminar la clase de hover en la navegación",
     },

@@ -11,6 +11,7 @@ import FileInput from "../../_editor/components/common/file-input/FileInput";
 import MarksList from "../../_editor/components/rich_plugins/marks_list/MarksList";
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
 import FontPicker from "../../_editor/components/common/font-picker/FontPicker";
+import ThemePicker from "../../_editor/components/common/theme-picker/ThemePicker";
 import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/APIProviders/common/ToolbarFileProvider";
 /* eslint-disable react/prop-types */
 
@@ -942,6 +943,10 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     }, [])),
             ]
         );
+    }
+
+    if(button.type === "theme_select") {
+        return React.createElement(ThemePicker, {}, []);
     }
 
     if (button.type === "background_picker") {

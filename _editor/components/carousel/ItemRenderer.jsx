@@ -6,6 +6,7 @@ import style from './ItemRenderer.scss';
 import EditorIndexTitle from "./editor_index_title/EditorIndexTitle";
 import { isSlide } from "../../../common/utils";
 import iconPDF from "../../../dist/images/file-pdf.svg";
+import CarouselList from "./carousel_list/CarouselList";
 
 const Folder = ({ name, collapsed, index, path, onToggleCollapse, id, navItems, onNavItemNameChanged, viewToolbars, indexSelected, containedViewSelected }) => {
     const handleClick = () => {
@@ -31,15 +32,6 @@ const Folder = ({ name, collapsed, index, path, onToggleCollapse, id, navItems, 
         </div>
     );
 };
-Folder.propTypes = {
-    name: PropTypes.string.isRequired,
-    collapsed: PropTypes.bool,
-    index: PropTypes.number.isRequired,
-    onToggleCollapse: PropTypes.func.isRequired,
-};
-Folder.defaultProps = {
-    collapsed: false,
-};
 
 const File = ({ name, collapsed, id, path, navItems, onNavItemNameChanged, viewToolbars, indexSelected, containedViewSelected }) => {
     const classCollapsed = collapsed ? 'collapsed' : '';
@@ -58,17 +50,9 @@ const File = ({ name, collapsed, id, path, navItems, onNavItemNameChanged, viewT
             onNameChanged={onNavItemNameChanged}/>
     </div>);
 };
-File.propTypes = {
-    name: PropTypes.string.isRequired,
-    collapsed: PropTypes.bool,
-};
-
-File.defaultProps = {
-    collapsed: false,
-};
 
 const ItemRenderer = (props) => {
-    const { id, navItemSelected, connectDragSource, connectDragPreview, connectDropTarget, isDragging, isClosestDragging, type, path, onIndexSelected, onNavItemSelected }
+    const { id, navItemSelected, connectDragSource, connectDragPreview, connectDropTarget, type, onIndexSelected, onNavItemSelected }
         = props;
     const collapsed = props.collapsed ? 'collapsed ' : '';
     const selected = type === 'file' && id === navItemSelected ? 'selected ' : ' ';
@@ -89,13 +73,195 @@ const ItemRenderer = (props) => {
 };
 
 ItemRenderer.propTypes = {
-    name: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(['folder', 'file']).isRequired,
+    /**
+     * Global parent of navItems (0)
+     */
+    id: PropTypes.any,
+    /**
+     * Indicates whether the carousel has been expanded or not
+     */
+    carouselShow: PropTypes.bool,
+    /**
+     *  Object containing all contained views (identified by its ID)
+     */
+    containedViews: PropTypes.object,
+    /**
+     * Selected contained view
+     */
+    containedViewSelected: PropTypes.any,
+    /**
+     * View/Contained view selected at the index
+     */
+    indexSelected: PropTypes.any,
+    /**
+     * Dictionary containing all created views, each one with its *id* as the key
+     */
+    navItems: PropTypes.object,
+    /**
+     * Current selected view (by ID)
+     */
+    navItemSelected: PropTypes.any,
+    /**
+     *  View/Contained view selected at the index
+     */
+    navItemsIds: PropTypes.array,
+    /**
+     * Callback for adding a new box
+     */
+    onBoxAdded: PropTypes.func,
+    /**
+     * Callback for selecting contained view
+     */
+    onContainedViewNameChanged: PropTypes.func,
+    /**
+     * Callback for renaming contained view
+     */
+    onContainedViewSelected: PropTypes.func,
+    /**
+     * Callback for renaming view
+     */
+    onIndexSelected: PropTypes.func,
+    /**
+     * Adds a new view
+     */
+    onNavItemAdded: PropTypes.func,
+    /**
+     * Expands navItem (only for sections)
+     */
+    onNavItemExpanded: PropTypes.func,
+    /**
+     * Callback for renaming view
+     */
+    onNavItemNameChanged: PropTypes.func,
+    /**
+     * Callback for reordering navItems
+     */
+    onNavItemReordered: PropTypes.func,
+    /**
+     * Selects a view
+     */
+    onNavItemSelected: PropTypes.func,
+    /**
+     * Object containing all the pages' toolbars
+     */
+    viewToolbars: PropTypes.object,
+    /**
+     * Object containing all the pages' toolbars
+     */
+    name: PropTypes.string,
+    /**
+     * Object containing all the pages' toolbars
+     */
+    type: PropTypes.oneOf(['folder', 'file']),
+    /**
+     * Indicates if objects is collapsed (not expanded)
+     */
     collapsed: PropTypes.bool,
-    connectDragSource: PropTypes.func.isRequired,
-    connectDragPreview: PropTypes.func.isRequired,
-    connectDropTarget: PropTypes.func.isRequired,
-    isDragging: PropTypes.bool.isRequired,
+    /**
+     * Function to connect Drag source
+     */
+    connectDragSource: PropTypes.func,
+    /**
+     * Manages preview when dragging
+     */
+    connectDragPreview: PropTypes.func,
+    /**
+     * Function to connect Drop target
+     */
+    connectDropTarget: PropTypes.func,
+    /**
+     * Boolean that indicates if object is dragging
+     */
+    isDragging: PropTypes.bool,
+    /**
+     *  Array of navItems path in tree to current navItem
+     */
+    path: PropTypes.array,
+};
+
+Folder.propTypes = {
+    /**
+     * Id of the current sortable element
+     */
+    id: PropTypes.string,
+    /**
+     * Name of the current sortable element
+     */
+    name: PropTypes.string,
+    /**
+     * Indicates if current sortable element is collapsed
+     */
+    collapsed: PropTypes.bool,
+    /**
+     * Index number within list of sortable containers
+     */
+    index: PropTypes.number,
+    /**
+     * Callback function for collapsing sections
+     */
+    onToggleCollapse: PropTypes.func,
+    /**
+     *  Array of navItems path in tree to current navItem
+     */
+    path: PropTypes.array,
+    /**
+     * Dictionary containing all created views, each one with its *id* as the key
+     */
+    navItems: PropTypes.object,
+    /**
+     * Callback for renaming view
+     */
+    onNavItemNameChanged: PropTypes.func,
+    /**
+     * Object containing all the pages' toolbars
+     */
+    viewToolbars: PropTypes.object,
+    /**
+     * View/Contained view selected at the index
+     */
+    indexSelected: PropTypes.any,
+    /**
+     * Selected contained view
+     */
+    containedViewSelected: PropTypes.any,
+};
+File.propTypes = {
+    /**
+     * Id of the current sortable element
+     */
+    id: PropTypes.string,
+    /**
+     * Name of the current sortable element
+     */
+    name: PropTypes.string,
+    /**
+     * Indicates if current sortable element is collapsed
+     */
+    collapsed: PropTypes.bool,
+    /**
+     *  Array of navItems path in tree to current navItem
+     */
+    path: PropTypes.array,
+    /**
+     * Dictionary containing all created views, each one with its *id* as the key
+     */
+    navItems: PropTypes.object,
+    /**
+     * Callback for renaming view
+     */
+    onNavItemNameChanged: PropTypes.func,
+    /**
+     * Object containing all the pages' toolbars
+     */
+    viewToolbars: PropTypes.object,
+    /**
+     * View/Contained view selected at the index
+     */
+    indexSelected: PropTypes.any,
+    /**
+     * Selected contained view
+     */
+    containedViewSelected: PropTypes.any,
 };
 
 export default ItemRenderer;

@@ -307,6 +307,10 @@ CarouselButtons.propTypes = {
      */
     onNavItemDeleted: PropTypes.func.isRequired,
     /**
+     * Expands navItem children when parent is expanded
+     */
+    onNavItemExpanded: PropTypes.func.isRequired,
+    /**
      * Index displayed indicator
      */
     carouselShow: PropTypes.bool.isRequired,

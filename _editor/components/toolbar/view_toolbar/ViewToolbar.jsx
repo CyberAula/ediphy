@@ -100,7 +100,7 @@ export default class ViewToolbar extends Component {
 
                             theme: {
                                 __name: '&&Theme',
-                                type: 'select',
+                                type: 'theme_select',
                                 options: getThemes(),
                                 value: viewToolbar.theme,
                             },

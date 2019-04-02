@@ -26,7 +26,7 @@ export const THEMES = {
     test0: {
         fonts: 'Indie Flower',
         background: [
-            "black",
+            "green",
         ],
         colors: {
             themePrimaryColor: '#AFB2B1',
