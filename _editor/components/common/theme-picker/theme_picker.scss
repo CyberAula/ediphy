@@ -1,0 +1,21 @@
+@import './../../../../sass/general/mixins/mixins';
+@import './../../../../sass/general/variables';
+
+.theme-picker-container{
+  .owl-container{
+    .owl-item{
+      border-radius: 0.2em;
+      .selected{
+        border: 2px solid $blueprimary;
+      }
+      &:hover{
+        //@include scale(1.05);
+        @include animacion(all, 0.2s);
+      }
+    }
+  }
+  .theme-name{
+
+  }
+
+}

@@ -12,7 +12,7 @@ import MarksList from "../../_editor/components/rich_plugins/marks_list/MarksLis
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
 import FontPicker from "../../_editor/components/common/font-picker/FontPicker";
 import ThemePicker from "../../_editor/components/common/theme-picker/ThemePicker";
-import ThemePicker2 from "../../_editor/components/common/theme-picker/ThemePicker2";
+import { getThemes } from "../../common/themes/theme_loader";
 
 import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/APIProviders/common/ToolbarFileProvider";
 /* eslint-disable react/prop-types */
@@ -464,7 +464,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
         },
         onChange: e => {
-            console.log(e);
             let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
 
             if (currentElement === 'structure' && (buttonKey === 'width' || buttonKey === 'height' || buttonKey === "aspectRatio")) {
@@ -579,7 +578,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     return;
                 }
                 return;
-
             }
 
             if (button.type === 'custom_color_plugin') {
@@ -598,15 +596,18 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 }
             }
 
-            if(button.type === 'theme_picker') {
-                console.log(e);
-                console.log(button);
+            if(button.type === 'theme_select') {
+                let indexTheme = e || 0;
+                value = getThemes()[indexTheme];
+                if (!value) {
+                    return;
+                }
+
             }
 
             if (button.type === 'font_picker') {
                 let toolbar = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
                 let theme = toolbar.theme ? toolbar.theme : 'default';
-                console.log(button);
                 if (e.family) {
                     value = button.hasOwnProperty('kind') && button.kind === 'theme_font' ? e.family : { font: e.family, custom: !e.themeDefaultFont };
                     if (!value) {
@@ -688,7 +689,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 }
             }
 
-            // toolbar_props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
             if (toolbar_props.boxSelected === -1) {
                 handlecanvasToolbar(buttonKey, value, accordion, toolbar_props, buttonKey);
             } else if (currentElement === '__score') {
@@ -710,11 +710,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     ControlLabel,
                     { key: 'label_' + button.__name },
                     button.__name),
-                /* React.createElement(
-                      FormControl,
-                        props,
-                        null
-                    ),*/
                 React.createElement(
                     ColorPicker, { key: props.label, value: props.value, onChange: props.onChange },
                     []),
@@ -963,7 +958,9 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     { key: 'label1_' + button.__name },
                     '&& Theme'
                 ),
-                React.createElement(ThemePicker, {}, []),
+                React.createElement(ThemePicker, {
+                    onChange: props.onChange,
+                }, []),
             ]
         );
     }
@@ -1291,7 +1288,6 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     case 'theme':
         let currentView = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
         let wasCustomFont = currentView.theme && currentView.font && (currentView.font !== getThemeFont(currentView.theme));
-
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
             theme: value,
             themeBackground: 0,
@@ -1307,7 +1303,6 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
         });
         break;
     case 'theme_font':
-        console.log('Inside theme font case');
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, { font: value });
         break;
 

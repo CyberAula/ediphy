@@ -3,6 +3,7 @@ import { setRgbaAlpha } from "../common_tools";
 
 export const THEMES = {
     default: {
+        viewName: ['EDiphy classic', 'EDiphy clásico'],
         fonts: 'Ubuntu',
         background: [
             "white",
@@ -13,6 +14,7 @@ export const THEMES = {
         },
     },
     orange: {
+        viewName: ['EDiphy classic', 'EDiphy clásico'],
         fonts: 'Merriweather',
         background: [
             'url(/themes/orange/background_images/orange0.jpg)',
@@ -24,6 +26,7 @@ export const THEMES = {
         },
     },
     test0: {
+        viewName: ['EDiphy classic', 'EDiphy clásico'],
         fonts: 'Indie Flower',
         background: [
             "green",
@@ -34,6 +37,7 @@ export const THEMES = {
         },
     },
     test1: {
+        viewName: ['EDiphy classic', 'EDiphy clásico'],
         fonts: 'Amatic SC',
         background: [
             'url(/themes/test2/background_images/blur2.jpg)',
@@ -44,6 +48,7 @@ export const THEMES = {
         },
     },
     test2: {
+        viewName: ['EDiphy classic', 'EDiphy clásico'],
         fonts: 'Great Vibes',
         background: [
             'url(/themes/test2/background_images/blur0.jpg)',
@@ -54,6 +59,7 @@ export const THEMES = {
         },
     },
     test3: {
+        viewName: ['EDiphy classic', 'EDiphy clásico'],
         fonts: 'Anton',
         background: [
             'url(/themes/test3/background_images/test30.jpg)',
@@ -66,6 +72,7 @@ export const THEMES = {
         },
     },
     test4: {
+        viewName: ['EDiphy classic', 'EDiphy clásico'],
         fonts: 'Lobster',
         background: [
             'url(/themes/orange/background_images/orange0.jpg)',
@@ -76,6 +83,7 @@ export const THEMES = {
         },
     },
     test5: {
+        viewName: ['EDiphy classic', 'EDiphy clásico'],
         fonts: 'Amatic SC',
         background: [
             'url(/themes/orange/background_images/orange0.jpg)',
@@ -86,6 +94,7 @@ export const THEMES = {
         },
     },
     test6: {
+        viewName: ['EDiphy classic', 'EDiphy clásico'],
         fonts: 'Orbitron',
         background: [
             'url(/themes/orange/background_images/orange0.jpg)',
@@ -96,6 +105,7 @@ export const THEMES = {
         },
     },
     test7: {
+        viewName: ['EDiphy classic', 'EDiphy clásico'],
         fonts: 'Poiret One',
         background: [
             'url(/themes/orange/background_images/orange0.jpg)',

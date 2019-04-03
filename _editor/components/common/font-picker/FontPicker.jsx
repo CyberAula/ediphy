@@ -170,7 +170,7 @@ export default class FontPicker extends Component {
         if (this.state.loadingStatus === 'finished') {
             themeFont = (this.props.options && this.props.options.themeFont) ? this.fontManager.fonts.find(font => font.family === this.props.options.themeFont) : false;
             themeFont = { ...themeFont, themeDefaultFont: true };
-            themeFontId = themeFont.family.replace(/\s+/g, '-').toLowerCase();
+            themeFontId = themeFont.family ? themeFont.family.replace(/\s+/g, '-').toLowerCase() : 'ubuntu';
             themeFontLi = !themeFont ? null :
                 (
                     <li key={'33'}>

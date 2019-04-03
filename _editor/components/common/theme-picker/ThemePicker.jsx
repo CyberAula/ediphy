@@ -2,6 +2,7 @@ import React from 'react';
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
+import './theme_picker.scss';
 
 import { THEMES } from '../../../../common/themes/theme_loader';
 
@@ -15,15 +16,16 @@ export default class FontPicker extends React.Component {
     }
 
     handleChange(id) {
+        this.props.onChange(id);
         this.setState({ activeThemeIndex: id });
     }
 
     render() {
         return(
-            <div id={"owl-container"}>
+            <div className={"theme-picker-container"} onChange={this.props.onChange}>
                 <OwlCarousel
                     ref={"car"}
-                    className="owl-theme theme-picker-container"
+                    className="owl-theme owl-container"
                     margin={10}
                     items={2}
                     loop
@@ -33,13 +35,14 @@ export default class FontPicker extends React.Component {
                     center
                     dots = {false}
                     // Hacky way to force children to update. Otherwise selected item only refreshed on second click
-                    key={`carousel_${Date.now()}`}
+                    key={`carousel_${this.state.activeThemeIndex}`}
                 >
                     {Object.keys(THEMES).map((key, index)=> {
+                        let selected = index === this.state.activeThemeIndex ? ' selected ' : ' ';
                         return (
                             <div
                                 key={index}
-                                className={"item"}
+                                className={"item" + selected}
                                 onClick={()=>this.handleChange(index)}
                                 style={{
                                     display: 'flex',
@@ -50,11 +53,10 @@ export default class FontPicker extends React.Component {
                                     background: THEMES[key].background[0],
                                     backgroundSize: 'cover',
                                     color: THEMES[key].colors.themePrimaryColor,
-                                    height: '5em' }}><h4 key={index}>{index === this.state.activeThemeIndex ? 'selected' : key}</h4></div>
+                                    height: '5em' }}><h4 key={index}>{index === this.state.activeThemeIndex ? key : key}</h4></div>
                         );
                     })}
                 </OwlCarousel>
-                <div>Selected item is {this.state.activeThemeIndex}</div>
             </div>
         );
     }
