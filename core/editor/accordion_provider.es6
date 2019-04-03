@@ -12,6 +12,8 @@ import MarksList from "../../_editor/components/rich_plugins/marks_list/MarksLis
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
 import FontPicker from "../../_editor/components/common/font-picker/FontPicker";
 import ThemePicker from "../../_editor/components/common/theme-picker/ThemePicker";
+import ThemePicker2 from "../../_editor/components/common/theme-picker/ThemePicker2";
+
 import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/APIProviders/common/ToolbarFileProvider";
 /* eslint-disable react/prop-types */
 

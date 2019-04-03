@@ -109,6 +109,7 @@ module.exports = {
             '$': 'jquery',
             'jQuery': 'jquery',
             'window.jQuery': 'jquery',
+            'window.$': 'jquery',
         }, dependency_loader.getPluginProvider())), // Wraps module with variable and injects wherever it's needed
         new ZipBundlePlugin(), // Compile automatically zips
         new webpack.NormalModuleReplacementPlugin(
