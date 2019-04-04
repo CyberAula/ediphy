@@ -12,7 +12,7 @@ import MarksList from "../../_editor/components/rich_plugins/marks_list/MarksLis
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
 import FontPicker from "../../_editor/components/common/font-picker/FontPicker";
 import ThemePicker from "../../_editor/components/common/theme-picker/ThemePicker";
-import { getThemes } from "../../common/themes/theme_loader";
+import { getThemeColors, getThemes } from "../../common/themes/theme_loader";
 
 import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/APIProviders/common/ToolbarFileProvider";
 /* eslint-disable react/prop-types */
@@ -1287,12 +1287,14 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
         break;
     case 'theme':
         let currentView = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
-        let wasCustomFont = currentView.theme && currentView.font && (currentView.font !== getThemeFont(currentView.theme));
+        let wasCustomFont = currentView.hasOwnProperty('theme') && currentView.hasOwnProperty('font') && (currentView.font !== getThemeFont(currentView.theme));
+        let wasCustomColor = currentView.hasOwnProperty('theme') && currentView.hasOwnProperty('colors') && currentView.colors.themePrimaryColor !== getThemeColors(currentView.theme).themePrimaryColor;
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
             theme: value,
             themeBackground: 0,
             background: getBackground(value, 0),
             font: wasCustomFont ? currentView.font : getThemeFont(value),
+            colors: wasCustomColor ? currentView.colors : getThemeColors(value),
         });
 
         break;

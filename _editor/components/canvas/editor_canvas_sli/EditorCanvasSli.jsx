@@ -57,8 +57,12 @@ export default class EditorCanvasSli extends Component {
             actualHeight = parseInt(maincontent.scrollHeight, 10);
             actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
         }
+
+        console.log(this.props);
         let toolbar = this.props.viewToolbars[itemSelected.id];
         let theme = !toolbar || !toolbar.theme ? 'default' : toolbar.theme;
+
+        console.log(toolbar, theme);
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
