@@ -36,8 +36,12 @@ export default class VisorCanvasSli extends Component {
         let isCV = !isView(this.props.currentView);
         let toolbar = this.props.viewToolbars[this.props.currentView];
 
+        console.log(toolbar);
+
         let theme = toolbar.theme ? toolbar.theme : 'default';
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
+        console.log(theme);
+        console.log(colors);
 
         if (itemSelected !== 0 && !isCV) {
             let title = this.props.viewToolbars[this.props.currentView].viewName;

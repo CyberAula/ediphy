@@ -56,12 +56,6 @@ export function MultipleChoice(base) {
                                     type: 'custom_color_plugin',
                                     value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryColor'),
                                 },
-
-                                quizFont: {
-                                    __name: '&&Font',
-                                    type: 'font_picker',
-                                    value: state.quizFont || getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryFont'),
-                                },
                             },
                         },
                         style: {
@@ -125,18 +119,15 @@ export function MultipleChoice(base) {
                 showFeedback: true,
                 letters: i18n.t("MultipleChoice.ShowLetters"),
                 quizColor: { color: document.documentElement.style.getPropertyValue('--themePrimaryColor'), custom: false },
-                quizFont: document.documentElement.style.getPropertyValue('--themePrimaryFont'),
             };
         },
         getRenderTemplate: function(state, props = {}) {
 
             let answers = [];
             let correctAnswers = "";
-            console.log(state);
             let quizColor = state.quizColor.color;
             let customColor = generateCustomColors(quizColor, 1, true);
-            let customFont = generateCustomFont(state.quizFont.font);
-            let customStyle = { ...customColor, ...customFont };
+            let customStyle = { ...customColor };
 
             for (let i = 0; i < state.nBoxes; i++) {
                 let clickHandler = (e)=>{
@@ -159,7 +150,7 @@ export function MultipleChoice(base) {
                 );
                 if (isCorrect) {correctAnswers += state.letters === i18n.t("MultipleChoice.ShowLetters") ? letterFromNumber(i) : (i + 1);}
             }
-            return <div className={"exercisePlugin multipleChoicePlugin"} style={ state.quizColor.custom || state.quizFont.font ? customStyle : null }>
+            return <div className={"exercisePlugin multipleChoicePlugin"} style={ state.quizColor.custom ? customStyle : null }>
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
                         <PluginPlaceholder {...props} key="1"
