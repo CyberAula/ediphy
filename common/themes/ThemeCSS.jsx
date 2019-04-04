@@ -35,7 +35,6 @@ export default class ThemeCSS extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         // User changed theme from toolbar
-        console.log(this.props);
         if (prevProps.theme !== this.props.theme) {
             let theme = this.props.theme ? this.props.theme : 'default';
             this.getThemeCSS(theme);
@@ -112,8 +111,6 @@ export default class ThemeCSS extends React.Component {
     }
 
     render() {
-        console.log(this.props);
-        console.log(this.state);
         return <style dangerouslySetInnerHTML={{
             __html: this.state.currentThemeCSS,
         }} />;

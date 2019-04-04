@@ -58,9 +58,7 @@ export default class EditorCanvasSli extends Component {
             actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
         }
         let toolbar = this.props.viewToolbars[itemSelected.id];
-        let theme = toolbar.theme === undefined ? 'default' : toolbar.theme;
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // loadTheme(toolbar.theme);
+        let theme = !toolbar || !toolbar.theme ? 'default' : toolbar.theme;
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
@@ -88,7 +86,7 @@ export default class EditorCanvasSli extends Component {
                             e.stopPropagation();
                         }}
                         className={'innercanvas sli ' + theme}
-                        style={ loadBackgroundStyle(this.props.showCanvas, toolbar, false) }>
+                        style={ itemSelected.id !== 0 ? loadBackgroundStyle(this.props.showCanvas, toolbar, false) : {} }>
                         {this.state.alert}
                         {gridOn ? <div style={{ zIndex: '-1' }} onClick={()=>{this.props.onBoxSelected(-1);}}><SnapGrid key={this.props.fromCV}/></div> : null}
                         <EditorHeader titles={titles}
@@ -161,7 +159,7 @@ export default class EditorCanvasSli extends Component {
                 </div>
                 <ThemeCSS
                     theme={ theme }
-                    toolbar = {{ ...toolbar, colors: toolbar.colors ? toolbar.colors : {} }}
+                    toolbar = {{ ...toolbar, colors: toolbar && toolbar.colors ? toolbar.colors : {} }}
                     onToolbarUpdated={this.props.onToolbarUpdated}
                 />
                 <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
