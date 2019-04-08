@@ -9,6 +9,7 @@ import './_navBar.scss';
 import screenfull from 'screenfull';
 import { selectNavItem } from "../../../../common/actions";
 import ExportModal from '../export/ExportModal';
+import StyleConfig from '../style_config/StyleConfig';
 /**
  * Upper navigation bar component
  */
@@ -44,6 +45,7 @@ export default class EditorNavBar extends Component {
                     undo={this.props.undo}
                     undoDisabled={this.props.undoDisabled}
                     onBoxSelected={this.props.onBoxSelected}
+                    toggleStyleConfig={this.props.toggleStyleConfig}
                     visor={this.props.visor} />
                 <NavDropdown /* export={this.props.export}*/
                     navItemSelected={this.props.navItemSelected}
@@ -58,6 +60,13 @@ export default class EditorNavBar extends Component {
                     toggleFileUpload={this.props.toggleFileUpload}
                     isBusy={this.props.isBusy}
                     undoDisabled={this.props.undoDisabled} />
+                <StyleConfig show={this.props.showStyleConfig}
+                    styleConfig={this.props.styleConfig}
+                    toggleFileUpload={this.props.toggleFileUpload}
+                    fileModalResult={this.props.fileModalResult}
+                    changeGlobalConfig={this.props.changeGlobalConfig}
+                    uploadFunction={this.props.uploadFunction}
+                    close={this.props.toggleStyleConfig} />
                 <GlobalConfig show={this.props.showGlobalConfig}
                     globalConfig={this.props.globalConfig}
                     toggleFileUpload={this.props.toggleFileUpload}
@@ -65,7 +74,11 @@ export default class EditorNavBar extends Component {
                     changeGlobalConfig={this.props.changeGlobalConfig}
                     uploadFunction={this.props.uploadFunction}
                     close={this.props.toggleGlobalConfig} />
-                <ExportModal aspectRatio={this.props.globalConfig.canvasRatio} show={this.state.showExport} export={this.props.export} scorm={this.props.scorm} close={this.toggleExport} />
+                <ExportModal aspectRatio={this.props.globalConfig.canvasRatio}
+                    show={this.state.showExport}
+                    export={this.props.export}
+                    scorm={this.props.scorm}
+                    close={this.toggleExport} />
 
             </Col>
         );

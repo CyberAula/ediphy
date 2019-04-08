@@ -193,7 +193,6 @@ export default class VisorCanvasSli extends Component {
         let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         let nextItemSel = nextProps.navItems[nextProps.currentView] || nextProps.containedViews[nextProps.currentView];
         if ((this.props.canvasRatio !== nextProps.canvasRatio) || (itemSel !== nextItemSel)) {
-            let isCV = !isView(nextProps.currentView);
             window.canvasRatio = nextProps.canvasRatio;
             let calculated = this.aspectRatio(nextProps, nextState);
             this.setState({ fontBase: changeFontBase(calculated.width) });

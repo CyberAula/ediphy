@@ -21,6 +21,7 @@ import marksById from './marks_by_id';
 import pluginToolbarsById from './plugin_toolbars_by_id';
 import viewToolbarsById from './view_toolbars_by_id';
 import globalConfig from './global_config';
+import styleConfig from './style_config';
 import exercises from './exercises';
 import lastActionDispatched from './lastActionDispatched';
 const version = "3";
@@ -108,6 +109,7 @@ const GlobalState = combineReducers({
         version: versionReducer,
         lastActionDispatched: lastActionDispatched,
         globalConfig: globalConfig,
+        styleConfig: styleConfig,
         boxesById: boxesById, // {0: box0, 1: box1}
         boxSelected: boxSelected, // 0
         boxLevelSelected: boxLevelSelected, // 0

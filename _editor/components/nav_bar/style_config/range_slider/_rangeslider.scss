@@ -1,0 +1,123 @@
+/*
+    Range slider styles
+    adapted from http://stackoverflow.com/questions/4753946/html5-form-slider-with-two-inputs-possible
+*/
+
+.range-slider input {
+    pointer-events: none;
+    position: absolute;
+    overflow: hidden;
+    left: 0;
+    width: 100%;
+    outline: none;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+}
+
+.range-slider input[type=range] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.range-slider input[type=range]::-webkit-slider-thumb, .range-slider input[type=range]::-moz-range-thumb {
+}
+
+.range-slider input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    top: -5px;
+    pointer-events: all;
+    border: 2px solid #CCD2DB;
+    box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.10);
+    border-radius: 4px;
+    // background-image:url(%thumb-image%);
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    position: relative;
+    z-index: 1;
+    outline: 0;
+    height: 15px;
+    width: 15px;
+}
+
+input[type=range] {
+	background-color: transparent;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    background-color: transparent;
+    height: 6px;
+    border-radius: 13px;
+    border: 1px solid #EDEEF0;
+}
+
+/* Styles for Firefox */
+.range-slider input[type=range]::-moz-range-thumb {
+    -moz-appearance: none;
+
+    pointer-events: all;
+    border: 2px solid #CCD2DB;
+    box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.10);
+    border-radius: 4px;
+    // background-image:url(%thumb-image%);
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    position: relative;
+    z-index: 100;
+    outline: 0;
+    height: 12px;
+    width: 12px;
+}
+
+.range-slider input[type=range]::-moz-range-track {
+    position: relative;
+    z-index: -1;
+    background: none transparent;
+    height: 6px;
+    border-radius: 13px;
+    border: 1px solid #EDEEF0;
+}
+
+/* extra fixes for Firefox */
+.range-slider input[type=range]:last-of-type::-moz-range-track {
+    -moz-appearance: none;
+    background: none transparent;
+    border: 0;
+}
+
+.range-slider input[type=range]::-moz-focus-outer {
+    border: 0;
+}
+
+/* selectors for internet explorer
+We don't support IE, but fallback basic behavior works. In the
+future we may implement better visual support here
+
+input[type=range]::-ms-thumb
+input[type=range]::-ms-track
+input[type=range]:focus::-ms-fill-lower
+input[type=range]:focus::-ms-fill-upper
+*/
+.C\(\#4e5b65\) {
+  color: #4e5b65;
+}
+.D\(ib\) {
+  display: inline-block;
+}
+.Fl\(end\) {
+  float: right;
+}
+.H\(35px\) {
+  height: 20px;
+}
+.Pos\(r\) {
+  position: relative;
+}
+.Ta\(c\) {
+  text-align: center;
+}
+.W\(100\%\) {
+  width: 100%;
+}

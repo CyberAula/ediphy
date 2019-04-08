@@ -47,6 +47,7 @@ export const UPDATE_VIEW_TOOLBAR = 'UPDATE_VIEW_TOOLBAR';
 export const IMPORT_EDI = 'IMPORT_EDI';
 export const IMPORT_STATE = 'IMPORT_STATE';
 export const CHANGE_GLOBAL_CONFIG = 'CHANGE_GLOBAL_CONFIG';
+export const CHANGE_STYLE_CONFIG = 'CHANGE_STYLE_CONFIG';
 
 export const ADD_RICH_MARK = 'ADD_RICH_MARK';
 export const EDIT_RICH_MARK = 'EDIT_RICH_MARK';
@@ -221,6 +222,10 @@ export function setBusy(value, msg, reason = null) {
 
 export function changeGlobalConfig(prop, value) {
     return { type: CHANGE_GLOBAL_CONFIG, payload: { prop, value } };
+}
+
+export function changeStyleConfig(prop, value) {
+    return { type: CHANGE_STYLE_CONFIG, payload: { prop, value } };
 }
 
 export function importState(state) {

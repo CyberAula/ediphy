@@ -5,7 +5,13 @@
   .owl-container{
     .owl-item{
       border-radius: 0.2em;
-      .selected{
+      .item{
+        border: 0.1px solid #d2d2d2;
+      }
+      .toolbar{
+        border: none;
+      }
+      .selected, .selected.toolbar{
         border: 2px solid $blueprimary;
       }
       &:hover{
@@ -15,7 +21,5 @@
     }
   }
   .theme-name{
-
   }
-
 }

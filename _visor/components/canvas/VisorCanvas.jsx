@@ -8,8 +8,6 @@ import { isSlide } from '../../../common/utils';
 export default class VisorCanvas extends Component {
 
     render() {
-        console.log('VisorCanvas');
-        console.log(this.props);
         return [(isSlide(this.props.navItems[this.props.currentView].type)) ?
             (<VisorCanvasSli key="0" {...this.props} />) :
             (<VisorCanvasDoc key="0" {...this.props} />),

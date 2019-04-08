@@ -37,6 +37,16 @@ export default class NavActionButtons extends Component {
                 },
             },
             {
+                name: 'appearance',
+                description: '&& Style',
+                tooltip: '%% Edit theme parameters',
+                display: true,
+                icon: 'brush',
+                onClick: () => {
+                    this.props.toggleStyleConfig();
+                },
+            },
+            {
                 name: 'undo',
                 description: i18n.t('Undo'),
                 tooltip: i18n.t('messages.undo'),

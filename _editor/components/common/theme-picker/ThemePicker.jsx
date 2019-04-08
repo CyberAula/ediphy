@@ -22,7 +22,7 @@ export default class FontPicker extends React.Component {
 
     render() {
         return(
-            <div className={"theme-picker-container"} onChange={this.props.onChange}>
+            <div className={"theme-picker-container"} style={{ width: '100%' }} onChange={this.props.onChange}>
                 <OwlCarousel
                     ref={"car"}
                     className="owl-theme owl-container"
@@ -39,10 +39,11 @@ export default class FontPicker extends React.Component {
                 >
                     {Object.keys(THEMES).map((key, index)=> {
                         let selected = index === this.state.activeThemeIndex ? ' selected ' : ' ';
+                        let toolbar = !this.props.fromStyleConfig ? ' toolbar ' : '';
                         return (
                             <div
                                 key={index}
-                                className={"item" + selected}
+                                className={"item" + selected + toolbar }
                                 onClick={()=>this.handleChange(index)}
                                 style={{
                                     display: 'flex',
@@ -53,7 +54,7 @@ export default class FontPicker extends React.Component {
                                     background: THEMES[key].background[0],
                                     backgroundSize: 'cover',
                                     color: THEMES[key].colors.themePrimaryColor,
-                                    height: '5em' }}><h4 key={index}>{index === this.state.activeThemeIndex ? key : key}</h4></div>
+                                    height: this.props.fromStyleConfig ? '10em' : '5em' }}><h4 key={index}>{index === this.state.activeThemeIndex ? key : key}</h4></div>
                         );
                     })}
                 </OwlCarousel>

@@ -224,7 +224,7 @@ export default class FontPicker extends Component {
         let activeFontId = this.props.activeFont.replace(/\s+/g, '-').toLowerCase();
 
         return (
-            <div id={`font-picker${this.pickerSuffix}`} className={"font-picker-container"} title={this.state.errorText}>
+            <div id={`font-picker${this.pickerSuffix}`} className={"font-picker-container"} title={this.state.errorText} style={{ width: '100%' }}>
                 <button
                     type="button"
                     className={`dropdown-button ${this.state.expanded ? 'expanded' : ''}`}
