@@ -12,6 +12,7 @@ import { getThemeColors } from "../../../../common/themes/theme_loader";
 
 export default class EditorCanvasDoc extends Component {
     render() {
+        console.log('EditorCanvasDoc');
         let titles = [];
         let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
         if (itemSelected.id !== 0) {

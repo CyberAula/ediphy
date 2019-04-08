@@ -34,8 +34,6 @@ export default class ThemeCSS extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log(prevProps, prevState);
-        console.log(this.props, this.state);
         // User changed theme from toolbar
         if (prevProps.theme !== this.props.theme) {
             let theme = this.props.theme ? this.props.theme : 'default';

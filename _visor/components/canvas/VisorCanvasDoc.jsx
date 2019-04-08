@@ -41,7 +41,6 @@ export default class VisorCanvasDoc extends Component {
         let exercises = this.props.exercises[this.props.currentView];
         let toolbar = this.props.viewToolbars[this.props.currentView];
 
-        console.log(toolbar);
         let theme = toolbar.theme ? toolbar.theme : 'default';
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
 
@@ -110,10 +109,11 @@ export default class VisorCanvasDoc extends Component {
                         <div className={(this.props.fromPDF === true) ? "pageEnd" : ""} />
                     </div>
                 </div>
-                <ThemeCSS
-                    theme={ theme }
-                    toolbar = {{ ...toolbar, colors: colors }}
-                />
+                {this.props.show ?
+                    (<ThemeCSS
+                        theme={ theme }
+                        toolbar = {{ ...toolbar, colors: colors }}
+                    />) : null}
             </Col>
         );
     }

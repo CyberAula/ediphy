@@ -36,12 +36,8 @@ export default class VisorCanvasSli extends Component {
         let isCV = !isView(this.props.currentView);
         let toolbar = this.props.viewToolbars[this.props.currentView];
 
-        console.log(toolbar);
-
         let theme = toolbar.theme ? toolbar.theme : 'default';
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
-        console.log(theme);
-        console.log(colors);
 
         if (itemSelected !== 0 && !isCV) {
             let title = this.props.viewToolbars[this.props.currentView].viewName;
@@ -132,10 +128,12 @@ export default class VisorCanvasSli extends Component {
 
                     </div>
                 </div>
-                <ThemeCSS
-                    theme={ theme }
-                    toolbar = {{ ...toolbar, colors: colors }}
-                />
+                {this.props.show ?
+                    (<ThemeCSS
+                        theme={ theme }
+                        toolbar = {{ ...toolbar, colors: colors }}
+                    />) : null}
+
                 <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
                     if (!this.props.fromPDF) {
                         let calculated = this.aspectRatio(this.props, this.state);
