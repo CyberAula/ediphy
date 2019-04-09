@@ -64,7 +64,7 @@ export default class EditorNavBar extends Component {
                     styleConfig={this.props.styleConfig}
                     toggleFileUpload={this.props.toggleFileUpload}
                     fileModalResult={this.props.fileModalResult}
-                    changeGlobalConfig={this.props.changeGlobalConfig}
+                    changeStyleConfig={this.props.changeStyleConfig}
                     uploadFunction={this.props.uploadFunction}
                     close={this.props.toggleStyleConfig} />
                 <GlobalConfig show={this.props.showGlobalConfig}

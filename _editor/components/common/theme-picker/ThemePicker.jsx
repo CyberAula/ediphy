@@ -6,11 +6,11 @@ import './theme_picker.scss';
 
 import { THEMES } from '../../../../common/themes/theme_loader';
 
-export default class FontPicker extends React.Component {
+export default class ThemePicker extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeThemeIndex: 0,
+            activeThemeIndex: Object.keys(THEMES).indexOf(this.props.currentTheme),
         };
         this.handleChange = this.handleChange.bind(this);
     }
@@ -21,6 +21,7 @@ export default class FontPicker extends React.Component {
     }
 
     render() {
+        let selectedIndex = Object.keys(THEMES).indexOf(this.props.currentTheme);
         return(
             <div className={"theme-picker-container"} style={{ width: '100%' }} onChange={this.props.onChange}>
                 <OwlCarousel
@@ -29,16 +30,16 @@ export default class FontPicker extends React.Component {
                     margin={10}
                     items={2}
                     loop
-                    startPosition = {this.state.activeThemeIndex}
+                    startPosition = { selectedIndex }
                     nav
                     navText={["<i class='material-icons'>chevron_left</i>", "<i class='material-icons'>chevron_right</i>"]}
                     center
                     dots = {false}
                     // Hacky way to force children to update. Otherwise selected item only refreshed on second click
-                    key={`carousel_${this.state.activeThemeIndex}`}
+                    key={`carousel_${this.state.activeThemeIndex}_${this.props.currentTheme}`}
                 >
                     {Object.keys(THEMES).map((key, index)=> {
-                        let selected = index === this.state.activeThemeIndex ? ' selected ' : ' ';
+                        let selected = index === selectedIndex ? ' selected ' : ' ';
                         let toolbar = !this.props.fromStyleConfig ? ' toolbar ' : '';
                         return (
                             <div
@@ -54,7 +55,7 @@ export default class FontPicker extends React.Component {
                                     background: THEMES[key].background[0],
                                     backgroundSize: 'cover',
                                     color: THEMES[key].colors.themePrimaryColor,
-                                    height: this.props.fromStyleConfig ? '10em' : '5em' }}><h4 key={index}>{index === this.state.activeThemeIndex ? key : key}</h4></div>
+                                    height: this.props.fromStyleConfig ? '10em' : '5em' }}><h4 key={index}>{index === selectedIndex ? key : key}</h4></div>
                         );
                     })}
                 </OwlCarousel>

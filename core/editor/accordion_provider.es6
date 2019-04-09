@@ -959,6 +959,8 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     '&& Theme'
                 ),
                 React.createElement(ThemePicker, {
+                    currentTheme: props.value,
+                    currentItem: toolbar_props.navItemSelected,
                     onChange: props.onChange,
                 }, []),
             ]

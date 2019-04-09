@@ -87,12 +87,14 @@ export default class StyleConfig extends Component {
                             {/* </Col>*/}
                             {/* </Row>*/}
                             <Row>
-                                <Col xs={12} md={7} lg={7}><br/>
+                                <Col xs={12} md={6} lg={6}><br/>
                                     <h4>&& Appearance </h4>
                                     <FormGroup>
                                         <ControlLabel> && Theme </ControlLabel>
                                         <div className="cont_avatar">
-                                            <ThemePicker fromStyleConfig
+                                            <ThemePicker
+                                                fromStyleConfig
+                                                currentTheme={this.state.theme}
                                                 onChange={(id)=>{
                                                     this.setState({ theme: getThemes()[id], modifiedState: true });
                                                 }}/>
