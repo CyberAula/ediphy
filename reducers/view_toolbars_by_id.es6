@@ -15,6 +15,8 @@ import { loadBackground } from "../common/themes/background_loader";
 import { getColor } from "../common/themes/theme_loader";
 
 function toolbarElementCreator(state, action, containedView = false) {
+    console.log(state);
+    console.log(action);
     let doc_type;
     let id = containedView ? action.payload.mark.connection : action.payload.id;
     let type = containedView ? action.payload.view.type : action.payload.type;
@@ -68,12 +70,12 @@ function toolbarElementCreator(state, action, containedView = false) {
         background: background || loadBackground(theme, 0),
         backgroundAttr: backgroundAttr || "full",
         customBackground: customBackground || false,
-        theme: theme || 'default',
+        // theme: theme || 'default',
         themeBackground: themeBackground || 0,
-        font: font || 'Ubuntu',
+        // font: font || 'Ubuntu',
         colors: {
-            themePrimaryColor: themePrimaryColor || '#ffffff',
-            themeSecondaryColor: themeSecondaryColor || '#ffffff',
+            // themePrimaryColor: themePrimaryColor || '#ffffff',
+            // themeSecondaryColor: themeSecondaryColor || '#ffffff',
         },
     };
 
@@ -81,6 +83,7 @@ function toolbarElementCreator(state, action, containedView = false) {
 }
 
 export default function(state = {}, action = {}) {
+    console.log(state, action);
     let newState;
     switch (action.type) {
     case ADD_NAV_ITEM:

@@ -321,6 +321,7 @@ class EditorApp extends Component {
                                 pluginToolbars={pluginToolbars}
                                 viewToolbars={viewToolbars}
                                 title={title}
+                                styleConfig={{ ...styleConfig }}
                                 onToolbarUpdated={this.toolbarUpdated}
                                 onRichMarkMoved={(mark, value)=>dispatch(moveRichMark(mark, value))}
                                 markCreatorId={this.state.markCreatorVisible}

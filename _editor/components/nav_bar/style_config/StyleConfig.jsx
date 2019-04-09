@@ -96,7 +96,12 @@ export default class StyleConfig extends Component {
                                                 fromStyleConfig
                                                 currentTheme={this.state.theme}
                                                 onChange={(id)=>{
-                                                    this.setState({ theme: getThemes()[id], modifiedState: true });
+                                                    let newTheme = getThemes()[id];
+                                                    let isFontCustom = this.state.font !== getThemeFont(this.state.theme);
+                                                    this.setState({
+                                                        theme: newTheme,
+                                                        font: isFontCustom ? this.state.font : getThemeFont(newTheme),
+                                                        modifiedState: true });
                                                 }}/>
                                         </div>
                                     </FormGroup>

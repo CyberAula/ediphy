@@ -21,7 +21,6 @@ export default class ThemeCSS extends React.Component {
         this.loadThemeCustomProperties = this.loadThemeCustomProperties.bind(this);
 
         this.loadCSS();
-
     }
 
     componentWillMount() {
@@ -34,9 +33,16 @@ export default class ThemeCSS extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        // User changed theme from toolbar
-        if (prevProps.theme !== this.props.theme) {
-            let theme = this.props.theme ? this.props.theme : 'default';
+
+        let selectedItemChanged = prevProps.toolbar.id !== this.props.toolbar.id;
+        let styleConfigChanged = prevProps.styleConfig.theme !== this.props.styleConfig.theme || prevProps.styleConfig.font !== this.props.styleConfig.font || prevProps.styleConfig.color !== this.props.styleConfig.color;
+
+        let itemThemeChanged = prevProps.theme !== this.props.theme;
+        let itemFontChanged = prevProps.toolbar.font !== this.props.toolbar.font;
+        let itemColorChanged = prevProps.toolbar.colors !== this.props.toolbar.colors;
+
+        if (itemThemeChanged || selectedItemChanged || styleConfigChanged) {
+            let theme = this.props.theme ? this.props.theme : this.props.styleConfig.theme;
             this.getThemeCSS(theme);
             this.loadThemeCustomProperties(getThemeColors(theme));
             loadFont(getThemeFont(theme));
@@ -44,17 +50,16 @@ export default class ThemeCSS extends React.Component {
                 this.updateCustomProperty('--themePrimaryFont', getThemeFont(theme));
             }
         }
-        // User changed color from toolbar
-        if (prevProps.toolbar.colors !== this.props.toolbar.colors) {
+
+        if (itemColorChanged || selectedItemChanged || styleConfigChanged) {
             this.loadThemeCustomProperties(this.props.toolbar.colors);
         }
-        // User changed font from toolbar
-        if (prevProps.toolbar.font !== this.props.toolbar.font) {
-            let font = this.props.toolbar.font ? this.props.toolbar.font : 'ubuntu';
+
+        if (itemFontChanged || selectedItemChanged || styleConfigChanged) {
+            let font = this.props.toolbar.font ? this.props.toolbar.font : this.props.styleConfig.font;
             loadFont(font);
             this.updateCustomProperty('--themePrimaryFont', font);
         }
-
     }
 
     loadCSS() {

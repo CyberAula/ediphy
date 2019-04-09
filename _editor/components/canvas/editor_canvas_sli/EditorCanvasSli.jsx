@@ -58,9 +58,12 @@ export default class EditorCanvasSli extends Component {
             actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
         }
 
+        let styleConfig = this.props.styleConfig;
+        console.log(styleConfig);
         let toolbar = this.props.viewToolbars[itemSelected.id];
-        let theme = !toolbar || !toolbar.theme ? 'default' : toolbar.theme;
-
+        let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
+        console.log(styleConfig && styleConfig.theme);
+        console.log(theme);
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
 
@@ -159,6 +162,7 @@ export default class EditorCanvasSli extends Component {
 
                 </div>
                 <ThemeCSS
+                    styleConfig={this.props.styleConfig}
                     theme={ theme }
                     toolbar = {{ ...toolbar, colors: toolbar && toolbar.colors ? toolbar.colors : {} }}
                     onToolbarUpdated={this.props.onToolbarUpdated}
