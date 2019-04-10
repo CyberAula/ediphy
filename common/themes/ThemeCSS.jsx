@@ -29,7 +29,6 @@ export default class ThemeCSS extends React.Component {
         let colors = Object.keys(this.props.toolbar.colors).length ? this.props.toolbar.colors : THEMES[this.props.theme].colors;
         let font = this.props.toolbar.font ? this.props.toolbar.font : this.props.styleConfig.font ? this.props.styleConfig.font : getThemeFont(this.props.toolbar.theme);
         this.loadThemeCustomProperties(colors);
-        console.log(font);
         loadFont(font);
         this.updateCustomProperty('--themePrimaryFont', font);
     }
@@ -59,7 +58,6 @@ export default class ThemeCSS extends React.Component {
 
         if (itemFontChanged || selectedItemChanged || styleConfigChanged) {
             let font = this.props.toolbar.font ? this.props.toolbar.font : this.props.styleConfig.font;
-            console.log(font);
             loadFont(font);
             this.updateCustomProperty('--themePrimaryFont', font);
         }

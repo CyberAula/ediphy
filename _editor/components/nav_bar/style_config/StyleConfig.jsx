@@ -98,6 +98,8 @@ export default class StyleConfig extends Component {
                                                 onChange={(id)=>{
                                                     let newTheme = getThemes()[id];
                                                     let isFontCustom = this.state.font !== getThemeFont(this.state.theme);
+                                                    console.log(isFontCustom);
+                                                    console.log(this.state);
                                                     this.setState({
                                                         theme: newTheme,
                                                         font: isFontCustom ? this.state.font : getThemeFont(newTheme),
