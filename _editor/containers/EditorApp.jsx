@@ -487,6 +487,7 @@ class EditorApp extends Component {
                     isBusy={isBusy}
                     marks={marks}
                     exercises={exercises}
+                    styleConfig={{ ...styleConfig }}
                     onContainedViewNameChanged={(id, titleStr) => dispatch(updateViewToolbar(id, titleStr))}
                     onBackgroundChanged={(id, background) => dispatch(changeBackground(id, background))}
                     onNavItemToggled={ id => dispatch(toggleNavItem(navItemSelected)) }

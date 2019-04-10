@@ -30,13 +30,15 @@ export default class VisorCanvasSli extends Component {
     }
 
     render() {
+        console.log(this.props);
 
         let titles = [];
         let itemSelected = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         let isCV = !isView(this.props.currentView);
         let toolbar = this.props.viewToolbars[this.props.currentView];
 
-        let theme = toolbar.theme ? toolbar.theme : 'default';
+        let styleConfig = this.props.styleConfig;
+        let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
 
         if (itemSelected !== 0 && !isCV) {
@@ -82,7 +84,7 @@ export default class VisorCanvasSli extends Component {
 
                     <div id={isCV ? "contained_maincontent" : "maincontent"}
                         className={'innercanvas sli ' + theme}
-                        style={ loadBackgroundStyle(this.props.showCanvas, toolbar, true) }>
+                        style={ loadBackgroundStyle(this.props.showCanvas, toolbar, styleConfig, true) }>
                         {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
                             <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }} onClick={a => {
                                 ReactDOM.findDOMNode(this).classList.add("exitCanvas");
@@ -130,6 +132,7 @@ export default class VisorCanvasSli extends Component {
                 </div>
                 {this.props.show ?
                     (<ThemeCSS
+                        styleConfig={this.props.styleConfig}
                         theme={ theme }
                         toolbar = {{ ...toolbar, colors: colors }}
                     />) : null}

@@ -30,8 +30,9 @@ export default class EditorCanvasDoc extends Component {
         let boxes = itemSelected ? itemSelected.boxes : [];
         let show = itemSelected && itemSelected.id !== 0;
 
+        let styleConfig = this.props.styleConfig;
         let toolbar = this.props.viewToolbars[itemSelected.id];
-        let theme = toolbar.theme === undefined ? 'default' : toolbar.theme;
+        let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
 
         let commonProps = { ...this.props,
@@ -90,6 +91,7 @@ export default class EditorCanvasDoc extends Component {
                     </div>
                 </div>
                 <ThemeCSS
+                    styleConfig={this.props.styleConfig}
                     theme={theme}
                     toolbar={{ ...toolbar, colors: colors }}
                 />

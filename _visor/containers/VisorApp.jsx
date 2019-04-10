@@ -204,7 +204,7 @@ export default class Visor extends Component {
         if (window.State) {
             Ediphy.State = serialize({ "present": { ...window.State } }).present;
         }
-        let { boxSelected, navItemsIds, globalConfig, containedViewsById, boxesById, marksById, navItemsById, viewToolbarsById, pluginToolbarsById } = Ediphy.State;
+        let { boxSelected, navItemsIds, globalConfig, styleConfig, containedViewsById, boxesById, marksById, navItemsById, viewToolbarsById, pluginToolbarsById } = Ediphy.State;
         let ediphy_document_id = Ediphy.State.id;
         let ediphy_platform = Ediphy.State.platform;
         let exercises = {};
@@ -247,6 +247,7 @@ export default class Visor extends Component {
             ediphy_document_id,
             ediphy_platform,
             exercises,
+            styleConfig,
         };
 
         let navItemComponents = Object.keys(navItemsById).filter(nav=>isPage(nav)).map((nav, i)=>{
@@ -294,6 +295,7 @@ export default class Visor extends Component {
                                     currentView={currentView}
                                     navItemsById={navItemsById}
                                     globalConfig={globalConfig}
+                                    styleConfig={styleConfig}
                                     exercises={exercises}
                                     pluginToolbars={pluginToolbarsById}
                                     fromScorm={this.state.fromScorm}

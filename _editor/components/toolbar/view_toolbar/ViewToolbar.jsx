@@ -33,7 +33,7 @@ export default class ViewToolbar extends Component {
         if(isSection(id)) {
             doc_type = i18n.t('section');
         }
-        let viewToolbar = sanitizeThemeToolbar(this.props.viewToolbars[id]);
+        let viewToolbar = sanitizeThemeToolbar(this.props.viewToolbars[id], this.props.styleConfig);
 
         let controls = {
             main: {

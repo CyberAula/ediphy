@@ -949,6 +949,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     }
 
     if(button.type === "theme_select") {
+        console.log(props);
         return React.createElement(
             FormGroup,
             { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },

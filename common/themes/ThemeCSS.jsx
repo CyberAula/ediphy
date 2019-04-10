@@ -4,6 +4,7 @@ import { getThemeColors, getThemeFont, THEMES } from './theme_loader';
 import loadFont from './font_loader';
 import { setRgbaAlpha } from "../common_tools";
 import { translatePxToEm } from "./cssParser";
+import { getThemeBackgrounds } from "./background_loader";
 
 export default class ThemeCSS extends React.Component {
 
@@ -26,8 +27,9 @@ export default class ThemeCSS extends React.Component {
     componentWillMount() {
         this.loadCSS();
         let colors = Object.keys(this.props.toolbar.colors).length ? this.props.toolbar.colors : THEMES[this.props.theme].colors;
-        let font = this.props.toolbar.font ? this.props.toolbar.font : getThemeFont(this.props.toolbar.theme);
+        let font = this.props.toolbar.font ? this.props.toolbar.font : this.props.styleConfig.font ? this.props.styleConfig.font : getThemeFont(this.props.toolbar.theme);
         this.loadThemeCustomProperties(colors);
+        console.log(font);
         loadFont(font);
         this.updateCustomProperty('--themePrimaryFont', font);
     }
@@ -57,6 +59,7 @@ export default class ThemeCSS extends React.Component {
 
         if (itemFontChanged || selectedItemChanged || styleConfigChanged) {
             let font = this.props.toolbar.font ? this.props.toolbar.font : this.props.styleConfig.font;
+            console.log(font);
             loadFont(font);
             this.updateCustomProperty('--themePrimaryFont', font);
         }
@@ -116,9 +119,10 @@ export default class ThemeCSS extends React.Component {
     }
 
     render() {
+        console.log(this.props);
         return <style dangerouslySetInnerHTML={{
             __html: this.state.currentThemeCSS,
-        }} />;
+        }}/>;
     }
 }
 

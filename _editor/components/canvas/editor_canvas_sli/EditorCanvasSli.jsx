@@ -90,7 +90,8 @@ export default class EditorCanvasSli extends Component {
                             e.stopPropagation();
                         }}
                         className={'innercanvas sli ' + theme}
-                        style={ itemSelected.id !== 0 ? loadBackgroundStyle(this.props.showCanvas, toolbar, false) : {} }>
+                        style={ itemSelected.id !== 0 ? loadBackgroundStyle(this.props.showCanvas, toolbar, styleConfig, false) : {} }
+                    >
                         {this.state.alert}
                         {gridOn ? <div style={{ zIndex: '-1' }} onClick={()=>{this.props.onBoxSelected(-1);}}><SnapGrid key={this.props.fromCV}/></div> : null}
                         <EditorHeader titles={titles}
@@ -165,7 +166,6 @@ export default class EditorCanvasSli extends Component {
                     styleConfig={this.props.styleConfig}
                     theme={ theme }
                     toolbar = {{ ...toolbar, colors: toolbar && toolbar.colors ? toolbar.colors : {} }}
-                    onToolbarUpdated={this.props.onToolbarUpdated}
                 />
                 <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
                     let calculated = this.aspectRatio(this.props, this.state);

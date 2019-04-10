@@ -41,7 +41,8 @@ export default class VisorCanvasDoc extends Component {
         let exercises = this.props.exercises[this.props.currentView];
         let toolbar = this.props.viewToolbars[this.props.currentView];
 
-        let theme = toolbar.theme ? toolbar.theme : 'default';
+        let styleConfig = this.props.styleConfig;
+        let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
 
         return (
@@ -111,6 +112,7 @@ export default class VisorCanvasDoc extends Component {
                 </div>
                 {this.props.show ?
                     (<ThemeCSS
+                        styleConfig={this.props.styleConfig}
                         theme={ theme }
                         toolbar = {{ ...toolbar, colors: colors }}
                     />) : null}
