@@ -33,7 +33,9 @@ export default class ViewToolbar extends Component {
         if(isSection(id)) {
             doc_type = i18n.t('section');
         }
+
         let viewToolbar = sanitizeThemeToolbar(this.props.viewToolbars[id], this.props.styleConfig);
+        let styleConfig = this.props.styleConfig;
 
         let controls = {
             main: {
@@ -101,7 +103,7 @@ export default class ViewToolbar extends Component {
                             theme_primary_color: {
                                 __name: '&&Accent Color',
                                 type: 'color',
-                                value: viewToolbar.colors.themePrimaryColor,
+                                value: viewToolbar.colors.themePrimaryColor ? viewToolbar.colors.themePrimaryColor : styleConfig.color,
                             },
                             theme_font: {
                                 __name: '&&Font',

@@ -6,6 +6,8 @@ import i18n from 'i18next';
 
 import ThemePicker from '../../common/theme-picker/ThemePicker';
 import ColorPicker from '../../common/color-picker/ColorPicker';
+import SketchExample from '../../common/color-picker/ColorPicker';
+
 import FontPicker from '../../common/font-picker/FontPicker';
 
 import { getColor, getThemeColors, getThemes } from "../../../../common/themes/theme_loader";
@@ -47,40 +49,49 @@ export default class StyleConfig extends Component {
     render() {
         const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context, allowDownload, allowClone, allowComments } = this.state;
         return (
-            <Modal className="pageModal"
-                show={this.props.show}
-                backdrop={'static'} bsSize="large"
-                aria-labelledby="contained-modal-title-lg"
-                onHide={e => {
+            <div>
+                <Modal className="pageModal"
+                    show={this.props.show}
+                    backdrop={'static'} bsSize="large"
+                    // aria-labelledby="contained-modal-title-lg"
+                    onHide={e => {
                     // If anything has changed after last save show an alert, otherwise just leave
-                    if (this.state.modifiedState) {
-                        this.setState({ showAlert: true });
-                    } else {
-                        this.cancel();
-                    }
-                }}>
-                <Modal.Header closeButton>
-                    <Modal.Title><span id="previewTitle">&& Style Configuration</span></Modal.Title>
-                </Modal.Header>
-                <Alert className="pageModal"
-                    show={this.state.showAlert}
-                    hasHeader
-                    title={i18n.t("messages.save_changes")}
-                    closeButton
-                    cancelButton
-                    acceptButtonText={'OK'}
-                    onClose={(bool) => {
-                        // If Accept button clicked, state is saved, otherwise close without saving
-                        bool ? this.saveState() : this.cancel();
-                        // Anyway close the alert
-                        this.setState({ showAlert: false });
-                        // this.props.close();
+                        if (this.state.modifiedState) {
+                            this.setState({ showAlert: true });
+                        } else {
+                            this.cancel();
+                        }
                     }}>
-                    {i18n.t("global_config.prompt")}
-                </Alert>
-                <Modal.Body className="gcModalBody" style={{ overFlowY: 'auto' }}>
-                    <Grid>
-                        <form>
+                    <Modal.Header closeButton>
+                        <Modal.Title><span id="previewTitle">&& Style Configuration</span></Modal.Title>
+                    </Modal.Header>
+                    <Alert className="pageModal"
+                        show={this.state.showAlert}
+                        hasHeader
+                        title={i18n.t("messages.save_changes")}
+                        closeButton
+                        cancelButton
+                        acceptButtonText={'OK'}
+                        onClose={(bool) => {
+                        // If Accept button clicked, state is saved, otherwise close without saving
+                            bool ? this.saveState() : this.cancel();
+                            // Anyway close the alert
+                            this.setState({ showAlert: false });
+                        // this.props.close();
+                        }}>
+                        {i18n.t("global_config.prompt")}
+                    </Alert>
+                    <ColorPicker
+                        onOpen={(e)=> {console.log('open...'); e.preventDefault(); e.stopPropagation(); }}
+                        onClose={ e => {console.log('close...'); e.stopPropagation();}}
+                        onChange={(e)=>{
+                            console.log(e);
+                            this.setState({ color: e.color, modifiedState: true });
+                        }}
+                        value={this.state.color}/>
+                    <Modal.Body className="gcModalBody" style={{ overFlowY: 'auto' }}>
+
+                        <Grid>
                             {/* <Row>*/}
                             {/* <Col xs={12} md={12} lg={12}>*/}
                             {/* <div style={{width: '32em', height: '18em', backgroundColor: 'red' }}>Preview</div>*/}
@@ -98,33 +109,47 @@ export default class StyleConfig extends Component {
                                                 onChange={(id)=>{
                                                     let newTheme = getThemes()[id];
                                                     let isFontCustom = this.state.font !== getThemeFont(this.state.theme);
+                                                    let isColorCustom = this.state.color !== getThemeColors(this.state.theme).themePrimaryColor;
                                                     console.log(isFontCustom);
                                                     console.log(this.state);
                                                     this.setState({
                                                         theme: newTheme,
                                                         font: isFontCustom ? this.state.font : getThemeFont(newTheme),
+                                                        color: isColorCustom ? this.state.color : getThemeColors(newTheme).themePrimaryColor,
                                                         modifiedState: true });
                                                 }}/>
                                         </div>
                                     </FormGroup>
-                                    <FormGroup>
+                                    <FormGroup onClick={e => e.stopPropagation()}>
                                         <ControlLabel>&& Accent color</ControlLabel>
-                                        <ColorPicker
-                                            key={'color-picker-style-config'}
-                                            onChange={(e)=>{
-                                                this.setState({ color: e.color, modifiedState: true });
-                                            }}
-                                            value={this.state.color}/>
+                                        <div style={{ zIndex: 3000 }} onClick={e => e.stopPropagation()}>
+                                            {/* <ColorPicker*/}
+                                            {/* key={'color-picker-theme'}*/}
+                                            {/* placement={'topRight'}*/}
+                                            {/* onOpen={(e)=> {console.log('open...'); e.preventDefault(); e.stopPropagation(); }}*/}
+                                            {/* onClose={ e => {console.log('close...'); e.stopPropagation()}}*/}
+                                            {/* onChange={(e)=>{*/}
+                                            {/* this.setState({ color: e.color, modifiedState: true });*/}
+                                            {/* }}*/}
+                                            {/* value={this.state.color}/>*/}
+                                            <SketchExample
+                                                color = {this.state.color}
+                                                onChange={(e)=>{
+                                                    this.setState({ color: e.color, modifiedState: true });
+                                                }}/>
+                                        </div>
                                     </FormGroup>
                                     <FormGroup>
                                         <ControlLabel>&& Font</ControlLabel>
-                                        <FontPicker apiKey={'AIzaSyCnIyhIyDVg6emwq8XigrPKDPgueOrZ4CE'}
-                                            activeFont={this.state.font}
-                                            onChange={(e)=>{
-                                                this.setState({ font: e.family, modifiedState: true });
-                                            }}
-                                            options={{ themeFont: 'ubuntu' }}
-                                        />
+                                        <div className={"apply-font"}>
+                                            <FontPicker apiKey={'AIzaSyCnIyhIyDVg6emwq8XigrPKDPgueOrZ4CE'}
+                                                activeFont={this.state.font}
+                                                onChange={(e)=>{
+                                                    this.setState({ font: e.family, modifiedState: true });
+                                                }}
+                                                options={{ themeFont: getThemeFont(this.state.theme) }}
+                                            />
+                                        </div>
                                     </FormGroup>
                                 </Col>
                                 <Col xs={12} md={5} lg={5}><br/>
@@ -138,18 +163,18 @@ export default class StyleConfig extends Component {
                                     </FormGroup>
                                 </Col>
                             </Row>
-                        </form>
-                    </Grid>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button bsStyle="default" id="cancel_insert_plugin_config_modal" onClick={e => {
-                        this.cancel(); e.preventDefault();
-                    }}>{i18n.t("global_config.Discard")}</Button>
-                    <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
-                        this.saveState(); e.preventDefault();
-                    }}>{i18n.t("global_config.Accept")}</Button>{'   '}
-                </Modal.Footer>
-            </Modal>
+                        </Grid>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button bsStyle="default" id="cancel_insert_plugin_config_modal" onClick={e => {
+                            this.cancel(); e.preventDefault();
+                        }}>{i18n.t("global_config.Discard")}</Button>
+                        <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
+                            this.saveState(); e.preventDefault();
+                        }}>{i18n.t("global_config.Accept")}</Button>{'   '}
+                    </Modal.Footer>
+                </Modal>
+            </div>
         );
     }
 

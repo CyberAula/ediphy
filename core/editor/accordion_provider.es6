@@ -897,6 +897,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     }
 
     if (button.type === "custom_color_plugin") {
+        console.log(props);
         let theme = toolbar_props.viewToolbars[id] && toolbar_props.viewToolbars[id].theme ? toolbar_props.viewToolbars[id].theme : 'default';
         return React.createElement(
             FormGroup,

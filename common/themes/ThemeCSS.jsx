@@ -19,7 +19,7 @@ export default class ThemeCSS extends React.Component {
         this.processCSS = this.processCSS.bind(this);
         this.getThemeCSS = this.getThemeCSS.bind(this);
         this.updateCustomProperty = this.updateCustomProperty.bind(this);
-        this.loadThemeCustomProperties = this.loadThemeCustomProperties.bind(this);
+        this.loadColorsCustomProperties = this.loadColorsCustomProperties.bind(this);
 
         this.loadCSS();
     }
@@ -28,7 +28,7 @@ export default class ThemeCSS extends React.Component {
         this.loadCSS();
         let colors = Object.keys(this.props.toolbar.colors).length ? this.props.toolbar.colors : THEMES[this.props.theme].colors;
         let font = this.props.toolbar.font ? this.props.toolbar.font : this.props.styleConfig.font ? this.props.styleConfig.font : getThemeFont(this.props.toolbar.theme);
-        this.loadThemeCustomProperties(colors);
+        this.loadColorsCustomProperties(colors);
         loadFont(font);
         this.updateCustomProperty('--themePrimaryFont', font);
     }
@@ -45,7 +45,7 @@ export default class ThemeCSS extends React.Component {
         if (itemThemeChanged || selectedItemChanged || styleConfigChanged) {
             let theme = this.props.theme ? this.props.theme : this.props.styleConfig.theme;
             this.getThemeCSS(theme);
-            this.loadThemeCustomProperties(getThemeColors(theme));
+            this.loadColorsCustomProperties(getThemeColors(theme));
             loadFont(getThemeFont(theme));
             if(!prevProps.toolbar.font || !prevProps.toolbar.theme || prevProps.toolbar.font === getThemeFont(prevProps.theme)) {
                 this.updateCustomProperty('--themePrimaryFont', getThemeFont(theme));
@@ -53,11 +53,14 @@ export default class ThemeCSS extends React.Component {
         }
 
         if (itemColorChanged || selectedItemChanged || styleConfigChanged) {
-            this.loadThemeCustomProperties(this.props.toolbar.colors);
+            let isCustomColor = Object.values(this.props.toolbar.colors).length !== 0;
+            let colors = isCustomColor ? this.props.toolbar.colors : { themePrimaryColor: this.props.styleConfig.color };
+            this.loadColorsCustomProperties(colors);
         }
 
         if (itemFontChanged || selectedItemChanged || styleConfigChanged) {
-            let font = this.props.toolbar.font ? this.props.toolbar.font : this.props.styleConfig.font;
+            let isCustomFont = this.props.toolbar.font;
+            let font = isCustomFont ? this.props.toolbar.font : this.props.styleConfig.font;
             loadFont(font);
             this.updateCustomProperty('--themePrimaryFont', font);
         }
@@ -109,7 +112,7 @@ export default class ThemeCSS extends React.Component {
         document.documentElement.style.setProperty(property, newValue);
     }
 
-    loadThemeCustomProperties(colors) {
+    loadColorsCustomProperties(colors) {
         Object.keys(colors).map((cPropKey) => {
             this.updateCustomProperty('--' + cPropKey, colors[cPropKey]);
             this.updateCustomProperty('--' + cPropKey + 'Transparent', setRgbaAlpha(colors[cPropKey], 0.15));

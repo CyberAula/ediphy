@@ -329,8 +329,8 @@ export function toColor(rgba) {
         return { newColor: newColor, alpha: oldColor[4] * 100 };
     }
     return { newColor: rgba, alpha: 100 };
-
 }
+
 export function translateLicense(license) {
     let dict = {
         "public": "Public Domain",
