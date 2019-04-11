@@ -15,8 +15,6 @@ import { loadBackground } from "../common/themes/background_loader";
 import { getColor } from "../common/themes/theme_loader";
 
 function toolbarElementCreator(state, action, containedView = false) {
-    console.log(state);
-    console.log(action);
     let doc_type;
     let id = containedView ? action.payload.mark.connection : action.payload.id;
     let type = containedView ? action.payload.view.type : action.payload.type;
@@ -83,7 +81,6 @@ function toolbarElementCreator(state, action, containedView = false) {
 }
 
 export default function(state = {}, action = {}) {
-    console.log(state, action);
     let newState;
     switch (action.type) {
     case ADD_NAV_ITEM:

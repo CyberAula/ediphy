@@ -59,11 +59,8 @@ export default class EditorCanvasSli extends Component {
         }
 
         let styleConfig = this.props.styleConfig;
-        console.log(styleConfig);
         let toolbar = this.props.viewToolbars[itemSelected.id];
         let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
-        console.log(styleConfig && styleConfig.theme);
-        console.log(theme);
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
 

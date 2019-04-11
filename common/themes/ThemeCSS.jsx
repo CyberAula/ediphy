@@ -120,7 +120,6 @@ export default class ThemeCSS extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         return <style dangerouslySetInnerHTML={{
             __html: this.state.currentThemeCSS,
         }}/>;

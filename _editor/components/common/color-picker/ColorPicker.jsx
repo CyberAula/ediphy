@@ -9,12 +9,7 @@ export default class ColorPicker extends Component {
         super(props);
         this.state = {
             displayColorPicker: false,
-            color: {
-                r: '241',
-                g: '112',
-                b: '19',
-                a: '1',
-            },
+            color: this.getRGBAComponents(this.props.value),
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
@@ -50,11 +45,14 @@ export default class ColorPicker extends Component {
         return `rgba(${ r }, ${ g }, ${ b }, ${ a })`;
     }
 
-    getRGBAComponents(colorString)
-    {
+    getRGBAComponents(colorString) {
         const rgbKeys = ['r', 'g', 'b', 'a'];
         let rgbObj = {};
-        let color = colorString.replace(/^rgba?\(|\s+|\)$/g, '').split(',');
+
+        let colorIsHex = colorString.indexOf('#') !== -1;
+        let colorIsRgba = colorString.indexOf('rgba') !== -1;
+        let color = colorIsRgba ? colorString : colorIsHex ? this.hexToRgba(colorString) : this.hexToRgba('#ffffff');
+        color = color.replace(/^rgba?\(|\s+|\)$/g, '').split(',');
 
         for (let i in rgbKeys)
         {rgbObj[rgbKeys[i]] = color[i] || 1;}
@@ -63,26 +61,14 @@ export default class ColorPicker extends Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        console.log(nextProps);
         let didReceiveColor = nextProps.value;
         if (didReceiveColor) {
             let color = nextProps.value;
-            let colorIsHex = nextProps.value.indexOf('#') !== -1;
-            let colorIsRgba = nextProps.value.indexOf('rgba') !== -1;
-            console.log(color, colorIsHex, colorIsRgba);
-            color = colorIsRgba ? color : colorIsHex ? this.hexToRgba(color) : this.hexToRgba('#ffffff');
             this.setState({ color: this.getRGBAComponents(color) });
-            console.log(this.getRGBAComponents(color));
         }
     }
 
-    componentWillUpdate(nextProps, nextState, nextContext) {
-        console.log(nextProps, nextState);
-        console.log(this.props, this.state);
-    }
-
     render() {
-
         const styles = reactCSS({
             'default': {
                 color: {
@@ -108,13 +94,14 @@ export default class ColorPicker extends Component {
                 <div className={'colorPickerContainer'} style={ styles.swatch } onClick={ this.handleClick }>
                     <div className={'colorPickerInput'} style={ styles.color } />
                 </div>
-                { this.state.displayColorPicker ? <div style={ styles.popover }>
-                    <div style={ styles.cover } onClick={ this.handleClose }/>
-                    <ChromePicker
-                        color={ this.state.color }
-                        onChange={ e => { this.handleChange(e); } }
-                        onChangeComplete={ () => this.props.onChange({ color: `rgba(${ this.state.color.r }, ${ this.state.color.g }, ${ this.state.color.b }, ${ this.state.color.a })` })}/>
-                </div> : null }
+                { this.state.displayColorPicker ?
+                    <div className={'cpicker'} style={ styles.popover }>
+                        <div style={ styles.cover } onClick={ this.handleClose }/>
+                        <ChromePicker
+                            color={ this.state.color }
+                            onChange={ e => { this.handleChange(e); } }
+                            onChangeComplete={ () => this.props.onChange({ color: `rgba(${ this.state.color.r }, ${ this.state.color.g }, ${ this.state.color.b }, ${ this.state.color.a })` })}/>
+                    </div> : null }
 
             </div>
         );
