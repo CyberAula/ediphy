@@ -129,7 +129,7 @@ export default class BasicAudioPlugin extends React.Component {
         }
     }
     render() {
-        let color = this.props.state.progressColor.custom ? this.props.state.progressColor.color : this.props.props.themeColors.themePrimaryColor;
+        let color = this.props.state.progressColor.custom ? this.props.state.progressColor.color : this.props.props.themeColors.themeColor1;
 
         const waveOptions = {
             scrollParent: false, // muestra toda la onda
@@ -150,7 +150,7 @@ export default class BasicAudioPlugin extends React.Component {
             let value = (secondsValue * 100 / duration) + "%";
             let title = marks[id].title;
             let color = marks[id].color;
-            let themeColor = this.props.state.progressColor.custom ? this.props.state.progressColor.color : this.props.props.themeColors.themePrimaryColor;
+            let themeColor = this.props.state.progressColor.custom ? this.props.state.progressColor.color : this.props.props.themeColors.themeColor1;
             let isPopUp = marks[id].connectMode === "popup";
             let noTrigger = false;
             let isVisor = true;

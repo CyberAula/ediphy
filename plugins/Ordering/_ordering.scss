@@ -28,14 +28,14 @@
     display: flex;
     font-size: 1.5em;
     text-align: right;
-    color: var(--themePrimaryColor);
+    color: var(--themeColor1);
     width: auto;
     margin: 0.2em 0.14em 0.4em 0.8em;
     padding: 0 1.8em 0 0;
 
     .answer_letter{
       color: white;
-      background-color: var(--themePrimaryColor);
+      background-color: var(--themeColor1);
       border-radius: 1em;
       width: 1.5em;
       height: 1.5em;
@@ -82,7 +82,7 @@
   }
   &.attempted  .exerciseScore{
     display: block;
-    color: var(--themePrimaryColor);
+    color: var(--themeColor1);
     font-size: 0.8em;
   }
 
@@ -99,11 +99,11 @@
     padding: 0.8em 0;
     margin:0;
     .feedback {
-      color: var(--themePrimaryColor);
-      background-color: var(--themePrimaryColorTransparent);
+      color: var(--themeColor1);
+      background-color: var(--themeColor1Transparent);
       margin:0;
       padding:0;
-      border: 0.1em solid var(--themePrimaryColor);
+      border: 0.1em solid var(--themeColor1);
       border-radius: 0.2em;
     }
   }

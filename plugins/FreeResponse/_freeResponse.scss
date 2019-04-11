@@ -41,17 +41,17 @@
   }
   &.attempted  .exerciseScore{
       display: block;
-      color: var(--themePrimaryColor);
+      color: var(--themeColor1);
       font-size: 0.8em;
   }
   .feedbackRow {
     padding:0.8em;
     margin:0;
     .feedback {
-      background-color: var(--themePrimaryColorTransparent);
+      background-color: var(--themeColor1Transparent);
       margin:0;
-      border: 0.07em solid var(--themePrimaryColor);
-      color: var(--themePrimaryColor);
+      border: 0.07em solid var(--themeColor1);
+      color: var(--themeColor1);
       border-radius: 0.2em;
       padding:0;
     }

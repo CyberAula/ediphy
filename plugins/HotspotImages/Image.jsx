@@ -11,6 +11,8 @@ export default class Image extends React.Component {
         this.state = {};
     }
     render() {
+        console.log(this.props);
+        console.log(this.props.state.url.indexOf('themes'));
         let { props, state, markElements } = this.props;
         let scale = state.scale || 1;
         let translateX = (state.translate ? state.translate.x : 0) || 0;
@@ -22,11 +24,10 @@ export default class Image extends React.Component {
         }}>
             <img ref ="img" id={props.id + "-image"}
                 className="basicImageClass"
-                style={{ width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto", transform, WebkitTransform: transform, MozTransform: transform }}
-                src={state.url}
+                style={{ '--photoUrl': 'url(' + state.url + ')', content: 'var(--photoUrl)', width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto", transform, WebkitTransform: transform, MozTransform: transform }}
                 onError={(e) => {
                     e.target.onError = null;
-                    e.target.src = img_broken; // Ediphy.Config.broken_link;
+                    e.target.src = img_broken;
                 }}
             />
             <div className="dropableRichZone" style={{ height: "100%", width: "100%", position: 'absolute', top: 0, left: 0 }} >

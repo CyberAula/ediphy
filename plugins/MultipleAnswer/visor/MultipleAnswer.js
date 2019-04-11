@@ -90,7 +90,7 @@ export function MultipleAnswer() {
                 <style dangerouslySetInnerHTML={{
                     __html: `
                    .multipleAnswerPlugin .checkQuiz:checked:after {
-                      color: var(--themePrimaryColor);
+                      color: var(--themeColor1);
                     }
                   `,
                 }} />

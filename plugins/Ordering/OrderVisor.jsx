@@ -78,7 +78,7 @@ export default class OrderVisor extends React.Component {
                               background-color: transparent;
                             }
                            .orderingPlugin input[type="radio"]:checked:after {
-                              background-color: var(--themePrimaryColor);
+                              background-color: var(--themeColor1);
                             }
                           `,
             }} />

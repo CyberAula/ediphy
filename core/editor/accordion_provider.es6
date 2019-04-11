@@ -1290,7 +1290,7 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     case 'theme':
         let currentView = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
         let wasCustomFont = currentView.hasOwnProperty('theme') && currentView.hasOwnProperty('font') && (currentView.font !== getThemeFont(currentView.theme));
-        let wasCustomColor = currentView.hasOwnProperty('theme') && currentView.hasOwnProperty('colors') && currentView.colors.themePrimaryColor !== getThemeColors(currentView.theme).themePrimaryColor;
+        let wasCustomColor = currentView.hasOwnProperty('theme') && currentView.hasOwnProperty('colors') && currentView.colors.themeColor1 !== getThemeColors(currentView.theme).themeColor1;
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
             theme: value,
             themeBackground: 0,
@@ -1312,7 +1312,7 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
 
     case 'theme_primary_color':
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
-            colors: { ...themeToolbar.colors, themePrimaryColor: value },
+            colors: { ...themeToolbar.colors, themeColor1: value },
         });
         break;
     case 'theme_secondary_color':

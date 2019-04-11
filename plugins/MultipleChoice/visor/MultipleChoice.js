@@ -75,7 +75,7 @@ export function MultipleChoice() {
                       background-color: transparent;
                     }
                    .multipleChoicePlugin input[type="radio"]:checked:after {
-                      background-color: var(--themePrimaryColor);
+                      background-color: var(--themeColor1);
                     }
                   `,
                 }} />

@@ -54,7 +54,7 @@ export default class ThemeCSS extends React.Component {
 
         if (itemColorChanged || selectedItemChanged || styleConfigChanged) {
             let isCustomColor = Object.values(this.props.toolbar.colors).length !== 0;
-            let colors = isCustomColor ? this.props.toolbar.colors : { themePrimaryColor: this.props.styleConfig.color };
+            let colors = isCustomColor ? this.props.toolbar.colors : { themeColor1: this.props.styleConfig.color };
             this.loadColorsCustomProperties(colors);
         }
 
@@ -67,6 +67,7 @@ export default class ThemeCSS extends React.Component {
     }
 
     loadCSS() {
+        // TODO check si carga
         fetch(`/theme.css`) // Webpack output CSS
             .then(res => res.text())
             .then(data => {

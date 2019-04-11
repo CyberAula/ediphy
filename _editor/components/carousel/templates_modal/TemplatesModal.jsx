@@ -24,6 +24,7 @@ export default class TemplatesModal extends Component {
         };
     }
     render() {
+        console.log(this.props);
         return (
             <Modal className="pageModal" id="TemplatesModal" show={this.props.show}>
                 <Modal.Header>
@@ -129,7 +130,9 @@ export default class TemplatesModal extends Component {
                         initialParams.text = item.toolbar.text;
                     } else if (item.toolbar.url) {
                         initialParams.url = item.toolbar.url;
+                        initialParams.fromTheme = true;
                     }
+                    console.log(initialParams);
                     createBox(initialParams, item.toolbar.name, true, this.props.onBoxAdded, this.props.boxes, item.toolbar.style);
                 });
             }

@@ -9,7 +9,7 @@ export const THEMES = {
             "white",
         ],
         colors: {
-            themePrimaryColor: '#17CFC8',
+            themeColor1: '#17CFC8',
             themeSecondaryColor: '#17CFC8',
         },
     },
@@ -21,7 +21,7 @@ export const THEMES = {
             'url(/themes/orange/background_images/orange1.jpg)',
         ],
         colors: {
-            themePrimaryColor: '#D1550F',
+            themeColor1: '#D1550F',
             themeSecondaryColor: '#17CFC8',
         },
     },
@@ -32,7 +32,7 @@ export const THEMES = {
             "green",
         ],
         colors: {
-            themePrimaryColor: '#AFB2B1',
+            themeColor1: '#AFB2B1',
             themeSecondaryColor: 'grey',
         },
     },
@@ -43,7 +43,7 @@ export const THEMES = {
             'url(/themes/test2/background_images/blur2.jpg)',
         ],
         colors: {
-            themePrimaryColor: 'black',
+            themeColor1: 'black',
             themeSecondaryColor: 'black',
         },
     },
@@ -54,7 +54,7 @@ export const THEMES = {
             'url(/themes/test2/background_images/blur0.jpg)',
         ],
         colors: {
-            themePrimaryColor: 'black',
+            themeColor1: 'black',
             themeSecondaryColor: 'black',
         },
     },
@@ -67,7 +67,7 @@ export const THEMES = {
             'orange',
         ],
         colors: {
-            themePrimaryColor: 'black',
+            themeColor1: 'black',
             themeSecondaryColor: 'black',
         },
     },
@@ -78,7 +78,7 @@ export const THEMES = {
             'url(/themes/orange/background_images/orange0.jpg)',
         ],
         colors: {
-            themePrimaryColor: 'black',
+            themeColor1: 'black',
             themeSecondaryColor: 'black',
         },
     },
@@ -89,7 +89,7 @@ export const THEMES = {
             'url(/themes/orange/background_images/orange0.jpg)',
         ],
         colors: {
-            themePrimaryColor: 'black',
+            themeColor1: 'black',
             themeSecondaryColor: 'black',
         },
     },
@@ -100,7 +100,7 @@ export const THEMES = {
             'url(/themes/orange/background_images/orange0.jpg)',
         ],
         colors: {
-            themePrimaryColor: 'black',
+            themeColor1: 'black',
             themeSecondaryColor: 'black',
         },
     },
@@ -111,7 +111,7 @@ export const THEMES = {
             'url(/themes/orange/background_images/orange0.jpg)',
         ],
         colors: {
-            themePrimaryColor: 'black',
+            themeColor1: 'black',
             themeSecondaryColor: 'black',
         },
     },

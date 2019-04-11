@@ -12,25 +12,25 @@
       .cabtabla_numero{
         padding: 0.2em 0.3em;
         line-height: 1em;
-        color: var(--themePrimaryColor);
+        color: var(--themeColor1);
         font-family: var(--themePrimaryFont, 'Ubuntu');
       }
       .editCourseTitle{
         font-size: 1em;
         height: auto;
         border-radius: 0;
-        border-color: var(--themePrimaryColor);
+        border-color: var(--themeColor1);
       }
       .editNavTitle{
         font-size: 0.8em;
         height: auto;
         border-radius: 0;
-        border-color: var(--themePrimaryColor);
+        border-color: var(--themeColor1);
       }.editNavSubTitle{
          font-size: 0.6em;
          height: auto;
          border-radius: 0;
-         color: var(--themePrimaryColor);
+         color: var(--themeColor1);
        }
 
       h1{
@@ -40,7 +40,7 @@
       h2{
         margin: 0.4em 0 0;
         font-size: 0.8em;
-        color: var(--themePrimaryColor);
+        color: var(--themeColor1);
       }
       h3{
         margin: 0.4em 0 0;

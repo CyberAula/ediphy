@@ -103,7 +103,7 @@ export default class ViewToolbar extends Component {
                             theme_primary_color: {
                                 __name: '&&Accent Color',
                                 type: 'color',
-                                value: viewToolbar.colors.themePrimaryColor ? viewToolbar.colors.themePrimaryColor : styleConfig.color,
+                                value: viewToolbar.colors.themeColor1 ? viewToolbar.colors.themeColor1 : styleConfig.color,
                             },
                             theme_font: {
                                 __name: '&&Font',

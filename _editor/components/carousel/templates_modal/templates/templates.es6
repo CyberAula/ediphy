@@ -1,11 +1,10 @@
 import i18n from 'i18next';
-import colors_texture from './../../../../../dist/images/colors_texture.jpg';
 import desert from './../../../../../dist/images/desert.jpg';
 import forest from './../../../../../dist/images/forest.jpg';
 import jungle from './../../../../../dist/images/jungle.jpg';
 import meadow from './../../../../../dist/images/meadow.jpg';
 import placeholder from './../../../../../dist/images/placeholder.svg';
-export const templates = () => { return (
+export const templates = (theme = 'default') => { return (
     [{
         "name": i18n.t('templates.template1'),
         "boxes": [
@@ -18,7 +17,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": colors_texture,
+                    "url": `/themes/${theme}/templates/template1/left.jpg`,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -36,6 +35,7 @@ export const templates = () => { return (
                 "toolbar": {
                     "name": "BasicText",
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.text_images') + "</h1>",
+                    "style": { "color": 'var(--themeColor1)' },
                 },
                 "thumbnail": {
                     "icon": "",
@@ -75,7 +75,7 @@ export const templates = () => { return (
                 "toolbar": {
                     "name": "BasicText",
                     "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
-                    "style": { "backgroundColor": "#ff444d" },
+                    "style": { "backgroundColor": "var(--themeColor1)" },
 
                 },
                 "thumbnail": {
@@ -94,7 +94,7 @@ export const templates = () => { return (
                 "toolbar": {
                     "name": "BasicText",
                     "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
-                    "style": { "backgroundColor": "#4cff9f" },
+                    "style": { "backgroundColor": "var(--themeColor2)" },
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -112,7 +112,7 @@ export const templates = () => { return (
                 "toolbar": {
                     "name": "BasicText",
                     "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
-                    "style": { "backgroundColor": "#65caff" },
+                    "style": { "backgroundColor": "var(--themeColor3)" },
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -130,7 +130,7 @@ export const templates = () => { return (
                 "toolbar": {
                     "name": "BasicText",
                     "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
-                    "style": { "backgroundColor": "#ffbf45" },
+                    "style": { "backgroundColor": "var(--themeColor4)" },
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -152,7 +152,8 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": forest,
+                    "url": `/themes/${theme}/templates/template3/topLeft.jpg`,
+
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -169,7 +170,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": jungle,
+                    "url": `/themes/${theme}/templates/template3/topRight.jpg`,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -186,7 +187,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": desert,
+                    "url": `/themes/${theme}/templates/template3/bottomLeft.jpg`,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -203,7 +204,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": meadow,
+                    "url": `/themes/${theme}/templates/template3/bottomRight.jpg`,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",

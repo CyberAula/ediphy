@@ -90,7 +90,7 @@ export function TrueFalse() {
                       background-color: transparent;
                     }
                    .truefalsePlugin input[type="radio"]:checked:after {
-                      background-color: var(--themePrimaryColor);
+                      background-color: var(--themeColor1);
                     }
                   `,
                 }} />

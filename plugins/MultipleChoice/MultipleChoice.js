@@ -54,7 +54,7 @@ export function MultipleChoice(base) {
                                 quizColor: {
                                     __name: Ediphy.i18n.t('MultipleChoice.Color'),
                                     type: 'custom_color_plugin',
-                                    value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryColor'),
+                                    value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themeColor1'),
                                 },
                             },
                         },
@@ -118,7 +118,7 @@ export function MultipleChoice(base) {
                 nBoxes: 3,
                 showFeedback: true,
                 letters: i18n.t("MultipleChoice.ShowLetters"),
-                quizColor: { color: document.documentElement.style.getPropertyValue('--themePrimaryColor'), custom: false },
+                quizColor: { color: document.documentElement.style.getPropertyValue('--themeColor1'), custom: false },
             };
         },
         getRenderTemplate: function(state, props = {}) {
@@ -178,7 +178,7 @@ export function MultipleChoice(base) {
                       background-color: transparent;
                     }
                    .multipleChoicePlugin input[type="radio"]:checked:after {
-                      background-color: var(--themePrimaryColor);
+                      background-color: var(--themeColor1);
                     }
                   `,
                 }} />

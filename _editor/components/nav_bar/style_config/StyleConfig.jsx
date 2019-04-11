@@ -34,7 +34,6 @@ export default class StyleConfig extends Component {
             theme: this.props.styleConfig.theme || 'default',
             font: this.props.styleConfig.font || getThemeFont(this.props.styleConfig.theme) || 'Ubuntu',
             color: getColor(this.props.styleConfig.theme),
-
         };
     }
 
@@ -84,25 +83,25 @@ export default class StyleConfig extends Component {
                                     <h4>&& Appearance </h4>
                                     <FormGroup>
                                         <ControlLabel> && Theme </ControlLabel>
-                                        <div className="cont_avatar">
+                                        <div className="sc-theme-picker">
                                             <ThemePicker
                                                 fromStyleConfig
                                                 currentTheme={this.state.theme}
                                                 onChange={(id)=>{
                                                     let newTheme = getThemes()[id];
                                                     let isFontCustom = this.state.font !== getThemeFont(this.state.theme);
-                                                    let isColorCustom = this.state.color !== getThemeColors(this.state.theme).themePrimaryColor;
+                                                    let isColorCustom = this.state.color !== getThemeColors(this.state.theme).themeColor1;
                                                     this.setState({
                                                         theme: newTheme,
                                                         font: isFontCustom ? this.state.font : getThemeFont(newTheme),
-                                                        color: isColorCustom ? this.state.color : getThemeColors(newTheme).themePrimaryColor,
+                                                        color: isColorCustom ? this.state.color : getThemeColors(newTheme).themeColor1,
                                                         modifiedState: true });
                                                 }}/>
                                         </div>
                                     </FormGroup>
                                     <FormGroup onClick={e => e.stopPropagation()}>
                                         <ControlLabel>&& Accent color</ControlLabel>
-                                        <div style={{ zIndex: 3000 }} onClick={e => e.stopPropagation()}>
+                                        <div>
                                             <ColorPicker
                                                 color={this.state.color}
                                                 value= {this.state.color}
@@ -122,6 +121,12 @@ export default class StyleConfig extends Component {
                                                 options={{ themeFont: getThemeFont(this.state.theme) }}
                                             />
                                         </div>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Button style={{ width: '100%' }} bsStyle="primary" id="cancel_insert_plugin_config_modal" onClick={e => {
+                                            this.setState({ modifiedState: true, font: getThemeFont(this.state.theme), color: getThemeColors(this.state.theme).themeColor1 });
+                                            document.activeElement.blur();
+                                        }}>&& Restore theme setup</Button>
                                     </FormGroup>
                                 </Col>
                                 <Col xs={12} md={5} lg={5}><br/>
@@ -164,7 +169,7 @@ export default class StyleConfig extends Component {
      */
     cancel() {
         this.setState({
-            theme: this.props.styleConfig.theme,
+            ...this.props.styleConfig,
 
         });
 

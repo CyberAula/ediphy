@@ -221,6 +221,7 @@ class EditorApp extends Component {
                         navItemSelected={navItemSelected}
                         displayMode={displayMode}
                         viewToolbars={viewToolbars}
+                        styleConfig={styleConfig}
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                         onIndexSelected={(id) => dispatch(selectIndex(id))}
                         onContainedViewNameChanged={(id, titleStr) => dispatch(updateViewToolbar(id, titleStr))}

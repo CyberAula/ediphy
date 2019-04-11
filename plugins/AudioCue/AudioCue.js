@@ -45,7 +45,7 @@ export function AudioCue(base) {
                                 cueColor: {
                                     __name: Ediphy.i18n.t('AudioCue.Color'),
                                     type: 'custom_color_plugin',
-                                    value: state.cueColor || getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryColor'),
+                                    value: state.cueColor || getComputedStyle(document.documentElement).getPropertyValue('--themeColor1'),
                                 },
                                 useImage: {
                                     __name: i18n.t('AudioCue.UseImage'),

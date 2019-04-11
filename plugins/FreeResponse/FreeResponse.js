@@ -41,7 +41,7 @@ export function FreeResponse(base) {
                                 quizColor: {
                                     __name: Ediphy.i18n.t('FreeResponse.FeedbackColor'),
                                     type: 'custom_color_plugin',
-                                    value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryColor'),
+                                    value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themeColor1'),
                                 },
                                 characters: {
                                     __name: i18n.t("FreeResponse.Characters"),

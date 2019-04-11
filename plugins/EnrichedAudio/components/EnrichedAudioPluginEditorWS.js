@@ -63,7 +63,7 @@ export default class BasicAudioPluginEditor extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        let colorThemeChanged = !this.props.state.progressColor.custom && nextProps.props.themeColors !== {} && this.state.color !== nextProps.props.themeColors.themePrimaryColor;
+        let colorThemeChanged = !this.props.state.progressColor.custom && nextProps.props.themeColors !== {} && this.state.color !== nextProps.props.themeColors.themeColor1;
 
         if (nextProps.state !== this.props.state || colorThemeChanged) {
             let pos = 0;
@@ -87,7 +87,7 @@ export default class BasicAudioPluginEditor extends React.Component {
                 ...waveOptions,
             });
 
-            let color = this.props.state.progressColor.custom ? this.props.state.progressColor.color : nextProps.props.themeColors.themePrimaryColor;
+            let color = this.props.state.progressColor.custom ? this.props.state.progressColor.color : nextProps.props.themeColors.themeColor1;
             this.setState({
                 playing: false,
                 waves: nextProps.state.waves,
@@ -103,7 +103,7 @@ export default class BasicAudioPluginEditor extends React.Component {
     }
     createOptions(props, state) {
 
-        let color = props.state.progressColor.custom ? props.state.progressColor.color : props.props.themeColors.themePrimaryColor;
+        let color = props.state.progressColor.custom ? props.state.progressColor.color : props.props.themeColors.themeColor1;
 
         return {
             scrollParent: props.state.scroll,
@@ -185,7 +185,7 @@ export default class BasicAudioPluginEditor extends React.Component {
             let color = marks[id].color;
             return(
                 <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.1em" }} boxId={this.props.props.id} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.onRichMarkMoved} state={this.props.state} base={this.props.base}>
-                    <div className="audioMark" style={{ background: color || "var(--themePrimaryColor)" }}>
+                    <div className="audioMark" style={{ background: color || "var(--themeColor1)" }}>
                         <Mark style={{ position: 'relative', top: "-1.7em", left: "-1em" }} color={color || this.state.color || "#17CFC8"} idKey={id} title={title} />
                     </div>
                 </MarkEditor>);

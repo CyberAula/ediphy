@@ -553,16 +553,16 @@ li > .selectedNavItemVisor {
 }
 
 .submitButton {
-  background-color: var(--themePrimaryColorTransparent);
+  background-color: var(--themeColor1Transparent);
   border-radius: 0;
-  border: 0.2em solid var(--themePrimaryColor);
-  color: var(--themePrimaryColor);
+  border: 0.2em solid var(--themeColor1);
+  color: var(--themeColor1);
   vertical-align: middle;
   padding: 0.4em 1em;
   font-size: 1.2em;
 
   &:hover{
-    background-color: var(--themePrimaryColorTransparent);
+    background-color: var(--themeColor1Transparent);
   }
 }
 

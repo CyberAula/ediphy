@@ -50,7 +50,7 @@ export function Ordering(base) {
                                 quizColor: {
                                     __name: Ediphy.i18n.t('Ordering.Color'),
                                     type: 'custom_color_plugin',
-                                    value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryColor'),
+                                    value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themeColor1'),
                                 },
                             },
                         },
@@ -165,7 +165,7 @@ export function Ordering(base) {
                       background-color: transparent;
                     }
                    .orderingPlugin input[type="radio"]:checked:after {
-                      background-color: var(--themePrimaryColor);
+                      background-color: var(--themeColor1);
                     }
                   `,
                 }} />

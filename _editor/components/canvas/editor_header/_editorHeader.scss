@@ -9,7 +9,7 @@
   border-radius: 3px;
   text-align: center;
   &:hover {
-    background-color: var(--themePrimaryColor, $blueprimary) !important;
+    background-color: var(--themeColor1, $blueprimary) !important;
   }
 }
 
@@ -64,25 +64,25 @@
     .cabtabla_numero{
       padding: 0.2em 0.3em;
       line-height: 1em;
-      color: var(--themePrimaryColor, $blueprimary);
+      color: var(--themeColor1, $blueprimary);
       font-family: 'Ubuntu', sans-serif;
     }
     .editCourseTitle{
       font-size: 1em;
       height: auto;
       border-radius: 0;
-      border-color: var(--themePrimaryColor, $blueprimary);
+      border-color: var(--themeColor1, $blueprimary);
     }
     .editNavTitle{
       font-size: 0.8em;
       height: auto;
       border-radius: 0;
-      border-color: var(--themePrimaryColor, $blueprimary);
+      border-color: var(--themeColor1, $blueprimary);
     }.editNavSubTitle{
        font-size: 0.6em;
        height: auto;
        border-radius: 0;
-       border-color: var(--themePrimaryColor, $blueprimary);
+       border-color: var(--themeColor1, $blueprimary);
      }
 
     h1{
@@ -92,7 +92,7 @@
     h2{
       margin: 0.4em 0 0;
       font-size: 0.8em;
-      color: var(--themePrimaryColor, $blueprimary);
+      color: var(--themeColor1, $blueprimary);
     }
     h3{
       margin: 0.4em 0 0;

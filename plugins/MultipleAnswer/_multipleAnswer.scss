@@ -44,7 +44,7 @@
     height: 0.7em;
     padding-left: 0.01em;
     cursor: pointer;
-    color: var(--themePrimaryColor);
+    color: var(--themeColor1);
   }
 
   input[disabled].checkQuiz:checked:after{
@@ -74,7 +74,7 @@
     align-items: baseline;
     .answer_letter{
       color: white;
-      background-color: var(--themePrimaryColor);
+      background-color: var(--themeColor1);
       vertical-align: middle;
       width: 1.5em;
       height: 1.5em;
@@ -116,7 +116,7 @@
 
   &.attempted  .exerciseScore{
     display: block;
-    color: var(--themePrimaryColor);
+    color: var(--themeColor1);
     font-size: 0.8em;
   }
 
@@ -124,11 +124,11 @@
     padding: 0.7em 0;
     margin: 0;
     .feedback {
-      background-color: var(--themePrimaryColorTransparent);
+      background-color: var(--themeColor1Transparent);
       margin: 0;
       padding: 0;
-      border: 0.1em solid var(--themePrimaryColor);
-      color: var(--themePrimaryColor);
+      border: 0.1em solid var(--themeColor1);
+      color: var(--themeColor1);
       border-radius: 0.2em;
     }
   }

@@ -55,7 +55,7 @@ export function MultipleAnswer(base) {
                                 quizColor: {
                                     __name: Ediphy.i18n.t('MultipleChoice.Color'),
                                     type: 'custom_color_plugin',
-                                    value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryColor'),
+                                    value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themeColor1'),
                                 },
                             },
                         },
@@ -198,7 +198,7 @@ export function MultipleAnswer(base) {
                 <style dangerouslySetInnerHTML={{
                     __html: `
                    .multipleAnswerPlugin .checkQuiz:checked:after {
-                      color: var(--themePrimaryColor);
+                      color: var(--themeColor1);
                     }
                   `,
                 }} />

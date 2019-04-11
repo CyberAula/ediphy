@@ -66,7 +66,7 @@ export function EnrichedAudio(base) {
                                 progressColor: {
                                     __name: Ediphy.i18n.t('EnrichedAudio.ProgressColor'),
                                     type: 'custom_color_plugin',
-                                    value: state.progressColor || getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryColor'),
+                                    value: state.progressColor || getComputedStyle(document.documentElement).getPropertyValue('--themeColor1'),
                                 },
                             },
                         },
@@ -120,7 +120,7 @@ export function EnrichedAudio(base) {
                 controls: true,
                 waves: true,
                 barWidth: 2,
-                progressColor: { color: getComputedStyle(document.documentElement).getPropertyValue('--themePrimaryColor'), custom: false },
+                progressColor: { color: getComputedStyle(document.documentElement).getPropertyValue('--themeColor1'), custom: false },
                 waveColor: { color: '#178582', custom: false },
                 scroll: false,
             };
