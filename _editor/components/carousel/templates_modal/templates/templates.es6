@@ -1,9 +1,4 @@
 import i18n from 'i18next';
-import desert from './../../../../../dist/images/desert.jpg';
-import forest from './../../../../../dist/images/forest.jpg';
-import jungle from './../../../../../dist/images/jungle.jpg';
-import meadow from './../../../../../dist/images/meadow.jpg';
-import placeholder from './../../../../../dist/images/placeholder.svg';
 export const templates = (theme = 'default') => { return (
     [{
         "name": i18n.t('templates.template1'),
@@ -17,7 +12,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": `/themes/${theme}/templates/template1/left.jpg`,
+                    "url": `templates/template1/left`,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -152,7 +147,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": `/themes/${theme}/templates/template3/topLeft.jpg`,
+                    "url": `templates/template3/topLeft`,
 
                 },
                 "thumbnail": {
@@ -170,7 +165,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": `/themes/${theme}/templates/template3/topRight.jpg`,
+                    "url": `templates/template3/topRight`,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -187,7 +182,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": `/themes/${theme}/templates/template3/bottomLeft.jpg`,
+                    "url": `templates/template3/bottomLeft`,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -204,7 +199,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": `/themes/${theme}/templates/template3/bottomRight.jpg`,
+                    "url": `templates/template3/bottomRight`,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -359,7 +354,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": placeholder,
+                    "url": `templates/template7/left`,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",

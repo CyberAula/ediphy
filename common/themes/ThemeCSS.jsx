@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import { getThemeColors, getThemeFont, THEMES } from './theme_loader';
+import { getThemeColors, getThemeFont, getThemeImages, THEMES } from './theme_loader';
 import loadFont from './font_loader';
 import { setRgbaAlpha } from "../common_tools";
 import { translatePxToEm } from "./cssParser";
@@ -20,6 +20,7 @@ export default class ThemeCSS extends React.Component {
         this.getThemeCSS = this.getThemeCSS.bind(this);
         this.updateCustomProperty = this.updateCustomProperty.bind(this);
         this.loadColorsCustomProperties = this.loadColorsCustomProperties.bind(this);
+        this.loadImagesCustomProperties = this.loadImagesCustomProperties.bind(this);
 
         this.loadCSS();
     }
@@ -28,7 +29,9 @@ export default class ThemeCSS extends React.Component {
         this.loadCSS();
         let colors = Object.keys(this.props.toolbar.colors).length ? this.props.toolbar.colors : THEMES[this.props.theme].colors;
         let font = this.props.toolbar.font ? this.props.toolbar.font : this.props.styleConfig.font ? this.props.styleConfig.font : getThemeFont(this.props.toolbar.theme);
+        let theme = this.props.theme ? this.props.theme : this.props.styleConfig.theme;
         this.loadColorsCustomProperties(colors);
+        this.loadImagesCustomProperties(theme);
         loadFont(font);
         this.updateCustomProperty('--themePrimaryFont', font);
     }
@@ -46,6 +49,7 @@ export default class ThemeCSS extends React.Component {
             let theme = this.props.theme ? this.props.theme : this.props.styleConfig.theme;
             this.getThemeCSS(theme);
             this.loadColorsCustomProperties(getThemeColors(theme));
+            this.loadImagesCustomProperties(theme);
             loadFont(getThemeFont(theme));
             if(!prevProps.toolbar.font || !prevProps.toolbar.theme || prevProps.toolbar.font === getThemeFont(prevProps.theme)) {
                 this.updateCustomProperty('--themePrimaryFont', getThemeFont(theme));
@@ -117,6 +121,15 @@ export default class ThemeCSS extends React.Component {
         Object.keys(colors).map((cPropKey) => {
             this.updateCustomProperty('--' + cPropKey, colors[cPropKey]);
             this.updateCustomProperty('--' + cPropKey + 'Transparent', setRgbaAlpha(colors[cPropKey], 0.15));
+        });
+    }
+
+    loadImagesCustomProperties(theme) {
+        let images = getThemeImages(theme);
+        Object.keys(images).map((templateKey) => {
+            Object.keys(images[templateKey]).map((posKey) => {
+                this.updateCustomProperty('--templates_' + templateKey + '_' + posKey, `url(/themes/${theme}/${images[templateKey][posKey]})`);
+            });
         });
     }
 

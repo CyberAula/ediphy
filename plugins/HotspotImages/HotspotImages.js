@@ -131,7 +131,6 @@ export function HotspotImages(base) {
         getInitialState: function() {
             return {
                 url: img_placeholder, // Ediphy.Config.image_placeholder,
-                custom: false,
                 allowDeformed: true,
             };
         },

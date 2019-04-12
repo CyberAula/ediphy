@@ -8,26 +8,42 @@ import img_broken from './../../dist/images/broken_link.png';
 export default class Image extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = { error: false };
     }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        if(nextProps.state.url !== this.props.state.url) {
+            this.setState({ error: false });
+        }
+    }
+
     render() {
-        console.log(this.props);
-        console.log(this.props.state.url.indexOf('themes'));
         let { props, state, markElements } = this.props;
         let scale = state.scale || 1;
         let translateX = (state.translate ? state.translate.x : 0) || 0;
         let translateY = (state.translate ? state.translate.y : 0) || 0;
         let transform = `translate(${translateX + "%"},${translateY + "%" }) scale(${scale})`;
+        let isCustom = state.url.indexOf('templates/template') === -1;
+
+        let errorUrl = (state.url.replace(/ /g, '') === '') ? 'url(/images/placeholder.svg)' : 'url(/images/broken_link.png)';
+        let customImage = isCustom ? {
+            '--photoUrl': this.state.error ? errorUrl : 'url(' + state.url + ')',
+            content: 'var(--photoUrl, url(/images/broken_link.png))',
+            objectFit: this.state.error ? 'cover' : undefined } :
+            { content: 'var(--' + state.url.replace(/\//g, '_') + ')' };
+
         return <div style={{ height: "100%", width: "100%" }} className="draggableImage" ref="draggableImage" onWheel={(e) => {
             const delta = Math.sign(e.deltaY);
             props.update('scale', Math.round(10 * Math.min(20, Math.max(0, scale - delta / 10))) / 10);
         }}>
             <img ref ="img" id={props.id + "-image"}
                 className="basicImageClass"
-                style={{ '--photoUrl': 'url(' + state.url + ')', content: 'var(--photoUrl)', width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto", transform, WebkitTransform: transform, MozTransform: transform }}
+                style={{ ...customImage, width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto", transform, WebkitTransform: transform, MozTransform: transform }}
+                src={state.url}
                 onError={(e) => {
                     e.target.onError = null;
-                    e.target.src = img_broken;
+                    this.setState({ error: true });
+
                 }}
             />
             <div className="dropableRichZone" style={{ height: "100%", width: "100%", position: 'absolute', top: 0, left: 0 }} >
@@ -39,13 +55,8 @@ export default class Image extends React.Component {
     componentDidMount() {
         let scale = this.props.state.scale || 1;
         interact(ReactDOM.findDOMNode(this))
-            // .origin("parent")
             .draggable({
                 enabled: true,
-                // snap: {
-                //     targets: [{ x: 0, y: 0, range: 25 }],
-                //     relativePoints: [{ x: 0, y: 0 }],
-                // },
                 ignoreFrom: 'a, .pointerEventsEnabled, .markeditor',
                 onstart: (event) => {
                     event.stopPropagation();

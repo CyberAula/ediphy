@@ -12,6 +12,11 @@ export const THEMES = {
             themeColor1: '#17CFC8',
             themeSecondaryColor: '#17CFC8',
         },
+        images: {
+            template1: { left: 'colors_texture.jpg' },
+            template3: { topLeft: 'forest.jpg', topRight: 'jungle.jpg', bottomLeft: 'desert.jpg', bottomRight: 'meadow.jpg' },
+            template7: { left: 'placeholder.svg' },
+        },
     },
     orange: {
         viewName: ['EDiphy classic', 'EDiphy clásico'],
@@ -24,6 +29,11 @@ export const THEMES = {
             themeColor1: '#D1550F',
             themeSecondaryColor: '#17CFC8',
         },
+        images: {
+            template1: { left: '' },
+            template3: { topLeft: 'fruit1.jpg', topRight: 'fruit2.jpg', bottomLeft: 'fruit3.jpeg', bottomRight: 'fruit4.jpg' },
+            template7: { left: '' },
+        },
     },
     test0: {
         viewName: ['EDiphy classic', 'EDiphy clásico'],
@@ -34,6 +44,11 @@ export const THEMES = {
         colors: {
             themeColor1: '#AFB2B1',
             themeSecondaryColor: 'grey',
+        },
+        images: {
+            template1: { left: '' },
+            template3: { topLeft: '', topRight: '', bottomLeft: '', bottomRight: '' },
+            template7: { left: '' },
         },
     },
     test1: {
@@ -46,6 +61,11 @@ export const THEMES = {
             themeColor1: 'black',
             themeSecondaryColor: 'black',
         },
+        images: {
+            template1: { left: '' },
+            template3: { topLeft: '', topRight: '', bottomLeft: '', bottomRight: '' },
+            template7: { left: '' },
+        },
     },
     test2: {
         viewName: ['EDiphy classic', 'EDiphy clásico'],
@@ -56,6 +76,11 @@ export const THEMES = {
         colors: {
             themeColor1: 'black',
             themeSecondaryColor: 'black',
+        },
+        images: {
+            template1: { left: '' },
+            template3: { topLeft: '', topRight: '', bottomLeft: '', bottomRight: '' },
+            template7: { left: '' },
         },
     },
     test3: {
@@ -129,6 +154,10 @@ export function getThemes() {
 
 export function getThemeColors(theme) {
     return THEMES[theme].colors;
+}
+
+export function getThemeImages(theme = 'default') {
+    return THEMES[theme].images;
 }
 
 export function getColor(theme, colorOrder = 1) {
