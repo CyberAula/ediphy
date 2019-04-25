@@ -6,7 +6,6 @@ import i18n from 'i18next';
 
 import ThemePicker from '../../common/theme-picker/ThemePicker';
 import ColorPicker from '../../common/color-picker/ColorPicker';
-
 import FontPicker from '../../common/font-picker/FontPicker';
 
 import { getColor, getThemeColors, getThemes } from "../../../../common/themes/theme_loader";
@@ -18,6 +17,7 @@ import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
 import 'react-select/dist/react-select.css';
 import './_globalConfig.scss';
 import { getThemeFont } from "../../../../common/themes/theme_loader";
+import ThemeCSS from "../../../../common/themes/ThemeCSS";
 
 /**
  * Global course configuration modal
@@ -130,6 +130,13 @@ export default class StyleConfig extends Component {
                                     </FormGroup>
                                 </Col>
                                 <Col xs={12} md={5} lg={5}><br/>
+                                    <h4>&& Preview</h4>
+                                    <div className={"style_preview_container safeZone"}>
+                                        <ThemeCSS theme={this.state.theme}/>
+                                        <div className={"style_preview_content " + this.state.theme }>
+                                            Preview
+                                        </div>
+                                    </div>
                                     <h4>{i18n.t("Style.transitions")}</h4>
                                     <FormGroup>
                                         <ControlLabel>{i18n.t("Style.accent_color")}</ControlLabel>
