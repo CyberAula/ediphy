@@ -916,7 +916,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                         onClick: props.onChange,
                         className: "toolbarButton",
                     },
-                    React.createElement("div", { key: props.label }, '&&Restore theme color'),
+                    React.createElement("div", { key: props.label }, i18n.t('Style.restore_theme_color')),
                 ),
             ]);
     }
@@ -931,7 +931,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 React.createElement(
                     ControlLabel,
                     { key: 'label1_' + button.__name },
-                    '&& Font'
+                    i18n.t('Style.font'),
                 ),
                 React.createElement("div", {
                     key: props.label,
@@ -956,7 +956,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 React.createElement(
                     ControlLabel,
                     { key: 'label1_' + button.__name },
-                    '&& Theme'
+                    i18n.t('Style.theme')
                 ),
                 React.createElement(ThemePicker, {
                     currentTheme: props.value,

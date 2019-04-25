@@ -58,7 +58,7 @@ export default class StyleConfig extends Component {
                         }
                     }}>
                     <Modal.Header closeButton>
-                        <Modal.Title><span id="previewTitle">&& Style Configuration</span></Modal.Title>
+                        <Modal.Title><span id="previewTitle">{i18n.t("Style.style_configuration")}</span></Modal.Title>
                     </Modal.Header>
                     <Alert className="pageModal"
                         show={this.state.showAlert}
@@ -80,9 +80,9 @@ export default class StyleConfig extends Component {
                         <Grid>
                             <Row>
                                 <Col xs={12} md={6} lg={6}><br/>
-                                    <h4>&& Appearance </h4>
+                                    <h4>{i18n.t("Style.appearance")}</h4>
                                     <FormGroup>
-                                        <ControlLabel> && Theme </ControlLabel>
+                                        <ControlLabel>{i18n.t("Style.theme")}</ControlLabel>
                                         <div className="sc-theme-picker">
                                             <ThemePicker
                                                 fromStyleConfig
@@ -100,7 +100,7 @@ export default class StyleConfig extends Component {
                                         </div>
                                     </FormGroup>
                                     <FormGroup onClick={e => e.stopPropagation()}>
-                                        <ControlLabel>&& Accent color</ControlLabel>
+                                        <ControlLabel>{i18n.t("Style.accent_color")}</ControlLabel>
                                         <div>
                                             <ColorPicker
                                                 color={this.state.color}
@@ -111,7 +111,7 @@ export default class StyleConfig extends Component {
                                         </div>
                                     </FormGroup>
                                     <FormGroup>
-                                        <ControlLabel>&& Font</ControlLabel>
+                                        <ControlLabel>{i18n.t("Style.font")}</ControlLabel>
                                         <div className={"apply-font"}>
                                             <FontPicker apiKey={'AIzaSyCnIyhIyDVg6emwq8XigrPKDPgueOrZ4CE'}
                                                 activeFont={this.state.font}
@@ -126,13 +126,13 @@ export default class StyleConfig extends Component {
                                         <Button style={{ width: '100%' }} bsStyle="primary" id="cancel_insert_plugin_config_modal" onClick={e => {
                                             this.setState({ modifiedState: true, font: getThemeFont(this.state.theme), color: getThemeColors(this.state.theme).themeColor1 });
                                             document.activeElement.blur();
-                                        }}>&& Restore theme setup</Button>
+                                        }}>{i18n.t("Style.restore_theme_setup")}</Button>
                                     </FormGroup>
                                 </Col>
                                 <Col xs={12} md={5} lg={5}><br/>
-                                    <h4>&& Transitions </h4>
+                                    <h4>{i18n.t("Style.transitions")}</h4>
                                     <FormGroup>
-                                        <ControlLabel>&& Accent color</ControlLabel>
+                                        <ControlLabel>{i18n.t("Style.accent_color")}</ControlLabel>
                                         <FormControl type="text"
                                             value={title}
                                             placeholder={i18n.t('global_config.course_title')}

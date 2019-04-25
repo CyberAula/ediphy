@@ -38,8 +38,8 @@ export default class NavActionButtons extends Component {
             },
             {
                 name: 'appearance',
-                description: '&& Style',
-                tooltip: '%% Edit theme parameters',
+                description: i18n.t("Style.style"),
+                tooltip: i18n.t("Style.edit"),
                 display: true,
                 icon: 'brush',
                 onClick: () => {

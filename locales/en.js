@@ -134,6 +134,7 @@ let en = {
             },
             'Title': 'Import resource...',
         },
+        "general": "General",
         "global_config": {
             "Accept": "Save changes",
             "aspect_ratio": "Aspect Ratio",
@@ -457,7 +458,19 @@ let en = {
         "subtitle_hide": "Hide Subtitle",
         "success_transaction": "The operation has been successful",
         "Structure": "Structure",
-        "Style": "Style",
+        "Style": {
+            "accent_color": "Accent Color",
+            "appearance": "Appearance",
+            "edit": "Edit theme and transitions",
+            "font": "Font",
+            "restore_theme_color": "Restore theme color",
+            "restore_theme_setup": "Restore theme setup",
+            "style": "Style",
+            "style_configuration": "Style Configuration",
+            "theme": "Theme",
+            "theme_background": "Theme Backgorund",
+            "transitions": "Transitions",
+        },
         "styles": {
             "background_color": "Background color",
             "border_color": "Border color",

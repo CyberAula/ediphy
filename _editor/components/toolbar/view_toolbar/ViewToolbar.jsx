@@ -42,7 +42,7 @@ export default class ViewToolbar extends Component {
                 __name: "Main",
                 accordions: { // define accordions for section
                     __basic: {
-                        __name: "&&Generales",
+                        __name: i18n.t("general"),
                         icon: 'settings',
                         buttons: {
                             navitem_name: {
@@ -91,22 +91,22 @@ export default class ViewToolbar extends Component {
 
                     },
                     __background: {
-                        __name: "&&Appearance",
+                        __name: i18n.t("Style.appearance"),
                         icon: "crop_original",
                         buttons: {
                             theme: {
-                                __name: '&&Theme',
+                                __name: i18n.t('Style.theme'),
                                 type: 'theme_select',
                                 options: getThemes(),
                                 value: viewToolbar.theme,
                             },
                             theme_primary_color: {
-                                __name: '&&Accent Color',
+                                __name: i18n.t("Style.accent_color"),
                                 type: 'color',
                                 value: viewToolbar.colors.themeColor1 ? viewToolbar.colors.themeColor1 : styleConfig.color,
                             },
                             theme_font: {
-                                __name: '&&Font',
+                                __name: i18n.t('Style.font'),
                                 kind: 'theme_font',
                                 type: 'font_picker',
                                 value: viewToolbar.font,
@@ -118,7 +118,7 @@ export default class ViewToolbar extends Component {
                             },
 
                             theme_background: {
-                                __name: '&&Theme Background',
+                                __name: i18n.t("Style.theme_background"),
                                 type: 'select',
                                 options: getThemeBackgrounds(viewToolbar.theme),
                                 value: viewToolbar.theme_background,
