@@ -26,9 +26,10 @@ export default class ThemeCSS extends React.Component {
     }
 
     componentWillMount() {
+        console.log(this.props);
         this.loadCSS();
-        let colors = Object.keys(this.props.toolbar.colors).length ? this.props.toolbar.colors : THEMES[this.props.theme].colors;
-        let font = this.props.toolbar.font ? this.props.toolbar.font : this.props.styleConfig.font ? this.props.styleConfig.font : getThemeFont(this.props.toolbar.theme);
+        let colors = this.props.toolbar && Object.keys(this.props.toolbar.colors).length ? this.props.toolbar.colors : THEMES[this.props.theme].colors;
+        let font = this.props.toolbar && this.props.toolbar.font ? this.props.toolbar.font : this.props.styleConfig.font ? this.props.styleConfig.font : getThemeFont(this.props.toolbar.theme);
         let theme = this.props.theme ? this.props.theme : this.props.styleConfig.theme;
         this.loadColorsCustomProperties(colors);
         this.loadImagesCustomProperties(theme);
@@ -57,13 +58,13 @@ export default class ThemeCSS extends React.Component {
         }
 
         if (itemColorChanged || selectedItemChanged || styleConfigChanged) {
-            let isCustomColor = Object.values(this.props.toolbar.colors).length !== 0;
+            let isCustomColor = this.props.toolbar && Object.values(this.props.toolbar.colors).length !== 0;
             let colors = isCustomColor ? this.props.toolbar.colors : { themeColor1: this.props.styleConfig.color };
             this.loadColorsCustomProperties(colors);
         }
 
         if (itemFontChanged || selectedItemChanged || styleConfigChanged) {
-            let isCustomFont = this.props.toolbar.font;
+            let isCustomFont = this.props.toolbar && this.props.toolbar.font;
             let font = isCustomFont ? this.props.toolbar.font : this.props.styleConfig.font;
             loadFont(font);
             this.updateCustomProperty('--themePrimaryFont', font);

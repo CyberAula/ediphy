@@ -463,6 +463,7 @@ let en = {
             "appearance": "Appearance",
             "edit": "Edit theme and transitions",
             "font": "Font",
+            "preview": "Preview",
             "restore_theme_color": "Restore theme color",
             "restore_theme_setup": "Restore theme setup",
             "style": "Style",

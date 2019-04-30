@@ -18,6 +18,7 @@ import 'react-select/dist/react-select.css';
 import './_globalConfig.scss';
 import { getThemeFont } from "../../../../common/themes/theme_loader";
 import ThemeCSS from "../../../../common/themes/ThemeCSS";
+import ThemePreview from "../../../../common/themes/ThemePreview";
 
 /**
  * Global course configuration modal
@@ -30,6 +31,7 @@ export default class StyleConfig extends Component {
     constructor(props) {
         super(props);
         /* State from props is an anti-pattern*/
+        console.log(this.props);
         this.state = {
             theme: this.props.styleConfig.theme || 'default',
             font: this.props.styleConfig.font || getThemeFont(this.props.styleConfig.theme) || 'Ubuntu',
@@ -129,13 +131,13 @@ export default class StyleConfig extends Component {
                                         }}>{i18n.t("Style.restore_theme_setup")}</Button>
                                     </FormGroup>
                                 </Col>
-                                <Col xs={12} md={5} lg={5}><br/>
-                                    <h4>&& Preview</h4>
-                                    <div className={"style_preview_container safeZone"}>
-                                        <ThemeCSS theme={this.state.theme}/>
-                                        <div className={"style_preview_content " + this.state.theme }>
-                                            Preview
-                                        </div>
+                                <Col xs={12} md={6} lg={6}><br/>
+                                    <div className={"Preview"}>
+                                        <h4>{i18n.t("Style.preview")}</h4>
+                                        {/* <ThemePreview*/}
+                                        {/* styleConfig={ this.props.styleConfig }*/}
+                                        {/* theme={ this.state.modifiedState ? this.state.theme : this.props.styleConfig.theme }*/}
+                                        {/* />*/}
                                     </div>
                                     <h4>{i18n.t("Style.transitions")}</h4>
                                     <FormGroup>
@@ -152,7 +154,8 @@ export default class StyleConfig extends Component {
                     <Modal.Footer>
                         <Button bsStyle="default" id="cancel_insert_plugin_config_modal" onClick={e => {
                             this.cancel(); e.preventDefault();
-                        }}>{i18n.t("global_config.Discard")}</Button>
+                        }}>{i18n.t("global_config.Discard")}
+                        </Button>
                         <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
                             this.saveState(); e.preventDefault();
                         }}>{i18n.t("global_config.Accept")}</Button>{'   '}
@@ -184,67 +187,6 @@ export default class StyleConfig extends Component {
         this.props.close();
 
     }
-
-    /**
-     * If title is changed from outside
-     * @param nextProps
-     */
-    componentWillReceiveProps(nextProps) {
-    //     if (this.props.globalConfig.title !== nextProps.globalConfig.title) {
-    //         this.setState({
-    //             title: nextProps.globalConfig.title || "",
-    //         });
-    //     }
-    //     if (this.props.globalConfig.status !== nextProps.globalConfig.status) {
-    //         this.setState({
-    //             status: nextProps.globalConfig.status || "draft",
-    //         });
-    //     }
-    //     if (this.props.fileModalResult &&
-    //       nextProps.fileModalResult &&
-    //       nextProps.fileModalResult.value !== this.props.fileModalResult.value &&
-    //       nextProps.fileModalResult.value &&
-    //       nextProps.fileModalResult.id === 'avatar') {
-    //         this.setState({
-    //             thumbnail: nextProps.fileModalResult.value, modifiedState: true,
-    //         });
-    //     }
-    //
-    //     if (!this.props.show && nextProps.show) {
-    //         this.setState({
-    //             title: nextProps.globalConfig.title || "",
-    //             author: nextProps.globalConfig.author || "",
-    //             canvasRatio: nextProps.globalConfig.canvasRatio || 16 / 9,
-    //             age: nextProps.globalConfig.age || { min: 0, max: 0 },
-    //             typicalLearningTime: nextProps.globalConfig.typicalLearningTime || { h: 0, m: 0, s: 0 },
-    //             difficulty: nextProps.globalConfig.difficulty,
-    //             rights: nextProps.globalConfig.rights || 1,
-    //             description: nextProps.globalConfig.description || '',
-    //             thumbnail: nextProps.globalConfig.thumbnail || img_place_holder,
-    //             language: nextProps.globalConfig.language,
-    //             keywords: nextProps.globalConfig.keywords || [],
-    //             version: nextProps.globalConfig.version || '0.0.0',
-    //             status: nextProps.globalConfig.status || 'draft',
-    //             context: nextProps.globalConfig.context,
-    //             allowComments: nextProps.globalConfig.allowComments ? true : nextProps.globalConfig.allowComments === undefined,
-    //             allowClone: nextProps.globalConfig.allowClone ? true : nextProps.globalConfig.allowClone === undefined,
-    //             allowDownload: nextProps.globalConfig.allowDownload ? true : nextProps.globalConfig.allowDownload === undefined,
-    //             hideGlobalScore: nextProps.globalConfig.hideGlobalScore || false,
-    //             minTimeProgress: nextProps.globalConfig.minTimeProgress || 3,
-    //             visorNav: { ...(nextProps.globalConfig.visorNav || {}),
-    //                 player: nextProps.globalConfig.visorNav.player === undefined ? true : nextProps.globalConfig.visorNav.player,
-    //                 sidebar: nextProps.globalConfig.visorNav.sidebar === undefined ? true : nextProps.globalConfig.visorNav.sidebar,
-    //                 keyBindings: nextProps.globalConfig.visorNav.keyBindings === undefined ? true : nextProps.globalConfig.visorNav.keyBindings,
-    //                 fixedPlayer: nextProps.globalConfig.visorNav.fixedPlayer === undefined ? true : nextProps.globalConfig.visorNav.fixedPlayer,
-    //             },
-    //             modifiedState: false,
-    //             showAlert: false,
-    //             everPublished: nextProps.globalConfig.everPublished,
-    //
-    //         });
-    //     }
-    }
-
 }
 
 StyleConfig.propTypes = {

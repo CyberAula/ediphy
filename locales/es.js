@@ -463,6 +463,7 @@ let es = {
             "appearance": "Apariencia",
             "edit": "Editar apariencia y transiciones",
             "font": "Fuente",
+            "preview": "Previsualización",
             "restore_theme_color": "Restaurar color del tema",
             "restore_theme_setup": "Restaurar configuración del tema",
             "style": "Estilo",
