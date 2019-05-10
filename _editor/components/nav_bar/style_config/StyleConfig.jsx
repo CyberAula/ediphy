@@ -134,10 +134,12 @@ export default class StyleConfig extends Component {
                                 <Col xs={12} md={6} lg={6}><br/>
                                     <div className={"Preview"}>
                                         <h4>{i18n.t("Style.preview")}</h4>
-                                        {/* <ThemePreview*/}
-                                        {/* styleConfig={ this.props.styleConfig }*/}
-                                        {/* theme={ this.state.modifiedState ? this.state.theme : this.props.styleConfig.theme }*/}
-                                        {/* />*/}
+                                        <ThemePreview
+                                            styleConfig={ this.state}
+                                            theme={ this.state.modifiedState ? this.state.theme : this.props.styleConfig.theme }
+                                            // font={ this.state.modifiedState ? this.state.font : this.props.styleConfig.font }
+                                            // color={ this.state.modifiedState ? this.state.color : this.props.styleConfig.color }
+                                        />
                                     </div>
                                     <h4>{i18n.t("Style.transitions")}</h4>
                                     <FormGroup>

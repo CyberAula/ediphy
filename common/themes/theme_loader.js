@@ -4,13 +4,16 @@ import { setRgbaAlpha } from "../common_tools";
 export const THEMES = {
     default: {
         viewName: ['EDiphy classic', 'EDiphy clásico'],
-        fonts: 'Ubuntu',
+        font: 'Ubuntu',
         background: [
-            "white",
+            '#FFFFFF',
         ],
         colors: {
             themeColor1: '#17CFC8',
-            themeSecondaryColor: '#17CFC8',
+            themeColor2: '#ff444d',
+            themeColor3: '#4bff9f',
+            themeColor4: '#65caff',
+            themeColor5: '#ffbe45',
         },
         images: {
             template1: { left: 'colors_texture.jpg' },
@@ -20,14 +23,14 @@ export const THEMES = {
     },
     orange: {
         viewName: ['EDiphy classic', 'EDiphy clásico'],
-        fonts: 'Merriweather',
+        font: 'Merriweather',
         background: [
             'url(/themes/orange/background_images/orange0.jpg)',
             'url(/themes/orange/background_images/orange1.jpg)',
         ],
         colors: {
             themeColor1: '#D1550F',
-            themeSecondaryColor: '#17CFC8',
+            themeColor2: '#17CFC8',
         },
         images: {
             template1: { left: '' },
@@ -37,13 +40,13 @@ export const THEMES = {
     },
     test0: {
         viewName: ['EDiphy classic', 'EDiphy clásico'],
-        fonts: 'Indie Flower',
+        font: 'Indie Flower',
         background: [
             "green",
         ],
         colors: {
             themeColor1: '#AFB2B1',
-            themeSecondaryColor: 'grey',
+            themeColor2: 'grey',
         },
         images: {
             template1: { left: '' },
@@ -53,13 +56,13 @@ export const THEMES = {
     },
     test1: {
         viewName: ['EDiphy classic', 'EDiphy clásico'],
-        fonts: 'Amatic SC',
+        font: 'Amatic SC',
         background: [
             'url(/themes/test2/background_images/blur2.jpg)',
         ],
         colors: {
             themeColor1: 'black',
-            themeSecondaryColor: 'black',
+            themeColor2: 'black',
         },
         images: {
             template1: { left: '' },
@@ -69,13 +72,13 @@ export const THEMES = {
     },
     test2: {
         viewName: ['EDiphy classic', 'EDiphy clásico'],
-        fonts: 'Great Vibes',
+        font: 'Great Vibes',
         background: [
             'url(/themes/test2/background_images/blur0.jpg)',
         ],
         colors: {
             themeColor1: 'black',
-            themeSecondaryColor: 'black',
+            themeColor2: 'black',
         },
         images: {
             template1: { left: '' },
@@ -85,7 +88,7 @@ export const THEMES = {
     },
     test3: {
         viewName: ['EDiphy classic', 'EDiphy clásico'],
-        fonts: 'Anton',
+        font: 'Anton',
         background: [
             'url(/themes/test3/background_images/test30.jpg)',
             'url(/themes/test3/background_images/test30.jpg)',
@@ -93,58 +96,58 @@ export const THEMES = {
         ],
         colors: {
             themeColor1: 'black',
-            themeSecondaryColor: 'black',
+            themeColor2: 'black',
         },
     },
     test4: {
         viewName: ['EDiphy classic', 'EDiphy clásico'],
-        fonts: 'Lobster',
+        font: 'Lobster',
         background: [
             'url(/themes/orange/background_images/orange0.jpg)',
         ],
         colors: {
             themeColor1: 'black',
-            themeSecondaryColor: 'black',
+            themeColor2: 'black',
         },
     },
     test5: {
         viewName: ['EDiphy classic', 'EDiphy clásico'],
-        fonts: 'Amatic SC',
+        font: 'Amatic SC',
         background: [
             'url(/themes/orange/background_images/orange0.jpg)',
         ],
         colors: {
             themeColor1: 'black',
-            themeSecondaryColor: 'black',
+            themeColor2: 'black',
         },
     },
     test6: {
         viewName: ['EDiphy classic', 'EDiphy clásico'],
-        fonts: 'Orbitron',
+        font: 'Orbitron',
         background: [
             'url(/themes/orange/background_images/orange0.jpg)',
         ],
         colors: {
             themeColor1: 'black',
-            themeSecondaryColor: 'black',
+            themeColor2: 'black',
         },
     },
     test7: {
         viewName: ['EDiphy classic', 'EDiphy clásico'],
-        fonts: 'Poiret One',
+        font: 'Poiret One',
         background: [
             'url(/themes/orange/background_images/orange0.jpg)',
         ],
         colors: {
             themeColor1: 'black',
-            themeSecondaryColor: 'black',
+            themeColor2: 'black',
         },
     },
 
 };
 
 export function loadTheme(theme) {
-    let font = THEMES[theme] ? THEMES[theme].fonts : 'Ubuntu Sans';
+    let font = THEMES[theme] ? THEMES[theme].font : 'Ubuntu Sans';
     loadFont(font);
 }
 
@@ -188,7 +191,7 @@ export function generateCustomFont(font) {
 }
 
 export function getThemeFont(theme = 'default') {
-    return THEMES[theme].fonts;
+    return THEMES[theme].font;
 }
 
 export function sanitizeThemeToolbar(toolbar, styleConfig = {}) {

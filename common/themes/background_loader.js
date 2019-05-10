@@ -40,3 +40,8 @@ export function loadBackgroundStyle(show, toolbar, styleConfig = {}, visor = fal
 
     return { visibility, backgroundColor, backgroundSize, backgroundRepeat, backgroundPosition, zIndex, backgroundImage };
 }
+
+export function loadBackgroundStylePreview(theme) {
+    let background = loadBackground(theme, 0);
+    return { [background.indexOf('url') === -1 ? 'backgroundColor' : 'backgroundImage']: background, backgroundSize: "cover", fontSize: '7px', height: '100%' };
+}

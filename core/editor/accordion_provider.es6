@@ -1317,7 +1317,7 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
         break;
     case 'theme_secondary_color':
         toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
-            colors: { ...themeToolbar.colors, themeSecondaryColor: value },
+            colors: { ...themeToolbar.colors, themeColor2: value },
         });
         break;
     case 'weight':

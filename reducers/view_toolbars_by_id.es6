@@ -49,7 +49,7 @@ function toolbarElementCreator(state, action, containedView = false) {
     let backgroundAttr = action.payload.background ? action.payload.background.backgroundAttr : "full";
     let customBackground = action.payload.background ? action.payload.background.customBackground : false;
     let themeColor1 = action.payload.colors && action.payload.colors.themeColor1 ? action.payload.colors.themeColor1 : getColor(theme, 1);
-    let themeSecondaryColor = action.payload.colors && action.payload.colors.themeSecondaryColor ? action.payload.colors.themeSecondaryColor : getColor(theme, 2);
+    let themeColor2 = action.payload.colors && action.payload.colors.themeColor2 ? action.payload.colors.themeColor2 : getColor(theme, 2);
 
     let toolbar = {
         id: id,
@@ -73,7 +73,7 @@ function toolbarElementCreator(state, action, containedView = false) {
         // font: font || 'Ubuntu',
         colors: {
             // themeColor1: themeColor1 || '#ffffff',
-            // themeSecondaryColor: themeSecondaryColor || '#ffffff',
+            // themeColor2: themeColor2 || '#ffffff',
         },
     };
 

@@ -70,7 +70,7 @@ export const templates = (theme = 'default') => { return (
                 "toolbar": {
                     "name": "BasicText",
                     "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
-                    "style": { "backgroundColor": "var(--themeColor1)" },
+                    "style": { "backgroundColor": "var(--themeColor2)" },
 
                 },
                 "thumbnail": {
@@ -89,7 +89,7 @@ export const templates = (theme = 'default') => { return (
                 "toolbar": {
                     "name": "BasicText",
                     "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
-                    "style": { "backgroundColor": "var(--themeColor2)" },
+                    "style": { "backgroundColor": "var(--themeColor3)" },
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -107,7 +107,7 @@ export const templates = (theme = 'default') => { return (
                 "toolbar": {
                     "name": "BasicText",
                     "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
-                    "style": { "backgroundColor": "var(--themeColor3)" },
+                    "style": { "backgroundColor": "var(--themeColor4)" },
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -125,7 +125,7 @@ export const templates = (theme = 'default') => { return (
                 "toolbar": {
                     "name": "BasicText",
                     "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
-                    "style": { "backgroundColor": "var(--themeColor4)" },
+                    "style": { "backgroundColor": "var(--themeColor5)" },
                 },
                 "thumbnail": {
                     "icon": "format_align_left",

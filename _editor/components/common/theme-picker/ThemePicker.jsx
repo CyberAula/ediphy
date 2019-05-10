@@ -51,7 +51,7 @@ export default class ThemePicker extends React.Component {
                                     flexDirection: 'row',
                                     justifyContent: 'center',
                                     alignItems: 'center',
-                                    fontFamily: THEMES[key].fonts,
+                                    fontFamily: THEMES[key].font,
                                     background: THEMES[key].background[0],
                                     backgroundSize: 'cover',
                                     color: THEMES[key].colors.themeColor1,

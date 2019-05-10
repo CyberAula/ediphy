@@ -4,7 +4,6 @@ import { getThemeColors, getThemeFont, getThemeImages, THEMES } from './theme_lo
 import loadFont from './font_loader';
 import { setRgbaAlpha } from "../common_tools";
 import { translatePxToEm } from "./cssParser";
-import { getThemeBackgrounds } from "./background_loader";
 
 export default class ThemeCSS extends React.Component {
 
@@ -26,15 +25,16 @@ export default class ThemeCSS extends React.Component {
     }
 
     componentWillMount() {
-        console.log(this.props);
         this.loadCSS();
         let colors = this.props.toolbar && Object.keys(this.props.toolbar.colors).length ? this.props.toolbar.colors : THEMES[this.props.theme].colors;
         let font = this.props.toolbar && this.props.toolbar.font ? this.props.toolbar.font : this.props.styleConfig.font ? this.props.styleConfig.font : getThemeFont(this.props.toolbar.theme);
         let theme = this.props.theme ? this.props.theme : this.props.styleConfig.theme;
+
         this.loadColorsCustomProperties(colors);
         this.loadImagesCustomProperties(theme);
-        loadFont(font);
         this.updateCustomProperty('--themePrimaryFont', font);
+
+        loadFont(font);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -48,7 +48,9 @@ export default class ThemeCSS extends React.Component {
 
         if (itemThemeChanged || selectedItemChanged || styleConfigChanged) {
             let theme = this.props.theme ? this.props.theme : this.props.styleConfig.theme;
+
             this.getThemeCSS(theme);
+
             this.loadColorsCustomProperties(getThemeColors(theme));
             this.loadImagesCustomProperties(theme);
             loadFont(getThemeFont(theme));
@@ -60,14 +62,16 @@ export default class ThemeCSS extends React.Component {
         if (itemColorChanged || selectedItemChanged || styleConfigChanged) {
             let isCustomColor = this.props.toolbar && Object.values(this.props.toolbar.colors).length !== 0;
             let colors = isCustomColor ? this.props.toolbar.colors : { themeColor1: this.props.styleConfig.color };
+
             this.loadColorsCustomProperties(colors);
         }
 
         if (itemFontChanged || selectedItemChanged || styleConfigChanged) {
             let isCustomFont = this.props.toolbar && this.props.toolbar.font;
             let font = isCustomFont ? this.props.toolbar.font : this.props.styleConfig.font;
-            loadFont(font);
+
             this.updateCustomProperty('--themePrimaryFont', font);
+            loadFont(font);
         }
     }
 
@@ -84,11 +88,12 @@ export default class ThemeCSS extends React.Component {
     }
 
     processCSS(css) {
+        console.log(this.props);
         let lines = css.split('\n');
         let themesStartIndex = {};
         let themeNames = Object.keys(THEMES);
         let safeCSS = lines.map((line, index) => {
-            line = line.includes('{') ? '.safeZone ' + line : translatePxToEm(line);
+            line = line.includes('{') ? this.props.isPreview ? '.previewZone ' + line : '.safeZone ' + line : translatePxToEm(line);
             if (line.includes('.' + themeNames[0])) {
                 themesStartIndex[themeNames[0]] = index;
                 themeNames.splice(0, 1);
@@ -115,7 +120,13 @@ export default class ThemeCSS extends React.Component {
     }
 
     updateCustomProperty(property, newValue) {
-        document.documentElement.style.setProperty(property, newValue);
+        if (this.props.isPreview) {
+            let previewZone = document.getElementById("previewZone");
+            previewZone && previewZone.style.setProperty(property, newValue);
+
+        } else {
+            document.documentElement.style.setProperty(property, newValue);
+        }
     }
 
     loadColorsCustomProperties(colors) {
@@ -143,11 +154,19 @@ export default class ThemeCSS extends React.Component {
 
 ThemeCSS.propTypes = {
     /**
-     * Current theme
+     * Current page theme
      */
     theme: PropTypes.string.isRequired,
     /**
      * Current selected view (by ID)
      */
     toolbar: PropTypes.any.isRequired,
+    /**
+     * General style config
+     */
+    styleConfig: PropTypes.object,
+    /**
+     * Is style preview
+     */
+    isPreview: PropTypes.bool,
 };
