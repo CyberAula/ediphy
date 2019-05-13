@@ -120,6 +120,7 @@ export default class ThemeCSS extends React.Component {
     }
 
     updateCustomProperty(property, newValue) {
+        console.log(property, newValue, this.props);
         if (this.props.isPreview) {
             let previewZone = document.getElementById("previewZone");
             previewZone && previewZone.style.setProperty(property, newValue);

@@ -1,0 +1,56 @@
+@import './../../../../sass/general/mixins/mixins';
+@import './../../../../sass/general/variables';
+
+.transition_picker_container {
+  box-sizing: border-box;
+  height: 150px;
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  .transition_template {
+    width: 90px;
+    height: 60px;
+    border-radius: 0px;
+    //border: 0.5px solid $grismedio;
+    color: grey;
+    background-color: #ececec;
+    display: flex;
+    flex-direction: column;
+    padding-top: 5px;
+    align-items: center;
+    justify-content: center;
+    &:hover{
+      cursor: pointer;
+      @include scale(1.1);
+      @include animacion(all, 0.2s);
+    }
+    img{
+      flex: 3;
+    }
+
+    .view_name{
+      flex: 1;
+      color: white;
+      margin-top: 5px;
+      font-size: 12px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #999999;
+    }
+  }
+
+  .active {
+    border: 3px solid $blueprimary;
+    box-sizing: border-box;
+    .view_name{
+      background-color: $blueprimary;
+      margin-bottom: -3px;
+    }
+  }
+}

@@ -19,6 +19,7 @@ import './_globalConfig.scss';
 import { getThemeFont } from "../../../../common/themes/theme_loader";
 import ThemeCSS from "../../../../common/themes/ThemeCSS";
 import ThemePreview from "../../../../common/themes/ThemePreview";
+import TransitionPicker from "../../common/transition-picker/TransitionPicker";
 
 /**
  * Global course configuration modal
@@ -36,6 +37,7 @@ export default class StyleConfig extends Component {
             theme: this.props.styleConfig.theme || 'default',
             font: this.props.styleConfig.font || getThemeFont(this.props.styleConfig.theme) || 'Ubuntu',
             color: getColor(this.props.styleConfig.theme),
+            transition: 0,
         };
     }
 
@@ -140,14 +142,12 @@ export default class StyleConfig extends Component {
                                             // font={ this.state.modifiedState ? this.state.font : this.props.styleConfig.font }
                                             // color={ this.state.modifiedState ? this.state.color : this.props.styleConfig.color }
                                         />
+
                                     </div>
                                     <h4>{i18n.t("Style.transitions")}</h4>
                                     <FormGroup>
-                                        <ControlLabel>{i18n.t("Style.accent_color")}</ControlLabel>
-                                        <FormControl type="text"
-                                            value={title}
-                                            placeholder={i18n.t('global_config.course_title')}
-                                            onChange={e => {this.setState({ modifiedState: true, title: e.target.value });}}/>
+                                        <TransitionPicker
+                                            onClick={(index) => this.setState({ transition: index })}/>
                                     </FormGroup>
                                 </Col>
                             </Row>

@@ -285,3 +285,33 @@ input[type="radio"]{
 
 }
 
+//transition code
+//-------------------------------
+
+.enter {
+    opacity: 0.01;
+}
+
+.enter.enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+
+}
+
+.leave {
+    opacity: 1;
+}
+
+.leave.leave-active {
+    opacity: 0.01;
+    transition: opacity 300ms ease-in;
+}
+.appear {
+    opacity: 0.01;
+}
+
+.appear.appear-active {
+    opacity: 1;
+    transition: opacity .5s ease-in;
+}
+
