@@ -180,8 +180,8 @@ export function getCurrentFont() {
 }
 
 export function generateCustomColors(color, colorOrder = 1, generateTransparents = true) {
-    let colorOrderStr = colorOrder === 1 ? 'Primary' : colorOrder === 2 ? 'Secondary' : colorOrder.toString();
-    let colorName = '--theme' + colorOrderStr + 'Color';
+    // let colorOrderStr = colorOrder === 1 ? 'Primary' : colorOrder === 2 ? 'Secondary' : colorOrder.toString();
+    let colorName = '--themeColor' + colorOrder;
     let colorTransparentName = colorName + 'Transparent';
     return generateTransparents ? { [ colorName ]: color, [colorTransparentName]: setRgbaAlpha(color, 0.15) } : { [colorName]: color };
 }

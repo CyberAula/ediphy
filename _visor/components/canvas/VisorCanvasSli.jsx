@@ -30,8 +30,6 @@ export default class VisorCanvasSli extends Component {
     }
 
     render() {
-        console.log(this.props);
-
         let titles = [];
         let itemSelected = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         let isCV = !isView(this.props.currentView);
@@ -73,7 +71,7 @@ export default class VisorCanvasSli extends Component {
         let padding = (this.props.fromPDF ? '0px' : '0px');
 
         return (
-            <Col id={(isCV ? "containedCanvas_" : "canvas_") + this.props.currentView} md={12} xs={12} className={(isCV ? "containedCanvasClass " : "canvasClass ") + " canvasSliClass safeZone " + (isCV ? animationType : "") + (this.props.show ? "" : " hidden")}
+            <Col ref={"canvas_" + this.props.currentView} id={(isCV ? "containedCanvas_" : "canvas_") + this.props.currentView} md={12} xs={12} className={(isCV ? "containedCanvasClass " : "canvasClass ") + " canvasSliClass safeZone " + (isCV ? animationType : "") + (this.props.show ? "" : " hidden")}
                 style={{ display: 'initial', width: '100%', padding, fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px' }}>
 
                 <div id={(isCV ? 'airlayer_cv_' : 'airlayer_') + this.props.currentView}
@@ -83,7 +81,7 @@ export default class VisorCanvasSli extends Component {
                     }}>
 
                     <div id={isCV ? "contained_maincontent" : "maincontent"}
-                        className={'innercanvas sli ' + theme}
+                        className={'innercanvas sli ' + theme + ' ' + this.props.currentView}
                         style={ loadBackgroundStyle(this.props.showCanvas, toolbar, styleConfig, true) }>
                         {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
                             <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }} onClick={a => {
@@ -135,6 +133,8 @@ export default class VisorCanvasSli extends Component {
                         styleConfig={this.props.styleConfig}
                         theme={ theme }
                         toolbar = {{ ...toolbar, colors: colors }}
+                        fromPDF={this.props.fromPDF}
+                        currentView={this.props.currentView}
                     />) : null}
 
                 <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{

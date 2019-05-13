@@ -120,7 +120,7 @@ export function TrueFalse(base) {
         },
         getRenderTemplate: function(state, props = {}) {
             let answers = [];
-
+            console.log(state);
             let quizColor = state.quizColor.color;
             let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
 

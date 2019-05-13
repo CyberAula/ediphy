@@ -32,7 +32,6 @@ export default class StyleConfig extends Component {
     constructor(props) {
         super(props);
         /* State from props is an anti-pattern*/
-        console.log(this.props);
         this.state = {
             theme: this.props.styleConfig.theme || 'default',
             font: this.props.styleConfig.font || getThemeFont(this.props.styleConfig.theme) || 'Ubuntu',

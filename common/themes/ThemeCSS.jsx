@@ -75,6 +75,22 @@ export default class ThemeCSS extends React.Component {
         }
     }
 
+    componentDidMount() {
+        if(this.props.fromPDF) {
+            let theme = this.props.theme ? this.props.theme : this.props.styleConfig.theme;
+        }
+
+        let isCustomFont = this.props.toolbar && this.props.toolbar.font;
+        let font = isCustomFont ? this.props.toolbar.font : this.props.styleConfig.font;
+
+        let isCustomColor = this.props.toolbar && Object.values(this.props.toolbar.colors).length !== 0;
+        let colors = isCustomColor ? this.props.toolbar.colors : { themeColor1: this.props.styleConfig.color };
+
+        this.loadColorsCustomProperties(colors);
+
+        this.updateCustomProperty('--themePrimaryFont', font);
+    }
+
     loadCSS() {
         // TODO check si carga
         fetch(`/theme.css`) // Webpack output CSS
@@ -88,7 +104,6 @@ export default class ThemeCSS extends React.Component {
     }
 
     processCSS(css) {
-        console.log(this.props);
         let lines = css.split('\n');
         let themesStartIndex = {};
         let themeNames = Object.keys(THEMES);
@@ -120,11 +135,13 @@ export default class ThemeCSS extends React.Component {
     }
 
     updateCustomProperty(property, newValue) {
-        console.log(property, newValue, this.props);
         if (this.props.isPreview) {
             let previewZone = document.getElementById("previewZone");
             previewZone && previewZone.style.setProperty(property, newValue);
 
+        } else if(this.props.fromPDF) {
+            let canvas = document.getElementsByClassName(this.props.currentView);
+            canvas && canvas.item(0) && canvas.item(0).style.setProperty(property, newValue);
         } else {
             document.documentElement.style.setProperty(property, newValue);
         }

@@ -583,7 +583,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             if (button.type === 'custom_color_plugin') {
                 let toolbar = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
                 let theme = toolbar.theme ? toolbar.theme : 'default';
-
                 if (e.color) {
                     value = { color: e.color, custom: true };
                     if (!value) {
