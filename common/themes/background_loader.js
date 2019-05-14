@@ -32,7 +32,7 @@ export function loadBackgroundStyle(show, toolbar, styleConfig = {}, visor = fal
 
     let visibility = show ? 'visible' : 'hidden';
     let backgroundColor = isCustom ? isColor ? background : '' : isCustomColor ? loadBackground(theme, index) : '';
-    let backgroundImage = isCustom ? !isColor ? 'url(' + background + ')' : '' : !isCustomColor ? loadBackground(theme, index) : '';
+    let backgroundImage = isCustom ? !isColor ? background : '' : !isCustomColor ? loadBackground(theme, index) : '';
     let backgroundSize = (toolbar && background && (backgroundAttr === 'centered' || backgroundAttr === 'repeat')) ? (backgroundZoom !== undefined ? (backgroundZoom + '%') : '100%') : 'cover';
     let backgroundRepeat = (toolbar && background && (backgroundAttr === 'centered' || backgroundAttr === 'full')) ? 'no-repeat' : 'repeat';
     let backgroundPosition = (toolbar && background && (backgroundAttr === 'centered' || backgroundAttr === 'full')) ? 'center center' : '0% 0%';

@@ -117,12 +117,12 @@ export default class ViewToolbar extends Component {
                                 value: { background: viewToolbar.background, backgroundAttr: viewToolbar.background_attr } || { background: "#ffffff", backgroundAttr: "full" },
                             },
 
-                            theme_background: {
-                                __name: i18n.t("Style.theme_background"),
-                                type: 'select',
-                                options: getThemeBackgrounds(viewToolbar.theme),
-                                value: viewToolbar.theme_background,
-                            },
+                            // theme_background: {
+                            //     __name: i18n.t("Style.theme_background"),
+                            //     type: 'select',
+                            //     options: getThemeBackgrounds(viewToolbar.theme),
+                            //     value: viewToolbar.theme_background,
+                            // },
 
                         },
                     },

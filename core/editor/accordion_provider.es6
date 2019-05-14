@@ -620,7 +620,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             }
 
             if (button.type === 'background_picker') {
-                console.log(e);
                 if(e.color) {
                     value = { background: e.color, backgroundAttr: 'full', backgroundZoom: 100, customBackground: true };
                     if (!value) {
@@ -636,7 +635,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     value = { background: e.target.value, backgroundAttr: 'full' };
                 }
                 if(e.value) {
-                    value = { background: e.value,
+                    value = { background: 'url(' + e.value + ')',
                         backgroundAttr: (button.value && button.value.backgroundAttr) ? button.value.backgroundAttr : 'full',
                         backgroundZoom: 100,
                         customBackground: true };
@@ -660,6 +659,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                 let canvas = document.createElement('canvas');
                                 let ctx = canvas.getContext('2d');
                                 ctx.drawImage(img, 0, 0, 1200, 1200);
+                                console.log(data);
                                 handlecanvasToolbar(buttonKey, { background: 'url(' + data + ')', backgroundAttr: 'full', backgroundZoom: 100, customBackground: true }, accordion, toolbar_props);
                             };
                             img.src = data;
@@ -969,7 +969,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
     if (button.type === "background_picker") {
         let isURI = (/data\:/).test(props.value.background);
-        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background) || (/#/).test(props.value.background) || !(/url/).test(props.value.background);
+        let isColor = (/(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig).test(props.value.background) || (/#/).test(props.value.background) || !(/url/).test(props.value.background);
         let theme = toolbar_props.viewToolbars[id].theme ? toolbar_props.viewToolbars[id].theme : 'default';
         let default_background = loadBackground(theme, 0);
 
@@ -990,27 +990,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
                 isSli && React.createElement('div',
                     { key: 'container_' + button.__name, style: { display: 'block' } },
-                    [/* React.createElement(
-                        FileInput, { // TODO
-                            key: 'fileinput_' + props.label,
-                            value: props.value,
-                            onChange: props.onChange,
-                            style: { width: '100%' },
-                        },
-                        React.createElement('div', {
-                            style: { backgroundImage: isURI ? 'url(' + props.value.background + ')' : 'none', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' },
-                            key: "inside_" + props.label,
-                            className: 'fileDrag_toolbar',
-                        }, isURI ? null : [
-                            React.createElement('span', { key: props.label + "1" }, i18n.t('FileInput.Drag') + i18n.t('FileInput.Drag_2') + i18n.t('FileInput.Click')),
-                            React.createElement('span', { key: props.label + "2", className: "fileUploaded" }, [
-                                React.createElement('i', {
-                                    key: 'icon_' + button.__name,
-                                    className: 'material-icons',
-                                }, 'insert_drive_file'),
-                            ]),
-                        ])
-                    ),*/
+                    [
                         React.createElement(
                             FormGroup,
                             { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
