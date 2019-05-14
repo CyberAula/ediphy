@@ -620,6 +620,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             }
 
             if (button.type === 'background_picker') {
+                console.log(e);
                 if(e.color) {
                     value = { background: e.color, backgroundAttr: 'full', backgroundZoom: 100, customBackground: true };
                     if (!value) {

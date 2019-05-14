@@ -22,14 +22,15 @@ export function getBackground(theme = 'default', index = 0) {
 }
 
 export function loadBackgroundStyle(show, toolbar, styleConfig = {}, visor = false) {
+    console.log(toolbar);
     let { background, backgroundAttr, backgroundZoom, themeBackground } = toolbar;
     let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
     let index = getBackgroundIndex(theme, themeBackground);
 
-    let isColor = toolbar && (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(background);
+    let isColor = toolbar && (/(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig).test(background);
     let isCustom = toolbar && toolbar.customBackground;
     let isCustomColor = (toolbar && theme) ? isBackgroundColor(theme, index) : false;
-
+    console.log(isColor, isCustom, isCustomColor);
     let visibility = show ? 'visible' : 'hidden';
     let backgroundColor = isCustom ? isColor ? background : '' : isCustomColor ? loadBackground(theme, index) : '';
     let backgroundImage = isCustom ? !isColor ? background : '' : !isCustomColor ? loadBackground(theme, index) : '';
@@ -38,6 +39,7 @@ export function loadBackgroundStyle(show, toolbar, styleConfig = {}, visor = fal
     let backgroundPosition = (toolbar && background && (backgroundAttr === 'centered' || backgroundAttr === 'full')) ? 'center center' : '0% 0%';
     let zIndex = visor ? '' : '0';
 
+    console.log({ visibility, backgroundColor, backgroundSize, backgroundRepeat, backgroundPosition, zIndex, backgroundImage });
     return { visibility, backgroundColor, backgroundSize, backgroundRepeat, backgroundPosition, zIndex, backgroundImage };
 }
 
