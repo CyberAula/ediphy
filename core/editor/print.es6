@@ -92,7 +92,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         let elementClass = "pageToPrint " + currentView + ' ';
         let requiresFullPage = false;
         let currentView = navs[0];
-        console.log(currentView);
         let assignUpDown = true;
         let slide = ((isCV && isSlide(containedViews[currentView].type)) ||
             (!isCV && isSlide(navItems[currentView].type)));
