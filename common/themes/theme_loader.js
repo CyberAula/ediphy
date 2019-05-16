@@ -1,7 +1,7 @@
 import loadFont from './font_loader';
 import { setRgbaAlpha } from "../common_tools";
 
-export const THEMES = {
+/* export const THEMES = {
     default: {
         viewName: ['EDiphy classic', 'EDiphy clásico'],
         font: 'Ubuntu',
@@ -144,7 +144,17 @@ export const THEMES = {
         },
     },
 
-};
+};*/
+
+export function generateThemes() {
+    let THEMES = {};
+    let CONFIG = require('../../core/config');
+    CONFIG.default.themeList.map((theme, index) => {
+        THEMES[theme] = require(`./${theme}/${theme}`).DEFINITION;
+    });
+
+    return THEMES;
+}
 
 export function loadTheme(theme) {
     let font = THEMES[theme] ? THEMES[theme].font : 'Ubuntu Sans';
@@ -180,6 +190,7 @@ export function getCurrentFont() {
 }
 
 export function generateCustomColors(color, colorOrder = 1, generateTransparents = true) {
+
     // let colorOrderStr = colorOrder === 1 ? 'Primary' : colorOrder === 2 ? 'Secondary' : colorOrder.toString();
     let colorName = '--themeColor' + colorOrder;
     let colorTransparentName = colorName + 'Transparent';
@@ -203,4 +214,6 @@ export function sanitizeThemeToolbar(toolbar, styleConfig = {}) {
         font: toolbar.font ? toolbar.font : getThemeFont(theme),
     };
 }
+
+export const THEMES = generateThemes();
 

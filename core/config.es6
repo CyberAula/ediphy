@@ -62,6 +62,10 @@ export default {
         'AudioCue',
         // 'Google3DPolyObject',
     ],
+    themeList: [
+        'default',
+        'orange',
+    ],
     availableLanguages: [
         'en',
         'es',
