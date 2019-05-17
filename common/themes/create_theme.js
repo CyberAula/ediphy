@@ -195,9 +195,16 @@ function definition() {
     * */
     viewName: ['EDiphy classic', 'EDiphy clásico'],
     font: 'Ubuntu',
-    background: [
-        '#FFFFFF',
-    ],
+    background:   {
+        f16_9: [
+            'url(/themes/orange/background_images/orange0.jpg)',
+            'url(/themes/orange/background_images/orange1.jpg)',
+        ],
+        f4_3: [
+            'url(/themes/orange/background_images/orange0.jpg)',
+            'url(/themes/orange/background_images/orange1.jpg)',
+        ],
+    },
     colors: {
         themeColor1: '#17CFC8',
         themeColor2: '#ff444d',
