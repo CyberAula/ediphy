@@ -8,3 +8,4 @@ import './scss-files/test4/test4.scss';
 import './scss-files/test5/test5.scss';
 import './scss-files/test6/test6.scss';
 import './scss-files/test7/test7.scss';
+import './scss-files/testt0/testt0.scss'; import './scss-files/testt1/testt1.scss'; import './scss-files/testt2/testt2.scss'; import './scss-files/testt3/testt3.scss'; import './scss-files/testt4/testt4.scss'; import './scss-files/testt5/testt5.scss';

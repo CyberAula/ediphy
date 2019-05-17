@@ -65,6 +65,7 @@ export default {
     themeList: [
         'default',
         'orange',
+        'testt5',
     ],
     availableLanguages: [
         'en',

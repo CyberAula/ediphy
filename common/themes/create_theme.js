@@ -6,7 +6,7 @@
 import path from 'path';
 import fs from 'fs';
 const LANGS = ["en", "es"];
-const BASE = "common/themes/scss-files/";
+const BASE = "common/themes/";
 const DIST = "dist/themes/";
 let options = {
     name: "",
@@ -51,7 +51,7 @@ function parseArgs(args) {
     args.forEach(function(val, index, array) {
         if (index === 2) {
             p("Creando tema: " + val);
-            options.name = val.toLowerCase().split(" ").join(_);
+            options.name = val.toLowerCase().split(" ").join("_");
             options.camelCaseName = toCamelCase(val);
             options.displayName = val;
         } else if (index > 2) {
@@ -62,19 +62,35 @@ function parseArgs(args) {
     }
     p("Opciones:");
     p(options);
-    // createPlugins();
+    createTheme();
 
 }
 
 function createTheme() {
-    let dir = BASE + options.name;
+    let dir_scss = BASE + "scss-files/" + options.name;
+    let dir_theme = BASE + options.name;
     let dist = DIST + options.name;
-    if(!fs.existsSync(dir)) {
-        fs.mkdirSync(dir);
-        fs.writeFileSync(dir + "/" + options.name + ".scss", template());
-        fs.mkdirSync(dist);
-        fs.mkdirSync(dist + "background_images");
+    let dist_placeholders = DIST + "placeholders";
+    if(!fs.existsSync(dir_scss)) {
+        fs.mkdirSync(dir_scss);
+        fs.writeFileSync(dir_scss + "/" + options.name + ".scss", template());
 
+        if(!fs.existsSync(dir_theme)) {
+            fs.mkdirSync(dir_theme);
+            fs.writeFileSync(dir_theme + "/" + options.name + ".js", definition());
+        }
+
+        if(!fs.existsSync(dist)) {
+            fs.mkdirSync(dist);
+            fs.mkdirSync(dist + '/background_images');
+            fs.copyFileSync(dist_placeholders + "/topLeft.png", dist + "/topLeft.png", err => console.log(err));
+            fs.copyFileSync(dist_placeholders + "/topRight.png", dist + "/topRight.png", err => console.log(err));
+            fs.copyFileSync(dist_placeholders + "/bottomLeft.png", dist + "/bottomLeft.png", err => console.log(err));
+            fs.copyFileSync(dist_placeholders + "/bottomRight.png", dist + "/bottomRight.png", err => console.log(err));
+
+        }
+
+        fs.appendFileSync(BASE + 'css_importer.js', `import './scss-files/${options.name}/${options.name}.scss';`);
         p("Tema creado!");
         p("Accede a core/config.es6 y añade " + options.name + ' a pluginList');
     } else {
@@ -153,5 +169,48 @@ function template() {
   }
 }
 `;
+}
+
+function definition() {
+    return `
+    export const DEFINITION = {
+    /*
+    * viewName: [<Nombre del tema en inglés>, <Nombre del tema es español>],
+    * font: Fuente principal del tema (tiene que ser de Google Fonts),
+    * background: [
+    *   Insertar colores o url a las imágenes del tema. Por ejemplo: 'url(/themes/orange/background_images/orange0.jpg)',...
+    * ],
+    * colors: {
+    *   themeColor1: color principal del tema,
+    *   themeColor2:
+    *   themeColor3:
+    *   themeColor4:
+    *   themeColor5:
+    * },
+    * images: {
+    *   template1: { left: '' },
+    *   template3: { topLeft: 'topLeft.png', topRight: 'topRight.png', bottomLeft: 'bottomLeft.png', bottomRight: 'bottomRight.png' },
+    *   template7: { left: '' },
+    * }
+    * */
+    viewName: ['EDiphy classic', 'EDiphy clásico'],
+    font: 'Ubuntu',
+    background: [
+        '#FFFFFF',
+    ],
+    colors: {
+        themeColor1: '#17CFC8',
+        themeColor2: '#ff444d',
+        themeColor3: '#4bff9f',
+        themeColor4: '#65caff',
+        themeColor5: '#ffbe45',
+    },
+    images: {
+        template1: { left: 'colors_texture.jpg' },
+        template3: { topLeft: 'topLeft.png', topRight: 'topRight.png', bottomLeft: 'bottomLeft.png', bottomRight: 'bottomRight.png' },
+        template7: { left: 'placeholder.svg' },
+    },
+};
+    `;
 }
 parseArgs(process.argv);
