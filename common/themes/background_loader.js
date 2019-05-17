@@ -1,14 +1,16 @@
 import { THEMES } from './theme_loader';
 
-export function loadBackground(theme = 'default', index = 0) {
-    return (THEMES[theme] && THEMES[theme].background) ? THEMES[theme].background[index] : '#ffffff';
+export function loadBackground(theme = 'default', index = 0, aspectRatio = 16 / 9) {
+    let ar = aspectRatio === 16 / 9 ? 'f16_9' : 'f4_3';
+    return (THEMES[theme] && THEMES[theme].background && THEMES[theme].background[ar]) ? THEMES[theme].background[ar][index] : '#ffffff';
 }
 
-export function isBackgroundColor(theme, index = 0) {
-    return (THEMES[theme] && THEMES[theme].background && THEMES[theme].background[index] && THEMES[theme].background[index].indexOf('url') === -1);
+export function isBackgroundColor(theme, index = 0, aspectRatio = 16 / 9) {
+    let ar = aspectRatio === 16 / 9 ? 'f16_9' : 'f4_3';
+    return (THEMES[theme] && THEMES[theme].background && THEMES[theme].background[ar][index] && THEMES[theme].background[ar][index].indexOf('url') === -1);
 }
 
-export function getThemeBackgrounds(theme) {
+export function getThemeBackgrounds(theme, aspectRatio = 16 / 9) {
     theme = (theme === undefined || theme === null) ? 'default' : theme;
     return THEMES[theme].background;
 }
@@ -17,11 +19,12 @@ export function getBackgroundIndex(theme = 'default', back = 0) {
     return back ? getThemeBackgrounds(theme).indexOf(back) : 0;
 }
 
-export function getBackground(theme = 'default', index = 0) {
-    return THEMES[theme].background[index];
+export function getBackground(theme = 'default', index = 0, aspectRatio = 16 / 9) {
+    let ar = aspectRatio === 16 / 9 ? 'f16_9' : 'f4_3';
+    return THEMES[theme].background[ar][index];
 }
 
-export function loadBackgroundStyle(show, toolbar, styleConfig = {}, visor = false) {
+export function loadBackgroundStyle(show, toolbar, styleConfig = {}, visor = false, aspectRatio = 16 / 9) {
     let { background, backgroundAttr, backgroundZoom, themeBackground } = toolbar;
     let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
     let index = getBackgroundIndex(theme, themeBackground);
@@ -31,8 +34,8 @@ export function loadBackgroundStyle(show, toolbar, styleConfig = {}, visor = fal
     let isCustomColor = (toolbar && theme) ? isBackgroundColor(theme, index) : false;
 
     let visibility = show ? 'visible' : 'hidden';
-    let backgroundColor = isCustom ? isColor ? background : '' : isCustomColor ? loadBackground(theme, index) : '';
-    let backgroundImage = isCustom ? !isColor ? background : '' : !isCustomColor ? loadBackground(theme, index) : '';
+    let backgroundColor = isCustom ? isColor ? background : '' : isCustomColor ? loadBackground(theme, index, aspectRatio) : '';
+    let backgroundImage = isCustom ? !isColor ? background : '' : !isCustomColor ? loadBackground(theme, index, aspectRatio) : '';
     let backgroundSize = (toolbar && background && (backgroundAttr === 'centered' || backgroundAttr === 'repeat')) ? (backgroundZoom !== undefined ? (backgroundZoom + '%') : '100%') : 'cover';
     let backgroundRepeat = (toolbar && background && (backgroundAttr === 'centered' || backgroundAttr === 'full')) ? 'no-repeat' : 'repeat';
     let backgroundPosition = (toolbar && background && (backgroundAttr === 'centered' || backgroundAttr === 'full')) ? 'center center' : '0% 0%';

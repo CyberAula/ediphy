@@ -131,6 +131,7 @@ export default class VisorCanvasSli extends Component {
                 {this.props.show ?
                     (<ThemeCSS
                         styleConfig={this.props.styleConfig}
+                        aspectRatio = {this.props.aspectRatio}
                         theme={ theme }
                         toolbar = {{ ...toolbar, colors: colors }}
                         fromPDF={this.props.fromPDF}

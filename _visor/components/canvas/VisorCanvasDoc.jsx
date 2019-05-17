@@ -113,7 +113,9 @@ export default class VisorCanvasDoc extends Component {
                 {this.props.show ?
                     (<ThemeCSS
                         styleConfig={this.props.styleConfig}
+                        aspectRatio = {this.props.aspectRatio}
                         theme={ theme }
+                        fromPDF={this.props.fromPDF}
                         toolbar = {{ ...toolbar, colors: colors }}
                     />) : null}
             </Col>

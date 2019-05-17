@@ -52,7 +52,7 @@ export default class ThemePicker extends React.Component {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     fontFamily: THEMES[key].font,
-                                    background: THEMES[key].background[0],
+                                    background: THEMES[key].background.f16_9[0],
                                     backgroundSize: 'cover',
                                     color: THEMES[key].colors.themeColor1,
                                     height: this.props.fromStyleConfig ? '10em' : '5em' }}><h4 key={index}>{index === selectedIndex ? key : key}</h4></div>

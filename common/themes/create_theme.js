@@ -73,7 +73,7 @@ function createTheme() {
     let dist_placeholders = DIST + "placeholders";
     if(!fs.existsSync(dir_scss)) {
         fs.mkdirSync(dir_scss);
-        fs.writeFileSync(dir_scss + "/" + options.name + ".scss", template());
+        fs.writeFileSync(dir_scss + "/" + options.name + ".scss", template(options.name));
 
         if(!fs.existsSync(dir_theme)) {
             fs.mkdirSync(dir_theme);
@@ -101,8 +101,8 @@ function createTheme() {
 
 }
 
-function template() {
-    return `.default {
+function template(themeName) {
+    return `.${themeName} {
   font-family: var(--themePrimaryFont, 'Ubuntu');
 
   .title {

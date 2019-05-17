@@ -38,7 +38,6 @@ export default class ThemeCSS extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-
         let selectedItemChanged = prevProps.toolbar.id !== this.props.toolbar.id;
         let styleConfigChanged = prevProps.styleConfig.theme !== this.props.styleConfig.theme || prevProps.styleConfig.font !== this.props.styleConfig.font || prevProps.styleConfig.color !== this.props.styleConfig.color;
 

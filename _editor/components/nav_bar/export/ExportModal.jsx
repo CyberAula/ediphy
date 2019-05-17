@@ -72,6 +72,7 @@ export default class ExportModal extends Component {
             { format: "HTML", handler: ()=> {this.props.export('HTML', callback, this.state.selfContained); } },
             { format: "PDF", formatRender: <span>PDF <sub className={"betaSub"}>BETA</sub></span>, handler: ()=> { this.props.export('PDF', callback, this.state);} },
             { format: "EDI", handler: ()=> {this.props.export('edi', callback, this.state.selfContained); } },
+            { format: "MoodleXML", handler: () => {this.props.export('MoodleXML', callback, this.state.selfContained); } },
         ];
         return (
             <Modal className="pageModal exportoScormModalBody"

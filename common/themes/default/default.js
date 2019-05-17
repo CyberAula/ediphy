@@ -1,9 +1,10 @@
 export const DEFINITION = {
     viewName: ['EDiphy classic', 'EDiphy clásico'],
     font: 'Ubuntu',
-    background: [
-        '#FFFFFF',
-    ],
+    background: {
+        f4_3: ['#FFFFFF'],
+        f16_9: ['#FFFFFF'],
+    },
     colors: {
         themeColor1: '#17CFC8',
         themeColor2: '#ff444d',

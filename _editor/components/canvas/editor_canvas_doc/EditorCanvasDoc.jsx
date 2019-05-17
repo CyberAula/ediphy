@@ -92,6 +92,7 @@ export default class EditorCanvasDoc extends Component {
                 </div>
                 <ThemeCSS
                     styleConfig={this.props.styleConfig}
+                    aspectRatio = {this.props.aspectRatio}
                     theme={theme}
                     toolbar={{ ...toolbar, colors: colors }}
                 />

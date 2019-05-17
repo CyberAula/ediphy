@@ -52,6 +52,7 @@ import Cookies from 'universal-cookie';
 import ExitModal from "../components/exit_modal/ExitModal";
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
+import toMoodleXML from "../../core/editor/moodle_xml.es6";
 const cookies = new Cookies();
 
 /**
@@ -188,6 +189,8 @@ class EditorApp extends Component {
                         export={(format, callback, options = false) => {
                             if(format === "PDF") {
                                 printToPDF(this.props.store.getState().undoGroup.present, callback, options);
+                            } else if (format === "MoodleXML") {
+                                toMoodleXML(this.props.store.getState().undoGroup.present, callback, options);
                             } else if (format === "edi") {
                                 Ediphy.Visor.exportsEDI({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback);
                             } else {
@@ -322,6 +325,7 @@ class EditorApp extends Component {
                                 pluginToolbars={pluginToolbars}
                                 viewToolbars={viewToolbars}
                                 title={title}
+                                aspectRatio={globalConfig.canvasRatio}
                                 styleConfig={{ ...styleConfig }}
                                 onToolbarUpdated={this.toolbarUpdated}
                                 onRichMarkMoved={(mark, value)=>dispatch(moveRichMark(mark, value))}

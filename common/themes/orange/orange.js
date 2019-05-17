@@ -20,10 +20,16 @@ export const DEFINITION = {
     * */
     viewName: ['EDiphy classic', 'EDiphy clásico'],
     font: 'Merriweather',
-    background: [
-        'url(/themes/orange/background_images/orange0.jpg)',
-        'url(/themes/orange/background_images/orange1.jpg)',
-    ],
+    background: {
+        f16_9: [
+            'url(/themes/orange/background_images/orange0.jpg)',
+            'url(/themes/orange/background_images/orange1.jpg)',
+        ],
+        f4_3: [
+            'url(/themes/orange/background_images/orange0.jpg)',
+            'url(/themes/orange/background_images/orange1.jpg)',
+        ],
+    },
     colors: {
         themeColor1: '#D1550F',
         themeColor2: '#17CFC8',
