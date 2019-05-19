@@ -190,6 +190,7 @@ class EditorApp extends Component {
                             if(format === "PDF") {
                                 printToPDF(this.props.store.getState().undoGroup.present, callback, options);
                             } else if (format === "MoodleXML") {
+                                console.log(this.props.store.getState());
                                 toMoodleXML(this.props.store.getState().undoGroup.present, callback, options);
                             } else if (format === "edi") {
                                 Ediphy.Visor.exportsEDI({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback);
