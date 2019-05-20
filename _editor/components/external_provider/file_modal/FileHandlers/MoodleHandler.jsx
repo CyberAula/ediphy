@@ -157,7 +157,7 @@ export default class MoodleHandler extends Component {
             searchLabel: ' ',
             searchPlaceholder: i18n.t('FileModal.FileHandlers.filter_questions'),
             noDataLabel: i18n.t('FileModal.FileHandlers.no_matches'),
-            initialPageLength: 5,
+            initialPageLength: 8,
             initialSort: keys[0] || 0,
             initialOrder: 'descending',
             theme: 'striped',
