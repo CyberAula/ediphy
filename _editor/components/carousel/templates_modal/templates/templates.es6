@@ -221,6 +221,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "style": { "color": 'var(--themeColor1)' },
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.video') + "</h1>",
                 },
                 "thumbnail": {
@@ -260,6 +261,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "style": { "color": 'var(--themeColor1)' },
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.map') + "</h1>",
                 },
                 "thumbnail": {
@@ -298,6 +300,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "style": { "color": 'var(--themeColor1)' },
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.web') + "</h1>",
                 },
                 "thumbnail": {
@@ -337,6 +340,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "style": { "color": 'var(--themeColor1)' },
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.elements_list') + "</h1>",
                 },
                 "thumbnail": {
@@ -393,6 +397,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "style": { "color": 'var(--themeColor1)' },
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_unique_response') + "</h1>",
                 },
                 "thumbnail": {
@@ -432,6 +437,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "style": { "color": 'var(--themeColor1)' },
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_multiple_response') + "</h1>",
                 },
                 "thumbnail": {
@@ -471,6 +477,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "style": { "color": 'var(--themeColor1)' },
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_free_response') + "</h1>",
                 },
                 "thumbnail": {
@@ -510,6 +517,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "style": { "color": 'var(--themeColor1)' },
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
                 },
                 "thumbnail": {
