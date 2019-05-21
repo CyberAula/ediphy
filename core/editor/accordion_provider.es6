@@ -50,7 +50,9 @@ export function toolbarMapper(controls, toolbar) {
 
     if (Object.keys(toolbar.style).length > 0) {
         Object.keys(toolbar.style).forEach((s) => {
-            controls.main.accordions.style.buttons[s].value = toolbar.style[s];
+            if(controls.main.accordions.style.buttons[s]) {
+                controls.main.accordions.style.buttons[s].value = toolbar.style[s];
+            }
         });
     }
     if (Object.keys(toolbar.structure).length > 0) {

@@ -68,6 +68,12 @@ export function BasicText(base) {
                                     max: 1,
                                     step: 0.01,
                                 },
+                                color: {
+                                    __name: 'Color',
+                                    type: 'color',
+                                    value: 'var(--themeColor6)',
+                                    hide: true,
+                                },
                                 /* ,
                                 className: {
                                     __name: Ediphy.i18n.t('BasicText.classname'),
