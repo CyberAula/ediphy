@@ -65,6 +65,18 @@ export default {
     themeList: [
         'default',
         'orange',
+        'vish1',
+        'vish2',
+        'vish3',
+        'vish4',
+        'vish5',
+        'vish6',
+        'vish7',
+        'vish8',
+        'vish9',
+        'vish10',
+        'vish11',
+        'vish12',
     ],
     availableLanguages: [
         'en',

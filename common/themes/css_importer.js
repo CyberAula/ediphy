@@ -9,3 +9,4 @@ import './scss-files/test5/test5.scss';
 import './scss-files/test6/test6.scss';
 import './scss-files/test7/test7.scss';
 import './scss-files/testt0/testt0.scss'; import './scss-files/testt1/testt1.scss'; import './scss-files/testt2/testt2.scss'; import './scss-files/testt3/testt3.scss'; import './scss-files/testt4/testt4.scss'; import './scss-files/testt5/testt5.scss';
+import './scss-files/vish2/vish2.scss'; import './scss-files/vish3/vish3.scss'; import './scss-files/vish4/vish4.scss'; import './scss-files/vish5/vish5.scss'; import './scss-files/vish6/vish6.scss'; import './scss-files/vish7/vish7.scss'; import './scss-files/vish8/vish8.scss'; import './scss-files/vish9/vish9.scss'; import './scss-files/vish10/vish10.scss'; import './scss-files/vish11/vish11.scss'; import './scss-files/vish12/vish12.scss';

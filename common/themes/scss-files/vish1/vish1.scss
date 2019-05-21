@@ -1,10 +1,10 @@
-
-.default {
+.vish1 {
   font-family: var(--themePrimaryFont, 'Ubuntu');
 
   .title {
     display: block;
     background-color: transparent;
+    color: var(--themeColor1);
 
     .cab {
       font-size: 2em;
@@ -30,7 +30,7 @@
          font-size: 0.6em;
          height: auto;
          border-radius: 0;
-         color: var(--themeColor1);
+         color: var(--themeColor2);
        }
 
       h1{
@@ -51,7 +51,7 @@
       h4{
         margin: 0.4em 0 0;
         font-size: 0.6em;
-        color: var(--themeColor14;
+        color: var(--themeColor4);
       }
       .breadcrumb a{
         margin: 0.4em 0 0;
@@ -68,4 +68,3 @@
     }
   }
 }
-

@@ -1,5 +1,4 @@
-
-.default {
+.prueba0 {
   font-family: var(--themePrimaryFont, 'Ubuntu');
 
   .title {
@@ -36,22 +35,19 @@
       h1{
         margin: 0.1em 0 0;
         font-size: 1em;
-        color: var(--themeColor1);
       }
       h2{
         margin: 0.4em 0 0;
         font-size: 0.8em;
-        color: var(--themeColor2);
+        color: var(--themeColor1);
       }
       h3{
         margin: 0.4em 0 0;
         font-size: 0.7em;
-        color: var(--themeColor3);
       }
       h4{
         margin: 0.4em 0 0;
         font-size: 0.6em;
-        color: var(--themeColor14;
       }
       .breadcrumb a{
         margin: 0.4em 0 0;
@@ -68,4 +64,3 @@
     }
   }
 }
-
