@@ -28,7 +28,11 @@
 .template2_item{
     padding: 0.5em;
     font-size: 2em;
+    &.custom_color{
+      color: var(--themeColor7);
+    }
     color: white;
+
     //height: 100%;
 }
 .bulleted_list{

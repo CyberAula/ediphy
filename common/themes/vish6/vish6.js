@@ -30,12 +30,12 @@ export const DEFINITION = {
         ],
     },
     colors: {
-        themeColor1: '#666666',
-        themeColor2: '#454545',
-        themeColor3: '#6f6f6f',
-        themeColor4: '#999999',
-        themeColor5: '#afafaf',
-        themeColor6: '#000000',
+        themeColor1: '#164278',
+        themeColor2: '#4C92E8',
+        themeColor3: '#AACBF4',
+        themeColor4: '#3C6CA7',
+        themeColor5: '#D7E7FA',
+        themeColor6: '#164278',
     },
     images: {
         template1: { left: 'colors_texture.jpg' },

@@ -508,6 +508,7 @@ let en = {
             "template9": "Multiple response",
             "template10": "Open response",
             "template11": "True / false",
+            "template12": "Title",
             "template0": "Empty",
         },
         "export": {

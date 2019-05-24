@@ -509,6 +509,7 @@ let es = {
             "template9": "Respuesta múltiple",
             "template10": "Respuesta abierta",
             "template11": "Verdad./falso",
+            "template12": "Título",
             "template0": "En blanco",
         },
         "export": {

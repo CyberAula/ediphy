@@ -69,8 +69,8 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
-                    "style": { "backgroundColor": "var(--themeColor2)" },
+                    "text": "<div class='template2_item custom_color'>" + i18n.t('templates.add_text') + "</div>",
+                    "style": { "backgroundColor": 'var(--themeColor2)' },
 
                 },
                 "thumbnail": {
@@ -88,7 +88,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
+                    "text": "<div class='template2_item custom_color'>" + i18n.t('templates.add_text') + "</div>",
                     "style": { "backgroundColor": "var(--themeColor3)" },
                 },
                 "thumbnail": {
@@ -106,7 +106,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
+                    "text": "<div class='template2_item custom_color'>" + i18n.t('templates.add_text') + "</div>",
                     "style": { "backgroundColor": "var(--themeColor4)" },
                 },
                 "thumbnail": {
@@ -124,7 +124,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
+                    "text": "<div class='template2_item custom_color'>" + i18n.t('templates.add_text') + "</div>",
                     "style": { "backgroundColor": "var(--themeColor5)" },
                 },
                 "thumbnail": {
@@ -416,6 +416,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "MultipleChoice",
+                    "style": { "background-color": "rgba(0, 0, 0, 0)" },
                 },
                 "thumbnail": {
                     "icon": "radio_button_checked",
@@ -456,6 +457,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "MultipleAnswer",
+                    "style": { "background-color": "rgba(0, 0, 0, 0)" },
                 },
                 "thumbnail": {
                     "icon": "check_box",
@@ -496,6 +498,7 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "FreeResponse",
+                    "style": { "background-color": "rgba(0, 0, 0, 0)" },
                 },
                 "thumbnail": {
                     "icon": "message",
@@ -536,9 +539,51 @@ export const templates = (theme = 'default') => { return (
                 },
                 "toolbar": {
                     "name": "TrueFalse",
+                    "style": { "background-color": "rgba(0, 0, 0, 0)" },
                 },
                 "thumbnail": {
                     "icon": "check_circle",
+                    "icon_color": "#706F6F",
+                    "color": "#B2B2B2",
+                },
+            },
+        ],
+    },
+    {
+        "name": i18n.t('templates.template12'),
+        "boxes": [
+            {
+                "box": {
+                    "x": "5%",
+                    "y": "25%",
+                    "width": "90%",
+                    "height": "25%",
+                },
+                "toolbar": {
+                    "name": "BasicText",
+                    "text": "<h1> Title </h1>",
+                    "style": { "color": 'var(--themeColor1)', "font-size": "3em", "font-weight": "bold", "text-align": "center" },
+                },
+                "thumbnail": {
+                    "icon": "",
+                    "icon_color": "",
+                    "color": "#706F6F",
+                },
+            },
+            {
+                "box": {
+                    "x": "5%",
+                    "y": "50%",
+                    "width": "90%",
+                    "height": "20%",
+                },
+                "toolbar": {
+                    "name": "BasicText",
+                    "text": "<h2> Subtitle </h2>",
+                    "style": { "color": 'var(--themeColor6)', "font-size": "2em", "font-weight": "bold", "text-align": "center" },
+                },
+                "thumbnail": {
+                    "icon": "",
                     "icon_color": "#706F6F",
                     "color": "#B2B2B2",
                 },
