@@ -37,6 +37,7 @@ export default class EditorCanvasSli extends Component {
 
     render() {
         let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
+        console.log(itemSelected);
         let titles = [];
         if (itemSelected && itemSelected.id !== 0) {
             let initialTitle = this.props.viewToolbars[itemSelected.id].viewName;
@@ -87,7 +88,7 @@ export default class EditorCanvasSli extends Component {
                             e.stopPropagation();
                         }}
                         className={'innercanvas sli ' + theme}
-                        style={ itemSelected.id !== 0 ? loadBackgroundStyle(this.props.showCanvas, toolbar, styleConfig, false, this.props.aspectRatio) : {} }
+                        style={ itemSelected.id !== 0 ? loadBackgroundStyle(this.props.showCanvas, toolbar, styleConfig, false, this.props.aspectRatio, itemSelected.background) : {} }
                     >
                         {this.state.alert}
                         {gridOn ? <div style={{ zIndex: '-1' }} onClick={()=>{this.props.onBoxSelected(-1);}}><SnapGrid key={this.props.fromCV}/></div> : null}

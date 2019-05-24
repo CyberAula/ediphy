@@ -40,7 +40,7 @@ export const DEFINITION = {
 
     },
     images: {
-        template1: { left: '' },
+        template1: { left: '', background: 1 },
         template3: {
             topLeft: 'fruit1.jpg',
             topRight: 'fruit2.jpg',

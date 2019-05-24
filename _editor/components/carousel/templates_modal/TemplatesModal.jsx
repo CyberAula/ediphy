@@ -90,6 +90,7 @@ export default class TemplatesModal extends Component {
      * Add Slide
      */
     AddNavItem(template) {
+        console.log(template);
         let newId = ID_PREFIX_PAGE + Date.now();
         if (this.props.show) {
             this.props.onNavItemAdded(
@@ -98,7 +99,7 @@ export default class TemplatesModal extends Component {
                 // this.getParent().id,// Calculated in CarrouselButtons
                 PAGE_TYPES.SLIDE,
                 // this.props.calculatePosition(), // Calculated in CarrouselButtons
-                "rgb(255,255,255)",
+                template + 1,
                 0,
                 template !== -1,
                 false
