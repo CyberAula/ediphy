@@ -17,13 +17,11 @@ export default class ThemePreview extends React.Component {
 
     componentWillUpdate(nextProps, nextState, nextContext) {
         if(this.props.styleConfig.transition !== nextProps.styleConfig.transition) {
-            console.log('updating...');
             this.setState({ visible: false }, () => setTimeout(() => this.setState({ visible: true }), 0));
         }
     }
 
     render() {
-        console.log(this.props);
         return(
             <Animated animationIn={TRANSITIONS[this.props.styleConfig.transition].transition.in} animationOut={TRANSITIONS[this.props.styleConfig.transition].transition.out} isVisible={this.state.visible}>
                 <div id={"previewZone"} className={"style_preview_container previewZone"} style={{ width: '400px', height: '220px', border: '1px solid gray', marginBottom: '20px' }}>
