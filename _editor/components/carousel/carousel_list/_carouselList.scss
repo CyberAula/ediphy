@@ -263,6 +263,9 @@
     width: auto !important;
     height: auto !important;
     border-radius: 0;
+    &:hover {
+        background-color: $blueprimary;
+    }
 }
 
 #popov {

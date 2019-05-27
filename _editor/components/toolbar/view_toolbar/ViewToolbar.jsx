@@ -109,7 +109,7 @@ export default class ViewToolbar extends Component {
                                 __name: i18n.t('Style.font'),
                                 kind: 'theme_font',
                                 type: 'font_picker',
-                                value: viewToolbar.font,
+                                value: viewToolbar.font !== '' ? viewToolbar.font : styleConfig.font,
                             },
                             background: {
                                 __name: i18n.t('background.background_image'),

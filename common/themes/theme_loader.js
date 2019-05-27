@@ -190,8 +190,6 @@ export function getCurrentFont() {
 }
 
 export function generateCustomColors(color, colorOrder = 1, generateTransparents = true) {
-
-    // let colorOrderStr = colorOrder === 1 ? 'Primary' : colorOrder === 2 ? 'Secondary' : colorOrder.toString();
     let colorName = '--themeColor' + colorOrder;
     let colorTransparentName = colorName + 'Transparent';
     return generateTransparents ? { [ colorName ]: color, [colorTransparentName]: setRgbaAlpha(color, 0.15) } : { [colorName]: color };
@@ -207,11 +205,12 @@ export function getThemeFont(theme = 'default') {
 
 export function sanitizeThemeToolbar(toolbar, styleConfig = {}) {
     let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
+
     return {
         ...toolbar,
         theme: theme,
-        colors: toolbar.colors ? toolbar.colors : getThemeColors(theme),
-        font: toolbar.font ? toolbar.font : getThemeFont(theme),
+        colors: toolbar.colors ? toolbar.colors : 0,
+        font: toolbar.font ? toolbar.font : styleConfig.font,
     };
 }
 

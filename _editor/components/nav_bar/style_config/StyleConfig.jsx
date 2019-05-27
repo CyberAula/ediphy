@@ -45,6 +45,7 @@ export default class StyleConfig extends Component {
      * @returns {code}
      */
     render() {
+        console.log(this.props);
         const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context, allowDownload, allowClone, allowComments } = this.state;
         return (
             <div>
