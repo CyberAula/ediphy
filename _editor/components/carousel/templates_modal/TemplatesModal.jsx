@@ -10,6 +10,7 @@ import Ediphy from "../../../../core/editor/main";
 import { ADD_BOX } from "../../../../common/actions";
 import TemplateThumbnail from "./TemplateThumbnail";
 import { createBox } from "../../../../common/common_tools";
+import { getThemeTemplates } from "../../../../common/themes/theme_loader";
 
 export default class TemplatesModal extends Component {
     constructor(props) {
@@ -24,6 +25,9 @@ export default class TemplatesModal extends Component {
         };
     }
     render() {
+        let templates = JSON.parse(JSON.stringify(this.templates));
+        let themeTemplates = getThemeTemplates(this.props.styleConfig.theme);
+        templates = templates.concat(themeTemplates);
         return (
             <Modal className="pageModal" id="TemplatesModal" show={this.props.show}>
                 <Modal.Header>
@@ -47,7 +51,7 @@ export default class TemplatesModal extends Component {
                                 this.AddNavItem(-1);
                             }}><div className={'template_name'} style={{ display: this.state.itemSelected === -1 ? 'block' : 'none' }}>{i18n.t('templates.template0')}</div>
                         </div>
-                        {this.templates.map((item, index) => {
+                        {templates.map((item, index) => {
                             let border = this.state.itemSelected === index ? "solid #17CFC8 3px" : "solid #eee 1px";
                             return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: '120px', height: '80px' }}>
                                 <TemplateThumbnail key={index} index={index}
@@ -90,7 +94,10 @@ export default class TemplatesModal extends Component {
      * Add Slide
      */
     AddNavItem(template) {
-        console.log(template);
+        let templates = JSON.parse(JSON.stringify(this.templates));
+        let themeTemplates = getThemeTemplates(this.props.styleConfig.theme);
+        templates = templates.concat(themeTemplates);
+
         let newId = ID_PREFIX_PAGE + Date.now();
         if (this.props.show) {
             this.props.onNavItemAdded(
@@ -105,7 +112,7 @@ export default class TemplatesModal extends Component {
                 false
             );
             if (template !== -1) {
-                let selectedTemplate = this.templates[template];
+                let selectedTemplate = templates[template];
                 let boxes = selectedTemplate.boxes;
 
                 boxes.map((item, index) => {

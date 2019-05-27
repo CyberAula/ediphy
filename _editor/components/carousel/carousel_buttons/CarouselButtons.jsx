@@ -234,6 +234,7 @@ export default class CarouselButtons extends Component {
                 <TemplatesModal
                     show={this.state.showTemplates}
                     close={this.toggleTemplatesModal}
+                    styleConfig={this.props.styleConfig}
                     navItems={this.props.navItems}
                     boxes={this.props.boxes}
                     styleConfig={this.props.styleConfig}

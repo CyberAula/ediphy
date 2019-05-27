@@ -1,3 +1,5 @@
+import i18n from "i18next";
+
 export const DEFINITION = {
     /*
     * viewName: [<Nombre del tema en inglés>, <Nombre del tema es español>],
@@ -49,4 +51,63 @@ export const DEFINITION = {
         },
         template7: { left: '' },
     },
+    templates: [
+        {
+            "name": i18n.t('templates.template1'),
+            "boxes": [
+                {
+                    "box": {
+                        "x": "0",
+                        "y": "0",
+                        "width": "25%",
+                        "height": "100%",
+                    },
+                    "toolbar": {
+                        "name": "HotspotImages",
+                        "url": `templates/template1/left`,
+                    },
+                    "thumbnail": {
+                        "icon": "filter_hdr",
+                        "icon_color": "#D1550F",
+                        "color": "#ff9a3c",
+                    },
+                },
+                {
+                    "box": {
+                        "x": "30%",
+                        "y": "10%",
+                        "width": "60%",
+                        "height": "12%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'>" + i18n.t('templates.text_images') + "</h1>",
+                        "style": { "color": 'var(--themeColor1)' },
+                    },
+                    "thumbnail": {
+                        "icon": "",
+                        "icon_color": "",
+                        "color": "#D1550F",
+                    },
+                },
+                {
+                    "box": {
+                        "x": "30%",
+                        "y": "30%",
+                        "width": "60%",
+                        "height": "40%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque diam urna, hendrerit porta sollicitudin nec, gravida quis massa. Aenean ac mi nulla. Phasellus ac dui consectetur, ultrices dui at, convallis quam. Quisque ac varius nibh. Pellentesque egestas, sem a placerat laoreet, enim lectus volutpat nisi, at vulputate tortor leo ac risus. Mauris pretium et enim eu faucibus. Vestibulum ornare odio eget eros ullamcorper, et iaculis libero venenatis. </p>",
+                    },
+                    "thumbnail": {
+                        "icon": "format_align_left",
+                        "icon_color": "#706F6F",
+                        "color": "#B2B2B2",
+                    },
+                },
+            ],
+        },
+    ],
 };
