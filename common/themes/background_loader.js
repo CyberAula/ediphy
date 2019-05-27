@@ -2,7 +2,6 @@ import { THEMES } from './theme_loader';
 
 export function loadBackground(theme = 'default', index = 0, aspectRatio = 16 / 9) {
     let i = THEMES[theme].images.hasOwnProperty('template' + index) && THEMES[theme].images['template' + index].background ? THEMES[theme].images['template' + index].background : 0;
-    console.log(i);
     let ar = aspectRatio === 16 / 9 ? 'f16_9' : 'f4_3';
     return (THEMES[theme] && THEMES[theme].background && THEMES[theme].background[ar]) ? THEMES[theme].background[ar][i] : '#ffffff';
 }
@@ -23,7 +22,6 @@ export function getBackgroundIndex(theme = 'default', back = 0) {
 
 export function getBackground(theme = 'default', index = 0, aspectRatio = 16 / 9) {
     let i = THEMES[theme].images.hasOwnProperty('template' + index) && THEMES[theme].images['template' + index].background ? THEMES[theme].images['template' + index].background : 0;
-    console.log(i);
     let ar = aspectRatio === 16 / 9 ? 'f16_9' : 'f4_3';
     return THEMES[theme].background[ar][i];
 }
@@ -33,8 +31,6 @@ export function loadBackgroundStyle(show, toolbar, styleConfig = {}, visor = fal
     let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
 
     index = !isNaN(index) ? index : 0;
-    console.log(index);
-
     let isColor = toolbar && (/(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig).test(background);
     let isCustom = toolbar && toolbar.customBackground;
     let isCustomColor = (toolbar && theme) ? isBackgroundColor(theme, index) : false;

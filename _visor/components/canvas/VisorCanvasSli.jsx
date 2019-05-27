@@ -32,6 +32,7 @@ export default class VisorCanvasSli extends Component {
     render() {
         let titles = [];
         let itemSelected = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
+        console.log(itemSelected);
         let isCV = !isView(this.props.currentView);
         let toolbar = this.props.viewToolbars[this.props.currentView];
 
@@ -134,6 +135,7 @@ export default class VisorCanvasSli extends Component {
                         aspectRatio = {this.props.aspectRatio}
                         theme={ theme }
                         toolbar = {{ ...toolbar, colors: colors }}
+                        template = { itemSelected.backgorund ? itemSelected.backgorund : 0 }
                         fromPDF={this.props.fromPDF}
                         currentView={this.props.currentView}
                     />) : null}
