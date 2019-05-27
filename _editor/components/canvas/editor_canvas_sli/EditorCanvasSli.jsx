@@ -37,7 +37,6 @@ export default class EditorCanvasSli extends Component {
 
     render() {
         let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
-        console.log(itemSelected);
         let titles = [];
         if (itemSelected && itemSelected.id !== 0) {
             let initialTitle = this.props.viewToolbars[itemSelected.id].viewName;
