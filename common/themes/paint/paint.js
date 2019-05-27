@@ -24,10 +24,15 @@ export const DEFINITION = {
     background: {
         f16_9: [
             'url(/themes/paint/background_images/paint_169.jpg)',
-            'url(/themes/paint/background_images/paint_169_title.jpg)',
+            'url(/themes/paint/background_images/paint_169_12.jpg)',
+            'url(/themes/paint/background_images/paint_169_2.jpg)',
+            'url(/themes/paint/background_images/paint_169_1.jpg)',
         ],
         f4_3: [
             'url(/themes/paint/background_images/paint_43.jpg)',
+            'url(/themes/paint/background_images/paint_43_12.jpg)',
+            'url(/themes/paint/background_images/paint_43_2.jpg)',
+            'url(/themes/paint/background_images/paint_43_1.jpg)',
         ],
     },
     colors: {
@@ -40,8 +45,10 @@ export const DEFINITION = {
         themeColor7: '#3E3839',
     },
     images: {
-        template1: { left: 'left.jpg' },
-        template3: { topLeft: 'topLeft.jpg', topRight: 'topRight.jpg', bottomLeft: 'bottomLeft.jpg', bottomRight: 'bottomRight.jpg' },
+        template1: { left: 'left.jpg', background: 3 },
+        template2: { background: 2 },
+        template3: { topLeft: 'topLeft.jpg', topRight: 'topRight.jpg', bottomLeft: 'bottomLeft.jpg', bottomRight: 'bottomRight.jpg', background: 2 },
         template7: { left: 'seven.jpg' },
+        template12: { background: 1 },
     },
 };

@@ -24,9 +24,15 @@ export const DEFINITION = {
     background: {
         f16_9: [
             'url(/themes/purple/background_images/purple_169.jpg)',
+            'url(/themes/purple/background_images/purple_169_1.jpg)',
+            'url(/themes/purple/background_images/purple_169_2.jpg)',
+            'url(/themes/purple/background_images/purple_169_12.jpg)',
         ],
         f4_3: [
             'url(/themes/purple/background_images/purple_43.jpg)',
+            'url(/themes/purple/background_images/purple_43_1.jpg)',
+            'url(/themes/purple/background_images/purple_43_2.jpg)',
+            'url(/themes/purple/background_images/purple_43_12.jpg)',
         ],
     },
     colors: {
@@ -38,8 +44,10 @@ export const DEFINITION = {
         themeColor6: '#302150',
     },
     images: {
-        template1: { left: 'left.jpg' },
-        template3: { topLeft: 'topLeft.jpg', topRight: 'topRight.jpg', bottomLeft: 'bottomLeft.jpg', bottomRight: 'bottomRight.jpg' },
+        template1: { left: 'left.jpg', background: 1 },
+        template2: { background: 2 },
+        template3: { topLeft: 'topLeft.jpg', topRight: 'topRight.jpg', bottomLeft: 'bottomLeft.jpg', bottomRight: 'bottomRight.jpg', background: 2 },
         template7: { left: 'seven.jpg' },
+        template12: { background: 3 },
     },
 };

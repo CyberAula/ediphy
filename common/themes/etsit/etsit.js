@@ -24,9 +24,11 @@ export const DEFINITION = {
     background: {
         f16_9: [
             'url(/themes/etsit/background_images/etsit_169.jpg)',
+            'url(/themes/etsit/background_images/etsit_169_12.jpg)',
         ],
         f4_3: [
             'url(/themes/etsit/background_images/etsit_43.jpg)',
+            'url(/themes/etsit/background_images/etsit_43_12.jpg)',
         ],
     },
     colors: {
@@ -42,5 +44,6 @@ export const DEFINITION = {
         template1: { left: 'left.jpg' },
         template3: { topLeft: 'topLeft.jpg', topRight: 'topRight.jpg', bottomLeft: 'bottomLeft.jpg', bottomRight: 'bottomRight.jpg' },
         template7: { left: 'seven.jpg' },
+        template12: { background: 1 },
     },
 };

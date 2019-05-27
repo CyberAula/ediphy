@@ -42,7 +42,7 @@ export const DEFINITION = {
         themeColor7: '#243635',
     },
     images: {
-        template1: { left: '', background: 1 },
+        template1: { left: '' },
         template3: {
             topLeft: 'fruit1.jpg',
             topRight: 'fruit2.jpg',
