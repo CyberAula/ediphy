@@ -31,10 +31,7 @@ export const DEFINITION = {
     },
     colors: {
         themeColor1: '#666666',
-        themeColor2: '#454545',
-        themeColor3: '#6f6f6f',
-        themeColor4: '#999999',
-        themeColor5: '#afafaf',
+        themeColor2: '#00CCA2',
         themeColor6: '#666666',
     },
     images: {

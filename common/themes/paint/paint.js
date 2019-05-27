@@ -24,18 +24,20 @@ export const DEFINITION = {
     background: {
         f16_9: [
             'url(/themes/paint/background_images/paint_169.jpg)',
+            'url(/themes/paint/background_images/paint_169_title.jpg)',
         ],
         f4_3: [
             'url(/themes/paint/background_images/paint_43.jpg)',
         ],
     },
     colors: {
-        themeColor1: '#6C6164',
-        themeColor2: '#507B8F',
-        themeColor3: '#95C0AD',
+        themeColor1: '#736567',
+        themeColor2: '#B6D2C6',
+        themeColor3: '#C7A39E',
         themeColor4: '#D1B989',
-        themeColor5: '#BF9691',
+        themeColor5: '#8FADC1',
         themeColor6: '#401813',
+        themeColor7: '#3E3839',
     },
     images: {
         template1: { left: 'left.jpg' },

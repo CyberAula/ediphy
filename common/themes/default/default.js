@@ -12,6 +12,7 @@ export const DEFINITION = {
         themeColor4: '#65caff',
         themeColor5: '#ffbe45',
         themeColor6: '#1d1d1d',
+        themeColor7: '#1d1d1d',
     },
     images: {
         template1: { left: 'colors_texture.jpg' },

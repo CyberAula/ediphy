@@ -32,10 +32,11 @@ export const DEFINITION = {
     colors: {
         themeColor1: '#F18E00',
         themeColor2: '#C4C4C4',
-        themeColor3: '#004489',
-        themeColor4: '#FFCD5E',
-        themeColor5: '#434343',
+        themeColor3: '#89ACED',
+        themeColor4: '#89ACED',
+        themeColor5: '#C4C4C4',
         themeColor6: '#004489',
+        themeColor7: "#434343",
     },
     images: {
         template1: { left: 'left.jpg' },

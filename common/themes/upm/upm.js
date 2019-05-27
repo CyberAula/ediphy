@@ -31,11 +31,12 @@ export const DEFINITION = {
     },
     colors: {
         themeColor1: '#D2D2D2',
-        themeColor2: '#0F3D59',
-        themeColor3: '#DBE0EF',
-        themeColor4: '#DBE0EF',
-        themeColor5: '#0F3D59',
+        themeColor2: '#DBE0EF',
+        themeColor3: '#FFFFFF',
+        themeColor4: '#FFFFFF',
+        themeColor5: '#DBE0EF',
         themeColor6: '#0F3D59',
+        themeColor7: '#0F3D59',
     },
     images: {
         template1: { left: 'left.jpg' },
