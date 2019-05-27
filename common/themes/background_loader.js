@@ -35,14 +35,15 @@ export function loadBackgroundStyle(show, toolbar, styleConfig = {}, visor = fal
     let isCustom = toolbar && toolbar.customBackground;
     let isCustomColor = (toolbar && theme) ? isBackgroundColor(theme, index) : false;
 
+    let urlImage = background.indexOf('url') === -1 && background.indexOf('image/jpeg') !== -1 ? 'url(' + background + ')' : background;
+
     let visibility = show ? 'visible' : 'hidden';
     let backgroundColor = isCustom ? isColor ? background : '' : isCustomColor ? loadBackground(theme, index, aspectRatio) : '';
-    let backgroundImage = isCustom ? !isColor ? background : '' : !isCustomColor ? loadBackground(theme, index, aspectRatio) : '';
+    let backgroundImage = isCustom ? !isColor ? urlImage : '' : !isCustomColor ? loadBackground(theme, index, aspectRatio) : '';
     let backgroundSize = (toolbar && background && (backgroundAttr === 'centered' || backgroundAttr === 'repeat')) ? (backgroundZoom !== undefined ? (backgroundZoom + '%') : '100%') : 'cover';
     let backgroundRepeat = (toolbar && background && (backgroundAttr === 'centered' || backgroundAttr === 'full')) ? 'no-repeat' : 'repeat';
     let backgroundPosition = (toolbar && background && (backgroundAttr === 'centered' || backgroundAttr === 'full')) ? 'center center' : '0% 0%';
     let zIndex = visor ? '' : '0';
-
     return { visibility, backgroundColor, backgroundSize, backgroundRepeat, backgroundPosition, zIndex, backgroundImage };
 }
 
