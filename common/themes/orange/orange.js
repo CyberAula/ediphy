@@ -39,10 +39,10 @@ export const DEFINITION = {
         themeColor4: '#ff9a3c',
         themeColor5: '#ff9a3c',
         themeColor6: '#1d1d1d',
-
+        themeColor7: '#243635',
     },
     images: {
-        template1: { left: '', background: 1 },
+        template1: { left: '' },
         template3: {
             topLeft: 'fruit1.jpg',
             topRight: 'fruit2.jpg',

@@ -24,22 +24,26 @@ export const DEFINITION = {
     background: {
         f16_9: [
             'url(/themes/etsit/background_images/etsit_169.jpg)',
+            'url(/themes/etsit/background_images/etsit_169_12.jpg)',
         ],
         f4_3: [
             'url(/themes/etsit/background_images/etsit_43.jpg)',
+            'url(/themes/etsit/background_images/etsit_43_12.jpg)',
         ],
     },
     colors: {
         themeColor1: '#F18E00',
         themeColor2: '#C4C4C4',
-        themeColor3: '#004489',
-        themeColor4: '#FFCD5E',
-        themeColor5: '#434343',
+        themeColor3: '#89ACED',
+        themeColor4: '#89ACED',
+        themeColor5: '#C4C4C4',
         themeColor6: '#004489',
+        themeColor7: "#434343",
     },
     images: {
         template1: { left: 'left.jpg' },
         template3: { topLeft: 'topLeft.jpg', topRight: 'topRight.jpg', bottomLeft: 'bottomLeft.jpg', bottomRight: 'bottomRight.jpg' },
         template7: { left: 'seven.jpg' },
+        template12: { background: 1 },
     },
 };

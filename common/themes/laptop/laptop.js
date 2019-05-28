@@ -31,10 +31,10 @@ export const DEFINITION = {
     },
     colors: {
         themeColor1: '#657385',
-        themeColor2: '#C4C4C4',
-        themeColor3: '#657385',
-        themeColor4: '#0F3D59',
-        themeColor5: '#657385',
+        themeColor2: '#E0E0E0',
+        themeColor3: '#E0E0E0',
+        themeColor4: '#E0E0E0',
+        themeColor5: '#E0E0E0',
         themeColor6: '#031B3A',
     },
     images: {

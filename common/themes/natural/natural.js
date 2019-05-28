@@ -24,9 +24,13 @@ export const DEFINITION = {
     background: {
         f16_9: [
             'url(/themes/natural/background_images/natural_169.jpg)',
+            'url(/themes/natural/background_images/natural_169_1.jpg)',
+            '#D5CCC5',
         ],
         f4_3: [
             'url(/themes/natural/background_images/natural_43.jpg)',
+            'url(/themes/natural/background_images/natural_43_1.jpg)',
+            '#D5CCC5',
         ],
     },
     colors: {
@@ -38,8 +42,9 @@ export const DEFINITION = {
         themeColor6: '#33441A',
     },
     images: {
-        template1: { left: 'left.jpg' },
-        template3: { topLeft: 'topLeft.jpg', topRight: 'topRight.jpg', bottomLeft: 'bottomLeft.jpg', bottomRight: 'bottomRight.jpg' },
+        template1: { left: 'left.jpg', background: 1 },
+        template2: { background: 2 },
+        template3: { topLeft: 'topLeft.jpg', topRight: 'topRight.jpg', bottomLeft: 'bottomLeft.jpg', bottomRight: 'bottomRight.jpg', background: 2 },
         template7: { left: 'seven.jpg' },
     },
 };
