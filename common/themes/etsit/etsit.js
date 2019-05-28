@@ -34,6 +34,7 @@ export const DEFINITION = {
             '#FFFFFF',
             '#FFFFFF',
             '#FFFFFF',
+            '#FFFFFF',
         ],
     },
     colors: {
