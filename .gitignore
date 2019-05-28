@@ -33,3 +33,4 @@ dist/lib/scorm/test/*
 coverage
 ediphy_server/public/*
 !ediphy_server/public/.gitkeep
+.DS_Store
