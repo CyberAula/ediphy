@@ -19,6 +19,14 @@
         @include animacion(all, 0.2s);
       }
     }
+
+    .owl-nav{
+      display: flex;
+      flex-direction: row;
+      button {
+        flex: 1;
+      }
+    }
   }
   .theme-name{
   }

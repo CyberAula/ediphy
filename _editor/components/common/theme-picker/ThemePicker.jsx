@@ -29,11 +29,11 @@ export default class ThemePicker extends React.Component {
                     className="owl-theme owl-container"
                     margin={10}
                     items={2}
-                    loop
                     startPosition = { selectedIndex }
                     nav
                     navText={["<i class='material-icons'>chevron_left</i>", "<i class='material-icons'>chevron_right</i>"]}
                     center
+                    lazyLoad
                     dots = {false}
                     // Hacky way to force children to update. Otherwise selected item only refreshed on second click
                     key={`carousel_${this.state.activeThemeIndex}_${this.props.currentTheme}`}
@@ -55,7 +55,7 @@ export default class ThemePicker extends React.Component {
                                     background: THEMES[key].background.f16_9[0],
                                     backgroundSize: 'cover',
                                     color: THEMES[key].colors.themeColor1,
-                                    height: this.props.fromStyleConfig ? '10em' : '5em' }}><h4 key={index}>{index === selectedIndex ? key : key}</h4></div>
+                                    height: this.props.fromStyleConfig ? '10em' : '5em' }}><h4 key={index}>{THEMES[key].viewName[0]}</h4></div>
                         );
                     })}
                 </OwlCarousel>
