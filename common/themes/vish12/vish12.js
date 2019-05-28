@@ -26,7 +26,7 @@ export const DEFINITION = {
             'url(/themes/vish12/background_images/vish12_169.jpeg)',
         ],
         f4_3: [
-            'url(/themes/vish12/background_images/vish12.jpeg)',
+            'url(/themes/vish12/background_images/vish12_43.jpg)',
         ],
     },
     colors: {
