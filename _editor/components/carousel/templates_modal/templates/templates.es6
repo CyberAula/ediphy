@@ -562,7 +562,7 @@ export const templates = (theme = 'default') => { return (
                 "toolbar": {
                     "name": "BasicText",
                     "text": "<h1> Title </h1>",
-                    "style": { "color": 'var(--themeColor1)', "font-size": "3em", "font-weight": "bold", "text-align": "center" },
+                    "style": { "color": 'var(--themeColor1)', "fontSize": "3em", "fontWeight": "bold", "textAlign": "center" },
                 },
                 "thumbnail": {
                     "icon": "",
@@ -580,7 +580,7 @@ export const templates = (theme = 'default') => { return (
                 "toolbar": {
                     "name": "BasicText",
                     "text": "<h2> Subtitle </h2>",
-                    "style": { "color": 'var(--themeColor6)', "font-size": "2em", "font-weight": "bold", "text-align": "center" },
+                    "style": { "color": 'var(--themeColor6)', "fontSize": "2em", "fontWeight": "bold", "textAlign": "center" },
                 },
                 "thumbnail": {
                     "icon": "",
