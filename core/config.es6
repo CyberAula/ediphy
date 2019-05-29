@@ -65,6 +65,7 @@ export default {
     themeList: [
         'default',
         'orange',
+        'basic',
         'upm',
         'etsit',
         'urban',
