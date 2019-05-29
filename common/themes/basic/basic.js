@@ -27,12 +27,14 @@ export const DEFINITION = {
             'url(/themes/basic/background_images/basic2_169.jpg)',
             'url(/themes/basic/background_images/basic3_169.jpg)',
             'url(/themes/basic/background_images/basic4_169.jpg)',
+            'url(/themes/basic/background_images/basic6_169.jpg)',
         ],
         f4_3: [
             'url(/themes/basic/background_images/basic1_43.jpg)',
             'url(/themes/basic/background_images/basic2_43.jpg)',
             'url(/themes/basic/background_images/basic3_43.jpg)',
             'url(/themes/basic/background_images/basic4_43.jpg)',
+            'url(/themes/basic/background_images/basic6_43.jpg)',
         ],
     },
     colors: {
@@ -50,7 +52,8 @@ export const DEFINITION = {
         template3: { background: 2, topLeft: 'topLeft.jpg', topRight: 'topRight.jpg', bottomLeft: 'bottomLeft.jpg', bottomRight: 'bottomRight.jpg' },
         template7: { left: 'seven.jpg' },
         template12: { background: 3 },
-        template13: { background: 2 },
+        template13: { background: 4 },
+        template15: { background: 2 },
 
     },
 
@@ -207,7 +210,7 @@ export const DEFINITION = {
                 },
                 {
                     "box": {
-                        "x": "24%",
+                        "x": "26%",
                         "y": "31%",
                         "width": "48%",
                         "height": "62%",
@@ -224,7 +227,7 @@ export const DEFINITION = {
                 },
                 {
                     "box": {
-                        "x": "26%",
+                        "x": "28%",
                         "y": "35%",
                         "width": "44%",
                         "height": "45%",
@@ -238,6 +241,63 @@ export const DEFINITION = {
                         "icon": "format_align_left",
                         "icon_color": "#FFFFFF",
                         "color": "",
+                    },
+                },
+            ],
+
+        },
+        {
+            "name": 'collage',
+            "boxes": [
+                {
+                    "box": {
+                        "x": "5%",
+                        "y": "3%",
+                        "width": "40%",
+                        "height": "46%",
+                    },
+                    "toolbar": {
+                        "name": "HotspotImages",
+                        "url": `/themes/basic/bottomLeft.jpg`,
+                    },
+                    "thumbnail": {
+                        "icon": "filter_hdr",
+                        "icon_color": "#3A5153",
+                        "color": '#1D2625',
+                    },
+                },
+                {
+                    "box": {
+                        "x": "47%",
+                        "y": "3%",
+                        "width": "48%",
+                        "height": "95%",
+                    },
+                    "toolbar": {
+                        "name": "HotspotImages",
+                        "url": `/themes/basic/right.jpg`,
+                    },
+                    "thumbnail": {
+                        "icon": "filter_hdr",
+                        "icon_color": "#3A5153",
+                        "color": '#1D2625',
+                    },
+                },
+                {
+                    "box": {
+                        "x": "5%",
+                        "y": "52%",
+                        "width": "40%",
+                        "height": "46%",
+                    },
+                    "toolbar": {
+                        "name": "HotspotImages",
+                        "url": `/themes/basic/bottomRight.jpg`,
+                    },
+                    "thumbnail": {
+                        "icon": "filter_hdr",
+                        "icon_color": "#3A5153",
+                        "color": '#1D2625',
                     },
                 },
             ],
