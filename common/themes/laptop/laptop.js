@@ -24,22 +24,25 @@ export const DEFINITION = {
     background: {
         f16_9: [
             'url(/themes/laptop/background_images/laptop_169.jpg)',
+            'url(/themes/laptop/background_images/laptop2_169.jpg)',
         ],
         f4_3: [
             'url(/themes/laptop/background_images/laptop_43.jpg)',
+            'url(/themes/laptop/background_images/laptop2_43.jpg)',
         ],
     },
     colors: {
         themeColor1: '#657385',
-        themeColor2: '#E0E0E0',
-        themeColor3: '#E0E0E0',
-        themeColor4: '#E0E0E0',
-        themeColor5: '#E0E0E0',
+        themeColor2: '#657385',
+        themeColor3: '#657385',
+        themeColor4: '#657385',
+        themeColor5: '#657385',
         themeColor6: '#031B3A',
     },
     images: {
         template1: { left: '' },
-        template3: { topLeft: 'topLeft.jpg', topRight: 'topRight.jpg', bottomLeft: 'bottomLeft.jpg', bottomRight: 'bottomRight.jpg' },
+        template2: { background: 1 },
+        template3: { background: 1, topLeft: 'topLeft.jpg', topRight: 'topRight.jpg', bottomLeft: 'bottomLeft.jpg', bottomRight: 'bottomRight.jpg' },
         template7: { left: 'seven.jpg' },
     },
 };

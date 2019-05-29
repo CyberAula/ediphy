@@ -279,7 +279,7 @@ export default class PDFHandler extends Component {
                 hideTitles: true,
                 type: PAGE_TYPES.SLIDE,
                 position: this.props.navItemsIds.length + navs.length,
-                background: { background: dataURL, backgroundAttr: 'centered' },
+                background: { background: 'url(' + dataURL + ')', backgroundAttr: 'centered', customBackground: true },
                 customSize,
             };
             navs.push(nav);
