@@ -66,6 +66,7 @@ export default {
         'default',
         'orange',
         'basic',
+        'polygon',
         'upm',
         'etsit',
         'urban',
