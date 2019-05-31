@@ -137,24 +137,24 @@ function template(themeName) {
        }
 
       h1{
-        margin: 0.1em 0 0;
+        margin: 0.1em;
         font-size: 1em;
       }
       h2{
-        margin: 0.4em 0 0;
+        margin: 0.4em;
         font-size: 0.8em;
         color: var(--themeColor1);
       }
       h3{
-        margin: 0.4em 0 0;
+        margin: 0.4em;
         font-size: 0.7em;
       }
       h4{
-        margin: 0.4em 0 0;
+        margin: 0.4em;
         font-size: 0.6em;
       }
       .breadcrumb a{
-        margin: 0.4em 0 0;
+        margin: 0.4em;
       }
       .infoIcon {
         cursor: help;
