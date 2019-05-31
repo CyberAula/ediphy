@@ -38,6 +38,7 @@ export const DEFINITION = {
         themeColor4: '#657385',
         themeColor5: '#657385',
         themeColor6: '#031B3A',
+        themeColor7: '#FFFFFF',
     },
     images: {
         template1: { left: '' },

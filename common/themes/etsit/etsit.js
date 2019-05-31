@@ -53,51 +53,10 @@ export const DEFINITION = {
         template3: { background: 2, topLeft: 'topLeft.jpg', topRight: 'topRight.jpg', bottomLeft: 'bottomLeft.jpg', bottomRight: 'bottomRight.jpg' },
         template7: { left: 'seven.jpg' },
         template12: { background: 3 },
-        template13: { background: 4 },
+        template14: { background: 4 },
     },
 
     templates: [
-        {
-            "name": 'comparación',
-            "boxes": [
-                {
-                    "box": {
-                        "x": "3%",
-                        "y": "10%",
-                        "width": "60%",
-                        "height": "35%",
-                    },
-                    "toolbar": {
-                        "name": "BasicText",
-                        "text": "<h1 class='no_margins'> Comparado 1 </h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque diam urna, hendrerit porta sollicitudin nec, gravida quis massa. Aenean ac mi nulla. Phasellus ac dui consectetur, ultrices dui at, convallis quam. Quisque ac varius nibh. Pellentesque egestas, sem a placerat laoreet, enim lectus volutpat nisi, at vulputate tortor leo ac risus. Mauris pretium et enim eu faucibus. Vestibulum ornare odio eget eros ullamcorper, et iaculis libero venenatis. </p>",
-                        "style": { "color": 'var(--themeColor7)' },
-                    },
-                    "thumbnail": {
-                        "icon": "format_align_left",
-                        "icon_color": "#FFFFFF",
-                        "color": "#1D4F82",
-                    },
-                },
-                {
-                    "box": {
-                        "x": "37%",
-                        "y": "57%",
-                        "width": "60%",
-                        "height": "35%",
-                    },
-                    "toolbar": {
-                        "name": "BasicText",
-                        "text": "<h1 class='no_margins'> Comparado 2 </h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque diam urna, hendrerit porta sollicitudin nec, gravida quis massa. Aenean ac mi nulla. Phasellus ac dui consectetur, ultrices dui at, convallis quam. Quisque ac varius nibh. Pellentesque egestas, sem a placerat laoreet, enim lectus volutpat nisi, at vulputate tortor leo ac risus. Mauris pretium et enim eu faucibus. Vestibulum ornare odio eget eros ullamcorper, et iaculis libero venenatis. </p>",
-                        "style": { "color": 'var(--themeColor7)' },
-                    },
-                    "thumbnail": {
-                        "icon": "format_align_left",
-                        "icon_color": "#FFFFFF",
-                        "color": "#F18E00",
-                    },
-                },
-            ],
-        },
         {
             "name": 'proceso',
             "boxes": [
@@ -226,6 +185,47 @@ export const DEFINITION = {
                 },
             ],
 
+        },
+        {
+            "name": 'comparación',
+            "boxes": [
+                {
+                    "box": {
+                        "x": "3%",
+                        "y": "10%",
+                        "width": "60%",
+                        "height": "35%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'> Comparado 1 </h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque diam urna, hendrerit porta sollicitudin nec, gravida quis massa. Aenean ac mi nulla. Phasellus ac dui consectetur, ultrices dui at, convallis quam. Quisque ac varius nibh. Pellentesque egestas, sem a placerat laoreet, enim lectus volutpat nisi, at vulputate tortor leo ac risus. Mauris pretium et enim eu faucibus. Vestibulum ornare odio eget eros ullamcorper, et iaculis libero venenatis. </p>",
+                        "style": { "color": 'var(--themeColor7)' },
+                    },
+                    "thumbnail": {
+                        "icon": "format_align_left",
+                        "icon_color": "#FFFFFF",
+                        "color": "#1D4F82",
+                    },
+                },
+                {
+                    "box": {
+                        "x": "37%",
+                        "y": "57%",
+                        "width": "60%",
+                        "height": "35%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "text": "<h1 class='no_margins'> Comparado 2 </h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque diam urna, hendrerit porta sollicitudin nec, gravida quis massa. Aenean ac mi nulla. Phasellus ac dui consectetur, ultrices dui at, convallis quam. Quisque ac varius nibh. Pellentesque egestas, sem a placerat laoreet, enim lectus volutpat nisi, at vulputate tortor leo ac risus. Mauris pretium et enim eu faucibus. Vestibulum ornare odio eget eros ullamcorper, et iaculis libero venenatis. </p>",
+                        "style": { "color": 'var(--themeColor7)' },
+                    },
+                    "thumbnail": {
+                        "icon": "format_align_left",
+                        "icon_color": "#FFFFFF",
+                        "color": "#F18E00",
+                    },
+                },
+            ],
         },
     ],
 };

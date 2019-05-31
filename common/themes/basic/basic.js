@@ -27,14 +27,18 @@ export const DEFINITION = {
             'url(/themes/basic/background_images/basic2_169.jpg)',
             'url(/themes/basic/background_images/basic3_169.jpg)',
             'url(/themes/basic/background_images/basic4_169.jpg)',
+            'url(/themes/basic/background_images/basic5_169.jpg)',
             'url(/themes/basic/background_images/basic6_169.jpg)',
+
         ],
         f4_3: [
             'url(/themes/basic/background_images/basic1_43.jpg)',
             'url(/themes/basic/background_images/basic2_43.jpg)',
             'url(/themes/basic/background_images/basic3_43.jpg)',
             'url(/themes/basic/background_images/basic4_43.jpg)',
+            'url(/themes/basic/background_images/basic5_43.jpg)',
             'url(/themes/basic/background_images/basic6_43.jpg)',
+
         ],
     },
     colors: {
@@ -47,12 +51,13 @@ export const DEFINITION = {
         themeColor7: '#FFFFFF',
     },
     images: {
+        template0: { background: 4 },
         template1: { background: 1, left: 'left.jpg' },
         template2: { background: 2 },
         template3: { background: 2, topLeft: 'topLeft.jpg', topRight: 'topRight.jpg', bottomLeft: 'bottomLeft.jpg', bottomRight: 'bottomRight.jpg' },
         template7: { left: 'seven.jpg' },
         template12: { background: 3 },
-        template13: { background: 4 },
+        template13: { background: 5 },
         template15: { background: 2 },
 
     },
