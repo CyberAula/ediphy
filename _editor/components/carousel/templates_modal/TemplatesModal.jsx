@@ -53,14 +53,14 @@ export default class TemplatesModal extends Component {
                         </div>
                         {templates.map((item, index) => {
                             let border = this.state.itemSelected === index ? "solid #17CFC8 3px" : "solid #eee 1px";
-                            return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: '120px', height: '80px' }}>
-                                <TemplateThumbnail key={index} index={index}
-                                    onClick={e => { this.setState({ itemSelected: index });}}
-                                    onDoubleClick={e => {
-                                        this.setState({ itemSelected: index });
-                                        this.AddNavItem(index);
-                                    }}
-                                    boxes={item.boxes}/>
+                            let backgroundColor = item.hasOwnProperty('backgroundColor') ? item.backgroundColor : '#ffffff';
+                            return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: '120px', height: '80px', backgroundColor: backgroundColor }}
+                                onClick={e => { this.setState({ itemSelected: index });}}
+                                onDoubleClick={e => {
+                                    this.setState({ itemSelected: index });
+                                    this.AddNavItem(index);
+                                }}>
+                                <TemplateThumbnail key={index} index={index} boxes={item.boxes}/>
                                 <div className={'template_name'} style={{ display: this.state.itemSelected === index ? 'block' : 'none' }}>{item.name}</div>
                             </div>
                             );
