@@ -38,7 +38,7 @@ export const DEFINITION = {
         themeColor6: '#164278',
     },
     images: {
-        template1: { left: 'colors_texture.jpg' },
+        template1: { left: 'left.jpg' },
         template3: { topLeft: 'topLeft.png', topRight: 'topRight.png', bottomLeft: 'bottomLeft.png', bottomRight: 'bottomRight.png' },
         template7: { left: 'placeholder.svg' },
     },

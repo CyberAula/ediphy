@@ -15,7 +15,7 @@ export const DEFINITION = {
         themeColor7: '#1d1d1d',
     },
     images: {
-        template1: { left: 'colors_texture.jpg' },
+        template1: { left: 'left.jpg' },
         template3: { topLeft: 'forest.jpg', topRight: 'jungle.jpg', bottomLeft: 'desert.jpg', bottomRight: 'meadow.jpg' },
         template7: { left: 'placeholder.svg' },
     },
