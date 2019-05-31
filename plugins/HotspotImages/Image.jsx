@@ -32,6 +32,12 @@ export default class Image extends React.Component {
             objectFit: this.state.error ? 'cover' : undefined } :
             { content: 'var(--' + state.url.replace(/\//g, '_') + ')' };
 
+        let sourceProperty = isCustom ? state.url : state.url.replace(/\//g, '_');
+        let styles = getComputedStyle(document.documentElement);
+        let source = styles.getPropertyValue('--' + sourceProperty);
+        source = source.replace('url(', '');
+        source = source.replace(')', '');
+
         return <div style={{ height: "100%", width: "100%" }} className="draggableImage" ref="draggableImage" onWheel={(e) => {
             const delta = Math.sign(e.deltaY);
             props.update('scale', Math.round(10 * Math.min(20, Math.max(0, scale - delta / 10))) / 10);
@@ -39,7 +45,7 @@ export default class Image extends React.Component {
             <img ref ="img" id={props.id + "-image"}
                 className="basicImageClass"
                 style={{ ...customImage, width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto", transform, WebkitTransform: transform, MozTransform: transform }}
-                src={state.url}
+                src={source}
                 onError={(e) => {
                     e.target.onError = null;
                     this.setState({ error: true });

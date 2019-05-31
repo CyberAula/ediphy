@@ -71,6 +71,8 @@ export default class VisorCanvasSli extends Component {
         let animationType = "animation-zoom";
         let padding = (this.props.fromPDF ? '0px' : '0px');
 
+        console.log(itemSelected);
+
         return (
             <Col ref={"canvas_" + this.props.currentView} id={(isCV ? "containedCanvas_" : "canvas_") + this.props.currentView} md={12} xs={12} className={(isCV ? "containedCanvasClass " : "canvasClass ") + " canvasSliClass safeZone " + (isCV ? animationType : "") + (this.props.show ? "" : " hidden")}
                 style={{ display: 'initial', width: '100%', padding, fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px' }}>
@@ -83,7 +85,7 @@ export default class VisorCanvasSli extends Component {
 
                     <div id={isCV ? "contained_maincontent" : "maincontent"}
                         className={'innercanvas sli ' + theme + ' ' + this.props.currentView}
-                        style={ loadBackgroundStyle(this.props.showCanvas, toolbar, styleConfig, true) }>
+                        style={ loadBackgroundStyle(this.props.showCanvas, toolbar, styleConfig, true, this.props.aspectRatio, itemSelected.background) }>
                         {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
                             <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }} onClick={a => {
                                 ReactDOM.findDOMNode(this).classList.add("exitCanvas");
