@@ -74,17 +74,18 @@ export const DEFINITION = {
                         "color": 'var(--themeColor1)',
                     },
                 },
+
                 {
                     "box": {
                         "x": "10%",
-                        "y": "22%",
+                        "y": "18%",
                         "width": "22%",
                         "height": "40%",
                     },
                     "toolbar": {
                         "name": "HotspotImages",
                         "url": `/themes/polygon/seven.jpg`,
-                        "style": { "clipPath": "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" },
+                        "style": { "clipPath": "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)", "-webkit-clip-path": "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" },
                     },
                     "thumbnail": {
                         "icon": "filter_hdr",
@@ -95,14 +96,14 @@ export const DEFINITION = {
                 {
                     "box": {
                         "x": "39%",
-                        "y": "22%",
+                        "y": "18%",
                         "width": "22%",
                         "height": "40%",
                     },
                     "toolbar": {
                         "name": "HotspotImages",
                         "url": `/themes/polygon/seven.jpg`,
-                        "style": { "clipPath": "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" },
+                        "style": { "clipPath": "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)", "-webkit-clip-path": "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" },
                     },
                     "thumbnail": {
                         "icon": "filter_hdr",
@@ -113,14 +114,14 @@ export const DEFINITION = {
                 {
                     "box": {
                         "x": "68%",
-                        "y": "22%",
+                        "y": "18%",
                         "width": "22%",
                         "height": "40%",
                     },
                     "toolbar": {
                         "name": "HotspotImages",
                         "url": `/themes/polygon/seven.jpg`,
-                        "style": { "clipPath": "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" },
+                        "style": { "clipPath": "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)", "-webkit-clip-path": "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" },
                     },
                     "thumbnail": {
                         "icon": "filter_hdr",
@@ -128,10 +129,11 @@ export const DEFINITION = {
                         "color": "#43BECE",
                     },
                 },
+
                 {
                     "box": {
                         "x": "19.5%",
-                        "y": "62%",
+                        "y": "58%",
                         "width": "3%",
                         "height": "10%",
                     },
@@ -149,7 +151,7 @@ export const DEFINITION = {
                 {
                     "box": {
                         "x": "48.5%",
-                        "y": "62%",
+                        "y": "58%",
                         "width": "3%",
                         "height": "10%",
                     },
@@ -167,7 +169,7 @@ export const DEFINITION = {
                 {
                     "box": {
                         "x": "77.5%",
-                        "y": "62%",
+                        "y": "58%",
                         "width": "3%",
                         "height": "10%",
                     },
@@ -180,6 +182,61 @@ export const DEFINITION = {
                         "icon": "",
                         "icon_color": "",
                         "color": '',
+                    },
+                },
+
+                {
+                    "box": {
+                        "x": "11%",
+                        "y": "68%",
+                        "width": "20%",
+                        "height": "10%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "style": { "color": '#006674', "text-align": "center" },
+                        "text": "<h2> Idea </h2>",
+                    },
+                    "thumbnail": {
+                        "icon": "format_align_left",
+                        "icon_color": '#43BECE',
+                        "color": "",
+                    },
+                },
+                {
+                    "box": {
+                        "x": "40.5%",
+                        "y": "68%",
+                        "width": "20%",
+                        "height": "10%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "style": { "color": '#006674', "text-align": "center" },
+                        "text": "<h2> Idea </h2>",
+                    },
+                    "thumbnail": {
+                        "icon": "format_align_left",
+                        "icon_color": "#43BECE",
+                        "color": "",
+                    },
+                },
+                {
+                    "box": {
+                        "x": "69%",
+                        "y": "68%",
+                        "width": "20%",
+                        "height": "10%",
+                    },
+                    "toolbar": {
+                        "name": "BasicText",
+                        "style": { "color": '#006674', "text-align": "center" },
+                        "text": "<h2> Idea </h2>",
+                    },
+                    "thumbnail": {
+                        "icon": "format_align_left",
+                        "icon_color": "#43BECE",
+                        "color": "",
                     },
                 },
 
