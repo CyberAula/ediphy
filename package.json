@@ -163,6 +163,7 @@
     "html-dir-content": "^0.2.0",
     "html2canvas": "^0.5.0-beta3",
     "html2canvas-render-offscreen": "0.0.3",
+    "html2doc": "^1.0.0",
     "html2json": "^1.0.2",
     "i18next": "^10.0.7",
     "i18next-browser-languagedetector": "^2.1.0",
