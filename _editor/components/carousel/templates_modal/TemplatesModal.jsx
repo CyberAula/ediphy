@@ -172,7 +172,7 @@ TemplatesModal.propTypes = {
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
-     * General style config
+     *  General style config
      */
     styleConfig: PropTypes.object,
 };
