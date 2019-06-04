@@ -208,6 +208,22 @@ EditorNavBar.propTypes = {
      * Function for selecting a box
      */
     onBoxSelected: PropTypes.func.isRequired,
+    /**
+     * Function for opening/closing Style config modal
+     */
+    toggleStyleConfig: PropTypes.func.isRequired,
+    /**
+     * Function for updating style config
+     */
+    changeStyleConfig: PropTypes.func.isRequired,
+    /**
+     * Object with style params
+     */
+    styleConfig: PropTypes.object,
+    /**
+     * Should style config modal be shown
+     */
+    showStyleConfig: PropTypes.bool,
 };
 
 /**

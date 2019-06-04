@@ -190,7 +190,6 @@ class EditorApp extends Component {
                             if(format === "PDF") {
                                 printToPDF(this.props.store.getState().undoGroup.present, callback, options);
                             } else if (format === "MoodleXML") {
-                                console.log(this.props.store.getState());
                                 toMoodleXML(this.props.store.getState().undoGroup.present, callback, options);
                             } else if (format === "edi") {
                                 Ediphy.Visor.exportsEDI({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded }, callback);
@@ -240,7 +239,7 @@ class EditorApp extends Component {
                             dispatch(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
                         }}
                         onNavItemNameChanged={(id, titleStr) => dispatch(updateViewToolbar(id, titleStr))}
-                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => {console.log(background); dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id)); }}
+                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => {dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id)); }}
                         onNavItemSelected={id => dispatch(selectNavItem(id))}
                         onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
                         onNavItemDuplicated={(id)=> { this.duplicateNavItem(id);}}
@@ -985,6 +984,7 @@ export default connect(mapStateToProps)(EditorApp);
 
 EditorApp.propTypes = {
     globalConfig: PropTypes.object.isRequired,
+    styleConfig: PropTypes.object,
     filesUploaded: PropTypes.any,
     boxes: PropTypes.object.isRequired,
     boxSelected: PropTypes.any,

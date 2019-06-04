@@ -187,4 +187,8 @@ EditorCarousel.propTypes = {
      * Duplicate nav item
      */
     onNavItemDuplicated: PropTypes.func.isRequired,
+    /**
+     * Object containing style configuration
+     */
+    styleConfig: PropTypes.object,
 };

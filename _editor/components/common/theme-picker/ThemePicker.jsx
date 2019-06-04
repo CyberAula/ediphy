@@ -1,10 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import './theme_picker.scss';
 
 import { THEMES } from '../../../../common/themes/theme_loader';
+import TransitionPicker from "../transition-picker/TransitionPicker";
 
 export default class ThemePicker extends React.Component {
     constructor(props) {
@@ -56,4 +59,19 @@ export default class ThemePicker extends React.Component {
         );
     }
 }
+
+ThemePicker.propTypes = {
+    /**
+     * Current page theme
+     */
+    currentTheme: PropTypes.string,
+    /**
+     * Theme change handler
+     */
+    onChange: PropTypes.func,
+    /**
+     * Is being called from Style config modal
+     */
+    fromStyleConfig: PropTypes.bool,
+};
 

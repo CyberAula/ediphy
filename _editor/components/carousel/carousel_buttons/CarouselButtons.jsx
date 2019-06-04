@@ -237,7 +237,6 @@ export default class CarouselButtons extends Component {
                     styleConfig={this.props.styleConfig}
                     navItems={this.props.navItems}
                     boxes={this.props.boxes}
-                    styleConfig={this.props.styleConfig}
                     onNavItemAdded={(id, name, type, color, num, extra)=> {this.props.onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra); this.expandSiblings(this.getParent().id);}}
                     onIndexSelected={this.props.onIndexSelected}
                     indexSelected={this.props.indexSelected}
@@ -309,4 +308,8 @@ CarouselButtons.propTypes = {
      * Duplicate nav item
      */
     onNavItemDuplicated: PropTypes.func.isRequired,
+    /**
+     * Object containing style configuration
+     */
+    styleConfig: PropTypes.object,
 };

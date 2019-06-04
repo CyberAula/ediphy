@@ -9,7 +9,6 @@ import { ID_PREFIX_BOX } from '../common/constants';
 import { changeProp, changeProps, deleteProp, deleteProps, isView, isSlide, isDocument, findNavItemContainingBox, findDescendantNavItems, isContainedView } from '../common/utils';
 
 function navItemCreator(state = {}, action = {}) {
-    console.log(action);
     return {
         id: action.payload.id,
         isExpanded: true,

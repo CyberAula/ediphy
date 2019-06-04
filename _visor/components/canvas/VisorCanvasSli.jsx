@@ -32,7 +32,6 @@ export default class VisorCanvasSli extends Component {
     render() {
         let titles = [];
         let itemSelected = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
-        console.log(itemSelected);
         let isCV = !isView(this.props.currentView);
         let toolbar = this.props.viewToolbars[this.props.currentView];
 
@@ -70,8 +69,6 @@ export default class VisorCanvasSli extends Component {
 
         let animationType = "animation-zoom";
         let padding = (this.props.fromPDF ? '0px' : '0px');
-
-        console.log(itemSelected);
 
         return (
             <Col ref={"canvas_" + this.props.currentView} id={(isCV ? "containedCanvas_" : "canvas_") + this.props.currentView} md={12} xs={12} className={(isCV ? "containedCanvasClass " : "canvasClass ") + " canvasSliClass safeZone " + (isCV ? animationType : "") + (this.props.show ? "" : " hidden")}
@@ -298,4 +295,12 @@ VisorCanvasSli.propTypes = {
      * Indicates the expected width for PDF exportation.
      */
     expectedWidth: PropTypes.number,
+    /**
+     * General style config
+     */
+    styleConfig: PropTypes.object,
+    /**
+     * Aspect ratio of the slides
+     */
+    aspectRatio: PropTypes.number,
 };

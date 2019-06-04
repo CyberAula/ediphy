@@ -44,3 +44,14 @@ export default class ThemePreview extends React.Component {
     }
 
 }
+
+ThemePreview.propTypes = {
+    /**
+     * Object containing style configuration
+     */
+    styleConfig: PropTypes.object,
+    /**
+     * Identifier of the current theme
+     */
+    theme: PropTypes.string,
+};

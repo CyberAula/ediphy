@@ -202,21 +202,9 @@ StyleConfig.propTypes = {
     /**
      * Saves new configuration
      */
-    changeGlobalConfig: PropTypes.func.isRequired,
+    changeStyleConfig: PropTypes.func.isRequired,
     /**
      * Closes course configuration modal
      */
     close: PropTypes.func.isRequired,
-    /**
-     * Callback for opening the file upload modal
-     */
-    toggleFileUpload: PropTypes.func.isRequired,
-    /**
-     * Last files uploaded to server or searched in modal
-     */
-    fileModalResult: PropTypes.object,
-    /**
-     *  Function for uploading a file to the server
-     */
-    uploadFunction: PropTypes.func.isRequired,
 };

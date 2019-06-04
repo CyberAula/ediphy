@@ -211,8 +211,13 @@ VisorCanvasDoc.propTypes = {
      * Indicates if the content is being previewed in order to export it to PDF
      */
     fromPDF: PropTypes.bool,
-    // /**
-    //  * Object containing current theme colors
-    //  */
-    // themeColors: PropTypes.object,
+    /**
+     * General style config
+     */
+    styleConfig: PropTypes.object,
+    /**
+     * Aspect ratio of the slides
+     */
+    aspectRatio: PropTypes.number,
+
 };

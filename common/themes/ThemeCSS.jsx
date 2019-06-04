@@ -186,4 +186,12 @@ ThemeCSS.propTypes = {
      * Is style preview
      */
     isPreview: PropTypes.bool,
+    /**
+     * Is called by PDF rendering engine
+     */
+    fromPDF: PropTypes.bool,
+    /**
+     * Identifier of the current slide template
+     */
+    currentView: PropTypes.number,
 };

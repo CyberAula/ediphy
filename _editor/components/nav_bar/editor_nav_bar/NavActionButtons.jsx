@@ -272,4 +272,8 @@ NavActionButtons.propTypes = {
      * Function for selecting a box
      */
     onBoxSelected: PropTypes.func.isRequired,
+    /**
+     * Function for opening/closing Style config modal
+     */
+    toggleStyleConfig: PropTypes.func.isRequired,
 };

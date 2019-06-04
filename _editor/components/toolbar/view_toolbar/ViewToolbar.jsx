@@ -225,4 +225,8 @@ ViewToolbar.propTypes = {
      * Page toolbars
     */
     viewToolbars: PropTypes.object,
+    /**
+     * General style config
+     */
+    styleConfig: PropTypes.object,
 };

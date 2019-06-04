@@ -62,7 +62,9 @@ export default class FontPicker extends Component {
                     errorText: 'Error trying to fetch the list of available fonts',
                     loadingStatus: 'error',
                 });
+                // eslint-disable-next-line no-console
                 console.error(this.state.errorText);
+                // eslint-disable-next-line no-console
                 console.error(err);
             });
 
@@ -123,6 +125,7 @@ export default class FontPicker extends Component {
                 errorText: `Cannot update activeFont: The font "${fontFamily}" is not in the font list`,
                 loadingStatus: 'error',
             });
+            // eslint-disable-next-line no-console
             console.error(this.state.errorText);
         } else {
             // font change successful

@@ -25,9 +25,9 @@ export default class TemplatesModal extends Component {
         };
     }
     render() {
-        let templates = JSON.parse(JSON.stringify(this.templates));
+        let templatesCopy = JSON.parse(JSON.stringify(this.templates));
         let themeTemplates = getThemeTemplates(this.props.styleConfig.theme);
-        templates = templates.concat(themeTemplates);
+        templatesCopy = templatesCopy.concat(themeTemplates);
         return (
             <Modal className="pageModal" id="TemplatesModal" show={this.props.show}>
                 <Modal.Header>
@@ -51,7 +51,7 @@ export default class TemplatesModal extends Component {
                                 this.AddNavItem(-1);
                             }}><div className={'template_name'} style={{ display: this.state.itemSelected === -1 ? 'block' : 'none' }}>{i18n.t('templates.template0')}</div>
                         </div>
-                        {templates.map((item, index) => {
+                        {templatesCopy.map((item, index) => {
                             let border = this.state.itemSelected === index ? "solid #17CFC8 3px" : "solid #eee 1px";
                             let backgroundColor = item.hasOwnProperty('backgroundColor') ? item.backgroundColor : '#ffffff';
                             return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: '120px', height: '80px', backgroundColor: backgroundColor }}
@@ -94,9 +94,9 @@ export default class TemplatesModal extends Component {
      * Add Slide
      */
     AddNavItem(template) {
-        let templates = JSON.parse(JSON.stringify(this.templates));
+        let templatesCopy = JSON.parse(JSON.stringify(this.templates));
         let themeTemplates = getThemeTemplates(this.props.styleConfig.theme);
-        templates = templates.concat(themeTemplates);
+        templatesCopy = templatesCopy.concat(themeTemplates);
 
         let newId = ID_PREFIX_PAGE + Date.now();
         if (this.props.show) {
@@ -112,7 +112,7 @@ export default class TemplatesModal extends Component {
                 false
             );
             if (template !== -1) {
-                let selectedTemplate = templates[template];
+                let selectedTemplate = templatesCopy[template];
                 let boxes = selectedTemplate.boxes;
 
                 boxes.map((item, index) => {
@@ -171,4 +171,8 @@ TemplatesModal.propTypes = {
      * Function for adding a new box
      */
     onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * General style config
+     */
+    styleConfig: PropTypes.object,
 };

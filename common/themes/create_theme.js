@@ -83,10 +83,10 @@ function createTheme() {
         if(!fs.existsSync(dist)) {
             fs.mkdirSync(dist);
             fs.mkdirSync(dist + '/background_images');
-            fs.copyFileSync(dist_placeholders + "/topLeft.png", dist + "/topLeft.png", err => console.log(err));
-            fs.copyFileSync(dist_placeholders + "/topRight.png", dist + "/topRight.png", err => console.log(err));
-            fs.copyFileSync(dist_placeholders + "/bottomLeft.png", dist + "/bottomLeft.png", err => console.log(err));
-            fs.copyFileSync(dist_placeholders + "/bottomRight.png", dist + "/bottomRight.png", err => console.log(err));
+            fs.copyFileSync(dist_placeholders + "/topLeft.png", dist + "/topLeft.png", err => p(err));
+            fs.copyFileSync(dist_placeholders + "/topRight.png", dist + "/topRight.png", err => p(err));
+            fs.copyFileSync(dist_placeholders + "/bottomLeft.png", dist + "/bottomLeft.png", err => p(err));
+            fs.copyFileSync(dist_placeholders + "/bottomRight.png", dist + "/bottomRight.png", err => p(err));
 
         }
 
