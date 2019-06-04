@@ -46,6 +46,10 @@ $material-font-path:  '../node_modules/material-design-icons-font/iconfont/';
 }
 /*Right column with ribbon and canvas */
 
+body{
+    font-family: 'Ubuntu', 'Helvetica Neue', 'Arial';
+}
+
 
 #colRight{
     overflow:hidden;

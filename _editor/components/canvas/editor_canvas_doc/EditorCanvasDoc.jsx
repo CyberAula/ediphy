@@ -278,4 +278,12 @@ EditorCanvasDoc.propTypes = {
      * Function that opens the file search modal
      */
     openFileModal: PropTypes.func.isRequired,
+    /**
+     * Object containing style configuration
+     */
+    styleConfig: PropTypes.object,
+    /**
+     * Aspect ratio of slides
+     */
+    aspectRatio: PropTypes.number,
 };
