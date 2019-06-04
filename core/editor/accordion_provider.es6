@@ -960,6 +960,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     i18n.t('Style.theme')
                 ),
                 React.createElement(ThemePicker, {
+                    key: 'theme-picker' + props.label,
                     currentTheme: props.value,
                     currentItem: toolbar_props.navItemSelected,
                     onChange: props.onChange,
@@ -1021,7 +1022,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                         i18n.t('background.background_zoom')),
                     <span className="rangeOutput" style={{ marginTop: 0 }}>{background_attr_zoom}%</span>,
                     <input key="image_display_zoom" name='image_display_zoom' type='range' min={1} max={200} value={ background_attr_zoom} style={{ display: isColor ? "none" : "block" }} onChange={props.onChange} />,
-                ], <br/>,
+                ], <br key={'br'}/>,
                 React.createElement(
                     ControlLabel,
                     { key: 'label_' + button.__name },

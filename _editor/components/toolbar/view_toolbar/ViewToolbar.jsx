@@ -97,6 +97,7 @@ export default class ViewToolbar extends Component {
                             theme: {
                                 __name: i18n.t('Style.theme'),
                                 type: 'theme_select',
+                                associatedKey: 'page_theme',
                                 options: getThemes(),
                                 value: viewToolbar.theme,
                             },

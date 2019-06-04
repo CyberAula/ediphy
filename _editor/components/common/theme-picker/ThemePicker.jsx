@@ -26,7 +26,7 @@ export default class ThemePicker extends React.Component {
     render() {
         let selectedIndex = Object.keys(THEMES).indexOf(this.props.currentTheme);
         return(
-            <div className={"theme-picker-container"} style={{ width: '100%' }} onChange={this.props.onChange}>
+            <div key={`carousel_${this.state.activeThemeIndex}_${this.props.currentTheme}`} className={"theme-picker-container"} style={{ width: '100%' }} onChange={this.props.onChange}>
                 <OwlCarousel
                     ref={"car"}
                     className="owl-theme owl-container"
