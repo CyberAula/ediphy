@@ -16,6 +16,8 @@ import { isContainedView, isView, isSection, isPage } from '../../common/utils';
 import ScormComponent from '../components/score/GradeComponent';
 import i18n from '../../locales/i18n';
 
+import { Animated } from "react-animated-css";
+
 require('es6-promise').polyfill();
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
@@ -251,13 +253,16 @@ export default class Visor extends Component {
         };
 
         let navItemComponents = Object.keys(navItemsById).filter(nav=>isPage(nav)).map((nav, i)=>{
-            return <VisorCanvas key={i} {...canvasProps} currentView={nav} show={nav === currentView} showCanvas={nav.indexOf("cv-") === -1} />;
+            return (
+                <VisorCanvas key={i} {...canvasProps} currentView={nav} show={nav === currentView} showCanvas={nav.indexOf("cv-") === -1} />
+            );
         });
         let cvComponents = Object.keys(containedViewsById).map((nav, i)=>{
             return <VisorContainedCanvas key={i} {...canvasProps} currentView={nav} show={nav === currentView} showCanvas={nav.indexOf("cv-") !== -1} />;
         });
 
         let content = [...navItemComponents, cvComponents];
+        console.log(content);
         let empty = <div className="emptyPresentation">{i18n.t("EmptyPresentation")}</div>;
         let visorNavButtonClass = 'hoverPlayerSelector';
         visorNavButtonClass = this.state.mouseMoving ? visorNavButtonClass + ' appearButton' : visorNavButtonClass + ' fadeButton';

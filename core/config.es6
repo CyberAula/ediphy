@@ -64,6 +64,7 @@ export default {
     ],
     themeList: [
         'default',
+        'ging',
         'orange',
         'basic',
         'polygon',
