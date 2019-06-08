@@ -4,9 +4,21 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 const propTypes = {
+    /**
+     * a
+     */
     apiKey: PropTypes.string.isRequired,
+    /**
+     * a
+     */
     activeFont: PropTypes.string.isRequired,
+    /**
+     * a
+     */
     onChange: PropTypes.func.isRequired,
+    /**
+     * a
+     */
     options: PropTypes.shape({
         name: PropTypes.string,
         themeFont: PropTypes.string,

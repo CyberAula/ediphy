@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import style from './ItemRenderer.scss';
 import EditorIndexTitle from "./editor_index_title/EditorIndexTitle";
 import { isSlide } from "../../../common/utils";
 import iconPDF from "../../../dist/images/file-pdf.svg";
-import CarouselList from "./carousel_list/CarouselList";
 
 const Folder = ({ name, collapsed, index, path, onToggleCollapse, id, navItems, onNavItemNameChanged, viewToolbars, indexSelected, containedViewSelected }) => {
     const handleClick = () => {

@@ -14,6 +14,7 @@ function genDoc(componentPath, renderer, lang) {
     let content = fs.readFileSync(componentPath);
     if (content) {
         const documentationPath = path.join(FILES_PATH + lang, path.basename(componentPath, path.extname(componentPath)) + renderer.extension);
+        console.log(componentPath, content);
         const doc = reactDocgen.parse(content);
         const componentName = (path.join(path.basename(componentPath, '.jsx')));
 

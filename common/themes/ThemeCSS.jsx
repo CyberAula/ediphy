@@ -92,7 +92,7 @@ export default class ThemeCSS extends React.Component {
 
     loadCSS() {
         // TODO check si carga
-        fetch(`/theme.css`) // Webpack output CSS
+        fetch(`./theme.css`) // Webpack output CSS
             .then(res => res.text())
             .then(data => {
                 let processedData = this.processCSS(data);
