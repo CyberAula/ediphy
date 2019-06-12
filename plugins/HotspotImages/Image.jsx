@@ -24,8 +24,7 @@ export default class Image extends React.Component {
         let translateY = (state.translate ? state.translate.y : 0) || 0;
         let transform = `translate(${translateX + "%"},${translateY + "%" }) scale(${scale})`;
         let isCustom = state.url.indexOf('templates/template') === -1;
-
-        let errorUrl = (state.url.replace(/ /g, '') === '') ? 'url(/images/placeholder.svg)' : 'url(/images/broken_link.png)';
+        let errorUrl = (state.url.replace(/ /g, '') === '' || state.url.indexOf('base64') !== -1) ? 'url(/images/placeholder.svg)' : 'url(/images/broken_link.png)';
         let customImage = isCustom ? {
             '--photoUrl': this.state.error ? errorUrl : 'url(' + state.url + ')',
             content: 'var(--photoUrl, url(/images/broken_link.png))',
@@ -37,6 +36,7 @@ export default class Image extends React.Component {
         let source = styles.getPropertyValue('--' + sourceProperty);
         source = source.replace('url(', '');
         source = source.replace(')', '');
+        source = isCustom ? state.url : source;
 
         return <div style={{ height: "100%", width: "100%" }} className="draggableImage" ref="draggableImage" onWheel={(e) => {
             const delta = Math.sign(e.deltaY);
