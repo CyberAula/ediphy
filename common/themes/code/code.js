@@ -23,10 +23,10 @@ export const DEFINITION = {
     font: 'Source Code Pro',
     background: {
         f16_9: [
-            'url(/themes/code/background_images/code_169.jpg)',
+            'url(../themes/code/background_images/code_169.jpg)',
         ],
         f4_3: [
-            'url(/themes/code/background_images/code_43.jpg)',
+            'url(../themes/code/background_images/code_43.jpg)',
         ],
     },
     colors: {

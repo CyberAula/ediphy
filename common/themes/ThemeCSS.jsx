@@ -4,7 +4,7 @@ import { getThemeColors, getThemeFont, getThemeImages, THEMES, generateThemes } 
 import loadFont from './font_loader';
 import { setRgbaAlpha } from "../common_tools";
 import { translatePxToEm } from "./cssParser";
-
+import { themes } from "./themes.js";
 export default class ThemeCSS extends React.Component {
 
     constructor(props) {
@@ -91,15 +91,21 @@ export default class ThemeCSS extends React.Component {
     }
 
     loadCSS() {
+
         // TODO check si carga
-        fetch(`./theme.css`) // Webpack output CSS
-            .then(res => res.text())
-            .then(data => {
-                let processedData = this.processCSS(data);
-                this.setState({ themesStartIndex: processedData.themesStartIndex, css: processedData.safeCSS }, () => {
-                    this.getThemeCSS(this.props.theme);
+        try {
+            fetch(`./theme.css`) // Webpack output CSS
+                .then(res => res.text())
+                .then(data => {
+                    let processedData = this.processCSS(data);
+                    this.setState({ themesStartIndex: processedData.themesStartIndex, css: processedData.safeCSS }, () => {
+                        this.getThemeCSS(this.props.theme);
+                    });
                 });
-            });
+        } catch (e) {
+
+        }
+
     }
 
     processCSS(css) {
@@ -157,7 +163,7 @@ export default class ThemeCSS extends React.Component {
         let images = getThemeImages(theme);
         Object.keys(images).map((templateKey) => {
             Object.keys(images[templateKey]).map((posKey) => {
-                this.updateCustomProperty('--templates_' + templateKey + '_' + posKey, `url(/themes/${theme}/${images[templateKey][posKey]})`);
+                this.updateCustomProperty('--templates_' + templateKey + '_' + posKey, `url(../themes/${theme}/${images[templateKey][posKey]})`);
             });
         });
     }

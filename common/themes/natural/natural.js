@@ -23,13 +23,13 @@ export const DEFINITION = {
     font: 'Indie Flower',
     background: {
         f16_9: [
-            'url(/themes/natural/background_images/natural_169.jpg)',
-            'url(/themes/natural/background_images/natural_169_1.jpg)',
+            'url(../themes/natural/background_images/natural_169.jpg)',
+            'url(../themes/natural/background_images/natural_169_1.jpg)',
             '#D5CCC5',
         ],
         f4_3: [
-            'url(/themes/natural/background_images/natural_43.jpg)',
-            'url(/themes/natural/background_images/natural_43_1.jpg)',
+            'url(../themes/natural/background_images/natural_43.jpg)',
+            'url(../themes/natural/background_images/natural_43_1.jpg)',
             '#D5CCC5',
         ],
     },

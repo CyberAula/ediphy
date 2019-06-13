@@ -6,6 +6,8 @@ import Ediphy from '../editor/main';
 import Plugins from './plugins';
 import { ID_PREFIX_SECTION } from '../../common/constants';
 import { escapeRegExp } from '../../common/utils';
+import { generateStyles, getThemeImages } from "../../common/themes/theme_loader";
+import { getThemeBackgrounds } from "../../common/themes/background_loader";
 
 const visor_template = require("../../dist/lib/visor/index.ejs");
 let getDistinctName = function(name, namesUsed) {
@@ -48,6 +50,7 @@ export default {
         let nav_names_used = {};
         let xhr = new XMLHttpRequest();
         let zip_title = state.globalConfig.title || "Ediphy";
+        let theme = state.styleConfig && state.styleConfig.hasOwnProperty('theme') ? [state.styleConfig.theme] : ['default'];
         xhr.open('GET', Ediphy.Config.visor_bundle, true);
         xhr.responseType = "arraybuffer";
         try{
@@ -83,6 +86,15 @@ export default {
                                 strState = strState.replace(/http:\/\/vishubcode.org/g, 'https://vishubcode.org');
                                 strState = strState.replace(/http:\/\/vishub.org/g, 'https://vishub.org');
                                 strState = strState.replace(/http:\/\/educainternet.es/g, 'https://educainternet.es');
+                                strState = strState.replace(/url\(\/themes/g, '/url\(..\/themes');
+
+                                Object.keys(state.viewToolbarsById).map((id, index) => {
+                                    let viewToolbar = state.viewToolbarsById[id];
+                                    if(viewToolbar.hasOwnProperty('theme') && !theme.includes(viewToolbar.theme)) {
+                                        theme.push(viewToolbar.theme);
+                                    }
+                                });
+
                                 let usedNames = [];
                                 if (selfContained) {
                                     let index = 0;
@@ -98,18 +110,24 @@ export default {
                                         index++;
                                     }
                                 }
+                                generateStyles(theme)
+                                    .then(css => {
+                                        let content = parseEJS(Ediphy.Config.visor_ejs, page, { ...JSON.parse(strState), id: window.ediphy_editor_params ? window.ediphy_editor_params.ediphy_resource_id : null, platform: getPlatform() }, false);
+                                        zip.file(Ediphy.Config.dist_index, content);
+                                        zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);
+                                        zip.file("ediphy.edi", strState);
+                                        zip.file("dist/theme.css", css);
+                                        Ediphy.Visor.includeThemesResources(zip, theme, zip => {
+                                            Ediphy.Visor.includeImage(zip, selfContained ? filesUploaded : [], usedNames, (zipFile) => {
+                                                zipFile.generateAsync({ type: "blob" }).then(function(blob) {
+                                                    // FileSaver.saveAs(blob, "ediphyvisor.zip");
+                                                    FileSaver.saveAs(blob, zip_title.toLowerCase().replace(/\s/g, '') + Math.round(+new Date() / 1000) + "_HTML.zip");
+                                                    callback();
+                                                });
+                                            });
+                                        });
 
-                                let content = parseEJS(Ediphy.Config.visor_ejs, page, { ...JSON.parse(strState), id: window.ediphy_editor_params ? window.ediphy_editor_params.ediphy_resource_id : null, platform: getPlatform() }, false);
-                                zip.file(Ediphy.Config.dist_index, content);
-                                zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);
-                                zip.file("ediphy.edi", strState);
-                                Ediphy.Visor.includeImage(zip, selfContained ? filesUploaded : [], usedNames, (zipFile) => {
-                                    zipFile.generateAsync({ type: "blob" }).then(function(blob) {
-                                        // FileSaver.saveAs(blob, "ediphyvisor.zip");
-                                        FileSaver.saveAs(blob, zip_title.toLowerCase().replace(/\s/g, '') + Math.round(+new Date() / 1000) + "_HTML.zip");
-                                        callback();
                                     });
-                                });
                             });
                         });
 
@@ -123,6 +141,43 @@ export default {
             callback(e);
         }
 
+    },
+    includeThemesResources(zip, themes, callback) {
+        let paths = [];
+        for (let theme of themes) {
+            let themeImages = getThemeImages(theme);
+            Object.keys(themeImages).map(template => {
+                Object.values(themeImages[template]).map(img => {
+                    !Number.isInteger(img) && img !== '' && paths.push(`themes/${theme}/${img}`);
+                });
+            });
+
+            let themeBackgrounds = getThemeBackgrounds(theme);
+            Object.keys(themeBackgrounds).map(ar => {
+                themeBackgrounds[ar].map(background => {
+                    if (background.includes('url')) {
+                        background = background.replace('url(..', '');
+                        background = background.replace(')', '');
+                        paths.push(background);
+                    }
+                });
+            });
+        }
+        Ediphy.Visor.includeThemeImages(zip, paths, callback);
+    },
+    includeThemeImages(zip, images, callback) {
+        if(images.length > 0) {
+            let img = images.pop();
+            JSZipUtils.getBinaryContent(img, (e, data) => {
+                if(e) {
+                    Ediphy.Visor.includeThemeImages(zip, images, callback);
+                }
+                zip.file(img, data, { binary: true });
+                Ediphy.Visor.includeThemeImages(zip, images, callback);
+            });
+        } else {
+            callback(zip);
+        }
     },
     includeImage(zip, filesUploaded, usedNames, callback) {
         if(filesUploaded.length > 0) {
@@ -218,6 +273,7 @@ export default {
                                             index++;
                                         }
                                     }
+
                                     zip.file("ediphy.edi", strState);
                                     let content = parseEJS(Ediphy.Config.visor_ejs, page, { ...JSON.parse(strState), id: window.ediphy_editor_params ? window.ediphy_editor_params.ediphy_resource_id : null, platform: getPlatform() }, true);
                                     zip.file(Ediphy.Config.dist_index, content);
@@ -259,13 +315,10 @@ export default {
             }
         }
         state.navItemSelected = page;
-        let filesUploaded = Object.values(state.filesUploaded);
         let strState = JSON.stringify({ ...state, export: true });
-        let usedNames = [];
         strState = strState.replace(/http:\/\/vishubcode.org/g, 'https://vishubcode.org');
         strState = strState.replace(/http:\/\/vishub.org/g, 'https://vishub.org');
         strState = strState.replace(/http:\/\/educainternet.es/g, 'https://educainternet.es');
-        let content = parseEJS(Ediphy.Config.visor_ejs, page, JSON.parse(strState), false);
         window.download(strState, "ediphy.edi", "text/json");
         callback();
     },

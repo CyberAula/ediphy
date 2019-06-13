@@ -1,5 +1,6 @@
 import loadFont from './font_loader';
 import { setRgbaAlpha } from "../common_tools";
+import { translatePxToEm } from "./cssParser";
 
 export function generateThemes() {
     let THEMES = {};
@@ -30,6 +31,7 @@ export function getThemeColors(theme) {
 }
 
 export function getThemeImages(theme = 'default') {
+    theme = theme || 'default';
     return THEMES[theme].images;
 }
 
@@ -72,6 +74,30 @@ export function sanitizeThemeToolbar(toolbar, styleConfig = {}) {
         colors: toolbar.colors ? toolbar.colors : 0,
         font: toolbar.font ? toolbar.font : styleConfig.font,
     };
+}
+
+export function generateStyles(usedThemes) {
+    return fetch(`./theme.css`) // Webpack output CSS
+        .then(res => res.text())
+        .then(data => {
+            let lines = data.split('\n');
+            let isCurrentThemeUsed = false;
+            let processedLines = [];
+            lines.map(line => {
+                const isNewRule = line.includes('{');
+                const isUsedThemeLine = isNewRule && usedThemes.some(theme => line.includes(theme));
+                const isUnwantedThemeLine = isNewRule && !isUsedThemeLine;
+                isCurrentThemeUsed = isUsedThemeLine ? true : isUnwantedThemeLine ? false : isCurrentThemeUsed;
+
+                if (isCurrentThemeUsed) {
+                    line = isNewRule ? '.safeZone ' + line : translatePxToEm(line);
+                    processedLines.push(line);
+                }
+
+            });
+            return processedLines.join('\n');
+        })
+        .catch(e => e);
 }
 
 export const THEMES = generateThemes();

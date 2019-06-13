@@ -39,7 +39,6 @@ export default class VisorCanvasSli extends Component {
         let toolbar = this.props.viewToolbars[this.props.currentView];
 
         let styleConfig = this.props.styleConfig;
-        console.log(styleConfig);
         let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
 
@@ -208,13 +207,13 @@ export default class VisorCanvasSli extends Component {
     }
 
     componentWillUpdate(nextProps, nextState) {
-        if(nextProps.show && !this.props.show) {
-            console.log('Me encienden y soy ' + nextProps.currentView);
-        } else if (!nextProps.show && this.props.show) {
-            console.log('Me apagan y soy ' + nextProps.currentView);
-            console.log(this.props, this.state);
-            // this.setState( { previousView: nextProps.currentView }, () => setTimeout(()=> this.setState( {previousView: '' }), 1000));
-        }
+        // if(nextProps.show && !this.props.show) {
+        //     console.log('Me encienden y soy ' + nextProps.currentView);
+        // } else if (!nextProps.show && this.props.show) {
+        //     console.log('Me apagan y soy ' + nextProps.currentView);
+        //     console.log(this.props, this.state);
+        //     // this.setState( { previousView: nextProps.currentView }, () => setTimeout(()=> this.setState( {previousView: '' }), 1000));
+        // }
         let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         let nextItemSel = nextProps.navItems[nextProps.currentView] || nextProps.containedViews[nextProps.currentView];
         if ((this.props.canvasRatio !== nextProps.canvasRatio) || (itemSel !== nextItemSel)) {

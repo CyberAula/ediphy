@@ -23,12 +23,12 @@ export const DEFINITION = {
     font: 'Source Code Pro',
     background: {
         f16_9: [
-            'url(/themes/laptop/background_images/laptop_169.jpg)',
-            'url(/themes/laptop/background_images/laptop2_169.jpg)',
+            'url(../themes/laptop/background_images/laptop_169.jpg)',
+            'url(../themes/laptop/background_images/laptop2_169.jpg)',
         ],
         f4_3: [
-            'url(/themes/laptop/background_images/laptop_43.jpg)',
-            'url(/themes/laptop/background_images/laptop2_43.jpg)',
+            'url(../themes/laptop/background_images/laptop_43.jpg)',
+            'url(../themes/laptop/background_images/laptop2_43.jpg)',
         ],
     },
     colors: {

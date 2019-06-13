@@ -23,16 +23,16 @@ export const DEFINITION = {
     font: 'Cairo',
     background: {
         f16_9: [
-            'url(/themes/polygon/background_images/polygon_169.jpg)',
-            'url(/themes/polygon/background_images/polygon1_169.jpg)',
-            'url(/themes/polygon/background_images/polygon2_169.jpg)',
-            'url(/themes/polygon/background_images/polygon3_169.jpg)',
+            'url(../themes/polygon/background_images/polygon_169.jpg)',
+            'url(../themes/polygon/background_images/polygon1_169.jpg)',
+            'url(../themes/polygon/background_images/polygon2_169.jpg)',
+            'url(../themes/polygon/background_images/polygon3_169.jpg)',
         ],
         f4_3: [
-            'url(/themes/polygon/background_images/polygon_43.jpg)',
-            'url(/themes/polygon/background_images/polygon1_43.jpg)',
-            'url(/themes/polygon/background_images/polygon2_43.jpg)',
-            'url(/themes/polygon/background_images/polygon3_43.jpg)',
+            'url(../themes/polygon/background_images/polygon_43.jpg)',
+            'url(../themes/polygon/background_images/polygon1_43.jpg)',
+            'url(../themes/polygon/background_images/polygon2_43.jpg)',
+            'url(../themes/polygon/background_images/polygon3_43.jpg)',
         ],
     },
     colors: {
