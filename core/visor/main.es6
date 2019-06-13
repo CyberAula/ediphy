@@ -51,6 +51,7 @@ export default {
         let xhr = new XMLHttpRequest();
         let zip_title = state.globalConfig.title || "Ediphy";
         let theme = state.styleConfig && state.styleConfig.hasOwnProperty('theme') ? [state.styleConfig.theme] : ['default'];
+        console.log(theme);
         xhr.open('GET', Ediphy.Config.visor_bundle, true);
         xhr.responseType = "arraybuffer";
         try{
