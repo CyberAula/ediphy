@@ -49,7 +49,7 @@ export default class ThemePicker extends React.Component {
                                 key={index}
                                 className={"item" + selected + toolbar }
                                 onClick={()=>this.handleChange(index)}
-                                src = {`/themes/${key}/thumbnail.jpg`}
+                                src = {`./themes/${key}/thumbnail.jpg`}
                                 style={{
                                     height: this.props.fromStyleConfig ? '10em' : '5em' }} />
                         );

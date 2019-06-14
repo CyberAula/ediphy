@@ -2,7 +2,7 @@ export const TRANSITIONS = [
     {
         key: 'none',
         viewName: ['None', 'Ninguna'],
-        image: 'transitions/none.png',
+        image: './transitions/none.png',
         transition: {
             in: 'none',
             out: 'none',
@@ -11,7 +11,7 @@ export const TRANSITIONS = [
     {
         key: 'opacity',
         viewName: ['Opacity', 'Disolver'],
-        image: '/transitions/opacity.png',
+        image: './transitions/opacity.png',
         transition: {
             in: 'fadeIn',
             out: 'fadeOut',
@@ -20,7 +20,7 @@ export const TRANSITIONS = [
     {
         key: 'horizontal',
         viewName: ['Horizontal', 'Horizontal'],
-        image: '/transitions/horizontal.png',
+        image: './transitions/horizontal.png',
         transition: {
             in: 'slideInRight',
             out: 'slideOutLeft',
@@ -29,7 +29,7 @@ export const TRANSITIONS = [
     {
         key: 'Vertical',
         viewName: ['Vertical', 'Vertical'],
-        image: '/transitions/vertical.png',
+        image: './transitions/vertical.png',
         transition: {
             in: 'slideInDown',
             out: 'slideOutDown',
@@ -38,7 +38,7 @@ export const TRANSITIONS = [
     {
         key: 'zoom',
         viewName: ['Zoom', 'Zoom'],
-        image: '/transitions/zoom.png',
+        image: './transitions/zoom.png',
         transition: {
             in: 'zoomOut',
             out: 'zoomIn',
@@ -47,7 +47,7 @@ export const TRANSITIONS = [
     {
         key: 'RotOut',
         viewName: ['Rotate corner', 'Girar esquina'],
-        image: '/transitions/rotOut.png',
+        image: './transitions/rotOut.png',
         transition: {
             in: 'rotateInDownLeft',
             out: 'rotateOutDownLeft',
@@ -56,7 +56,7 @@ export const TRANSITIONS = [
     {
         key: 'rotate',
         viewName: ['Rotate', 'Rotar'],
-        image: '/transitions/rotate.png',
+        image: './transitions/rotate.png',
         transition: {
             in: 'rotateIn',
             out: 'rotateOutUpLeft',
@@ -65,7 +65,7 @@ export const TRANSITIONS = [
     {
         key: 'flip',
         viewName: ['Flip', 'Flip'],
-        image: '/transitions/flip.png',
+        image: './transitions/flip.png',
         transition: {
             in: 'flipInX',
             out: 'fadeOut',
