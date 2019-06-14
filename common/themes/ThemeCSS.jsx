@@ -93,19 +93,20 @@ export default class ThemeCSS extends React.Component {
     loadCSS() {
 
         // TODO check si carga
-        try {
-            fetch(`./theme.css`) // Webpack output CSS
-                .then(res => res.text())
-                .then(data => {
-                    let processedData = this.processCSS(data);
-                    this.setState({ themesStartIndex: processedData.themesStartIndex, css: processedData.safeCSS }, () => {
-                        this.getThemeCSS(this.props.theme);
-                    });
+        fetch(`./theme.css`) // Webpack output CSS
+            .then(res => {
+                if(!res.ok) {
+                    throw new Error('Error');
+                }
+                return res.text();
+            })
+            .then(data => {
+                let processedData = this.processCSS(data);
+                this.setState({ themesStartIndex: processedData.themesStartIndex, css: processedData.safeCSS }, () => {
+                    this.getThemeCSS(this.props.theme);
                 });
-        } catch (e) {
-
-        }
-
+            })
+            .catch(e => '');
     }
 
     processCSS(css) {
@@ -169,7 +170,6 @@ export default class ThemeCSS extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         return <style dangerouslySetInnerHTML={{
             __html: this.state.currentThemeCSS,
         }}/>;
