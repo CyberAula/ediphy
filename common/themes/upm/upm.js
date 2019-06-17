@@ -23,15 +23,15 @@ export const DEFINITION = {
     font: 'Libre Franklin',
     background: {
         f16_9: [
-            'url(../themes/upm/background_images/upm_169.jpg)',
-            'url(../themes/upm/background_images/upm_169_12.jpg)',
-            'url(../themes/upm/background_images/upm_169_2.jpg)',
+            'url(./themes/upm/background_images/upm_169.jpg)',
+            'url(./themes/upm/background_images/upm_169_12.jpg)',
+            'url(./themes/upm/background_images/upm_169_2.jpg)',
 
         ],
         f4_3: [
-            'url(../themes/upm/background_images/upm_43.jpg)',
-            'url(../themes/upm/background_images/upm_43_12.jpg)',
-            'url(../themes/upm/background_images/upm_43_2.jpg)',
+            'url(./themes/upm/background_images/upm_43.jpg)',
+            'url(./themes/upm/background_images/upm_43_12.jpg)',
+            'url(./themes/upm/background_images/upm_43_2.jpg)',
         ],
     },
     colors: {

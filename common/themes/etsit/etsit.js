@@ -23,18 +23,18 @@ export const DEFINITION = {
     font: 'Libre Franklin',
     background: {
         f16_9: [
-            'url(../themes/etsit/background_images/cabecera_169.jpg)',
-            'url(../themes/etsit/background_images/enBlanco_169.jpg)',
-            'url(../themes/etsit/background_images/textoYFoto_169.jpg)',
-            'url(../themes/etsit/background_images/titulo_169.jpg)',
-            'url(../themes/etsit/background_images/comparacion_169.jpg)',
+            'url(./themes/etsit/background_images/cabecera_169.jpg)',
+            'url(./themes/etsit/background_images/enBlanco_169.jpg)',
+            'url(./themes/etsit/background_images/textoYFoto_169.jpg)',
+            'url(./themes/etsit/background_images/titulo_169.jpg)',
+            'url(./themes/etsit/background_images/comparacion_169.jpg)',
         ],
         f4_3: [
-            'url(../themes/etsit/background_images/cabecera_43.jpg)',
-            'url(../themes/etsit/background_images/enBlanco_43.jpg)',
-            'url(../themes/etsit/background_images/textoYFoto_43.jpg)',
-            'url(../themes/etsit/background_images/titulo_43.jpg)',
-            'url(../themes/etsit/background_images/comparacion_43.jpg)',
+            'url(./themes/etsit/background_images/cabecera_43.jpg)',
+            'url(./themes/etsit/background_images/enBlanco_43.jpg)',
+            'url(./themes/etsit/background_images/textoYFoto_43.jpg)',
+            'url(./themes/etsit/background_images/titulo_43.jpg)',
+            'url(./themes/etsit/background_images/comparacion_43.jpg)',
         ],
     },
     colors: {

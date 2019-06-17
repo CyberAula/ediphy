@@ -23,16 +23,16 @@ export const DEFINITION = {
     font: 'Inconsolata',
     background: {
         f16_9: [
-            'url(../themes/purple/background_images/purple_169.jpg)',
-            'url(../themes/purple/background_images/purple_169_1.jpg)',
-            'url(../themes/purple/background_images/purple_169_2.jpg)',
-            'url(../themes/purple/background_images/purple_169_12.jpg)',
+            'url(./themes/purple/background_images/purple_169.jpg)',
+            'url(./themes/purple/background_images/purple_169_1.jpg)',
+            'url(./themes/purple/background_images/purple_169_2.jpg)',
+            'url(./themes/purple/background_images/purple_169_12.jpg)',
         ],
         f4_3: [
-            'url(../themes/purple/background_images/purple_43.jpg)',
-            'url(../themes/purple/background_images/purple_43_1.jpg)',
-            'url(../themes/purple/background_images/purple_43_2.jpg)',
-            'url(../themes/purple/background_images/purple_43_12.jpg)',
+            'url(./themes/purple/background_images/purple_43.jpg)',
+            'url(./themes/purple/background_images/purple_43_1.jpg)',
+            'url(./themes/purple/background_images/purple_43_2.jpg)',
+            'url(./themes/purple/background_images/purple_43_12.jpg)',
         ],
     },
     colors: {

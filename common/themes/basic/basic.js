@@ -23,21 +23,21 @@ export const DEFINITION = {
     font: 'Cairo',
     background: {
         f16_9: [
-            'url(../themes/basic/background_images/basic1_169.jpg)',
-            'url(../themes/basic/background_images/basic2_169.jpg)',
-            'url(../themes/basic/background_images/basic3_169.jpg)',
-            'url(../themes/basic/background_images/basic4_169.jpg)',
-            'url(../themes/basic/background_images/basic5_169.jpg)',
-            'url(../themes/basic/background_images/basic6_169.jpg)',
+            'url(./themes/basic/background_images/basic1_169.jpg)',
+            'url(./themes/basic/background_images/basic2_169.jpg)',
+            'url(./themes/basic/background_images/basic3_169.jpg)',
+            'url(./themes/basic/background_images/basic4_169.jpg)',
+            'url(./themes/basic/background_images/basic5_169.jpg)',
+            'url(./themes/basic/background_images/basic6_169.jpg)',
 
         ],
         f4_3: [
-            'url(../themes/basic/background_images/basic1_43.jpg)',
-            'url(../themes/basic/background_images/basic2_43.jpg)',
-            'url(../themes/basic/background_images/basic3_43.jpg)',
-            'url(../themes/basic/background_images/basic4_43.jpg)',
-            'url(../themes/basic/background_images/basic5_43.jpg)',
-            'url(../themes/basic/background_images/basic6_43.jpg)',
+            'url(./themes/basic/background_images/basic1_43.jpg)',
+            'url(./themes/basic/background_images/basic2_43.jpg)',
+            'url(./themes/basic/background_images/basic3_43.jpg)',
+            'url(./themes/basic/background_images/basic4_43.jpg)',
+            'url(./themes/basic/background_images/basic5_43.jpg)',
+            'url(./themes/basic/background_images/basic6_43.jpg)',
 
         ],
     },

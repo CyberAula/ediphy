@@ -135,7 +135,7 @@ export default {
             let themeImages = getThemeImages(theme);
             Object.keys(themeImages).map(template => {
                 Object.values(themeImages[template]).map(img => {
-                    !Number.isInteger(img) && img !== '' && paths.push(`themes/${theme}/${img}`);
+                    !Number.isInteger(img) && img !== '' && paths.push(`dist/themes/${theme}/${img}`);
                 });
             });
 
@@ -143,7 +143,7 @@ export default {
             Object.keys(themeBackgrounds).map(ar => {
                 themeBackgrounds[ar].map(background => {
                     if (background.includes('url')) {
-                        background = background.replace('url(..', '');
+                        background = background.replace('url(.', 'dist');
                         background = background.replace(')', '');
                         paths.push(background);
                     }
@@ -167,13 +167,15 @@ export default {
         strState = strState.replace(/http:\/\/vishubcode.org/g, 'https://vishubcode.org');
         strState = strState.replace(/http:\/\/vishub.org/g, 'https://vishub.org');
         strState = strState.replace(/http:\/\/educainternet.es/g, 'https://educainternet.es');
-        strState = strState.replace(/url\(\/themes/g, '/url\(..\/themes');
+        // strState = strState.replace(/url\(\/themes/g, '/url\(..\/themes');
         return strState;
     },
     includeThemeImages(zip, images, callback) {
         if(images.length > 0) {
             let img = images.pop();
-            JSZipUtils.getBinaryContent(img, (e, data) => {
+            let path = img.replace('dist', './');
+            console.log(path);
+            JSZipUtils.getBinaryContent(path, (e, data) => {
                 if(e) {
                     Ediphy.Visor.includeThemeImages(zip, images, callback);
                 }
@@ -188,11 +190,11 @@ export default {
         if(filesUploaded.length > 0) {
             let file = filesUploaded.pop();
             let name = usedNames.pop();
+            console.log(file.url);
             JSZipUtils.getBinaryContent(file.url, (err, data) => {
                 if(err) {
                     throw err; // or handle the error
                 }
-
                 zip.file('images/' + name, data, { binary: true });
                 Ediphy.Visor.includeImage(zip, filesUploaded, usedNames, callback);
             });

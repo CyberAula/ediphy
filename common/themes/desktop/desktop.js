@@ -22,11 +22,11 @@ export const DEFINITION = {
     font: 'Libre Franklin',
     background: {
         f16_9: [
-            'url(../themes/desktop/background_images/desktop_169.jpg)',
+            'url(./themes/desktop/background_images/desktop_169.jpg)',
             '#FDFDFD',
         ],
         f4_3: [
-            'url(../themes/desktop/background_images/desktop_43.jpg)',
+            'url(./themes/desktop/background_images/desktop_43.jpg)',
             '#FDFDFD',
         ],
     },
