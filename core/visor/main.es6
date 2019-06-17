@@ -104,8 +104,8 @@ export default {
                                         zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);
                                         zip.file("ediphy.edi", strState);
                                         zip.file("dist/theme.css", css);
-                                        Ediphy.Visor.includeThemesResources(zip, theme, zip => {
-                                            Ediphy.Visor.includeImage(zip, selfContained ? filesUploaded : [], usedNames, (zipFile) => {
+                                        Ediphy.Visor.includeThemesResources(zip, theme, zipTheme => {
+                                            Ediphy.Visor.includeImage(zipTheme, selfContained ? filesUploaded : [], usedNames, (zipFile) => {
                                                 zipFile.generateAsync({ type: "blob" }).then(function(blob) {
                                                     // FileSaver.saveAs(blob, "ediphyvisor.zip");
                                                     FileSaver.saveAs(blob, zip_title.toLowerCase().replace(/\s/g, '') + Math.round(+new Date() / 1000) + "_HTML.zip");
@@ -174,7 +174,6 @@ export default {
         if(images.length > 0) {
             let img = images.pop();
             let path = img.replace('dist', './');
-            console.log(path);
             JSZipUtils.getBinaryContent(path, (e, data) => {
                 if(e) {
                     Ediphy.Visor.includeThemeImages(zip, images, callback);
@@ -190,7 +189,6 @@ export default {
         if(filesUploaded.length > 0) {
             let file = filesUploaded.pop();
             let name = usedNames.pop();
-            console.log(file.url);
             JSZipUtils.getBinaryContent(file.url, (err, data) => {
                 if(err) {
                     throw err; // or handle the error
@@ -292,8 +290,8 @@ export default {
                                             zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);
                                             zip.file("dist/theme.css", css);
                                             zip_title = state.globalConfig.title || 'Ediphy';
-                                            Ediphy.Visor.includeThemesResources(zip, theme, zip => {
-                                                Ediphy.Visor.includeImage(zip, selfContained ? filesUploaded : [], usedNames, (zipFile) => {
+                                            Ediphy.Visor.includeThemesResources(zip, theme, zipTheme => {
+                                                Ediphy.Visor.includeImage(zipTheme, selfContained ? filesUploaded : [], usedNames, (zipFile) => {
                                                     zipFile.generateAsync({ type: "blob" }).then(function(blob) {
                                                         // FileSaver.saveAs(blob, "ediphyvisor.zip");
                                                         FileSaver.saveAs(blob, zip_title.toLowerCase().replace(/\s/g, '') + Math.round(+new Date() / 1000) + (is2004 ? "_2004" : "_1.2") + ".zip");

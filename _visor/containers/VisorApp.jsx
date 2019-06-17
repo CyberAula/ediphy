@@ -262,7 +262,6 @@ export default class Visor extends Component {
         });
 
         let content = [...navItemComponents, cvComponents];
-        console.log(content);
         let empty = <div className="emptyPresentation">{i18n.t("EmptyPresentation")}</div>;
         let visorNavButtonClass = 'hoverPlayerSelector';
         visorNavButtonClass = this.state.mouseMoving ? visorNavButtonClass + ' appearButton' : visorNavButtonClass + ' fadeButton';

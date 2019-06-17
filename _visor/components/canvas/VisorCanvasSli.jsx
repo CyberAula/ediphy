@@ -87,7 +87,7 @@ export default class VisorCanvasSli extends Component {
                         key={this.props.currentView}
                         animationIn={this.props.styleConfig.hasOwnProperty('transition') ? TRANSITIONS[this.props.styleConfig.transition].transition.in : ''}
                         animationOut={this.props.styleConfig.hasOwnProperty('transition') ? TRANSITIONS[this.props.styleConfig.transition].transition.out : ''}
-                        isVisible={this.props.showC}
+                        isVisible={this.props.show}
                         style={{ height: '100%', width: '100%' }}
                     >
                         <div id={isCV ? "contained_maincontent" : "maincontent"}
@@ -318,4 +318,8 @@ VisorCanvasSli.propTypes = {
      * General style config
      */
     styleConfig: PropTypes.object,
+    /**
+     * Indicates the aspect ratio of the slides
+     */
+    aspectRatio: PropTypes.number,
 };
