@@ -13,7 +13,7 @@
     animation-fill-mode: forwards;
     -webkit-animation-fill-mode: forwards; /* Safari 4.0 - 8.0 */
 
-    visibility: visible !important;
+    //visibility: visible !important;
   }
   #containedCanvas, .containedCanvasClass.exitCanvas {
 
@@ -26,7 +26,7 @@
     animation-fill-mode: backwards;
     -webkit-animation-fill-mode: backwards; /* Safari 4.0 - 8.0 */
 
-    visibility: visible !important;
+    //visibility: visible !important;
   }
 }
 

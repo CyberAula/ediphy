@@ -254,11 +254,11 @@ export default class Visor extends Component {
 
         let navItemComponents = Object.keys(navItemsById).filter(nav=>isPage(nav)).map((nav, i)=>{
             return (
-                <VisorCanvas key={i} {...canvasProps} currentView={nav} show={nav === currentView} showCanvas={nav.indexOf("cv-") === -1} />
+                <VisorCanvas key={i} {...canvasProps} currentView={nav} show={nav === currentView} z={ i + 10} showCanvas={nav.indexOf("cv-") === -1} />
             );
         });
         let cvComponents = Object.keys(containedViewsById).map((nav, i)=>{
-            return <VisorContainedCanvas key={i} {...canvasProps} currentView={nav} show={nav === currentView} showCanvas={nav.indexOf("cv-") !== -1} />;
+            return <VisorContainedCanvas key={i} {...canvasProps} currentView={nav} show={nav === currentView} z={ i + navItemComponents.length } showCanvas={nav.indexOf("cv-") !== -1} />;
         });
 
         let content = [...navItemComponents, cvComponents];
