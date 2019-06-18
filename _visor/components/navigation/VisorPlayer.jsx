@@ -62,7 +62,7 @@ export default class VisorPlayer extends Component {
                                 <Button className="playerButton"
                                     bsStyle="primary"
                                     disabled={index === 0 || maxIndex === 0}
-                                    onClick={(e)=>{this.props.changeCurrentView(navItemsIds[Math.max(index - 1, 0)]);}}>
+                                    onClick={(e)=>{this.props.changeCurrentView(navItemsIds[Math.max(index - 1, 0)], true);}}>
                                     <i className="material-icons">chevron_left</i>
                                 </Button>
                             </OverlayTrigger>
@@ -80,7 +80,7 @@ export default class VisorPlayer extends Component {
                                 <Button className="playerButton"
                                     bsStyle="primary"
                                     disabled={index === maxIndex - 1 || maxIndex === 0}
-                                    onClick={(e)=>{this.props.changeCurrentView(navItemsIds[Math.min(index + 1, maxIndex - 1)]);}}>
+                                    onClick={(e)=>{this.props.changeCurrentView(navItemsIds[Math.min(index + 1, maxIndex - 1)], false);}}>
                                     <i className="material-icons">chevron_right</i>
                                 </Button>
                             </OverlayTrigger>

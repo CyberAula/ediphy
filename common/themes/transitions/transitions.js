@@ -6,6 +6,10 @@ export const TRANSITIONS = [
         transition: {
             in: 'none',
             out: 'none',
+            backwards: {
+                in: '',
+                out: '',
+            },
         },
     },
     {
@@ -15,6 +19,10 @@ export const TRANSITIONS = [
         transition: {
             in: 'fadeIn',
             out: 'fadeOut',
+            backwards: {
+                in: 'fadeIn',
+                out: 'fadeOut',
+            },
         },
     },
     {
@@ -24,6 +32,10 @@ export const TRANSITIONS = [
         transition: {
             in: 'slideInRight',
             out: 'slideOutLeft',
+            backwards: {
+                in: 'slideInLeft',
+                out: 'slideOutRight',
+            },
         },
     },
     {
@@ -33,6 +45,10 @@ export const TRANSITIONS = [
         transition: {
             in: 'slideInDown',
             out: 'slideOutDown',
+            backwards: {
+                in: 'slideInUp',
+                out: 'slideOutUp',
+            },
         },
     },
     {
@@ -41,7 +57,11 @@ export const TRANSITIONS = [
         image: './transitions/zoom.png',
         transition: {
             in: 'zoomOut',
-            out: 'zoomIn',
+            out: '',
+            backwards: {
+                in: 'zoomOut',
+                out: '',
+            },
         },
     },
     {
@@ -51,6 +71,10 @@ export const TRANSITIONS = [
         transition: {
             in: 'rotateInDownLeft',
             out: 'rotateOutDownLeft',
+            backwards: {
+                in: 'rotateInUpLeft',
+                out: 'rotateOutUpLeft',
+            },
         },
     },
     {
@@ -60,6 +84,10 @@ export const TRANSITIONS = [
         transition: {
             in: 'rotateIn',
             out: 'rotateOutUpLeft',
+            backwards: {
+                in: '',
+                out: '',
+            },
         },
     },
     {
@@ -69,6 +97,10 @@ export const TRANSITIONS = [
         transition: {
             in: 'flipInX',
             out: 'fadeOut',
+            backwards: {
+                in: '',
+                out: '',
+            },
         },
     },
 ];

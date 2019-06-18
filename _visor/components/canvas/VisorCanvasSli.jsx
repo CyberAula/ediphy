@@ -29,6 +29,7 @@ export default class VisorCanvasSli extends Component {
             fontBase: 14,
             previousView: '',
         };
+        this.TRANSITION_TIME = 800;
     }
 
     render() {
@@ -43,6 +44,8 @@ export default class VisorCanvasSli extends Component {
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
         let hasTransition = this.props.styleConfig.hasOwnProperty('transition');
         let transition = hasTransition ? TRANSITIONS[this.props.styleConfig.transition].transition : { in: '', out: '' };
+        transition = isCV ? { in: 'zoomOut', out: 'zoomIn' } : transition;
+        transition = this.props.backwards ? transition.backwards : transition;
         let isVisible = this.props.show || this.props.currentView === this.state.previousView;
 
         if (itemSelected !== 0 && !isCV) {
@@ -72,14 +75,13 @@ export default class VisorCanvasSli extends Component {
         );
         let exercises = this.props.exercises[this.props.currentView];
 
-        let animationType = "animation-zoom";
         let padding = (this.props.fromPDF ? '0px' : '0px');
 
         return (
             <Col ref={"canvas_" + this.props.currentView}
                 id={(isCV ? "containedCanvas_" : "canvas_") + this.props.currentView}
                 md={12} xs={12}
-                className={(isCV ? "containedCanvasClass " : "canvasClass ") + " canvasSliClass safeZone " + (isCV ? animationType : "")}
+                className={(isCV ? "containedCanvasClass " : "canvasClass ") + " canvasSliClass safeZone "}
                 style={{
                     position: 'absolute',
                     backgroundColor: 'transparent',
@@ -101,10 +103,12 @@ export default class VisorCanvasSli extends Component {
                     }}>
 
                     <Animated
-                        key={this.props.currentView}
+                        key={this.props.selectedView}
                         animationIn={transition.in}
                         animationOut={transition.out}
-                        isVisible={this.props.show}
+                        animationInDuration={this.TRANSITION_TIME}
+                        animationOutDuration={this.TRANSITION_TIME}
+                        isVisible={this.props.show && this.state.show}
                         style={{ height: '100%', width: '100%' }}
                     >
 
@@ -117,11 +121,15 @@ export default class VisorCanvasSli extends Component {
                                     className="btnOverBar cvBackButton"
                                     style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
                                     onClick={a => {
+                                        // this.props.removeLastView();
                                         ReactDOM.findDOMNode(this).classList.add("exitCanvas");
-                                        setTimeout(function() {
-                                            this.props.removeLastView();
-                                        }.bind(this), 500);
-                                        a.stopPropagation();
+                                        this.setState({ show: false }, () => {
+                                            setTimeout(function() {
+                                                this.props.removeLastView();
+                                            }.bind(this), this.TRANSITION_TIME);
+                                            a.stopPropagation();
+                                        });
+
                                     }}><i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
                             <VisorHeader titles={titles}
                                 onShowTitle={()=>this.setState({ showTitle: true })}
@@ -137,7 +145,7 @@ export default class VisorCanvasSli extends Component {
                             {boxes.map(id => {
                                 return <VisorBox key={id}
                                     id={id}
-                                    show={this.props.show}
+                                    show={isVisible}
                                     exercises={(exercises && exercises.exercises) ? exercises.exercises[id] : undefined}
                                     boxes={this.props.boxes}
                                     changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
@@ -235,7 +243,12 @@ export default class VisorCanvasSli extends Component {
     componentWillUpdate(nextProps, nextState) {
         // Manage transition so animation in and out are simultaneous
         if (!nextProps.show && this.props.show) {
-            this.setState({ previousView: nextProps.currentView }, () => this.setTimeoutTransition(1000));
+            let backwards = nextProps.navItemsIds.indexOf(nextProps.selectedView) < this.props.navItemsIds.indexOf(this.props.selectedView);
+            this.setState({ backwards, show: true, previousView: nextProps.currentView }, () => this.setTimeoutTransition(this.TRANSITION_TIME));
+        } else if(nextProps.show && !this.props.show) {
+            let backwards = nextProps.navItemsIds.indexOf(nextProps.selectedView) <= this.props.navItemsIds.indexOf(this.props.selectedView);
+            console.log(backwards);
+            this.setState({ backwards: backwards });
         }
         let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         let nextItemSel = nextProps.navItems[nextProps.currentView] || nextProps.containedViews[nextProps.currentView];

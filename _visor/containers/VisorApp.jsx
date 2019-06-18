@@ -59,6 +59,7 @@ export default class Visor extends Component {
             scoreInfo: { userName: "Anonymous", totalScore: 0, totalWeight: 0, completionProgress: 0 },
             mouseMoving: false,
             mouseOnPlayer: false,
+            backwards: false,
         };
         this.onMarkClicked = this.onMarkClicked.bind(this);
         this._onMouseMove = this._onMouseMove.bind(this);
@@ -191,7 +192,7 @@ export default class Visor extends Component {
                 let focusElement = document.activeElement.tagName.toLowerCase();
                 if (focusElement !== 'input' && focusElement !== 'textarea') {
                     if (key === 37 || key === 33) {
-                        this.changeCurrentView(navItemsIds[Math.max(index - 1, 0)]);
+                        this.changeCurrentView(navItemsIds[Math.max(index - 1, 0)], true);
                     } else if(key === 39 || key === 34) {
                         this.changeCurrentView(navItemsIds[Math.min(index + 1, maxIndex - 1)]);
                     }
@@ -236,6 +237,7 @@ export default class Visor extends Component {
             currentView: currentView,
             fromScorm: this.state.fromScorm,
             navItems: navItemsById,
+            navItemsIds,
             removeLastView: ()=>{this.removeLastView(); },
             richElementsState: this.state.richElementState,
             title,
@@ -254,7 +256,7 @@ export default class Visor extends Component {
 
         let navItemComponents = Object.keys(navItemsById).filter(nav=>isPage(nav)).map((nav, i)=>{
             return (
-                <VisorCanvas key={i} {...canvasProps} currentView={nav} show={nav === currentView} z={ i + 10} showCanvas={nav.indexOf("cv-") === -1} />
+                <VisorCanvas key={i} {...canvasProps} selectedView={currentView} backwards = {this.state.backwards} currentView={nav} show={nav === currentView} z={ i + 10} showCanvas={nav.indexOf("cv-") === -1} />
             );
         });
         let cvComponents = Object.keys(containedViewsById).map((nav, i)=>{
@@ -312,7 +314,7 @@ export default class Visor extends Component {
                                         setHover={this.setHoverClass}
                                         deleteHover = {this.deleteHoverClass}
                                         show={visorNav.player}
-                                        changeCurrentView={(page)=> {this.changeCurrentView(page);}}
+                                        changeCurrentView={(page, backwards)=> {this.changeCurrentView(page, backwards);}}
                                         currentViews={this.state.currentView}
                                         navItemsById={navItemsById}
                                         navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}/>) : null}
@@ -335,7 +337,7 @@ export default class Visor extends Component {
                                     setHover={this.setHoverClass}
                                     deleteHover = {this.deleteHoverClass}
                                     show={visorNav.player}
-                                    changeCurrentView={(page)=> {this.changeCurrentView(page);}}
+                                    changeCurrentView={(page, backwards)=> {this.changeCurrentView(page, backwards);}}
                                     currentViews={this.state.currentView}
                                     navItemsById={navItemsById}
                                     navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}/>
@@ -377,15 +379,15 @@ export default class Visor extends Component {
      * Navigation main method
      * @param {string} element - current Element to go
      */
-    changeCurrentView(element) {
-
+    changeCurrentView(element, backwards = false) {
+        console.log(element, backwards);
         if (isContainedView(element)) {
-            this.setState({ currentView: [this.getCurrentView(this.state.navItemSelected, this.state.containedViewSelected), element] });
+            this.setState({ currentView: [this.getCurrentView(this.state.navItemSelected, this.state.containedViewSelected), element], backwards: backwards });
         } else {
-            this.setState({ currentView: [element] });
+            this.setState({ currentView: [element], backwards: backwards });
             if(this.state.currentView.length > 1) {
                 this.setState({ triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
-                    richElementState: this.getActualBoxesStates(this.state.backupElementStates, this.state.richElementState) });
+                    richElementState: this.getActualBoxesStates(this.state.backupElementStates, this.state.richElementState), backwards: backwards });
             }
         }
 
