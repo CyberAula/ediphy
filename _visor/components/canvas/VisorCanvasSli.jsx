@@ -43,7 +43,7 @@ export default class VisorCanvasSli extends Component {
         let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
         let hasTransition = this.props.styleConfig.hasOwnProperty('transition');
-        let transition = hasTransition ? TRANSITIONS[this.props.styleConfig.transition].transition : { in: '', out: '' };
+        let transition = hasTransition && !this.props.fromPDF ? TRANSITIONS[this.props.styleConfig.transition].transition : { in: '', out: '' };
         transition = isCV ? { in: 'zoomOut', out: 'zoomIn' } : transition;
         transition = this.props.backwards ? transition.backwards : transition;
         let isVisible = this.props.show || this.props.currentView === this.state.previousView;
@@ -167,7 +167,6 @@ export default class VisorCanvasSli extends Component {
 
                         </div>
                     </Animated>
-
                 </div>
 
                 {this.props.show ?
@@ -362,4 +361,8 @@ VisorCanvasSli.propTypes = {
      * Indicates the zIndex of the slide
      */
     z: PropTypes.number,
+    /**
+     * Indicates if user is navigating backwards
+     */
+    backwards: PropTypes.bool,
 };
