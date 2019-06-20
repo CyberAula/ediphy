@@ -25,6 +25,7 @@ export default class Content extends Component {
     }
 
     render() {
+        console.log(this.props);
         let tree = srcTree(i18n.t("lang"));
         let pages = this.state.pages;
         let currentPage = this.props.page;

@@ -16,7 +16,7 @@ import { Animated } from "react-animated-css";
 import { loadBackgroundStyle } from "../../../common/themes/background_loader";
 import ThemeCSS from '../../../common/themes/ThemeCSS';
 import { getThemeColors } from "../../../common/themes/theme_loader";
-import { TRANSITIONS } from "../../../common/themes/transitions/transitions";
+import { getTransition } from "../../../common/themes/transitions/transitions";
 
 export default class VisorCanvasSli extends Component {
     constructor(props) {
@@ -42,10 +42,7 @@ export default class VisorCanvasSli extends Component {
 
         let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
-        let hasTransition = styleConfig.hasOwnProperty('transition');
-        let transition = hasTransition && !this.props.fromPDF ? TRANSITIONS[styleConfig.transition].transition : { in: '', out: '' };
-        transition = isCV ? { in: 'zoomOut', out: 'zoomIn' } : transition;
-        transition = this.props.backwards ? transition.backwards : transition;
+        let transition = getTransition(styleConfig, this.props.fromPDF, isCV, this.props.backwards);
         let isVisible = this.props.show || currentView === this.state.previousView;
 
         if (itemSelected !== 0 && !isCV) {
@@ -362,7 +359,7 @@ VisorCanvasSli.propTypes = {
     /**
      * Indicates the current slide selected
      */
-    selectedView: PropTypes.bool,
+    selectedView: PropTypes.string,
     /**
      * Array of ordered navItems
      */

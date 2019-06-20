@@ -199,5 +199,5 @@ ThemeCSS.propTypes = {
     /**
      * Identifier of the current slide template
      */
-    currentView: PropTypes.number,
+    currentView: PropTypes.string,
 };
