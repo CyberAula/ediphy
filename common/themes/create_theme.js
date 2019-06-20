@@ -1,11 +1,9 @@
 /**
- * CLI para crear un plugin automáticamente
- * yarn run create-plugin help
+ * CLI para crear un tema automáticamente
+ * yarn run create-theme help
  */
 
-import path from 'path';
 import fs from 'fs';
-const LANGS = ["en", "es"];
 const BASE = "common/themes/";
 const DIST = "dist/themes/";
 let options = {

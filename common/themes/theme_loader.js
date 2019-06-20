@@ -6,14 +6,14 @@ export function generateThemes() {
     let THEMES = {};
     let CONFIG = require('../../core/config');
     CONFIG.default.themeList.map((theme, index) => {
-        THEMES[theme] = require(`./${theme}/${theme}`).DEFINITION;
+        THEMES[theme] = require(`./definitions/${theme}/${theme}`).DEFINITION;
     });
 
     return THEMES;
 }
 
 export function getThemeTemplates(theme) {
-    let definition = require(`./${theme}/${theme}`).DEFINITION;
+    let definition = require(`./definitions/${theme}/${theme}`).DEFINITION;
     return definition.templates ? definition.templates : [];
 }
 

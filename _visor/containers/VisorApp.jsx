@@ -380,7 +380,6 @@ export default class Visor extends Component {
      * @param {string} element - current Element to go
      */
     changeCurrentView(element, backwards = false) {
-        console.log(element, backwards);
         if (isContainedView(element)) {
             this.setState({ currentView: [this.getCurrentView(this.state.navItemSelected, this.state.containedViewSelected), element], backwards: backwards });
         } else {

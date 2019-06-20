@@ -22,16 +22,23 @@ export default class ThemePreview extends React.Component {
     }
 
     render() {
+        const transition = TRANSITIONS[this.props.styleConfig.transition].transition;
         return(
-            <Animated animationIn={TRANSITIONS[this.props.styleConfig.transition].transition.in} animationOut={TRANSITIONS[this.props.styleConfig.transition].transition.out} isVisible={this.state.visible}>
-                <div id={"previewZone"} className={"style_preview_container previewZone"} style={{ width: '400px', height: '220px', border: '1px solid gray', marginBottom: '20px' }}>
+            <Animated animationIn={transition.in} animationOut={transition.out} isVisible={this.state.visible}>
+                <div id={"previewZone"} className={"style_preview_container previewZone"}
+                    style={{
+                        width: '400px',
+                        height: '220px',
+                        border: '1px solid gray',
+                        marginBottom: '20px' }}>
                     <ThemeCSS
                         theme={this.props.theme}
                         toolbar={false}
                         styleConfig={this.props.styleConfig}
                         isPreview
                     />
-                    <div className={"style_preview_content " + this.props.theme } style={loadBackgroundStylePreview(this.props.theme)}>
+                    <div className={"style_preview_content " + this.props.theme }
+                        style={loadBackgroundStylePreview(this.props.theme)}>
                         <div className={"title"}>
                             <div className={"cab"}>
                                 <h2>Slide</h2>

@@ -33,29 +33,29 @@ export default class VisorCanvasSli extends Component {
     }
 
     render() {
+        let { viewsArray, navItems, currentView, containedViews, viewToolbars, styleConfig } = this.props;
 
         let titles = [];
-        let itemSelected = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
-        let isCV = !isView(this.props.currentView);
-        let toolbar = this.props.viewToolbars[this.props.currentView];
+        let itemSelected = navItems[currentView] || containedViews[currentView];
+        let isCV = !isView(currentView);
+        let toolbar = viewToolbars[currentView];
 
-        let styleConfig = this.props.styleConfig;
         let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
-        let hasTransition = this.props.styleConfig.hasOwnProperty('transition');
-        let transition = hasTransition && !this.props.fromPDF ? TRANSITIONS[this.props.styleConfig.transition].transition : { in: '', out: '' };
+        let hasTransition = styleConfig.hasOwnProperty('transition');
+        let transition = hasTransition && !this.props.fromPDF ? TRANSITIONS[styleConfig.transition].transition : { in: '', out: '' };
         transition = isCV ? { in: 'zoomOut', out: 'zoomIn' } : transition;
         transition = this.props.backwards ? transition.backwards : transition;
-        let isVisible = this.props.show || this.props.currentView === this.state.previousView;
+        let isVisible = this.props.show || currentView === this.state.previousView;
 
         if (itemSelected !== 0 && !isCV) {
-            let title = this.props.viewToolbars[this.props.currentView].viewName;
+            let title = viewToolbars[currentView].viewName;
             titles.push(title);
             let parent = itemSelected.parent;
             while (parent !== 0) {
-                let title2 = this.props.viewToolbars[parent].viewName;
+                let title2 = viewToolbars[parent].viewName;
                 titles.push(title2);
-                parent = this.props.navItems[parent].parent;
+                parent = navItems[parent].parent;
             }
             titles.reverse();
         }
@@ -67,15 +67,13 @@ export default class VisorCanvasSli extends Component {
             actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
         }
 
-        let boxes = isCV ? this.props.containedViews[this.props.currentView].boxes || [] : this.props.navItems[this.props.currentView].boxes || [];
-        let thisView = this.props.viewsArray && this.props.viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(this.props.viewsArray[this.props.viewsArray.length - 2]) ? this.props.viewToolbars[this.props.viewsArray[this.props.viewsArray.length - 2]].viewName : this.props.viewToolbars[this.props.viewsArray[this.props.viewsArray.length - 2]].viewName)) : i18n.t('messages.go_back');
+        let boxes = isCV ? containedViews[currentView].boxes || [] : navItems[currentView].boxes || [];
+        let thisView = viewsArray && viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(viewsArray[viewsArray.length - 2]) ? viewToolbars[viewsArray[viewsArray.length - 2]].viewName : viewToolbars[viewsArray[viewsArray.length - 2]].viewName)) : i18n.t('messages.go_back');
 
         const tooltip = (
             <Tooltip id="tooltip">{thisView}</Tooltip>
         );
         let exercises = this.props.exercises[this.props.currentView];
-
-        let padding = (this.props.fromPDF ? '0px' : '0px');
 
         return (
             <Col ref={"canvas_" + this.props.currentView}
@@ -89,7 +87,7 @@ export default class VisorCanvasSli extends Component {
                     visibility: isVisible ? 'visible' : 'hidden',
                     zIndex: this.props.show ? 100 : this.props.z,
                     width: '100%',
-                    padding,
+                    padding: '0px',
                     overflow: 'hidden',
                     fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px' }}>
 
@@ -121,7 +119,6 @@ export default class VisorCanvasSli extends Component {
                                     className="btnOverBar cvBackButton"
                                     style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
                                     onClick={a => {
-                                        // this.props.removeLastView();
                                         ReactDOM.findDOMNode(this).classList.add("exitCanvas");
                                         this.setState({ show: false }, () => {
                                             setTimeout(function() {
@@ -199,8 +196,6 @@ export default class VisorCanvasSli extends Component {
     }
 
     componentDidMount() {
-        let isCV = !isView(this.props.currentView);
-        let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         if (!this.props.fromPDF) {
             let calculated = this.aspectRatio(this.props, this.state);
             this.setState({ fontBase: changeFontBase(calculated.width) });
@@ -246,7 +241,6 @@ export default class VisorCanvasSli extends Component {
             this.setState({ backwards, show: true, previousView: nextProps.currentView }, () => this.setTimeoutTransition(this.TRANSITION_TIME));
         } else if(nextProps.show && !this.props.show) {
             let backwards = nextProps.navItemsIds.indexOf(nextProps.selectedView) <= this.props.navItemsIds.indexOf(this.props.selectedView);
-            console.log(backwards);
             this.setState({ backwards: backwards });
         }
         let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
@@ -365,4 +359,12 @@ VisorCanvasSli.propTypes = {
      * Indicates if user is navigating backwards
      */
     backwards: PropTypes.bool,
+    /**
+     * Indicates the current slide selected
+     */
+    selectedView: PropTypes.bool,
+    /**
+     * Array of ordered navItems
+     */
+    navItemsIds: PropTypes.array,
 };

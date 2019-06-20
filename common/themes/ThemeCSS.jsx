@@ -4,7 +4,6 @@ import { getThemeColors, getThemeFont, getThemeImages, THEMES, generateThemes } 
 import loadFont from './font_loader';
 import { setRgbaAlpha } from "../common_tools";
 import { translatePxToEm } from "./cssParser";
-import { themes } from "./themes.js";
 export default class ThemeCSS extends React.Component {
 
     constructor(props) {
