@@ -1,34 +1,14 @@
-
-
 .colorPickerContainer {
   border: 4px solid white;
+  width: 100%;
   height: 34px;
+  background: #ffffff;
+  boxShadow:0 0 0 1px rgba(0,0,0,.1);
+  display: inline-block;
+  cursor: pointer;
   .colorPickerInput {
     width: 100%;
-    .rc-color-picker-trigger {
-      width: 100%;
-      height: 26px;
-      border: 1px solid #ccc;
-      display: inline-block;
-      padding: 5px;
-      border-radius: 0px;
-      box-shadow: none;
-    }
+    height: 26px;
   }
-
 }
-.rc-color-picker-panel {
-   -webkit-transform: translate(15px,0px);
-   -moz-transform: translate(15px,0px);
-   -ms-transform: translate(15px,0px);
-   -o-transform: translate(15px,0px);
-   transform: translate(15px,0px);
-    border-radius: 0px;
-   input {
-     border-radius: 0px;
-   }
- }
 
- .rc-color-picker{
-  z-index: 9999 !important;
- }

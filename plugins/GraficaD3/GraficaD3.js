@@ -48,7 +48,6 @@ export function GraficaD3(base) {
                                     value: 0,
                                     min: 0,
                                     max: 10,
-                                    units: "px",
                                 },
                                 borderStyle: {
                                     __name: Ediphy.i18n.t("GraficaD3.border_style"),

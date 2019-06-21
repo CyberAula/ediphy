@@ -47,4 +47,11 @@ $boxborderwidth: 1px;
 //HEIGHT -------------------
 $pestanaHeight: 20px;
 
+$enable-print-styles: false;
 
+
+:root {
+  --colorprimarytransparent: rgba(23,207,200,0.1);
+  --colormedium: #14b6b0;
+  --colorprimarydark: #0E817D;
+}

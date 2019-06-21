@@ -9,12 +9,17 @@ import EditorHeader from '../editor_header/EditorHeader';
 import interact from 'interactjs';
 import { ADD_BOX, changeGlobalConfig, changeNavItemName } from '../../../../common/actions';
 import { isSlide, isSortableBox } from '../../../../common/utils';
-import { aspectRatio, createBox, instanceExists } from '../../../../common/common_tools';
+import { aspectRatio, createBox, instanceExists, changeFontBase } from '../../../../common/common_tools';
 import Ediphy from '../../../../core/editor/main';
 import ReactResizeDetector from 'react-resize-detector';
 import i18n from 'i18next';
 import { SnapGrid } from './SnapGrid';
 import { ID_PREFIX_BOX } from '../../../../common/constants';
+
+import { loadTheme, getThemeColors } from '../../../../common/themes/theme_loader';
+import ThemeCSS from '../../../../common/themes/ThemeCSS';
+import { loadBackground, loadBackgroundStyle } from "../../../../common/themes/background_loader";
+
 /**
  * EditorCanvasSli component
  * Canvas component to display slides
@@ -25,6 +30,7 @@ export default class EditorCanvasSli extends Component {
         this.state = {
             alert: null,
             width: 0, height: 0, marginTop: 0, marginBottom: 0,
+            fontBase: 14,
         };
         this.aspectRatio = this.aspectRatio.bind(this);
     }
@@ -51,16 +57,19 @@ export default class EditorCanvasSli extends Component {
             actualHeight = parseInt(maincontent.scrollHeight, 10);
             actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
         }
+
+        let styleConfig = this.props.styleConfig;
         let toolbar = this.props.viewToolbars[itemSelected.id];
+        let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
-        let backgroundIsUri = toolbar && (/data\:/).test(toolbar.background);
-        let isColor = toolbar && (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(toolbar.background);
+
         let gridOn = this.props.grid && ((this.props.containedViewSelected !== 0) === this.props.fromCV);
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12}
-                className="canvasSliClass" onMouseDown={()=>{this.props.onBoxSelected(-1);}}
+                className="canvasSliClass safeZone" onMouseDown={()=>{this.props.onBoxSelected(-1);}}
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial',
+                    fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px',
                 }}>
                 <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
                     className={'slide_air parentRestrict'}
@@ -77,14 +86,11 @@ export default class EditorCanvasSli extends Component {
 
                             e.stopPropagation();
                         }}
-                        className={'innercanvas sli'}
-                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: isColor ? toolbar.background : '',
-                            backgroundImage: (!isColor && toolbar && toolbar.background) ? 'url(' + toolbar.background + ')' : '',
-                            backgroundSize: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'repeat')) ? 'auto 100%' : 'cover',
-                            backgroundRepeat: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full')) ? 'no-repeat' : 'repeat',
-                            backgroundPosition: (toolbar && toolbar.background && (toolbar.backgroundAttr === 'centered' || toolbar.backgroundAttr === 'full')) ? 'center center' : '0% 0%' }}>
+                        className={'innercanvas sli ' + theme}
+                        style={ itemSelected.id !== 0 ? loadBackgroundStyle(this.props.showCanvas, toolbar, styleConfig, false, this.props.aspectRatio, itemSelected.background) : {} }
+                    >
                         {this.state.alert}
-                        {gridOn ? <div onClick={()=>{this.props.onBoxSelected(-1);}}><SnapGrid key={this.props.fromCV}/></div> : null}
+                        {gridOn ? <div style={{ zIndex: '-1' }} onClick={()=>{this.props.onBoxSelected(-1);}}><SnapGrid key={this.props.fromCV}/></div> : null}
                         <EditorHeader titles={titles}
                             onBoxSelected={this.props.onBoxSelected}
                             courseTitle={this.props.title}
@@ -145,17 +151,24 @@ export default class EditorCanvasSli extends Component {
                                 onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                 onTextEditorToggled={this.props.onTextEditorToggled}
                                 setCorrectAnswer={this.props.setCorrectAnswer}
+                                themeColors={toolbar.colors ? toolbar.colors : getThemeColors(theme)}
                                 pageType={itemSelected.type || 0}
                             />;
-
                         })}
-                        <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
-                            this.aspectRatio(this.props, this.state);
-                        }} />
+
                     </div>
 
                 </div>
-
+                <ThemeCSS
+                    aspectRatio = {this.props.aspectRatio}
+                    styleConfig={this.props.styleConfig}
+                    theme={ theme }
+                    toolbar = {{ ...toolbar, colors: toolbar && toolbar.colors ? toolbar.colors : {} }}
+                />
+                <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
+                    let calculated = this.aspectRatio(this.props, this.state);
+                    this.setState({ fontBase: changeFontBase(calculated.width) });
+                }} />
                 <EditorShortcuts
                     openConfigModal={this.props.openConfigModal}
                     box={this.props.boxes[this.props.boxSelected]}
@@ -262,7 +275,9 @@ export default class EditorCanvasSli extends Component {
                 event.target.classList.remove("drop-target");
             },
         });
-        this.aspectRatio(this.props, this.state);
+        let calculated = this.aspectRatio(this.props, this.state);
+        this.setState({ fontBase: changeFontBase(calculated.width) });
+
         window.addEventListener("resize", this.aspectRatioListener.bind(this));
     }
 
@@ -271,7 +286,8 @@ export default class EditorCanvasSli extends Component {
         window.removeEventListener("resize", this.aspectRatioListener.bind(this));
     }
     aspectRatioListener() {
-        this.aspectRatio();
+        let calculated = this.aspectRatio();
+        this.setState({ fontBase: changeFontBase(calculated.width) });
     }
     aspectRatio(props = this.props, state = this.state) {
         let ar = props.canvasRatio;
@@ -284,21 +300,19 @@ export default class EditorCanvasSli extends Component {
         if (JSON.stringify(calculated) !== JSON.stringify(current)) {
             this.setState({ ...calculated });
         }
+        return calculated;
     }
 
     componentWillUpdate(nextProps, nextState) {
         if (this.props.canvasRatio !== nextProps.canvasRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
             window.canvasRatio = nextProps.canvasRatio;
-            this.aspectRatio(nextProps, nextState);
+            let calculated = this.aspectRatio(nextProps, nextState);
+            this.setState({ fontBase: changeFontBase(calculated.width) });
         }
 
     }
 }
 EditorCanvasSli.propTypes = {
-    /**
-     * Object containing every accordion by id
-     */
-    accordions: PropTypes.object.isRequired,
     /**
      * Check if component rendered from contained view
      */
@@ -332,7 +346,7 @@ EditorCanvasSli.propTypes = {
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -460,7 +474,15 @@ EditorCanvasSli.propTypes = {
      */
     fileModalResult: PropTypes.object,
     /**
-     * Callback for opening the file upload modal
+     * Function that opens the file search modal
      */
-    toggleFileUpload: PropTypes.func.isRequired,
+    openFileModal: PropTypes.func.isRequired,
+    /**
+     * Object containing style configuration
+     */
+    styleConfig: PropTypes.object,
+    /**
+     * Aspect ratio of slides
+     */
+    aspectRatio: PropTypes.number,
 };

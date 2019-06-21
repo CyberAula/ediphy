@@ -9,7 +9,7 @@
   border-radius: 3px;
   text-align: center;
   &:hover {
-    background-color: $blueprimary !important;
+    background-color: var(--themeColor1, $blueprimary) !important;
   }
 }
 
@@ -60,49 +60,61 @@
   .cab {
     display: flex;
     font-size: 2em;
-    padding: 20px;
+    padding: 1em;
     .cabtabla_numero{
-      padding: 8px;
+      padding: 0.2em 0.3em;
       line-height: 1em;
-      color: $blueprimary;
+      color: var(--themeColor1, $blueprimary);
       font-family: 'Ubuntu', sans-serif;
     }
     .editCourseTitle{
       font-size: 1em;
       height: auto;
       border-radius: 0;
-      border-color: $blueprimary;
+      border-color: var(--themeColor1, $blueprimary);
     }
     .editNavTitle{
       font-size: 0.8em;
       height: auto;
       border-radius: 0;
-      border-color: $blueprimary;
+      border-color: var(--themeColor1, $blueprimary);
     }.editNavSubTitle{
        font-size: 0.6em;
        height: auto;
        border-radius: 0;
-       border-color: $blueprimary;
+       border-color: var(--themeColor1, $blueprimary);
      }
 
     h1{
-      margin: 10px 0 0;
+      margin: 0.1em;
       font-size: 1em;
     }
     h2{
-      margin: 10px 0 0;
+      margin: 0.4em;
       font-size: 0.8em;
-      color: $blueprimary;
+      color: var(--themeColor1, $blueprimary);
     }
     h3{
-      margin: 10px 0 0;
+      margin: 0.4em;
       font-size: 0.7em;
       color: $grisadams;
     }
     h4{
-      margin: 10px 0 0;
+      margin: 0.4em;
       font-size: 0.6em;
       color: $grismedio;
+    }
+    .breadcrumb a{
+      margin: 0.4em;
+    }
+    .infoIcon {
+      cursor: help;
+      font-size: 0.9em;
+      color: #555;
+      vertical-align: top;
+      position: absolute;
+      top: 0.7em;
+      right: 0.7em;
     }
   }
 }
@@ -149,16 +161,7 @@
   font-family: 'Ubuntu' !important;
 }
 
-.infoIcon {
-  cursor: help;
-  font-size: 24px;
-  color: #555;
-  vertical-align: top;
-  margin-left: 5px;
-  position: absolute;
-  top: 35px;
-  right: 35px;
-}
+
 
 
 .ediphyHeader {

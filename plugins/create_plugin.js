@@ -22,8 +22,8 @@ function p(text) {
 }
 
 function help() {
-    p(`       
-Uso: yarn run create-plugin \"Nombre del plugin\" <opciones>
+    p(`  
+ Uso: yarn run create-plugin \"Nombre del plugin\" <opciones>
  o bien : npm run create-plugin -- \"Nombre del plugin\"  <opciones> 
  
 Opciones: 
@@ -144,7 +144,7 @@ export function ${options.name}(base) {
                 initialHeightSlide: '30%',
                 icon: 'label',
                 ${options.isRich ? "isRich: true," : ""}
-                ${options.isRich ? "marksType: [{ name: 'Mark', key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#222222' }]," : ""}
+                ${options.isRich ? "marksType: { name: 'Mark', key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#222222' }," : ""}
             };
         },
         getToolbar: function(state) {
@@ -249,8 +249,8 @@ module.exports = {
         "Statement": "This is a Multiple Choice question with a single correct answer. You can write here the question statement",
         "Question": "Question",
         "Feedback": "Feedback",
-        "FeedbackMsg": "Here you can provide some feedback about the answer",
-        "ShowFeedback": "Show feedback",
+        "FeedbackMsg": "Here you can provide some feedback about the answer. In order to disable this feature, turn it off in the toolbar.",
+        "ShowFeedback": "Show feedback msg.",
         "Number": "Number  of answers",
         "ShowLettersInsteadOfNumbers": "Show letters instead of numbers",
         "background_color": "Background color",
@@ -353,6 +353,7 @@ export function ${options.name}(base) {
                                     __name: i18n.t("${options.name}.Number"),
                                     type: 'number',
                                     value: state.nBoxes,
+                                    max: 10,
                                     min: 1,
                                 },
                                 showFeedback: {
@@ -442,7 +443,10 @@ export function ${options.name}(base) {
                             onChange={clickHandler} />
                     </div>
                     <div className={"col-xs-10"}>
-                        <PluginPlaceholder {...props} key={i + 1} plugin-data-display-name={i18n.t("${options.name}.Answer") + " " + (i + 1)} plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("${options.name}.Answer") + " " + (1 + i) + '</p>'} pluginContainer={"Answer" + i} />
+                        <PluginPlaceholder {...props} key={i + 1} 
+                        pluginContainerName={i18n.t("${options.name}.Answer") + " " + (i + 1)} 
+                        pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("${options.name}.Answer") + " " + (1 + i) + '</p>' } }]}
+                        pluginContainer={"Answer" + i} />
                     </div>
                 </div>
                 );
@@ -450,13 +454,19 @@ export function ${options.name}(base) {
             return <div className={"exercisePlugin ${options.camelCaseName}Plugin"}>
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
-                        <PluginPlaceholder {...props} key="1" plugin-data-display-name={i18n.t("${options.name}.Question")} plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("${options.name}.Statement") + '</p>'} pluginContainer={"Question"} />
+                        <PluginPlaceholder {...props} key="1" 
+                            pluginContainerName={i18n.t("${options.name}.Question")} 
+                            pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("${options.name}.Statement") + '</p>' } }]}
+                            pluginContainer={"Question"} />
                     </div>
                 </div>
                 {answers}
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
                     <div className={"col-xs-12 feedback"}>
-                        <PluginPlaceholder {...props} key="-2" plugin-data-display-name={i18n.t("${options.name}.Feedback")} plugin-data-default="BasicText" plugin-data-text={'<p>' + i18n.t("${options.name}.FeedbackMsg") + '</p>'} pluginContainer={"Feedback"} />
+                        <PluginPlaceholder {...props} key="-2" 
+                        pluginContainerName={i18n.t("${options.name}.Feedback")} 
+                        pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("${options.name}.FeedbackMsg") + '</p>' } }]}
+                        pluginContainer={"Feedback"} />
                     </div>
                 </div>
             </div>;
@@ -538,41 +548,53 @@ function templateExerciseSCSS() {
     return `@import "../../sass/general/_variables.scss";
 
 .${options.camelCaseName}Plugin {
-   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 0.8em;
+  .row {
+    margin-left: -1em;
+    margin-right: -1em;
+  }
+  .col-xs-12 {
+    padding: 0;
+  }
   .answerPlaceholder {
     display: flex;
-    font-size: 24px;
-    margin: 5px 10px;
+    font-size: 1.5em;
+    margin: 0.4em 0.14em 0.4em 0.8em;
     text-align: right;
     color: $blueprimarydark;
     padding: 0;
     width: auto;
+    margin-top: 0.2em;
     .answer_letter{
       color: white;
       background-color: #00ad9c;
-      border-radius: 15px;
-      width: 30px;
-      height: 30px;
+      border-radius: 1em;
+      width: 1.5em;
+      height: 1.5em;
       text-align: center;
       line-height: 1.1em;
       font-weight: 100;
       text-transform: uppercase;
-      padding: 4px 0px;
-      font-size: 20px;
+      padding: 0.15em 0px;
+      font-size: 1.2em;
     }
     .radioQuiz {
-      transform: scale(1.3);
-      margin: 7px 10px 7px 15px;
+       margin: 0.45em 0.3em 0.5em 0.6em;
+
     }
   }
   .answerRow {
+    display: flex;
+    flex-direction: row;
     margin: 0;
     .col-xs-10{
       padding: 0;
       width: 75%;
     }
     i{
-      margin: 7px -15px;
+      margin: 0.5em -1em;
       &.correct{
         color: $detailgreen;
       }
@@ -588,30 +610,31 @@ function templateExerciseSCSS() {
   &.attempted  .exerciseScore{
     display: block;
     color: $blueprimary;
-    font-size: 10px;
+    font-size: 0.8em;
   }
+
 
   &.attempted.showFeedback .answerRow {
-    margin-top: 2px;
     padding: 0;
-      &.correct {
-        background-color: $detailgreentransparent;
-      }
 
-      &.incorrect {
-        background-color: $lightredtransparent;
-      }
   }
   .feedbackRow {
-    padding: 10px 0;
+    padding: 0.8em 0;
     margin:0;
     .feedback {
-      background-color: $blueprimarytransparent;
       color: $blueprimary;
       margin:0;
       padding:0;
-      border: 1px solid $blueprimary;
-      border-radius: 3px;
+      border: 0.1em solid $blueprimary;
+      border-radius: 0.2em;
+    }
+
+  }
+  .correctAnswerFeedback {
+    text-align: left;
+    text-transform: uppercase;
+    .correctAnswerLabel{
+      text-transform: none;
     }
   }
 }

@@ -2,9 +2,10 @@ import React from 'react';
 import { createBox } from '../../../../../common/common_tools';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../common/constants';
 import { randomPositionGenerator } from '../../../clipboard/clipboard.utils';
-import { isSlide, isBox, isDataURL, dataURItoBlob, isCanvasElement } from '../../../../../common/utils';
-import parseMoodleXML from '../../../../../core/editor/moodleXML';
+import { isSlide, isBox, isContainedView, isPage, isSortableBox, isDataURL, dataURItoBlob, isCanvasElement } from '../../../../../common/utils';
 import i18n from 'i18next';
+import { importEdiphy, importExcursion } from '../APIProviders/providers/_edi';
+import './_ImportFile.scss';
 
 export const extensionHandlers = {
     'all': { label: i18n.t("vish_search_types.All"), value: '', icon: 'attach_file' },
@@ -17,6 +18,9 @@ export const extensionHandlers = {
     'webapp': { label: i18n.t("vish_search_types.Link"), value: 'webapp', icon: 'link' },
     'swf': { label: i18n.t("vish_search_types.Swf"), value: 'swf', icon: 'flash_on' },
     'xml': { label: i18n.t("vish_search_types.XML"), value: 'xml', icon: 'code' },
+    'obj': { label: i18n.t("vish_search_types.OBJ"), value: 'obj', icon: '3d_rotation' },
+    'edi': { label: i18n.t("vish_search_types.Ediphy"), value: 'edi', icon: 'widgets' },
+    'vish': { label: i18n.t("vish_search_types.VISH"), value: 'vish', icon: 'list' },
     // 'json': { label: i18n.t("vish_search_types.JSON"), value: 'json', icon: 'view_agenda' }
     // 'sla': { label: "Objeto 3D", value: 'sla', icon: 'devices_other' },
     // { label: "Objeto 3D", value: 'octet-stream', icon: 'devices_other' },
@@ -41,9 +45,8 @@ export default function handlers(self) {
             Object.keys(pluginsAllowed).map(pluginName=>{
                 let key = pluginsAllowed[pluginName];
                 buttons.push({
-                    title: type === 'pdf' ? '' : (i18n.t('FileModal.FileHandlers.insert') + ' ' + Ediphy.Plugins[pluginName].getConfig().displayName || pluginName),
+                    title: type === 'pdf' ? (i18n.t('FileModal.FileHandlers.insert') + ' ...') : getInsertButtonTitle(pluginName),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
-
                     action: ()=>{
                         if (type === 'pdf') {
                             self.setState({ pdfSelected: true });
@@ -77,32 +80,68 @@ export default function handlers(self) {
                     },
                 });
             });
+            if (type === 'edi') {
+                buttons.push({
+                    title: i18n.t('FileModal.FileHandlers.embed'),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || self.state.name.match(/\.edi$/) || (self.props.fileModalResult && self.props.fileModalResult.id),
+                    action: ()=>{
+                        createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                        self.close();
+                        return;
 
-            if (type === 'xml') {
+                    },
+                });
+                buttons.push({
+                    title: i18n.t('FileModal.FileHandlers.import'),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id) || self.state.options.allowClone === false,
+                    action: ()=>{
+                        importEdiphy(self.state.element, self.props, (res) => {
+                            if (res) {
+                                return self.props.importEdi(res);
+                            }
+                            alert('Error');
+                            return false;
+                        });
+                        self.close();
+                        return;
+                    },
+                });
+            } if (type === 'vish') {
+                buttons.push({
+                    title: i18n.t('FileModal.FileHandlers.embed'),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
+                    action: () => {
+                        createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                        self.close();
+                        return;
+                    },
+                });
+                buttons.push({
+                    title: i18n.t('FileModal.FileHandlers.import'),
+                    disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id) || self.state.options.allowClone === false,
+                    action: () => {
+                        importExcursion(self.state.element, self.props, (res) => {
+                            if (res) {
+                                return self.props.importEdi(res);
+                            }
+                            alert('Error');
+                            return false;
+                        });
+                        self.close();
+                        return;
+
+                    },
+                });
+            } else if (type === 'xml') {
                 buttons.push({
                     title: 'Insert MoodleXML', // (currentPlugin && apiPlugin.getConfig().category  === 'evaluation') ? i18n.t('FileModal.FileHandlers.replace') : (i18n.t('FileModal.FileHandlers.insert') + ' MoodleXML'),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
                     action: ()=>{ // Open side view
-                        parseMoodleXML(self.state.element, msg=>{
-                            if (msg && msg.success && msg.question) {
-                                initialParams.exercises = msg.question;
-                                initialParams.initialState = msg.question.state;
-                                if (msg.question.id) {
-                                    initialParams.id = msg.question.id;
-                                }
-
-                                createBox(initialParams, msg.question.name, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
-                                self.close();
-                            } else {
-                                alert(msg ? (msg.msg || 'ERROR') : 'ERROR');
-                            }
-
-                        });
+                        self.setState({ moodleSelected: true });
                     },
                 });
             }
         } else {
-
             buttons.push({
                 title: isCanvasElement(self.props.fileModalResult.id) ? i18n.t('FileModal.FileHandlers.replace_bckg') : i18n.t('FileModal.FileHandlers.replace'),
                 action: ()=>{
@@ -157,6 +196,25 @@ function getInitialParams(self, page) {
     }
 
     return { initialParams, isTargetSlide };
+}
+
+function getInsertButtonTitle(allowedPluginKey) {
+    return i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t(`${allowedPluginKey}.PluginName`).toLowerCase();
+}
+
+function sanitizeInitialParams(initialParams, boxes) {
+    let parent = initialParams.parent;
+
+    if(isSortableBox(parent) || isPage(parent) || isContainedView(parent)) {
+        return initialParams;
+    }
+
+    if(isBox(parent)) {
+        let box = boxes[parent];
+        return { ...initialParams, parent: box.parent, container: box.container };
+    }
+
+    return initialParams;
 }
 function csvToState(csv) {
     let lines = csv.split("\n");
@@ -243,7 +301,7 @@ function dataToState(e, self, format, initialParams, isTargetSlide, plugin) {
             self.close({ id: self.props.fileModalResult.id, value });
         }
         self.close();
-    } catch(e) {
+    } catch(_e) {
         alert(i18n.t('error.generic'));
         return;
     }

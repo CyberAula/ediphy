@@ -1,4 +1,7 @@
-import { ADD_NAV_ITEM, REORDER_NAV_ITEM, DELETE_NAV_ITEM, IMPORT_STATE, ADD_NAV_ITEMS } from '../common/actions';
+import {
+    ADD_NAV_ITEM, REORDER_NAV_ITEM, DELETE_NAV_ITEM, IMPORT_STATE, ADD_NAV_ITEMS,
+    DUPLICATE_NAV_ITEM, IMPORT_EDI,
+} from '../common/actions';
 
 export default function(state = [], action = {}) {
     switch (action.type) {
@@ -15,7 +18,14 @@ export default function(state = [], action = {}) {
     case REORDER_NAV_ITEM:
         return action.payload.idsInOrder;
     case IMPORT_STATE:
-        return action.payload.present.navItemsIds || state;
+        return action.payload.present.navItemsIds || [];
+    case IMPORT_EDI:
+        return [...state, ...action.payload.state.navItemsIds];
+    case DUPLICATE_NAV_ITEM:
+        let dup = state.indexOf(action.payload.id);
+        let temp2 = state.slice();
+        temp2.splice(dup + 1, 0, action.payload.newId);
+        return temp2;
     default:
         return state;
     }

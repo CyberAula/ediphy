@@ -1,6 +1,7 @@
 import React from "react";
-import img from './../../../dist/images/broken_link.png';
+import Image from "./Image";
 import Mark from '../../../common/components/mark/Mark';
+
 /* eslint-disable react/prop-types */
 
 export function HotspotImages(base) {
@@ -8,7 +9,6 @@ export function HotspotImages(base) {
         getRenderTemplate: function(state, props) {
             let marks = props.marks || {};
             let box_id = props.id;
-
             let markElements = Object.keys(marks).map((e) =>{
                 let position = marks[e].value.split(',');
                 let title = marks[e].title;
@@ -28,15 +28,7 @@ export function HotspotImages(base) {
                             onMarkClicked={props.onMarkClicked}/></div>
                 );
             });
-
-            return(
-                <div style={{ overflow: "hidden", height: "100%" }}>
-                    <img style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
-                        e.target.onError = null;
-                        e.target.src = img; // Ediphy.Config.broken_link;
-                    }}/>
-                    {markElements}
-                </div>);
+            return <Image markElements={markElements} props={props} state={state}/>;
         },
 
     };

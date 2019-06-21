@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button, Row } from 'react-bootstrap';
 import i18n from 'i18next';
+import PropTypes from 'prop-types';
 
 export default class ExitModal extends React.Component {
     constructor(props) {
@@ -50,3 +51,21 @@ export default class ExitModal extends React.Component {
         );
     }
 }
+ExitModal.propTypes = {
+    /**
+     * Whether the exit modal is shown
+     */
+    showExitModal: PropTypes.bool,
+    /**
+     * Document status (`draft`/`final`)
+     */
+    status: PropTypes.string,
+    /**
+     * Keep unsaved changes
+     */
+    save: PropTypes.func.isRequired,
+    /**
+     * Close exit modal
+     */
+    closeExitModal: PropTypes.func.isRequired,
+};

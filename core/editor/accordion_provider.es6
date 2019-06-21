@@ -6,11 +6,22 @@ import RadioButtonFormGroup from "../../_editor/components/toolbar/radio_button_
 import { UPDATE_PLUGIN_TOOLBAR } from "../../common/actions";
 import ToggleSwitch from "@trendmicro/react-toggle-switch/lib/index";
 import React from "react";
+
 import FileInput from "../../_editor/components/common/file-input/FileInput";
 import MarksList from "../../_editor/components/rich_plugins/marks_list/MarksList";
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
-import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/APIProviders/ToobarFileProvider";
+import FontPicker from "../../_editor/components/common/font-picker/FontPicker";
+import ThemePicker from "../../_editor/components/common/theme-picker/ThemePicker";
+import { getThemeColors, getThemes } from "../../common/themes/theme_loader";
+
+import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/APIProviders/common/ToolbarFileProvider";
 /* eslint-disable react/prop-types */
+
+import { loadBackground, getBackgroundIndex, isBackgroundColor, getBackground } from "../../common/themes/background_loader";
+import loadFont from "../../common/themes/font_loader";
+import { getColor, getCurrentColor, getThemeFont, getCurrentFont } from "../../common/themes/theme_loader";
+import { sanitizeThemeToolbar } from "../../common/themes/theme_loader";
+import isBox from "../../common/utils";
 
 export function toolbarFiller(toolbar, id, state, config, initialParams, container, marks = null, exercises = {}) {
 
@@ -18,6 +29,7 @@ export function toolbarFiller(toolbar, id, state, config, initialParams, contain
         toolbar.config.displayName = i18n.t('Container_');
     }
     if(!isSortableBox(id)) {
+
         createSizeButtons(toolbar, state, config, !isSortableBox(container), container);
         createAliasButton(toolbar, null);
     }
@@ -35,18 +47,12 @@ export function toolbarFiller(toolbar, id, state, config, initialParams, contain
 }
 
 export function toolbarMapper(controls, toolbar) {
-    /* if (Object.keys(toolbar.state).length > 0) {
-        Object.keys(toolbar.state).forEach((s)=>{
-            // avoid container ids
-            if(s.indexOf("__") === -1 && (!!controls.main.accordions.basic && !!controls.main.accordions.basic.buttons && !!controls.main.accordions.basic.buttons[s])) {
-                controls.main.accordions.basic.buttons[s].value = toolbar.state[s];
-            }
-        });
-    }*/
 
     if (Object.keys(toolbar.style).length > 0) {
         Object.keys(toolbar.style).forEach((s) => {
-            controls.main.accordions.style.buttons[s].value = toolbar.style[s];
+            if(controls.main.accordions.style.buttons[s]) {
+                controls.main.accordions.style.buttons[s].value = toolbar.style[s];
+            }
         });
     }
     if (Object.keys(toolbar.structure).length > 0) {
@@ -103,7 +109,7 @@ export function createScoreAccordions(controls = {}, state, exercises) {
         controls.main.accordions.__score = {
             key: '__score',
             __name: i18n.t("configuration"),
-            icon: 'timeline',
+            icon: 'build',
             buttons: {},
         };
     }
@@ -242,13 +248,6 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         }
     }
 
-    /* } else {
-        let width = controls.main.accordions.__sortable.buttons.__width;
-        displayValue = width.displayValue;
-        value = width.value;
-        units = width.units;
-        type = width.type;
-    }*/
     controls.main.accordions.structure.buttons.width = {
         __name: i18n.t('Width'),
         type: type,
@@ -353,19 +352,17 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
     let props = {
         key: key,
         className: "panelPluginToolbar",
-        collapsible: true,
-        onEntered: (panel) => {
-            panel.parentNode.classList.add("extendedPanel");
-        },
-        onExited: (panel) => {
-            panel.parentNode.classList.remove("extendedPanel");
-        },
         header: (
-            <span key={'span' + key}>
-                <i className="toolbarIcons material-icons">
-                    {accordion.icon ? accordion.icon : <span className="toolbarIcons"/>}
-                </i>{accordion.__name}
-            </span>
+
+            <Panel.Heading key={'span' + key} className={"panel-heading"}>
+                <Panel.Title toggle>
+                    <p className={"titleA"} style={{ color: 'white', paddingTop: '0', paddingBottom: '0', paddingLeft: '0', fontSize: '14.4px' }}>
+                        <i className="toolbarIcons material-icons">
+                            {accordion.icon ? accordion.icon : <span className="toolbarIcons"/>}
+                        </i>{accordion.__name}
+                    </p>
+                </Panel.Title>
+            </Panel.Heading>
         ),
     };
     let children = [];
@@ -412,7 +409,9 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
         );
     }
 
-    return React.createElement(Panel, props, children);
+    return <Panel className={"panelPluginToolbar"}{...props}>{props.header}<Panel.Body collapsible>{children}</Panel.Body></Panel>;
+
+    // React.createElement(Panel, props, children);
 }
 
 /**
@@ -427,6 +426,7 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
      */
 export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key, toolbar_props) {
     let button = accordion.buttons[buttonKey];
+
     let children = null;
 
     let id = (toolbar_props.boxSelected !== -1) ?
@@ -466,12 +466,8 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
         },
         onChange: e => {
-            let value;
-            if (typeof e.target !== 'undefined') {
-                value = e.target.value;
-            } else {
-                value = e.value;
-            }
+            let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
+
             if (currentElement === 'structure' && (buttonKey === 'width' || buttonKey === 'height' || buttonKey === "aspectRatio")) {
                 let type = e.target.type;
                 if (!type && e.target.classList.contains('toggle-switch---toggle---mncCu')) {
@@ -545,7 +541,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                         value = button.max;
                     }
                 }
-
             }
 
             if (button.type === 'checkbox') {
@@ -585,29 +580,75 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     return;
                 }
                 return;
+            }
+
+            if (button.type === 'custom_color_plugin') {
+                let toolbar = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
+                let theme = toolbar.theme ? toolbar.theme : 'default';
+                if (e.color) {
+                    value = { color: e.color, custom: true };
+                    if (!value) {
+                        return;
+                    }
+                }
+
+                if(e.currentTarget && e.currentTarget.type === "button") {
+                    value = { color: getCurrentColor(theme), custom: false };
+                }
+            }
+
+            if(button.type === 'theme_select') {
+                let indexTheme = e || 0;
+                value = getThemes()[indexTheme];
+                if (!value) {
+                    return;
+                }
+
+            }
+
+            if (button.type === 'font_picker') {
+                let toolbar = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
+                let theme = toolbar.theme ? toolbar.theme : 'default';
+                if (e.family) {
+                    value = button.hasOwnProperty('kind') && button.kind === 'theme_font' ? e.family : { font: e.family, custom: !e.themeDefaultFont };
+                    if (!value) {
+                        return;
+                    }
+                }
+                if(e.currentTarget && e.currentTarget.type === "button") {
+                    value = { color: getCurrentColor(theme), custom: false };
+                }
 
             }
 
             if (button.type === 'background_picker') {
                 if(e.color) {
-                    value = { background: e.color, backgroundAttr: 'full' };
+                    value = { background: e.color, backgroundAttr: 'full', backgroundZoom: 100, customBackground: true };
                     if (!value) {
                         return;
                     }
                 }
 
                 if(e.target && e.target.type === "radio") {
-                    value = { background: button.value.background, backgroundAttr: e.target.value };
+                    value = { background: button.value.background, backgroundAttr: e.target.value, backgroundZoom: 100 };
                 }
 
                 if(e.target && e.target.type === "text") {
                     value = { background: e.target.value, backgroundAttr: 'full' };
                 }
                 if(e.value) {
-                    value = { background: e.value, backgroundAttr: (button.value && button.value.backgroundAttr) ? button.value.backgroundAttr : 'full' };
+                    value = { background: 'url(' + e.value + ')',
+                        backgroundAttr: (button.value && button.value.backgroundAttr) ? button.value.backgroundAttr : 'full',
+                        backgroundZoom: 100,
+                        customBackground: true };
                 }
+                // Restore background button
                 if(e.currentTarget && e.currentTarget.type === "button") {
-                    value = { background: e.currentTarget.value, backgroundAttr: 'full' };
+                    value = { background: e.currentTarget.value, backgroundAttr: 'full', backgroundZoom: 100, customBackground: false, themeBackground: 0 };
+                }
+                // console.log(button, e.target.name)
+                if (e.target && e.target.name === "image_display_zoom") {
+                    value = { background: button.value.background, backgroundAttr: (toolbar_props.viewToolbars[id].backgroundAttr) ? toolbar_props.viewToolbars[id].backgroundAttr : 'repeat', backgroundZoom: e.target.value };
                 }
                 if (e.target && e.target.files) {
                     if(e.target.files.length === 1) {
@@ -620,7 +661,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                 let canvas = document.createElement('canvas');
                                 let ctx = canvas.getContext('2d');
                                 ctx.drawImage(img, 0, 0, 1200, 1200);
-                                handlecanvasToolbar(buttonKey, { background: data, backgroundAttr: 'full' }, accordion, toolbar_props);
+                                handlecanvasToolbar(buttonKey, { background: 'url(' + data + ')', backgroundAttr: 'full', backgroundZoom: 100, customBackground: true }, accordion, toolbar_props);
                             };
                             img.src = data;
                         };
@@ -649,8 +690,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 }
             }
 
-            // toolbar_props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
-
             if (toolbar_props.boxSelected === -1) {
                 handlecanvasToolbar(buttonKey, value, accordion, toolbar_props, buttonKey);
             } else if (currentElement === '__score') {
@@ -661,9 +700,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             } else {
                 toolbar_props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, value);
             }
-
         },
-
     };
     if (button.type === "color") {
         return React.createElement(
@@ -674,11 +711,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     ControlLabel,
                     { key: 'label_' + button.__name },
                     button.__name),
-                /* React.createElement(
-                      FormControl,
-                        props,
-                        null
-                    ),*/
                 React.createElement(
                     ColorPicker, { key: props.label, value: props.value, onChange: props.onChange },
                     []),
@@ -712,7 +744,8 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     if (!children) {
                         children = [];
                     }
-                    children.push(React.createElement('option', { key: 'child_' + index, value: option }, option));
+                    let label = button.labels && button.labels[index] ? button.labels[index] : option;
+                    children.push(React.createElement('option', { key: 'child_' + index, value: option }, label));
                 });
                 props.componentClass = 'select';
                 return React.createElement(
@@ -766,7 +799,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     id: (button.__name + radio),
                     onChange: props.onChange,
                     checked: (button.value === button.options[index]),
-                }, radio));
+                }, button.labels && button.labels[index] ? button.labels[index] : radio));
             });
             return React.createElement(FormGroup, props, children);
         }
@@ -794,7 +827,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         delete props.style.width;
         return React.createElement(
             FormGroup,
-            { key: (button.__name), style: { display: button.hide ? 'none' : 'block' } },
+            { key: (button.__name), style: { display: button.hide ? 'none' : 'flex' } },
             [React.createElement(
                 ToggleSwitch,
                 props,
@@ -864,12 +897,87 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             ]);
     }
 
+    if (button.type === "custom_color_plugin") {
+        let theme = toolbar_props.viewToolbars[id] && toolbar_props.viewToolbars[id].theme ? toolbar_props.viewToolbars[id].theme : 'default';
+        return React.createElement(
+            FormGroup,
+            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
+            [
+                React.createElement(
+                    ControlLabel,
+                    { key: 'label1_' + button.__name },
+                    'Color'),
+                React.createElement(
+                    ColorPicker, { key: "cpicker_" + props.label, value: (props.value && props.value.color && props.value.custom) ? props.value.color : getCurrentColor(theme), onChange: props.onChange },
+                    []),
+                React.createElement(
+                    Button, {
+                        value: getColor(theme),
+                        key: 'button_' + button.__name,
+                        onClick: props.onChange,
+                        className: "toolbarButton",
+                    },
+                    React.createElement("div", { key: props.label }, i18n.t('Style.restore_theme_color')),
+                ),
+            ]);
+    }
+
+    if(button.type === "font_picker") {
+        let navItemSelected = toolbar_props.navItemSelected;
+        let theme = toolbar_props.viewToolbars[navItemSelected] && toolbar_props.viewToolbars[navItemSelected].theme ? toolbar_props.viewToolbars[navItemSelected].theme : 'default';
+        return React.createElement(
+            FormGroup,
+            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
+            [
+                React.createElement(
+                    ControlLabel,
+                    { key: 'label1_' + button.__name },
+                    i18n.t('Style.font'),
+                ),
+                React.createElement("div", {
+                    key: props.label,
+                    className: "apply-font",
+                    style: { color: 'black' } },
+                React.createElement(
+                    FontPicker, {
+                        apiKey: "AIzaSyCnIyhIyDVg6emwq8XigrPKDPgueOrZ4CE",
+                        activeFont: props.value.hasOwnProperty('custom') ? props.value.font : props.value,
+                        onChange: props.onChange,
+                        options: { themeFont: getThemeFont(theme) },
+                    }, [])),
+            ]
+        );
+    }
+
+    if(button.type === "theme_select") {
+        return React.createElement(
+            FormGroup,
+            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
+            [
+                React.createElement(
+                    ControlLabel,
+                    { key: 'label1_' + button.__name },
+                    i18n.t('Style.theme')
+                ),
+                React.createElement(ThemePicker, {
+                    key: 'theme-picker' + props.label,
+                    currentTheme: props.value,
+                    currentItem: toolbar_props.navItemSelected,
+                    onChange: props.onChange,
+                }, []),
+            ]
+        );
+    }
+
     if (button.type === "background_picker") {
         let isURI = (/data\:/).test(props.value.background);
-        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background) || (/#/).test(props.value.background);
-        let default_background = "#ffffff";
+        let isColor = (/(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig).test(props.value.background) || (/#/).test(props.value.background) || !(/url/).test(props.value.background);
+        let theme = toolbar_props.viewToolbars[id].theme ? toolbar_props.viewToolbars[id].theme : 'default';
+        let default_background = loadBackground(theme, 0);
+
         let isSli = isSlide(toolbar_props.navItems[id].type);
         let background_attr = toolbar_props.viewToolbars[id].backgroundAttr;
+        let background_attr_zoom = toolbar_props.viewToolbars[id].backgroundZoom === undefined ? 100 : toolbar_props.viewToolbars[id].backgroundZoom;
         return React.createElement(
             FormGroup,
             { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
@@ -884,35 +992,11 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
                 isSli && React.createElement('div',
                     { key: 'container_' + button.__name, style: { display: 'block' } },
-                    [/* React.createElement(
-                        FileInput, { // TODO
-                            key: 'fileinput_' + props.label,
-                            value: props.value,
-                            onChange: props.onChange,
-                            style: { width: '100%' },
-                        },
-                        React.createElement('div', {
-                            style: { backgroundImage: isURI ? 'url(' + props.value.background + ')' : 'none', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' },
-                            key: "inside_" + props.label,
-                            className: 'fileDrag_toolbar',
-                        }, isURI ? null : [
-                            React.createElement('span', { key: props.label + "1" }, i18n.t('FileInput.Drag') + i18n.t('FileInput.Drag_2') + i18n.t('FileInput.Click')),
-                            React.createElement('span', { key: props.label + "2", className: "fileUploaded" }, [
-                                React.createElement('i', {
-                                    key: 'icon_' + button.__name,
-                                    className: 'material-icons',
-                                }, 'insert_drive_file'),
-                            ]),
-                        ])
-                    ),*/
+                    [
                         React.createElement(
                             FormGroup,
                             { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
                             [
-                            /* React.createElement(
-                                ControlLabel,
-                                { key: 'labelurlinput_' + button.__name },
-                                i18n.t('background.background_input_url')),*/
                                 React.createElement(ToolbarFileProvider, {
                                     id: toolbar_props.navItemSelected,
                                     key: button.__name,
@@ -925,18 +1009,20 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                     onChange: props.onChange,
                                     accept: "image/*",
                                 }, null),
-                            /* React.createElement(FormControl,
-                                {
-                                    key: 'urlinput_' + props.label,
-                                    value: (isURI || isColor || props.value) ? '' : props.value.background,
-                                    onChange: props.onChange,
-                                }, null),*/
                             ]),
                         (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: background_attr === 'full', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'full' }, i18n.t('background.cover')),
                         (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: background_attr === 'repeat', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'repeat' }, i18n.t('background.repeat')),
                         (!isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display', checked: background_attr === 'centered', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'centered' }, i18n.t('background.centered')),
                     ]
                 ),
+                (!isColor && background_attr !== "full") && [
+                    React.createElement(
+                        ControlLabel,
+                        { key: 'label_zoom' },
+                        i18n.t('background.background_zoom')),
+                    <span className="rangeOutput" style={{ marginTop: 0 }}>{background_attr_zoom}%</span>,
+                    <input key="image_display_zoom" name='image_display_zoom' type='range' min={1} max={200} value={ background_attr_zoom} style={{ display: isColor ? "none" : "block" }} onChange={props.onChange} />,
+                ], <br key={'br'}/>,
                 React.createElement(
                     ControlLabel,
                     { key: 'label_' + button.__name },
@@ -962,6 +1048,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             fileModalResult: toolbar_props.fileModalResult,
             onChange: props.onChange,
             accept: button.accept,
+            hide: button.hide,
         }, null);
 
     }
@@ -1085,6 +1172,7 @@ export function renderValue(option) {
 export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     let navitem = toolbar_props.navItems[toolbar_props.navItemSelected];
     let toolbar = accordions;
+    let themeToolbar = sanitizeThemeToolbar(toolbar_props.viewToolbars[toolbar_props.navItemSelected]);
     switch (name) {
     // change page/slide title
     case "background":
@@ -1181,8 +1269,42 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
             numPage: pagenumber,
         });
         break;
+    case 'theme':
+        let currentView = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
+        let wasCustomFont = currentView.hasOwnProperty('theme') && currentView.hasOwnProperty('font') && (currentView.font !== getThemeFont(currentView.theme));
+        let wasCustomColor = currentView.hasOwnProperty('theme') && currentView.hasOwnProperty('colors') && currentView.colors.themeColor1 !== getThemeColors(currentView.theme).themeColor1;
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            theme: value,
+            themeBackground: 0,
+            background: getBackground(value, 0),
+            font: wasCustomFont ? currentView.font : getThemeFont(value),
+            colors: wasCustomColor ? currentView.colors : getThemeColors(value),
+        });
+
+        break;
+    case 'theme_background':
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            themeBackground: value,
+            background: value,
+        });
+        break;
+    case 'theme_font':
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, { font: value });
+        break;
+
+    case 'theme_primary_color':
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            colors: { ...themeToolbar.colors, themeColor1: value },
+        });
+        break;
+    case 'theme_secondary_color':
+        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+            colors: { ...themeToolbar.colors, themeColor2: value },
+        });
+        break;
     case 'weight':
         toolbar_props.onScoreConfig(toolbar_props.navItemSelected, 'weight', value);
+        break;
     default:
         break;
     }

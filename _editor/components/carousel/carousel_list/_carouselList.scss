@@ -9,7 +9,7 @@
     //height: calc(100% - 300px);
     color: $fondo;
     .material-icons{
-        padding: 0 8px 4px 8px;
+        padding: 0 12px 0px 12px;
     }
 }
 
@@ -48,47 +48,47 @@
     height: 0px;
 }
 
-.selected.classIndexSelected {
+.classIndexSelected i, .classIndexSelected .actualSectionTitle {
     color: $blueprimary;
 }
 
-/*NavItem Selected*/
-.selected {
-    font-size: 12px;
-    background-color: #222;
-    color: white;
-    .actualSectionTitle{
-        color: $blueprimary;
-    }
-}
+///*NavItem Selected*/
+//.selected {
+//    font-size: 0.9em;
+//    background-color: #222;
+//    color: white;
+//    /*.actualSectionTitle{
+//        color: $blueprimary;
+//    }*/
+//}
 
 /*NavItem NOT Selected*/
 .notSelected {
-    font-size: 12px;
+    font-size: 0.9em;
 
     &:hover {
         cursor: pointer;
     }
+}
+.selected {
+    color: $grismedio !important;
 }
 
 .classIndexSelected {
     color: $blueprimary !important;
 }
 
-.selected.classIndexSelected {
-    color: $blueprimary !important;
-}
-.selected.classIndexSelected .selected {
-    color: $blueprimary !important;
-}
-
-
 /*Each NavItem*/
 .navItemBlock {
     color: $grismedio;
-    font-size: 12px;
-    padding: 8px 4px;
-    border-bottom: 1px solid black;
+    font-size: 0.9em;
+    height: 3em;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1;
+
     .editIndexTitleIcon {
         padding: 4px;
     }
@@ -138,11 +138,14 @@
 
 /*Icon for files*/
 .fileIcon {
-    padding: 0 8px 4px 8px;
+    font-size: 10px;
+    padding: 0 8px 0px 8px;
 }
 
 .svgIcon{
-    height: 12px;
+    margin-left: 5px;
+    margin-right: 4px;
+    width: 2.2em;
     padding: 0 8px;
 }
 /*Collapsed Carrousel*/
@@ -263,6 +266,9 @@
     width: auto !important;
     height: auto !important;
     border-radius: 0;
+    &:hover {
+        background-color: $blueprimary;
+    }
 }
 
 #popov {

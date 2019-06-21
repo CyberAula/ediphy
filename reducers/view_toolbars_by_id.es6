@@ -2,7 +2,7 @@ import {
     DELETE_CONTAINED_VIEW, ADD_NAV_ITEM,
     ADD_RICH_MARK, EDIT_RICH_MARK,
     DELETE_NAV_ITEM, UPDATE_VIEW_TOOLBAR,
-    IMPORT_STATE, ADD_CONTAINED_VIEW, ADD_NAV_ITEMS,
+    IMPORT_STATE, ADD_CONTAINED_VIEW, ADD_NAV_ITEMS, DUPLICATE_NAV_ITEM, IMPORT_EDI,
 } from '../common/actions';
 import i18n from 'i18next';
 import {
@@ -10,6 +10,9 @@ import {
     nextAvailName,
 } from '../common/utils';
 import Utils from "../common/utils";
+
+import { loadBackground } from "../common/themes/background_loader";
+import { getColor } from "../common/themes/theme_loader";
 
 function toolbarElementCreator(state, action, containedView = false) {
     let doc_type;
@@ -39,8 +42,13 @@ function toolbarElementCreator(state, action, containedView = false) {
 
     let name = action.payload.name ? action.payload.name : containedView ? action.payload.toolbar.viewName : doc_type;
     // name =nextAvailName(name, state, 'viewName');
-    let background = action.payload.background ? action.payload.background.background : "#ffffff";
-    let backgroundAttr = action.payload.background ? action.payload.background.backgroundAttr : "";
+    let theme = action.payload.theme ? action.payload.theme : 'default';
+    let font = action.payload.font ? action.payload.font : 'Ubuntu';
+    let themeBackground = action.payload.themeBackground ? action.payload.themeBackground : 0;
+    let background = action.payload.background ? action.payload.background.background : loadBackground(theme, themeBackground);
+    let backgroundAttr = action.payload.background ? action.payload.background.backgroundAttr : "full";
+    let customBackground = action.payload.background ? action.payload.background.customBackground : false;
+
     let toolbar = {
         id: id,
         breadcrumb: isSlide(type) ? 'hidden' : 'reduced',
@@ -49,14 +57,20 @@ function toolbarElementCreator(state, action, containedView = false) {
         courseTitle: 'hidden',
         documentSubtitle: 'hidden',
         documentSubtitleContent: i18n.t("subtitle"),
-        documentTitle: action.payload.hideTitles ? 'hidden' : 'expanded',
+        documentTitle: (action.payload.hideTitles || (action.payload.toolbar && action.payload.toolbar.hideTitles)) ? 'hidden' : 'expanded',
         documentTitleContent: pagetitle,
         numPage: 'hidden',
         numPageContent: action.payload.position || "",
         customSize: 0,
         aspectRatio: true,
-        background: background || "#ffffff",
-        backgroundAttr: backgroundAttr || "",
+        background: background || loadBackground(theme, 0),
+        backgroundAttr: backgroundAttr || "full",
+        customBackground: customBackground || false,
+        // theme: theme || 'default',
+        themeBackground: themeBackground || 0,
+        // font: font || 'Ubuntu',
+        colors: {
+        },
     };
 
     return toolbar;
@@ -97,6 +111,12 @@ export default function(state = {}, action = {}) {
         return newState;
     case IMPORT_STATE:
         return action.payload.present.viewToolbarsById || state;
+    case IMPORT_EDI:
+        return { ...state, ...action.payload.state.viewToolbarsById };
+    case DUPLICATE_NAV_ITEM:
+        return { ...state,
+            [action.payload.newId]: { ...state[action.payload.id], id: action.payload.newId, viewName: state[action.payload.id].viewName + " " + i18n.t("repeatedItemCopied") },
+        };
     default:
         return state;
     }

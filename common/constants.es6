@@ -20,8 +20,6 @@ export const PAGE_TYPES = {
     SECTION: "section",
 };
 
-console.log(i18n);
-
 export const extensions = [
     'all',
     'image',
@@ -33,4 +31,14 @@ export const extensions = [
     'webapp',
     'swf',
     'xml',
+    'obj',
+    'edi',
+    'vish',
 ];
+
+export const MESSAGE_TYPES = {
+    NOTIFICATION: "notification",
+    FAVOR: "favor",
+};
+
+MESSAGE_TYPES.NOTIFICATION;

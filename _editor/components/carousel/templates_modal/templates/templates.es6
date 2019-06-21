@@ -1,11 +1,5 @@
 import i18n from 'i18next';
-import colors_texture from './../../../../../dist/images/colors_texture.jpg';
-import desert from './../../../../../dist/images/desert.jpg';
-import forest from './../../../../../dist/images/forest.jpg';
-import jungle from './../../../../../dist/images/jungle.jpg';
-import meadow from './../../../../../dist/images/meadow.jpg';
-import placeholder from './../../../../../dist/images/placeholder.svg';
-export const templates = () => { return (
+export const templates = (theme = 'default') => { return (
     [{
         "name": i18n.t('templates.template1'),
         "boxes": [
@@ -18,7 +12,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": colors_texture,
+                    "url": `templates/template1/left`,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -36,6 +30,7 @@ export const templates = () => { return (
                 "toolbar": {
                     "name": "BasicText",
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.text_images') + "</h1>",
+                    "style": { "color": 'var(--themeColor1)' },
                 },
                 "thumbnail": {
                     "icon": "",
@@ -74,8 +69,8 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
-                    "style": { "backgroundColor": "#ff444d" },
+                    "text": "<div class='template2_item custom_color'>" + i18n.t('templates.add_text') + "</div>",
+                    "style": { "backgroundColor": 'var(--themeColor2)' },
 
                 },
                 "thumbnail": {
@@ -93,8 +88,8 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
-                    "style": { "backgroundColor": "#4cff9f" },
+                    "text": "<div class='template2_item custom_color'>" + i18n.t('templates.add_text') + "</div>",
+                    "style": { "backgroundColor": "var(--themeColor3)" },
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -111,8 +106,8 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
-                    "style": { "backgroundColor": "#65caff" },
+                    "text": "<div class='template2_item custom_color'>" + i18n.t('templates.add_text') + "</div>",
+                    "style": { "backgroundColor": "var(--themeColor4)" },
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -129,8 +124,8 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
-                    "text": "<div class='template2_item'>" + i18n.t('templates.add_text') + "</div>",
-                    "style": { "backgroundColor": "#ffbf45" },
+                    "text": "<div class='template2_item custom_color'>" + i18n.t('templates.add_text') + "</div>",
+                    "style": { "backgroundColor": "var(--themeColor5)" },
                 },
                 "thumbnail": {
                     "icon": "format_align_left",
@@ -152,7 +147,8 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": forest,
+                    "url": `templates/template3/topLeft`,
+
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -169,7 +165,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": jungle,
+                    "url": `templates/template3/topRight`,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -186,7 +182,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": desert,
+                    "url": `templates/template3/bottomLeft`,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -203,7 +199,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": meadow,
+                    "url": `templates/template3/bottomRight`,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -225,6 +221,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "style": { "color": 'var(--themeColor1)' },
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.video') + "</h1>",
                 },
                 "thumbnail": {
@@ -264,6 +261,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "style": { "color": 'var(--themeColor1)' },
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.map') + "</h1>",
                 },
                 "thumbnail": {
@@ -302,6 +300,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "style": { "color": 'var(--themeColor1)' },
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.web') + "</h1>",
                 },
                 "thumbnail": {
@@ -341,6 +340,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "style": { "color": 'var(--themeColor1)' },
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.elements_list') + "</h1>",
                 },
                 "thumbnail": {
@@ -358,7 +358,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "HotspotImages",
-                    "url": placeholder,
+                    "url": `templates/template7/left`,
                 },
                 "thumbnail": {
                     "icon": "filter_hdr",
@@ -397,6 +397,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "style": { "color": 'var(--themeColor1)' },
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_unique_response') + "</h1>",
                 },
                 "thumbnail": {
@@ -415,6 +416,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "MultipleChoice",
+                    "style": { "background-color": "rgba(0, 0, 0, 0)" },
                 },
                 "thumbnail": {
                     "icon": "radio_button_checked",
@@ -436,6 +438,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "style": { "color": 'var(--themeColor1)' },
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_multiple_response') + "</h1>",
                 },
                 "thumbnail": {
@@ -454,6 +457,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "MultipleAnswer",
+                    "style": { "background-color": "rgba(0, 0, 0, 0)" },
                 },
                 "thumbnail": {
                     "icon": "check_box",
@@ -475,6 +479,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "style": { "color": 'var(--themeColor1)' },
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_free_response') + "</h1>",
                 },
                 "thumbnail": {
@@ -493,6 +498,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "FreeResponse",
+                    "style": { "background-color": "rgba(0, 0, 0, 0)" },
                 },
                 "thumbnail": {
                     "icon": "message",
@@ -514,6 +520,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "BasicText",
+                    "style": { "color": 'var(--themeColor1)' },
                     "text": "<h1 class='no_margins'>" + i18n.t('templates.ex_true_false') + "</h1>",
                 },
                 "thumbnail": {
@@ -532,9 +539,51 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "TrueFalse",
+                    "style": { "background-color": "rgba(0, 0, 0, 0)" },
                 },
                 "thumbnail": {
                     "icon": "check_circle",
+                    "icon_color": "#706F6F",
+                    "color": "#B2B2B2",
+                },
+            },
+        ],
+    },
+    {
+        "name": i18n.t('templates.template12'),
+        "boxes": [
+            {
+                "box": {
+                    "x": "5%",
+                    "y": "25%",
+                    "width": "90%",
+                    "height": "25%",
+                },
+                "toolbar": {
+                    "name": "BasicText",
+                    "text": "<h1> Title </h1>",
+                    "style": { "color": 'var(--themeColor1)', "fontSize": "3em", "fontWeight": "bold", "textAlign": "center" },
+                },
+                "thumbnail": {
+                    "icon": "",
+                    "icon_color": "",
+                    "color": "#706F6F",
+                },
+            },
+            {
+                "box": {
+                    "x": "5%",
+                    "y": "50%",
+                    "width": "90%",
+                    "height": "20%",
+                },
+                "toolbar": {
+                    "name": "BasicText",
+                    "text": "<h2> Subtitle </h2>",
+                    "style": { "color": 'var(--themeColor6)', "fontSize": "2em", "fontWeight": "bold", "textAlign": "center" },
+                },
+                "thumbnail": {
+                    "icon": "",
                     "icon_color": "#706F6F",
                     "color": "#B2B2B2",
                 },

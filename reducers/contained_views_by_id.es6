@@ -1,8 +1,8 @@
 
 import {
     ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_RICH_MARK, EDIT_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW,
-    CHANGE_CONTAINED_VIEW_NAME, TOGGLE_TITLE_MODE, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, PASTE_BOX, IMPORT_STATE,
-    CHANGE_BOX_LAYER, CHANGE_BACKGROUND, DROP_BOX,
+    CHANGE_CONTAINED_VIEW_NAME, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, PASTE_BOX, IMPORT_STATE,
+    CHANGE_BOX_LAYER, CHANGE_BACKGROUND, DROP_BOX, DUPLICATE_NAV_ITEM, IMPORT_EDI,
 } from '../common/actions';
 
 import { changeProp, deleteProps, isContainedView, findNavItemContainingBox } from '../common/utils';
@@ -10,7 +10,8 @@ import { changeProp, deleteProps, isContainedView, findNavItemContainingBox } fr
 function singleContainedViewReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
-        return changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
+        let a = changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
+        return a;
     case CHANGE_BOX_LAYER:
         let boxes = JSON.parse(JSON.stringify(action.payload.boxes_array));
         let x = boxes.indexOf(action.payload.id);
@@ -55,8 +56,6 @@ function singleContainedViewReducer(state = {}, action = {}) {
             return changeProp(state, "boxes", state.boxes.filter(id => id !== action.payload.id));
         }
         return state;
-    case TOGGLE_TITLE_MODE:
-        return changeProp(state, "header", action.payload.titles);
     case CHANGE_CONTAINED_VIEW_NAME:
         return changeProp(state, "name", action.payload.title);
     case PASTE_BOX:
@@ -196,16 +195,25 @@ export default function(state = {}, action = {}) {
     case DELETE_CONTAINED_VIEW:
         return deleteProps(state, action.payload.ids);
     case DELETE_NAV_ITEM:
-
-        for (let cv in state) {
-            for (let box in action.payload.boxes) {
+        let navState = JSON.parse(JSON.stringify(state));
+        for (let cv in navState) {
+            /* for (let box in action.payload.boxes) {
+                console.log(parents,)
                 let parents = Object.keys(state[cv].parent).reduce((obj, key) => (obj[state[cv].parent[key]] = key, obj), {});
                 if (parents[action.payload.boxes[box]]) {
                     delete state[cv].parent[parents[action.payload.boxes[box]]];
                 }
+            } */
+            if (navState[cv].parent) {
+                for (let mark in navState[cv].parent) {
+                    let box = navState[cv].parent[mark];
+                    if (action.payload.boxes.indexOf(box) !== -1) {
+                        delete navState[cv].parent[mark];
+                    }
+                }
             }
         }
-        return state;
+        return navState;
     case DELETE_SORTABLE_CONTAINER:
         /* let item = findNavItemContainingBox(state,action.payload.parent);
         if(item) {
@@ -233,11 +241,6 @@ export default function(state = {}, action = {}) {
         }
         return nState;
     // return deleteProps(state, action.payload.childrenViews);
-    case TOGGLE_TITLE_MODE:
-        if (isContainedView(action.payload.id)) {
-            return changeProp(state, action.payload.id, singleContainedViewReducer(state[action.payload.id], action));
-        }
-        return state;
     case PASTE_BOX:
         let newState = JSON.parse(JSON.stringify(state));
 
@@ -255,6 +258,26 @@ export default function(state = {}, action = {}) {
         return newState;
     case IMPORT_STATE:
         return action.payload.present.containedViewsById || state;
+    case DUPLICATE_NAV_ITEM:
+        let modifiedMarks = {};
+        let modifiedCvs = {};
+        for (let b in action.payload.linkedCvs) {
+            for (let cv_i in action.payload.linkedCvs[b]) {
+                let cv = action.payload.linkedCvs[b][cv_i];
+                let cvObj = state[cv];
+                if(state[cv]) {
+                    for (let mb in cvObj.parent) {
+                        if (cvObj.parent[mb] === b) {
+                            modifiedMarks[cv] = { ...modifiedMarks[cv], [mb + action.payload.suffix]: action.payload.boxes[b] };
+                        }
+                    }
+                    modifiedCvs[cv] = { ...state[cv], parent: { ...state[cv].parent, ... modifiedMarks[cv] } };
+                }
+            }
+        }
+        return { ...state, ...modifiedCvs };
+    case IMPORT_EDI:
+        return { ...state, ...action.payload.state.containedViewsById };
     default:
         return state;
     }

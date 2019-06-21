@@ -2,7 +2,7 @@
 @import "../../../../sass/general/mixins/mixins";
 
 
-#canvas, #containedCanvas {
+.canvasClass, .containedCanvasClass , #canvas, #containedCanvas{
   height: 100%;
   overflow-y: auto;
   width: calc(100% - 40px);
@@ -39,6 +39,7 @@
   background-color: transparent;
 }
 
+
 .outter > .sli {
   padding-bottom: 1%;
 }
@@ -49,11 +50,15 @@
   overflow: hidden;
 }
 
+
+.doc {
+  background-color: transparent;
+}
 .doc, .sli{
   position: relative;
 }
 
-#airlayer, #airlayer_cv {
+ .doc_air, .slide_air {
   //  min-height: 100%;
   // min-height: calc(100vh - 240px);
   vertical-align: middle;
@@ -64,7 +69,7 @@
   overflow: hidden;
   z-index: 0;
   visibility: visible;
-  background-color: white;
+  background-color: transparent;
   margin: 0px;
   position: relative;
   padding: 0 20px;
@@ -116,10 +121,11 @@
   border:0;
   padding:0;
   position: absolute;
-  top: 15px;
-  right: 15px;
-  i{
+  top: 1em;
+  right:  1em;
+  i.material-icons{
     color: white;
+    font-size: 1em;
     background-color: $blueprimary;
   }
   z-index:9999;

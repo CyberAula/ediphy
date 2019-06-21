@@ -33,6 +33,14 @@ export default class ServerFeedback extends Component {
             </Modal>
         );
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.isBusy.msg !== this.props.isBusy.msg) {
+            if (this.props.isBusy.msg === i18n.t("success_transaction")) {
+                setTimeout(()=>{this.props.hideModal();}, 2000);
+            }
+        }
+    }
 }
 
 ServerFeedback.propTypes = {

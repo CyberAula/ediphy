@@ -5,6 +5,8 @@ import EditorCanvasDoc from '../editor_canvas_doc/EditorCanvasDoc';
 import { isSlide } from '../../../../common/utils';
 
 import './_canvas.scss';
+import { DragDropContext } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
 
 /**
  * Container component to render documents or slides
@@ -61,7 +63,7 @@ EditorCanvas.propTypes = {
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -80,10 +82,6 @@ EditorCanvas.propTypes = {
      * Object containing every plugin toolbar (by id)
      */
     pluginToolbars: PropTypes.object.isRequired,
-    /**
-     * Object containing every accordion (by id)
-     */
-    accordions: PropTypes.object.isRequired,
     /**
      * Last action dispatched in Redux
      */

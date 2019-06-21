@@ -9,6 +9,7 @@ import './_navBar.scss';
 import screenfull from 'screenfull';
 import { selectNavItem } from "../../../../common/actions";
 import ExportModal from '../export/ExportModal';
+import StyleConfig from '../style_config/StyleConfig';
 /**
  * Upper navigation bar component
  */
@@ -17,13 +18,11 @@ export default class EditorNavBar extends Component {
         super(props);
 
         this.state = {
-            showGlobalConfig: false,
             showImportFile: false,
             showExport: false,
             isFullScreenOn: screenfull.isFullscreen,
         };
 
-        this.toggleGlobalConfig = this.toggleGlobalConfig.bind(this);
         this.toggleExport = this.toggleExport.bind(this);
     }
 
@@ -33,13 +32,21 @@ export default class EditorNavBar extends Component {
                 <div className="grad1" />
                 <div className="identity"><span className="highlight">ED</span>iphy</div>
                 <PluginsMenu category={this.props.category} hideTab={this.props.hideTab} setcat={this.props.setcat} />
-                <NavActionButtons
-                    onTextEditorToggled={this.props.onTextEditorToggled}
+                <NavActionButtons boxSelected={this.props.boxSelected}
+                    changeGlobalConfig={this.props.changeGlobalConfig}
+                    globalConfig={this.props.globalConfig}
+                    navItemSelected={this.props.navItemSelected}
+                    navItems={this.props.navItems}
+                    redo={this.props.redo}
                     redoDisabled={this.props.redoDisabled}
                     undoDisabled={this.props.undoDisabled}
                     publishing={this.props.publishing}
                     save={this.props.save}
                     serverModalOpen={this.props.serverModalOpen}
+                    undo={this.props.undo}
+                    undoDisabled={this.props.undoDisabled}
+                    onBoxSelected={this.props.onBoxSelected}
+                    toggleStyleConfig={this.props.toggleStyleConfig}
                     visor={this.props.visor} />
                 <NavDropdown /* export={this.props.export}*/
                     navItemSelected={this.props.navItemSelected}
@@ -48,30 +55,34 @@ export default class EditorNavBar extends Component {
                     openExitModal={this.props.openExitModal}
                     openTour={this.props.openTour}
                     serverModalOpen={this.props.serverModalOpen}
-                    toggleGlobalConfig={this.toggleGlobalConfig}
+                    toggleGlobalConfig={this.props.toggleGlobalConfig}
                     toggleImportFile={this.toggleImportFile}
                     toggleExport={this.toggleExport}
                     toggleFileUpload={this.props.toggleFileUpload}
+                    isBusy={this.props.isBusy}
                     undoDisabled={this.props.undoDisabled} />
-                <GlobalConfig show={this.state.showGlobalConfig}
+                <StyleConfig show={this.props.showStyleConfig}
+                    styleConfig={this.props.styleConfig}
+                    toggleFileUpload={this.props.toggleFileUpload}
+                    fileModalResult={this.props.fileModalResult}
+                    changeStyleConfig={this.props.changeStyleConfig}
+                    uploadFunction={this.props.uploadFunction}
+                    close={this.props.toggleStyleConfig} />
+                <GlobalConfig show={this.props.showGlobalConfig}
                     globalConfig={this.props.globalConfig}
                     toggleFileUpload={this.props.toggleFileUpload}
                     fileModalResult={this.props.fileModalResult}
                     changeGlobalConfig={this.props.changeGlobalConfig}
-                    close={this.toggleGlobalConfig} />
-                <ExportModal show={this.state.showExport} export={this.props.export} scorm={this.props.scorm} close={this.toggleExport} />
+                    uploadFunction={this.props.uploadFunction}
+                    close={this.props.toggleGlobalConfig} />
+                <ExportModal aspectRatio={this.props.globalConfig.canvasRatio}
+                    show={this.state.showExport}
+                    export={this.props.export}
+                    scorm={this.props.scorm}
+                    close={this.toggleExport} />
 
             </Col>
         );
-    }
-
-    /**
-     * Shows/Hides the global configuration menu
-     */
-    toggleGlobalConfig() {
-        this.setState((prevState, props) => ({
-            showGlobalConfig: !prevState.showGlobalConfig,
-        }));
     }
 
     /**
@@ -86,23 +97,31 @@ export default class EditorNavBar extends Component {
 
 EditorNavBar.propTypes = {
     /**
-     *  Muestra o oculta la barra de plugins
+     *  Shows/hides the plugin tab
      */
     hideTab: PropTypes.oneOf(["show", "hide"]).isRequired,
     /**
-     * Objeto que contiene la configuración global del curso almacenada en el estado de Redux
+     * Object containing the global configuration of the document
      */
     globalConfig: PropTypes.object.isRequired,
     /**
-     * Modifica la configuración global del curso
+     * Modifies the global configuration of the document
      */
     changeGlobalConfig: PropTypes.func.isRequired,
     /**
-     * Permite utilizar la funcionalidad de undo
+     * Shows the global configuration of the document
+     */
+    showGlobalConfig: PropTypes.bool.isRequired,
+    /**
+     * Toggles the global configuration of the document
+     */
+    toggleGlobalConfig: PropTypes.func.isRequired,
+    /**
+     * Allows the use of the undo funtion
      */
     undoDisabled: PropTypes.bool,
     /**
-     * Permite utilizar la funcionalidad de redo
+     * Allows the use of the redo function
      */
     redoDisabled: PropTypes.bool,
     /**
@@ -110,43 +129,43 @@ EditorNavBar.propTypes = {
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Caja seleccionada
+     * Current selected box
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * Deshace el último cambio
+     * Undoes the last change
      */
     undo: PropTypes.func.isRequired,
     /**
-     * Rehace el último cambio
+     * Redoes the last change
      */
     redo: PropTypes.func.isRequired,
     /**
-     * Activa el modo previsualización
+     * Activates preview mode
      */
     visor: PropTypes.func.isRequired,
     /**
-     * Exporta el curso en HTML
+     * Exports the document to HTML
      */
     export: PropTypes.func.isRequired,
     /**
-     * Exporta el curso en SCORM
+     * Exports the document to SCORM
      */
     scorm: PropTypes.func.isRequired,
     /**
-     * Guarda los cambios en el servidor remoto
+     * Saves the changes in the server
      */
     save: PropTypes.func.isRequired,
     /**
-     * Categoria de plugin mostrada
+     * Selected plugin category
      */
     category: PropTypes.string.isRequired,
     /**
-     * Carga los cambios desde el servidor remoto
+     * Load server changes
      */
     opens: PropTypes.func.isRequired,
     /**
-     * Ventana emergente que indica si la importación/exportación al servidor ha sido correcta
+     * Opens a modal indicating the server operation status
      */
     serverModalOpen: PropTypes.func.isRequired,
     /**
@@ -158,15 +177,53 @@ EditorNavBar.propTypes = {
      */
     fileModalResult: PropTypes.object,
     /**
-     * Cambia la categoría de plugins seleccionada
+     * Changes the category of plugins selected
      */
     setcat: PropTypes.func.isRequired,
-
     /**
-   * Select view/contained view in the index context
+   * Object that contains all created views (identified by its *id*)
    */
-    onIndexSelected: PropTypes.func.isRequired,
-
+    navItems: PropTypes.object.isRequired,
+    /**
+     * Shows exit modal
+     */
+    openExitModal: PropTypes.func.isRequired,
+    /**
+     * Opens Tour Modal
+     */
+    openTour: PropTypes.func.isRequired,
+    /**
+     * Publish the document
+     */
+    publishing: PropTypes.func.isRequired,
+    /**
+       * Indicates if there is a current server operation
+       */
+    isBusy: PropTypes.any,
+    /**
+     *  Function for uploading a file to the server
+     */
+    uploadFunction: PropTypes.func.isRequired,
+    /**
+     * Function for selecting a box
+     */
+    onBoxSelected: PropTypes.func.isRequired,
+    /**
+     * Function for opening/closing Style config modal
+     */
+    toggleStyleConfig: PropTypes.func.isRequired,
+    /**
+     * Function for updating style config
+     */
+    changeStyleConfig: PropTypes.func.isRequired,
+    /**
+     * Object with style params
+     */
+    styleConfig: PropTypes.object,
+    /**
+     * Should style config modal be shown
+     */
+    showStyleConfig: PropTypes.bool,
 };
 
 /**

@@ -23,6 +23,8 @@
 
     }
     .btnToggleCarousel, .btnFullCarousel {
+        cursor: pointer;
+        color: white;
         background-color: transparent;
         border: none;
         &:hover {

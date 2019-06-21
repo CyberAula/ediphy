@@ -8,5 +8,9 @@ module.exports = {
         "Placeholder": "Enter the expected answer",
         "Characters": "Ignore case and special characters",
         "General": "Advanced",
+        "text": "Text",
+        "number": "Number",
+        "notCount": "This exercise does not add points",
+
     },
 };

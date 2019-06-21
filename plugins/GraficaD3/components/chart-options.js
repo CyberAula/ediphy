@@ -7,7 +7,6 @@ import i18n from 'i18next';
 export default class ChartOptions extends React.Component {
     constructor(props) {
         super(props);
-
         this.typeChanged = this.typeChanged.bind(this);
         this.colorChanged = this.colorChanged.bind(this);
         this.xGridChanged = this.xGridChanged.bind(this);
@@ -22,7 +21,6 @@ export default class ChartOptions extends React.Component {
         this.state = {
             dataProcessed: this.props.dataProcessed,
         };
-
     }
 
     changeAxis(event) {
@@ -172,10 +170,12 @@ export default class ChartOptions extends React.Component {
                                         <Col xs={7}>
                                             <FormControl componentClass="select" placeholder={i18n.t("GraficaD3.Column") + 0} name={i} value={this.props.options.graphs[i].column} onChange={this.columnChanged}>
                                                 {this.props.dataProvided[0].map((x, w) => {
-                                                    if(w === this.props.options.xaxis) {return;}
-                                                    return(
-                                                        <option key={w + 1} value={w}>{ i18n.t("GraficaD3.Column") + " (" + this.props.dataProvided[0][w] + ")"}</option>
-                                                    );
+                                                    if(!(w === this.props.options.xaxis)) {
+                                                        return (
+                                                            <option key={w + 1} value={w}>{ i18n.t("GraficaD3.Column") + " (" + this.props.dataProvided[0][w] + ")"}</option>
+                                                        );
+                                                    }
+                                                    return undefined;
                                                 })}
                                             </FormControl>
                                         </Col>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import VisorBox from './VisorBox';
 import SubmitButton from '../score/SubmitButton';
@@ -8,6 +9,8 @@ import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import VisorHeader from './VisorHeader';
 import { isContainedView, isSortableBox, isSection, isView } from '../../../common/utils';
 import i18n from 'i18next';
+import { getThemeColors } from "../../../common/themes/theme_loader";
+import ThemeCSS from "../../../common/themes/ThemeCSS";
 
 export default class VisorCanvasDoc extends Component {
 
@@ -27,14 +30,6 @@ export default class VisorCanvasDoc extends Component {
             titles.reverse();
         }
 
-        let maincontent = isCV ? document.getElementById('contained_maincontent') : document.getElementById('maincontent');
-        let actualHeight;
-        if (maincontent) {
-            actualHeight = parseInt(maincontent.scrollHeight, 10);
-            actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
-        }
-
-        let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = isCV ? this.props.containedViews[this.props.currentView].boxes || [] : this.props.navItems[this.props.currentView].boxes || [];
         let thisView = this.props.viewsArray && this.props.viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(this.props.viewsArray[this.props.viewsArray.length - 2]) ? this.props.viewToolbars[this.props.viewsArray[this.props.viewsArray.length - 2]].viewName : this.props.viewToolbars[this.props.viewsArray[this.props.viewsArray.length - 2]].viewName)) : i18n.t('messages.go_back');
         const tooltip = (
@@ -43,107 +38,117 @@ export default class VisorCanvasDoc extends Component {
 
         let animationType = isCV ? "animation-zoom" : ""; // "animation-slide";
 
-        let marks = {};
+        let exercises = this.props.exercises[this.props.currentView];
         let toolbar = this.props.viewToolbars[this.props.currentView];
+
+        let styleConfig = this.props.styleConfig;
+        let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
+        let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
+
         return (
-
-            <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={animationType}
+            <Col id={(isCV ? "containedCanvas_" : "canvas_") + this.props.currentView} md={12} xs={12} className={(isCV ? "containedCanvasClass " : "canvasClass ") + animationType + (this.props.show ? "" : " hidden")}
                 style={{ display: 'initial', padding: '0', width: '100%' }}>
-                <div className="scrollcontainer" style={{ background: toolbar.background }}>
-                    {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
-                        <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
-                            onClick={a => {
-                                document.getElementById("containedCanvas").classList.add("exitCanvas");
-                                setTimeout(function() {
-                                    this.props.removeLastView();
-                                }.bind(this), 500);
-                                a.stopPropagation();
-                            }}><i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
-                    <VisorHeader titles={titles}
-                        courseTitle={this.props.title}
-                        titleMode={itemSelected.titleMode}
-                        navItems={this.props.navItems}
-                        currentView={this.props.currentView}
-                        viewToolbar={this.props.viewToolbars[this.props.currentView]}
-                        containedViews={this.props.containedViews}
-                        showButton/>
-                    <div className="outter canvasvisor">
-                        <div id={isCV ? 'airlayer_cv' : 'airlayer'}
-                            className={'doc_air'}
-                            style={{ background: itemSelected.background, visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
-
-                            <div id={isCV ? "contained_maincontent" : "maincontent"}
-                                className={'innercanvas doc'}
+                <div className={"safeZone"} style={{ height: 'inherit' }}>
+                    <div className={"scrollcontainer " + theme} style={{ background: toolbar.background }}>
+                        {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
+                            <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
+                                onClick={a => {
+                                    ReactDOM.findDOMNode(this).classList.add("exitCanvas");
+                                    setTimeout(function() {
+                                        this.props.removeLastView();
+                                    }.bind(this), 500);
+                                    a.stopPropagation();
+                                }}><i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
+                        <VisorHeader titles={titles}
+                            courseTitle={this.props.title}
+                            titleMode={itemSelected.titleMode}
+                            navItems={this.props.navItems}
+                            currentView={this.props.currentView}
+                            viewToolbar={this.props.viewToolbars[this.props.currentView]}
+                            containedViews={this.props.containedViews}
+                            showButton/>
+                        <div className="outter canvasvisor">
+                            <div id={(isCV ? 'airlayer_cv_' : 'airlayer_') + this.props.currentView}
+                                className={(isCV ? 'airlayer_cv' : 'airlayer') + ' doc_air'}
                                 style={{ background: itemSelected.background, visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
-                                <br/>
+                                <div id={isCV ? "contained_maincontent" : "maincontent"}
+                                    className={'innercanvas doc'}
+                                    style={{ background: itemSelected.background, visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
-                                {boxes.map(id => {
-                                    let box = this.props.boxes[id];
-                                    if (!isSortableBox(box.id)) {
-                                        return null;
-                                        /* return <VisorBox key={id}
+                                    <br/>
+
+                                    {boxes.map(id => {
+                                        let box = this.props.boxes[id];
+                                        if (!isSortableBox(box.id)) {
+                                            return null;
+                                        }
+                                        return <VisorBoxSortable key={id}
                                             id={id}
-                                            exercises={(this.props.exercises && this.props.exercises.exercises) ? this.props.exercises.exercises[id] : undefined}
+                                            exercises={exercises}
+                                            show={this.props.show}
                                             boxes={this.props.boxes}
-                                            changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
+                                            changeCurrentView={this.props.changeCurrentView}
                                             currentView={this.props.currentView}
                                             fromScorm={this.props.fromScorm}
                                             toolbars={this.props.pluginToolbars}
                                             setAnswer={this.props.setAnswer}
-                                            marks={marks}
-                                            richElementsState={this.props.richElementsState}/>;*/
-                                    }
-                                    return <VisorBoxSortable key={id}
-                                        id={id}
-                                        exercises={this.props.exercises}
-                                        boxes={this.props.boxes}
-                                        changeCurrentView={this.props.changeCurrentView}
-                                        currentView={this.props.currentView}
-                                        fromScorm={this.props.fromScorm}
-                                        toolbars={this.props.pluginToolbars}
-                                        setAnswer={this.props.setAnswer}
-                                        marks={this.props.marks}
-                                        onMarkClicked={this.props.onMarkClicked}
-                                        richElementsState={this.props.richElementsState}/>;
+                                            marks={this.props.marks}
+                                            onMarkClicked={this.props.onMarkClicked}
+                                            richElementsState={this.props.richElementsState}
+                                            themeColors = {colors}/>;
 
-                                })}
+                                    })}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className={"pageFooter" + (!this.props.exercises || !this.props.exercises.exercises || Object.keys(this.props.exercises.exercises).length === 0 ? " hidden" : "")}>
-                        <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={this.props.exercises} />
-                        <Score exercises={this.props.exercises}/>
-                    </div>
 
+                        {this.props.fromPDF || !(exercises) || !(exercises.exercises) ? null : <div className={"pageFooter" + (!exercises || !exercises.exercises || Object.keys(exercises.exercises).length === 0 ? " hidden" : "")}>
+                            <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={exercises} />
+                            <Score exercises={exercises}/>
+                        </div>}
+                        <div className={(this.props.fromPDF === true) ? "pageEnd" : ""} />
+                    </div>
                 </div>
+                {this.props.show ?
+                    (<ThemeCSS
+                        styleConfig={this.props.styleConfig}
+                        aspectRatio = {this.props.aspectRatio}
+                        theme={ theme }
+                        fromPDF={this.props.fromPDF}
+                        toolbar = {{ ...toolbar, colors: colors }}
+                    />) : null}
             </Col>
         );
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.currentView.id !== nextProps.currentView.id) {
+        /* if (this.props.currentView.id !== nextProps.currentView.id) {
             document.getElementById(!isView(this.props.currentView) ? "contained_maincontent" : "maincontent").scrollTop = 0;
-        }
+        }*/
     }
 
 }
 
 VisorCanvasDoc.propTypes = {
     /**
+    * Show the current view
+    */
+    show: PropTypes.bool,
+    /**
      * Object containing all created boxes (by id)
      */
     boxes: PropTypes.object.isRequired,
     /**
-     * Cambia la vista actual
+     * Changes current view
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Vista actual
+     * Current view
      */
     currentView: PropTypes.any,
     /**
@@ -151,23 +156,23 @@ VisorCanvasDoc.propTypes = {
      */
     navItems: PropTypes.object.isRequired,
     /**
-     * Elimina la última vista
+     * Function to delete last view
      */
     removeLastView: PropTypes.func.isRequired,
     /**
-     * Estado del plugin enriquecido en la transición
+     * Rich plugin state during transition
      */
     richElementsState: PropTypes.object,
     /**
-     * Indicador de si se muestra el canvas (tiene que haber un navItem seleccionado)
+     * Show canvas (a navItem needs to be chosen)
      */
     showCanvas: PropTypes.bool,
     /**
-     * Título del curso
+     * Course title
      */
     title: PropTypes.any,
     /**
-     *  Array de vistas
+     *  Contains created views
      */
     viewsArray: PropTypes.array,
     /**
@@ -202,4 +207,17 @@ VisorCanvasDoc.propTypes = {
      * Function that triggers a mark
      */
     onMarkClicked: PropTypes.func,
+    /**
+     * Indicates if the content is being previewed in order to export it to PDF
+     */
+    fromPDF: PropTypes.bool,
+    /**
+     * General style config
+     */
+    styleConfig: PropTypes.object,
+    /**
+     * Aspect ratio of the slides
+     */
+    aspectRatio: PropTypes.number,
+
 };

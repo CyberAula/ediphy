@@ -6,6 +6,7 @@ import interact from 'interactjs';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import { EDIT_PLUGIN_TEXT } from '../../../../common/actions';
 import { releaseClick, findBox } from '../../../../common/common_tools';
+import { isUnitlessNumber } from '../../../../common/cssNonUnitProps';
 import Ediphy from '../../../../core/editor/main';
 import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView, isBox } from '../../../../common/utils';
 import './_editorBox.scss';
@@ -32,6 +33,7 @@ export default class EditorBox extends Component {
          */
         this.borderSize = 2;
         this.blurTextarea = this.blurTextarea.bind(this);
+        this.rotate = this.rotate.bind(this);
     }
 
     /**
@@ -39,13 +41,14 @@ export default class EditorBox extends Component {
      * @returns {code} React rendered component
      */
     render() {
+
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.pluginToolbars[this.props.id];
         let vis = this.props.boxSelected === this.props.id;
         let style = {
             visibility: (toolbar.showTextEditor ? 'hidden' : 'visible'),
-            // overflow: 'hidden',
+            overflow: 'hidden',
 
         };
 
@@ -65,8 +68,6 @@ export default class EditorBox extends Component {
             textareaStyle.textAlign = "left";
             style.textAlign = "left";
         }
-        let container = box.parent;
-        // let controls = apiPlugin.getToolbar();
         let marks = {};
         Object.keys(this.props.marks || {}).forEach(mark =>{
             if(this.props.marks[mark].origin === this.props.id) {
@@ -74,7 +75,15 @@ export default class EditorBox extends Component {
             }
         });
 
-        style = { ...style, ...toolbar.style };
+        let toolbarStyle = {};
+        for (let propCSS in toolbar.style) {
+            if (!isNaN(toolbar.style[propCSS]) && isUnitlessNumber.indexOf(propCSS) === -1) {
+                toolbarStyle[propCSS] = toolbar.style[propCSS] / 7 + 'em';
+            } else {
+                toolbarStyle[propCSS] = toolbar.style[propCSS];
+            }
+        }
+        style = { ...style, ...toolbarStyle };
         if (toolbar.structure.height === 'auto' && config.needsTextEdition) {
             style.height = 'auto';
         }
@@ -99,8 +108,11 @@ export default class EditorBox extends Component {
                 rotate = 'rotate(' + toolbar.structure.rotation + 'deg)';
             }
         }
-        wholeBoxStyle.transform = wholeBoxStyle.WebkitTransform = wholeBoxStyle.MsTransform = rotate;
-        // style.transform = style.WebkitTransform = style.MsTransform = rotate;
+        wholeBoxStyle.WebkitTransform =
+            wholeBoxStyle.MozTransform =
+                wholeBoxStyle.msTransform =
+                    wholeBoxStyle.OTransform =
+                        wholeBoxStyle.transform = rotate;
 
         let props = { ...this.props,
             marks: marks,
@@ -121,7 +133,7 @@ export default class EditorBox extends Component {
             </div>
         ) : (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {this.renderChildren(box.content)}
+                {this.renderChildren(html2json(Ediphy.Plugins.get(toolbar.pluginId).getRenderTemplate(toolbar.state, props)))}
             </div>
         );
         let border = (
@@ -377,6 +389,7 @@ export default class EditorBox extends Component {
             document.getElementById('canvas') :
             document.getElementById('containedCanvas');
         interact.dynamicDrop(true);
+
         interact(ReactDOM.findDOMNode(this))
             .draggable({
                 snap: {
@@ -416,10 +429,19 @@ export default class EditorBox extends Component {
                         parent = document.body;
                         // Clone, assign values and hide original
                         let clone = original.cloneNode(true);
+                        original.style.WebkitTransform =
+                        original.style.MozTransform =
+                        original.style.msTransform =
+                        original.style.OTransform =
+                        original.style.transform =
+                                            'none';
                         let originalRect = original.getBoundingClientRect();
                         let parentRect = parent.getBoundingClientRect();
                         let x = originalRect.left - parentRect.left;
                         let y = originalRect.top - parentRect.top;
+                        if ($('.canvasSliClass')) {
+                            clone.style.fontSize = $('.canvasSliClass').css('font-size');
+                        }
 
                         clone.setAttribute("id", "clone");
                         clone.setAttribute('data-x', x);
@@ -431,12 +453,17 @@ export default class EditorBox extends Component {
                         original.setAttribute('data-y', y);
                         clone.style.position = 'absolute';
 
-                        clone.style.WebkitTransform = clone.style.transform = 'translate(' + (x) + 'px, ' + (y) + 'px)';
-                        clone.style.height = originalRect.height + "px";
-                        clone.style.width = originalRect.width + "px";
+                        clone.style.height = original.offsetHeight + "px";
+                        clone.style.width = original.offsetWidth + "px";
                         clone.style.border = "1px dashed #555";
                         parent.appendChild(clone);
                         original.style.opacity = 0;
+                        original.style.WebkitTransform =
+                            original.style.MozTransform =
+                                original.style.msTransform =
+                                    original.style.OTransform =
+                                        original.style.transform =
+                                             this.rotate();
                     } else if (isContainedView(box.container)) {
                         let target = event.target;
                         target.style.left = this.getElementPositionFromLeft(target.style.left, target.parentElement.offsetWidth) + "px";
@@ -475,9 +502,13 @@ export default class EditorBox extends Component {
                             let original = findBox(this.props.id);
                             let x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx;
                             let y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
-                            target.style.webkitTransform =
-                                target.style.transform =
-                                    'translate(' + (x) + 'px, ' + (y) + 'px)';
+                            let translate = 'translate(' + (x) + 'px, ' + (y) + 'px)';
+                            target.style.WebkitTransform =
+                                target.style.MozTransform =
+                                    target.style.msTransform =
+                                        target.style.OTransform =
+                                            target.style.transform =
+                                                translate + this.rotate();
                             target.style.zIndex = '9999';
 
                             target.setAttribute('data-x', x);
@@ -610,16 +641,38 @@ export default class EditorBox extends Component {
                     let x = (parseFloat(target.getAttribute('data-x'), 10) || 0);
                     let y = (parseFloat(target.getAttribute('data-y'), 10) || 0);
                     // update the element's style
-                    target.style.width = event.rect.width + 'px';
-                    target.style.height = event.rect.height + 'px';
+                    let w = event.rect.width;
+                    let h = event.rect.height;
+                    toolbar = this.props.pluginToolbars[this.props.id];
+                    let cos = Math.cos(toolbar.structure.rotation * Math.PI / 180);
+                    let sin = Math.sin(toolbar.structure.rotation * Math.PI / 180);
+                    let r = cos * cos - sin * sin;
+                    // target.style.width = (h*sin-w*cos) + 'px';
+                    // target.style.height = (h*cos-w*sin) + 'px';
 
+                    target.style.width = (w * cos - h * sin) / r + 'px';
+                    target.style.height = (h * cos - w * sin) / r + 'px';
+
+                    // toolbar =   this.props.pluginToolbars[this.props.id];
+                    //
+                    // let cos = Math.cos(toolbar.structure.rotation*Math.PI /180);
+                    // let sin = Math.sin(toolbar.structure.rotation*Math.PI /180);
+                    // console.log(event.rect.width, event.rect.height)
+                    // // target.style.width = (event.rect.height * cos + event.rect.width* sin  ) + "px";
+                    // // target.style.height =  (event.rect.height * sin + event.rect.width* cos  ) + "px";
+                    // target.style.width = (event.rect.width * sin) + "px";
+                    // target.style.height = (event.rect.width * cos) + "px";
                     // translate when resizing from top or left edges
                     x += event.deltaRect.left;
                     y += event.deltaRect.top;
                     if(box.resizable) { // Only in slide
-                        target.style.webkitTransform = target.style.transform =
-                        'translate(' + x + 'px,' + y + 'px)';
-
+                        let translate = 'translate(' + x + 'px,' + y + 'px)';
+                        target.style.WebkitTransform =
+                            target.style.MozTransform =
+                                target.style.msTransform =
+                                    target.style.OTransform =
+                                        target.style.transform =
+                                            translate + this.rotate();
                         target.setAttribute('data-x', x);
                         target.setAttribute('data-y', y);
                     }
@@ -674,10 +727,13 @@ export default class EditorBox extends Component {
                         x: box.resizable ? ((parseFloat(target.style.left) / 100 * target.parentElement.offsetWidth + parseFloat(target.getAttribute('data-x'))) * 100 / target.parentElement.offsetWidth + '%') : 0,
                         y: box.resizable ? ((parseFloat(target.style.top) / 100 * target.parentElement.offsetHeight + parseFloat(target.getAttribute('data-y'))) * 100 / target.parentElement.offsetHeight + '%') : 0,
                     });
-
-                    target.style.webkitTransform = target.style.transform =
-                        'translate(0px, 0px)';
-
+                    let translate = 'translate(0px, 0px)';
+                    target.style.WebkitTransform =
+                      target.style.MozTransform =
+                        target.style.msTransform =
+                          target.style.OTransform =
+                            target.style.transform =
+                       translate + this.rotate();
                     target.setAttribute('data-x', 0);
                     target.setAttribute('data-y', 0);
 
@@ -721,6 +777,16 @@ export default class EditorBox extends Component {
 
     }
 
+    rotate() {
+        let rotate = 'rotate(0deg) ';
+        let toolbar = this.props.pluginToolbars[this.props.id];
+        if (!(this.props.markCreatorId && this.props.id === this.props.boxSelected)) {
+            if (toolbar.structure.rotation && toolbar.structure.rotation) {
+                rotate = ' rotate(' + toolbar.structure.rotation + 'deg) ';
+            }
+        }
+        return rotate;
+    }
 }
 
 EditorBox.propTypes = {
@@ -741,7 +807,7 @@ EditorBox.propTypes = {
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -833,8 +899,8 @@ EditorBox.propTypes = {
     */
     setCorrectAnswer: PropTypes.func.isRequired,
     /**
-       * Current page
-       */
+      * Current page
+      */
     page: PropTypes.any,
     /**
     * Function that updates the toolbar of a view

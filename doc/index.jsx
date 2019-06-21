@@ -60,6 +60,7 @@ export default class Docs extends Component {
         </Nav>;
 
         const Comp = ({ match, key }) => {
+            console.log(match);
             let url = lookForPath(match.url);
             url = url || {};
             return <Content key={key}

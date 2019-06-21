@@ -100,10 +100,8 @@ export function changeInitialState(exercises, nums, numPages, suspendDataCalcula
     }
 
     for (let i = 0; i < exLength; i++) {
-
         let obj = suspendData.exercises[i].s;
         let comp = suspendData.exercises[i].c;
-
         updatedExercises[nums[i].page].exercises[nums[i].box].attempted = (comp === "completed");
         updatedExercises[nums[i].page].exercises[nums[i].box].num = (i + 1);
         if (comp === "completed") {
@@ -126,8 +124,13 @@ export function changeInitialState(exercises, nums, numPages, suspendDataCalcula
         for (let ex in page.exercises) {
             let box = page.exercises[ex];
             attempted = box.attempted;
-            pageScore += parseFloat(box.score * box.weight);
+            if(box.weight !== 0) {
+                pageScore += parseFloat(box.score);
+            }
             totalExWeight += box.weight;
+        }
+        if (totalExWeight === 0 && attempted) {
+            pageScore = 1;
         }
         pageScore = pageScore / (totalExWeight || 1);
         page.visited = suspendData.pages[i];
@@ -171,7 +174,7 @@ export function setSCORMScore(score, maxScore, completionProgress, suspendData) 
 
     isPassed = ((score / maxScore) >= thresholdSc) ? "passed" : "failed";
     isComplete = completionProgress >= thresholdV ? "completed" : "incomplete";
-    let scoreRounded = parseFloat(score.toFixed(2));
+    let scoreRounded = parseFloat(parseFloat(score).toFixed(2));
     let scoreScaled = parseFloat((score / maxScore).toFixed(2));
     setScore(0, maxScore, scoreRounded, scoreScaled, isComplete, isPassed);
     scorm.setvalue("cmi.suspend_data", JSON.stringify(suspendData));
@@ -195,13 +198,21 @@ export function finish() {
 }
 
 function setScore(min, max, raw, scaled, completion_status, success_status) {
+    let currentStatus = scorm.getvalue('cmi.completion_status');
+    // FIX to let SCORM 1.2 update score on reload after completed status
+    if (currentStatus === "completed" && scorm.API.version === "1.2") {
+        scorm.API.mode = "normal";
+    }
+    let ratio = max / 100;
     scorm.setvalue("cmi.mode", "normal");
     scorm.setvalue("cmi.score.scaled", scaled);
-    scorm.setvalue("cmi.score.min", min);
-    scorm.setvalue("cmi.score.max", max);
-    scorm.setvalue("cmi.score.raw", raw);
+    scorm.setvalue("cmi.score.min", min / ratio);
+    scorm.setvalue("cmi.score.max", max / ratio);
+    /* if(scorm.API.version === "1.2" && max > 100) {
+        raw = parseFloat(parseFloat(scaled * 100).toFixed(0));
+    }*/
+    scorm.setvalue("cmi.score.raw", raw / ratio);
     scorm.setvalue("cmi.success_status", success_status);
     scorm.setvalue("cmi.completion_status", completion_status);
-
     return commit();
 }

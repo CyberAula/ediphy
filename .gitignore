@@ -31,6 +31,6 @@ dist/lib/scorm/scorm2004.zip
 dist/lib/scorm/test/*
 .stylelintrc.json
 coverage
-yarn.lock
 ediphy_server/public/*
 !ediphy_server/public/.gitkeep
+.DS_Store

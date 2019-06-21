@@ -188,7 +188,7 @@ export default class MarkCreator extends Component {
         let type = this.props.pageType;
         let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
         let markId = ID_PREFIX_RICH_MARK + Date.now();
-        let marksType = this.props.toolbar && this.props.toolbar.config && this.props.toolbar.config.marksType && this.props.toolbar.config.marksType[0] ? this.props.toolbar.config.marksType[0] : {};
+        let marksType = this.props.toolbar && this.props.toolbar.config && this.props.toolbar.config.marksType ? this.props.toolbar.config.marksType : {};
         let color = marksType.defaultColor || '#222222'; // default dark grey
         let pageName = nextAvailName(i18n.t('contained_view'), this.props.containedViews);
         let connection = {
@@ -252,7 +252,7 @@ MarkCreator.propTypes = {
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -279,8 +279,4 @@ MarkCreator.propTypes = {
      * Type of current page
      */
     pageType: PropTypes.string.isRequired,
-    /**
-     * Show / Hide marks editing modal
-     */
-    onRichMarksModalToggled: PropTypes.func.isRequired,
 };

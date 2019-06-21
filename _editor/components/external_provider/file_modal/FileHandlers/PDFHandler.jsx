@@ -9,7 +9,6 @@ import { randomPositionGenerator } from "../../../clipboard/clipboard.utils";
 import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from '../../../../../common/constants';
 import Ediphy from "../../../../../core/editor/main";
 // styles
-import './_ImportFile.scss';
 import { createBox } from '../../../../../common/common_tools';
 let spinner = require('../../../../../dist/images/spinner.svg');
 
@@ -123,7 +122,7 @@ export default class PDFHandler extends Component {
      */
     render() {
         return (<div className="pdfFileDialog">
-            <form>
+            <form action="javascript:void(0);" onSubmit={e=>e.preventDefault()}>
                 <div className="fileLoaded" style={{ display: 'block' }}>
                     <h2>{i18n.t("Preview")}</h2>
                 </div>
@@ -239,7 +238,6 @@ export default class PDFHandler extends Component {
         let inASlide = (this.props.navItemSelected !== 0 && isSlide(this.props.navItems[this.props.navItemSelected].type)) || cvSli;
         let page = cv ? this.props.containedViewSelected : this.props.navItemSelected;
         let initialParams;
-        console.log(cv, cvSli, cvDoc, inASlide, page);
         // If slide
         if (inASlide) {
             let position = {
@@ -263,7 +261,6 @@ export default class PDFHandler extends Component {
             };
         }
         initialParams.id = ID_PREFIX_BOX + Date.now();
-        console.log(initialParams, this.props.navItemSelected);
         createBox(initialParams, "EnrichedPDF", inASlide, this.props.onBoxAdded, this.props.boxes);
 
     }
@@ -282,7 +279,7 @@ export default class PDFHandler extends Component {
                 hideTitles: true,
                 type: PAGE_TYPES.SLIDE,
                 position: this.props.navItemsIds.length + navs.length,
-                background: { background: dataURL, backgroundAttr: 'centered' },
+                background: { background: 'url(' + dataURL + ')', backgroundAttr: 'centered', customBackground: true },
                 customSize,
             };
             navs.push(nav);
@@ -424,10 +421,6 @@ export default class PDFHandler extends Component {
 
 PDFHandler.propTypes = {
     /**
-     * Whether the import file modal should be shown or hidden
-     */
-    show: PropTypes.bool,
-    /**
      * Closes import file modal
      */
     close: PropTypes.func.isRequired,
@@ -456,7 +449,7 @@ PDFHandler.propTypes = {
      */
     navItemSelected: PropTypes.any,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -471,4 +464,8 @@ PDFHandler.propTypes = {
      * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * PDF File URL
+     */
+    url: PropTypes.string,
 };

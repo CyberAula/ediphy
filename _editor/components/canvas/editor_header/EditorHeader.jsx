@@ -105,7 +105,7 @@ export default class EditorHeader extends Component {
                                     <div className="tit_ud_cap">
                                         {/* Course title*/}
                                         {!this.state.editingTitle ?
-                                            (<h1 onDoubleClick={e => {
+                                            (<h1 onClick={e => {
                                                 this.setState({ editingTitle: !this.state.editingTitle });
                                                 if (this.state.editingTitle) { /* Save changes to Redux state*/
                                                     this.props.onTitleChanged(this.props.courseTitle, this.state.currentTitle);
@@ -148,7 +148,7 @@ export default class EditorHeader extends Component {
                                                 }} />)}
                                         {/* NavItem title */}
                                         {!this.state.editingNavTitle ?
-                                            (<h2 onDoubleClick={e => {
+                                            (<h2 onClick={e => {
                                                 this.setState({ editingNavTitle: !this.state.editingNavTitle });
                                                 if (this.state.editingNavTitle) { /* Save changes to Redux state*/
                                                     this.props.onViewTitleChanged(navItem.id, { documentTitleContent: this.state.currentNavTitle });
@@ -201,7 +201,7 @@ export default class EditorHeader extends Component {
                                         }
                                         {/* NavItem subtitle */}
                                         {!this.state.editingNavSubTitle ?
-                                            (<h3 onDoubleClick={e => {
+                                            (<h3 onClick={e => {
                                                 this.setState({ editingNavSubTitle: !this.state.editingNavSubTitle });
                                                 if (this.state.editingNavSubTitle) { /* Save changes to Redux state*/
                                                     this.props.onViewTitleChanged(navItem.id, { documentSubtitleContent: this.state.currentNavSubTitle });
@@ -255,7 +255,6 @@ export default class EditorHeader extends Component {
                                     <div style={{ display: 'none' }} className="clear"/>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 );
@@ -335,7 +334,7 @@ EditorHeader.propTypes = {
      */
     containedView: PropTypes.any,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**

@@ -1,4 +1,8 @@
-import "babel-polyfill";
+import { serialize } from '../../reducers/serializer';
+
+if (global && !global._babelPolyfill) {
+    require('babel-polyfill');
+}
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
@@ -8,15 +12,16 @@ import VisorContainedCanvas from '../components/canvas/VisorContainedCanvas';
 import VisorSideNav from '../components/navigation/VisorSideNav';
 import VisorPlayer from './../components/navigation/VisorPlayer';
 
-import { isContainedView, isView, isSection } from '../../common/utils';
+import { isContainedView, isView, isSection, isPage } from '../../common/utils';
 import ScormComponent from '../components/score/GradeComponent';
 import i18n from '../../locales/i18n';
+
+import { Animated } from "react-animated-css";
 
 require('es6-promise').polyfill();
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
-
 import './../../sass/style.scss';
 import '../../core/visor/visor_entrypoint';
 import ExportModal from '../../_editor/components/nav_bar/export/ExportModal';
@@ -41,6 +46,8 @@ export default class Visor extends Component {
             }
         }
 
+        this.timer = false;
+
         this.state = {
             currentView: [initialView], /* This is the actual view rendering*/
             triggeredMarks: [],
@@ -50,8 +57,15 @@ export default class Visor extends Component {
             toggledSidebar: false, // Ediphy.State.globalConfig.visorNav.sidebar ? Ediphy.State.globalConfig.visorNav.sidebar : (Ediphy.State.globalConfig.visorNav.sidebar === undefined),
             fromScorm: Ediphy.State.fromScorm,
             scoreInfo: { userName: "Anonymous", totalScore: 0, totalWeight: 0, completionProgress: 0 },
+            mouseMoving: false,
+            mouseOnPlayer: false,
+            backwards: false,
         };
         this.onMarkClicked = this.onMarkClicked.bind(this);
+        this._onMouseMove = this._onMouseMove.bind(this);
+        this.setHoverClass = this.setHoverClass.bind(this);
+        this.deleteHoverClass = this.deleteHoverClass.bind(this);
+
         if (!Ediphy.State.export) {
             window.export = (format = 'HTML') => {
                 switch(format) {
@@ -69,7 +83,28 @@ export default class Visor extends Component {
                 }
             };
         }
+    }
 
+    setHoverClass() {
+        this.setState({ mouseOnPlayer: true });
+    }
+
+    deleteHoverClass() {
+        this.setState({ mouseOnPlayer: false });
+    }
+
+    _onMouseMove(e) {
+        if(!this.state.mouseMoving) {
+            this.setState({ mouseMoving: true });
+        }
+        else {
+            if(this.timer) {
+                clearTimeout(this.timer);
+            }
+            this.timer = setTimeout(() => {
+                this.setState({ mouseMoving: false });
+            }, 2500);
+        }
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -120,18 +155,16 @@ export default class Visor extends Component {
                 let shiftPop = nextState.triggeredMarks;
                 shiftPop.shift();
                 let markpop = document.getElementById('mark-' + newMark.id);
-                if (markpop) { markpop.focus();}
+                if (markpop) { markpop.click();}
                 this.setState({
                     showpop: !this.state.showpop,
                     triggeredMarks: shiftPop,
                 });
             }
         }
-
     }
 
     componentDidMount() {
-
         /*
         * Add Key bindings to app
         * */
@@ -159,7 +192,7 @@ export default class Visor extends Component {
                 let focusElement = document.activeElement.tagName.toLowerCase();
                 if (focusElement !== 'input' && focusElement !== 'textarea') {
                     if (key === 37 || key === 33) {
-                        this.changeCurrentView(navItemsIds[Math.max(index - 1, 0)]);
+                        this.changeCurrentView(navItemsIds[Math.max(index - 1, 0)], true);
                     } else if(key === 39 || key === 34) {
                         this.changeCurrentView(navItemsIds[Math.min(index + 1, maxIndex - 1)]);
                     }
@@ -172,16 +205,14 @@ export default class Visor extends Component {
 
     render() {
         if (window.State) {
-            Ediphy.State = window.State;
+            Ediphy.State = serialize({ "present": { ...window.State } }).present;
         }
-        let { boxSelected, navItemsIds, globalConfig, containedViewsById, boxesById, marksById } = Ediphy.State;
-        let navItems = Ediphy.State.navItemsById;
-        let viewToolbars = Ediphy.State.viewToolbarsById;
-        let pluginToolbars = Ediphy.State.pluginToolbarsById;
-
+        let { boxSelected, navItemsIds, globalConfig, styleConfig, containedViewsById, boxesById, marksById, navItemsById, viewToolbarsById, pluginToolbarsById } = Ediphy.State;
+        let ediphy_document_id = Ediphy.State.id;
+        let ediphy_platform = Ediphy.State.platform;
         let exercises = {};
         Object.keys(Ediphy.State.exercises).map((exercise, index)=>{
-            if (containedViewsById[exercise] || (navItems[exercise] && !navItems[exercise].hidden)) {
+            if (containedViewsById[exercise] || (navItemsById[exercise] && !navItemsById[exercise].hidden)) {
                 exercises[exercise] = Ediphy.State.exercises[exercise];
             }
         });
@@ -193,10 +224,11 @@ export default class Visor extends Component {
         let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";
         let isCV = isContainedView(this.state.currentView);
         let isSlide = isCV && containedViewsById[this.getLastCurrentViewElement()] === "slide" ||
-        !isCV && navItems[this.getLastCurrentViewElement()] === "slide" ?
+        !isCV && navItemsById[this.getLastCurrentViewElement()] === "slide" ?
             "pcw_slide" : "pcw_doc";
+
+        let vishPlayer = (globalConfig.visorNav && globalConfig.visorNav.fixedPlayer !== undefined) ? globalConfig.visorNav.fixedPlayer : true;
         let currentView = this.getLastCurrentViewElement();
-        let isExport = true || Ediphy.State.export;
         let canvasProps = {
             boxes: boxesById,
             changeCurrentView: (element) => {this.changeCurrentView(element);},
@@ -204,32 +236,51 @@ export default class Visor extends Component {
             containedViews: containedViewsById,
             currentView: currentView,
             fromScorm: this.state.fromScorm,
-            navItems: navItems,
+            navItems: navItemsById,
+            navItemsIds,
             removeLastView: ()=>{this.removeLastView(); },
             richElementsState: this.state.richElementState,
-            title: title,
+            title,
             marks: marksById,
-            viewToolbars: viewToolbars,
-            pluginToolbars: pluginToolbars,
+            viewToolbars: viewToolbarsById,
+            pluginToolbars: pluginToolbarsById,
             onMarkClicked: this.onMarkClicked,
             triggeredMarks: this.state.triggeredMarks,
             viewsArray: this.state.currentView,
             exportModalOpen: false,
+            ediphy_document_id,
+            ediphy_platform,
+            exercises,
+            styleConfig,
         };
-        let visorContent = !isContainedView(currentView) ? (
-            <VisorCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") === -1} />) : (<VisorContainedCanvas {...canvasProps} showCanvas={currentView.indexOf("cv-") !== -1} />);
+
+        let navItemComponents = Object.keys(navItemsById).filter(nav=>isPage(nav)).map((nav, i)=>{
+            return (
+                <VisorCanvas key={i} {...canvasProps} selectedView={currentView} backwards = {this.state.backwards} currentView={nav} show={nav === currentView} z={ i + 10} showCanvas={nav.indexOf("cv-") === -1} />
+            );
+        });
+        let cvComponents = Object.keys(containedViewsById).map((nav, i)=>{
+            return <VisorContainedCanvas key={i} {...canvasProps} currentView={nav} show={nav === currentView} z={ i + navItemComponents.length } showCanvas={nav.indexOf("cv-") !== -1} />;
+        });
+
+        let content = [...navItemComponents, cvComponents];
+        let empty = <div className="emptyPresentation">{i18n.t("EmptyPresentation")}</div>;
+        let visorNavButtonClass = 'hoverPlayerSelector';
+        visorNavButtonClass = this.state.mouseMoving ? visorNavButtonClass + ' appearButton' : visorNavButtonClass + ' fadeButton';
+        visorNavButtonClass = this.state.mouseOnPlayer ? visorNavButtonClass + ' hoverPlayerOn' : visorNavButtonClass;
         return (
             <div id="app" ref={'app'}
-                className={wrapperClasses} >
+                className={wrapperClasses}
+                onMouseMove={this._onMouseMove}>
                 <VisorSideNav
                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
                     courseTitle={title}
                     show={visorNav.sidebar}
                     showScore={!globalConfig.hideGlobalScore}
                     currentViews={this.state.currentView}
-                    navItemsById={navItems}
-                    navItemsIds={navItemsIds.filter(nav=> {return !navItems[nav].hidden;})}
-                    viewToolbars={viewToolbars}
+                    navItemsById={navItemsById}
+                    navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}
+                    viewToolbars={viewToolbarsById}
                     scoreInfo={this.state.scoreInfo}
                     exercises={exercises}
                     toggled={this.state.toggledSidebar}/>
@@ -238,39 +289,60 @@ export default class Visor extends Component {
                     style={{ height: '100%' }}>
                     <Grid fluid id="visorAppContent"
                         style={{ height: '100%' }}>
-                        <Row style={{ height: '100%' }}>
-                            <Col lg={12} style={{ height: '100%' }}>
-                                { !isContainedView(currentView) ? (<VisorPlayer show={visorNav.player} hideExportButton={isExport} openDownloadModal={()=>{this.setState({ exportModalOpen: true });}}
-                                    changeCurrentView={(page)=> {this.changeCurrentView(page);}}
-                                    currentViews={this.state.currentView}
-                                    navItemsById={navItems}
-                                    navItemsIds={navItemsIds.filter(nav=> {return !navItems[nav].hidden;})}/>) : null}
-                                {visorNav.sidebar ? (<Button id="visorNavButton"
-                                    className={toggleColor}
-                                    bsStyle="primary"
-                                    onClick={e => {this.setState({ toggledSidebar: !this.state.toggledSidebar });}}>
-                                    <i className="material-icons">{toggleIcon}</i>
-                                </Button>) : null}
+                        <Row style={{ height: vishPlayer ? 'calc(100% - 38px)' : '100%' }}>
+                            <Col lg={12} style={{ height: '100%', paddingLeft: '0px', paddingRight: '0px' }}>
                                 <ScormComponent
+                                    fadePlayerClass={visorNavButtonClass}
+                                    setHover={this.setHoverClass}
+                                    deleteHover = {this.deleteHoverClass}
                                     updateScore={(scoreInfo)=>{this.setState({ scoreInfo });}}
-                                    navItemsIds={navItemsIds.filter(nav=> {return !navItems[nav].hidden;})}
+                                    navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}
                                     containedViews={containedViewsById}
                                     currentView={currentView}
-                                    navItemsById={navItems}
+                                    navItemsById={navItemsById}
                                     globalConfig={globalConfig}
+                                    styleConfig={styleConfig}
                                     exercises={exercises}
-                                    pluginToolbars={pluginToolbars}
+                                    pluginToolbars={pluginToolbarsById}
                                     fromScorm={this.state.fromScorm}
                                     changeCurrentView={(el)=>{this.changeCurrentView(el);}}>
-                                    {visorContent}
+                                    {currentView ? content : empty}
                                 </ScormComponent>
+                                { !vishPlayer ? (
+                                    <VisorPlayer
+                                        fadePlayerClass={visorNavButtonClass}
+                                        setHover={this.setHoverClass}
+                                        deleteHover = {this.deleteHoverClass}
+                                        show={visorNav.player}
+                                        changeCurrentView={(page, backwards)=> {this.changeCurrentView(page, backwards);}}
+                                        currentViews={this.state.currentView}
+                                        navItemsById={navItemsById}
+                                        navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}/>) : null}
+                                {visorNav.sidebar ? (<div className={"visorNavButtonDiv"} onMouseEnter={()=> this.setHoverClass()} onMouseLeave={()=>this.deleteHoverClass()}>
+                                    <Button id="visorNavButton"
+                                        className={toggleColor + visorNavButtonClass}
+                                        bsStyle="primary"
+                                        onClick={e => {
+                                            this.setState({ toggledSidebar: !this.state.toggledSidebar });
+                                            document.activeElement.blur();
+                                        }}>
+                                        <i className="material-icons">{toggleIcon}</i>
+                                    </Button></div>) : null}
                             </Col>
                         </Row>
-                        {!isExport ? <ExportModal show={this.state.exportModalOpen} hidePDF
-                            export={this.export}
-                            scorm={this.exportToScorm}
-                            close={()=>{this.setState({ exportModalOpen: false });}} /> : null}
-
+                        <Row style={{ height: '38px', display: vishPlayer ? 'block' : 'none' }}>
+                            <Col lg={12} style={{ height: '100%', paddingLeft: '0px', paddingRight: '0px' }}>
+                                <VisorPlayer
+                                    fadePlayerClass={"appearButton"}
+                                    setHover={this.setHoverClass}
+                                    deleteHover = {this.deleteHoverClass}
+                                    show={visorNav.player}
+                                    changeCurrentView={(page, backwards)=> {this.changeCurrentView(page, backwards);}}
+                                    currentViews={this.state.currentView}
+                                    navItemsById={navItemsById}
+                                    navItemsIds={navItemsIds.filter(nav=> {return !navItemsById[nav].hidden;})}/>
+                            </Col>
+                        </Row>
                     </Grid>
                 </div>
             </div>);
@@ -283,11 +355,11 @@ export default class Visor extends Component {
    * @param callback
    * @param selfContained
    */
-    export(format, callback, selfContained = false) {
+    export(format, callback, options = false) {
         if(format === "PDF") {
-            printToPDF(Ediphy.State, callback);
+            printToPDF(Ediphy.State, callback, options);
         } else {
-            Ediphy.Visor.exportsHTML(Ediphy.State, callback, selfContained);
+            Ediphy.Visor.exportsHTML(Ediphy.State, callback, options);
         }
     }
 
@@ -307,15 +379,14 @@ export default class Visor extends Component {
      * Navigation main method
      * @param {string} element - current Element to go
      */
-    changeCurrentView(element) {
-
+    changeCurrentView(element, backwards = false) {
         if (isContainedView(element)) {
-            this.setState({ currentView: [this.getCurrentView(this.state.navItemSelected, this.state.containedViewSelected), element] });
+            this.setState({ currentView: [this.getCurrentView(this.state.navItemSelected, this.state.containedViewSelected), element], backwards: backwards });
         } else {
-            this.setState({ currentView: [element] });
+            this.setState({ currentView: [element], backwards: backwards });
             if(this.state.currentView.length > 1) {
                 this.setState({ triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
-                    richElementState: this.getActualBoxesStates(this.state.backupElementStates, this.state.richElementState) });
+                    richElementState: this.getActualBoxesStates(this.state.backupElementStates, this.state.richElementState), backwards: backwards });
             }
         }
 
@@ -357,7 +428,6 @@ export default class Visor extends Component {
         let marks = this.getAllMarks();
         let triggered_event = { id, value, stateElement };
         let triggered_marks = this.getTriggeredMarks(marks, triggered_event);
-
         // clearMark | If actual Triggered Mark have passed e.detail.value and actual value is different or actual element doesn't need to clear the value
         triggered_marks = this.clearTriggeredValues(triggered_event, triggered_marks);
 
@@ -694,9 +764,9 @@ export default class Visor extends Component {
      *
      */
     isNotInStateElement(triggered_event, richElementsState) {
-        if(richElementsState[triggered_event.id] === triggered_event.value) {
+        /* if(richElementsState[triggered_event.id] === triggered_event.value) {
             return false;
-        }
+        }*/
         return true;
     }
 

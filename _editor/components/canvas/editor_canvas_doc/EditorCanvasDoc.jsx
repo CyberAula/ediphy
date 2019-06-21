@@ -7,6 +7,8 @@ import { Col } from 'react-bootstrap';
 import EditorHeader from '../editor_header/EditorHeader';
 import Ediphy from '../../../../core/editor/main';
 import { isSortableBox } from '../../../../common/utils';
+import ThemeCSS from "../../../../common/themes/ThemeCSS";
+import { getThemeColors } from "../../../../common/themes/theme_loader";
 
 export default class EditorCanvasDoc extends Component {
     render() {
@@ -25,27 +27,24 @@ export default class EditorCanvasDoc extends Component {
             titles.reverse();
         }
 
-        let maincontent = document.getElementById(this.props.fromCV ? "contained_maincontent" : "maincontent");
-        let actualHeight;
-        if (maincontent) {
-            actualHeight = parseInt(maincontent.scrollHeight, 10);
-            actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
-        }
-
-        let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
         let show = itemSelected && itemSelected.id !== 0;
 
+        let styleConfig = this.props.styleConfig;
+        let toolbar = this.props.viewToolbars[itemSelected.id];
+        let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
+        let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
+
         let commonProps = { ...this.props,
             pageType: itemSelected.type || 0,
+            themeColors: colors,
         };
 
-        let toolbar = this.props.viewToolbars[itemSelected.id];
         return (
-            <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasDocClass"
+            <Col id={(this.props.fromCV ? 'containedCanvas' : 'canvas')} md={12} xs={12} className="canvasDocClass safeZone"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
 
-                <div className="scrollcontainer parentRestrict"
+                <div className={"scrollcontainer parentRestrict " + theme}
                     style={{ backgroundColor: show ? toolbar.background : 'transparent', display: show ? 'block' : 'none' }}
                     onMouseDown={e => {
                         if (e.target === e.currentTarget) {
@@ -69,31 +68,34 @@ export default class EditorCanvasDoc extends Component {
                         onViewTitleChanged={this.props.onViewTitleChanged}
                         onTitleChanged={this.props.onTitleChanged}
                     />
-                    <div className="outter canvaseditor" style={{ background: toolbar.background, display: show ? 'block' : 'none' }}>
+                    <div className="outter canvaseditor" style={{ display: show ? 'block' : 'none' }}>
                         <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
-                            className={'doc_air'}
-                            style={{ background: toolbar.background, visibility: (show ? 'visible' : 'hidden') }}>
+                            className={(this.props.fromCV ? 'airlayer_cv' : 'airlayer') + ' doc_air'}
+                            style={{ visibility: (show ? 'visible' : 'hidden') }}>
 
                             <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                                 className={'innercanvas doc'}
-                                style={{ background: toolbar.background, visibility: (show ? 'visible' : 'hidden'), paddingBottom: '10px' }}>
+                                style={{ visibility: (show ? 'visible' : 'hidden'), paddingBottom: '10px' }}>
 
                                 <br/>
 
                                 {boxes.map(id => {
-                                    let box = boxes[id];
                                     if (!isSortableBox(id)) {
                                         return null;
-                                        // return <EditorBox key={id} id={id} {...commonProps} exercises={itemSelected ? (this.props.exercises[itemSelected.id].exercises[id]) : undefined} />;
                                     }
                                     return <EditorBoxSortable key={id} {...commonProps}
-                                        id={id} exercises={this.props.exercises} page={itemSelected ? itemSelected.id : 0} />;
-
+                                        id={id} exercises={this.props.exercises} page={itemSelected ? itemSelected.id : 0} themeColors={colors} />;
                                 })}
                             </div>
                         </div>
                     </div>
                 </div>
+                <ThemeCSS
+                    styleConfig={this.props.styleConfig}
+                    aspectRatio = {this.props.aspectRatio}
+                    theme={theme}
+                    toolbar={{ ...toolbar, colors: colors }}
+                />
                 <EditorShortcuts
                     openConfigModal={this.props.openConfigModal}
                     box={this.props.boxes[this.props.boxSelected]}
@@ -116,10 +118,6 @@ export default class EditorCanvasDoc extends Component {
 }
 
 EditorCanvasDoc.propTypes = {
-    /**
-     * Object containing every accordion by id
-     */
-    accordions: PropTypes.object.isRequired,
     /**
      * Check if component is rendered from contained view
      */
@@ -145,7 +143,7 @@ EditorCanvasDoc.propTypes = {
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -277,7 +275,15 @@ EditorCanvasDoc.propTypes = {
      */
     fileModalResult: PropTypes.object,
     /**
-     * Callback for opening the file upload modal
+     * Function that opens the file search modal
      */
-    toggleFileUpload: PropTypes.func.isRequired,
+    openFileModal: PropTypes.func.isRequired,
+    /**
+     * Object containing style configuration
+     */
+    styleConfig: PropTypes.object,
+    /**
+     * Aspect ratio of slides
+     */
+    aspectRatio: PropTypes.number,
 };

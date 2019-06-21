@@ -15,6 +15,8 @@ export function RichText(base) {
                     extraPlugins: "ediphyplugin",
                 },
                 icon: 'format_indent_increase',
+                flavor: 'plain',
+
             };
         },
         getToolbar: function(state) {

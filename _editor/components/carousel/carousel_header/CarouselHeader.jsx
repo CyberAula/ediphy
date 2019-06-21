@@ -49,10 +49,6 @@ export default class CarouselHeader extends Component {
 
 CarouselHeader.propTypes = {
     /**
-     * Indicates whether the index takes the whole screen's width or not
-     */
-    carouselFull: PropTypes.bool,
-    /**
      * Indicates whether the index has been expanded or not
      */
     carouselShow: PropTypes.bool,
@@ -64,10 +60,6 @@ CarouselHeader.propTypes = {
      * Modifies the course's title
      */
     onTitleChanged: PropTypes.func.isRequired,
-    /**
-     * Expands the index to make it take 100% of the width
-     */
-    onToggleFull: PropTypes.func.isRequired,
     /**
      * Modifies the index's width
      */

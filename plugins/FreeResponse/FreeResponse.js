@@ -2,6 +2,7 @@ import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import i18n from 'i18next';
 import './_freeResponse.scss';
+import { generateCustomColors } from "../../common/themes/theme_loader";
 /* eslint-disable react/prop-types */
 
 export function FreeResponse(base) {
@@ -24,18 +25,23 @@ export function FreeResponse(base) {
                     __name: "Main",
                     accordions: {
                         __score: {
-                            __name: i18n.t('Score'),
+                            __name: i18n.t('configuration'),
                             icon: 'build',
                             buttons: {
+                                correct: {
+                                    __name: i18n.t("FreeResponse.Correct"),
+                                    type: 'checkbox',
+                                    checked: state.correct,
+                                },
                                 showFeedback: {
                                     __name: i18n.t("FreeResponse.ShowFeedback"),
                                     type: 'checkbox',
                                     checked: state.showFeedback,
                                 },
-                                correct: {
-                                    __name: i18n.t("FreeResponse.Correct"),
-                                    type: 'checkbox',
-                                    checked: state.correct,
+                                quizColor: {
+                                    __name: Ediphy.i18n.t('FreeResponse.FeedbackColor'),
+                                    type: 'custom_color_plugin',
+                                    value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themeColor1'),
                                 },
                                 characters: {
                                     __name: i18n.t("FreeResponse.Characters"),
@@ -105,17 +111,22 @@ export function FreeResponse(base) {
                 showFeedback: true,
                 characters: true,
                 correct: true,
+                quizColor: { color: 'rgba(0, 173, 156, 1)', custom: false },
             };
         },
         getRenderTemplate: function(state, props) {
             let clickHandler = (e)=>{
                 props.setCorrectAnswer(e.target.value);
             };
-            return <div className={"exercisePlugin freeResponsePlugin"} > {/* <h1>Free Response</h1>*/}
+
+            let quizColor = state.quizColor.color;
+            let customStyle = generateCustomColors(quizColor, 1, true);
+
+            return <div className={"exercisePlugin freeResponsePlugin"} style={ state.quizColor.custom ? customStyle : null }>
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
                         <PluginPlaceholder {...props} key="1"
-                            plugin-data-display-name={i18n.t('FreeResponse.Question') }
+                            pluginContainerName={i18n.t('FreeResponse.Question') }
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("FreeResponse.Statement") + '</p>' } }]}
                             pluginContainer={'Question'} />
                         <textarea disabled={!state.correct} className="form-control textAreaQuiz"
@@ -127,7 +138,7 @@ export function FreeResponse(base) {
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
                     <div className={"col-xs-12 feedback"}>
                         <PluginPlaceholder {...props} key="-2"
-                            plugin-data-display-name={i18n.t("FreeResponse.Feedback")}
+                            pluginContainerName={i18n.t("FreeResponse.Feedback")}
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("FreeResponse.FeedbackMsg") + '</p>' } }]}
                             pluginContainer={"Feedback"} />
                     </div>

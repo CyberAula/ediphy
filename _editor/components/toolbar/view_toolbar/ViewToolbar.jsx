@@ -7,6 +7,9 @@ import Ediphy from "../../../../core/editor/main";
 import './_viewToolbar.scss';
 import { renderAccordion } from "../../../../core/editor/accordion_provider";
 
+import { getThemes, getPrimaryColor, sanitizeThemeToolbar } from "../../../../common/themes/theme_loader";
+import { getThemeBackgrounds } from "../../../../common/themes/background_loader";
+
 export default class ViewToolbar extends Component {
     constructor(props) {
         super(props);
@@ -27,20 +30,19 @@ export default class ViewToolbar extends Component {
             doc_type = i18n.t('slide');
         }
 
-        /* if(isDocument(type)) {
-            doc_type = i18n.t('document');
-        }*/
-
         if(isSection(id)) {
             doc_type = i18n.t('section');
         }
-        let viewToolbar = this.props.viewToolbars[id];
+
+        let viewToolbar = sanitizeThemeToolbar(this.props.viewToolbars[id], this.props.styleConfig);
+        let styleConfig = this.props.styleConfig;
+
         let controls = {
             main: {
                 __name: "Main",
                 accordions: { // define accordions for section
                     __basic: {
-                        __name: "Generales",
+                        __name: i18n.t("general"),
                         icon: 'settings',
                         buttons: {
                             navitem_name: {
@@ -63,7 +65,6 @@ export default class ViewToolbar extends Component {
                                 __name: i18n.t('Title') + doc_type,
                                 type: 'checkbox',
                                 checked: viewToolbar.documentTitle && viewToolbar.documentTitle !== 'hidden',
-
                             },
                             pagetitle_name: {
                                 __name: "custom_title",
@@ -90,22 +91,48 @@ export default class ViewToolbar extends Component {
 
                     },
                     __background: {
-                        __name: "Fondo",
+                        __name: i18n.t("Style.appearance"),
                         icon: "crop_original",
                         buttons: {
+                            theme: {
+                                __name: i18n.t('Style.theme'),
+                                type: 'theme_select',
+                                associatedKey: 'page_theme',
+                                options: getThemes(),
+                                value: viewToolbar.theme,
+                            },
+                            theme_primary_color: {
+                                __name: i18n.t("Style.accent_color"),
+                                type: 'color',
+                                value: viewToolbar.colors.themeColor1 ? viewToolbar.colors.themeColor1 : styleConfig.color,
+                            },
+                            theme_font: {
+                                __name: i18n.t('Style.font'),
+                                kind: 'theme_font',
+                                type: 'font_picker',
+                                value: viewToolbar.font !== '' ? viewToolbar.font : styleConfig.font,
+                            },
                             background: {
                                 __name: i18n.t('background.background_image'),
                                 type: 'background_picker',
                                 value: { background: viewToolbar.background, backgroundAttr: viewToolbar.background_attr } || { background: "#ffffff", backgroundAttr: "full" },
                             },
+
+                            // theme_background: {
+                            //     __name: i18n.t("Style.theme_background"),
+                            //     type: 'select',
+                            //     options: getThemeBackgrounds(viewToolbar.theme),
+                            //     value: viewToolbar.theme_background,
+                            // },
+
                         },
                     },
                     __score: {
-                        __name: i18n.t('Score'),
-                        icon: 'school',
+                        __name: i18n.t('configuration'),
+                        icon: 'build',
                         buttons: {
                             weight: {
-                                __name: i18n.t('Weight'),
+                                __name: i18n.t('Score'),
                                 type: 'number',
                                 min: 1,
                                 __defaultField: true,
@@ -149,13 +176,13 @@ export default class ViewToolbar extends Component {
             return (null);
         }
         // when no plugin selected, but new navitem
-        let toolbar = this.props.viewToolbars[id];
+        let toolbar = sanitizeThemeToolbar(this.props.viewToolbars[id]);
 
         return Object.keys(controls).map((tabKey, index) => {
             let tab = controls[tabKey];
             return (
                 <div key={'key_' + index} className="toolbarTab">
-                    <PanelGroup>
+                    <PanelGroup id="panel-group">
                         {Object.keys(tab.accordions).sort().map((accordionKey, ind) => {
                             return renderAccordion(
                                 tab.accordions[accordionKey],
@@ -176,7 +203,7 @@ export default class ViewToolbar extends Component {
 
 ViewToolbar.propTypes = {
     /**
-   * Object containing all views (by id)
+     * Object containing all views (by id)
     */
     navItems: PropTypes.object.isRequired,
     /**
@@ -184,7 +211,7 @@ ViewToolbar.propTypes = {
    */
     navItemSelected: PropTypes.any.isRequired,
     /**
-   * Contained views dictionary (identified by its ID)
+   * Object containing all contained views (identified by its ID)
    */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -199,4 +226,8 @@ ViewToolbar.propTypes = {
      * Page toolbars
     */
     viewToolbars: PropTypes.object,
+    /**
+     * General style config
+     */
+    styleConfig: PropTypes.object,
 };

@@ -33,6 +33,7 @@ export default class VisorBoxSortable extends Component {
                                                         return (<VisorBox id={idBox}
                                                             key={ind}
                                                             currentView={this.props.currentView}
+                                                            show={this.props.show}
                                                             boxes={this.props.boxes}
                                                             exercises={(this.props.exercises && this.props.exercises.exercises) ? this.props.exercises.exercises[idBox] : undefined}
                                                             changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
@@ -41,7 +42,9 @@ export default class VisorBoxSortable extends Component {
                                                             marks={this.props.marks}
                                                             onMarkClicked={this.props.onMarkClicked}
                                                             setAnswer={this.props.setAnswer}
-                                                            richElementsState={this.props.richElementsState}/>);
+                                                            richElementsState={this.props.richElementsState}
+                                                            themeColors = {this.props.themeColors}
+                                                        />);
 
                                                     } else if (ind === container.children.length - 1) {
                                                         return (<span key={ind}><br/><br/></span>);
@@ -63,6 +66,10 @@ export default class VisorBoxSortable extends Component {
 }
 
 VisorBoxSortable.propTypes = {
+    /**
+     * Show the current view
+     */
+    show: PropTypes.bool,
     /**
      * Identificador de la caja
      */
@@ -107,4 +114,8 @@ VisorBoxSortable.propTypes = {
      * Function that triggers a mark
      */
     onMarkClicked: PropTypes.func,
+    /**
+     * Object containing current theme colors
+     */
+    themeColors: PropTypes.object,
 };

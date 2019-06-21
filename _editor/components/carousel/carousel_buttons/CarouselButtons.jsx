@@ -30,6 +30,7 @@ class CarouselButtons extends Component {
             showTemplates: false,
         };
         this.toggleTemplatesModal = this.toggleTemplatesModal.bind(this);
+        this.expandSiblings = this.expandSiblings.bind(this);
     }
 
     /**
@@ -45,6 +46,19 @@ class CarouselButtons extends Component {
             return this.props.navItems[this.props.indexSelected];
         }
         return this.props.navItems[this.props.navItems[this.props.indexSelected].parent] || this.props.navItems[0];
+    }
+
+    /**
+     * Expand siblings of added navItem
+     */
+    expandSiblings(parentId) {
+        const children = this.props.navItems[parentId].children;
+
+        for (let child of children) {
+            if (this.props.navItems[child].type !== 'section') {
+                this.props.onNavItemExpanded(child, true);
+            }
+        }
     }
 
     /**
@@ -109,7 +123,12 @@ class CarouselButtons extends Component {
                                 i18n.t("section"),
                                 this.getParent().id,
                                 PAGE_TYPES.SECTION,
-                                this.calculatePosition()));
+
+                                this.calculatePosition()
+                            ));
+
+                            this.expandSiblings(this.getParent().id);
+
                             e.stopPropagation();
 
                         }}><i className="material-icons">create_new_folder</i>
@@ -136,6 +155,8 @@ class CarouselButtons extends Component {
                                 false,
                                 ID_PREFIX_SORTABLE_BOX + Date.now(),
                             ));
+                            this.expandSiblings(this.getParent().id);
+
                         }}><i className="material-icons">note_add</i></Button>
                 </OverlayTrigger>
 
@@ -148,6 +169,18 @@ class CarouselButtons extends Component {
                         onClick={e => {
                             this.toggleTemplatesModal();
                         }}><i className="material-icons">slideshow</i>
+                    </Button>
+                </OverlayTrigger>
+                <OverlayTrigger placement="top" overlay={
+                    <Tooltip id="duplicateNavTooltip">{i18n.t('DuplicateNavItem')}
+                    </Tooltip>}>
+                    <Button className="carouselButton"
+                        name="duplicateNav"
+                        disabled={ this.props.indexSelected === 0 || isContainedView(this.props.indexSelected) || isSection(this.props.indexSelected)}
+                        onClick={e => {
+                            this.props.onNavItemDuplicated(this.props.indexSelected);
+                        }}>
+                        <i className="material-icons">control_point_duplicate </i>
                     </Button>
                 </OverlayTrigger>
                 <OverlayTrigger placement="top" overlay={
@@ -185,6 +218,7 @@ class CarouselButtons extends Component {
                             style={{ float: 'right' }} >
                             {i18n.t("Cancel")}
                         </Button>
+
                         <Button className="popoverButton"
                             name="popoverAcceptButton"
                             disabled={/* (isContainedView(this.props.indexSelected) && !this.canDeleteContainedView(this.props.indexSelected)) || */this.props.indexSelected === 0}
@@ -227,10 +261,11 @@ class CarouselButtons extends Component {
                 <TemplatesModal
                     show={this.state.showTemplates}
                     close={this.toggleTemplatesModal}
+                    styleConfig={this.props.styleConfig}
                     navItems={this.props.navItems}
                     boxes={this.props.boxes}
-                    onNavItemAdded={(id, name, type, color, num, extra)=> {dispatch(addNavItem(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra));}}
-                    onIndexSelected={(...params)=>{dispatch(selectIndex(...params));}}
+                    onNavItemAdded={(id, name, type, color, num, extra)=> {this.props.onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra); this.expandSiblings(this.getParent().id);}}
+                    onIndexSelected={this.props.onIndexSelected}
                     indexSelected={this.props.indexSelected}
                     onBoxAdded={(...props)=>{dispatch(addBox(...props));}}
                     calculatePosition={this.calculatePosition}/>
@@ -264,7 +299,7 @@ CarouselButtons.propTypes = {
      */
     boxes: PropTypes.object.isRequired,
     /**
-     * Contained views dictionary (identified by its ID)
+     * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
@@ -280,7 +315,39 @@ CarouselButtons.propTypes = {
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
+     * Adds a view
+     */
+    onNavItemAdded: PropTypes.func.isRequired,
+    /**
+     * Callback for adding a box
+     */
+    onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * Selects a view/contained view in the index's context
+     */
+    onIndexSelected: PropTypes.func.isRequired,
+    /**
+     * Removes a contained view
+     */
+    onContainedViewDeleted: PropTypes.func.isRequired,
+    /**
+     * Removes a view
+     */
+    onNavItemDeleted: PropTypes.func.isRequired,
+    /**
+     * Expands navItem children when parent is expanded
+     */
+    onNavItemExpanded: PropTypes.func.isRequired,
+    /**
      * Index displayed indicator
      */
     carouselShow: PropTypes.bool.isRequired,
+    /**
+     * Duplicate nav item
+     */
+    onNavItemDuplicated: PropTypes.func.isRequired,
+    /**
+     * Object containing style configuration
+     */
+    styleConfig: PropTypes.object,
 };

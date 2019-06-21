@@ -1,4 +1,5 @@
 import WAPPc from './WAPP';
+/* eslint-disable */
 
 export default function IframeMessenger(handler, options) {
     // Constants
@@ -192,3 +193,4 @@ export default function IframeMessenger(handler, options) {
     this.sendIframeMessage = sendIframeMessage;
 
 }
+/* eslint-enable */

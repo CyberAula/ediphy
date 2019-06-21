@@ -18,7 +18,8 @@ const mkdirSync = function(dirPath) {
 };
 
 mkdirSync(dstPath);
-ncp(origPath, dstPath, function(err) {
+
+const errorCallback = (err) => {
     if (err) {
         // eslint-disable-next-line no-console
         return console.error(err);
@@ -27,7 +28,9 @@ ncp(origPath, dstPath, function(err) {
     // eslint-disable-next-line no-console
     console.log("Done !");
     return "";
-});
+};
+
+ncp(origPath, dstPath, errorCallback);
 
 let index = fs.readFileSync(indexPath, "utf8");
 index = index.replace(/app-bundle\.js/, "app-bundle.min.js");

@@ -1,4 +1,6 @@
 import React from 'react';
+/* eslint-disable react/prop-types */
+
 export default class StarComponent extends React.Component {
     render() {
         return (
@@ -8,3 +10,4 @@ export default class StarComponent extends React.Component {
         );
     }
 }
+/* eslint-enable react/prop-types */

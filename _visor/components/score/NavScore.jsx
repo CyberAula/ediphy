@@ -12,7 +12,7 @@ export default class NavScore extends React.Component {
                 [<div key="component" className="scorePanel navScore">
                     <h5 id="userName"><i className="material-icons">person</i>  <span>{userName}</span></h5>
                     <div className="row rowScore">
-                        <div className="col-xs-6 colScore"><i className="material-icons">insert_chart</i> {totalScore + "/" + totalWeight}</div>
+                        <div className="col-xs-6 colScore"><i className="material-icons">insert_chart</i> {(parseFloat(totalScore)).toFixed(2) + "/" + totalWeight}</div>
                         <div className="col-xs-6 colScore"><i className="material-icons">pie_chart</i> {score}</div>
                     </div>
                     <span className="progressField"> {progress} </span>

@@ -9,6 +9,8 @@ $material-font-path:  '../../../node_modules/material-design-icons-font/iconfont
 }
 @import '../../../node_modules/material-design-icons-font/iconfont/material-icons';
 
+
+
 html, body, #root, #root > .container-fluid, #mainRow {
     height:100%;
 }
@@ -188,7 +190,7 @@ button.list-group-item:focus{
 }
 
 .navbar, .list-group-item {
-  border-radius: 0px !important;
+  //border-radius: 0px !important;
 }
 
 .list-group-item {

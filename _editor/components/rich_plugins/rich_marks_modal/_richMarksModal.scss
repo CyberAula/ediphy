@@ -1,3 +1,4 @@
+@import "../../../../sass/general/_variables.scss";
 
 .richMarksModal{
   .modal-body{
@@ -45,6 +46,34 @@
     }
     input {
       pointer-events:none;
+    }
+  }
+}
+.typeSelector{
+  display: flex;
+  align-items: center;
+  .templateSettingMarks{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2px;
+    height: 34px;
+    width: 34px;
+    border: 0;
+    background-color: transparent;
+    color: $blueprimary;
+    padding: 0;
+    outline: none;
+    transition: 0.2s all ease-in;
+    &:active {
+      background-color: transparent !important;
+      color: $blueprimary;
+      border: none;
+      box-shadow: none !important;
+    }
+    &:hover {
+      transform: rotate(90deg);
     }
   }
 }

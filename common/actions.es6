@@ -3,6 +3,7 @@ import Ediphy from '../core/editor/main';
 import i18n from 'i18next';
 import { ID_PREFIX_FILE, FILE_UPLOAD_ERROR, FILE_UPLOADING, FILE_DELETING, FILE_DELETE_ERROR } from './constants';
 import { isDataURL } from './utils';
+import { serialize } from '../reducers/serializer';
 export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';
 export const MOVE_BOX = 'MOVE_BOX';
@@ -30,23 +31,23 @@ export const DELETE_NAV_ITEM = 'DELETE_NAV_ITEM';
 export const REORDER_NAV_ITEM = 'REORDER_NAV_ITEM';
 export const TOGGLE_NAV_ITEM = 'TOGGLE_NAV_ITEM';
 export const CHANGE_BACKGROUND = 'CHANGE_BACKGROUND';
-export const UPDATE_NAV_ITEM_EXTRA_FILES = 'UPDATE_NAV_ITEM_EXTRA_FILES';
 
 export const INDEX_SELECT = 'INDEX_SELECT';
 
 export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
 export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
-export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
+// export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
 export const SET_BUSY = 'SET_BUSY';
+export const DUPLICATE_NAV_ITEM = 'DUPLICATE_NAV_ITEM';
 
 export const CONFIG_SCORE = 'CONFIG_SCORE';
 export const UPDATE_PLUGIN_TOOLBAR = 'UPDATE_PLUGIN_TOOLBAR';
 export const UPDATE_VIEW_TOOLBAR = 'UPDATE_VIEW_TOOLBAR';
 
+export const IMPORT_EDI = 'IMPORT_EDI';
 export const IMPORT_STATE = 'IMPORT_STATE';
 export const CHANGE_GLOBAL_CONFIG = 'CHANGE_GLOBAL_CONFIG';
-
-export const FETCH_VISH_RESOURCES_SUCCESS = "FETCH_VISH_RESOURCES_SUCCESS";
+export const CHANGE_STYLE_CONFIG = 'CHANGE_STYLE_CONFIG';
 
 export const ADD_RICH_MARK = 'ADD_RICH_MARK';
 export const EDIT_RICH_MARK = 'EDIT_RICH_MARK';
@@ -56,12 +57,9 @@ export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
 export const ADD_CONTAINED_VIEW = 'ADD_CONTAINED_VIEW';
 export const SELECT_CONTAINED_VIEW = 'SELECT_CONTAINED_VIEW';
 export const DELETE_CONTAINED_VIEW = 'DELETE_CONTAINED_VIEW';
-export const CHANGE_CONTAINED_VIEW_NAME = 'CHANGE_CONTAINED_VIEW_NAME';
 
 export const UPLOAD_FILE = 'UPLOAD_FILE';
 export const DELETE_FILE = 'DELETE_FILE';
-
-// These are not real Redux actions but are use to specify plugin's render reason
 
 export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 
@@ -110,17 +108,9 @@ export function toggleNavItem(id) {
     return { type: TOGGLE_NAV_ITEM, payload: { id } };
 }
 
-export function updateNavItemExtraFiles(id, box, xml_path) {
-    return { type: UPDATE_NAV_ITEM_EXTRA_FILES, payload: { id, box, xml_path } };
-}
-
 export function changeBackground(id, background) {
     return { type: CHANGE_BACKGROUND, payload: { id, background } };
 
-}
-
-export function changeContainedViewName(id, title) {
-    return { type: CHANGE_CONTAINED_VIEW_NAME, payload: { id, title } };
 }
 
 export function addBox(ids, draggable, resizable, content, style, state, structure, initialParams) {
@@ -214,24 +204,28 @@ export function toggleTextEditor(id, value, text, content) {
     return { type: TOGGLE_TEXT_EDITOR, payload: { id, value, text, content } };
 }
 
+export function duplicateNavItem(id, newId, boxes, suffix, linkedCvs) {
+    return { type: DUPLICATE_NAV_ITEM, payload: { id, newId, boxes, suffix, linkedCvs } };
+}
+
 export function pasteBox(ids, box, toolbar, children, index, marks, score) {
     return { type: PASTE_BOX, payload: { ids, box, toolbar, children, index, marks, score } };
 }
 
-export function toggleTitleMode(id, titles) {
-    return { type: TOGGLE_TITLE_MODE, payload: { id, titles } };
-}
-
-export function changeDisplayMode(mode) {
+/* export function changeDisplayMode(mode) {
     return { type: CHANGE_DISPLAY_MODE, payload: { mode } };
 }
-
+*/
 export function setBusy(value, msg, reason = null) {
     return { type: SET_BUSY, payload: { value, msg, reason } };
 }
 
 export function changeGlobalConfig(prop, value) {
     return { type: CHANGE_GLOBAL_CONFIG, payload: { prop, value } };
+}
+
+export function changeStyleConfig(prop, value) {
+    return { type: CHANGE_STYLE_CONFIG, payload: { prop, value } };
 }
 
 export function importState(state) {
@@ -260,6 +254,10 @@ export function deleteFile(id) {
 
 export function setCorrectAnswer(id, correctAnswer, page) {
     return { type: SET_CORRECT_ANSWER, payload: { id, correctAnswer, page } };
+}
+
+export function importEdi(state) {
+    return { type: IMPORT_EDI, payload: { state } };
 }
 
 export function deleteRemoteFileVishAsync(id, url, callback) {
@@ -311,6 +309,7 @@ export function deleteRemoteFileEdiphyAsync(id, url, callback) {
             if (callback) {
                 callback(id);
             }
+
         } else {
             dispatch(setBusy(true, FILE_DELETING));
             let fileId = url.split('/').pop();
@@ -346,6 +345,7 @@ export function deleteRemoteFileEdiphyAsync(id, url, callback) {
                     return false;
                 });
         }
+        return true;
     };
 
 }
@@ -441,7 +441,7 @@ export function importStateAsync() {
             })
             .then(result => {
                 // eslint-disable-next-line no-console
-                dispatch(importState(JSON.parse(result)));
+                dispatch(importState(serialize(JSON.parse(result))));
                 return true;
             })
             .then(() => {
@@ -565,7 +565,7 @@ export function uploadVishResourceAsync(query, keywords = "", callback) {
                     }
                 });
 
-            alert(i18n.t("error.file_extension_invalid"));
+            // alert(i18n.t("error.file_extension_invalid"));
 
         }
         alert(i18n.t("error.file_not_selected"));

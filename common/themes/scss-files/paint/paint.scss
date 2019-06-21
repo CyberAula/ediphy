@@ -1,0 +1,69 @@
+.paint {
+  font-family: var(--themePrimaryFont, 'Ubuntu');
+
+  .title {
+    display: block;
+    background-color: transparent;
+
+    .cab {
+      font-size: 2em;
+      padding: 1em;
+      .cabtabla_numero{
+        padding: 0.2em 0.3em;
+        line-height: 1em;
+        color: var(--themeColor1);
+        font-family: var(--themePrimaryFont, 'Ubuntu');
+      }
+      .editCourseTitle{
+        font-size: 1em;
+        height: auto;
+        border-radius: 0;
+        border-color: var(--themeColor1);
+      }
+      .editNavTitle{
+        font-size: 0.8em;
+        height: auto;
+        border-radius: 0;
+        border-color: var(--themeColor1);
+      }.editNavSubTitle{
+         font-size: 0.6em;
+         height: auto;
+         border-radius: 0;
+         color: var(--themeColor1);
+       }
+
+      h1{
+        margin: 0.1em;
+        font-size: 1em;
+      }
+      h2{
+        margin: 0.4em;
+        font-size: 0.8em;
+        color: var(--themeColor1);
+      }
+      h3{
+        margin: 0.4em;
+        font-size: 0.7em;
+      }
+      h4{
+        margin: 0.4em;
+        font-size: 0.6em;
+      }
+      .breadcrumb a{
+        margin: 0.4em;
+        font-family: var(--themePrimaryFont, 'Ubuntu');
+        color: var(--themeColor2);
+
+      }
+      .infoIcon {
+        cursor: help;
+        font-size: 0.9em;
+        color: #555;
+        vertical-align: top;
+        position: absolute;
+        top: 0.7em;
+        right: 0.7em;
+      }
+    }
+  }
+}

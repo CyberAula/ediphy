@@ -6,6 +6,8 @@ import { toColor } from '../../../common/common_tools';
 import '../_visor3D.scss';
 import ReactResizeDetector from 'react-resize-detector';
 import { findParentBySelector } from '../../../common/utils';
+/* eslint-disable react/prop-types */
+
 export default class Visor3DPluginEditor extends React.Component {
     constructor(props) {
         super(props);
@@ -37,3 +39,4 @@ export default class Visor3DPluginEditor extends React.Component {
         // no recuerdo para que necesitabamos findParentBySelector
     }
 }
+/* eslint-enable react/prop-types */

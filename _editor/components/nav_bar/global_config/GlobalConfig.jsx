@@ -45,8 +45,15 @@ export default class GlobalConfig extends Component {
             status: this.props.globalConfig.status || 'draft',
             context: this.props.globalConfig.context,
             hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
-            minTimeProgress: this.props.globalConfig.minTimeProgress || 30,
-            visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
+            minTimeProgress: this.props.globalConfig.minTimeProgress || 3,
+            visorNav: { ...(this.props.globalConfig.visorNav || {}),
+                player: this.props.globalConfig.visorNav.player === undefined ? true : this.props.globalConfig.visorNav.player,
+                sidebar: this.props.globalConfig.visorNav.sidebar === undefined ? true : this.props.globalConfig.visorNav.sidebar,
+                keyBindings: this.props.globalConfig.visorNav.player === undefined ? true : this.props.globalConfig.visorNav.keyBindings,
+                fixedPlayer: this.props.globalConfig.visorNav.fixedPlayer === undefined ? true : this.props.globalConfig.visorNav.player },
+            allowClone: this.props.globalConfig.allowClone ? true : this.props.globalConfig.allowClone === undefined,
+            allowComments: this.props.globalConfig.allowComments ? true : this.props.globalConfig.allowComments === undefined,
+            allowDownload: this.props.globalConfig.allowDownload ? true : this.props.globalConfig.allowDownload === undefined,
             modifiedState: false,
             showAlert: false,
             everPublished: this.props.globalConfig.everPublished,
@@ -64,7 +71,7 @@ export default class GlobalConfig extends Component {
      * @returns {code}
      */
     render() {
-        const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context } = this.state;
+        const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context, allowDownload, allowClone, allowComments } = this.state;
         return (
             <Modal className="pageModal"
                 show={this.props.show}
@@ -139,7 +146,7 @@ export default class GlobalConfig extends Component {
                                             componentClass="textarea"
                                             placeholder={i18n.t('global_config.description_placeholder')}
                                             value={description}
-                                            onInput={e => {this.setState({ modifiedState: true, description: e.target.value });}} />
+                                            onChange={e => {this.setState({ modifiedState: true, description: e.target.value });}} />
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.author')}</ControlLabel>
@@ -179,13 +186,27 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
-                                        <ReactTags tags={keywords}
+                                        <ReactTags tags={(keywords || []).map((text, id) => (typeof text === "string") ? { id: id.toString(), text } : text)}
                                             suggestions={suggestions()}
                                             placeholder={i18n.t('global_config.keyw.Add_tag')}
                                             delimiters={[188, 13]}
                                             handleDelete={this.handleDelete}
                                             handleAddition={this.handleAddition}
                                             handleDrag={this.handleDrag} />
+                                    </FormGroup>
+                                    <FormGroup >
+                                        <ControlLabel>{i18n.t('global_config.recom_age')}</ControlLabel>
+                                        <RangeSlider
+                                            min={0}
+                                            max={100}
+                                            minRange={1}
+                                            minValue={age.min}
+                                            maxValue={age.max}
+                                            onChange={(state)=>{
+                                                this.setState({ modifiedState: true, age: { max: state.max, min: state.min } });
+                                            }}
+                                            step={1}
+                                        />
                                     </FormGroup>
 
                                 </Col>
@@ -204,20 +225,7 @@ export default class GlobalConfig extends Component {
                                             </div>
                                         </div>
                                     </FormGroup>
-                                    <FormGroup >
-                                        <ControlLabel>{i18n.t('global_config.recom_age')}</ControlLabel>
-                                        <RangeSlider
-                                            min={0}
-                                            max={100}
-                                            minRange={1}
-                                            minValue={age.min}
-                                            maxValue={age.max}
-                                            onChange={(state)=>{
-                                                this.setState({ modifiedState: true, age: { max: state.max, min: state.min } });
-                                            }}
-                                            step={1}
-                                        />
-                                    </FormGroup>
+
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.typicalLearningTime')}</ControlLabel><br/>
                                         <InputGroup className="inputGroup">
@@ -278,23 +286,26 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.aspect_ratio')}</ControlLabel><br/>
-                                        <Radio name="radioGroup" inline checked={canvasRatio === 16 / 9 } onChange={e => {this.setState({ modifiedState: true, canvasRatio: 16 / 9 });}}>
-                                            16/9
-                                        </Radio>
-                                        {' '}
-                                        <Radio name="radioGroup" inline checked={canvasRatio === 4 / 3 } onChange={e => {this.setState({ modifiedState: true, canvasRatio: 4 / 3 });}}>
-                                            4/3
-                                        </Radio>
+                                        <div className={"aspectRatioGroup"}>
+                                            <Radio name="radioGroup" inline checked={canvasRatio === 16 / 9 } onChange={e => {this.setState({ modifiedState: true, canvasRatio: 16 / 9 });}}>
+                                                16/9
+                                            </Radio>
+                                            <Radio name="radioGroup" inline checked={canvasRatio === 4 / 3 } onChange={e => {this.setState({ modifiedState: true, canvasRatio: 4 / 3 });}}>
+                                                4/3
+                                            </Radio>
+
+                                        </div>
+
                                     </FormGroup>
-                                    <FormGroup>
+                                    <FormGroup className={"allowance"}>
                                         <ControlLabel>{i18n.t('global_config.visor_nav.title')}</ControlLabel><br/>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: !visorNav.player, sidebar: visorNav.sidebar, keyBindings: visorNav.keyBindings } });}} checked={visorNav.player}/>
-                                        { i18n.t('global_config.visor_nav.player') }&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: visorNav.player, sidebar: !visorNav.sidebar, keyBindings: visorNav.keyBindings } });}} checked={visorNav.sidebar}/>
-                                        { i18n.t('global_config.visor_nav.sidebar') }
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: visorNav.player, sidebar: visorNav.sidebar, keyBindings: !visorNav.keyBindings } });}} checked={visorNav.keyBindings}/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, player: !visorNav.player, fixedPlayer: !visorNav.player } });}} checked={visorNav.player}/>
+                                        { i18n.t('global_config.visor_nav.player') } <br/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, sidebar: !visorNav.sidebar } });}} checked={visorNav.sidebar}/>
+                                        { i18n.t('global_config.visor_nav.sidebar') } <br/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, fixedPlayer: !visorNav.fixedPlayer } });}} disabled={!visorNav.player} checked={visorNav.fixedPlayer}/>
+                                        { i18n.t('global_config.visor_nav.fixedPlayer') } <br/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, keyBindings: !visorNav.keyBindings } });}} checked={visorNav.keyBindings}/>
                                         { i18n.t('global_config.visor_nav.keybindings') }
                                     </FormGroup>
                                     <FormGroup >
@@ -305,7 +316,15 @@ export default class GlobalConfig extends Component {
                                             options={statusOptions()}
                                             onChange={e => {this.setState({ modifiedState: true, status: e.value }); }} />
                                     </FormGroup>
-
+                                    {(process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? <FormGroup className="allowance">
+                                        <ControlLabel>{i18n.t('global_config.permissions.title')}</ControlLabel><br/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowClone: !allowClone });}} checked={allowClone}/>
+                                        { i18n.t('global_config.permissions.allow_clone') }<br/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowComments: !allowComments });}} checked={allowComments}/>
+                                        { i18n.t('global_config.permissions.allow_comments') }<br/>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowDownload: !allowDownload });}} checked={allowDownload}/>
+                                        { i18n.t('global_config.permissions.allow_download') }
+                                    </FormGroup> : null }
                                 </Col>
                                 {/*
                                 <Col xs={12} md={6} lg={6}><br/>
@@ -351,10 +370,7 @@ export default class GlobalConfig extends Component {
      */
     handleAddition(tag) {
         let tags = Object.assign([], this.state.keywords);
-        tags.push({
-            id: tags.length + 1,
-            text: tag,
-        });
+        tags.push(tag.text);
         this.setState({ modifiedState: true, keywords: tags });
     }
 
@@ -366,10 +382,9 @@ export default class GlobalConfig extends Component {
      */
     handleDrag(tag, currPos, newPos) {
         let tags = Object.assign([], this.state.keywords);
-
         // mutate array
         tags.splice(currPos, 1);
-        tags.splice(newPos, 0, tag);
+        tags.splice(newPos, 0, tag.text);
         // re-render
         this.setState({ modifiedState: true, keywords: tags });
     }
@@ -408,14 +423,19 @@ export default class GlobalConfig extends Component {
                 extra_canvas.setAttribute('height', 500);
                 let ctx = extra_canvas.getContext('2d');
                 ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 500, 500);
+                extra_canvas.toBlob(blob => {
+                    let file = new File([blob], "avatar.png", { type: "image/png" });
+                    this.props.uploadFunction(file, "", (thumbnail)=>{
+                        this.setState({ modifiedState: true, thumbnail });
+                    }, "image/png");
+                });
 
                 // Uncomment this lines to download the image directly
                 // let a = document.createElement('a');
                 // a.href = a.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
                 // a.click();
-
                 document.body.removeChild(clone);
-                this.setState({ modifiedState: true, thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
+                // this.setState({ modifiedState: true, thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
 
             },
             useCORS: true });
@@ -462,11 +482,14 @@ export default class GlobalConfig extends Component {
             version: this.props.globalConfig.version || '0.0.0',
             status: this.props.globalConfig.status || 'draft',
             context: this.props.globalConfig.context,
+            allowComments: this.props.globalConfig.allowComments,
+            allowClone: this.props.globalConfig.allowClone,
+            allowDownload: this.props.globalConfig.allowDownload,
             hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
-            minTimeProgress: this.props.globalConfig.minTimeProgress || 30,
+            minTimeProgress: this.props.globalConfig.minTimeProgress || 3,
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
             modifiedState: false,
-            everPublished: this.props.everPublished,
+            everPublished: this.props.globalConfig.everPublished,
         });
 
         //  Comment the following line if you don't want to exit when changes are discarded
@@ -515,9 +538,17 @@ export default class GlobalConfig extends Component {
                 version: nextProps.globalConfig.version || '0.0.0',
                 status: nextProps.globalConfig.status || 'draft',
                 context: nextProps.globalConfig.context,
+                allowComments: nextProps.globalConfig.allowComments ? true : nextProps.globalConfig.allowComments === undefined,
+                allowClone: nextProps.globalConfig.allowClone ? true : nextProps.globalConfig.allowClone === undefined,
+                allowDownload: nextProps.globalConfig.allowDownload ? true : nextProps.globalConfig.allowDownload === undefined,
                 hideGlobalScore: nextProps.globalConfig.hideGlobalScore || false,
-                minTimeProgress: nextProps.globalConfig.minTimeProgress || 30,
-                visorNav: nextProps.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
+                minTimeProgress: nextProps.globalConfig.minTimeProgress || 3,
+                visorNav: { ...(nextProps.globalConfig.visorNav || {}),
+                    player: nextProps.globalConfig.visorNav.player === undefined ? true : nextProps.globalConfig.visorNav.player,
+                    sidebar: nextProps.globalConfig.visorNav.sidebar === undefined ? true : nextProps.globalConfig.visorNav.sidebar,
+                    keyBindings: nextProps.globalConfig.visorNav.keyBindings === undefined ? true : nextProps.globalConfig.visorNav.keyBindings,
+                    fixedPlayer: nextProps.globalConfig.visorNav.fixedPlayer === undefined ? true : nextProps.globalConfig.visorNav.fixedPlayer,
+                },
                 modifiedState: false,
                 showAlert: false,
                 everPublished: nextProps.globalConfig.everPublished,
@@ -553,4 +584,8 @@ GlobalConfig.propTypes = {
      * Last files uploaded to server or searched in modal
      */
     fileModalResult: PropTypes.object,
+    /**
+     *  Function for uploading a file to the server
+     */
+    uploadFunction: PropTypes.func.isRequired,
 };

@@ -10,6 +10,7 @@ import Ediphy from "../../../../core/editor/main";
 import { ADD_BOX } from "../../../../common/actions";
 import TemplateThumbnail from "./TemplateThumbnail";
 import { createBox } from "../../../../common/common_tools";
+import { getThemeTemplates } from "../../../../common/themes/theme_loader";
 
 export default class TemplatesModal extends Component {
     constructor(props) {
@@ -24,6 +25,9 @@ export default class TemplatesModal extends Component {
         };
     }
     render() {
+        let templatesCopy = JSON.parse(JSON.stringify(this.templates));
+        let themeTemplates = getThemeTemplates(this.props.styleConfig.theme);
+        templatesCopy = templatesCopy.concat(themeTemplates);
         return (
             <Modal className="pageModal" id="TemplatesModal" show={this.props.show}>
                 <Modal.Header>
@@ -47,16 +51,16 @@ export default class TemplatesModal extends Component {
                                 this.AddNavItem(-1);
                             }}><div className={'template_name'} style={{ display: this.state.itemSelected === -1 ? 'block' : 'none' }}>{i18n.t('templates.template0')}</div>
                         </div>
-                        {this.templates.map((item, index) => {
+                        {templatesCopy.map((item, index) => {
                             let border = this.state.itemSelected === index ? "solid #17CFC8 3px" : "solid #eee 1px";
-                            return (<div className="template_item" style={{ position: 'relative', border: border, width: '120px', height: '80px' }}>
-                                <TemplateThumbnail key={index} index={index}
-                                    onClick={e => { this.setState({ itemSelected: index });}}
-                                    onDoubleClick={e => {
-                                        this.setState({ itemSelected: index });
-                                        this.AddNavItem(index);
-                                    }}
-                                    boxes={item.boxes}/>
+                            let backgroundColor = item.hasOwnProperty('backgroundColor') ? item.backgroundColor : '#ffffff';
+                            return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: '120px', height: '80px', backgroundColor: backgroundColor }}
+                                onClick={e => { this.setState({ itemSelected: index });}}
+                                onDoubleClick={e => {
+                                    this.setState({ itemSelected: index });
+                                    this.AddNavItem(index);
+                                }}>
+                                <TemplateThumbnail key={index} index={index} boxes={item.boxes}/>
                                 <div className={'template_name'} style={{ display: this.state.itemSelected === index ? 'block' : 'none' }}>{item.name}</div>
                             </div>
                             );
@@ -90,6 +94,10 @@ export default class TemplatesModal extends Component {
      * Add Slide
      */
     AddNavItem(template) {
+        let templatesCopy = JSON.parse(JSON.stringify(this.templates));
+        let themeTemplates = getThemeTemplates(this.props.styleConfig.theme);
+        templatesCopy = templatesCopy.concat(themeTemplates);
+
         let newId = ID_PREFIX_PAGE + Date.now();
         if (this.props.show) {
             this.props.onNavItemAdded(
@@ -98,13 +106,13 @@ export default class TemplatesModal extends Component {
                 // this.getParent().id,// Calculated in CarrouselButtons
                 PAGE_TYPES.SLIDE,
                 // this.props.calculatePosition(), // Calculated in CarrouselButtons
-                "rgb(255,255,255)",
+                template + 1,
                 0,
                 template !== -1,
                 false
             );
             if (template !== -1) {
-                let selectedTemplate = this.templates[template];
+                let selectedTemplate = templatesCopy[template];
                 let boxes = selectedTemplate.boxes;
 
                 boxes.map((item, index) => {
@@ -163,4 +171,8 @@ TemplatesModal.propTypes = {
      * Function for adding a new box
      */
     onBoxAdded: PropTypes.func.isRequired,
+    /**
+     *  General style config
+     */
+    styleConfig: PropTypes.object,
 };

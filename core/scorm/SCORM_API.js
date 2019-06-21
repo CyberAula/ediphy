@@ -871,9 +871,12 @@ export default function SCORM_API(options) {
         if (API.isActive) {// it has initialized
             // This is switch cased to appropriately translate SCORM 2004 to 1.2 if needed.
             // Handy if you don't want to go through all your content calls...
+            console.log(API);
             switch (API.version) {
             case "1.2":
                 API.mode = API.mode === "" ? lms.LMSGetValue('cmi.core.lesson_mode') : API.mode;
+                console.log('[FUNCTION] setvalue');
+                console.log(API.mode);
                 if (API.mode === "normal") {
                     switch (n) {
                     case "cmi.location":
@@ -906,11 +909,13 @@ export default function SCORM_API(options) {
                         break;
                     case "cmi.success_status":
                         if((API.data.completion_status == "completed") && (v != "passed")) {
+                            console.log('Success status is comepleted and submitted value is different to passed');
                             // When cmi.core.lesson_status is "completed", only allow the LO to change it to "passed"
                             return 'false';
                         }
                     case "cmi.completion_status":
                         if((API.data.completion_status == "passed")) {
+                            console.log('Completion status is already passed. Ignoring...');
                             // When cmi.core.lesson_status is "passed", prevent the LO to change it to "complete"
                             return 'false';
                         }
@@ -953,9 +958,11 @@ export default function SCORM_API(options) {
                     if (ig) {
                         return 'false';
                     }
-                    nn = nn.replace(/learner_response/, "student_response")
-                    nn = nn.replace(/(cmi\.objectives\..*\.)(completion_status)/, "$1status")
+                    nn = nn.replace(/learner_response/, "student_response");
+                    nn = nn.replace(/(cmi\.objectives\..*\.)(completion_status)/, "$1status");
                     debug("SCORM 1.2 LMS SetValue with n: " + nn + " and v: " + v, 3);
+                    console.log(nn);
+                    console.log(v);
                     s = lms.LMSSetValue(nn, v);
                 } else {
                     debug("Warning, you are not in normal mode.  Ignoring 'set' requests.", 2);

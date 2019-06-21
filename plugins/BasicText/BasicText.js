@@ -8,8 +8,10 @@ export function BasicText(base) {
                 needsConfigModal: false,
                 needsTextEdition: true,
                 initialWidth: 'auto',
+                initialWidthSlide: '30%',
                 /* initialHeight: '100px',*/
                 icon: 'short_text',
+                flavor: 'plain',
             };
         },
         getToolbar: function(state) {
@@ -65,6 +67,12 @@ export function BasicText(base) {
                                     min: 0,
                                     max: 1,
                                     step: 0.01,
+                                },
+                                color: {
+                                    __name: 'Color',
+                                    type: 'color',
+                                    value: 'var(--themeColor6)',
+                                    hide: true,
                                 },
                                 /* ,
                                 className: {

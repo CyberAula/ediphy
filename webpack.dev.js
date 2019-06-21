@@ -2,6 +2,7 @@ let webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 let path = require('path');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = merge.smart(common, {
     entry: {
@@ -12,6 +13,7 @@ module.exports = merge.smart(common, {
             './index.jsx',
         ], // Appʼs entry point
         'visor': path.join(__dirname, '/_visor/containers/VisorApp.jsx'),
+        'theme': path.join(__dirname, '/common/themes/css_importer.js'),
     },
     output: {
         path: path.join(__dirname, '/dist'),
@@ -21,6 +23,7 @@ module.exports = merge.smart(common, {
     devtool: 'cheap-module-eval-source-map',
     watch: true,
     plugins: [
+        new BundleAnalyzerPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.LoaderOptionsPlugin({
             debug: true,

@@ -259,7 +259,7 @@ export default class PluginRibbon extends Component {
             event.stopPropagation();
             return;
         }
-        let inASlide = isSlide(this.props.navItemSelected.type) || cvslide;
+        let inASlide = (!cv && isSlide(this.props.navItemSelected.type)) || cvslide;
 
         let SelectedNav = inASlide ? (cvslide ? this.props.containedViewSelected.id : this.props.navItemSelected.id) : 0;
         let parentBox = inASlide ? 0 : (cvdoc ? this.props.containedViewSelected.boxes[0] : this.props.navItemSelected.boxes[0]);
@@ -313,7 +313,7 @@ function changeOverflow(bool) {
 
 PluginRibbon.propTypes = {
     /**
-    * Indica si los plugins del ribbon están desactivados
+    * Indicates if the plugins are disabled
     */
     disabled: PropTypes.bool,
     /**
@@ -325,7 +325,7 @@ PluginRibbon.propTypes = {
       */
     containedViewSelected: PropTypes.any.isRequired,
     /**
-      * Categoría de plugin seleccionada
+      * Selected plugin category
       */
     category: PropTypes.string,
     /**
@@ -340,4 +340,9 @@ PluginRibbon.propTypes = {
      * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * Closes plugin tab
+     */
+    onTabHide: PropTypes.func.isRequired,
 };
+

@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import PluginPlaceholderVisor from './VisorPluginPlaceholder';
-import { isSortableBox, isAncestorOrSibling } from '../../../common/utils';
+import { isUnitlessNumber } from '../../../common/cssNonUnitProps';
 
 export default class VisorBox extends Component {
     constructor(props) {
         super(props);
         this.borderSize = 2;
+        this.state = {
+            show: this.props.show,
+        };
     }
     componentDidUpdate(prevProps, prevState) {
         let toolbar = this.props.toolbars[this.props.id];
@@ -16,8 +19,15 @@ export default class VisorBox extends Component {
             window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
         }
     }
+    componentWillReceiveProps(nextProps) {
+        if (!this.state.show && !this.props.show && nextProps.show) {
+            this.setState({ show: true });
+        }
+    }
     render() {
-        let cornerSize = 15;
+        if (!this.state.show) {
+            return null;
+        }
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];
         let pluginAPI = Ediphy.Visor.Plugins[toolbar.pluginId];
@@ -46,7 +56,15 @@ export default class VisorBox extends Component {
         }
 
         // style.transform = style.WebkitTransform = style.MsTransform = rotate;
-        style = { ...style, ...toolbar.style };
+        let toolbarStyle = {};
+        for (let propCSS in toolbar.style) {
+            if (!isNaN(toolbar.style[propCSS]) && isUnitlessNumber.indexOf(propCSS) === -1) {
+                toolbarStyle[propCSS] = toolbar.style[propCSS] / 7 + 'em';
+            } else {
+                toolbarStyle[propCSS] = toolbar.style[propCSS];
+            }
+        }
+        style = { ...style, ...toolbarStyle };
 
         /* TODO: Reassign object if it's rich to have marks as property box.content.props*/
         let marks = {};
@@ -184,6 +202,10 @@ export default class VisorBox extends Component {
 }
 
 VisorBox.propTypes = {
+    /**
+   * Show the current view
+   */
+    show: PropTypes.bool,
     /**
      * Identificador de la caja
      */

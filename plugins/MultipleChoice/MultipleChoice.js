@@ -2,7 +2,10 @@ import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import './_multipleChoice.scss';
 import i18n from 'i18next';
-import { letterFromNumber, getRandomColor } from '../../common/common_tools';
+import { letterFromNumber, getRandomColor, setRgbaAlpha } from '../../common/common_tools';
+import { getThemeColors, getCurrentColor, generateCustomColors, generateCustomFont } from "../../common/themes/theme_loader";
+
+import colorManager from '../../_editor/components/common/color-picker/ColorPicker';
 /* eslint-disable react/prop-types */
 
 export function MultipleChoice(base) {
@@ -33,6 +36,7 @@ export function MultipleChoice(base) {
                                     __name: i18n.t("MultipleChoice.Number"),
                                     type: 'number',
                                     value: state.nBoxes,
+                                    max: 10,
                                     min: 1,
                                 },
                                 showFeedback: {
@@ -42,8 +46,15 @@ export function MultipleChoice(base) {
                                 },
                                 letters: {
                                     __name: i18n.t("MultipleChoice.ShowLettersInsteadOfNumbers"),
-                                    type: 'checkbox',
-                                    checked: state.letters,
+                                    type: 'radio',
+                                    value: state.letters,
+                                    options: [i18n.t("MultipleChoice.ShowLetters"), i18n.t("MultipleChoice.ShowNumbers")],
+                                },
+
+                                quizColor: {
+                                    __name: Ediphy.i18n.t('MultipleChoice.Color'),
+                                    type: 'custom_color_plugin',
+                                    value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themeColor1'),
                                 },
                             },
                         },
@@ -106,52 +117,76 @@ export function MultipleChoice(base) {
             return {
                 nBoxes: 3,
                 showFeedback: true,
-                letters: true,
+                letters: i18n.t("MultipleChoice.ShowLetters"),
+                quizColor: { color: document.documentElement.style.getPropertyValue('--themeColor1'), custom: false },
             };
         },
         getRenderTemplate: function(state, props = {}) {
+
             let answers = [];
+            let correctAnswers = "";
+            let quizColor = state.quizColor.color;
+            let customColor = generateCustomColors(quizColor, 1, true);
+            let customStyle = { ...customColor };
+
             for (let i = 0; i < state.nBoxes; i++) {
                 let clickHandler = (e)=>{
                     props.setCorrectAnswer(parseInt(e.target.value, 10));
                 };
+                let isCorrect = props.exercises.correctAnswer === i;
                 answers.push(<div key={i + 1} className={"row answerRow"}>
-                    <div className={"col-xs-2 answerPlaceholder"}>
-                        <div className={"answer_letter"} >{state.letters ? letterFromNumber(i) : (i + 1)}</div>
-                        <input type="radio" className="radioQuiz" name={props.id} value={i} checked={props.exercises.correctAnswer === i /* ? 'checked' : 'unchecked'*/ }
+                    <div className={"col-xs-2 answerPlaceholder"} >
+                        <div className={"answer_letter"}>{(state.letters === i18n.t("MultipleChoice.ShowLetters")) ? letterFromNumber(i) : (i + 1)}</div>
+                        <input type="radio" className="radioQuiz" name={props.id} value={i} checked={isCorrect}
                             onChange={clickHandler} />
                     </div>
                     <div className={"col-xs-10"}>
                         <PluginPlaceholder {...props} key={i + 1}
-                            plugin-data-display-name={i18n.t("MultipleChoice.Answer") + " " + (i + 1)}
+                            pluginContainerName={i18n.t("MultipleChoice.Answer") + " " + (i + 1)}
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("MultipleChoice.Answer") + " " + (1 + i) + '</p>' } }]}
                             pluginContainer={"Answer" + i} />
                     </div>
                 </div>
                 );
+                if (isCorrect) {correctAnswers += state.letters === i18n.t("MultipleChoice.ShowLetters") ? letterFromNumber(i) : (i + 1);}
             }
-            return <div className={"exercisePlugin multipleChoicePlugin"}>
+            return <div className={"exercisePlugin multipleChoicePlugin"} style={ state.quizColor.custom ? customStyle : null }>
                 <div className={"row"} key={0}>
                     <div className={"col-xs-12"}>
                         <PluginPlaceholder {...props} key="1"
-                            plugin-data-display-name={i18n.t("MultipleChoice.Question")}
+                            pluginContainerName={i18n.t("MultipleChoice.Question")}
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("MultipleChoice.Statement") + '</p>' } }]}
                             pluginContainer={"Question"} />
                     </div>
                 </div>
                 {answers}
                 <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"}>
+                    <div className={"col-xs-12 feedback"} >
                         <PluginPlaceholder {...props} key="-2"
-                            plugin-data-display-name={i18n.t("MultipleChoice.Feedback")}
+                            pluginContainerName={i18n.t("MultipleChoice.Feedback")}
                             pluginContainer={"Feedback"}
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("MultipleChoice.FeedbackMsg") + '</p>' } }/* , {plugin: 'HotspotImages', initialState:{url: 'nooo'}}*/]}
                         />
                     </div>
                 </div>
+                <div className="correctAnswerFeedback" >
+                    <span className="correctAnswerLabel"> {i18n.t("MultipleChoice.correctAnswerFeedback") }:</span> {correctAnswers}
+                </div>
+                <style dangerouslySetInnerHTML={{
+                    __html: `
+                    .multipleChoicePlugin input[type="radio"]  {
+                      background-color: transparent;
+                    }
+                   .multipleChoicePlugin input[type="radio"]:checked:after {
+                      background-color: var(--themeColor1);
+                    }
+                  `,
+                }} />
             </div>;
 
         },
     };
+
 }
 /* eslint-enable react/prop-types */
+

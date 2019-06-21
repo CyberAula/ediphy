@@ -19,6 +19,9 @@
     .navButton {
       font-size: 12px;
     }
+    .hideonresize {
+      margin: 5px auto 0;
+    }
   }
   .dropdown-menu {
     border-radius: 0;
@@ -29,6 +32,7 @@
     }
     .dropdownButton {
       padding: 7px 16px;
+      cursor: pointer;
 
       &[disabled] {
         color: $lightgrey;
@@ -58,6 +62,8 @@
   -moz-box-shadow: none;
   box-shadow: none;
   vertical-align: middle;
+  align-items: center;
+  cursor: pointer;
   &:active {
     border-bottom: 0px solid $grisclaro;
     color: white;
@@ -71,8 +77,12 @@
     //@include scale(1.1);
   }
   .material-icons {
-    vertical-align: middle;
+    align-self: end;
     font-size: 1.1em;
+  }
+
+  .hideonresize {
+    align-self: start;
   }
 }
 
@@ -81,10 +91,8 @@ button[disabled].navButton {
   border: none;
   color: #ccc;
   box-shadow: none;
-  &:hover {
-    background-color: $verdedisabled;
-    font-weight: normal;
-  }
+  cursor: not-allowed;
+
 }
 
 .navbarButton_publish,.navbarButton_unpublish {
@@ -158,6 +166,7 @@ button[disabled].navButton {
 /*Plugin buttons: Image, Text, Multimedia...*/
 .navButtonPlug {
   @extend .navButton;
+  cursor: default;
   height: 60px;
   color: white;
   width: auto;
@@ -166,6 +175,7 @@ button[disabled].navButton {
   line-height: 1em;
   .material-icons {
     vertical-align: middle;
+    align-self: center;
   }
   &.active, &.active:hover {
     background-color: $blueprimary !important;
@@ -176,6 +186,10 @@ button[disabled].navButton {
     background-color: $greyPanelHeadings;
     color: white;
     @include scale(1);
+  }
+
+  .hideonresize {
+    align-self: center;
   }
 
 }
@@ -197,13 +211,27 @@ button[disabled].navButton {
 
 
 /****Make navbar icons fit into smaller screens****/
-.hideonresize {
-  font-size: 12px;
-  vertical-align: middle;
-  margin: 5px auto 0;
+
+.navButtons {
+  .hideonresize {
+    font-size: 12px;
+    vertical-align: middle;
+    margin: 5px auto 0;
+  }
+}
+
+.navButtonPlug {
+  .hideonresize {
+    font-size: 12px;
+    margin: 5px auto 0;
+  }
 }
 .showonresize{
   display: none !important;
+}
+
+.hideonresize {
+  font-size: 12px;
 }
 
 @media screen and (max-width: 1147px) {
@@ -226,6 +254,9 @@ button[disabled].navButton {
   .navButton {
     min-width: 50px;
     max-width: 50px;
+    .material-icons {
+      align-self: center;
+    }
   }
 }
 
@@ -277,6 +308,7 @@ button[disabled].navButton {
     vertical-align: text-bottom;
     margin-right: 5px;
   }
+
 }
 
 #topMenu::after {

@@ -36,7 +36,7 @@ export default class ScormComponent extends Component {
                 this.timer = 500;
             }
         } else {
-            this.timer = 30;
+            this.timer = 3;
         }
         this.timer *= 1000;
     }
@@ -77,9 +77,14 @@ export default class ScormComponent extends Component {
                 key: i,
                 setAnswer: this.setAnswer,
                 submitPage: this.submitPage,
-                exercises: this.state.exercises[this.props.currentView] }));
+                exercises: this.state.exercises }));
         return [...childrenWithProps, this.props.globalConfig.hideGlobalScore ? null : null,
-            <GlobalScore key="-1" scoreInfo={scoreInfo} show={!globalConfig.hideGlobalScore && !globalConfig.visorNav.sidebar}/>,
+            <GlobalScore key="-1"
+                scoreInfo={scoreInfo}
+                fadePlayerClass={this.props.fadePlayerClass}
+                setHover={this.props.setHover}
+                deleteHover = {this.props.deleteHover}
+                show={!globalConfig.hideGlobalScore && !globalConfig.visorNav.sidebar}/>,
         ];
 
     }
@@ -126,7 +131,7 @@ export default class ScormComponent extends Component {
             let ind = Object.keys(this.state.exercises).indexOf(this.props.currentView);
             suspendData.pages[ind] = true;
             let completionProgress = this.calculateVisitPctg(suspendData.pages);
-            let totalScore = this.state.totalScore;
+            let totalScore = parseFloat(this.state.totalScore);
             // If we remove the next comments and instead comment the general if, we will track progress of the scorable pages separately from the exercises
             // if (!this.state.exercises[currentView].visited && Object.keys(exercises[currentView].exercises).length === 0) {
             exercises[currentView].attempted = true;
@@ -156,7 +161,7 @@ export default class ScormComponent extends Component {
     }
     setAnswer(id, answer, page) {
         let exercises = JSON.parse(JSON.stringify(this.state.exercises));
-        if (exercises[page] && exercises[page].exercises[id]) {
+        if (exercises[page] && exercises[page].exercises[id] && !exercises[page].attempted) {
             exercises[page].exercises[id].currentAnswer = answer;
             this.setState({ exercises });
         }
@@ -164,28 +169,45 @@ export default class ScormComponent extends Component {
     submitPage(page) {
         let exercises = JSON.parse(JSON.stringify(this.state.exercises));
         let suspendData = JSON.parse(JSON.stringify(this.state.suspendData));
-        let total = 0;
-        let points = 0;
         let bx = exercises[page].exercises;
+        // Peso de los ejercicios. Si todos valen cero se añadira peso 1 por ejercicio.
+        let total = 0;
+        // Puntuación de todos los ejs (los que tienen peso 0 asume peso 1)
+        let points = 0;
+        // Puntuación de solo los ejs que cuentan para nota
+        let pointsNoWeight = 0;
+        // Numero de ejercicios sin peso
+        let noWeight = 0;
 
         for (let ex in bx) {
+            // Añado el peso del ejercicio
             total += bx[ex].weight;
+            // Si el ejercicio no tiene peso, lo contabilizo
+            noWeight = (bx[ex].weight === 0) ? (noWeight + 1) : noWeight;
+            // Pongo a cero la puntuación del ejercicio
             bx[ex].score = 0;
+
             let plug = Ediphy.Visor.Plugins.get(bx[ex].name);
             let toolbar = this.props.pluginToolbars[ex];
             let checkAnswer = plug.checkAnswer(bx[ex].currentAnswer, bx[ex].correctAnswer, toolbar.state);
             if (checkAnswer) {
+                // La puntuación máxima del ejercicio será su peso
                 let exScore = bx[ex].weight;
                 try {
                     if(!isNaN(parseFloat(checkAnswer))) {
-                        exScore = exScore * checkAnswer;
+                        // Si el peso del ejercicio es 0, simulo 1 al calcular su nota
+                        exScore = exScore === 0 ? checkAnswer : exScore * checkAnswer;
                     }
+
                 } catch(e) {}
+                // Sumo la nota obtenida en el ejercicio
                 points += exScore;
+                // Si el ejercicio cuenta para nota, contabilizo su nota
+                pointsNoWeight += (bx[ex].weight === 0) ? 0 : exScore;
+                // Pongo como nota del ejercicio la calculada
                 bx[ex].score = exScore;
 
             }
-
             bx[ex].attempted = true;
             suspendData.exercises[bx[ex].num - 1] = {
                 a: bx[ex].currentAnswer,
@@ -193,14 +215,23 @@ export default class ScormComponent extends Component {
                 c: bx[ex].attempted ? "completed" : "incomplete" };
 
         }
+        // Peso total. Si ningun ejercicio cuenta para nota es el numero de ejs
+        let noCountingExercises = (total === 0);
+        total = (noCountingExercises) ? noWeight : total;
+        points = (noCountingExercises) ? points : pointsNoWeight;
+
+        let pageScore = points / total;
+
         let ind = Object.keys(this.state.exercises).indexOf(this.props.currentView);
         suspendData.pages[ind] = true;
 
         exercises[page].attempted = true;
         exercises[page].visited = true;
-        let pageScore = points / total;
         exercises[page].score = parseFloat(pageScore.toFixed(2));
-        let totalScore = parseFloat((this.state.totalScore + pageScore * exercises[page].weight).toFixed(2));
+
+        // Calculo el peso proporcional a añadir de la pagina (si ningun ejercicio cuenta para nota, añado full weight)
+        let toAdd = parseFloat((noCountingExercises) ? exercises[page].weight : pageScore * exercises[page].weight);
+        let totalScore = parseFloat((parseFloat(parseFloat(this.state.totalScore) + toAdd)).toFixed(2));
         let completionProgress = this.calculateVisitPctg(suspendData.pages);
         this.setState({ exercises, totalScore, suspendData, completionProgress });
         if(API.isConnected()) {
@@ -227,7 +258,7 @@ ScormComponent.propTypes = {
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
-     * Vista actual
+     * Current view
      */
     currentView: PropTypes.any.isRequired,
     /**
@@ -235,7 +266,7 @@ ScormComponent.propTypes = {
      */
     globalConfig: PropTypes.object.isRequired,
     /**
-     * Cambia la vista actual
+     * Change current view
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
@@ -251,11 +282,23 @@ ScormComponent.propTypes = {
      */
     exercises: PropTypes.object.isRequired,
     /**
-      * Inform the rest of the application of the SCORM Information
-      */
+     * Inform the rest of the application of the SCORM Information
+     * */
     updateScore: PropTypes.func.isRequired,
     /**
-   * Boxes toolbars
-   */
+    * Boxes toolbars
+    */
     pluginToolbars: PropTypes.object,
+    /**
+     * CSS class used to hide player when mouse stops moving
+     */
+    fadePlayerClass: PropTypes.string,
+    /**
+     * Function that allows to add the hover class to the player and the arrow tab
+     */
+    setHover: PropTypes.func,
+    /**
+     * Function that allows to delete the hover class in he player and the arrow tab
+     */
+    deleteHover: PropTypes.func,
 };

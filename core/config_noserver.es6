@@ -10,12 +10,12 @@ export default {
     broken_link: "images/broken_link.png",
     scorm_ejs: "./lib/scorm/scorm_nav.ejs",
     visor_ejs: "./lib/visor/index",
-    scorm_zip_2004: "./lib/score/scorm2004.zip",
+    scorm_zip_2004: "./lib/scorm/scorm2004.zip",
     scorm_zip_12: "./lib/scorm/scorm1.2.zip",
     visor_zip: "./lib/visor/dist.zip",
     export_url: false,
     import_url: false,
-    search_vish_url: "http://vishub.org/apis/search/",
+    search_vish_url: "https://vishub.org/apis/search/",
     upload_vish_url: false,
     defaultAspectRatio: 16 / 9,
     // OPTIONS
@@ -56,6 +56,8 @@ export default {
         // 'Visor3D',
         'FlashObject',
         // 'Rating',
+        'AudioCue',
+
     ],
     availableLanguages: [
         'en',

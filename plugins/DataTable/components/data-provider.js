@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col } from "react-bootstrap";
-import ToolbarFileProvider from '../../../_editor/components/external_provider/file_modal/APIProviders/ToobarFileProvider';
+import ToolbarFileProvider from '../../../_editor/components/external_provider/file_modal/APIProviders/common/ToolbarFileProvider';
 import i18n from 'i18next';
 /* eslint-disable react/prop-types */
 
@@ -16,6 +16,7 @@ export default class DataProvider extends React.Component {
         this.rowsChanged = this.rowsChanged.bind(this);
         this.keyChanged = this.keyChanged.bind(this);
         this.dataChanged = this.dataChanged.bind(this);
+        this.parseCSV = this.parseCSV.bind(this);
 
         this.state = {
             cols: cols,
@@ -71,10 +72,10 @@ export default class DataProvider extends React.Component {
                 });
             } else if (value < pre) {
                 let difference = pre - value;
-                keys.splice(value, pre - value);
+                keys.splice(value, difference);
                 data = data.map(ele=>{
                     let ele2 = ele.slice();
-                    ele2.splice(value, pre - value);
+                    ele2.splice(value, difference);
                     return ele2;
                 });
             }
@@ -111,6 +112,24 @@ export default class DataProvider extends React.Component {
         let newvalue = event.target.value === "" || event.target.value === null ? "" : event.target.value;
         keys[pos] = newvalue;
         this.setState({ keys: keys });
+    }
+
+    componentWillUnmount() {
+        let empty = false;
+        if (typeof this.props.dataChanged === 'function' && !empty) {
+            this.props.dataChanged({ data: this.state.data, keys: this.state.keys, rows: this.state.rows });
+        }
+    }
+
+    parseCSV(base64URI) {
+        let base64File = base64URI.split('base64,')[1];
+        let decodedArray = atob(base64File).split('\n');
+        let keys = decodedArray[0].split(',');
+        decodedArray.splice(0, 1);
+        let data = decodedArray.map(row => {
+            return row.split(',');
+        });
+        this.setState({ data: data, keys: keys, cols: keys.length, rows: decodedArray.length });
     }
 
     render() {
@@ -182,7 +201,7 @@ export default class DataProvider extends React.Component {
                             id={this.props.id}
                             openModal={props.openFileModal}
                             fileModalResult={props.fileModalResult}
-                            onChange={ (target)=>{this.setState({ ...target.value });}}
+                            onChange={ (target)=>{this.parseCSV(target.value);}}
                             accept={".csv"}
                             buttontext={i18n.t('importData')}
                         />
@@ -190,12 +209,6 @@ export default class DataProvider extends React.Component {
                 </Form>
             </div>
         );
-    }
-    componentWillUnmount() {
-        let empty = false;
-        if (typeof this.props.dataChanged === 'function' && !empty) {
-            this.props.dataChanged({ data: this.state.data, keys: this.state.keys, rows: this.state.rows });
-        }
     }
 }
 /* eslint-enable react/prop-types */

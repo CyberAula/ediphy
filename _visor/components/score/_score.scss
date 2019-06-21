@@ -4,7 +4,7 @@
 .globalScore {
   background-color: white;
   width: 250px;
-  //height:100px;
+  cursor: default;
   text-align: center;
   border: 2px solid grey;
   position: fixed;
@@ -13,13 +13,25 @@
   &:hover {
     opacity: 0.2;
   }
+
+  &.fadeButton {
+    opacity: 0;
+    -webkit-transition: all 0.5s ease-in-out;
+  }
+
+  &.hoverPlayerOn {
+    opacity: 1 !important;
+  }
+  &.appearButton {
+    opacity: 1;
+    -webkit-transition: all 0.5s ease-in-out;
+  }
+
   #score {
     margin:10px;
     text-align: left;
-
   }
   #userName{
-
     font-size: 18px;
     text-align: left;
     span {
@@ -31,11 +43,9 @@
       overflow: hidden;
     }
     margin: 10px;
-
   }
   .scoreField {
     margin-right: 10px;
-
     font-size: 18px;
   }
   i {
@@ -43,7 +53,6 @@
     color: $blueprimary;
     font-size: 18px;
     margin-right:2px;
-
   }
 
   #progressbar {

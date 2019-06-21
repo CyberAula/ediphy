@@ -46,6 +46,10 @@ $material-font-path:  '../node_modules/material-design-icons-font/iconfont/';
 }
 /*Right column with ribbon and canvas */
 
+body{
+    font-family: 'Ubuntu', 'Helvetica Neue', 'Arial';
+}
+
 
 #colRight{
     overflow:hidden;
@@ -58,7 +62,7 @@ $material-font-path:  '../node_modules/material-design-icons-font/iconfont/';
             @include animacion(width, 0.4s);
         }
     }
-    #canvas, #maincontent, #canvasRow {
+    #canvas, #maincontent, #canvasRow, .canvasClass {
         z-index:0 ;
     }
 }
@@ -160,7 +164,7 @@ button, i{
 .no_margins {
     margin: 0;
     font-size: 1.8em;
-    color: $blueprimary;
+    //color: $blueprimary;
 }
 /* alert */
 .alert{
@@ -205,13 +209,13 @@ body {
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
-    -ms-user-selectelect: none;
+    -ms-user-select: none;
 
     textarea {
         user-select: text;
         -moz-user-select: text;
         -webkit-user-select: text;
-        -ms-user-selectelect: text;
+        -ms-user-select: text;
     }
 }
 .alert-warning {
@@ -227,11 +231,11 @@ body {
 
 .radio {
     position: relative;
-    display: inline-block;
     line-height: 1.7em;
     margin: 5px 0;
     input[type="radio"]{
         margin-left: -25px;
+        margin-right: -25px;
     }
 }
 
@@ -246,7 +250,72 @@ body {
     transform: scale(0.1);
 }
 
+a.toggle-switch---switch---3EchW {
+    margin-right: 10px;
+}
 .toggle-switch---switch---3EchW.toggle-switch---checked---3aC9B .toggle-switch---toggle---mncCu {
     border-color: $blueprimary; //rgb(95, 204, 199);
     background-color: $blueprimary; //rgb(95, 204, 199);
 }
+
+input[type="radio"]{
+    background: none;
+}
+
+.material-icons.correct {
+    font-size: 1.7em;
+}
+
+
+
+.setting-title {
+    color: $blueprimary !important;
+    font-weight: bold;
+}
+.print-settings-explanation {
+    margin-left: 15px;
+}
+.material-icons.correct {
+    font-size: 1.7em;
+}
+
+.panel-group .panel {
+    border-radius: 0px;
+}
+
+.panel-heading {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+
+}
+
+//transition code
+//-------------------------------
+
+.enter {
+    opacity: 0.01;
+}
+
+.enter.enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+
+}
+
+.leave {
+    opacity: 1;
+}
+
+.leave.leave-active {
+    opacity: 0.01;
+    transition: opacity 300ms ease-in;
+}
+.appear {
+    opacity: 0.01;
+}
+
+.appear.appear-active {
+    opacity: 1;
+    transition: opacity .5s ease-in;
+}
+
