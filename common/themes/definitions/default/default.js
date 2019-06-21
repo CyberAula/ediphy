@@ -16,7 +16,11 @@ export const DEFINITION = {
     },
     images: {
         template1: { left: 'left.jpg' },
-        template3: { topLeft: 'forest.jpg', topRight: 'jungle.jpg', bottomLeft: 'desert.jpg', bottomRight: 'meadow.jpg' },
+        template3: {
+            topLeft: 'forest.jpg',
+            topRight: 'jungle.jpg',
+            bottomLeft: 'desert.jpg',
+            bottomRight: 'meadow.jpg' },
         template7: { left: 'placeholder.svg' },
     },
 };
