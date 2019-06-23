@@ -9,8 +9,10 @@ import { renderAccordion } from "../../../../core/editor/accordion_provider";
 
 import { getThemes, getPrimaryColor, sanitizeThemeToolbar } from "../../../../common/themes/theme_loader";
 import { getThemeBackgrounds } from "../../../../common/themes/background_loader";
+import { connect } from "react-redux";
+import Toolbar from "../toolbar/Toolbar";
 
-export default class ViewToolbar extends Component {
+class ViewToolbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -201,6 +203,14 @@ export default class ViewToolbar extends Component {
 
 }
 
+export default connect(mapStateToProps)(ViewToolbar);
+
+function mapStateToProps(state) {
+    return {
+        styleConfig: state.undoGroup.present.styleConfig,
+    };
+}
+
 ViewToolbar.propTypes = {
     /**
      * Object containing all views (by id)
@@ -226,8 +236,4 @@ ViewToolbar.propTypes = {
      * Page toolbars
     */
     viewToolbars: PropTypes.object,
-    /**
-     * General style config
-     */
-    styleConfig: PropTypes.object,
 };

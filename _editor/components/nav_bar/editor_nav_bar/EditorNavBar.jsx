@@ -10,10 +10,13 @@ import screenfull from 'screenfull';
 import { selectNavItem } from "../../../../common/actions";
 import ExportModal from '../export/ExportModal';
 import StyleConfig from '../style_config/StyleConfig';
+import { connect } from "react-redux";
+import { updateUI } from "../../../../common/actions";
+
 /**
  * Upper navigation bar component
  */
-export default class EditorNavBar extends Component {
+class EditorNavBar extends Component {
     constructor(props) {
         super(props);
 
@@ -24,6 +27,7 @@ export default class EditorNavBar extends Component {
         };
 
         this.toggleExport = this.toggleExport.bind(this);
+        this.toggleStyleConfig = this.toggleStyleConfig.bind(this);
     }
 
     render() {
@@ -44,9 +48,8 @@ export default class EditorNavBar extends Component {
                     save={this.props.save}
                     serverModalOpen={this.props.serverModalOpen}
                     undo={this.props.undo}
-                    undoDisabled={this.props.undoDisabled}
                     onBoxSelected={this.props.onBoxSelected}
-                    toggleStyleConfig={this.props.toggleStyleConfig}
+                    toggleStyleConfig={this.toggleStyleConfig}
                     visor={this.props.visor} />
                 <NavDropdown /* export={this.props.export}*/
                     navItemSelected={this.props.navItemSelected}
@@ -61,13 +64,7 @@ export default class EditorNavBar extends Component {
                     toggleFileUpload={this.props.toggleFileUpload}
                     isBusy={this.props.isBusy}
                     undoDisabled={this.props.undoDisabled} />
-                <StyleConfig show={this.props.showStyleConfig}
-                    styleConfig={this.props.styleConfig}
-                    toggleFileUpload={this.props.toggleFileUpload}
-                    fileModalResult={this.props.fileModalResult}
-                    changeStyleConfig={this.props.changeStyleConfig}
-                    uploadFunction={this.props.uploadFunction}
-                    close={this.props.toggleStyleConfig} />
+                <StyleConfig/>
                 <GlobalConfig show={this.props.showGlobalConfig}
                     globalConfig={this.props.globalConfig}
                     toggleFileUpload={this.props.toggleFileUpload}
@@ -93,8 +90,25 @@ export default class EditorNavBar extends Component {
             showExport: forceClose ? false : !prevState.showExport,
         }));
     }
+
+    toggleStyleConfig() {
+        return this.props.dispatch(updateUI({ showStyleConfig: !this.props.reactUI.showStyleConfig }));
+    }
 }
 
+export default connect(mapStateToProps)(EditorNavBar);
+
+function mapStateToProps(state) {
+    return {
+        reactUI: state.reactUI,
+        status: state.status,
+        everPublished: state.everPublished,
+        globalConfig: state.undoGroup.present.globalConfig,
+        navItemSelected: state.undoGroup.present.navItemSelected,
+        navItems: state.undoGroup.present.navItemsById,
+        boxSelected: state.undoGroup.present.boxSelected,
+    };
+}
 EditorNavBar.propTypes = {
     /**
      *  Shows/hides the plugin tab
@@ -209,21 +223,9 @@ EditorNavBar.propTypes = {
      */
     onBoxSelected: PropTypes.func.isRequired,
     /**
-     * Function for opening/closing Style config modal
-     */
-    toggleStyleConfig: PropTypes.func.isRequired,
-    /**
      * Function for updating style config
      */
     changeStyleConfig: PropTypes.func.isRequired,
-    /**
-     * Object with style params
-     */
-    styleConfig: PropTypes.object,
-    /**
-     * Should style config modal be shown
-     */
-    showStyleConfig: PropTypes.bool,
 };
 
 /**

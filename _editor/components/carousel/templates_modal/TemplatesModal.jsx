@@ -12,7 +12,9 @@ import TemplateThumbnail from "./TemplateThumbnail";
 import { createBox } from "../../../../common/common_tools";
 import { getThemeTemplates } from "../../../../common/themes/theme_loader";
 
-export default class TemplatesModal extends Component {
+import { connect } from "react-redux";
+
+class TemplatesModal extends Component {
     constructor(props) {
         super(props);
         this.index = 0;
@@ -150,6 +152,14 @@ export default class TemplatesModal extends Component {
         }
     }
 }
+export default connect(mapStateToProps)(TemplatesModal);
+
+function mapStateToProps(state) {
+    return {
+        styleConfig: state.undoGroup.present.styleConfig,
+    };
+}
+
 TemplatesModal.propTypes = {
     /**
      * Whether the import file modal should be shown or hidden

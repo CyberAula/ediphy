@@ -20,11 +20,13 @@ import { loadTheme, getThemeColors } from '../../../../common/themes/theme_loade
 import ThemeCSS from '../../../../common/themes/ThemeCSS';
 import { loadBackground, loadBackgroundStyle } from "../../../../common/themes/background_loader";
 
+import { connect } from "react-redux";
+
 /**
  * EditorCanvasSli component
  * Canvas component to display slides
  */
-export default class EditorCanvasSli extends Component {
+class EditorCanvasSli extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -312,6 +314,14 @@ export default class EditorCanvasSli extends Component {
 
     }
 }
+
+export default connect(mapStateToProps)(EditorCanvasSli);
+
+function mapStateToProps(state) {
+    return {
+        styleConfig: state.undoGroup.present.styleConfig,
+    };
+}
 EditorCanvasSli.propTypes = {
     /**
      * Check if component rendered from contained view
@@ -477,10 +487,6 @@ EditorCanvasSli.propTypes = {
      * Function that opens the file search modal
      */
     openFileModal: PropTypes.func.isRequired,
-    /**
-     * Object containing style configuration
-     */
-    styleConfig: PropTypes.object,
     /**
      * Aspect ratio of slides
      */

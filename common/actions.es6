@@ -68,6 +68,8 @@ export const CHANGE_BOX_LAYER = 'CHANGE_BOX_LAYER';
 
 export const SET_CORRECT_ANSWER = 'SET_CORRECT_ANSWER';
 
+export const UPDATE_UI = 'UPDATE_UI';
+
 export function selectIndex(id) {
     return { type: INDEX_SELECT, payload: { id } };
 }
@@ -228,6 +230,9 @@ export function changeStyleConfig(prop, value) {
     return { type: CHANGE_STYLE_CONFIG, payload: { prop, value } };
 }
 
+export function updateUI(prop, value) {
+    return { type: UPDATE_UI, payload: { prop, value } };
+}
 export function importState(state) {
     return { type: IMPORT_STATE, payload: state };
 }

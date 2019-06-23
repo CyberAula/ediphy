@@ -24,6 +24,7 @@ import globalConfig from './global_config';
 import styleConfig from './style_config';
 import exercises from './exercises';
 import lastActionDispatched from './lastActionDispatched';
+import reactUI from './react_ui';
 const version = "3";
 
 function changeDisplayMode(state = "", action = {}) {
@@ -105,6 +106,7 @@ const GlobalState = combineReducers({
     filesUploaded, // We are not allowed to undo file uploads/removals because the files remain in the server
     status,
     everPublished,
+    reactUI,
     undoGroup: undoable(combineReducers({
         version: versionReducer,
         lastActionDispatched: lastActionDispatched,

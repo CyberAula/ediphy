@@ -61,7 +61,6 @@ export default class EditorCarousel extends Component {
                     carouselShow={this.props.carouselShow}
                     containedViews={this.props.containedViews}
                     indexSelected={this.props.indexSelected}
-                    styleConfig={this.props.styleConfig}
                     navItems={this.props.navItems}
                     navItemsIds={this.props.navItemsIds}
                     onNavItemAdded={this.props.onNavItemAdded}
@@ -155,8 +154,4 @@ EditorCarousel.propTypes = {
      * Duplicate nav item
      */
     onNavItemDuplicated: PropTypes.func.isRequired,
-    /**
-     * Object containing style configuration
-     */
-    styleConfig: PropTypes.object,
 };

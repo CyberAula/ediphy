@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 
+import { updateUI, changeStyleConfig } from "../../../../common/actions";
+import { connect } from "react-redux";
+
 import ThemePicker from '../../common/theme-picker/ThemePicker';
 import ColorPicker from '../../common/color-picker/ColorPicker';
 import FontPicker from '../../common/font-picker/FontPicker';
@@ -24,7 +27,7 @@ import TransitionPicker from "../../common/transition-picker/TransitionPicker";
 /**
  * Global course configuration modal
  */
-export default class StyleConfig extends Component {
+class StyleConfig extends Component {
     /**
      * Constructor
      * @param props
@@ -38,6 +41,8 @@ export default class StyleConfig extends Component {
             color: getColor(this.props.styleConfig.theme),
             transition: 0,
         };
+
+        this.close = this.close.bind(this);
     }
 
     /**
@@ -45,7 +50,6 @@ export default class StyleConfig extends Component {
      * @returns {code}
      */
     render() {
-        const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context, allowDownload, allowClone, allowComments } = this.state;
         return (
             <div>
                 <Modal className="pageModal"
@@ -171,8 +175,8 @@ export default class StyleConfig extends Component {
      */
     saveState() {
         this.setState({ modifiedState: false });
-        this.props.changeStyleConfig("STATE", this.state);
-        this.props.close();
+        this.props.dispatch(changeStyleConfig("STATE", this.state));
+        this.close();
     }
 
     /**
@@ -185,9 +189,21 @@ export default class StyleConfig extends Component {
         });
 
         //  Comment the following line if you don't want to exit when changes are discarded
-        this.props.close();
+        this.close();
 
     }
+    close() {
+        this.props.dispatch(updateUI('showStyleConfig', false));
+    }
+}
+
+export default connect(mapStateToProps)(StyleConfig);
+
+function mapStateToProps(state) {
+    return {
+        show: state.reactUI.showStyleConfig,
+        styleConfig: state.undoGroup.present.styleConfig,
+    };
 }
 
 StyleConfig.propTypes = {
@@ -199,12 +215,4 @@ StyleConfig.propTypes = {
      * Configuration course dictionary. Object identical to Redux state ***globalConfig*** .
      */
     styleConfig: PropTypes.object.isRequired,
-    /**
-     * Saves new configuration
-     */
-    changeStyleConfig: PropTypes.func.isRequired,
-    /**
-     * Closes course configuration modal
-     */
-    close: PropTypes.func.isRequired,
 };

@@ -19,6 +19,7 @@ import {
     PanelGroup,
     Panel,
 } from 'react-bootstrap';
+import { connect } from "react-redux";
 export default class Toolbar extends Component {
     constructor(props) {
         super(props);
@@ -119,6 +120,7 @@ export default class Toolbar extends Component {
         this.setState({ open: !this.state.open });
     }
 }
+
 Toolbar.propTypes = {
     /**
      * Selected box

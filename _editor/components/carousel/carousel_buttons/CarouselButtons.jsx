@@ -261,7 +261,6 @@ class CarouselButtons extends Component {
                 <TemplatesModal
                     show={this.state.showTemplates}
                     close={this.toggleTemplatesModal}
-                    styleConfig={this.props.styleConfig}
                     navItems={this.props.navItems}
                     boxes={this.props.boxes}
                     onNavItemAdded={(id, name, type, color, num, extra)=> {this.props.onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra); this.expandSiblings(this.getParent().id);}}
@@ -346,8 +345,4 @@ CarouselButtons.propTypes = {
      * Duplicate nav item
      */
     onNavItemDuplicated: PropTypes.func.isRequired,
-    /**
-     * Object containing style configuration
-     */
-    styleConfig: PropTypes.object,
 };

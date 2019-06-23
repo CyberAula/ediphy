@@ -9,8 +9,9 @@ import Ediphy from '../../../../core/editor/main';
 import { isSortableBox } from '../../../../common/utils';
 import ThemeCSS from "../../../../common/themes/ThemeCSS";
 import { getThemeColors } from "../../../../common/themes/theme_loader";
+import { connect } from "react-redux";
 
-export default class EditorCanvasDoc extends Component {
+class EditorCanvasDoc extends Component {
     render() {
         let titles = [];
         let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
@@ -115,6 +116,14 @@ export default class EditorCanvasDoc extends Component {
             </Col>
         );
     }
+}
+
+export default connect(mapStateToProps)(EditorCanvasDoc);
+
+function mapStateToProps(state) {
+    return {
+        styleConfig: state.undoGroup.present.styleConfig,
+    };
 }
 
 EditorCanvasDoc.propTypes = {
