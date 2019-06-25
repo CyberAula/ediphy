@@ -110,6 +110,7 @@ class CarouselButtons extends Component {
     */
     render() {
         let dispatch = this.props.dispatch;
+        let { boxes, containedViews, indexSelected, navItems, navItemsIds } = this.props;
         return (
             <div id="addbuttons" className="bottomGroup" style={{ display: this.props.carouselShow ? 'block' : 'none' }}>
                 <div className="bottomLine" />
@@ -123,14 +124,10 @@ class CarouselButtons extends Component {
                                 i18n.t("section"),
                                 this.getParent().id,
                                 PAGE_TYPES.SECTION,
-
                                 this.calculatePosition()
                             ));
-
                             this.expandSiblings(this.getParent().id);
-
                             e.stopPropagation();
-
                         }}><i className="material-icons">create_new_folder</i>
                     </Button>
                 </OverlayTrigger>
@@ -246,8 +243,12 @@ class CarouselButtons extends Component {
                                             });
                                         });
                                         let marksRemoving = getDescendantLinkedBoxes(viewRemoving, this.props.navItems) || [];
-                                        dispatch(deleteNavItem(viewRemoving, this.props.navItems[navsel].parent, boxesRemoving, containedRemoving, marksRemoving));
-
+                                        dispatch(deleteNavItem(
+                                            viewRemoving,
+                                            this.props.navItems[navsel].parent,
+                                            boxesRemoving,
+                                            containedRemoving,
+                                            marksRemoving));
                                     }
                                 }
                                 dispatch(selectIndex(0));
@@ -263,10 +264,12 @@ class CarouselButtons extends Component {
                     close={this.toggleTemplatesModal}
                     navItems={this.props.navItems}
                     boxes={this.props.boxes}
-                    onNavItemAdded={(id, name, type, color, num, extra)=> {this.props.onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra); this.expandSiblings(this.getParent().id);}}
+                    onNavItemAdded={(id, name, type, color, num, extra) => {
+                        this.props.onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra);
+                        this.expandSiblings(this.getParent().id);}}
                     onIndexSelected={this.props.onIndexSelected}
                     indexSelected={this.props.indexSelected}
-                    onBoxAdded={(...props)=>{dispatch(addBox(...props));}}
+                    onBoxAdded={this.props.onBoxAdded}
                     calculatePosition={this.calculatePosition}/>
             </div>
         );
@@ -325,10 +328,6 @@ CarouselButtons.propTypes = {
      * Selects a view/contained view in the index's context
      */
     onIndexSelected: PropTypes.func.isRequired,
-    /**
-     * Removes a contained view
-     */
-    onContainedViewDeleted: PropTypes.func.isRequired,
     /**
      * Removes a view
      */

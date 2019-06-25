@@ -66,18 +66,11 @@ class EditorCarousel extends Component
                     viewToolbars={this.props.viewToolbars}
                 />
                 <CarouselButtons
-                    boxes={this.props.boxes}
                     carouselShow={this.props.carouselShow}
-                    containedViews={this.props.containedViews}
-                    indexSelected={this.props.indexSelected}
-                    navItems={this.props.navItems}
-                    navItemsIds={this.props.navItemsIds}
                     onNavItemAdded={this.props.onNavItemAdded}
-                    onNavItemReordered={this.props.onNavItemReordered}
                     onBoxAdded={this.props.onBoxAdded}
                     onNavItemExpanded={this.props.onNavItemExpanded}
                     onIndexSelected={this.props.onIndexSelected}
-                    onContainedViewDeleted={this.props.onContainedViewDeleted}
                     onNavItemDuplicated={this.props.onNavItemDuplicated}
                     onNavItemDeleted={this.props.onNavItemDeleted} />
             </div>
