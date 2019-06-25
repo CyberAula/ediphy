@@ -11,17 +11,25 @@ import Alert from './../../common/alert/Alert';
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
 import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
 const img_place_holder = "data:image/png;base64,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";
-
+import {
+    changeGlobalConfig,
+    updateUI,
+    uploadEdiphyResourceAsync,
+    uploadVishResourceAsync,
+} from "../../../../common/actions";
+import { connect } from "react-redux";
 // Styles
 import 'react-select/dist/react-select.css';
 import './_globalConfig.scss';
 import './_reactTags.scss';
 import FileInput from "../../common/file-input/FileInput";
+import { UI } from "../../../../common/UI.es6";
+import EditorNavBar from "../../../containers/EditorApp";
 
 /**
  * Global course configuration modal
  */
-export default class GlobalConfig extends Component {
+class GlobalConfig extends Component {
     /**
      * Constructor
      * @param props
@@ -64,6 +72,8 @@ export default class GlobalConfig extends Component {
         this.handleAddition = this.handleAddition.bind(this);
         this.handleDrag = this.handleDrag.bind(this);
         this.fileChanged = this.fileChanged.bind(this);
+        this.uploadFunction = this.uploadFunction.bind(this);
+        this.close = this.close.bind(this);
     }
 
     /**
@@ -72,9 +82,10 @@ export default class GlobalConfig extends Component {
      */
     render() {
         const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context, allowDownload, allowClone, allowComments } = this.state;
+        const { reactUI } = this.props;
         return (
             <Modal className="pageModal"
-                show={this.props.show}
+                show={reactUI.showGlobalConfig}
                 backdrop={'static'} bsSize="large"
                 aria-labelledby="contained-modal-title-lg"
                 onHide={e => {
@@ -115,12 +126,6 @@ export default class GlobalConfig extends Component {
                                         <div className="cont_avatar">
                                             <img src={this.state.thumbnail} className="avatar" />
                                             <div>
-                                                {/* <FileInput onChange={this.fileChanged} className="fileInput" accept=".jpeg,.gif,.png">
-                                                    <div className="fileDrag">
-                                                        <span style={{ display: this.state.name ? 'none' : 'block' }}><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b></span>
-                                                        <span className="fileUploaded" style={{ display: this.state.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.state.name || '' }</span>
-                                                    </div>
-                                                </FileInput>*/}
                                                 <Button bsStyle="primary" className="avatarButtons" onClick={()=>{
                                                     this.props.toggleFileUpload('avatar', 'image/*');
                                                 }}>{i18n.t('global_config.avatar_import')}</Button><br/>
@@ -245,16 +250,7 @@ export default class GlobalConfig extends Component {
                                                 placeholder="m"
                                                 onChange={e => {this.setState({ modifiedState: true, typicalLearningTime: { h: typicalLearningTime.h, m: e.target.value, s: typicalLearningTime.s } });}}/>
                                             <InputGroup.Addon>m</InputGroup.Addon>
-                                        </InputGroup>{/*
-                                      <InputGroup className="inputGroup">
-                                        <FormControl  type="number"
-                                                      value={typicalLearningTime.s}
-                                                      min={0}
-                                                      max={59}
-                                                      placeholder="s"
-                                                      onChange={e => {this.setState({typicalLearningTime: {h:typicalLearningTime.h, m:typicalLearningTime.m, s:e.target.value}})}}/>
-                                        <InputGroup.Addon>s</InputGroup.Addon>
-                                      </InputGroup>*/}
+                                        </InputGroup>
                                     </FormGroup>
 
                                     <FormGroup >
@@ -326,18 +322,6 @@ export default class GlobalConfig extends Component {
                                         { i18n.t('global_config.permissions.allow_download') }
                                     </FormGroup> : null }
                                 </Col>
-                                {/*
-                                <Col xs={12} md={6} lg={6}><br/>
-                                     version commented, transparent for the user
-                                    <FormGroup >
-                                        <ControlLabel>{i18n.t('global_config.version')}</ControlLabel>
-                                        <FormControl   type="text"
-                                                       value={version}
-                                                       placeholder=""
-                                                       onChange={e => {this.setState({version: e.target.value})}}/>
-                                    </FormGroup>
-                                </Col>*/}
-
                             </Row>
                         </form>
                     </Grid>
@@ -352,6 +336,11 @@ export default class GlobalConfig extends Component {
                 </Modal.Footer>
             </Modal>
         );
+    }
+
+    uploadFunction(query, keywords, callback) {
+        let uploadFunction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? uploadVishResourceAsync : uploadEdiphyResourceAsync;
+        this.props.dispatch(uploadFunction(query, keywords, callback));
     }
 
     /** *
@@ -394,8 +383,12 @@ export default class GlobalConfig extends Component {
      */
     saveState() {
         this.setState({ modifiedState: false });
-        this.props.changeGlobalConfig("STATE", this.state);
-        this.props.close();
+        this.props.dispatch(changeGlobalConfig("STATE", this.state));
+        this.close();
+    }
+
+    close() {
+        this.props.dispatch(updateUI(UI.showGlobalConfig, !this.props.reactUI.showGlobalConfig));
     }
 
     getCurrentPageAvatar() {
@@ -425,7 +418,7 @@ export default class GlobalConfig extends Component {
                 ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 500, 500);
                 extra_canvas.toBlob(blob => {
                     let file = new File([blob], "avatar.png", { type: "image/png" });
-                    this.props.uploadFunction(file, "", (thumbnail)=>{
+                    this.uploadFunction(file, "", (thumbnail)=>{
                         this.setState({ modifiedState: true, thumbnail });
                     }, "image/png");
                 });
@@ -493,7 +486,7 @@ export default class GlobalConfig extends Component {
         });
 
         //  Comment the following line if you don't want to exit when changes are discarded
-        this.props.close();
+        this.close();
 
     }
 
@@ -502,6 +495,9 @@ export default class GlobalConfig extends Component {
      * @param nextProps
      */
     componentWillReceiveProps(nextProps) {
+        let fileModalResult = this.props.reactUI.fileModalResult;
+        let nextFileModalResult = nextProps.reactUI.fileModalResult;
+        let nextGlobalConfig = nextProps.globalConfig;
         if (this.props.globalConfig.title !== nextProps.globalConfig.title) {
             this.setState({
                 title: nextProps.globalConfig.title || "",
@@ -512,46 +508,46 @@ export default class GlobalConfig extends Component {
                 status: nextProps.globalConfig.status || "draft",
             });
         }
-        if (this.props.fileModalResult &&
-          nextProps.fileModalResult &&
-          nextProps.fileModalResult.value !== this.props.fileModalResult.value &&
-          nextProps.fileModalResult.value &&
-          nextProps.fileModalResult.id === 'avatar') {
+        if (fileModalResult &&
+          nextFileModalResult &&
+          nextFileModalResult.value !== fileModalResult.value &&
+          nextFileModalResult.value &&
+          nextFileModalResult.id === 'avatar') {
             this.setState({
-                thumbnail: nextProps.fileModalResult.value, modifiedState: true,
+                thumbnail: nextFileModalResult.value, modifiedState: true,
             });
         }
 
-        if (!this.props.show && nextProps.show) {
+        if (!this.props.reactUI.showGlobalConfig && nextProps.reactUI.showGlobalConfig) {
             this.setState({
-                title: nextProps.globalConfig.title || "",
-                author: nextProps.globalConfig.author || "",
-                canvasRatio: nextProps.globalConfig.canvasRatio || 16 / 9,
-                age: nextProps.globalConfig.age || { min: 0, max: 0 },
-                typicalLearningTime: nextProps.globalConfig.typicalLearningTime || { h: 0, m: 0, s: 0 },
-                difficulty: nextProps.globalConfig.difficulty,
-                rights: nextProps.globalConfig.rights || 1,
-                description: nextProps.globalConfig.description || '',
-                thumbnail: nextProps.globalConfig.thumbnail || img_place_holder,
-                language: nextProps.globalConfig.language,
-                keywords: nextProps.globalConfig.keywords || [],
-                version: nextProps.globalConfig.version || '0.0.0',
-                status: nextProps.globalConfig.status || 'draft',
-                context: nextProps.globalConfig.context,
-                allowComments: nextProps.globalConfig.allowComments ? true : nextProps.globalConfig.allowComments === undefined,
-                allowClone: nextProps.globalConfig.allowClone ? true : nextProps.globalConfig.allowClone === undefined,
-                allowDownload: nextProps.globalConfig.allowDownload ? true : nextProps.globalConfig.allowDownload === undefined,
-                hideGlobalScore: nextProps.globalConfig.hideGlobalScore || false,
-                minTimeProgress: nextProps.globalConfig.minTimeProgress || 3,
-                visorNav: { ...(nextProps.globalConfig.visorNav || {}),
-                    player: nextProps.globalConfig.visorNav.player === undefined ? true : nextProps.globalConfig.visorNav.player,
-                    sidebar: nextProps.globalConfig.visorNav.sidebar === undefined ? true : nextProps.globalConfig.visorNav.sidebar,
-                    keyBindings: nextProps.globalConfig.visorNav.keyBindings === undefined ? true : nextProps.globalConfig.visorNav.keyBindings,
-                    fixedPlayer: nextProps.globalConfig.visorNav.fixedPlayer === undefined ? true : nextProps.globalConfig.visorNav.fixedPlayer,
+                title: nextGlobalConfig.title || "",
+                author: nextGlobalConfig.author || "",
+                canvasRatio: nextGlobalConfig.canvasRatio || 16 / 9,
+                age: nextGlobalConfig.age || { min: 0, max: 0 },
+                typicalLearningTime: nextGlobalConfig.typicalLearningTime || { h: 0, m: 0, s: 0 },
+                difficulty: nextGlobalConfig.difficulty,
+                rights: nextGlobalConfig.rights || 1,
+                description: nextGlobalConfig.description || '',
+                thumbnail: nextGlobalConfig.thumbnail || img_place_holder,
+                language: nextGlobalConfig.language,
+                keywords: nextGlobalConfig.keywords || [],
+                version: nextGlobalConfig.version || '0.0.0',
+                status: nextGlobalConfig.status || 'draft',
+                context: nextGlobalConfig.context,
+                allowComments: nextGlobalConfig.allowComments ? true : nextGlobalConfig.allowComments === undefined,
+                allowClone: nextGlobalConfig.allowClone ? true : nextGlobalConfig.allowClone === undefined,
+                allowDownload: nextGlobalConfig.allowDownload ? true : nextGlobalConfig.allowDownload === undefined,
+                hideGlobalScore: nextGlobalConfig.hideGlobalScore || false,
+                minTimeProgress: nextGlobalConfig.minTimeProgress || 3,
+                visorNav: { ...(nextGlobalConfig.visorNav || {}),
+                    player: nextGlobalConfig.visorNav.player === undefined ? true : nextGlobalConfig.visorNav.player,
+                    sidebar: nextGlobalConfig.visorNav.sidebar === undefined ? true : nextGlobalConfig.visorNav.sidebar,
+                    keyBindings: nextGlobalConfig.visorNav.keyBindings === undefined ? true : nextGlobalConfig.visorNav.keyBindings,
+                    fixedPlayer: nextGlobalConfig.visorNav.fixedPlayer === undefined ? true : nextGlobalConfig.visorNav.fixedPlayer,
                 },
                 modifiedState: false,
                 showAlert: false,
-                everPublished: nextProps.globalConfig.everPublished,
+                everPublished: nextGlobalConfig.everPublished,
 
             });
         }
@@ -559,23 +555,17 @@ export default class GlobalConfig extends Component {
 
 }
 
+export default connect(mapStateToProps)(GlobalConfig);
+function mapStateToProps(state) {
+    return {
+        reactUI: state.reactUI,
+    };
+}
 GlobalConfig.propTypes = {
-    /**
-     * Indicates whether the course configuration modal should be shown or hidden
-     */
-    show: PropTypes.bool,
     /**
      * Configuration course dictionary. Object identical to Redux state ***globalConfig*** .
      */
     globalConfig: PropTypes.object.isRequired,
-    /**
-     * Saves new configuration
-     */
-    changeGlobalConfig: PropTypes.func.isRequired,
-    /**
-     * Closes course configuration modal
-     */
-    close: PropTypes.func.isRequired,
     /**
      * Callback for opening the file upload modal
      */

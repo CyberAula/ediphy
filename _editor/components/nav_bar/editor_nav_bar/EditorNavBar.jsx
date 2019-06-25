@@ -12,16 +12,17 @@ import ExportModal from '../export/ExportModal';
 import StyleConfig from '../style_config/StyleConfig';
 import { connect } from "react-redux";
 import { updateUI } from "../../../../common/actions";
+import { UI } from "../../../../common/UI.es6";
 
 /**
  * Upper navigation bar component
  */
-class EditorNavBar extends Component {
+class EditorNavBar extends Component
+{
     constructor(props) {
         super(props);
 
         this.state = {
-            showImportFile: false,
             showExport: false,
             isFullScreenOn: screenfull.isFullscreen,
         };
@@ -34,50 +35,30 @@ class EditorNavBar extends Component {
         return (
             <Col id="iconBar">
                 <div className="grad1" />
-                <div className="identity"><span className="highlight">ED</span>iphy</div>
-                <PluginsMenu category={this.props.category} hideTab={this.props.hideTab} setcat={this.props.setcat} />
-                <NavActionButtons boxSelected={this.props.boxSelected}
-                    changeGlobalConfig={this.props.changeGlobalConfig}
-                    globalConfig={this.props.globalConfig}
-                    navItemSelected={this.props.navItemSelected}
-                    navItems={this.props.navItems}
+                <div className="identity">
+                    <span className="highlight">ED</span>iphy
+                </div>
+                <PluginsMenu/>
+                <NavActionButtons
                     redo={this.props.redo}
-                    redoDisabled={this.props.redoDisabled}
-                    undoDisabled={this.props.undoDisabled}
-                    publishing={this.props.publishing}
                     save={this.props.save}
-                    serverModalOpen={this.props.serverModalOpen}
                     undo={this.props.undo}
-                    onBoxSelected={this.props.onBoxSelected}
                     toggleStyleConfig={this.toggleStyleConfig}
-                    visor={this.props.visor} />
-                <NavDropdown /* export={this.props.export}*/
-                    navItemSelected={this.props.navItemSelected}
-                    opens={this.props.opens}
+                />
+                <NavDropdown
                     save={this.props.save}
-                    openExitModal={this.props.openExitModal}
-                    openTour={this.props.openTour}
-                    serverModalOpen={this.props.serverModalOpen}
-                    toggleGlobalConfig={this.props.toggleGlobalConfig}
-                    toggleImportFile={this.toggleImportFile}
                     toggleExport={this.toggleExport}
-                    toggleFileUpload={this.props.toggleFileUpload}
-                    isBusy={this.props.isBusy}
-                    undoDisabled={this.props.undoDisabled} />
+                    toggleFileUpload={(id, accept) => this.toggleFileUpload(id, accept)}
+                />
                 <StyleConfig/>
-                <GlobalConfig show={this.props.showGlobalConfig}
+                <GlobalConfig
                     globalConfig={this.props.globalConfig}
-                    toggleFileUpload={this.props.toggleFileUpload}
-                    fileModalResult={this.props.fileModalResult}
-                    changeGlobalConfig={this.props.changeGlobalConfig}
-                    uploadFunction={this.props.uploadFunction}
-                    close={this.props.toggleGlobalConfig} />
-                <ExportModal aspectRatio={this.props.globalConfig.canvasRatio}
-                    show={this.state.showExport}
+                    toggleFileUpload={(id, accept) => this.toggleFileUpload(id, accept)}
+                />
+                <ExportModal
                     export={this.props.export}
                     scorm={this.props.scorm}
                     close={this.toggleExport} />
-
             </Col>
         );
     }
@@ -86,13 +67,24 @@ class EditorNavBar extends Component {
        * Shows/Hides the Export course modal
        */
     toggleExport(forceClose) {
-        this.setState((prevState, props) => ({
-            showExport: forceClose ? false : !prevState.showExport,
-        }));
+        let newExportState = forceClose ? false : !this.props.reactUI.showExportModal;
+        this.props.dispatch(updateUI(UI.showExportModal, newExportState));
     }
-
+    /**
+     * Shows/Hides the StyleConfig modal
+     */
     toggleStyleConfig() {
         return this.props.dispatch(updateUI({ showStyleConfig: !this.props.reactUI.showStyleConfig }));
+    }
+    /**
+     * Shows/Hides the Import file modal
+     */
+    toggleFileUpload(id, accept) {
+        this.props.dispatch(updateUI({
+            showFileUpload: accept,
+            fileModalResult: { id: id, value: undefined },
+            fileUploadTa: 0,
+        }));
     }
 }
 
@@ -100,7 +92,6 @@ export default connect(mapStateToProps)(EditorNavBar);
 
 function mapStateToProps(state) {
     return {
-        reactUI: state.reactUI,
         status: state.status,
         everPublished: state.everPublished,
         globalConfig: state.undoGroup.present.globalConfig,
@@ -130,14 +121,6 @@ EditorNavBar.propTypes = {
      * Toggles the global configuration of the document
      */
     toggleGlobalConfig: PropTypes.func.isRequired,
-    /**
-     * Allows the use of the undo funtion
-     */
-    undoDisabled: PropTypes.bool,
-    /**
-     * Allows the use of the redo function
-     */
-    redoDisabled: PropTypes.bool,
     /**
      * Current selected view (by ID)
      */
@@ -198,10 +181,6 @@ EditorNavBar.propTypes = {
    * Object that contains all created views (identified by its *id*)
    */
     navItems: PropTypes.object.isRequired,
-    /**
-     * Shows exit modal
-     */
-    openExitModal: PropTypes.func.isRequired,
     /**
      * Opens Tour Modal
      */

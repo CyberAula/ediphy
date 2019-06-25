@@ -24,6 +24,7 @@ const defaultUI = {
     showExitModal: false,
     showTour: false,
     showHelpButton: false,
+    showExportModal: false,
     fileModalResult: { id: undefined, value: undefined },
 };
 export default function(state = defaultUI, action = {}) {

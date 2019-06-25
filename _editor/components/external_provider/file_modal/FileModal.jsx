@@ -35,7 +35,10 @@ export default class FileModal extends React.Component {
         let menus = APIProviders(this); // Retrieves all API providers
         let handler = FileHandlers(this); // Retrieves all file-handling actions
         return(
-            <Modal className="pageModal fileModal" backdrop bsSize="large" show={!!this.props.visible} onHide={this.close}>
+            <Modal className="pageModal fileModal"
+                backdrop bsSize="large"
+                show={!!this.props.visible}
+                onHide={() => this.close()}>
                 <Modal.Header closeButton>
                     <Modal.Title>{i18n.t("FileModal.Title")}</Modal.Title>
                 </Modal.Header>
@@ -163,6 +166,7 @@ export default class FileModal extends React.Component {
         return newInd;
     }
     close(e) {
+        console.log('closing...');
         this.setState({ ...initialState });
         this.props.close(e);
     }

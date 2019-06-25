@@ -15,6 +15,7 @@ export default class CarouselHeader extends Component {
      */
     constructor(props) {
         super(props);
+
     }
 
     /**

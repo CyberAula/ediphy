@@ -13,11 +13,12 @@ let spinner = require('../../../../dist/images/spinner.svg');
 import { templatesSliDoc, templatesSli, templatesDoc } from "./templates/templates";
 import TemplateThumbnailPrint from "./TemplateThumbnailPrint";
 import { createBox } from "../../../../common/common_tools";
+import { connect } from "react-redux";
 
 /**
  * Export course modal
  */
-export default class ExportModal extends Component {
+class ExportModal extends Component {
     constructor(props) {
         super(props);
         this.templatesSliDoc = templatesSliDoc();
@@ -285,6 +286,15 @@ export default class ExportModal extends Component {
     }
 
 }
+
+function mapStateToProps(state) {
+    return {
+        show: state.reactUI.showExportModal,
+        aspectRatio: state.undoGroup.present.globalConfig.canvasRatio,
+    };
+}
+
+export default connect(mapStateToProps)(ExportModal);
 
 ExportModal.propTypes = {
     /**

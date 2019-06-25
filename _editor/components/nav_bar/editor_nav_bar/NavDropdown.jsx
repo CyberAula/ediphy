@@ -5,10 +5,15 @@ import { Dropdown, MenuItem } from 'react-bootstrap';
 
 import Ediphy from '../../../../core/editor/main';
 import Alert from '../../common/alert/Alert';
+import { importStateAsync, updateUI } from "../../../../common/actions";
+
+import { connect } from "react-redux";
+import { UI } from "../../../../common/UI.es6";
 /**
  * Dropdown menu in the editor's navbar
  */
-export default class NavDropdown extends Component {
+class NavDropdown extends Component
+{
     /**
      * Constructor
      */
@@ -38,7 +43,7 @@ export default class NavDropdown extends Component {
                             disabled={this.props.undoDisabled}
                             onClick={(e) => {
                                 this.props.save();
-                                this.props.serverModalOpen();
+                                this.props.dispatch(updateUI(UI.serverModal, true));
                             }}>
                             <i className="material-icons">save</i>
                             {i18n.t('Save')}
@@ -62,7 +67,7 @@ export default class NavDropdown extends Component {
                     <MenuItem disabled={false} eventKey="3" key="3">
                         <button className="dropdownButton" title={i18n.t('messages.global_config')}
                             disabled={false}
-                            onClick={this.props.toggleGlobalConfig}><i className="material-icons">settings</i>
+                            onClick={() => this.props.dispatch(updateUI(UI.showGlobalConfig, true))}><i className="material-icons">settings</i>
                             {i18n.t('messages.global_config')}
                         </button>
                     </MenuItem>
@@ -81,8 +86,8 @@ export default class NavDropdown extends Component {
                         <MenuItem eventKey="5" key="5">
                             <button className="dropdownButton"
                                 onClick={(e) => {
-                                    this.props.serverModalOpen();
-                                    this.props.opens();
+                                    this.props.dispatch(updateUI(UI.serverModal, true));
+                                    this.props.dispatch(importStateAsync());
                                 }}>
                                 <i className="material-icons">folder_open</i>
                                 {i18n.t('Open')}
@@ -91,7 +96,7 @@ export default class NavDropdown extends Component {
                     <MenuItem disabled={false} eventKey="6" key="6">
                         <button className="dropdownButton" title={i18n.t('messages.help')}
                             disabled={false}
-                            onClick={this.props.openTour}><i className="material-icons">help</i>
+                            onClick={() => this.props.dispatch(updateUI(UI.showHelpButton, true))}><i className="material-icons">help</i>
                             {i18n.t('messages.help')}
                         </button>
                     </MenuItem>
@@ -107,7 +112,7 @@ export default class NavDropdown extends Component {
                         <button className="dropdownButton" title={i18n.t('messages.help')}
                             disabled={false}
                             onClick={(e) => {
-                                this.props.openExitModal();
+                                this.props.dispatch(updateUI(UI.showExitModal, true));
                             }}><i className="material-icons">exit_to_app</i>
                             {i18n.t('messages.exit')}
                         </button>
@@ -160,6 +165,17 @@ export default class NavDropdown extends Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        reactUI: state.reactUI,
+        navItemSelected: state.undoGroup.present.navItemSelected,
+        isBusy: state.undoGroup.present.isBusy,
+        undoDisabled: state.undoGroup.present.undoDisabled,
+    };
+}
+
+export default connect(mapStateToProps)(NavDropdown);
+
 NavDropdown.propTypes = {
 
     /**
@@ -175,17 +191,9 @@ NavDropdown.propTypes = {
      */
     toggleFileUpload: PropTypes.func.isRequired,
     /**
-     * Load an specific course from the remote server
-     */
-    opens: PropTypes.func.isRequired,
-    /**
      * Stores the changes in the remote server
      */
     save: PropTypes.func.isRequired,
-    /**
-     * Popup that indicates whether the import/export to the server was successful or not
-     */
-    serverModalOpen: PropTypes.func.isRequired,
     /**
      * Shows/Hides the global course configuration modal form
      */
@@ -198,10 +206,6 @@ NavDropdown.propTypes = {
      * Enables the "undo" feature
      */
     undoDisabled: PropTypes.bool,
-    /**
-     * Shows exit modal
-     */
-    openExitModal: PropTypes.func.isRequired,
     /**
      * Opens Tour Modal
      */

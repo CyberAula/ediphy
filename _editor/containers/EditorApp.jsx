@@ -110,15 +110,13 @@ class EditorApp extends Component {
         this.createHelpModal = this.createHelpModal.bind(this);
         this.createInitModal = this.createInitModal.bind(this);
         this.showTour = this.showTour.bind(this);
-        this.exitListener = (ev) => {
-            alert('Please press the Logout button to logout.');
-        };
+        this.exitListener = (ev) => alert('Please press the Logout button to logout.');
     }
 
     render() {
         const { dispatch, boxes, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, filesUploaded, indexSelected, exercises,
-            undoDisabled, redoDisabled, displayMode, isBusy, pluginToolbars, viewToolbars, marks, lastActionDispatched, globalConfig, reactUI } = this.props;
+            displayMode, isBusy, pluginToolbars, viewToolbars, marks, lastActionDispatched, globalConfig, reactUI } = this.props;
         let ribbonHeight = reactUI.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
         let status = this.props.status;
@@ -134,63 +132,21 @@ class EditorApp extends Component {
                     {this.createHelpModal()}
                     {this.createInitModal()}
                     {this.state.alert}
-                    <EditorNavBar hideTab={reactUI.hideTab} boxes={boxes} isBusy={isBusy}
-                        onBoxSelected={(id) => dispatch(selectBox(id, boxes[id]))}
-                        showGlobalConfig={reactUI.showGlobalConfig}
-                        toggleGlobalConfig={()=>dispatch(updateUI(UI.showGlobalConfig, !reactUI.showGlobalConfig))}
-                        onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
+                    <EditorNavBar
                         globalConfig={{ ...globalConfig, status, everPublished }}
-                        changeGlobalConfig={(prop, value) => {dispatch(changeGlobalConfig(prop, value));}}
-                        onIndexSelected={(id) => dispatch(selectIndex(id))}
-                        onNavItemSelected={id => dispatch(selectNavItem(id))}
-                        onNavItemAdded={(id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => dispatch(addNavItem(id, name, parent, type, position, background, customSize, hideTitles, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)), sortable_id))}
-                        onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
-                        onToolbarUpdated={this.onToolbarUpdated}
-                        onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig('title', titleStr));}}
-                        undoDisabled={undoDisabled}
-                        redoDisabled={redoDisabled}
-                        visor={() =>{dispatch(updateUI(UI.visorVisible, true));}}
-                        publishing={() => dispatch(updateUI(UI.publishing, true))}
-                        openExitModal={()=> dispatch(updateUI(UI.showExitModal, true))}
-                        openTour={()=> dispatch(updateUI(UI.showHelpButton, true))}
-                        uploadFunction={(query, keywords, callback) => dispatch(uploadFunction(query, keywords, callback))}
                         export={(format, callback, options) => this.exportResource(format, callback, options = false)}
                         scorm={(is2004, callback, selfContained = false) => {Ediphy.Visor.exportScorm({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded, status: this.props.store.getState().status }, is2004, callback, selfContained);}}
                         save={(win) => {dispatch(exportStateAsync({ ...this.props.store.getState() }, win)); }}
-                        category={reactUI.pluginTab}
-                        opens={() => {dispatch(importStateAsync());}}
-                        serverModalOpen={()=>{dispatch(updateUI('serverModal', true));}}
-                        fileModalResult={reactUI.fileModalResult}
-                        toggleFileUpload={(id, accept)=>{
-                            dispatch(updateUI({
-                                showFileUpload: accept,
-                                fileModalResult: { id: id, value: undefined },
-                                fileUploadTa: 0,
-                            }));
-                        }}
-                        onExternalCatalogToggled={() => dispatch(updateUI('catalogModal', true))}
-                        setcat={(category) => {
-                            dispatch(updateUI(UI.pluginTab, category));
-                            dispatch(updateUI(UI.hideTab, 'show'));
-                        }}/>
+                    />
                     {Ediphy.Config.autosave_time > 1000 &&
-                    <AutoSave save={() => {dispatch(exportStateAsync({ ...this.props.store.getState() }));}}
+                    <AutoSave
+                        save={() => {dispatch(exportStateAsync({ ...this.props.store.getState() }));}}
                         isBusy={isBusy}
                         lastAction={lastActionDispatched}
                         visorVisible={reactUI.visorVisible}/>})
                 </Row>
                 <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
-                    <EditorCarousel boxes={boxes}
-                        onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig(id, titleStr));}}
-                        title={title}
-                        containedViews={containedViews}
-                        containedViewSelected={containedViewSelected}
-                        indexSelected={indexSelected}
-                        navItemsIds={navItemsIds}
-                        navItems={navItems}
-                        navItemSelected={navItemSelected}
-                        displayMode={displayMode}
-                        viewToolbars={viewToolbars}
+                    <EditorCarousel
                         onBoxAdded={(ids, draggable, resizable, content, style, state, structure, initialParams) => dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams))}
                         onIndexSelected={(id) => dispatch(selectIndex(id))}
                         onContainedViewNameChanged={(id, titleStr) => dispatch(updateViewToolbar(id, titleStr))}
@@ -223,25 +179,8 @@ class EditorApp extends Component {
                             dispatch(deleteNavItem(viewRemoving, navItems[navsel].parent, boxesRemoving, containedRemoving, marksRemoving));
                         }}
                         onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => dispatch(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
-                        carouselShow={reactUI.carouselShow}
-                        carouselFull={reactUI.carouselFull}
-                        onToggleFull={() => {
-                            if(reactUI.carouselFull) {
-                                dispatch(updateUI(UI.carouselFull, false));
-
-                            }else{
-                                dispatch(updateUI(UI.carouselShow, true));
-                                dispatch(updateUI(UI.carouselFull, true));
-                            }
-                        }}
-                        onToggleWidth={()=>{
-                            if(reactUI.carouselShow) {
-                                dispatch(updateUI(UI.carouselShow, false));
-                                dispatch(updateUI(UI.carouselFull, false));
-                            } else {
-                                dispatch(updateUI(UI.carouselShow, true));
-                            }
-                        }}/>
+                        onTitleChanged={(id, titleStr) => {dispatch(changeGlobalConfig(id, titleStr));}}
+                    />
 
                     <Col id="colRight" xs={12}
                         style={{ height: (this.state.carouselFull ? 0 : '100%'),

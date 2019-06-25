@@ -6,16 +6,24 @@ import CarouselHeader from '../carousel_header/CarouselHeader';
 import CarouselList from '../carousel_list/CarouselList';
 import FileTree from "../FileTree";
 
+import { connect } from "react-redux";
+import { updateUI } from "../../../../common/actions";
+import { UI } from "../../../../common/UI.es6";
+
 /**
  * Index wrapper container
  */
-export default class EditorCarousel extends Component {
+class EditorCarousel extends Component
+
+{
     /**
      * Constructor
      * @param props
      */
     constructor(props) {
         super(props);
+
+        this.onToggleWidth = this.onToggleWidth.bind(this);
     }
 
     /**
@@ -29,12 +37,12 @@ export default class EditorCarousel extends Component {
                     maxWidth: this.props.carouselShow ? (this.props.carouselFull ? '100%' : '212px') : '80px',
                     overflowX: this.props.carouselFull ? 'hidden' : '',
                 }}>
-                <CarouselHeader carouselFull={this.props.carouselFull}
+                <CarouselHeader
+                    carouselFull={this.props.carouselFull}
                     carouselShow={this.props.carouselShow}
                     courseTitle={this.props.title}
                     onTitleChanged={this.props.onTitleChanged}
-                    onToggleFull={this.props.onToggleFull}
-                    onToggleWidth={this.props.onToggleWidth} />
+                    onToggleWidth={this.onToggleWidth} />
                 <FileTree
                     carouselShow={this.props.carouselShow}
                     containedViews={this.props.containedViews}
@@ -57,7 +65,8 @@ export default class EditorCarousel extends Component {
                     onNavItemReordered={this.props.onNavItemReordered}
                     viewToolbars={this.props.viewToolbars}
                 />
-                <CarouselButtons boxes={this.props.boxes}
+                <CarouselButtons
+                    boxes={this.props.boxes}
                     carouselShow={this.props.carouselShow}
                     containedViews={this.props.containedViews}
                     indexSelected={this.props.indexSelected}
@@ -75,7 +84,35 @@ export default class EditorCarousel extends Component {
         );
     }
 
+    onToggleWidth() {
+        if(this.props.carouselShow) {
+            this.props.dispatch(updateUI(UI.carouselShow, false));
+            this.props.dispatch(updateUI(UI.carouselFull, false));
+        } else {
+            this.props.dispatch(updateUI(UI.carouselShow, true));
+        }
+    }
+
 }
+
+function mapStateToProps(state) {
+    return {
+        carouselShow: state.reactUI.carouselShow,
+        carouselFull: state.reactUI.carouselFull,
+        boxes: state.undoGroup.present.boxes,
+        title: state.undoGroup.present.globalConfig.title || '---',
+        containedViews: state.undoGroup.present.containedViewsById,
+        containedViewSelected: state.undoGroup.present.containedViewSelected,
+        indexSelected: state.undoGroup.present.indexSelected,
+        navItemsIds: state.undoGroup.present.navItemsIds,
+        navItems: state.undoGroup.present.navItemsById,
+        navItemSelected: state.undoGroup.present.navItemSelected,
+        displayMode: state.undoGroup.present.displayMode,
+        viewToolbars: state.undoGroup.present.viewToolbarsById,
+    };
+}
+
+export default connect(mapStateToProps)(EditorCarousel);
 
 EditorCarousel.propTypes = {
     /**
