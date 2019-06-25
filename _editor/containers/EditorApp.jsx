@@ -65,6 +65,7 @@ class EditorApp extends Component {
         this.severalBoxes = 0;
         this.state = {
             alert: null,
+            blockDrag: false,
             initModal: cookies.get("ediphy_visitor") === undefined,
         };
 
@@ -106,9 +107,11 @@ class EditorApp extends Component {
         this.dragListener = (ev) => {
             let { reactUI } = this.props;
             if (!reactUI.showFileUpload && !reactUI.blockDrag) {
-                this.props.dispatch(updateUI(UI.showFileUpload, '*'));
-                this.props.dispatch(updateUI(UI.fileModalResult, { id: undefined, value: undefined }));
-                this.props.dispatch(updateUI(UI.fileUploadTab, 0));
+                this.props.dispatch(updateUI({
+                    showFileUpload: '*',
+                    fileModalResult: { id: undefined, value: undefined },
+                    fileUploadTab: 0,
+                }));
             }
             if (reactUI.showFileUpload && reactUI.fileUploadTab !== 0) {
                 this.props.dispatch(updateUI(UI.fileUploadTab, 0));
@@ -124,7 +127,9 @@ class EditorApp extends Component {
                 ev.target.parentNode.classList.remove('dragging');
             }
         };
-        this.dragStartListener = (ev) => dispatch(updateUI('blockDrag', true));
+        this.dragStartListener = (ev) => {
+            this.props.dispatch(updateUI(UI.blockDrag, true));
+        };
         this.exitListener = (ev) => alert('Please press the Logout button to logout.');
     }
 

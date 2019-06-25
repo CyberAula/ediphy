@@ -213,12 +213,10 @@ class FileTree extends Component {
 }
 
 const overrideDropCaptureHandler = (manager) => {
-
     const backend = HTML5Backend(manager);
     const orgTopDropCapture = backend.handleTopDropCapture;
 
     backend.handleTopDropCapture = (e) => {
-
         let classes = e.target.className.split(' ');
         if (e.target.tagName === 'INPUT' && e.target.type === 'file') {
             e.stopPropagation();
