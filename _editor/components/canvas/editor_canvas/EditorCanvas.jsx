@@ -35,6 +35,7 @@ class EditorCanvas extends Component {
 
 function mapStateToProps(state) {
     return{
+        title: state.undoGroup.present.globalConfig.title || '---',
         boxes: state.undoGroup.present.boxesById,
         grid: state.reactUI.grid,
         canvasRatio: state.undoGroup.present.globalConfig.canvasRatio,

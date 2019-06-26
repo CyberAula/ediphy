@@ -14,13 +14,14 @@ import { isSection, isContainedView, nextAvailName } from '../../../../common/ut
 import './_richMarksModal.scss';
 import './../../../../node_modules/rc-color-picker/assets/index.css';
 import Ediphy from '../../../../core/editor/main';
+import { connect } from "react-redux";
 
 import TemplatesModalRich from '../templates_modal/TemplatesModalRich';
 import { createBox } from "../../../../common/common_tools";
 /**
  * Modal component to edit marks' configuration
  */
-export default class RichMarksModal extends Component {
+class RichMarksModal extends Component {
     /**
      * Constructor
      * @param props
@@ -538,6 +539,26 @@ export default class RichMarksModal extends Component {
     }
 
 }
+
+function mapStateToProps() {
+    return{
+        boxSelected: state.undoGroup.present.boxSelected,
+        pluginToolbar: state.undoGroup.present.pluginToolbarsById[state.undoGroup.present.boxSelected],
+        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+        navItemSelected: state.undoGroup.present.navItemSelected,
+        viewToolbars: state.undoGroup.present.viewToolbarsById,
+        markCursorValue: state.reactUI.markCursorValue,
+        containedViewSelected: state.undoGroup.present.containedViewSelected,
+        containedViews: state.undoGroup.present.containedViewsById,
+        marks: state.undoGroup.present.marks,
+        navItems: state.undoGroup.present.navItemsById,
+        navItemsIds: state.undoGroup.present.navItemsIds,
+        currentRichMark: state.reactUI.currentRichMark,
+        visible: state.reactUI.visible,
+    };
+}
+
+export default connect(mapStateToProps)(RichMarksModal);
 
 RichMarksModal.propTypes = {
     /**

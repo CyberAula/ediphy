@@ -5,11 +5,13 @@ import EditorCanvasSli from '../../canvas/editor_canvas_sli/EditorCanvasSli';
 import EditorCanvasDoc from '../../canvas/editor_canvas_doc/EditorCanvasDoc';
 import { isSlide } from '../../../../common/utils';
 
+import { connect } from "react-redux";
+
 /**
  * ContainerJS component to render contained views
  *
  */
-export default class ContainedCanvas extends Component {
+class ContainedCanvas extends Component {
     /**
      * Constructor
      * @param props
@@ -65,6 +67,32 @@ export default class ContainedCanvas extends Component {
     }
 
 }
+
+function mapStateToProps(state) {
+    return{
+        title: state.undoGroup.present.globalConfig.title || '---',
+        boxes: state.undoGroup.present.boxesById,
+        grid: state.reactUI.grid,
+        canvasRatio: state.undoGroup.present.globalConfig.canvasRatio,
+        boxSelected: state.undoGroup.present.boxSelected,
+        boxLevelSelected: state.undoGroup.present.boxLevelSelected,
+        marks: state.undoGroup.present.marks,
+        navItems: state.undoGroup.present.navItemsById,
+        navItemSelected: state.undoGroup.present.navItemsById[state.undoGroup.present.navItemSelected],
+        containedViews: state.undoGroup.present.containedViewsById,
+        containedViewSelected: state.undoGroup.present.containedViewsById[state.undoGroup.present.containedViewSelected] || 0,
+        showCanvas: state.undoGroup.present.navItemSelected !== 0,
+        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+        viewToolbars: state.undoGroup.present.viewToolbarsById,
+        // !CHANGE
+        aspectRatio: state.undoGroup.present.globalConfig.canvasRatio,
+        markCreatorId: state.reactUI.markCreatorVisible,
+        exercises: state.undoGroup.present.exercises,
+        fileModalResult: state.reactUI.fileModalResult,
+    };
+}
+
+export default connect(mapStateToProps)(ContainedCanvas);
 
 ContainedCanvas.propTypes = {
     /**
