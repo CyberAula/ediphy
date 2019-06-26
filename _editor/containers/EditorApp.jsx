@@ -136,10 +136,9 @@ class EditorApp extends Component {
     render() {
         const { dispatch, boxes, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, filesUploaded, indexSelected, exercises,
-            displayMode, isBusy, pluginToolbars, viewToolbars, marks, lastActionDispatched, globalConfig, reactUI } = this.props;
+            displayMode, isBusy, pluginToolbars, viewToolbars, marks, lastActionDispatched, globalConfig, reactUI, status } = this.props;
         let ribbonHeight = reactUI.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
-        let status = this.props.status;
         let everPublished = this.props.everPublished;
         let canvasRatio = globalConfig.canvasRatio;
         let disabled = (navItemSelected === 0 && containedViewSelected === 0) || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
@@ -189,43 +188,20 @@ class EditorApp extends Component {
                             <ActionsRibbon
                                 onGridToggle={()=> dispatch(updateUI(UI.grid, !reactUI.grid))}
                                 grid={reactUI.grid}
-                                ribbonHeight={ribbonHeight + 'px'}/>
+                                ribbonHeight={ ribbonHeight + 'px'}/>
                         </Row>
 
                         <Row id="ribbonRow" style={{ top: '-1px', left: (reactUI.carouselShow ? '15px' : '147px') }}>
-                            <PluginRibbon disabled={disabled}
-                                boxSelected={boxes[boxSelected]}
-                                navItemSelected={navItems[navItemSelected]}
-                                navItems={navItems}
+                            <PluginRibbon
+                                disabled={disabled}
                                 onBoxAdded={this.onBoxAdded}
-                                containedViewSelected={containedViews[containedViewSelected] || containedViewSelected }
-                                category={reactUI.pluginTab}
-                                hideTab={reactUI.hideTab}
-                                onTabHide={()=>{
-                                    dispatch(updateUI('pluginTab', ''));
-                                }}
-                                boxes={boxes}
-                                ribbonHeight={ribbonHeight + 'px'} />
+                                ribbonHeight={ ribbonHeight + 'px'} />
                         </Row>
                         <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
-                            <EditorCanvas boxes={boxes}
-                                grid={reactUI.grid}
-                                canvasRatio={canvasRatio}
-                                boxSelected={boxSelected}
-                                boxLevelSelected={boxLevelSelected}
-                                marks={marks}
-                                navItems={navItems}
-                                navItemSelected={navItems[navItemSelected]}
-                                containedViews={containedViews}
-                                containedViewSelected={containedViews[containedViewSelected] || 0}
-                                showCanvas={(navItemSelected !== 0)}
-                                pluginToolbars={pluginToolbars}
-                                viewToolbars={viewToolbars}
+                            <EditorCanvas
                                 title={title}
-                                aspectRatio={globalConfig.canvasRatio}
                                 onToolbarUpdated={this.toolbarUpdated}
                                 onRichMarkMoved={(mark, value)=>dispatch(moveRichMark(mark, value))}
-                                markCreatorId={reactUI.markCreatorVisible}
                                 onBoxAdded={this.onBoxAdded}
                                 setCorrectAnswer={(id, correctAnswer, page) => { dispatch(setCorrectAnswer(id, correctAnswer, page));}}
                                 addMarkShortcut= {(mark) => {
@@ -237,7 +213,6 @@ class EditorApp extends Component {
                                     dispatch(addRichMark(boxSelected, mark, state));
                                 }}
                                 deleteMarkCreator={()=>dispatch(updateUI(UI.markCreatorVisible, false))}
-                                exercises={exercises}
                                 openConfigModal={(id)=> dispatch(updateUI(UI.pluginConfigModal, id))}
                                 lastActionDispatched={lastActionDispatched}
                                 onBoxSelected={(id) => dispatch(selectBox(id, boxes[id]))}
@@ -257,7 +232,6 @@ class EditorApp extends Component {
                                 onRichMarksModalToggled={(value, boxId) => this.toggleRichMarksModal(value, boxId)}
                                 onViewTitleChanged={(id, titles)=>{dispatch(updateViewToolbar(id, titles));}}
                                 onTitleChanged={(id, titleStr) => this.onTitleChanged('title', titleStr)}
-                                fileModalResult={reactUI.fileModalResult}
                                 openFileModal={(id, accept)=>{
                                     dispatch((updateUI({
                                         showFileUpload: accept,

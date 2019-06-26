@@ -98,6 +98,7 @@ function mapStateToProps(state) {
         navItemSelected: state.undoGroup.present.navItemSelected,
         navItems: state.undoGroup.present.navItemsById,
         boxSelected: state.undoGroup.present.boxSelected,
+        reactUI: state.reactUI,
     };
 }
 EditorNavBar.propTypes = {

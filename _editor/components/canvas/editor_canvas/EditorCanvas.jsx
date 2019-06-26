@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import EditorCanvasSli from '../editor_canvas_sli/EditorCanvasSli';
 import EditorCanvasDoc from '../editor_canvas_doc/EditorCanvasDoc';
 import { isSlide } from '../../../../common/utils';
-
+import { connect } from "react-redux";
 import './_canvas.scss';
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
@@ -12,7 +12,7 @@ import HTML5Backend from "react-dnd-html5-backend";
  * Container component to render documents or slides
  *
  */
-export default class EditorCanvas extends Component {
+class EditorCanvas extends Component {
     constructor(props) {
         super(props);
     }
@@ -32,6 +32,31 @@ export default class EditorCanvas extends Component {
         }
     }
 }
+
+function mapStateToProps(state) {
+    return{
+        boxes: state.undoGroup.present.boxesById,
+        grid: state.reactUI.grid,
+        canvasRatio: state.undoGroup.present.globalConfig.canvasRatio,
+        boxSelected: state.undoGroup.present.boxSelected,
+        boxLevelSelected: state.undoGroup.present.boxLevelSelected,
+        marks: state.undoGroup.present.marks,
+        navItems: state.undoGroup.present.navItemsById,
+        navItemSelected: state.undoGroup.present.navItemsById[state.undoGroup.present.navItemSelected],
+        containedViews: state.undoGroup.present.containedViewsById,
+        containedViewSelected: state.undoGroup.present.containedViewsById[state.undoGroup.present.containedViewSelected] || 0,
+        showCanvas: state.undoGroup.present.navItemSelected !== 0,
+        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+        viewToolbars: state.undoGroup.present.viewToolbarsById,
+        // !CHANGE
+        aspectRatio: state.undoGroup.present.globalConfig.canvasRatio,
+        markCreatorId: state.reactUI.markCreatorVisible,
+        exercises: state.undoGroup.present.exercises,
+        fileModalResult: state.reactUI.fileModalResult,
+    };
+}
+
+export default connect(mapStateToProps)(EditorCanvas);
 
 EditorCanvas.propTypes = {
     /**

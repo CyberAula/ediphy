@@ -79,8 +79,10 @@ class EditorCarousel extends Component
 
     onToggleWidth() {
         if(this.props.carouselShow) {
-            this.props.dispatch(updateUI(UI.carouselShow, false));
-            this.props.dispatch(updateUI(UI.carouselFull, false));
+            this.props.dispatch(updateUI({
+                carouselShow: false,
+                carouselFull: false,
+            }));
         } else {
             this.props.dispatch(updateUI(UI.carouselShow, true));
         }
