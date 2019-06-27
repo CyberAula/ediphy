@@ -152,6 +152,7 @@
     "animated": "^0.2.1",
     "autoprefixer": "^9.4.6",
     "babel-jest": "^22.1.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-polyfill": "^6.26.0",
     "babel-preset-stage-0": "^6.24.1",
     "basic-xml2json": "^1.0.4",
