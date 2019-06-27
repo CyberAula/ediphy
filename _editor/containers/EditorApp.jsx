@@ -65,7 +65,6 @@ class EditorApp extends Component {
         this.severalBoxes = 0;
         this.state = {
             alert: null,
-            blockDrag: false,
             initModal: cookies.get("ediphy_visitor") === undefined,
         };
 
@@ -80,6 +79,7 @@ class EditorApp extends Component {
         this.duplicateNavItem = this.duplicateNavItem.bind(this);
         this.exportResource = this.exportResource.bind(this);
         this.toggleRichMarksModal = this.toggleRichMarksModal.bind(this);
+        this.onBackgroundChanged = this.onBackgroundChanged.bind(this);
         this.onBoxesInsideSortableReorder = this.onBoxesInsideSortableReorder.bind(this);
         this.onBoxAdded = this.onBoxAdded.bind(this);
         this.onBoxDropped = this.onBoxDropped.bind(this);
@@ -89,6 +89,7 @@ class EditorApp extends Component {
         this.onBoxMoved = this.onBoxMoved.bind(this);
         this.onBoxResized = this.onBoxResized.bind(this);
         this.onIndexSelected = this.onIndexSelected.bind(this);
+        this.onColsChanged = this.onColsChanged.bind(this);
         this.onContainedViewNameChanged = this.onContainedViewNameChanged.bind(this);
         this.onContainedViewSelected = this.onContainedViewSelected.bind(this);
         this.onContainedViewDeleted = this.onContainedViewDeleted.bind(this);
@@ -99,12 +100,18 @@ class EditorApp extends Component {
         this.onNavItemExpanded = this.onNavItemExpanded.bind(this);
         this.onNavItemDeleted = this.onNavItemDeleted.bind(this);
         this.onNavItemReordered = this.onNavItemReordered.bind(this);
+        this.onNavItemToggled = this.onNavItemToggled.bind(this);
         this.onRichMarkAdded = this.onRichMarkAdded.bind(this);
+        this.onRichMarkEditPressed = this.onRichMarkEditPressed.bind(this);
+        this.onRichMarkDeleted = this.onRichMarkDeleted.bind(this);
         this.onRichMarkMoved = this.onRichMarkMoved.bind(this);
         this.onRichMarkUpdated = this.onRichMarkUpdated.bind(this);
+        this.onRowsChanged = this.onRowsChanged.bind(this);
+        this.onScoreConfig = this.onScoreConfig.bind(this);
         this.onSortableContainerDeleted = this.onSortableContainerDeleted.bind(this);
         this.onSortableContainerReordered = this.onSortableContainerReordered.bind(this);
         this.onSortableContainerResized = this.onSortableContainerResized.bind(this);
+        this.onSortablePropsChanged = this.onSortablePropsChanged.bind(this);
         this.onTitleChanged = this.onTitleChanged.bind(this);
         this.onVerticallyAlignBox = this.onVerticallyAlignBox.bind(this);
         this.onViewTitleChanged = this.onViewTitleChanged.bind(this);
@@ -114,6 +121,7 @@ class EditorApp extends Component {
         this.createInitModal = this.createInitModal.bind(this);
         this.showTour = this.showTour.bind(this);
         this.setCorrectAnswer = this.setCorrectAnswer.bind(this);
+        this.updateViewToolbar = this.updateViewToolbar.bind(this);
 
         this.dropListener = (ev) => {
             if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
@@ -158,7 +166,6 @@ class EditorApp extends Component {
         let ribbonHeight = reactUI.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
         let everPublished = this.props.everPublished;
-        let canvasRatio = globalConfig.canvasRatio;
         let disabled = (navItemSelected === 0 && containedViewSelected === 0) || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
         let inProduction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc');
         let canGetPlugin = pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name);
@@ -324,91 +331,33 @@ class EditorApp extends Component {
                 />
                 <Toolbar
                     top={(60 + ribbonHeight) + 'px'}
-                    pluginToolbars={pluginToolbars}
-                    openConfigModal={(id)=> dispatch(updateUI(UI.pluginConfigModal, id))}
-                    viewToolbars={viewToolbars}
-                    box={boxes[boxSelected]}
-                    boxSelected={boxSelected}
-                    containedViews={containedViews}
-                    containedViewSelected={containedViewSelected}
-                    navItemSelected={containedViewSelected !== 0 ? containedViewSelected : navItemSelected}
-                    navItems={containedViewSelected !== 0 ? containedViews : navItems}
-                    carouselShow={reactUI.carouselShow}
-                    isBusy={isBusy}
-                    marks={marks}
-                    exercises={exercises}
+                    openConfigModal={this.openConfigModal}
                     onContainedViewNameChanged={this.onContainedViewNameChanged}
-                    onBackgroundChanged={(id, background) => dispatch(changeBackground(id, background))}
-                    onNavItemToggled={ id => dispatch(toggleNavItem(navItemSelected)) }
+                    onBackgroundChanged={this.onBackgroundChanged}
+                    onNavItemToggled={this.onNavItemToggled}
                     onNavItemSelected={this.onNavItemSelected}
                     onContainedViewSelected={this.onContainedViewSelected}
-                    onColsChanged={(id, parent, distribution, boxesAffected) => dispatch(changeCols(id, parent, distribution, boxesAffected))}
-                    onRowsChanged={(id, parent, column, distribution, boxesAffected) => dispatch(changeRows(id, parent, column, distribution, boxesAffected))}
-                    onBoxResized={(id, structure) => dispatch(resizeBox(id, structure))}
-                    onBoxMoved={(id, x, y, position, parent, container) => dispatch(moveBox(id, x, y, position, parent, container))}
-                    onVerticallyAlignBox={(id, verticalAlign) => dispatch(verticallyAlignBox(id, verticalAlign))}
+                    onColsChanged={this.onColsChanged}
+                    onRowsChanged={this.onRowsChanged}
+                    onBoxResized={this.onBoxResized}
+                    onBoxMoved={this.onBoxMoved}
+                    onVerticallyAlignBox={this.onVerticallyAlignBox}
                     onTextEditorToggled={this.onTextEditorToggled}
-                    onSortableContainerResized={(id, parent, height) => dispatch(resizeSortableContainer(id, parent, height))}
-                    onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
-                    onSortablePropsChanged={(id, parent, prop, value) => dispatch(changeSortableProps(id, parent, prop, value))}
+                    onSortableContainerResized={this.onSortableContainerResized}
+                    onSortableContainerDeleted={this.onSortableContainerDeleted}
+                    onSortablePropsChanged={this.onSortablePropsChanged}
                     onToolbarUpdated={this.toolbarUpdated}
-                    onScoreConfig={(id, button, value, page)=>{dispatch(configScore(id, button, value, page));}}
+                    onScoreConfig={this.onScoreConfig}
                     onBoxDeleted={this.onBoxDeleted}
                     onRichMarksModalToggled={this.toggleRichMarksModal}
-                    onRichMarkEditPressed={(mark) => {
-                        dispatch(updateUI(UI.currentRichMark, mark));
-                    }}
-                    onRichMarkDeleted={id => {
-                        let cvid = marks[id].connection;
-                        // This checks if the deleted mark leaves an orphan contained view, and displays a message asking if the user would like to delete it as well
-                        if (isContainedView(cvid)) {
-                            let thiscv = containedViews[cvid];
-                            if (Object.keys(thiscv.parent).length === 1) {
-                                let confirmText = i18n.t("messages.confirm_delete_CV_also_1") + viewToolbars[cvid].viewName + i18n.t("messages.confirm_delete_CV_also_2");
-                                let alertComponent = (<Alert className="pageModal"
-                                    show
-                                    hasHeader
-                                    title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
-                                    cancelButton
-                                    acceptButtonText={i18n.t("messages.OK")}
-                                    onClose={(bool)=>{
-                                        if (bool) {
-                                            dispatch(deleteRichMark(marks[id]));
-                                            let deleteAlsoCV = document.getElementById('deleteAlsoCv').classList.toString().indexOf('checked') > 0;
-                                            if(deleteAlsoCV) {
-                                                let boxesRemoving = [];
-                                                containedViews[cvid].boxes.map(boxId => {
-                                                    boxesRemoving.push(boxId);
-                                                    boxesRemoving = boxesRemoving.concat(getDescendantBoxes(boxes[boxId], this.props.boxes));
-                                                });
-
-                                                dispatch(deleteContainedView([cvid], boxesRemoving, thiscv.parent));
-                                            }
-                                        } else {
-
-                                        }
-                                        this.setState({ alert: null });}}>
-                                    <span> {confirmText} </span><br/>
-                                    <ToggleSwitch id="deleteAlsoCv" style={{ margin: '10px' }}/>
-                                    {i18n.t("messages.confirm_delete_cv_as_well")}
-                                </Alert>);
-                                this.setState({ alert: alertComponent });
-                                return;
-                            }
-                        }
-                        dispatch(deleteRichMark(marks[id]));
-                    }}
-                    fileModalResult={reactUI.fileModalResult}
-                    openFileModal={(id, accept)=>{
-                        dispatch((updateUI({
-                            showFileUpload: accept,
-                            fileUploadTab: 1,
-                            fileModalResult: { id, value: undefined },
-                        })));
-                    }}
-                    updateViewToolbar={(id, toolbar)=> dispatch(updateViewToolbar(id, toolbar))}
+                    onRichMarkEditPressed={this.onRichMarkEditPressed}
+                    onRichMarkDeleted={this.onRichMarkDeleted}
+                    openFileModal={this.openFileModal}
+                    updateViewToolbar={this.updateViewToolbar}
                 />
-                <FileModal visible={reactUI.showFileUpload} disabled={disabled}
+                <FileModal
+                    visible={reactUI.showFileUpload}
+                    disabled={disabled}
                     onBoxAdded={this.onBoxAdded}
                     boxSelected={boxSelected}
                     boxes={boxes}
@@ -481,10 +430,12 @@ class EditorApp extends Component {
 
         </Modal>;
     }
+
     showTour() {
         this.props.dispatch(updateUI(UI.showTour, true));
         this.props.dispatch(updateUI(UI.showHelpButton, false));
     }
+
     exportResource(format, callback, options) {
         if(format === "PDF") {
             printToPDF(this.props.store.getState().undoGroup.present, callback, options);
@@ -541,18 +492,15 @@ class EditorApp extends Component {
 
         }
         if (process.env.NODE_ENV === 'production' && process.env.DOC === 'doc') {
-            // window.parent.addEventListener("beforeunload", this.beforeUnloadAlert); // it is done outside
             window.oncontextmenu = function() {
                 return false;
             };
         }
-        // setTimeout(()=>{this.setState({ showHelpButton: false });}, 30000);
         document.addEventListener('keydown', this.keyListener);
         document.addEventListener('dragover', this.dragListener);
         document.addEventListener('dragleave', this.dragExitListener);
         document.addEventListener('drop', this.dropListener);
         document.addEventListener('dragstart', this.dragStartListener);
-        // document.addEventListener('onbeforeunload', this.exitListener);
 
         if(cookies.get("ediphy_visitor") === undefined) {
             cookies.set("ediphy_visitor", true);
@@ -565,8 +513,6 @@ class EditorApp extends Component {
         document.removeEventListener('dragleave', this.dragExitListener);
         document.removeEventListener('drop', this.dropListener);
         document.removeEventListener('dragstart', this.dragStartListener);
-        // document.removeEventListener('onbeforeunload', this.exitListener);
-
     }
 
     beforeUnloadAlert() {
@@ -648,6 +594,10 @@ class EditorApp extends Component {
         this.props.dispatch(addRichMark(this.props.boxSelected, mark, state));
     }
 
+    onBackgroundChanged(id, background) {
+        this.props.dispatch(changeBackground(id, background));
+    }
+
     onBoxesInsideSortableReorder(parent, container, order) {
         this.props.dispatch(reorderBoxes(parent, container, order));
     }
@@ -692,6 +642,10 @@ class EditorApp extends Component {
 
     onIndexSelected(id) {
         this.props.dispatch(selectIndex(id));
+    }
+
+    onColsChanged(id, parent, distribution, boxesAffected) {
+        this.props.dispatch(changeCols(id, parent, distribution, boxesAffected));
     }
 
     onContainedViewNameChanged(id, titleStr) {
@@ -764,12 +718,65 @@ class EditorApp extends Component {
         this.props.dispatch(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder));
     }
 
+    onNavItemToggled() {
+        this.props.dispatch(toggleNavItem(navItemSelected));
+    }
+
     onRichMarkAdded(mark, view, viewToolbar) {
         this.props.dispatch(addRichMark(mark, view, viewToolbar));
     }
 
     onRichMarkMoved(mark, value) {
         this.props.dispatch(moveRichMark(mark, value));
+    }
+
+    onRichMarkDeleted(id) {
+        let cvid = this.props.marks[id].connection;
+        // This checks if the deleted mark leaves an orphan contained view, and displays a message asking if the user would like to delete it as well
+        if (isContainedView(cvid)) {
+            let thiscv = this.props.containedViews[cvid];
+            if (Object.keys(thiscv.parent).length === 1) {
+                let confirmText = i18n.t("messages.confirm_delete_CV_also_1") + this.props.viewToolbars[cvid].viewName + i18n.t("messages.confirm_delete_CV_also_2");
+                let alertComponent = (<Alert className="pageModal"
+                    show
+                    hasHeader
+                    title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
+                    cancelButton
+                    acceptButtonText={i18n.t("messages.OK")}
+                    onClose={(bool)=>{
+                        if (bool) {
+                            this.props.dispatch(deleteRichMark(this.props.marks[id]));
+                            let deleteAlsoCV = document.getElementById('deleteAlsoCv').classList.toString().indexOf('checked') > 0;
+                            if(deleteAlsoCV) {
+                                let boxesRemoving = [];
+                                this.props.containedViews[cvid].boxes.map(boxId => {
+                                    boxesRemoving.push(boxId);
+                                    boxesRemoving = boxesRemoving.concat(getDescendantBoxes(this.props.boxes[boxId], this.props.boxes));
+                                });
+
+                                this.props.dispatch(deleteContainedView([cvid], boxesRemoving, thiscv.parent));
+                            }
+                        } else {
+
+                        }
+                        this.setState({ alert: null });}}>
+                    <span> {confirmText} </span><br/>
+                    <ToggleSwitch id="deleteAlsoCv" style={{ margin: '10px' }}/>
+                    {i18n.t("messages.confirm_delete_cv_as_well")}
+                </Alert>);
+                this.setState({ alert: alertComponent });
+                return;
+            }
+        }
+        this.props.dispatch(deleteRichMark(marks[id]));
+    }
+
+    onRichMarkEditPressed(mark) {
+        this.props.dispatch(updateUI(UI.currentRichMark, mark));
+    }
+
+    onRowsChanged(id, parent, column, distribution, boxesAffected) {
+        this.props.dispatch(changeRows(id, parent, column, distribution, boxesAffected));
     }
 
     onSortableContainerResized(id, parent, height) {
@@ -918,6 +925,10 @@ class EditorApp extends Component {
 
     }
 
+    onScoreConfig(id, button, value, page) {
+        this.props.dispatch(configScore(id, button, value, page));
+    }
+
     onSortableContainerDeleted(id, parent) {
         let boxes = this.props.boxes;
         let containedViews = this.props.containedViews;
@@ -935,6 +946,10 @@ class EditorApp extends Component {
             }
         }
         this.props.dispatch(deleteSortableContainer(id, parent, descBoxes, cvs, page));
+    }
+
+    onSortablePropsChanged(id, parent, prop, value) {
+        this.props.dispatch(changeSortableProps(id, parent, prop, value));
     }
 
     onTextEditorToggled(caller, value, text, content) {
@@ -961,6 +976,10 @@ class EditorApp extends Component {
 
     setCorrectAnswer(id, correctAnswer, page) {
         this.props.dispatch(setCorrectAnswer(id, correctAnswer, page));
+    }
+
+    updateViewToolbar(id, toolbar) {
+        this.props.dispatch(updateViewToolbar(id, toolbar));
     }
 
 }

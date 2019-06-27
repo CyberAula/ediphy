@@ -5,6 +5,7 @@ import PluginToolbar from '../plugin_toolbar/PluginToolbar';
 import { isCanvasElement, isSlide } from "../../../../common/utils";
 import Ediphy from "../../../../core/editor/main";
 import PropTypes from 'prop-types';
+import { connect } from "react-redux";
 import {
     Tooltip,
     FormControl,
@@ -19,8 +20,7 @@ import {
     PanelGroup,
     Panel,
 } from 'react-bootstrap';
-import { connect } from "react-redux";
-export default class Toolbar extends Component {
+class Toolbar extends Component {
     constructor(props) {
         super(props);
 
@@ -120,6 +120,26 @@ export default class Toolbar extends Component {
         this.setState({ open: !this.state.open });
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+        viewToolbars: state.undoGroup.present.viewToolbarsById,
+        box: state.undoGroup.present.boxesById[state.undoGroup.present.boxSelected],
+        boxSelected: state.undoGroup.present.boxSelected,
+        containedViews: state.undoGroup.present.containedViewsById,
+        containedViewSelected: state.undoGroup.present.containedViewSelected,
+        navItemSelected: state.undoGroup.present.containedViewSelected !== 0 ? state.undoGroup.present.containedViewSelected : state.undoGroup.present.navItemSelected,
+        navItems: state.undoGroup.present.containedViewSelected !== 0 ? state.undoGroup.present.containedViewsById : state.undoGroup.present.navItemsById,
+        carouselShow: state.reactUI.carouselShow,
+        isBusy: state.undoGroup.present.isBusy,
+        marks: state.undoGroup.present.marksById,
+        exercises: state.undoGroup.present.exercises,
+        fileModalResult: state.reactUI.fileModalResult,
+    };
+}
+
+export default connect(mapStateToProps)(Toolbar);
 
 Toolbar.propTypes = {
     /**

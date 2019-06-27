@@ -540,7 +540,7 @@ class RichMarksModal extends Component {
 
 }
 
-function mapStateToProps() {
+function mapStateToProps(state) {
     return{
         boxSelected: state.undoGroup.present.boxSelected,
         pluginToolbar: state.undoGroup.present.pluginToolbarsById[state.undoGroup.present.boxSelected],
@@ -554,7 +554,7 @@ function mapStateToProps() {
         navItems: state.undoGroup.present.navItemsById,
         navItemsIds: state.undoGroup.present.navItemsIds,
         currentRichMark: state.reactUI.currentRichMark,
-        visible: state.reactUI.visible,
+        visible: state.reactUI.richMarksVisible,
     };
 }
 
