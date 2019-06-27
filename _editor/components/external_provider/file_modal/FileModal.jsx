@@ -9,6 +9,7 @@ import APIProviders from './APIProviders/APIProviders';
 import PDFHandler from "./FileHandlers/PDFHandler";
 import MoodleHandler from "./FileHandlers/MoodleHandler";
 
+import { connect } from "react-redux";
 import i18n from 'i18next';
 
 const initialState = {
@@ -22,7 +23,7 @@ const initialState = {
     moodleSelected: false,
     options: {},
 };
-export default class FileModal extends React.Component {
+class FileModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = initialState;
@@ -34,6 +35,7 @@ export default class FileModal extends React.Component {
     render() {
         let menus = APIProviders(this); // Retrieves all API providers
         let handler = FileHandlers(this); // Retrieves all file-handling actions
+
         return(
             <Modal className="pageModal fileModal"
                 backdrop bsSize="large"
@@ -179,6 +181,26 @@ export default class FileModal extends React.Component {
     }
 
 }
+
+function mapStateToProps(state) {
+    return {
+        visible: state.reactUI.showFileUpload,
+        boxSelected: state.undoGroup.present.boxSelected,
+        boxes: state.undoGroup.present.boxesById,
+        isBusy: state.undoGroup.present.isBusy,
+        fileModalResult: state.reactUI.fileModalResult,
+        navItemsIds: state.undoGroup.present.navItemsIds,
+        navItems: state.undoGroup.present.navItemsById,
+        containedViews: state.undoGroup.present.containedViewsById,
+        containedViewSelected: state.undoGroup.present.containedViewSelected,
+        navItemSelected: state.undoGroup.present.navItemSelected,
+        filesUploaded: state.filesUploaded,
+        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+        marks: state.undoGroup.present.marksById,
+    };
+}
+
+export default connect(mapStateToProps)(FileModal);
 
 FileModal.propTypes = {
     /**

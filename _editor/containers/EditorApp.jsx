@@ -72,6 +72,8 @@ class EditorApp extends Component {
 
         this.addMarkShortcut = this.addMarkShortcut.bind(this);
         this.deleteMarkCreator = this.deleteMarkCreator.bind(this);
+        this.deleteFileFromServer = this.deleteFileFromServer.bind(this);
+        this.closeFileModal = this.closeFileModal.bind(this);
         this.onTextEditorToggled = this.onTextEditorToggled.bind(this);
         this.toolbarUpdated = this.toolbarUpdated.bind(this);
         this.keyListener = this.keyListener.bind(this);
@@ -79,6 +81,7 @@ class EditorApp extends Component {
         this.duplicateNavItem = this.duplicateNavItem.bind(this);
         this.exportResource = this.exportResource.bind(this);
         this.toggleRichMarksModal = this.toggleRichMarksModal.bind(this);
+        this.toggleVisor = this.toggleVisor.bind(this);
         this.onBackgroundChanged = this.onBackgroundChanged.bind(this);
         this.onBoxesInsideSortableReorder = this.onBoxesInsideSortableReorder.bind(this);
         this.onBoxAdded = this.onBoxAdded.bind(this);
@@ -96,6 +99,7 @@ class EditorApp extends Component {
         this.onMarkCreatorToggled = this.onMarkCreatorToggled.bind(this);
         this.onNavItemNameChanged = this.onNavItemNameChanged.bind(this);
         this.onNavItemAdded = this.onNavItemAdded.bind(this);
+        this.onNavItemsAdded = this.onNavItemsAdded.bind(this);
         this.onNavItemSelected = this.onNavItemSelected.bind(this);
         this.onNavItemExpanded = this.onNavItemExpanded.bind(this);
         this.onNavItemDeleted = this.onNavItemDeleted.bind(this);
@@ -119,9 +123,11 @@ class EditorApp extends Component {
         this.openConfigModal = this.openConfigModal.bind(this);
         this.createHelpModal = this.createHelpModal.bind(this);
         this.createInitModal = this.createInitModal.bind(this);
+        this.save = this.save.bind(this);
         this.showTour = this.showTour.bind(this);
         this.setCorrectAnswer = this.setCorrectAnswer.bind(this);
         this.updateViewToolbar = this.updateViewToolbar.bind(this);
+        this.uploadFunction = this.uploadFunction.bind(this);
 
         this.dropListener = (ev) => {
             if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
@@ -167,26 +173,27 @@ class EditorApp extends Component {
         let title = globalConfig.title || '---';
         let everPublished = this.props.everPublished;
         let disabled = (navItemSelected === 0 && containedViewSelected === 0) || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
-        let inProduction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc');
         let canGetPlugin = pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name);
-        let uploadFunction = inProduction ? uploadVishResourceAsync : uploadEdiphyResourceAsync;
-        let deleteFunction = inProduction ? deleteRemoteFileVishAsync : deleteRemoteFileEdiphyAsync;
         return (
             <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }} ref={'app'}>
                 <Row className="navBar">
-                    {reactUI.showTour ? <EdiphyTour toggleTour={(showTour)=>dispatch(updateUI(UI.showTour, showTour))} showTour={reactUI.showTour}/> : null}
+                    {reactUI.showTour ?
+                        <EdiphyTour
+                            toggleTour={(showTour)=>dispatch(updateUI(UI.showTour, showTour))}
+                            showTour={reactUI.showTour}
+                        /> : null}
                     {this.createHelpModal()}
                     {this.createInitModal()}
                     {this.state.alert}
                     <EditorNavBar
                         globalConfig={{ ...globalConfig, status, everPublished }}
-                        export={(format, callback, options) => this.exportResource(format, callback, options = false)}
+                        export={this.exportResource}
                         scorm={(is2004, callback, selfContained = false) => {Ediphy.Visor.exportScorm({ ...this.props.store.getState().undoGroup.present, filesUploaded: this.props.store.getState().filesUploaded, status: this.props.store.getState().status }, is2004, callback, selfContained);}}
-                        save={(win) => {dispatch(exportStateAsync({ ...this.props.store.getState() }, win)); }}
+                        save={this.save}
                     />
                     {Ediphy.Config.autosave_time > 1000 &&
                     <AutoSave
-                        save={() => {dispatch(exportStateAsync({ ...this.props.store.getState() }));}}
+                        save={this.save}
                         isBusy={isBusy}
                         lastAction={lastActionDispatched}
                         visorVisible={reactUI.visorVisible}/>})
@@ -230,6 +237,7 @@ class EditorApp extends Component {
                                 addMarkShortcut= {this.addMarkShortcut}
                                 deleteMarkCreator={this.deleteMarkCreator}
                                 lastActionDispatched={lastActionDispatched}
+                                moveRichMark={this.onRichMarkMoved}
                                 onBoxAdded={this.onBoxAdded}
                                 onBoxSelected={this.onBoxSelected}
                                 onBoxLevelIncreased={this.onBoxLevelIncreased}
@@ -238,17 +246,16 @@ class EditorApp extends Component {
                                 onBoxDropped={this.onBoxDropped}
                                 onBoxDeleted={this.onBoxDeleted}
                                 onBoxesInsideSortableReorder={this.onBoxesInsideSortableReorder}
+                                onContainedViewSelected={this.onContainedViewSelected}
                                 onMarkCreatorToggled={this.onMarkCreatorToggled}
                                 onSortableContainerDeleted={this.onSortableContainerDeleted}
                                 onSortableContainerResized={this.onSortableContainerResized}
                                 onSortableContainerReordered={this.onSortableContainerReordered}
-                                onContainedViewSelected={this.onContainedViewSelected}
                                 onVerticallyAlignBox={this.onVerticallyAlignBox}
                                 onTextEditorToggled={this.onTextEditorToggled}
                                 onRichMarksModalToggled={this.toggleRichMarksModal}
                                 onRichMarkMoved={this.onRichMarkMoved}
                                 onToolbarUpdated={this.toolbarUpdated}
-                                moveRichMark={this.onRichMarkMoved}
                                 onViewTitleChanged={this.onViewTitleChanged}
                                 onTitleChanged={this.onTitleChanged}
                                 openConfigModal={this.openConfigModal}
@@ -316,7 +323,8 @@ class EditorApp extends Component {
                 <ExternalCatalogModal
                     images={filesUploaded}
                     visible={reactUI.catalogModal}
-                    onExternalCatalogToggled={() => dispatch(updateUI(UI.catalogModal, !reactUI.catalogModal))}/>}
+                    onExternalCatalogToggled={() => dispatch(updateUI(UI.catalogModal, !reactUI.catalogModal))}
+                />}
                 <RichMarksModal
                     defaultValueMark={ canGetPlugin ?
                         Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).getConfig().defaultMarkValue
@@ -356,45 +364,17 @@ class EditorApp extends Component {
                     updateViewToolbar={this.updateViewToolbar}
                 />
                 <FileModal
-                    visible={reactUI.showFileUpload}
                     disabled={disabled}
                     onBoxAdded={this.onBoxAdded}
-                    boxSelected={boxSelected}
-                    boxes={boxes}
-                    isBusy={isBusy}
                     importEdi={(state) => dispatch(serialize(importEdi(state)))}
-                    fileModalResult={reactUI.fileModalResult}
-                    navItemsIds={navItemsIds}
-                    navItems={navItems}
                     onNavItemSelected={this.onNavItemSelected}
-                    containedViews={containedViews}
-                    containedViewSelected={containedViewSelected}
-                    navItemSelected={navItemSelected}
-                    filesUploaded={filesUploaded}
-                    pluginToolbars={pluginToolbars}
-                    marks={marks}
-                    deleteFileFromServer={(id, url, callback) => dispatch(deleteFunction(id, url, callback))}
+                    deleteFileFromServer={this.deleteFileFromServer}
                     onIndexSelected={this.onIndexSelected}
                     fileUploadTab={reactUI.fileUploadTab}
                     onNavItemAdded={this.onNavItemAdded}
-                    onNavItemsAdded={(navs, parent)=> dispatch(addNavItems(navs, parent))}
-                    uploadFunction={(query, keywords, callback) => dispatch(uploadFunction(query, keywords, callback))}
-                    close={(fileModalResult)=>{
-                        if(fileModalResult) {
-                            dispatch(updateUI(UI.fileModalResult, fileModalResult));
-                        } else {
-                            dispatch((updateUI({
-                                showFileUpload: false,
-                                fileUploadTab: 0,
-                                fileModalResult: { id: undefined, value: undefined },
-                            })));
-                        }}} />
-                <ExitModal
-                    showExitModal={reactUI.showExitModal}
-                    closeExitModal={()=>{dispatch(updateUI(UI.showExitModal, false));}}
-                    status={status}
-                    publishing={(value) => dispatch(updateUI(UI.publishing, value))}
-                    save={(win, url) => {dispatch(exportStateAsync({ ...this.props.store.getState() }, win, url)); }}
+                    onNavItemsAdded={this.onNavItemsAdded}
+                    uploadFunction={this.uploadFunction}
+                    close={this.closeFileModal}
                 />
             </Grid>
         );
@@ -402,13 +382,12 @@ class EditorApp extends Component {
 
     /* Help Modal */
     createHelpModal() {
+        let closeModal = () => this.props.dispatch(updateUI(UI.showHelpButton, false));
         return <Modal className="pageModal welcomeModal helpModal"
             show={this.props.reactUI.showHelpButton}
             cancelButton
             acceptButtonText={i18n.t("joyride.start")}
-            onHide={(bool)=>{
-                this.props.dispatch(updateUI(UI.showHelpButton, false));
-            }}>
+            onHide={closeModal}>
             <Modal.Header closeButton>
                 <Modal.Title>{i18n.t("messages.help")}</Modal.Title>
             </Modal.Header>
@@ -478,8 +457,6 @@ class EditorApp extends Component {
                 <p>{i18n.t('joyride.ediphy_description')}</p>
                 <p><strong>{i18n.t('joyride.need_help')}</strong></p>
             </div>
-            {/*  {i18n.t('joyride.manual')}<a href="http://ging.github.io/ediphy/#/manual" target="_blank">{i18n.t('joyride.manual2')}</a>*/}
-            {/* i18n.t('Want some help?')*/}
         </Alert>;
     }
     /**
@@ -522,8 +499,26 @@ class EditorApp extends Component {
         return undefined;
     }
 
+    closeFileModal(fileModalResult) {
+        if (fileModalResult) {
+            this.props.dispatch(updateUI(UI.fileModalResult, fileModalResult));
+        } else {
+            this.props.dispatch((updateUI({
+                showFileUpload: false,
+                fileUploadTab: 0,
+                fileModalResult: { id: undefined, value: undefined },
+            })));
+        }
+    }
+
     deleteMarkCreator() {
         this.props.dispatch(updateUI(UI.markCreatorVisible, false));
+    }
+
+    deleteFileFromServer(id, url, callback) {
+        let inProduction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc');
+        let deleteFunction = inProduction ? deleteRemoteFileVishAsync : deleteRemoteFileEdiphyAsync;
+        this.props.dispatch(deleteFunction(id, url, callback));
     }
 
     keyListener(e) {
@@ -687,6 +682,10 @@ class EditorApp extends Component {
             sortable_id));
     }
 
+    onNavItemsAdded(navs, parent) {
+        this.props.dispatch(addNavItems(navs, parent));
+    }
+
     onNavItemSelected(id) {
         this.props.dispatch(selectNavItem(id));
     }
@@ -841,6 +840,10 @@ class EditorApp extends Component {
         }
     }
 
+    toggleVisor() {
+        this.props.dispatch(updateUI('visorVisible', !this.props.reactUI.visorVisible));
+    }
+
     toolbarUpdated(id, tab, accordion, name, value) {
         if (isBox(id) || isSortableBox(id)) {
             let toolbar = this.props.pluginToolbars[id];
@@ -974,12 +977,22 @@ class EditorApp extends Component {
         this.props.dispatch(updateUI(UI.pluginConfigModal, id));
     }
 
+    save(win) {
+        this.props.dispatch(exportStateAsync({ ...this.props.store.getState() }, win));
+    }
+
     setCorrectAnswer(id, correctAnswer, page) {
         this.props.dispatch(setCorrectAnswer(id, correctAnswer, page));
     }
 
     updateViewToolbar(id, toolbar) {
         this.props.dispatch(updateViewToolbar(id, toolbar));
+    }
+
+    uploadFunction(query, keywords, callback) {
+        let inProduction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc');
+        let uploadFunction = inProduction ? uploadVishResourceAsync : uploadEdiphyResourceAsync;
+        this.props.dispatch(uploadFunction(query, keywords, callback));
     }
 
 }

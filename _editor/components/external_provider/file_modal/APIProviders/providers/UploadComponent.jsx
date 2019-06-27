@@ -31,6 +31,7 @@ export default class UploadComponent extends React.Component {
 
     }
     render() {
+        console.log(this.props);
         let file = this.state.file;
         let currentExtension = this.props.show;
         currentExtension = currentExtension === '*' ? '' : currentExtension;
