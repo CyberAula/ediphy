@@ -500,15 +500,11 @@ class EditorApp extends Component {
     }
 
     closeFileModal(fileModalResult) {
-        if (fileModalResult) {
-            this.props.dispatch(updateUI(UI.fileModalResult, fileModalResult));
-        } else {
-            this.props.dispatch((updateUI({
-                showFileUpload: false,
-                fileUploadTab: 0,
-                fileModalResult: { id: undefined, value: undefined },
-            })));
-        }
+        this.props.dispatch((updateUI({
+            showFileUpload: false,
+            fileUploadTab: 0,
+            fileModalResult: fileModalResult ? fileModalResult : { id: undefined, value: undefined },
+        })));
     }
 
     deleteMarkCreator() {
