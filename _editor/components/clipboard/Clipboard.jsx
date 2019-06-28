@@ -9,7 +9,7 @@ import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITO
 import i18n from 'i18next';
 import { instanceExists, scrollElement, findBox, createBox } from '../../../common/common_tools';
 import { connect } from 'react-redux';
-import { uploadVishResourceAsync, uploadEdiphyResourceAsync, deleteBox, addBox } from '../../../common/actions';
+import { uploadVishResourceAsync, uploadEdiphyResourceAsync, deleteBox, addBox, pasteBox } from '../../../common/actions';
 
 /**
  * Component for managing the clipboard

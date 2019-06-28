@@ -596,6 +596,7 @@ export default function(state = {}, action = {}) {
         });
         return newState;
     case DELETE_BOX:
+        console.log(action);
         let children = action.payload.children ? action.payload.children : [];
         let which_children = children.concat(action.payload.id);
         temp = deleteProps(state, children.concat(action.payload.id));

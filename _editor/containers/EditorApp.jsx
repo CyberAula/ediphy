@@ -397,6 +397,7 @@ class EditorApp extends Component {
             </div>
         </Alert>;
     };
+
     /**
      * After component mounts
      * Loads plugin API and sets listeners for plugin events, marks and keyboard keys pressed
