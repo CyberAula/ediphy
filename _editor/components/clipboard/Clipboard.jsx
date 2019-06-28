@@ -117,7 +117,8 @@ class Clipboard extends Component {
         let fromPlugin = this.copyListener(event);
         if (fromPlugin) {
             let box = this.props.boxes[this.props.boxSelected];
-            this.props.dispatch(deleteBox(box.id, box.parent, box.container, this.currentPage()));
+            this.props.onBoxDeleted(box.id, box.parent, box.container, this.currentPage());
+            // this.props.dispatch(deleteBox(box.id, box.parent, box.container, this.currentPage()));
         }
         document.activeElement.blur();
     }

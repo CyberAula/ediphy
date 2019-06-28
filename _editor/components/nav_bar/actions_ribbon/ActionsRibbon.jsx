@@ -95,7 +95,9 @@ class ActionsRibbon extends Component {
                             return <span id="vs" key={ind} />;
                         }
                         return button(act, ind);}) : null }
-                    <Clipboard key="clipboard" >
+                    <Clipboard
+                        key="clipboard"
+                        onBoxDeleted={this.props.onBoxDeleted}>
                         { clipboardActions.map((act, ind)=>{
                             return button(act, ind);
                         })}

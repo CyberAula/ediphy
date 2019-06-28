@@ -160,7 +160,9 @@ class EditorApp extends Component {
                             <ActionsRibbon
                                 onGridToggle={()=> dispatch(updateUI(UI.grid, !reactUI.grid))}
                                 grid={reactUI.grid}
-                                ribbonHeight={ ribbonHeight + 'px'}/>
+                                ribbonHeight={ ribbonHeight + 'px'}
+                                onBoxDeleted={this.onBoxDeleted}
+                            />
                         </Row>
 
                         <Row id="ribbonRow" style={{ top: '-1px', left: (reactUI.carouselShow ? '15px' : '147px') }}>
