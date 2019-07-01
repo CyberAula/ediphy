@@ -31,9 +31,6 @@ class PluginRibbon extends Component {
             showed: true,
             alert: null,
         };
-        this.clickAddBox = this.clickAddBox.bind(this);
-        this.handleScroll = this.handleScroll.bind(this);
-        this.onTabHide = this.onTabHide.bind(this);
     }
 
     /**
@@ -82,14 +79,14 @@ class PluginRibbon extends Component {
      * Scroll handler
      * @param e
      */
-    handleScroll(e) {
+    handleScroll = (e) => {
         let element = this.props.containedViewSelected !== 0 ? document.getElementById("containedCanvas") : document.getElementById("canvas");
         if (e.deltaY > 0) { // scroll-down
             element.scrollTop = element.scrollTop + 20;
         }else{ // scroll-up
             element.scrollTop = element.scrollTop - 20;
         }
-    }
+    };
 
     /**
      * Before component unmounts
@@ -233,13 +230,13 @@ class PluginRibbon extends Component {
         interact('.rib').unset();
     }
 
-    onTabHide() {
+    onTabHide = () => {
         this.props.dispatch(updateUI({
             pluginTab: '',
         }));
-    }
+    };
 
-    clickAddBox(event, name) {
+    clickAddBox = (event, name) => {
         let alert = (msg) => {return <Alert key="alert" className="pageModal"
             show
             hasHeader
@@ -304,7 +301,7 @@ class PluginRibbon extends Component {
         event.stopPropagation();
         event.preventDefault();
 
-    }
+    };
 }
 
 /** *

@@ -10,20 +10,14 @@ import { connect } from 'react-redux';
 import { changeBoxLayer } from '../../../../common/actions';
 
 class ActionsRibbon extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            buttons: [],
-            clipboardAlert: false,
-        };
-        this.isPage = this.isPage.bind(this);
-    }
 
-    isPage() {
+    state = { buttons: [], clipboardAlert: false };
+
+    isPage = () => {
         return this.props.containedViews[this.props.containedViewSelected] ? this.props.containedViews[this.props.containedViewSelected] : (
             this.props.navItems[this.props.navItemSelected] ? this.props.navItems[this.props.navItemSelected] : null
         );
-    }
+    };
     /**
      * Render React Component
      * @returns {code}

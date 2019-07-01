@@ -29,8 +29,6 @@ class CarouselButtons extends Component {
             showOverlay: false,
             showTemplates: false,
         };
-        this.toggleTemplatesModal = this.toggleTemplatesModal.bind(this);
-        this.expandSiblings = this.expandSiblings.bind(this);
     }
 
     /**
@@ -51,7 +49,7 @@ class CarouselButtons extends Component {
     /**
      * Expand siblings of added navItem
      */
-    expandSiblings(parentId) {
+    expandSiblings = (parentId) => {
         const children = this.props.navItems[parentId].children;
 
         for (let child of children) {
@@ -59,7 +57,7 @@ class CarouselButtons extends Component {
                 this.props.onNavItemExpanded(child, true);
             }
         }
-    }
+    };
 
     /**
      * Calculate a new navItem's position on the index
@@ -277,11 +275,11 @@ class CarouselButtons extends Component {
     /**
      * Shows/Hides the Import file modal
      */
-    toggleTemplatesModal() {
+    toggleTemplatesModal = () => {
         this.setState((prevState, props) => ({
             showTemplates: !prevState.showTemplates,
         }));
-    }
+    };
 }
 export default connect(mapStateToProps)(CarouselButtons);
 

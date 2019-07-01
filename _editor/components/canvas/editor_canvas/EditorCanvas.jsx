@@ -13,10 +13,6 @@ import HTML5Backend from "react-dnd-html5-backend";
  *
  */
 class EditorCanvas extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (!this.props.navItemSelected || !this.props.navItemSelected.type || isSlide(this.props.navItemSelected.type)) ?
             (<EditorCanvasSli fromCV={false} {...this.props} />) :

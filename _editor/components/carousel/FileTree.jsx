@@ -19,13 +19,6 @@ class FileTree extends Component {
             showSortableItems: true,
             showContainedViews: true,
         };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleMove = this.handleMove.bind(this);
-        this.handleToggleCollapse = this.handleToggleCollapse.bind(this);
-        this.renderItem = this.renderItem.bind(this);
-        this.ediphyNavItemsToSortlyItems = this.ediphyNavItemsToSortlyItems.bind(this);
-        this.getImmediateDescendants = this.getImmediateDescendants.bind(this);
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -40,7 +33,7 @@ class FileTree extends Component {
             || nextState.showContainedViews !== this.state.showContainedViews);
     }
 
-    handleMove(items, index, newIndex) {
+    handleMove = (items, index, newIndex) => {
         const { path } = items[newIndex];
         const parent = items.find(item => item.id === path[path.length - 1]);
 
@@ -62,9 +55,9 @@ class FileTree extends Component {
             return update(items, updateFn);
         }
         return true;
-    }
+    };
 
-    ediphyNavItemsToSortlyItems(edNavItems, edNavItemsId, edViewToolbars) {
+    ediphyNavItemsToSortlyItems = (edNavItems, edNavItemsId, edViewToolbars) => {
         let edItems = edNavItemsId.map((item, i) => {
             return {
                 id: edNavItems[item].id,
@@ -78,9 +71,9 @@ class FileTree extends Component {
 
         });
         return convert(edItems);
-    }
+    };
 
-    handleChange(items) {
+    handleChange = (items) => {
         let movedItem = items.find(i => i.id === this.props.indexSelected);
 
         let oldParentId = this.props.navItems[movedItem.id].parent;
@@ -93,16 +86,15 @@ class FileTree extends Component {
             this.props.onNavItemExpanded(movedItem.id, shouldChildExpand);
         }
         this.props.onNavItemReordered(movedItem.id, newParentId, oldParentId, idsInOrder, childrenInOrder);
+    };
 
-    }
-
-    getImmediateDescendants(items, parentId) {
+    getImmediateDescendants = (items, parentId) => {
         return parentId === 0 ?
             items.filter(i => i.path.length === 0).map(i => i.id) :
             findDescendants(items, items.findIndex(i => i.id === parentId)).filter(i => i.path.slice(-1)[0] === parentId).map(i => i.id);
-    }
+    };
 
-    handleToggleCollapse(index) {
+    handleToggleCollapse = (index) => {
         let items = this.ediphyNavItemsToSortlyItems(this.props.navItems, this.props.navItemsIds, this.props.viewToolbars);
         const descendants = findDescendants(items, index);
         const parentId = items[index].id;
@@ -119,9 +111,9 @@ class FileTree extends Component {
                 if (immediateChild && item.type !== "folder") { this.props.onNavItemExpanded(item.id, expands); }
             });
         }
-    }
+    };
 
-    renderItem(props) { return <ItemRenderer {...props}
+    renderItem = (props) => { return<ItemRenderer {...props}
         onToggleCollapse={this.handleToggleCollapse}
         onIndexSelected = {this.props.onIndexSelected}
         onNavItemSelected={this.props.onNavItemSelected}
@@ -131,7 +123,7 @@ class FileTree extends Component {
         containedViewSelected={this.props.containedViewSelected}
         navItemSelected={this.props.navItemSelected}
         indexSelected={this.props.indexSelected}
-    />; }
+    />; };
 
     getContentHeight() {
         if(!this.state.showSortableItems && !this.state.showContainedViews) {

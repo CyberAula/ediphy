@@ -10,15 +10,6 @@ import './_carouselHeader.scss';
  */
 export default class CarouselHeader extends Component {
     /**
-     * Constructor
-     * @param props
-     */
-    constructor(props) {
-        super(props);
-
-    }
-
-    /**
      * Render React Component
      * @returns {code}
      */

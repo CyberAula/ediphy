@@ -27,15 +27,12 @@ import { connect } from "react-redux";
  * Canvas component to display slides
  */
 class EditorCanvasSli extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            alert: null,
-            width: 0, height: 0, marginTop: 0, marginBottom: 0,
-            fontBase: 14,
-        };
-        this.aspectRatio = this.aspectRatio.bind(this);
-    }
+
+    state = {
+        alert: null,
+        width: 0, height: 0, marginTop: 0, marginBottom: 0,
+        fontBase: 14,
+    };
 
     render() {
         let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
@@ -85,7 +82,6 @@ class EditorCanvasSli extends Component {
                                 this.props.onBoxSelected(-1);
                                 this.setState({ showTitle: false });
                             }
-
                             e.stopPropagation();
                         }}
                         className={'innercanvas sli ' + theme}
@@ -93,7 +89,8 @@ class EditorCanvasSli extends Component {
                     >
                         {this.state.alert}
                         {gridOn ? <div style={{ zIndex: '-1' }} onClick={()=>{this.props.onBoxSelected(-1);}}><SnapGrid key={this.props.fromCV}/></div> : null}
-                        <EditorHeader titles={titles}
+                        <EditorHeader
+                            titles={titles}
                             onBoxSelected={this.props.onBoxSelected}
                             courseTitle={this.props.title}
                             navItem={this.props.navItemSelected}
@@ -122,8 +119,8 @@ class EditorCanvasSli extends Component {
                         }} />
 
                         {boxes.map(id => {
-                            let box = boxes[id];
-                            return <EditorBox key={id}
+                            return <EditorBox
+                                key={id}
                                 id={id}
                                 grid={gridOn}
                                 page={itemSelected ? itemSelected.id : 0}
@@ -157,9 +154,7 @@ class EditorCanvasSli extends Component {
                                 pageType={itemSelected.type || 0}
                             />;
                         })}
-
                     </div>
-
                 </div>
                 <ThemeCSS
                     aspectRatio = {this.props.aspectRatio}
@@ -291,7 +286,7 @@ class EditorCanvasSli extends Component {
         let calculated = this.aspectRatio();
         this.setState({ fontBase: changeFontBase(calculated.width) });
     }
-    aspectRatio(props = this.props, state = this.state) {
+    aspectRatio = (props = this.props, state = this.state) => {
         let ar = props.canvasRatio;
         let fromCV = props.fromCV;
         let itemSelected = fromCV ? props.containedViewSelected : props.navItemSelected;
@@ -303,7 +298,7 @@ class EditorCanvasSli extends Component {
             this.setState({ ...calculated });
         }
         return calculated;
-    }
+    };
 
     componentWillUpdate(nextProps, nextState) {
         if (this.props.canvasRatio !== nextProps.canvasRatio || this.props.navItemSelected !== nextProps.navItemSelected) {

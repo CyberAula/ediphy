@@ -8,26 +8,11 @@ import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import {
     Tooltip,
-    FormControl,
     OverlayTrigger,
-    Popover,
-    InputGroup,
-    FormGroup,
-    Radio,
-    ControlLabel,
-    Checkbox,
-    Button,
-    PanelGroup,
-    Panel,
 } from 'react-bootstrap';
 class Toolbar extends Component {
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            open: false,
-        };
-    }
+    state = { open: false };
 
     render() {
         let exercises = {};
@@ -45,7 +30,6 @@ class Toolbar extends Component {
                 onScoreConfig={(id, button, value, page) => {this.props.onScoreConfig(id, button, value, this.props.navItemSelected);}}
                 toggleToolbar={()=>this.toggleToolbar()} />;
 
-            // title = (this.props.viewToolbars[this.props.navItemSelected].viewName || "");
             title = ((isSlide(this.props.navItems[this.props.navItemSelected].type) ? (this.props.navItems[this.props.navItemSelected].customSize === 0 ? i18n.t('slide') : "PDF") : i18n.t('page')) || "");
         } else {
             exercises = this.props.exercises[this.props.navItemSelected].exercises[this.props.boxSelected];
@@ -57,14 +41,8 @@ class Toolbar extends Component {
                 openConfigModal={this.props.openConfigModal} />;
             let tb = this.props.pluginToolbars[this.props.box.id];
             let apiPlugin = Ediphy.Plugins.get(tb.pluginId);
-            let config;
-            if(apiPlugin) {
-                config = apiPlugin.getConfig();
-            } else {
-                config = {};
-            }
+            let config = apiPlugin ? apiPlugin.getConfig() : {};
             title = (config.displayName || "");
-
         }
         let open = (!noPageSelected && this.state.open);
         return (
@@ -75,9 +53,7 @@ class Toolbar extends Component {
                     top: this.props.top,
                 }}>
                 <div className="pestana" id="toolbarFlap"
-                    onClick={() => {
-                        this.toggleToolbar();
-                    }}/>
+                    onClick={this.toggleToolbar}/>
                 <div id="tools"
                     style={{
                         width: open ? '250px' : '40px',
@@ -90,11 +66,9 @@ class Toolbar extends Component {
                                 {i18n.t('Properties')}
                             </Tooltip>
                         }>
-                        <div onClick={() => {
-                            this.toggleToolbar();
-                        }}
-                        style={{ display: this.props.carouselShow ? 'block' : 'block' }}
-                        className={open ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
+                        <div onClick={this.toggleToolbar}
+                            style={{ display: this.props.carouselShow ? 'block' : 'block' }}
+                            className={open ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
                             <div className="toolbarTitle">
                                 <i id="wheel" className="material-icons">settings</i>
                                 <span className="toolbarTitletxt">
@@ -116,9 +90,9 @@ class Toolbar extends Component {
         );
     }
 
-    toggleToolbar() {
+    toggleToolbar = () => {
         this.setState({ open: !this.state.open });
-    }
+    };
 }
 
 function mapStateToProps(state) {

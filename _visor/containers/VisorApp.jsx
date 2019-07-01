@@ -238,7 +238,7 @@ export default class Visor extends Component {
             fromScorm: this.state.fromScorm,
             navItems: navItemsById,
             navItemsIds,
-            removeLastView: ()=>{this.removeLastView(); },
+            removeLastView: this.removeLastView,
             richElementsState: this.state.richElementState,
             title,
             marks: marksById,

@@ -197,6 +197,7 @@ function mapStateToProps(state) {
         filesUploaded: state.filesUploaded,
         pluginToolbars: state.undoGroup.present.pluginToolbarsById,
         marks: state.undoGroup.present.marksById,
+        fileUploadTab: state.reactUI.fileUploadTab,
     };
 }
 

@@ -17,16 +17,6 @@ class EditorCarousel extends Component
 
 {
     /**
-     * Constructor
-     * @param props
-     */
-    constructor(props) {
-        super(props);
-
-        this.onToggleWidth = this.onToggleWidth.bind(this);
-    }
-
-    /**
      * Renders React Component
      * @returns {code}
      */
@@ -77,7 +67,7 @@ class EditorCarousel extends Component
         );
     }
 
-    onToggleWidth() {
+    onToggleWidth = () => {
         if(this.props.carouselShow) {
             this.props.dispatch(updateUI({
                 carouselShow: false,

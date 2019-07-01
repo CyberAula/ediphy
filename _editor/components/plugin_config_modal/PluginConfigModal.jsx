@@ -9,24 +9,8 @@ import PropTypes from "prop-types";
  * Configuration modal for plugins that require it
  */
 export default class PluginConfigModal extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
-    constructor(props) {
-        super(props);
-        /**
-         * Component's initial state
-         * @type {{show: boolean, pluginActive: string, reason: null, disabledButton: boolean}}
-         */
-        this.state = {
-            show: false,
-            pluginActive: '',
-            reason: null,
-            disabledButton: false,
-            currentStep: 1,
-        };
-    }
+
+    state = { show: false, pluginActive: '', reason: null, disabledButton: false, currentStep: 1 };
 
     /**
      * Before component updates

@@ -32,8 +32,6 @@ export default class EditorBox extends Component {
          * @type {number}
          */
         this.borderSize = 2;
-        this.blurTextarea = this.blurTextarea.bind(this);
-        this.rotate = this.rotate.bind(this);
     }
 
     /**
@@ -49,7 +47,6 @@ export default class EditorBox extends Component {
         let style = {
             visibility: (toolbar.showTextEditor ? 'hidden' : 'visible'),
             overflow: 'hidden',
-
         };
 
         let textareaStyle = {
@@ -282,9 +279,9 @@ export default class EditorBox extends Component {
     /**
      * Blurs text area and saves data
      */
-    blurTextarea(text, data) {
+    blurTextarea = (text, data) => {
         this.props.onTextEditorToggled(this.props.id, false, text, data);
-    }
+    };
 
     /**
      * Checks if aspect ratio should be kept when resizing the box
@@ -777,7 +774,7 @@ export default class EditorBox extends Component {
 
     }
 
-    rotate() {
+    rotate = () => {
         let rotate = 'rotate(0deg) ';
         let toolbar = this.props.pluginToolbars[this.props.id];
         if (!(this.props.markCreatorId && this.props.id === this.props.boxSelected)) {
@@ -786,7 +783,7 @@ export default class EditorBox extends Component {
             }
         }
         return rotate;
-    }
+    };
 }
 
 EditorBox.propTypes = {
