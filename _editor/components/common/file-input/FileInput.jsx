@@ -6,16 +6,12 @@ import PropTypes from 'prop-types';
  */
 export default class FileInput extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     /**
      * Render React Component
      * @returns {code}
      */
     render() {
-        let { name = 'file',
+        const { name = 'file',
             disabled,
             accept,
             onChange = function() { return null; },

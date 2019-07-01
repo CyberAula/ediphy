@@ -6,10 +6,7 @@ import { isCanvasElement, isSlide } from "../../../../common/utils";
 import Ediphy from "../../../../core/editor/main";
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
-import {
-    Tooltip,
-    OverlayTrigger,
-} from 'react-bootstrap';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 class Toolbar extends Component {
 
     state = { open: false };
@@ -37,7 +34,7 @@ class Toolbar extends Component {
                 open={this.state.open}
                 exercises={exercises}
                 onScoreConfig={(id, button, value, page) => {this.props.onScoreConfig(id, button, value, this.props.navItemSelected);}}
-                toggleToolbar={()=>this.toggleToolbar()}
+                toggleToolbar={this.toggleToolbar}
                 openConfigModal={this.props.openConfigModal} />;
             let tb = this.props.pluginToolbars[this.props.box.id];
             let apiPlugin = Ediphy.Plugins.get(tb.pluginId);

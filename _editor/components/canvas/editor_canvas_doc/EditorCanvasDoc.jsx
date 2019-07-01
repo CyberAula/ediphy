@@ -6,35 +6,29 @@ import EditorShortcuts from '../editor_shortcuts/EditorShortcuts';
 import { Col } from 'react-bootstrap';
 import EditorHeader from '../editor_header/EditorHeader';
 import Ediphy from '../../../../core/editor/main';
-import { isSortableBox } from '../../../../common/utils';
+import { getTitles, isSortableBox, has, hasIt } from '../../../../common/utils';
 import ThemeCSS from "../../../../common/themes/ThemeCSS";
 import { getThemeColors } from "../../../../common/themes/theme_loader";
 import { connect } from "react-redux";
 
 class EditorCanvasDoc extends Component {
     render() {
-        let titles = [];
-        let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
-        if (itemSelected.id !== 0) {
-            let initialTitle = this.props.viewToolbars[itemSelected.id].viewName;
-            titles.push(initialTitle);
-            if (!this.props.fromCV) {
-                let parent = itemSelected.parent;
-                while (parent !== 0) {
-                    titles.push(this.props.viewToolbars[parent].viewName);
-                    parent = this.props.navItems[parent].parent;
-                }
-            }
-            titles.reverse();
-        }
+        const { addMarkShortcut, aspectRatio, boxes, boxLevelSelected, boxSelected, containedViewSelected, containedViews, deleteMarkCreator,
+            exercises, fileModalResult, fromCV, grid, lastActionDispatched, markCreatorId, marks, moveRichMark, navItemSelected, navItems, onBoxAdded,
+            onBoxDeleted, onBoxDropped, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxSelected, onBoxesInsideSortableReorder, onContainedViewSelected,
+            onMarkCreatorToggled, onRichMarkMoved, onRichMarksModalToggled, onSortableContainerDeleted, onSortableContainerReordered, onSortableContainerResized,
+            onTextEditorToggled, onTitleChanged, onToolbarUpdated, onVerticallyAlignBox, onViewTitleChanged, openConfigModal, openFileModal, pluginToolbars,
+            setCorrectAnswer, showCanvas, styleConfig, title, viewToolbars } = this.props;
 
-        let boxes = itemSelected ? itemSelected.boxes : [];
+        const itemSelected = fromCV ? containedViewSelected : navItemSelected;
+        const titles = getTitles(itemSelected, viewToolbars, navItems, fromCV);
+
+        let itemBoxes = itemSelected ? itemSelected.boxes : [];
         let show = itemSelected && itemSelected.id !== 0;
 
-        let styleConfig = this.props.styleConfig;
-        let toolbar = this.props.viewToolbars[itemSelected.id];
-        let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
-        let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
+        let toolbar = viewToolbars[itemSelected.id];
+        let theme = 'theme' in toolbar ? toolbar.theme : 'theme' in styleConfig ? styleConfig.theme : 'default';
+        let colors = 'colors' in toolbar ? toolbar.colors : getThemeColors(theme);
 
         let commonProps = { ...this.props,
             pageType: itemSelected.type || 0,
@@ -42,77 +36,73 @@ class EditorCanvasDoc extends Component {
         };
 
         return (
-            <Col id={(this.props.fromCV ? 'containedCanvas' : 'canvas')} md={12} xs={12} className="canvasDocClass safeZone"
-                style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
+            <Col id={(fromCV ? 'containedCanvas' : 'canvas')} md={12} xs={12} className="canvasDocClass safeZone"
+                style={{ display: containedViewSelected !== 0 && !fromCV ? 'none' : 'initial' }}>
 
                 <div className={"scrollcontainer parentRestrict " + theme}
                     style={{ backgroundColor: show ? toolbar.background : 'transparent', display: show ? 'block' : 'none' }}
                     onMouseDown={e => {
                         if (e.target === e.currentTarget) {
-                            this.props.onBoxSelected(-1);
+                            onBoxSelected(-1);
                             this.setState({ showTitle: false });
                         }
                         e.stopPropagation();
                     }}>
-                    { /* {this.props.boxSelected} - ({(this.props.boxSelected && this.props.boxes[this.props.boxSelected]) ? this.props.boxes[this.props.boxSelected].level : '-'}) - {this.props.boxLevelSelected} */ }
-                    <EditorHeader titles={titles}
-                        onBoxSelected={this.props.onBoxSelected}
-                        courseTitle={this.props.title}
-                        navItem={this.props.navItemSelected}
-                        navItems={this.props.navItems}
-                        marks={this.props.marks}
-                        containedView={this.props.containedViewSelected}
-                        containedViews={this.props.containedViews}
-                        pluginToolbars={this.props.pluginToolbars}
-                        viewToolbars={this.props.viewToolbars}
-                        boxes={this.props.boxes}
-                        onViewTitleChanged={this.props.onViewTitleChanged}
-                        onTitleChanged={this.props.onTitleChanged}
+                    <EditorHeader
+                        titles={titles}
+                        onBoxSelected={onBoxSelected}
+                        courseTitle={title}
+                        navItem={navItemSelected}
+                        navItems={navItems}
+                        marks={marks}
+                        containedView={containedViewSelected}
+                        containedViews={containedViews}
+                        pluginToolbars={pluginToolbars}
+                        viewToolbars={viewToolbars}
+                        boxes={boxes}
+                        onViewTitleChanged={onViewTitleChanged}
+                        onTitleChanged={onTitleChanged}
                     />
                     <div className="outter canvaseditor" style={{ display: show ? 'block' : 'none' }}>
-                        <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
-                            className={(this.props.fromCV ? 'airlayer_cv' : 'airlayer') + ' doc_air'}
+                        <div id={fromCV ? 'airlayer_cv' : 'airlayer'}
+                            className={(fromCV ? 'airlayer_cv' : 'airlayer') + ' doc_air'}
                             style={{ visibility: (show ? 'visible' : 'hidden') }}>
 
-                            <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
+                            <div id={fromCV ? "contained_maincontent" : "maincontent"}
                                 className={'innercanvas doc'}
                                 style={{ visibility: (show ? 'visible' : 'hidden'), paddingBottom: '10px' }}>
 
                                 <br/>
 
-                                {boxes.map(id => {
+                                {itemBoxes.map(id => {
                                     if (!isSortableBox(id)) {
                                         return null;
                                     }
                                     return <EditorBoxSortable key={id} {...commonProps}
-                                        id={id} exercises={this.props.exercises} page={itemSelected ? itemSelected.id : 0} themeColors={colors} />;
+                                        id={id} exercises={exercises} page={itemSelected ? itemSelected.id : 0} themeColors={colors} />;
                                 })}
                             </div>
                         </div>
                     </div>
                 </div>
                 <ThemeCSS
-                    styleConfig={this.props.styleConfig}
-                    aspectRatio = {this.props.aspectRatio}
+                    styleConfig={styleConfig}
+                    aspectRatio = {aspectRatio}
                     theme={theme}
                     toolbar={{ ...toolbar, colors: colors }}
                 />
                 <EditorShortcuts
-                    openConfigModal={this.props.openConfigModal}
-                    box={this.props.boxes[this.props.boxSelected]}
-                    containedViewSelected={this.props.containedViewSelected}
-                    isContained={this.props.fromCV}
-                    onTextEditorToggled={this.props.onTextEditorToggled}
-                    onBoxResized={this.props.onBoxResized}
-                    onBoxDeleted={this.props.onBoxDeleted}
-                    onToolbarUpdated={this.props.onToolbarUpdated}
-                    navItemSelected={this.props.navItemSelected}
-                    fileModalResult={this.props.fileModalResult}
-                    openFileModal={this.props.openFileModal}
-                    lastActionDispatched={this.props.lastActionDispatched}
-                    pointerEventsCallback={this.props.pluginToolbars[this.props.boxSelected] && this.props.pluginToolbars[this.props.boxSelected].config && this.props.pluginToolbars[this.props.boxSelected].config.name && Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name) ? Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
-                    onMarkCreatorToggled={this.props.onMarkCreatorToggled}
-                    pluginToolbar={this.props.pluginToolbars[this.props.boxSelected]}/>
+                    openConfigModal={openConfigModal}
+                    isContained={fromCV}
+                    onTextEditorToggled={onTextEditorToggled}
+                    onBoxResized={onBoxResized}
+                    onBoxDeleted={onBoxDeleted}
+                    onToolbarUpdated={onToolbarUpdated}
+                    openFileModal={openFileModal}
+                    lastActionDispatched={lastActionDispatched}
+                    pointerEventsCallback={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && pluginToolbars[boxSelected].config.name && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).pointerEventsCallback : null}
+                    onMarkCreatorToggled={onMarkCreatorToggled}
+                />
             </Col>
         );
     }

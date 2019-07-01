@@ -8,7 +8,7 @@ import { Col, Button } from 'react-bootstrap';
 import EditorHeader from '../editor_header/EditorHeader';
 import interact from 'interactjs';
 import { ADD_BOX, changeGlobalConfig, changeNavItemName } from '../../../../common/actions';
-import { isSlide, isSortableBox } from '../../../../common/utils';
+import { getTitles, isSlide, isSortableBox } from '../../../../common/utils';
 import { aspectRatio, createBox, instanceExists, changeFontBase } from '../../../../common/common_tools';
 import Ediphy from '../../../../core/editor/main';
 import ReactResizeDetector from 'react-resize-detector';
@@ -35,74 +35,56 @@ class EditorCanvasSli extends Component {
     };
 
     render() {
-        let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
-        let titles = [];
-        if (itemSelected && itemSelected.id !== 0) {
-            let initialTitle = this.props.viewToolbars[itemSelected.id].viewName;
-            titles.push(initialTitle);
-            if (!this.props.fromCV) {
-                let parent = itemSelected.parent;
-                while (parent !== 0) {
-                    titles.push(this.props.viewToolbars[parent].viewName);
-                    parent = this.props.navItems[parent].parent;
-                }
-            }
-            titles.reverse();
-        }
 
-        let maincontent = document.getElementById(this.props.fromCV ? "contained_maincontent" : "maincontent");
-        let actualHeight;
-        if (maincontent) {
-            actualHeight = parseInt(maincontent.scrollHeight, 10);
-            actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
-        }
+        const { addMarkShortcut, aspectRatio, boxes, boxLevelSelected, boxSelected, containedViewSelected, containedViews, deleteMarkCreator,
+            exercises, fileModalResult, fromCV, grid, lastActionDispatched, markCreatorId, marks, moveRichMark, navItemSelected, navItems, onBoxAdded,
+            onBoxDeleted, onBoxDropped, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxSelected, onBoxesInsideSortableReorder, onContainedViewSelected,
+            onMarkCreatorToggled, onRichMarkMoved, onRichMarksModalToggled, onSortableContainerDeleted, onSortableContainerReordered, onSortableContainerResized,
+            onTextEditorToggled, onTitleChanged, onToolbarUpdated, onVerticallyAlignBox, onViewTitleChanged, openConfigModal, openFileModal, pluginToolbars,
+            setCorrectAnswer, showCanvas, styleConfig, title, viewToolbars } = this.props;
 
-        let styleConfig = this.props.styleConfig;
-        let toolbar = this.props.viewToolbars[itemSelected.id];
-        let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
-        let overlayHeight = actualHeight ? actualHeight : '100%';
-        let boxes = itemSelected ? itemSelected.boxes : [];
+        const itemSelected = fromCV ? containedViewSelected : navItemSelected;
+        const titles = getTitles(itemSelected, viewToolbars, navItems, fromCV);
+        const overlayHeight = this.getOverlayHeight(fromCV);
 
-        let gridOn = this.props.grid && ((this.props.containedViewSelected !== 0) === this.props.fromCV);
+        let toolbar = viewToolbars[itemSelected.id];
+        let theme = 'theme' in toolbar ? toolbar.theme : 'theme' in styleConfig ? styleConfig.theme : 'default';
+        let itemBoxes = itemSelected ? itemSelected.boxes : [];
+
+        let gridOn = grid && ((containedViewSelected !== 0) === fromCV);
         return (
-            <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12}
+            <Col id={fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12}
                 className="canvasSliClass safeZone" onMouseDown={()=>{this.props.onBoxSelected(-1);}}
-                style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial',
+                style={{ display: containedViewSelected !== 0 && !fromCV ? 'none' : 'initial',
                     fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px',
                 }}>
-                <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
+                <div id={fromCV ? 'airlayer_cv' : 'airlayer'}
                     className={'slide_air parentRestrict'}
-                    style={{ margin: 'auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden'),
+                    style={{ margin: 'auto', visibility: (showCanvas ? 'visible' : 'hidden'),
                         width: this.state.width, height: this.state.height, marginTop: this.state.marginTop, marginBottom: this.state.marginBottom,
                     }}>
-                    <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
+                    <div id={fromCV ? "contained_maincontent" : "maincontent"}
                         ref="slideDropZone"
-                        onMouseDown={e => {
-                            if (e.target === e.currentTarget) {
-                                this.props.onBoxSelected(-1);
-                                this.setState({ showTitle: false });
-                            }
-                            e.stopPropagation();
-                        }}
+                        onMouseDown={this.hideTitle}
                         className={'innercanvas sli ' + theme}
-                        style={ itemSelected.id !== 0 ? loadBackgroundStyle(this.props.showCanvas, toolbar, styleConfig, false, this.props.aspectRatio, itemSelected.background) : {} }
+                        style={ itemSelected.id !== 0 ? loadBackgroundStyle(showCanvas, toolbar, styleConfig, false, aspectRatio, itemSelected.background) : {} }
                     >
                         {this.state.alert}
-                        {gridOn ? <div style={{ zIndex: '-1' }} onClick={()=>{this.props.onBoxSelected(-1);}}><SnapGrid key={this.props.fromCV}/></div> : null}
+                        {gridOn ? <div style={{ zIndex: '-1' }} onClick={this.deselectBoxes}><SnapGrid key={fromCV}/></div> : null}
                         <EditorHeader
                             titles={titles}
-                            onBoxSelected={this.props.onBoxSelected}
-                            courseTitle={this.props.title}
-                            navItem={this.props.navItemSelected}
-                            navItems={this.props.navItems}
-                            marks={this.props.marks}
-                            pluginToolbars={this.props.pluginToolbars}
-                            containedView={this.props.containedViewSelected}
-                            containedViews={this.props.containedViews}
-                            viewToolbars={this.props.viewToolbars}
-                            boxes={this.props.boxes}
-                            onTitleChanged={this.props.onTitleChanged}
-                            onViewTitleChanged={this.props.onViewTitleChanged}
+                            onBoxSelected={onBoxSelected}
+                            courseTitle={title}
+                            navItem={navItemSelected}
+                            navItems={navItems}
+                            marks={marks}
+                            pluginToolbars={pluginToolbars}
+                            containedView={containedViewSelected}
+                            containedViews={containedViews}
+                            viewToolbars={viewToolbars}
+                            boxes={boxes}
+                            onTitleChanged={onTitleChanged}
+                            onViewTitleChanged={onViewTitleChanged}
                         />
 
                         <br/>
@@ -114,42 +96,42 @@ class EditorCanvasSli extends Component {
                             position: "absolute",
                             top: 0,
                             opacity: 0.4,
-                            display: 'none', // (this.props.boxLevelSelected > 0) ? "block" : "none",
-                            visibility: "collapse", // (this.props.boxLevelSelected > 0) ? "visible" : "collapse",
+                            display: 'none',
+                            visibility: "collapse",
                         }} />
 
-                        {boxes.map(id => {
+                        {itemBoxes.map(id => {
                             return <EditorBox
                                 key={id}
                                 id={id}
                                 grid={gridOn}
                                 page={itemSelected ? itemSelected.id : 0}
-                                addMarkShortcut={this.props.addMarkShortcut}
-                                boxes={this.props.boxes}
-                                boxSelected={this.props.boxSelected}
-                                boxLevelSelected={this.props.boxLevelSelected}
-                                containedViews={this.props.containedViews}
-                                containedViewSelected={this.props.containedViewSelected}
-                                marks={this.props.marks}
-                                pluginToolbars={this.props.pluginToolbars}
-                                lastActionDispatched={this.props.lastActionDispatched}
-                                deleteMarkCreator={this.props.deleteMarkCreator}
-                                markCreatorId={this.props.markCreatorId}
-                                onBoxAdded={this.props.onBoxAdded}
-                                onBoxSelected={this.props.onBoxSelected}
-                                onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                onBoxMoved={this.props.onBoxMoved}
-                                onToolbarUpdated={this.props.onToolbarUpdated}
-                                exercises={itemSelected ? (this.props.exercises[itemSelected.id].exercises[id]) : undefined}
-                                onBoxResized={this.props.onBoxResized}
-                                onRichMarkMoved={this.props.onRichMarkMoved}
-                                onSortableContainerResized={this.props.onSortableContainerResized}
-                                onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                                onBoxDropped={this.props.onBoxDropped}
-                                onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                onRichMarksModalToggled={this.props.onRichMarksModalToggled}
-                                onTextEditorToggled={this.props.onTextEditorToggled}
-                                setCorrectAnswer={this.props.setCorrectAnswer}
+                                addMarkShortcut={addMarkShortcut}
+                                boxes={boxes}
+                                boxSelected={boxSelected}
+                                boxLevelSelected={boxLevelSelected}
+                                containedViews={containedViews}
+                                containedViewSelected={containedViewSelected}
+                                marks={marks}
+                                pluginToolbars={pluginToolbars}
+                                lastActionDispatched={lastActionDispatched}
+                                deleteMarkCreator={deleteMarkCreator}
+                                markCreatorId={markCreatorId}
+                                onBoxAdded={onBoxAdded}
+                                onBoxSelected={onBoxSelected}
+                                onBoxLevelIncreased={onBoxLevelIncreased}
+                                onBoxMoved={onBoxMoved}
+                                onToolbarUpdated={onToolbarUpdated}
+                                exercises={itemSelected ? (exercises[itemSelected.id].exercises[id]) : undefined}
+                                onBoxResized={onBoxResized}
+                                onRichMarkMoved={onRichMarkMoved}
+                                onSortableContainerResized={onSortableContainerResized}
+                                onBoxesInsideSortableReorder={onBoxesInsideSortableReorder}
+                                onBoxDropped={onBoxDropped}
+                                onVerticallyAlignBox={onVerticallyAlignBox}
+                                onRichMarksModalToggled={onRichMarksModalToggled}
+                                onTextEditorToggled={onTextEditorToggled}
+                                setCorrectAnswer={setCorrectAnswer}
                                 themeColors={toolbar.colors ? toolbar.colors : getThemeColors(theme)}
                                 pageType={itemSelected.type || 0}
                             />;
@@ -157,30 +139,23 @@ class EditorCanvasSli extends Component {
                     </div>
                 </div>
                 <ThemeCSS
-                    aspectRatio = {this.props.aspectRatio}
-                    styleConfig={this.props.styleConfig}
+                    aspectRatio = {aspectRatio}
+                    styleConfig={styleConfig}
                     theme={ theme }
                     toolbar = {{ ...toolbar, colors: toolbar && toolbar.colors ? toolbar.colors : {} }}
                 />
-                <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
-                    let calculated = this.aspectRatio(this.props, this.state);
-                    this.setState({ fontBase: changeFontBase(calculated.width) });
-                }} />
+                <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
                 <EditorShortcuts
-                    openConfigModal={this.props.openConfigModal}
-                    box={this.props.boxes[this.props.boxSelected]}
-                    containedViewSelected={this.props.containedViewSelected}
-                    navItemSelected={this.props.navItemSelected}
-                    isContained={this.props.fromCV}
-                    onTextEditorToggled={this.props.onTextEditorToggled}
-                    onBoxResized={this.props.onBoxResized}
-                    onBoxDeleted={this.props.onBoxDeleted}
-                    onToolbarUpdated={this.props.onToolbarUpdated}
-                    fileModalResult={this.props.fileModalResult}
-                    openFileModal={this.props.openFileModal}
-                    pointerEventsCallback={this.props.pluginToolbars[this.props.boxSelected] && this.props.pluginToolbars[this.props.boxSelected].config && this.props.pluginToolbars[this.props.boxSelected].config.name && Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name) ? Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
-                    onMarkCreatorToggled={this.props.onMarkCreatorToggled}
-                    pluginToolbar={this.props.pluginToolbars[this.props.boxSelected]}/>
+                    openConfigModal={openConfigModal}
+                    isContained={fromCV}
+                    onTextEditorToggled={onTextEditorToggled}
+                    onBoxResized={onBoxResized}
+                    onBoxDeleted={onBoxDeleted}
+                    onToolbarUpdated={onToolbarUpdated}
+                    openFileModal={openFileModal}
+                    pointerEventsCallback={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && pluginToolbars[boxSelected].config.name && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).pointerEventsCallback : null}
+                    onMarkCreatorToggled={onMarkCreatorToggled}
+                />
             </Col>
         );
     }
@@ -282,12 +257,22 @@ class EditorCanvasSli extends Component {
         interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).unset();
         window.removeEventListener("resize", this.aspectRatioListener.bind(this));
     }
+
+    componentWillUpdate(nextProps, nextState) {
+        if (this.props.aspectRatio !== nextProps.aspectRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
+            window.canvasRatio = nextProps.aspectRatio;
+            let calculated = this.aspectRatio(nextProps, nextState);
+            this.setState({ fontBase: changeFontBase(calculated.width) });
+        }
+
+    }
+
     aspectRatioListener() {
         let calculated = this.aspectRatio();
         this.setState({ fontBase: changeFontBase(calculated.width) });
     }
     aspectRatio = (props = this.props, state = this.state) => {
-        let ar = props.canvasRatio;
+        let ar = props.aspectRatio;
         let fromCV = props.fromCV;
         let itemSelected = fromCV ? props.containedViewSelected : props.navItemSelected;
         let customSize = itemSelected.customSize;
@@ -300,14 +285,31 @@ class EditorCanvasSli extends Component {
         return calculated;
     };
 
-    componentWillUpdate(nextProps, nextState) {
-        if (this.props.canvasRatio !== nextProps.canvasRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
-            window.canvasRatio = nextProps.canvasRatio;
-            let calculated = this.aspectRatio(nextProps, nextState);
-            this.setState({ fontBase: changeFontBase(calculated.width) });
+    getOverlayHeight = (fromCV) => {
+        let maincontent = document.getElementById(fromCV ? "contained_maincontent" : "maincontent");
+        let actualHeight;
+        if (maincontent) {
+            actualHeight = parseInt(maincontent.scrollHeight, 10);
+            actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
         }
 
+        return actualHeight ? actualHeight : '100%';
+    };
+
+    hideTitle = e => {
+        if (e.target === e.currentTarget) {
+            this.props.onBoxSelected(-1);
+            this.setState({ showTitle: false });
+        }
+        e.stopPropagation();
+    };
+
+    onResize = e => {
+        let calculated = this.aspectRatio(this.props, this.state);
+        this.setState({ fontBase: changeFontBase(calculated.width) });
     }
+
+    deselectBoxes = () => this.props.onBoxSelected(-1);
 }
 
 export default connect(mapStateToProps)(EditorCanvasSli);
@@ -322,10 +324,6 @@ EditorCanvasSli.propTypes = {
      * Check if component rendered from contained view
      */
     fromCV: PropTypes.bool,
-    /**
-     * Slides aspect ratio
-     */
-    canvasRatio: PropTypes.number.isRequired,
     /**
      * Canvas show flag in current selected view
      */

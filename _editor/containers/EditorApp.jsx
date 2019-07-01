@@ -30,9 +30,7 @@ import i18n from 'i18next';
 import { parsePluginContainers, parsePluginContainersReact } from '../../common/plugins_inside_plugins';
 import Ediphy from '../../core/editor/main';
 import printToPDF from '../../core/editor/print';
-import {
-    isSortableBox, isSection, isContainedView, getDescendantLinkedBoxes, isBox, getDescendantBoxes, getDescendantBoxesFromContainer,
-} from '../../common/utils';
+import { isSortableBox, isSection, isContainedView, getDescendantLinkedBoxes, isBox, getDescendantBoxes, getDescendantBoxesFromContainer } from '../../common/utils';
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import PropTypes from 'prop-types';
@@ -42,7 +40,6 @@ import FileModal from '../components/external_provider/file_modal/FileModal';
 import EdiphyTour from '../components/joyride/EdiphyTour';
 import { serialize } from '../../reducers/serializer';
 import toMoodleXML from "../../core/editor/moodle_xml.es6";
-import { UI } from "../../common/UI.es6";
 import HelpModal from "../components/modals/HelpModal";
 import InitModal from "../components/modals/InitModal";
 import Cookies from "universal-cookie";
@@ -57,7 +54,7 @@ class EditorApp extends Component {
 
     render() {
         const currentState = this.props.store.getState();
-        const { dispatch, boxSelected, navItemSelected, containedViewSelected, filesUploaded, isBusy,
+        const { boxSelected, navItemSelected, containedViewSelected, filesUploaded, isBusy,
             pluginToolbars, lastActionDispatched, globalConfig, reactUI, status, everPublished, title } = this.props;
 
         const ribbonHeight = reactUI.hideTab === 'hide' ? 0 : 50;
@@ -227,27 +224,27 @@ class EditorApp extends Component {
                 />
                 <Toolbar
                     top={(60 + ribbonHeight) + 'px'}
-                    openConfigModal={this.openConfigModal}
-                    onContainedViewNameChanged={this.onContainedViewNameChanged}
                     onBackgroundChanged={this.onBackgroundChanged}
-                    onNavItemToggled={this.onNavItemToggled}
-                    onNavItemSelected={this.onNavItemSelected}
-                    onContainedViewSelected={this.onContainedViewSelected}
-                    onColsChanged={this.onColsChanged}
-                    onRowsChanged={this.onRowsChanged}
+                    onBoxDeleted={this.onBoxDeleted}
                     onBoxResized={this.onBoxResized}
                     onBoxMoved={this.onBoxMoved}
-                    onVerticallyAlignBox={this.onVerticallyAlignBox}
-                    onTextEditorToggled={this.onTextEditorToggled}
-                    onSortableContainerResized={this.onSortableContainerResized}
-                    onSortableContainerDeleted={this.onSortableContainerDeleted}
-                    onSortablePropsChanged={this.onSortablePropsChanged}
-                    onToolbarUpdated={this.toolbarUpdated}
-                    onScoreConfig={this.onScoreConfig}
-                    onBoxDeleted={this.onBoxDeleted}
+                    onColsChanged={this.onColsChanged}
+                    onContainedViewNameChanged={this.onContainedViewNameChanged}
+                    onContainedViewSelected={this.onContainedViewSelected}
+                    onNavItemSelected={this.onNavItemSelected}
+                    onNavItemToggled={this.onNavItemToggled}
                     onRichMarksModalToggled={this.toggleRichMarksModal}
                     onRichMarkEditPressed={this.onRichMarkEditPressed}
                     onRichMarkDeleted={this.onRichMarkDeleted}
+                    onRowsChanged={this.onRowsChanged}
+                    onScoreConfig={this.onScoreConfig}
+                    onSortableContainerDeleted={this.onSortableContainerDeleted}
+                    onSortableContainerResized={this.onSortableContainerResized}
+                    onSortablePropsChanged={this.onSortablePropsChanged}
+                    onTextEditorToggled={this.onTextEditorToggled}
+                    onToolbarUpdated={this.toolbarUpdated}
+                    onVerticallyAlignBox={this.onVerticallyAlignBox}
+                    openConfigModal={this.openConfigModal}
                     openFileModal={this.openFileModal}
                     updateViewToolbar={this.updateViewToolbar}
                 />
@@ -301,12 +298,49 @@ class EditorApp extends Component {
         document.removeEventListener('dragstart', this.dragStartListener);
     }
 
-    dropListener = (ev) => {
-        if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
-        } else {
-            ev.preventDefault();
+    // //////////////////////////////////////////////////////////////////////////////////////////////////
+
+    addMarkShortcut = (mark) => {
+        let state = JSON.parse(JSON.stringify(this.props.pluginToolbars[this.props.boxSelected].state));
+        state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
+        if(mark.connection.id) {
+            state.__marks[mark.id].connection = mark.connection.id;
         }
-        this.props.dispatch(updateUI(UI.blockDrag, false));
+        this.props.dispatch(addRichMark(this.props.boxSelected, mark, state));
+    };
+
+    beforeUnloadAlert = () => {
+        if(!this.props.reactUI.publishing) {
+            return i18n.t('messages.exit_page');
+        }
+        return undefined;
+    };
+
+    closeConfigModal = () => this.props.dispatch(updateUI({ pluginConfigModal: false }));
+
+    closeFileModal = (fileModalResult) => {
+        this.props.dispatch((updateUI({
+            showFileUpload: false,
+            fileUploadTab: 0,
+            fileModalResult: fileModalResult ? fileModalResult : { id: undefined, value: undefined },
+        })));
+    };
+
+    closeServerModal = () => this.props.dispatch(updateUI({ serverModal: false }));
+
+    deleteFileFromServer = (id, url, callback) => {
+        let inProduction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc');
+        let deleteFunction = inProduction ? deleteRemoteFileVishAsync : deleteRemoteFileEdiphyAsync;
+        this.props.dispatch(deleteFunction(id, url, callback));
+    };
+
+    deleteMarkCreator = () => this.props.dispatch(updateUI({ markCreatorVisible: false }));
+
+    dragExitListener = (ev) => {
+        ev.preventDefault();
+        if (ev.target.parentNode && ev.target.parentNode.classList.contains('fileInput')) {
+            ev.target.parentNode.classList.remove('dragging');
+        }
     };
 
     dragListener = (ev) => {
@@ -319,7 +353,7 @@ class EditorApp extends Component {
             }));
         }
         if (showFileUpload && fileUploadTab !== 0) {
-            this.props.dispatch(updateUI(UI.fileUploadTab, 0));
+            this.props.dispatch(updateUI({ fileUploadTab: 0 }));
         }
         ev.preventDefault();
         if (ev.target.parentNode && ev.target.parentNode.classList.contains('fileInput')) {
@@ -327,29 +361,55 @@ class EditorApp extends Component {
         }
     };
 
-    dragExitListener = (ev) => {
-        ev.preventDefault();
-        if (ev.target.parentNode && ev.target.parentNode.classList.contains('fileInput')) {
-            ev.target.parentNode.classList.remove('dragging');
+    dragStartListener = () => this.props.dispatch(updateUI({ blockDrag: true }));
+
+    dropListener = (ev) => {
+        if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
+        } else {
+            ev.preventDefault();
+        }
+        this.props.dispatch(updateUI({ blockDrag: false }));
+    };
+
+    duplicateNavItem = (id) => {
+        if (id && this.props.navItems[id]) {
+            let newBoxes = [];
+            let navItem = this.props.navItems[id];
+            let linkedCVs = {};
+            if (navItem.boxes) {
+                newBoxes = newBoxes.concat(navItem.boxes);
+                navItem.boxes.forEach(b => {
+                    let box = this.props.boxes[b];
+                    if (box.sortableContainers) {
+                        for (let sc in box.sortableContainers) {
+                            if (box.sortableContainers[sc].children) {
+                                newBoxes = newBoxes.concat(box.sortableContainers[sc].children);
+                                box.sortableContainers[sc].children.forEach(bo => {
+                                    let bx = this.props.boxes[bo];
+                                    if (bx.sortableContainers) {
+                                        for (let scc in bx.sortableContainers) {
+                                            if (bx.sortableContainers[scc].children) {
+                                                newBoxes = newBoxes.concat(bx.sortableContainers[scc].children);
+
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+            }
+            let newBoxesMap = {};
+            newBoxes.map(box => {
+                linkedCVs[box] = [...this.props.boxes[box].containedViews];
+                newBoxesMap[box] = box + Date.now(); });
+
+            this.props.dispatch(duplicateNavItem(id, id + Date.now(), newBoxesMap, Date.now(), linkedCVs));
         }
     };
 
-    dragStartListener = () => this.props.dispatch(updateUI(UI.blockDrag, true));
-
     exitListener = () => alert('Please press the Logout button to logout.');
-
-    importEdi = (state) => this.props.dispatch(serialize(importEdi(state)));
-
-    showTour = () => {
-        this.props.dispatch(updateUI({
-            showTour: true,
-            showHelpButton: false,
-        }));
-    };
-
-    showHelp = () => this.props.dispatch(updateUI({ showHelpButton: true }));
-
-    hideHelp = () => this.props.dispatch(updateUI({ showHelpButton: false }));
 
     exportResource = (format, callback, options) => {
         let currentState = this.props.store.getState();
@@ -377,43 +437,9 @@ class EditorApp extends Component {
             status: currentState.status }, is2004, callback, selfContained);
     };
 
-    toggleRichMarksModal = (value, boxId = -1) => {
-        const reactUI = this.props.reactUI;
-        this.props.dispatch(updateUI(UI.richMarksVisible, !reactUI.richMarksVisible));
-        this.props.dispatch(updateUI(UI.markCursorValue, value));
-        if(reactUI.richMarksVisible) {
-            this.props.dispatch(updateUI({
-                currentRichMark: null,
-                markCursorValue: null,
-            }));
-        }
-        this.props.dispatch(selectBox(boxId, this.props.boxes[boxId]));
-    };
+    hideHelp = () => this.props.dispatch(updateUI({ showHelpButton: false }));
 
-    beforeUnloadAlert = () => {
-        if(!this.props.reactUI.publishing) {
-            return i18n.t('messages.exit_page');
-        }
-        return undefined;
-    };
-
-    closeFileModal = (fileModalResult) => {
-        this.props.dispatch((updateUI({
-            showFileUpload: false,
-            fileUploadTab: 0,
-            fileModalResult: fileModalResult ? fileModalResult : { id: undefined, value: undefined },
-        })));
-    };
-
-    closeServerModal = () => this.props.dispatch(updateUI({ serverModal: false }));
-
-    deleteMarkCreator = () => this.props.dispatch(updateUI(UI.markCreatorVisible, false));
-
-    deleteFileFromServer = (id, url, callback) => {
-        let inProduction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc');
-        let deleteFunction = inProduction ? deleteRemoteFileVishAsync : deleteRemoteFileEdiphyAsync;
-        this.props.dispatch(deleteFunction(id, url, callback));
-    };
+    importEdi = (state) => this.props.dispatch(serialize(importEdi(state)));
 
     keyListener = (e) => {
         let key = e.keyCode ? e.keyCode : e.which;
@@ -453,7 +479,7 @@ class EditorApp extends Component {
         // Supr
         else if (key === 46 || key === 8) {
             if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
-            // If it is not an input or any other kind of text edition AND there is a box selected, it deletes said box
+                // If it is not an input or any other kind of text edition AND there is a box selected, it deletes said box
                 if (notText) {
                     let box = this.props.boxes[this.props.boxSelected];
                     let toolbar = this.props.pluginToolbars[this.props.boxSelected];
@@ -470,17 +496,8 @@ class EditorApp extends Component {
         }
         if (key === 113) {
             e.preventDefault();
-            this.props.dispatch(updateUI(UI.visorVisible, true));
+            this.props.dispatch(updateUI({ visorVisible: true }));
         }
-    };
-
-    addMarkShortcut = (mark) => {
-        let state = JSON.parse(JSON.stringify(this.props.pluginToolbars[this.props.boxSelected].state));
-        state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
-        if(mark.connection.id) {
-            state.__marks[mark.id].connection = mark.connection.id;
-        }
-        this.props.dispatch(addRichMark(this.props.boxSelected, mark, state));
     };
 
     onBackgroundChanged = (id, background) => this.props.dispatch(changeBackground(id, background));
@@ -532,7 +549,7 @@ class EditorApp extends Component {
 
     onGridToggle = () => this.props.dispatch(updateUI({ grid: !this.props.reactUI.grid }));
 
-    onMarkCreatorToggled = (id) => this.props.dispatch(updateUI(UI.markCreatorVisible, id));
+    onMarkCreatorToggled = (id) => this.props.dispatch(updateUI({ markCreatorVisible: id }));
 
     onNavItemNameChanged = (id, titleStr) => this.props.dispatch(updateViewToolbar(id, titleStr));
 
@@ -624,7 +641,7 @@ class EditorApp extends Component {
         this.props.dispatch(deleteRichMark(marks[id]));
     };
 
-    onRichMarkEditPressed = (mark) => this.props.dispatch(updateUI(UI.currentRichMark, mark));
+    onRichMarkEditPressed = (mark) => this.props.dispatch(updateUI({ currentRichMark: mark }));
 
     onRichMarkUpdated = (mark, createNew) => {
         let boxSelected = this.props.boxSelected;
@@ -684,47 +701,54 @@ class EditorApp extends Component {
         })));
     };
 
-    duplicateNavItem = (id) => {
-        if (id && this.props.navItems[id]) {
-            let newBoxes = [];
-            let navItem = this.props.navItems[id];
-            let linkedCVs = {};
-            if (navItem.boxes) {
-                newBoxes = newBoxes.concat(navItem.boxes);
-                navItem.boxes.forEach(b => {
-                    let box = this.props.boxes[b];
-                    if (box.sortableContainers) {
-                        for (let sc in box.sortableContainers) {
-                            if (box.sortableContainers[sc].children) {
-                                newBoxes = newBoxes.concat(box.sortableContainers[sc].children);
-                                box.sortableContainers[sc].children.forEach(bo => {
-                                    let bx = this.props.boxes[bo];
-                                    if (bx.sortableContainers) {
-                                        for (let scc in bx.sortableContainers) {
-                                            if (bx.sortableContainers[scc].children) {
-                                                newBoxes = newBoxes.concat(bx.sortableContainers[scc].children);
+    onScoreConfig = (id, button, value, page) => this.props.dispatch(configScore(id, button, value, page));
 
-                                            }
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    }
-                });
+    onTextEditorToggled = (caller, value, text, content) => {
+        let pluginToolbar = this.props.pluginToolbars[caller];
+        if(pluginToolbar && pluginToolbar.pluginId !== "sortable_container") {
+            let state = Object.assign({}, pluginToolbar.state, { __text: text });
+            let toolbar = Ediphy.Plugins.get(pluginToolbar.pluginId).getToolbar(state);
+
+            this.props.dispatch(toggleTextEditor(caller, value));
+            if (!value && text && content) {
+                this.props.dispatch(updateBox(caller, content, toolbar, state));
             }
-            let newBoxesMap = {};
-            newBoxes.map(box => {
-                linkedCVs[box] = [...this.props.boxes[box].containedViews];
-                newBoxesMap[box] = box + Date.now(); });
-
-            this.props.dispatch(duplicateNavItem(id, id + Date.now(), newBoxesMap, Date.now(), linkedCVs));
         }
     };
 
-    toggleExternalCatalog = () => this.props.dispatch(updateUI(UI.catalogModal, !this.props.reactUI.catalogModal));
+    onViewTitleChanged = (id, titles) => this.props.dispatch(updateViewToolbar(id, titles));
 
-    toggleTour = (tour) => this.props.dispatch(updateUI(UI.showTour, tour));
+    openConfigModal = (id) => this.props.dispatch(updateUI({ pluginConfigModal: id }));
+
+    save = (win) => this.props.dispatch(exportStateAsync({ ...this.props.store.getState() }, win));
+
+    setCorrectAnswer = (id, correctAnswer, page) => this.props.dispatch(setCorrectAnswer(id, correctAnswer, page));
+
+    showTour = () => {
+        this.props.dispatch(updateUI({
+            showTour: true,
+            showHelpButton: false,
+        }));
+    };
+
+    showHelp = () => this.props.dispatch(updateUI({ showHelpButton: true }));
+
+    toggleExternalCatalog = () => this.props.dispatch(updateUI({ catalogModal: !this.props.reactUI.catalogModal }));
+
+    toggleRichMarksModal = (value, boxId = -1) => {
+        const reactUI = this.props.reactUI;
+        this.props.dispatch(updateUI(UI.richMarksVisible, !reactUI.richMarksVisible));
+        this.props.dispatch(updateUI(UI.markCursorValue, value));
+        if(reactUI.richMarksVisible) {
+            this.props.dispatch(updateUI({
+                currentRichMark: null,
+                markCursorValue: null,
+            }));
+        }
+        this.props.dispatch(selectBox(boxId, this.props.boxes[boxId]));
+    };
+
+    toggleTour = (tour) => this.props.dispatch(updateUI({ showTour: tour }));
 
     toggleVisor = () => this.props.dispatch(updateUI({ visorVisible: !this.props.reactUI.visorVisible }));
 
@@ -765,7 +789,7 @@ class EditorApp extends Component {
                                         draggable: true,
                                         resizable: this.props.boxes[id].resizable,
                                     }, newBox.type, false,
-                                    (ids, draggable, resizable, content, style, state, structure, initialParams)=>{this.props.dispatch(addBox(ids, draggable, resizable, content, style, state, structure, initialParams));},
+                                    (...params)=>{this.props.dispatch(addBox(...params));},
                                     this.props.boxes);
                                 });
 
@@ -793,34 +817,9 @@ class EditorApp extends Component {
         }
     };
 
-    onScoreConfig = (id, button, value, page) => this.props.dispatch(configScore(id, button, value, page));
-
-    onTextEditorToggled = (caller, value, text, content) => {
-        let pluginToolbar = this.props.pluginToolbars[caller];
-        if(pluginToolbar && pluginToolbar.pluginId !== "sortable_container") {
-            let state = Object.assign({}, pluginToolbar.state, { __text: text });
-            let toolbar = Ediphy.Plugins.get(pluginToolbar.pluginId).getToolbar(state);
-
-            this.props.dispatch(toggleTextEditor(caller, value));
-            if (!value && text && content) {
-                this.props.dispatch(updateBox(caller, content, toolbar, state));
-            }
-        }
-    };
-
-    onViewTitleChanged = (id, titles) => this.props.dispatch(updateViewToolbar(id, titles));
-
-    openConfigModal = (id) => this.props.dispatch(updateUI({ pluginConfigModal: id }));
-
-    closeConfigModal = () => this.props.dispatch(updateUI({ pluginConfigModal: false }));
-
-    save = (win) => this.props.dispatch(exportStateAsync({ ...this.props.store.getState() }, win));
-
-    setCorrectAnswer = (id, correctAnswer, page) => this.props.dispatch(setCorrectAnswer(id, correctAnswer, page));
+    updatePluginToolbar = (id, state) => this.props.dispatch(updateBox(id, "", this.props.pluginToolbars[this.props.reactUI.pluginConfigModal], state));
 
     updateViewToolbar = (id, toolbar) => this.props.dispatch(updateViewToolbar(id, toolbar));
-
-    updatePluginToolbar = (id, state) => this.props.dispatch(updateBox(id, "", this.props.pluginToolbars[this.props.reactUI.pluginConfigModal], state));
 
     uploadFunction = (query, keywords, callback) => {
         let inProduction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc');

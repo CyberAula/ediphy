@@ -19,13 +19,6 @@ import i18n from 'i18next';
  *  </Alert>
  */
 export default class Alert extends Component {
-    /**
-     * Constructor
-     * @param props React Component props
-     */
-    constructor(props) {
-        super(props);
-    }
 
     /**
      * Renders React component

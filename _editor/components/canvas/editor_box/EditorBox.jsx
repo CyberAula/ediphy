@@ -20,20 +20,12 @@ let html2json = require('html2json').html2json;
  * Ediphy Box component.
  * @desc It is the main and more complex component by far. It is the one in charge of painting a plugin's template and therefore it has many parts conditioned to the type of plugin.
  */
-export default class EditorBox extends Component {
+class EditorBox extends Component {
     /**
      * Constructor
      * @param props React component props
      */
-    constructor(props) {
-        super(props);
-        /**
-         * Box border size
-         * @type {number}
-         */
-        this.borderSize = 2;
-    }
-
+    state = { borderSize: 2 };
     /**
      * Renders React Component
      * @returns {code} React rendered component
@@ -771,7 +763,6 @@ export default class EditorBox extends Component {
      */
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();
-
     }
 
     rotate = () => {
@@ -785,6 +776,8 @@ export default class EditorBox extends Component {
         return rotate;
     };
 }
+
+export default EditorBox;
 
 EditorBox.propTypes = {
     /**

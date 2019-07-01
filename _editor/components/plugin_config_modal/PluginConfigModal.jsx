@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Modal, Button, Row } from 'react-bootstrap';
 import Ediphy from '../../../core/editor/main';
 import i18n from 'i18next';
-import PluginRibbon from "../nav_bar/plugin_ribbon/PluginRibbon";
-import { updateBox } from "../../../common/actions";
 import PropTypes from "prop-types";
 /**
  * Configuration modal for plugins that require it
@@ -11,29 +9,6 @@ import PropTypes from "prop-types";
 export default class PluginConfigModal extends Component {
 
     state = { show: false, pluginActive: '', reason: null, disabledButton: false, currentStep: 1 };
-
-    /**
-     * Before component updates
-     * Gets config updates from Plugin API
-     * @param nextProps
-     * @param nextState
-     */
-    componentWillUpdate(nextProps, nextState) {
-        /*
-        if(this.state.show === false && nextState.show === true &&
-            Ediphy.Plugins.get(nextProps.name) !== undefined &&
-            Ediphy.Plugins.get(nextState.pluginActive).getConfig().needsConfirmation &&
-            nextState.disabledButton !== true) {
-            this.setState({ disabledButton: true });
-        }
-
-        if (nextState.disabledButton === true &&
-            Ediphy.Plugins.get(this.state.pluginActive) !== undefined &&
-            (Ediphy.Plugins.get(this.state.pluginActive).getConfig().needsConfirmation &&
-            !this.props.state.editing)) {
-            this.setState({ disabledButton: false });
-        }*/
-    }
 
     componentWillReceiveProps(nextProps) {
         if (!this.props.id && nextProps.id) {
@@ -49,9 +24,7 @@ export default class PluginConfigModal extends Component {
             openFileModal: this.props.openFileModal,
             fileModalResult: this.props.fileModalResult,
         };
-        let steps = [];
         let stepsnumber = 0;
-
         let component = null;
         if(this.props.name) {
             let template = Ediphy.Plugins.get(this.props.name).getConfigTemplate(this.props.id, this.state.pluginState, (pluginState)=>{this.setState({ pluginState });}, { ...props, step: this.state.currentStep });

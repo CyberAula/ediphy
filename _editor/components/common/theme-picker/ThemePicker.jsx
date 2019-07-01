@@ -7,24 +7,18 @@ import 'owl.carousel/dist/assets/owl.theme.default.css';
 import './theme_picker.scss';
 
 import { THEMES } from '../../../../common/themes/theme_loader';
-import TransitionPicker from "../transition-picker/TransitionPicker";
 
 export default class ThemePicker extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            activeThemeIndex: Object.keys(THEMES).indexOf(this.props.currentTheme),
-        };
-        this.handleChange = this.handleChange.bind(this);
-    }
 
-    handleChange(id) {
+    state = { activeThemeIndex: Object.keys(THEMES).indexOf(this.props.currentTheme) };
+
+    handleChange = (id) => {
         this.props.onChange(id);
         this.setState({ activeThemeIndex: id });
-    }
+    };
 
     render() {
-        let selectedIndex = Object.keys(THEMES).indexOf(this.props.currentTheme);
+        const selectedIndex = Object.keys(THEMES).indexOf(this.props.currentTheme);
         return(
             <div key={`carousel_${this.state.activeThemeIndex}_${this.props.currentTheme}`} className={"theme-picker-container"} style={{ width: '100%' }} onChange={this.props.onChange}>
                 <OwlCarousel

@@ -22,13 +22,15 @@ export default class EditorHeader extends Component {
         };
     }
     render() {
-        if (this.props.navItem || this.props.containedView) {
-            let navItem = this.props.containedView !== 0 ? this.props.containedView : this.props.navItem;
-            let toolbar = (this.props.viewToolbars[navItem.id]) ? this.props.viewToolbars[navItem.id] : undefined;
+        const { boxes, containedView, containedViews, courseTitle, marks, navItem, navItems, onBoxSelected, onTitleChanged,
+            onViewTitleChanged, pluginToolbars, titles, viewToolbars } = this.props;
+        if (navItem || containedView) {
+            let currentNavItem = containedView !== 0 ? containedView : navItem;
+            let toolbar = (this.props.viewToolbars[currentNavItem.id]) ? this.props.viewToolbars[currentNavItem.id] : undefined;
             let docTitle = "";
             let subTitle = "";
             let pagenumber = "";
-            if (navItem !== undefined && navItem.id !== 0 && toolbar) {
+            if (currentNavItem !== undefined && currentNavItem.id !== 0 && toolbar) {
                 docTitle = (toolbar.documentTitle !== "" && (toolbar.documentTitleContent !== "")) ? toolbar.documentTitleContent : toolbar.viewName;
                 subTitle = toolbar.documentSubtitle !== "" && (toolbar.documentSubtitleContent !== i18n.t('subtitle')) ? toolbar.documentSubtitleContent : i18n.t('subtitle');
                 pagenumber = toolbar.numPageContent !== "" ? toolbar.numPageContent : "";
@@ -41,8 +43,6 @@ export default class EditorHeader extends Component {
                 if (toolbar !== undefined) {
                     if (toolbar.breadcrumb === 'reduced') {
                         let titleList = this.props.titles;
-
-                        let actualTitle = titleList[titleList.length - 1];
                         unidad = titleList[0];
                         content = React.createElement("div", { className: "subheader" },
                             React.createElement(Breadcrumb, { style: { margin: 0, backgroundColor: 'inherit' } },
@@ -56,10 +56,8 @@ export default class EditorHeader extends Component {
                         );
 
                     } else if (toolbar.breadcrumb === 'expanded') {
-                        let titlesComponents = "";
-                        let titles_length = this.props.titles.length;
                         content = React.createElement("div", { className: "subheader" },
-                            this.props.titles.map((text, index) => {
+                            titles.map((text, index) => {
                                 if (index === 0) {
                                     unidad = text;
                                 } else {
@@ -67,7 +65,7 @@ export default class EditorHeader extends Component {
                                     return React.createElement("h" + nivel, {
                                         key: index,
                                         style: { marginTop: '0px' },
-                                    }, /* this.getActualIndex(titles_length, index) + */text);
+                                    }, text);
                                 }
                                 return null;
                             })
@@ -76,7 +74,7 @@ export default class EditorHeader extends Component {
 
                 }
             }
-            if (navItem.id !== 0) {
+            if (currentNavItem.id !== 0) {
                 let hide = true;
                 for (let i in toolbar) {
                     if (toolbar[i] !== 'hidden') {
@@ -87,12 +85,12 @@ export default class EditorHeader extends Component {
 
                 return (
                     <div className="title ediphyHeader" onClick={(e) => {
-                        this.props.onBoxSelected(-1);
+                        onBoxSelected(-1);
                         e.stopPropagation();
                     }}>
                         <div style={{
                             backgroundColor: 'transparent',
-                            display: (!hide && this.props.titles.length !== 0) ? 'initial' : 'none',
+                            display: (!hide && titles.length !== 0) ? 'initial' : 'none',
                         }}>
                             {/* <div className={this.props.showButtons ? "caja selectedTitle selectedBox" : "caja"} > */}
                             <div className={"caja"}>
@@ -108,14 +106,14 @@ export default class EditorHeader extends Component {
                                             (<h1 onClick={e => {
                                                 this.setState({ editingTitle: !this.state.editingTitle });
                                                 if (this.state.editingTitle) { /* Save changes to Redux state*/
-                                                    this.props.onTitleChanged(this.props.courseTitle, this.state.currentTitle);
+                                                    onTitleChanged(courseTitle, this.state.currentTitle);
                                                     // Synchronize current component state with Redux state when entering edition mode
                                                 } else {
-                                                    this.setState({ currentTitle: this.props.courseTitle });
+                                                    this.setState({ currentTitle: courseTitle });
                                                 }
                                                 e.stopPropagation();
                                             }}
-                                            style={{ display: (toolbar.courseTitle === 'hidden') ? 'none' : 'block' }}>{this.props.courseTitle}</h1>
+                                            style={{ display: (toolbar.courseTitle === 'hidden') ? 'none' : 'block' }}>{courseTitle}</h1>
                                             ) :
                                             (<FormControl
                                                 type="text"
@@ -126,7 +124,7 @@ export default class EditorHeader extends Component {
                                                 onKeyDown={e=> {
                                                     if (e.keyCode === 13) { // Enter Key
                                                         this.setState({ editingTitle: !this.state.editingTitle });
-                                                        this.props.onTitleChanged(this.props.courseTitle, (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
+                                                        this.props.onTitleChanged(courseTitle, (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
                                                     }
                                                     if (e.keyCode === 27) { // Escape key
                                                         this.setState({ editingTitle: !this.state.editingTitle });
@@ -144,14 +142,14 @@ export default class EditorHeader extends Component {
                                                 onBlur={e => {
                                                     /* Change to non-edition mode*/
                                                     this.setState({ editingTitle: !this.state.editingTitle });
-                                                    this.props.onTitleChanged(this.props.courseTitle, (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
+                                                    onTitleChanged(courseTitle, (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
                                                 }} />)}
                                         {/* NavItem title */}
                                         {!this.state.editingNavTitle ?
                                             (<h2 onClick={e => {
                                                 this.setState({ editingNavTitle: !this.state.editingNavTitle });
                                                 if (this.state.editingNavTitle) { /* Save changes to Redux state*/
-                                                    this.props.onViewTitleChanged(navItem.id, { documentTitleContent: this.state.currentNavTitle });
+                                                    onViewTitleChanged(currentNavItem.id, { documentTitleContent: this.state.currentNavTitle });
                                                     // Synchronize current component state with Redux state when entering edition mode
                                                 } else {
                                                     this.setState({ currentNavTitle: docTitle });
@@ -169,7 +167,7 @@ export default class EditorHeader extends Component {
                                                 onKeyDown={e=> {
                                                     if (e.keyCode === 13) { // Enter Key
                                                         this.setState({ editingNavTitle: !this.state.editingNavTitle });
-                                                        this.props.onViewTitleChanged(navItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
+                                                        onViewTitleChanged(currentNavItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
                                                     }
                                                     if (e.keyCode === 27) { // Escape key
                                                         this.setState({ editingNavTitle: !this.state.editingNavTitle });
@@ -187,24 +185,22 @@ export default class EditorHeader extends Component {
                                                 onBlur={e => {
                                                     /* Change to non-edition mode*/
                                                     this.setState({ editingNavTitle: !this.state.editingNavTitle });
-                                                    this.props.onViewTitleChanged(navItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
+                                                    onViewTitleChanged(currentNavItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
                                                 }} />)}
-                                        {/* Info CV */}
-                                        {this.props.containedView !== 0 ?
+                                        {this.props.containedView !== 0 &&
                                             <CVInfo containedViews={this.props.containedViews}
-                                                navItems={this.props.navItems}
-                                                containedView={this.props.containedView}
-                                                pluginToolbars={this.props.pluginToolbars}
-                                                viewToolbars={this.props.viewToolbars}
-                                                marks={this.props.marks}
-                                                boxes={this.props.boxes}/> : null
-                                        }
-                                        {/* NavItem subtitle */}
+                                                navItems={navItems}
+                                                containedView={containedView}
+                                                pluginToolbars={pluginToolbars}
+                                                viewToolbars={viewToolbars}
+                                                marks={marks}
+                                                boxes={boxes}
+                                            />}
                                         {!this.state.editingNavSubTitle ?
                                             (<h3 onClick={e => {
                                                 this.setState({ editingNavSubTitle: !this.state.editingNavSubTitle });
                                                 if (this.state.editingNavSubTitle) { /* Save changes to Redux state*/
-                                                    this.props.onViewTitleChanged(navItem.id, { documentSubtitleContent: this.state.currentNavSubTitle });
+                                                    this.props.onViewTitleChanged(currentNavItem.id, { documentSubtitleContent: this.state.currentNavSubTitle });
                                                     // Synchronize current component state with Redux state when entering edition mode
                                                 } else {
                                                     this.setState({ currentNavSubTitle: subTitle });
@@ -222,7 +218,7 @@ export default class EditorHeader extends Component {
                                                 onKeyDown={e=> {
                                                     if (e.keyCode === 13) { // Enter Key
                                                         this.setState({ editingNavSubTitle: !this.state.editingNavSubTitle });
-                                                        this.props.onViewTitleChanged(navItem.id, { documentSubtitleContent: (this.state.currentNavSubTitle.length > 0) ? this.state.currentNavSubTitle : this.getDefaultValue() });
+                                                        this.props.onViewTitleChanged(currentNavItem.id, { documentSubtitleContent: (this.state.currentNavSubTitle.length > 0) ? this.state.currentNavSubTitle : this.getDefaultValue() });
                                                     }
                                                     if (e.keyCode === 27) { // Escape key
                                                         this.setState({ editingNavSubTitle: !this.state.editingNavSubTitle });
@@ -240,12 +236,8 @@ export default class EditorHeader extends Component {
                                                 onBlur={e => {
                                                     /* Change to non-edition mode*/
                                                     this.setState({ editingNavSubTitle: !this.state.editingNavSubTitle });
-                                                    this.props.onViewTitleChanged(navItem.id, { documentSubtitleContent: (this.state.currentNavSubTitle.length > 0) ? this.state.currentNavSubTitle : this.getDefaultValue() });
+                                                    this.props.onViewTitleChanged(currentNavItem.id, { documentSubtitleContent: (this.state.currentNavSubTitle.length > 0) ? this.state.currentNavSubTitle : this.getDefaultValue() });
                                                 }} />)}
-                                        {/* <h3
-                                            style={{ display: (toolbar.documentSubtitle === 'hidden') ? 'none' : 'block' }}>{subTitle}</h3> */}
-
-                                        {/* breadcrumb */}
                                         <div className="contenido"
                                             style={{ display: (toolbar.breadcrumb === 'hidden') ? 'none' : 'block' }}>
                                             {content}

@@ -5,8 +5,7 @@ import EditorCanvasDoc from '../editor_canvas_doc/EditorCanvasDoc';
 import { isSlide } from '../../../../common/utils';
 import { connect } from "react-redux";
 import './_canvas.scss';
-import { DragDropContext } from "react-dnd";
-import HTML5Backend from "react-dnd-html5-backend";
+import { has } from "../../../../common/utils";
 
 /**
  * Container component to render documents or slides
@@ -20,10 +19,9 @@ class EditorCanvas extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-
-        if (this.props.navItemSelected && this.props.navItemSelected.id &&
-          nextProps.navItemSelected && nextProps.navItemSelected.id &&
-          this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
+        if (has(this.props.navItemSelected, 'id')
+            && has(nextProps.navItemSelected, 'id')
+            && this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
             document.getElementById('maincontent').scrollTop = 0;
         }
     }
@@ -31,25 +29,23 @@ class EditorCanvas extends Component {
 
 function mapStateToProps(state) {
     return{
-        title: state.undoGroup.present.globalConfig.title || '---',
+        aspectRatio: state.undoGroup.present.globalConfig.canvasRatio,
         boxes: state.undoGroup.present.boxesById,
-        grid: state.reactUI.grid,
-        canvasRatio: state.undoGroup.present.globalConfig.canvasRatio,
-        boxSelected: state.undoGroup.present.boxSelected,
         boxLevelSelected: state.undoGroup.present.boxLevelSelected,
+        boxSelected: state.undoGroup.present.boxSelected,
+        containedViews: state.undoGroup.present.containedViewsById,
+        containedViewSelected: state.undoGroup.present.containedViewsById[state.undoGroup.present.containedViewSelected] || 0,
+        exercises: state.undoGroup.present.exercises,
+        fileModalResult: state.reactUI.fileModalResult,
+        grid: state.reactUI.grid,
+        markCreatorId: state.reactUI.markCreatorVisible,
         marks: state.undoGroup.present.marks,
         navItems: state.undoGroup.present.navItemsById,
         navItemSelected: state.undoGroup.present.navItemsById[state.undoGroup.present.navItemSelected],
-        containedViews: state.undoGroup.present.containedViewsById,
-        containedViewSelected: state.undoGroup.present.containedViewsById[state.undoGroup.present.containedViewSelected] || 0,
-        showCanvas: state.undoGroup.present.navItemSelected !== 0,
         pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+        showCanvas: state.undoGroup.present.navItemSelected !== 0,
+        title: state.undoGroup.present.globalConfig.title || '---',
         viewToolbars: state.undoGroup.present.viewToolbarsById,
-        // !CHANGE
-        aspectRatio: state.undoGroup.present.globalConfig.canvasRatio,
-        markCreatorId: state.reactUI.markCreatorVisible,
-        exercises: state.undoGroup.present.exercises,
-        fileModalResult: state.reactUI.fileModalResult,
     };
 }
 

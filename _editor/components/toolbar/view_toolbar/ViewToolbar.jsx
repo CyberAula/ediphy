@@ -13,17 +13,14 @@ import { connect } from "react-redux";
 import Toolbar from "../toolbar/Toolbar";
 
 class ViewToolbar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
 
     render() {
-        let id = this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
-        let pageObj = this.props.containedViewSelected !== 0 ? this.props.containedViews[this.props.containedViewSelected] : this.props.navItems[this.props.navItemSelected];
+        const { containedViewSelected, containedViews, styleConfig,
+            navItemSelected, navItems, viewToolbars, exercises } = this.props;
+        let id = containedViewSelected !== 0 ? containedViewSelected : navItemSelected;
+        let pageObj = containedViewSelected !== 0 ? containedViews[containedViewSelected] : navItems[navItemSelected];
         let type = pageObj.type;
-        let isContainedView = this.props.containedViewSelected !== 0;
+        let isContainedView = containedViewSelected !== 0;
         let doc_type = '';
         if (isPage(id)) {
             doc_type = i18n.t('page');
@@ -36,13 +33,12 @@ class ViewToolbar extends Component {
             doc_type = i18n.t('section');
         }
 
-        let viewToolbar = sanitizeThemeToolbar(this.props.viewToolbars[id], this.props.styleConfig);
-        let styleConfig = this.props.styleConfig;
+        let viewToolbar = sanitizeThemeToolbar(viewToolbars[id], styleConfig);
 
         let controls = {
             main: {
                 __name: "Main",
-                accordions: { // define accordions for section
+                accordions: {
                     __basic: {
                         __name: i18n.t("general"),
                         icon: 'settings',
@@ -88,9 +84,7 @@ class ViewToolbar extends Component {
                                 display: false,
                                 value: viewToolbar.documentSubtitleContent,
                             },
-
                         },
-
                     },
                     __background: {
                         __name: i18n.t("Style.appearance"),
@@ -119,14 +113,6 @@ class ViewToolbar extends Component {
                                 type: 'background_picker',
                                 value: { background: viewToolbar.background, backgroundAttr: viewToolbar.background_attr } || { background: "#ffffff", backgroundAttr: "full" },
                             },
-
-                            // theme_background: {
-                            //     __name: i18n.t("Style.theme_background"),
-                            //     type: 'select',
-                            //     options: getThemeBackgrounds(viewToolbar.theme),
-                            //     value: viewToolbar.theme_background,
-                            // },
-
                         },
                     },
                     __score: {
@@ -138,7 +124,7 @@ class ViewToolbar extends Component {
                                 type: 'number',
                                 min: 1,
                                 __defaultField: true,
-                                value: this.props.exercises.weight,
+                                value: exercises.weight,
                             },
                         },
                     },
@@ -174,11 +160,11 @@ class ViewToolbar extends Component {
             };
         }
 
-        if (!isCanvasElement(this.props.navItemSelected, Ediphy.Config.sections_have_content)) {
+        if (!isCanvasElement(navItemSelected, Ediphy.Config.sections_have_content)) {
             return (null);
         }
         // when no plugin selected, but new navitem
-        let toolbar = sanitizeThemeToolbar(this.props.viewToolbars[id]);
+        let toolbar = sanitizeThemeToolbar(viewToolbars[id]);
 
         return Object.keys(controls).map((tabKey, index) => {
             let tab = controls[tabKey];
@@ -236,4 +222,8 @@ ViewToolbar.propTypes = {
      * Page toolbars
     */
     viewToolbars: PropTypes.object,
+    /**
+     * Style config params
+     */
+    styleConfig: PropTypes.object,
 };

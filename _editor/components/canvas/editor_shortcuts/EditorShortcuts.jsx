@@ -7,25 +7,15 @@ import { UPDATE_BOX } from '../../../../common/actions';
 import i18n from 'i18next';
 import { isSortableBox, isSortableContainer } from '../../../../common/utils';
 import { blurCKEditor, findBox } from '../../../../common/common_tools';
+import { connect } from "react-redux";
 
 /**
  * EditorShortcuts component
  * Floating tools that help edit EditorBoxes more easily
  */
-export default class EditorShortcuts extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            left: 0,
-            top: 0,
-            width: 0,
-            open: false,
-            showOverlay: false,
-            urlValue: "",
-        };
-        this.resizeAndSetState = this.resizeAndSetState.bind(this);
-        // this.handleChange = this.handleChange.bind(this);
-    }
+class EditorShortcuts extends Component {
+    state = { left: 0, top: 0, width: 0, open: false, showOverlay: false, urlValue: "" };
+
     render() {
         let box = this.props.box;
         let toolbar = this.props.pluginToolbar;
@@ -38,7 +28,6 @@ export default class EditorShortcuts extends Component {
             return null;
         }
         let config = apiPlugin.getConfig();
-        let toolbarAcc = apiPlugin.getToolbar(toolbar.state);
         let hasURL = false;
         let hasURLnotextprov = false;
         let accept = '*';
@@ -91,24 +80,12 @@ export default class EditorShortcuts extends Component {
                         onHide={() => this.setState({ showOverlay: false })}>
                         <Popover id="popov" title={i18n.t('messages.popoverUrlTitle')} className="popoverURL">
                             <input type="text" className="form-control" ref={'url_input'} placeholder={'http://... '} onKeyDown={e=>{
-                                if (e.keyCode === 13) {
-                                    let val = this.refs.url_input.value;
-                                    if (val && val !== '') {
-                                        this.props.onToolbarUpdated(toolbar.id, "main", "state", "url", this.refs.url_input.value);
-                                    }
-                                    this.setState({ showOverlay: false });
-                                }
+                                if (e.keyCode === 13) {this.hideOverlay();}
                             }}/>
                             <Button className="popoverButton"
                                 name="popoverAcceptButton"
                                 // disabled={ this.state.urlValue === ""}
-                                onClick={(e) => {
-                                    let val = this.refs.url_input.value;
-                                    if (val && val !== '') {
-                                        this.props.onToolbarUpdated(toolbar.id, "main", "state", "url", this.refs.url_input.value);
-                                    }
-                                    this.setState({ showOverlay: false });
-                                }}>
+                                onClick={this.hideOverlay}>
                                 {i18n.t("Accept")}
                             </Button>
                         </Popover>
@@ -123,9 +100,7 @@ export default class EditorShortcuts extends Component {
                                 }>
                                 <button id="open_conf" className={"editorTitleButton"}
                                     ref={ button => {this.overlayTarget = button;}}
-                                    onClick={(e) => {
-                                        this.setState({ showOverlay: true });
-                                    }}>
+                                    onClick={this.showOverlay}>
                                     <i className="material-icons">search</i>
                                 </button>
                             </OverlayTrigger>
@@ -313,11 +288,22 @@ export default class EditorShortcuts extends Component {
     // handleChange(e) {
     //     this.setState({ urlValue: e.target.value });
     // }
-    resizeAndSetState(fromUpdate, newProps) {
+    resizeAndSetState = (fromUpdate, newProps) => {
         let { width, top, left } = this.resize(fromUpdate, newProps);
         this.setState({ left: left, top: top, width: width });
-    }
-    resize(fromUpdate, newProps) {
+    };
+
+    hideOverlay = () => {
+        let val = this.refs.url_input.value;
+        if (val && val !== '') {
+            this.props.onToolbarUpdated(toolbar.id, "main", "state", "url", this.refs.url_input.value);
+        }
+        this.setState({ showOverlay: false });
+    };
+
+    showOverlay = () => this.setState({ showOverlay: true });
+
+    resize = (fromUpdate, newProps) => {
         let nextProps = (fromUpdate === 'fromUpdate') ? newProps : this.props;
         if (nextProps && nextProps.box) {
             let box = findBox(nextProps.box.id);
@@ -362,7 +348,7 @@ export default class EditorShortcuts extends Component {
             }
         }
         return { left: 0, top: 0, width: 0 };
-    }
+    };
 
     componentWillReceiveProps(nextProps) {
         if (nextProps !== this.props) {
@@ -441,6 +427,18 @@ export default class EditorShortcuts extends Component {
         }
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        box: state.undoGroup.present.boxesById[state.undoGroup.present.boxSelected],
+        containedViewSelected: state.undoGroup.present.containedViewsById[state.undoGroup.present.containedViewSelected] || 0,
+        navItemSelected: state.undoGroup.present.navItemsById[state.undoGroup.present.navItemSelected],
+        fileModalResult: state.reactUI.fileModalResult,
+        pluginToolbar: state.undoGroup.present.pluginToolbarsById[state.undoGroup.present.boxSelected],
+
+    };
+}
+export default connect(mapStateToProps)(EditorShortcuts);
 
 EditorShortcuts.propTypes = {
     /**

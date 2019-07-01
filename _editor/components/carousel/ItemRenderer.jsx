@@ -50,26 +50,28 @@ const File = ({ name, collapsed, id, path, navItems, onNavItemNameChanged, viewT
 };
 
 class ItemRenderer extends Component {
+
     render() {
-        const { id, navItemSelected, connectDragSource, connectDragPreview, connectDropTarget, type, onIndexSelected, onNavItemSelected }
-            = this.props;
+        const { id, navItemSelected, connectDragSource, connectDragPreview, connectDropTarget, type } = this.props;
         const collapsed = this.props.collapsed ? 'collapsed ' : '';
         const selected = type === 'file' && id === navItemSelected ? 'selected ' : ' ';
+
         return connectDragSource(connectDragPreview(connectDropTarget(
             <div className={"carousselContainer " + collapsed + selected + 'is' + type}
-                onMouseDown={e => {
-                    onIndexSelected(id);
-                    // e.stopPropagation();
-                }}
-                onDoubleClick={e => {
-                    onNavItemSelected(id);
-                    e.stopPropagation();
-                }}>
+                onMouseDown={this.onMouseDown}
+                onDoubleClick={this.onDoubleClick}>
                 {type === 'folder' && <Folder {...this.props} />}
                 {type === 'file' && <File {...this.props} />}
             </div>,
         )));
     }
+
+    onMouseDown = e => this.props.onIndexSelected(this.props.id);
+
+    onDoubleClick = e => {
+        this.props.onNavItemSelected(this.props.id);
+        e.stopPropagation();
+    };
 }
 
 ItemRenderer.propTypes = {

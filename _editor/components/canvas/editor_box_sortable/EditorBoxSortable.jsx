@@ -23,17 +23,8 @@ export default class EditorBoxSortable extends Component {
      * Constructor
      * @param props React component props
      */
-    constructor(props) {
-        super(props);
-        /**
-         * Component's initial state
-         * @type {{alert: null}}
-         */
-        this.state = {
-            alert: null,
-        };
-        this.getNewIndex = this.getNewIndex.bind(this);
-    }
+    state = { alert: null };
+
     /**
      * Renders React Component
      * @returns {code} React rendered component
@@ -381,7 +372,7 @@ export default class EditorBoxSortable extends Component {
         });
     }
 
-    getNewIndex(x, y, parent, container, i, j) {
+    getNewIndex = (x, y, parent, container, i, j) => {
         let el = document.elementFromPoint(x, y);
         let rc = releaseClick(el, 'box-');
         let children = this.props.boxes[parent].sortableContainers[container].children.filter(box=>{return this.props.boxes[box].row === j && this.props.boxes[box].col === i;});
@@ -441,7 +432,7 @@ export default class EditorBoxSortable extends Component {
         });
         return closestBox || 0;
 
-    }
+    };
 
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();

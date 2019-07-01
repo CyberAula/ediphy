@@ -12,28 +12,17 @@ import { connect } from "react-redux";
  *
  */
 class ContainedCanvas extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
-    constructor(props) {
-        super(props);
-        /**
-         * Component's initial state
-         * @type {{showTitle: boolean}}
-         */
-        this.state = {
-            showTitle: false,
-        };
-    }
+
+    state = { showTitle: false };
 
     /**
      * Render React Component
      * @returns {*}
      */
     render() {
+        const containedViewSelected = this.props.containedViewSelected;
+
         let canvasContent;
-        let containedViewSelected = this.props.containedViewSelected;
         if (containedViewSelected && containedViewSelected !== 0) {
             if (isSlide(containedViewSelected.type)) {
                 canvasContent = (<EditorCanvasSli fromCV {...this.props} />);
@@ -41,13 +30,11 @@ class ContainedCanvas extends Component {
                 canvasContent = (<EditorCanvasDoc fromCV {...this.props} />);
             }
         } else {
-            canvasContent = (<Col id="containedCanvas"
-                md={12}
-                xs={12}
+            canvasContent = (<Col id="containedCanvas" md={12} xs={12}
                 style={{
                     height: "100%",
                     padding: 0,
-                    display: this.props.containedViewSelected !== 0 ? 'initial' : 'none',
+                    display: containedViewSelected !== 0 ? 'initial' : 'none',
                 }} />);
 
         }
@@ -73,7 +60,6 @@ function mapStateToProps(state) {
         title: state.undoGroup.present.globalConfig.title || '---',
         boxes: state.undoGroup.present.boxesById,
         grid: state.reactUI.grid,
-        canvasRatio: state.undoGroup.present.globalConfig.canvasRatio,
         boxSelected: state.undoGroup.present.boxSelected,
         boxLevelSelected: state.undoGroup.present.boxLevelSelected,
         marks: state.undoGroup.present.marks,
@@ -84,7 +70,6 @@ function mapStateToProps(state) {
         showCanvas: state.undoGroup.present.navItemSelected !== 0,
         pluginToolbars: state.undoGroup.present.pluginToolbarsById,
         viewToolbars: state.undoGroup.present.viewToolbarsById,
-        // !CHANGE
         aspectRatio: state.undoGroup.present.globalConfig.canvasRatio,
         markCreatorId: state.reactUI.markCreatorVisible,
         exercises: state.undoGroup.present.exercises,
@@ -95,10 +80,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps)(ContainedCanvas);
 
 ContainedCanvas.propTypes = {
-    /**
-     * Relación de aspecto para diapositivas
-     */
-    canvasRatio: PropTypes.number.isRequired,
     /**
      * Indicador de si se muestra el canvas (tiene qu haber un navItem seleccionado)
      */

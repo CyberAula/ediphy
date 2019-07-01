@@ -15,27 +15,13 @@ import { uploadVishResourceAsync, uploadEdiphyResourceAsync, deleteBox, addBox, 
  * Component for managing the clipboard
  */
 class Clipboard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            alert: null,
-        };
-        this.copyButtonListener = this.copyButtonListener.bind(this);
-        this.copyListener = this.copyListener.bind(this);
-        this.pasteListener = this.pasteListener.bind(this);
-        this.cutListener = this.cutListener.bind(this);
-        this.pasteBox = this.pasteBox.bind(this);
-        this.copyData = this.copyData.bind(this);
-        this.duplicateBox = this.duplicateBox.bind(this);
-        this.duplicateListener = this.duplicateListener.bind(this);
-        this.currentPage = this.currentPage.bind(this);
-        this.getIndex = this.getIndex.bind(this);
-    }
+
+    state = { alert: null };
 
     /**
      * Extracts necessary information for clipboard/duplicating
      */
-    copyData() {
+    copyData = () => {
         let box = this.props.boxes[this.props.boxSelected];
         let toolbar = this.props.toolbars[this.props.boxSelected];
         let itemSelected = this.currentPage();
@@ -67,12 +53,13 @@ class Clipboard extends Component {
             }
         }
         return { box, toolbar, marks, childBoxes, childToolbars, score };
-    }
+    };
+
     /**
      * Copy action listener
      * @param event
      */
-    copyListener(event) {
+    copyListener = (event) => {
         let activeElement = document.activeElement;
         if (event.clipboardData) {
             if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
@@ -87,14 +74,14 @@ class Clipboard extends Component {
         }
         document.activeElement.blur();
         return false;
-    }
+    };
 
     /**
      * Copy Button
      * @param event
      * @returns {boolean}
      */
-    copyButtonListener(event) {
+    copyButtonListener = (event) => {
         let activeElement = document.activeElement;
         if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
             if (!this.containsCKEDitorText(activeElement) || (this.props.boxes[this.props.boxSelected] && !this.props.boxes[this.props.boxSelected].showTextEditor)) {
@@ -109,11 +96,11 @@ class Clipboard extends Component {
 
         }
         return false;
-    }
+    };
     /**
      * Cut action listener
      */
-    cutListener(event) {
+    cutListener = (event) => {
         let fromPlugin = this.copyListener(event);
         if (fromPlugin) {
             let box = this.props.boxes[this.props.boxSelected];
@@ -121,20 +108,21 @@ class Clipboard extends Component {
             // this.props.dispatch(deleteBox(box.id, box.parent, box.container, this.currentPage()));
         }
         document.activeElement.blur();
-    }
+    };
+
     /**
      * Calculates current page (nav or cv)
      */
-    currentPage() {
+    currentPage = () => {
         return isContainedView(this.props.containedViewSelected) ?
             this.props.containedViews[this.props.containedViewSelected] :
             (this.props.navItemSelected !== 0 ? this.props.navItems[this.props.navItemSelected] : null);
-    }
+    };
 
     /**
      * Duplicates box
      */
-    duplicateBox() {
+    duplicateBox = () => {
         let data = this.copyData();
         let containerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
         let id = ID_PREFIX_BOX + Date.now();
@@ -154,12 +142,12 @@ class Clipboard extends Component {
         let ids = { id, parent, container, page: page ? page.id : 0 };
         this.pasteBox(data, ids, isTargetSlide, newInd);
         document.activeElement.blur();
-    }
+    };
 
     /**
      * Duplicate action listener
      */
-    duplicateListener(event) {
+    duplicateListener = (event) => {
         let key = event.keyCode ? event.keyCode : event.which;
         if ((key === 69) && event.ctrlKey && event.altKey && isBox(this.props.boxSelected)) {
             event.preventDefault();
@@ -169,12 +157,12 @@ class Clipboard extends Component {
             this.pasteListener(event, true);
         }
         return true;
-    }
+    };
 
     /**
      * Pastes box
      */
-    pasteBox(data, ids, isTargetSlide, index) {
+    pasteBox = (data, ids, isTargetSlide, index) => {
         let pluginName = data.toolbar.pluginId;
         let plug = Ediphy.Plugins.get(pluginName);
         if (!plug) {
@@ -221,7 +209,7 @@ class Clipboard extends Component {
             }
         }
         this.props.dispatch(pasteBox({ ...ids, config }, transformedBox.newBox, transformedToolbar, transformedChildren, index, newMarks, data.score));
-    }
+    };
 
     /**
      * Calculates if the current focused element in the DOM is a text area. If it is we do not want to paste the box.
@@ -234,7 +222,7 @@ class Clipboard extends Component {
     /**
      * Paste action listener
      */
-    pasteListener(event, overrideShiftKey) {
+    pasteListener = (event, overrideShiftKey) => {
         if (event.shiftKey && !overrideShiftKey) {
             return;
         }
@@ -390,12 +378,12 @@ class Clipboard extends Component {
                 }
             }
         }
-    }
+    };
 
     /**
      * Modifies pasted box so it adapts to its new parent
      */
-    transformBox(box, ids, isTargetSlide, isOriginSlide) {
+    transformBox = (box, ids, isTargetSlide, isOriginSlide) => {
         let samePage = isTargetSlide && box.parent === ids.parent;
         let newIds = {};
         let newContainerBoxes = {};
@@ -428,12 +416,12 @@ class Clipboard extends Component {
         });
         return { newBox, newIds };
 
-    }
+    };
 
     /**
      * Modifies pasted toolbar so it adapts to its new parent
      */
-    transformToolbar(toolbar, ids, isTargetSlide, isOriginSlide) {
+    transformToolbar = (toolbar, ids, isTargetSlide, isOriginSlide) => {
         let newToolbar = Object.assign({}, toolbar, { id: ids.id });
         if (isTargetSlide !== isOriginSlide) {
             let config = Ediphy.Plugins.get(newToolbar.pluginId).getConfig();
@@ -457,9 +445,9 @@ class Clipboard extends Component {
         }
         return newToolbar;
 
-    }
+    };
 
-    getIndex(parent, container) {
+    getIndex = (parent, container) => {
         let newInd;
         if(isSortableContainer(container)) {
             let children = this.props.boxes[parent].sortableContainers[container].children;
@@ -467,7 +455,7 @@ class Clipboard extends Component {
             newInd = newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
         }
         return newInd;
-    }
+    };
 
     /**
      * After component mounts

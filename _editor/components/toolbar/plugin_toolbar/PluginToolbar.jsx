@@ -18,10 +18,6 @@ import { blurCKEditor } from '../../../../common/common_tools';
  * Toolbar component for configuring boxes or pages
  */
 export default class PluginToolbar extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     /**
      * Render React component
      * @returns {code}
@@ -64,7 +60,6 @@ export default class PluginToolbar extends Component {
                         className='toolbarButton'
                         onClick={() => {
                             this.props.openConfigModal(toolbar.id);
-                            // Ediphy.Plugins.get(toolbar.pluginId).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
                         }}>
                         <i className="toolbarIcons material-icons">build</i>
                         {i18n.t('open_conf')}
