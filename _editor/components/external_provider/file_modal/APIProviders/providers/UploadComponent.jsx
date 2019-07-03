@@ -10,26 +10,18 @@ import { isFile } from '../../../../../../common/utils';
 let spinner = require('../../../../../../dist/images/spinner.svg');
 
 export default class UploadComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            file: undefined,
-            filter: "",
-            extensionFilter: this.props.show,
-            keywords: [],
-            error: false,
-            uploading: false,
-            uploaded: false,
-            allowed: true,
-            forbidden: false,
-        };
-        this.uploadHandler = this.uploadHandler.bind(this);
-        this.dropHandler = this.dropHandler.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleAddition = this.handleAddition.bind(this);
-        this.handleDrag = this.handleDrag.bind(this);
+    state = {
+        file: undefined,
+        filter: "",
+        extensionFilter: this.props.show,
+        keywords: [],
+        error: false,
+        uploading: false,
+        uploaded: false,
+        allowed: true,
+        forbidden: false,
+    };
 
-    }
     render() {
         let file = this.state.file;
         let currentExtension = this.props.show;
@@ -120,7 +112,7 @@ export default class UploadComponent extends React.Component {
             }
         }
     }
-    dropHandler(file) {
+    dropHandler = (file) => {
         this.setState({ file });
         let reader = new FileReader();
         reader.readAsDataURL(file);
@@ -138,9 +130,9 @@ export default class UploadComponent extends React.Component {
             }
             this.setState({ preview: ((reader.result)), allowed });
         };
-    }
+    };
 
-    uploadHandler() {
+    uploadHandler = () => {
         let keywordsArray = this.state.keywords.map(key => { return key.text; });
         let keywords = keywordsArray.join(",");
         if (Ediphy.Config.zip_files_forbidden && this.state.file && this.state.file.name && (this.state.file.name.match(/\.zip$/) || this.state.file.name.match(/\.edi/) || this.state.file.name.match(/\.vish$/))) {
@@ -150,30 +142,30 @@ export default class UploadComponent extends React.Component {
         this.props.uploadFunction(this.state.file, keywords);
         this.setState({ keywords: [], uploading: true });
 
-    }
+    };
 
     /** *
    * Keyword deleted callback
    * @param i position of the keyword
    */
-    handleDelete(i) {
+    handleDelete = (i) => {
         let tags = Object.assign([], this.state.keywords);
         tags.splice(i, 1);
         this.setState({ keywords: tags });
-    }
+    };
 
     /**
    * Keyword added callback
    * @param tag Keyword name
    */
-    handleAddition(tag) {
+    handleAddition = (tag) => {
         let tags = Object.assign([], this.state.keywords);
         tags.push({
             id: tags.length + 1,
             text: tag,
         });
         this.setState({ keywords: tags });
-    }
+    };
 
     /**
    * Keyword moved callback
@@ -181,7 +173,7 @@ export default class UploadComponent extends React.Component {
    * @param currPos Current position
    * @param newPos New position
    */
-    handleDrag(tag, currPos, newPos) {
+    handleDrag = (tag, currPos, newPos) => {
         let tags = Object.assign([], this.state.keywords);
 
         // mutate array
@@ -189,8 +181,7 @@ export default class UploadComponent extends React.Component {
         tags.splice(newPos, 0, tag);
         // re-render
         this.setState({ keywords: tags });
-    }
-
+    };
 }
 
 UploadComponent.propTypes = {

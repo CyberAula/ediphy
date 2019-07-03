@@ -3,7 +3,6 @@ import { isContainedView, isSlide, isSortableBox, isSortableContainer } from "..
 import Select from "react-select";
 import { ControlLabel, Popover, FormControl, OverlayTrigger, Button, FormGroup, Panel, Radio, InputGroup } from "react-bootstrap";
 import RadioButtonFormGroup from "../../_editor/components/toolbar/radio_button_form_group/RadioButtonFormGroup";
-import { UPDATE_PLUGIN_TOOLBAR } from "../../common/actions";
 import ToggleSwitch from "@trendmicro/react-toggle-switch/lib/index";
 import React from "react";
 

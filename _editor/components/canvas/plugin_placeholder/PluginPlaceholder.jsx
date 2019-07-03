@@ -13,12 +13,11 @@ import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/
 import { instanceExists, releaseClick, findBox, createBox } from '../../../../common/common_tools';
 
 export default class PluginPlaceholder extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            alert: null,
-        };
-    }
+
+    state = {
+        alert: null,
+    };
+
     render() {
         let container = this.props.parentBox.sortableContainers[this.idConvert(this.props.pluginContainer)] || {};
         let className = "drg" + this.idConvert(this.props.pluginContainer);
@@ -144,52 +143,7 @@ export default class PluginPlaceholder extends Component {
             ondragleave: function(e) {
                 e.target.classList.remove("drop-target");
             },
-            ondrop: function(e) {
-                e.dragEvent.stopPropagation();
-
-                let clone = document.getElementById('clone');
-                if (clone) {
-                    clone.parentNode.removeChild(clone);
-                }
-                // If element dragged is coming from PluginRibbon, create a new EditorBox
-                let draggingFromRibbon = e.relatedTarget.className.indexOf("rib") !== -1;
-                let name = (draggingFromRibbon) ? e.relatedTarget.getAttribute("name") : this.props.pluginToolbars[this.props.boxSelected].pluginId;
-                let parent = forbidden ? this.props.parentBox.parent : this.props.parentBox.id;
-                let container = forbidden ? this.props.parentBox.container : this.idConvert(this.props.pluginContainer);
-                let config = Ediphy.Plugins.get(name).getConfig();
-                let forbidden = isBox(parent) && (config.isComplex || config.category === "evaluation"); // && (parent !== this.props.boxSelected);
-
-                let initialParams = {
-                    parent: forbidden ? this.props.parentBox.parent : parent,
-                    container: forbidden ? this.props.parentBox.container : container,
-                    col: forbidden ? 0 : extraParams.i,
-                    row: forbidden ? 0 : extraParams.j,
-                    page: this.props.page,
-                    id: ID_PREFIX_BOX + Date.now(),
-                    position: { type: 'relative', x: 0, y: 0 },
-                };
-                let newInd = initialParams.container === 0 ? undefined : this.getIndex(this.props.boxes, initialParams.parent, initialParams.container, e.dragEvent.clientX, e.dragEvent.clientY, forbidden, this.props.parentBox.id);
-                initialParams.index = newInd;
-                if (draggingFromRibbon) {
-                    if (config.limitToOneInstance && instanceExists(config.name)) {
-                        this.setState({ alert: alert(i18n.t('messages.instance_limit')) });
-                        return;
-                    }
-                    let isSlide = this.props.parentBox.resizable;
-                    createBox(initialParams, name, isSlide, this.props.onBoxAdded, this.props.boxes);
-
-                } else if (!(config.isComplex && (initialParams.container === 0))) {
-                    let boxDragged = this.props.boxes[this.props.boxSelected];
-                    // If box being dragged is dropped in a different column or row, change its value
-                    if (this.props.parentBox.id !== this.props.boxSelected) {
-                        // initialParams.position = { type: 'relative', x: 0, y: 0 };
-                        this.props.onBoxDropped(boxDragged.id, initialParams.row, initialParams.col, initialParams.parent,
-                            initialParams.container, boxDragged.parent, boxDragged.container, initialParams.position, newInd);
-                        return;
-                    }
-                }
-
-            }.bind(this),
+            ondrop: this.interactDrop,
             ondropdeactivate: function(e) {
                 e.target.classList.remove('drop-active');
                 e.target.classList.remove("drop-target");
@@ -236,6 +190,53 @@ export default class PluginPlaceholder extends Component {
         }
         return ID_PREFIX_SORTABLE_CONTAINER + id;
 
+    }
+
+    interactDrop = e => {
+
+        e.dragEvent.stopPropagation();
+
+        let clone = document.getElementById('clone');
+        if (clone) {
+            clone.parentNode.removeChild(clone);
+        }
+        // If element dragged is coming from PluginRibbon, create a new EditorBox
+        let draggingFromRibbon = e.relatedTarget.className.indexOf("rib") !== -1;
+        let name = (draggingFromRibbon) ? e.relatedTarget.getAttribute("name") : this.props.pluginToolbars[this.props.boxSelected].pluginId;
+        let parent = forbidden ? this.props.parentBox.parent : this.props.parentBox.id;
+        let container = forbidden ? this.props.parentBox.container : this.idConvert(this.props.pluginContainer);
+        let config = Ediphy.Plugins.get(name).getConfig();
+        let forbidden = isBox(parent) && (config.isComplex || config.category === "evaluation"); // && (parent !== this.props.boxSelected);
+
+        let initialParams = {
+            parent: forbidden ? this.props.parentBox.parent : parent,
+            container: forbidden ? this.props.parentBox.container : container,
+            col: forbidden ? 0 : extraParams.i,
+            row: forbidden ? 0 : extraParams.j,
+            page: this.props.page,
+            id: ID_PREFIX_BOX + Date.now(),
+            position: { type: 'relative', x: 0, y: 0 },
+        };
+        let newInd = initialParams.container === 0 ? undefined : this.getIndex(this.props.boxes, initialParams.parent, initialParams.container, e.dragEvent.clientX, e.dragEvent.clientY, forbidden, this.props.parentBox.id);
+        initialParams.index = newInd;
+        if (draggingFromRibbon) {
+            if (config.limitToOneInstance && instanceExists(config.name)) {
+                this.setState({ alert: alert(i18n.t('messages.instance_limit')) });
+                return;
+            }
+            let isSlide = this.props.parentBox.resizable;
+            createBox(initialParams, name, isSlide, this.props.onBoxAdded, this.props.boxes);
+
+        } else if (!(config.isComplex && (initialParams.container === 0))) {
+            let boxDragged = this.props.boxes[this.props.boxSelected];
+            // If box being dragged is dropped in a different column or row, change its value
+            if (this.props.parentBox.id !== this.props.boxSelected) {
+                // initialParams.position = { type: 'relative', x: 0, y: 0 };
+                this.props.onBoxDropped(boxDragged.id, initialParams.row, initialParams.col, initialParams.parent,
+                    initialParams.container, boxDragged.parent, boxDragged.container, initialParams.position, newInd);
+                return;
+            }
+        }
     }
 }
 

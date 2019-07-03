@@ -44,8 +44,6 @@ export default class SearchVishComponent extends React.Component {
             msg: i18n.t("FileModal.APIProviders.no_files"),
             onlyMyResources: false,
         };
-        this.onSearch = this.onSearch.bind(this);
-        this.generatePreview = this.generatePreview.bind(this);
     }
     render() {
         let type = categories[this.state.types] ? categories[this.state.types].type : "*";
@@ -107,30 +105,6 @@ export default class SearchVishComponent extends React.Component {
                     </FormGroup>
 
                 </Form>
-                {/* <Form horizontal action="javascript:void(0);">
-                    <FormGroup>
-
-                        <Col md={3}>
-                            <ControlLabel>{i18n.t("vish_search_by")}</ControlLabel>
-                            <FormControl ref="sort_by" componentClass="select">
-                                <option value="ranking">{i18n.t("vish_search_filters.ranking")}</option>
-                                <option value="popularity">{i18n.t("vish_search_filters.popularity")}</option>
-                                <option value="modification">{i18n.t("vish_search_filters.modification")}</option>
-                                <option value="creation">{i18n.t("vish_search_filters.creation")}</option>
-                                <option value="visits">{i18n.t("vish_search_filters.visits")}</option>
-                                <option value="favorites">{i18n.t("vish_search_filters.favorites")}</option>
-                                <option value="quality">{i18n.t("vish_search_filters.quality")}</option>
-                            </FormControl>
-                        </Col>
-                        <Col md={2}>
-                            <br/>
-                            <Button type="submit" className="btn-primary" onClick={onSearch}>
-                                {i18n.t("vish_search_button")}
-                            </Button>
-                        </Col>
-                    </FormGroup>
-
-                </Form>*/}
                 <Form className={"ExternalResults"}>
                     {results.length > 0 ?
                         (
@@ -203,11 +177,11 @@ export default class SearchVishComponent extends React.Component {
 
         }
     }
-    resetState() {
+    resetState = () => {
         this.props.onElementSelected(undefined, undefined, undefined, undefined, undefined);
+    };
 
-    }
-    onSearch(text) {
+    onSearch = (text) => {
         let query = encodeURI(Ediphy.Config.search_vish_url +
             "?q=" + text +
             "&type=" + this.state.types /* ReactDOM.findDOMNode(this.refs.type).value */ +
@@ -240,8 +214,9 @@ export default class SearchVishComponent extends React.Component {
                 this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
                 // dispatch(setBusy(false, e.message));
             });
-    }
-    generatePreview() {
+    };
+
+    generatePreview = () => {
         let item = this.props.elementSelected;
         switch(this.props.elementSelectedType) {
         case "vish":
@@ -262,7 +237,7 @@ export default class SearchVishComponent extends React.Component {
         default:
             return null;
         }
-    }
+    };
 }
 
 SearchVishComponent.propTypes = {

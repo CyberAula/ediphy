@@ -8,25 +8,8 @@ import { connect } from "react-redux";
  * Plugin menu in the editor's navbar
  */
 class PluginsMenu extends Component {
-    /**
-     * Constructor
-     */
-    constructor(props) {
-        super(props);
-        this.state = { categories: [] };
-        this.selectCategory = this.selectCategory.bind(this);
-        this.openPlugin = this.openPlugin.bind(this);
-    }
 
-    /**
-     * Click on plugin category callback
-     */
-    openPlugin(category) {
-        this.props.dispatch(updateUI({
-            pluginTab: category,
-            hideTab: 'show',
-        }));
-    }
+    state = { categories: [] };
 
     /**
      * Render React Component
@@ -82,11 +65,21 @@ class PluginsMenu extends Component {
         );
     }
 
-    selectCategory(event, category) {
+    /**
+     * Click on plugin category callback
+     */
+    openPlugin = (category) => {
+        this.props.dispatch(updateUI({
+            pluginTab: category,
+            hideTab: 'show',
+        }));
+    };
+
+    selectCategory = (event, category) => {
         const isSelected = this.props.reactUI.pluginTab === category.name;
         isSelected ? this.openPlugin('') : this.openPlugin(category.name);
         event.stopPropagation();
-    }
+    };
 
     componentDidMount() {
         // Only will show categories that have at least one plugin inside

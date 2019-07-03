@@ -8,8 +8,6 @@ export default class VisorHeader extends Component {
 
     render() {
 
-        let titles = this.props.titles || [];
-        // let element = !isView(this.props.currentView) ? this.props.containedViews[this.props.currentView] : this.props.navItems[this.props.currentView];
         let currentStatus = true;// element.header ? element.header.display : undefined;
         let element = this.props.viewToolbar;
         let docTitle = "";

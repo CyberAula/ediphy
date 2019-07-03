@@ -8,15 +8,13 @@ import SearchComponent from '../common/SearchComponent';
 import ImageComponent from '../common/ImageComponent';
 
 export default class EuropeanaComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            results: [],
-            query: '',
-            msg: i18n.t("FileModal.APIProviders.no_files"),
-        };
-        this.onSearch = this.onSearch.bind(this);
-    }
+
+    state = {
+        results: [],
+        query: '',
+        msg: i18n.t("FileModal.APIProviders.no_files"),
+    };
+
     render() {
         return <div className="contentComponent">
             <Form horizontal action="javascript:void(0);">
@@ -58,7 +56,7 @@ export default class EuropeanaComponent extends React.Component {
         </div>;
     }
 
-    onSearch(text) {
+    onSearch = (text) => {
         const BASE = 'https://www.europeana.eu/api/v2/search.json?wskey=ZDcCZqSZ5&query=' + (text || "europeana") + '&qf=TYPE:IMAGE&profile=RICH&media=true&rows=100&qf=IMAGE_SIZE:small';
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
         fetch(encodeURI(BASE))
@@ -81,7 +79,7 @@ export default class EuropeanaComponent extends React.Component {
                 console.error(e);
                 this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
             });
-    }
+    };
 }
 
 EuropeanaComponent.propTypes = {

@@ -25,25 +25,17 @@ pdflib.PDFJS.workerSrc = pdfjsWorkerBlobURL;
  * Generic import file modal
  */
 export default class PDFHandler extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            FileURL: '',
-            FileLoaded: false,
-            FileName: '',
-            FilePages: 0,
-            FileType: '',
-            ImportAs: 'Custom',
-            PagesFrom: 1,
-            PagesTo: 1,
-        };
-        this.AddPlugins = this.AddPlugins.bind(this);
-        this.AddAsNavItem = this.AddAsNavItem.bind(this);
-        this.fileLoad = this.fileLoad.bind(this);
-        this.importFile = this.importFile.bind(this);
-        this.PreviewFile = this.PreviewFile.bind(this);
-        this.start = this.start.bind(this);
-    }
+    state = {
+        FileURL: '',
+        FileLoaded: false,
+        FileName: '',
+        FilePages: 0,
+        FileType: '',
+        ImportAs: 'Custom',
+        PagesFrom: 1,
+        PagesTo: 1,
+    };
+
     componentWillUnmount() {
         for (let i = 1; i <= this.state.FilePages; i++) {
             let canvas = document.getElementById('can' + i);
@@ -66,7 +58,7 @@ export default class PDFHandler extends Component {
         }
     }
 
-    start() {
+    start = () => {
         require.ensure([], function() {
             let worker;
             worker = require('./pdf.worker.js');
@@ -114,8 +106,8 @@ export default class PDFHandler extends Component {
                 console.error('Error: ' + reason);
             });
         }
+    };
 
-    }
     /**
      * Renders React component
      * @returns {code}
@@ -184,14 +176,12 @@ export default class PDFHandler extends Component {
                         </div>
                     </Col>
                 </Row>
-
             </form>
-
         </div>
         );
     }
 
-    importFile() {
+    importFile = () => {
         switch(this.state.FileType) {
         case '(.pdf)':
             switch(this.state.ImportAs) {
@@ -228,7 +218,7 @@ export default class PDFHandler extends Component {
         });
 
         this.closeModal(true);
-    }
+    };
 
     AddAsPDFViewer() {
         // insert image plugins
@@ -265,7 +255,7 @@ export default class PDFHandler extends Component {
 
     }
 
-    AddAsNavItem(hasCustomSize) {
+    AddAsNavItem = (hasCustomSize) => {
         let navs = [];
         for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
             let canvas = document.getElementById('can' + i);
@@ -289,10 +279,10 @@ export default class PDFHandler extends Component {
             this.props.onIndexSelected(navs[navs.length - 1].id);
             this.props.onNavItemSelected(navs[navs.length - 1].id);
         }
-    }
+    };
 
     // function for preview pages
-    PreviewFile(page) {
+    PreviewFile = (page) => {
         let preview = document.getElementById('FilePreview');
         let firstCanvas = document.getElementById('can' + page);
 
@@ -306,9 +296,9 @@ export default class PDFHandler extends Component {
         }
         preview.style.border = '1px solid';
         preview.style.padding = '0px';
-    }
+    };
 
-    AddPlugins() {
+    AddPlugins = () => {
         // insert image plugins
         let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected);
         let cvSli = cv && isSlide(this.props.containedViews[this.props.containedViewSelected].type);
@@ -341,12 +331,10 @@ export default class PDFHandler extends Component {
             }
             initialParams.id = ID_PREFIX_BOX + Date.now() + '_' + i;
             createBox(initialParams, "HotspotImages", inASlide, this.props.onBoxAdded, this.props.boxes);
-
         }
+    };
 
-    }
-
-    fileLoad(event) {
+    fileLoad = (event) => {
         let file = event.target.files[0];
         let pdfURL = URL.createObjectURL(file);
 
@@ -392,7 +380,7 @@ export default class PDFHandler extends Component {
                 console.error('Error: ' + reason);
             });
         }
-    }
+    };
 
     /**
      * Close modal

@@ -45,11 +45,8 @@ class EditorBox extends Component {
             height: (toolbar.showTextEditor ? '100%' : '100%'),
             display: (toolbar.showTextEditor ? 'block' : 'none'),
         };
-        let attrs = {};
-        let width = toolbar.structure.width;
-        let height = toolbar.structure.height;
-        let widthUnit = toolbar.structure.widthUnit;
-        let heightUnit = toolbar.structure.heightUnit;
+        let attrs, marks = {};
+        let { width, height, widthUnit, heightUnit } = toolbar.structure;
         let classNames = "";
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let config = apiPlugin.getConfig();
@@ -57,7 +54,6 @@ class EditorBox extends Component {
             textareaStyle.textAlign = "left";
             style.textAlign = "left";
         }
-        let marks = {};
         Object.keys(this.props.marks || {}).forEach(mark =>{
             if(this.props.marks[mark].origin === this.props.id) {
                 marks[mark] = this.props.marks[mark];

@@ -7,13 +7,10 @@ import { CHANGE_DISPLAY_MODE, EXPAND_NAV_ITEM, IMPORT_STATE, INCREASE_LEVEL, IND
  * Component for auto-saving the state of the application periodically and avoid losing changes
  */
 export default class AutoSave extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            displaySave: false,
-            modifiedState: false,
-        };
-    }
+    state = {
+        displaySave: false,
+        modifiedState: false,
+    };
 
     componentDidMount() {
         this.intervalId = setInterval(this.timer.bind(this), Ediphy.Config.autosave_time);

@@ -8,15 +8,12 @@ import SearchComponent from '../common/SearchComponent';
 import ImageComponent from '../common/ImageComponent';
 
 export default class OpenClipArtComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            results: [],
-            query: '',
-            msg: i18n.t("FileModal.APIProviders.no_files"),
-        };
-        this.onSearch = this.onSearch.bind(this);
-    }
+    state = {
+        results: [],
+        query: '',
+        msg: i18n.t("FileModal.APIProviders.no_files"),
+    };
+
     render() {
         return <div className="contentComponent">
             <Form horizontal action="javascript:void(0);">
@@ -58,7 +55,7 @@ export default class OpenClipArtComponent extends React.Component {
         </div>;
     }
 
-    onSearch(text) {
+    onSearch = (text) => {
         const BASE_OPENCLIPART = "https://openclipart.org";
         const BASE = BASE_OPENCLIPART + "/search/json/?query=" + encodeURI(text) + "&amount=20";
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
@@ -81,7 +78,7 @@ export default class OpenClipArtComponent extends React.Component {
                 console.error(e);
                 this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
             });
-    }
+    };
 }
 
 OpenClipArtComponent.propTypes = {

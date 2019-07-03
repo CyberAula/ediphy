@@ -23,15 +23,21 @@ const initialState = {
     moodleSelected: false,
     options: {},
 };
+
 class FileModal extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = initialState;
-        this.getIndex = this.getIndex.bind(this);
-        this.currentPage = this.currentPage.bind(this);
-        this.closeSideBar = this.closeSideBar.bind(this);
-        this.close = this.close.bind(this);
-    }
+
+    state = {
+        menu: 0,
+        name: undefined,
+        index: undefined,
+        id: undefined,
+        element: undefined,
+        type: undefined,
+        pdfSelected: false,
+        moodleSelected: false,
+        options: {},
+    };
+
     render() {
         let menus = APIProviders(this); // Retrieves all API providers
         let handler = FileHandlers(this); // Retrieves all file-handling actions
@@ -136,9 +142,9 @@ class FileModal extends React.Component {
      * Selects menu left
      * @param i
      */
-    clickHandler(menu) {
+    clickHandler = (menu) => {
         this.setState({ ...initialState, menu });
-    }
+    };
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.visible !== this.props.visible && this.props.fileModalResult.id !== nextProps.fileModalResult.id) {
@@ -152,13 +158,13 @@ class FileModal extends React.Component {
     /**
      * Calculates current page (nav or cv)
      */
-    currentPage() {
+    currentPage = () => {
         return isContainedView(this.props.containedViewSelected) ?
             this.props.containedViews[this.props.containedViewSelected] :
             (this.props.navItemSelected !== 0 ? this.props.navItems[this.props.navItemSelected] : null);
-    }
+    };
 
-    getIndex(parent, container) {
+    getIndex = (parent, container) => {
         let newInd;
         if(isSortableContainer(container)) {
             let children = this.props.boxes[parent].sortableContainers[container].children;
@@ -166,20 +172,19 @@ class FileModal extends React.Component {
             newInd = newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
         }
         return newInd;
-    }
-    close(e) {
-        console.log('closing...');
+    };
+
+    close = (e) => {
         this.setState({ ...initialState });
         this.props.close(e);
-    }
+    };
 
-    closeSideBar(closeAlsoModal) {
+    closeSideBar = (closeAlsoModal) => {
         this.setState({ pdfSelected: false, moodleSelected: false });
         if (closeAlsoModal) {
             this.close();
         }
-    }
-
+    };
 }
 
 function mapStateToProps(state) {

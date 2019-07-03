@@ -22,16 +22,9 @@ import { createBox } from "../../../../common/common_tools";
  * Modal component to edit marks' configuration
  */
 class RichMarksModal extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
+
     constructor(props) {
         super(props);
-        /**
-         * Component's initial state
-         * @type {{connectMode: string, displayMode: string, newSelected: string, existingSelected: string, newType: string, viewNames: *, showAlert: boolean}}
-         */
         this.state = {
             connectMode: "new",
             displayMode: "navigate",
@@ -43,9 +36,6 @@ class RichMarksModal extends Component {
             showTemplates: false,
             boxes: [],
         };
-        this.toggleModal = this.toggleModal.bind(this);
-        this.toggleTemplatesModal = this.toggleTemplatesModal.bind(this);
-        this.templateClick = this.templateClick.bind(this);
     }
 
     /**
@@ -233,25 +223,6 @@ class RichMarksModal extends Component {
                             </FormGroup>
                         </Col>
                     </Row>
-                    {/* <FormGroup>
-                            <ControlLabel>Display mode</ControlLabel>
-                            <Radio name="display_mode"
-                                   checked={this.state.displayMode === "navigate"}
-                                   onChange={e => {
-                                        this.setState({displayMode: "navigate"});
-                                   }}>Navigate to content</Radio>
-                            <Radio name="display_mode"
-                                   checked={this.state.displayMode === "popup"}
-                                   onChange={e => {
-                                        this.setState({displayMode: "popup"});
-                                   }}>Show as popup</Radio>
-                            <Radio name="display_mode"
-                                   checked={this.state.displayMode === "new_tab"}
-                                   disabled={this.state.connectMode !== "external"}
-                                   onChange={e => {
-                                        this.setState({displayMode: "new_tab"});
-                                   }}>Open in new tab</Radio>
-                        </FormGroup>*/}
                     <Row>
                         <FormGroup>
                             {/* Input need to have certain label like richValue*/}
@@ -435,7 +406,7 @@ class RichMarksModal extends Component {
      * @param props Component's props
      * @returns {Array} Array of views
      */
-    returnAllViews(props) {
+    returnAllViews = (props) => {
         let viewNames = [];
         props.navItemsIds.map(id => {
             if (id === 0) {
@@ -465,43 +436,46 @@ class RichMarksModal extends Component {
             viewNames.push({ label: props.containedViews[cv].name, id: props.containedViews[cv].id });
         });
         return viewNames;
-    }
+    };
 
     /**
      * Method used to remap navItems and containedViews together
      * @param objects
      * @returns {*}
      */
-    remapInObject(...objects) {
+    remapInObject = (...objects) => {
         return Object.assign({}, ...objects);
-    }
-    toggleModal(e) {
+    };
+
+    toggleModal = (e) => {
         let key = e.keyCode ? e.keyCode : e.which;
         if (key === 27 && this.props.visible) {
             this.props.onRichMarksModalToggled();
         }
-    }
+    };
+
     /**
      * Shows/Hides the Import file modal
      */
-    toggleTemplatesModal() {
+    toggleTemplatesModal = () => {
         this.setState((prevState, props) => ({
             showTemplates: !prevState.showTemplates,
         }));
-    }
-    templateClick(boxes) {
+    };
+
+    templateClick = (boxes) => {
         this.setState({
             boxes: boxes,
         });
-    }
+    };
 
-    restoreDefaultTemplate() {
+    restoreDefaultTemplate = () => {
         this.setState({
             boxes: [],
         });
-    }
+    };
 
-    generateTemplateBoxes(boxes, newId) {
+    generateTemplateBoxes = (boxes, newId) => {
         if(boxes.length > 0) {
             boxes.map((item, index) => {
                 let position = {
@@ -529,7 +503,7 @@ class RichMarksModal extends Component {
                 createBox(initialParams, item.toolbar.name, true, this.props.onBoxAdded, this.props.boxes, item.toolbar.style);
             });
         }
-    }
+    };
 
     componentDidMount() {
         window.addEventListener('keyup', this.toggleModal);

@@ -48,7 +48,7 @@ class EditorCanvasSli extends Component {
         const overlayHeight = this.getOverlayHeight(fromCV);
 
         let toolbar = viewToolbars[itemSelected.id];
-        let theme = 'theme' in toolbar ? toolbar.theme : 'theme' in styleConfig ? styleConfig.theme : 'default';
+        let theme = toolbar && toolbar.theme ? toolbar.theme : styleConfig && styleConfig.theme ? styleConfig.theme : 'default';
         let itemBoxes = itemSelected ? itemSelected.boxes : [];
 
         let gridOn = grid && ((containedViewSelected !== 0) === fromCV);
@@ -173,75 +173,7 @@ class EditorCanvasSli extends Component {
             ondragleave: function(event) {
                 event.target.classList.remove("drop-target");
             },
-            ondrop: function(event) {
-
-                let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
-                let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
-                let rect = event.target.getBoundingClientRect();
-                let x = (event.dragEvent.clientX - rect.left - mc.offsetLeft) * 100 / mc.offsetWidth;
-                let y = (event.dragEvent.clientY - rect.top + mc.scrollTop /* - parseFloat(al.style.marginTop)*/) * 100 / mc.offsetHeight;
-                let config = Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig();
-                let w = parseFloat(config.initialWidthSlide ? config.initialWidthSlide : (config.initialWidth ? config.initialWidth : '25%'));
-                let h = parseFloat(config.initialHeightSlide ? config.initialHeightSlide : (config.initialHeight ? config.initialHeight : '30%'));
-                if ((w + x) > 100) {
-                    x = 100 - w;
-                }
-                if ((h + y) > 100) {
-                    y = 100 - h;
-                }
-                let position = {
-                    x: x + "%",
-                    y: y + "%",
-                    type: 'absolute',
-                };
-                if (event.relatedTarget.classList.contains('rib')) {
-                    let name = event.relatedTarget.getAttribute("name");
-                    let apiPlugin = Ediphy.Plugins.get(name);
-                    if (!apiPlugin) {
-                        return;
-                    }
-                    config = apiPlugin.getConfig();
-
-                    if (config.limitToOneInstance) {
-                        if (instanceExists(event.relatedTarget.getAttribute("name"))) {
-                            let alert = (<Alert className="pageModal"
-                                show
-                                hasHeader
-                                backdrop={false}
-                                title={<span><i className="material-icons alert-warning" >
-                                        warning</i>{i18n.t("messages.alert")}</span>}
-                                closeButton onClose={() => {this.setState({ alert: null });}}>
-                                <span> {i18n.t('messages.instance_limit')} </span>
-                            </Alert>);
-                            this.setState({ alert: alert });
-                            return;
-                        }
-                    }
-                    let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
-                    let page = itemSelected.id;
-                    let ids = {
-                        parent: page,
-                        container: 0,
-                        position: position,
-                        id: (ID_PREFIX_BOX + Date.now()),
-                        page: page,
-                    };
-                    createBox(ids, name, true, this.props.onBoxAdded, this.props.boxes);
-
-                } else {
-                    let boxDragged = this.props.boxes[this.props.boxSelected];
-                    let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
-                    if (boxDragged.parent !== itemSelected.id && (itemSelected.id !== boxDragged.parent || !isSlide(itemSelected.id))) {
-                        this.props.onBoxDropped(this.props.boxSelected,
-                            0, 0, itemSelected.id, 0, boxDragged.parent, boxDragged.container, position);
-                    }
-                    let clone = document.getElementById('clone');
-                    if (clone) {
-                        clone.parentElement.removeChild(clone);
-                    }
-                }
-                event.dragEvent.stopPropagation();
-            }.bind(this),
+            ondrop: this.interactDrop,
             ondropdeactivate: function(event) {
                 event.target.classList.remove('drop-active');
                 event.target.classList.remove("drop-target");
@@ -250,12 +182,12 @@ class EditorCanvasSli extends Component {
         let calculated = this.aspectRatio(this.props, this.state);
         this.setState({ fontBase: changeFontBase(calculated.width) });
 
-        window.addEventListener("resize", this.aspectRatioListener.bind(this));
+        window.addEventListener("resize", this.aspectRatioListener);
     }
 
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).unset();
-        window.removeEventListener("resize", this.aspectRatioListener.bind(this));
+        window.removeEventListener("resize", this.aspectRatioListener);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -267,10 +199,11 @@ class EditorCanvasSli extends Component {
 
     }
 
-    aspectRatioListener() {
+    aspectRatioListener = () => {
         let calculated = this.aspectRatio();
         this.setState({ fontBase: changeFontBase(calculated.width) });
-    }
+    };
+
     aspectRatio = (props = this.props, state = this.state) => {
         let ar = props.aspectRatio;
         let fromCV = props.fromCV;
@@ -302,6 +235,76 @@ class EditorCanvasSli extends Component {
             this.setState({ showTitle: false });
         }
         e.stopPropagation();
+    };
+
+    interactDrop = event => {
+
+        let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
+        let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
+        let rect = event.target.getBoundingClientRect();
+        let x = (event.dragEvent.clientX - rect.left - mc.offsetLeft) * 100 / mc.offsetWidth;
+        let y = (event.dragEvent.clientY - rect.top + mc.scrollTop /* - parseFloat(al.style.marginTop)*/) * 100 / mc.offsetHeight;
+        let config = Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig();
+        let w = parseFloat(config.initialWidthSlide ? config.initialWidthSlide : (config.initialWidth ? config.initialWidth : '25%'));
+        let h = parseFloat(config.initialHeightSlide ? config.initialHeightSlide : (config.initialHeight ? config.initialHeight : '30%'));
+        if ((w + x) > 100) {
+            x = 100 - w;
+        }
+        if ((h + y) > 100) {
+            y = 100 - h;
+        }
+        let position = {
+            x: x + "%",
+            y: y + "%",
+            type: 'absolute',
+        };
+        if (event.relatedTarget.classList.contains('rib')) {
+            let name = event.relatedTarget.getAttribute("name");
+            let apiPlugin = Ediphy.Plugins.get(name);
+            if (!apiPlugin) {
+                return;
+            }
+            config = apiPlugin.getConfig();
+
+            if (config.limitToOneInstance) {
+                if (instanceExists(event.relatedTarget.getAttribute("name"))) {
+                    let alert = (<Alert className="pageModal"
+                        show
+                        hasHeader
+                        backdrop={false}
+                        title={<span><i className="material-icons alert-warning" >
+                                        warning</i>{i18n.t("messages.alert")}</span>}
+                        closeButton onClose={() => {this.setState({ alert: null });}}>
+                        <span> {i18n.t('messages.instance_limit')} </span>
+                    </Alert>);
+                    this.setState({ alert: alert });
+                    return;
+                }
+            }
+            let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
+            let page = itemSelected.id;
+            let ids = {
+                parent: page,
+                container: 0,
+                position: position,
+                id: (ID_PREFIX_BOX + Date.now()),
+                page: page,
+            };
+            createBox(ids, name, true, this.props.onBoxAdded, this.props.boxes);
+
+        } else {
+            let boxDragged = this.props.boxes[this.props.boxSelected];
+            let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
+            if (boxDragged.parent !== itemSelected.id && (itemSelected.id !== boxDragged.parent || !isSlide(itemSelected.id))) {
+                this.props.onBoxDropped(this.props.boxSelected,
+                    0, 0, itemSelected.id, 0, boxDragged.parent, boxDragged.container, position);
+            }
+            let clone = document.getElementById('clone');
+            if (clone) {
+                clone.parentElement.removeChild(clone);
+            }
+        }
+        event.dragEvent.stopPropagation();
     };
 
     onResize = e => {

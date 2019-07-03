@@ -10,18 +10,14 @@ import { THEMES } from '../../../../common/themes/theme_loader';
 import { TRANSITIONS } from "../../../../common/themes/transitions/transitions";
 
 export default class TransitionPicker extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            activeTransition: 0,
-        };
-        this.handleChange = this.handleChange.bind(this);
-    }
+    state = {
+        activeTransition: 0,
+    };
 
-    handleChange(index) {
+    handleChange = (index) => {
         this.setState({ activeTransition: index });
         this.props.onClick(index);
-    }
+    };
 
     render() {
 

@@ -737,8 +737,8 @@ class EditorApp extends Component {
 
     toggleRichMarksModal = (value, boxId = -1) => {
         const reactUI = this.props.reactUI;
-        this.props.dispatch(updateUI(UI.richMarksVisible, !reactUI.richMarksVisible));
-        this.props.dispatch(updateUI(UI.markCursorValue, value));
+        this.props.dispatch(updateUI({ richMarksVisible: !reactUI.richMarksVisible }));
+        this.props.dispatch(updateUI({ markCursorValue: value }));
         if(reactUI.richMarksVisible) {
             this.props.dispatch(updateUI({
                 currentRichMark: null,

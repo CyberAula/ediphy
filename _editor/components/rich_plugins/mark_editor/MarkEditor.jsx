@@ -12,50 +12,41 @@ import './_mark_editor.scss';
 *
 */
 export default class MarkEditor extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            holding: false,
-            start: 0,
-            ended: false,
-        };
-        this.start = this.start.bind(this);
-        this.end = this.end.bind(this);
-        this.timeout = this.timeout.bind(this);
-        this.overlay = this.overlay.bind(this);
-        this.mouseLeave = this.mouseLeave.bind(this);
-    }
+
+    state = {
+        holding: false,
+        start: 0,
+        ended: false,
+    };
 
     /**
      * Drag start callback
      * @param e Event
      */
-    start(e) {
+    start = (e) => {
         if (e.button === 2) {
             return;
         }
-        let ended = this.state.ended;
         let start = Date.now();
         this.setState({ start: start, holding: true, ended: false });
-        let time = this.props.time;
         setTimeout(function() {this.timeout(start);}.bind(this), 1 /* time * 100 + 1 */);
         e.stopPropagation();
-    }
+    };
 
     /**
      * Drag end callback
      * @param e Event
      */
-    end(e) {
+    end = (e) => {
         this.setState({ start: 0, holding: false, ended: true });
         e.stopPropagation();
-    }
+    };
 
     /**
      * Timeout callback
      * @param start
      */
-    timeout(start) {
+    timeout = (start) => {
         // Only edit mark if enough time has passed
         if (this.state.holding && this.state.start === start) {
             if (this.props.onClickNHold) {
@@ -67,18 +58,17 @@ export default class MarkEditor extends Component {
 
         }
         this.setState({ ended: true, editing: false });
-
-    }
+    };
 
     /**
      * Mouse leave callback
      * @param e Event
      */
-    mouseLeave(e) {
+    mouseLeave = (e) => {
         if (this.state.holding) {
             this.end(e);
         }
-    }
+    };
 
     /**
      * Render React Component
@@ -117,7 +107,7 @@ export default class MarkEditor extends Component {
     /**
      * Overlay creation
      */
-    overlay() {
+    overlay = () => {
         let myself = ReactDOM.findDOMNode(this);
         let dropableElement = findParentBySelector(myself, '.dropableRichZone');
         let boxStyle = findParentBySelector(myself, '.boxStyle');
@@ -220,7 +210,7 @@ export default class MarkEditor extends Component {
         overlay.addEventListener('mouseup', mouseup);
         dropableElement.parentElement.appendChild(overlay);
 
-    }
+    };
 
 }
 

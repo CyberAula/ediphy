@@ -103,7 +103,7 @@ class NavDropdown extends Component
                     {(this.isAlreadySaved()) ? <MenuItem disabled={false} eventKey="7" key="7">
                         <button className="dropdownButton" title={i18n.t('delete')}
                             disabled={false}
-                            onClick={this.onDeleteDocument.bind(this)}><i className="material-icons">delete</i>
+                            onClick={this.onDeleteDocument}><i className="material-icons">delete</i>
                             {i18n.t('delete')}
                         </button>
                     </MenuItem> : null}
@@ -123,12 +123,13 @@ class NavDropdown extends Component
             </Dropdown>
         );
     }
-    isAlreadySaved() {
+    isAlreadySaved = () => {
         let reg = /.*ediphy_documents\/\d+\/edit/;
         let matched = window.parent.location.href.toString().match(reg);
         return matched && matched.length > 0;
-    }
-    onDeleteDocument() {
+    };
+
+    onDeleteDocument = () => {
         let alertComponent = (
             <Alert className="pageModal"
                 show
@@ -162,7 +163,7 @@ class NavDropdown extends Component
                 <span> {i18n.t("messages.delete_ediphy_document_message")} </span><br/>
             </Alert>);
         this.setState({ alert: alertComponent });
-    }
+    };
 }
 
 function mapStateToProps(state) {

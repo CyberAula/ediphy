@@ -12,14 +12,11 @@ import ContainedViewsList from "./ContainedViewsList";
 import PropTypes from "prop-types";
 
 class FileTree extends Component {
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            showSortableItems: true,
-            showContainedViews: true,
-        };
-    }
+    state = {
+        showSortableItems: true,
+        showContainedViews: true,
+    };
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         return (nextProps.navItems !== this.props.navItems
@@ -113,7 +110,7 @@ class FileTree extends Component {
         }
     };
 
-    renderItem = (props) => { return<ItemRenderer {...props}
+    renderItem = (props) => { return <ItemRenderer {...props}
         onToggleCollapse={this.handleToggleCollapse}
         onIndexSelected = {this.props.onIndexSelected}
         onNavItemSelected={this.props.onNavItemSelected}

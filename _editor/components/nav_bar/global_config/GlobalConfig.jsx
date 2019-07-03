@@ -30,338 +30,323 @@ import EditorNavBar from "../../../containers/EditorApp";
  * Global course configuration modal
  */
 class GlobalConfig extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
-    constructor(props) {
-        super(props);
-        /* State from props is an anti-pattern*/
-        this.state = {
-            title: this.props.globalConfig.title,
-            author: this.props.globalConfig.author || "",
-            canvasRatio: this.props.globalConfig.canvasRatio || 16 / 9,
-            age: this.props.globalConfig.age || { min: 0, max: 0 },
-            typicalLearningTime: this.props.globalConfig.typicalLearningTime || { h: 0, m: 0, s: 0 },
-            difficulty: this.props.globalConfig.difficulty,
-            rights: this.props.globalConfig.rights || 1,
-            description: this.props.globalConfig.description || '',
-            thumbnail: this.props.globalConfig.thumbnail || img_place_holder,
-            language: this.props.globalConfig.language,
-            keywords: this.props.globalConfig.keywords || [],
-            version: this.props.globalConfig.version || '0.0.0',
-            status: this.props.globalConfig.status || 'draft',
-            context: this.props.globalConfig.context,
-            hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
-            minTimeProgress: this.props.globalConfig.minTimeProgress || 3,
-            visorNav: { ...(this.props.globalConfig.visorNav || {}),
-                player: this.props.globalConfig.visorNav.player === undefined ? true : this.props.globalConfig.visorNav.player,
-                sidebar: this.props.globalConfig.visorNav.sidebar === undefined ? true : this.props.globalConfig.visorNav.sidebar,
-                keyBindings: this.props.globalConfig.visorNav.player === undefined ? true : this.props.globalConfig.visorNav.keyBindings,
-                fixedPlayer: this.props.globalConfig.visorNav.fixedPlayer === undefined ? true : this.props.globalConfig.visorNav.player },
-            allowClone: this.props.globalConfig.allowClone ? true : this.props.globalConfig.allowClone === undefined,
-            allowComments: this.props.globalConfig.allowComments ? true : this.props.globalConfig.allowComments === undefined,
-            allowDownload: this.props.globalConfig.allowDownload ? true : this.props.globalConfig.allowDownload === undefined,
-            modifiedState: false,
-            showAlert: false,
-            everPublished: this.props.globalConfig.everPublished,
+  state = {
+      title: this.props.globalConfig.title,
+      author: this.props.globalConfig.author || "",
+      canvasRatio: this.props.globalConfig.canvasRatio || 16 / 9,
+      age: this.props.globalConfig.age || { min: 0, max: 0 },
+      typicalLearningTime: this.props.globalConfig.typicalLearningTime || { h: 0, m: 0, s: 0 },
+      difficulty: this.props.globalConfig.difficulty,
+      rights: this.props.globalConfig.rights || 1,
+      description: this.props.globalConfig.description || '',
+      thumbnail: this.props.globalConfig.thumbnail || img_place_holder,
+      language: this.props.globalConfig.language,
+      keywords: this.props.globalConfig.keywords || [],
+      version: this.props.globalConfig.version || '0.0.0',
+      status: this.props.globalConfig.status || 'draft',
+      context: this.props.globalConfig.context,
+      hideGlobalScore: this.props.globalConfig.hideGlobalScore || false,
+      minTimeProgress: this.props.globalConfig.minTimeProgress || 3,
+      visorNav: { ...(this.props.globalConfig.visorNav || {}),
+          player: this.props.globalConfig.visorNav.player === undefined ? true : this.props.globalConfig.visorNav.player,
+          sidebar: this.props.globalConfig.visorNav.sidebar === undefined ? true : this.props.globalConfig.visorNav.sidebar,
+          keyBindings: this.props.globalConfig.visorNav.player === undefined ? true : this.props.globalConfig.visorNav.keyBindings,
+          fixedPlayer: this.props.globalConfig.visorNav.fixedPlayer === undefined ? true : this.props.globalConfig.visorNav.player },
+      allowClone: this.props.globalConfig.allowClone ? true : this.props.globalConfig.allowClone === undefined,
+      allowComments: this.props.globalConfig.allowComments ? true : this.props.globalConfig.allowComments === undefined,
+      allowDownload: this.props.globalConfig.allowDownload ? true : this.props.globalConfig.allowDownload === undefined,
+      modifiedState: false,
+      showAlert: false,
+      everPublished: this.props.globalConfig.everPublished,
 
-        };
-        // Tag handling functions
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleAddition = this.handleAddition.bind(this);
-        this.handleDrag = this.handleDrag.bind(this);
-        this.fileChanged = this.fileChanged.bind(this);
-        this.uploadFunction = this.uploadFunction.bind(this);
-        this.close = this.close.bind(this);
-    }
+  };
 
     /**
      * Renders React component
      * @returns {code}
      */
-    render() {
-        const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context, allowDownload, allowClone, allowComments } = this.state;
-        const { reactUI } = this.props;
-        return (
-            <Modal className="pageModal"
-                show={reactUI.showGlobalConfig}
-                backdrop={'static'} bsSize="large"
-                aria-labelledby="contained-modal-title-lg"
-                onHide={e => {
-                    // If anything has changed after last save show an alert, otherwise just leave
-                    if (this.state.modifiedState) {
-                        this.setState({ showAlert: true });
-                    } else {
-                        this.cancel();
-                    }
-                }}>
-                <Modal.Header closeButton>
-                    <Modal.Title><span id="previewTitle">{i18n.t('global_config.title')}</span></Modal.Title>
-                </Modal.Header>
-                <Alert className="pageModal"
-                    show={this.state.showAlert}
-                    hasHeader
-                    title={i18n.t("messages.save_changes")}
-                    closeButton
-                    cancelButton
-                    acceptButtonText={'OK'}
-                    onClose={(bool) => {
-                        // If Accept button clicked, state is saved, otherwise close without saving
-                        bool ? this.saveState() : this.cancel();
-                        // Anyway close the alert
-                        this.setState({ showAlert: false });
-                        // this.props.close();
-                    }}>
-                    {i18n.t("global_config.prompt")}
-                </Alert>
-                <Modal.Body className="gcModalBody" style={{ overFlowY: 'auto' }}>
-                    <Grid>
-                        <form>
-                            <Row>
-                                <Col xs={12} md={7} lg={7}><br/>
-                                    <h4>{i18n.t('global_config.title_general')}</h4>
-                                    <FormGroup>
-                                        <ControlLabel>{i18n.t('global_config.avatar')}</ControlLabel>
-                                        <div className="cont_avatar">
-                                            <img src={this.state.thumbnail} className="avatar" />
-                                            <div>
-                                                <Button bsStyle="primary" className="avatarButtons" onClick={()=>{
-                                                    this.props.toggleFileUpload('avatar', 'image/*');
-                                                }}>{i18n.t('global_config.avatar_import')}</Button><br/>
-                                                <Button bsStyle="primary" className="avatarButtons" onClick={()=>{
-                                                    this.getCurrentPageAvatar();
-                                                }}>{i18n.t('global_config.avatar_screenshot')}</Button><br/>
-                                                <Button bsStyle="default" className="avatarButtons" disabled={ this.state.thumbnail === img_place_holder } onClick={()=>{
-                                                    this.setState({ thumbnail: img_place_holder });
-                                                }}>{i18n.t('global_config.avatar_delete_img')}</Button>
-                                            </div>
-                                        </div>
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <ControlLabel>{i18n.t('global_config.course_title')}</ControlLabel>
-                                        <FormControl type="text"
-                                            value={title}
-                                            placeholder={i18n.t('global_config.course_title')}
-                                            onChange={e => {this.setState({ modifiedState: true, title: e.target.value });}}/>
-                                    </FormGroup>
-                                    <FormGroup >
-                                        <ControlLabel>{i18n.t('global_config.description')}</ControlLabel>
-                                        <FormControl id="descTA"
-                                            componentClass="textarea"
-                                            placeholder={i18n.t('global_config.description_placeholder')}
-                                            value={description}
-                                            onChange={e => {this.setState({ modifiedState: true, description: e.target.value });}} />
-                                    </FormGroup>
-                                    <FormGroup >
-                                        <ControlLabel>{i18n.t('global_config.author')}</ControlLabel>
-                                        <FormControl type="text"
-                                            value={author}
-                                            placeholder={i18n.t('global_config.anonymous')}
-                                            onChange={e => {this.setState({ modifiedState: true, author: e.target.value });}}/>
-                                    </FormGroup>
-                                    <FormGroup >
-                                        <ControlLabel>{i18n.t('global_config.language')}</ControlLabel><br/>
-                                        <Select
-                                            name="form-field-lang"
-                                            value={language}
-                                            options={languages()}
-                                            placeholder={i18n.t("global_config.no_lang")}
-                                            onChange={e => {this.setState({ modifiedState: true, language: e.value });}}
-                                        />
-                                    </FormGroup>
-                                    <FormGroup >
-                                        <ControlLabel>{i18n.t('global_config.rights')}</ControlLabel>
-                                        <OverlayTrigger trigger="click" rootClose placement="top"
-                                            overlay={<Popover id="info_licenses" className="advancedPopover" title="Licencias">
-                                                {i18n.t('global_config.rights_short_txt')}
-                                                <a target="_blank" href={"https://creativecommons.org/licenses/?lang=" + i18n.t('currentLang')}> [{i18n.t('Read_more')}] </a>
-                                            </Popover>}>
-                                            <a className="miniIcon" id="helpIcon"><i className="material-icons">help</i></a>
-                                        </OverlayTrigger>
-                                        {/*
+  render() {
+      const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context, allowDownload, allowClone, allowComments } = this.state;
+      const { reactUI } = this.props;
+      return (
+          <Modal className="pageModal"
+              show={reactUI.showGlobalConfig}
+              backdrop={'static'} bsSize="large"
+              aria-labelledby="contained-modal-title-lg"
+              onHide={e => {
+                  // If anything has changed after last save show an alert, otherwise just leave
+                  if (this.state.modifiedState) {
+                      this.setState({ showAlert: true });
+                  } else {
+                      this.cancel();
+                  }
+              }}>
+              <Modal.Header closeButton>
+                  <Modal.Title><span id="previewTitle">{i18n.t('global_config.title')}</span></Modal.Title>
+              </Modal.Header>
+              <Alert className="pageModal"
+                  show={this.state.showAlert}
+                  hasHeader
+                  title={i18n.t("messages.save_changes")}
+                  closeButton
+                  cancelButton
+                  acceptButtonText={'OK'}
+                  onClose={(bool) => {
+                      // If Accept button clicked, state is saved, otherwise close without saving
+                      bool ? this.saveState() : this.cancel();
+                      // Anyway close the alert
+                      this.setState({ showAlert: false });
+                      // this.props.close();
+                  }}>
+                  {i18n.t("global_config.prompt")}
+              </Alert>
+              <Modal.Body className="gcModalBody" style={{ overFlowY: 'auto' }}>
+                  <Grid>
+                      <form>
+                          <Row>
+                              <Col xs={12} md={7} lg={7}><br/>
+                                  <h4>{i18n.t('global_config.title_general')}</h4>
+                                  <FormGroup>
+                                      <ControlLabel>{i18n.t('global_config.avatar')}</ControlLabel>
+                                      <div className="cont_avatar">
+                                          <img src={this.state.thumbnail} className="avatar" />
+                                          <div>
+                                              <Button bsStyle="primary" className="avatarButtons" onClick={()=>{
+                                                  this.props.toggleFileUpload('avatar', 'image/*');
+                                              }}>{i18n.t('global_config.avatar_import')}</Button><br/>
+                                              <Button bsStyle="primary" className="avatarButtons" onClick={()=>{
+                                                  this.getCurrentPageAvatar();
+                                              }}>{i18n.t('global_config.avatar_screenshot')}</Button><br/>
+                                              <Button bsStyle="default" className="avatarButtons" disabled={ this.state.thumbnail === img_place_holder } onClick={()=>{
+                                                  this.setState({ thumbnail: img_place_holder });
+                                              }}>{i18n.t('global_config.avatar_delete_img')}</Button>
+                                          </div>
+                                      </div>
+                                  </FormGroup>
+                                  <FormGroup>
+                                      <ControlLabel>{i18n.t('global_config.course_title')}</ControlLabel>
+                                      <FormControl type="text"
+                                          value={title}
+                                          placeholder={i18n.t('global_config.course_title')}
+                                          onChange={e => {this.setState({ modifiedState: true, title: e.target.value });}}/>
+                                  </FormGroup>
+                                  <FormGroup >
+                                      <ControlLabel>{i18n.t('global_config.description')}</ControlLabel>
+                                      <FormControl id="descTA"
+                                          componentClass="textarea"
+                                          placeholder={i18n.t('global_config.description_placeholder')}
+                                          value={description}
+                                          onChange={e => {this.setState({ modifiedState: true, description: e.target.value });}} />
+                                  </FormGroup>
+                                  <FormGroup >
+                                      <ControlLabel>{i18n.t('global_config.author')}</ControlLabel>
+                                      <FormControl type="text"
+                                          value={author}
+                                          placeholder={i18n.t('global_config.anonymous')}
+                                          onChange={e => {this.setState({ modifiedState: true, author: e.target.value });}}/>
+                                  </FormGroup>
+                                  <FormGroup >
+                                      <ControlLabel>{i18n.t('global_config.language')}</ControlLabel><br/>
+                                      <Select
+                                          name="form-field-lang"
+                                          value={language}
+                                          options={languages()}
+                                          placeholder={i18n.t("global_config.no_lang")}
+                                          onChange={e => {this.setState({ modifiedState: true, language: e.value });}}
+                                      />
+                                  </FormGroup>
+                                  <FormGroup >
+                                      <ControlLabel>{i18n.t('global_config.rights')}</ControlLabel>
+                                      <OverlayTrigger trigger="click" rootClose placement="top"
+                                          overlay={<Popover id="info_licenses" className="advancedPopover" title="Licencias">
+                                              {i18n.t('global_config.rights_short_txt')}
+                                              <a target="_blank" href={"https://creativecommons.org/licenses/?lang=" + i18n.t('currentLang')}> [{i18n.t('Read_more')}] </a>
+                                          </Popover>}>
+                                          <a className="miniIcon" id="helpIcon"><i className="material-icons">help</i></a>
+                                      </OverlayTrigger>
+                                      {/*
                                         <a className="miniIcon" target="_blank" href={"https://creativecommons.org/licenses/?lang="+i18n.t('currentLang')}><i className="material-icons">help</i></a>
                                          */}
-                                        <br/>
-                                        <Select disabled={status === 'final' || this.state.everPublished} className={(status === 'final' || this.state.everPublished) ? 'select-disabled' : ''} title={(status === 'final' || this.state.everPublished) ? i18n.t("messages.forbidden") : undefined}
-                                            name="form-field-name-rights"
-                                            value={rights}
-                                            options={rightsOptions()}
-                                            onChange={e => {this.setState({ modifiedState: true, rights: e.value });}} />
-                                    </FormGroup>
-                                    <FormGroup >
-                                        <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
-                                        <ReactTags tags={(keywords || []).map((text, id) => (typeof text === "string") ? { id: id.toString(), text } : text)}
-                                            suggestions={suggestions()}
-                                            placeholder={i18n.t('global_config.keyw.Add_tag')}
-                                            delimiters={[188, 13]}
-                                            handleDelete={this.handleDelete}
-                                            handleAddition={this.handleAddition}
-                                            handleDrag={this.handleDrag} />
-                                    </FormGroup>
-                                    <FormGroup >
-                                        <ControlLabel>{i18n.t('global_config.recom_age')}</ControlLabel>
-                                        <RangeSlider
-                                            min={0}
-                                            max={100}
-                                            minRange={1}
-                                            minValue={age.min}
-                                            maxValue={age.max}
-                                            onChange={(state)=>{
-                                                this.setState({ modifiedState: true, age: { max: state.max, min: state.min } });
-                                            }}
-                                            step={1}
-                                        />
-                                    </FormGroup>
+                                      <br/>
+                                      <Select disabled={status === 'final' || this.state.everPublished} className={(status === 'final' || this.state.everPublished) ? 'select-disabled' : ''} title={(status === 'final' || this.state.everPublished) ? i18n.t("messages.forbidden") : undefined}
+                                          name="form-field-name-rights"
+                                          value={rights}
+                                          options={rightsOptions()}
+                                          onChange={e => {this.setState({ modifiedState: true, rights: e.value });}} />
+                                  </FormGroup>
+                                  <FormGroup >
+                                      <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
+                                      <ReactTags tags={(keywords || []).map((text, id) => (typeof text === "string") ? { id: id.toString(), text } : text)}
+                                          suggestions={suggestions()}
+                                          placeholder={i18n.t('global_config.keyw.Add_tag')}
+                                          delimiters={[188, 13]}
+                                          handleDelete={this.handleDelete}
+                                          handleAddition={this.handleAddition}
+                                          handleDrag={this.handleDrag} />
+                                  </FormGroup>
+                                  <FormGroup >
+                                      <ControlLabel>{i18n.t('global_config.recom_age')}</ControlLabel>
+                                      <RangeSlider
+                                          min={0}
+                                          max={100}
+                                          minRange={1}
+                                          minValue={age.min}
+                                          maxValue={age.max}
+                                          onChange={(state)=>{
+                                              this.setState({ modifiedState: true, age: { max: state.max, min: state.min } });
+                                          }}
+                                          step={1}
+                                      />
+                                  </FormGroup>
 
-                                </Col>
-                                <Col className="advanced-block" xs={12} md={5} lg={5}><br/>
-                                    <h4>{i18n.t('global_config.title_advanced')}</h4>
-                                    <FormGroup >
-                                        <ControlLabel>{i18n.t('global_config.difficulty')}</ControlLabel><br/>
-                                        <div className=" W(100%)">
-                                            <div className="D(ib) C(#4e5b65)">{i18n.t('global_config.dif.' + difficulty)}</div>
-                                            <div className="D(ib) Fl(end) C(#4e5b65)" />
-                                            <div className="range-slider Pos(r) Ta(c) H(35px)">
-                                                <div id="outsideInputBox" style={{ position: 'absolute', boxSizing: 'border-box', width: '100%' }}>
-                                                    <div id="insideInputBox" style={{ marginLeft: '0%', width: difLevels.indexOf(difficulty) * 25 + '%', backgroundColor: 'rgb(95, 204, 199)' }} />
-                                                </div>
-                                                <input type="range" step="1" min="0" max="4" value={difLevels.indexOf(difficulty)} onChange={e =>{this.setState({ modifiedState: true, difficulty: difLevels[e.target.value] }); }}/>
-                                            </div>
-                                        </div>
-                                    </FormGroup>
+                              </Col>
+                              <Col className="advanced-block" xs={12} md={5} lg={5}><br/>
+                                  <h4>{i18n.t('global_config.title_advanced')}</h4>
+                                  <FormGroup >
+                                      <ControlLabel>{i18n.t('global_config.difficulty')}</ControlLabel><br/>
+                                      <div className=" W(100%)">
+                                          <div className="D(ib) C(#4e5b65)">{i18n.t('global_config.dif.' + difficulty)}</div>
+                                          <div className="D(ib) Fl(end) C(#4e5b65)" />
+                                          <div className="range-slider Pos(r) Ta(c) H(35px)">
+                                              <div id="outsideInputBox" style={{ position: 'absolute', boxSizing: 'border-box', width: '100%' }}>
+                                                  <div id="insideInputBox" style={{ marginLeft: '0%', width: difLevels.indexOf(difficulty) * 25 + '%', backgroundColor: 'rgb(95, 204, 199)' }} />
+                                              </div>
+                                              <input type="range" step="1" min="0" max="4" value={difLevels.indexOf(difficulty)} onChange={e =>{this.setState({ modifiedState: true, difficulty: difLevels[e.target.value] }); }}/>
+                                          </div>
+                                      </div>
+                                  </FormGroup>
 
-                                    <FormGroup >
-                                        <ControlLabel>{i18n.t('global_config.typicalLearningTime')}</ControlLabel><br/>
-                                        <InputGroup className="inputGroup">
-                                            <FormControl type="number"
-                                                value={typicalLearningTime.h}
-                                                min={0}
-                                                max={100}
-                                                placeholder="h"
-                                                onChange={e => {this.setState({ modifiedState: true, typicalLearningTime: { h: e.target.value, m: typicalLearningTime.m, s: typicalLearningTime.s } });}}/>
-                                            <InputGroup.Addon>h</InputGroup.Addon>
-                                        </InputGroup>
-                                        <InputGroup className="inputGroup">
-                                            <FormControl type="number"
-                                                value={typicalLearningTime.m}
-                                                min={0}
-                                                max={59}
-                                                placeholder="m"
-                                                onChange={e => {this.setState({ modifiedState: true, typicalLearningTime: { h: typicalLearningTime.h, m: e.target.value, s: typicalLearningTime.s } });}}/>
-                                            <InputGroup.Addon>m</InputGroup.Addon>
-                                        </InputGroup>
-                                    </FormGroup>
+                                  <FormGroup >
+                                      <ControlLabel>{i18n.t('global_config.typicalLearningTime')}</ControlLabel><br/>
+                                      <InputGroup className="inputGroup">
+                                          <FormControl type="number"
+                                              value={typicalLearningTime.h}
+                                              min={0}
+                                              max={100}
+                                              placeholder="h"
+                                              onChange={e => {this.setState({ modifiedState: true, typicalLearningTime: { h: e.target.value, m: typicalLearningTime.m, s: typicalLearningTime.s } });}}/>
+                                          <InputGroup.Addon>h</InputGroup.Addon>
+                                      </InputGroup>
+                                      <InputGroup className="inputGroup">
+                                          <FormControl type="number"
+                                              value={typicalLearningTime.m}
+                                              min={0}
+                                              max={59}
+                                              placeholder="m"
+                                              onChange={e => {this.setState({ modifiedState: true, typicalLearningTime: { h: typicalLearningTime.h, m: e.target.value, s: typicalLearningTime.s } });}}/>
+                                          <InputGroup.Addon>m</InputGroup.Addon>
+                                      </InputGroup>
+                                  </FormGroup>
 
-                                    <FormGroup >
-                                        <ControlLabel className="inlineLabel">{i18n.t('global_config.hideGlobalScore')}</ControlLabel>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, hideGlobalScore: !this.state.hideGlobalScore });}} checked={!hideGlobalScore}/>
+                                  <FormGroup >
+                                      <ControlLabel className="inlineLabel">{i18n.t('global_config.hideGlobalScore')}</ControlLabel>
+                                      <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, hideGlobalScore: !this.state.hideGlobalScore });}} checked={!hideGlobalScore}/>
 
-                                    </FormGroup>
-                                    <FormGroup >
-                                        <ControlLabel>{i18n.t('global_config.minTimeProgress')}</ControlLabel><br/>
-                                        <InputGroup className="inputGroup">
-                                            <FormControl type="number"
-                                                value={minTimeProgress}
-                                                min={1}
-                                                max={500}
-                                                placeholder="s"
-                                                onChange={e => {this.setState({ modifiedState: true, minTimeProgress: e.target.value });}}/>
-                                            <InputGroup.Addon>s</InputGroup.Addon>
-                                        </InputGroup>
+                                  </FormGroup>
+                                  <FormGroup >
+                                      <ControlLabel>{i18n.t('global_config.minTimeProgress')}</ControlLabel><br/>
+                                      <InputGroup className="inputGroup">
+                                          <FormControl type="number"
+                                              value={minTimeProgress}
+                                              min={1}
+                                              max={500}
+                                              placeholder="s"
+                                              onChange={e => {this.setState({ modifiedState: true, minTimeProgress: e.target.value });}}/>
+                                          <InputGroup.Addon>s</InputGroup.Addon>
+                                      </InputGroup>
 
-                                    </FormGroup>
+                                  </FormGroup>
 
-                                    <FormGroup >
-                                        <ControlLabel>{i18n.t('global_config.context')}</ControlLabel><br/>
-                                        <Select
-                                            name="form-field-name-context"
-                                            value={context}
-                                            options={contextOptions()}
-                                            onChange={e => {this.setState({ modifiedState: true, context: e.value });}} />
-                                    </FormGroup>
-                                    <FormGroup >
-                                        <ControlLabel>{i18n.t('global_config.aspect_ratio')}</ControlLabel><br/>
-                                        <div className={"aspectRatioGroup"}>
-                                            <Radio name="radioGroup" inline checked={canvasRatio === 16 / 9 } onChange={e => {this.setState({ modifiedState: true, canvasRatio: 16 / 9 });}}>
+                                  <FormGroup >
+                                      <ControlLabel>{i18n.t('global_config.context')}</ControlLabel><br/>
+                                      <Select
+                                          name="form-field-name-context"
+                                          value={context}
+                                          options={contextOptions()}
+                                          onChange={e => {this.setState({ modifiedState: true, context: e.value });}} />
+                                  </FormGroup>
+                                  <FormGroup >
+                                      <ControlLabel>{i18n.t('global_config.aspect_ratio')}</ControlLabel><br/>
+                                      <div className={"aspectRatioGroup"}>
+                                          <Radio name="radioGroup" inline checked={canvasRatio === 16 / 9 } onChange={e => {this.setState({ modifiedState: true, canvasRatio: 16 / 9 });}}>
                                                 16/9
-                                            </Radio>
-                                            <Radio name="radioGroup" inline checked={canvasRatio === 4 / 3 } onChange={e => {this.setState({ modifiedState: true, canvasRatio: 4 / 3 });}}>
+                                          </Radio>
+                                          <Radio name="radioGroup" inline checked={canvasRatio === 4 / 3 } onChange={e => {this.setState({ modifiedState: true, canvasRatio: 4 / 3 });}}>
                                                 4/3
-                                            </Radio>
+                                          </Radio>
 
-                                        </div>
+                                      </div>
 
-                                    </FormGroup>
-                                    <FormGroup className={"allowance"}>
-                                        <ControlLabel>{i18n.t('global_config.visor_nav.title')}</ControlLabel><br/>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, player: !visorNav.player, fixedPlayer: !visorNav.player } });}} checked={visorNav.player}/>
-                                        { i18n.t('global_config.visor_nav.player') } <br/>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, sidebar: !visorNav.sidebar } });}} checked={visorNav.sidebar}/>
-                                        { i18n.t('global_config.visor_nav.sidebar') } <br/>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, fixedPlayer: !visorNav.fixedPlayer } });}} disabled={!visorNav.player} checked={visorNav.fixedPlayer}/>
-                                        { i18n.t('global_config.visor_nav.fixedPlayer') } <br/>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, keyBindings: !visorNav.keyBindings } });}} checked={visorNav.keyBindings}/>
-                                        { i18n.t('global_config.visor_nav.keybindings') }
-                                    </FormGroup>
-                                    <FormGroup >
-                                        <ControlLabel>{i18n.t('global_config.status')}</ControlLabel><br/>
-                                        <Select
-                                            name="form-field-name-status"
-                                            value={status}
-                                            options={statusOptions()}
-                                            onChange={e => {this.setState({ modifiedState: true, status: e.value }); }} />
-                                    </FormGroup>
-                                    {(process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? <FormGroup className="allowance">
-                                        <ControlLabel>{i18n.t('global_config.permissions.title')}</ControlLabel><br/>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowClone: !allowClone });}} checked={allowClone}/>
-                                        { i18n.t('global_config.permissions.allow_clone') }<br/>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowComments: !allowComments });}} checked={allowComments}/>
-                                        { i18n.t('global_config.permissions.allow_comments') }<br/>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowDownload: !allowDownload });}} checked={allowDownload}/>
-                                        { i18n.t('global_config.permissions.allow_download') }
-                                    </FormGroup> : null }
-                                </Col>
-                            </Row>
-                        </form>
-                    </Grid>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button bsStyle="default" id="cancel_insert_plugin_config_modal" onClick={e => {
-                        this.cancel(); e.preventDefault();
-                    }}>{i18n.t("global_config.Discard")}</Button>
-                    <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
-                        this.saveState(); e.preventDefault();
-                    }}>{i18n.t("global_config.Accept")}</Button>{'   '}
-                </Modal.Footer>
-            </Modal>
-        );
-    }
+                                  </FormGroup>
+                                  <FormGroup className={"allowance"}>
+                                      <ControlLabel>{i18n.t('global_config.visor_nav.title')}</ControlLabel><br/>
+                                      <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, player: !visorNav.player, fixedPlayer: !visorNav.player } });}} checked={visorNav.player}/>
+                                      { i18n.t('global_config.visor_nav.player') } <br/>
+                                      <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, sidebar: !visorNav.sidebar } });}} checked={visorNav.sidebar}/>
+                                      { i18n.t('global_config.visor_nav.sidebar') } <br/>
+                                      <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, fixedPlayer: !visorNav.fixedPlayer } });}} disabled={!visorNav.player} checked={visorNav.fixedPlayer}/>
+                                      { i18n.t('global_config.visor_nav.fixedPlayer') } <br/>
+                                      <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, keyBindings: !visorNav.keyBindings } });}} checked={visorNav.keyBindings}/>
+                                      { i18n.t('global_config.visor_nav.keybindings') }
+                                  </FormGroup>
+                                  <FormGroup >
+                                      <ControlLabel>{i18n.t('global_config.status')}</ControlLabel><br/>
+                                      <Select
+                                          name="form-field-name-status"
+                                          value={status}
+                                          options={statusOptions()}
+                                          onChange={e => {this.setState({ modifiedState: true, status: e.value }); }} />
+                                  </FormGroup>
+                                  {(process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? <FormGroup className="allowance">
+                                      <ControlLabel>{i18n.t('global_config.permissions.title')}</ControlLabel><br/>
+                                      <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowClone: !allowClone });}} checked={allowClone}/>
+                                      { i18n.t('global_config.permissions.allow_clone') }<br/>
+                                      <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowComments: !allowComments });}} checked={allowComments}/>
+                                      { i18n.t('global_config.permissions.allow_comments') }<br/>
+                                      <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowDownload: !allowDownload });}} checked={allowDownload}/>
+                                      { i18n.t('global_config.permissions.allow_download') }
+                                  </FormGroup> : null }
+                              </Col>
+                          </Row>
+                      </form>
+                  </Grid>
+              </Modal.Body>
+              <Modal.Footer>
+                  <Button bsStyle="default" id="cancel_insert_plugin_config_modal" onClick={e => {
+                      this.cancel(); e.preventDefault();
+                  }}>{i18n.t("global_config.Discard")}</Button>
+                  <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
+                      this.saveState(); e.preventDefault();
+                  }}>{i18n.t("global_config.Accept")}</Button>{'   '}
+              </Modal.Footer>
+          </Modal>
+      );
+  }
 
-    uploadFunction(query, keywords, callback) {
+    uploadFunction = (query, keywords, callback) => {
         let uploadFunction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? uploadVishResourceAsync : uploadEdiphyResourceAsync;
         this.props.dispatch(uploadFunction(query, keywords, callback));
-    }
+    };
 
     /** *
      * Keyword deleted callback
      * @param i position of the keyword
      */
-    handleDelete(i) {
+    handleDelete = (i) => {
         let tags = Object.assign([], this.state.keywords);
         tags.splice(i, 1);
         this.setState({ modifiedState: true, keywords: tags });
-    }
+    };
 
     /**
      * Keyword added callback
      * @param tag Keyword name
      */
-    handleAddition(tag) {
+    handleAddition = (tag) => {
         let tags = Object.assign([], this.state.keywords);
         tags.push(tag.text);
         this.setState({ modifiedState: true, keywords: tags });
-    }
+    };
 
     /**
      * Keyword moved callback
@@ -369,29 +354,29 @@ class GlobalConfig extends Component {
      * @param currPos Current position
      * @param newPos New position
      */
-    handleDrag(tag, currPos, newPos) {
+    handleDrag = (tag, currPos, newPos) => {
         let tags = Object.assign([], this.state.keywords);
         // mutate array
         tags.splice(currPos, 1);
         tags.splice(newPos, 0, tag.text);
         // re-render
         this.setState({ modifiedState: true, keywords: tags });
-    }
+    };
 
     /**
      * Save configuration changes
      */
-    saveState() {
+    saveState = () => {
         this.setState({ modifiedState: false });
         this.props.dispatch(changeGlobalConfig("STATE", this.state));
         this.close();
-    }
+    };
 
-    close() {
+    close = () => {
         this.props.dispatch(updateUI(UI.showGlobalConfig, !this.props.reactUI.showGlobalConfig));
-    }
+    };
 
-    getCurrentPageAvatar() {
+    getCurrentPageAvatar = () => {
         let element;
         if (document.getElementsByClassName('scrollcontainer').length > 0) {
             element = document.getElementsByClassName('scrollcontainer')[0];
@@ -432,9 +417,9 @@ class GlobalConfig extends Component {
 
             },
             useCORS: true });
-    }
+    };
 
-    fileChanged(event) {
+    fileChanged = (event) => {
         let files = event.target.files;
         let file = files[0];
         let gc = this;
@@ -454,12 +439,12 @@ class GlobalConfig extends Component {
             img.src = data;
         };
         reader.readAsDataURL(file);
-    }
+    };
 
     /**
      * Discard configuration changes
      */
-    cancel() {
+    cancel = () => {
         this.setState({
             title: this.props.globalConfig.title,
             author: this.props.globalConfig.author || "",
@@ -488,7 +473,7 @@ class GlobalConfig extends Component {
         //  Comment the following line if you don't want to exit when changes are discarded
         this.close();
 
-    }
+    };
 
     /**
      * If title is changed from outside

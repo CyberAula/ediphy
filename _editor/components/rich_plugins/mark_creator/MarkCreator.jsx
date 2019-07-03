@@ -10,44 +10,14 @@ import { findBox } from '../../../../common/common_tools';
  * Mark Creator overlay component
  */
 export default class MarkCreator extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
-    constructor(props) {
-        super(props);
-        /**
-         * Component's initial state
-         * @type {{onCreation: boolean, triggeredMarkCreator: boolean, showAlert: boolean, value: number, promptRes: string}}
-         */
-        this.state = {
-            onCreation: false,
-            triggeredMarkCreator: false,
-            value: 0,
-            promptRes: "",
-            modalToggled: false,
-        };
 
-        /**
-         * Binded function
-         */
-        this.exitFunction = this.exitFunction.bind(this);
-
-        /**
-         * Binded function
-         */
-        this.processPrompt = this.processPrompt.bind(this);
-
-        /**
-         * Binded function
-         */
-        this.keyListener = this.keyListener.bind(this);
-
-        /**
-         * Binded function
-         */
-        this.clickOutside = this.clickOutside.bind(this);
-    }
+    state = {
+        onCreation: false,
+        triggeredMarkCreator: false,
+        value: 0,
+        promptRes: "",
+        modalToggled: false,
+    };
 
     /**
      * React render component
@@ -138,7 +108,7 @@ export default class MarkCreator extends Component {
         }
     }
 
-    clickOutside(e) {
+    clickOutside = (e) => {
         // this function will be always called if a click happens,
         // even if stopImmediatePropagation is used on the event target
         if (e.target && (e.target.id === 'markOverlay' || e.target.id === 'markCreatorButton' || (e.target.classList && e.target.classList.contains('popupFooterButton') !== -1))) {
@@ -146,12 +116,12 @@ export default class MarkCreator extends Component {
         }
 
         this.exitFunction();
-    }
+    };
 
     /**
      * After mark is created, overlay disappears
      */
-    exitFunction() {
+    exitFunction = () => {
         let element = findBox(this.props.currentId);
         let dom_element = ReactDOM.findDOMNode(element);
         let dropableElement = dom_element.getElementsByClassName('dropableRichZone')[0];
@@ -165,24 +135,24 @@ export default class MarkCreator extends Component {
         dropableElement.classList.remove('rich_overlay');
         this.props.deleteMarkCreator();
         this.setState({ onCreation: false, promptRes: "" });
-    }
+    };
 
     /**
      * Key pressed callback
      * @param event
      */
-    keyListener(event) {
+    keyListener = (event) => {
         const ESCAPE_KEY_CODE = 27;
         if (event.keyCode === ESCAPE_KEY_CODE) {
             this.exitFunction();
         }
-    }
+    };
 
     /**
      * Mark name entered callback
      * @param exit
      */
-    processPrompt(exit) {
+    processPrompt = (exit) => {
         let connectMode = 'new';
         let title = i18n.t('marks.new_mark');
         let type = this.props.pageType;
@@ -234,7 +204,7 @@ export default class MarkCreator extends Component {
         }
         /* This is to delete all elements involved */
         this.exitFunction();
-    }
+    };
 
 }
 

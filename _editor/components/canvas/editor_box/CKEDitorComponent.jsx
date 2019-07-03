@@ -4,14 +4,10 @@ import PropTypes from 'prop-types';
 import { scrollElement, findBox, blurCKEditor, fontString } from '../../../../common/common_tools';
 
 export default class CKEDitorComponent extends Component {
-    constructor(props) {
-        super(props);
-        this.onBlur = this.onBlur.bind(this);
-    }
 
-    onBlur() {
+    onBlur = () => {
         blurCKEditor(this.props.id, this.props.onBlur);
-    }
+    };
 
     render() {
         return (

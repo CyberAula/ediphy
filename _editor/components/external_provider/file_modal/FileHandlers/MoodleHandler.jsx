@@ -21,15 +21,6 @@ export default class MoodleHandler extends Component {
             selectedQuestions: [],
             selectAll: false,
         };
-        this.importFile = this.importFile.bind(this);
-        this.start = this.start.bind(this);
-        this.isChecked = this.isChecked.bind(this);
-        this.createInput = this.createInput.bind(this);
-        this.toggleInput = this.toggleInput.bind(this);
-        this.createData = this.createData.bind(this);
-        this.selectAllRows = this.selectAllRows.bind(this);
-        this.filterSearch = this.filterSearch.bind(this);
-        this.feedbackProvider = this.feedbackProvider.bind(this);
         this.realKeys = [
             /* <input type="checkbox"  onChange={(e)=>this.selectAllRows(e.target.checked)} /> */
             " ",
@@ -38,15 +29,14 @@ export default class MoodleHandler extends Component {
         ];
     }
 
-    selectAllRows(select) {
+    selectAllRows = (select) => {
         let selectedQuestions = [...this.state.selectedQuestions];
         [].forEach.call(document.getElementsByClassName('moodleXMLquestion'), (el) => {
             selectedQuestions[parseInt(el.dataset.id, 10)] = select;
         });
         this.setState({ selectedQuestions });
         this.forceResetSearch();
-
-    }
+    };
 
     componentDidMount() {
         this.start();
@@ -58,11 +48,11 @@ export default class MoodleHandler extends Component {
         }
     }
 
-    isChecked(q) {
+    isChecked = (q) => {
         return this.state.selectedQuestions[q];
-    }
+    };
 
-    start() {
+    start = () => {
         if(this.props.element) {
             let questions = [];
             parseMoodleXML(this.props.element, msg => {
@@ -76,24 +66,21 @@ export default class MoodleHandler extends Component {
                 }
             });
         }
+    };
 
-    }
-
-    toggleInput(index) {
+    toggleInput = (index) => {
         this.setState({
             selectedQuestions: this.state.selectedQuestions.map((ques, i) => i === index ? !ques : ques),
         });
-
         this.forceResetSearch();
+    };
 
-    }
-
-    filterSearch(data, checked) {
+    filterSearch = (data, checked) => {
         let element = document.querySelector('.moodleDialog #search-field');
         const val = element.value;
         this.setState({ selectedQuestions: checked ? data.map((q) => q[1].toLowerCase().includes(val.toLowerCase().replace(/ /g, ''))) : new Array(data.length).fill(false) });
         this.forceResetSearch();
-    }
+    };
 
     forceResetSearch() {
         let element = document.querySelector('.moodleDialog #search-field');
@@ -110,22 +97,21 @@ export default class MoodleHandler extends Component {
         }, 2);
     }
 
-    createInput(index) {
+    createInput = (index) => {
         return <input type='checkbox' data-id={index} className="moodleXMLquestion" key={index} checked={this.isChecked(index)} onChange={()=>this.toggleInput(index)} />;
-    }
+    };
 
-    createData(questionsData) {
+    createData = (questionsData) => {
         return questionsData.map((q, index) => {
             let input = this.createInput(index);
             let text = (q.name === "TrueFalse" && q.answers[0]) ? q.answers[0] : q.question;
             let statement = text ? text.replace("<p>", "").replace("</p>", "") : q[1];
             let name = (q.name && Ediphy.Plugins.get(q.name)) ? Ediphy.Plugins.get(q.name).getConfig().displayName : q.name;
             return [input, statement, name];
-
         });
-    }
+    };
 
-    feedbackProvider() {
+    feedbackProvider = () => {
         let numberOfExercises = this.state.selectedQuestions.filter(Boolean).length;
         switch(numberOfExercises) {
         case 0:
@@ -135,7 +121,7 @@ export default class MoodleHandler extends Component {
         default:
             return i18n.t('FileModal.FileHandlers.feedback1p') + ' ' + numberOfExercises + ' ' + i18n.t('FileModal.FileHandlers.feedback2p');
         }
-    }
+    };
 
     render() {
 
@@ -223,7 +209,7 @@ export default class MoodleHandler extends Component {
         );
     }
 
-    importFile() {
+    importFile = () => {
         let getInitialParams = (self, page) => {
             let initialParams;
             let isTargetSlide = false;
@@ -331,7 +317,7 @@ export default class MoodleHandler extends Component {
 
         this.props.self.close();
 
-    }
+    };
 
     closeModal(bool) {
         this.props.close(bool);

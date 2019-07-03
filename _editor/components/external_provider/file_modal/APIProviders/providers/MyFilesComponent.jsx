@@ -8,19 +8,15 @@ import '../../../../nav_bar/global_config/_reactTags.scss';
 import Alert from "../../../../common/alert/Alert";
 import { extensionHandlers as extensions } from '../../FileHandlers/FileHandlers';
 export default class MyFilesComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            file: undefined,
-            filter: "",
-            extensionFilter: this.props.show,
-            keywords: [],
-            confirmDelete: false,
-            errorDeleteAlert: false,
-        };
-        this.generatePreview = this.generatePreview.bind(this);
+    state = {
+        file: undefined,
+        filter: "",
+        extensionFilter: this.props.show,
+        keywords: [],
+        confirmDelete: false,
+        errorDeleteAlert: false,
+    };
 
-    }
     render() {
         let empty = true;
         let files = Object.keys(this.props.filesUploaded).map(f => {
@@ -159,7 +155,7 @@ export default class MyFilesComponent extends React.Component {
             // this.props.onElementSelected( undefined, undefined, undefined);
         }
     }
-    generatePreview() {
+    generatePreview = () => {
         let item = this.props.elementSelected;
         switch(this.props.elementSelectedType) {
         case "webapp":
@@ -182,7 +178,7 @@ export default class MyFilesComponent extends React.Component {
         default:
             return null;
         }
-    }
+    };
 }
 
 MyFilesComponent.propTypes = {

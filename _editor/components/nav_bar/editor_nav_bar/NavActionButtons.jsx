@@ -18,18 +18,106 @@ const img_place_holder = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAHC
  * Action buttons in the editor's navbar
  */
 class NavActionButtons extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isFullScreenOn: screenfull.isFullscreen,
-            showOverlay: false,
-        };
-        this.checkFullScreen = this.checkFullScreen.bind(this);
-        this.getButtons = this.getButtons.bind(this);
-        this.serverModalOpen = this.serverModalOpen.bind(this);
+
+    state = {
+        isFullScreenOn: screenfull.isFullscreen,
+        showOverlay: false,
+    };
+
+    /**
+     * Render React Component
+     * @returns {code}
+     */
+    render() {
+        const buttons = this.getButtons();
+        const allowPublish = (this.props.globalConfig.thumbnail !== "")
+                            && this.props.globalConfig.title
+                            && (this.props.globalConfig.thumbnail !== img_place_holder);
+        return (
+            <div className="navButtons">
+                <Overlay rootClose
+                    name="confirmationOverlay"
+                    show={this.state.showOverlay}
+                    placement='bottom'
+                    target={() => ReactDOM.findDOMNode(this.overlayTarget)}
+                    onHide={this.hideOverlay}>
+                    <Popover id="popov" title={i18n.t('messages.publish_alert_title')}>
+                        <i style={{ color: 'yellow', fontSize: '16px', padding: '5px' }} className="material-icons">
+                            { !allowPublish ? "warning" : "add_a_photo"}
+                        </i>
+                        { (allowPublish) ?
+                            i18n.t('messages.publish_alert_text') :
+                            i18n.t('messages.publish_not_allowed')}
+                        <br/>
+                        <br/>
+                        <Button className="popoverButton"
+                            name="popoverCancelButton"
+                            onClick={this.hideOverlay}
+                            style={{ float: 'right' }}>
+                            {i18n.t("Cancel")}
+                        </Button>
+                        <Button className="popoverButton"
+                            name="popoverAcceptButton"
+                            disabled={!allowPublish}
+                            style={{ float: 'right' }}
+                            onClick={this.publish}>
+                            {i18n.t("Accept")}
+                        </Button>
+                        <div style={{ clear: "both" }} />
+                    </Popover>
+                </Overlay>
+                {buttons.map((item, index) => {
+                    return !item.display ? null : (
+                        <OverlayTrigger placement="bottom" key={item.name} overlay={
+                            <Tooltip id={"navButtonTooltip"}>{item.tooltip}</Tooltip>}>
+                            <button
+                                disabled={item.disabled}
+                                key={item.name}
+                                className={'navButton navbarButton_' + item.name}
+                                name={item.name}
+                                onClick={item.onClick}
+                                title={item.tooltip}
+                                ref={ item.icon === 'public' ? button => {this.overlayTarget = button;} : null}>
+                                <i className="material-icons">{item.icon}</i>
+                                <span className="hideonresize">{item.description}</span>
+                            </button>
+                        </OverlayTrigger>
+                    );
+                })}
+            </div>
+        );
     }
 
-    getButtons() {
+    serverModalOpen = () => {
+        this.props.dispatch(updateUI(UI.serverModal, true));
+    };
+
+    /**
+     * Adds fullscreen listeners
+     */
+    componentDidMount() {
+        screenfull.on('change', this.checkFullScreen);
+        // fullScreenListener(this.checkFullScreen, true);
+
+    }
+
+    /**
+     * Removes fullscreen listeners
+     */
+    componentWillUnmount() {
+        screenfull.off('change', this.checkFullScreen);
+        // fullScreenListener(this.checkFullScreen, false);
+
+    }
+
+    /**
+     * Checks if the browser is in fullscreen mode and updates the state
+     */
+    checkFullScreen = (e) => {
+        this.setState({ isFullScreenOn: screenfull.isFullscreen });
+    };
+
+    getButtons = () => {
         return [
 
             {
@@ -93,7 +181,7 @@ class NavActionButtons extends Component {
                 icon: 'visibility',
                 onClick: () => {
                     if (this.props.boxSelected !== 0) {
-                    // this.props.onTextEditorToggled(this.props.boxSelected, false);
+                        // this.props.onTextEditorToggled(this.props.boxSelected, false);
                         this.props.dispatch(selectBox(-1, this.props.boxes[-1]));
                     }
                     this.props.dispatch(updateUI(UI.visorVisible, true));
@@ -124,105 +212,19 @@ class NavActionButtons extends Component {
                 },
             },
         ];
-    }
-    /**
-     * Render React Component
-     * @returns {code}
-     */
-    render() {
-        let buttons = this.getButtons();
-        let allowPublish = (this.props.globalConfig.thumbnail !== "") && this.props.globalConfig.title && (this.props.globalConfig.thumbnail !== img_place_holder);
-        return (
-            <div className="navButtons">
-                <Overlay rootClose
-                    name="confirmationOverlay"
-                    show={this.state.showOverlay}
-                    placement='bottom'
-                    target={() => ReactDOM.findDOMNode(this.overlayTarget)}
-                    onHide={() => this.setState({ showOverlay: false })}>
-                    <Popover id="popov" title={i18n.t('messages.publish_alert_title')}>
-                        <i style={{ color: 'yellow', fontSize: '16px', padding: '5px' }} className="material-icons">
-                            { !allowPublish ? "warning" : "add_a_photo"}
-                        </i>
-                        { (allowPublish) ?
-                            i18n.t('messages.publish_alert_text') :
-                            i18n.t('messages.publish_not_allowed')}
-                        <br/>
-                        <br/>
-                        <Button className="popoverButton"
-                            name="popoverCancelButton"
-                            onClick={() => this.setState({ showOverlay: false })}
-                            style={{ float: 'right' }}>
-                            {i18n.t("Cancel")}
-                        </Button>
-                        <Button className="popoverButton"
-                            name="popoverAcceptButton"
-                            disabled={!allowPublish}
-                            style={{ float: 'right' }}
-                            onClick={(e) => {
-                                // acciones de publicar
-                                window.exitFlag = true;
-                                const win = window.open('', '_self');
-                                this.props.dispatch(changeGlobalConfig("status", "final"));
-                                this.props.dispatch(updateUI(UI.publishing, true));
-                                this.props.save(win);
-                                this.setState({ showOverlay: false });}}>
-                            {i18n.t("Accept")}
-                        </Button>
-                        <div style={{ clear: "both" }} />
-                    </Popover>
-                </Overlay>
-                {buttons.map((item, index) => {
-                    if (!item.display) { return null; }
-                    return (
-                        <OverlayTrigger placement="bottom" key={item.name} overlay={
-                            <Tooltip id={"navButtonTooltip"}>{item.tooltip}</Tooltip>}>
-                            <button
-                                disabled={item.disabled}
-                                key={item.name}
-                                className={'navButton navbarButton_' + item.name}
-                                name={item.name}
-                                onClick={item.onClick}
-                                title={item.tooltip}
-                                ref={ item.icon === 'public' ? button => {this.overlayTarget = button;} : null}>
-                                <i className="material-icons">{item.icon}</i>
-                                <span className="hideonresize">{item.description}</span>
-                            </button>
-                        </OverlayTrigger>
-                    );
-                })}
-            </div>
-        );
-    }
+    };
 
-    serverModalOpen() {
-        this.props.dispatch(updateUI(UI.serverModal, true));
-    }
+    hideOverlay = (e) => this.setState({ showOverlay: false });
 
-    /**
-     * Adds fullscreen listeners
-     */
-    componentDidMount() {
-        screenfull.on('change', this.checkFullScreen);
-        // fullScreenListener(this.checkFullScreen, true);
-
-    }
-
-    /**
-     * Removes fullscreen listeners
-     */
-    componentWillUnmount() {
-        screenfull.off('change', this.checkFullScreen);
-        // fullScreenListener(this.checkFullScreen, false);
-
-    }
-
-    /**
-     * Checks if the browser is in fullscreen mode and updates the state
-     */
-    checkFullScreen(e) {
-        this.setState({ isFullScreenOn: screenfull.isFullscreen });
-    }
+    publish = (e) => {
+        // acciones de publicar
+        window.exitFlag = true;
+        const win = window.open('', '_self');
+        this.props.dispatch(changeGlobalConfig("status", "final"));
+        this.props.dispatch(updateUI(UI.publishing, true));
+        this.props.save(win);
+        this.setState({ showOverlay: false });
+    };
 }
 export default connect(mapStateToProps)(NavActionButtons);
 

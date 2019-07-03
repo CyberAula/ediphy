@@ -8,15 +8,13 @@ import SearchComponent from '../common/SearchComponent';
 
 import placeholder from '../logos/soundcloud_placeholder.png';
 export default class SoundCloudComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            results: [],
-            query: '',
-            msg: 'No hay resultados',
-        };
-        this.onSearch = this.onSearch.bind(this);
-    }
+
+    state = {
+        results: [],
+        query: '',
+        msg: 'No hay resultados',
+    };
+
     render() {
         return <div>
             <Form horizontal action="javascript:void(0);">
@@ -71,7 +69,7 @@ export default class SoundCloudComponent extends React.Component {
         </div>;
     }
 
-    onSearch(text) {
+    onSearch = (text) => {
         const BASE = 'https://api.audioblocks.com/api/search?srch-term=' + encodeURI(text) + '&srch-type=music&callback=?';
         this.setState({ msg: 'Buscando...' });
         fetch((BASE), {
@@ -95,15 +93,7 @@ export default class SoundCloudComponent extends React.Component {
                 console.error(e);
                 this.setState({ msg: 'Ha habido un error' });
             });
-    /* $.ajax(BASE, (result)=>{
-      try{
-      } catch (e) {
-        console.error(e);
-        this.setState({ msg: 'Ha habido un error' });
-      }
-
-    });*/
-    }
+    };
 }
 SoundCloudComponent.propTypes = {
     /**

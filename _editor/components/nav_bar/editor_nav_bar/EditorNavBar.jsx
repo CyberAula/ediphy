@@ -19,17 +19,10 @@ import { UI } from "../../../../common/UI.es6";
  */
 class EditorNavBar extends Component
 {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            showExport: false,
-            isFullScreenOn: screenfull.isFullscreen,
-        };
-
-        this.toggleExport = this.toggleExport.bind(this);
-        this.toggleStyleConfig = this.toggleStyleConfig.bind(this);
-    }
+    state = {
+        showExport: false,
+        isFullScreenOn: screenfull.isFullscreen,
+    };
 
     render() {
         return (
@@ -48,12 +41,12 @@ class EditorNavBar extends Component
                 <NavDropdown
                     save={this.props.save}
                     toggleExport={this.toggleExport}
-                    toggleFileUpload={(id, accept) => this.toggleFileUpload(id, accept)}
+                    toggleFileUpload={this.toggleFileUpload}
                 />
                 <StyleConfig/>
                 <GlobalConfig
                     globalConfig={this.props.globalConfig}
-                    toggleFileUpload={(id, accept) => this.toggleFileUpload(id, accept)}
+                    toggleFileUpload={this.toggleFileUpload}
                 />
                 <ExportModal
                     export={this.props.export}
@@ -66,26 +59,26 @@ class EditorNavBar extends Component
     /**
        * Shows/Hides the Export course modal
        */
-    toggleExport(forceClose) {
+    toggleExport = (forceClose) => {
         let newExportState = forceClose ? false : !this.props.reactUI.showExportModal;
         this.props.dispatch(updateUI(UI.showExportModal, newExportState));
-    }
+    };
     /**
      * Shows/Hides the StyleConfig modal
      */
-    toggleStyleConfig() {
+    toggleStyleConfig = () => {
         return this.props.dispatch(updateUI({ showStyleConfig: !this.props.reactUI.showStyleConfig }));
-    }
+    };
     /**
      * Shows/Hides the Import file modal
      */
-    toggleFileUpload(id, accept) {
+    toggleFileUpload = (id, accept) => {
         this.props.dispatch(updateUI({
             showFileUpload: accept,
             fileModalResult: { id: id, value: undefined },
             fileUploadTa: 0,
         }));
-    }
+    };
 }
 
 export default connect(mapStateToProps)(EditorNavBar);

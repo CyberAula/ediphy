@@ -8,15 +8,13 @@ import SearchComponent from '../common/SearchComponent';
 import ImageComponent from '../common/ImageComponent';
 
 export default class FlickrComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            results: [],
-            query: '',
-            msg: i18n.t("FileModal.APIProviders.no_files"),
-        };
-        this.onSearch = this.onSearch.bind(this);
-    }
+
+    state = {
+        results: [],
+        query: '',
+        msg: i18n.t("FileModal.APIProviders.no_files"),
+    };
+
     render() {
         return <div className="contentComponent">
             <Form horizontal action="javascript:void(0);">
@@ -56,7 +54,7 @@ export default class FlickrComponent extends React.Component {
         </div>;
     }
 
-    onSearch(text) {
+    onSearch = (text) => {
 
         let flickrURL = "http://api.flickr.com/services/feeds/photos_public.gne?tags=" + encodeURI(text) + "&tagmode=any&format=json&jsoncallback=?";
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
@@ -80,25 +78,7 @@ export default class FlickrComponent extends React.Component {
             }
 
         });
-
-        /*        fetch(encodeURI(BASE) )
-        .then(res => res.text()
-        ).then(imgStr => {
-        let imgs = JSON.parse(imgStr)
-        if (imgs && imgs.items) {
-            let results = imgs.items.map(img=>{
-                return {
-                    title: img.title,
-                    url: img.media.m,
-                }
-            })
-
-            this.setState({results})
-        }
-    }).catch(e=>{
-        console.error(e)
-    });*/
-    }
+    };
 }
 FlickrComponent.propTypes = {
     /**

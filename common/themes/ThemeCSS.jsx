@@ -6,15 +6,11 @@ import { setRgbaAlpha } from "../common_tools";
 import { translatePxToEm } from "./cssParser";
 export default class ThemeCSS extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            css: '',
-            themesStartIndex: {},
-            currentThemeCSS: '',
-        };
-        this.loadCSS();
-    }
+    state = {
+        css: '',
+        themesStartIndex: {},
+        currentThemeCSS: '',
+    };
 
     componentWillMount() {
         this.loadCSS();
@@ -67,10 +63,6 @@ export default class ThemeCSS extends React.Component {
     }
 
     componentDidMount() {
-        if(this.props.fromPDF) {
-            let theme = this.props.theme ? this.props.theme : this.props.styleConfig.theme;
-        }
-
         let isCustomFont = this.props.toolbar && this.props.toolbar.font;
         let font = isCustomFont ? this.props.toolbar.font : this.props.styleConfig.font;
 

@@ -8,15 +8,13 @@ import SearchComponent from '../common/SearchComponent';
 
 import placeholder from '../logos/soundcloud_placeholder.png';
 export default class SoundCloudComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            results: [],
-            query: '',
-            msg: i18n.t("FileModal.APIProviders.no_files"),
-        };
-        this.onSearch = this.onSearch.bind(this);
-    }
+
+    state = {
+        results: [],
+        query: '',
+        msg: i18n.t("FileModal.APIProviders.no_files"),
+    };
+
     render() {
         return <div className="contentComponent">
             <Form horizontal action="javascript:void(0);">
@@ -90,7 +88,7 @@ export default class SoundCloudComponent extends React.Component {
         </div>;
     }
 
-    onSearch(text) {
+    onSearch = (text) => {
         const BASE = 'https://api.soundcloud.com/tracks?client_id=bb5aebd03b5d55670ba8fa5b5c3a3da5&q=' + text + '&format=json';
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
         fetch(encodeURI(BASE))
@@ -115,7 +113,7 @@ export default class SoundCloudComponent extends React.Component {
                 console.error(e);
                 this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
             });
-    }
+    };
 }
 SoundCloudComponent.propTypes = {
     /**

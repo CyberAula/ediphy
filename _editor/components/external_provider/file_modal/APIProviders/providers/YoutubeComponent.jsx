@@ -5,15 +5,12 @@ import i18n from 'i18next';
 import SearchComponent from '../common/SearchComponent';
 
 export default class YoutubeComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            results: [],
-            query: '',
-            msg: i18n.t("FileModal.APIProviders.no_files"),
-        };
-        this.onSearch = this.onSearch.bind(this);
-    }
+    state = {
+        results: [],
+        query: '',
+        msg: i18n.t("FileModal.APIProviders.no_files"),
+    };
+
     render() {
         return <div className="contentComponent">
             <Form horizontal action="javascript:void(0);">
@@ -82,7 +79,7 @@ export default class YoutubeComponent extends React.Component {
         </div>;
     }
 
-    onSearch(text) {
+    onSearch = (text) => {
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching") });
         fetch(encodeURI('https://www.googleapis.com/youtube/v3/search?part=id,snippet&maxResults=20&q=' + text + '&key=AIzaSyAMOw9ufNTZAlg5Xvcht9PhnBYjlY0c9z8&videoEmbeddable=true&type=video'))
             .then(res => res.text()
@@ -103,10 +100,9 @@ export default class YoutubeComponent extends React.Component {
             }).catch(e=>{
                 // eslint-disable-next-line no-console
                 console.error(e);
-
                 this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
             });
-    }
+    };
 }
 YoutubeComponent.propTypes = {
     /**

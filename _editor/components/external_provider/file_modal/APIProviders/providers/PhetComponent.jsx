@@ -8,15 +8,12 @@ import SearchComponent from '../common/SearchComponent';
 import ImageComponent from '../common/ImageComponent';
 
 export default class PhetComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            results: [],
-            query: '',
-            msg: i18n.t("FileModal.APIProviders.no_files"),
-        };
-        this.onSearch = this.onSearch.bind(this);
-    }
+    state = {
+        results: [],
+        query: '',
+        msg: i18n.t("FileModal.APIProviders.no_files"),
+    };
+
     render() {
         return <div className="contentComponent">
             <Form horizontal action="javascript:void(0);">
@@ -56,7 +53,7 @@ export default class PhetComponent extends React.Component {
         </div>;
     }
 
-    onSearch(text) {
+    onSearch = (text) => {
 
         let PhetURL = "https://phet.colorado.edu/en/simulations/category/html";
         /* $.getJSON('https://phet.colorado.edu/en/simulations/category/html&callback=?', function(response) {
@@ -112,7 +109,7 @@ export default class PhetComponent extends React.Component {
          }).catch(e=>{
          console.error(e)
          });*/
-    }
+    };
 }
 PhetComponent.propTypes = {
     /**

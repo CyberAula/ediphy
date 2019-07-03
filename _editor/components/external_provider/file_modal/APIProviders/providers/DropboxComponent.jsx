@@ -6,27 +6,22 @@ import DropboxChooser from 'react-dropbox-chooser';
 import { extensionHandlers as extensionsH } from '../../FileHandlers/FileHandlers';
 import { FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../../common/constants';
 import { isFile } from '../../../../../../common/utils';
-let spinner = require('../../../../../../dist/images/spinner.svg');
 let loadingBox = require('../../../../../../dist/images/loading-box.gif');
 
 export default class DropboxComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            results: [],
-            query: '',
-            msg: i18n.t("FileModal.APIProviders.no_files"),
-            error: false,
-            uploading: false,
-            uploaded: false,
-            allowed: true,
-            forbidden: false,
-            fileName: 'fileName',
-        };
-        this.generatePreview = this.generatePreview.bind(this);
-        this.onSuccess = this.onSuccess.bind(this);
-    }
-    convertExtensions(show) {
+    state = {
+        results: [],
+        query: '',
+        msg: i18n.t("FileModal.APIProviders.no_files"),
+        error: false,
+        uploading: false,
+        uploaded: false,
+        allowed: true,
+        forbidden: false,
+        fileName: 'fileName',
+    };
+
+    convertExtensions = (show) => {
         let type = show;
         for (let e in extensionsH) {
             let ext = extensionsH[e];
@@ -52,8 +47,9 @@ export default class DropboxComponent extends React.Component {
             return { type, extensions: ['.' + type] };
 
         }
-    }
-    convertType(extension) {
+    };
+
+    convertType = (extension) => {
         let conversion = {
             'avi': 'video/x-msvideo',
             'mpeg': 'video/mpeg',
@@ -86,8 +82,8 @@ export default class DropboxComponent extends React.Component {
             'webp': 'image/webp',
         };
         return conversion[extension];
+    };
 
-    }
     render() {
         let { type, extensions } = this.convertExtensions(this.props.show);
         return <div className="contentComponent">
@@ -170,7 +166,7 @@ export default class DropboxComponent extends React.Component {
             </div>
         </div>;
     }
-    onSuccess(files) {
+    onSuccess = (files) => {
         this.setState({ uploading: true });
         try {
             if (files && files.length > 0) {
@@ -189,12 +185,12 @@ export default class DropboxComponent extends React.Component {
             // eslint-disable-next-line no-console
             console.error(e);
         }
+    };
 
-    }
     onCancel() {
     }
 
-    generatePreview() {
+    generatePreview = () => {
         let item = this.props.elementSelected;
         switch(this.props.elementSelectedType) {
         case "vish":
@@ -215,7 +211,7 @@ export default class DropboxComponent extends React.Component {
         default:
             return null;
         }
-    }
+    };
 
     componentWillReceiveProps(nextProps) {
 

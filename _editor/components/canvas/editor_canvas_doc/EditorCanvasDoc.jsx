@@ -27,8 +27,8 @@ class EditorCanvasDoc extends Component {
         let show = itemSelected && itemSelected.id !== 0;
 
         let toolbar = viewToolbars[itemSelected.id];
-        let theme = 'theme' in toolbar ? toolbar.theme : 'theme' in styleConfig ? styleConfig.theme : 'default';
-        let colors = 'colors' in toolbar ? toolbar.colors : getThemeColors(theme);
+        let theme = toolbar && toolbar.theme ? toolbar.theme : styleConfig && styleConfig.theme ? styleConfig.theme : 'default';
+        let colors = toolbar && toolbar.colors ? toolbar.colors : getThemeColors(theme);
 
         let commonProps = { ...this.props,
             pageType: itemSelected.type || 0,

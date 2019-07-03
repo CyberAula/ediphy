@@ -5,12 +5,7 @@ import { isSlide, isSection, findDescendantNavItems } from '../../../common/util
 import iconPDF from './../../../dist/images/file-pdf.svg';
 import ProgressBall from './ProgressBall';
 export default class VisorNavSection extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            toggled: true,
-        };
-    }
+    state = { toggled: true };
 
     render() {
         let children = this.props.navItemsById[this.props.pageName].children;

@@ -9,15 +9,12 @@ import ImageComponent from '../common/ImageComponent';
 import placeholder from '../logos/soundcloud_placeholder.png';
 
 export default class ThingiverseComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            results: [],
-            query: '',
-            msg: i18n.t("FileModal.APIProviders.no_files"),
-        };
-        this.onSearch = this.onSearch.bind(this);
-    }
+    state = {
+        results: [],
+        query: '',
+        msg: i18n.t("FileModal.APIProviders.no_files"),
+    };
+
     render() {
         return <div className="contentComponent">
             <Form horizontal action="javascript:void(0);">
@@ -72,7 +69,7 @@ export default class ThingiverseComponent extends React.Component {
         </div>;
     }
 
-    onSearch(text) {
+    onSearch = (text) => {
 
         let BASE_URL = "https://api.thingiverse.com/search/" + encodeURI(text) + "?access_token=ba43247763f24b07796999ce24d0e2d6";
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching") });
@@ -94,8 +91,7 @@ export default class ThingiverseComponent extends React.Component {
                 console.error(e);
                 this.setState({ msg: 'Ha habido un error' });
             });
-
-    }
+    };
 }
 ThingiverseComponent.propTypes = {
     /**

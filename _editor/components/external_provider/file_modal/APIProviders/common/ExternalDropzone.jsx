@@ -6,32 +6,18 @@ import PropTypes from 'prop-types';
  * VISH Dropzone component
  */
 export default class ExternalDropzone extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
-    constructor(props) {
-        super(props);
-        /**
-         * Component's initial state
-         * @type {{hover: boolean, file: null}}
-         */
-        this.state = {
-            hover: false,
-            file: null,
-        };
-        /**
-         * Binded function
-         */
-        this.onDrop = this.onDrop.bind(this);
-    }
+
+    state = {
+        hover: false,
+        file: null,
+    };
 
     /**
      * Dropped file callback
      * @param acceptedFile
      * @param rejectedFile
      */
-    onDrop(event) {
+    onDrop = (event) => {
         let files = event.target.files;
         if (files.length === 1) {
             this.setState({ file: files[0] });
@@ -39,7 +25,7 @@ export default class ExternalDropzone extends Component {
                 this.props.callback(files[0]);
             }
         }
-    }
+    };
 
     /**
      * Render React Component

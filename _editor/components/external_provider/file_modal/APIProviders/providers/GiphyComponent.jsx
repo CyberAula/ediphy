@@ -8,15 +8,13 @@ import SearchComponent from '../common/SearchComponent';
 import ImageComponent from '../common/ImageComponent';
 import attribution from '../logos/PoweredBy_200px-White_HorizText.png';
 export default class GiphyComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            results: [],
-            query: '',
-            msg: i18n.t("FileModal.APIProviders.no_files"),
-        };
-        this.onSearch = this.onSearch.bind(this);
-    }
+
+    state = {
+        results: [],
+        query: '',
+        msg: i18n.t("FileModal.APIProviders.no_files"),
+    };
+
     render() {
         return <div className="contentComponent">
             <Form horizontal action="javascript:void(0);">
@@ -59,7 +57,7 @@ export default class GiphyComponent extends React.Component {
         </div>;
     }
 
-    onSearch(text) {
+    onSearch = (text) => {
         const API_KEY = "?api_key=5hg9DsqhxUmAbgvhtnAbvV3vUXA2VISo";
         const BASE = text ? ('http://api.giphy.com/v1/gifs/search' + API_KEY + '&q=' + text) : ('http://api.giphy.com/v1/gifs/trending' + API_KEY);
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
@@ -83,7 +81,7 @@ export default class GiphyComponent extends React.Component {
                 console.error(e);
                 this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
             });
-    }
+    };
 }
 GiphyComponent.propTypes = {
     /**

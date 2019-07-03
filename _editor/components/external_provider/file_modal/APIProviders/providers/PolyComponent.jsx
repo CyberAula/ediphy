@@ -8,15 +8,13 @@ import SearchComponent from '../common/SearchComponent';
 
 import placeholder from '../logos/soundcloud_placeholder.png';
 export default class PolyComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            results: [],
-            query: '',
-            msg: i18n.t("FileModal.APIProviders.no_files"),
-        };
-        this.onSearch = this.onSearch.bind(this);
-    }
+
+    state = {
+        results: [],
+        query: '',
+        msg: i18n.t("FileModal.APIProviders.no_files"),
+    };
+
     render() {
         return <div className="contentComponent">
             <Form horizontal action="javascript:void(0);">
@@ -87,7 +85,7 @@ export default class PolyComponent extends React.Component {
         </div>;
     }
 
-    onSearch(text) {
+    onSearch = (text) => {
         const BASE = 'https://poly.googleapis.com/v1/assets?key=AIzaSyBcvRyyiuZVCrbIf3Jb4547rpm5rqTh1pE&format=OBJ&keywords=' + text;
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
         fetch(encodeURI(BASE))
@@ -113,7 +111,7 @@ export default class PolyComponent extends React.Component {
                 console.error(e);
                 this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
             });
-    }
+    };
 }
 PolyComponent.propTypes = {
     /**
