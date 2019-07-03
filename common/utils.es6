@@ -8,15 +8,6 @@ export default {
     },
 };
 
-export function has(obj, key) {
-    return key.split(".").every(function(x) {
-        if(typeof obj !== "object" || obj === null || ! x in obj)
-        {return false;}
-        obj = obj[x];
-        return true;
-    });
-}
-
 export function get(obj, key) {
     return key.split(".").reduce(function(o, x) {
         return (typeof o === "undefined" || o === null) ? o : o[x];
@@ -242,8 +233,16 @@ export function nextAvailName(key, views, name = 'name') {
 export function nextToolbarAvailName(key, views) {
     let names = [];
     for (let view in views) {
-        if (has(views[view].controls.main.accordions.basic.buttons.navitem_name, 'value') &&
-            views[view].controls.main.accordions.basic.buttons.navitem_name.value.indexOf(key) !== -1) {
+        if (views
+            && views[view]
+            && views[view].controls
+            && views[view].controls.main
+            && views[view].controls.main.accordions
+            && views[view].controls.main.accordions.basic
+            && views[view].controls.main.accordions.basic.buttons
+            && views[view].controls.main.accordions.basic.buttons.navitem_name
+            && views[view].controls.main.accordions.basic.buttons.navitem_name.value
+            && views[view].controls.main.accordions.basic.buttons.navitem_name.value.indexOf(key) !== -1) {
             let replaced = views[view].controls.main.accordions.basic.buttons.navitem_name.value.replace(key /* + " "*/, "");
             let num = parseInt(replaced, 10);
             if (!isNaN(num)) {

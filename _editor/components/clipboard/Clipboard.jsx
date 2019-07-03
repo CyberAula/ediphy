@@ -517,6 +517,10 @@ function mapStateToProps(state) {
 
 Clipboard.propTypes = {
     /**
+     * Redux actions dispatcher
+     */
+    dispatch: PropTypes.func,
+    /**
       * Selected box
       */
     boxSelected: PropTypes.any,
@@ -537,6 +541,10 @@ Clipboard.propTypes = {
    */
     navItems: PropTypes.object,
     /**
+     * Selected nav item
+     */
+    navItemSelected: PropTypes.any,
+    /**
    * Object containing all contained views (identified by its ID)
    */
     containedViews: PropTypes.any,
@@ -552,4 +560,12 @@ Clipboard.propTypes = {
        * Object containing all exercises
        */
     exercises: PropTypes.object,
+    /**
+     * Added box handler
+     */
+    onBoxAdded: PropTypes.func,
+    /**
+     * Deleted box handler
+     */
+    onBoxDeleted: PropTypes.func,
 };

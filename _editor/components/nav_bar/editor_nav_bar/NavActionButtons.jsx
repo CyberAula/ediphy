@@ -244,6 +244,10 @@ function mapStateToProps(state) {
 
 NavActionButtons.propTypes = {
     /**
+     * Redux actions trigger
+     */
+    dispatch: PropTypes.func,
+    /**
      * Object that cointains the course's global configuration, stored in the Redux state
      */
     globalConfig: PropTypes.object.isRequired,
@@ -272,19 +276,11 @@ NavActionButtons.propTypes = {
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * Enables the preview mode
-     */
-    visor: PropTypes.func.isRequired,
-    /**
-     * Publish the document
-     */
-    publishing: PropTypes.func.isRequired,
-    /**
-     * Function for selecting a box
-     */
-    onBoxSelected: PropTypes.func.isRequired,
-    /**
      * Function for opening/closing Style config modal
      */
     toggleStyleConfig: PropTypes.func.isRequired,
+    /**
+     * Object containing all boxes
+     */
+    boxes: PropTypes.object,
 };

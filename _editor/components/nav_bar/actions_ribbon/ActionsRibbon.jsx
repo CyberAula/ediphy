@@ -137,6 +137,10 @@ function mapStateToProps(state) {
 
 ActionsRibbon.propTypes = {
     /**
+     * Redux actions trigger
+     */
+    dispatch: PropTypes.func,
+    /**
      * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any,
@@ -173,35 +177,7 @@ ActionsRibbon.propTypes = {
      */
     boxes: PropTypes.any,
     /**
-      * Callback for changing box layers
-     */
-    onBoxLayerChanged: PropTypes.any,
-    /**
-      * Callback for pasting a box
-     */
-    onBoxPasted: PropTypes.any,
-    /**
       * Callback for deleting a box
       */
     onBoxDeleted: PropTypes.any,
-    /**
-     * Object containing all plugins' toolbars
-     */
-    pluginToolbars: PropTypes.object,
-    /**
-     * Object containing all marks
-     */
-    marks: PropTypes.object,
-    /**
-     * Callback for adding a box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
-    /**
-     * Object containing all the exercises
-     */
-    exercises: PropTypes.object.isRequired,
-    /**
-     *  Function for uploading a file to the server
-     */
-    uploadFunction: PropTypes.func.isRequired,
 };

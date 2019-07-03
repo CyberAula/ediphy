@@ -46,7 +46,6 @@ class RichMarksModal extends Component {
     componentWillReceiveProps(nextProps) {
         let current = nextProps.currentRichMark;
         let allViews = this.returnAllViews(nextProps);
-        let currentViewType = this.props.containedViewSelected === 0 ? this.props.navItems[this.props.navItemSelected].type : this.props.containedViews[this.props.containedViewSelected].type;
         if (!this.props.visible) {
             if (current) {
                 this.setState({
@@ -81,7 +80,12 @@ class RichMarksModal extends Component {
      */
     render() {
         let richMarkValue = null;
-        let marksType = this.props.pluginToolbar && this.props.pluginToolbar.pluginId && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId) && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig() && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig().marksType ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig().marksType : {};
+        let marksType = this.props.pluginToolbar
+                        && this.props.pluginToolbar.pluginId
+                        && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId)
+                        && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig()
+                        && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig().marksType
+            ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig().marksType : {};
         function getRichMarkInput(value) {
             richMarkValue = value;
         }
@@ -92,7 +96,6 @@ class RichMarksModal extends Component {
         if (this.props.viewToolbars[this.state.newSelected] !== undefined) {
             newSelected = this.props.viewToolbars[this.state.newSelected].viewName;
         }
-        let currentNavItemType = this.props.navItems[this.props.navItemSelected].type;
         let plugin = (this.props.pluginToolbar && this.props.pluginToolbar.pluginId && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId)) ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId) : undefined;
         let defaultMarkValue = plugin ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getDefaultMarkValue(this.props.pluginToolbar.state, this.props.boxSelected) : '';
         let pluginType = (this.props.pluginToolbar && this.props.pluginToolbar.config) ? this.props.pluginToolbar.config.displayName : 'Plugin';
@@ -368,10 +371,6 @@ class RichMarksModal extends Component {
                         } else{
                             this.props.onRichMarkUpdated(markState.mark, markState.view, markState.viewToolbar);
                         }
-                        /* this.props.onRichMarkUpdated({ id: (current ? current.id : newMark), title, connectMode, connection, displayMode, value, color }, this.state.newSelected === "");
-                        if(connectMode === 'new' && !this.props.toolbars[connection.id || connection] && this.state.newType === PAGE_TYPES.DOCUMENT) {
-                            this.props.onBoxAdded({ parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now(), page: newId }, false, false);
-                        }*/
                         this.generateTemplateBoxes(this.state.boxes, newId);
                         this.restoreDefaultTemplate();
                         this.props.onRichMarksModalToggled();
@@ -547,10 +546,6 @@ RichMarksModal.propTypes = {
      * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
-    /**
-     * Selected contained view
-     */
-    containedViewSelected: PropTypes.any.isRequired,
     /**
      * Object containing all contained views (identified by its ID)
      */

@@ -107,4 +107,8 @@ PluginsMenu.propTypes = {
      * React UI params
      */
     reactUI: PropTypes.object.isRequired,
+    /**
+     * Redux actions trigger
+     */
+    dispatch: PropTypes.func,
 };

@@ -36,10 +36,11 @@ class EditorCanvasSli extends Component {
 
     render() {
 
+        // eslint-disable-next-line no-shadow
         const { addMarkShortcut, aspectRatio, boxes, boxLevelSelected, boxSelected, containedViewSelected, containedViews, deleteMarkCreator,
-            exercises, fileModalResult, fromCV, grid, lastActionDispatched, markCreatorId, marks, moveRichMark, navItemSelected, navItems, onBoxAdded,
-            onBoxDeleted, onBoxDropped, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxSelected, onBoxesInsideSortableReorder, onContainedViewSelected,
-            onMarkCreatorToggled, onRichMarkMoved, onRichMarksModalToggled, onSortableContainerDeleted, onSortableContainerReordered, onSortableContainerResized,
+            exercises, fromCV, grid, lastActionDispatched, markCreatorId, marks, navItemSelected, navItems, onBoxAdded,
+            onBoxDeleted, onBoxDropped, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxSelected, onBoxesInsideSortableReorder,
+            onMarkCreatorToggled, onRichMarkMoved, onRichMarksModalToggled, onSortableContainerResized,
             onTextEditorToggled, onTitleChanged, onToolbarUpdated, onVerticallyAlignBox, onViewTitleChanged, openConfigModal, openFileModal, pluginToolbars,
             setCorrectAnswer, showCanvas, styleConfig, title, viewToolbars } = this.props;
 
@@ -476,10 +477,6 @@ EditorCanvasSli.propTypes = {
    */
     onToolbarUpdated: PropTypes.func,
     /**
-     * Last files uploaded to server or searched in modal
-     */
-    fileModalResult: PropTypes.object,
-    /**
      * Function that opens the file search modal
      */
     openFileModal: PropTypes.func.isRequired,
@@ -487,4 +484,8 @@ EditorCanvasSli.propTypes = {
      * Aspect ratio of slides
      */
     aspectRatio: PropTypes.number,
+    /**
+     * Style config params
+     */
+    styleConfig: PropTypes.object,
 };

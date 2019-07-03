@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import i18n from "i18next";
 import { Modal } from "react-bootstrap";
 import help from "../joyride/help.svg";
+import InitModal from "./InitModal";
 
 export default class HelpModal extends React.Component {
 
@@ -34,6 +35,19 @@ export default class HelpModal extends React.Component {
             </Modal>
         );
     }
-
 }
 
+HelpModal.propTypes = {
+    /**
+     * Show tour
+     */
+    showTour: PropTypes.func,
+    /**
+     * Function to close modal
+     */
+    closeModal: PropTypes.func,
+    /**
+     * User Interface params
+     */
+    reactUI: PropTypes.object,
+};

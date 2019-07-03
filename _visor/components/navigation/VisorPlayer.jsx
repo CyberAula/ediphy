@@ -153,10 +153,6 @@ VisorPlayer.propTypes = {
      */
     currentViews: PropTypes.array.isRequired,
     /**
-     * Dictionary that contains all views. The key for each value is the identifier of the view
-     */
-    navItemsById: PropTypes.object.isRequired,
-    /**
      * Objects Array that contains all created views (identified by its *id*)
      */
     navItemsIds: PropTypes.array.isRequired,

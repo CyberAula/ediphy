@@ -308,6 +308,10 @@ CarouselButtons.propTypes = {
      */
     containedViews: PropTypes.object.isRequired,
     /**
+     * Redux actions dispatcher
+     */
+    dispatch: PropTypes.func,
+    /**
      * View/Contained view selected at the index
      */
     indexSelected: PropTypes.any,
@@ -331,10 +335,6 @@ CarouselButtons.propTypes = {
      * Selects a view/contained view in the index's context
      */
     onIndexSelected: PropTypes.func.isRequired,
-    /**
-     * Removes a view
-     */
-    onNavItemDeleted: PropTypes.func.isRequired,
     /**
      * Expands navItem children when parent is expanded
      */

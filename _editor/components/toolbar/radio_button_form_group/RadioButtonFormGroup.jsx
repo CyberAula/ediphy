@@ -15,25 +15,17 @@ import './_radiobuttonformgroup.scss';
  */
 
 export default class RadioButtonFormGroup extends Component {
-    /**
-     * Constructor
-     * @param props React component properties
-     */
-    constructor(props) {
-        super(props);
-
-    }
 
     /**
      * Tooltip creator
      * @param text Tooltip Content
      * @returns {Tooltip} React Tooltip component
      */
-    tooltip(text) {
+    tooltip = (text) => {
         return (
             <Tooltip id="tooltip_radio">{text}</Tooltip>
         );
-    }
+    };
 
     /**
      * Renders React Component
@@ -54,19 +46,7 @@ export default class RadioButtonFormGroup extends Component {
                     </OverlayTrigger>);
                 })
         );
-
     }
-
-    /**
-     * Before component updates
-     * @param nextProps React next props
-     * @param nextState React next state
-     * @returns {boolean} True
-     */
-    componentWillUpdate(nextProps, nextState) {
-        return true;
-    }
-
 }
 /**
  * Prop Types

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 
 import CarouselButtons from '../carousel_buttons/CarouselButtons';
 import CarouselHeader from '../carousel_header/CarouselHeader';
-import CarouselList from '../carousel_list/CarouselList';
 import FileTree from "../FileTree";
 
 import { connect } from "react-redux";
@@ -84,7 +83,7 @@ function mapStateToProps(state) {
     return {
         carouselShow: state.reactUI.carouselShow,
         carouselFull: state.reactUI.carouselFull,
-        boxes: state.undoGroup.present.boxes,
+        boxes: state.undoGroup.present.boxesById,
         title: state.undoGroup.present.globalConfig.title || '---',
         containedViews: state.undoGroup.present.containedViewsById,
         containedViewSelected: state.undoGroup.present.containedViewSelected,
@@ -101,6 +100,10 @@ export default connect(mapStateToProps)(EditorCarousel);
 
 EditorCarousel.propTypes = {
     /**
+     * Redux action dispatcher
+     */
+    dispatch: PropTypes.func,
+    /**
      * Object containing all contained views (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
@@ -111,7 +114,7 @@ EditorCarousel.propTypes = {
     /**
      * Object containing all created boxes (by id)
      */
-    boxes: PropTypes.object.isRequired,
+    boxes: PropTypes.object,
     /**
      * Objects Array that contains all created views (identified by its *id*)
      */
@@ -157,23 +160,43 @@ EditorCarousel.propTypes = {
      */
     carouselFull: PropTypes.bool,
     /**
-     * Expands the index to make it take 100% of the width
-     */
-    onToggleFull: PropTypes.func.isRequired,
-    /**
-     * Modifies the index's width
-     */
-    onToggleWidth: PropTypes.func.isRequired,
-    /**
-     *  Object that cointains the course's global configuration, stored in the Redux state
-     */
-    globalConfig: PropTypes.object,
-    /**
      * Object containing all the pages' toolbars
      */
     viewToolbars: PropTypes.object,
     /**
+     * Select new index
+     */
+    onIndexSelected: PropTypes.func.isRequired,
+    /**
      * Duplicate nav item
      */
     onNavItemDuplicated: PropTypes.func.isRequired,
+    /**
+     * Change nav item name
+     */
+    onNavItemNameChanged: PropTypes.func.isRequired,
+    /**
+     * Add nav item
+     */
+    onNavItemAdded: PropTypes.func.isRequired,
+    /**
+     * Select nav item
+     */
+    onNavItemSelected: PropTypes.func.isRequired,
+    /**
+     * Expand nav item
+     */
+    onNavItemExpanded: PropTypes.func.isRequired,
+    /**
+     * Delete nav item
+     */
+    onNavItemDeleted: PropTypes.func.isRequired,
+    /**
+     * Reorder nav item
+     */
+    onNavItemReordered: PropTypes.func.isRequired,
+    /**
+     * Change title
+     */
+    onTitleChanged: PropTypes.func.isRequired,
 };

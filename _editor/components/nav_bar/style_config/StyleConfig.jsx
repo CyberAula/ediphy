@@ -216,4 +216,8 @@ StyleConfig.propTypes = {
      * Configuration course dictionary. Object identical to Redux state ***globalConfig*** .
      */
     styleConfig: PropTypes.object.isRequired,
+    /**
+     * Redux actions trigger
+     */
+    dispatch: PropTypes.func,
 };

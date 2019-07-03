@@ -1,7 +1,9 @@
 import { THEMES } from './theme_loader';
 
 export function loadBackground(theme = 'default', index = 0, aspectRatio = 16 / 9) {
-    let i = THEMES[theme].images.hasOwnProperty('template' + index) && THEMES[theme].images['template' + index].background ? THEMES[theme].images['template' + index].background : 0;
+    let i = THEMES[theme].images.hasOwnProperty('template' + index)
+            && THEMES[theme].images['template' + index].background
+        ? THEMES[theme].images['template' + index].background : 0;
     let ar = aspectRatio === 16 / 9 ? 'f16_9' : 'f4_3';
     return (THEMES[theme] && THEMES[theme].background && THEMES[theme].background[ar]) ? THEMES[theme].background[ar][i] : '#ffffff';
 }

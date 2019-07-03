@@ -21,18 +21,8 @@ class ViewToolbar extends Component {
         let pageObj = containedViewSelected !== 0 ? containedViews[containedViewSelected] : navItems[navItemSelected];
         let type = pageObj.type;
         let isContainedView = containedViewSelected !== 0;
-        let doc_type = '';
-        if (isPage(id)) {
-            doc_type = i18n.t('page');
-        }
-        if(isSlide(type)) {
-            doc_type = i18n.t('slide');
-        }
 
-        if(isSection(id)) {
-            doc_type = i18n.t('section');
-        }
-
+        let doc_type = this.getDocType(type, id);
         let viewToolbar = sanitizeThemeToolbar(viewToolbars[id], styleConfig);
 
         let controls = {
@@ -186,6 +176,8 @@ class ViewToolbar extends Component {
             );
         });
     }
+
+    getDocType = (type, id) => isPage(id) ? i18n.t('page') : isSlide(type) ? i18n.t('slide') : isSection(id) ? i18n.t('section') : '';
 
 }
 

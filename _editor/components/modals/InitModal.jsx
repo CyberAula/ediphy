@@ -34,5 +34,12 @@ export default class InitModal extends React.Component {
             </Alert>
         );
     }
-
 }
+
+InitModal.propTypes = {
+    /**
+     * Show init tour
+     */
+    showTour: PropTypes.func,
+};
+

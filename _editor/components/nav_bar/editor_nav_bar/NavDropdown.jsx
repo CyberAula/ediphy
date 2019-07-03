@@ -196,10 +196,6 @@ NavDropdown.propTypes = {
      */
     save: PropTypes.func.isRequired,
     /**
-     * Shows/Hides the global course configuration modal form
-     */
-    toggleGlobalConfig: PropTypes.func.isRequired,
-    /**
      * Shows/Hides the exportation modal form
      */
     toggleExport: PropTypes.func.isRequired,
@@ -208,11 +204,11 @@ NavDropdown.propTypes = {
      */
     undoDisabled: PropTypes.bool,
     /**
-     * Opens Tour Modal
-     */
-    openTour: PropTypes.func.isRequired,
-    /**
    * Indicates if there is a current server operation
    */
     isBusy: PropTypes.any,
+    /**
+     * Redux actions trigger
+     */
+    dispatch: PropTypes.func,
 };

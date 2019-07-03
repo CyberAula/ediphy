@@ -337,6 +337,10 @@ PluginRibbon.propTypes = {
     */
     disabled: PropTypes.bool,
     /**
+     * Redux actions trigger
+     */
+    dispatch: PropTypes.func,
+    /**
      * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
@@ -360,5 +364,6 @@ PluginRibbon.propTypes = {
      * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
+
 };
 

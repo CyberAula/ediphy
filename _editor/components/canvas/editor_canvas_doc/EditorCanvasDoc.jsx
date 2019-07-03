@@ -13,12 +13,11 @@ import { connect } from "react-redux";
 
 class EditorCanvasDoc extends Component {
     render() {
-        const { addMarkShortcut, aspectRatio, boxes, boxLevelSelected, boxSelected, containedViewSelected, containedViews, deleteMarkCreator,
-            exercises, fileModalResult, fromCV, grid, lastActionDispatched, markCreatorId, marks, moveRichMark, navItemSelected, navItems, onBoxAdded,
-            onBoxDeleted, onBoxDropped, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxSelected, onBoxesInsideSortableReorder, onContainedViewSelected,
-            onMarkCreatorToggled, onRichMarkMoved, onRichMarksModalToggled, onSortableContainerDeleted, onSortableContainerReordered, onSortableContainerResized,
-            onTextEditorToggled, onTitleChanged, onToolbarUpdated, onVerticallyAlignBox, onViewTitleChanged, openConfigModal, openFileModal, pluginToolbars,
-            setCorrectAnswer, showCanvas, styleConfig, title, viewToolbars } = this.props;
+        const { aspectRatio, boxes, boxSelected, containedViewSelected, containedViews,
+            exercises, fromCV, lastActionDispatched, marks, navItemSelected, navItems,
+            onBoxDeleted, onBoxResized, onBoxSelected, onMarkCreatorToggled, onTextEditorToggled,
+            onTitleChanged, onToolbarUpdated, onViewTitleChanged, openConfigModal,
+            openFileModal, pluginToolbars, styleConfig, title, viewToolbars } = this.props;
 
         const itemSelected = fromCV ? containedViewSelected : navItemSelected;
         const titles = getTitles(itemSelected, viewToolbars, navItems, fromCV);

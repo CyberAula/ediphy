@@ -96,49 +96,29 @@ function mapStateToProps(state) {
 }
 EditorNavBar.propTypes = {
     /**
-     *  Shows/hides the plugin tab
+     * Redux actions trigger
      */
-    hideTab: PropTypes.oneOf(["show", "hide"]).isRequired,
+    dispatch: PropTypes.func,
     /**
      * Object containing the global configuration of the document
      */
     globalConfig: PropTypes.object.isRequired,
     /**
-     * Modifies the global configuration of the document
-     */
-    changeGlobalConfig: PropTypes.func.isRequired,
-    /**
-     * Shows the global configuration of the document
-     */
-    showGlobalConfig: PropTypes.bool.isRequired,
-    /**
-     * Toggles the global configuration of the document
-     */
-    toggleGlobalConfig: PropTypes.func.isRequired,
-    /**
-     * Current selected view (by ID)
-     */
-    navItemSelected: PropTypes.any.isRequired,
-    /**
-     * Current selected box
-     */
-    boxSelected: PropTypes.any.isRequired,
-    /**
      * Undoes the last change
      */
-    undo: PropTypes.func.isRequired,
+    undo: PropTypes.func,
     /**
      * Redoes the last change
      */
-    redo: PropTypes.func.isRequired,
-    /**
-     * Activates preview mode
-     */
-    visor: PropTypes.func.isRequired,
+    redo: PropTypes.func,
     /**
      * Exports the document to HTML
      */
     export: PropTypes.func.isRequired,
+    /**
+     * React UI params
+     */
+    reactUI: PropTypes.object.isRequired,
     /**
      * Exports the document to SCORM
      */
@@ -147,79 +127,4 @@ EditorNavBar.propTypes = {
      * Saves the changes in the server
      */
     save: PropTypes.func.isRequired,
-    /**
-     * Selected plugin category
-     */
-    category: PropTypes.string.isRequired,
-    /**
-     * Load server changes
-     */
-    opens: PropTypes.func.isRequired,
-    /**
-     * Opens a modal indicating the server operation status
-     */
-    serverModalOpen: PropTypes.func.isRequired,
-    /**
-      * Callback for opening the file upload modal
-      */
-    toggleFileUpload: PropTypes.func.isRequired,
-    /**
-     * Last files uploaded to server or searched in modal
-     */
-    fileModalResult: PropTypes.object,
-    /**
-     * Changes the category of plugins selected
-     */
-    setcat: PropTypes.func.isRequired,
-    /**
-   * Object that contains all created views (identified by its *id*)
-   */
-    navItems: PropTypes.object.isRequired,
-    /**
-     * Opens Tour Modal
-     */
-    openTour: PropTypes.func.isRequired,
-    /**
-     * Publish the document
-     */
-    publishing: PropTypes.func.isRequired,
-    /**
-       * Indicates if there is a current server operation
-       */
-    isBusy: PropTypes.any,
-    /**
-     *  Function for uploading a file to the server
-     */
-    uploadFunction: PropTypes.func.isRequired,
-    /**
-     * Function for selecting a box
-     */
-    onBoxSelected: PropTypes.func.isRequired,
-    /**
-     * Function for updating style config
-     */
-    changeStyleConfig: PropTypes.func.isRequired,
 };
-
-/**
- * TODO: Si queremos parametrizar esta clase hacemos un json y lo recorremos con los siguientes elementos:
- *
- *  {
- *    navbar:[{
- *      title,
- *      className,
- *      disabled,
- *      tooltip,
- *      icon,
- *      onClick [func],
- *      shownCondition [func],
- *    },{},...],
- *    dropdownMenu: [{title,
- *      className,
- *      disabled,
- *      tooltip,
- *      icon,
- *      onClick [func],
- *      shownCondition [func],}]
- *  }
- * */

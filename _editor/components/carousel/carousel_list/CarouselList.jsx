@@ -20,16 +20,13 @@ import {
  * List of all the course's views and contained views
  */
 class CarouselList extends Component {
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            showSortableItems: true,
-            showContainedViews: true,
-        };
-    }
+    state = {
+        showSortableItems: true,
+        showContainedViews: true,
+    };
 
-    getContentHeight() {
+    getContentHeight = () => {
         if(!this.state.showSortableItems && !this.state.showContainedViews) {
             return("50px");
         } else if(this.state.showSortableItems && !this.state.showContainedViews) {
@@ -38,8 +35,7 @@ class CarouselList extends Component {
             return "calc(50%)";
         }
         return "calc(100% - 124px)";
-
-    }
+    };
 
     render() {
 
@@ -275,6 +271,10 @@ function mapStateToProps(state) {
 
 CarouselList.propTypes = {
     /**
+     * Redux actions dispatcher
+     */
+    dispatch: PropTypes.func,
+    /**
      * Global parent of navItems (0)
      */
     id: PropTypes.number.isRequired,
@@ -310,4 +310,8 @@ CarouselList.propTypes = {
      * Object containing all the pages' toolbars
      */
     viewToolbars: PropTypes.object.isRequired,
+    /**
+     * Select nav item
+     */
+    onNavItemSelected: PropTypes.func,
 };

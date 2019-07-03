@@ -548,6 +548,10 @@ function mapStateToProps(state) {
 }
 GlobalConfig.propTypes = {
     /**
+     * Redux actions trigger
+     */
+    dispatch: PropTypes.func,
+    /**
      * Configuration course dictionary. Object identical to Redux state ***globalConfig*** .
      */
     globalConfig: PropTypes.object.isRequired,
@@ -560,7 +564,7 @@ GlobalConfig.propTypes = {
      */
     fileModalResult: PropTypes.object,
     /**
-     *  Function for uploading a file to the server
+     * User Interface params
      */
-    uploadFunction: PropTypes.func.isRequired,
+    reactUI: PropTypes.object,
 };

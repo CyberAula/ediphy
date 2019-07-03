@@ -19,9 +19,9 @@ class EditorCanvas extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (has(this.props.navItemSelected, 'id')
-            && has(nextProps.navItemSelected, 'id')
-            && this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
+        if ((this.props.navItemSelected) && (this.props.navItemSelected.id)
+            && (nextProps.navItemSelected) && (nextProps.navItemSelected.id)
+            && (this.props.navItemSelected.id !== nextProps.navItemSelected.id)) {
             document.getElementById('maincontent').scrollTop = 0;
         }
     }
@@ -55,7 +55,7 @@ EditorCanvas.propTypes = {
     /**
      * Slides aspect ratio
      */
-    canvasRatio: PropTypes.number.isRequired,
+    canvasRatio: PropTypes.number,
     /**
      * Canvas show flag in current selected view
      */
