@@ -61,10 +61,6 @@ export default class Visor extends Component {
             mouseOnPlayer: false,
             backwards: false,
         };
-        this.onMarkClicked = this.onMarkClicked.bind(this);
-        this._onMouseMove = this._onMouseMove.bind(this);
-        this.setHoverClass = this.setHoverClass.bind(this);
-        this.deleteHoverClass = this.deleteHoverClass.bind(this);
 
         if (!Ediphy.State.export) {
             window.export = (format = 'HTML') => {
@@ -85,15 +81,15 @@ export default class Visor extends Component {
         }
     }
 
-    setHoverClass() {
+    setHoverClass = () => {
         this.setState({ mouseOnPlayer: true });
-    }
+    };
 
-    deleteHoverClass() {
+    deleteHoverClass = () => {
         this.setState({ mouseOnPlayer: false });
-    }
+    };
 
-    _onMouseMove(e) {
+    _onMouseMove = (e) => {
         if(!this.state.mouseMoving) {
             this.setState({ mouseMoving: true });
         }
@@ -105,7 +101,7 @@ export default class Visor extends Component {
                 this.setState({ mouseMoving: false });
             }, 2500);
         }
-    }
+    };
 
     componentWillUpdate(nextProps, nextState) {
         // reset marks when navigating between main sections
@@ -423,7 +419,7 @@ export default class Visor extends Component {
         return exists;
     }
 
-    onMarkClicked(id, value, stateElement) {
+    onMarkClicked = (id, value, stateElement) => {
         let richElementsState = this.state.richElementState;
         let marks = this.getAllMarks();
         let triggered_event = { id, value, stateElement };
@@ -464,7 +460,7 @@ export default class Visor extends Component {
                 backupElementStates: Object.assign({}, backupElementStates, new_mark),
             });
         }
-    }
+    };
 
     /**
      * Returns if any is there any triggerable mark

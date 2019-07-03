@@ -7,14 +7,6 @@ import ProgressBall from './ProgressBall';
 
 import { isSlide, isPage, isSection } from '../../../common/utils';
 export default class VisorSideNav extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-
-        };
-        this.calculateProgress = this.calculateProgress.bind(this);
-    }
-
     render() {
         let navItemSelected = this.getCurrentNavItem(this.props.currentViews);
         let visited = this.props.scoreInfo.visited || [];
@@ -81,7 +73,7 @@ export default class VisorSideNav extends Component {
         return navs.length > 0 ? navs[navs.length - 1] : 0;
     }
 
-    calculateProgress() {
+    calculateProgress = () => {
         let progress = {};
         let pending = [];
         this.props.navItemsIds.map(nav => {
@@ -112,7 +104,7 @@ export default class VisorSideNav extends Component {
             progress[nav] = complete;
         });
         return progress;
-    }
+    };
 
 }
 

@@ -12,7 +12,6 @@ import { parseMoodleXML } from "./moodleXML";
 require('react-datatable-bs/css/table-twbs.css');
 
 import { createBox } from '../../../../../common/common_tools';
-let spinner = require('../../../../../dist/images/spinner.svg');
 export default class MoodleHandler extends Component {
     constructor(props) {
         super(props);

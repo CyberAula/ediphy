@@ -17,11 +17,6 @@ export default class ScormComponent extends Component {
             isPassed: "incomplete",
             suspendData: { exercises, pages },
         };
-        this.onUnload = this.onUnload.bind(this);
-        this.onLoad = this.onLoad.bind(this);
-        this.setAnswer = this.setAnswer.bind(this);
-        this.submitPage = this.submitPage.bind(this);
-        this.timeProgress = this.timeProgress.bind(this);
         this.totalWeight = 0;
         for (let e in this.props.exercises) {
             this.totalWeight += this.props.exercises[e].weight;
@@ -92,7 +87,7 @@ export default class ScormComponent extends Component {
         window.addEventListener("load", this.onLoad);
         window.addEventListener("beforeunload", this.onUnload);
     }
-    onLoad(event) {
+    onLoad = (event) => {
         let DEBUG = Ediphy.Config.debug_scorm;
         let scorm = new API.init(DEBUG, DEBUG);
 
@@ -118,9 +113,9 @@ export default class ScormComponent extends Component {
         setTimeout(()=>{
             this.timeProgress();
         }, this.timer);
+    };
 
-    }
-    timeProgress() {
+    timeProgress = () => {
         let currentView = this.props.currentView;
         let exercises = JSON.parse(JSON.stringify(this.state.exercises));
         if (!this.state.exercises[currentView].visited && Object.keys(exercises[currentView].exercises).length === 0) {
@@ -148,25 +143,27 @@ export default class ScormComponent extends Component {
             this.props.updateScore(scoreInfo);
         }
 
-    }
+    };
 
-    onUnload(event) {
+    onUnload = (event) => {
         if(API.isConnected()) {
             API.finish();
         }
-    }
+    };
+
     componentWillUnmount() {
         window.removeEventListener("beforeunload", this.onUnload);
         window.removeEventListener("onload", this.onLoad);
     }
-    setAnswer(id, answer, page) {
+    setAnswer = (id, answer, page) => {
         let exercises = JSON.parse(JSON.stringify(this.state.exercises));
         if (exercises[page] && exercises[page].exercises[id] && !exercises[page].attempted) {
             exercises[page].exercises[id].currentAnswer = answer;
             this.setState({ exercises });
         }
-    }
-    submitPage(page) {
+    };
+
+    submitPage = (page) => {
         let exercises = JSON.parse(JSON.stringify(this.state.exercises));
         let suspendData = JSON.parse(JSON.stringify(this.state.suspendData));
         let bx = exercises[page].exercises;
@@ -239,7 +236,8 @@ export default class ScormComponent extends Component {
         }
         let scoreInfo = { userName: this.state.userName, totalScore, totalWeight: this.totalWeight, completionProgress, visited: suspendData.pages };
         this.props.updateScore(scoreInfo);
-    }
+    };
+
     calculateVisitPctg(pages) {
         let visitedPctg = 0;
         visitedPctg = pages.reduce((old, act)=>{
