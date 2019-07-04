@@ -734,7 +734,10 @@ export default class Visor extends Component {
         });
 
         newBoxes.forEach(final=>{
-            if(Ediphy.State.pluginToolbarsById[final] && Ediphy.State.pluginToolbarsById[final].pluginId && Ediphy.State.pluginToolbarsById[final].pluginId !== "sortable_container" && Ediphy.Visor.Plugins[Ediphy.State.pluginToolbarsById[final].pluginId].getConfig().isRich) {
+            if (Ediphy.State.pluginToolbarsById[final]
+                && Ediphy.State.pluginToolbarsById[final].pluginId
+                && Ediphy.State.pluginToolbarsById[final].pluginId !== "sortable_container"
+                && Ediphy.Visor.Plugins[Ediphy.State.pluginToolbarsById[final].pluginId].getConfig().isRich) {
                 richBoxes.push(final);
             }
         });
@@ -769,7 +772,7 @@ export default class Visor extends Component {
     /**
      * Remove last view from queue of views
      */
-    removeLastView() {
+    removeLastView = () => {
         let newViews = this.state.currentView.slice(0, -1);
         if (newViews.length > 0) {
             let lastView = newViews[newViews.length - 1];

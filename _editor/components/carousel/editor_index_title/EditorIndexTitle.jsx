@@ -184,5 +184,5 @@ EditorIndexTitle.propTypes = {
     /**
      * Selected navItem
      */
-    selected: PropTypes.string,
+    selected: PropTypes.any,
 };

@@ -120,7 +120,7 @@ export default class VisorCanvasSli extends Component {
                                         this.setState({ show: false }, () => {
                                             setTimeout(function() {
                                                 this.props.removeLastView();
-                                            }.bind(this), this.TRANSITION_TIME);
+                                            }.bind(this), 100000000);
                                             a.stopPropagation();
                                         });
 
