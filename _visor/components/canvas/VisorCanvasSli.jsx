@@ -117,9 +117,7 @@ export default class VisorCanvasSli extends Component {
                                     style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
                                     onClick={a => {
                                         this.setState({ show: false }, () => {
-                                            setTimeout(function() {
-                                                this.props.removeLastView();
-                                            }.bind(this), this.TRANSITION_TIME);
+                                            setTimeout(this.props.removeLastView, this.TRANSITION_TIME);
                                             a.persist();
                                         });
 
