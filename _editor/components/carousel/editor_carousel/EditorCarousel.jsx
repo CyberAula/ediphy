@@ -73,7 +73,7 @@ class EditorCarousel extends Component
                 carouselFull: false,
             }));
         } else {
-            this.props.dispatch(updateUI(UI.carouselShow, true));
+            this.props.dispatch(updateUI({ carouselShow: true }));
         }
     }
 

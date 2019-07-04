@@ -154,7 +154,12 @@ class EditorCanvasSli extends Component {
                     onBoxDeleted={onBoxDeleted}
                     onToolbarUpdated={onToolbarUpdated}
                     openFileModal={openFileModal}
-                    pointerEventsCallback={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && pluginToolbars[boxSelected].config.name && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).pointerEventsCallback : null}
+                    pointerEventsCallback={
+                        pluginToolbars[boxSelected]
+                        && pluginToolbars[boxSelected].config
+                        && pluginToolbars[boxSelected].config.name
+                        && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name)
+                            ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={onMarkCreatorToggled}
                 />
             </Col>
@@ -311,7 +316,7 @@ class EditorCanvasSli extends Component {
     onResize = e => {
         let calculated = this.aspectRatio(this.props, this.state);
         this.setState({ fontBase: changeFontBase(calculated.width) });
-    }
+    };
 
     deselectBoxes = () => this.props.onBoxSelected(-1);
 }

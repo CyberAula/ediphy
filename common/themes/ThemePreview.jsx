@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ThemeCSS from "../../common/themes/ThemeCSS";
 import { loadBackgroundStylePreview } from "./background_loader";
-import { CSSTransition } from "react-transition-group";
 import { Animated } from "react-animated-css";
 import { TRANSITIONS } from "./transitions/transitions";
 

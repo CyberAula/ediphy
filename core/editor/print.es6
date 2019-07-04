@@ -18,12 +18,12 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let globalConfig = state.globalConfig;
     let styleConfig = state.styleConfig;
     let exercises = state.exercises;
+    let marksById = state.marksById;
     let title = globalConfig.title || 'Ediphy';
     let canvasRatio = globalConfig.canvasRatio;
     let customAspectRatio = 0;
     let expectedWidth;
     let expectedHeight;
-    let marksById = state.marksById;
     let navItemsOriginals = navItemsOnly;
     let navItems = Object.assign(navItemsOriginals, containedViews);
     let idList = Object.keys(navItems);
@@ -552,23 +552,11 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
         document.body.appendChild(pageContainer);
         if (slidesWithComments && slide && !avoidComments) {
             let pageContainerComments = document.createElement('div');
-            let table = (<div width="100%" style={{ display: 'flex', justifyContent: 'center' }}><table width={expectedWidth}>
-                <tr><td className= {customAspectRatio === (4 / 3) ? "commentLine" : "commentLine firstLine"} /></tr>
-                <tr><td className={"commentLine"} /></tr>
-                <tr><td className={"commentLine"} /></tr>
-                <tr><td className={"commentLine"} /></tr>
-                <tr><td className={"commentLine"} /></tr>
-                <tr><td className={"commentLine"} /></tr>
-                <tr><td className={"commentLine"} /></tr>
-                <tr><td className={"commentLine"} /></tr>
-                <tr><td className={"commentLine"} /></tr>
-                <tr><td className={"commentLine"} /></tr>
-                <tr><td className={"commentLine"} /></tr>
-                <tr><td className={"commentLine"} /></tr>
-                <tr><td className={"commentLine"} /></tr>
-                <tr><td className={"commentLine"} /></tr>
-                <tr><td className={"commentLine"} /></tr>
-            </table></div>);
+            let table = (<div width="100%" style={{ display: 'flex', justifyContent: 'center' }}>
+                <table width={expectedWidth}>
+                    <tr><td className= {customAspectRatio === (4 / 3) ? "commentLine" : "commentLine firstLine"} /></tr>
+                    {Array(11).fill().map(() => <tr><td className={"commentLine"} /></tr>)}
+                </table></div>);
             pageContainerComments.id = 'containerComments_' + i;
             document.body.appendChild(pageContainerComments);
             pageContainerComments.style.height = pageContainer.style.height;
