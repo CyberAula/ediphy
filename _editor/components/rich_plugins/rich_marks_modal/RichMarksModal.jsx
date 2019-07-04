@@ -242,6 +242,7 @@ class RichMarksModal extends Component {
                             </Col>
                             <Col xs={8} md={6}>
                                 <FormControl
+                                    key={this.props.markCursorValue}
                                     ref="value"
                                     type={this.state.actualMarkType}
                                     defaultValue={this.props.markCursorValue ? this.props.markCursorValue : (current ? current.value : (defaultMarkValue ? defaultMarkValue : 0))}/>
@@ -271,6 +272,7 @@ class RichMarksModal extends Component {
 
                         let displayMode = this.state.displayMode;
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
+                        // let value = this.props.markCursorValue;
                         // First of all we need to check if the plugin creator has provided a function to check if the input value is allowed
                         if (plugin && plugin.validateValueInput) {
                             let val = plugin.validateValueInput(value);
@@ -523,7 +525,7 @@ function mapStateToProps(state) {
         markCursorValue: state.reactUI.markCursorValue,
         containedViewSelected: state.undoGroup.present.containedViewSelected,
         containedViews: state.undoGroup.present.containedViewsById,
-        marks: state.undoGroup.present.marks,
+        marks: state.undoGroup.present.marksById,
         navItems: state.undoGroup.present.navItemsById,
         navItemsIds: state.undoGroup.present.navItemsIds,
         currentRichMark: state.reactUI.currentRichMark,

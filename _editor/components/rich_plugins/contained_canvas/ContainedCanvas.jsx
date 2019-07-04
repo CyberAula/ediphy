@@ -62,7 +62,7 @@ function mapStateToProps(state) {
         grid: state.reactUI.grid,
         boxSelected: state.undoGroup.present.boxSelected,
         boxLevelSelected: state.undoGroup.present.boxLevelSelected,
-        marks: state.undoGroup.present.marks,
+        marks: state.undoGroup.present.marksById,
         navItems: state.undoGroup.present.navItemsById,
         navItemSelected: state.undoGroup.present.navItemsById[state.undoGroup.present.navItemSelected],
         containedViews: state.undoGroup.present.containedViewsById,

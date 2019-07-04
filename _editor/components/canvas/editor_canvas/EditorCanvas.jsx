@@ -39,7 +39,7 @@ function mapStateToProps(state) {
         fileModalResult: state.reactUI.fileModalResult,
         grid: state.reactUI.grid,
         markCreatorId: state.reactUI.markCreatorVisible,
-        marks: state.undoGroup.present.marks,
+        marks: state.undoGroup.present.marksById,
         navItems: state.undoGroup.present.navItemsById,
         navItemSelected: state.undoGroup.present.navItemsById[state.undoGroup.present.navItemSelected],
         pluginToolbars: state.undoGroup.present.pluginToolbarsById,
