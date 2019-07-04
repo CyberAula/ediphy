@@ -109,6 +109,7 @@ export function getTransition(styleConfig, fromPDF = false, isCV = false, backwa
     let hasTransition = styleConfig.hasOwnProperty('transition');
     let transition = hasTransition && !fromPDF ? TRANSITIONS[styleConfig.transition].transition : TRANSITIONS[0].transition;
     transition = isCV ? TRANSITIONS[4].transition : transition;
+    transition.out = isCV ? 'zoomIn' : transition.out;
     transition = backwards ? transition.backwards : transition;
     return transition;
 }

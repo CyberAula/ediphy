@@ -116,12 +116,11 @@ export default class VisorCanvasSli extends Component {
                                     className="btnOverBar cvBackButton"
                                     style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
                                     onClick={a => {
-                                        ReactDOM.findDOMNode(this).classList.add("exitCanvas");
                                         this.setState({ show: false }, () => {
                                             setTimeout(function() {
                                                 this.props.removeLastView();
-                                            }.bind(this), 100000000);
-                                            a.stopPropagation();
+                                            }.bind(this), this.TRANSITION_TIME);
+                                            a.persist();
                                         });
 
                                     }}><i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
