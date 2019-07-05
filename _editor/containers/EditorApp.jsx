@@ -84,10 +84,10 @@ class EditorApp extends Component {
                 </Row>
                 <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
                     <EditorCarousel
-                        onBoxAdded={this.onBoxAdded}
-                        onContainedViewNameChanged={this.onContainedViewNameChanged}
-                        onContainedViewSelected={this.onContainedViewSelected}
-                        onContainedViewDeleted={this.onContainedViewDeleted}
+                        onBoxAdded={this.handleBoxes.onBoxAdded}
+                        onContainedViewNameChanged={this.handleContainedViews.onContainedViewNameChanged}
+                        onContainedViewSelected={this.handleContainedViews.onContainedViewSelected}
+                        onContainedViewDeleted={this.handleContainedViews.onContainedViewDeleted}
                         onIndexSelected={this.onIndexSelected}
                         onNavItemNameChanged={this.onNavItemNameChanged}
                         onNavItemAdded={this.onNavItemAdded}
@@ -107,14 +107,14 @@ class EditorApp extends Component {
                                 onGridToggle={this.onGridToggle}
                                 grid={reactUI.grid}
                                 ribbonHeight={ ribbonHeight + 'px'}
-                                onBoxDeleted={this.onBoxDeleted}
+                                onBoxDeleted={this.handleBoxes.onBoxDeleted}
                             />
                         </Row>
 
                         <Row id="ribbonRow" style={{ top: '-1px', left: (reactUI.carouselShow ? '15px' : '147px') }}>
                             <PluginRibbon
                                 disabled={disabled}
-                                onBoxAdded={this.onBoxAdded}
+                                onBoxAdded={this.handleBoxes.onBoxAdded}
                                 ribbonHeight={ ribbonHeight + 'px'} />
                         </Row>
                         <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
@@ -123,15 +123,8 @@ class EditorApp extends Component {
                                 deleteMarkCreator={this.deleteMarkCreator}
                                 lastActionDispatched={lastActionDispatched}
                                 moveRichMark={this.onRichMarkMoved}
-                                onBoxAdded={this.onBoxAdded}
-                                onBoxSelected={this.onBoxSelected}
-                                onBoxLevelIncreased={this.onBoxLevelIncreased}
-                                onBoxMoved={this.onBoxMoved}
-                                onBoxResized={this.onBoxResized}
-                                onBoxDropped={this.onBoxDropped}
-                                onBoxDeleted={this.onBoxDeleted}
-                                onBoxesInsideSortableReorder={this.onBoxesInsideSortableReorder}
-                                onContainedViewSelected={this.onContainedViewSelected}
+                                handleBoxes = {this.handleBoxes}
+                                onContainedViewSelected={this.handleContainedViews.onContainedViewSelected}
                                 onMarkCreatorToggled={this.onMarkCreatorToggled}
                                 onRichMarksModalToggled={this.toggleRichMarksModal}
                                 onRichMarkMoved={this.onRichMarkMoved}
@@ -153,14 +146,14 @@ class EditorApp extends Component {
                                 lastActionDispatched={lastActionDispatched}
                                 moveRichMark={this.onRichMarkMoved}
                                 onContainedViewSelected={this.onContainedViewSelected}
-                                onBoxSelected={this.onBoxSelected}
-                                onBoxLevelIncreased={this.onBoxLevelIncreased}
-                                onBoxAdded={this.onBoxAdded}
-                                onBoxMoved={this.onBoxMoved}
-                                onBoxResized={this.onBoxResized}
-                                onBoxDropped={this.onBoxDropped}
-                                onBoxDeleted={this.onBoxDeleted}
-                                onBoxesInsideSortableReorder={this.onBoxesInsideSortableReorder}
+                                onBoxSelected={this.handleBoxes.onBoxSelected}
+                                onBoxLevelIncreased={this.handleBoxes.onBoxLevelIncreased}
+                                onBoxAdded={this.handleBoxes.onBoxAdded}
+                                onBoxMoved={this.handleBoxes.onBoxMoved}
+                                onBoxResized={this.handleBoxes.onBoxResized}
+                                onBoxDropped={this.handleBoxes.onBoxDropped}
+                                onBoxDeleted={this.handleBoxes.onBoxDeleted}
+                                onBoxesInsideSortableReorder={this.handleBoxes.onBoxesInsideSortableReorder}
                                 onMarkCreatorToggled={this.onMarkCreatorToggled}
                                 onRichMarksModalToggled={this.toggleRichMarksModal}
                                 onRichMarkMoved={this.onRichMarkMoved}
@@ -217,7 +210,7 @@ class EditorApp extends Component {
                     validateValueInput={ canGetPlugin ?
                         Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).validateValueInput
                         : null}
-                    onBoxAdded={this.onBoxAdded}
+                    onBoxAdded={this.handleBoxes.onBoxAdded}
                     onRichMarkAdded={this.onRichMarkAdded}
                     onRichMarkUpdated={this.onRichMarkUpdated}
                     onRichMarksModalToggled={this.toggleRichMarksModal}
@@ -225,9 +218,9 @@ class EditorApp extends Component {
                 <Toolbar
                     top={(60 + ribbonHeight) + 'px'}
                     onBackgroundChanged={this.onBackgroundChanged}
-                    onBoxDeleted={this.onBoxDeleted}
-                    onBoxResized={this.onBoxResized}
-                    onBoxMoved={this.onBoxMoved}
+                    onBoxDeleted={this.handleBoxes.onBoxDeleted}
+                    onBoxResized={this.handleBoxes.onBoxResized}
+                    onBoxMoved={this.handleBoxes.onBoxMoved}
                     onColsChanged={this.onColsChanged}
                     onContainedViewNameChanged={this.onContainedViewNameChanged}
                     onContainedViewSelected={this.onContainedViewSelected}
@@ -250,7 +243,7 @@ class EditorApp extends Component {
                 />
                 <FileModal
                     disabled={disabled}
-                    onBoxAdded={this.onBoxAdded}
+                    onBoxAdded={this.handleBoxes.onBoxAdded}
                     importEdi={this.importEdi}
                     onNavItemSelected={this.onNavItemSelected}
                     deleteFileFromServer={this.deleteFileFromServer}
@@ -484,7 +477,7 @@ class EditorApp extends Component {
                     let box = this.props.boxes[this.props.boxSelected];
                     let toolbar = this.props.pluginToolbars[this.props.boxSelected];
                     if (!toolbar.showTextEditor) {
-                        this.onBoxDeleted(box.id, box.parent, box.container, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected);
+                        this.handleBoxes.onBoxDeleted(box.id, box.parent, box.container, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected);
                     }
                 }
             }
@@ -502,33 +495,52 @@ class EditorApp extends Component {
 
     onBackgroundChanged = (id, background) => this.props.dispatch(changeBackground(id, background));
 
-    onBoxesInsideSortableReorder = (parent, container, order) => this.props.dispatch(reorderBoxes(parent, container, order));
+    handleBoxes = {
 
-    onBoxDeleted = (id, parent, container, page) => {
-        let bx = getDescendantBoxes(this.props.boxes[id], this.props.boxes);
-        let cvs = [...this.props.boxes[id].containedViews];
-        bx.map(box=>{
-            cvs = [...cvs, ...this.props.boxes[box].containedViews];
-        });
-        this.props.dispatch(deleteBox(id,
-            parent,
-            container,
-            bx,
-            cvs,
-            page));
+        onBoxAdded: (...params) => this.props.dispatch(addBox(...params)),
+
+        onBoxDeleted: (id, parent, container, page) => {
+            let bx = getDescendantBoxes(this.props.boxes[id], this.props.boxes);
+            let cvs = [...this.props.boxes[id].containedViews];
+            bx.map(box=>{
+                cvs = [...cvs, ...this.props.boxes[box].containedViews];
+            });
+            this.props.dispatch(deleteBox(id,
+                parent,
+                container,
+                bx,
+                cvs,
+                page));
+        },
+
+        onBoxSelected: (id) => this.props.dispatch(selectBox(id, this.props.boxes[id])),
+
+        onBoxLevelIncreased: () => this.props.dispatch(increaseBoxLevel()),
+
+        onBoxMoved: (...params) => this.props.dispatch(moveBox(...params)),
+
+        onBoxResized: (id, structure) => this.props.dispatch(resizeBox(id, structure)),
+
+        onBoxDropped: (...params) => this.props.dispatch(dropBox(...params)),
+
+        onBoxesInsideSortableReorder: (parent, container, order) => this.props.dispatch(reorderBoxes(parent, container, order)),
     };
 
-    onBoxAdded = (...params) => this.props.dispatch(addBox(...params));
+    handleContainedViews = {
 
-    onBoxSelected = (id) => this.props.dispatch(selectBox(id, this.props.boxes[id]));
+        onContainedViewNameChanged: (id, titleStr) => this.props.dispatch(updateViewToolbar(id, titleStr)),
 
-    onBoxLevelIncreased = () => this.props.dispatch(increaseBoxLevel());
+        onContainedViewSelected: (id) => this.props.dispatch(selectContainedView(id)),
 
-    onBoxMoved = (...params) => this.props.dispatch(moveBox(...params));
-
-    onBoxResized = (id, structure) => this.props.dispatch(resizeBox(id, structure));
-
-    onBoxDropped = (...params) => this.props.dispatch(dropBox(...params));
+        onContainedViewDeleted: (cvid) => {
+            let boxesRemoving = [];
+            this.props.containedViews[cvid].boxes.map(boxId => {
+                boxesRemoving.push(boxId);
+                boxesRemoving = boxesRemoving.concat(getDescendantBoxes(this.props.boxes[boxId], this.props.boxes));
+            });
+            this.props.dispatch(deleteContainedView([cvid], boxesRemoving, this.props.containedViews[cvid].parent));
+        },
+    };
 
     onIndexSelected = (id) => this.props.dispatch(selectIndex(id));
 

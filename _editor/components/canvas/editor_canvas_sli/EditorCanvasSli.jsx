@@ -35,14 +35,15 @@ class EditorCanvasSli extends Component {
     };
 
     render() {
-
         // eslint-disable-next-line no-shadow
         const { addMarkShortcut, aspectRatio, boxes, boxLevelSelected, boxSelected, containedViewSelected, containedViews, deleteMarkCreator,
-            exercises, fromCV, grid, lastActionDispatched, markCreatorId, marks, navItemSelected, navItems, onBoxAdded,
-            onBoxDeleted, onBoxDropped, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxSelected, onBoxesInsideSortableReorder,
+            exercises, fromCV, grid, lastActionDispatched, markCreatorId, marks, navItemSelected, navItems,
             onMarkCreatorToggled, onRichMarkMoved, onRichMarksModalToggled, onSortableContainerResized,
             onTextEditorToggled, onTitleChanged, onToolbarUpdated, onVerticallyAlignBox, onViewTitleChanged, openConfigModal, openFileModal, pluginToolbars,
             setCorrectAnswer, showCanvas, styleConfig, title, viewToolbars } = this.props;
+
+        const { onBoxAdded, onBoxSelected, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxDropped, onBoxDeleted,
+            onBoxesInsideSortableReorder } = this.props.handleBoxes;
 
         const itemSelected = fromCV ? containedViewSelected : navItemSelected;
         const titles = getTitles(itemSelected, viewToolbars, navItems, fromCV);
@@ -55,7 +56,7 @@ class EditorCanvasSli extends Component {
         let gridOn = grid && ((containedViewSelected !== 0) === fromCV);
         return (
             <Col id={fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12}
-                className="canvasSliClass safeZone" onMouseDown={()=>{this.props.onBoxSelected(-1);}}
+                className="canvasSliClass safeZone" onMouseDown={()=>{onBoxSelected(-1);}}
                 style={{ display: containedViewSelected !== 0 && !fromCV ? 'none' : 'initial',
                     fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px',
                 }}>
@@ -118,17 +119,11 @@ class EditorCanvasSli extends Component {
                                 lastActionDispatched={lastActionDispatched}
                                 deleteMarkCreator={deleteMarkCreator}
                                 markCreatorId={markCreatorId}
-                                onBoxAdded={onBoxAdded}
-                                onBoxSelected={onBoxSelected}
-                                onBoxLevelIncreased={onBoxLevelIncreased}
-                                onBoxMoved={onBoxMoved}
+                                handleBoxes={this.props.handleBoxes}
                                 onToolbarUpdated={onToolbarUpdated}
                                 exercises={itemSelected ? (exercises[itemSelected.id].exercises[id]) : undefined}
-                                onBoxResized={onBoxResized}
                                 onRichMarkMoved={onRichMarkMoved}
                                 onSortableContainerResized={onSortableContainerResized}
-                                onBoxesInsideSortableReorder={onBoxesInsideSortableReorder}
-                                onBoxDropped={onBoxDropped}
                                 onVerticallyAlignBox={onVerticallyAlignBox}
                                 onRichMarksModalToggled={onRichMarksModalToggled}
                                 onTextEditorToggled={onTextEditorToggled}
@@ -237,7 +232,7 @@ class EditorCanvasSli extends Component {
 
     hideTitle = e => {
         if (e.target === e.currentTarget) {
-            this.props.onBoxSelected(-1);
+            this.props.handleBoxes.onBoxSelected(-1);
             this.setState({ showTitle: false });
         }
         e.stopPropagation();
@@ -296,13 +291,13 @@ class EditorCanvasSli extends Component {
                 id: (ID_PREFIX_BOX + Date.now()),
                 page: page,
             };
-            createBox(ids, name, true, this.props.onBoxAdded, this.props.boxes);
+            createBox(ids, name, true, this.props.handleBoxes.onBoxAdded, this.props.boxes);
 
         } else {
             let boxDragged = this.props.boxes[this.props.boxSelected];
             let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
             if (boxDragged.parent !== itemSelected.id && (itemSelected.id !== boxDragged.parent || !isSlide(itemSelected.id))) {
-                this.props.onBoxDropped(this.props.boxSelected,
+                this.props.handleBoxes.onBoxDropped(this.props.boxSelected,
                     0, 0, itemSelected.id, 0, boxDragged.parent, boxDragged.container, position);
             }
             let clone = document.getElementById('clone');
@@ -318,7 +313,7 @@ class EditorCanvasSli extends Component {
         this.setState({ fontBase: changeFontBase(calculated.width) });
     };
 
-    deselectBoxes = () => this.props.onBoxSelected(-1);
+    deselectBoxes = () => this.props.handleBoxes.onBoxSelected(-1);
 }
 
 export default connect(mapStateToProps)(EditorCanvasSli);

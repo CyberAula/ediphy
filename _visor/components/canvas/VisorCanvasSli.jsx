@@ -33,7 +33,7 @@ export default class VisorCanvasSli extends Component {
     }
 
     render() {
-        let { viewsArray, navItems, currentView, containedViews, viewToolbars, styleConfig } = this.props;
+        let { viewsArray, navItems, currentView, containedViews, viewToolbars, styleConfig, exercises } = this.props;
 
         let titles = [];
         let itemSelected = navItems[currentView] || containedViews[currentView];
@@ -70,7 +70,7 @@ export default class VisorCanvasSli extends Component {
         const tooltip = (
             <Tooltip id="tooltip">{thisView}</Tooltip>
         );
-        let exercises = this.props.exercises[this.props.currentView];
+        let viewExercises = exercises[currentView];
 
         return (
             <Col ref={"canvas_" + this.props.currentView}
@@ -115,13 +115,8 @@ export default class VisorCanvasSli extends Component {
                                 <a href="#"
                                     className="btnOverBar cvBackButton"
                                     style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
-                                    onClick={a => {
-                                        this.setState({ show: false }, () => {
-                                            setTimeout(this.props.removeLastView, this.TRANSITION_TIME);
-                                            a.persist();
-                                        });
-
-                                    }}><i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
+                                    onClick={this.onCloseContainedView}>
+                                    <i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
                             <VisorHeader titles={titles}
                                 onShowTitle={()=>this.setState({ showTitle: true })}
                                 courseTitle={this.props.title}
@@ -137,7 +132,7 @@ export default class VisorCanvasSli extends Component {
                                 return <VisorBox key={id}
                                     id={id}
                                     show={isVisible}
-                                    exercises={(exercises && exercises.exercises) ? exercises.exercises[id] : undefined}
+                                    exercises={(viewExercises && viewExercises.exercises) ? viewExercises.exercises[id] : undefined}
                                     boxes={this.props.boxes}
                                     changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
                                     currentView={this.props.currentView}
@@ -151,9 +146,9 @@ export default class VisorCanvasSli extends Component {
                                 />;
                             })}
 
-                            {this.props.fromPDF || !exercises || !exercises.exercises ? null : <div className={"pageFooter" + (!exercises || !exercises.exercises || Object.keys(exercises.exercises).length === 0 ? " hidden" : "")}>
-                                <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={exercises} />
-                                <Score exercises={exercises}/>
+                            {this.props.fromPDF || !viewExercises || !viewExercises.exercises ? null : <div className={"pageFooter" + (!viewExercises || !viewExercises.exercises || Object.keys(viewExercises.exercises).length === 0 ? " hidden" : "")}>
+                                <SubmitButton onSubmit={()=>{this.props.submitPage(this.props.currentView);}} exercises={viewExercises} />
+                                <Score exercises={viewExercises}/>
                             </div>}
 
                         </div>
@@ -227,6 +222,13 @@ export default class VisorCanvasSli extends Component {
     setTimeoutTransition(time) {
         return setTimeout(() => this.setState({ previousView: '' }), time);
     }
+
+    onCloseContainedView = (event) => {
+        this.setState({ show: false }, () => {
+            setTimeout(this.props.removeLastView, this.TRANSITION_TIME);
+            event.persist();
+        });
+    };
 
     componentWillUpdate(nextProps, nextState) {
         // Manage transition so animation in and out are simultaneous

@@ -32,6 +32,9 @@ class EditorBox extends Component {
      */
     render() {
 
+        const { onBoxAdded, onBoxSelected, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxDropped, onBoxDeleted,
+            onBoxesInsideSortableReorder } = this.props.handleBoxes;
+
         const cornerSize = 15;
         const box = this.props.boxes[this.props.id];
         const toolbar = this.props.pluginToolbars[this.props.id];
@@ -162,7 +165,7 @@ class EditorBox extends Component {
                         }
                         // If it is a box inside another box, you are only allowed to select it if you have its parent box selected
                         if (box.level < 1 || box.level < this.props.boxLevelSelected || isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
-                            this.props.onBoxSelected(this.props.id);
+                            onBoxSelected(this.props.id);
                         }
                     }
                     e.stopPropagation();
@@ -183,7 +186,7 @@ class EditorBox extends Component {
                 <MarkCreator
                     addMarkShortcut={this.props.addMarkShortcut}
                     deleteMarkCreator={this.props.deleteMarkCreator}
-                    onBoxAdded={this.props.onBoxAdded}
+                    onBoxAdded={onBoxAdded}
                     boxSelected={this.props.boxSelected}
                     containedViews={this.props.containedViews}
                     toolbar={toolbar ? toolbar : {}}
@@ -391,7 +394,7 @@ class EditorBox extends Component {
                 onstart: (event) => {
                     event.stopPropagation();
                     if (this.props.boxSelected !== this.props.id) {
-                        this.props.onBoxSelected(this.props.id);
+                        this.props.handleBoxes.onBoxSelected(this.props.id);
                     }
                     container = this.props.boxes[this.props.id].container;
                     // If contained in smth different from ContainedCanvas (sortableContainer || PluginPlaceHolder), clone the node and hide the original
@@ -562,7 +565,7 @@ class EditorBox extends Component {
                     let containerHoverID = releaseClick(releaseClickEl, 'sc-');
                     // TODO Comentar?
                     if (box.container === 0) {
-                        this.props.onBoxMoved(
+                        this.props.handleBoxes.onBoxMoved(
                             this.props.id,
                             isSortableContainer(box.container) ? left : absoluteLeft,
                             isSortableContainer(box.container) ? top : absoluteTop,
@@ -699,7 +702,7 @@ class EditorBox extends Component {
                     target.style.width = widthButton.value === 'auto' ? 'auto' : widthButton.value + widthButton.units;
                     target.style.height = heightButton.value === 'auto' ? 'auto' : heightButton.value + heightButton.units;
 
-                    this.props.onBoxResized(this.props.id, {
+                    this.props.handleBoxes.onBoxResized(this.props.id, {
                         width: widthButton.value,
                         widthUnit: widthButton.units,
                         height: heightButton.value,

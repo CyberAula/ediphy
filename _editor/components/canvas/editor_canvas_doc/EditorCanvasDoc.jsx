@@ -13,11 +13,13 @@ import { connect } from "react-redux";
 
 class EditorCanvasDoc extends Component {
     render() {
-        const { aspectRatio, boxes, boxSelected, containedViewSelected, containedViews,
-            exercises, fromCV, lastActionDispatched, marks, navItemSelected, navItems,
-            onBoxDeleted, onBoxResized, onBoxSelected, onMarkCreatorToggled, onTextEditorToggled,
+        const { aspectRatio, boxes, boxSelected, boxLevelSelected, containedViewSelected, containedViews,
+            exercises, fromCV, lastActionDispatched, marks, navItemSelected, navItems, onMarkCreatorToggled, onTextEditorToggled,
             onTitleChanged, onToolbarUpdated, onViewTitleChanged, openConfigModal,
             openFileModal, pluginToolbars, styleConfig, title, viewToolbars } = this.props;
+
+        const { onBoxAdded, onBoxSelected, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxDropped, onBoxDeleted,
+            onBoxesInsideSortableReorder } = this.props.handleBoxes;
 
         const itemSelected = fromCV ? containedViewSelected : navItemSelected;
         const titles = getTitles(itemSelected, viewToolbars, navItems, fromCV);
@@ -77,8 +79,35 @@ class EditorCanvasDoc extends Component {
                                     if (!isSortableBox(id)) {
                                         return null;
                                     }
-                                    return <EditorBoxSortable key={id} {...commonProps}
-                                        id={id} exercises={exercises} page={itemSelected ? itemSelected.id : 0} themeColors={colors} />;
+                                    return <EditorBoxSortable
+                                        key={id} { ...commonProps }
+                                        id={id}
+                                        boxes={boxes}
+                                        boxSelected={boxSelected}
+                                        boxLevelSelected={boxLevelSelected}
+                                        containedViews={containedViews}
+                                        containedViewSelected={containedViewSelected}
+                                        pluginToolbars={pluginToolbars}
+                                        lastActionDispatched={lastActionDispatched}
+                                        addMarkShortcut={this.props.addMarkShortcut}
+                                        deleteMarkCreator={this.props.deleteMarkCreator}
+                                        markCreatorId={this.props.markCreatorId}
+                                        handleBoxes = {this.props.handleBoxes}
+                                        onVerticallyAlignBox={this.props.onVerticallyAlignBox}
+                                        onSortableContainerDeleted={this.props.onSortableContainerDeleted}
+                                        onSortableContainerReordered={this.props.onSortableContainerReordered}
+                                        onSortableContainerResized={this.props.onSortableContainerResized}
+                                        onTextEditorToggled={this.props.onTextEditorToggled}
+                                        pageType={itemSelected.type || 0}
+                                        onRichMarksModalToggled={this.props.onRichMarksModalToggled}
+                                        onRichMarkMoved={this.props.onRichMarkMoved}
+                                        exercises={exercises}
+                                        setCorrectAnswer={this.props.setCorrectAnswer}
+                                        page={itemSelected ? itemSelected.id : 0}
+                                        marks={marks}
+                                        onToolbarUpdated={onToolbarUpdated}
+                                        themeColors={colors}
+                                    />;
                                 })}
                             </div>
                         </div>

@@ -30,13 +30,17 @@ export default class EditorBoxSortable extends Component {
      * @returns {code} React rendered component
      */
     render() {
+
+        const { onBoxAdded, onBoxSelected, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxDropped, onBoxDeleted,
+            onBoxesInsideSortableReorder } = this.props.handleBoxes;
+
         let box = this.props.boxes[this.props.id];
         return (
             <div className="editorBoxSortable"
                 onMouseDown={e => {
                     if (e.target === e.currentTarget || e.target.classList.contains('colDist-j')) {
                         if(box.children.length !== 0) {
-                            this.props.onBoxSelected(this.props.id);
+                            onBoxSelected(this.props.id);
                         }
                     }
                     e.stopPropagation();
@@ -97,16 +101,10 @@ export default class EditorBoxSortable extends Component {
                                                                 exercises={(this.props.page && this.props.exercises[this.props.page]) ? (this.props.exercises[this.props.page].exercises[idBox]) : undefined}
                                                                 markCreatorId={this.props.markCreatorId}
                                                                 marks={this.props.marks}
-                                                                onBoxAdded={this.props.onBoxAdded}
-                                                                onBoxSelected={this.props.onBoxSelected}
-                                                                onBoxLevelIncreased={this.props.onBoxLevelIncreased}
+                                                                handleBoxes={this.props.handleBoxes}
                                                                 onRichMarkMoved={this.props.onRichMarkMoved}
-                                                                onBoxMoved={this.props.onBoxMoved}
                                                                 onToolbarUpdated={this.props.onToolbarUpdated}
-                                                                onBoxResized={this.props.onBoxResized}
-                                                                onBoxDropped={this.props.onBoxDropped}
                                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                                                onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                                                 onTextEditorToggled={this.props.onTextEditorToggled}
                                                                 onRichMarksModalToggled={this.props.onRichMarksModalToggled}
