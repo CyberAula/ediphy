@@ -390,7 +390,6 @@ class RichMarksModal extends Component {
                     close={this.toggleTemplatesModal}
                     navItems={this.props.navItems}
                     boxes={this.props.boxes}
-                    // onNavItemAdded={(id, name, type, color, num, extra)=> {this.props.onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra);}}
                     onIndexSelected={this.props.onIndexSelected}
                     indexSelected={this.props.indexSelected}
                     onBoxAdded={this.props.onBoxAdded}

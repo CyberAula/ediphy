@@ -172,7 +172,7 @@ class EditorApp extends Component {
                     onBoxAdded={this.handleBoxes.onBoxAdded}
                     handleMarks={this.handleMarks}
                     onRichMarkAdded={this.handleMarks.onRichMarkAdded}
-                    onRichMarkUpdated={this.handleMarks.onRichMarkUpdated}
+                    onRichMarkUpdated={(mark, view, viewToolbar) => this.props.dispatch(editRichMark(mark, view, viewToolbar))}
                     onRichMarksModalToggled={this.handleMarks.onRichMarksModalToggled}
                 />
                 <Toolbar
@@ -510,6 +510,7 @@ class EditorApp extends Component {
         onRichMarkEditPressed: (mark) => this.props.dispatch(updateUI({ currentRichMark: mark })),
 
         onRichMarkUpdated: (mark, createNew) => {
+            console.log('hola');
             let boxSelected = this.props.boxSelected;
             let mark_exist = this.props.marks[mark.id] !== undefined;
             if (mark_exist) {

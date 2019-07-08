@@ -77,6 +77,7 @@ export default function(state = {}, action = {}) {
             },
         };
     case EDIT_RICH_MARK:
+        console.log(action, state);
         newMark = { ...action.payload.mark };
         if (newMark.connectMode === "new") {
             newMark.connectMode = "existing";

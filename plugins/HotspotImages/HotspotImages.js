@@ -153,7 +153,7 @@ export function HotspotImages(base) {
                     position = [0, 0];
                 }
                 return (
-                    <MarkEditor key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} time={1.5} onRichMarkMoved={props.onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
+                    <MarkEditor key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} time={1.5} onRichMarkMoved={props.handleMarks.onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
                         <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} idKey={id} title={title} />
                     </MarkEditor>
                 );

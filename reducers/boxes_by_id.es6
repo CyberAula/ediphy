@@ -523,6 +523,7 @@ export default function(state = {}, action = {}) {
         return changeProp(updatedState, action.payload.id, boxReducer(updatedState[action.payload.id], action));
     case ADD_RICH_MARK:
     case EDIT_RICH_MARK:
+        console.log(action, state);
         // If rich mark is connected to a contained view (new or existing), mark.connection will include this information;
         // otherwise, it's just the id/url and we're not interested
         if ((action.payload.mark.id && action.payload.view && isContainedView(action.payload.view.id)) && (action.payload.mark.connectMode === "new" || action.payload.mark.connectMode === "existing")) {
