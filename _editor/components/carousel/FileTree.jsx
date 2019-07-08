@@ -80,9 +80,9 @@ class FileTree extends Component {
 
         if (newParentId !== 0) {
             let shouldChildExpand = movedItem.type === 'file' && this.props.navItems[newParentId].isExpanded;
-            this.props.onNavItemExpanded(movedItem.id, shouldChildExpand);
+            this.props.handleNavItems.onNavItemExpanded(movedItem.id, shouldChildExpand);
         }
-        this.props.onNavItemReordered(movedItem.id, newParentId, oldParentId, idsInOrder, childrenInOrder);
+        this.props.handleNavItems.onNavItemReordered(movedItem.id, newParentId, oldParentId, idsInOrder, childrenInOrder);
     };
 
     getImmediateDescendants = (items, parentId) => {
@@ -98,14 +98,14 @@ class FileTree extends Component {
         const expandedItemId = items[index].id;
         const expands = items[index].collapsed;
 
-        this.props.onNavItemExpanded(expandedItemId, expands);
+        this.props.handleNavItems.onNavItemExpanded(expandedItemId, expands);
 
         if (!expands) {
-            descendants.forEach(item => this.props.onNavItemExpanded(item.id, expands));
+            descendants.forEach(item => this.props.handleNavItems.onNavItemExpanded(item.id, expands));
         } else {
             descendants.forEach(item => {
                 const immediateChild = item.path.slice(-1)[0] === parentId;
-                if (immediateChild && item.type !== "folder") { this.props.onNavItemExpanded(item.id, expands); }
+                if (immediateChild && item.type !== "folder") { this.props.handleNavItems.onNavItemExpanded(item.id, expands); }
             });
         }
     };
@@ -113,8 +113,8 @@ class FileTree extends Component {
     renderItem = (props) => { return <ItemRenderer {...props}
         onToggleCollapse={this.handleToggleCollapse}
         onIndexSelected = {this.props.onIndexSelected}
-        onNavItemSelected={this.props.onNavItemSelected}
-        onNavItemNameChanged={this.props.onNavItemNameChanged}
+        onNavItemSelected={this.props.handleNavItems.onNavItemSelected}
+        onNavItemNameChanged={this.props.handleNavItems.onNavItemNameChanged}
         navItems={this.props.navItems}
         viewToolbars={this.props.viewToolbars}
         containedViewSelected={this.props.containedViewSelected}
@@ -136,6 +136,9 @@ class FileTree extends Component {
 
     render() {
         if (!this.props.carouselShow) { return (<div style={{ height: "100%" }}><br /></div>); }
+
+        const { onNavItemDuplicated, onNavItemNameChanged, onNavItemAdded, onNavItemSelected,
+            onNavItemExpanded, onNavItemDeleted, onNavItemReordered } = this.props.handleNavItems;
 
         return (
             <div className={"carousselListContainer"} style={{ height: '100%' }}>
@@ -175,25 +178,12 @@ class FileTree extends Component {
                 <ContainedViewsList
                     showContainedViews = {this.state.showContainedViews}
                     showSortableItems = {this.state.showSortableItems}
-                    carouselShow={this.props.carouselShow}
                     containedViews={this.props.containedViews}
                     containedViewSelected={this.props.containedViewSelected}
-                    boxes={this.props.boxes}
-                    navItemsIds={this.props.navItemsIds}
-                    navItems={this.props.navItems}
-                    navItemSelected={this.props.navItemSelected}
                     indexSelected={this.props.indexSelected}
-                    onBoxAdded={this.props.onBoxAdded}
-                    onContainedViewDeleted={this.props.onContainedViewDeleted}
                     onContainedViewSelected={this.props.onContainedViewSelected}
                     onContainedViewNameChanged={this.props.onContainedViewNameChanged}
-                    onNavItemNameChanged={this.props.onNavItemNameChanged}
-                    onNavItemAdded={this.props.onNavItemAdded}
-                    onNavItemSelected={this.props.onNavItemSelected}
                     onIndexSelected={this.props.onIndexSelected}
-                    onNavItemExpanded={this.props.onNavItemExpanded}
-                    onNavItemDeleted={this.props.onNavItemDeleted}
-                    onNavItemReordered={this.props.onNavItemReordered}
                     viewToolbars={this.props.viewToolbars}
                 />
             </div>

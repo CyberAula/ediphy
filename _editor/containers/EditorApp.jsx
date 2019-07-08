@@ -89,13 +89,7 @@ class EditorApp extends Component {
                         onContainedViewSelected={this.handleContainedViews.onContainedViewSelected}
                         onContainedViewDeleted={this.handleContainedViews.onContainedViewDeleted}
                         onIndexSelected={this.onIndexSelected}
-                        onNavItemNameChanged={this.onNavItemNameChanged}
-                        onNavItemAdded={this.onNavItemAdded}
-                        onNavItemSelected={this.onNavItemSelected}
-                        onNavItemExpanded={this.onNavItemExpanded}
-                        onNavItemDuplicated={this.duplicateNavItem}
-                        onNavItemDeleted={this.onNavItemDeleted}
-                        onNavItemReordered={this.onNavItemReordered}
+                        handleNavItems={this.handleNavItems}
                         onTitleChanged={this.onTitleChanged}
                     />
 
@@ -124,6 +118,13 @@ class EditorApp extends Component {
                                 lastActionDispatched={lastActionDispatched}
                                 moveRichMark={this.onRichMarkMoved}
                                 handleBoxes = {this.handleBoxes}
+                                onBoxSelected={this.handleBoxes.onBoxSelected}
+                                onBoxLevelIncreased={this.handleBoxes.onBoxLevelIncreased}
+                                onBoxAdded={this.handleBoxes.onBoxAdded}
+                                onBoxMoved={this.handleBoxes.onBoxMoved}
+                                onBoxResized={this.handleBoxes.onBoxResized}
+                                onBoxDropped={this.handleBoxes.onBoxDropped}
+                                onBoxDeleted={this.handleBoxes.onBoxDeleted}
                                 onContainedViewSelected={this.handleContainedViews.onContainedViewSelected}
                                 onMarkCreatorToggled={this.onMarkCreatorToggled}
                                 onRichMarksModalToggled={this.toggleRichMarksModal}
@@ -146,13 +147,14 @@ class EditorApp extends Component {
                                 lastActionDispatched={lastActionDispatched}
                                 moveRichMark={this.onRichMarkMoved}
                                 onContainedViewSelected={this.onContainedViewSelected}
-                                onBoxSelected={this.handleBoxes.onBoxSelected}
-                                onBoxLevelIncreased={this.handleBoxes.onBoxLevelIncreased}
+                                handleBoxes = {this.handleBoxes}
                                 onBoxAdded={this.handleBoxes.onBoxAdded}
                                 onBoxMoved={this.handleBoxes.onBoxMoved}
                                 onBoxResized={this.handleBoxes.onBoxResized}
                                 onBoxDropped={this.handleBoxes.onBoxDropped}
                                 onBoxDeleted={this.handleBoxes.onBoxDeleted}
+                                onBoxSelected={this.handleBoxes.onBoxSelected}
+                                onBoxLevelIncreased={this.handleBoxes.onBoxLevelIncreased}
                                 onBoxesInsideSortableReorder={this.handleBoxes.onBoxesInsideSortableReorder}
                                 onMarkCreatorToggled={this.onMarkCreatorToggled}
                                 onRichMarksModalToggled={this.toggleRichMarksModal}
@@ -364,44 +366,6 @@ class EditorApp extends Component {
         this.props.dispatch(updateUI({ blockDrag: false }));
     };
 
-    duplicateNavItem = (id) => {
-        if (id && this.props.navItems[id]) {
-            let newBoxes = [];
-            let navItem = this.props.navItems[id];
-            let linkedCVs = {};
-            if (navItem.boxes) {
-                newBoxes = newBoxes.concat(navItem.boxes);
-                navItem.boxes.forEach(b => {
-                    let box = this.props.boxes[b];
-                    if (box.sortableContainers) {
-                        for (let sc in box.sortableContainers) {
-                            if (box.sortableContainers[sc].children) {
-                                newBoxes = newBoxes.concat(box.sortableContainers[sc].children);
-                                box.sortableContainers[sc].children.forEach(bo => {
-                                    let bx = this.props.boxes[bo];
-                                    if (bx.sortableContainers) {
-                                        for (let scc in bx.sortableContainers) {
-                                            if (bx.sortableContainers[scc].children) {
-                                                newBoxes = newBoxes.concat(bx.sortableContainers[scc].children);
-
-                                            }
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    }
-                });
-            }
-            let newBoxesMap = {};
-            newBoxes.map(box => {
-                linkedCVs[box] = [...this.props.boxes[box].containedViews];
-                newBoxesMap[box] = box + Date.now(); });
-
-            this.props.dispatch(duplicateNavItem(id, id + Date.now(), newBoxesMap, Date.now(), linkedCVs));
-        }
-    };
-
     exitListener = () => alert('Please press the Logout button to logout.');
 
     exportResource = (format, callback, options) => {
@@ -458,7 +422,7 @@ class EditorApp extends Component {
         }
         // Ctrl + A
         if (key === 192 && e.ctrlKey) {
-            this.duplicateNavItem(this.props.navItemSelected);
+            this.handleNavItems.onNavItemDuplicated(this.props.navItemSelected);
         }
 
         if (key === 80 && e.ctrlKey && e.shiftKey) {
@@ -542,22 +506,133 @@ class EditorApp extends Component {
         },
     };
 
+    handleNavItems = {
+
+        onNavItemNameChanged: (id, titleStr) => this.props.dispatch(updateViewToolbar(id, titleStr)),
+
+        onNavItemAdded: (id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => {
+            this.props.dispatch(addNavItem(
+                id,
+                name,
+                parent,
+                type,
+                position,
+                background,
+                customSize,
+                hideTitles,
+                (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content)),
+                sortable_id));
+        },
+
+        onNavItemsAdded: (navs, parent) => this.props.dispatch(addNavItems(navs, parent)),
+
+        onNavItemDuplicated: (id) => {
+            if (id && this.props.navItems[id]) {
+                let newBoxes = [];
+                let navItem = this.props.navItems[id];
+                let linkedCVs = {};
+                if (navItem.boxes) {
+                    newBoxes = newBoxes.concat(navItem.boxes);
+                    navItem.boxes.forEach(b => {
+                        let box = this.props.boxes[b];
+                        if (box.sortableContainers) {
+                            for (let sc in box.sortableContainers) {
+                                if (box.sortableContainers[sc].children) {
+                                    newBoxes = newBoxes.concat(box.sortableContainers[sc].children);
+                                    box.sortableContainers[sc].children.forEach(bo => {
+                                        let bx = this.props.boxes[bo];
+                                        if (bx.sortableContainers) {
+                                            for (let scc in bx.sortableContainers) {
+                                                if (bx.sortableContainers[scc].children) {
+                                                    newBoxes = newBoxes.concat(bx.sortableContainers[scc].children);
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                }
+                let newBoxesMap = {};
+                newBoxes.map(box => {
+                    linkedCVs[box] = [...this.props.boxes[box].containedViews];
+                    newBoxesMap[box] = box + Date.now(); });
+                console.log(id, id + Date.now(), newBoxesMap, Date.now(), linkedCVs);
+                this.props.dispatch(duplicateNavItem(id, id + Date.now(), newBoxesMap, Date.now(), linkedCVs));
+            }
+        },
+
+        onNavItemSelected: (id) => this.props.dispatch(selectNavItem(id)),
+
+        onNavItemExpanded: (id, value) => this.props.dispatch(expandNavItem(id, value)),
+
+        onNavItemDeleted: (navsel) => {
+            let viewRemoving = [navsel].concat(this.getDescendantViews(this.props.navItems[navsel]));
+            let boxesRemoving = [];
+            let containedRemoving = {};
+            viewRemoving.map(id => {
+                this.props.navItems[id].boxes.map(boxId => {
+                    boxesRemoving.push(boxId);
+                    boxesRemoving = boxesRemoving.concat(getDescendantBoxes(this.props.boxes[boxId], this.props.boxes));
+                });
+            });
+            let marksRemoving = getDescendantLinkedBoxes(viewRemoving, this.props.navItems) || [];
+            dispatch(deleteNavItem(
+                viewRemoving,
+                this.props.navItems[navsel].parent,
+                boxesRemoving,
+                containedRemoving,
+                marksRemoving));
+        },
+
+        onNavItemReordered: (...params) => this.props.dispatch(reorderNavItem(...params)),
+
+        onNavItemToggled: () => this.props.dispatch(toggleNavItem(navItemSelected)),
+    };
+
+    handleSortableContainers = {
+
+        onSortableContainerResized: (id, parent, height) => this.props.dispatch(resizeSortableContainer(id, parent, height)),
+
+        onSortableContainerReordered: (ids, parent) => this.props.dispatch(reorderSortableContainer(ids, parent)),
+
+        onSortableContainerDeleted: (id, parent) => {
+            let boxes = this.props.boxes;
+            let containedViews = this.props.containedViews;
+            let page = this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
+            let descBoxes = getDescendantBoxesFromContainer(boxes[parent], id, this.props.boxes, this.props.containedViews);
+            let cvs = {};
+            for (let b in descBoxes) {
+                let box = boxes[descBoxes[b]];
+                for (let cv in box.containedViews) {
+                    if (!cvs[box.containedViews[cv]]) {
+                        cvs[box.containedViews[cv]] = [box.id];
+                    } else if (cvs[containedViews[cv]].indexOf(box.id) === -1) {
+                        cvs[box.containedViews[cv]].push(box.id);
+                    }
+                }
+            }
+            this.props.dispatch(deleteSortableContainer(id, parent, descBoxes, cvs, page));
+        },
+    };
+
     onIndexSelected = (id) => this.props.dispatch(selectIndex(id));
 
     onColsChanged = (...params) => this.props.dispatch(changeCols(...params));
 
-    onContainedViewNameChanged = (id, titleStr) => this.props.dispatch(updateViewToolbar(id, titleStr));
+        onContainedViewNameChanged = (id, titleStr) => this.props.dispatch(updateViewToolbar(id, titleStr));
 
-    onContainedViewSelected = (id) => this.props.dispatch(selectContainedView(id));
+        onContainedViewSelected = (id) => this.props.dispatch(selectContainedView(id));
 
-    onContainedViewDeleted = (cvid) => {
-        let boxesRemoving = [];
-        this.props.containedViews[cvid].boxes.map(boxId => {
-            boxesRemoving.push(boxId);
-            boxesRemoving = boxesRemoving.concat(getDescendantBoxes(this.props.boxes[boxId], this.props.boxes));
-        });
-        this.props.dispatch(deleteContainedView([cvid], boxesRemoving, this.props.containedViews[cvid].parent));
-    };
+        onContainedViewDeleted = (cvid) => {
+            let boxesRemoving = [];
+            this.props.containedViews[cvid].boxes.map(boxId => {
+                boxesRemoving.push(boxId);
+                boxesRemoving = boxesRemoving.concat(getDescendantBoxes(this.props.boxes[boxId], this.props.boxes));
+            });
+            this.props.dispatch(deleteContainedView([cvid], boxesRemoving, this.props.containedViews[cvid].parent));
+        };
 
     onGridToggle = () => this.props.dispatch(updateUI({ grid: !this.props.reactUI.grid }));
 

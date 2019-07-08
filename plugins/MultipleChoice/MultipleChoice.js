@@ -122,7 +122,6 @@ export function MultipleChoice(base) {
             };
         },
         getRenderTemplate: function(state, props = {}) {
-
             let answers = [];
             let correctAnswers = "";
             let quizColor = state.quizColor.color;

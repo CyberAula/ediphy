@@ -52,7 +52,7 @@ class CarouselButtons extends Component {
 
         for (let child of children) {
             if (this.props.navItems[child].type !== 'section') {
-                this.props.onNavItemExpanded(child, true);
+                this.props.handleNavItems.onNavItemExpanded(child, true);
             }
         }
     };
@@ -107,6 +107,8 @@ class CarouselButtons extends Component {
     render() {
         const dispatch = this.props.dispatch;
         const { boxes, containedViews, indexSelected, navItems, navItemsIds, carouselShow } = this.props;
+        const { onNavItemAdded, onNavItemExpanded, onNavItemDuplicated, onNavItemDeleted } = this.props.handleNavItems;
+
         return (
             <div id="addbuttons" className="bottomGroup" style={{ display: carouselShow ? 'block' : 'none' }}>
                 <div className="bottomLine" />
@@ -133,7 +135,7 @@ class CarouselButtons extends Component {
                     </Tooltip>}>
                     <Button className="carouselButton"
                         name="newSlide"
-                        disabled={isContainedView(this.props.indexSelected)}
+                        disabled={isContainedView(indexSelected)}
                         onClick={e => {
                             this.toggleTemplatesModal();
                         }}><i className="material-icons">slideshow</i>
@@ -144,9 +146,9 @@ class CarouselButtons extends Component {
                     </Tooltip>}>
                     <Button className="carouselButton"
                         name="duplicateNav"
-                        disabled={ this.props.indexSelected === 0 || isContainedView(this.props.indexSelected) || isSection(this.props.indexSelected)}
+                        disabled={ indexSelected === 0 || isContainedView(indexSelected) || isSection(indexSelected)}
                         onClick={e => {
-                            this.props.onNavItemDuplicated(this.props.indexSelected);
+                            onNavItemDuplicated(indexSelected);
                         }}>
                         <i className="material-icons">control_point_duplicate </i>
                     </Button>
@@ -156,7 +158,7 @@ class CarouselButtons extends Component {
                     </Tooltip>}>
                     <Button className="carouselButton"
                         name="delete"
-                        disabled={this.props.indexSelected === 0}
+                        disabled={indexSelected === 0}
                         onClick={() => this.setState({ showOverlay: true })}
                         ref={button => {this.overlayTarget = button;}}
                         style={{ float: 'right' }}>
@@ -171,17 +173,17 @@ class CarouselButtons extends Component {
                     target={() => ReactDOM.findDOMNode(this.overlayTarget)}
                     onHide={() => this.setState({ showOverlay: false })}>
                     <Popover id="popov" title={
-                        isSection(this.props.indexSelected) ? i18n.t("delete_section") :
-                            isContainedView(this.props.indexSelected) ? i18n.t('delete_contained_canvas') :
+                        isSection(indexSelected) ? i18n.t("delete_section") :
+                            isContainedView(indexSelected) ? i18n.t('delete_contained_canvas') :
                                 i18n.t("delete_page")}>
                         <i style={{ color: 'yellow', fontSize: '13px', padding: '0 5px' }} className="material-icons">warning</i>
-                        {isSection(this.props.indexSelected) ? i18n.t("messages.delete_section") :
-                            (isContainedView(this.props.indexSelected) && !this.canDeleteContainedView(this.props.indexSelected)) ? i18n.t("messages.delete_busy_cv") : i18n.t("messages.delete_page")}
+                        {isSection(indexSelected) ? i18n.t("messages.delete_section") :
+                            (isContainedView(indexSelected) && !this.canDeleteContainedView(indexSelected)) ? i18n.t("messages.delete_busy_cv") : i18n.t("messages.delete_page")}
                         <br/>
                         <br/>
                         <Button className="popoverButton"
                             name="popoverCancelButton"
-                            disabled={this.props.indexSelected === 0}
+                            disabled={indexSelected === 0}
                             onClick={() => this.setState({ showOverlay: false })}
                             style={{ float: 'right' }} >
                             {i18n.t("Cancel")}
@@ -189,7 +191,7 @@ class CarouselButtons extends Component {
 
                         <Button className="popoverButton"
                             name="popoverAcceptButton"
-                            disabled={/* (isContainedView(this.props.indexSelected) && !this.canDeleteContainedView(this.props.indexSelected)) || */this.props.indexSelected === 0}
+                            disabled={indexSelected === 0}
                             style={{ float: 'right' }}
                             onClick={this.deleteItem}>
                             {i18n.t("Accept")}
@@ -200,13 +202,13 @@ class CarouselButtons extends Component {
                 <TemplatesModal
                     show={this.state.showTemplates}
                     close={this.toggleTemplatesModal}
-                    navItems={this.props.navItems}
-                    boxes={this.props.boxes}
+                    navItems={navItems}
+                    boxes={boxes}
                     onNavItemAdded={(id, name, type, color, num, extra) => {
-                        this.props.onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra);
+                        onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra);
                         this.expandSiblings(this.getParent().id);}}
                     onIndexSelected={this.props.onIndexSelected}
-                    indexSelected={this.props.indexSelected}
+                    indexSelected={indexSelected}
                     onBoxAdded={this.props.onBoxAdded}
                     calculatePosition={this.calculatePosition}/>
             </div>
@@ -232,7 +234,7 @@ class CarouselButtons extends Component {
             "#ffffff",
             0,
             false,
-            false,
+            true,
             ID_PREFIX_SORTABLE_BOX + Date.now(),
         ));
         this.expandSiblings(this.getParent().id);

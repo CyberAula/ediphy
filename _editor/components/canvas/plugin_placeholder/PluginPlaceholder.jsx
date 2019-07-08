@@ -66,6 +66,7 @@ export default class PluginPlaceholder extends Component {
                                             return (<EditorBox id={idBox}
                                                 key={index}
                                                 boxes={this.props.boxes}
+                                                handleBoxes={this.props.handleBoxes}
                                                 boxSelected={this.props.boxSelected}
                                                 boxLevelSelected={this.props.boxLevelSelected}
                                                 containedViewSelected={this.props.containedViewSelected}

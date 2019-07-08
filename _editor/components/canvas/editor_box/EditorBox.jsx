@@ -630,22 +630,10 @@ class EditorBox extends Component {
                     let cos = Math.cos(toolbar.structure.rotation * Math.PI / 180);
                     let sin = Math.sin(toolbar.structure.rotation * Math.PI / 180);
                     let r = cos * cos - sin * sin;
-                    // target.style.width = (h*sin-w*cos) + 'px';
-                    // target.style.height = (h*cos-w*sin) + 'px';
 
                     target.style.width = (w * cos - h * sin) / r + 'px';
                     target.style.height = (h * cos - w * sin) / r + 'px';
 
-                    // toolbar =   this.props.pluginToolbars[this.props.id];
-                    //
-                    // let cos = Math.cos(toolbar.structure.rotation*Math.PI /180);
-                    // let sin = Math.sin(toolbar.structure.rotation*Math.PI /180);
-                    // console.log(event.rect.width, event.rect.height)
-                    // // target.style.width = (event.rect.height * cos + event.rect.width* sin  ) + "px";
-                    // // target.style.height =  (event.rect.height * sin + event.rect.width* cos  ) + "px";
-                    // target.style.width = (event.rect.width * sin) + "px";
-                    // target.style.height = (event.rect.width * cos) + "px";
-                    // translate when resizing from top or left edges
                     x += event.deltaRect.left;
                     y += event.deltaRect.top;
                     if(box.resizable) { // Only in slide

@@ -20,6 +20,7 @@ class EditorCarousel extends Component
      * @returns {code}
      */
     render() {
+
         return (
             <div id="colLeft" className="wrapperCarousel"
                 style={{
@@ -31,7 +32,8 @@ class EditorCarousel extends Component
                     carouselShow={this.props.carouselShow}
                     courseTitle={this.props.title}
                     onTitleChanged={this.props.onTitleChanged}
-                    onToggleWidth={this.onToggleWidth} />
+                    onToggleWidth={this.onToggleWidth}
+                />
                 <FileTree
                     carouselShow={this.props.carouselShow}
                     containedViews={this.props.containedViews}
@@ -45,23 +47,16 @@ class EditorCarousel extends Component
                     onContainedViewDeleted={this.props.onContainedViewDeleted}
                     onContainedViewSelected={this.props.onContainedViewSelected}
                     onContainedViewNameChanged={this.props.onContainedViewNameChanged}
-                    onNavItemNameChanged={this.props.onNavItemNameChanged}
-                    onNavItemAdded={this.props.onNavItemAdded}
-                    onNavItemSelected={this.props.onNavItemSelected}
                     onIndexSelected={this.props.onIndexSelected}
-                    onNavItemExpanded={this.props.onNavItemExpanded}
-                    onNavItemDeleted={this.props.onNavItemDeleted}
-                    onNavItemReordered={this.props.onNavItemReordered}
+                    handleNavItems = {this.props.handleNavItems}
                     viewToolbars={this.props.viewToolbars}
                 />
                 <CarouselButtons
                     carouselShow={this.props.carouselShow}
-                    onNavItemAdded={this.props.onNavItemAdded}
                     onBoxAdded={this.props.onBoxAdded}
-                    onNavItemExpanded={this.props.onNavItemExpanded}
                     onIndexSelected={this.props.onIndexSelected}
-                    onNavItemDuplicated={this.props.onNavItemDuplicated}
-                    onNavItemDeleted={this.props.onNavItemDeleted} />
+                    handleNavItems={this.props.handleNavItems}
+                />
             </div>
         );
     }

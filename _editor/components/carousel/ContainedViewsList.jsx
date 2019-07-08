@@ -8,6 +8,7 @@ import CarouselList from "./carousel_list/CarouselList";
 export default class ContainedViewsList extends Component {
 
     render() {
+
         let containedViewsIncluded = Object.keys(this.props.containedViews).length > 0;
         return (<div className="containedViewsList" style={{ height: (this.props.showContainedViews) ? ((this.props.showSortableItems) ? "calc(50% - 126px)" : "calc(100% - 126px)") : "0px",
             display: 'block', overflowY: 'auto', overflowX: 'hidden' }}>
