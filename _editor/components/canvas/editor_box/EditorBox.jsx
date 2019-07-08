@@ -35,6 +35,8 @@ class EditorBox extends Component {
         const { onBoxAdded, onBoxSelected, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxDropped, onBoxDeleted,
             onBoxesInsideSortableReorder } = this.props.handleBoxes;
 
+        const { addMarkShortcut, deleteMarkCreator, onMarkCreatorToggled, onRichMarkMoved, onRichMarksModalToggled } = this.props.handleMarks;
+
         const cornerSize = 15;
         const box = this.props.boxes[this.props.id];
         const toolbar = this.props.pluginToolbars[this.props.id];
@@ -184,8 +186,8 @@ class EditorBox extends Component {
                     onBlur={this.blurTextarea}/> : null}
                 <div className="boxOverlay" style={{ display: showOverlay }} />
                 <MarkCreator
-                    addMarkShortcut={this.props.addMarkShortcut}
-                    deleteMarkCreator={this.props.deleteMarkCreator}
+                    addMarkShortcut={addMarkShortcut}
+                    deleteMarkCreator={deleteMarkCreator}
                     onBoxAdded={onBoxAdded}
                     boxSelected={this.props.boxSelected}
                     containedViews={this.props.containedViews}
@@ -194,7 +196,7 @@ class EditorBox extends Component {
                     markCreatorId={this.props.markCreatorId}
                     currentId={this.props.id}
                     pageType={this.props.pageType}
-                    onRichMarksModalToggled={this.props.onRichMarksModalToggled} />
+                    onRichMarksModalToggled={onRichMarksModalToggled} />
             </div>
         );
     }

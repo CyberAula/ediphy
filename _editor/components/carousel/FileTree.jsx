@@ -181,8 +181,7 @@ class FileTree extends Component {
                     containedViews={this.props.containedViews}
                     containedViewSelected={this.props.containedViewSelected}
                     indexSelected={this.props.indexSelected}
-                    onContainedViewSelected={this.props.onContainedViewSelected}
-                    onContainedViewNameChanged={this.props.onContainedViewNameChanged}
+                    handleContainedViews={this.props.handleContainedViews}
                     onIndexSelected={this.props.onIndexSelected}
                     viewToolbars={this.props.viewToolbars}
                 />
@@ -225,6 +224,10 @@ FileTree.propTypes = {
      */
     containedViewSelected: PropTypes.any,
     /**
+     * Collection of callbacks for contained views handling
+     */
+    handleContainedViews: PropTypes.func.isRequired,
+    /**
      * View/Contained view selected at the index
      */
     indexSelected: PropTypes.any,
@@ -252,10 +255,6 @@ FileTree.propTypes = {
      * Callback for renaming contained view
      */
     onContainedViewSelected: PropTypes.func,
-    /**
-     * Callback for deleting contained view
-     */
-    onContainedViewDeleted: PropTypes.func,
     /**
      * Callback for renaming view
      */

@@ -44,10 +44,8 @@ class EditorCarousel extends Component
                     navItemSelected={this.props.navItemSelected}
                     indexSelected={this.props.indexSelected}
                     onBoxAdded={this.props.onBoxAdded}
-                    onContainedViewDeleted={this.props.onContainedViewDeleted}
-                    onContainedViewSelected={this.props.onContainedViewSelected}
-                    onContainedViewNameChanged={this.props.onContainedViewNameChanged}
                     onIndexSelected={this.props.onIndexSelected}
+                    handleContainedViews={this.props.handleContainedViews}
                     handleNavItems = {this.props.handleNavItems}
                     viewToolbars={this.props.viewToolbars}
                 />
@@ -123,6 +121,14 @@ EditorCarousel.propTypes = {
      */
     navItemSelected: PropTypes.any,
     /**
+     * Collection of callbacks for contained views handling
+     */
+    handleContainedViews: PropTypes.func.isRequired,
+    /**
+     * Collection of callbacks for nav items handling
+     */
+    handleNavItems: PropTypes.func.isRequired,
+    /**
      * View/Contained view selected at the index
      */
     indexSelected: PropTypes.any,
@@ -130,18 +136,6 @@ EditorCarousel.propTypes = {
      * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
-    /**
-     *  Removes a contained view
-     */
-    onContainedViewDeleted: PropTypes.func.isRequired,
-    /**
-     *  Callback for selecting contained view
-     */
-    onContainedViewSelected: PropTypes.func.isRequired,
-    /**
-     * Callback for renaming contained view
-     */
-    onContainedViewNameChanged: PropTypes.func.isRequired,
     /**
      * Callback for renaming view
      */
@@ -162,34 +156,6 @@ EditorCarousel.propTypes = {
      * Select new index
      */
     onIndexSelected: PropTypes.func.isRequired,
-    /**
-     * Duplicate nav item
-     */
-    onNavItemDuplicated: PropTypes.func.isRequired,
-    /**
-     * Change nav item name
-     */
-    onNavItemNameChanged: PropTypes.func.isRequired,
-    /**
-     * Add nav item
-     */
-    onNavItemAdded: PropTypes.func.isRequired,
-    /**
-     * Select nav item
-     */
-    onNavItemSelected: PropTypes.func.isRequired,
-    /**
-     * Expand nav item
-     */
-    onNavItemExpanded: PropTypes.func.isRequired,
-    /**
-     * Delete nav item
-     */
-    onNavItemDeleted: PropTypes.func.isRequired,
-    /**
-     * Reorder nav item
-     */
-    onNavItemReordered: PropTypes.func.isRequired,
     /**
      * Change title
      */

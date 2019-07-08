@@ -253,9 +253,9 @@ class CarouselButtons extends Component {
     };
 
     deleteItem = (e) => {
-        const { boxes } = this.props;
-        if(this.props.indexSelected !== 0) {
-            if (isContainedView(this.props.indexSelected) /* && this.canDeleteContainedView(this.props.indexSelected)*/) {
+        const { boxes, containedViews, indexSelected, navItems } = this.props;
+        if(indexSelected !== 0) {
+            if (isContainedView(indexSelected) /* && this.canDeleteContainedView(this.props.indexSelected)*/) {
                 let cvid = this.props.indexSelected;
                 let boxesRemoving = [];
                 containedViews[cvid].boxes.map(boxId => {
@@ -266,7 +266,7 @@ class CarouselButtons extends Component {
                 this.props.dispatch(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
             } else {
                 let navsel = this.props.indexSelected;
-                let viewRemoving = [navsel].concat(getDescendantViews(this.props.navItems[navsel]));
+                let viewRemoving = [navsel].concat(getDescendantViews(navItems[navsel]));
                 let boxesRemoving = [];
                 let containedRemoving = {};
                 viewRemoving.map(id => {
@@ -275,7 +275,7 @@ class CarouselButtons extends Component {
                         boxesRemoving = boxesRemoving.concat(getDescendantBoxes(boxes[boxId], boxes));
                     });
                 });
-                let marksRemoving = getDescendantLinkedBoxes(viewRemoving, this.props.navItems) || [];
+                let marksRemoving = getDescendantLinkedBoxes(viewRemoving, navItems) || [];
                 this.props.dispatch(deleteNavItem(
                     viewRemoving,
                     this.props.navItems[navsel].parent,

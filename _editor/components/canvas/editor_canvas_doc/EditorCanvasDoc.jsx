@@ -14,12 +14,9 @@ import { connect } from "react-redux";
 class EditorCanvasDoc extends Component {
     render() {
         const { aspectRatio, boxes, boxSelected, boxLevelSelected, containedViewSelected, containedViews,
-            exercises, fromCV, lastActionDispatched, marks, navItemSelected, navItems, onMarkCreatorToggled, onTextEditorToggled,
-            onTitleChanged, onToolbarUpdated, onViewTitleChanged, openConfigModal,
-            openFileModal, pluginToolbars, styleConfig, title, viewToolbars } = this.props;
-
-        const { onBoxAdded, onBoxSelected, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxDropped, onBoxDeleted,
-            onBoxesInsideSortableReorder } = this.props.handleBoxes;
+            exercises, fromCV, lastActionDispatched, marks, markCreatorId, navItemSelected, navItems, onTextEditorToggled,
+            onTitleChanged, onToolbarUpdated, onViewTitleChanged, openConfigModal, openFileModal, pluginToolbars,
+            styleConfig, title, viewToolbars, handleBoxes, handleMarks, handleSortableContainers } = this.props;
 
         const itemSelected = fromCV ? containedViewSelected : navItemSelected;
         const titles = getTitles(itemSelected, viewToolbars, navItems, fromCV);
@@ -31,11 +28,6 @@ class EditorCanvasDoc extends Component {
         let theme = toolbar && toolbar.theme ? toolbar.theme : styleConfig && styleConfig.theme ? styleConfig.theme : 'default';
         let colors = toolbar && toolbar.colors ? toolbar.colors : getThemeColors(theme);
 
-        let commonProps = { ...this.props,
-            pageType: itemSelected.type || 0,
-            themeColors: colors,
-        };
-
         return (
             <Col id={(fromCV ? 'containedCanvas' : 'canvas')} md={12} xs={12} className="canvasDocClass safeZone"
                 style={{ display: containedViewSelected !== 0 && !fromCV ? 'none' : 'initial' }}>
@@ -44,14 +36,14 @@ class EditorCanvasDoc extends Component {
                     style={{ backgroundColor: show ? toolbar.background : 'transparent', display: show ? 'block' : 'none' }}
                     onMouseDown={e => {
                         if (e.target === e.currentTarget) {
-                            onBoxSelected(-1);
+                            handleBoxes.onBoxSelected(-1);
                             this.setState({ showTitle: false });
                         }
                         e.stopPropagation();
                     }}>
                     <EditorHeader
                         titles={titles}
-                        onBoxSelected={onBoxSelected}
+                        onBoxSelected={handleBoxes.onBoxSelected}
                         courseTitle={title}
                         navItem={navItemSelected}
                         navItems={navItems}
@@ -74,34 +66,28 @@ class EditorCanvasDoc extends Component {
                                 style={{ visibility: (show ? 'visible' : 'hidden'), paddingBottom: '10px' }}>
 
                                 <br/>
-
                                 {itemBoxes.map(id => {
                                     if (!isSortableBox(id)) {
                                         return null;
                                     }
                                     return <EditorBoxSortable
-                                        key={id} { ...commonProps }
+                                        key={id}
                                         id={id}
-                                        boxes={boxes}
-                                        boxSelected={boxSelected}
                                         boxLevelSelected={boxLevelSelected}
+                                        boxSelected={boxSelected}
+                                        boxes={boxes}
+                                        exercises={exercises}
                                         containedViews={containedViews}
                                         containedViewSelected={containedViewSelected}
                                         pluginToolbars={pluginToolbars}
                                         lastActionDispatched={lastActionDispatched}
-                                        addMarkShortcut={this.props.addMarkShortcut}
-                                        deleteMarkCreator={this.props.deleteMarkCreator}
-                                        markCreatorId={this.props.markCreatorId}
-                                        handleBoxes = {this.props.handleBoxes}
+                                        handleBoxes = {handleBoxes}
+                                        handleMarks={handleMarks}
+                                        handleSortableContainers={handleSortableContainers}
+                                        markCreatorId={markCreatorId}
                                         onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                        onSortableContainerDeleted={this.props.onSortableContainerDeleted}
-                                        onSortableContainerReordered={this.props.onSortableContainerReordered}
-                                        onSortableContainerResized={this.props.onSortableContainerResized}
                                         onTextEditorToggled={this.props.onTextEditorToggled}
                                         pageType={itemSelected.type || 0}
-                                        onRichMarksModalToggled={this.props.onRichMarksModalToggled}
-                                        onRichMarkMoved={this.props.onRichMarkMoved}
-                                        exercises={exercises}
                                         setCorrectAnswer={this.props.setCorrectAnswer}
                                         page={itemSelected ? itemSelected.id : 0}
                                         marks={marks}
@@ -123,13 +109,13 @@ class EditorCanvasDoc extends Component {
                     openConfigModal={openConfigModal}
                     isContained={fromCV}
                     onTextEditorToggled={onTextEditorToggled}
-                    onBoxResized={onBoxResized}
-                    onBoxDeleted={onBoxDeleted}
+                    onBoxResized={handleBoxes.onBoxResized}
+                    onBoxDeleted={handleBoxes.onBoxDeleted}
                     onToolbarUpdated={onToolbarUpdated}
                     openFileModal={openFileModal}
                     lastActionDispatched={lastActionDispatched}
                     pointerEventsCallback={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && pluginToolbars[boxSelected].config.name && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).pointerEventsCallback : null}
-                    onMarkCreatorToggled={onMarkCreatorToggled}
+                    onMarkCreatorToggled={handleMarks.onMarkCreatorToggled}
                 />
             </Col>
         );
@@ -194,14 +180,6 @@ EditorCanvasDoc.propTypes = {
      */
     lastActionDispatched: PropTypes.any.isRequired,
     /**
-     * Callback for adding a mark shortcut
-     */
-    addMarkShortcut: PropTypes.func.isRequired,
-    /**
-     * Callback for deleting mark creator overlay
-     */
-    deleteMarkCreator: PropTypes.func.isRequired,
-    /**
      * Identifier of the box that is creating a mark
      */
     markCreatorId: PropTypes.any.isRequired,
@@ -210,57 +188,9 @@ EditorCanvasDoc.propTypes = {
      */
     marks: PropTypes.object,
     /**
-     * Callback for toggling creation mark overlay
-     */
-    onMarkCreatorToggled: PropTypes.func.isRequired,
-    /**
-     * Callback for adding a box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
-    /**
-     * Callback for deleting a box
-     */
-    onBoxDeleted: PropTypes.func.isRequired,
-    /**
-     * Callback for selecting a box
-     */
-    onBoxSelected: PropTypes.func.isRequired,
-    /**
-     * Callback for increasing box level selected (only plugins inside plugins)
-     */
-    onBoxLevelIncreased: PropTypes.func.isRequired,
-    /**
-     * Callback for moving a box
-     */
-    onBoxMoved: PropTypes.func.isRequired,
-    /**
-     * Callback for resizing a box
-     */
-    onBoxResized: PropTypes.func.isRequired,
-    /**
-     * Callback for dropping a box
-     */
-    onBoxDropped: PropTypes.func.isRequired,
-    /**
      * Callback for vertically aligning boxes inside a container
      */
     onVerticallyAlignBox: PropTypes.func.isRequired,
-    /**
-     * Callback for reordering boxes inside a container
-     */
-    onBoxesInsideSortableReorder: PropTypes.func.isRequired,
-    /**
-     * Callback for deleting a sortable container
-     */
-    onSortableContainerDeleted: PropTypes.func.isRequired,
-    /**
-     * Callback for reordering sortable containers
-     */
-    onSortableContainerReordered: PropTypes.func.isRequired,
-    /**
-     * Callback for resizing a sortable container
-     */
-    onSortableContainerResized: PropTypes.func.isRequired,
     /**
      * Callback for toggling CKEditor
      */

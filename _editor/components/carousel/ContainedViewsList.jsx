@@ -9,34 +9,37 @@ export default class ContainedViewsList extends Component {
 
     render() {
 
-        let containedViewsIncluded = Object.keys(this.props.containedViews).length > 0;
-        return (<div className="containedViewsList" style={{ height: (this.props.showContainedViews) ? ((this.props.showSortableItems) ? "calc(50% - 126px)" : "calc(100% - 126px)") : "0px",
+        const { containedViews, showContainedViews, showSortableItems, indexSelected, containedViewSelected, viewToolbars, onIndexSelected } = this.props;
+        const { onContainedViewNameChanged, onContainedViewSelected } = this.props.handleContainedViews;
+
+        let containedViewsIncluded = Object.keys(containedViews).length > 0;
+        return (<div className="containedViewsList" style={{ height: (showContainedViews) ? ((showSortableItems) ? "calc(50% - 126px)" : "calc(100% - 126px)") : "0px",
             display: 'block', overflowY: 'auto', overflowX: 'hidden' }}>
             <div className="empty-info" style={{ display: (containedViewsIncluded) ? "none" : "block" }}>{i18n.t("empty.cv_empty")}</div>
 
             {
-                Object.keys(this.props.containedViews).map((id, key)=>{
-                    let classIndexSelected = id === this.props.indexSelected ? ' classIndexSelected ' : ' ';
-                    let containedViewSelected = id === this.props.containedViewSelected ? ' selected ' : ' ';
+                Object.keys(containedViews).map((id, key)=>{
+                    let classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
+                    let isContainedViewSelected = id === containedViewSelected ? ' selected ' : ' ';
                     return (
-                        <div className={"carousselContainer " + containedViewSelected } key={id}>
+                        <div className={"carousselContainer " + isContainedViewSelected } key={id}>
                             <div key={id}
                                 className={'file navItemBlock ' + classIndexSelected }
                                 onDoubleClick={e => {
-                                    this.props.onContainedViewSelected(id);
+                                    onContainedViewSelected(id);
                                     e.stopPropagation();
                                 }}
                                 onMouseDown={e => {
-                                    this.props.onIndexSelected(id);
+                                    onIndexSelected(id);
                                 }}>
-                                <i className="material-icons fileIcon">{isSlide(this.props.containedViews[id].type) ? "slideshow" : "insert_drive_file"}</i>
+                                <i className="material-icons fileIcon">{isSlide(containedViews[id].type) ? "slideshow" : "insert_drive_file"}</i>
                                 <EditorIndexTitle
                                     id={id}
-                                    title={this.props.viewToolbars[id].viewName}
+                                    title={viewToolbars[id].viewName}
                                     index={1}
                                     hidden={false}
-                                    selected = {this.props.containedViewSelected}
-                                    onNameChanged={this.props.onContainedViewNameChanged} />
+                                    selected = {containedViewSelected}
+                                    onNameChanged={onContainedViewNameChanged} />
                             </div>
                         </div>
                     );
@@ -62,13 +65,9 @@ ContainedViewsList.propTypes = {
      */
     indexSelected: PropTypes.any,
     /**
-     * Callback for selecting contained view
+     * Collection of callbacks for contained views handling
      */
-    onContainedViewNameChanged: PropTypes.func.isRequired,
-    /**
-     * Callback for renaming contained view
-     */
-    onContainedViewSelected: PropTypes.func.isRequired,
+    handleContainedViews: PropTypes.func.isRequired,
     /**
      * Callback for renaming view
      */

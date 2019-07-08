@@ -34,6 +34,10 @@ export default class EditorBoxSortable extends Component {
         const { onBoxAdded, onBoxSelected, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxDropped, onBoxDeleted,
             onBoxesInsideSortableReorder } = this.props.handleBoxes;
 
+        const { onSortableContainerDeleted, onSortableContainerReordered, onSortableContainerResized, onSortablePropsChanged } = this.props.handleSortableContainers;
+
+        const { addMarkShortcut, deleteMarkCreator, onMarkCreatorToggled, onRichMarkMoved, onRichMarksModalToggled } = this.props.handleMarks;
+
         let box = this.props.boxes[this.props.id];
         return (
             <div className="editorBoxSortable"
@@ -96,18 +100,19 @@ export default class EditorBoxSortable extends Component {
                                                                 containedViewSelected={this.props.containedViewSelected}
                                                                 pluginToolbars={this.props.pluginToolbars}
                                                                 lastActionDispatched={this.props.lastActionDispatched}
-                                                                addMarkShortcut={this.props.addMarkShortcut}
-                                                                deleteMarkCreator={this.props.deleteMarkCreator}
                                                                 exercises={(this.props.page && this.props.exercises[this.props.page]) ? (this.props.exercises[this.props.page].exercises[idBox]) : undefined}
                                                                 markCreatorId={this.props.markCreatorId}
                                                                 marks={this.props.marks}
                                                                 handleBoxes={this.props.handleBoxes}
-                                                                onRichMarkMoved={this.props.onRichMarkMoved}
+                                                                handleMarks={this.props.handleMarks}
+                                                                onRichMarkMoved={onRichMarkMoved}
+                                                                addMarkShortcut={addMarkShortcut}
+                                                                deleteMarkCreator={deleteMarkCreator}
+                                                                onRichMarksModalToggled={onRichMarksModalToggled}
                                                                 onToolbarUpdated={this.props.onToolbarUpdated}
                                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                                                onSortableContainerResized={this.props.onSortableContainerResized}
+                                                                onSortableContainerResized={onSortableContainerResized}
                                                                 onTextEditorToggled={this.props.onTextEditorToggled}
-                                                                onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                                                 page={this.props.page}
                                                                 setCorrectAnswer={this.props.setCorrectAnswer}
                                                                 pageType={this.props.pageType}
@@ -151,7 +156,7 @@ export default class EditorBoxSortable extends Component {
                                             <Button className="popoverButton"
                                                 style={{ float: 'right' }}
                                                 onClick={e => {
-                                                    this.props.onSortableContainerDeleted(idContainer, box.id);
+                                                    onSortableContainerDeleted(idContainer, box.id);
                                                     e.stopPropagation();
                                                     this.setState({ show: false });
                                                 }} >
@@ -183,7 +188,7 @@ export default class EditorBoxSortable extends Component {
                 <div className="dragContentHere" data-html2canvas-ignore
                     // style={{ backgroundColor: this.props.background }}
                     onClick={e => {
-                        this.props.onBoxSelected(-1);
+                        onBoxSelected(-1);
                         e.stopPropagation();}}>{i18n.t("messages.drag_content")}
                 </div>
 
@@ -226,7 +231,7 @@ export default class EditorBoxSortable extends Component {
                     indexes.push(children[i].getAttribute("data-id"));
                 }
                 if (indexes.length !== 0) {
-                    this.props.onSortableContainerReordered(indexes, this.props.id);
+                    this.props.handleSortableContainers.onSortableContainerReordered(indexes, this.props.id);
                 }
                 list.sortable('cancel');
                 // Unhide EditorShortcuts
@@ -258,12 +263,15 @@ export default class EditorBoxSortable extends Component {
                 event.target.style.height = event.rect.height + 'px';
             },
             onend: (event) => {
-                this.props.onSortableContainerResized(event.target.getAttribute("data-id"), this.props.id, parseInt(event.target.style.height, 10));
+                this.props.handleSortableContainers.onSortableContainerResized(event.target.getAttribute("data-id"), this.props.id, parseInt(event.target.style.height, 10));
             },
         });
     }
 
     configureDropZone(node, dropArea, selector, extraParams) {
+        const { onBoxAdded, onBoxSelected, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxDropped, onBoxDeleted,
+            onBoxesInsideSortableReorder } = this.props.handleBoxes;
+
         interact(node).dropzone({
             accept: selector,
             overlap: 'pointer',
@@ -315,12 +323,12 @@ export default class EditorBoxSortable extends Component {
                             page: page,
                             id: (ID_PREFIX_BOX + Date.now()),
                         };
-                        createBox(initialParams, name, false, this.props.onBoxAdded, this.props.boxes);
+                        createBox(initialParams, name, false, onBoxAdded, this.props.boxes);
                         e.dragEvent.stopPropagation();
                     } else {
                         let boxDragged = this.props.boxes[this.props.boxSelected];
                         if (boxDragged) {
-                            this.props.onBoxDropped(this.props.boxSelected,
+                            onBoxDropped(this.props.boxSelected,
                                 extraParams.j,
                                 extraParams.i,
                                 this.props.id,
@@ -357,7 +365,7 @@ export default class EditorBoxSortable extends Component {
                     }
                     initialParams.id = (ID_PREFIX_BOX + Date.now());
                     initialParams.name = name;
-                    createBox(initialParams, name, false, this.props.onBoxAdded, this.props.boxes);
+                    createBox(initialParams, name, false, onBoxAdded, this.props.boxes);
                     e.dragEvent.stopPropagation();
 
                 }
@@ -498,30 +506,6 @@ EditorBoxSortable.propTypes = {
      */
     markCreatorId: PropTypes.any.isRequired,
     /**
-     * Callback for adding a box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
-    /**
-     * Selects a box
-     */
-    onBoxSelected: PropTypes.func.isRequired,
-    /**
-     * Increases box level selected
-     */
-    onBoxLevelIncreased: PropTypes.func.isRequired,
-    /**
-     * Callback for when moving a box
-     */
-    onBoxMoved: PropTypes.func.isRequired,
-    /**
-     * Callback for when resizing a box
-     */
-    onBoxResized: PropTypes.func.isRequired,
-    /**
-     * Callback for when dropping a box
-     */
-    onBoxDropped: PropTypes.func.isRequired,
-    /**
      * Callback for when vertically aligning boxes inside a container
      */
     onVerticallyAlignBox: PropTypes.func.isRequired,
@@ -529,18 +513,6 @@ EditorBoxSortable.propTypes = {
      * Callback for when reordering boxes inside a container
      */
     onBoxesInsideSortableReorder: PropTypes.func.isRequired,
-    /**
-     * Callback for when deleting a sortable container
-     */
-    onSortableContainerDeleted: PropTypes.func.isRequired,
-    /**
-     * Callback for when reordering sortable containers
-     */
-    onSortableContainerReordered: PropTypes.func.isRequired,
-    /**
-     * Callback for when resizing a sortable container
-     */
-    onSortableContainerResized: PropTypes.func.isRequired,
     /**
      * Callback for toggling the CKEditor
      */

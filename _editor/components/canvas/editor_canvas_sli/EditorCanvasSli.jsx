@@ -36,14 +36,15 @@ class EditorCanvasSli extends Component {
 
     render() {
         // eslint-disable-next-line no-shadow
-        const { addMarkShortcut, aspectRatio, boxes, boxLevelSelected, boxSelected, containedViewSelected, containedViews, deleteMarkCreator,
-            exercises, fromCV, grid, lastActionDispatched, markCreatorId, marks, navItemSelected, navItems,
-            onMarkCreatorToggled, onRichMarkMoved, onRichMarksModalToggled, onSortableContainerResized,
+        const { aspectRatio, boxes, boxLevelSelected, boxSelected, containedViewSelected, containedViews,
+            exercises, fromCV, grid, lastActionDispatched, markCreatorId, marks, navItemSelected, navItems, onSortableContainerResized,
             onTextEditorToggled, onTitleChanged, onToolbarUpdated, onVerticallyAlignBox, onViewTitleChanged, openConfigModal, openFileModal, pluginToolbars,
             setCorrectAnswer, showCanvas, styleConfig, title, viewToolbars } = this.props;
 
         const { onBoxAdded, onBoxSelected, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxDropped, onBoxDeleted,
             onBoxesInsideSortableReorder } = this.props.handleBoxes;
+
+        const { addMarkShortcut, deleteMarkCreator, onMarkCreatorToggled, onRichMarkMoved, onRichMarksModalToggled } = this.props.handleMarks;
 
         const itemSelected = fromCV ? containedViewSelected : navItemSelected;
         const titles = getTitles(itemSelected, viewToolbars, navItems, fromCV);
@@ -108,7 +109,6 @@ class EditorCanvasSli extends Component {
                                 id={id}
                                 grid={gridOn}
                                 page={itemSelected ? itemSelected.id : 0}
-                                addMarkShortcut={addMarkShortcut}
                                 boxes={boxes}
                                 boxSelected={boxSelected}
                                 boxLevelSelected={boxLevelSelected}
@@ -117,15 +117,13 @@ class EditorCanvasSli extends Component {
                                 marks={marks}
                                 pluginToolbars={pluginToolbars}
                                 lastActionDispatched={lastActionDispatched}
-                                deleteMarkCreator={deleteMarkCreator}
+                                handleMarks={this.props.handleMarks}
                                 markCreatorId={markCreatorId}
                                 handleBoxes={this.props.handleBoxes}
                                 onToolbarUpdated={onToolbarUpdated}
                                 exercises={itemSelected ? (exercises[itemSelected.id].exercises[id]) : undefined}
-                                onRichMarkMoved={onRichMarkMoved}
                                 onSortableContainerResized={onSortableContainerResized}
                                 onVerticallyAlignBox={onVerticallyAlignBox}
-                                onRichMarksModalToggled={onRichMarksModalToggled}
                                 onTextEditorToggled={onTextEditorToggled}
                                 setCorrectAnswer={setCorrectAnswer}
                                 themeColors={toolbar.colors ? toolbar.colors : getThemeColors(theme)}

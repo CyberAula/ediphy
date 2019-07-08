@@ -402,9 +402,9 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
                 state={toolbar_props.marks}
                 viewToolbars={toolbar_props.viewToolbars}
                 box_id={toolbar_props.box.id}
-                onRichMarksModalToggled={toolbar_props.onRichMarksModalToggled}
-                onRichMarkEditPressed={toolbar_props.onRichMarkEditPressed}
-                onRichMarkDeleted={toolbar_props.onRichMarkDeleted}/>
+                onRichMarksModalToggled={toolbar_props.handleMarks.onRichMarksModalToggled}
+                onRichMarkEditPressed={toolbar_props.handleMarks.onRichMarkEditPressed}
+                onRichMarkDeleted={toolbar_props.handleMarks.onRichMarkDeleted}/>
         );
     }
 
@@ -475,13 +475,13 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 switch (type) {
                 case "checkbox":
                     if(buttonKey === "aspectRatio") {
-                        toolbar_props.onBoxResized(id, { aspectRatio: !toolbar_plugin_state.structure.aspectRatio });
+                        toolbar_props.handleBoxes.onBoxResized(id, { aspectRatio: !toolbar_plugin_state.structure.aspectRatio });
                     } else {
-                        toolbar_props.onBoxResized(id, { [buttonKey]: toolbar_plugin_state.structure[buttonKey] === "auto" ? 100 : "auto" });
+                        toolbar_props.handleBoxes.onBoxResized(id, { [buttonKey]: toolbar_plugin_state.structure[buttonKey] === "auto" ? 100 : "auto" });
                     }
                     break;
                 case "select-one":
-                    toolbar_props.onBoxResized(id, { [buttonKey + "Unit"]: value });
+                    toolbar_props.handleBoxes.onBoxResized(id, { [buttonKey + "Unit"]: value });
                     break;
 
                 default:
@@ -508,7 +508,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                 return;
                             }
 
-                            toolbar_props.onBoxResized(id, { [buttonKey]: value, [otherButton]: otherValue });
+                            toolbar_props.handleBoxes.onBoxResized(id, { [buttonKey]: value, [otherButton]: otherValue });
 
                         }
                     }
@@ -519,11 +519,11 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     }
 
                     if (buttonKey === "width") {
-                        toolbar_props.onBoxResized(id, { width: value });
+                        toolbar_props.handleBoxes.onBoxResized(id, { width: value });
                     }
 
                     if (buttonKey === "height") {
-                        toolbar_props.onBoxResized(id, { height: value });
+                        toolbar_props.handleBoxes.onBoxResized(id, { height: value });
                     }
                     return;
 
@@ -551,10 +551,10 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     toolbar_props.onToolbarUpdated(id, tabKey, currentElement, '__position', value);
                     let parentId = toolbar_props.box.parent;
                     let containerId = toolbar_props.box.container;
-                    toolbar_props.onBoxMoved(id, 0, 0, value, parentId, containerId);
+                    toolbar_props.handleBoxes.onBoxMoved(id, 0, 0, value, parentId, containerId);
                     if (isSortableContainer(containerId)) {
                         let newHeight = parseFloat(document.getElementById(containerId).clientHeight, 10);
-                        toolbar_props.onSortableContainerResized(containerId, parentId, newHeight);
+                        toolbar_props.handleSortableContainers.onSortableContainerResized(containerId, parentId, newHeight);
                     }
                 }
             }
@@ -1201,7 +1201,7 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
         break;
     // preview / export document
     case 'page_display':
-        toolbar_props.onNavItemToggled(toolbar_props.navItemSelected);
+        toolbar_props.handleNavItems.onNavItemToggled(toolbar_props.navItemSelected);
 
         break;
     // change document(navitem) name
