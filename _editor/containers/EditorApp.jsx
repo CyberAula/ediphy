@@ -59,7 +59,10 @@ class EditorApp extends Component {
 
         const ribbonHeight = reactUI.hideTab === 'hide' ? 0 : 50;
         const disabled = (navItemSelected === 0 && containedViewSelected === 0) || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
+
         const canGetPlugin = pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name);
+        const defaultMarkValue = canGetPlugin ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).getConfig().defaultMarkValue : 0;
+        const validateMarkValueInput = canGetPlugin ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).validateValueInput : null;
 
         const canvasProps = {
             handleBoxes: this.handleBoxes,
@@ -164,12 +167,8 @@ class EditorApp extends Component {
                 />}
                 <RichMarksModal
                     boxSelected={boxSelected}
-                    defaultValueMark={ canGetPlugin ?
-                        Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).getConfig().defaultMarkValue
-                        : 0 }
-                    validateValueInput={ canGetPlugin ?
-                        Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).validateValueInput
-                        : null}
+                    defaultValueMark={defaultMarkValue}
+                    validateValueInput={validateMarkValueInput}
                     onBoxAdded={this.handleBoxes.onBoxAdded}
                     handleMarks={this.handleMarks}
                 />

@@ -118,8 +118,8 @@ export default class PluginToolbar extends Component {
                                                 onColsChanged={this.props.onColsChanged}
                                                 onRowsChanged={this.props.onRowsChanged}
                                                 sortableProps={this.props.box.sortableContainers[id]}
-                                                onSortablePropsChanged={this.props.onSortablePropsChanged}
-                                                onSortableContainerResized={this.props.onSortableContainerResized}/>
+                                                onSortablePropsChanged={this.props.handleSortableContainers.onSortablePropsChanged}
+                                                onSortableContainerResized={this.props.handleSortableContainers.onSortableContainerResized}/>
                                         </Panel.Body>
                                     </Panel>);
                             }
