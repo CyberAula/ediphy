@@ -73,7 +73,6 @@ class EditorApp extends Component {
             onTextEditorToggled: this.onTextEditorToggled,
             onTitleChanged: this.onTitleChanged,
             onToolbarUpdated: this.toolbarUpdated,
-            onVerticallyAlignBox: this.onVerticallyAlignBox,
             onViewTitleChanged: this.onViewTitleChanged,
             openConfigModal: this.openConfigModal,
             openFileModal: this.openFileModal,
@@ -596,7 +595,6 @@ class EditorApp extends Component {
                 newBoxes.map(box => {
                     linkedCVs[box] = [...this.props.boxes[box].containedViews];
                     newBoxesMap[box] = box + Date.now(); });
-                console.log(id, id + Date.now(), newBoxesMap, Date.now(), linkedCVs);
                 this.props.dispatch(duplicateNavItem(id, id + Date.now(), newBoxesMap, Date.now(), linkedCVs));
             }
         },

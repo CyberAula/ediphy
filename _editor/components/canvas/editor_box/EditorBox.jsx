@@ -15,6 +15,7 @@ import CKEDitorComponent from './CKEDitorComponent';
 const SNAP_DRAG = 5;
 const SNAP_SIZE = 2;
 let html2json = require('html2json').html2json;
+import { connect } from "react-redux";
 
 /**
  * Ediphy Box component.
@@ -32,10 +33,9 @@ class EditorBox extends Component {
      */
     render() {
 
-        const { onBoxAdded, onBoxSelected, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxDropped, onBoxDeleted,
-            onBoxesInsideSortableReorder } = this.props.handleBoxes;
+        const { onBoxAdded, onBoxSelected } = this.props.handleBoxes;
 
-        const { addMarkShortcut, deleteMarkCreator, onMarkCreatorToggled, onRichMarkMoved, onRichMarksModalToggled } = this.props.handleMarks;
+        const { addMarkShortcut, deleteMarkCreator, onRichMarksModalToggled } = this.props.handleMarks;
 
         const cornerSize = 15;
         const box = this.props.boxes[this.props.id];
@@ -772,7 +772,22 @@ class EditorBox extends Component {
     };
 }
 
-export default EditorBox;
+function mapStateToProps(state) {
+    return {
+        boxes: state.undoGroup.present.boxesById,
+        boxSelected: state.undoGroup.present.boxSelected,
+        boxLevelSelected: state.undoGroup.present.boxLevelSelected,
+        containedViews: state.undoGroup.present.containedViewsById,
+        containedViewSelected: state.undoGroup.present.containedViewSelected,
+        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+        marks: state.undoGroup.present.marksById,
+        exercises: state.undoGroup.present.exercises,
+        markCreatorId: state.reactUI.markCreatorVisible,
+        lastActionDispatched: state.undoGroup.present.lastActionDispatched || "",
+    };
+}
+
+export default connect(mapStateToProps)(EditorBox);
 
 EditorBox.propTypes = {
     /**
@@ -800,17 +815,17 @@ EditorBox.propTypes = {
      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
+     * Collection of callbacks for boxes handling
+     */
+    handleBoxes: PropTypes.object.isRequired,
+    /**
+     * Collection of callbacks for marks handling
+     */
+    handleMarks: PropTypes.object.isRequired,
+    /**
      * Object containing all the toolbars
      */
     pluginToolbars: PropTypes.object.isRequired,
-    /**
-     * Callback for when adding a mark
-     */
-    addMarkShortcut: PropTypes.func.isRequired,
-    /**
-     * Callback for when deleting a mark
-     */
-    deleteMarkCreator: PropTypes.func.isRequired,
     /**
      * Identifier of the box that is currently in process of creating a mark
      */
@@ -820,22 +835,6 @@ EditorBox.propTypes = {
      */
     marks: PropTypes.object,
     /**
-     * Callback for adding a box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
-    /**
-     * Selects a box
-     */
-    onBoxSelected: PropTypes.func.isRequired,
-    /**
-     * Callback for when moving a box
-     */
-    onBoxMoved: PropTypes.func.isRequired,
-    /**
-     * Callback for when resizing a box
-     */
-    onBoxResized: PropTypes.func.isRequired,
-    /**
      * Callback for toggling the CKEDitor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
@@ -843,10 +842,6 @@ EditorBox.propTypes = {
      * Page type the box is at
      */
     pageType: PropTypes.string.isRequired,
-    /**
-      * Callback for toggling the Rich Marks Modal
-      */
-    onRichMarksModalToggled: PropTypes.func.isRequired,
     /**
       * Snap to grid flag
       */

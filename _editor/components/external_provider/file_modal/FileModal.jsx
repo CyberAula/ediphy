@@ -222,21 +222,9 @@ FileModal.propTypes = {
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
-     * Function for adding a new view
-     */
-    onNavItemAdded: PropTypes.func.isRequired,
-    /**
-     * Function for adding multiple new views
-     */
-    onNavItemsAdded: PropTypes.func.isRequired,
-    /**
      * Function for selecting a view in the index
      */
     onIndexSelected: PropTypes.func.isRequired,
-    /**
-     * Function for displaying a view in the canvas
-     */
-    onNavItemSelected: PropTypes.func.isRequired,
     /**
      * Array containing the ids of all the views
      */
@@ -274,8 +262,8 @@ FileModal.propTypes = {
      */
     close: PropTypes.func.isRequired,
     /**
-     * Import Ediphy Document
+     * Collection of callbacks for nav items handling
      */
-    // importEdi: PropTypes.func.isRequired,
+    handleNavItems: PropTypes.object.isRequired,
 
 };

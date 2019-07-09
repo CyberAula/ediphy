@@ -105,9 +105,8 @@ class CarouselButtons extends Component {
     * @returns {code}
     */
     render() {
-        const dispatch = this.props.dispatch;
-        const { boxes, containedViews, indexSelected, navItems, navItemsIds, carouselShow } = this.props;
-        const { onNavItemAdded, onNavItemExpanded, onNavItemDuplicated, onNavItemDeleted } = this.props.handleNavItems;
+        const { boxes, indexSelected, navItems, carouselShow } = this.props;
+        const { onNavItemAdded, onNavItemDuplicated } = this.props.handleNavItems;
 
         return (
             <div id="addbuttons" className="bottomGroup" style={{ display: carouselShow ? 'block' : 'none' }}>
@@ -326,10 +325,6 @@ CarouselButtons.propTypes = {
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
-     * Adds a view
-     */
-    onNavItemAdded: PropTypes.func.isRequired,
-    /**
      * Callback for adding a box
      */
     onBoxAdded: PropTypes.func.isRequired,
@@ -338,15 +333,11 @@ CarouselButtons.propTypes = {
      */
     onIndexSelected: PropTypes.func.isRequired,
     /**
-     * Expands navItem children when parent is expanded
-     */
-    onNavItemExpanded: PropTypes.func.isRequired,
-    /**
      * Index displayed indicator
      */
     carouselShow: PropTypes.bool.isRequired,
     /**
-     * Duplicate nav item
+     * Collection of callbacks for nav items handling
      */
-    onNavItemDuplicated: PropTypes.func.isRequired,
+    handleNavItems: PropTypes.object.isRequired,
 };

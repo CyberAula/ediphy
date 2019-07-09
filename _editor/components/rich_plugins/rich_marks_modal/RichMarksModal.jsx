@@ -591,4 +591,8 @@ RichMarksModal.propTypes = {
      * Contains the id of the selected template
      */
     indexSelected: PropTypes.func,
+    /**
+     * Collection of callbacks for marks handling
+     */
+    handleMarks: PropTypes.object.isRequired,
 };

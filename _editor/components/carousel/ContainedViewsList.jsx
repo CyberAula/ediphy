@@ -67,7 +67,7 @@ ContainedViewsList.propTypes = {
     /**
      * Collection of callbacks for contained views handling
      */
-    handleContainedViews: PropTypes.func.isRequired,
+    handleContainedViews: PropTypes.object.isRequired,
     /**
      * Callback for renaming view
      */

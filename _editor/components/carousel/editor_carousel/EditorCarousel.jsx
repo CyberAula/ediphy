@@ -123,11 +123,11 @@ EditorCarousel.propTypes = {
     /**
      * Collection of callbacks for contained views handling
      */
-    handleContainedViews: PropTypes.func.isRequired,
+    handleContainedViews: PropTypes.object.isRequired,
     /**
      * Collection of callbacks for nav items handling
      */
-    handleNavItems: PropTypes.func.isRequired,
+    handleNavItems: PropTypes.object.isRequired,
     /**
      * View/Contained view selected at the index
      */

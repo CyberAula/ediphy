@@ -4,12 +4,13 @@ import { Breadcrumb, BreadcrumbItem, FormControl } from 'react-bootstrap';
 import i18n from 'i18next';
 import './_editorHeader.scss';
 import CVInfo from "./CVInfo";
+import { connect } from "react-redux";
 
 /**
  *  EditorHeaderComponent
  *  It shows the current page's title
  */
-export default class EditorHeader extends Component {
+class EditorHeader extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -22,11 +23,14 @@ export default class EditorHeader extends Component {
         };
     }
     render() {
-        const { boxes, containedView, containedViews, courseTitle, marks, navItem, navItems, onBoxSelected, onTitleChanged,
+        const { boxes, containedView, courseTitle, marks, navItem, navItems, onBoxSelected, onTitleChanged,
             onViewTitleChanged, pluginToolbars, titles, viewToolbars } = this.props;
+
         if (navItem || containedView) {
-            let currentNavItem = containedView !== 0 ? containedView : navItem;
+            let currentNavItem = containedView !== 0 ? navItems[containedView] : navItems[navItem];
+
             let toolbar = (this.props.viewToolbars[currentNavItem.id]) ? this.props.viewToolbars[currentNavItem.id] : undefined;
+
             let docTitle = "";
             let subTitle = "";
             let pagenumber = "";
@@ -303,6 +307,21 @@ export default class EditorHeader extends Component {
     }
 
 }
+
+function mapStateToProps(state) {
+    return {
+        navItem: state.undoGroup.present.navItemSelected,
+        navItems: state.undoGroup.present.navItemsById,
+        containedView: state.undoGroup.present.containedViewSelected,
+        containedViews: state.undoGroup.present.containedViewsById,
+        boxes: state.undoGroup.present.boxesById,
+        viewToolbars: state.undoGroup.present.viewToolbarsById,
+        marks: state.undoGroup.present.marksById,
+        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+    };
+}
+
+export default connect(mapStateToProps)(EditorHeader);
 
 EditorHeader.propTypes = {
     /**

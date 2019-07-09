@@ -6,19 +6,19 @@ import interact from 'interactjs';
 import Alert from './../../common/alert/Alert';
 import EditorBox from '../editor_box/EditorBox';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
-import { ADD_BOX } from '../../../../common/actions';
 import { isSortableBox, isBox } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 
 import './_editorBoxSortable.scss';
 import { instanceExists, releaseClick, findBox, createBox } from '../../../../common/common_tools';
+import { connect } from "react-redux";
 
 /**
  * EditorBoxSortable Component
  * @desc It is a special kind of EditorBox that is automatically added when a document is created. It cannot be moved or resized and it takes up the whole width of the page. It has different 'rows', named SortableContainers, where plugins are displayed, that can be sorted.
  */
-export default class EditorBoxSortable extends Component {
+class EditorBoxSortable extends Component {
     /**
      * Constructor
      * @param props React component props
@@ -31,12 +31,8 @@ export default class EditorBoxSortable extends Component {
      */
     render() {
 
-        const { onBoxAdded, onBoxSelected, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxDropped, onBoxDeleted,
-            onBoxesInsideSortableReorder } = this.props.handleBoxes;
-
-        const { onSortableContainerDeleted, onSortableContainerReordered, onSortableContainerResized, onSortablePropsChanged } = this.props.handleSortableContainers;
-
-        const { addMarkShortcut, deleteMarkCreator, onMarkCreatorToggled, onRichMarkMoved, onRichMarksModalToggled } = this.props.handleMarks;
+        const { onBoxSelected } = this.props.handleBoxes;
+        const { onSortableContainerDeleted, onSortableContainerResized } = this.props.handleSortableContainers;
 
         let box = this.props.boxes[this.props.id];
         return (
@@ -93,24 +89,9 @@ export default class EditorBoxSortable extends Component {
                                                         if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
                                                             return (<EditorBox id={idBox}
                                                                 key={'box-' + idBox}
-                                                                boxes={this.props.boxes}
-                                                                boxSelected={this.props.boxSelected}
-                                                                boxLevelSelected={this.props.boxLevelSelected}
-                                                                containedViews={this.props.containedViews}
-                                                                containedViewSelected={this.props.containedViewSelected}
-                                                                pluginToolbars={this.props.pluginToolbars}
-                                                                lastActionDispatched={this.props.lastActionDispatched}
-                                                                exercises={(this.props.page && this.props.exercises[this.props.page]) ? (this.props.exercises[this.props.page].exercises[idBox]) : undefined}
-                                                                markCreatorId={this.props.markCreatorId}
-                                                                marks={this.props.marks}
                                                                 handleBoxes={this.props.handleBoxes}
                                                                 handleMarks={this.props.handleMarks}
-                                                                onRichMarkMoved={onRichMarkMoved}
-                                                                addMarkShortcut={addMarkShortcut}
-                                                                deleteMarkCreator={deleteMarkCreator}
-                                                                onRichMarksModalToggled={onRichMarksModalToggled}
                                                                 onToolbarUpdated={this.props.onToolbarUpdated}
-                                                                onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                                                 onSortableContainerResized={onSortableContainerResized}
                                                                 onTextEditorToggled={this.props.onTextEditorToggled}
                                                                 page={this.props.page}
@@ -269,8 +250,7 @@ export default class EditorBoxSortable extends Component {
     }
 
     configureDropZone(node, dropArea, selector, extraParams) {
-        const { onBoxAdded, onBoxSelected, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxDropped, onBoxDeleted,
-            onBoxesInsideSortableReorder } = this.props.handleBoxes;
+        const { onBoxAdded, onBoxDropped } = this.props.handleBoxes;
 
         interact(node).dropzone({
             accept: selector,
@@ -342,10 +322,8 @@ export default class EditorBoxSortable extends Component {
                                 dombox.style.opacity = 1;
                             }
                         }
-
                     }
                 } else {
-
                     let initialParams = {};
                     if (dropArea === 'existingContainer') {
                         initialParams = {
@@ -460,6 +438,23 @@ export default class EditorBoxSortable extends Component {
 
 }
 
+function mapStateToProps(state) {
+    return {
+        boxes: state.undoGroup.present.boxesById,
+        boxSelected: state.undoGroup.present.boxSelected,
+        boxLevelSelected: state.undoGroup.present.boxLevelSelected,
+        containedViews: state.undoGroup.present.containedViewsById,
+        containedViewSelected: state.undoGroup.present.containedViewSelected,
+        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+        lastActionDispatched: state.undoGroup.present.lastActionDispatched || "",
+        markCreatorId: state.reactUI.markCreatorVisible,
+        exercises: state.undoGroup.present.exercises,
+        marks: state.undoGroup.present.marksById,
+    };
+}
+
+export default connect(mapStateToProps)(EditorBoxSortable);
+
 EditorBoxSortable.propTypes = {
     /**
      * Box unique identifier
@@ -474,45 +469,9 @@ EditorBoxSortable.propTypes = {
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * Depth level of the selected box. Used when there are plugins inside plugins
-     */
-    boxLevelSelected: PropTypes.number.isRequired,
-    /**
-     * Object containing all contained views (identified by its ID)
-     */
-    containedViews: PropTypes.object.isRequired,
-    /**
      * Selected contained view
      */
     containedViewSelected: PropTypes.any.isRequired,
-    /**
-     * Object containing all the toolbars (identified by its ID)
-     */
-    pluginToolbars: PropTypes.object.isRequired,
-    /**
-     * Last action dispatched in Redux
-     */
-    lastActionDispatched: PropTypes.any.isRequired,
-    /**
-     * Callback for when adding a mark
-     */
-    addMarkShortcut: PropTypes.func.isRequired,
-    /**
-     * Callback for deleting mark creator overlay
-     */
-    deleteMarkCreator: PropTypes.func.isRequired,
-    /**
-     * Identifier of the box that is currently in process of creating a mark
-     */
-    markCreatorId: PropTypes.any.isRequired,
-    /**
-     * Callback for when vertically aligning boxes inside a container
-     */
-    onVerticallyAlignBox: PropTypes.func.isRequired,
-    /**
-     * Callback for when reordering boxes inside a container
-     */
-    onBoxesInsideSortableReorder: PropTypes.func.isRequired,
     /**
      * Callback for toggling the CKEditor
      */
@@ -522,18 +481,6 @@ EditorBoxSortable.propTypes = {
      */
     pageType: PropTypes.string.isRequired,
     /**
-     * Callback for toggling the Rich Marks Modal
-     */
-    onRichMarksModalToggled: PropTypes.func.isRequired,
-    /**
-     * Callback for moving marks
-     */
-    onRichMarkMoved: PropTypes.func.isRequired,
-    /**
-     * Object containing all exercises
-     */
-    exercises: PropTypes.object,
-    /**
      * Function for setting the right answer of an exercise
      */
     setCorrectAnswer: PropTypes.func.isRequired,
@@ -542,10 +489,6 @@ EditorBoxSortable.propTypes = {
      */
     page: PropTypes.any,
     /**
-     * Object containing box marks
-     */
-    marks: PropTypes.object,
-    /**
      * Function that updates the toolbar of a view
      */
     onToolbarUpdated: PropTypes.func,
@@ -553,4 +496,16 @@ EditorBoxSortable.propTypes = {
      * Object containing current theme colors
      */
     themeColors: PropTypes.object,
+    /**
+     * Collection of callbacks for sortable containers handling
+     */
+    handleSortableContainers: PropTypes.object.isRequired,
+    /**
+     * Collection of callbacks for boxes handling
+     */
+    handleBoxes: PropTypes.object.isRequired,
+    /**
+     * Collection of callbacks for marks handling
+     */
+    handleMarks: PropTypes.object.isRequired,
 };

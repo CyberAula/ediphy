@@ -128,70 +128,10 @@ ContainedCanvas.propTypes = {
      * Última acción realizada en Redux
      */
     lastActionDispatched: PropTypes.any.isRequired,
-    /** *
-     * Añade una marca a la caja
-     */
-    addMarkShortcut: PropTypes.func.isRequired,
-    /**
-     * Función que oculta el overlay de creación de marcas
-     */
-    deleteMarkCreator: PropTypes.func.isRequired,
     /**
      * Identificador de la caja en la que se va a crear una marca
      */
     markCreatorId: PropTypes.any.isRequired,
-    /**
-     * Oculta/muestra el overlay de creación de marcas
-     */
-    onMarkCreatorToggled: PropTypes.func.isRequired,
-    /**
-     * Callback for adding a box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
-    /**
-     * Borra una caja
-     */
-    onBoxDeleted: PropTypes.func.isRequired,
-    /**
-     * Selecciona la caja
-     */
-    onBoxSelected: PropTypes.func.isRequired,
-    /**
-     * Aumenta el nivel de profundidad de selección (plugins dentro de plugins)
-     */
-    onBoxLevelIncreased: PropTypes.func.isRequired,
-    /**
-     * Mueve la caja
-     */
-    onBoxMoved: PropTypes.func.isRequired,
-    /**
-     * Redimensiona la caja
-     */
-    onBoxResized: PropTypes.func.isRequired,
-    /**
-     * Suelta la caja en una zona de un EditorBoxSortable
-     */
-    onBoxDropped: PropTypes.func.isRequired,
-    /**
-     * Alínea la caja verticalmente
-     */
-    onVerticallyAlignBox: PropTypes.func.isRequired,
-    /**
-     * Reordena las cajas dentro de su contenedor
-     */
-    onBoxesInsideSortableReorder: PropTypes.func.isRequired,
-    /**
-     * Borra un contenedor
-     */
-    onSortableContainerDeleted: PropTypes.func.isRequired,
-    /**
-     * Reordena los contenedores
-     */
-    onSortableContainerReordered: PropTypes.func.isRequired,
-    /**
-     * Redimensiona un contenedor
-     */
-    onSortableContainerResized: PropTypes.func.isRequired,
     /**
      *  Callback for selecting contained view
      */

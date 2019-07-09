@@ -150,11 +150,7 @@ export default function(state = {}, action = {}) {
     case IMPORT_EDI:
         return { ...state, ...action.payload.state.exercises };
     case DUPLICATE_NAV_ITEM:
-        console.log(state);
-        console.log(action);
-        console.log(state[action.payload.id]);
         let newExercise = JSON.parse(JSON.stringify(state[action.payload.id]));
-        console.log(newExercise);
         newExercise.id = action.payload.newId;
         let newExercises = {};
         for (let ex in newExercise.exercises) {

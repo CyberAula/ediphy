@@ -45,14 +45,6 @@ class EditorCanvasDoc extends Component {
                         titles={titles}
                         onBoxSelected={handleBoxes.onBoxSelected}
                         courseTitle={title}
-                        navItem={navItemSelected}
-                        navItems={navItems}
-                        marks={marks}
-                        containedView={containedViewSelected}
-                        containedViews={containedViews}
-                        pluginToolbars={pluginToolbars}
-                        viewToolbars={viewToolbars}
-                        boxes={boxes}
                         onViewTitleChanged={onViewTitleChanged}
                         onTitleChanged={onTitleChanged}
                     />
@@ -73,24 +65,13 @@ class EditorCanvasDoc extends Component {
                                     return <EditorBoxSortable
                                         key={id}
                                         id={id}
-                                        boxLevelSelected={boxLevelSelected}
-                                        boxSelected={boxSelected}
-                                        boxes={boxes}
-                                        exercises={exercises}
-                                        containedViews={containedViews}
-                                        containedViewSelected={containedViewSelected}
-                                        pluginToolbars={pluginToolbars}
-                                        lastActionDispatched={lastActionDispatched}
                                         handleBoxes = {handleBoxes}
                                         handleMarks={handleMarks}
                                         handleSortableContainers={handleSortableContainers}
-                                        markCreatorId={markCreatorId}
-                                        onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                         onTextEditorToggled={this.props.onTextEditorToggled}
                                         pageType={itemSelected.type || 0}
                                         setCorrectAnswer={this.props.setCorrectAnswer}
                                         page={itemSelected ? itemSelected.id : 0}
-                                        marks={marks}
                                         onToolbarUpdated={onToolbarUpdated}
                                         themeColors={colors}
                                     />;
@@ -188,21 +169,9 @@ EditorCanvasDoc.propTypes = {
      */
     marks: PropTypes.object,
     /**
-     * Callback for vertically aligning boxes inside a container
-     */
-    onVerticallyAlignBox: PropTypes.func.isRequired,
-    /**
      * Callback for toggling CKEditor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
-    /**
-   * Callback for toggling rich marks modal creator
-   */
-    onRichMarksModalToggled: PropTypes.func.isRequired,
-    /**
-     * Callback for moving marks
-     */
-    onRichMarkMoved: PropTypes.func.isRequired,
     /**
      * Callback for modify navitem title and subtitle
      */
@@ -228,10 +197,6 @@ EditorCanvasDoc.propTypes = {
    */
     onToolbarUpdated: PropTypes.func,
     /**
-     * Last files uploaded to server or searched in modal
-     */
-    fileModalResult: PropTypes.object,
-    /**
      * Function that opens the file search modal
      */
     openFileModal: PropTypes.func.isRequired,
@@ -243,4 +208,16 @@ EditorCanvasDoc.propTypes = {
      * Aspect ratio of slides
      */
     aspectRatio: PropTypes.number,
+    /**
+     * Collection of callbacks for boxes handling
+     */
+    handleBoxes: PropTypes.object.isRequired,
+    /**
+     * Collection of callbacks for marks handling
+     */
+    handleMarks: PropTypes.object.isRequired,
+    /**
+     * Collection of callbacks for sortable containers handling
+     */
+    handleSortableContainers: PropTypes.object.isRequired,
 };

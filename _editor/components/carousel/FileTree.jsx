@@ -136,10 +136,6 @@ class FileTree extends Component {
 
     render() {
         if (!this.props.carouselShow) { return (<div style={{ height: "100%" }}><br /></div>); }
-
-        const { onNavItemDuplicated, onNavItemNameChanged, onNavItemAdded, onNavItemSelected,
-            onNavItemExpanded, onNavItemDeleted, onNavItemReordered } = this.props.handleNavItems;
-
         return (
             <div className={"carousselListContainer"} style={{ height: '100%' }}>
                 <div id="sortablesCollapse" style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
@@ -224,13 +220,21 @@ FileTree.propTypes = {
      */
     containedViewSelected: PropTypes.any,
     /**
+     * Collection of callbacks for nav items handling
+     */
+    handleNavItems: PropTypes.object.isRequired,
+    /**
      * Collection of callbacks for contained views handling
      */
-    handleContainedViews: PropTypes.func.isRequired,
+    handleContainedViews: PropTypes.object.isRequired,
     /**
      * View/Contained view selected at the index
      */
     indexSelected: PropTypes.any,
+    /**
+     * Selects a view/contained view in the index's context
+     */
+    onIndexSelected: PropTypes.func.isRequired,
     /**
      * Dictionary containing all created views, each one with its *id* as the key
      */
@@ -255,34 +259,6 @@ FileTree.propTypes = {
      * Callback for renaming contained view
      */
     onContainedViewSelected: PropTypes.func,
-    /**
-     * Callback for renaming view
-     */
-    onIndexSelected: PropTypes.func,
-    /**
-     * Adds a new view
-     */
-    onNavItemAdded: PropTypes.func,
-    /**
-     * Expands navItem (only for sections)
-     */
-    onNavItemExpanded: PropTypes.func,
-    /**
-     * Callback for renaming view
-     */
-    onNavItemNameChanged: PropTypes.func,
-    /**
-     * Callback for reordering navItems
-     */
-    onNavItemReordered: PropTypes.func,
-    /**
-     * Deletes a view
-     */
-    onNavItemDeleted: PropTypes.func,
-    /**
-     * Selects a view
-     */
-    onNavItemSelected: PropTypes.func,
     /**
      * Object containing all the pages' toolbars
      */
@@ -319,6 +295,7 @@ FileTree.propTypes = {
      *  Object containing all created boxes (by id)
      */
     boxes: PropTypes.object,
+
 };
 
 export default DragDropContext(overrideDropCaptureHandler)(FileTree);

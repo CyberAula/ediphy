@@ -343,4 +343,12 @@ PluginPlaceholder.propTypes = {
    * Function that updates the toolbar of a view
    */
     onToolbarUpdated: PropTypes.func,
+    /**
+     * Collection of callbacks for boxes handling
+     */
+    handleBoxes: PropTypes.object.isRequired,
+    /**
+     * Collection of callbacks for marks handling
+     */
+    handleMarks: PropTypes.object.isRequired,
 };

@@ -141,6 +141,10 @@ PluginToolbar.propTypes = {
    */
     box: PropTypes.object,
     /**
+     * Collection of callbacks for sortable containers handling
+     */
+    handleSortableContainers: PropTypes.object.isRequired,
+    /**
    * Callback for toggling the CKEDitor
    */
     onTextEditorToggled: PropTypes.func.isRequired,
@@ -152,14 +156,6 @@ PluginToolbar.propTypes = {
    * Callback for change rows distribution
    */
     onRowsChanged: PropTypes.func.isRequired,
-    /**
-   * Callback for change sortable container properties
-   */
-    onSortablePropsChanged: PropTypes.func.isRequired,
-    /**
-   * Callback for resize sortable container
-   */
-    onSortableContainerResized: PropTypes.func.isRequired,
     /**
      * Callback for opening global configuration modal
      */

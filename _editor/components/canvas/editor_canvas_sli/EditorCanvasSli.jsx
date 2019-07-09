@@ -36,15 +36,14 @@ class EditorCanvasSli extends Component {
 
     render() {
         // eslint-disable-next-line no-shadow
-        const { aspectRatio, boxes, boxLevelSelected, boxSelected, containedViewSelected, containedViews,
-            exercises, fromCV, grid, lastActionDispatched, markCreatorId, marks, navItemSelected, navItems, onSortableContainerResized,
-            onTextEditorToggled, onTitleChanged, onToolbarUpdated, onVerticallyAlignBox, onViewTitleChanged, openConfigModal, openFileModal, pluginToolbars,
-            setCorrectAnswer, showCanvas, styleConfig, title, viewToolbars } = this.props;
+        const { aspectRatio, boxSelected, containedViewSelected, fromCV,
+            grid, navItemSelected, navItems, onTextEditorToggled,
+            onTitleChanged, onToolbarUpdated, onViewTitleChanged, openConfigModal, openFileModal,
+            pluginToolbars, setCorrectAnswer, showCanvas, styleConfig, title, viewToolbars } = this.props;
 
-        const { onBoxAdded, onBoxSelected, onBoxLevelIncreased, onBoxMoved, onBoxResized, onBoxDropped, onBoxDeleted,
-            onBoxesInsideSortableReorder } = this.props.handleBoxes;
+        const { onBoxSelected, onBoxResized, onBoxDeleted } = this.props.handleBoxes;
 
-        const { addMarkShortcut, deleteMarkCreator, onMarkCreatorToggled, onRichMarkMoved, onRichMarksModalToggled } = this.props.handleMarks;
+        const { onMarkCreatorToggled } = this.props.handleMarks;
 
         const itemSelected = fromCV ? containedViewSelected : navItemSelected;
         const titles = getTitles(itemSelected, viewToolbars, navItems, fromCV);
@@ -79,14 +78,6 @@ class EditorCanvasSli extends Component {
                             titles={titles}
                             onBoxSelected={onBoxSelected}
                             courseTitle={title}
-                            navItem={navItemSelected}
-                            navItems={navItems}
-                            marks={marks}
-                            pluginToolbars={pluginToolbars}
-                            containedView={containedViewSelected}
-                            containedViews={containedViews}
-                            viewToolbars={viewToolbars}
-                            boxes={boxes}
                             onTitleChanged={onTitleChanged}
                             onViewTitleChanged={onViewTitleChanged}
                         />
@@ -106,25 +97,11 @@ class EditorCanvasSli extends Component {
 
                         {itemBoxes.map(id => {
                             return <EditorBox
-                                key={id}
-                                id={id}
-                                grid={gridOn}
+                                key={id} id={id} grid={gridOn}
                                 page={itemSelected ? itemSelected.id : 0}
-                                boxes={boxes}
-                                boxSelected={boxSelected}
-                                boxLevelSelected={boxLevelSelected}
-                                containedViews={containedViews}
-                                containedViewSelected={containedViewSelected}
-                                marks={marks}
-                                pluginToolbars={pluginToolbars}
-                                lastActionDispatched={lastActionDispatched}
                                 handleMarks={this.props.handleMarks}
-                                markCreatorId={markCreatorId}
                                 handleBoxes={this.props.handleBoxes}
                                 onToolbarUpdated={onToolbarUpdated}
-                                exercises={itemSelected ? (exercises[itemSelected.id].exercises[id]) : undefined}
-                                onSortableContainerResized={onSortableContainerResized}
-                                onVerticallyAlignBox={onVerticallyAlignBox}
                                 onTextEditorToggled={onTextEditorToggled}
                                 setCorrectAnswer={setCorrectAnswer}
                                 themeColors={toolbar.colors ? toolbar.colors : getThemeColors(theme)}
@@ -340,10 +317,6 @@ EditorCanvasSli.propTypes = {
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * Selected box level (only plugins inside plugins)
-     */
-    boxLevelSelected: PropTypes.number.isRequired,
-    /**
      * Object containing all views (by id)
      */
     navItems: PropTypes.object.isRequired,
@@ -351,10 +324,6 @@ EditorCanvasSli.propTypes = {
      * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
-    /**
-     * Object containing all contained views (identified by its ID)
-     */
-    containedViews: PropTypes.object.isRequired,
     /**
      * Selected contained view (by ID)
      */
@@ -372,70 +341,6 @@ EditorCanvasSli.propTypes = {
      */
     pluginToolbars: PropTypes.object.isRequired,
     /**
-     * Last action dispatched in Redux
-     */
-    lastActionDispatched: PropTypes.any.isRequired,
-    /**
-     * Callback for adding a mark shortcut
-     */
-    addMarkShortcut: PropTypes.func.isRequired,
-    /**
-     * Callback for deleting mark creator overlay
-     */
-    deleteMarkCreator: PropTypes.func.isRequired,
-    /**
-     * Identifier of the box that is creating a mark
-     */
-    markCreatorId: PropTypes.any.isRequired,
-    /**
-     * Object containing box marks
-     */
-    marks: PropTypes.object,
-    /**
-     * Callback for toggling creation mark overlay
-     */
-    onMarkCreatorToggled: PropTypes.func.isRequired,
-    /**
-     * Callback for adding a box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
-    /**
-     * Callback for deleting a box
-     */
-    onBoxDeleted: PropTypes.func.isRequired,
-    /**
-     * Callback for selecting a box
-     */
-    onBoxSelected: PropTypes.func.isRequired,
-    /**
-     * Callback for increasing box level selected (only plugins inside plugins)
-     */
-    onBoxLevelIncreased: PropTypes.func.isRequired,
-    /**
-     * Callback for moving a box
-     */
-    onBoxMoved: PropTypes.func.isRequired,
-    /**
-     * Callback for resizing a box
-     */
-    onBoxResized: PropTypes.func.isRequired,
-    /**
-     * Callback for dropping a box
-     */
-    onBoxDropped: PropTypes.func.isRequired,
-    /**
-     *  Callback for vertically aligning boxes inside a container
-     */
-    onVerticallyAlignBox: PropTypes.func.isRequired,
-    /**
-     * Callback for reordering boxes inside a container
-     */
-    onBoxesInsideSortableReorder: PropTypes.func.isRequired,
-    /**
-     * Callback for resizing a sortable container
-     */
-    onSortableContainerResized: PropTypes.func.isRequired,
-    /**
      * Callback for toggling CKEditor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
@@ -444,14 +349,6 @@ EditorCanvasSli.propTypes = {
      */
     grid: PropTypes.bool,
     /**
-      * Callback for toggling rich marks modal creator
-      */
-    onRichMarksModalToggled: PropTypes.func.isRequired,
-    /**
-     * Callback for moving marks
-     */
-    onRichMarkMoved: PropTypes.func.isRequired,
-    /**
      * Callback for modify course title
      */
     onTitleChanged: PropTypes.func.isRequired,
@@ -459,10 +356,6 @@ EditorCanvasSli.propTypes = {
      * Callback for modify navitem title and subtitle
      */
     onViewTitleChanged: PropTypes.func.isRequired,
-    /**
-   * Object containing all exercises
-   */
-    exercises: PropTypes.object,
     /**
    * Function for setting the right answer of an exercise
    */
@@ -487,4 +380,12 @@ EditorCanvasSli.propTypes = {
      * Style config params
      */
     styleConfig: PropTypes.object,
+    /**
+     * Collection of callbacks for boxes handling
+     */
+    handleBoxes: PropTypes.object.isRequired,
+    /**
+     * Collection of callbacks for marks handling
+     */
+    handleMarks: PropTypes.object.isRequired,
 };
