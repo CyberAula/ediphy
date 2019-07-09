@@ -75,7 +75,7 @@ export default class EnrichedPDFPluginEditor extends React.Component {
                         time={1.5}
                         mark={id}
                         // marks={marks}
-                        onRichMarkMoved={this.props.props.onRichMarkMoved}
+                        onRichMarkMoved={this.props.props.handleMarks.onRichMarkMoved}
                         state={this.props.state}
                         base={this.props.base}>
                         <Mark

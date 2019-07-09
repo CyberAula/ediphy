@@ -812,7 +812,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     selected: button.value,
                     style: { display: button.hide ? 'none' : 'block' },
                     click: (option) => {
-                        toolbar_props.onVerticallyAlignBox(toolbar_props.boxSelected, option);
+                        toolbar_props.handleBoxes.onVerticallyAlignBox(toolbar_props.boxSelected, option);
                     },
                     tooltips: button.tooltips,
                     icons: button.icons,

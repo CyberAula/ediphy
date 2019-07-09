@@ -57,7 +57,8 @@ class EditorCanvasSli extends Component {
         let gridOn = grid && ((containedViewSelected !== 0) === fromCV);
         return (
             <Col id={fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12}
-                className="canvasSliClass safeZone" onMouseDown={()=>{onBoxSelected(-1);}}
+                className="canvasSliClass safeZone"
+                onMouseDown={this.deselectBoxes}
                 style={{ display: containedViewSelected !== 0 && !fromCV ? 'none' : 'initial',
                     fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px',
                 }}>

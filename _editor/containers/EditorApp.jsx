@@ -163,6 +163,7 @@ class EditorApp extends Component {
                     onExternalCatalogToggled={this.toggleExternalCatalog}
                 />}
                 <RichMarksModal
+                    boxSelected={boxSelected}
                     defaultValueMark={ canGetPlugin ?
                         Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).getConfig().defaultMarkValue
                         : 0 }
@@ -171,9 +172,6 @@ class EditorApp extends Component {
                         : null}
                     onBoxAdded={this.handleBoxes.onBoxAdded}
                     handleMarks={this.handleMarks}
-                    onRichMarkAdded={this.handleMarks.onRichMarkAdded}
-                    onRichMarkUpdated={(mark, view, viewToolbar) => this.props.dispatch(editRichMark(mark, view, viewToolbar))}
-                    onRichMarksModalToggled={this.handleMarks.onRichMarksModalToggled}
                 />
                 <Toolbar
                     top={(60 + ribbonHeight) + 'px'}
@@ -197,11 +195,9 @@ class EditorApp extends Component {
                     disabled={disabled}
                     onBoxAdded={this.handleBoxes.onBoxAdded}
                     importEdi={this.importEdi}
-                    onNavItemSelected={this.handleNavItems.onNavItemSelected}
                     deleteFileFromServer={this.deleteFileFromServer}
+                    handleNavItems={this.handleNavItems}
                     onIndexSelected={this.onIndexSelected}
-                    onNavItemAdded={this.handleNavItems.onNavItemAdded}
-                    onNavItemsAdded={this.handleNavItems.onNavItemsAdded}
                     uploadFunction={this.uploadFunction}
                     close={this.closeFileModal}
                 />
@@ -429,6 +425,9 @@ class EditorApp extends Component {
         onBoxDropped: (...params) => this.props.dispatch(dropBox(...params)),
 
         onBoxesInsideSortableReorder: (parent, container, order) => this.props.dispatch(reorderBoxes(parent, container, order)),
+
+        onVerticallyAlignBox: (id, verticalAlign) => this.props.dispatch(verticallyAlignBox(id, verticalAlign)),
+
     };
 
     handleContainedViews = {
@@ -509,24 +508,25 @@ class EditorApp extends Component {
 
         onRichMarkEditPressed: (mark) => this.props.dispatch(updateUI({ currentRichMark: mark })),
 
-        onRichMarkUpdated: (mark, createNew) => {
-            console.log('hola');
-            let boxSelected = this.props.boxSelected;
-            let mark_exist = this.props.marks[mark.id] !== undefined;
-            if (mark_exist) {
-
-            }
-            let state = this.props.store.getState();
-            let oldConnection = state.__marks[mark.id] ? state.__marks[mark.id].connection : 0;
-            state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
-            let newConnection = mark.connection;
-            if (mark.connection.id) {
-                newConnection = mark.connection.id;
-                state.__marks[mark.id].connection = mark.connection.id;
-            }
-
-            this.props.dispatch(editRichMark(boxSelected, state, mark, oldConnection, newConnection));
-
+        onRichMarkUpdated: (mark, view, viewToolbar) =>
+        // (mark, createNew) => {
+        // let boxSelected = this.props.boxSelected;
+        // let mark_exist = this.props.marks[mark.id] !== undefined;
+        // if (mark_exist) {
+        //
+        // }
+        // let state = this.props.store.getState();
+        // let oldConnection = state.__marks[mark.id] ? state.__marks[mark.id].connection : 0;
+        // state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
+        // let newConnection = mark.connection;
+        // if (mark.connection.id) {
+        //     newConnection = mark.connection.id;
+        //     state.__marks[mark.id].connection = mark.connection.id;
+        // }
+        //
+        // this.props.dispatch(editRichMark(boxSelected, state, mark, oldConnection, newConnection));
+        {
+            this.props.dispatch(editRichMark(mark, view, viewToolbar));
         },
 
         onRichMarksModalToggled: (value, boxId = -1) => {
@@ -544,6 +544,8 @@ class EditorApp extends Component {
     };
 
     handleNavItems = {
+
+        onIndexSelected: (id) => this.props.dispatch(selectIndex(id)),
 
         onNavItemNameChanged: (id, titleStr) => this.props.dispatch(updateViewToolbar(id, titleStr)),
 
@@ -666,8 +668,6 @@ class EditorApp extends Component {
     onRowsChanged = (...params) => this.props.dispatch(changeRows(...params));
 
     onTitleChanged = (id = 'title', titleStr) => this.props.dispatch(changeGlobalConfig(id, titleStr));
-
-    onVerticallyAlignBox = (id, verticalAlign) => this.props.dispatch(verticallyAlignBox(id, verticalAlign));
 
     openFileModal = (id = undefined, accept) => {
         this.props.dispatch((updateUI({

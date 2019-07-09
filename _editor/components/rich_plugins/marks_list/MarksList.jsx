@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import i18n from 'i18next';
+import Ediphy from "../../../../core/editor/main";
 export default class MarksList extends Component {
     render() {
         return (
@@ -9,7 +10,7 @@ export default class MarksList extends Component {
                 <Button
                     className='toolbarButton marksListButton'
                     onClick={e => {
-                        this.props.onRichMarksModalToggled();
+                        this.props.onRichMarksModalToggled(0, this.props.box_id);
                         e.stopPropagation();
                     }}>
                     {i18n.t("marks.add_mark")}
@@ -74,7 +75,7 @@ export default class MarksList extends Component {
                                 <i className="material-icons marklist" style={{ float: 'right' }}
                                     onClick={() => {
                                         this.props.onRichMarkEditPressed(mark);
-                                        this.props.onRichMarksModalToggled();
+                                        this.props.onRichMarksModalToggled(mark.value, mark.origin);
                                     }}>edit</i><br/>
 
                             </div>
