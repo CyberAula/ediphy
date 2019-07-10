@@ -10,7 +10,6 @@ This software is written in Javascript (ES6), making use of React and Redux.
 
 Visit our wiki to see all the available Ediphy Editor instructions.
 
-
 In order to install this project you will need `node` 8.x.x (latest), `yarn` and git.
 First clone the repo and then install the dependencies like so:
 
@@ -53,4 +52,4 @@ Ediphy is free software: you can redistribute it and/or modify it under the term
 
 Ediphy Editor is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
 
-You should have received a copy of the GNU Affero General Public License along with Ediphy Editor. If not, see http://www.gnu.org/licenses.
+You should have received a copy of the GNU Affero General Public License along with Ediphy Editor. If not, see <http://www.gnu.org/licenses>.
