@@ -7,7 +7,7 @@ import Alert from '../../common/alert/Alert';
 import Clipboard from '../../clipboard/Clipboard';
 import { isSlide, isBox, isSortableBox } from '../../../../common/utils';
 import { connect } from 'react-redux';
-import { changeBoxLayer } from '../../../../common/actions';
+import { changeBoxLayer, updateUI } from '../../../../common/actions';
 
 class ActionsRibbon extends Component {
 
@@ -63,7 +63,7 @@ class ActionsRibbon extends Component {
 
             } },
             "separator",
-            { key: "Grid", i18nkey: "Grid", icon: "grid_on", disabled: false, onClick: this.props.onGridToggle },
+            { key: "Grid", i18nkey: "Grid", icon: "grid_on", disabled: false, onClick: this.toggleGrid },
             "separator",
 
         ];
@@ -117,6 +117,8 @@ class ActionsRibbon extends Component {
 
         </Alert>;
     }
+
+    toggleGrid = () => this.props.dispatch(updateUI({ grid: !this.props.grid }));
 }
 
 export default connect(mapStateToProps)(ActionsRibbon);
@@ -132,6 +134,7 @@ function mapStateToProps(state) {
         exercises: state.undoGroup.present.exercises,
         containedViews: state.undoGroup.present.containedViewsById,
         pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+        grid: state.reactUI.grid,
     };
 }
 
@@ -160,10 +163,6 @@ ActionsRibbon.propTypes = {
      * Height of the ribbon in px (contains the string px)
      */
     ribbonHeight: PropTypes.string,
-    /**
-     * Toggle grid on slides function
-     */
-    onGridToggle: PropTypes.func,
     /**
      * Whether grid is disabled or not
      */

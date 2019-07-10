@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import Ediphy from '../../../core/editor/main';
 import i18n from 'i18next';
 import { CHANGE_DISPLAY_MODE, EXPAND_NAV_ITEM, IMPORT_STATE, INCREASE_LEVEL, INDEX_SELECT, SELECT_BOX, SELECT_NAV_ITEM, SET_BUSY, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES, UPDATE_BOX } from './../../../common/actions';
+
+import { connect } from "react-redux";
+
 /**
  * Component for auto-saving the state of the application periodically and avoid losing changes
  */
-export default class AutoSave extends Component {
+class AutoSave extends Component {
     state = {
         displaySave: false,
         modifiedState: false,
@@ -66,6 +69,15 @@ export default class AutoSave extends Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        lastAction: state.undoGroup.present.lastActionDispatched,
+        visorVisible: state.reactUI.visorVisible,
+    };
+}
+
+export default connect(mapStateToProps)(AutoSave);
 
 AutoSave.propTypes = {
     /**

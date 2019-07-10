@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
+import { updateUI } from "../../../common/actions";
+
+import { connect } from "react-redux";
+
 /**
  * Server Feedback Alert
  */
-export default class ServerFeedback extends Component {
+class ServerFeedback extends Component {
     /**
      * Render React Component
      * @returns {code}
@@ -37,11 +41,21 @@ export default class ServerFeedback extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.isBusy.msg !== this.props.isBusy.msg) {
             if (this.props.isBusy.msg === i18n.t("success_transaction")) {
-                setTimeout(()=>{this.props.hideModal();}, 2000);
+                setTimeout(this.closeServerModal, 2000);
             }
         }
     }
+
+    closeServerModal = () => this.props.dispatch(updateUI({ serverModal: false }));
 }
+
+function mapStateToProps(state) {
+    return {
+        show: state.reactUI.serverModal,
+    };
+}
+
+export default connect(mapStateToProps)(ServerFeedback);
 
 ServerFeedback.propTypes = {
     /**

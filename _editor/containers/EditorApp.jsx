@@ -54,8 +54,8 @@ class EditorApp extends Component {
 
     render() {
         const currentState = this.props.store.getState();
-        const { boxSelected, navItemSelected, containedViewSelected, filesUploaded, isBusy,
-            pluginToolbars, lastActionDispatched, globalConfig, reactUI, status, everPublished, title } = this.props;
+        const { boxSelected, navItemSelected, containedViewSelected, isBusy, pluginToolbars, globalConfig,
+            reactUI, status, everPublished } = this.props;
 
         const ribbonHeight = reactUI.hideTab === 'hide' ? 0 : 50;
         const disabled = (navItemSelected === 0 && containedViewSelected === 0) || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
@@ -68,37 +68,35 @@ class EditorApp extends Component {
             handleBoxes: this.handleBoxes,
             handleMarks: this.handleMarks,
             handleSortableContainers: this.handleSortableContainers,
-            lastActionDispatched,
             onContainedViewSelected: this.handleContainedViews.onContainedViewSelected,
             onTextEditorToggled: this.onTextEditorToggled,
             onTitleChanged: this.onTitleChanged,
-            onToolbarUpdated: this.toolbarUpdated,
+            onToolbarUpdated: this.handleToolbars.onToolbarUpdated,
             onViewTitleChanged: this.onViewTitleChanged,
             openConfigModal: this.openConfigModal,
             openFileModal: this.openFileModal,
-            setCorrectAnswer: this.setCorrectAnswer,
+            setCorrectAnswer: this.handleExercises.setCorrectAnswer,
         };
 
         return (
             <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }} ref={'app'}>
                 <Row className="navBar">
                     {reactUI.showTour && <EdiphyTour toggleTour={this.toggleTour} showTour={reactUI.showTour}/>}
-                    <HelpModal showTour={this.showTour} reactUI={reactUI} closeModal={this.hideHelp}/>
+                    <HelpModal showTour={this.showTour}/>
                     <InitModal showTour={this.showTour}/>
 
                     {this.state.alert}
                     <EditorNavBar
                         globalConfig={{ ...globalConfig, status, everPublished }}
-                        export={this.exportResource}
-                        scorm={this.exportToScorm}
+                        export={this.handleExportImport.exportResource}
+                        scorm={this.handleExportImport.exportToScorm}
                         save={this.save}
                     />
                     {Ediphy.Config.autosave_time > 1000 &&
                     <AutoSave
                         save={this.save}
                         isBusy={isBusy}
-                        lastAction={lastActionDispatched}
-                        visorVisible={reactUI.visorVisible}/>})
+                    />})
                 </Row>
                 <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
                     <EditorCarousel
@@ -114,8 +112,6 @@ class EditorApp extends Component {
                             width: (reactUI.carouselShow ? 'calc(100% - 212px)' : 'calc(100% - 80px)') }}>
                         <Row id="actionsRibbon">
                             <ActionsRibbon
-                                onGridToggle={this.onGridToggle}
-                                grid={reactUI.grid}
                                 ribbonHeight={ ribbonHeight + 'px'}
                                 onBoxDeleted={this.handleBoxes.onBoxDeleted}
                             />
@@ -128,44 +124,30 @@ class EditorApp extends Component {
                                 ribbonHeight={ ribbonHeight + 'px'} />
                         </Row>
                         <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
-                            <EditorCanvas {...canvasProps}/>
-                            <ContainedCanvas {...canvasProps}/>
+                            <EditorCanvas
+                                {...canvasProps}
+                            />
+                            <ContainedCanvas
+                                {...canvasProps}
+                            />
                         </Row>
                     </Col>
                 </Row>
                 <ServerFeedback
-                    show={reactUI.serverModal}
                     title={i18n.t("messages.save_changes")}
                     isBusy={isBusy}
-                    hideModal={this.closeServerModal}/>
-                <Visor
-                    id="visor"
-                    title={title}
-                    visorVisible={reactUI.visorVisible}
-                    onVisibilityToggled={this.toggleVisor}
-                    filesUploaded={currentState.filesUploaded }
+                />
+                <Visor id="visor"
                     state={{
                         ...currentState.undoGroup.present,
                         filesUploaded: currentState.filesUploaded,
                         status: currentState.status }}
                 />
-                <PluginConfigModal
-                    id={reactUI.pluginConfigModal}
-                    fileModalResult={reactUI.fileModalResult}
+                <PluginConfigModal id={reactUI.pluginConfigModal}
                     openFileModal={this.openFileModal}
-                    name={pluginToolbars[reactUI.pluginConfigModal] ? pluginToolbars[reactUI.pluginConfigModal].pluginId : ""}
-                    state={pluginToolbars[reactUI.pluginConfigModal] ? pluginToolbars[reactUI.pluginConfigModal].state : {}}
-                    closeConfigModal={this.closeConfigModal}
-                    updatePluginToolbar={this.updatePluginToolbar}
+                    updatePluginToolbar={this.handleToolbars.onPluginToolbarUpdated}
                 />
-                {Ediphy.Config.external_providers.enable_catalog_modal &&
-                <ExternalCatalogModal
-                    images={filesUploaded}
-                    visible={reactUI.catalogModal}
-                    onExternalCatalogToggled={this.toggleExternalCatalog}
-                />}
                 <RichMarksModal
-                    boxSelected={boxSelected}
                     defaultValueMark={defaultMarkValue}
                     validateValueInput={validateMarkValueInput}
                     onBoxAdded={this.handleBoxes.onBoxAdded}
@@ -178,16 +160,12 @@ class EditorApp extends Component {
                     handleContainedViews={this.handleContainedViews}
                     handleMarks={this.handleMarks}
                     handleSortableContainers={this.handleSortableContainers}
+                    handleToolbars={this.handleToolbars}
                     onBackgroundChanged={this.onBackgroundChanged}
-                    onColsChanged={this.onColsChanged}
-                    onRowsChanged={this.onRowsChanged}
-                    onScoreConfig={this.onScoreConfig}
+                    onScoreConfig={this.handleExercises.onScoreConfig}
                     onTextEditorToggled={this.onTextEditorToggled}
-                    onToolbarUpdated={this.toolbarUpdated}
-                    onVerticallyAlignBox={this.onVerticallyAlignBox}
                     openConfigModal={this.openConfigModal}
                     openFileModal={this.openFileModal}
-                    updateViewToolbar={this.updateViewToolbar}
                 />
                 <FileModal
                     disabled={disabled}
@@ -221,10 +199,10 @@ class EditorApp extends Component {
             };
         }
         document.addEventListener('keydown', this.keyListener);
-        document.addEventListener('dragover', this.dragListener);
-        document.addEventListener('dragleave', this.dragExitListener);
-        document.addEventListener('drop', this.dropListener);
-        document.addEventListener('dragstart', this.dragStartListener);
+        document.addEventListener('dragover', this.handleDnD.dragListener);
+        document.addEventListener('dragleave', this.handleDnD.dragExitListener);
+        document.addEventListener('drop', this.handleDnD.dropListener);
+        document.addEventListener('dragstart', this.handleDnD.dragStartListener);
 
         if(cookies.get("ediphy_visitor") === undefined) {
             cookies.set("ediphy_visitor", true);
@@ -233,10 +211,10 @@ class EditorApp extends Component {
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.keyListener);
-        document.removeEventListener('dragover', this.dragListener);
-        document.removeEventListener('dragleave', this.dragExitListener);
-        document.removeEventListener('drop', this.dropListener);
-        document.removeEventListener('dragstart', this.dragStartListener);
+        document.removeEventListener('dragover', this.handleDnD.dragListener);
+        document.removeEventListener('dragleave', this.handleDnD.dragExitListener);
+        document.removeEventListener('drop', this.handleDnD.dropListener);
+        document.removeEventListener('dragstart', this.handleDnD.dragStartListener);
     }
 
     // //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -248,60 +226,11 @@ class EditorApp extends Component {
         return undefined;
     };
 
-    closeConfigModal = () => this.props.dispatch(updateUI({ pluginConfigModal: false }));
-
-    closeFileModal = (fileModalResult) => {
-        this.props.dispatch((updateUI({
-            showFileUpload: false,
-            fileUploadTab: 0,
-            fileModalResult: fileModalResult ? fileModalResult : { id: undefined, value: undefined },
-        })));
-    };
-
-    closeServerModal = () => this.props.dispatch(updateUI({ serverModal: false }));
-
     deleteFileFromServer = (id, url, callback) => {
         let inProduction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc');
         let deleteFunction = inProduction ? deleteRemoteFileVishAsync : deleteRemoteFileEdiphyAsync;
         this.props.dispatch(deleteFunction(id, url, callback));
     };
-
-    dragExitListener = (ev) => {
-        ev.preventDefault();
-        if (ev.target.parentNode && ev.target.parentNode.classList.contains('fileInput')) {
-            ev.target.parentNode.classList.remove('dragging');
-        }
-    };
-
-    dragListener = (ev) => {
-        let { showFileUpload, blockDrag, fileUploadTab } = this.props.reactUI;
-        if (!showFileUpload && !blockDrag) {
-            this.props.dispatch(updateUI({
-                showFileUpload: '*',
-                fileModalResult: { id: undefined, value: undefined },
-                fileUploadTab: 0,
-            }));
-        }
-        if (showFileUpload && fileUploadTab !== 0) {
-            this.props.dispatch(updateUI({ fileUploadTab: 0 }));
-        }
-        ev.preventDefault();
-        if (ev.target.parentNode && ev.target.parentNode.classList.contains('fileInput')) {
-            ev.target.parentNode.classList.add('dragging');
-        }
-    };
-
-    dragStartListener = () => this.props.dispatch(updateUI({ blockDrag: true }));
-
-    dropListener = (ev) => {
-        if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
-        } else {
-            ev.preventDefault();
-        }
-        this.props.dispatch(updateUI({ blockDrag: false }));
-    };
-
-    exitListener = () => alert('Please press the Logout button to logout.');
 
     exportResource = (format, callback, options) => {
         let currentState = this.props.store.getState();
@@ -328,8 +257,6 @@ class EditorApp extends Component {
             filesUploaded: currentState.filesUploaded,
             status: currentState.status }, is2004, callback, selfContained);
     };
-
-    hideHelp = () => this.props.dispatch(updateUI({ showHelpButton: false }));
 
     importEdi = (state) => this.props.dispatch(serialize(importEdi(state)));
 
@@ -384,7 +311,7 @@ class EditorApp extends Component {
 
         if (key === 112) {
             e.preventDefault();
-            this.showHelp();
+            this.props.dispatch(updateUI({ showHelpButton: true }));
         }
         if (key === 113) {
             e.preventDefault();
@@ -393,6 +320,44 @@ class EditorApp extends Component {
     };
 
     onBackgroundChanged = (id, background) => this.props.dispatch(changeBackground(id, background));
+
+    handleDnD = {
+
+        dragExitListener: (ev) => {
+            ev.preventDefault();
+            if (ev.target.parentNode && ev.target.parentNode.classList.contains('fileInput')) {
+                ev.target.parentNode.classList.remove('dragging');
+            }
+        },
+
+        dragListener: (ev) => {
+            let { showFileUpload, blockDrag, fileUploadTab } = this.props.reactUI;
+            if (!showFileUpload && !blockDrag) {
+                this.props.dispatch(updateUI({
+                    showFileUpload: '*',
+                    fileModalResult: { id: undefined, value: undefined },
+                    fileUploadTab: 0,
+                }));
+            }
+            if (showFileUpload && fileUploadTab !== 0) {
+                this.props.dispatch(updateUI({ fileUploadTab: 0 }));
+            }
+            ev.preventDefault();
+            if (ev.target.parentNode && ev.target.parentNode.classList.contains('fileInput')) {
+                ev.target.parentNode.classList.add('dragging');
+            }
+        },
+
+        dragStartListener: () => this.props.dispatch(updateUI({ blockDrag: true })),
+
+        dropListener: (ev) => {
+            if (ev.target.tagName === 'INPUT' && ev.target.type === 'file') {
+            } else {
+                ev.preventDefault();
+            }
+            this.props.dispatch(updateUI({ blockDrag: false }));
+        },
+    };
 
     handleBoxes = {
 
@@ -423,6 +388,10 @@ class EditorApp extends Component {
         onBoxDropped: (...params) => this.props.dispatch(dropBox(...params)),
 
         onBoxesInsideSortableReorder: (parent, container, order) => this.props.dispatch(reorderBoxes(parent, container, order)),
+
+        onColsChanged: (...params) => this.props.dispatch(changeCols(...params)),
+
+        onRowsChanged: (...params) => this.props.dispatch(changeRows(...params)),
 
         onVerticallyAlignBox: (id, verticalAlign) => this.props.dispatch(verticallyAlignBox(id, verticalAlign)),
 
@@ -543,8 +512,6 @@ class EditorApp extends Component {
 
     handleNavItems = {
 
-        onIndexSelected: (id) => this.props.dispatch(selectIndex(id)),
-
         onNavItemNameChanged: (id, titleStr) => this.props.dispatch(updateViewToolbar(id, titleStr)),
 
         onNavItemAdded: (id, name, parent, type, position, background, customSize, hideTitles, hasContent, sortable_id) => {
@@ -624,7 +591,7 @@ class EditorApp extends Component {
 
         onNavItemReordered: (...params) => this.props.dispatch(reorderNavItem(...params)),
 
-        onNavItemToggled: () => this.props.dispatch(toggleNavItem(navItemSelected)),
+        onNavItemToggled: () => this.props.dispatch(toggleNavItem(this.props.navItemSelected)),
     };
 
     handleSortableContainers = {
@@ -656,13 +623,131 @@ class EditorApp extends Component {
 
     };
 
+    handleToolbars = {
+
+        onToolbarUpdated: (id, tab, accordion, name, value) => {
+            if (isBox(id) || isSortableBox(id)) {
+                let toolbar = this.props.pluginToolbars[id];
+                let pluginAPI = Ediphy.Plugins.get(toolbar.pluginId);
+                let config = pluginAPI.getConfig();
+                let deletedBoxes = [];
+                if (config.isComplex && accordion === 'state') {
+                    let newPluginState = JSON.parse(JSON.stringify(toolbar.state));
+                    newPluginState[name] = value;
+                    let pluginContainerIds = {};// newPluginState.__pluginContainerIds;
+                    let defaultBoxes = {};
+                    if (config.flavor !== "react") {
+                        let content = pluginAPI.getRenderTemplate(newPluginState);
+                        parsePluginContainers(content, pluginContainerIds);
+                    } else {
+                        let content = pluginAPI.getRenderTemplate(newPluginState, { exercises: { correctAnswer: true } });
+                        parsePluginContainersReact(content, pluginContainerIds, defaultBoxes);
+                    }
+                    if (toolbar.state.__pluginContainerIds && (Object.keys(toolbar.state.__pluginContainerIds).length < Object.keys(pluginContainerIds).length)) {
+                        for (let s in pluginContainerIds) {
+                            if (!toolbar.state.__pluginContainerIds[s]) {
+                                if (defaultBoxes[s]) {
+                                    let page = this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
+                                    this.props.dispatch(updatePluginToolbar(id, tab, accordion,
+                                        [name, "__pluginContainerIds"],
+                                        [value, pluginContainerIds]));
+                                    defaultBoxes[s].map((newBox, ind) => {
+                                        createBox({
+                                            parent: id,
+                                            page,
+                                            container: s,
+                                            isDefaultPlugin: true,
+                                            initialState: newBox.initialState,
+                                            id: ID_PREFIX_BOX + Date.now() + '_' + ind,
+                                            draggable: true,
+                                            resizable: this.props.boxes[id].resizable,
+                                        }, newBox.type, false,
+                                        (...params)=>{this.props.dispatch(addBox(...params));},
+                                        this.props.boxes);
+                                    });
+
+                                }
+                            }
+                        }
+                        return;
+                    } else if (toolbar.state.__pluginContainerIds && (Object.keys(toolbar.state.__pluginContainerIds).length > Object.keys(pluginContainerIds).length)) {
+                        for (let s in toolbar.state.__pluginContainerIds) {
+                            if (!pluginContainerIds[s]) {
+                                if (this.props.boxes[id].sortableContainers[s].children) {
+                                    deletedBoxes = deletedBoxes.concat(this.props.boxes[id].sortableContainers[s].children);
+                                }
+                            }
+                        }
+                    }
+                    this.props.dispatch(updatePluginToolbar(id, tab, accordion,
+                        [name, "__pluginContainerIds"],
+                        [value, pluginContainerIds], deletedBoxes));
+                    return;
+                }
+                this.props.dispatch(updatePluginToolbar(id, tab, accordion, name, value, deletedBoxes));
+            } else {
+                this.props.dispatch(updateViewToolbar(id, tab, accordion, name, value));
+            }
+        },
+
+        onPluginToolbarUpdated: (id, state) => this.props.dispatch(updateBox(id, "", this.props.pluginToolbars[this.props.reactUI.pluginConfigModal], state)),
+
+        onViewToolbarUpdated: (id, toolbar) => this.props.dispatch(updateViewToolbar(id, toolbar)),
+    };
+
+    handleExercises = {
+
+        onScoreConfig: (id, button, value, page) => this.props.dispatch(configScore(id, button, value, page)),
+
+        setCorrectAnswer: (id, correctAnswer, page) => this.props.dispatch(setCorrectAnswer(id, correctAnswer, page)),
+    };
+
+    handleExportImport = {
+        deleteFileFromServer: (id, url, callback) => {
+            let inProduction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc');
+            let deleteFunction = inProduction ? deleteRemoteFileVishAsync : deleteRemoteFileEdiphyAsync;
+            this.props.dispatch(deleteFunction(id, url, callback));
+        },
+
+        exportResource: (format, callback, options) => {
+            let currentState = this.props.store.getState();
+            switch (format) {
+            case 'PDF':
+                printToPDF(currentState.undoGroup.present, callback, options);
+                break;
+            case 'MoodleXML':
+                toMoodleXML(currentState.undoGroup.present, callback, options);
+                break;
+            case 'edi':
+                Ediphy.Visor.exportsEDI({ ...currentState.undoGroup.present, filesUploaded: currentState.filesUploaded }, callback);
+                break;
+            default:
+                Ediphy.Visor.exportsHTML({ ...currentState.undoGroup.present, filesUploaded: currentState.filesUploaded }, callback, options);
+                break;
+            }
+        },
+
+        exportToScorm: () => (is2004, callback, selfContained = false) => {
+            let currentState = this.props.store.getState();
+            Ediphy.Visor.exportScorm({
+                ...currentState.undoGroup.present,
+                filesUploaded: currentState.filesUploaded,
+                status: currentState.status }, is2004, callback, selfContained);
+        },
+
+        importEdi: (state) => this.props.dispatch(serialize(importEdi(state))),
+
+        uploadFunction: (query, keywords, callback) => {
+            let inProduction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc');
+            let uploadFunction = inProduction ? uploadVishResourceAsync : uploadEdiphyResourceAsync;
+            this.props.dispatch(uploadFunction(query, keywords, callback));
+        },
+
+    };
+
     onIndexSelected = (id) => this.props.dispatch(selectIndex(id));
 
-    onColsChanged = (...params) => this.props.dispatch(changeCols(...params));
-
     onGridToggle = () => this.props.dispatch(updateUI({ grid: !this.props.reactUI.grid }));
-
-    onRowsChanged = (...params) => this.props.dispatch(changeRows(...params));
 
     onTitleChanged = (id = 'title', titleStr) => this.props.dispatch(changeGlobalConfig(id, titleStr));
 
@@ -673,8 +758,6 @@ class EditorApp extends Component {
             fileModalResult: { id, value: undefined },
         })));
     };
-
-    onScoreConfig = (id, button, value, page) => this.props.dispatch(configScore(id, button, value, page));
 
     onTextEditorToggled = (caller, value, text, content) => {
         let pluginToolbar = this.props.pluginToolbars[caller];
@@ -695,8 +778,6 @@ class EditorApp extends Component {
 
     save = (win) => this.props.dispatch(exportStateAsync({ ...this.props.store.getState() }, win));
 
-    setCorrectAnswer = (id, correctAnswer, page) => this.props.dispatch(setCorrectAnswer(id, correctAnswer, page));
-
     showTour = () => {
         this.props.dispatch(updateUI({
             showTour: true,
@@ -704,82 +785,7 @@ class EditorApp extends Component {
         }));
     };
 
-    showHelp = () => this.props.dispatch(updateUI({ showHelpButton: true }));
-
-    toggleExternalCatalog = () => this.props.dispatch(updateUI({ catalogModal: !this.props.reactUI.catalogModal }));
-
     toggleTour = (tour) => this.props.dispatch(updateUI({ showTour: tour }));
-
-    toggleVisor = () => this.props.dispatch(updateUI({ visorVisible: !this.props.reactUI.visorVisible }));
-
-    toolbarUpdated = (id, tab, accordion, name, value) => {
-        if (isBox(id) || isSortableBox(id)) {
-            let toolbar = this.props.pluginToolbars[id];
-            let pluginAPI = Ediphy.Plugins.get(toolbar.pluginId);
-            let config = pluginAPI.getConfig();
-            let deletedBoxes = [];
-            if (config.isComplex && accordion === 'state') {
-                let newPluginState = JSON.parse(JSON.stringify(toolbar.state));
-                newPluginState[name] = value;
-                let pluginContainerIds = {};// newPluginState.__pluginContainerIds;
-                let defaultBoxes = {};
-                if (config.flavor !== "react") {
-                    let content = pluginAPI.getRenderTemplate(newPluginState);
-                    parsePluginContainers(content, pluginContainerIds);
-                } else {
-                    let content = pluginAPI.getRenderTemplate(newPluginState, { exercises: { correctAnswer: true } });
-                    parsePluginContainersReact(content, pluginContainerIds, defaultBoxes);
-                }
-                if (toolbar.state.__pluginContainerIds && (Object.keys(toolbar.state.__pluginContainerIds).length < Object.keys(pluginContainerIds).length)) {
-                    for (let s in pluginContainerIds) {
-                        if (!toolbar.state.__pluginContainerIds[s]) {
-                            if (defaultBoxes[s]) {
-                                let page = this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
-                                this.props.dispatch(updatePluginToolbar(id, tab, accordion,
-                                    [name, "__pluginContainerIds"],
-                                    [value, pluginContainerIds]));
-                                defaultBoxes[s].map((newBox, ind) => {
-                                    createBox({
-                                        parent: id,
-                                        page,
-                                        container: s,
-                                        isDefaultPlugin: true,
-                                        initialState: newBox.initialState,
-                                        id: ID_PREFIX_BOX + Date.now() + '_' + ind,
-                                        draggable: true,
-                                        resizable: this.props.boxes[id].resizable,
-                                    }, newBox.type, false,
-                                    (...params)=>{this.props.dispatch(addBox(...params));},
-                                    this.props.boxes);
-                                });
-
-                            }
-                        }
-                    }
-                    return;
-                } else if (toolbar.state.__pluginContainerIds && (Object.keys(toolbar.state.__pluginContainerIds).length > Object.keys(pluginContainerIds).length)) {
-                    for (let s in toolbar.state.__pluginContainerIds) {
-                        if (!pluginContainerIds[s]) {
-                            if (this.props.boxes[id].sortableContainers[s].children) {
-                                deletedBoxes = deletedBoxes.concat(this.props.boxes[id].sortableContainers[s].children);
-                            }
-                        }
-                    }
-                }
-                this.props.dispatch(updatePluginToolbar(id, tab, accordion,
-                    [name, "__pluginContainerIds"],
-                    [value, pluginContainerIds], deletedBoxes));
-                return;
-            }
-            this.props.dispatch(updatePluginToolbar(id, tab, accordion, name, value, deletedBoxes));
-        } else {
-            this.props.dispatch(updateViewToolbar(id, tab, accordion, name, value));
-        }
-    };
-
-    updatePluginToolbar = (id, state) => this.props.dispatch(updateBox(id, "", this.props.pluginToolbars[this.props.reactUI.pluginConfigModal], state));
-
-    updateViewToolbar = (id, toolbar) => this.props.dispatch(updateViewToolbar(id, toolbar));
 
     uploadFunction = (query, keywords, callback) => {
         let inProduction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc');

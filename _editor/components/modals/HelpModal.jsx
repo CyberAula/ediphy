@@ -4,16 +4,19 @@ import i18n from "i18next";
 import { Modal } from "react-bootstrap";
 import help from "../joyride/help.svg";
 import InitModal from "./InitModal";
+import { updateUI } from "../../../common/actions";
 
-export default class HelpModal extends React.Component {
+import { connect } from "react-redux";
+
+class HelpModal extends React.Component {
 
     render() {
         return(
             <Modal className="pageModal welcomeModal helpModal"
-                show={this.props.reactUI.showHelpButton}
+                show={this.props.showHelpButton}
                 cancelButton
                 acceptButtonText={i18n.t("joyride.start")}
-                onHide={this.props.closeModal}>
+                onHide={this.closeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>{i18n.t("messages.help")}</Modal.Title>
                 </Modal.Header>
@@ -35,7 +38,17 @@ export default class HelpModal extends React.Component {
             </Modal>
         );
     }
+
+    closeModal = () => this.props.dispatch(updateUI({ showHelpButton: false }));
 }
+
+function mapStateToProps(state) {
+    return {
+        showHelpButton: state.reactUI.showHelpButton,
+    };
+}
+
+export default connect(mapStateToProps)(HelpModal);
 
 HelpModal.propTypes = {
     /**
@@ -43,11 +56,7 @@ HelpModal.propTypes = {
      */
     showTour: PropTypes.func,
     /**
-     * Function to close modal
+     * Show help button
      */
-    closeModal: PropTypes.func,
-    /**
-     * User Interface params
-     */
-    reactUI: PropTypes.object,
+    showHelpButton: PropTypes.any,
 };

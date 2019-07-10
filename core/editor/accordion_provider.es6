@@ -548,7 +548,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             if (button.type === 'radio') {
                 value = button.options[value];
                 if (buttonKey === '__position') {
-                    toolbar_props.onToolbarUpdated(id, tabKey, currentElement, '__position', value);
+                    toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, currentElement, '__position', value);
                     let parentId = toolbar_props.box.parent;
                     let containerId = toolbar_props.box.container;
                     toolbar_props.handleBoxes.onBoxMoved(id, 0, 0, value, parentId, containerId);
@@ -570,7 +570,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                             let canvas = document.createElement('canvas');
                             let ctx = canvas.getContext('2d');
                             ctx.drawImage(img, 0, 0, 1200, 1200);
-                            toolbar_props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, canvas.toDataURL("image/jpeg"));
+                            toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, currentElement, buttonKey, canvas.toDataURL("image/jpeg"));
 
                         };
                         img.src = data;
@@ -694,10 +694,10 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             } else if (currentElement === '__score') {
                 toolbar_props.onScoreConfig(id, buttonKey, value);
                 if (!button.__defaultField) {
-                    toolbar_props.onToolbarUpdated(id, tabKey, 'state', buttonKey, value);
+                    toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, 'state', buttonKey, value);
                 }
             } else {
-                toolbar_props.onToolbarUpdated(id, tabKey, currentElement, buttonKey, value);
+                toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, currentElement, buttonKey, value);
             }
         },
     };
@@ -1177,25 +1177,25 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     case "background":
         let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(value);
         if(isColor) {
-            toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, value);
+            toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, value);
         } else {
-            toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, value);
+            toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, value);
         }
         break;
     case "pagetitle_name":
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
             documentTitleContent: value,
         });
         break;
     // change page/slide title
     case "pagesubtitle_name":
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
             documentSubtitleContent: value,
         });
         break;
     // change page/slide title
     case "pagenumber_name":
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
             numPageContent: value,
         });
         break;
@@ -1207,21 +1207,21 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     // change document(navitem) name
     case 'navitem_name':
         // if (isContainedView(toolbar_props.navItemSelected)) {
-        //     toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, { viewName: value });
+        //     toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, { viewName: value });
         // } else {
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, { viewName: value });
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, { viewName: value });
         // }
         break;
         // display - course title
     case 'display_title':
         let courseTitle = value ? 'reduced' : 'hidden';
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
             courseTitle: courseTitle,
         });
         break; // display - page title
     case 'display_pagetitle':
         let docTitle = value ? 'reduced' : 'hidden';
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
             documentTitle: docTitle,
         });
         break;
@@ -1229,20 +1229,20 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
         /** ******************************Necesarias??******************************/
     case i18n.t('Title') + i18n.t('page'):
         let pageTitle = value ? 'reduced' : 'hidden';
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
             documentTitle: pageTitle,
         });
         break;
     // display - slide title
     case i18n.t('Title') + i18n.t('slide'):
         let slideTitle = value ? 'reduced' : 'hidden';
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
             documentTitle: slideTitle,
         });
         break;
     case i18n.t('Title') + i18n.t('section'):
         let sectionTitle = value ? 'reduced' : 'hidden';
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
             documentTitle: sectionTitle,
         });
         break;
@@ -1250,21 +1250,21 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
     // display - subtitle
     case 'display_pagesubtitle':
         let subTitle = value ? 'reduced' : 'hidden';
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
             documentSubtitle: subTitle,
         });
         break;
     // display - breadcrumb
     case 'display_breadcrumb':
         let breadcrumb = value ? 'reduced' : 'hidden';
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
             breadcrumb: breadcrumb,
         });
         break;
     // display - pagenumber
     case 'display_pagenumber':
         let pagenumber = value ? 'reduced' : 'hidden';
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
             numPage: pagenumber,
         });
         break;
@@ -1272,7 +1272,7 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
         let currentView = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
         let wasCustomFont = currentView.hasOwnProperty('theme') && currentView.hasOwnProperty('font') && (currentView.font !== getThemeFont(currentView.theme));
         let wasCustomColor = currentView.hasOwnProperty('theme') && currentView.hasOwnProperty('colors') && currentView.colors.themeColor1 !== getThemeColors(currentView.theme).themeColor1;
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
             theme: value,
             themeBackground: 0,
             background: getBackground(value, 0),
@@ -1282,22 +1282,22 @@ export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
 
         break;
     case 'theme_background':
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
             themeBackground: value,
             background: value,
         });
         break;
     case 'theme_font':
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, { font: value });
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, { font: value });
         break;
 
     case 'theme_primary_color':
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
             colors: { ...themeToolbar.colors, themeColor1: value },
         });
         break;
     case 'theme_secondary_color':
-        toolbar_props.updateViewToolbar(toolbar_props.navItemSelected, {
+        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
             colors: { ...themeToolbar.colors, themeColor2: value },
         });
         break;

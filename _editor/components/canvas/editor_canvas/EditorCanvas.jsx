@@ -40,6 +40,7 @@ function mapStateToProps(state) {
         exercises: state.undoGroup.present.exercises,
         fileModalResult: state.reactUI.fileModalResult,
         grid: state.reactUI.grid,
+        lastActionDispatched: state.undoGroup.present.lastActionDispatched,
         markCreatorId: state.reactUI.markCreatorVisible,
         marks: state.undoGroup.present.marksById,
         navItems: state.undoGroup.present.navItemsById,

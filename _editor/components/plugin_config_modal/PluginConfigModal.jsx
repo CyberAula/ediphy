@@ -3,12 +3,21 @@ import { Modal, Button, Row } from 'react-bootstrap';
 import Ediphy from '../../../core/editor/main';
 import i18n from 'i18next';
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { updateUI } from "../../../common/actions";
+
 /**
  * Configuration modal for plugins that require it
  */
-export default class PluginConfigModal extends Component {
+class PluginConfigModal extends Component {
 
-    state = { show: false, pluginActive: '', reason: null, disabledButton: false, currentStep: 1 };
+    state = {
+        show: false,
+        pluginActive: '',
+        reason: null,
+        disabledButton: false,
+        currentStep: 1,
+    };
 
     componentWillReceiveProps(nextProps) {
         if (!this.props.id && nextProps.id) {
@@ -50,7 +59,7 @@ export default class PluginConfigModal extends Component {
 
                 <Modal.Footer>
                     <Button bsStyle="default" onClick={e => {
-                        this.props.closeConfigModal();
+                        this.closeConfigModal();
                         this.setState({ currentStep: 1 });
                     }}>{i18n.t("Cancel")}</Button>
                     { (this.state.currentStep > 1) ? <Button bsStyle="default" onClick={e => {
@@ -62,7 +71,7 @@ export default class PluginConfigModal extends Component {
                                 this.setState({ currentStep: this.state.currentStep + 1 });
                             }else{
                                 this.props.updatePluginToolbar(this.props.id, this.state.pluginState);
-                                this.props.closeConfigModal();
+                                this.closeConfigModal();
                                 this.setState({ currentStep: 1 });
                             }
                         }}>{(this.state.currentStep < stepsnumber) ? i18n.t("step_next") + " >" : i18n.t("confirm_changes")}</Button>
@@ -71,12 +80,24 @@ export default class PluginConfigModal extends Component {
             </Modal>
         );
     }
+
     /**
-     * After component mounts.
-     * Gets configuration from Plugin API
+     * Closes configuration modal
      */
+    closeConfigModal = () => this.props.dispatch(updateUI({ pluginConfigModal: false }));
 
 }
+
+function mapStateToProps(state) {
+    return {
+        fileModalResult: state.reactUI.fileModalResult,
+        name: state.undoGroup.present.pluginToolbarsById[state.reactUI.pluginConfigModal] ? state.undoGroup.present.pluginToolbarsById[state.reactUI.pluginConfigModal].pluginId : "",
+        state: state.undoGroup.present.pluginToolbarsById[state.reactUI.pluginConfigModal] ? state.undoGroup.present.pluginToolbarsById[state.reactUI.pluginConfigModal].state : {},
+    };
+}
+
+export default connect(mapStateToProps)(PluginConfigModal);
+
 PluginConfigModal.propTypes = {
     /**
      * Selected plugin id
@@ -90,10 +111,6 @@ PluginConfigModal.propTypes = {
      * Selected plugin state
      */
     state: PropTypes.object.isRequired,
-    /**
-     * Closes configuration modal
-     */
-    closeConfigModal: PropTypes.func,
     /**
      * Updates plugin toolbar
      */

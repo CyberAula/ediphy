@@ -11,6 +11,7 @@ import MoodleHandler from "./FileHandlers/MoodleHandler";
 
 import { connect } from "react-redux";
 import i18n from 'i18next';
+import { updateUI } from "../../../../common/actions";
 
 const initialState = {
     menu: 0,
@@ -174,9 +175,13 @@ class FileModal extends React.Component {
         return newInd;
     };
 
-    close = (e) => {
+    close = (fileModalResult) => {
         this.setState({ ...initialState });
-        this.props.close(e);
+        this.props.dispatch((updateUI({
+            showFileUpload: false,
+            fileUploadTab: 0,
+            fileModalResult: fileModalResult ? fileModalResult : { id: undefined, value: undefined },
+        })));
     };
 
     closeSideBar = (closeAlsoModal) => {

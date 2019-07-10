@@ -115,8 +115,8 @@ export default class PluginToolbar extends Component {
                                             <GridConfigurator id={id}
                                                 parentId={this.props.box.id}
                                                 container={container}
-                                                onColsChanged={this.props.onColsChanged}
-                                                onRowsChanged={this.props.onRowsChanged}
+                                                onColsChanged={this.props.handleBoxes.onColsChanged}
+                                                onRowsChanged={this.props.handleBoxes.onRowsChanged}
                                                 sortableProps={this.props.box.sortableContainers[id]}
                                                 onSortablePropsChanged={this.props.handleSortableContainers.onSortablePropsChanged}
                                                 onSortableContainerResized={this.props.handleSortableContainers.onSortableContainerResized}/>
@@ -145,17 +145,13 @@ PluginToolbar.propTypes = {
      */
     handleSortableContainers: PropTypes.object.isRequired,
     /**
+     * Collection of callbacks for boxes handling
+     */
+    handleBoxes: PropTypes.object.isRequired,
+    /**
    * Callback for toggling the CKEDitor
    */
     onTextEditorToggled: PropTypes.func.isRequired,
-    /**
-   * Callback for change columns distribution
-   */
-    onColsChanged: PropTypes.func.isRequired,
-    /**
-   * Callback for change rows distribution
-   */
-    onRowsChanged: PropTypes.func.isRequired,
     /**
      * Callback for opening global configuration modal
      */
