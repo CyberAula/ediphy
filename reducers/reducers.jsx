@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import undoable from 'redux-undo';
+import undoable, { includeAction, excludeAction } from 'redux-undo';
 import {
     ADD_BOX, SELECT_BOX, INCREASE_LEVEL, INDEX_SELECT, SELECT_NAV_ITEM, EXPAND_NAV_ITEM,
     TOGGLE_TEXT_EDITOR,
     DELETE_RICH_MARK, ADD_RICH_MARK, DELETE_CONTAINED_VIEW,
     SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPDATE_BOX,
-    UPLOAD_FILE, SELECT_CONTAINED_VIEW, DELETE_FILE, CHANGE_GLOBAL_CONFIG, IMPORT_EDI,
+    UPLOAD_FILE, SELECT_CONTAINED_VIEW, DELETE_FILE, CHANGE_GLOBAL_CONFIG, IMPORT_EDI, UPDATE_UI,
 } from '../common/actions';
 import { isSortableBox } from '../common/utils';
 import boxesById from './boxes_by_id';
@@ -149,6 +149,7 @@ const GlobalState = combineReducers({
             case TOGGLE_TEXT_EDITOR:
             case UPLOAD_FILE:
             case DELETE_FILE:
+            case UPDATE_UI:
             // case UPDATE_BOX:
             // case ADD_RICH_MARK:
                 return false;

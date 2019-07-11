@@ -97,7 +97,7 @@ export default function handlers(self) {
                     action: ()=>{
                         importEdiphy(self.state.element, self.props, (res) => {
                             if (res) {
-                                return self.props.importEdi(res);
+                                return self.props.handleExportImport.importEdi(res);
                             }
                             alert('Error');
                             return false;
@@ -122,7 +122,7 @@ export default function handlers(self) {
                     action: () => {
                         importExcursion(self.state.element, self.props, (res) => {
                             if (res) {
-                                return self.props.importEdi(res);
+                                return self.props.handleExportImport.importEdi(res);
                             }
                             alert('Error');
                             return false;

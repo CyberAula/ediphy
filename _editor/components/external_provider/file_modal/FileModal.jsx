@@ -40,14 +40,14 @@ class FileModal extends React.Component {
     };
 
     render() {
+
         let menus = APIProviders(this); // Retrieves all API providers
         let handler = FileHandlers(this); // Retrieves all file-handling actions
-
         return(
             <Modal className="pageModal fileModal"
                 backdrop bsSize="large"
                 show={!!this.props.visible}
-                onHide={() => this.close()}>
+                onHide={this.close}>
                 <Modal.Header closeButton>
                     <Modal.Title>{i18n.t("FileModal.Title")}</Modal.Title>
                 </Modal.Header>
@@ -118,19 +118,23 @@ class FileModal extends React.Component {
                             </div>
                             <hr className="fileModalFooter"/>
                             <Modal.Footer>
-                                {this.state.element ? (
+                                {this.state.element &&
                                     <div key={-2} className="footerFile">
                                         <i className="material-icons">{handler.icon || "attach_file"}</i>{this.state.name}</div>
-                                ) : null}
+                                }
                                 <div className={"fileModalButtonsFooter"}>
-                                    <Button key={-1} onClick={e => {
-                                        this.close();
-                                    }}>{i18n.t("FileModal.FileHandlers.cancel")}</Button>
-                                    {(this.state.element && handler && handler.buttons) ? handler.buttons.map((button, key)=>{
-                                        return <Button bsStyle="primary" key={key} disabled={button.disabled} onClick={e => {
-                                            button.action();
-                                        }}>{button.title}</Button>;
-                                    }) : null}
+                                    <Button key={-1} onClick={this.close}>
+                                        {i18n.t("FileModal.FileHandlers.cancel")}
+                                    </Button>
+                                    {(this.state.element && handler && handler.buttons) && handler.buttons.map((button, key)=>{
+                                        return (
+                                            <Button bsStyle="primary" key={key}
+                                                disabled={button.disabled}
+                                                onClick={button.action}
+                                            >
+                                                {button.title}
+                                            </Button>);
+                                    })}
                                 </div>
                             </Modal.Footer>
                         </div>

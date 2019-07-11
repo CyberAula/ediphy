@@ -7,6 +7,7 @@ import Ediphy from "../../../../core/editor/main";
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { changeBackground } from "../../../../common/actions";
 class Toolbar extends Component {
 
     state = { open: false };
@@ -22,6 +23,7 @@ class Toolbar extends Component {
         } else if(noBoxSelected) {
             exercises = this.props.exercises[this.props.navItemSelected];
             toolbar = <ViewToolbar {...this.props}
+                onBackgroundChanged={this.onBackgroundChanged}
                 open={this.state.open}
                 exercises={exercises}
                 onScoreConfig={(id, button, value, page) => {this.props.onScoreConfig(id, button, value, this.props.navItemSelected);}}
@@ -31,6 +33,7 @@ class Toolbar extends Component {
         } else {
             exercises = this.props.exercises[this.props.navItemSelected].exercises[this.props.boxSelected];
             toolbar = <PluginToolbar {...this.props}
+                onBackgroundChanged={this.onBackgroundChanged}
                 open={this.state.open}
                 exercises={exercises}
                 onScoreConfig={(id, button, value, page) => {this.props.onScoreConfig(id, button, value, this.props.navItemSelected);}}
@@ -90,6 +93,9 @@ class Toolbar extends Component {
     toggleToolbar = () => {
         this.setState({ open: !this.state.open });
     };
+
+    onBackgroundChanged = (id, background) => this.props.dispatch(changeBackground(id, background));
+
 }
 
 function mapStateToProps(state) {

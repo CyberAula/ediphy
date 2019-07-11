@@ -43,6 +43,7 @@ import toMoodleXML from "../../core/editor/moodle_xml.es6";
 import HelpModal from "../components/modals/HelpModal";
 import InitModal from "../components/modals/InitModal";
 import Cookies from "universal-cookie";
+import KeyListener from "../components/common/key_listener/KeyListener";
 const cookies = new Cookies();
 
 /**
@@ -54,8 +55,7 @@ class EditorApp extends Component {
 
     render() {
         const currentState = this.props.store.getState();
-        const { boxSelected, navItemSelected, containedViewSelected, isBusy, pluginToolbars, globalConfig,
-            reactUI, status, everPublished } = this.props;
+        const { boxSelected, navItemSelected, containedViewSelected, isBusy, pluginToolbars, globalConfig, reactUI, status, everPublished } = this.props;
 
         const ribbonHeight = reactUI.hideTab === 'hide' ? 0 : 50;
         const disabled = (navItemSelected === 0 && containedViewSelected === 0) || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
@@ -69,21 +69,21 @@ class EditorApp extends Component {
             handleMarks: this.handleMarks,
             handleSortableContainers: this.handleSortableContainers,
             onContainedViewSelected: this.handleContainedViews.onContainedViewSelected,
-            onTextEditorToggled: this.onTextEditorToggled,
-            onTitleChanged: this.onTitleChanged,
+            onTextEditorToggled: this.handleCanvas.onTextEditorToggled,
+            onTitleChanged: this.handleCanvas.onTitleChanged,
             onToolbarUpdated: this.handleToolbars.onToolbarUpdated,
-            onViewTitleChanged: this.onViewTitleChanged,
-            openConfigModal: this.openConfigModal,
-            openFileModal: this.openFileModal,
+            onViewTitleChanged: this.handleCanvas.onViewTitleChanged,
+            openConfigModal: this.handleModals.openConfigModal,
+            openFileModal: this.handleModals.openFileModal,
             setCorrectAnswer: this.handleExercises.setCorrectAnswer,
         };
 
         return (
             <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }} ref={'app'}>
                 <Row className="navBar">
-                    {reactUI.showTour && <EdiphyTour toggleTour={this.toggleTour} showTour={reactUI.showTour}/>}
-                    <HelpModal showTour={this.showTour}/>
-                    <InitModal showTour={this.showTour}/>
+                    {reactUI.showTour && <EdiphyTour toggleTour={this.handleModals.toggleTour} showTour={reactUI.showTour}/>}
+                    <HelpModal showTour={this.handleModals.showTour}/>
+                    <InitModal showTour={this.handleModals.showTour}/>
 
                     {this.state.alert}
                     <EditorNavBar
@@ -103,8 +103,8 @@ class EditorApp extends Component {
                         onBoxAdded={this.handleBoxes.onBoxAdded}
                         handleContainedViews={this.handleContainedViews}
                         handleNavItems={this.handleNavItems}
-                        onIndexSelected={this.onIndexSelected}
-                        onTitleChanged={this.onTitleChanged}
+                        onIndexSelected={this.handleCanvas.onIndexSelected}
+                        onTitleChanged={this.handleCanvas.onTitleChanged}
                     />
 
                     <Col id="colRight" xs={12}
@@ -144,7 +144,7 @@ class EditorApp extends Component {
                         status: currentState.status }}
                 />
                 <PluginConfigModal id={reactUI.pluginConfigModal}
-                    openFileModal={this.openFileModal}
+                    openFileModal={this.handleModals.openFileModal}
                     updatePluginToolbar={this.handleToolbars.onPluginToolbarUpdated}
                 />
                 <RichMarksModal
@@ -161,22 +161,20 @@ class EditorApp extends Component {
                     handleMarks={this.handleMarks}
                     handleSortableContainers={this.handleSortableContainers}
                     handleToolbars={this.handleToolbars}
-                    onBackgroundChanged={this.onBackgroundChanged}
                     onScoreConfig={this.handleExercises.onScoreConfig}
-                    onTextEditorToggled={this.onTextEditorToggled}
-                    openConfigModal={this.openConfigModal}
-                    openFileModal={this.openFileModal}
+                    onTextEditorToggled={this.handleCanvas.onTextEditorToggled}
+                    openConfigModal={this.handleModals.openConfigModal}
+                    openFileModal={this.handleModals.openFileModal}
                 />
                 <FileModal
                     disabled={disabled}
                     onBoxAdded={this.handleBoxes.onBoxAdded}
-                    importEdi={this.importEdi}
-                    deleteFileFromServer={this.deleteFileFromServer}
+                    handleExportImport={this.handleExportImport}
                     handleNavItems={this.handleNavItems}
-                    onIndexSelected={this.onIndexSelected}
-                    uploadFunction={this.uploadFunction}
-                    close={this.closeFileModal}
+                    onIndexSelected={this.handleCanvas.onIndexSelected}
                 />
+
+                <KeyListener/>
             </Grid>
         );
     }
@@ -198,7 +196,6 @@ class EditorApp extends Component {
                 return false;
             };
         }
-        document.addEventListener('keydown', this.keyListener);
         document.addEventListener('dragover', this.handleDnD.dragListener);
         document.addEventListener('dragleave', this.handleDnD.dragExitListener);
         document.addEventListener('drop', this.handleDnD.dropListener);
@@ -210,7 +207,6 @@ class EditorApp extends Component {
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keydown', this.keyListener);
         document.removeEventListener('dragover', this.handleDnD.dragListener);
         document.removeEventListener('dragleave', this.handleDnD.dragExitListener);
         document.removeEventListener('drop', this.handleDnD.dropListener);
@@ -218,108 +214,6 @@ class EditorApp extends Component {
     }
 
     // //////////////////////////////////////////////////////////////////////////////////////////////////
-
-    beforeUnloadAlert = () => {
-        if(!this.props.reactUI.publishing) {
-            return i18n.t('messages.exit_page');
-        }
-        return undefined;
-    };
-
-    deleteFileFromServer = (id, url, callback) => {
-        let inProduction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc');
-        let deleteFunction = inProduction ? deleteRemoteFileVishAsync : deleteRemoteFileEdiphyAsync;
-        this.props.dispatch(deleteFunction(id, url, callback));
-    };
-
-    exportResource = (format, callback, options) => {
-        let currentState = this.props.store.getState();
-        switch (format) {
-        case 'PDF':
-            printToPDF(currentState.undoGroup.present, callback, options);
-            break;
-        case 'MoodleXML':
-            toMoodleXML(currentState.undoGroup.present, callback, options);
-            break;
-        case 'edi':
-            Ediphy.Visor.exportsEDI({ ...currentState.undoGroup.present, filesUploaded: currentState.filesUploaded }, callback);
-            break;
-        default:
-            Ediphy.Visor.exportsHTML({ ...currentState.undoGroup.present, filesUploaded: currentState.filesUploaded }, callback, options);
-            break;
-        }
-    };
-
-    exportToScorm = () => (is2004, callback, selfContained = false) => {
-        let currentState = this.props.store.getState();
-        Ediphy.Visor.exportScorm({
-            ...currentState.undoGroup.present,
-            filesUploaded: currentState.filesUploaded,
-            status: currentState.status }, is2004, callback, selfContained);
-    };
-
-    importEdi = (state) => this.props.dispatch(serialize(importEdi(state)));
-
-    keyListener = (e) => {
-        let key = e.keyCode ? e.keyCode : e.which;
-        if (key === 9) {
-            e.preventDefault();
-            return;
-        }
-        // Checks what element has the cursor focus currently
-        let focus = document.activeElement.className;
-        let notText = (!document.activeElement.type || focus.indexOf('rib') !== -1) && focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1;
-
-        // Ctrl + Z
-        if (key === 90 && e.ctrlKey) {
-            if (notText) {
-                this.props.dispatch(ActionCreators.undo());
-            }
-        }
-        // Ctrl + Y
-        if (key === 89 && e.ctrlKey) {
-            if (notText) {
-                this.props.dispatch(ActionCreators.redo());
-            }
-        }
-        // Ctrl + A
-        if (key === 192 && e.ctrlKey) {
-            this.handleNavItems.onNavItemDuplicated(this.props.navItemSelected);
-        }
-
-        if (key === 80 && e.ctrlKey && e.shiftKey) {
-            e.cancelBubble = true;
-            e.preventDefault();
-
-            e.stopImmediatePropagation();
-            printToPDF(this.props.store.getState().undoGroup.present, (b)=>{if(b) {alert('Error');}});
-        }
-
-        // Supr
-        else if (key === 46 || key === 8) {
-            if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
-                // If it is not an input or any other kind of text edition AND there is a box selected, it deletes said box
-                if (notText) {
-                    let box = this.props.boxes[this.props.boxSelected];
-                    let toolbar = this.props.pluginToolbars[this.props.boxSelected];
-                    if (!toolbar.showTextEditor) {
-                        this.handleBoxes.onBoxDeleted(box.id, box.parent, box.container, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected);
-                    }
-                }
-            }
-        }
-
-        if (key === 112) {
-            e.preventDefault();
-            this.props.dispatch(updateUI({ showHelpButton: true }));
-        }
-        if (key === 113) {
-            e.preventDefault();
-            this.props.dispatch(updateUI({ visorVisible: true }));
-        }
-    };
-
-    onBackgroundChanged = (id, background) => this.props.dispatch(changeBackground(id, background));
 
     handleDnD = {
 
@@ -703,6 +597,7 @@ class EditorApp extends Component {
     };
 
     handleExportImport = {
+
         deleteFileFromServer: (id, url, callback) => {
             let inProduction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc');
             let deleteFunction = inProduction ? deleteRemoteFileVishAsync : deleteRemoteFileEdiphyAsync;
@@ -745,53 +640,52 @@ class EditorApp extends Component {
 
     };
 
-    onIndexSelected = (id) => this.props.dispatch(selectIndex(id));
+    handleModals = {
 
-    onGridToggle = () => this.props.dispatch(updateUI({ grid: !this.props.reactUI.grid }));
+        openFileModal: (id = undefined, accept) => {
+            this.props.dispatch((updateUI({
+                showFileUpload: accept,
+                fileUploadTab: 1,
+                fileModalResult: { id, value: undefined },
+            })));
+        },
 
-    onTitleChanged = (id = 'title', titleStr) => this.props.dispatch(changeGlobalConfig(id, titleStr));
+        openConfigModal: (id) => this.props.dispatch(updateUI({ pluginConfigModal: id })),
 
-    openFileModal = (id = undefined, accept) => {
-        this.props.dispatch((updateUI({
-            showFileUpload: accept,
-            fileUploadTab: 1,
-            fileModalResult: { id, value: undefined },
-        })));
+        showTour: () => {
+            this.props.dispatch(updateUI({
+                showTour: true,
+                showHelpButton: false,
+            }));
+        },
+
+        toggleTour: (tour) => this.props.dispatch(updateUI({ showTour: tour })),
+
     };
 
-    onTextEditorToggled = (caller, value, text, content) => {
-        let pluginToolbar = this.props.pluginToolbars[caller];
-        if(pluginToolbar && pluginToolbar.pluginId !== "sortable_container") {
-            let state = Object.assign({}, pluginToolbar.state, { __text: text });
-            let toolbar = Ediphy.Plugins.get(pluginToolbar.pluginId).getToolbar(state);
+    handleCanvas = {
 
-            this.props.dispatch(toggleTextEditor(caller, value));
-            if (!value && text && content) {
-                this.props.dispatch(updateBox(caller, content, toolbar, state));
+        onIndexSelected: (id) => this.props.dispatch(selectIndex(id)),
+
+        onTitleChanged: (id = 'title', titleStr) => this.props.dispatch(changeGlobalConfig(id, titleStr)),
+
+        onTextEditorToggled: (caller, value, text, content) => {
+            let pluginToolbar = this.props.pluginToolbars[caller];
+            if(pluginToolbar && pluginToolbar.pluginId !== "sortable_container") {
+                let state = Object.assign({}, pluginToolbar.state, { __text: text });
+                let toolbar = Ediphy.Plugins.get(pluginToolbar.pluginId).getToolbar(state);
+
+                this.props.dispatch(toggleTextEditor(caller, value));
+                if (!value && text && content) {
+                    this.props.dispatch(updateBox(caller, content, toolbar, state));
+                }
             }
-        }
+        },
+
+        onViewTitleChanged: (id, titles) => this.props.dispatch(updateViewToolbar(id, titles)),
     };
-
-    onViewTitleChanged = (id, titles) => this.props.dispatch(updateViewToolbar(id, titles));
-
-    openConfigModal = (id) => this.props.dispatch(updateUI({ pluginConfigModal: id }));
 
     save = (win) => this.props.dispatch(exportStateAsync({ ...this.props.store.getState() }, win));
-
-    showTour = () => {
-        this.props.dispatch(updateUI({
-            showTour: true,
-            showHelpButton: false,
-        }));
-    };
-
-    toggleTour = (tour) => this.props.dispatch(updateUI({ showTour: tour }));
-
-    uploadFunction = (query, keywords, callback) => {
-        let inProduction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc');
-        let uploadFunction = inProduction ? uploadVishResourceAsync : uploadEdiphyResourceAsync;
-        this.props.dispatch(uploadFunction(query, keywords, callback));
-    };
 
 }
 
