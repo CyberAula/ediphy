@@ -44,7 +44,7 @@ class KeyListener extends Component {
         }
         // Ctrl + A
         if (key === 192 && e.ctrlKey) {
-            this.handleNavItems.onNavItemDuplicated(this.props.navItemSelected);
+            this.props.handleNavItems.onNavItemDuplicated(this.props.navItemSelected);
         }
 
         if (key === 80 && e.ctrlKey && e.shiftKey) {
@@ -63,7 +63,7 @@ class KeyListener extends Component {
                     let box = this.props.boxes[this.props.boxSelected];
                     let toolbar = this.props.pluginToolbars[this.props.boxSelected];
                     if (!toolbar.showTextEditor) {
-                        this.handleBoxes.onBoxDeleted(box.id, box.parent, box.container, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected);
+                        this.props.handleBoxes.onBoxDeleted(box.id, box.parent, box.container, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected);
                     }
                 }
             }

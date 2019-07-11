@@ -59,4 +59,9 @@ Visor.propTypes = {
      * Estado de la aplicación que se pasa al visor
      */
     state: PropTypes.object.isRequired,
+    /**
+     * Redux actions dispatcher
+     */
+    dispatch: PropTypes.func.isRequired,
+
 };

@@ -267,10 +267,6 @@ FileModal.propTypes = {
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * Function for closing the File Modal
-     */
-    close: PropTypes.func.isRequired,
-    /**
      * Collection of callbacks for nav items handling
      */
     handleNavItems: PropTypes.object.isRequired,

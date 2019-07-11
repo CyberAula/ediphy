@@ -23,17 +23,15 @@ class EditorHeader extends Component {
         };
     }
     render() {
-        const { boxes, containedView, courseTitle, marks, navItem, navItems, onBoxSelected, onTitleChanged,
+        const { boxes, containedView, containedViews, courseTitle, marks, navItem, navItems, onBoxSelected, onTitleChanged,
             onViewTitleChanged, pluginToolbars, titles, viewToolbars } = this.props;
 
         if (navItem || containedView) {
-            let currentNavItem = containedView !== 0 ? navItems[containedView] : navItems[navItem];
-
+            let currentNavItem = containedView !== 0 ? containedViews[containedView] : navItems[navItem];
             let toolbar = (this.props.viewToolbars[currentNavItem.id]) ? this.props.viewToolbars[currentNavItem.id] : undefined;
 
-            let docTitle = "";
-            let subTitle = "";
-            let pagenumber = "";
+            let docTitle, subTitle, pagenumber = "";
+
             if (currentNavItem !== undefined && currentNavItem.id !== 0 && toolbar) {
                 docTitle = (toolbar.documentTitle !== "" && (toolbar.documentTitleContent !== "")) ? toolbar.documentTitleContent : toolbar.viewName;
                 subTitle = toolbar.documentSubtitle !== "" && (toolbar.documentSubtitleContent !== i18n.t('subtitle')) ? toolbar.documentSubtitleContent : i18n.t('subtitle');

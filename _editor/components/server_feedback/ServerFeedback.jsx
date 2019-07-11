@@ -24,11 +24,11 @@ class ServerFeedback extends Component {
         }
         return (
             <Modal id="serverModal"
-                onHide={this.props.hideModal}
+                onHide={this.closeServerModal}
                 show={this.props.show}
                 dialogClassName="custom-modal">
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-lg"> {this.props.title} </Modal.Title>
+                    <Modal.Title id="contained-modal-title-lg"> {i18n.t("messages.save_changes")} </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {alert}
@@ -52,6 +52,7 @@ class ServerFeedback extends Component {
 function mapStateToProps(state) {
     return {
         show: state.reactUI.serverModal,
+        isBusy: state.undoGroup.present.isBusy,
     };
 }
 
@@ -63,15 +64,7 @@ ServerFeedback.propTypes = {
      */
     show: PropTypes.bool,
     /**
-     * Título del modal
-     */
-    title: PropTypes.any,
-    /**
      * Indica si hay una operación con el servidor en curso
      */
     isBusy: PropTypes.any,
-    /**
-     * Oculta el popup
-     */
-    hideModal: PropTypes.func.isRequired,
 };
