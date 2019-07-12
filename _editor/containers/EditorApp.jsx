@@ -42,21 +42,23 @@ class EditorApp extends Component {
         this.state = { alert: null };
         this.handleBoxes = handle_boxes(this);
         this.handleContainedViews = handle_contained_views(this);
-        this.handleSortableContainers = handle_sortable_containers(this);
+        this.handleExercises = handle_exercises(this);
+        this.handleExportImport = handle_export_import(this);
         this.handleModals = handle_modals(this);
         this.handleMarks = handle_marks(this);
         this.handleNavItems = handle_nav_items(this);
+        this.handleSortableContainers = handle_sortable_containers(this);
         this.handleToolbars = handle_toolbars(this);
-        this.handleExercises = handle_exercises(this);
         this.handleCanvas = handle_canvas(this);
-        this.handleExportImport = handle_export_import(this);
     }
     render() {
         const currentState = this.props.store.getState();
-        const { boxSelected, navItemSelected, containedViewSelected, isBusy, pluginToolbars, globalConfig, reactUI, status, everPublished } = this.props;
+        const { boxSelected, navItemSelected, containedViewSelected, isBusy, pluginToolbars,
+            globalConfig, reactUI, status, everPublished } = this.props;
 
         const ribbonHeight = reactUI.hideTab === 'hide' ? 0 : 50;
-        const disabled = (navItemSelected === 0 && containedViewSelected === 0) || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
+        const disabled = (navItemSelected === 0 && containedViewSelected === 0)
+            || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
 
         const pluginSelected = pluginToolbars[boxSelected]
                                 && pluginToolbars[boxSelected].config
@@ -80,8 +82,8 @@ class EditorApp extends Component {
             <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }} ref={'app'}>
                 <Row className="navBar">
                     <EdiphyTour
-                        toggleTour={this.handleModals.toggleTour}
                         showTour={reactUI.showTour}
+                        toggleTour={this.handleModals.toggleTour}
                     />
                     <HelpModal
                         showTour={this.handleModals.showTour}
@@ -98,16 +100,16 @@ class EditorApp extends Component {
                     />
                     {Ediphy.Config.autosave_time > 1000 &&
                     <AutoSave
-                        save={this.handleExportImport.save}
                         isBusy={isBusy}
+                        save={this.handleExportImport.save}
                     />})
                 </Row>
                 <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
                     <EditorCarousel
-                        onBoxAdded={this.handleBoxes.onBoxAdded}
-                        handleContainedViews={this.handleContainedViews}
                         handleCanvas={this.handleCanvas}
+                        handleContainedViews={this.handleContainedViews}
                         handleNavItems={this.handleNavItems}
+                        onBoxAdded={this.handleBoxes.onBoxAdded}
                     />
 
                     <Col id="colRight" xs={12}
@@ -115,8 +117,8 @@ class EditorApp extends Component {
                             width: (reactUI.carouselShow ? 'calc(100% - 212px)' : 'calc(100% - 80px)') }}>
                         <Row id="actionsRibbon">
                             <ActionsRibbon
-                                ribbonHeight={ ribbonHeight + 'px'}
                                 onBoxDeleted={this.handleBoxes.onBoxDeleted}
+                                ribbonHeight={ ribbonHeight + 'px'}
                             />
                         </Row>
 
@@ -145,16 +147,16 @@ class EditorApp extends Component {
                         status: currentState.status }}
                 />
                 <Toolbar
-                    top={(60 + ribbonHeight) + 'px'}
                     handleBoxes={this.handleBoxes}
-                    handleNavItems={this.handleNavItems}
                     handleContainedViews={this.handleContainedViews}
                     handleMarks={this.handleMarks}
                     handleModals={this.handleModals}
+                    handleNavItems={this.handleNavItems}
                     handleSortableContainers={this.handleSortableContainers}
                     handleToolbars={this.handleToolbars}
                     onScoreConfig={this.handleExercises.onScoreConfig}
                     onTextEditorToggled={this.handleCanvas.onTextEditorToggled}
+                    top={(60 + ribbonHeight) + 'px'}
                 />
                 <PluginConfigModal id={reactUI.pluginConfigModal}
                     openFileModal={this.handleModals.openFileModal}
@@ -162,20 +164,20 @@ class EditorApp extends Component {
                 />
                 <RichMarksModal
                     defaultValueMark={defaultMarkValue}
-                    validateValueInput={validateMarkValueInput}
-                    onBoxAdded={this.handleBoxes.onBoxAdded}
                     handleMarks={this.handleMarks}
+                    onBoxAdded={this.handleBoxes.onBoxAdded}
+                    validateValueInput={validateMarkValueInput}
                 />
                 <FileModal
                     disabled={disabled}
-                    onBoxAdded={this.handleBoxes.onBoxAdded}
                     handleExportImport={this.handleExportImport}
                     handleNavItems={this.handleNavItems}
+                    onBoxAdded={this.handleBoxes.onBoxAdded}
                     onIndexSelected={this.handleCanvas.onIndexSelected}
                 />
                 <KeyListener
-                    handleNavItems={this.handleNavItems}
                     handleBoxes={this.handleBoxes}
+                    handleNavItems={this.handleNavItems}
                 />
                 <DnDListener/>
             </Grid>
@@ -205,54 +207,62 @@ class EditorApp extends Component {
 
 function mapStateToProps(state) {
     return {
-        reactUI: state.reactUI,
-        version: state.undoGroup.present.version,
-        status: state.status,
-        everPublished: state.everPublished,
-        globalConfig: state.undoGroup.present.globalConfig,
-        title: state.undoGroup.present.globalConfig.title || '---',
-        filesUploaded: state.filesUploaded,
         boxes: state.undoGroup.present.boxesById,
-        boxSelected: state.undoGroup.present.boxSelected,
         boxLevelSelected: state.undoGroup.present.boxLevelSelected,
-        indexSelected: state.undoGroup.present.indexSelected,
-        navItemsIds: state.undoGroup.present.navItemsIds,
-        navItems: state.undoGroup.present.navItemsById,
-        navItemSelected: state.undoGroup.present.navItemSelected,
+        boxSelected: state.undoGroup.present.boxSelected,
         containedViews: state.undoGroup.present.containedViewsById,
         containedViewSelected: state.undoGroup.present.containedViewSelected,
-        undoDisabled: state.undoGroup.past.length === 0,
-        redoDisabled: state.undoGroup.future.length === 0,
         displayMode: state.undoGroup.present.displayMode,
-        marks: state.undoGroup.present.marksById,
-        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
-        viewToolbars: state.undoGroup.present.viewToolbarsById,
+        everPublished: state.everPublished,
         exercises: state.undoGroup.present.exercises,
+        filesUploaded: state.filesUploaded,
+        globalConfig: state.undoGroup.present.globalConfig,
+        indexSelected: state.undoGroup.present.indexSelected,
         isBusy: state.undoGroup.present.isBusy,
         lastActionDispatched: state.undoGroup.present.lastActionDispatched || "",
+        marks: state.undoGroup.present.marksById,
+        navItems: state.undoGroup.present.navItemsById,
+        navItemsIds: state.undoGroup.present.navItemsIds,
+        navItemSelected: state.undoGroup.present.navItemSelected,
+        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+        reactUI: state.reactUI,
+        redoDisabled: state.undoGroup.future.length === 0,
+        status: state.status,
+        title: state.undoGroup.present.globalConfig.title || '---',
+        undoDisabled: state.undoGroup.past.length === 0,
+        version: state.undoGroup.present.version,
+        viewToolbars: state.undoGroup.present.viewToolbarsById,
     };
 }
 
 export default connect(mapStateToProps)(EditorApp);
 
 EditorApp.propTypes = {
-    globalConfig: PropTypes.object.isRequired,
-    filesUploaded: PropTypes.any,
     boxes: PropTypes.object.isRequired,
+    boxLevelSelected: PropTypes.number,
     boxSelected: PropTypes.any,
-    marks: PropTypes.object,
-    navItems: PropTypes.object.isRequired,
-    navItemSelected: PropTypes.any,
     containedViews: PropTypes.object.isRequired,
     containedViewSelected: PropTypes.any,
-    pluginToolbars: PropTypes.object,
-    viewToolbars: PropTypes.object.isRequired,
-    isBusy: PropTypes.any,
     dispatch: PropTypes.func.isRequired,
-    store: PropTypes.any,
-    lastActionDispatched: PropTypes.string,
-    status: PropTypes.string,
+    displayMode: PropTypes.any,
     everPublished: PropTypes.bool,
+    exercises: PropTypes.object.isRequired,
+    filesUploaded: PropTypes.any,
+    globalConfig: PropTypes.object.isRequired,
+    indexSelected: PropTypes.any,
+    isBusy: PropTypes.any,
+    lastActionDispatched: PropTypes.string,
+    marks: PropTypes.object,
+    navItems: PropTypes.object.isRequired,
+    navItemsIds: PropTypes.array.isRequired,
+    navItemSelected: PropTypes.any,
+    pluginToolbars: PropTypes.object,
     reactUI: PropTypes.object,
+    redoDisabled: PropTypes.bool,
+    status: PropTypes.string,
+    store: PropTypes.any,
     title: PropTypes.string,
+    undoDisabled: PropTypes.bool,
+    version: PropTypes.any,
+    viewToolbars: PropTypes.object.isRequired,
 };

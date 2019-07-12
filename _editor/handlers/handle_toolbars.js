@@ -3,6 +3,7 @@ import { parsePluginContainers, parsePluginContainersReact } from "../../common/
 import Ediphy from '../../core/editor/main';
 import { isBox, isSortableBox } from "../../common/utils";
 import { createBox } from "../../common/common_tools";
+import { ID_PREFIX_BOX } from "../../common/constants";
 
 export default function(self) {
     return {
