@@ -13,10 +13,11 @@ import { connect } from "react-redux";
 
 class EditorCanvasDoc extends Component {
     render() {
-        const { aspectRatio, boxes, boxSelected, boxLevelSelected, containedViewSelected, containedViews,
-            exercises, fromCV, lastActionDispatched, marks, markCreatorId, navItemSelected, navItems, onTextEditorToggled,
-            onTitleChanged, onToolbarUpdated, onViewTitleChanged, openConfigModal, openFileModal, pluginToolbars,
+        const { aspectRatio, boxSelected, containedViewSelected, fromCV, lastActionDispatched, navItemSelected,
+            navItems, onToolbarUpdated, openConfigModal, openFileModal, pluginToolbars,
             styleConfig, title, viewToolbars, handleBoxes, handleMarks, handleSortableContainers } = this.props;
+
+        const { onTextEditorToggled, onTitleChanged, onViewTitleChanged } = this.props.handleCanvas;
 
         const itemSelected = fromCV ? containedViewSelected : navItemSelected;
         const titles = getTitles(itemSelected, viewToolbars, navItems, fromCV);
@@ -68,7 +69,7 @@ class EditorCanvasDoc extends Component {
                                         handleBoxes = {handleBoxes}
                                         handleMarks={handleMarks}
                                         handleSortableContainers={handleSortableContainers}
-                                        onTextEditorToggled={this.props.onTextEditorToggled}
+                                        onTextEditorToggled={onTextEditorToggled}
                                         pageType={itemSelected.type || 0}
                                         setCorrectAnswer={this.props.setCorrectAnswer}
                                         page={itemSelected ? itemSelected.id : 0}
@@ -117,17 +118,9 @@ EditorCanvasDoc.propTypes = {
      */
     fromCV: PropTypes.bool,
     /**
-     * Object containing all created boxes (by id)
-     */
-    boxes: PropTypes.object.isRequired,
-    /**
      * Current Box selected. If there isn't, -1
      */
     boxSelected: PropTypes.any.isRequired,
-    /**
-     * Selected box level (only plugins inside plugins)
-     */
-    boxLevelSelected: PropTypes.number.isRequired,
     /**
      * Object containing all views (by id)
      */
@@ -136,10 +129,6 @@ EditorCanvasDoc.propTypes = {
      * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
-    /**
-     * Object containing all contained views (identified by its ID)
-     */
-    containedViews: PropTypes.object.isRequired,
     /**
      * Selected contained view (by ID)
      */
@@ -160,30 +149,6 @@ EditorCanvasDoc.propTypes = {
      * Last action dispatched in Redux
      */
     lastActionDispatched: PropTypes.any.isRequired,
-    /**
-     * Identifier of the box that is creating a mark
-     */
-    markCreatorId: PropTypes.any.isRequired,
-    /**
-     * Object containing box marks
-     */
-    marks: PropTypes.object,
-    /**
-     * Callback for toggling CKEditor
-     */
-    onTextEditorToggled: PropTypes.func.isRequired,
-    /**
-     * Callback for modify navitem title and subtitle
-     */
-    onViewTitleChanged: PropTypes.func.isRequired,
-    /**
-     * Callback for modify course title
-     */
-    onTitleChanged: PropTypes.func.isRequired,
-    /**
-   * Object containing all exercises
-   */
-    exercises: PropTypes.object,
     /**
      * Callback for opening global configuration modal
      */
@@ -212,6 +177,10 @@ EditorCanvasDoc.propTypes = {
      * Collection of callbacks for boxes handling
      */
     handleBoxes: PropTypes.object.isRequired,
+    /**
+     * Collection of callbacks for text and titles handling
+     */
+    handleCanvas: PropTypes.object.isRequired,
     /**
      * Collection of callbacks for marks handling
      */

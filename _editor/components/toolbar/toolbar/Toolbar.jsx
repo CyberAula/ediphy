@@ -124,6 +124,10 @@ Toolbar.propTypes = {
      */
     boxSelected: PropTypes.any,
     /**
+     * Redux actions trigger
+     */
+    dispatch: PropTypes.func,
+    /**
      * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any,

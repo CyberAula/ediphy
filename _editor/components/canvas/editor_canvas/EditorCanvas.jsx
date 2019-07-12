@@ -116,10 +116,6 @@ EditorCanvas.propTypes = {
      */
     onContainedViewSelected: PropTypes.func.isRequired,
     /**
-     * Callback for toggling the CKEditor
-     */
-    onTextEditorToggled: PropTypes.func.isRequired,
-    /**
      * Whether or not the grid is activated for slides
      */
     grid: PropTypes.bool,

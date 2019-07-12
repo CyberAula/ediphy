@@ -96,9 +96,33 @@ export default connect(mapStateToProps)(KeyListener);
 
 KeyListener.propTypes = {
     /**
+     * Object containing every existing box (by id)
+     */
+    boxes: PropTypes.object.isRequired,
+    /**
      * Selected box
      */
     boxSelected: PropTypes.any,
+    /**
+     * Selected contained view (by ID)
+     */
+    containedViewSelected: PropTypes.any.isRequired,
+    /**
+     * Redux actions dispatcher
+     */
+    dispatch: PropTypes.func.isRequired,
+    /**
+     * State of the resource to be exported
+     */
+    fullState: PropTypes.object.isRequired,
+    /**
+     * Collection of callbacks for boxes handling
+     */
+    handleBoxes: PropTypes.object.isRequired,
+    /**
+     * Collection of callbacks for nav items handling
+     */
+    handleNavItems: PropTypes.object.isRequired,
     /**
      * Current selected view (by ID)
      */
@@ -107,4 +131,5 @@ KeyListener.propTypes = {
      * Plugin toolbars
      */
     pluginToolbars: PropTypes.object,
+
 };

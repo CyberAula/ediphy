@@ -76,15 +76,19 @@ export default connect(mapStateToProps)(DnDListener);
 
 DnDListener.propTypes = {
     /**
-     * Show File upload modal
-     */
-    showFileUpload: PropTypes.bool,
-    /**
      * Block drag
      */
     blockDrag: PropTypes.bool,
     /**
+     * Redux actions dispatcher
+     */
+    dispatch: PropTypes.func.isRequired,
+    /**
      * File upload section
      */
     fileUploadTab: PropTypes.number,
+    /**
+     * Show File upload modal
+     */
+    showFileUpload: PropTypes.bool,
 };

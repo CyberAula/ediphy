@@ -60,6 +60,10 @@ export default connect(mapStateToProps)(ServerFeedback);
 
 ServerFeedback.propTypes = {
     /**
+     * Redux actions trigger
+     */
+    dispatch: PropTypes.func,
+    /**
      * Indica si se muestra el popup de feedback del servidor
      */
     show: PropTypes.bool,

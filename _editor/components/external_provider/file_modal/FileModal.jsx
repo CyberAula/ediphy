@@ -219,6 +219,10 @@ export default connect(mapStateToProps)(FileModal);
 
 FileModal.propTypes = {
     /**
+     * Redux actions dispatcher
+     */
+    dispatch: PropTypes.func.isRequired,
+    /**
      * Whether the file modal is visible or not
      */
     visible: PropTypes.any.isRequired,

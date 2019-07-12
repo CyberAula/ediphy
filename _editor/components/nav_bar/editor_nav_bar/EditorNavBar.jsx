@@ -33,13 +33,11 @@ class EditorNavBar extends Component
                 </div>
                 <PluginsMenu/>
                 <NavActionButtons
-                    redo={this.props.redo}
                     save={this.props.handleExportImport.save}
-                    undo={this.props.handleExportImport.undo}
                     toggleStyleConfig={this.toggleStyleConfig}
                 />
                 <NavDropdown
-                    save={this.props.save}
+                    save={this.props.handleExportImport.save}
                     toggleExport={this.toggleExport}
                     toggleFileUpload={this.toggleFileUpload}
                 />
@@ -49,8 +47,8 @@ class EditorNavBar extends Component
                     toggleFileUpload={this.toggleFileUpload}
                 />
                 <ExportModal
-                    export={this.props.handleExportImport.export}
-                    scorm={this.props.handleExportImport.scorm}
+                    export={this.props.handleExportImport.exportResource}
+                    scorm={this.props.handleExportImport.exportToScorm}
                     close={this.toggleExport} />
             </Col>
         );
@@ -103,14 +101,6 @@ EditorNavBar.propTypes = {
      * Object containing the global configuration of the document
      */
     globalConfig: PropTypes.object.isRequired,
-    /**
-     * Undoes the last change
-     */
-    undo: PropTypes.func,
-    /**
-     * Redoes the last change
-     */
-    redo: PropTypes.func,
     /**
      * React UI params
      */

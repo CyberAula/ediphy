@@ -7,8 +7,7 @@ import Alert from './../../common/alert/Alert';
 import { Col, Button } from 'react-bootstrap';
 import EditorHeader from '../editor_header/EditorHeader';
 import interact from 'interactjs';
-import { ADD_BOX, changeGlobalConfig, changeNavItemName } from '../../../../common/actions';
-import { getTitles, isSlide, isSortableBox } from '../../../../common/utils';
+import { getTitles, isSlide } from '../../../../common/utils';
 import { aspectRatio, createBox, instanceExists, changeFontBase } from '../../../../common/common_tools';
 import Ediphy from '../../../../core/editor/main';
 import ReactResizeDetector from 'react-resize-detector';
@@ -16,9 +15,9 @@ import i18n from 'i18next';
 import { SnapGrid } from './SnapGrid';
 import { ID_PREFIX_BOX } from '../../../../common/constants';
 
-import { loadTheme, getThemeColors } from '../../../../common/themes/theme_loader';
+import { getThemeColors } from '../../../../common/themes/theme_loader';
 import ThemeCSS from '../../../../common/themes/ThemeCSS';
-import { loadBackground, loadBackgroundStyle } from "../../../../common/themes/background_loader";
+import { loadBackgroundStyle } from "../../../../common/themes/background_loader";
 
 import { connect } from "react-redux";
 
@@ -37,13 +36,14 @@ class EditorCanvasSli extends Component {
     render() {
         // eslint-disable-next-line no-shadow
         const { aspectRatio, boxSelected, containedViewSelected, fromCV,
-            grid, navItemSelected, navItems, onTextEditorToggled,
-            onTitleChanged, onToolbarUpdated, onViewTitleChanged, openConfigModal, openFileModal,
+            grid, navItemSelected, navItems, onToolbarUpdated, openConfigModal, openFileModal,
             pluginToolbars, setCorrectAnswer, showCanvas, styleConfig, title, viewToolbars } = this.props;
 
         const { onBoxSelected, onBoxResized, onBoxDeleted } = this.props.handleBoxes;
 
         const { onMarkCreatorToggled } = this.props.handleMarks;
+
+        const { onTextEditorToggled, onTitleChanged, onViewTitleChanged } = this.props.handleCanvas;
 
         const itemSelected = fromCV ? containedViewSelected : navItemSelected;
         const titles = getTitles(itemSelected, viewToolbars, navItems, fromCV);
@@ -341,21 +341,9 @@ EditorCanvasSli.propTypes = {
      */
     pluginToolbars: PropTypes.object.isRequired,
     /**
-     * Callback for toggling CKEditor
-     */
-    onTextEditorToggled: PropTypes.func.isRequired,
-    /**
      * Whether or not the grid is activated for slides
      */
     grid: PropTypes.bool,
-    /**
-     * Callback for modify course title
-     */
-    onTitleChanged: PropTypes.func.isRequired,
-    /**
-     * Callback for modify navitem title and subtitle
-     */
-    onViewTitleChanged: PropTypes.func.isRequired,
     /**
    * Function for setting the right answer of an exercise
    */
@@ -388,4 +376,8 @@ EditorCanvasSli.propTypes = {
      * Collection of callbacks for marks handling
      */
     handleMarks: PropTypes.object.isRequired,
+    /**
+     * Collection of callbacks for text and titles handling
+     */
+    handleCanvas: PropTypes.object.isRequired,
 };

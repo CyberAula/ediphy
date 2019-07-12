@@ -100,6 +100,10 @@ export default connect(mapStateToProps)(PluginConfigModal);
 
 PluginConfigModal.propTypes = {
     /**
+     * Redux actions trigger
+     */
+    dispatch: PropTypes.func,
+    /**
      * Selected plugin id
      */
     id: PropTypes.any.isRequired,

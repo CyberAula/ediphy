@@ -15,7 +15,7 @@ import Toolbar from '../components/toolbar/toolbar/Toolbar';
 import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
 import AutoSave from '../components/autosave/AutoSave';
 import Ediphy from '../../core/editor/main';
-import { getDescendantBoxes, isSection } from '../../common/utils';
+import { isSection } from '../../common/utils';
 import FileModal from '../components/external_provider/file_modal/FileModal';
 import EdiphyTour from '../components/joyride/EdiphyTour';
 import HelpModal from "../components/modals/HelpModal";
@@ -33,10 +33,6 @@ import handle_toolbars from "../handlers/handle_toolbars";
 import handle_exercises from "../handlers/handle_exercises";
 import handle_canvas from "../handlers/handle_canvas";
 import handle_export_import from "../handlers/handle_export_import";
-import i18n from "i18next";
-import { deleteContainedView, deleteRichMark } from "../../common/actions";
-import ToggleSwitch from "@trendmicro/react-toggle-switch";
-import Alert from "../components/common/alert/Alert";
 import AlertModal from "../components/modals/AlertModal";
 const cookies = new Cookies();
 
@@ -79,10 +75,7 @@ class EditorApp extends Component {
             handleSortableContainers: this.handleSortableContainers,
             handleCanvas: this.handleCanvas,
             onContainedViewSelected: this.handleContainedViews.onContainedViewSelected,
-            onTextEditorToggled: this.handleCanvas.onTextEditorToggled,
-            onTitleChanged: this.handleCanvas.onTitleChanged,
             onToolbarUpdated: this.handleToolbars.onToolbarUpdated,
-            onViewTitleChanged: this.handleCanvas.onViewTitleChanged,
             openConfigModal: this.handleModals.openConfigModal,
             openFileModal: this.handleModals.openFileModal,
             setCorrectAnswer: this.handleExercises.setCorrectAnswer,
@@ -95,11 +88,7 @@ class EditorApp extends Component {
                     <HelpModal showTour={this.handleModals.showTour}/>
                     <InitModal showTour={this.handleModals.showTour}/>
                     <ServerFeedback/>
-
-                    <AlertModal
-                        show={reactUI.showCVAlert}
-                        markInfo={reactUI.markInfo}
-                    />
+                    <AlertModal/>
 
                     <EditorNavBar
                         globalConfig={{ ...globalConfig, status, everPublished }}

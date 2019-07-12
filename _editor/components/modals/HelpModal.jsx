@@ -52,6 +52,10 @@ export default connect(mapStateToProps)(HelpModal);
 
 HelpModal.propTypes = {
     /**
+     * Redux actions dispatcher
+     */
+    dispatch: PropTypes.func.isRequired,
+    /**
      * Show tour
      */
     showTour: PropTypes.func,
