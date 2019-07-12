@@ -31,7 +31,7 @@ class EditorCarousel extends Component
                     carouselFull={this.props.carouselFull}
                     carouselShow={this.props.carouselShow}
                     courseTitle={this.props.title}
-                    onTitleChanged={this.props.onTitleChanged}
+                    onTitleChanged={this.props.handleCanvas.onTitleChanged}
                     onToggleWidth={this.onToggleWidth}
                 />
                 <FileTree
@@ -44,7 +44,7 @@ class EditorCarousel extends Component
                     navItemSelected={this.props.navItemSelected}
                     indexSelected={this.props.indexSelected}
                     onBoxAdded={this.props.onBoxAdded}
-                    onIndexSelected={this.props.onIndexSelected}
+                    onIndexSelected={this.props.handleCanvas.onIndexSelected}
                     handleContainedViews={this.props.handleContainedViews}
                     handleNavItems = {this.props.handleNavItems}
                     viewToolbars={this.props.viewToolbars}
@@ -52,7 +52,7 @@ class EditorCarousel extends Component
                 <CarouselButtons
                     carouselShow={this.props.carouselShow}
                     onBoxAdded={this.props.onBoxAdded}
-                    onIndexSelected={this.props.onIndexSelected}
+                    onIndexSelected={this.props.handleCanvas.onIndexSelected}
                     handleNavItems={this.props.handleNavItems}
                 />
             </div>
@@ -125,6 +125,10 @@ EditorCarousel.propTypes = {
      */
     handleContainedViews: PropTypes.object.isRequired,
     /**
+     * Collection of callbacks for canvas handling
+     */
+    handleCanvas: PropTypes.object.isRequired,
+    /**
      * Collection of callbacks for nav items handling
      */
     handleNavItems: PropTypes.object.isRequired,
@@ -152,12 +156,4 @@ EditorCarousel.propTypes = {
      * Object containing all the pages' toolbars
      */
     viewToolbars: PropTypes.object,
-    /**
-     * Select new index
-     */
-    onIndexSelected: PropTypes.func.isRequired,
-    /**
-     * Change title
-     */
-    onTitleChanged: PropTypes.func.isRequired,
 };

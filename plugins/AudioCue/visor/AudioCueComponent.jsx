@@ -55,8 +55,9 @@ export default class AudioCueComponent extends React.Component {
         let useImage = state.useImage;
 
         let animationState = this.state.playing ? "running" : "paused";
-        let bars = [...Array(15).fill(<div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: animationState }}/>),
-            ...Array(15).fill(<div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: animationState }}/>)];
+        let barsUp = Array(15).fill().map((a, i) => <div key={i} className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: animationState }}/>);
+        let barsDown = Array(15).fill().map((a, i) => <div key={i + 15} className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: animationState }}/>);
+        let bars = [...barsUp, ...barsDown];
 
         return(
             <div className={"audioCueContainer"} style={ customStyle }>

@@ -38,7 +38,7 @@ class Toolbar extends Component {
                 exercises={exercises}
                 onScoreConfig={(id, button, value, page) => {this.props.onScoreConfig(id, button, value, this.props.navItemSelected);}}
                 toggleToolbar={this.toggleToolbar}
-                openConfigModal={this.props.openConfigModal} />;
+                openConfigModal={this.props.handleModals.openConfigModal} />;
             let tb = this.props.pluginToolbars[this.props.box.id];
             let apiPlugin = Ediphy.Plugins.get(tb.pluginId);
             let config = apiPlugin ? apiPlugin.getConfig() : {};
@@ -128,6 +128,10 @@ Toolbar.propTypes = {
      */
     dispatch: PropTypes.func,
     /**
+     * Collection of callbacks for modals handling
+     */
+    handleModals: PropTypes.object.isRequired,
+    /**
      * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any,
@@ -139,10 +143,6 @@ Toolbar.propTypes = {
      * View toolbars
      */
     viewToolbars: PropTypes.object,
-    /**
-     * Callback for opening global configuration modal
-     */
-    openConfigModal: PropTypes.func,
     /**
      * Plugin toolbars
      */

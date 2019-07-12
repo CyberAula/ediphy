@@ -14,10 +14,10 @@ import { connect } from "react-redux";
 class EditorCanvasDoc extends Component {
     render() {
         const { aspectRatio, boxSelected, containedViewSelected, fromCV, lastActionDispatched, navItemSelected,
-            navItems, onToolbarUpdated, openConfigModal, openFileModal, pluginToolbars,
-            styleConfig, title, viewToolbars, handleBoxes, handleMarks, handleSortableContainers } = this.props;
+            navItems, onToolbarUpdated, pluginToolbars, styleConfig, title, viewToolbars, handleBoxes, handleMarks, handleSortableContainers } = this.props;
 
         const { onTextEditorToggled, onTitleChanged, onViewTitleChanged } = this.props.handleCanvas;
+        const { openConfigModal, openFileModal } = this.props.handleModals;
 
         const itemSelected = fromCV ? containedViewSelected : navItemSelected;
         const titles = getTitles(itemSelected, viewToolbars, navItems, fromCV);
@@ -150,10 +150,6 @@ EditorCanvasDoc.propTypes = {
      */
     lastActionDispatched: PropTypes.any.isRequired,
     /**
-     * Callback for opening global configuration modal
-     */
-    openConfigModal: PropTypes.func,
-    /**
    * Callback for setting the right answer of an exercise
    */
     setCorrectAnswer: PropTypes.func.isRequired,
@@ -161,10 +157,6 @@ EditorCanvasDoc.propTypes = {
    * Callback for updating view toolbar
    */
     onToolbarUpdated: PropTypes.func,
-    /**
-     * Function that opens the file search modal
-     */
-    openFileModal: PropTypes.func.isRequired,
     /**
      * Object containing style configuration
      */
@@ -185,6 +177,10 @@ EditorCanvasDoc.propTypes = {
      * Collection of callbacks for marks handling
      */
     handleMarks: PropTypes.object.isRequired,
+    /**
+     * Collection of callbacks for modals handling
+     */
+    handleModals: PropTypes.object.isRequired,
     /**
      * Collection of callbacks for sortable containers handling
      */

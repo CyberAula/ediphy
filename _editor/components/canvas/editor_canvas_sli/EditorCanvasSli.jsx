@@ -35,14 +35,12 @@ class EditorCanvasSli extends Component {
 
     render() {
         // eslint-disable-next-line no-shadow
-        const { aspectRatio, boxSelected, containedViewSelected, fromCV,
-            grid, navItemSelected, navItems, onToolbarUpdated, openConfigModal, openFileModal,
-            pluginToolbars, setCorrectAnswer, showCanvas, styleConfig, title, viewToolbars } = this.props;
+        const { aspectRatio, boxSelected, containedViewSelected, fromCV, grid, navItemSelected, navItems, onToolbarUpdated, pluginToolbars,
+            setCorrectAnswer, showCanvas, styleConfig, title, viewToolbars } = this.props;
 
         const { onBoxSelected, onBoxResized, onBoxDeleted } = this.props.handleBoxes;
-
         const { onMarkCreatorToggled } = this.props.handleMarks;
-
+        const { openConfigModal, openFileModal } = this.props.handleModals;
         const { onTextEditorToggled, onTitleChanged, onViewTitleChanged } = this.props.handleCanvas;
 
         const itemSelected = fromCV ? containedViewSelected : navItemSelected;
@@ -349,17 +347,9 @@ EditorCanvasSli.propTypes = {
    */
     setCorrectAnswer: PropTypes.func.isRequired,
     /**
-     * Callback for opening global configuration modal
-     */
-    openConfigModal: PropTypes.func,
-    /**
    * Function that updates the toolbar of a view
    */
     onToolbarUpdated: PropTypes.func,
-    /**
-     * Function that opens the file search modal
-     */
-    openFileModal: PropTypes.func.isRequired,
     /**
      * Aspect ratio of slides
      */
@@ -376,6 +366,10 @@ EditorCanvasSli.propTypes = {
      * Collection of callbacks for marks handling
      */
     handleMarks: PropTypes.object.isRequired,
+    /**
+     * Collection of callbacks for modals handling
+     */
+    handleModals: PropTypes.object.isRequired,
     /**
      * Collection of callbacks for text and titles handling
      */

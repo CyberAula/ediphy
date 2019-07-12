@@ -168,7 +168,7 @@ export default class EdiphyTour extends React.Component {
     render() {
         const { steps } = this.state;
 
-        return (<div>
+        return this.props.showTour ? (<div>
             <Joyride ref="joyride"
                 steps={steps}
                 run={this.state.run}
@@ -187,7 +187,7 @@ export default class EdiphyTour extends React.Component {
             />
 
         </div>
-        );
+        ) : null;
     }
     componentWillReceiveProps(nextProps) {
         if (this.props.showTour !== nextProps.showTour) {

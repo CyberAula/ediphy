@@ -9,17 +9,15 @@ import handle_exercises from "./handle_exercises";
 import handle_canvas from "./handle_canvas";
 import handle_export_import from "./handle_export_import";
 
-export default function(self) {
-    return {
-        handle_boxes: handle_boxes(self),
-        handle_contained_views: handle_contained_views(self),
-        handle_sortable_containers: handle_sortable_containers(self),
-        handle_modals: handle_modals(self),
-        handle_marks: handle_marks(self),
-        handle_nav_items: handle_nav_items(self),
-        handle_toolbars: handle_toolbars(self),
-        handle_exercises: handle_exercises(self),
-        handle_canvas: handle_canvas(self),
-        handle_export_import: handle_export_import(self),
-    };
-}
+module.exports = {
+    handle_boxes,
+    handle_contained_views,
+    handle_sortable_containers,
+    handle_marks,
+    handle_modals,
+    handle_nav_items,
+    handle_toolbars,
+    handle_exercises,
+    handle_canvas,
+    handle_export_import,
+};

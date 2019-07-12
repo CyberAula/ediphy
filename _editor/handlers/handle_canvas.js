@@ -1,4 +1,4 @@
-import { changeGlobalConfig, selectIndex, toggleTextEditor, updateViewToolbar } from "../../common/actions";
+import { changeGlobalConfig, selectIndex, toggleTextEditor, updateBox, updateViewToolbar } from "../../common/actions";
 import Ediphy from "../../core/editor/main";
 
 export default function(self) {

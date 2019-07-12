@@ -1,39 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Cookies from "universal-cookie";
 import { Grid, Col, Row } from 'react-bootstrap';
-import EditorCanvas from '../components/canvas/editor_canvas/EditorCanvas';
-import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
-import EditorCarousel from '../components/carousel/editor_carousel/EditorCarousel';
-import PluginConfigModal from '../components/plugin_config_modal/PluginConfigModal';
-import Visor from '../../_visor/containers/Visor';
-import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
+
 import ActionsRibbon from '../components/nav_bar/actions_ribbon/ActionsRibbon';
-import EditorNavBar from '../components/nav_bar/editor_nav_bar/EditorNavBar';
-import ServerFeedback from '../components/server_feedback/ServerFeedback';
-import Toolbar from '../components/toolbar/toolbar/Toolbar';
-import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
+import AlertModal from "../components/modals/AlertModal";
 import AutoSave from '../components/autosave/AutoSave';
+import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
+import DnDListener from "../components/common/dnd_listener/DnDListener";
 import Ediphy from '../../core/editor/main';
-import { isSection } from '../../common/utils';
-import FileModal from '../components/external_provider/file_modal/FileModal';
 import EdiphyTour from '../components/joyride/EdiphyTour';
+import EditorCanvas from '../components/canvas/editor_canvas/EditorCanvas';
+import EditorCarousel from '../components/carousel/editor_carousel/EditorCarousel';
+import EditorNavBar from '../components/nav_bar/editor_nav_bar/EditorNavBar';
+import FileModal from '../components/external_provider/file_modal/FileModal';
 import HelpModal from "../components/modals/HelpModal";
 import InitModal from "../components/modals/InitModal";
-import Cookies from "universal-cookie";
 import KeyListener from "../components/common/key_listener/KeyListener";
-import DnDListener from "../components/common/dnd_listener/DnDListener";
-import handle_boxes from "../handlers/handle_boxes";
-import handle_contained_views from "../handlers/handle_contained_views";
-import handle_sortable_containers from "../handlers/handle_sortable_containers";
-import handle_modals from "../handlers/handle_modals";
-import handle_marks from "../handlers/handle_marks";
-import handle_nav_items from "../handlers/handle_nav_items";
-import handle_toolbars from "../handlers/handle_toolbars";
-import handle_exercises from "../handlers/handle_exercises";
-import handle_canvas from "../handlers/handle_canvas";
-import handle_export_import from "../handlers/handle_export_import";
-import AlertModal from "../components/modals/AlertModal";
+import PluginConfigModal from '../components/plugin_config_modal/PluginConfigModal';
+import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
+import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
+import ServerFeedback from '../components/server_feedback/ServerFeedback';
+import Toolbar from '../components/toolbar/toolbar/Toolbar';
+import Visor from '../../_visor/containers/Visor';
+
+import { isSection } from '../../common/utils';
+import { handle_boxes, handle_contained_views, handle_sortable_containers, handle_marks,
+    handle_modals, handle_nav_items, handle_toolbars, handle_exercises, handle_canvas,
+    handle_export_import } from "../handlers/combine_handlers";
+
 const cookies = new Cookies();
 
 /**
@@ -57,7 +53,7 @@ class EditorApp extends Component {
     }
     render() {
         const currentState = this.props.store.getState();
-        const { boxSelected, navItemSelected, containedViewSelected, isBusy, pluginToolbars, globalConfig, reactUI, status, everPublished, marks } = this.props;
+        const { boxSelected, navItemSelected, containedViewSelected, isBusy, pluginToolbars, globalConfig, reactUI, status, everPublished } = this.props;
 
         const ribbonHeight = reactUI.hideTab === 'hide' ? 0 : 50;
         const disabled = (navItemSelected === 0 && containedViewSelected === 0) || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
@@ -71,22 +67,28 @@ class EditorApp extends Component {
 
         const canvasProps = {
             handleBoxes: this.handleBoxes,
-            handleMarks: this.handleMarks,
-            handleSortableContainers: this.handleSortableContainers,
             handleCanvas: this.handleCanvas,
+            handleMarks: this.handleMarks,
+            handleModals: this.handleModals,
+            handleSortableContainers: this.handleSortableContainers,
             onContainedViewSelected: this.handleContainedViews.onContainedViewSelected,
             onToolbarUpdated: this.handleToolbars.onToolbarUpdated,
-            openConfigModal: this.handleModals.openConfigModal,
-            openFileModal: this.handleModals.openFileModal,
             setCorrectAnswer: this.handleExercises.setCorrectAnswer,
         };
 
         return (
             <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }} ref={'app'}>
                 <Row className="navBar">
-                    {reactUI.showTour && <EdiphyTour toggleTour={this.handleModals.toggleTour} showTour={reactUI.showTour}/>}
-                    <HelpModal showTour={this.handleModals.showTour}/>
-                    <InitModal showTour={this.handleModals.showTour}/>
+                    <EdiphyTour
+                        toggleTour={this.handleModals.toggleTour}
+                        showTour={reactUI.showTour}
+                    />
+                    <HelpModal
+                        showTour={this.handleModals.showTour}
+                    />
+                    <InitModal
+                        showTour={this.handleModals.showTour}
+                    />
                     <ServerFeedback/>
                     <AlertModal/>
 
@@ -104,9 +106,8 @@ class EditorApp extends Component {
                     <EditorCarousel
                         onBoxAdded={this.handleBoxes.onBoxAdded}
                         handleContainedViews={this.handleContainedViews}
+                        handleCanvas={this.handleCanvas}
                         handleNavItems={this.handleNavItems}
-                        onIndexSelected={this.handleCanvas.onIndexSelected}
-                        onTitleChanged={this.handleCanvas.onTitleChanged}
                     />
 
                     <Col id="colRight" xs={12}
@@ -123,7 +124,8 @@ class EditorApp extends Component {
                             <PluginRibbon
                                 disabled={disabled}
                                 onBoxAdded={this.handleBoxes.onBoxAdded}
-                                ribbonHeight={ ribbonHeight + 'px'} />
+                                ribbonHeight={ ribbonHeight + 'px'}
+                            />
                         </Row>
 
                         <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
@@ -142,6 +144,18 @@ class EditorApp extends Component {
                         filesUploaded: currentState.filesUploaded,
                         status: currentState.status }}
                 />
+                <Toolbar
+                    top={(60 + ribbonHeight) + 'px'}
+                    handleBoxes={this.handleBoxes}
+                    handleNavItems={this.handleNavItems}
+                    handleContainedViews={this.handleContainedViews}
+                    handleMarks={this.handleMarks}
+                    handleModals={this.handleModals}
+                    handleSortableContainers={this.handleSortableContainers}
+                    handleToolbars={this.handleToolbars}
+                    onScoreConfig={this.handleExercises.onScoreConfig}
+                    onTextEditorToggled={this.handleCanvas.onTextEditorToggled}
+                />
                 <PluginConfigModal id={reactUI.pluginConfigModal}
                     openFileModal={this.handleModals.openFileModal}
                     updatePluginToolbar={this.handleToolbars.onPluginToolbarUpdated}
@@ -151,19 +165,6 @@ class EditorApp extends Component {
                     validateValueInput={validateMarkValueInput}
                     onBoxAdded={this.handleBoxes.onBoxAdded}
                     handleMarks={this.handleMarks}
-                />
-                <Toolbar
-                    top={(60 + ribbonHeight) + 'px'}
-                    handleBoxes={this.handleBoxes}
-                    handleNavItems={this.handleNavItems}
-                    handleContainedViews={this.handleContainedViews}
-                    handleMarks={this.handleMarks}
-                    handleSortableContainers={this.handleSortableContainers}
-                    handleToolbars={this.handleToolbars}
-                    onScoreConfig={this.handleExercises.onScoreConfig}
-                    onTextEditorToggled={this.handleCanvas.onTextEditorToggled}
-                    openConfigModal={this.handleModals.openConfigModal}
-                    openFileModal={this.handleModals.openFileModal}
                 />
                 <FileModal
                     disabled={disabled}
@@ -229,7 +230,6 @@ function mapStateToProps(state) {
         exercises: state.undoGroup.present.exercises,
         isBusy: state.undoGroup.present.isBusy,
         lastActionDispatched: state.undoGroup.present.lastActionDispatched || "",
-
     };
 }
 

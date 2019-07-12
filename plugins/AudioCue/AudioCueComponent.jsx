@@ -47,21 +47,22 @@ export default class AudioCueComponent extends React.Component {
         let imagePlayPause = this.state.playing ? imagePause : imagePlay;
 
         let animationState = this.state.playing ? "running" : "paused";
-        let bars = [...Array(15).fill(<div className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: animationState }}/>),
-            ...Array(15).fill(<div className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: animationState }}/>)];
+        let barsUp = Array(15).fill().map((a, i) => <div key={i} className={this.state.playing ? "barUp playing" : "barUp"} style={{ animationPlayState: animationState }}/>);
+        let barsDown = Array(15).fill().map((a, i) => <div key={i + 15} className={this.state.playing ? "barDown playing" : "barDown"} style={{ animationPlayState: animationState }}/>);
+        let bars = [...barsUp, ...barsDown];
         return(
             <div className={"audioCueContainer"} style={ customStyle }>
-                <div className={"draggableImage"} ref={"draggableImage"} onClick={() => this.playPause()}>
-                    <div className={"colorBackground"} style={{ visibility: useImage ? "hidden" : "visible" }} />
-                    <img ref ="img"
+                <div className={"draggableImage"} ref={"draggableImage"} onClick={this.playPause}>
+                    <div key={0} className={"colorBackground"} style={{ visibility: useImage ? "hidden" : "visible" }} />
+                    <img key={1} ref ="img"
                         className="basicImageClass"
                         style={{ visibility: useImage ? "visible" : "hidden" }}
                         src={state.icon}
                     />
-                    { state.hideAnimation ? null : <div className={"loader"} onClick={() => this.playPause()}>
+                    { state.hideAnimation ? null : <div key={2} className={"loader"} onClick={this.playPause}>
                         {bars}
                     </div>}
-                    <img className={ state.hideAnimation ? "playButtonCentered" : "playButton"} src={imagePlayPause} />
+                    <img key={3} className={ state.hideAnimation ? "playButtonCentered" : "playButton"} src={imagePlayPause} />
                 </div>
             </div>
         );

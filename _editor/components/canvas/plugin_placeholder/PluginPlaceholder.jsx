@@ -346,9 +346,9 @@ PluginPlaceholder.propTypes = {
     /**
      * Collection of callbacks for boxes handling
      */
-    handleBoxes: PropTypes.object.isRequired,
+    handleBoxes: PropTypes.object,
     /**
      * Collection of callbacks for marks handling
      */
-    handleMarks: PropTypes.object.isRequired,
+    handleMarks: PropTypes.object,
 };
