@@ -42,7 +42,7 @@ module.exports = {
 	getJSHintExludeNames: function(){
 		var files = glob.sync("plugins/*/package.json");
 		var final_array = [];
-		for(package in files){
+		for(let package in files){
 			var json = require("../" + files[package]);
 			var dependencies = json.dependencies;
 			var config = json.config;
@@ -68,7 +68,7 @@ module.exports = {
 	getExposeString: function(){
 		var files = glob.sync("plugins/*/package.json");
 		var final_array = [];
-		for(package in files){
+		for(let package in files){
 			var final_string = "";
 			var expose_string = "expose-loader?"
 			var json = require("../" + files[package]);
@@ -97,7 +97,7 @@ module.exports = {
 	getPluginProvider: function(){
 		var files = glob.sync("plugins/*/package.json");
 		var final_object = {};
-		for(package in files){
+		for(let package in files){
 			var json = require("../" + files[package]);
 			var dependencies = json.dependencies;
 			var config = json.config;

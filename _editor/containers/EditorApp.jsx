@@ -40,16 +40,7 @@ class EditorApp extends Component {
     constructor(props) {
         super(props);
         this.state = { alert: null };
-        this.handleBoxes = handle_boxes(this);
-        this.handleContainedViews = handle_contained_views(this);
-        this.handleExercises = handle_exercises(this);
-        this.handleExportImport = handle_export_import(this);
-        this.handleModals = handle_modals(this);
-        this.handleMarks = handle_marks(this);
-        this.handleNavItems = handle_nav_items(this);
-        this.handleSortableContainers = handle_sortable_containers(this);
-        this.handleToolbars = handle_toolbars(this);
-        this.handleCanvas = handle_canvas(this);
+        this.initializeHandlers();
     }
     render() {
         const currentState = this.props.store.getState();
@@ -202,6 +193,19 @@ class EditorApp extends Component {
         if(cookies.get("ediphy_visitor") === undefined) {
             cookies.set("ediphy_visitor", true);
         }
+    }
+
+    initializeHandlers = () => {
+        this.handleBoxes = handle_boxes(this);
+        this.handleContainedViews = handle_contained_views(this);
+        this.handleExercises = handle_exercises(this);
+        this.handleExportImport = handle_export_import(this);
+        this.handleModals = handle_modals(this);
+        this.handleMarks = handle_marks(this);
+        this.handleNavItems = handle_nav_items(this);
+        this.handleSortableContainers = handle_sortable_containers(this);
+        this.handleToolbars = handle_toolbars(this);
+        this.handleCanvas = handle_canvas(this);
     }
 }
 
