@@ -144,12 +144,12 @@ export default class MyFilesComponent extends React.Component {
         </div>);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.show !== this.props.show) {
             this.setState({ extensionFilter: nextProps.show });
         }
     }
-    componentWillUpdate(nextProps, nextState) {
+    UNSAFE_componentWillUpdate(nextProps, nextState) {
         if ((nextProps.filesUploaded && this.props.filesUploaded && nextProps.filesUploaded.length !== this.props.filesUploaded.length)
         /* || nextState.filter !== this.state.filter || nextState.extensionFilter !== this.state.extensionFilter*/) {
             // this.props.onElementSelected( undefined, undefined, undefined);

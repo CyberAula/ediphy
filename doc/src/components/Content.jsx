@@ -129,7 +129,7 @@ export default class Content extends Component {
 
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         // if (this.props !== nextProps) {
         this.reload(nextProps.section, nextProps.subsection, nextProps.page || 1, nextProps.subpage || 0);
         // }

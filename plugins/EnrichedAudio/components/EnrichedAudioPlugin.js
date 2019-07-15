@@ -81,7 +81,7 @@ export default class BasicAudioPlugin extends React.Component {
         });
 
     }
-    componentWillUpdate(nextProps, nextState) {
+    UNSAFE_componentWillUpdate(nextProps, nextState) {
         if(nextState.pos !== this.state.pos) {
             let prevPos = parseFloat(this.state.pos).toFixed(3);
             let nextPos = parseFloat(nextState.pos).toFixed(3);

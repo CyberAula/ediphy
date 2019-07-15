@@ -46,7 +46,7 @@ export default class ScormComponent extends Component {
         }
         return bookmark;
     }
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (this.props.currentView !== nextProps.currentView) {
             setTimeout(()=>{
                 if (this.props.currentView === nextProps.currentView) {

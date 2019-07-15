@@ -350,7 +350,7 @@ class EditorShortcuts extends Component {
         return { left: 0, top: 0, width: 0 };
     };
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps !== this.props) {
             if (nextProps.box) {
                 this.resizeAndSetState("fromUpdate", nextProps);
@@ -375,7 +375,7 @@ class EditorShortcuts extends Component {
         }
     }
 
-    componentWillUpdate(nextProps) {
+    UNSAFE_componentWillUpdate(nextProps) {
         if (nextProps !== this.props) {
             if (nextProps.box) {
                 // this.resize("fromUpdate", nextProps);

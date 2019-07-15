@@ -30,7 +30,7 @@ export default class AudioCueComponent extends React.Component {
     componentWillUnmount() {
         this.audio.pause();
     }
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (this.props.state.url !== nextProps.state.url) {
             this.audio.setAttribute('src', nextProps.state.url);
         }

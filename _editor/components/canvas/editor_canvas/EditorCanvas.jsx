@@ -20,7 +20,7 @@ class EditorCanvas extends Component {
             (<EditorCanvasDoc fromCV={false} {...this.props} />);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if ((this.props.navItemSelected) && (this.props.navItemSelected.id)
             && (nextProps.navItemSelected) && (nextProps.navItemSelected.id)
             && (this.props.navItemSelected.id !== nextProps.navItemSelected.id)) {

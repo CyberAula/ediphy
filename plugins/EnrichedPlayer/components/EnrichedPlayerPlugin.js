@@ -25,7 +25,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
         };
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    UNSAFE_componentWillUpdate(nextProps, nextState) {
         if(nextState.played !== this.state.played) {
             let plugin = this;
             let marks = this.props.props.marks || {};
@@ -119,7 +119,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(nextProps.state.controls === true && this.state.controls !== this.props.state.controls) {
             this.setState({ controls: true });
         } else if (nextProps.state.controls === false && this.state.controls !== this.props.state.controls) {

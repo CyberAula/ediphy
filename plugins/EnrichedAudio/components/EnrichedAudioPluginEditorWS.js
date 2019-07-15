@@ -62,7 +62,7 @@ export default class BasicAudioPluginEditor extends React.Component {
         this.wavesurfer.setVolume(this.state.volume);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         let colorThemeChanged = !this.props.state.progressColor.custom && nextProps.props.themeColors !== {} && this.state.color !== nextProps.props.themeColors.themeColor1;
 
         if (nextProps.state !== this.props.state || colorThemeChanged) {

@@ -3,9 +3,7 @@ import { ResponsiveContainer, PieChart, AreaChart, BarChart, LineChart, Pie, Are
 /* eslint-disable react/prop-types */
 
 export default class Chart extends React.Component {
-    componentWillUpdate() {
 
-    }
     render() {
         let data = this.props.dataProcessed.slice();
         let options = this.props.options;

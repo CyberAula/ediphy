@@ -81,7 +81,7 @@ export default class UploadComponent extends React.Component {
         </div>);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.show !== this.props.show) {
             this.setState({ extensionFilter: nextProps.show });
         }

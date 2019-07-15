@@ -165,7 +165,7 @@ class EditorCanvasSli extends Component {
         window.removeEventListener("resize", this.aspectRatioListener);
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    UNSAFE_componentWillUpdate(nextProps, nextState) {
         if (this.props.aspectRatio !== nextProps.aspectRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
             window.canvasRatio = nextProps.aspectRatio;
             let calculated = this.aspectRatio(nextProps, nextState);

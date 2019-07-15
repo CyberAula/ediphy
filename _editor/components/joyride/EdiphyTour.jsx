@@ -187,7 +187,7 @@ export default class EdiphyTour extends React.Component {
         </div>
         ) : null;
     }
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (this.props.showTour !== nextProps.showTour) {
             this.setState({ run: nextProps.showTour });
         }

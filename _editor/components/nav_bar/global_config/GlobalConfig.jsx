@@ -479,7 +479,7 @@ class GlobalConfig extends Component {
      * If title is changed from outside
      * @param nextProps
      */
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         let fileModalResult = this.props.reactUI.fileModalResult;
         let nextFileModalResult = nextProps.reactUI.fileModalResult;
         let nextGlobalConfig = nextProps.globalConfig;

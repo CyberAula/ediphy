@@ -9,7 +9,7 @@ export default class TableComponent extends React.Component {
         super(props);
         this.state = { key: 0 };
     }
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.options &&
           nextProps.options.initialPageLength &&
           this.props.options && this.props.options.initialPageLength &&

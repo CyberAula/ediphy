@@ -230,7 +230,7 @@ export default class VisorCanvasSli extends Component {
         });
     };
 
-    componentWillUpdate(nextProps, nextState) {
+    UNSAFE_componentWillUpdate(nextProps, nextState) {
         // Manage transition so animation in and out are simultaneous
         if (!nextProps.show && this.props.show) {
             let backwards = nextProps.navItemsIds.indexOf(nextProps.selectedView) < this.props.navItemsIds.indexOf(this.props.selectedView);

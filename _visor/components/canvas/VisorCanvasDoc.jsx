@@ -121,13 +121,6 @@ export default class VisorCanvasDoc extends Component {
             </Col>
         );
     }
-
-    componentWillReceiveProps(nextProps) {
-        /* if (this.props.currentView.id !== nextProps.currentView.id) {
-            document.getElementById(!isView(this.props.currentView) ? "contained_maincontent" : "maincontent").scrollTop = 0;
-        }*/
-    }
-
 }
 
 VisorCanvasDoc.propTypes = {

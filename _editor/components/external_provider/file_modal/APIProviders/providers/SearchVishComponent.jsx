@@ -162,7 +162,7 @@ export default class SearchVishComponent extends React.Component {
             </div>
         );
     }
-    componentWillUpdate(nextProps, nextState) {
+    UNSAFE_componentWillUpdate(nextProps, nextState) {
         let results = this.state.results;
         if (results.length && (nextState.results.length !== results.length && nextState.results.length > 0)) {
             let nextEl = nextState.results[0];

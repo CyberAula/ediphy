@@ -213,7 +213,7 @@ export default class DropboxComponent extends React.Component {
         }
     };
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
 
         if (nextProps.isBusy && this.props.isBusy && nextProps.isBusy.value !== this.props.isBusy.value) {
             if (nextProps.isBusy.msg === FILE_UPLOADING && this.props.isBusy.msg !== FILE_UPLOADING) {

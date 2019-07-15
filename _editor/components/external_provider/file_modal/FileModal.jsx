@@ -151,7 +151,7 @@ class FileModal extends React.Component {
         this.setState({ ...initialState, menu });
     };
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.visible !== this.props.visible && this.props.fileModalResult.id !== nextProps.fileModalResult.id) {
             this.setState({ menu: 0, element: undefined, index: undefined, type: undefined });
         }

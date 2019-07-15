@@ -34,7 +34,7 @@ export default class MarkCreator extends Component {
      * @param nextProps
      * @param nextState
      */
-    componentWillUpdate(nextProps, nextState) {
+    UNSAFE_componentWillUpdate(nextProps, nextState) {
         if(!this.state.modalToggled) {
             let element = findBox(this.props.currentId);
             let dom_element = ReactDOM.findDOMNode(element);

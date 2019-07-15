@@ -41,7 +41,7 @@ export default class ToolbarFileProvider extends Component {
                 }}>{this.props.buttontext}</Button>
         </FormGroup>);
     }
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(this.props.fileModalResult &&
             nextProps.fileModalResult &&
             nextProps.id === nextProps.fileModalResult.id

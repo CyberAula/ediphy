@@ -19,7 +19,7 @@ export default class VisorBox extends Component {
             window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
         }
     }
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (!this.state.show && !this.props.show && nextProps.show) {
             this.setState({ show: true });
         }

@@ -35,7 +35,7 @@ export default class VisorContainedCanvas extends Component {
         );
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         document.getElementById('contained_maincontent').scrollTop = 0;
 
     }

@@ -37,7 +37,7 @@ class AutoSave extends Component {
         clearInterval(this.intervalId);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.isBusy.value) {
             this.setState({ displaySave: true });
             setTimeout(() => {

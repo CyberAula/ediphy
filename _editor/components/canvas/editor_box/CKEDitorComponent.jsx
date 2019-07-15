@@ -107,7 +107,7 @@ export default class CKEDitorComponent extends Component {
             }
         }
     }
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (this.props.boxSelected === this.props.id && nextProps.boxSelected !== nextProps.id && this.props.toolbars[this.props.id].showTextEditor) {
             this.onBlur();
         }

@@ -47,7 +47,7 @@ class ContainedCanvas extends Component {
      * Before component receives props
      * @param nextProps
      */
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.boxSelected !== -1) {
             this.setState({ showTitle: false });
         }

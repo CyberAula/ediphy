@@ -11,7 +11,7 @@ export default class ExitModal extends React.Component {
          * @type {{show: boolean, pluginActive: string, reason: null, disabledButton: boolean}}
          */
     }
-    componentWillUpdate(nextProps) {
+    UNSAFE_componentWillUpdate(nextProps) {
         if(nextProps.showExitModal && !this.props.showExitModal) {
             // this.props.publishing(true);
             window.exitFlag = true;

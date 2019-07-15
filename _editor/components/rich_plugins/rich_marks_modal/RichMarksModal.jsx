@@ -43,7 +43,7 @@ class RichMarksModal extends Component {
      * Updates component's state with toolbar's state info
      * @param nextProps
      */
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         let current = nextProps.currentRichMark;
         let allViews = this.returnAllViews(nextProps);
         if (!this.props.visible) {

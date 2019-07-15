@@ -103,7 +103,7 @@ export default class Visor extends Component {
         }
     };
 
-    componentWillUpdate(nextProps, nextState) {
+    UNSAFE_componentWillUpdate(nextProps, nextState) {
         // reset marks when navigating between main sections
         if(this.state.currentView.length !== nextState.currentView.length && isView(nextState.currentView[nextState.currentView.length - 1])) {
             this.setState({ triggeredMarks: [] });

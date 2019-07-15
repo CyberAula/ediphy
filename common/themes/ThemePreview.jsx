@@ -14,7 +14,7 @@ export default class ThemePreview extends React.Component {
         };
     }
 
-    componentWillUpdate(nextProps, nextState, nextContext) {
+    UNSAFE_componentWillUpdate(nextProps, nextState, nextContext) {
         if(this.props.styleConfig.transition !== nextProps.styleConfig.transition) {
             this.setState({ visible: false }, () => setTimeout(() => this.setState({ visible: true }), 0));
         }

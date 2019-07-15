@@ -19,7 +19,7 @@ class PluginConfigModal extends Component {
         currentStep: 1,
     };
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (!this.props.id && nextProps.id) {
             this.setState({ pluginState: nextProps.state });
         }

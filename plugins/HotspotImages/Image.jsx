@@ -11,7 +11,7 @@ export default class Image extends React.Component {
         this.state = { error: false };
     }
 
-    componentWillReceiveProps(nextProps, nextContext) {
+    UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
         if(nextProps.state.url !== this.props.state.url) {
             this.setState({ error: false });
         }
