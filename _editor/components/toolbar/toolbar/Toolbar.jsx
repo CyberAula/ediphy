@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import i18n from 'i18next';
-import ViewToolbar from '../view_toolbar/ViewToolbar';
-import PluginToolbar from '../plugin_toolbar/PluginToolbar';
-import { isCanvasElement, isSlide } from "../../../../common/utils";
-import Ediphy from "../../../../core/editor/main";
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+
+import Ediphy from "../../../../core/editor/main";
+import PluginToolbar from '../plugin_toolbar/PluginToolbar';
+import ViewToolbar from '../view_toolbar/ViewToolbar';
+
+import { isCanvasElement, isSlide } from "../../../../common/utils";
 import { changeBackground } from "../../../../common/actions";
+
 class Toolbar extends Component {
 
     state = { open: false };

@@ -135,8 +135,6 @@ export default class EdiphyTour extends React.Component {
             doneSteps: new Set(),
         };
     }
-    componentDidMount() {
-    }
 
     callback(tour) {
         const { action, index, type } = tour;

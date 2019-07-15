@@ -141,15 +141,6 @@ export function createAspectRatioButton(controls, config) {
     }
 }
 
-export function createControls(payload) {
-    let controls = payload || {
-        main: {
-            __name: "Main",
-            accordions: {},
-        },
-    };
-}
-
 export function createAliasButton(controls, state) {
     if (!controls.main) {
         controls.main = {

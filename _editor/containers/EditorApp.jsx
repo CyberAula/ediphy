@@ -42,6 +42,7 @@ class EditorApp extends Component {
         this.state = { alert: null };
         this.initializeHandlers();
     }
+
     render() {
         const currentState = this.props.store.getState();
         const { boxSelected, navItemSelected, containedViewSelected, isBusy, pluginToolbars,
@@ -180,7 +181,6 @@ class EditorApp extends Component {
      * Loads plugin API and sets listeners for plugin events, marks and keyboard keys pressed
      */
     componentDidMount() {
-
         const inProduction = process.env.NODE_ENV === 'production';
         const isDoc = process.env.DOC === 'doc';
 
