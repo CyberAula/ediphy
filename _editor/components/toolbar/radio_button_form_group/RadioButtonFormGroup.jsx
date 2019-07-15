@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, ControlLabel, Tooltip, OverlayTrigger } from 'react-bootstrap';
+
 import './_radiobuttonformgroup.scss';
 /** *
  * Radio Button component that displays material icons instead of plain text options
@@ -21,10 +22,11 @@ export default class RadioButtonFormGroup extends Component {
      * @param text Tooltip Content
      * @returns {Tooltip} React Tooltip component
      */
-    tooltip = (text) => {
-        return (
-            <Tooltip id="tooltip_radio">{text}</Tooltip>
-        );
+    tooltip = (text) => <Tooltip id="tooltip_radio">{text}</Tooltip>;
+
+    handleClick = (e, option) => {
+        this.props.click(option);
+        e.stopPropagation();
     };
 
     /**
@@ -36,14 +38,21 @@ export default class RadioButtonFormGroup extends Component {
             React.createElement(ControlLabel, { key: 'label' }, this.props.title), <br key="space"/>,
             this.props.options
                 .map((option, index) => {
-                    return (<OverlayTrigger placement="top" key={'item_' + index} overlay={this.props.tooltips ? this.tooltip(this.props.tooltips[index]) : this.tooltip(option)}>
-                        {React.createElement('button',
-                            { value: option,
-                                className: (this.props.selected === option ? 'radioButtonCustom selectedAlignment' : 'radioButtonCustom unselectedAlignment'),
-                                onClick: e => {this.props.click(option); e.stopPropagation();},
-                            },
-                            <i className="material-icons">{this.props.icons[index]}</i>)}
-                    </OverlayTrigger>);
+                    const overlay = this.props.tooltips ? this.tooltip(this.props.tooltips[index]) : this.tooltip(option);
+                    return (
+                        <OverlayTrigger
+                            placement="top"
+                            key={'item_' + index}
+                            overlay={overlay}
+                        >
+                            <button
+                                value={option}
+                                className={ this.props.selected === option ? 'radioButtonCustom selectedAlignment' : 'radioButtonCustom unselectedAlignment'}
+                                onClick={this.handleClick}
+                            >
+                                <i className="material-icons">{this.props.icons[index]}</i>
+                            </button>
+                        </OverlayTrigger>);
                 })
         );
     }
@@ -53,7 +62,6 @@ export default class RadioButtonFormGroup extends Component {
  * @type {{key: shim, title: shim, options: shim, selected: shim, click: shim, tooltips: *, icons: *}}
  */
 RadioButtonFormGroup.propTypes = {
-    // key: PropTypes.string,
     /**
      * Button name
      */

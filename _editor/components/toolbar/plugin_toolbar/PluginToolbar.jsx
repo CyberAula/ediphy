@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
-import {
-    Button,
-    PanelGroup,
-    Panel,
-} from 'react-bootstrap';
+import { Button, PanelGroup, Panel } from 'react-bootstrap';
+import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
+import i18n from 'i18next';
+import PropTypes from 'prop-types';
+
 import GridConfigurator from '../grid_configurator/GridConfigurator.jsx';
 import Ediphy from '../../../../core/editor/main';
-import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
-import { UPDATE_TOOLBAR, UPDATE_BOX } from '../../../../common/actions';
-import i18n from 'i18next';
-import './_pluginToolbar.scss';
+
 import { renderAccordion, toolbarMapper, toolbarFiller } from "../../../../core/editor/accordion_provider";
-import PropTypes from 'prop-types';
 import { blurCKEditor } from '../../../../common/common_tools';
+
+import './_pluginToolbar.scss';
 
 /**
  * Toolbar component for configuring boxes or pages
@@ -25,15 +23,24 @@ export default class PluginToolbar extends Component {
     render() {
         let toolbar = this.props.pluginToolbars[this.props.box.id];
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
-        let config;
-        let controls;
+        let config = apiPlugin ? apiPlugin.getConfig() : {};
+        let controls = apiPlugin ? apiPlugin.getToolbar(toolbar.state) : {};
+
         if(apiPlugin) {
-            config = apiPlugin.getConfig();
-            controls = apiPlugin.getToolbar(toolbar.state);
+            toolbarFiller(controls, this.props.box.id, toolbar, config, config, this.props.box.parent, null, this.props.exercises);
+            controls = toolbarMapper(controls, toolbar);
+
         } else {
-            config = {};
-            controls = {};
+            controls = {
+                main: {
+                    __name: "Main",
+                    accordions: {},
+                },
+            };
+            // eslint-disable-next-line no-console
+            console.error("API could not find selected plugin. Please check plugin is intalled");
         }
+
         // We define the extra buttons we need depending on plugin's configuration
         let textButton;
         if (config.needsTextEdition) {
@@ -46,7 +53,7 @@ export default class PluginToolbar extends Component {
                                 this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, text, content);});
                         }}>
                         <i className="toolbarIcons material-icons">mode_edit</i>
-                        {i18n.t("edit_text")}
+                        {i18n.t("edit_text")}1
                     </Button>
                 </div>
             );
@@ -67,18 +74,7 @@ export default class PluginToolbar extends Component {
                 </div>
             );
         }
-        if(apiPlugin) {
-            toolbarFiller(controls, this.props.box.id, toolbar, config, config, this.props.box.parent, null, this.props.exercises);
-            controls = toolbarMapper(controls, toolbar);
 
-        } else {
-            controls = {
-                main: {
-                    __name: "Main",
-                    accordions: {},
-                },
-            };
-        }
         return Object.keys(controls).map((tabKey, index) => {
             let tab = controls[tabKey];
             let children = this.props.box.children ? [...this.props.box.children] : [];

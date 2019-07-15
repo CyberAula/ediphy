@@ -1,29 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
-import { isCanvasElement, isDocument, isPage, isSection, isSlide } from "../../../../common/utils";
-import { PanelGroup, Panel } from "react-bootstrap";
-import Ediphy from "../../../../core/editor/main";
-import './_viewToolbar.scss';
-import { renderAccordion } from "../../../../core/editor/accordion_provider";
-
-import { getThemes, getPrimaryColor, sanitizeThemeToolbar } from "../../../../common/themes/theme_loader";
-import { getThemeBackgrounds } from "../../../../common/themes/background_loader";
+import { PanelGroup } from "react-bootstrap";
 import { connect } from "react-redux";
-import Toolbar from "../toolbar/Toolbar";
+
+import Ediphy from "../../../../core/editor/main";
+
+import { isCanvasElement, isPage, isSection, isSlide } from "../../../../common/utils";
+import { renderAccordion } from "../../../../core/editor/accordion_provider";
+import { getThemes, sanitizeThemeToolbar } from "../../../../common/themes/theme_loader";
+
+import './_viewToolbar.scss';
 
 class ViewToolbar extends Component {
 
     render() {
-        const { containedViewSelected, containedViews, styleConfig,
-            navItemSelected, navItems, viewToolbars, exercises } = this.props;
-        let id = containedViewSelected !== 0 ? containedViewSelected : navItemSelected;
-        let pageObj = containedViewSelected !== 0 ? containedViews[containedViewSelected] : navItems[navItemSelected];
-        let type = pageObj.type;
-        let isContainedView = containedViewSelected !== 0;
+        const { containedViewSelected, containedViews, styleConfig, navItemSelected, navItems, viewToolbars, exercises } = this.props;
+        const id = containedViewSelected !== 0 ? containedViewSelected : navItemSelected;
+        const pageObj = containedViewSelected !== 0 ? containedViews[containedViewSelected] : navItems[navItemSelected];
+        const type = pageObj.type;
+        const isContainedView = containedViewSelected !== 0;
 
-        let doc_type = this.getDocType(type, id);
-        let viewToolbar = sanitizeThemeToolbar(viewToolbars[id], styleConfig);
+        const doc_type = this.getDocType(type, id);
+        const viewToolbar = sanitizeThemeToolbar(viewToolbars[id], styleConfig);
 
         let controls = {
             main: {
