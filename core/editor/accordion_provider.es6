@@ -16,11 +16,9 @@ import { getThemeColors, getThemes } from "../../common/themes/theme_loader";
 import ToolbarFileProvider from "../../_editor/components/external_provider/file_modal/APIProviders/common/ToolbarFileProvider";
 /* eslint-disable react/prop-types */
 
-import { loadBackground, getBackgroundIndex, isBackgroundColor, getBackground } from "../../common/themes/background_loader";
-import loadFont from "../../common/themes/font_loader";
-import { getColor, getCurrentColor, getThemeFont, getCurrentFont } from "../../common/themes/theme_loader";
+import { loadBackground, getBackground } from "../../common/themes/background_loader";
+import { getColor, getCurrentColor, getThemeFont } from "../../common/themes/theme_loader";
 import { sanitizeThemeToolbar } from "../../common/themes/theme_loader";
-import isBox from "../../common/utils";
 
 export function toolbarFiller(toolbar, id, state, config, initialParams, container, marks = null, exercises = {}) {
 
@@ -42,6 +40,8 @@ export function toolbarFiller(toolbar, id, state, config, initialParams, contain
     if (config && config.category === 'evaluation') {
         createScoreAccordions(toolbar, state, exercises);
     }
+
+    console.log(toolbar);
     return toolbar;
 }
 
@@ -272,13 +272,6 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         type = "text";
     }
 
-    /* } else {
-        let height = state.controls.main.accordions.__sortable.buttons.__height;
-        type = height.type;
-        displayValue = height.displayValue;
-        value = height.value;
-        units = height.units;
-    }*/
     controls.main.accordions.structure.buttons.height = {
         __name: i18n.t('Height'),
         type: type,
@@ -395,7 +388,8 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
                 box_id={toolbar_props.box.id}
                 onRichMarksModalToggled={toolbar_props.handleMarks.onRichMarksModalToggled}
                 onRichMarkEditPressed={toolbar_props.handleMarks.onRichMarkEditPressed}
-                onRichMarkDeleted={toolbar_props.handleMarks.onRichMarkDeleted}/>
+                onRichMarkDeleted={toolbar_props.handleMarks.onRichMarkDeleted}
+            />
         );
     }
 
@@ -403,6 +397,81 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
 
     // React.createElement(Panel, props, children);
 }
+
+const Color = (button, onChange, props) => {
+    return (
+        <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
+            <ControlLabel key={'label_' + button.__name}> {button.__name} </ControlLabel>
+            <ColorPicker
+                key={props.label}
+                value={props.value}
+                onChange={onChange}
+            />
+        </FormGroup>);
+};
+
+let PluginColor = (button, onChange, props, toolbarProps, id) => {
+    console.log(props);
+    console.log(toolbarProps);
+    let theme = toolbarProps.viewToolbars[id] && toolbarProps.viewToolbars[id].theme ? toolbarProps.viewToolbars[id].theme : 'default';
+    return (
+        <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
+            <ControlLabel key={'label_' + button.__name}> Color </ControlLabel>
+            <ColorPicker
+                key={"cpicker_" + props.label}
+                value={(props.value && props.value.color && props.value.custom) ? props.value.color : getCurrentColor(theme)}
+                onChange={onChange}
+            />
+            <Button
+                value={getColor(theme)}
+                key={'button_' + button.__name}
+                onClick={onChange}
+                className={"toolbarButton"}
+            >
+                <div key={props.label}>{i18n.t('Style.restore_theme_color')}</div>
+            </Button>
+        </FormGroup>);
+};
+
+const Font = (button, onChange, props) => {
+    return (
+        <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
+            <ControlLabel key={'label1_' + button.__name}> {i18n.t('Style.font')} </ControlLabel>
+            <FontPicker
+                apiKey={"AIzaSyCnIyhIyDVg6emwq8XigrPKDPgueOrZ4CE"}
+                activeFont={props.value.hasOwnProperty('custom') ? props.value.font : props.value}
+                options={{ themeFont: getThemeFont(props.theme) }}
+                onChange={onChange}
+            />
+        </FormGroup>
+    );
+};
+
+const Theme = (button, onChange, props) => {
+    return (
+        <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
+            <ControlLabel key={'label_' + button.__name}> {i18n.t('Style.theme')} </ControlLabel>
+            <ThemePicker
+                key={'theme-picker' + props.label}
+                currentTheme={props.currentTheme}
+                currentItem={props.currentItem}
+                onChange={onChange}
+            />
+        </FormGroup>
+    );
+};
+
+const Text = (button, onChange, props) => {
+    return (
+        <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
+            <ControlLabel key={'label_' + button.__name}> {button.__name} </ControlLabel>
+            <FormControl
+                {...props}
+                onChange={onChange}
+            />
+        </FormGroup>
+    );
+};
 
 /**
      * Render toolbar button
@@ -415,13 +484,6 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
      * @returns {code} Button code
      */
 export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key, toolbar_props) {
-    console.log(accordion);
-    console.log(tabKey);
-    console.log(accordionKeys);
-    console.log(buttonKey);
-    console.log(state);
-    console.log(key);
-    console.log(toolbar_props);
 
     let button = accordion.buttons[buttonKey];
 
@@ -461,7 +523,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             if (button.type === 'number' && value === "") {
                 value = button.min ? button.min : 0;
             }
-
         },
         onChange: e => {
             let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
@@ -580,45 +641,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 return;
             }
 
-            if (button.type === 'custom_color_plugin') {
-                let toolbar = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
-                let theme = toolbar.theme ? toolbar.theme : 'default';
-                if (e.color) {
-                    value = { color: e.color, custom: true };
-                    if (!value) {
-                        return;
-                    }
-                }
-
-                if(e.currentTarget && e.currentTarget.type === "button") {
-                    value = { color: getCurrentColor(theme), custom: false };
-                }
-            }
-
-            if(button.type === 'theme_select') {
-                let indexTheme = e || 0;
-                value = getThemes()[indexTheme];
-                if (!value) {
-                    return;
-                }
-
-            }
-
-            if (button.type === 'font_picker') {
-                let toolbar = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
-                let theme = toolbar.theme ? toolbar.theme : 'default';
-                if (e.family) {
-                    value = button.hasOwnProperty('kind') && button.kind === 'theme_font' ? e.family : { font: e.family, custom: !e.themeDefaultFont };
-                    if (!value) {
-                        return;
-                    }
-                }
-                if(e.currentTarget && e.currentTarget.type === "button") {
-                    value = { color: getCurrentColor(theme), custom: false };
-                }
-
-            }
-
             if (button.type === 'background_picker') {
                 if(e.color) {
                     value = { background: e.color, backgroundAttr: 'full', backgroundZoom: 100, customBackground: true };
@@ -678,16 +700,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 value = e; // [...e.target.options].filter(o => o.selected).map(o => o.value);
             }
 
-            if (button.type === 'colorOptions') {
-                value = e.value;
-            }
-            if (button.type === 'color') {
-                value = e.color;
-                if (!value) {
-                    return;
-                }
-            }
-
             if (toolbar_props.boxSelected === -1) {
                 handlecanvasToolbar(buttonKey, value, accordion, toolbar_props, buttonKey);
             } else if (currentElement === '__score') {
@@ -700,41 +712,84 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             }
         },
     };
-    if (button.type === "color") {
-        return React.createElement(
-            FormGroup,
-            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
-            [
-                React.createElement(
-                    ControlLabel,
-                    { key: 'label_' + button.__name },
-                    button.__name),
-                React.createElement(
-                    ColorPicker, { key: props.label, value: props.value, onChange: props.onChange },
-                    []),
-            ]);
+    let handler;
 
+    switch (button.type) {
+
+    case 'color':
+        handler = e => handlecanvasToolbar(buttonKey, e.color, accordion, toolbar_props, buttonKey);
+        return Color(button, handler, props);
+
+    case 'custom_color_plugin':
+        handler = e => {
+            let toolbar = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
+            let theme = toolbar.theme ? toolbar.theme : 'default';
+            console.log(e.color);
+            console.log(e.currentTarget && e.currentTarget.type === "button");
+            if (e.color) {
+                let color = e.color;
+                toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, currentElement, buttonKey, { color, custom: true });
+            }
+            if(e.currentTarget && e.currentTarget.type === "button") {
+                console.log('hello');
+                toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, currentElement, buttonKey, { color: getCurrentColor(theme), custom: false });
+            }
+        };
+        return PluginColor(button, handler, props, toolbar_props, id);
+
+    case 'theme_select':
+        handler = e => handlecanvasToolbar(buttonKey, getThemes()[e || 0], accordion, toolbar_props, buttonKey);
+        return Theme(button, handler, { ...props, currentTheme: props.value, currentItem: toolbar_props.navItemSelected });
+
+    case 'font_picker':
+        let navItemSelected = toolbar_props.navItemSelected;
+        let theme = toolbar_props.viewToolbars[navItemSelected] && toolbar_props.viewToolbars[navItemSelected].theme ? toolbar_props.viewToolbars[navItemSelected].theme : 'default';
+        handler = e => {
+            let value;
+            if (e.family) {
+                value = button.hasOwnProperty('kind') && button.kind === 'theme_font' ? e.family : { font: e.family, custom: !e.themeDefaultFont };
+                if (!value) {return;}
+            }
+            handlecanvasToolbar(buttonKey, value, accordion, toolbar_props, buttonKey);
+        };
+        return Font(button, handler, { ...props, theme });
+
+    case 'text':
+    case 'number':
+        handler = e => {
+            let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
+            handlecanvasToolbar(buttonKey, value, accordion, toolbar_props, buttonKey);
+        };
+        props = {
+            key: ('child_' + key),
+            id: ('page' + '_' + buttonKey),
+            type: button.type,
+            value: button.value,
+            checked: button.checked,
+            componentClass: 'input',
+            label: button.__name,
+            min: button.min,
+            max: button.max,
+            step: button.step,
+            disabled: false,
+            placeholder: button.placeholder,
+            title: button.title ? button.title : '',
+            className: button.class,
+            style: { width: '100%' },
+            onBlur: e => {
+                let value = e.target.value;
+                if (button.type === 'number' && value === "") {
+                    value = button.min ? button.min : 0;
+                }
+                handlecanvasToolbar(buttonKey, value, accordion, toolbar_props, buttonKey);
+            },
+        };
+        return Text(button, handler, props);
+
+    default:
     }
+
     if (button.options) {
-        if (button.type === "colorOptions") {
-            props.options = button.options;
-            props.optionRenderer = this.renderOption;
-            props.valueRenderer = this.renderValue;
-            return React.createElement(
-                FormGroup,
-                { key: button.__name },
-                [
-                    React.createElement(
-                        ControlLabel,
-                        { key: 'label_' + button.__name },
-                        button.__name),
-                    React.createElement(
-                        Select,
-                        props,
-                        null),
-                ]
-            );
-        }
 
         if (button.type === "select") {
             if (!button.multiple) {
@@ -920,53 +975,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             ]);
     }
 
-    if(button.type === "font_picker") {
-        let navItemSelected = toolbar_props.navItemSelected;
-        let theme = toolbar_props.viewToolbars[navItemSelected] && toolbar_props.viewToolbars[navItemSelected].theme ? toolbar_props.viewToolbars[navItemSelected].theme : 'default';
-        return React.createElement(
-            FormGroup,
-            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
-            [
-                React.createElement(
-                    ControlLabel,
-                    { key: 'label1_' + button.__name },
-                    i18n.t('Style.font'),
-                ),
-                React.createElement("div", {
-                    key: props.label,
-                    className: "apply-font",
-                    style: { color: 'black' } },
-                React.createElement(
-                    FontPicker, {
-                        apiKey: "AIzaSyCnIyhIyDVg6emwq8XigrPKDPgueOrZ4CE",
-                        activeFont: props.value.hasOwnProperty('custom') ? props.value.font : props.value,
-                        onChange: props.onChange,
-                        options: { themeFont: getThemeFont(theme) },
-                    }, [])),
-            ]
-        );
-    }
-
-    if(button.type === "theme_select") {
-        return React.createElement(
-            FormGroup,
-            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
-            [
-                React.createElement(
-                    ControlLabel,
-                    { key: 'label1_' + button.__name },
-                    i18n.t('Style.theme')
-                ),
-                React.createElement(ThemePicker, {
-                    key: 'theme-picker' + props.label,
-                    currentTheme: props.value,
-                    currentItem: toolbar_props.navItemSelected,
-                    onChange: props.onChange,
-                }, []),
-            ]
-        );
-    }
-
     if (button.type === "background_picker") {
         let isURI = (/data\:/).test(props.value.background);
         let isColor = (/(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig).test(props.value.background) || (/#/).test(props.value.background) || !(/url/).test(props.value.background);
@@ -1051,7 +1059,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
     }
 
-    // If it's none of previous types (number, text, color, range, ...)
+    // If it's none of previous types (number, text, range, ...)
     if (accordionKeys[0] === 'structure' && (buttonKey === 'width' || buttonKey === 'height')) {
         let advancedPanel = (
             <FormGroup style= {{ display: button.hide ? 'none' : 'block' }}>
@@ -1124,6 +1132,9 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             ]
         );
     }
+
+    console.log('here');
+    console.log(props);
     return React.createElement(
         FormGroup,
         { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
@@ -1134,7 +1145,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 button.__name),
             React.createElement(
                 FormControl,
-                props,
+                { ...props },
                 null),
         ]
     );
