@@ -314,9 +314,7 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
                 options: ['absolute', 'relative'],
             };
         }
-
     }
-
 }
 
 /**
@@ -398,6 +396,18 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
     // React.createElement(Panel, props, children);
 }
 
+const Checkbox = (button, onChange, props) => {
+    return (
+        <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
+            <ToggleSwitch
+                key={'sw_' + button.__name}
+                {...props}
+                onChange={onChange}
+            />
+            <label key={buttonKey + 'label'} style={{ display: 'inline-block' }}>{props.label}</label>
+        </FormGroup>);
+};
+
 const Color = (button, onChange, props) => {
     return (
         <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
@@ -411,8 +421,6 @@ const Color = (button, onChange, props) => {
 };
 
 let PluginColor = (button, onChange, props, toolbarProps, id) => {
-    console.log(props);
-    console.log(toolbarProps);
     let theme = toolbarProps.viewToolbars[id] && toolbarProps.viewToolbars[id].theme ? toolbarProps.viewToolbars[id].theme : 'default';
     return (
         <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
@@ -716,6 +724,8 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
     switch (button.type) {
 
+    case 'checkboxx':
+
     case 'color':
         handler = e => handlecanvasToolbar(buttonKey, e.color, accordion, toolbar_props, buttonKey);
         return Color(button, handler, props);
@@ -724,16 +734,14 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         handler = e => {
             let toolbar = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
             let theme = toolbar.theme ? toolbar.theme : 'default';
-            console.log(e.color);
-            console.log(e.currentTarget && e.currentTarget.type === "button");
+            let pluginColor;
             if (e.color) {
-                let color = e.color;
-                toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, currentElement, buttonKey, { color, custom: true });
+                pluginColor = { color: e.color, custom: true };
             }
             if(e.currentTarget && e.currentTarget.type === "button") {
-                console.log('hello');
-                toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, currentElement, buttonKey, { color: getCurrentColor(theme), custom: false });
+                pluginColor = { color: getCurrentColor(theme), custom: false };
             }
+            toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, 'state', buttonKey, pluginColor);
         };
         return PluginColor(button, handler, props, toolbar_props, id);
 
