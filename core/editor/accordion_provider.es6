@@ -41,7 +41,6 @@ export function toolbarFiller(toolbar, id, state, config, initialParams, contain
         createScoreAccordions(toolbar, state, exercises);
     }
 
-    console.log(toolbar);
     return toolbar;
 }
 
@@ -1141,8 +1140,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         );
     }
 
-    console.log('here');
-    console.log(props);
     return React.createElement(
         FormGroup,
         { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
