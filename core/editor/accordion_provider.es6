@@ -1,5 +1,5 @@
 import i18n from "i18next";
-import { isContainedView, isSlide, isSortableBox, isSortableContainer } from "../../common/utils";
+import { isSlide, isSortableBox, isSortableContainer } from "../../common/utils";
 import Select from "react-select";
 import { ControlLabel, Popover, FormControl, OverlayTrigger, Button, FormGroup, Panel, Radio, InputGroup } from "react-bootstrap";
 import RadioButtonFormGroup from "../../_editor/components/toolbar/radio_button_form_group/RadioButtonFormGroup";
@@ -258,6 +258,7 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         } else {
             displayValue = parseInt(initialHeight, 10);
             value = parseInt(initialHeight, 10);
+            type = "text";
             if (initialHeight.indexOf("px") !== -1) {
                 units = "px";
             } else {
@@ -302,8 +303,13 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         };*/
 
     } else {
-        // let hasPositionButton = action.payload.toolbar && action.payload.toolbar.main && action.payload.toolbar.main.accordions && action.payload.toolbar.main.accordions.__sortable && action.payload.toolbar.main.accordions.__sortable.buttons && action.payload.toolbar.main.accordions.__sortable.buttons.__position;
-        let hasPositionButton = state.controls && state.controls.main && state.controls.main.accordions && state.controls.main.accordions.structure && state.controls.main.accordions.structure.buttons && state.controls.main.accordions.structure.buttons.__position;
+        let hasPositionButton =
+            state.controls
+            && state.controls.main
+            && state.controls.main.accordions
+            && state.controls.main.accordions.structure
+            && state.controls.main.accordions.structure.buttons
+            && state.controls.main.accordions.structure.buttons.__position;
 
         if (floatingBox && hasPositionButton) {
             controls.main.accordions.structure.buttons.position = {
@@ -403,7 +409,7 @@ const Checkbox = (button, onChange, props) => {
                 {...props}
                 onChange={onChange}
             />
-            <label key={buttonKey + 'label'} style={{ display: 'inline-block' }}>{props.label}</label>
+            <label key={props.label} style={{ display: 'inline-block' }}>{props.label}</label>
         </FormGroup>);
 };
 
@@ -480,6 +486,85 @@ const Text = (button, onChange, props) => {
     );
 };
 
+const Size = (button, onChange, props, accordionKeys, buttonKey, toolbar_plugin_state, toolbar_props, auto) => {
+    if (accordionKeys[0] === 'structure' && (buttonKey === 'width' || buttonKey === 'height')) {
+        let advancedPanel = (
+            <FormGroup style= {{ display: button.hide ? 'none' : 'block' }}>
+                <ToggleSwitch label={i18n.t("Auto")}
+                    checked={toolbar_plugin_state.structure[buttonKey] === "auto"}
+                    onChange={props.onChange}/>
+                {i18n.t("Auto")} <br/>
+                {/* Disable px size in slides*/}
+                {isSlide(toolbar_props.navItems[toolbar_props.navItemSelected].type) ?
+                    (<span/>) :
+                    (<div><br/>
+                        <ControlLabel>{i18n.t("Units")}</ControlLabel>
+                        <FormControl componentClass='select'
+                            value={toolbar_plugin_state.structure[buttonKey + "Unit"]}
+                            onChange={props.onChange}>
+                            <option value="px">{i18n.t("Pixels")}</option>
+                            <option value="%">{i18n.t("Percentage")}</option>
+                        </FormControl></div>)}
+            </FormGroup>
+        );
+
+        return (
+            <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
+                <ControlLabel key={"label_" + button.__name}>
+                    {button.__name + (!auto ? " (" + toolbar_plugin_state.structure[buttonKey + "Unit"] + ")" : "")}
+                </ControlLabel>
+                <InputGroup>
+                    <FormControl {...props} />
+                    <OverlayTrigger trigger="click"
+                        placement="bottom"
+                        rootClose
+                        overlay={
+                            <Popover id="advancedpanel"
+                                className="advancedPopover"
+                                title={i18n.t('Advanced')}>
+                                {advancedPanel}
+                            </Popover>
+                        }>
+                        <InputGroup.Addon className="gc_addon">
+                            <i className="material-icons gridconficons">settings</i>
+                        </InputGroup.Addon>
+                    </OverlayTrigger>
+                </InputGroup>
+            </FormGroup>
+        );
+    }
+    return null;
+
+};
+
+const External = (button, props, toolbar_props) => {
+    return (
+        <ToolbarFileProvider
+            id={toolbar_props.boxSelected}
+            key={button.__name}
+            formControlProps={props}
+            openModal={toolbar_props.handleModals.openFileModal}
+            buttontext={i18n.t('importFile.title')}
+            fileModalResult={toolbar_props.fileModalResult}
+            onChange={props.onChange}
+            accept={button.accept}
+            hide={button.hide}
+        />);
+};
+
+const Range = (button, props) => {
+    props.className = "rangeInput";
+    return (
+        <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
+            <ControlLabel key={'label_' + button.__name}> {button.__name} </ControlLabel>
+            <span key={'output_span' + button.__name} className={'rangeOutput'}>{button.type === 'range' ? button.value : null }</span>
+            <FormControl
+                {...props}
+            />
+        </FormGroup>
+    );
+};
+
 /**
      * Render toolbar button
      * @param accordion Name of the accordion
@@ -491,9 +576,7 @@ const Text = (button, onChange, props) => {
      * @returns {code} Button code
      */
 export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key, toolbar_props) {
-
     let button = accordion.buttons[buttonKey];
-
     let children = null;
 
     let id = (toolbar_props.boxSelected !== -1) ?
@@ -510,6 +593,20 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     if(toolbar_props.boxSelected !== -1) {
         toolbar_plugin_state = toolbar_props.pluginToolbars[toolbar_props.boxSelected];
     }
+
+    let commitChanges = (val) => {
+        if (toolbar_props.boxSelected === -1) {
+            handlecanvasToolbar(buttonKey, val, accordion, toolbar_props, buttonKey);
+        } else if (currentElement === '__score') {
+            toolbar_props.onScoreConfig(id, buttonKey, val);
+            if (!button.__defaultField) {
+                toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, 'state', buttonKey, val);
+            }
+        } else {
+            toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, currentElement, buttonKey, val);
+        }
+    };
+
     let props = {
         key: ('child_' + key),
         id: ('page' + '_' + buttonKey),
@@ -550,7 +647,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 case "select-one":
                     toolbar_props.handleBoxes.onBoxResized(id, { [buttonKey + "Unit"]: value });
                     break;
-
                 default:
                     if (isNaN(parseInt(value, 10))) {
                         if (value === "") {
@@ -609,9 +705,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 }
             }
 
-            if (button.type === 'checkbox') {
-                value = !button.checked;
-            }
             if (button.type === 'radio') {
                 value = button.options[value];
                 if (buttonKey === '__position') {
@@ -707,66 +800,83 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 value = e; // [...e.target.options].filter(o => o.selected).map(o => o.value);
             }
 
-            if (toolbar_props.boxSelected === -1) {
-                handlecanvasToolbar(buttonKey, value, accordion, toolbar_props, buttonKey);
-            } else if (currentElement === '__score') {
-                toolbar_props.onScoreConfig(id, buttonKey, value);
-                if (!button.__defaultField) {
-                    toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, 'state', buttonKey, value);
-                }
-            } else {
-                toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, currentElement, buttonKey, value);
-            }
+            commitChanges(value);
         },
     };
     let handler;
+    let newValue;
 
     switch (button.type) {
 
-    case 'checkboxx':
+    case 'checkbox':
+        handler = () => {
+            if (currentElement === 'structure' && (buttonKey === 'width' || buttonKey === 'height' || buttonKey === "aspectRatio")) {
+                if(buttonKey === "aspectRatio") {
+                    toolbar_props.handleBoxes.onBoxResized(id, { aspectRatio: !toolbar_plugin_state.structure.aspectRatio });
+                } else {
+                    toolbar_props.handleBoxes.onBoxResized(id, { [buttonKey]: toolbar_plugin_state.structure[buttonKey] === "auto" ? 100 : "auto" });
+                }
+            } else {
+                newValue = !button.checked;
+                commitChanges(newValue);
+            }
+        };
+        props = {
+            key: ('child_' + key),
+            id: ('page' + '_' + buttonKey),
+            type: button.type,
+            value: button.value,
+            checked: button.checked,
+            label: button.__name,
+            disabled: false,
+            title: button.title ? button.title : '',
+        };
+
+        return Checkbox(button, handler, props);
 
     case 'color':
-        handler = e => handlecanvasToolbar(buttonKey, e.color, accordion, toolbar_props, buttonKey);
+        handler = e => commitChanges(e.color);
         return Color(button, handler, props);
 
     case 'custom_color_plugin':
         handler = e => {
             let toolbar = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
             let theme = toolbar.theme ? toolbar.theme : 'default';
-            let pluginColor;
             if (e.color) {
-                pluginColor = { color: e.color, custom: true };
+                newValue = { color: e.color, custom: true };
             }
             if(e.currentTarget && e.currentTarget.type === "button") {
-                pluginColor = { color: getCurrentColor(theme), custom: false };
+                newValue = { color: getCurrentColor(theme), custom: false };
             }
-            toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, 'state', buttonKey, pluginColor);
+            commitChanges(newValue);
         };
         return PluginColor(button, handler, props, toolbar_props, id);
 
     case 'theme_select':
-        handler = e => handlecanvasToolbar(buttonKey, getThemes()[e || 0], accordion, toolbar_props, buttonKey);
+        handler = e => commitChanges(getThemes()[e || 0]);
         return Theme(button, handler, { ...props, currentTheme: props.value, currentItem: toolbar_props.navItemSelected });
 
     case 'font_picker':
         let navItemSelected = toolbar_props.navItemSelected;
         let theme = toolbar_props.viewToolbars[navItemSelected] && toolbar_props.viewToolbars[navItemSelected].theme ? toolbar_props.viewToolbars[navItemSelected].theme : 'default';
         handler = e => {
-            let value;
             if (e.family) {
-                value = button.hasOwnProperty('kind') && button.kind === 'theme_font' ? e.family : { font: e.family, custom: !e.themeDefaultFont };
-                if (!value) {return;}
+                newValue = button.hasOwnProperty('kind') && button.kind === 'theme_font' ? e.family : { font: e.family, custom: !e.themeDefaultFont };
             }
-            handlecanvasToolbar(buttonKey, value, accordion, toolbar_props, buttonKey);
+            commitChanges(newValue);
         };
         return Font(button, handler, { ...props, theme });
 
     case 'text':
-    case 'number':
-        handler = e => {
-            let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
-            handlecanvasToolbar(buttonKey, value, accordion, toolbar_props, buttonKey);
-        };
+        if(buttonKey === 'width' || buttonKey === 'height') {
+            handler = e => toolbar_props.handleBoxes.onBoxResized(id, { [buttonKey]: newValue });
+        } else {
+            handler = e => {
+                newValue = (typeof e.target !== 'undefined') ? e.target.value : e.value;
+                commitChanges(newValue);
+            };
+        }
+
         props = {
             key: ('child_' + key),
             id: ('page' + '_' + buttonKey),
@@ -791,7 +901,21 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 handlecanvasToolbar(buttonKey, value, accordion, toolbar_props, buttonKey);
             },
         };
+        if (buttonKey === 'height' || buttonKey === 'width') {
+            let auto = toolbar_plugin_state.structure[buttonKey] === "auto";
+            props.value = auto ? 'auto' : toolbar_plugin_state.structure[buttonKey];
+            props.type = auto ? 'text' : 'number';
+            props.max = toolbar_plugin_state.structure[buttonKey + "Unit"] === '%' ? 100 : 100000;
+            props.disabled = auto;
+            return Size(button, handler, props, accordionKeys, buttonKey, toolbar_plugin_state, toolbar_props, auto);
+        }
         return Text(button, handler, props);
+
+    case 'external_provider':
+        return External(button, props, toolbar_props);
+
+    case 'range':
+        return Range(button, props);
 
     default:
     }
@@ -883,19 +1007,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         }
     }
 
-    if (button.type === 'checkbox') {
-        delete props.style.width;
-        return React.createElement(
-            FormGroup,
-            { key: (button.__name), style: { display: button.hide ? 'none' : 'flex' } },
-            [React.createElement(
-                ToggleSwitch,
-                props,
-                button.__name),
-            <label key={buttonKey + 'label'} style={{ display: 'inline-block' }}>{props.label}</label>]
-        );
-    }
-
     if (button.type === 'conditionalText') {
         props.style.marginTop = '5px';
         props.style.marginBottom = '15px';
@@ -953,31 +1064,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                             ]),
                         ])
                     )
-                ),
-            ]);
-    }
-
-    if (button.type === "custom_color_plugin") {
-        let theme = toolbar_props.viewToolbars[id] && toolbar_props.viewToolbars[id].theme ? toolbar_props.viewToolbars[id].theme : 'default';
-        return React.createElement(
-            FormGroup,
-            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
-            [
-                React.createElement(
-                    ControlLabel,
-                    { key: 'label1_' + button.__name },
-                    'Color'),
-                React.createElement(
-                    ColorPicker, { key: "cpicker_" + props.label, value: (props.value && props.value.color && props.value.custom) ? props.value.color : getCurrentColor(theme), onChange: props.onChange },
-                    []),
-                React.createElement(
-                    Button, {
-                        value: getColor(theme),
-                        key: 'button_' + button.__name,
-                        onClick: props.onChange,
-                        className: "toolbarButton",
-                    },
-                    React.createElement("div", { key: props.label }, i18n.t('Style.restore_theme_color')),
                 ),
             ]);
     }
@@ -1051,73 +1137,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 )]);
     }
 
-    if (button.type === "external_provider") {
-        return React.createElement(ToolbarFileProvider, {
-            id: toolbar_props.boxSelected,
-            key: button.__name,
-            formControlProps: props,
-            openModal: toolbar_props.openFileModal,
-            buttontext: i18n.t('importFile.title'),
-            fileModalResult: toolbar_props.fileModalResult,
-            onChange: props.onChange,
-            accept: button.accept,
-            hide: button.hide,
-        }, null);
-
-    }
-
-    // If it's none of previous types (number, text, range, ...)
-    if (accordionKeys[0] === 'structure' && (buttonKey === 'width' || buttonKey === 'height')) {
-        let advancedPanel = (
-            <FormGroup style= {{ display: button.hide ? 'none' : 'block' }}>
-                <ToggleSwitch label={i18n.t("Auto")}
-                    checked={toolbar_plugin_state.structure[buttonKey] === "auto"}
-                    onChange={props.onChange}/>
-                {i18n.t("Auto")} <br/>
-                {/* Disable px size in slides*/}
-                {isSlide(toolbar_props.navItems[toolbar_props.navItemSelected].type) ?
-                    (<span/>) :
-                    (<div><br/>
-                        <ControlLabel>{i18n.t("Units")}</ControlLabel>
-                        <FormControl componentClass='select'
-                            value={toolbar_plugin_state.structure[buttonKey + "Unit"]}
-                            onChange={props.onChange}>
-                            <option value="px">{i18n.t("Pixels")}</option>
-                            <option value="%">{i18n.t("Percentage")}</option>
-                        </FormControl></div>)}
-            </FormGroup>
-        );
-
-        let auto = toolbar_plugin_state.structure[buttonKey] === "auto";
-        props.value = auto ? 'auto' : toolbar_plugin_state.structure[buttonKey];
-        props.type = auto ? 'text' : 'number';
-        props.max = toolbar_plugin_state.structure[buttonKey + "Unit"] === '%' ? 100 : 100000;
-        props.disabled = auto;
-        return (
-            <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
-                <ControlLabel key={"label_" + button.__name}>
-                    {button.__name + (!auto ? " (" + toolbar_plugin_state.structure[buttonKey + "Unit"] + ")" : "")}
-                </ControlLabel>
-                <InputGroup>
-                    <FormControl {...props} />
-                    <OverlayTrigger trigger="click"
-                        placement="bottom"
-                        rootClose
-                        overlay={
-                            <Popover id="advancedpanel"
-                                className="advancedPopover"
-                                title={i18n.t('Advanced')}>
-                                {advancedPanel}
-                            </Popover>
-                        }>
-                        <InputGroup.Addon className="gc_addon">
-                            <i className="material-icons gridconficons">settings</i>
-                        </InputGroup.Addon>
-                    </OverlayTrigger>
-                </InputGroup>
-            </FormGroup>
-        );
-    }
     if (button.type === 'range') {
         props.className = "rangeInput";
         return React.createElement(
@@ -1184,8 +1203,6 @@ export function renderValue(option) {
  * @param value value of the field
  */
 export function handlecanvasToolbar(name, value, accordions, toolbar_props) {
-    let navitem = toolbar_props.navItems[toolbar_props.navItemSelected];
-    let toolbar = accordions;
     let themeToolbar = sanitizeThemeToolbar(toolbar_props.viewToolbars[toolbar_props.navItemSelected]);
     switch (name) {
     // change page/slide title
