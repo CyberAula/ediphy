@@ -15,7 +15,7 @@ let es = {
             "background_zoom": "Zoom del fondo",
             "reset_background": "Restablecer",
             "background_input_url": "Imágen URL",
-            "cover": "Cubrir página",
+            "full": "Cubrir página",
             "repeat": "Repetir imagen",
             "centered": "Imagen centrada",
         },

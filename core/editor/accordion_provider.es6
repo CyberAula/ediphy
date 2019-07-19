@@ -6,7 +6,6 @@ import RadioButtonFormGroup from "../../_editor/components/toolbar/radio_button_
 import ToggleSwitch from "@trendmicro/react-toggle-switch/lib/index";
 import React from "react";
 
-import FileInput from "../../_editor/components/common/file-input/FileInput";
 import MarksList from "../../_editor/components/rich_plugins/marks_list/MarksList";
 import ColorPicker from "../../_editor/components/common/color-picker/ColorPicker";
 import FontPicker from "../../_editor/components/common/font-picker/FontPicker";
@@ -425,7 +424,7 @@ const Color = (button, onChange, props) => {
         </FormGroup>);
 };
 
-let PluginColor = (button, onChange, props, toolbarProps, id) => {
+const PluginColor = (button, onChange, props, toolbarProps, id) => {
     let theme = toolbarProps.viewToolbars[id] && toolbarProps.viewToolbars[id].theme ? toolbarProps.viewToolbars[id].theme : 'default';
     return (
         <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
@@ -486,6 +485,20 @@ const Text = (button, onChange, props) => {
     );
 };
 
+const ConditionalText = (button, props) => {
+
+    return(
+        <FormGroup key={button.__name} style={{ display: (props.accordionChecked ? "block" : "none") }}>
+            {button.displayName && <ControlLabel key={'label_' + button.__name}>{button.__name}</ControlLabel>}
+            <span key={'output_span_' + button.__name} className={'rangeOutput'}>
+                { button.actualType === 'range' ? button.value : null }
+            </span>
+            {delete props.accordionChecked}
+            <FormControl {...props}/>
+        </FormGroup>
+    );
+};
+
 const Size = (button, onChange, props, accordionKeys, buttonKey, toolbar_plugin_state, toolbar_props, auto) => {
     if (accordionKeys[0] === 'structure' && (buttonKey === 'width' || buttonKey === 'height')) {
         let advancedPanel = (
@@ -507,7 +520,6 @@ const Size = (button, onChange, props, accordionKeys, buttonKey, toolbar_plugin_
                         </FormControl></div>)}
             </FormGroup>
         );
-
         return (
             <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
                 <ControlLabel key={"label_" + button.__name}>
@@ -534,7 +546,6 @@ const Size = (button, onChange, props, accordionKeys, buttonKey, toolbar_plugin_
         );
     }
     return null;
-
 };
 
 const External = (button, props, toolbar_props) => {
@@ -565,6 +576,137 @@ const Range = (button, props) => {
     );
 };
 
+const MySelect = (button, props) => {
+    if (!button.multiple) {
+        let children = button.options.map((option, index) => {
+            let label = button.labels && button.labels[index] ? button.labels[index] : option;
+            return (<option key={'child_' + index} value={option}>{label}</option>);
+        });
+        props.componentClass = 'select';
+        return(
+            <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
+                <ControlLabel key={'label_' + button.__name}>{button.__name}</ControlLabel>
+                <FormControl {...props}>{children}</FormControl>
+            </FormGroup>
+        );
+    }
+
+    props.multiple = 'multiple';
+    props.options = button.options;
+    props.multi = true;
+    props.simpleValue = true;
+    props.placeholder = "No has elegido ninguna opción";
+    return (
+        <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
+            <ControlLabel key={'label_' + button.__name}>{button.__name}</ControlLabel>
+            <Select {...props}/>
+        </FormGroup>
+    );
+};
+
+const MyRadio = (button, props) => {
+    props.style = props.style ? { ...props.style, style: { display: button.hide ? 'none' : 'block' } } : { style: { display: button.hide ? 'none' : 'block' } };
+    let children = button.options.map((radio, index) => {
+        return (
+            <Radio key={index} name={button.__name} value={index} id={button.__name + radio}
+                onChange={props.onChange} checked={button.value === button.options[index]}>
+                {button.labels && button.labels[index] ? button.labels[index] : radio}
+            </Radio>);
+    });
+    return (
+        <FormGroup {...props}>
+            <ControlLabel key={'child_0'}>{button.__name}</ControlLabel>
+            {children}
+        </FormGroup>
+    );
+};
+
+const FancyRadio = (button, buttonKey, toolbar_props) => {
+    if (buttonKey === '__verticalAlign') {
+        return(
+            <RadioButtonFormGroup
+                key={button.__name}
+                title={button.__name}
+                options={button.options}
+                selected={button.value}
+                click={ opt => toolbar_props.handleBoxes.onVerticallyAlignBox(toolbar_props.boxSelected, opt)}
+                tooltips={button.tooltips}
+                icons={button.icons}
+            />
+        );
+    }
+    return null;
+};
+
+const BackgroundPicker = (button, props, toolbar_props, isURI, isColor, default_background, isSli, background_attr, background_attr_zoom) => {
+    const ImageDisplay = (options) => {
+        return(
+            <div key={'radioDislay'}>
+                {options.map((option, i) => {
+                    return(
+                        <Radio key={i + '_' + option}
+                            name={'image_display'}
+                            checked={background_attr === option}
+                            style={{ display: isColor ? "none" : "block" }}
+                            onChange={props.onChange} value={option}>
+                            {i18n.t(`background.${option}`)}
+                        </Radio>
+                    );
+                })}
+            </div>
+        );
+    };
+    const ImagePicker = (
+        <div key={'container_' + button.__name} style={{ display: 'block' }}>
+            <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
+                <ToolbarFileProvider
+                    id={toolbar_props.navItemSelected}
+                    key={button.__name}
+                    formControlProps={props}
+                    label={'URL'}
+                    value={(isURI || isColor || (props.value && props.value.match && !props.value.match('http'))) ? '' : props.value.background}
+                    openModal={toolbar_props.handleModals.openFileModal}
+                    fileModalResult={toolbar_props.handleModals.fileModalResult}
+                    buttontext={i18n.t('importFile.title')}
+                    onChange={props.onChange}
+                    accept={"image/*"}
+                />
+            </FormGroup>
+            {!isColor && ImageDisplay(['full', 'repeat', 'centered'])}
+        </div>
+    );
+    return(
+        <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
+            <ControlLabel key={'label1_' + button.__name}>{i18n.t('background.background_color')}</ControlLabel>
+            <ColorPicker
+                key={'cpicker_' + props.label}
+                value={(isColor && props.value) ? props.value.background : default_background}
+                onChange={props.onChange}
+            />
+            {isSli && ImagePicker}
+            {(!isColor && background_attr !== "full") && [
+                <ControlLabel key={'label_zoom'}>{i18n.t('background.background_zoom')}</ControlLabel>,
+                <span className="rangeOutput" style={{ marginTop: 0 }}>{background_attr_zoom}%</span>,
+                <input key="image_display_zoom" name='image_display_zoom' type='range' min={1} max={200} value={ background_attr_zoom} style={{ display: isColor ? "none" : "block" }} onChange={props.onChange} />,
+            ]}
+            <br key={'br'}/>
+            <ControlLabel key={'label_' + button.__name}>{i18n.t('background.reset_background')}</ControlLabel>
+            <Button key={'button_' + button.__name} value={default_background} onClick={props.onChange} className={'toolbarButton'}>
+                <div key={props.label}>{i18n.t('background.reset_background')}</div>
+            </Button>
+        </FormGroup>
+    );
+};
+
+const DefaultComponent = (button, props) => {
+    return(
+        <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
+            <ControlLabel key={'label_' + button.__name}>{button.__name}</ControlLabel>
+            <FormControl {...props}/>
+        </FormGroup>
+    );
+};
+
 /**
      * Render toolbar button
      * @param accordion Name of the accordion
@@ -577,22 +719,15 @@ const Range = (button, props) => {
      */
 export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key, toolbar_props) {
     let button = accordion.buttons[buttonKey];
-    let children = null;
-
     let id = (toolbar_props.boxSelected !== -1) ?
         toolbar_props.boxSelected :
         (toolbar_props.containedViewSelected !== 0) ?
             toolbar_props.containedViewSelected :
             toolbar_props.navItemSelected;
 
-    /* let currentElement = (accordionKeys[0] === "basic") ? "state" :
-        accordionKeys[0];*/
     let currentElement = (["structure", "style", "z__extra", "__marks_list", "__score"].indexOf(accordionKeys[0]) === -1) ? "state" : accordionKeys[0];
     // get toolbar
-    let toolbar_plugin_state;
-    if(toolbar_props.boxSelected !== -1) {
-        toolbar_plugin_state = toolbar_props.pluginToolbars[toolbar_props.boxSelected];
-    }
+    let toolbar_plugin_state = toolbar_props.boxSelected !== -1 ? toolbar_props.pluginToolbars[toolbar_props.boxSelected] : undefined;
 
     let commitChanges = (val) => {
         if (toolbar_props.boxSelected === -1) {
@@ -805,9 +940,10 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     };
     let handler;
     let newValue;
+    let navItemSelected = toolbar_props.navItemSelected;
+    let theme = toolbar_props.viewToolbars[navItemSelected] && toolbar_props.viewToolbars[navItemSelected].theme ? toolbar_props.viewToolbars[navItemSelected].theme : 'default';
 
     switch (button.type) {
-
     case 'checkbox':
         handler = () => {
             if (currentElement === 'structure' && (buttonKey === 'width' || buttonKey === 'height' || buttonKey === "aspectRatio")) {
@@ -833,15 +969,13 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         };
 
         return Checkbox(button, handler, props);
-
     case 'color':
         handler = e => commitChanges(e.color);
         return Color(button, handler, props);
-
     case 'custom_color_plugin':
         handler = e => {
             let toolbar = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
-            let theme = toolbar.theme ? toolbar.theme : 'default';
+            theme = toolbar.theme ? toolbar.theme : 'default';
             if (e.color) {
                 newValue = { color: e.color, custom: true };
             }
@@ -851,14 +985,10 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             commitChanges(newValue);
         };
         return PluginColor(button, handler, props, toolbar_props, id);
-
     case 'theme_select':
         handler = e => commitChanges(getThemes()[e || 0]);
         return Theme(button, handler, { ...props, currentTheme: props.value, currentItem: toolbar_props.navItemSelected });
-
     case 'font_picker':
-        let navItemSelected = toolbar_props.navItemSelected;
-        let theme = toolbar_props.viewToolbars[navItemSelected] && toolbar_props.viewToolbars[navItemSelected].theme ? toolbar_props.viewToolbars[navItemSelected].theme : 'default';
         handler = e => {
             if (e.family) {
                 newValue = button.hasOwnProperty('kind') && button.kind === 'theme_font' ? e.family : { font: e.family, custom: !e.themeDefaultFont };
@@ -866,7 +996,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             commitChanges(newValue);
         };
         return Font(button, handler, { ...props, theme });
-
     case 'text':
         if(buttonKey === 'width' || buttonKey === 'height') {
             handler = e => toolbar_props.handleBoxes.onBoxResized(id, { [buttonKey]: newValue });
@@ -910,291 +1039,35 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             return Size(button, handler, props, accordionKeys, buttonKey, toolbar_plugin_state, toolbar_props, auto);
         }
         return Text(button, handler, props);
-
     case 'external_provider':
         return External(button, props, toolbar_props);
-
     case 'range':
         return Range(button, props);
-
-    default:
-    }
-
-    if (button.options) {
-
-        if (button.type === "select") {
-            if (!button.multiple) {
-                button.options.map((option, index) => {
-                    if (!children) {
-                        children = [];
-                    }
-                    let label = button.labels && button.labels[index] ? button.labels[index] : option;
-                    children.push(React.createElement('option', { key: 'child_' + index, value: option }, label));
-                });
-                props.componentClass = 'select';
-                return React.createElement(
-                    FormGroup,
-                    { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
-                    [
-                        React.createElement(
-                            ControlLabel,
-                            { key: 'label_' + button.__name },
-                            button.__name),
-                        React.createElement(
-                            FormControl,
-                            props,
-                            children),
-                    ]
-                );
-            }
-
-            props.multiple = 'multiple';
-            props.options = button.options;
-            props.multi = true;
-            props.simpleValue = true;
-            props.placeholder = "No has elegido ninguna opción";
-            return React.createElement(
-                FormGroup,
-                { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
-                [
-                    React.createElement(
-                        ControlLabel,
-                        { key: 'label_' + button.__name },
-                        button.__name),
-                    React.createElement(
-                        Select,
-                        props,
-                        null),
-                ]
-            );
-        }
-
-        if (button.type === 'radio') {
-            props.style = props.style ? { ...props.style, style: { display: button.hide ? 'none' : 'block' } } : { style: { display: button.hide ? 'none' : 'block' } };
-            button.options.map((radio, index) => {
-                if (!children) {
-                    children = [];
-                    children.push(React.createElement(ControlLabel, { key: 'child_' + index }, button.__name));
-                }
-                children.push(React.createElement(Radio, {
-                    key: index,
-                    name: button.__name,
-                    value: index,
-                    id: (button.__name + radio),
-                    onChange: props.onChange,
-                    checked: (button.value === button.options[index]),
-                }, button.labels && button.labels[index] ? button.labels[index] : radio));
-            });
-            return React.createElement(FormGroup, props, children);
-        }
-
-        if (button.type === 'fancy_radio') {
-            if (buttonKey === '__verticalAlign') {
-                return React.createElement(RadioButtonFormGroup, {
-                    key: button.__name,
-                    title: button.__name,
-                    options: button.options,
-                    selected: button.value,
-                    style: { display: button.hide ? 'none' : 'block' },
-                    click: (option) => {
-                        toolbar_props.handleBoxes.onVerticallyAlignBox(toolbar_props.boxSelected, option);
-                    },
-                    tooltips: button.tooltips,
-                    icons: button.icons,
-                }, null);
-            }
-            return null;
-        }
-    }
-
-    if (button.type === 'conditionalText') {
+    case 'conditionalText':
         props.style.marginTop = '5px';
         props.style.marginBottom = '15px';
         props.value = accordion.buttons[buttonKey].value;
-        return React.createElement(
-            FormGroup,
-            {
-                key: button.__name,
-                style: { display: (accordion.buttons[button.associatedKey].checked ? "block" : "none") },
-            },
-            [button.displayName ? React.createElement(
-                ControlLabel,
-                { key: 'label_' + button.__name },
-                button.__name) : null,
-            React.createElement(
-                "span",
-                { key: 'output_span' + button.__name, className: 'rangeOutput' },
-                button.actualType === "range" ? button.value : null),
-            React.createElement(
-                FormControl,
-                props,
-                null),
-            ]
-        );
-    }
-
-    if (button.type === "image_file") {
-        let isURI = (/data\:/).test(props.value);
-        return React.createElement(
-            FormGroup,
-            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } }, [
-                React.createElement(
-                    ControlLabel,
-                    { key: 'label_' + button.__name, value: button.value },
-                    button.__name),
-                React.createElement('div', { key: 'container_' + button.__name, style: { display: 'block' } },
-                    React.createElement(
-                        FileInput, {
-                            key: 'fileinput_' + props.label,
-                            value: props.value,
-                            onChange: props.onChange,
-                            style: { width: '100%' },
-                        },
-                        React.createElement('div', {
-                            style: { backgroundImage: isURI ? 'url(' + props.value + ')' : 'none' },
-                            key: "inside_" + props.label,
-                            className: 'fileDrag_toolbar',
-                        }, isURI ? null : [
-                            React.createElement('span', { key: props.label + "1" }, i18n.t('FileInput.Drag')),
-                            React.createElement('span', { key: props.label + "2", className: "fileUploaded" }, [
-                                React.createElement('i', {
-                                    key: 'icon_' + button.__name,
-                                    className: 'material-icons',
-                                }, 'insert_drive_file'),
-                            ]),
-                        ])
-                    )
-                ),
-            ]);
-    }
-
-    if (button.type === "background_picker") {
+        props.accordionChecked = accordion.buttons[button.associatedKey].checked;
+        return ConditionalText(button, props);
+    case 'select':
+        return MySelect(button, props);
+    case 'radio':
+        return MyRadio(button, props);
+    case 'fancy_radio':
+        return FancyRadio(button, buttonKey, toolbar_props);
+    case 'background_picker':
         let isURI = (/data\:/).test(props.value.background);
         let isColor = (/(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig).test(props.value.background) || (/#/).test(props.value.background) || !(/url/).test(props.value.background);
-        let theme = toolbar_props.viewToolbars[id].theme ? toolbar_props.viewToolbars[id].theme : 'default';
         let default_background = loadBackground(theme, 0);
 
         let isSli = isSlide(toolbar_props.navItems[id].type);
         let background_attr = toolbar_props.viewToolbars[id].backgroundAttr;
         let background_attr_zoom = toolbar_props.viewToolbars[id].backgroundZoom === undefined ? 100 : toolbar_props.viewToolbars[id].backgroundZoom;
-        return React.createElement(
-            FormGroup,
-            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
-            [
-                React.createElement(
-                    ControlLabel,
-                    { key: 'label1_' + button.__name },
-                    i18n.t('background.background_color')),
-                React.createElement(
-                    ColorPicker, { key: "cpicker_" + props.label, value: (isColor && props.value) ? props.value.background : default_background, onChange: props.onChange },
-                    []),
 
-                isSli && React.createElement('div',
-                    { key: 'container_' + button.__name, style: { display: 'block' } },
-                    [
-                        React.createElement(
-                            FormGroup,
-                            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
-                            [
-                                React.createElement(ToolbarFileProvider, {
-                                    id: toolbar_props.navItemSelected,
-                                    key: button.__name,
-                                    formControlProps: props,
-                                    label: 'URL',
-                                    value: (isURI || isColor || (props.value && props.value.match && !props.value.match('http'))) ? '' : props.value.background,
-                                    openModal: toolbar_props.openFileModal,
-                                    fileModalResult: toolbar_props.fileModalResult,
-                                    buttontext: i18n.t('importFile.title'),
-                                    onChange: props.onChange,
-                                    accept: "image/*",
-                                }, null),
-                            ]),
-                        (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: background_attr === 'full', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'full' }, i18n.t('background.cover')),
-                        (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: background_attr === 'repeat', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'repeat' }, i18n.t('background.repeat')),
-                        (!isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display', checked: background_attr === 'centered', style: { display: isColor ? "none" : "block" }, onChange: props.onChange, value: 'centered' }, i18n.t('background.centered')),
-                    ]
-                ),
-                (!isColor && background_attr !== "full") && [
-                    React.createElement(
-                        ControlLabel,
-                        { key: 'label_zoom' },
-                        i18n.t('background.background_zoom')),
-                    <span className="rangeOutput" style={{ marginTop: 0 }}>{background_attr_zoom}%</span>,
-                    <input key="image_display_zoom" name='image_display_zoom' type='range' min={1} max={200} value={ background_attr_zoom} style={{ display: isColor ? "none" : "block" }} onChange={props.onChange} />,
-                ], <br key={'br'}/>,
-                React.createElement(
-                    ControlLabel,
-                    { key: 'label_' + button.__name },
-                    i18n.t('background.reset_background')),
-                React.createElement(
-                    Button, {
-                        value: default_background,
-                        key: 'button_' + button.__name,
-                        onClick: props.onChange,
-                        className: "toolbarButton",
-                    },
-                    React.createElement("div", { key: props.label }, i18n.t('background.reset_background')),
-                )]);
+        return BackgroundPicker(button, props, toolbar_props, isURI, isColor, default_background, isSli, background_attr, background_attr_zoom);
+    default:
+        return DefaultComponent(button, props);
     }
-
-    if (button.type === 'range') {
-        props.className = "rangeInput";
-        return React.createElement(
-            FormGroup,
-            { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
-            [
-                React.createElement(
-                    ControlLabel,
-                    { key: 'label_' + button.__name },
-                    button.__name),
-                React.createElement(
-                    "span",
-                    { key: 'output_span' + button.__name, className: 'rangeOutput' },
-                    button.type === "range" ? button.value : null),
-                React.createElement(
-                    FormControl,
-                    props,
-                    null),
-            ]
-        );
-    }
-
-    return React.createElement(
-        FormGroup,
-        { key: button.__name, style: { display: button.hide ? 'none' : 'block' } },
-        [
-            React.createElement(
-                ControlLabel,
-                { key: 'label_' + button.__name },
-                button.__name),
-            React.createElement(
-                FormControl,
-                { ...props },
-                null),
-        ]
-    );
-}
-
-/**
-     * Renders options or multiple select inputs
-     * @param option Option object wihth its label
-     * @returns {code}
-     */
-export function renderOption(option) {
-    return (
-        <span>{option.label}<i style={{ color: option.color, float: 'right' }} className="fa fa-stop"/></span>
-    );
-}
-
-/**
-     * Rende option value
-     * @param option Option object wihth its label
-     * @returns {code}
-     */
-export function renderValue(option) {
-    return (
-        <span>{option.label}</span>
-    );
 }
 
 /**

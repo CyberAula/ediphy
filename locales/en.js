@@ -15,7 +15,7 @@ let en = {
             "background_zoom": "Background zoom",
             "reset_background": "Restore background",
             "background_input_url": "URL Image",
-            "cover": "Cover page",
+            "full": "Cover page",
             "repeat": "Repeat image",
             "centered": "Centered image",
         },
