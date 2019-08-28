@@ -107,64 +107,63 @@ class CarouselButtons extends Component {
     render() {
         const { boxes, indexSelected, navItems, carouselShow } = this.props;
         const { onNavItemAdded, onNavItemDuplicated } = this.props.handleNavItems;
+        const buttons = [
+            {
+                tooltip: i18n.t('create new folder'),
+                name: "newFolder",
+                disabled: indexSelected === -1 || isContainedView(indexSelected) || navItems[indexSelected].level >= 10,
+                onClick: this.addSection,
+                icon: "create_new_folder",
+            },
+            {
+                tooltip: i18n.t('create new document'),
+                name: "newDocument",
+                disabled: isContainedView(indexSelected),
+                onClick: this.addPage,
+                icon: "note_add",
+            },
+            {
+                tooltip: i18n.t('create new slide'),
+                name: "newSlide",
+                disable: isContainedView(indexSelected),
+                onClick: this.toggleTemplatesModal,
+                icon: "slideshow",
+            },
+            {
+                tooltip: i18n.t('DuplicateNavItem'),
+                name: "duplicateNav",
+                disabled: indexSelected === 0 || isContainedView(indexSelected) || isSection(indexSelected),
+                onClick: e => onNavItemDuplicated(indexSelected),
+                icon: "control_point_duplicate",
+            },
+            {
+                tooltip: i18n.t('delete'),
+                name: "delete",
+                disabled: indexSelected === 0,
+                onClick: () => this.setState({ showOverlay: true }),
+                ref: button => {this.overlayTarget = button;},
+                style: { float: 'right' },
+                icon: "delete",
 
+            },
+        ];
         return (
             <div id="addbuttons" className="bottomGroup" style={{ display: carouselShow ? 'block' : 'none' }}>
                 <div className="bottomLine" />
-                <OverlayTrigger placement="top" overlay={(<Tooltip id="newFolderTooltip">{i18n.t('create new folder')}</Tooltip>)}>
-                    <Button className="carouselButton"
-                        name="newFolder"
-                        disabled={ indexSelected === -1 || isContainedView(indexSelected) || navItems[indexSelected].level >= 10}
-                        onClick={this.addSection}><i className="material-icons">create_new_folder</i>
-                    </Button>
-                </OverlayTrigger>
-
-                <OverlayTrigger placement="top" overlay={
-                    <Tooltip id="newDocumentTooltip">{i18n.t('create new document')}
-                    </Tooltip>}>
-                    <Button className="carouselButton"
-                        name="newDocument"
-                        disabled={isContainedView(indexSelected)}
-                        onClick={this.addPage}
-                    ><i className="material-icons">note_add</i></Button>
-                </OverlayTrigger>
-
-                <OverlayTrigger placement="top" overlay={
-                    <Tooltip id="newSlideTooltip">{i18n.t('create new slide')}
-                    </Tooltip>}>
-                    <Button className="carouselButton"
-                        name="newSlide"
-                        disabled={isContainedView(indexSelected)}
-                        onClick={e => {
-                            this.toggleTemplatesModal();
-                        }}><i className="material-icons">slideshow</i>
-                    </Button>
-                </OverlayTrigger>
-                <OverlayTrigger placement="top" overlay={
-                    <Tooltip id="duplicateNavTooltip">{i18n.t('DuplicateNavItem')}
-                    </Tooltip>}>
-                    <Button className="carouselButton"
-                        name="duplicateNav"
-                        disabled={ indexSelected === 0 || isContainedView(indexSelected) || isSection(indexSelected)}
-                        onClick={e => {
-                            onNavItemDuplicated(indexSelected);
-                        }}>
-                        <i className="material-icons">control_point_duplicate </i>
-                    </Button>
-                </OverlayTrigger>
-                <OverlayTrigger placement="top" overlay={
-                    <Tooltip id="deleteTooltip">{i18n.t('delete')}
-                    </Tooltip>}>
-                    <Button className="carouselButton"
-                        name="delete"
-                        disabled={indexSelected === 0}
-                        onClick={() => this.setState({ showOverlay: true })}
-                        ref={button => {this.overlayTarget = button;}}
-                        style={{ float: 'right' }}>
-                        <i className="material-icons">delete</i>
-                    </Button>
-                </OverlayTrigger>
-
+                {
+                    buttons.map(button => {
+                        return <OverlayTrigger placement="top" overlay={<Tooltip id="duplicateNavTooltip">{button.tooltip}</Tooltip>}>
+                            <Button className="carouselButton" key={button.name}
+                                name={button.name}
+                                disabled={button.disabled}
+                                onClick={button.onClick}
+                                ref={button.ref}
+                                style={button.style}>
+                                <i className="material-icons">{button.icon}</i>
+                            </Button>
+                        </OverlayTrigger>;
+                    })
+                }
                 <Overlay rootClose
                     name="confirmationOverlay"
                     show={this.state.showOverlay}

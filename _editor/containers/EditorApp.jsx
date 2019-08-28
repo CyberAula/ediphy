@@ -52,10 +52,11 @@ class EditorApp extends Component {
         const disabled = (navItemSelected === 0 && containedViewSelected === 0)
             || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
 
-        const pluginSelected = pluginToolbars[boxSelected]
-                                && pluginToolbars[boxSelected].config
-                                && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name)
-            ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) : false;
+        let pluginSelected = false;
+        try {
+            pluginSelected = Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name);
+        } catch(e) {
+        }
         const defaultMarkValue = pluginSelected ? pluginSelected.getConfig().defaultMarkValue : 0;
         const validateMarkValueInput = pluginSelected ? pluginSelected.validateValueInput : null;
 

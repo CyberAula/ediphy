@@ -8,7 +8,10 @@ import { EDIT_PLUGIN_TEXT } from '../../../../common/actions';
 import { releaseClick, findBox } from '../../../../common/common_tools';
 import { isUnitlessNumber } from '../../../../common/cssNonUnitProps';
 import Ediphy from '../../../../core/editor/main';
-import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView, isBox } from '../../../../common/utils';
+import {
+    isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView, isBox,
+    vendorTransform,
+} from '../../../../common/utils';
 import './_editorBox.scss';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import CKEDitorComponent from './CKEDitorComponent';
@@ -93,12 +96,8 @@ class EditorBox extends Component {
                 rotate = 'rotate(' + toolbar.structure.rotation + 'deg)';
             }
         }
-        wholeBoxStyle.WebkitTransform =
-            wholeBoxStyle.MozTransform =
-                wholeBoxStyle.msTransform =
-                    wholeBoxStyle.OTransform =
-                        wholeBoxStyle.transform = rotate;
 
+        vendorTransform(wholeBoxStyle, rotate);
         let props = { ...this.props,
             marks: marks,
             allMarks: this.props.marks,
@@ -414,12 +413,8 @@ class EditorBox extends Component {
                         parent = document.body;
                         // Clone, assign values and hide original
                         let clone = original.cloneNode(true);
-                        original.style.WebkitTransform =
-                        original.style.MozTransform =
-                        original.style.msTransform =
-                        original.style.OTransform =
-                        original.style.transform =
-                                            'none';
+
+                        vendorTransform(original.style, 'none');
                         let originalRect = original.getBoundingClientRect();
                         let parentRect = parent.getBoundingClientRect();
                         let x = originalRect.left - parentRect.left;
@@ -442,13 +437,8 @@ class EditorBox extends Component {
                         clone.style.width = original.offsetWidth + "px";
                         clone.style.border = "1px dashed #555";
                         parent.appendChild(clone);
+                        vendorTransform(original.style, this.rotate());
                         original.style.opacity = 0;
-                        original.style.WebkitTransform =
-                            original.style.MozTransform =
-                                original.style.msTransform =
-                                    original.style.OTransform =
-                                        original.style.transform =
-                                             this.rotate();
                     } else if (isContainedView(box.container)) {
                         let target = event.target;
                         target.style.left = this.getElementPositionFromLeft(target.style.left, target.parentElement.offsetWidth) + "px";
@@ -488,12 +478,7 @@ class EditorBox extends Component {
                             let x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx;
                             let y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
                             let translate = 'translate(' + (x) + 'px, ' + (y) + 'px)';
-                            target.style.WebkitTransform =
-                                target.style.MozTransform =
-                                    target.style.msTransform =
-                                        target.style.OTransform =
-                                            target.style.transform =
-                                                translate + this.rotate();
+                            vendorTransform(target.style, translate + this.rotate());
                             target.style.zIndex = '9999';
 
                             target.setAttribute('data-x', x);
@@ -640,12 +625,7 @@ class EditorBox extends Component {
                     y += event.deltaRect.top;
                     if(box.resizable) { // Only in slide
                         let translate = 'translate(' + x + 'px,' + y + 'px)';
-                        target.style.WebkitTransform =
-                            target.style.MozTransform =
-                                target.style.msTransform =
-                                    target.style.OTransform =
-                                        target.style.transform =
-                                            translate + this.rotate();
+                        vendorTransform(target.style, translate + this.rotate());
                         target.setAttribute('data-x', x);
                         target.setAttribute('data-y', y);
                     }
@@ -701,12 +681,7 @@ class EditorBox extends Component {
                         y: box.resizable ? ((parseFloat(target.style.top) / 100 * target.parentElement.offsetHeight + parseFloat(target.getAttribute('data-y'))) * 100 / target.parentElement.offsetHeight + '%') : 0,
                     });
                     let translate = 'translate(0px, 0px)';
-                    target.style.WebkitTransform =
-                      target.style.MozTransform =
-                        target.style.msTransform =
-                          target.style.OTransform =
-                            target.style.transform =
-                       translate + this.rotate();
+                    vendorTransform(target.style, translate + this.rotate());
                     target.setAttribute('data-x', 0);
                     target.setAttribute('data-y', 0);
 

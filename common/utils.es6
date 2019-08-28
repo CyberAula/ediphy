@@ -479,3 +479,11 @@ export function getTitles(itemSelected, viewToolbars, navItems, fromCV) {
     }
     return titles;
 }
+
+export function vendorTransform(obj, val) {
+    obj.WebkitTransform =
+    obj.MozTransform =
+      obj.msTransform =
+        obj.OTransform =
+          obj.transform = val;
+}

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Ediphy from '../../../core/editor/main';
 import i18n from 'i18next';
 import {
-    CHANGE_DISPLAY_MODE,
+    // CHANGE_DISPLAY_MODE,
     EXPAND_NAV_ITEM,
     IMPORT_STATE,
     INCREASE_LEVEL,
@@ -13,7 +13,7 @@ import {
     SET_BUSY,
     TOGGLE_TEXT_EDITOR,
     TOGGLE_TITLE_MODE,
-    UPDATE_NAV_ITEM_EXTRA_FILES,
+    // UPDATE_NAV_ITEM_EXTRA_FILES,
     UPDATE_BOX,
     UPDATE_UI,
 } from './../../../common/actions';
@@ -46,7 +46,7 @@ class AutoSave extends Component {
         }
 
         const ignoredActions = [
-            CHANGE_DISPLAY_MODE,
+            // CHANGE_DISPLAY_MODE,
             EXPAND_NAV_ITEM,
             IMPORT_STATE,
             INCREASE_LEVEL,
@@ -56,7 +56,7 @@ class AutoSave extends Component {
             SET_BUSY,
             TOGGLE_TEXT_EDITOR,
             TOGGLE_TITLE_MODE,
-            UPDATE_NAV_ITEM_EXTRA_FILES,
+            // UPDATE_NAV_ITEM_EXTRA_FILES,
             UPDATE_BOX,
             UPDATE_UI,
         ];

@@ -25,24 +25,15 @@ export default class CKEDitorComponent extends Component {
         let config = Ediphy.Plugins.get(toolbar.pluginId).getConfig();
         if (config && config.needsTextEdition) {
             CKEDITOR.disableAutoInline = true;
-            // CKEDITOR.addCss('p span{font-size: 1vw} p{font-size: 1vw}');
-            /* for (let key in config.extraTextConfig) {
-                CKEDITOR.config[key] += toolbar.config.extraTextConfig[key] + ",";
-            }*/
             let editor = CKEDITOR.inline(this.refs.textarea);
 
-            /* editor.document.$.body.disabled = true;
-            editor.document.$.body.contentEditable = false;
-            editor.document.$.designMode="off";*/
+            editor.config = {
+                ...editor.config,
+                fontSize_sizes: fontString(),
+                font_defaultLabel: 'Arial',
+                fontSize_defaultLabel: '14',
+            };
 
-            editor.config.fontSize_sizes = fontString();
-            editor.config.font_defaultLabel = 'Arial';
-            editor.config.fontSize_defaultLabel = '14';
-            // editor.config.fontSize_style = {
-            //     element:        'span',
-            //     styles:         { 'font-size': '#(size)' },
-            //     overrides:      [ { element: 'font', attributes: { 'size': null } } ]
-            // };
             if (toolbar.state.__text) {
                 editor.setData(decodeURI(toolbar.state.__text));
 
@@ -87,7 +78,6 @@ export default class CKEDitorComponent extends Component {
                     range.moveToElementEditEnd(range.root);
                     myEditor.getSelection().selectRanges([range]);
                 }
-            // $.event.trigger({ type : 'keypress' });
             }
             this.refs.textarea.focus();
         }
