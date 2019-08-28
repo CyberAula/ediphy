@@ -149,11 +149,11 @@ class CarouselButtons extends Component {
         ];
         return (
             <div id="addbuttons" className="bottomGroup" style={{ display: carouselShow ? 'block' : 'none' }}>
-                <div className="bottomLine" />
+                <div key="bottomLine" className="bottomLine" />
                 {
                     buttons.map(button => {
-                        return <OverlayTrigger placement="top" overlay={<Tooltip id="duplicateNavTooltip">{button.tooltip}</Tooltip>}>
-                            <Button className="carouselButton" key={button.name}
+                        return <OverlayTrigger key={button.name} placement="top" overlay={<Tooltip id="duplicateNavTooltip">{button.tooltip}</Tooltip>}>
+                            <Button className="carouselButton"
                                 name={button.name}
                                 disabled={button.disabled}
                                 onClick={button.onClick}
@@ -165,6 +165,7 @@ class CarouselButtons extends Component {
                     })
                 }
                 <Overlay rootClose
+                    key="confirm"
                     name="confirmationOverlay"
                     show={this.state.showOverlay}
                     placement='top'
@@ -197,7 +198,7 @@ class CarouselButtons extends Component {
                         <div style={{ clear: "both" }} />
                     </Popover>
                 </Overlay>
-                <TemplatesModal
+                <TemplatesModal key="templatesModal"
                     show={this.state.showTemplates}
                     close={this.toggleTemplatesModal}
                     navItems={navItems}

@@ -26,9 +26,9 @@ import Toolbar from '../components/toolbar/toolbar/Toolbar';
 import Visor from '../../_visor/containers/Visor';
 
 import { isSection } from '../../common/utils';
-import { handle_boxes, handle_contained_views, handle_sortable_containers, handle_marks,
-    handle_modals, handle_nav_items, handle_toolbars, handle_exercises, handle_canvas,
-    handle_export_import } from "../handlers/combine_handlers";
+import { handleBoxes, handleContainedViews, handleSortableContainers, handleMarks,
+    handleModals, handleNavItems, handleToolbars, handleExercises, handleCanvas,
+    handleExportImport } from "../handlers";
 
 const cookies = new Cookies();
 
@@ -197,16 +197,16 @@ class EditorApp extends Component {
     }
 
     initializeHandlers = () => {
-        this.handleBoxes = handle_boxes(this);
-        this.handleContainedViews = handle_contained_views(this);
-        this.handleExercises = handle_exercises(this);
-        this.handleExportImport = handle_export_import(this);
-        this.handleModals = handle_modals(this);
-        this.handleMarks = handle_marks(this);
-        this.handleNavItems = handle_nav_items(this);
-        this.handleSortableContainers = handle_sortable_containers(this);
-        this.handleToolbars = handle_toolbars(this);
-        this.handleCanvas = handle_canvas(this);
+        this.handleBoxes = handleBoxes(this);
+        this.handleContainedViews = handleContainedViews(this);
+        this.handleExercises = handleExercises(this);
+        this.handleExportImport = handleExportImport(this);
+        this.handleModals = handleModals(this);
+        this.handleMarks = handleMarks(this);
+        this.handleNavItems = handleNavItems(this);
+        this.handleSortableContainers = handleSortableContainers(this);
+        this.handleToolbars = handleToolbars(this);
+        this.handleCanvas = handleCanvas(this);
     }
 }
 
