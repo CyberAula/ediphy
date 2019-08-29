@@ -9,7 +9,7 @@ import handleExercises from "./handleExercises";
 import handleCanvas from "./handleCanvas";
 import handleExportImport from "./handleExportImport";
 
-module.exports = {
+export {
     handleBoxes,
     handleContainedViews,
     handleSortableContainers,

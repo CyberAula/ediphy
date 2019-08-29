@@ -137,8 +137,8 @@ describe('CarouselList - jQuery sortable', () => {
         component.instance().refs = { sortableList: 'mockedRef' };
         component.unmount();
 
-        expect(global.jQuery).toBeCalledWith('mockedRef');
-        expect(jQuerySortable).toBeCalledWith('destroy');
+        expect(global.jQuery).toHaveBeenCalledWith('mockedRef');
+        expect(jQuerySortable).toHaveBeenCalledWith('destroy');
     });
 });
 
@@ -199,8 +199,8 @@ describe('CarouselList - Sortable items', () => {
         const stopPropagation = jest.fn().mockName('stopPropagation');
         component.find('.carList').simulate('click', { stopPropagation: stopPropagation });
 
-        expect(mockFunctions.onIndexSelected).toBeCalledWith(placeholderProps.id);
-        expect(stopPropagation).toBeCalled();
+        expect(mockFunctions.onIndexSelected).toHaveBeenCalledWith(placeholderProps.id);
+        expect(stopPropagation).toHaveBeenCalled();
     });
 
     it('should create a new section entry for every child of type "section" in the list\'s navItem', () => {
@@ -456,8 +456,8 @@ describe('CarouselList - Sortable items', () => {
         const stopPropagation = jest.fn().mockName('stopPropagation');
         component.find(`.connectedSortables .navItemBlock#${mockedChildren[0]}`).simulate('mousedown', { stopPropagation: stopPropagation });
 
-        expect(mockFunctions.onIndexSelected).toBeCalledWith(mockedChildren[0]);
-        expect(stopPropagation).toBeCalled();
+        expect(mockFunctions.onIndexSelected).toHaveBeenCalledWith(mockedChildren[0]);
+        expect(stopPropagation).toHaveBeenCalled();
     });
 
     it('should select a page when it\'s clicked', () => {
@@ -489,8 +489,8 @@ describe('CarouselList - Sortable items', () => {
         const stopPropagation = jest.fn().mockName('stopPropagation');
         component.find(`.connectedSortables .navItemBlock#${mockedChildren[0]}`).simulate('click', { stopPropagation: stopPropagation });
 
-        expect(mockFunctions.onIndexSelected).toBeCalledWith(mockedChildren[0]);
-        expect(stopPropagation).toBeCalled();
+        expect(mockFunctions.onIndexSelected).toHaveBeenCalledWith(mockedChildren[0]);
+        expect(stopPropagation).toHaveBeenCalled();
     });
 
     it('should select a navItem when it\'s double clicked', () => {
@@ -522,8 +522,8 @@ describe('CarouselList - Sortable items', () => {
         const stopPropagation = jest.fn().mockName('stopPropagation');
         component.find(`.connectedSortables .navItemBlock#${mockedChildren[0]}`).simulate('dblclick', { stopPropagation: stopPropagation });
 
-        expect(mockFunctions.onNavItemSelected).toBeCalledWith(mockedChildren[0]);
-        expect(stopPropagation).toBeCalled();
+        expect(mockFunctions.onNavItemSelected).toHaveBeenCalledWith(mockedChildren[0]);
+        expect(stopPropagation).toHaveBeenCalled();
     });
 });
 
@@ -668,8 +668,8 @@ describe('CarouselList - Contained views', () => {
         const stopPropagation = jest.fn().mockName('stopPropagation');
         component.find('.containedViewsList .navItemBlock').simulate('click', { stopPropagation: stopPropagation });
 
-        expect(mockFunctions.onIndexSelected).toBeCalledWith(fakeCVid);
-        expect(stopPropagation).toBeCalled();
+        expect(mockFunctions.onIndexSelected).toHaveBeenCalledWith(fakeCVid);
+        expect(stopPropagation).toHaveBeenCalled();
     });
 
     it('should select a contained view when it\'s double clicked', () => {
@@ -680,7 +680,7 @@ describe('CarouselList - Contained views', () => {
         const stopPropagation = jest.fn().mockName('stopPropagation');
         component.find('.containedViewsList .navItemBlock').simulate('dblclick', { stopPropagation: stopPropagation });
 
-        expect(mockFunctions.onContainedViewSelected).toBeCalledWith(fakeCVid);
-        expect(stopPropagation).toBeCalled();
+        expect(mockFunctions.onContainedViewSelected).toHaveBeenCalledWith(fakeCVid);
+        expect(stopPropagation).toHaveBeenCalled();
     });
 });

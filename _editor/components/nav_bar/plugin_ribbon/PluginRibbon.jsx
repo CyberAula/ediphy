@@ -171,7 +171,7 @@ class PluginRibbon extends Component {
                         x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx,
                         y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
 
-                        // translate the element
+                    // translate the element
                     target.style.webkitTransform =
                         target.style.transform =
                             'translate(' + (x) + 'px, ' + (y) + 'px)';

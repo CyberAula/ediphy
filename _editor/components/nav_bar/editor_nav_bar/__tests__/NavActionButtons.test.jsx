@@ -70,7 +70,7 @@ describe('NavActionButtons - General', () => {
         const component = shallow(<NavActionButtons {...placeholderProps} />);
 
         const screenfull = jest.requireMock('screenfull');
-        expect(screenfull.on).toBeCalledWith('change', component.instance().checkFullScreen);
+        expect(screenfull.on).toHaveBeenCalledWith('change', component.instance().checkFullScreen);
     });
 
     it('should remove the screenfull onChange handler before unmounting the component', () => {
@@ -80,7 +80,7 @@ describe('NavActionButtons - General', () => {
         component.unmount();
 
         const screenfull = jest.requireMock('screenfull');
-        expect(screenfull.off).toBeCalled();
+        expect(screenfull.off).toHaveBeenCalled();
     });
 
     it('should save in state.isFullScreenOn the full screen status when checkFullScreen() is called', () => {
@@ -126,7 +126,7 @@ describe('NavActionButtons - "Fullscreen" button', () => {
         component.find('button[name="fullscreen"]').first().simulate('click');
 
         const screenfull = jest.requireMock('screenfull');
-        expect(screenfull.toggle).toBeCalled();
+        expect(screenfull.toggle).toHaveBeenCalled();
     });
 });
 
@@ -187,8 +187,8 @@ describe('NavActionButtons - "Save" button', () => {
         // Click the "Save" button
         component.find('button[name="save"]').first().simulate('click');
 
-        expect(mockFunctions.save).toBeCalled();
-        expect(mockFunctions.serverModalOpen).toBeCalled();
+        expect(mockFunctions.save).toHaveBeenCalled();
+        expect(mockFunctions.serverModalOpen).toHaveBeenCalled();
     });
 });
 
@@ -228,9 +228,9 @@ describe('NavActionButtons - "Publish" button', () => {
         // Click the "Save" button
         component.find('button[name="publish"]').first().simulate('click');
 
-        expect(mockFunctions.changeGlobalConfig).toBeCalledWith('status', 'final');
-        expect(mockFunctions.save).toBeCalled();
-        expect(mockFunctions.serverModalOpen).toBeCalled();
+        expect(mockFunctions.changeGlobalConfig).toHaveBeenCalledWith('status', 'final');
+        expect(mockFunctions.save).toHaveBeenCalled();
+        expect(mockFunctions.serverModalOpen).toHaveBeenCalled();
     });
 });
 
@@ -270,9 +270,9 @@ describe('NavActionButtons - "Unpublish" button', () => {
         // Click the "Save" button
         component.find('button[name="unpublish"]').first().simulate('click');
 
-        expect(mockFunctions.changeGlobalConfig).toBeCalledWith('status', 'draft');
-        expect(mockFunctions.save).toBeCalled();
-        expect(mockFunctions.serverModalOpen).toBeCalled();
+        expect(mockFunctions.changeGlobalConfig).toHaveBeenCalledWith('status', 'draft');
+        expect(mockFunctions.save).toHaveBeenCalled();
+        expect(mockFunctions.serverModalOpen).toHaveBeenCalled();
     });
 });
 
@@ -319,8 +319,8 @@ describe('NavActionButtons - "Preview" button', () => {
         // Click the "Save" button
         component.find('button[name="preview"]').first().simulate('click');
 
-        expect(mockFunctions.onTextEditorToggled).toBeCalledWith(mockedBox, false);
-        expect(mockFunctions.visor).toBeCalled();
+        expect(mockFunctions.onTextEditorToggled).toHaveBeenCalledWith(mockedBox, false);
+        expect(mockFunctions.visor).toHaveBeenCalled();
     });
 
     it('should handle when the button is clicked (without any box selected)', () => {
@@ -340,7 +340,7 @@ describe('NavActionButtons - "Preview" button', () => {
         // Click the "Save" button
         component.find('button[name="preview"]').first().simulate('click');
 
-        expect(mockFunctions.onTextEditorToggled).not.toBeCalled();
-        expect(mockFunctions.visor).toBeCalled();
+        expect(mockFunctions.onTextEditorToggled).not.toHaveBeenCalled();
+        expect(mockFunctions.visor).toHaveBeenCalled();
     });
 });

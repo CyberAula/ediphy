@@ -93,7 +93,7 @@ describe('Alert', () => {
 
         component.simulate('keyUp', { keyCode: 13 });
 
-        expect(mockFunctions.onClose).toBeCalledWith(true);
+        expect(mockFunctions.onClose).toHaveBeenCalledWith(true);
     });
 
     it('shouldn\'t do anything when any other key is pressed', () => {
@@ -101,7 +101,7 @@ describe('Alert', () => {
 
         component.simulate('keyUp', { keyCode: 42 });
 
-        expect(mockFunctions.onClose).not.toBeCalled();
+        expect(mockFunctions.onClose).not.toHaveBeenCalled();
     });
 
     it('should close rejecting the dialog when onHide is triggered', () => {
@@ -112,7 +112,7 @@ describe('Alert', () => {
 
         component.find('#alertModal').prop('onHide')();
 
-        expect(mockFunctions.onClose).toBeCalledWith(false);
+        expect(mockFunctions.onClose).toHaveBeenCalledWith(false);
     });
 
     it('should close rejecting the dialog when the "cancel" button is clicked', () => {
@@ -120,7 +120,7 @@ describe('Alert', () => {
 
         component.find('Modal ModalFooter Button[name="cancelButton"]').simulate('click');
 
-        expect(mockFunctions.onClose).toBeCalledWith(false);
+        expect(mockFunctions.onClose).toHaveBeenCalledWith(false);
     });
 
     it('should close accepting the dialog when the "ok" button is clicked', () => {
@@ -128,6 +128,6 @@ describe('Alert', () => {
 
         component.find('Modal ModalFooter Button[name="okButton"]').simulate('click');
 
-        expect(mockFunctions.onClose).toBeCalledWith(true);
+        expect(mockFunctions.onClose).toHaveBeenCalledWith(true);
     });
 });

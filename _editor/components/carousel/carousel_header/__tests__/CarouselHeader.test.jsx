@@ -51,7 +51,7 @@ describe('CarouselHeader', () => {
 
         component.find('button.btnToggleCarousel').simulate('click');
 
-        expect(mockFunctions.onToggleWidth).toBeCalled();
+        expect(mockFunctions.onToggleWidth).toHaveBeenCalled();
     });
 
     it('should handle when the arrow is clicked', () => {
@@ -60,7 +60,7 @@ describe('CarouselHeader', () => {
         let stopPropagation = jest.fn().mockName('stopPropagation');
         component.find('button.btnFullCarousel').simulate('click', { stopPropagation: stopPropagation });
 
-        expect(mockFunctions.onToggleFull).toBeCalled();
-        expect(stopPropagation).toBeCalled();
+        expect(mockFunctions.onToggleFull).toHaveBeenCalled();
+        expect(stopPropagation).toHaveBeenCalled();
     });
 });

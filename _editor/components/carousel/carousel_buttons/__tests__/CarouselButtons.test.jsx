@@ -267,9 +267,9 @@ describe('CarouselButtons - "New folder" button', () => {
 
         component.find('Button[name="newFolder"]').first().simulate('click', { stopPropagation: stopPropagation });
 
-        expect(mockFunctions.onNavItemAdded).toBeCalled();
-        expect(mockFunctions.onBoxAdded).not.toBeCalled();
-        expect(stopPropagation).toBeCalled();
+        expect(mockFunctions.onNavItemAdded).toHaveBeenCalled();
+        expect(mockFunctions.onBoxAdded).not.toHaveBeenCalled();
+        expect(stopPropagation).toHaveBeenCalled();
     });
 });
 
@@ -288,7 +288,7 @@ describe('CarouselButtons - "New document" button', () => {
 
         component.find('Button[name="newDocument"]').first().simulate('click');
 
-        expect(mockFunctions.onNavItemAdded).toBeCalled();
+        expect(mockFunctions.onNavItemAdded).toHaveBeenCalled();
     });
 });
 
@@ -360,7 +360,7 @@ describe('CarouselButtons - Delete confirmation overlay', () => {
         component.instance().overlayTarget = mockTarget;
         component.find('Overlay[name="confirmationOverlay"]').first().prop('target')();
 
-        expect(mockFindDOMNode).toBeCalledWith(mockTarget);
+        expect(mockFindDOMNode).toHaveBeenCalledWith(mockTarget);
     });
 
     it('should set state.showOverlay = false when hidden', () => {
@@ -464,7 +464,7 @@ describe('CarouselButtons - Delete confirmation overlay', () => {
 
         component.find('Button[name="popoverAcceptButton"]').simulate('click');
 
-        expect(mockFunctions.onIndexSelected).toBeCalledWith(0);
+        expect(mockFunctions.onIndexSelected).toHaveBeenCalledWith(0);
         expect(component.state.showOverlay).toBeFalsy();
     });
 
@@ -479,8 +479,8 @@ describe('CarouselButtons - Delete confirmation overlay', () => {
         mockIsContainedView = true;
         component.find('Button[name="popoverAcceptButton"]').simulate('click');
 
-        expect(mockFunctions.onContainedViewDeleted).toBeCalledWith('42');
-        expect(mockFunctions.onIndexSelected).toBeCalledWith(0);
+        expect(mockFunctions.onContainedViewDeleted).toHaveBeenCalledWith('42');
+        expect(mockFunctions.onIndexSelected).toHaveBeenCalledWith(0);
         expect(component.state.showOverlay).toBeFalsy();
     });
 
@@ -495,8 +495,8 @@ describe('CarouselButtons - Delete confirmation overlay', () => {
         mockIsContainedView = false;
         component.find('Button[name="popoverAcceptButton"]').simulate('click');
 
-        expect(mockFunctions.onNavItemDeleted).toBeCalledWith('42');
-        expect(mockFunctions.onIndexSelected).toBeCalledWith(0);
+        expect(mockFunctions.onNavItemDeleted).toHaveBeenCalledWith('42');
+        expect(mockFunctions.onIndexSelected).toHaveBeenCalledWith(0);
         expect(component.state.showOverlay).toBeFalsy();
     });
 });

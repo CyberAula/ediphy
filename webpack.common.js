@@ -27,8 +27,8 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['es2015'],
-                        plugins: [require('babel-plugin-transform-object-rest-spread')],
+                        presets: ['@babel/env'],
+                        plugins: [require('@babel/plugin-proposal-object-rest-spread').default],
                     },
                 },
             },
@@ -38,8 +38,9 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['es2015', 'react'],
-                        plugins: ['transform-class-properties'],
+                        presets: ['@babel/env', '@babel/react'],
+                        plugins: [require('@babel/plugin-proposal-class-properties').default],
+
                     },
                 },
             },

@@ -308,7 +308,7 @@ class Clipboard extends Component {
                                 return;
                             }
                         }
-                            , false);
+                        , false);
                     } catch (err) {
                         // eslint-disable-next-line no-console
                         console.log(err);

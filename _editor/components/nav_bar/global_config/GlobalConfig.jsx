@@ -61,7 +61,7 @@ class GlobalConfig extends Component {
 
   };
 
-    /**
+  /**
      * Renders React component
      * @returns {code}
      */
