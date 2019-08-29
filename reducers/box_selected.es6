@@ -24,8 +24,6 @@ export default function(state = -1, action = {}) {
         // Just normal situation
         return action.payload.ids.id;
 
-    case ADD_NAV_ITEM:
-        return -1;
     case DELETE_BOX:
         // If box is in contained view, it has a box as a parent -> we need to check this and select none
         if (isContainedView(action.payload.container)) {
@@ -36,27 +34,24 @@ export default function(state = -1, action = {}) {
             return action.payload.parent;
         }
         return -1;
-    case DELETE_SORTABLE_CONTAINER:
-        return -1;
-    case DELETE_NAV_ITEM:
-        return -1;
-    case DELETE_CONTAINED_VIEW:
-        return -1;
+
     case SELECT_BOX:
         return action.payload.id;
-    case SELECT_CONTAINED_VIEW:
-        return -1;
     case INDEX_SELECT:
         if (isContainedView(action.payload.id) || isPage(action.payload.id)) {
             return -1;
         }
-    case SELECT_NAV_ITEM:
-        return -1;
-    case IMPORT_STATE:
-        return -1;
+        return state;
     case PASTE_BOX:
         return action.payload.ids.id;
+    case DELETE_SORTABLE_CONTAINER:
+    case ADD_NAV_ITEM:
+    case DELETE_NAV_ITEM:
+    case DELETE_CONTAINED_VIEW:
+    case SELECT_CONTAINED_VIEW:
     case DUPLICATE_NAV_ITEM:
+    case IMPORT_STATE:
+    case SELECT_NAV_ITEM:
         return -1;
     default:
         return state;

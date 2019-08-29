@@ -23,8 +23,7 @@ export default function(state = 0, action = {}) {
         if (isSortableBox(action.payload.id)) {
             return -1;
         }
-        let level = (action.payload.box && !isNaN(action.payload.box.level)) ? action.payload.box.level : 0/* Math.max(state, 0)*/;
-        return level;
+        return (action.payload.box && !isNaN(action.payload.box.level)) ? action.payload.box.level : 0/* Math.max(state, 0)*/;
     case IMPORT_STATE:
     case DELETE_NAV_ITEM:
     case SELECT_NAV_ITEM:
