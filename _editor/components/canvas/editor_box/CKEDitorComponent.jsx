@@ -27,13 +27,9 @@ export default class CKEDitorComponent extends Component {
             CKEDITOR.disableAutoInline = true;
             let editor = CKEDITOR.inline(this.refs.textarea);
 
-            editor.config = {
-                ...editor.config,
-                fontSize_sizes: fontString(),
-                font_defaultLabel: 'Arial',
-                fontSize_defaultLabel: '14',
-            };
-
+            editor.config.fontSize_sizes = fontString();
+            editor.config.font_defaultLabel = 'Arial';
+            editor.config.fontSize_defaultLabel = '14';
             if (toolbar.state.__text) {
                 editor.setData(decodeURI(toolbar.state.__text));
 

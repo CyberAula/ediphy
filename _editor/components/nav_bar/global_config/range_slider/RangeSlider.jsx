@@ -39,7 +39,7 @@ export default class RangeSlider extends Component {
         this.setState({ min: min, max: max });
     }
 
-    componentWillMount(props) {
+    UNSAFE_componentWillMount(props) {
         let min = this.props.minValue || this.props.min;
         let max = this.props.maxValue || this.props.max;
 

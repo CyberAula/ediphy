@@ -31,7 +31,7 @@ export default class AudioCueComponent extends React.Component {
     componentWillUnmount() {
         this.audio.pause();
     }
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         if(this.props.state.autoplay) {
             this.setState({ playing: true });
         }

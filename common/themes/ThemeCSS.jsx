@@ -12,7 +12,7 @@ export default class ThemeCSS extends React.Component {
         currentThemeCSS: '',
     };
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.loadCSS();
         let colors = this.props.toolbar && Object.keys(this.props.toolbar.colors).length ? this.props.toolbar.colors : THEMES[this.props.theme].colors;
         let font = this.props.toolbar && this.props.toolbar.font ? this.props.toolbar.font : this.props.styleConfig.font ? this.props.styleConfig.font : getThemeFont(this.props.toolbar.theme);
