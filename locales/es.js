@@ -288,6 +288,7 @@ let es = {
             'why': '¿Por qué no comienzas a crear contenido?',
         },
         "currentLang": "es",
+        "MySelect": "No has elegido ninguna opción",
         "marks": {
             "add_mark": "Añadir marca",
             "add_mark_to": "Añadir marca a ",

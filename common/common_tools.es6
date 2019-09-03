@@ -234,7 +234,7 @@ export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
     let { initialParams, template, config, toolbar, state } = apiPlugin.getInitialParams({ ...ids, slide });
     let styles = {};
     try {
-        if (toolbar.main && toolbar.main.accordions && toolbar.main.accordions.style) {
+        if (toolbar.main?.accordions?.style) {
             Object.keys(toolbar.main.accordions.style.buttons).map((e) => {
                 styles[e] = toolbar.main.accordions.style.buttons[e].value;
             });

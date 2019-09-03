@@ -57,7 +57,7 @@ class EditorApp extends Component {
             pluginSelected = Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name);
         } catch(e) {
         }
-        const defaultMarkValue = pluginSelected ? pluginSelected.getConfig().defaultMarkValue : 0;
+        const defaultMarkValue = pluginSelected ? pluginSelected.getConfig()?.defaultMarkValue : 0;
         const validateMarkValueInput = pluginSelected ? pluginSelected.validateValueInput : null;
 
         const canvasProps = {

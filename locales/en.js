@@ -288,6 +288,7 @@ let en = {
             'why': 'Why don\'t you try adding some content?',
         },
         "currentLang": "en",
+        "MySelect": "No option has been chosen",
         "marks": {
             "add_mark": "Add mark",
             "add_mark_to": "Add mark to ",
