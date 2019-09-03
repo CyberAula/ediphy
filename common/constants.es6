@@ -41,4 +41,31 @@ export const MESSAGE_TYPES = {
     FAVOR: "favor",
 };
 
+export const defaultUI = {
+    alert: null,
+    pluginTab: '',
+    hideTab: 'show',
+    visorVisible: false,
+    richMarksVisible: false,
+    markCreatorVisible: false,
+    currentRichMark: null,
+    carouselShow: true,
+    carouselFull: false,
+    serverModal: false,
+    catalogModal: false,
+    grid: false,
+    pluginConfigModal: false,
+    publishing: false,
+    showGlobalConfig: false, // cookies.get("ediphy_visitor"),
+    showStyleConfig: false,
+    blockDrag: false,
+    showFileUpload: false,
+    fileUploadTab: 0,
+    showExitModal: false,
+    showTour: false,
+    showHelpButton: false,
+    showExportModal: false,
+    fileModalResult: { id: undefined, value: undefined },
+};
+
 MESSAGE_TYPES.NOTIFICATION;

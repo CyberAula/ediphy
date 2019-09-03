@@ -1,5 +1,5 @@
 import { testState } from '../../core/store/state.tests.js';
-import boxes_by_id from '../boxes_by_id';
+import boxes_by_id from '../boxes/boxesById';
 import * as ActionTypes from '../../common/actions';
 import { changeProp, changeProps, isSortableBox, isSortableContainer } from "../../common/utils";
 import { REORDER_SORTABLE_CONTAINER } from "../../common/actions";
@@ -158,7 +158,7 @@ const state = {
 const createdbox = {
     id: 'bo-4', parent: '', container: '', level: 0, col: 0, row: 0,
     position: { x: 0, y: 0, type: '' },
-    content: "", draggable: true,
+    content: {}, draggable: true,
     resizable: false, showTextEditor: false, fragment: {}, children: [], sortableContainers: {}, containedViews: [],
 };
 

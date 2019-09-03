@@ -1,6 +1,7 @@
 import deepmerge from 'deepmerge';
 import { PAGE_TYPES } from'../common/constants';
 import i18n from 'i18next';
+import { emptyState } from '../core/store/state.empty';
 
 export function serialize(state) {
     if(state && state.present) {
@@ -94,26 +95,24 @@ export function containedView(state) {
  * @param recieved state
  * @returns fixed state with new fields that didn't exist before
  */
-export function globalConfig(state) {
-
+export function globalConfig(state = { ...emptyState().undoGroup.present.globalConfig }) {
     let newState = { ...state };
 
     if (typeof newState.canvasRatio === "string") {
         newState.canvasRatio = parseFloat(newState.canvasRatio);
     }
-
-    if (typeof newState.age.min === "string") {
-        newState.age.min = parseInt(newState.age.min, 10);
-    }
-    if (typeof newState.age.max === "string") {
-        newState.age.max = parseInt(newState.age.max, 10);
+    if (newState.age) {
+        if (typeof newState.age.min === "string") {
+            newState.age.min = parseInt(newState.age.min, 10);
+        }
+        if (typeof newState.age.max === "string") {
+            newState.age.max = parseInt(newState.age.max, 10);
+        }
     }
     newState = {
-        ... {
-            allowComments: true,
-            allowClone: true,
-            allowDownload: true,
-        },
+        allowComments: true,
+        allowClone: true,
+        allowDownload: true,
         ...newState,
     };
 

@@ -1,5 +1,5 @@
 import { testState } from '../../core/store/state.tests.js';
-import exercisesReducer from '../exercises';
+import exercisesReducer from '../exercises/exercises';
 import * as ActionTypes from '../../common/actions';
 
 const state = testState.undoGroup.present.exercises;

@@ -1,8 +1,8 @@
 import { testState } from '../../core/store/state.tests.js';
-import contained_views_by_id from '../contained_views_by_id';
+import contained_views_by_id from '../containedViews/containedViewsById';
 import * as ActionTypes from '../../common/actions';
 import { isContainedView, isSlide } from "../../common/utils";
-import boxes_by_id from "../boxes_by_id";
+import boxes_by_id from "../boxes/boxesById";
 
 const state = {
     "cv-1": {
@@ -261,20 +261,6 @@ describe('# contained_views_by_id reducer', ()=>{
             };
             const newState = JSON.parse(JSON.stringify(state));
 
-            expect(contained_views_by_id(state, action)).toEqual(newState);
-        });
-    });
-    describe('handle CHANGE_CONTAINED_VIEW_NAME', () => {
-        test('If contained view name changed', () => {
-            const action = {
-                type: ActionTypes.CHANGE_CONTAINED_VIEW_NAME,
-                payload: {
-                    id: 'cv-1',
-                    title: 'vc2',
-                },
-            };
-            const newState = JSON.parse(JSON.stringify(state));
-            newState[action.payload.id].name = action.payload.title;
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });

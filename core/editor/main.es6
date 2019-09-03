@@ -4,7 +4,7 @@ import NoServerConfig from '../config_noserver';
 import { initialState } from '../store/state';
 // import { emptyState } from '../store/state.empty';
 // import { markState } from '../store/state.marks';
-import { demoState } from '../store/state.demo';
+// import { demoState } from '../store/state.demo';
 import Plugins from './plugins';
 import Visor from '../visor/main';
 import Scorm from '../scorm/main';
@@ -18,10 +18,10 @@ let InitialState = (config) => { return process.env.DOC === "doc" ? initialState
 };
 
 export default {
-    Config: Config,
+    Config,
     Plugins: Plugins(),
-    Visor: Visor,
-    Scorm: Scorm,
-    i18n: i18n,
+    Visor,
+    Scorm,
+    i18n,
     InitialState: InitialState(Config),
 };
