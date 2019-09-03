@@ -13,7 +13,7 @@ export default class OrderVisor extends React.Component {
     render() {
         let { state, props } = this.props;
         let content = [];
-        let attempted = props.exercises && props.exercises.attempted;
+        let attempted = props.exercises?.attempted;
         let score = props.exercises.score || 0;
         score = Math.round(score * 100) / 100;
         score = (props.exercises.weight === 0) ? i18n.t("Ordering.notCount") : ((score) + "/" + (props.exercises.weight));
@@ -104,15 +104,15 @@ export default class OrderVisor extends React.Component {
         let id = this.props.props.id + "-" + "sortable";
         let list = $("#" + id);
         // list.sortable("refresh");
-        let prevAttempted = nextProps.props.exercises && nextProps.props.exercises.attempted;
-        let attempted = this.props.props.exercises && this.props.props.exercises.attempted;
+        let prevAttempted = nextProps.props.exercises?.attempted;
+        let attempted = this.props.props.exercises?.attempted;
         if (!prevAttempted && attempted && list && list.sortable("instance")) {
             list.sortable("destroy");
         }
     }
     componentDidMount() {
 
-        let attempted = this.props.props.exercises && this.props.props.exercises.attempted;
+        let attempted = this.props.props.exercises?.attempted;
 
         if (!attempted) {
             let id = this.props.props.id + "-" + "sortable";
@@ -154,7 +154,7 @@ export default class OrderVisor extends React.Component {
     componentWillUnmount() {
         let id = this.props.props.id + "-" + "sortable";
         let list = $("#" + id);
-        let attempted = this.props.props.exercises && this.props.props.exercises.attempted;
+        let attempted = this.props.props.exercises?.attempted;
         if (!attempted && list && list.sortable("instance")) {
             this.setState({ initializedSortable: false });
 
