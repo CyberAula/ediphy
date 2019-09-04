@@ -505,7 +505,7 @@ const ConditionalText = (button, props, onChange) => {
     );
 };
 
-const Size = (button, onChange, props, accordionKeys, buttonKey, toolbar_plugin_state, toolbar_props, auto, autoSizeChange) => {
+const Size = (button, onChange, props, accordionKeys, buttonKey, toolbar_plugin_state, toolbar_props, auto, autoSizeChange, unitsChange) => {
     if (accordionKeys[0] === 'structure' && (buttonKey === 'width' || buttonKey === 'height')) {
         let advancedPanel = (
             <FormGroup style={{ display: button.hide ? 'none' : 'block' }}>
@@ -519,7 +519,7 @@ const Size = (button, onChange, props, accordionKeys, buttonKey, toolbar_plugin_
                         <ControlLabel>{i18n.t("Units")}</ControlLabel>
                         <FormControl componentClass='select'
                             value={toolbar_plugin_state.structure[buttonKey + "Unit"]}
-                            onChange={onChange}>
+                            onChange={unitsChange}>
                             <option value="px">{i18n.t("Pixels")}</option>
                             <option value="%">{i18n.t("Percentage")}</option>
                         </FormControl></div>)}
@@ -531,7 +531,7 @@ const Size = (button, onChange, props, accordionKeys, buttonKey, toolbar_plugin_
                     {button.__name + (!auto ? " (" + toolbar_plugin_state.structure[buttonKey + "Unit"] + ")" : "")}
                 </ControlLabel>
                 <InputGroup>
-                    <FormControl {...props} onChange={onChange} />
+                    <FormControl {...props} onChange={onChange}/>
                     <OverlayTrigger trigger="click"
                         placement="bottom"
                         rootClose
@@ -583,7 +583,7 @@ const Range = (button, props, onChange) => {
     );
 };
 
-const MySelect = (button, props) => {
+const MySelect = (button, props, onChange) => {
     if (!button.multiple) {
         let children = button.options.map((option, index) => {
             let label = button.labels && button.labels[index] ? button.labels[index] : option;
@@ -593,7 +593,7 @@ const MySelect = (button, props) => {
         return (
             <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
                 <ControlLabel key={'label_' + button.__name}>{button.__name}</ControlLabel>
-                <FormControl {...props}>{children}</FormControl>
+                <FormControl {...props} onChange={onChange}>{children}</FormControl>
             </FormGroup>
         );
     }
@@ -713,7 +713,7 @@ const DefaultComponent = (button, props, onChange = undefined) => {
     return (
         <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
             <ControlLabel key={'label_' + button.__name}>{button.__name}</ControlLabel>
-            <FormControl {...props} onChange={onChange || props.onChange} />
+            <FormControl {...props} onChange={onChange || props.onChange}/>
         </FormGroup>
     );
 };
@@ -776,7 +776,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         },
         onChange: e => {
             let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
-
             if (button.type === 'radio') {
                 value = button.options[value];
                 if (buttonKey === '__position') {
@@ -790,11 +789,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                     }
                 }
             }
-            if (button.type === 'select' && button.multiple === true) {
-                value = button.value;
-                let ind = button.value.indexOf(e);
-                value = e; // [...e.target.options].filter(o => o.selected).map(o => o.value);
-            }
             commitChanges(value);
         },
     };
@@ -803,13 +797,22 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     let navItemSelected = toolbar_props.navItemSelected;
     let theme = toolbar_props.viewToolbars[navItemSelected] && toolbar_props.viewToolbars[navItemSelected].theme ? toolbar_props.viewToolbars[navItemSelected].theme : 'default';
 
-    let autoSizeHandler = () => toolbar_props.handleBoxes.onBoxResized(id, { [buttonKey]: toolbar_plugin_state.structure[buttonKey] === "auto" ? 100 : "auto" });
-
+    let autoSizeHandler = e => {
+        toolbar_props.handleBoxes.onBoxResized(id, { [buttonKey]: toolbar_plugin_state.structure[buttonKey] === "auto" ? 100 : "auto" });
+    };
+    let unitsHandler = e => {
+        let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
+        toolbar_props.handleBoxes.onBoxResized(id, { [buttonKey + "Unit"]: value });
+    };
+    let defaultHandler = e => {
+        let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
+        commitChanges(value);
+    };
     switch (button.type) {
     case 'checkbox':
         handler = () => {
             if (currentElement === 'structure'
-                && (buttonKey === 'width' || buttonKey === 'height' || buttonKey === "aspectRatio")) {
+                    && (buttonKey === 'width' || buttonKey === 'height' || buttonKey === "aspectRatio")) {
                 if (buttonKey === "aspectRatio") {
                     toolbar_props.handleBoxes.onBoxResized(id, { aspectRatio: !toolbar_plugin_state.structure.aspectRatio });
                 } else {
@@ -909,34 +912,23 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             props.type = auto ? 'text' : 'number';
             props.max = toolbar_plugin_state.structure[buttonKey + "Unit"] === '%' ? 100 : 100000;
             props.disabled = auto;
-            return Size(button, handler, props, accordionKeys, buttonKey, toolbar_plugin_state, toolbar_props, auto, autoSizeHandler);
+            return Size(button, handler, props, accordionKeys, buttonKey, toolbar_plugin_state, toolbar_props, auto, autoSizeHandler, unitsHandler);
         }
         return Text(button, handler, props);
     case 'external_provider':
-        handler = e => {
-            let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
-            commitChanges(value);
-        };
-        return External(button, props, toolbar_props, handler);
+        return External(button, props, toolbar_props, defaultHandler);
     case 'range':
-        handler = e => {
-            let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
-            commitChanges(value);
-        };
-        return Range(button, props, handler);
+        return Range(button, props, defaultHandler);
     case 'conditionalText':
         props.style.marginTop = '5px';
         props.style.marginBottom = '15px';
         props.value = accordion.buttons[buttonKey].value;
         props.accordionChecked = accordion.buttons[button.associatedKey].checked;
 
-        handler = e => {
-            let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
-            commitChanges(value);
-        };
-        return ConditionalText(button, props, handler);
+        return ConditionalText(button, props, defaultHandler);
+        // As in Box style -> Border Style
     case 'select':
-        return MySelect(button, props);
+        return MySelect(button, props, defaultHandler);
     case 'radio':
         return MyRadio(button, props);
     case 'fancy_radio':
@@ -952,10 +944,10 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
         handler = e => {
             let value;
-            if(e.color) {
+            if (e.color) {
                 value = { background: e.color, backgroundAttr: 'full', backgroundZoom: 100, customBackground: true };
             }
-            if(e.target?.type === "radio") {
+            if (e.target?.type === "radio") {
                 value = { background: button.value.background, backgroundAttr: e.target.value, backgroundZoom: 100 };
             }
             if (e.target?.type === "text") {
@@ -970,8 +962,14 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 };
             }
             // Restore background button
-            if(e.currentTarget && e.currentTarget.type === "button") {
-                value = { background: e.currentTarget.value, backgroundAttr: 'full', backgroundZoom: 100, customBackground: false, themeBackground: 0 };
+            if (e.currentTarget && e.currentTarget.type === "button") {
+                value = {
+                    background: e.currentTarget.value,
+                    backgroundAttr: 'full',
+                    backgroundZoom: 100,
+                    customBackground: false,
+                    themeBackground: 0,
+                };
             }
             if (e.target?.name === "image_display_zoom") {
                 value = {
@@ -1043,7 +1041,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             props.type = auto ? 'text' : 'number';
             props.max = toolbar_plugin_state.structure[buttonKey + "Unit"] === '%' ? 100 : 100000;
             props.disabled = auto;
-            return Size(button, handler, props, accordionKeys, buttonKey, toolbar_plugin_state, toolbar_props, auto, autoSizeHandler);
+            return Size(button, handler, props, accordionKeys, buttonKey, toolbar_plugin_state, toolbar_props, auto, autoSizeHandler, unitsHandler);
         }
         handler = e => {
             let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
