@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import Ediphy from "../../../../core/editor/main";
 
 import { isCanvasElement, isPage, isSection, isSlide } from "../../../../common/utils";
-import { renderAccordion } from "../../../../core/editor/accordion_provider";
+import { renderAccordion } from "../../../../core/editor/accordionProvider";
 import { getThemes, sanitizeThemeToolbar } from "../../../../common/themes/theme_loader";
 
 import './_viewToolbar.scss';

@@ -26,7 +26,7 @@ export default class ToolbarFileProvider extends Component {
         return (<FormGroup style={{ display: this.props.hide ? "none" : "block" }}>
             {this.props.formControlProps ? [<ControlLabel key={1}>{props.label}</ControlLabel>,
                 <FormControl key={2}{...props} onChange={e => {
-                    props.onChange(e);
+                    this.props.onChange({ value: e.target.value });
                 }}/>] : null}
             <Button className={'toolbarButton'}
                 onClick={() => {

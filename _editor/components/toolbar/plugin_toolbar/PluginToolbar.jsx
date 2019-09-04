@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import GridConfigurator from '../grid_configurator/GridConfigurator.jsx';
 import Ediphy from '../../../../core/editor/main';
 
-import { renderAccordion, toolbarMapper, toolbarFiller } from "../../../../core/editor/accordion_provider";
+import { renderAccordion, toolbarMapper, toolbarFiller } from "../../../../core/editor/accordionProvider";
 import { blurCKEditor } from '../../../../common/common_tools';
 
 import './_pluginToolbar.scss';
