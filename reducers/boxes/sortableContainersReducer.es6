@@ -23,16 +23,13 @@ export default function sortableContainersReducer(state = {}, action = {}) {
                 sortableContainerCreator(action.payload.ids.container, [action.payload.ids.id], "auto", action.payload.ids.parent)
         );
         return a;
-    case ADD_NAV_ITEM:
-    case ADD_RICH_MARK:
-        return state;
     case CHANGE_COLS:
-        return changeProp(state, action.payload.id, singleSortableContainerReducer(state[action.payload.id], action));
     case CHANGE_ROWS:
-        return changeProp(state, action.payload.id, singleSortableContainerReducer(state[action.payload.id], action));
     case CHANGE_SORTABLE_PROPS:
+    case RESIZE_SORTABLE_CONTAINER:
         return changeProp(state, action.payload.id, singleSortableContainerReducer(state[action.payload.id], action));
     case DELETE_BOX:
+    case REORDER_BOXES:
         return changeProp(state, action.payload.container, singleSortableContainerReducer(state[action.payload.container], action));
     case DROP_BOX:
         if (action.payload.parent === action.payload.oldParent) { // Sibling containers
@@ -62,10 +59,8 @@ export default function sortableContainersReducer(state = {}, action = {}) {
         return state;
     case DELETE_SORTABLE_CONTAINER:
         return deleteProp(state, action.payload.id);
-    case REORDER_BOXES:
-        return changeProp(state, action.payload.container, singleSortableContainerReducer(state[action.payload.container], action));
-    case RESIZE_SORTABLE_CONTAINER:
-        return changeProp(state, action.payload.id, singleSortableContainerReducer(state[action.payload.id], action));
+    case ADD_NAV_ITEM:
+    case ADD_RICH_MARK:
     default:
         return state;
     }

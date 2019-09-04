@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import icon from '../../img/ging.png';
 import i18n from 'i18next';
-import { Jumbotron, Grid, Col, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import Wrapper from './Wrapper';
 /* eslint-disable react/prop-types */
 export default class Main extends Component {

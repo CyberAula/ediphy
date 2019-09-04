@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Wrapper from './Wrapper';
-import { Grid, Col, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 
 import i18n from 'i18next';
 /* eslint-disable react/prop-types */

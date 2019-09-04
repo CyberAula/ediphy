@@ -95,7 +95,7 @@
     "no-self-compare": 1,
     "no-sequences": 1,
     "no-throw-literal": 1,
-    "no-unused-expressions": 0,
+    "no-unused-expressions": 1,
     "no-void": 0,
 //    "no-warning-comments": [1, { "terms": ["todo", "tofix"], "location": "start" }],
     "no-with": 1,
@@ -116,7 +116,7 @@
     "no-undef-init": 1,
 //    "no-undef": 1,
 //    "no-undefined": 1,
-//    "no-unused-vars": [1, { "vars": "local", "args": "after-used" }],
+    "no-unused-vars": [1, { "vars": "all", "args": "after-used" }],
 //    "no-use-before-define": 1,
 
     /* Node.js */

@@ -1,7 +1,6 @@
 import React from 'react';
 import interact from 'interactjs';
 import ReactDOM from 'react-dom';
-import img_broken from './../../dist/images/broken_link.png';
 
 /* eslint-disable react/prop-types */
 
@@ -11,7 +10,7 @@ export default class Image extends React.Component {
         this.state = { error: false };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(nextProps.state.url !== this.props.state.url) {
             this.setState({ error: false });
         }

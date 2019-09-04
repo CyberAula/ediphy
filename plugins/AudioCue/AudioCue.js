@@ -4,7 +4,7 @@ import AudioCueComponent from './AudioCueComponent';
 import audio_placeholder from './../../dist/images/meadow.jpg';
 
 /* eslint-disable react/prop-types */
-export function AudioCue(base) {
+export function AudioCue() {
     return {
         getConfig: function() {
             return {

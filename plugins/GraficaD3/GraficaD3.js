@@ -1,12 +1,11 @@
 import React from "react";
 import Chart from './components/chart-component';
 import Config from './components/config-component';
-import ChartOptions from './components/chart-options';
 
 require('./_graficaD3.scss');
 /* eslint-disable react/prop-types */
 
-export function GraficaD3(base) {
+export function GraficaD3() {
     return {
         getConfig: function() {
             return {
@@ -26,7 +25,7 @@ export function GraficaD3(base) {
                 searchIcon: false,
             };
         },
-        getToolbar: function(state) {
+        getToolbar: function() {
             return {
                 main: {
                     __name: "Main",

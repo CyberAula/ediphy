@@ -1,6 +1,6 @@
 import Ediphy from '../editor/main';
 import { translateLicense } from "../../common/common_tools";
-import { ID_PREFIX_SECTION } from '../../common/constants';
+
 export default {
     createSPAimsManifest: function(exercisesObj, sections, globalConfig, is2004) {
         let doc = document.implementation.createDocument("", "", null);
@@ -111,7 +111,6 @@ export default {
     },
     generalCreator: function(gc, doc) {
         let lang = gc.language || 'en';
-        let date = this.currentDate();
         let general = doc.createElement('general');
         let genId = doc.createElement('identifier'); // Identifier
         let genIdCatalog = doc.createElement('catalog');
@@ -175,7 +174,6 @@ export default {
         return general;
     },
     annotationCreator: function(gc, doc) {
-        let lang = gc.language || 'en';
         let date = this.currentDate();
         let annotation = doc.createElement('annotation');
         let annEntity = doc.createElement('entity'); // Entity
@@ -313,7 +311,6 @@ export default {
         return technical;
     },
     metaMetadataCreator: function(gc, doc) {
-        let lang = gc.language || 'en';
         let date = this.currentDate();
         let metaMetadata = doc.createElement('metaMetadata');
         // identifier data missing
@@ -358,7 +355,6 @@ export default {
     },
     educationalCreator: function(gc, doc) {
         let lang = gc.language || 'en';
-        let date = this.currentDate();
         let educational = doc.createElement('educational');
         let interactivityType = doc.createElement('interactivityType');
         let itSource = doc.createElement('source');
@@ -485,8 +481,6 @@ export default {
         return educational;
     },
     relationCreator: function(gc, doc) {
-        let lang = gc.language || 'en';
-        let date = this.currentDate();
         let relation = doc.createElement('relation');
         let relKind = doc.createElement('kind');
         let relKindSource = doc.createElement('source');
@@ -520,8 +514,6 @@ export default {
         return relation;
     },
     rightsCreator: function(gc, doc) {
-        let lang = gc.language || 'en';
-        let date = this.currentDate();
         let rights = doc.createElement('rights');
         let cost = doc.createElement('cost');
         let costSource = doc.createElement('source');
@@ -567,7 +559,6 @@ export default {
         let wsexp = / *(.*) +\n/g;
         let contexp = /(<.+>)(.+\n)/g;
         xml = xml.replace(reg, '$1\n$2$3').replace(wsexp, '$1\n').replace(contexp, '$1\n$2');
-        let pad = 0;
         let formatted = '';
         let lines = xml.split('\n');
         let indent = 0;
@@ -625,8 +616,8 @@ export default {
         minNorMeas.appendChild(mnmTxt);
         primaryObjective.appendChild(minNorMeas);
         objectives.appendChild(primaryObjective);
-        Object.keys(exercises).map((page, pageIndex)=>{
-            Object.keys(exercises[page].exercises).map((box, index)=>{
+        Object.keys(exercises).map((page)=>{
+            Object.keys(exercises[page].exercises).map((box)=>{
                 let newObjective = doc.createElement("imsss:objective");
                 newObjective.setAttribute("objectiveID", box);
                 objectives.appendChild(newObjective);

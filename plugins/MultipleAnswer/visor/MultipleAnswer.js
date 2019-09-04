@@ -40,11 +40,11 @@ export function MultipleAnswer() {
                     <div key={i + 1} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : "")}>
                         <div className={"col-xs-2 answerPlaceholder"}>
                             <div className={"answer_letter"}>{(state.letters === i18n.t("MultipleChoice.ShowLetters")) ? letterFromNumber(i) : (i + 1)}</div>
-                            <input type="checkbox" disabled={attempted} className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
+                            <input type="checkbox" disabled={attempted} className="checkQuiz" name={props.id} value={i} checked={checked} onClick={()=>{
                                 setAnswer(i);
                             }}/>
                         </div>
-                        <div className={"col-xs-10"} onClick={(e)=>{setAnswer(i);}}>
+                        <div className={"col-xs-10"} onClick={()=>{setAnswer(i);}}>
                             <VisorPluginPlaceholder {...props} key={i } pluginContainer={"Answer" + (i)} />
                         </div>
                         {(correct) ? <i className={ "material-icons correct"}>done</i> : null}

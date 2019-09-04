@@ -1,7 +1,5 @@
-import { testState } from '../../core/store/state.tests.js';
 import marks_by_id from '../general/marksById';
 import * as ActionTypes from '../../common/actions';
-import { ADD_RICH_MARK } from "../../common/actions";
 
 const state = {
     "rm-1": {

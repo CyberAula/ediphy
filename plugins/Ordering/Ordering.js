@@ -2,11 +2,11 @@ import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import './_ordering.scss';
 import i18n from 'i18next';
-import { letterFromNumber, getRandomColor, setRgbaAlpha } from '../../common/common_tools';
+import { letterFromNumber } from '../../common/common_tools';
 import { generateCustomColors } from "../../common/themes/theme_loader";
 /* eslint-disable react/prop-types */
 
-export function Ordering(base) {
+export function Ordering() {
     return {
         getConfig: function() {
             return {
@@ -119,7 +119,6 @@ export function Ordering(base) {
         },
         getRenderTemplate: function(state, props = {}) {
             let answers = [];
-            let correctAnswers = "";
 
             let quizColor = state.quizColor.color;
             let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;

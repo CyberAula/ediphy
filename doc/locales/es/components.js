@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 let components = {
     "lang": "es",
     "ActionsRibbon": {

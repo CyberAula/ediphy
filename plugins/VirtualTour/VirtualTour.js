@@ -42,7 +42,7 @@ export function VirtualTour(base) {
                 // limitToOneInstance: true,
             };
         },
-        getToolbar: function(state) {
+        getToolbar: function() {
             return {
                 main: {
                     __name: "Main",
@@ -156,7 +156,7 @@ export function VirtualTour(base) {
                         state={state}
                         id={id}
                         searchBox
-                        update={(lat, lng, zoom, render)=>{
+                        update={(lat, lng, zoom)=>{
                             if (state.config.lat.toPrecision(4) !== lat.toPrecision(4) || state.config.lng.toPrecision(4) !== lng.toPrecision(4) || state.config.zoom.toPrecision(4) !== zoom) {
                                 props.update('config', { lat, lng, zoom });
                             }
@@ -176,10 +176,6 @@ export function VirtualTour(base) {
             }
             let clickX = x + 12;
             let clickY = y + 26;
-            let latCenter = state.config.lat;
-            let lngCenter = state.config.lng;
-            let zoom = state.config.zoom;
-            let num = state.num;
 
             let maps = window.google.maps;
             let map = window.mapList[boxId || state.num];
@@ -211,7 +207,7 @@ export function VirtualTour(base) {
             }
             return { isWrong: false, value: value };
         },
-        pointerEventsCallback: function(bool, toolbarState) {
+        pointerEventsCallback: function() {
             return;
         },
 

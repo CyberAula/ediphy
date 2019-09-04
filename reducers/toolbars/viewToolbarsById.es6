@@ -7,7 +7,6 @@ import {
 import i18n from 'i18next';
 import {
     changeProp, deleteProps, isDocument, isPage, isSection, isSlide, isContainedView,
-    nextAvailName,
 } from '../../common/utils';
 
 import { loadBackground } from "../../common/themes/background_loader";
@@ -41,7 +40,7 @@ function toolbarElementCreator(state, action, containedView = false) {
     let name = action.payload.name ? action.payload.name : containedView ? action.payload.toolbar.viewName : doc_type;
     // name =nextAvailName(name, state, 'viewName');
     let theme = action.payload.theme ? action.payload.theme : 'default';
-    let font = action.payload.font ? action.payload.font : 'Ubuntu';
+    // let font = action.payload.font ? action.payload.font : 'Ubuntu';
     let themeBackground = action.payload.themeBackground ? action.payload.themeBackground : 0;
     let background = action.payload.background ? action.payload.background.background : loadBackground(theme, themeBackground);
     let backgroundAttr = action.payload.background ? action.payload.background.backgroundAttr : "full";

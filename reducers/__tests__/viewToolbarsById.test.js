@@ -6,7 +6,7 @@ import i18n from "i18next";
 const state = testState.undoGroup.present.viewToolbarsById;
 
 describe('# view_toolbars_by_id reducer', ()=>{
-    describe('DEFAULT', ()=>{
+    describe('DEFAULT', () => {
         test('Should return test.state as default', () => {
             expect(view_toolbars_by_id(state, {})).toEqual(state);
         });
@@ -142,7 +142,7 @@ describe('# view_toolbars_by_id reducer', ()=>{
     });
     describe('handle PASTE_BOX', ()=>{
         test('If box pasted', () => {
-            let action = {};
+            // let action = {};
             // expect(view_toolbars_by_id(state, action)).toEqual(newState);
         });
     });

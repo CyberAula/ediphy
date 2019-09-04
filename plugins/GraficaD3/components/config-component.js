@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Col, Grid, Row } from "react-bootstrap";
+import { Col, Grid, Row } from "react-bootstrap";
 import i18n from 'i18next';
 import DataProvider from './data-provider';
 import ChartOptions from './chart-options';
@@ -79,7 +79,7 @@ export default class Config extends React.Component {
     }
 
     render() {
-        let { dataProcessed, dataProvided, editing, options } = this.props.state;
+        let { dataProcessed, dataProvided, options } = this.props.state;
         return (
             <Grid>
                 <Row>

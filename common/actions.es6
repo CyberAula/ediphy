@@ -298,6 +298,8 @@ export function deleteRemoteFileVishAsync(id, url, callback) {
             }
         })
             .catch(e => {
+                // eslint-disable-next-line no-console
+                console.error(e);
                 dispatch(setBusy(false, FILE_DELETE_ERROR));
                 if (callback) {
                     callback();
@@ -343,6 +345,8 @@ export function deleteRemoteFileEdiphyAsync(id, url, callback) {
                 }
             })
                 .catch(e => {
+                    // eslint-disable-next-line no-console
+                    console.error(e);
                     dispatch(setBusy(false, FILE_DELETE_ERROR));
                     if (callback) {
                         callback();
@@ -388,6 +392,8 @@ export function exportStateAsync(state, win = null, url = null) {
                     dispatch(setBusy(false, i18n.t("success_transaction"), "saving_state"));
                 })
                 .catch(e => {
+                    // eslint-disable-next-line no-console
+                    console.error(e);
                     dispatch(setBusy(false, i18n.t("error.exporting")));
                 });
         }
@@ -427,6 +433,8 @@ export function exportStateAsync(state, win = null, url = null) {
                 dispatch(setBusy(false, i18n.t("success_transaction"), "saving_state"));
             })
             .catch(e =>{
+                // eslint-disable-next-line no-console
+                console.error(e);
                 dispatch(setBusy(false, i18n.t("error.exporting")));
             });
 
@@ -453,6 +461,8 @@ export function importStateAsync() {
                 dispatch(setBusy(false, i18n.t("success_transaction")));
             })
             .catch(e => {
+                // eslint-disable-next-line no-console
+                console.error(e);
                 dispatch(setBusy(false, i18n.t("error.importing")));
             });
     };
@@ -564,6 +574,8 @@ export function uploadVishResourceAsync(query, keywords = "", callback) {
                 dispatch(setBusy(false, id));
             })
                 .catch(e => {
+                    // eslint-disable-next-line no-console
+                    console.error(e);
                     dispatch(setBusy(false, FILE_UPLOAD_ERROR));
                     if (callback) {
                         callback();

@@ -1,4 +1,4 @@
-export default function toMoodleXML(state, callback, options = false) {
+export default function toMoodleXML(state, callback) {
 
     let download = (filename, text) => {
         let element = document.createElement('a');

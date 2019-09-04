@@ -3,7 +3,7 @@ import i18n from 'i18next';
 import FlashObjectComponent from "./FlashObjectComponent";
 
 /* eslint-disable react/prop-types */
-export function FlashObject(base) {
+export function FlashObject() {
     return {
         getConfig: function() {
             return {
@@ -96,7 +96,7 @@ export function FlashObject(base) {
                 url: "http://vishub.org/swfs/4669.swf",
             };
         },
-        getRenderTemplate: function(state, props) {
+        getRenderTemplate: function(state) {
             return (<FlashObjectComponent src={state.url}/>);
         },
     };

@@ -2,12 +2,10 @@ import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import './_truefalse.scss';
 import i18n from 'i18next';
-import { letterFromNumber } from '../../common/common_tools';
-import { setRgbaAlpha } from "../../common/common_tools";
 import { generateCustomColors } from "../../common/themes/theme_loader";
 /* eslint-disable react/prop-types */
 
-export function TrueFalse(base) {
+export function TrueFalse() {
     return {
         getConfig: function() {
             return {

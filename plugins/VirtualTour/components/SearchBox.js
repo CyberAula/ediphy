@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { FormGroup, InputGroup, Glyphicon, FormControl } from 'react-bootstrap';
+import { FormGroup, InputGroup, FormControl } from 'react-bootstrap';
 export default class SearchBox extends React.Component {
     constructor(props) {
         super(props);
@@ -15,7 +15,6 @@ export default class SearchBox extends React.Component {
                     <FormControl type="text" ref={"input-" + this.props.id} placeholder={this.props.placeholder}/>
                     <InputGroup.Addon style={{ padding: "0.2em 0.5em " }}>
                         <i className="material-icons">search</i>
-                        {/* <Glyphicon glyph="search" />*/}
                     </InputGroup.Addon>
                 </InputGroup>
             </FormGroup>
@@ -28,7 +27,6 @@ export default class SearchBox extends React.Component {
                 let geom = places[0].geometry.location;
                 let lat = Math.round(geom.lat() * 100000) / 100000;
                 let lng = Math.round(geom.lng() * 100000) / 100000;
-                let num = this.props.num;
                 let map = window.mapList[this.props.id];
                 map.fitBounds(places[0].geometry.viewport);
                 map.setCenter(new google.maps.LatLng(lat, lng));
@@ -67,5 +65,4 @@ SearchBox.propTypes = {
     /**
    * Number of map created
    */
-    num: PropTypes.number.isRequired,
 };

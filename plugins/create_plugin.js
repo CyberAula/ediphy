@@ -2,8 +2,6 @@
  * CLI para crear un plugin automáticamente
  * yarn run create-plugin help
  */
-
-import path from 'path';
 import fs from 'fs';
 const LANGS = ["en", "es"];
 const BASE = "plugins/";
@@ -51,7 +49,7 @@ function parseArgs(args) {
         return;
     }
     let bad = false;
-    args.forEach(function(val, index, array) {
+    args.forEach(function(val, index) {
         if (index === 2) {
             p("Creando plugin: " + val);
             options.name = val.split(" ").join("");

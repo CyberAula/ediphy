@@ -1,13 +1,10 @@
 import Ediphy from './main';
-import ReactDOM from 'react-dom';
-import { isSortableContainer } from '../../common/utils';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
-import { UPDATE_BOX } from '../../common/actions';
 import { getCKEDITORAdaptedContent } from '../../_editor/components/clipboard/clipboard.utils';
 let html2json = require('html2json').html2json;
 
 export default function() {
-    let descendant, state, id, initialParams = {};
+    let descendant, state = {};
 
     let defaultFor = function(arg, value, warn) {
         if (typeof arg !== 'undefined') {
@@ -260,7 +257,7 @@ export default function() {
         getRenderTemplate: function(render_state, props) {
             if (!descendant.getRenderTemplate) {
                 // eslint-disable-next-line no-shadow
-                descendant.getRenderTemplate = function(stateObj, props /* , { exercises: { correctAnswer: [] } } */) {
+                descendant.getRenderTemplate = function(stateObj) {
                     return stateObj.__text;
                 };
             }

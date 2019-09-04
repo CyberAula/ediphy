@@ -31,7 +31,7 @@ plugin_folders.forEach((plugin)=>{
         beforeEach(jest.resetModules);
         global.Ediphy = jest.fn({});
         global.Ediphy.i18n = jest.fn({});
-        global.Ediphy.i18n.t = jest.fn((n)=>"translation");
+        global.Ediphy.i18n.t = jest.fn(()=>"translation");
 
         // test(plugin.split("plugins/")[1] + ' main file exist', () => {
         //     let main_file = fs.readFileSync(plugin + "/" + plugin.split("plugins/")[1] + ".js", 'utf8');
@@ -88,7 +88,7 @@ plugin_folders.forEach((plugin)=>{
         beforeEach(jest.resetModules);
         global.Ediphy = jest.fn({});
         global.Ediphy.i18n = jest.fn({});
-        global.Ediphy.i18n.t = jest.fn((n)=>"translation");
+        global.Ediphy.i18n.t = jest.fn(()=>"translation");
 
         if(fs.existsSync("./" + plugin + "/visor/" + plugin.split("plugins/")[1] + ".js")) {
             let basepluginvisor = new BasePluginVisor();
@@ -105,7 +105,7 @@ plugin_folders.forEach((plugin)=>{
         beforeEach(jest.resetModules);
         global.Ediphy = jest.fn({});
         global.Ediphy.i18n = jest.fn({});
-        global.Ediphy.i18n.t = jest.fn((n) => "translation");
+        global.Ediphy.i18n.t = jest.fn(() => "translation");
 
         test('Testing English language ' + plugin + ' locales', ()=>{
             let locales = jest.requireActual("./../../" + plugin + "/locales/" + "en");

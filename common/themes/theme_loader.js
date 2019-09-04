@@ -5,7 +5,7 @@ import { translatePxToEm } from "./cssParser";
 export function generateThemes() {
     let THEMES = {};
     let CONFIG = require('../../core/config');
-    CONFIG.default.themeList.map((theme, index) => {
+    CONFIG.default.themeList.map((theme) => {
         THEMES[theme] = require(`./definitions/${theme}/${theme}`).DEFINITION;
     });
 

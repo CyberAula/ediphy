@@ -1,6 +1,6 @@
 import nav_items_by_id from '../navItems/navItemsById';
 import * as ActionTypes from '../../common/actions';
-import { isContainedView, isSortableContainer, isView, isSlide } from "../../common/utils";
+import { isSortableContainer, isView } from "../../common/utils";
 
 const state = {
     "0": {

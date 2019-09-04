@@ -4,13 +4,12 @@ import {
     TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_PLUGIN_TOOLBAR,
     VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX, ADD_NAV_ITEM, DUPLICATE_NAV_ITEM, IMPORT_EDI,
 } from '../../common/actions';
-import Utils, {
+import {
     changeProps, deleteProps,
 } from '../../common/utils';
 import { toolbarCreator } from '../_helpers/toolbarCreator';
 
 export default function(state = {}, action = {}) {
-    let newState;
     switch (action.type) {
     case ADD_BOX:
         let a = { ...state, ...toolbarCreator(state, action) };
@@ -80,9 +79,6 @@ export default function(state = {}, action = {}) {
     case DELETE_CONTAINED_VIEW:
         let boxesCV = action.payload.boxes ? action.payload.boxes : [];
         let newToolbarCV = JSON.parse(JSON.stringify(state));
-        let parents = action.payload.parent ? action.payload.parent : [];
-        // Delete all related marks
-
         return deleteProps(newToolbarCV, boxesCV.concat(action.payload.ids[0]));
     case DELETE_NAV_ITEM:
         let boxes = action.payload.boxes ? action.payload.boxes : [];

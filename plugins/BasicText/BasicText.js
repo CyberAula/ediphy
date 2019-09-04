@@ -1,4 +1,4 @@
-export function BasicText(base) {
+export function BasicText() {
     return {
         getConfig: function() {
             return {
@@ -9,12 +9,11 @@ export function BasicText(base) {
                 needsTextEdition: true,
                 initialWidth: 'auto',
                 initialWidthSlide: '30%',
-                /* initialHeight: '100px',*/
                 icon: 'short_text',
                 flavor: 'plain',
             };
         },
-        getToolbar: function(state) {
+        getToolbar: function() {
             return {
                 main: {
                     __name: "Main",

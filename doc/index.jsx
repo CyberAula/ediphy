@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import createBrowserHistory from 'history/createBrowserHistory';
 const supportsHistory = 'pushState' in window.history;
-const history = createBrowserHistory();
 import ReactDOM from 'react-dom';
-import { Grid, Row, Navbar, Nav, NavDropdown, NavItem, MenuItem } from 'react-bootstrap';
+import { Grid, Navbar, Nav, NavDropdown, NavItem, MenuItem } from 'react-bootstrap';
 import Content from './src/components/Content';
 import { srcTree, lookForPath } from './src/content';
 import "./src/style/style.scss";
@@ -60,7 +58,6 @@ export default class Docs extends Component {
         </Nav>;
 
         const Comp = ({ match, key }) => {
-            console.log(match);
             let url = lookForPath(match.url);
             url = url || {};
             return <Content key={key}

@@ -1,9 +1,7 @@
 import React from "react";
 import i18n from 'i18next';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MarkEditor from '../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 import Mark from '../../common/components/mark/Mark';
-import img_broken from './../../dist/images/broken_link.png';
 import img_placeholder from './../../dist/images/placeholder.svg';
 import './_hotspotsImages.scss';
 import Image from "./Image";
@@ -20,7 +18,6 @@ export function HotspotImages(base) {
                 flavor: "react",
                 needsTextEdition: false,
                 icon: 'image',
-                // initialWidth: '25%',
                 aspectRatioButtonConfig: {
                     location: ["main", "structure"],
                     defaultValue: true,
@@ -30,7 +27,6 @@ export function HotspotImages(base) {
                 createFromLibrary: ['image/*', 'url'],
                 searchIcon: true,
                 needsPointerEventsAllowed: true,
-                // searchIcon: ['image/*', 'url'],
             };
         },
         getToolbar: function(state) {
@@ -134,13 +130,11 @@ export function HotspotImages(base) {
                 allowDeformed: true,
             };
         },
-        getDefaultMarkValue(state) {
+        getDefaultMarkValue() {
             return 50 + ',' + 50;
         },
         getRenderTemplate: function(state, props) {
             let marks = props.marks || {};
-            // let Mark = ({ idKey, title, style, color }) => (
-            //     );
             let markElements = Object.keys(marks).map((id) =>{
                 let value = marks[id].value;
                 let title = marks[id].title;
@@ -163,7 +157,7 @@ export function HotspotImages(base) {
                 <Image markElements={markElements} state={state} props={props}/>
             );
         },
-        parseRichMarkInput: function(x, y, width, height, toolbarState, boxId) {
+        parseRichMarkInput: function(x, y, width, height) {
             let xx = (x + 12) * 100 / width;
             let yy = (y + 26) * 100 / height;
             let finalValue = yy.toFixed(2) + "," + xx.toFixed(2);

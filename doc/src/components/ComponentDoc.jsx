@@ -16,7 +16,7 @@ export default class ComponentDoc extends Component {
         let component = doc[this.props.component + "_" + i18n.t("lang")];
         if (component) {
             return <div style={{ textAlign: 'right' }}>
-                <i className="material-icons codeButton" style={{ cursor: 'pointer' }} onClick={e=>{this.setState({ show: !this.state.show });}}>code</i>
+                <i className="material-icons codeButton" style={{ cursor: 'pointer' }} onClick={()=>{this.setState({ show: !this.state.show });}}>code</i>
                 <Panel style={{ display: this.state.show ? 'block' : 'none', textAlign: 'left' }} className="codePanel">
                     <div className="playground" dangerouslySetInnerHTML={{ __html: component.default }}/>
                 </Panel>

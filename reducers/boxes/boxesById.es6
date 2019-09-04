@@ -1,5 +1,5 @@
-import Utils, {
-    changeProp, changeProps, deleteProp, deleteProps, isSortableBox, isContainedView, isSortableContainer,
+import {
+    changeProp, changeProps, deleteProps, isSortableBox, isContainedView, isSortableContainer,
     isBox,
 } from '../../common/utils';
 import {
@@ -90,7 +90,6 @@ export default function(state = {}, action = {}) {
             [action.payload.box, ...bx]
         );
     case MOVE_BOX:
-        return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
     case RESIZE_BOX:
         return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
     case RESIZE_SORTABLE_CONTAINER:
@@ -141,7 +140,6 @@ export default function(state = {}, action = {}) {
         }
         return state;
     case REORDER_BOXES:
-        return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
     case CHANGE_SORTABLE_PROPS:
         return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
     case DROP_BOX:
@@ -166,11 +164,6 @@ export default function(state = {}, action = {}) {
         return state;
         // return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
     case CHANGE_COLS:
-        newState = changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
-        action.payload.boxesAffected.forEach(id => {
-            newState = changeProp(newState, id, boxReducer(newState[id], action));
-        });
-        return newState;
     case CHANGE_ROWS:
         newState = changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
         action.payload.boxesAffected.forEach(id => {
@@ -179,7 +172,6 @@ export default function(state = {}, action = {}) {
         return newState;
     case DELETE_BOX:
         let children = action.payload.children ? action.payload.children : [];
-        let which_children = children.concat(action.payload.id);
         temp = deleteProps(state, children.concat(action.payload.id));
 
         // If box is in sortableContainer, delete from its children aswell

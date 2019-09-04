@@ -2,13 +2,12 @@ import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import './_multipleChoice.scss';
 import i18n from 'i18next';
-import { letterFromNumber, getRandomColor, setRgbaAlpha } from '../../common/common_tools';
-import { getThemeColors, getCurrentColor, generateCustomColors, generateCustomFont } from "../../common/themes/theme_loader";
+import { letterFromNumber } from '../../common/common_tools';
+import { generateCustomColors } from "../../common/themes/theme_loader";
 
-import colorManager from '../../_editor/components/common/color-picker/ColorPicker';
 /* eslint-disable react/prop-types */
 
-export function MultipleChoice(base) {
+export function MultipleChoice() {
     return {
         getConfig: function() {
             return {

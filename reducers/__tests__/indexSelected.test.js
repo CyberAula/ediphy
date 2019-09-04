@@ -1,4 +1,3 @@
-import { testState } from '../../core/store/state.tests.js';
 import index_selected from '../navItems/indexSelected';
 import * as ActionTypes from '../../common/actions';
 

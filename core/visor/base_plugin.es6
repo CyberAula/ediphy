@@ -4,8 +4,6 @@ let html2json = require('html2json').html2json;
 
 export default function() {
     let descendant;
-    let extraFunctions = {};
-
     let parseJson = function(json, state, hasVisorTemplate) {
         if (json.child) {
             for (let i = 0; i < json.child.length; i++) {

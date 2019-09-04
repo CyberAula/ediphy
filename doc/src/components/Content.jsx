@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Grid, Row, Col, ListGroup, ListGroupItem, Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { srcTree, WIKI_BASE_URL, editURL } from './../content';
 import Markdown from 'react-remarkable';
 import loaderSvg from '../img/Rolling.svg';
@@ -25,7 +24,6 @@ export default class Content extends Component {
     }
 
     render() {
-        console.log(this.props);
         let tree = srcTree(i18n.t("lang"));
         let pages = this.state.pages;
         let currentPage = this.props.page;
@@ -134,7 +132,7 @@ export default class Content extends Component {
         this.reload(nextProps.section, nextProps.subsection, nextProps.page || 1, nextProps.subpage || 0);
         // }
     }
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate() {
         Prism.highlightAll();
     }
     componentDidMount() {

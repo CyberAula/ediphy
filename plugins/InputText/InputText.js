@@ -1,11 +1,10 @@
 import React from 'react';
-import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import './_inputText.scss';
 import i18n from 'i18next';
 
 /* eslint-disable react/prop-types */
 
-export function InputText(base) {
+export function InputText() {
     return {
         getConfig: function() {
             return {

@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import GoogleMapReact from 'google-map-react';
 
 import SearchBox from './SearchBox';
-import { Gmaps } from 'react-gmaps';
 import { findParentBySelector } from '../../../common/utils';
 
 export default class Map extends React.Component {
@@ -45,7 +44,7 @@ export default class Map extends React.Component {
                         this.props.update(e.center.lat, e.center.lng, e.zoom, false);
 
                     }}
-                    onGoogleApiLoaded={({ map, maps }) => {
+                    onGoogleApiLoaded={({ map }) => {
                         map.setOptions({ draggable: this ? findParentBySelector(ReactDOM.findDOMNode(this), '.wholebox') : true, mapTypeControl: false, zoomControl: false });
                         window.mapList[this.props.id] = map;
                     }}
@@ -56,11 +55,7 @@ export default class Map extends React.Component {
                 {this.props.searchBox ? <SearchBox
                     num={num}
                     id={this.props.id}
-                    placeholder={this.props.placeholder}
-                    onPlacesChanged={(places) => {
-                        // this.props.update(places.lat, places.lng, 15, true);
-
-                    }}/> : null}
+                    placeholder={this.props.placeholder} /> : null}
 
             </div>
 

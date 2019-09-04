@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, FormGroup, FormControl, ControlLabel, Col, Checkbox, Radio } from "react-bootstrap";
+import { Form, FormGroup, FormControl, Col, Checkbox } from "react-bootstrap";
 import { getRandomColor } from "../../../common/common_tools";
 import i18n from 'i18next';
 /* eslint-disable react/prop-types */

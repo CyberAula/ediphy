@@ -1,4 +1,3 @@
-import { testState } from '../../core/store/state.tests.js';
 import global_config from '../general/globalConfig';
 import * as ActionTypes from '../../common/actions';
 import { emptyState } from '../../core/store/state.empty';

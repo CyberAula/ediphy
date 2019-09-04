@@ -43,7 +43,7 @@ export function MultipleChoice() {
                                     props.setAnswer(parseInt(e.target.value, 10));
                                 }}/>
                         </div>
-                        <div className={"col-xs-10"} onClick={(e)=>{props.setAnswer(parseInt(i, 10));}}>
+                        <div className={"col-xs-10"} onClick={()=>{props.setAnswer(parseInt(i, 10));}}>
                             <VisorPluginPlaceholder {...props} key={i + 1} pluginContainer={"Answer" + i} />
                         </div>
                         {(checked && correct) ? <i className={ "material-icons correct"}>done</i> : null}

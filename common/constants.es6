@@ -1,4 +1,3 @@
-import i18n from 'i18next';
 export const ID_PREFIX_SECTION = "se-";
 export const ID_PREFIX_PAGE = "pa-";
 export const ID_PREFIX_SLIDE = "sl-";
@@ -67,5 +66,3 @@ export const defaultUI = {
     showExportModal: false,
     fileModalResult: { id: undefined, value: undefined },
 };
-
-MESSAGE_TYPES.NOTIFICATION;

@@ -1,5 +1,4 @@
 import React from 'react';
-import img from './../../../dist/images/broken_link.png';
 import { isURL } from "../../../_editor/components/clipboard/clipboard.utils";
 /* eslint-disable react/prop-types */
 
@@ -9,7 +8,7 @@ export default class Image extends React.Component {
         this.state = { error: false };
     }
     render() {
-        let { state, props, markElements } = this.props;
+        let { state, markElements } = this.props;
         let hyperlink = this.checkHyperlink(state.hyperlink);
         let scale = state.scale || 1;
         let translateX = (state.translate ? state.translate.x : 0) || 0;
@@ -43,7 +42,6 @@ export default class Image extends React.Component {
     }
 
     componentDidMount() {
-        let scale = this.props.state.scale || 1;
 
     }
 

@@ -4,7 +4,7 @@ import i18n from 'i18next';
 import StarComponent from "./StarComponent";
 /* eslint-disable react/prop-types */
 
-export function Rating(base) {
+export function Rating() {
     return {
         getConfig: function() {
             return {
@@ -102,7 +102,7 @@ export function Rating(base) {
                 range: 5,
             };
         },
-        getRenderTemplate: function(state, props = {}) {
+        getRenderTemplate: function(state) {
             let els = [];
 
             for (let i = 0; i < state.range; i++) {

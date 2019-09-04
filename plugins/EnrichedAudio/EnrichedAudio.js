@@ -5,7 +5,7 @@ import { convertSecondsToHMS } from "../../common/common_tools";
 require('./EnrichedAudio.scss');
 /* eslint-disable react/prop-types */
 
-export function EnrichedAudio(base) {
+export function EnrichedAudio() {
     return {
         getConfig: function() {
             return {
@@ -137,7 +137,7 @@ export function EnrichedAudio(base) {
 
         },
 
-        getDefaultMarkValue(state) {
+        getDefaultMarkValue() {
             return '0:00';
         },
         parseRichMarkInput: function(x, y, width, height, toolbarState, boxId) {

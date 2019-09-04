@@ -5,7 +5,6 @@ import screenfull from 'screenfull';
 import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 import Mark from '../../../common/components/mark/Mark';
 import { convertHMStoSeconds } from "../../../common/common_tools";
-import img from './../../../dist/images/broken_link.png';
 import { pad } from '../../../common/common_tools';
 
 /* eslint-disable react/prop-types */
@@ -73,7 +72,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
     getDuration() {
         return this.state.duration;
     }
-    onReady(e) {
+    onReady() {
         this.setState({ ready: true });
     }
     render() {

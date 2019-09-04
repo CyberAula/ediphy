@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 require('./_visor.scss');
 
 class Visor extends Component {
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps) {
         return this.props.visorVisible || nextProps.visorVisible;
     }
 

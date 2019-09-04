@@ -16,15 +16,12 @@ import { isContainedView, isView, isSection, isPage } from '../../common/utils';
 import ScormComponent from '../components/score/GradeComponent';
 import i18n from '../../locales/i18n';
 
-import { Animated } from "react-animated-css";
-
 require('es6-promise').polyfill();
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
 import './../../sass/style.scss';
 import '../../core/visor/visor_entrypoint';
-import ExportModal from '../../_editor/components/nav_bar/export/ExportModal';
 
 /**
  * Visor app main component

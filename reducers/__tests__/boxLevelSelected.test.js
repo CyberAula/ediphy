@@ -1,6 +1,6 @@
 import helper from './_testHelper';
 import reducer from '../boxes/boxLevelSelected';
-import { ADD_BOX, INCREASE_LEVEL, SELECT_BOX, SELECT_NAV_ITEM, DELETE_NAV_ITEM, PASTE_BOX } from '../../common/actions';
+import { INCREASE_LEVEL, SELECT_BOX, SELECT_NAV_ITEM, DELETE_NAV_ITEM, PASTE_BOX } from '../../common/actions';
 import { ID_PREFIX_SORTABLE_BOX } from '../../common/constants';
 
 let reducerHelper = helper(undefined, reducer);
@@ -16,7 +16,6 @@ describe('# box_level_selected reducer', () => {
     });
 
     test('should handle ADD_BOX', () => {
-        {type: ADD_BOX;}
         expect(reducer(undefined, {})).toEqual(0);
     });
 

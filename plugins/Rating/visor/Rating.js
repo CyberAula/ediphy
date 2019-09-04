@@ -12,7 +12,7 @@ export function Rating() {
 
                 if (!state.stars) {
 
-                    els.push(<button className={"ratingElement" + (checked ? " ratingSelected" : "")} onClick={(e)=>{
+                    els.push(<button className={"ratingElement" + (checked ? " ratingSelected" : "")} onClick={()=>{
                         if (!attempted) {
                             props.setAnswer(i + 1);
                         }
@@ -20,7 +20,7 @@ export function Rating() {
                 } else {
                     checked = props.exercises.currentAnswer > i;
 
-                    els.push(<button className={"ratingElementStar" + (checked ? " ratingSelected" : "")} onClick={(e)=>{
+                    els.push(<button className={"ratingElementStar" + (checked ? " ratingSelected" : "")} onClick={()=>{
                         if (!attempted) {
                             props.setAnswer(i + 1);
                         }

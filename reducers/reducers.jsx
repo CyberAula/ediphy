@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import undoable, { includeAction, excludeAction } from 'redux-undo';
+import undoable from 'redux-undo';
 import {
     ADD_BOX, SELECT_BOX, INCREASE_LEVEL, INDEX_SELECT, SELECT_NAV_ITEM, EXPAND_NAV_ITEM,
     TOGGLE_TEXT_EDITOR,

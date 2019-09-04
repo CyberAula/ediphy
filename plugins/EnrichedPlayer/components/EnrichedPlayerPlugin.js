@@ -4,8 +4,6 @@ import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 import Mark from '../../../common/components/mark/Mark';
 import { pad } from '../../../common/common_tools';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import img from './../../../dist/images/broken_link.png';
 import { convertHMStoSeconds } from "../../../common/common_tools";
 /* eslint-disable react/prop-types */
 
@@ -131,7 +129,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
         }
     }
 
-    onReady(e) {
+    onReady() {
         if(this.player !== undefined && this.state.initialPoint !== undefined) {
             this.player.seekTo(this.state.initialPoint);
             this.setState({ initialPoint: undefined, playing: true, ready: true });

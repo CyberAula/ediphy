@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, FormGroup, FormControl, ControlLabel, Col } from "react-bootstrap";
+import { Form, FormGroup, FormControl, ControlLabel, Col } from "react-bootstrap";
 import ToolbarFileProvider from '../../../_editor/components/external_provider/file_modal/APIProviders/common/ToolbarFileProvider';
 import i18n from 'i18next';
 /* eslint-disable react/prop-types */
@@ -167,7 +167,7 @@ export default class DataProvider extends React.Component {
                                     {Array.apply(0, Array(this.state.cols)).map((x, i) => {
                                         return(
                                             <th key={i + 1}>
-                                                <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}}>clear</i>
+                                                <i className="material-icons clearCol" onClick={()=>{this.deleteCols(i);}}>clear</i>
                                                 <FormControl key={"form_" + i} type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
                                             </th>
                                         );

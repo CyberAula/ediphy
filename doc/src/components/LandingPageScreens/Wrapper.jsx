@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Col, Row } from 'react-bootstrap';
+import { Grid } from 'react-bootstrap';
 /* eslint-disable react/prop-types */
 
 export default class Main extends Component {
