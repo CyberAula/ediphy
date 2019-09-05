@@ -110,9 +110,7 @@ export function createScoreAccordions(controls = {}, state, exercises) {
         },
 
     });
-
     controls.main.accordions.__score.buttons = buttons;
-
 }
 
 export function createAspectRatioButton(controls, config) {
@@ -319,7 +317,7 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
  * @param state Toolbar state
  * @param key Current key
  */
-export function renderAccordion(accordion, tabKey, accordionKeys, state, key, toolbar_props) {
+export function renderAccordion(accordion, tabKey, accordionKeys, state, key, toolbarProps) {
     if (accordionKeys[0] === 'z__extra') {
         return null;
     }
@@ -351,7 +349,7 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
             if (accordion.accordions[accordion.order[i]]) {
                 children.push(renderAccordion(accordion.accordions[accordion.order[i]], tabKey, [accordionKeys[0], accordion.order[i]], state, i));
             } else if (accordion.buttons[accordion.order[i]]) {
-                children.push(renderButton(accordion, tabKey, accordionKeys, accordion.order[i], state, i, toolbar_props));
+                children.push(renderButton(accordion, tabKey, accordionKeys, accordion.order[i], state, i, toolbarProps));
             } else {
                 // eslint-disable-next-line no-console
                 console.error("Element %s not defined", accordion.order[i]);
@@ -368,7 +366,7 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
                         width: buttonWidth,
                         marginRight: buttonMargin,
                     }}>
-                    {renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], state, i, toolbar_props)}
+                    {renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], state, i, toolbarProps)}
                 </div>,
             );
         }
@@ -377,12 +375,12 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
     if (accordion.key === 'marks_list') {
         children.push(
             <MarksList key="marks_list"
-                state={toolbar_props.marks}
-                viewToolbars={toolbar_props.viewToolbars}
-                box_id={toolbar_props.box.id}
-                onRichMarksModalToggled={toolbar_props.handleMarks.onRichMarksModalToggled}
-                onRichMarkEditPressed={toolbar_props.handleMarks.onRichMarkEditPressed}
-                onRichMarkDeleted={toolbar_props.handleMarks.onRichMarkDeleted}
+                state={toolbarProps.marks}
+                viewToolbars={toolbarProps.viewToolbars}
+                box_id={toolbarProps.box.id}
+                onRichMarksModalToggled={toolbarProps.handleMarks.onRichMarksModalToggled}
+                onRichMarkEditPressed={toolbarProps.handleMarks.onRichMarkEditPressed}
+                onRichMarkDeleted={toolbarProps.handleMarks.onRichMarkDeleted}
             />,
         );
     }
@@ -399,25 +397,27 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
  * @param buttonKey Unique key of the button
  * @param state Toolbar state
  * @param key Current key
+ * @param toolbarProps
  * @returns {code} Button code
  */
-export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key, toolbar_props) {
+export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key, toolbarProps) {
+    console.log(buttonKey);
     let button = accordion.buttons[buttonKey];
-    let id = (toolbar_props.boxSelected !== -1) ? toolbar_props.boxSelected : (toolbar_props.containedViewSelected || toolbar_props.navItemSelected);
+    let id = (toolbarProps.boxSelected !== -1) ? toolbarProps.boxSelected : (toolbarProps.containedViewSelected || toolbarProps.navItemSelected);
     let currentElement = (["structure", "style", "z__extra", "__marks_list", "__score"].indexOf(accordionKeys[0]) === -1) ? "state" : accordionKeys[0];
     // get toolbar
-    let toolbar_plugin_state = toolbar_props.boxSelected !== -1 ? toolbar_props.pluginToolbars[toolbar_props.boxSelected] : undefined;
+    let toolbar_plugin_state = toolbarProps.boxSelected !== -1 ? toolbarProps.pluginToolbars[toolbarProps.boxSelected] : undefined;
 
     let commitChanges = (val) => {
-        if (toolbar_props.boxSelected === -1) {
-            handleCanvasToolbar(buttonKey, val, accordion, toolbar_props, buttonKey);
+        if (toolbarProps.boxSelected === -1) {
+            handleCanvasToolbar(buttonKey, val, accordion, toolbarProps, buttonKey);
         } else if (currentElement === '__score') {
-            toolbar_props.onScoreConfig(id, buttonKey, val);
+            toolbarProps.onScoreConfig(id, buttonKey, val);
             if (!button.__defaultField) {
-                toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, 'state', buttonKey, val);
+                toolbarProps.handleToolbars.onToolbarUpdated(id, tabKey, 'state', buttonKey, val);
             }
         } else {
-            toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, currentElement, buttonKey, val);
+            toolbarProps.handleToolbars.onToolbarUpdated(id, tabKey, currentElement, buttonKey, val);
         }
     };
 
@@ -427,6 +427,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         type: button.type,
         value: button.value,
         checked: button.checked,
+        componentClass: 'input',
         label: button.__name,
         min: button.min,
         max: button.max,
@@ -441,6 +442,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             if (button.type === 'number' && value === "") {
                 value = button.min ?? 0;
             }
+            handleCanvasToolbar(buttonKey, value, accordion, toolbarProps, buttonKey);
         },
         onChange: e => {
             let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
@@ -448,13 +450,13 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             // if (button.type === 'radio') {
             //     value = button.options[value];
             //     if (buttonKey === '__position') {
-            //         toolbar_props.handleToolbars.onToolbarUpdated(id, tabKey, currentElement, '__position', value);
-            //         let parentId = toolbar_props.box.parent;
-            //         let containerId = toolbar_props.box.container;
-            //         toolbar_props.handleBoxes.onBoxMoved(id, 0, 0, value, parentId, containerId);
+            //         toolbarProps.handleToolbars.onToolbarUpdated(id, tabKey, currentElement, '__position', value);
+            //         let parentId = toolbarProps.box.parent;
+            //         let containerId = toolbarProps.box.container;
+            //         toolbarProps.handleBoxes.onBoxMoved(id, 0, 0, value, parentId, containerId);
             //         if (isSortableContainer(containerId)) {
             //             let newHeight = parseFloat(document.getElementById(containerId).clientHeight, 10);
-            //             toolbar_props.handleSortableContainers.onSortableContainerResized(containerId, parentId, newHeight);
+            //             toolbarProps.handleSortableContainers.onSortableContainerResized(containerId, parentId, newHeight);
             //         }
             //     }
             // }
@@ -462,47 +464,72 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             console.err('handler has not been implemented yet for ' + buttonKey);
         },
     };
+
     let newValue;
-    let navItemSelected = toolbar_props.navItemSelected;
-    let theme = toolbar_props.viewToolbars[navItemSelected] && toolbar_props.viewToolbars[navItemSelected].theme ? toolbar_props.viewToolbars[navItemSelected].theme : 'default';
+    let navItemSelected = toolbarProps.navItemSelected;
+    let theme = toolbarProps.viewToolbars[navItemSelected]?.theme ?? 'default';
 
     // Generic handlers
     let handler;
-    let autoSizeHandler = e => {
-        toolbar_props.handleBoxes.onBoxResized(id, { [buttonKey]: toolbar_plugin_state.structure[buttonKey] === "auto" ? 100 : "auto" });
-    };
+    let autoSizeHandler = () => toolbarProps.handleBoxes.onBoxResized(id, { [buttonKey]: toolbar_plugin_state.structure[buttonKey] === "auto" ? 100 : "auto" });
     let unitsHandler = e => {
         let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
-        toolbar_props.handleBoxes.onBoxResized(id, { [buttonKey + "Unit"]: value });
+        toolbarProps.handleBoxes.onBoxResized(id, { [buttonKey + "Unit"]: value });
     };
     let defaultHandler = (e) => {
         let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
         commitChanges(value);
     };
 
+    if (buttonKey === 'width' || buttonKey === 'height' || buttonKey === 'aspectRatio') {
+        let auto = toolbar_plugin_state.structure[buttonKey] === "auto";
+        switch (button.type) {
+        case 'checkbox':
+            handler = () => {
+                if (buttonKey === "aspectRatio") {
+                    toolbarProps.handleBoxes.onBoxResized(id, { aspectRatio: !toolbar_plugin_state.structure.aspectRatio });
+                } else {
+                    toolbarProps.handleBoxes.onBoxResized(id, { [buttonKey]: toolbar_plugin_state.structure[buttonKey] === "auto" ? 100 : "auto" });
+                }
+            };
+            props = {
+                key: ('child_' + key),
+                id: ('page' + '_' + buttonKey),
+                type: button.type,
+                value: button.value,
+                checked: button.checked,
+                label: button.__name,
+                disabled: false,
+                title: button.title ?? '',
+            };
+            return Checkbox(button, handler, props);
+        case 'number':
+        case 'text':
+            handler = e => {
+                newValue = (typeof e.target !== 'undefined') ? e.target.value : e.value;
+                toolbarProps.handleBoxes.onBoxResized(id, { [buttonKey]: newValue });
+            };
+            props.value = auto ? 'auto' : toolbar_plugin_state.structure[buttonKey];
+            props.type = auto ? 'text' : 'number';
+            props.max = toolbar_plugin_state.structure[buttonKey + "Unit"] === '%' ? 100 : 100000;
+            props.disabled = auto;
+            return Size(button, handler, props, accordionKeys, buttonKey, toolbar_plugin_state, toolbarProps, auto, autoSizeHandler, unitsHandler);
+        }
+
+    }
+
     switch (button.type) {
     case 'checkbox':
-        handler = () => {
-            if (currentElement === 'structure' && (buttonKey === 'width' || buttonKey === 'height' || buttonKey === "aspectRatio")) {
-                if (buttonKey === "aspectRatio") {
-                    toolbar_props.handleBoxes.onBoxResized(id, { aspectRatio: !toolbar_plugin_state.structure.aspectRatio });
-                } else {
-                    toolbar_props.handleBoxes.onBoxResized(id, { [buttonKey]: toolbar_plugin_state.structure[buttonKey] === "auto" ? 100 : "auto" });
-                }
-            } else {
-                newValue = !button.checked;
-                commitChanges(newValue);
-            }
-        };
+        handler = () => commitChanges(!button.checked);
         props = {
-            key: ('child_' + key),
-            id: ('page' + '_' + buttonKey),
-            type: button.type,
-            value: button.value,
-            checked: button.checked,
-            label: button.__name,
-            disabled: false,
-            title: button.title ?? '',
+            key: props.key,
+            id: props.id,
+            type: props.type,
+            value: props.value,
+            checked: props.checked,
+            label: props.label,
+            disabled: props.disabled,
+            title: props.title,
         };
         return Checkbox(button, handler, props);
     case 'color':
@@ -510,24 +537,19 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         return Color(button, handler, props);
     case 'custom_color_plugin':
         handler = e => {
-            let toolbar = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
-            theme = toolbar.theme ?? 'default';
-            if (e.color) {
-                newValue = { color: e.color, custom: true };
-            }
-            // Restored theme color
-            if (e.currentTarget && e.currentTarget.type === "button") {
-                newValue = { color: getCurrentColor(theme), custom: false };
-            }
+            theme = toolbarProps.viewToolbars[toolbarProps.navItemSelected].theme ?? 'default';
+            const restore = e.currentTarget?.type === 'button';
+            newValue = restore ? { color: getCurrentColor(theme), custom: false } :
+                e.color ? { color: e.color, custom: true } : newValue;
             commitChanges(newValue);
         };
-        return PluginColor(button, handler, props, toolbar_props, id);
+        return PluginColor(button, handler, props, toolbarProps, id);
     case 'theme_select':
         handler = e => commitChanges(getThemes()[e || 0]);
         return Theme(button, handler, {
             ...props,
             currentTheme: props.value,
-            currentItem: toolbar_props.navItemSelected,
+            currentItem: toolbarProps.navItemSelected,
         });
     case 'font_picker':
         handler = e => {
@@ -541,49 +563,9 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         };
         return Font(button, handler, { ...props, theme });
     case 'text':
-        if (buttonKey === 'width' || buttonKey === 'height') {
-            handler = e => {
-                newValue = (typeof e.target !== 'undefined') ? e.target.value : e.value;
-                toolbar_props.handleBoxes.onBoxResized(id, { [buttonKey]: newValue });
-            };
-        } else {
-            handler = defaultHandler;
-        }
-        props = {
-            key: ('child_' + key),
-            id: ('page' + '_' + buttonKey),
-            type: button.type,
-            value: button.value,
-            checked: button.checked,
-            componentClass: 'input',
-            label: button.__name,
-            min: button.min,
-            max: button.max,
-            step: button.step,
-            disabled: false,
-            placeholder: button.placeholder,
-            title: button.title ?? '',
-            className: button.class,
-            style: { width: '100%' },
-            onBlur: e => {
-                let value = e.target.value;
-                if (button.type === 'number' && value === "") {
-                    value = button.min ? button.min : 0;
-                }
-                handleCanvasToolbar(buttonKey, value, accordion, toolbar_props, buttonKey);
-            },
-        };
-        if (buttonKey === 'height' || buttonKey === 'width') {
-            let auto = toolbar_plugin_state.structure[buttonKey] === "auto";
-            props.value = auto ? 'auto' : toolbar_plugin_state.structure[buttonKey];
-            props.type = auto ? 'text' : 'number';
-            props.max = toolbar_plugin_state.structure[buttonKey + "Unit"] === '%' ? 100 : 100000;
-            props.disabled = auto;
-            return Size(button, handler, props, accordionKeys, buttonKey, toolbar_plugin_state, toolbar_props, auto, autoSizeHandler, unitsHandler);
-        }
-        return Text(button, handler, props);
+        return Text(button, defaultHandler, props);
     case 'external_provider':
-        return External(button, props, toolbar_props, defaultHandler);
+        return External(button, props, toolbarProps, defaultHandler);
     case 'range':
         return Range(button, props, defaultHandler);
     case 'conditionalText':
@@ -603,15 +585,15 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         };
         return MyRadio(button, props, handler);
     case 'fancy_radio':
-        return FancyRadio(button, buttonKey, toolbar_props);
+        return FancyRadio(button, buttonKey, toolbarProps);
     case 'background_picker':
         let isURI = (/data\:/).test(props.value.background);
         let isColor = (/(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig).test(props.value.background) || (/#/).test(props.value.background) || !(/url/).test(props.value.background);
         let default_background = loadBackground(theme, 0);
 
-        let isSli = isSlide(toolbar_props.navItems[id].type);
-        let background_attr = toolbar_props.viewToolbars[id].backgroundAttr;
-        let background_attr_zoom = toolbar_props.viewToolbars[id].backgroundZoom === undefined ? 100 : toolbar_props.viewToolbars[id].backgroundZoom;
+        let isSli = isSlide(toolbarProps.navItems[id].type);
+        let background_attr = toolbarProps.viewToolbars[id].backgroundAttr;
+        let background_attr_zoom = toolbarProps.viewToolbars[id].backgroundZoom === undefined ? 100 : toolbarProps.viewToolbars[id].backgroundZoom;
 
         handler = e => {
             let value;
@@ -645,7 +627,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             if (e.target?.name === "image_display_zoom") {
                 value = {
                     background: button.value.background,
-                    backgroundAttr: (toolbar_props.viewToolbars[id].backgroundAttr) ? toolbar_props.viewToolbars[id].backgroundAttr : 'repeat',
+                    backgroundAttr: (toolbarProps.viewToolbars[id].backgroundAttr) ? toolbarProps.viewToolbars[id].backgroundAttr : 'repeat',
                     backgroundZoom: e.target.value,
                 };
             }
@@ -665,7 +647,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                                 backgroundAttr: 'full',
                                 backgroundZoom: 100,
                                 customBackground: true,
-                            }, accordion, toolbar_props);
+                            }, accordion, toolbarProps);
                         };
                         img.src = data;
                     };
@@ -676,44 +658,8 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             }
             commitChanges(value);
         };
-        return BackgroundPicker(button, props, toolbar_props, isURI, isColor, default_background, isSli, background_attr, background_attr_zoom, handler);
+        return BackgroundPicker(button, props, toolbarProps, isURI, isColor, default_background, isSli, background_attr, background_attr_zoom, handler);
     case 'number':
-        if (buttonKey === 'width' || buttonKey === 'height') {
-            handler = e => {
-                newValue = (typeof e.target !== 'undefined') ? e.target.value : e.value;
-                toolbar_props.handleBoxes.onBoxResized(id, { [buttonKey]: newValue });
-            };
-            props = {
-                key: ('child_' + key),
-                id: ('page' + '_' + buttonKey),
-                type: button.type,
-                value: button.value,
-                checked: button.checked,
-                componentClass: 'input',
-                label: button.__name,
-                min: button.min,
-                max: button.max,
-                step: button.step,
-                disabled: false,
-                placeholder: button.placeholder,
-                title: button.title ?? '',
-                className: button.class,
-                style: { width: '100%' },
-                onBlur: e => {
-                    let value = e.target.value;
-                    if (button.type === 'number' && value === "") {
-                        value = button.min ? button.min : 0;
-                    }
-                    handleCanvasToolbar(buttonKey, value, accordion, toolbar_props, buttonKey);
-                },
-            };
-            let auto = toolbar_plugin_state.structure[buttonKey] === "auto";
-            props.value = auto ? 'auto' : toolbar_plugin_state.structure[buttonKey];
-            props.type = auto ? 'text' : 'number';
-            props.max = toolbar_plugin_state.structure[buttonKey + "Unit"] === '%' ? 100 : 100000;
-            props.disabled = auto;
-            return Size(button, handler, props, accordionKeys, buttonKey, toolbar_plugin_state, toolbar_props, auto, autoSizeHandler, unitsHandler);
-        }
         handler = e => {
             let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
             // If there's any problem when parsing (NaN) -> take min value if defined; otherwise take 0
@@ -733,104 +679,59 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 }
 
 /**
- * Header configuration
+ * Header configuration. Does NOT apply to plugins' toolbar.
  * @param name type of title
  * @param value value of the field
+ * @param accordions
+ * @param toolbarProps
  */
-export function handleCanvasToolbar(name, value, accordions, toolbar_props) {
-    let themeToolbar = sanitizeThemeToolbar(toolbar_props.viewToolbars[toolbar_props.navItemSelected]);
+export function handleCanvasToolbar(name, value, accordions, toolbarProps) {
+    let themeToolbar = sanitizeThemeToolbar(toolbarProps.viewToolbars[toolbarProps.navItemSelected]);
     switch (name) {
     // change page/slide title
     case "background":
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, value);
+        toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, value);
         break;
     case "pagetitle_name":
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
+        toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, {
             documentTitleContent: value,
         });
         break;
         // change page/slide title
     case "pagesubtitle_name":
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
+        toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, {
             documentSubtitleContent: value,
         });
         break;
         // change page/slide title
     case "pagenumber_name":
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
+        toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, {
             numPageContent: value,
         });
         break;
         // preview / export document
     case 'page_display':
-        toolbar_props.handleNavItems.onNavItemToggled(toolbar_props.navItemSelected);
+        toolbarProps.handleNavItems.onNavItemToggled(toolbarProps.navItemSelected);
         break;
         // change document(navitem) name
     case 'navitem_name':
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, { viewName: value });
+        toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, { viewName: value });
         break;
-        // display - course title
-    case 'display_title':
-        let courseTitle = value ? 'reduced' : 'hidden';
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
-            courseTitle: courseTitle,
-        });
-        break;
-        // display - page title
-    case 'display_pagetitle':
-        let docTitle = value ? 'reduced' : 'hidden';
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
-            documentTitle: docTitle,
-        });
-        break;
-        // display - page title*
-        /** ******************************Necesarias??******************************/
-    case i18n.t('Title') + i18n.t('page'):
-        let pageTitle = value ? 'reduced' : 'hidden';
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
-            documentTitle: pageTitle,
-        });
-        break;
-        // display - slide title
-    case i18n.t('Title') + i18n.t('slide'):
-        let slideTitle = value ? 'reduced' : 'hidden';
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
-            documentTitle: slideTitle,
-        });
-        break;
-    case i18n.t('Title') + i18n.t('section'):
-        let sectionTitle = value ? 'reduced' : 'hidden';
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
-            documentTitle: sectionTitle,
-        });
-        break;
-        /** ***********************************************************************/
-        // display - subtitle
-    case 'display_pagesubtitle':
-        let subTitle = value ? 'reduced' : 'hidden';
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
-            documentSubtitle: subTitle,
-        });
-        break;
-        // display - breadcrumb
-    case 'display_breadcrumb':
-        let breadcrumb = value ? 'reduced' : 'hidden';
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
-            breadcrumb: breadcrumb,
-        });
-        break;
-        // display - pagenumber
-    case 'display_pagenumber':
-        let pagenumber = value ? 'reduced' : 'hidden';
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
-            numPage: pagenumber,
+    // Do or do not display the following
+    case 'courseTitle':
+    case 'documentTitle':
+    case 'documentSubtitle':
+    case 'breadcrumb':
+    case 'numPage':
+        toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, {
+            [name]: value ? 'reduced' : 'hidden',
         });
         break;
     case 'theme':
-        let currentView = toolbar_props.viewToolbars[toolbar_props.navItemSelected];
+        let currentView = toolbarProps.viewToolbars[toolbarProps.navItemSelected];
         let wasCustomFont = currentView.hasOwnProperty('theme') && currentView.hasOwnProperty('font') && (currentView.font !== getThemeFont(currentView.theme));
         let wasCustomColor = currentView.hasOwnProperty('theme') && currentView.hasOwnProperty('colors') && currentView.colors.themeColor1 !== getThemeColors(currentView.theme).themeColor1;
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
+        toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, {
             theme: value,
             themeBackground: 0,
             background: getBackground(value, 0),
@@ -840,27 +741,27 @@ export function handleCanvasToolbar(name, value, accordions, toolbar_props) {
 
         break;
     case 'theme_background':
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
+        toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, {
             themeBackground: value,
             background: value,
         });
         break;
     case 'theme_font':
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, { font: value });
+        toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, { font: value });
         break;
 
     case 'theme_primary_color':
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
+        toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, {
             colors: { ...themeToolbar.colors, themeColor1: value },
         });
         break;
     case 'theme_secondary_color':
-        toolbar_props.handleToolbars.onViewToolbarUpdated(toolbar_props.navItemSelected, {
+        toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, {
             colors: { ...themeToolbar.colors, themeColor2: value },
         });
         break;
     case 'weight':
-        toolbar_props.onScoreConfig(toolbar_props.navItemSelected, 'weight', value);
+        toolbarProps.onScoreConfig(toolbarProps.navItemSelected, 'weight', value);
         break;
     default:
         break;

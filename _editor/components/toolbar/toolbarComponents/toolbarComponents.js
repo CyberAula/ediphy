@@ -332,3 +332,5 @@ export const DefaultComponent = (button, props, onChange = undefined) => {
     );
 };
 
+/* eslint-enable react/prop-types */
+
