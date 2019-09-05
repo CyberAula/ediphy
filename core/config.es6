@@ -19,7 +19,7 @@ export default {
     search_vish_url: "https://vishub.org/apis/search/",
     // search_vish_url: "http://localhost:3000/apis/search/",
     upload_vish_url: "http://127.0.0.1:8081/upload",
-    profile_vish_url: (id)=>`http://localhost:3000/users/demo/all_resources.json`,
+    profile_vish_url: ()=>`http://localhost:3000/users/demo/all_resources.json`,
     // includeVishProfile: true,
     // OPTIONS
     external_providers: {

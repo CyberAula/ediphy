@@ -26,7 +26,6 @@ export default class Content extends Component {
 
     handleScroll() {
         let viewList = ["main", "why", "how", "what", "when"];
-        let where = "main";
         let nextInd = 0;
         for (let view in viewList) {
             let element = document.getElementById(viewList[view]);

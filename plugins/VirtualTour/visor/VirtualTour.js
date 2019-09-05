@@ -7,7 +7,7 @@ require('./../_virtualTour.scss');
 window.mapsVisor = [];
 /* eslint-disable react/prop-types */
 
-export function VirtualTour(base) {
+export function VirtualTour() {
     return {
         init: function() {
             if (!window.google) {
@@ -63,7 +63,7 @@ export function VirtualTour(base) {
                                 fullscreenControl: false,
                                 gestureHandling: 'greedy',
                             }}
-                            onGoogleApiLoaded={({ map, maps }) => {
+                            onGoogleApiLoaded={({ map }) => {
                                 window.mapsVisor[state.num] = map;
                             }}
                             resetBoundsOnResize

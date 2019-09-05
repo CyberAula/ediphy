@@ -4,7 +4,7 @@ import {
     IMPORT_EDI,
 } from '../../common/actions';
 
-import { isBox, existsAndIsViewOrContainedView, changeProp, changeProps, deleteProp, deleteProps, isContainedView } from '../../common/utils';
+import { isBox, existsAndIsViewOrContainedView, changeProp, changeProps, deleteProps, isContainedView } from '../../common/utils';
 import { singleExercisePageReducer } from './singleExercisePageReducer';
 
 export default function(state = {}, action = {}) {

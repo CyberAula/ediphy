@@ -1,7 +1,6 @@
-import { testState } from '../../core/store/state.tests.js';
 import contained_views_by_id from '../containedViews/containedViewsById';
 import * as ActionTypes from '../../common/actions';
-import { isContainedView, isSlide } from "../../common/utils";
+import { isContainedView } from "../../common/utils";
 import boxes_by_id from "../boxes/boxesById";
 
 const state = {

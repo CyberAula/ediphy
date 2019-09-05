@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 /* eslint-disable react/prop-types */
 export default class SideTree extends Component {
 

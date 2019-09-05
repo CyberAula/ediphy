@@ -1,6 +1,6 @@
 import React from 'react';
 /* eslint-disable react/prop-types */
-export function ScormPackage(base) {
+export function ScormPackage() {
     return {
         getConfig: function() {
             return {

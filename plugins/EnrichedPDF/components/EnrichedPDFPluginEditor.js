@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 import Mark from '../../../common/components/mark/Mark';
 
@@ -59,9 +58,6 @@ export default class EnrichedPDFPluginEditor extends React.Component {
                 position = [0, 0, 0];
             }
 
-            let pdfDiv = document.querySelector("#box-" + this.props.props.id + " .pdfDiv");
-            let w = pdfDiv ? pdfDiv.clientWidth : 0;
-            let h = pdfDiv ? pdfDiv.clientHeight : 0;
             let x = "" + position[0] + "%";
             let y = "" + position[1] + "%";
 

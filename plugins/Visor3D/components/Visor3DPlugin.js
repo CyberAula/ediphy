@@ -5,7 +5,6 @@ import screenfull from 'screenfull';
 import { fullScreenListener, isFullScreenOn, toColor } from '../../../common/common_tools';
 import '../_visor3D.scss';
 import ReactResizeDetector from 'react-resize-detector';
-import { findParentBySelector } from '../../../common/utils';
 /* eslint-disable react/prop-types */
 
 export default class Visor3DPlugin extends React.Component {
@@ -58,7 +57,7 @@ export default class Visor3DPlugin extends React.Component {
         this.setState({ width, height });
     }
 
-    checkFullScreen(e) {
+    checkFullScreen() {
         // Si no está activada la pantalla completa pero en el estado sigue marcando que lo está
         // (porque hemos salido con la tecla escape), se la quitamos y reestablecemos el tamaño
         if (this.state.fullscreen && !isFullScreenOn()) {

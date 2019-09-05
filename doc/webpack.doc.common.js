@@ -1,6 +1,5 @@
 let webpack = require('webpack');
 
-let path = require('path');
 let ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const marked = require("marked");
 const renderer = new marked.Renderer();

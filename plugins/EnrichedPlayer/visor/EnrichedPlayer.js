@@ -2,7 +2,7 @@ import React from 'react';
 import EnrichedPlayerPlugin from '../components/EnrichedPlayerPlugin.js';
 require('./../EnrichedPlayer.scss');
 
-export function EnrichedPlayer(base) {
+export function EnrichedPlayer() {
     return {
         getRenderTemplate: function(state, props) {
             return (

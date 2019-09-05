@@ -100,7 +100,7 @@ export default class OrderVisor extends React.Component {
         for (let i = 0; i < N; ++i) {a[i] = i;}
         return this.shuffle(a);
     }
-    componentDidUpdate(nextProps, nextState) {
+    componentDidUpdate(nextProps) {
         let id = this.props.props.id + "-" + "sortable";
         let list = $("#" + id);
         // list.sortable("refresh");
@@ -128,7 +128,7 @@ export default class OrderVisor extends React.Component {
                     out: function() {
                         $(this).removeClass('hoveringOrder');
                     },
-                    stop: (event, ui) => {
+                    stop: () => {
                         let indexes = [];
                         let children = list.find(".answerRow");
                         for (let i = 0; i < children.length; i++) {

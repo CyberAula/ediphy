@@ -5,7 +5,7 @@ import {
     ADD_RICH_MARK, EDIT_RICH_MARK, DELETE_RICH_MARK,
     IMPORT_STATE, PASTE_BOX, CHANGE_BOX_LAYER, ADD_NAV_ITEMS, IMPORT_EDI,
 } from '../../common/actions';
-import { changeProp, changeProps, deleteProp, deleteProps, isView, isSlide, isDocument, findNavItemContainingBox, findDescendantNavItems, isContainedView } from '../../common/utils';
+import { changeProp, changeProps, deleteProps, isView, findNavItemContainingBox, findDescendantNavItems, isContainedView } from '../../common/utils';
 import { singleNavItemReducer } from './singleNavItemReducer';
 import { navItemCreator } from '../_helpers/navItemCreator';
 

@@ -4,30 +4,16 @@ import FileSaver from 'file-saver';
 
 import Ediphy from '../editor/main';
 import Plugins from './plugins';
-import { ID_PREFIX_SECTION } from '../../common/constants';
 import { escapeRegExp } from '../../common/utils';
 import { generateStyles, getThemeImages } from "../../common/themes/theme_loader";
 import { getThemeBackgrounds } from "../../common/themes/background_loader";
 
 const visor_template = require("../../dist/lib/visor/index.ejs");
-let getDistinctName = function(name, namesUsed) {
-    namesUsed[name] = namesUsed[name] + 1;
-    return name + namesUsed[name];
-};
-
-let titleModifier = function(name) {
-    if(name.indexOf("\:") !== -1) {
-        name = name.split("\:")[0];
-    }
-    return name;
-};
 
 let parseEJS = function(path, page, state, fromScorm) {
     state.fromScorm = fromScorm;
     if (page !== 0 && state.navItemsById[page]) {
         if (Object.keys(state.navItemsById[page].extraFiles).length !== 0) {
-            let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
-            let extraFileContainer = state.pluginToolbarsById[extraFileBox];
             return (visor_template({
                 visor_bundle_path: Ediphy.Config.visor_bundle_zip || Ediphy.Config.visor_bundle,
                 state: state,
@@ -53,7 +39,7 @@ export default {
         xhr.open('GET', Ediphy.Config.visor_bundle, true);
         xhr.responseType = "arraybuffer";
         try{
-            xhr.onreadystatechange = function(evt) {
+            xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
 
@@ -135,7 +121,7 @@ export default {
             let themeImages = getThemeImages(theme);
             Object.keys(themeImages).map(template => {
                 Object.values(themeImages[template]).map(img => {
-                    !Number.isInteger(img) && img !== '' && paths.push(`dist/themes/${theme}/${img}`);
+                    return !Number.isInteger(img) && img !== '' && paths.push(`dist/themes/${theme}/${img}`);
                 });
             });
 
@@ -202,8 +188,6 @@ export default {
     },
     exportPage: function(state) {
         if (state.navItemSelected && Object.keys(state.navItemsById[state.navItemSelected].extraFiles).length !== 0) {
-            let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
-            let extraFileContainer = state.pluginToolbarsById[extraFileBox];
             state.fromScorm = false;
             return (visor_template({
                 visor_bundle_path: Ediphy.Config.visor_bundle,
@@ -225,7 +209,7 @@ export default {
         xhr.open('GET', Ediphy.Config.visor_bundle, true);
         xhr.responseType = "arraybuffer";
         try {
-            xhr.onreadystatechange = function(evt) {
+            xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
 
@@ -340,7 +324,7 @@ export default {
 function getPlatform() {
     let allowedDomains = ["vishub.org", "educainternet.es", "localhost:3000", "localhost:8080", "ging.github.io/ediphy", "ging.github.com/ediphy"];
     let allowedDomain = false;
-    allowedDomains.map((domain, i)=>{
+    allowedDomains.map((domain)=>{
         if (window.location.href.indexOf(domain) > -1) {
             allowedDomain = domain;
         }

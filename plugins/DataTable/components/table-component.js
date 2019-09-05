@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { DataTable } from 'react-datatable-bs';
 require('react-datatable-bs/css/table-twbs.css');
 /* eslint-disable react/prop-types */

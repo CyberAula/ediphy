@@ -38,7 +38,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let A4_RATIO = 1 / 1.4142;
     let addHTML;
 
-    let slideCounter = 0;
     let firstElementPage = true;
     let elemsUsed = 0;
     let firstPage = true;
@@ -54,7 +53,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let treatAsImportedDoc = false;
     let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
     let isFirefox = typeof InstallTrigger !== 'undefined';
-    let isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
     let isLandscape = false;
     const SAFARI_HEIGHT = 1300;
     const CHROME_HEIGHT = 1400;
@@ -526,7 +524,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
 
         let isCV = isContainedView(currentView);
         let props = {
-            boxes, changeCurrentView: (element) => {
+            boxes, changeCurrentView: () => {
             }, canvasRatio, containedViews,
             currentView, navItems, viewToolbars, styleConfig, pluginToolbars, title, triggeredMarks: [],
             showCanvas: (!isContainedView(currentView)), removeLastView: () => {
@@ -566,7 +564,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             ReactDOM.render((table), pageContainerComments);
         }
         firstPage = false;
-        ReactDOM.render((app), pageContainer, (a) => {
+        ReactDOM.render((app), pageContainer, () => {
             setTimeout(
                 () => {
                     if (ended) {
@@ -626,7 +624,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                             callback("nullPrint");
                             return;
                         }
-                        let slideToFill = 0;
                         if (slidesPerPage === 4) {
                             let index = -1;
                             let containersArray = [];

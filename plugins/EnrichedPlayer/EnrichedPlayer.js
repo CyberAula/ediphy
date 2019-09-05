@@ -107,7 +107,7 @@ export function EnrichedPlayer(base) {
                 </div>
             );
         },
-        getDefaultMarkValue(state) {
+        getDefaultMarkValue() {
             return '0:00';
         },
         parseRichMarkInput: function(x, y, width, height, toolbarState, boxId) {

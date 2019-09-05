@@ -351,13 +351,6 @@ describe('# exercisesReducer reducer', ()=>{
         test('Delete delete box', () => {
 
             const addedId = 'bo-1511252985429';
-            const actionAdd = { type: ActionTypes.ADD_BOX, payload: {
-                ids: {
-                    parent: "bs-1497983247795", container: "sc-1524225237703", id: addedId, page: "pa-1497983247795", name: "MultipleAnswer", config: { category: "evaluation", defaultCurrentAnswer: [], defaultCorrectAnswer: [] } },
-                draggable: true, resizable: true, content: null, style: {}, state: {}, structure: {}, initialParams: {
-                    parent: "bs-1497983247795", container: "sc-1524225237703", id: addedId, page: "pa-1497983247795", name: "MultipleAnswer", isDefaultPlugn: false,
-                },
-            } };
             const actionDel = { type: ActionTypes.DELETE_BOX, payload: {
                 parent: "bs-1497983247795", container: "sc-1524225237703", id: addedId, page: "pa-1497983247795",
             } };

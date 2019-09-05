@@ -1,6 +1,6 @@
 import React from 'react';
 /* eslint-disable react/prop-types */
-export function Webpage(base) {
+export function Webpage() {
     return {
         getRenderTemplate: function(state) {
             if (state.url && state.url.match("poly.google.com")) {

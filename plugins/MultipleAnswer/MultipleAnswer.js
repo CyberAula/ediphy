@@ -2,11 +2,11 @@ import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 import i18n from 'i18next';
 import './_multipleAnswer.scss';
-import { letterFromNumber, setRgbaAlpha } from '../../common/common_tools';
+import { letterFromNumber } from '../../common/common_tools';
 import { generateCustomColors } from "../../common/themes/theme_loader";
 /* eslint-disable react/prop-types */
 
-export function MultipleAnswer(base) {
+export function MultipleAnswer() {
     return {
         getConfig: function() {
             return {
@@ -142,7 +142,7 @@ export function MultipleAnswer(base) {
                 answers.push(<div key={i + 1} className={"row answerRow"}>
                     <div className={"col-xs-2 answerPlaceholder"}>
                         <div className={"answer_letter"}>{(state.letters === i18n.t("MultipleAnswer.ShowLetters")) ? letterFromNumber(i) : (i + 1)}</div>
-                        <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={checked} onClick={(e)=>{
+                        <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={checked} onClick={()=>{
                             let newCorrectAnswer = props.exercises.correctAnswer.filter((c)=>{
                                 return (c < answers.length);
                             });

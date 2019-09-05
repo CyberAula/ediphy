@@ -10,26 +10,6 @@ export default class ChartOptions extends React.Component {
         super(props);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-
-        /* if(prevState !== this.props.options) {
-            if (typeof this.props.optionsChanged === 'function') {
-                this.props.optionsChanged({
-                    disableFilter: this.props.options.disableFilter,
-                    disableRowChoice: this.props.options.disableRowChoice,
-                    disablePagination: this.props.options.disablePagination,
-                    pageSizeLabel: this.props.options.pageSizeLabel,
-                    searchLabel: this.props.options.searchLabel,
-                    searchPlaceholder: this.props.options.searchPlaceholder,
-                    initialPageLength: this.props.options.initialPageLength,
-                    noDataLabel: this.props.options.noDataLabel,
-                    initialSort: this.props.options.initialSort || this.props.keys[0] || 0,
-                    initialOrder: this.props.options.initialOrder,
-                    theme: this.props.options.theme || 'basic',
-                });
-            }
-        }*/
-    }
     render() {
         return (
             <div>
@@ -52,11 +32,11 @@ export default class ChartOptions extends React.Component {
                                 <br/>
                                 <label htmlFor="">{i18n.t("DataTable.options.initialOrderProp")}</label>
                                 <FormGroup>
-                                    <Radio name="radioGroup" inline style={{ marginLeft: '15px' }} onChange={e=>{this.props.optionsChanged({ initialOrder: 'ascending' });}} checked={this.props.options.initialOrder === 'ascending'}>
+                                    <Radio name="radioGroup" inline style={{ marginLeft: '15px' }} onChange={()=>{this.props.optionsChanged({ initialOrder: 'ascending' });}} checked={this.props.options.initialOrder === 'ascending'}>
                                         {i18n.t("DataTable.options.ascending")}
                                     </Radio>
                                     <br/>
-                                    <Radio name="radioGroup" inline style={{ marginLeft: '15px' }} onChange={e=>{this.props.optionsChanged({ initialOrder: 'descending' });}} checked={this.props.options.initialOrder === 'descending'}>
+                                    <Radio name="radioGroup" inline style={{ marginLeft: '15px' }} onChange={()=>{this.props.optionsChanged({ initialOrder: 'descending' });}} checked={this.props.options.initialOrder === 'descending'}>
                                         {i18n.t("DataTable.options.descending")}
                                     </Radio>
                                 </FormGroup>

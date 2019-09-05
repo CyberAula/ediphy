@@ -14,7 +14,7 @@ export function isBackgroundColor(theme, index = 0, aspectRatio = 16 / 9) {
     return (THEMES[theme] && THEMES[theme].background && THEMES[theme].background[ar].hasOwnProperty(i) && THEMES[theme].background[ar][i].indexOf('url') === -1);
 }
 
-export function getThemeBackgrounds(theme, aspectRatio = 16 / 9) {
+export function getThemeBackgrounds(theme) {
     theme = (theme === undefined || theme === null) ? 'default' : theme;
     return THEMES[theme].background;
 }
@@ -30,7 +30,7 @@ export function getBackground(theme = 'default', index = 0, aspectRatio = 16 / 9
 }
 
 export function loadBackgroundStyle(show, toolbar, styleConfig = {}, visor = false, aspectRatio = 16 / 9, index = 0) {
-    let { background, backgroundAttr, backgroundZoom, themeBackground } = toolbar;
+    let { background, backgroundAttr, backgroundZoom } = toolbar;
     let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
 
     index = !isNaN(index) ? index : 0;

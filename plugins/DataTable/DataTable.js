@@ -23,7 +23,7 @@ export function DataTable(base) {
                 createFromLibrary: ['csv,application/vnd.ms-excel', 'url'],
             };
         },
-        getToolbar: function(state) {
+        getToolbar: function() {
             return {
                 main: {
                     __name: "Main",

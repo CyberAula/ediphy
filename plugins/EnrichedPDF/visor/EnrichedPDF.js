@@ -1,5 +1,4 @@
 import React from 'react';
-import i18n from 'i18next';
 import EnrichedPDFPlugin from '../components/EnrichedPDFPlugin.js';
 const pdflib = require('pdfjs-dist');
 const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.js');
@@ -7,7 +6,7 @@ const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.js');
 const pdfjsWorkerBlob = new Blob([pdfjsWorker]);
 const pdfjsWorkerBlobURL = URL.createObjectURL(pdfjsWorkerBlob);
 pdflib.PDFJS.workerSrc = pdfjsWorkerBlobURL;
-import { setOptions, Document, Page } from 'react-pdf';
+import { setOptions } from 'react-pdf';
 setOptions({
     workerSrc: pdflib.PDFJS.workerSrc,
 });

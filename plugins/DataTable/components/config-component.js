@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Col, Grid, Row } from "react-bootstrap";
+import { Col, Grid, Row } from "react-bootstrap";
 import i18n from 'i18next';
 import TableComponent from './table-component';
 import DataProvider from './data-provider';
@@ -8,7 +8,7 @@ import ChartOptions from './chart-options';
 
 export default class Config extends React.Component {
     render() {
-        let { data, options, keys, editing } = this.props.state;
+        let { data, options, keys } = this.props.state;
         return (
             <Grid>
                 <Row>

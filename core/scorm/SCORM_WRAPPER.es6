@@ -67,8 +67,8 @@ export function getExerciseNumsAndAnswers(initData) {
     let exNums = [];
     let exercises = [];
     let pages = [];
-    Object.keys(initData).map((page, pageIndex)=>{
-        Object.keys(initData[page].exercises).map((box, index)=>{
+    Object.keys(initData).map((page)=>{
+        Object.keys(initData[page].exercises).map((box)=>{
             exNums.push({ page, box });
             let boxObj = initData[page].exercises[box];
             exercises.push({ a: boxObj.defaultCorrectAnswer, s: 0, c: "incomplete" });
@@ -163,7 +163,6 @@ export function changeLocation(id) {
 }
 
 export function setSCORMScore(score, maxScore, completionProgress, suspendData) {
-    let num = 0;
     let thresholdSc = scorm.getvalue("cmi.scaled_passing_score") || 0.5;
     let thresholdV = scorm.getvalue("cmi.completion_threshold") || 0.5;
     thresholdSc = (thresholdSc > 1 ? (thresholdSc / 100) : thresholdSc);

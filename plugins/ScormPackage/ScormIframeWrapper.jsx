@@ -33,13 +33,13 @@ export default class ScormIframeWrapper extends React.Component {
         }catch(e) {}
 
     }
-    onSetProgress(progress, origin) {
+    onSetProgress() {
         // Do nothing
     }
-    onSetSuccessStatus(status, origin) {
+    onSetSuccessStatus() {
         // Do nothing
     }
-    onSetCompletionStatus(status, origin) {
+    onSetCompletionStatus() {
         // Do nothing
     }
 }

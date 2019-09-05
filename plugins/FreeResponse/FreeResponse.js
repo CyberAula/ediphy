@@ -5,7 +5,7 @@ import './_freeResponse.scss';
 import { generateCustomColors } from "../../common/themes/theme_loader";
 /* eslint-disable react/prop-types */
 
-export function FreeResponse(base) {
+export function FreeResponse() {
     return {
         getConfig: function() {
             return {

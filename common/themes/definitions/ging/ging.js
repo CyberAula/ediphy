@@ -1,5 +1,3 @@
-import i18n from "i18next";
-
 export const DEFINITION = {
     /*
     * viewName: [<Nombre del tema en inglés>, <Nombre del tema es español>],

@@ -2,8 +2,6 @@ import PluginPlaceholder from '../_editor/components/canvas/plugin_placeholder/P
 import { isSortableContainer } from './utils';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from './constants';
 import { ADD_BOX } from './actions';
-import { createBox } from './common_tools';
-
 /**
  *
  * @param obj
@@ -155,13 +153,7 @@ export function parsePluginContainers(obj, state) {
     }
 }
 
-export function hasExerciseBox(navItemId, navItems, state, boxes) {
-    /* if(state.pluginTab === "evaluation" && (navItems[navItemId].boxes.length > 1 || (boxes[navItems[navItemId]].boxes.length > 0 && boxes[navItems[navItemId].boxes[0]].children.length !== 0))) {
-        return true;
-    }
-    if(navItems[navItemId] && Object.keys(navItems[navItemId].extraFiles).length !== 0) {
-        return true;
-    }*/
+export function hasExerciseBox() {
     return false;
 }
 
@@ -232,7 +224,7 @@ export function addDefaultContainerPluginsReact(params, obj, boxes, newBoxes) {
 
     if (obj && obj.type && obj.type === PluginPlaceholder && obj.props.pluginDefaultContent) {
         let idContainer = isSortableContainer(obj.props.pluginContainer) ? obj.props.pluginContainer : ID_PREFIX_SORTABLE_CONTAINER + obj.props.pluginContainer;
-        obj.props.pluginDefaultContent.map((name, index) => {
+        obj.props.pluginDefaultContent.map((name) => {
             if (!Ediphy.Plugins.get(name.plugin)) {
                 // eslint-disable-next-line no-console
                 console.error("Plugin " + name.plugin + " does not exist");
@@ -245,7 +237,6 @@ export function addDefaultContainerPluginsReact(params, obj, boxes, newBoxes) {
                 isDefaultPlugin: true,
             };
 
-            let config = Ediphy.Plugins.get(name.plugin).getConfig();
             if (name.initialState) {
                 ids.initialState = name.initialState;
             }

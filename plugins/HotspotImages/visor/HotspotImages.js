@@ -4,7 +4,7 @@ import Mark from '../../../common/components/mark/Mark';
 
 /* eslint-disable react/prop-types */
 
-export function HotspotImages(base) {
+export function HotspotImages() {
     return {
         getRenderTemplate: function(state, props) {
             let marks = props.marks || {};

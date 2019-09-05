@@ -8,7 +8,7 @@ import { convertHMStoSeconds, pad } from '../../../common/common_tools';
 import { setRgbaAlpha } from "../../../common/common_tools";
 
 import ReactResizeDetector from 'react-resize-detector';
-import { getThemeColors, getCurrentColor } from "../../../common/themes/theme_loader";
+import { getCurrentColor } from "../../../common/themes/theme_loader";
 /* eslint-disable react/prop-types */
 
 export default class BasicAudioPluginEditor extends React.Component {
@@ -46,12 +46,12 @@ export default class BasicAudioPluginEditor extends React.Component {
         document.removeEventListener('mousemove', this.onMouseMove);
     }
 
-    onMouseDown(e) {
+    onMouseDown() {
         this.setState({ dragging: false });
         document.addEventListener('mousemove', this.onMouseMove);
     }
 
-    onMouseMove(e) {
+    onMouseMove() {
         if (!this.state.dragging) {
             this.setState({ dragging: true });
         }
@@ -101,7 +101,7 @@ export default class BasicAudioPluginEditor extends React.Component {
         }
 
     }
-    createOptions(props, state) {
+    createOptions(props) {
 
         let color = props.state.progressColor.custom ? props.state.progressColor.color : props.props.themeColors.themeColor1;
 
@@ -159,7 +159,7 @@ export default class BasicAudioPluginEditor extends React.Component {
             this.setState({ playing: true });
         }
     }
-    onResize(e) {
+    onResize() {
 
         if (this.wavesurfer && this.state.ready) {
             let pos = (this.wavesurfer.getCurrentTime() || 0) / (this.wavesurfer.getDuration() || 1);

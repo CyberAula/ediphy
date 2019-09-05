@@ -1,9 +1,6 @@
-import { testState } from '../../core/store/state.tests.js';
 import boxes_by_id from '../boxes/boxesById';
 import * as ActionTypes from '../../common/actions';
-import { changeProp, changeProps, isSortableBox, isSortableContainer } from "../../common/utils";
-import { REORDER_SORTABLE_CONTAINER } from "../../common/actions";
-import { DROP_BOX } from "../../common/actions";
+import { isSortableContainer } from "../../common/utils";
 
 const state = {
     "bs-1": {
@@ -266,23 +263,6 @@ describe('# boxes_by_id reducer', () => {
     describe('handle ADD_RICH_MARK', () => {
         // 4 diferent cases
         test('If rich mark added & connected to an external content', () => {
-            const action = {
-                type: ActionTypes.ADD_RICH_MARK,
-                payload: {
-                    parent: 'bo-1511252970033',
-                    mark: {
-                        id: "rm-1511786135103",
-                        title: "new mark",
-                        connectMode: "external",
-                        connection: "http://ging.github.io/ediphy/#/",
-                        displayMode: "navigate",
-                        value: "30.95,49.15",
-                        color: "#222222",
-                    },
-                    view: {},
-                    toolbar: {},
-                },
-            };
             expect(boxes_by_id(state, {})).toEqual(state);
         });
         test('If rich mark added & connected to an existing page (not a contained view)', () => {

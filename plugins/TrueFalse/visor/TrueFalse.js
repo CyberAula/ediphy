@@ -50,10 +50,10 @@ export function TrueFalse() {
                         <div className={"col-xs-2 answerPlaceholder"}>
                             <input type="radio" disabled={attempted} className="radioQuiz" name={props.id + '_' + i}
                                 value={i} checked={ props.exercises && props.exercises.currentAnswer[i] === "true" }
-                                onChange={(e)=>{ clickHandler(i, "true"); }}/>
+                                onChange={()=>{ clickHandler(i, "true"); }}/>
                             <input type="radio" disabled={attempted} className="radioQuiz" name={props.id + '_' + i}
                                 value={i} checked={props.exercises && props.exercises.currentAnswer[i] === "false"}
-                                onChange={(e)=>{ clickHandler(i, "false"); }}/>
+                                onChange={()=>{ clickHandler(i, "false"); }}/>
                         </div>
                         <div className={"col-xs-10"}>
                             <VisorPluginPlaceholder {...props} key={i + 1} pluginContainer={"Answer" + i} />

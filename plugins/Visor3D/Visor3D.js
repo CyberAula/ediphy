@@ -3,7 +3,7 @@ import i18n from 'i18next';
 import Visor3DPluginEditor from './components/Visor3DPluginEditor.js';
 
 /* eslint-disable react/prop-types */
-export function Visor3D(base) {
+export function Visor3D() {
     return {
         getConfig: function() {
             return {
@@ -119,7 +119,7 @@ export function Visor3D(base) {
                 rotate: true,
             };
         },
-        getRenderTemplate: function(state, props) {
+        getRenderTemplate: function(state) {
             return (
                 <div
                     className="threeDViewerPluginEditor"

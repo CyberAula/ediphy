@@ -2,7 +2,7 @@ import {
     ADD_RICH_MARK, DELETE_BOX, MOVE_RICH_MARK, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, EDIT_RICH_MARK,
     PASTE_BOX, IMPORT_STATE, DUPLICATE_NAV_ITEM, IMPORT_EDI,
 } from '../../common/actions';
-import { deleteProp, changeProp, changeProps, deleteProps, isDocument, isPage, isSection, isSlide } from "../../common/utils";
+import { deleteProp } from "../../common/utils";
 import { marksSerializer } from "../serializer";
 
 export default function(state = {}, action = {}) {

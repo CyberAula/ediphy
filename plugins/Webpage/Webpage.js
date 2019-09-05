@@ -1,6 +1,6 @@
 import React from 'react';
 /* eslint-disable react/prop-types */
-export function Webpage(base) {
+export function Webpage() {
     return {
         getConfig: function() {
             return {

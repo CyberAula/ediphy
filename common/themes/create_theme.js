@@ -45,7 +45,7 @@ function parseArgs(args) {
         return;
     }
     let bad = false;
-    args.forEach(function(val, index, array) {
+    args.forEach(function(val, index) {
         if (index === 2) {
             p("Creando tema: " + val);
             options.name = val.toLowerCase().split(" ").join("_");
