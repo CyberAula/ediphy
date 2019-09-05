@@ -32,7 +32,7 @@ class ViewToolbar extends Component {
                         __name: i18n.t("general"),
                         icon: 'settings',
                         buttons: {
-                            navitem_name: {
+                            viewName: {
                                 __name: i18n.t('NavItem_name'),
                                 type: 'text',
                                 value: viewToolbar.viewName,
@@ -53,7 +53,7 @@ class ViewToolbar extends Component {
                                 type: 'checkbox',
                                 checked: viewToolbar.documentTitle && viewToolbar.documentTitle !== 'hidden',
                             },
-                            pagetitle_name: {
+                            documentTitleContent: {
                                 __name: "custom_title",
                                 type: 'conditionalText',
                                 associatedKey: 'documentTitle',
@@ -66,7 +66,7 @@ class ViewToolbar extends Component {
                                 type: 'checkbox',
                                 checked: viewToolbar.documentSubtitle && viewToolbar.documentSubtitle !== 'hidden',
                             },
-                            pagesubtitle_name: {
+                            documentSubtitleContent: {
                                 __name: "custom_subtitle",
                                 type: 'conditionalText',
                                 associatedKey: 'documentSubtitle',
@@ -132,7 +132,7 @@ class ViewToolbar extends Component {
                 type: 'checkbox',
                 checked: viewToolbar.numPage !== 'hidden',
             };
-            controls.main.accordions.__header.buttons.pagenumber_name = {
+            controls.main.accordions.__header.buttons.numPageContent = {
                 __name: "custom_pagenum",
                 type: 'conditionalText',
                 associatedKey: 'numPage',

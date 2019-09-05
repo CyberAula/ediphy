@@ -240,10 +240,10 @@ export function nextToolbarAvailName(key, views) {
             && views[view].controls.main.accordions
             && views[view].controls.main.accordions.basic
             && views[view].controls.main.accordions.basic.buttons
-            && views[view].controls.main.accordions.basic.buttons.navitem_name
-            && views[view].controls.main.accordions.basic.buttons.navitem_name.value
-            && views[view].controls.main.accordions.basic.buttons.navitem_name.value.indexOf(key) !== -1) {
-            let replaced = views[view].controls.main.accordions.basic.buttons.navitem_name.value.replace(key /* + " "*/, "");
+            && views[view].controls.main.accordions.basic.buttons.viewName
+            && views[view].controls.main.accordions.basic.buttons.viewName.value
+            && views[view].controls.main.accordions.basic.buttons.viewName.value.indexOf(key) !== -1) {
+            let replaced = views[view].controls.main.accordions.basic.buttons.viewName.value.replace(key /* + " "*/, "");
             let num = parseInt(replaced, 10);
             if (!isNaN(num)) {
                 names.push(num);

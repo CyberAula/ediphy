@@ -401,11 +401,9 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
  * @returns {code} Button code
  */
 export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key, toolbarProps) {
-    console.log(buttonKey);
     let button = accordion.buttons[buttonKey];
     let id = (toolbarProps.boxSelected !== -1) ? toolbarProps.boxSelected : (toolbarProps.containedViewSelected || toolbarProps.navItemSelected);
     let currentElement = (["structure", "style", "z__extra", "__marks_list", "__score"].indexOf(accordionKeys[0]) === -1) ? "state" : accordionKeys[0];
-    // get toolbar
     let toolbar_plugin_state = toolbarProps.boxSelected !== -1 ? toolbarProps.pluginToolbars[toolbarProps.boxSelected] : undefined;
 
     let commitChanges = (val) => {
@@ -447,20 +445,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         onChange: e => {
             let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
             // TODO What is __position button???
-            // if (button.type === 'radio') {
-            //     value = button.options[value];
-            //     if (buttonKey === '__position') {
-            //         toolbarProps.handleToolbars.onToolbarUpdated(id, tabKey, currentElement, '__position', value);
-            //         let parentId = toolbarProps.box.parent;
-            //         let containerId = toolbarProps.box.container;
-            //         toolbarProps.handleBoxes.onBoxMoved(id, 0, 0, value, parentId, containerId);
-            //         if (isSortableContainer(containerId)) {
-            //             let newHeight = parseFloat(document.getElementById(containerId).clientHeight, 10);
-            //             toolbarProps.handleSortableContainers.onSortableContainerResized(containerId, parentId, newHeight);
-            //         }
-            //     }
-            // }
-            // commitChanges(value);
+            commitChanges(value);
             console.err('handler has not been implemented yet for ' + buttonKey);
         },
     };
@@ -493,14 +478,14 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
                 }
             };
             props = {
-                key: ('child_' + key),
-                id: ('page' + '_' + buttonKey),
-                type: button.type,
-                value: button.value,
-                checked: button.checked,
-                label: button.__name,
-                disabled: false,
-                title: button.title ?? '',
+                key: props.key,
+                id: props.id,
+                type: props.type,
+                value: props.value,
+                checked: props.checked,
+                label: props.label,
+                disabled: props.disabled,
+                title: props.title,
             };
             return Checkbox(button, handler, props);
         case 'number':
@@ -692,36 +677,23 @@ export function handleCanvasToolbar(name, value, accordions, toolbarProps) {
     case "background":
         toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, value);
         break;
-    case "pagetitle_name":
+    case 'documentSubtitleContent':
+    case 'documentTitleContent':
+    case 'numPageContent':
+    case 'viewName':
         toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, {
-            documentTitleContent: value,
-        });
-        break;
-        // change page/slide title
-    case "pagesubtitle_name":
-        toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, {
-            documentSubtitleContent: value,
-        });
-        break;
-        // change page/slide title
-    case "pagenumber_name":
-        toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, {
-            numPageContent: value,
+            [name]: value,
         });
         break;
         // preview / export document
     case 'page_display':
         toolbarProps.handleNavItems.onNavItemToggled(toolbarProps.navItemSelected);
         break;
-        // change document(navitem) name
-    case 'navitem_name':
-        toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, { viewName: value });
-        break;
     // Do or do not display the following
-    case 'courseTitle':
-    case 'documentTitle':
-    case 'documentSubtitle':
     case 'breadcrumb':
+    case 'courseTitle':
+    case 'documentSubtitle':
+    case 'documentTitle':
     case 'numPage':
         toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, {
             [name]: value ? 'reduced' : 'hidden',
@@ -738,7 +710,6 @@ export function handleCanvasToolbar(name, value, accordions, toolbarProps) {
             font: wasCustomFont ? currentView.font : getThemeFont(value),
             colors: wasCustomColor ? currentView.colors : getThemeColors(value),
         });
-
         break;
     case 'theme_background':
         toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, {
@@ -749,7 +720,6 @@ export function handleCanvasToolbar(name, value, accordions, toolbarProps) {
     case 'theme_font':
         toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, { font: value });
         break;
-
     case 'theme_primary_color':
         toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, {
             colors: { ...themeToolbar.colors, themeColor1: value },
@@ -766,7 +736,6 @@ export function handleCanvasToolbar(name, value, accordions, toolbarProps) {
     default:
         break;
     }
-
 }
 
 /* eslint-enable react/prop-types */
