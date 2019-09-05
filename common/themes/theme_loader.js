@@ -66,7 +66,7 @@ export function getThemeFont(theme = 'default') {
 }
 
 export function sanitizeThemeToolbar(toolbar, styleConfig = {}) {
-    let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
+    let theme = !toolbar || !toolbar.theme ? (styleConfig?.theme ?? 'default') : toolbar.theme;
 
     return {
         ...toolbar,
