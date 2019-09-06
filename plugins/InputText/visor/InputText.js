@@ -1,5 +1,5 @@
 import React from 'react';
-import { correctNumericInput, correctTextInput } from '../../../core/visor/correction_functions';
+import { correctNumericInput, correctTextInput } from '../../../core/visor/correctionFunctions';
 import i18n from "i18next";
 /* eslint-disable react/prop-types */
 

@@ -11,7 +11,7 @@ module.exports = merge.smart(common, {
             './index.jsx',
         ], // Appʼs entry point
         'visor': path.join(__dirname, '/_visor/containers/VisorApp.jsx'),
-        'theme': path.join(__dirname, '/common/themes/css_importer.js'),
+        'theme': path.join(__dirname, '/common/themes/cssImporter.js'),
     },
     output: {
         path: path.join(__dirname, '/doc/dist/demo'),

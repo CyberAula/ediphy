@@ -1,6 +1,6 @@
 import React from 'react';
 import OrderVisor from '../OrderVisor';
-import { correctArrayOrdered } from '../../../core/visor/correction_functions';
+import { correctArrayOrdered } from '../../../core/visor/correctionFunctions';
 /* eslint-disable react/prop-types */
 
 export function Ordering() {

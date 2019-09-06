@@ -20,7 +20,7 @@ export default {
     upload_vish_url: false,
     defaultAspectRatio: 16 / 9,
     // OPTIONS
-    external_providers: {
+    externalProviders: {
         enable_search: true,
         enable_external_upload: false,
         enable_catalog_modal: false,

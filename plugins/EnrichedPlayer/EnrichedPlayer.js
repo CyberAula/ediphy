@@ -1,7 +1,7 @@
 import React from "react";
 import EnrichedPlayerPluginEditor from './components/EnrichedPlayerPluginEditor.js';
 import i18n from 'i18next';
-import { convertSecondsToHMS } from "../../common/common_tools";
+import { convertSecondsToHMS } from "../../common/commonTools";
 
 require('./EnrichedPlayer.scss');
 
@@ -39,7 +39,7 @@ export function EnrichedPlayer(base) {
                             buttons: {
                                 url: {
                                     __name: Ediphy.i18n.t('EnrichedPlayer.URL'),
-                                    type: 'external_provider',
+                                    type: 'externalProvider',
                                     value: state.url,
                                     accept: "video/*",
                                 },

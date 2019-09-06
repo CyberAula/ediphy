@@ -1,5 +1,5 @@
 import Ediphy from '../editor/main';
-import { translateLicense } from "../../common/common_tools";
+import { translateLicense } from "../../common/commonTools";
 
 export default {
     createSPAimsManifest: function(exercisesObj, sections, globalConfig, is2004) {

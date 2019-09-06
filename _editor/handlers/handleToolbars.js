@@ -1,8 +1,8 @@
 import { addBox, updateBox, updatePluginToolbar, updateUI, updateViewToolbar } from "../../common/actions";
-import { parsePluginContainers, parsePluginContainersReact } from "../../common/plugins_inside_plugins";
+import { parsePluginContainers, parsePluginContainersReact } from "../../common/pluginsInsidePlugins";
 import Ediphy from '../../core/editor/main';
 import { isBox, isSortableBox } from "../../common/utils";
-import { createBox } from "../../common/common_tools";
+import { createBox } from "../../common/commonTools";
 import { ID_PREFIX_BOX } from "../../common/constants";
 
 export default function(self) {

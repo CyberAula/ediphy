@@ -1,5 +1,5 @@
-import { getThemeColors, getThemeFont, sanitizeThemeToolbar } from "../../../common/themes/theme_loader";
-import { getBackground } from "../../../common/themes/background_loader";
+import { getThemeColors, getThemeFont, sanitizeThemeToolbar } from "../../../common/themes/themeLoader";
+import { getBackground } from "../../../common/themes/backgroundLoader";
 
 /**
  * Header configuration. Does NOT apply to plugins' toolbar.

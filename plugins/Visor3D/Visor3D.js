@@ -34,7 +34,7 @@ export function Visor3D() {
                             buttons: {
                                 url: {
                                     __name: i18n.t('Visor3D.URL'),
-                                    type: 'external_provider',
+                                    type: 'externalProvider',
                                     value: state.url,
                                     accept: "application/*",
                                 },

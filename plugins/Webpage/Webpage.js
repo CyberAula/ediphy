@@ -28,7 +28,7 @@ export function Webpage() {
                             buttons: {
                                 url: {
                                     __name: Ediphy.i18n.t('Webpage.URL_copypaste'),
-                                    type: 'external_provider',
+                                    type: 'externalProvider',
                                     accept: "webapp",
                                     value: state.url,
                                 },

@@ -1,11 +1,13 @@
-import { Button, ControlLabel, FormGroup, Radio } from "react-bootstrap";
-import i18n from "i18next";
-import ToolbarFileProvider from "../../external_provider/file_modal/APIProviders/common/ToolbarFileProvider";
-import ColorPicker from "../../common/color-picker/ColorPicker";
 import React from "react";
-import { handleCanvasToolbar } from "../../../../core/editor/toolbar/toolbarCreator";
-import { isColor, isSlide, isURI } from "../../../../common/utils";
+import i18n from "i18next";
+import { Button, ControlLabel, FormGroup, Radio } from "react-bootstrap";
 
+import ToolbarFileProvider from "../../externalProvider/fileModal/APIProviders/common/ToolbarFileProvider";
+import ColorPicker from "../../common/colorPicker/ColorPicker";
+
+import { handleCanvasToolbar } from "../../../../core/editor/toolbar/handleCanvasToolbar";
+import { isColor, isSlide, isURI } from "../../../../common/utils";
+/* eslint-disable react/prop-types */
 export const BackgroundPicker = (button, props, toolbarProps, id, defaultBackground, onChange) => {
 
     let isSli = isSlide(toolbarProps.navItems[id].type);
@@ -137,3 +139,4 @@ export function handleBackground(e, toolbarProps, accordion, buttonKey, commitCh
     }
     commitChanges(value);
 }
+/* eslint-enable react/prop-types */

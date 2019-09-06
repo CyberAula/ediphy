@@ -52,7 +52,7 @@ export function EnrichedPDF(base) {
                             buttons: {
                                 url: {
                                     __name: Ediphy.i18n.t('EnrichedPDF.URL'),
-                                    type: 'external_provider',
+                                    type: 'externalProvider',
                                     value: state.url,
                                     accept: "application/pdf",
                                 },

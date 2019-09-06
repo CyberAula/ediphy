@@ -1,4 +1,5 @@
 import i18n from "i18next";
+
 import { isSortableBox, isSortableContainer } from "../../../common/utils";
 
 /* eslint-disable react/prop-types */
@@ -277,5 +278,4 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         }
     }
 }
-
 /* eslint-enable react/prop-types */

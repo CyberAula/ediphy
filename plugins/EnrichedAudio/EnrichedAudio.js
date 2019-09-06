@@ -1,7 +1,7 @@
 import React from "react";
 import EnrichedAudioPluginEditor from './components/EnrichedAudioPluginEditorWS.js';
 import i18n from 'i18next';
-import { convertSecondsToHMS } from "../../common/common_tools";
+import { convertSecondsToHMS } from "../../common/commonTools";
 require('./EnrichedAudio.scss');
 /* eslint-disable react/prop-types */
 
@@ -35,7 +35,7 @@ export function EnrichedAudio() {
                             buttons: {
                                 url: {
                                     __name: Ediphy.i18n.t('EnrichedAudio.URL'),
-                                    type: 'external_provider',
+                                    type: 'externalProvider',
                                     value: state.url,
                                     accept: "audio/*",
                                 },

@@ -9,7 +9,7 @@ import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import VisorHeader from './VisorHeader';
 import { isContainedView, isSortableBox, isSection, isView } from '../../../common/utils';
 import i18n from 'i18next';
-import { getThemeColors } from "../../../common/themes/theme_loader";
+import { getThemeColors } from "../../../common/themes/themeLoader";
 import ThemeCSS from "../../../common/themes/ThemeCSS";
 
 export default class VisorCanvasDoc extends Component {

@@ -9,7 +9,7 @@ import ToggleSwitch from "@trendmicro/react-toggle-switch";
 
 class AlertModal extends React.Component {
     render() {
-        const { marks, markInfo, viewToolbars, boxes, containedViews } = this.props;
+        const { marks, markInfo, viewToolbars } = this.props;
         const mark = marks[markInfo];
         const cvId = mark ? mark.connection : 0;
 

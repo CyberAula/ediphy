@@ -6,16 +6,16 @@ import SubmitButton from '../score/SubmitButton';
 import Score from '../score/Score';
 import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import VisorHeader from './VisorHeader';
-import { aspectRatio, changeFontBase } from '../../../common/common_tools';
+import { aspectRatio, changeFontBase } from '../../../common/commonTools';
 import ReactResizeDetector from 'react-resize-detector';
 import { isContainedView, isView } from '../../../common/utils';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
 import { Animated } from "react-animated-css";
 
-import { loadBackgroundStyle } from "../../../common/themes/background_loader";
+import { loadBackgroundStyle } from "../../../common/themes/backgroundLoader";
 import ThemeCSS from '../../../common/themes/ThemeCSS';
-import { getThemeColors } from "../../../common/themes/theme_loader";
+import { getThemeColors } from "../../../common/themes/themeLoader";
 import { getTransition } from "../../../common/themes/transitions/transitions";
 
 export default class VisorCanvasSli extends Component {

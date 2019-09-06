@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import STLViewer from 'stl-viewer';
 import screenfull from 'screenfull';
-import { fullScreenListener, isFullScreenOn, toColor } from '../../../common/common_tools';
+import { fullScreenListener, isFullScreenOn, toColor } from '../../../common/commonTools';
 import '../_visor3D.scss';
 import ReactResizeDetector from 'react-resize-detector';
 /* eslint-disable react/prop-types */

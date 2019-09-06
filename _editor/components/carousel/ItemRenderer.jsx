@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import style from './ItemRenderer.scss';
-import EditorIndexTitle from "./editor_index_title/EditorIndexTitle";
+import EditorIndexTitle from "./editorIndexTitle/EditorIndexTitle";
 import { isSlide } from "../../../common/utils";
 import iconPDF from "../../../dist/images/file-pdf.svg";
 

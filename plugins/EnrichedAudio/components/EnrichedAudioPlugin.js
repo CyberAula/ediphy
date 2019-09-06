@@ -1,5 +1,5 @@
 import React from 'react';
-import { convertHMStoSeconds, pad, setRgbaAlpha } from '../../../common/common_tools';
+import { convertHMStoSeconds, pad, setRgbaAlpha } from '../../../common/commonTools';
 import ReactWavesurfer from 'react-wavesurfer';
 import Mark from '../../../common/components/mark/Mark';
 /* eslint-disable react/prop-types */

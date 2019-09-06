@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import EditorIndexTitle from '../editor_index_title/EditorIndexTitle';
+import EditorIndexTitle from '../editorIndexTitle/EditorIndexTitle';
 import { isPage, isSection, isSlide, calculateNewIdOrder } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
 import iconPDF from './../../../../dist/images/file-pdf.svg';

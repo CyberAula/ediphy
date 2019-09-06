@@ -7,7 +7,7 @@ import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_RICH_MARK } from
 import { ADD_BOX } from '../../../common/actions';
 import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent, isURL, copyText } from './clipboard.utils';
 import i18n from 'i18next';
-import { instanceExists, scrollElement, findBox, createBox } from '../../../common/common_tools';
+import { instanceExists, scrollElement, findBox, createBox } from '../../../common/commonTools';
 import { connect } from 'react-redux';
 import { uploadVishResourceAsync, uploadEdiphyResourceAsync, deleteBox, addBox, pasteBox } from '../../../common/actions';
 

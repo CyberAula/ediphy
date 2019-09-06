@@ -4,7 +4,7 @@ import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import i18n from 'i18next';
 import Ediphy from '../../../core/editor/main';
 import { isPage } from '../../../common/utils';
-import { isFullScreenOn, fullScreenListener } from '../../../common/common_tools';
+import { isFullScreenOn, fullScreenListener } from '../../../common/commonTools';
 import 'bootstrap/dist/css/bootstrap.css';
 import screenfull from 'screenfull';
 

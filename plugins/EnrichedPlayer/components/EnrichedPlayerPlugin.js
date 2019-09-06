@@ -3,8 +3,8 @@ import { findDOMNode } from 'react-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 import Mark from '../../../common/components/mark/Mark';
-import { pad } from '../../../common/common_tools';
-import { convertHMStoSeconds } from "../../../common/common_tools";
+import { pad } from '../../../common/commonTools';
+import { convertHMStoSeconds } from "../../../common/commonTools";
 /* eslint-disable react/prop-types */
 
 export default class EnrichedPlayerPlugin extends React.Component {

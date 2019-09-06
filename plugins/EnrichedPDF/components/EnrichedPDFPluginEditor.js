@@ -1,5 +1,5 @@
 import React from 'react';
-import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
+import MarkEditor from '../../../_editor/components/richPlugins/markEditor/MarkEditor';
 import Mark from '../../../common/components/mark/Mark';
 
 const pdflib = require('pdfjs-dist');

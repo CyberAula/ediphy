@@ -28,7 +28,7 @@ export function ScormPackage() {
                             buttons: {
                                 url: {
                                     __name: '',
-                                    type: 'external_provider',
+                                    type: 'externalProvider',
                                     value: state.url,
                                     accept: "scormpackage",
                                 },

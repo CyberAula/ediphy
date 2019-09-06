@@ -1,6 +1,6 @@
 import React from 'react';
 import STLViewer from 'stl-viewer';
-import { toColor } from '../../../common/common_tools';
+import { toColor } from '../../../common/commonTools';
 import '../_visor3D.scss';
 import ReactResizeDetector from 'react-resize-detector';
 /* eslint-disable react/prop-types */

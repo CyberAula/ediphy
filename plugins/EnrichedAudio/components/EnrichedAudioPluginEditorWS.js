@@ -2,13 +2,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import WaveSurfer from 'wavesurfer.js';
-import MarkEditor from '../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
+import MarkEditor from '../../../_editor/components/richPlugins/markEditor/MarkEditor';
 import Mark from '../../../common/components/mark/Mark';
-import { convertHMStoSeconds, pad } from '../../../common/common_tools';
-import { setRgbaAlpha } from "../../../common/common_tools";
+import { convertHMStoSeconds, pad } from '../../../common/commonTools';
+import { setRgbaAlpha } from "../../../common/commonTools";
 
 import ReactResizeDetector from 'react-resize-detector';
-import { getCurrentColor } from "../../../common/themes/theme_loader";
+import { getCurrentColor } from "../../../common/themes/themeLoader";
 /* eslint-disable react/prop-types */
 
 export default class BasicAudioPluginEditor extends React.Component {

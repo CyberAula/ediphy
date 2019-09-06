@@ -33,7 +33,7 @@ export function AudioCue() {
                             buttons: {
                                 url: {
                                     __name: i18n.t('AudioCue.URL'),
-                                    type: 'external_provider',
+                                    type: 'externalProvider',
                                     value: state.url,
                                     accept: "audio/*",
                                 },
@@ -54,7 +54,7 @@ export function AudioCue() {
                                 },
                                 icon: {
                                     __name: i18n.t('AudioCue.Image'),
-                                    type: 'external_provider',
+                                    type: 'externalProvider',
                                     hide: !state.useImage,
                                     value: state.icon,
                                     accept: "image/*",

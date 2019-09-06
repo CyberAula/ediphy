@@ -9,7 +9,7 @@ import {
     changeProp, deleteProps, isDocument, isPage, isSection, isSlide, isContainedView,
 } from '../../common/utils';
 
-import { loadBackground } from "../../common/themes/background_loader";
+import { loadBackground } from "../../common/themes/backgroundLoader";
 
 function toolbarElementCreator(state, action, containedView = false) {
     let doc_type;

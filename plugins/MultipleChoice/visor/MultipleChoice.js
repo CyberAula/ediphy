@@ -1,8 +1,8 @@
 import React from 'react';
 import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
 import i18n from 'i18next';
-import { letterFromNumber } from '../../../common/common_tools';
-import { generateCustomColors } from "../../../common/themes/theme_loader";
+import { letterFromNumber } from '../../../common/commonTools';
+import { generateCustomColors } from "../../../common/themes/themeLoader";
 /* eslint-disable react/prop-types */
 
 export function MultipleChoice() {

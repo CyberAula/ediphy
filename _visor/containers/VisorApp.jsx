@@ -21,7 +21,7 @@ import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
 import './../../sass/style.scss';
-import '../../core/visor/visor_entrypoint';
+import '../../core/visor/visorEntrypoint';
 
 /**
  * Visor app main component

@@ -1,12 +1,14 @@
+import React from "react";
 import { Panel } from "react-bootstrap";
-import MarksList from "../../../_editor/components/rich_plugins/marks_list/MarksList";
-import { handleCanvasToolbar } from "./handleCanvasToolbar";
+
+import MarksList from "../../../_editor/components/richPlugins/marksList/MarksList";
 import { SizeButton } from "../../../_editor/components/toolbar/toolbarComponents/sizeButton";
 import { Checkbox, Color, ConditionalText, DefaultComponent, External, FancyRadio, Font, MyRadio, MySelect, PluginColor, Range, Text, Theme } from "../../../_editor/components/toolbar/toolbarComponents/toolbarComponents";
-import { getCurrentColor, getThemes } from "../../../common/themes/theme_loader";
-import { loadBackground } from "../../../common/themes/background_loader";
 import { BackgroundPicker, handleBackground } from "../../../_editor/components/toolbar/toolbarComponents/backgroundPicker";
-import React from "react";
+
+import { handleCanvasToolbar } from "./handleCanvasToolbar";
+import { getCurrentColor, getThemes } from "../../../common/themes/themeLoader";
+import { loadBackground } from "../../../common/themes/backgroundLoader";
 
 /**
  * Render toolbar accordion
@@ -84,8 +86,10 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
             />,
         );
     }
-    return <Panel className={"panelPluginToolbar"}{...props}>{props.header}<Panel.Body
-        collapsible>{children}</Panel.Body></Panel>;
+    return (
+        <Panel className={"panelPluginToolbar"}{...props}>{props.header}
+            <Panel.Body collapsible>{children}</Panel.Body>
+        </Panel>);
     // React.createElement(Panel, props, children);
 }
 
@@ -150,12 +154,9 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         },
     };
 
-    let newValue;
+    let newValue, handler;
     let navItemSelected = toolbarProps.navItemSelected;
     let theme = toolbarProps.viewToolbars[navItemSelected]?.theme ?? 'default';
-
-    // Generic handlers
-    let handler;
 
     let defaultHandler = (e) => {
         let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
@@ -203,7 +204,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         return Font(button, handler, { ...props, theme });
     case 'text':
         return Text(button, defaultHandler, props);
-    case 'external_provider':
+    case 'externalProvider':
         return External(button, props, toolbarProps, defaultHandler);
     case 'range':
         return Range(button, props, defaultHandler);

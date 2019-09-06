@@ -33,7 +33,7 @@ export function FlashObject() {
                             buttons: {
                                 url: {
                                     __name: '',
-                                    type: 'external_provider',
+                                    type: 'externalProvider',
                                     value: state.url,
                                     accept: 'swf',
                                 },

@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, FormGroup, FormControl, ControlLabel, Col } from "react-bootstrap";
-import ToolbarFileProvider from '../../../_editor/components/external_provider/file_modal/APIProviders/common/ToolbarFileProvider';
+import ToolbarFileProvider from '../../../_editor/components/externalProvider/fileModal/APIProviders/common/ToolbarFileProvider';
 import i18n from 'i18next';
 /* eslint-disable react/prop-types */
 

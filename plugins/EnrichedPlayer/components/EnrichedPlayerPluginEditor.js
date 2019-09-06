@@ -2,10 +2,10 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
-import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
+import MarkEditor from '../../../_editor/components/richPlugins/markEditor/MarkEditor';
 import Mark from '../../../common/components/mark/Mark';
-import { convertHMStoSeconds } from "../../../common/common_tools";
-import { pad } from '../../../common/common_tools';
+import { convertHMStoSeconds } from "../../../common/commonTools";
+import { pad } from '../../../common/commonTools';
 
 /* eslint-disable react/prop-types */
 

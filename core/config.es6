@@ -22,7 +22,7 @@ export default {
     profile_vish_url: ()=>`http://localhost:3000/users/demo/all_resources.json`,
     // includeVishProfile: true,
     // OPTIONS
-    external_providers: {
+    externalProviders: {
         enable_search: true,
         enable_external_upload: false,
         enable_catalog_modal: false,

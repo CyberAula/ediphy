@@ -1,5 +1,5 @@
 import Ediphy from '../editor/main';
-import BasePlugin from './base_plugin';
+import BasePlugin from './basePlugin';
 
 export default function() {
     let pluginInstancesList = {};

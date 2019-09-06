@@ -3,7 +3,7 @@ import React from 'react';
 require('./AudioCue.scss');
 import imagePlay from "./../../dist/images/play.svg";
 import imagePause from "./../../dist/images/pause.svg";
-import { generateCustomColors } from "../../common/themes/theme_loader";
+import { generateCustomColors } from "../../common/themes/themeLoader";
 
 export default class AudioCueComponent extends React.Component {
     constructor(props) {

@@ -1,8 +1,8 @@
 import React from 'react';
-import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
+import PluginPlaceholder from '../../_editor/components/canvas/pluginPlaceholder/PluginPlaceholder';
 import i18n from 'i18next';
 import './_freeResponse.scss';
-import { generateCustomColors } from "../../common/themes/theme_loader";
+import { generateCustomColors } from "../../common/themes/themeLoader";
 /* eslint-disable react/prop-types */
 
 export function FreeResponse() {

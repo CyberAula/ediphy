@@ -28,7 +28,7 @@
     "dev-only-doc": "cat ediphy && webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
     "add-all": "git add .",
     "create-plugin": "babel-node plugins/create_plugin.js ",
-    "create-theme": "babel-node common/themes/create_theme.js "
+    "create-theme": "babel-node common/themes/createTheme.js "
   },
   "pre-commit": [
     "eslint",

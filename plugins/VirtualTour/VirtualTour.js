@@ -1,7 +1,7 @@
 import React from "react";
 import i18n from 'i18next';
 import Map from './components/Map';
-import MarkEditor from "../../_editor/components/rich_plugins/mark_editor/MarkEditor";
+import MarkEditor from "../../_editor/components/richPlugins/markEditor/MarkEditor";
 import Mark from '../../common/components/mark/Mark';
 require('./_virtualTour.scss');
 window.mapList = [];

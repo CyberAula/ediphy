@@ -10,15 +10,15 @@ import {
     Radio,
 } from "react-bootstrap";
 import ToggleSwitch from "@trendmicro/react-toggle-switch";
-import ColorPicker from "../../common/color-picker/ColorPicker";
-import { getColor, getCurrentColor, getThemeFont } from "../../../../common/themes/theme_loader";
+import ColorPicker from "../../common/colorPicker/ColorPicker";
+import { getColor, getCurrentColor, getThemeFont } from "../../../../common/themes/themeLoader";
 import i18n from "i18next";
-import FontPicker from "../../common/font-picker/FontPicker";
-import ThemePicker from "../../common/theme-picker/ThemePicker";
+import FontPicker from "../../common/fontPicker/FontPicker";
+import ThemePicker from "../../common/themePicker/ThemePicker";
 import { isSlide } from "../../../../common/utils";
-import ToolbarFileProvider from "../../external_provider/file_modal/APIProviders/common/ToolbarFileProvider";
+import ToolbarFileProvider from "../../externalProvider/fileModal/APIProviders/common/ToolbarFileProvider";
 import Select from "react-select";
-import RadioButtonFormGroup from "../radio_button_form_group/RadioButtonFormGroup";
+import RadioButtonFormGroup from "../radioButtonFormGroup/RadioButtonFormGroup";
 import React from "react";
 
 export const Checkbox = (button, onChange, props) => {

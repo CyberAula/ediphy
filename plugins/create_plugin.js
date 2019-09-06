@@ -120,7 +120,7 @@ function template() {
 import i18n from 'i18next';
 ${options.isRich ? `
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import MarkEditor from '../../_editor/components/rich_plugins/mark_editor/MarkEditor';
+import MarkEditor from '../../_editor/components/richPlugins/markEditor/MarkEditor';
 import Mark from '../../common/components/mark/Mark';
 
 ` : ''}
@@ -317,10 +317,10 @@ export function ${options.name}(base) {
 
 function templateExercise() {
     return `import React from 'react';
-import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
+import PluginPlaceholder from '../../_editor/components/canvas/pluginPlaceholder/PluginPlaceholder';
 import './_${options.camelCaseName}.scss';
 import i18n from 'i18next';
-import { letterFromNumber } from '../../common/common_tools';
+import { letterFromNumber } from '../../common/commonTools';
 /* eslint-disable react/prop-types */
 
 export function ${options.name}(base) {
@@ -481,8 +481,8 @@ function templateExerciseVisor() {
     return `import React from 'react';
 import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
 import i18n from 'i18next';
-import { letterFromNumber } from '../../../common/common_tools';
-import { compareNumbersLiterally } from '../../../core/visor/correction_functions';
+import { letterFromNumber } from '../../../common/commonTools';
+import { compareNumbersLiterally } from '../../../core/visor/correctionFunctions';
 
 /* eslint-disable react/prop-types */
 

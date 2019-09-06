@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import i18n from "i18next";
 import { isSlide } from "../../../common/utils";
-import EditorIndexTitle from "./editor_index_title/EditorIndexTitle";
+import EditorIndexTitle from "./editorIndexTitle/EditorIndexTitle";
 import PropTypes from "prop-types";
-import CarouselList from "./carousel_list/CarouselList";
+import CarouselList from "./carouselList/CarouselList";
 
 export default class ContainedViewsList extends Component {
 

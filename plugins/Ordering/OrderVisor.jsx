@@ -1,7 +1,7 @@
 import React from 'react';
 import VisorPluginPlaceholder from '../../_visor/components/canvas/VisorPluginPlaceholder';
 import i18n from 'i18next';
-import { generateCustomColors } from "../../common/themes/theme_loader";
+import { generateCustomColors } from "../../common/themes/themeLoader";
 /* eslint-disable react/prop-types */
 export default class OrderVisor extends React.Component {
     constructor(props) {

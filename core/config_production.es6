@@ -23,7 +23,7 @@ export default {
     includeVishProfile: true,
     defaultAspectRatio: 4 / 3,
     // OPTIONS
-    external_providers: {
+    externalProviders: {
         enable_search: true,
         enable_external_upload: true,
         enable_catalog_modal: false,

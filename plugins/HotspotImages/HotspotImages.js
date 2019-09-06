@@ -1,6 +1,6 @@
 import React from "react";
 import i18n from 'i18next';
-import MarkEditor from '../../_editor/components/rich_plugins/mark_editor/MarkEditor';
+import MarkEditor from '../../_editor/components/richPlugins/markEditor/MarkEditor';
 import Mark from '../../common/components/mark/Mark';
 import img_placeholder from './../../dist/images/placeholder.svg';
 import './_hotspotsImages.scss';
@@ -40,7 +40,7 @@ export function HotspotImages(base) {
                             buttons: {
                                 url: {
                                     __name: 'URL',
-                                    type: 'external_provider',
+                                    type: 'externalProvider',
                                     value: state.url,
                                     accept: "image/*",
                                 },

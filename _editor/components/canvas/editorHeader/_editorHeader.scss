@@ -1,0 +1,171 @@
+@import "../../../../sass/general/_variables.scss";
+@import "../../navBar/pluginRibbon/_pluginRibbon.scss";
+
+/*Each title mode button*/
+.editorTitleButton {
+  @extend .ribShortcut;
+  background-color: $grismedio !important;
+  color: white !important;
+  border-radius: 3px;
+  text-align: center;
+  &:hover {
+    background-color: var(--themeColor1, $blueprimary) !important;
+  }
+}
+
+/*Container  for all buttons*/
+#editorTitleButtons {
+  text-align: center;
+}
+
+/*Current title mode*/
+.activeTitle {
+  background-color: $darkest !important
+}
+
+/*Breadcrumb style*/
+.breadcrumb {
+  padding: 0;
+  li + li:before{
+    font-size: 0.5em;
+  }
+  a {
+    margin: 10px 0 0;
+    font-size: 0.6em;
+    font-family: 'Ubuntu';
+    color: $grismedio;
+    text-decoration: none;
+    &:hover, &:active, &:focus{
+      text-decoration: none !important;
+      cursor: default;
+    }
+  }
+  li:last-child{
+    a{
+      color: $blueprimary;
+    }
+  }
+
+}
+/*Added transparent margin to avoid small shift when title is selected*/
+.caja {
+  border: 1px solid transparent;
+  box-sizing: border-box;
+}
+
+.title {
+  display: block;
+  background-color: transparent;
+
+  .cab {
+    display: flex;
+    font-size: 2em;
+    padding: 1em;
+    .cabtabla_numero{
+      padding: 0.2em 0.3em;
+      line-height: 1em;
+      color: var(--themeColor1, $blueprimary);
+      font-family: 'Ubuntu', sans-serif;
+    }
+    .editCourseTitle{
+      font-size: 1em;
+      height: auto;
+      border-radius: 0;
+      border-color: var(--themeColor1, $blueprimary);
+    }
+    .editNavTitle{
+      font-size: 0.8em;
+      height: auto;
+      border-radius: 0;
+      border-color: var(--themeColor1, $blueprimary);
+    }.editNavSubTitle{
+       font-size: 0.6em;
+       height: auto;
+       border-radius: 0;
+       border-color: var(--themeColor1, $blueprimary);
+     }
+
+    h1{
+      margin: 0.1em;
+      font-size: 1em;
+    }
+    h2{
+      margin: 0.4em;
+      font-size: 0.8em;
+      color: var(--themeColor1, $blueprimary);
+    }
+    h3{
+      margin: 0.4em;
+      font-size: 0.7em;
+      color: $grisadams;
+    }
+    h4{
+      margin: 0.4em;
+      font-size: 0.6em;
+      color: $grismedio;
+    }
+    .breadcrumb a{
+      margin: 0.4em;
+    }
+    .infoIcon {
+      cursor: help;
+      font-size: 0.9em;
+      color: #555;
+      vertical-align: top;
+      position: absolute;
+      top: 0.7em;
+      right: 0.7em;
+    }
+  }
+}
+/* Information about contained view origin*/
+
+.cvPopover {
+  font-size: 12px;
+  font-family: 'Ubuntu';
+  border-radius: 0;
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  outline: none;
+  padding: 0;
+
+
+  .popover-title {
+    font-size: 13px;
+    background-color: #ddd;
+    color: #777;//$blueprimary;
+    border: none;
+    border-radius: 0;
+
+  }
+  .arrow {
+    border-bottom: none;
+    border-color: transparent !important;
+    top: -10px !important;
+  }
+  .arrow:after{
+    border-bottom-color: #ddd !important;
+    opacity: 1;
+    //border-bottom: none ;
+  }
+  .popover-content{
+    border: none !important;
+  }
+}
+
+.cvList {
+  display: block;
+  font-size: 11px;
+  font-family: 'Ubuntu' !important;
+}
+
+
+
+
+.ediphyHeader {
+  h1,h2,h3 {
+    cursor: text;
+  }
+}

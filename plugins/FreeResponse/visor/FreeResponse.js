@@ -2,8 +2,8 @@ import React from 'react';
 import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
 import './../_freeResponse.scss';
 import i18n from 'i18next';
-import { correctLongAnswer } from '../../../core/visor/correction_functions';
-import { generateCustomColors } from "../../../common/themes/theme_loader";
+import { correctLongAnswer } from '../../../core/visor/correctionFunctions';
+import { generateCustomColors } from "../../../common/themes/themeLoader";
 
 /* eslint-disable react/prop-types */
 

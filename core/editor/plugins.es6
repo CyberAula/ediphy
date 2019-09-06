@@ -1,5 +1,5 @@
 import Ediphy from './main';
-import BasePlugin from './base_plugin';
+import BasePlugin from './basePlugin';
 import { extensions } from '../../common/constants';
 export default function() {
     let pluginInstancesList = {};

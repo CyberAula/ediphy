@@ -5,8 +5,8 @@ import FileSaver from 'file-saver';
 import Ediphy from '../editor/main';
 import Plugins from './plugins';
 import { escapeRegExp } from '../../common/utils';
-import { generateStyles, getThemeImages } from "../../common/themes/theme_loader";
-import { getThemeBackgrounds } from "../../common/themes/background_loader";
+import { generateStyles, getThemeImages } from "../../common/themes/themeLoader";
+import { getThemeBackgrounds } from "../../common/themes/backgroundLoader";
 
 const visor_template = require("../../dist/lib/visor/index.ejs");
 

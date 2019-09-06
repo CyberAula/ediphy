@@ -4,7 +4,7 @@ import {
 } from "../../common/actions";
 import Ediphy from "../../core/editor/main";
 import printToPDF from "../../core/editor/print";
-import toMoodleXML from "../../core/editor/moodle_xml.es6";
+import toMoodleXML from "../../core/editor/moodleXML.es6.js";
 import { serialize } from "../../reducers/serializer";
 
 export default function(self) {

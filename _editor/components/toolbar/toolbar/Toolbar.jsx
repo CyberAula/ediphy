@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 import Ediphy from "../../../../core/editor/main";
-import PluginToolbar from '../plugin_toolbar/PluginToolbar';
-import ViewToolbar from '../view_toolbar/ViewToolbar';
+import PluginToolbar from '../pluginToolbar/PluginToolbar';
+import ViewToolbar from '../viewToolbar/ViewToolbar';
 
 import { isCanvasElement, isSlide } from "../../../../common/utils";
 import { changeBackground } from "../../../../common/actions";
