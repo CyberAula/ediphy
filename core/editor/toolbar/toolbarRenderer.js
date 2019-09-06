@@ -104,7 +104,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     let button = accordion.buttons[buttonKey];
     let id = (toolbarProps.boxSelected !== -1) ? toolbarProps.boxSelected : (toolbarProps.containedViewSelected || toolbarProps.navItemSelected);
     let currentElement = (["structure", "style", "z__extra", "__marks_list", "__score"].indexOf(accordionKeys[0]) === -1) ? "state" : accordionKeys[0];
-    let toolbar_plugin_state = toolbarProps.boxSelected !== -1 ? toolbarProps.pluginToolbars[toolbarProps.boxSelected] : undefined;
+    let toolbarPluginState = toolbarProps.boxSelected !== -1 ? toolbarProps.pluginToolbars[toolbarProps.boxSelected] : undefined;
 
     let commitChanges = (val) => {
         if (toolbarProps.boxSelected === -1) {
@@ -163,7 +163,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     };
 
     if (buttonKey === 'width' || buttonKey === 'height' || buttonKey === 'aspectRatio') {
-        return SizeButton(toolbar_plugin_state, buttonKey, toolbarProps, id, props, button, accordionKeys);
+        return SizeButton(toolbarPluginState, buttonKey, toolbarProps, id, props, button, accordionKeys);
     }
 
     switch (button.type) {

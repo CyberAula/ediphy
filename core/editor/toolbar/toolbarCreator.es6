@@ -25,23 +25,22 @@ export function toolbarFiller(toolbar, id, state, config, initialParams, contain
 }
 
 export function toolbarMapper(controls, toolbar) {
+    const accordions = controls.main.accordions;
     if (Object.keys(toolbar.style).length > 0) {
         Object.keys(toolbar.style).forEach((s) => {
-            if (controls.main.accordions.style.buttons[s]) {
-                controls.main.accordions.style.buttons[s].value = toolbar.style[s];
+            if (accordions.style.buttons[s]) {
+                accordions.style.buttons[s].value = toolbar.style[s];
             }
         });
     }
     if (Object.keys(toolbar.structure).length > 0) {
         Object.keys(toolbar.structure).forEach((s) => {
-            if (s !== "width" && s !== "height" && s !== "heightUnit" && s !== "widthUnit" && s !== "aspectRatio") {
-                if (controls.main.accordions.structure.buttons[s]) {
-                    controls.main.accordions.structure.buttons[s].value = toolbar.structure[s];
+            if (accordions.structure.buttons[s]) {
+                if (s === "aspectRatio") {
+                    accordions.structure.buttons[s].checked = toolbar.structure[s];
                 }
-            }
-            if (s === "aspectRatio") {
-                if (controls.main.accordions.structure.buttons[s]) {
-                    controls.main.accordions.structure.buttons[s].checked = toolbar.structure[s];
+                else if (s !== "width" && s !== "height" && s !== "heightUnit" && s !== "widthUnit") {
+                    accordions.structure.buttons[s].value = toolbar.structure[s];
                 }
             }
         });
@@ -187,15 +186,13 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
     }
     type = "number";
 
-    if (isSortableContainer(container) &&
-        isSortableBox(parent) && config.needsTextEdition) {
-
+    if (isSortableContainer(container) && isSortableBox(parent) && config.needsTextEdition) {
         displayValue = 25;
         value = 25;
         units = '%';
     }
 
-    let initialWidth = initialParams.initialWidth;
+    let { initialWidth, initialHeight } = initialParams;
     if (initialWidth) {
         if (initialWidth === "auto") {
             displayValue = "auto";
@@ -204,11 +201,7 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         } else {
             displayValue = parseInt(initialWidth, 10);
             value = parseInt(initialWidth, 10);
-            if (initialWidth.indexOf("px") !== -1) {
-                units = "px";
-            } else {
-                units = "%";
-            }
+            units = initialWidth.indexOf('px') !== -1 ? 'px' : '%';
         }
     }
 
@@ -223,8 +216,7 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         max: units === '%' ? 100 : 100000,
         auto: displayValue === "auto",
     };
-    // if (state === null) {
-    let initialHeight = initialParams.initialHeight;
+
     if (initialHeight) {
         if (initialHeight === "auto") {
             displayValue = "auto";
@@ -234,11 +226,7 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
             displayValue = parseInt(initialHeight, 10);
             value = parseInt(initialHeight, 10);
             type = "text";
-            if (initialHeight.indexOf("px") !== -1) {
-                units = "px";
-            } else {
-                units = "%";
-            }
+            units = initialHeight.indexOf('px') !== -1 ? 'px' : '%';
         }
     } else {
         value = "20";
@@ -279,13 +267,6 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
 
     } else {
         let hasPositionButton = state.controls?.main?.accordions?.structure?.buttons?.__position;
-        // state.controls
-        // && state.controls.main
-        // && state.controls.main.accordions
-        // && state.controls.main.accordions.structure
-        // && state.controls.main.accordions.structure.buttons
-        // && state.controls.main.accordions.structure.buttons.__position;
-
         if (floatingBox && hasPositionButton) {
             controls.main.accordions.structure.buttons.position = {
                 __name: i18n.t('Position'),
