@@ -3,7 +3,7 @@ import i18n from "i18next";
 import ToolbarFileProvider from "../../external_provider/file_modal/APIProviders/common/ToolbarFileProvider";
 import ColorPicker from "../../common/color-picker/ColorPicker";
 import React from "react";
-import { handleCanvasToolbar } from "../../../../core/editor/accordionProvider";
+import { handleCanvasToolbar } from "../../../../core/editor/toolbar/toolbarCreator";
 import { isColor, isSlide, isURI } from "../../../../common/utils";
 
 export const BackgroundPicker = (button, props, toolbarProps, id, defaultBackground, onChange) => {

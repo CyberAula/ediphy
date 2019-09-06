@@ -7,7 +7,8 @@ import PropTypes from 'prop-types';
 import GridConfigurator from '../grid_configurator/GridConfigurator.jsx';
 import Ediphy from '../../../../core/editor/main';
 
-import { renderAccordion, toolbarMapper, toolbarFiller } from "../../../../core/editor/accordionProvider";
+import { toolbarMapper, toolbarFiller } from "../../../../core/editor/toolbar/toolbarCreator";
+import { renderAccordion } from "../../../../core/editor/toolbar/toolbarRenderer";
 import { blurCKEditor } from '../../../../common/common_tools';
 
 import './_pluginToolbar.scss';
@@ -27,7 +28,7 @@ export default class PluginToolbar extends Component {
         let controls = apiPlugin ? apiPlugin.getToolbar(toolbar.state) : {};
 
         if(apiPlugin) {
-            toolbarFiller(controls, this.props.box.id, toolbar, config, config, this.props.box.parent, null, this.props.exercises);
+            toolbarFiller(controls, this.props.box.id, toolbar, config, config, this.props.box.parent, this.props.exercises);
             controls = toolbarMapper(controls, toolbar);
 
         } else {
