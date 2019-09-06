@@ -1,5 +1,5 @@
 import i18n from "i18next";
-import { isSlide, isSortableBox, isSortableContainer } from "../../common/utils";
+import { isSortableBox, isSortableContainer } from "../../common/utils";
 import { Panel } from "react-bootstrap";
 import React from "react";
 
@@ -8,10 +8,12 @@ import { getThemeColors, getThemes } from "../../common/themes/theme_loader";
 import { loadBackground, getBackground } from "../../common/themes/background_loader";
 import { getCurrentColor, getThemeFont } from "../../common/themes/theme_loader";
 import { sanitizeThemeToolbar } from "../../common/themes/theme_loader";
-import {
-    BackgroundPicker, ConditionalText, DefaultComponent, FancyRadio, Font, MyRadio, MySelect, Size,
+import { ConditionalText, DefaultComponent, FancyRadio, Font, MyRadio, MySelect, Size,
     Theme, Range, External, PluginColor, Color, Text, Checkbox,
 } from "../../_editor/components/toolbar/toolbarComponents/toolbarComponents";
+
+import { BackgroundPicker, handleBackground } from "../../_editor/components/toolbar/toolbarComponents/backgroundPicker";
+import { SizeButton } from "../../_editor/components/toolbar/toolbarComponents/sizeButton";
 
 /* eslint-disable react/prop-types */
 export function toolbarFiller(toolbar, id, state, config, initialParams, container, marks = null, exercises = {}) {
@@ -456,51 +458,14 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
     // Generic handlers
     let handler;
-    let autoSizeHandler = () => toolbarProps.handleBoxes.onBoxResized(id, { [buttonKey]: toolbar_plugin_state.structure[buttonKey] === "auto" ? 100 : "auto" });
-    let unitsHandler = e => {
-        let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
-        toolbarProps.handleBoxes.onBoxResized(id, { [buttonKey + "Unit"]: value });
-    };
+
     let defaultHandler = (e) => {
         let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
         commitChanges(value);
     };
 
     if (buttonKey === 'width' || buttonKey === 'height' || buttonKey === 'aspectRatio') {
-        let auto = toolbar_plugin_state.structure[buttonKey] === "auto";
-        switch (button.type) {
-        case 'checkbox':
-            handler = () => {
-                if (buttonKey === "aspectRatio") {
-                    toolbarProps.handleBoxes.onBoxResized(id, { aspectRatio: !toolbar_plugin_state.structure.aspectRatio });
-                } else {
-                    toolbarProps.handleBoxes.onBoxResized(id, { [buttonKey]: toolbar_plugin_state.structure[buttonKey] === "auto" ? 100 : "auto" });
-                }
-            };
-            props = {
-                key: props.key,
-                id: props.id,
-                type: props.type,
-                value: props.value,
-                checked: props.checked,
-                label: props.label,
-                disabled: props.disabled,
-                title: props.title,
-            };
-            return Checkbox(button, handler, props);
-        case 'number':
-        case 'text':
-            handler = e => {
-                newValue = (typeof e.target !== 'undefined') ? e.target.value : e.value;
-                toolbarProps.handleBoxes.onBoxResized(id, { [buttonKey]: newValue });
-            };
-            props.value = auto ? 'auto' : toolbar_plugin_state.structure[buttonKey];
-            props.type = auto ? 'text' : 'number';
-            props.max = toolbar_plugin_state.structure[buttonKey + "Unit"] === '%' ? 100 : 100000;
-            props.disabled = auto;
-            return Size(button, handler, props, accordionKeys, buttonKey, toolbar_plugin_state, toolbarProps, auto, autoSizeHandler, unitsHandler);
-        }
-
+        return SizeButton(toolbar_plugin_state, buttonKey, toolbarProps, id, props, button, accordionKeys);
     }
 
     switch (button.type) {
@@ -531,11 +496,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         return PluginColor(button, handler, props, toolbarProps, id);
     case 'theme_select':
         handler = e => commitChanges(getThemes()[e || 0]);
-        return Theme(button, handler, {
-            ...props,
-            currentTheme: props.value,
-            currentItem: toolbarProps.navItemSelected,
-        });
+        return Theme(button, handler, { ...props, currentTheme: props.value, currentItem: toolbarProps.navItemSelected });
     case 'font_picker':
         handler = e => {
             if (e.family) {
@@ -572,78 +533,9 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     case 'fancy_radio':
         return FancyRadio(button, buttonKey, toolbarProps);
     case 'background_picker':
-        let isURI = (/data\:/).test(props.value.background);
-        let isColor = (/(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig).test(props.value.background) || (/#/).test(props.value.background) || !(/url/).test(props.value.background);
         let default_background = loadBackground(theme, 0);
-
-        let isSli = isSlide(toolbarProps.navItems[id].type);
-        let background_attr = toolbarProps.viewToolbars[id].backgroundAttr;
-        let background_attr_zoom = toolbarProps.viewToolbars[id].backgroundZoom === undefined ? 100 : toolbarProps.viewToolbars[id].backgroundZoom;
-
-        handler = e => {
-            let value;
-            if (e.color) {
-                value = { background: e.color, backgroundAttr: 'full', backgroundZoom: 100, customBackground: true };
-            }
-            if (e.target?.type === "radio") {
-                value = { background: button.value.background, backgroundAttr: e.target.value, backgroundZoom: 100 };
-            }
-            if (e.target?.type === "text") {
-                value = { background: e.target.value, backgroundAttr: 'full' };
-            }
-            if (e.value) {
-                value = {
-                    background: 'url(' + e.value + ')',
-                    backgroundAttr: button.value?.backgroundAttr ? button.value.backgroundAttr : 'full',
-                    backgroundZoom: 100,
-                    customBackground: true,
-                };
-            }
-            // Restore background button
-            if (e.currentTarget && e.currentTarget.type === "button") {
-                value = {
-                    background: e.currentTarget.value,
-                    backgroundAttr: 'full',
-                    backgroundZoom: 100,
-                    customBackground: false,
-                    themeBackground: 0,
-                };
-            }
-            if (e.target?.name === "image_display_zoom") {
-                value = {
-                    background: button.value.background,
-                    backgroundAttr: (toolbarProps.viewToolbars[id].backgroundAttr) ? toolbarProps.viewToolbars[id].backgroundAttr : 'repeat',
-                    backgroundZoom: e.target.value,
-                };
-            }
-            if (e.target?.files) {
-                if (e.target.files.length === 1) {
-                    let file = e.target.files[0];
-                    let reader = new FileReader();
-                    reader.onload = () => {
-                        let img = new Image();
-                        let data = reader.result;
-                        img.onload = () => {
-                            let canvas = document.createElement('canvas');
-                            let ctx = canvas.getContext('2d');
-                            ctx.drawImage(img, 0, 0, 1200, 1200);
-                            handleCanvasToolbar(buttonKey, {
-                                background: 'url(' + data + ')',
-                                backgroundAttr: 'full',
-                                backgroundZoom: 100,
-                                customBackground: true,
-                            }, accordion, toolbarProps);
-                        };
-                        img.src = data;
-                    };
-                    reader.readAsDataURL(file);
-                    return;
-                }
-                return;
-            }
-            commitChanges(value);
-        };
-        return BackgroundPicker(button, props, toolbarProps, isURI, isColor, default_background, isSli, background_attr, background_attr_zoom, handler);
+        handler = e => handleBackground(e, toolbarProps, accordion, buttonKey, commitChanges, button, id);
+        return BackgroundPicker(button, props, toolbarProps, id, default_background, handler);
     case 'number':
         handler = e => {
             let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
@@ -677,6 +569,7 @@ export function handleCanvasToolbar(name, value, accordions, toolbarProps) {
     case "background":
         toolbarProps.handleToolbars.onViewToolbarUpdated(toolbarProps.navItemSelected, value);
         break;
+    // Change content
     case 'documentSubtitleContent':
     case 'documentTitleContent':
     case 'numPageContent':

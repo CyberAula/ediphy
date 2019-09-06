@@ -53,6 +53,11 @@ export function isSortableBox(id) {
     return id.length && id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1;
 }
 
+export function isColor(value) {
+    return (/(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig).test(value)
+        || (/#/).test(value) || !(/url/).test(value);
+}
+
 export function isContainedView(id) {
     return id.length && id.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1;
 }
@@ -63,6 +68,10 @@ export function isSortableContainer(id) {
 
 export function isFile(id) {
     return id.length && id.indexOf(ID_PREFIX_FILE) !== -1;
+}
+
+export function isURI(value) {
+    return (/data\:/).test(value);
 }
 
 export function changeProps(object, keys, values) {
