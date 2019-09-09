@@ -1,6 +1,6 @@
 module.exports = {
     "HotspotImages": {
-        "background_color": "Color de fondo",
+        "backgroundColor": "Color de fondo",
         "PluginName": "Imagen",
         "border_color": "Color de borde",
         "border_size": "Grosor de borde",

@@ -98,7 +98,7 @@ class ViewToolbar extends Component {
                                 value: viewToolbar.font !== '' ? viewToolbar.font : styleConfig.font,
                             },
                             background: {
-                                __name: i18n.t('background.background_image'),
+                                __name: i18n.t('background.backgroundImage'),
                                 type: 'background_picker',
                                 value: { background: viewToolbar.background, backgroundAttr: viewToolbar.background_attr } || { background: "#ffffff", backgroundAttr: "full" },
                             },

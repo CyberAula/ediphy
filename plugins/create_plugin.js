@@ -251,7 +251,7 @@ module.exports = {
         "ShowFeedback": "Show feedback msg.",
         "Number": "Number  of answers",
         "ShowLettersInsteadOfNumbers": "Show letters instead of numbers",
-        "background_color": "Background color",
+        "backgroundColor": "Background color",
         "border_color": "Border color",
         "border_size": "Border Size",
         "border_style": "Border Style",
@@ -378,7 +378,7 @@ export function ${options.name}(base) {
                                     max: 100,
                                 },
                                 backgroundColor: {
-                                    __name: Ediphy.i18n.t('${options.name}.background_color'),
+                                    __name: Ediphy.i18n.t('${options.name}.backgroundColor'),
                                     type: 'color',
                                     value: '#ffffff',
                                 },

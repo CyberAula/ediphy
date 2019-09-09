@@ -9,7 +9,7 @@ module.exports = {
         "FeedbackMsg": "Here you can provide some feedback about the answer. In order to disable this feature, turn it off in the toolbar.",
         "ShowFeedback": "Show feedback msg.",
         "ShowStars": "Show stars instead of numbers",
-        "background_color": "Background color",
+        "backgroundColor": "Background color",
         "border_color": "Border color",
         "border_size": "Border Size",
         "border_style": "Border Style",

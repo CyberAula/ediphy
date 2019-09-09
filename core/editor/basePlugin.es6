@@ -239,7 +239,7 @@ export default function() {
             searchIcon = defaultFor(searchIcon, false);
 
             if (aspectRatioButtonConfig) {
-                aspectRatioButtonConfig.name = Ediphy.i18n.t("Aspect_ratio");
+                aspectRatioButtonConfig.name = Ediphy.i18n.t("AspectRatio");
                 aspectRatioButtonConfig.location = defaultFor(aspectRatioButtonConfig.location, ["main", "z__extra"], "Aspect ratio button location not defined");
                 if (!Array.isArray(aspectRatioButtonConfig.location) || aspectRatioButtonConfig.location.length < 2 || aspectRatioButtonConfig.location.length > 3) {
                     // eslint-disable-next-line no-console

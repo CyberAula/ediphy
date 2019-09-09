@@ -22,9 +22,7 @@ import { connect } from "react-redux";
 import 'react-select/dist/react-select.css';
 import './_globalConfig.scss';
 import './_reactTags.scss';
-import FileInput from "../../common/fileInput/FileInput";
 import { UI } from "../../../../common/UI.es6";
-import EditorNavBar from "../../../containers/EditorApp";
 
 /**
  * Global course configuration modal
@@ -66,14 +64,14 @@ class GlobalConfig extends Component {
      * @returns {code}
      */
   render() {
-      const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context, allowDownload, allowClone, allowComments } = this.state;
+      const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, keywords, status, context, allowDownload, allowClone, allowComments } = this.state;
       const { reactUI } = this.props;
       return (
           <Modal className="pageModal"
               show={reactUI.showGlobalConfig}
               backdrop={'static'} bsSize="large"
               aria-labelledby="contained-modal-title-lg"
-              onHide={e => {
+              onHide={() => {
                   // If anything has changed after last save show an alert, otherwise just leave
                   if (this.state.modifiedState) {
                       this.setState({ showAlert: true });
@@ -91,9 +89,13 @@ class GlobalConfig extends Component {
                   closeButton
                   cancelButton
                   acceptButtonText={'OK'}
-                  onClose={(bool) => {
+                  onClose={(accept) => {
                       // If Accept button clicked, state is saved, otherwise close without saving
-                      bool ? this.saveState() : this.cancel();
+                      if(accept) {
+                          this.saveState();
+                      } else {
+                          this.cancel();
+                      }
                       // Anyway close the alert
                       this.setState({ showAlert: false });
                       // this.props.close();
@@ -109,7 +111,7 @@ class GlobalConfig extends Component {
                                   <FormGroup>
                                       <ControlLabel>{i18n.t('globalConfig.avatar')}</ControlLabel>
                                       <div className="cont_avatar">
-                                          <img src={this.state.thumbnail} className="avatar" />
+                                          <img src={this.state.thumbnail} className="avatar" alt={"avatar"}/>
                                           <div>
                                               <Button bsStyle="primary" className="avatarButtons" onClick={()=>{
                                                   this.props.toggleFileUpload('avatar', 'image/*');
@@ -240,7 +242,7 @@ class GlobalConfig extends Component {
 
                                   <FormGroup >
                                       <ControlLabel className="inlineLabel">{i18n.t('globalConfig.hideGlobalScore')}</ControlLabel>
-                                      <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, hideGlobalScore: !this.state.hideGlobalScore });}} checked={!hideGlobalScore}/>
+                                      <ToggleSwitch onChange={()=>{this.setState({ modifiedState: true, hideGlobalScore: !this.state.hideGlobalScore });}} checked={!hideGlobalScore}/>
 
                                   </FormGroup>
                                   <FormGroup >
@@ -268,10 +270,10 @@ class GlobalConfig extends Component {
                                   <FormGroup >
                                       <ControlLabel>{i18n.t('globalConfig.aspect_ratio')}</ControlLabel><br/>
                                       <div className={"aspectRatioGroup"}>
-                                          <Radio name="radioGroup" inline checked={canvasRatio === 16 / 9 } onChange={e => {this.setState({ modifiedState: true, canvasRatio: 16 / 9 });}}>
+                                          <Radio name="radioGroup" inline checked={canvasRatio === 16 / 9 } onChange={() => {this.setState({ modifiedState: true, canvasRatio: 16 / 9 });}}>
                                                 16/9
                                           </Radio>
-                                          <Radio name="radioGroup" inline checked={canvasRatio === 4 / 3 } onChange={e => {this.setState({ modifiedState: true, canvasRatio: 4 / 3 });}}>
+                                          <Radio name="radioGroup" inline checked={canvasRatio === 4 / 3 } onChange={() => {this.setState({ modifiedState: true, canvasRatio: 4 / 3 });}}>
                                                 4/3
                                           </Radio>
 
@@ -280,13 +282,13 @@ class GlobalConfig extends Component {
                                   </FormGroup>
                                   <FormGroup className={"allowance"}>
                                       <ControlLabel>{i18n.t('globalConfig.visor_nav.title')}</ControlLabel><br/>
-                                      <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, player: !visorNav.player, fixedPlayer: !visorNav.player } });}} checked={visorNav.player}/>
+                                      <ToggleSwitch onChange={()=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, player: !visorNav.player, fixedPlayer: !visorNav.player } });}} checked={visorNav.player}/>
                                       { i18n.t('globalConfig.visor_nav.player') } <br/>
-                                      <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, sidebar: !visorNav.sidebar } });}} checked={visorNav.sidebar}/>
+                                      <ToggleSwitch onChange={()=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, sidebar: !visorNav.sidebar } });}} checked={visorNav.sidebar}/>
                                       { i18n.t('globalConfig.visor_nav.sidebar') } <br/>
-                                      <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, fixedPlayer: !visorNav.fixedPlayer } });}} disabled={!visorNav.player} checked={visorNav.fixedPlayer}/>
+                                      <ToggleSwitch onChange={()=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, fixedPlayer: !visorNav.fixedPlayer } });}} disabled={!visorNav.player} checked={visorNav.fixedPlayer}/>
                                       { i18n.t('globalConfig.visor_nav.fixedPlayer') } <br/>
-                                      <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, keyBindings: !visorNav.keyBindings } });}} checked={visorNav.keyBindings}/>
+                                      <ToggleSwitch onChange={()=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, keyBindings: !visorNav.keyBindings } });}} checked={visorNav.keyBindings}/>
                                       { i18n.t('globalConfig.visor_nav.keybindings') }
                                   </FormGroup>
                                   <FormGroup >
@@ -299,11 +301,11 @@ class GlobalConfig extends Component {
                                   </FormGroup>
                                   {(process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? <FormGroup className="allowance">
                                       <ControlLabel>{i18n.t('globalConfig.permissions.title')}</ControlLabel><br/>
-                                      <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowClone: !allowClone });}} checked={allowClone}/>
+                                      <ToggleSwitch onChange={()=>{this.setState({ modifiedState: true, allowClone: !allowClone });}} checked={allowClone}/>
                                       { i18n.t('globalConfig.permissions.allow_clone') }<br/>
-                                      <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowComments: !allowComments });}} checked={allowComments}/>
+                                      <ToggleSwitch onChange={()=>{this.setState({ modifiedState: true, allowComments: !allowComments });}} checked={allowComments}/>
                                       { i18n.t('globalConfig.permissions.allow_comments') }<br/>
-                                      <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, allowDownload: !allowDownload });}} checked={allowDownload}/>
+                                      <ToggleSwitch onChange={()=>{this.setState({ modifiedState: true, allowDownload: !allowDownload });}} checked={allowDownload}/>
                                       { i18n.t('globalConfig.permissions.allow_download') }
                                   </FormGroup> : null }
                               </Col>
@@ -419,7 +421,7 @@ class GlobalConfig extends Component {
             useCORS: true });
     };
 
-    fileChanged = (event) => {
+    /* fileChanged = (event) => {
         let files = event.target.files;
         let file = files[0];
         let gc = this;
@@ -439,7 +441,7 @@ class GlobalConfig extends Component {
             img.src = data;
         };
         reader.readAsDataURL(file);
-    };
+    };*/
 
     /**
      * Discard configuration changes

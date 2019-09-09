@@ -4,7 +4,7 @@ module.exports = {
         "Allow_fullscreen": "Permitir pantalla completa",
         "Show_controls": "Mostrar controles",
         "URL": "URL",
-        "background_color": "Color de fondo",
+        "backgroundColor": "Color de fondo",
         "border_color": "Color de borde",
         "border_size": "Grosor de borde",
         "border_style": "Estilo de borde",

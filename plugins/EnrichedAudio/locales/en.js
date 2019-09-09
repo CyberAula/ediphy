@@ -10,7 +10,7 @@ module.exports = {
         "BarWidth": "Bar width",
         "URL": "URL",
         "Audio": "Audio",
-        "background_color": "Background color",
+        "backgroundColor": "Background color",
         "border_color": "Border color",
         "border_size": "Border Size",
         "border_style": "Border Style",

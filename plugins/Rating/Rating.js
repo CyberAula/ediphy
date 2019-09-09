@@ -53,7 +53,7 @@ export function Rating() {
                                     max: 100,
                                 },
                                 backgroundColor: {
-                                    __name: Ediphy.i18n.t('Rating.background_color'),
+                                    __name: Ediphy.i18n.t('Rating.backgroundColor'),
                                     type: 'color',
                                     value: '#ffffff',
                                 },

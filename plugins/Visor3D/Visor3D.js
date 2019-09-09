@@ -96,7 +96,7 @@ export function Visor3D() {
                                     value: state.color,
                                 },
                                 backgroundColor: {
-                                    __name: Ediphy.i18n.t('Visor3D.background_color'),
+                                    __name: Ediphy.i18n.t('Visor3D.backgroundColor'),
                                     type: 'color',
                                     value: state.backgroundColor,
                                 },

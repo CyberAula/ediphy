@@ -74,7 +74,7 @@ class PluginConfigModal extends Component {
                                 this.closeConfigModal();
                                 this.setState({ currentStep: 1 });
                             }
-                        }}>{(this.state.currentStep < stepsnumber) ? i18n.t("step_next") + " >" : i18n.t("confirm_changes")}</Button>
+                        }}>{(this.state.currentStep < stepsnumber) ? i18n.t("step_next") + " >" : i18n.t("confirmChanges")}</Button>
                 </Modal.Footer>
 
             </Modal>

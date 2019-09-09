@@ -54,7 +54,7 @@ export default class CVInfo extends Component {
         }
 
         return (<OverlayTrigger placement="bottom" overlay={
-            <Popover className="cvPopover" id="popover-positioned-bottom" title={ i18n.t("contained_view_popover") }>
+            <Popover className="cvPopover" id="popover-positioned-bottom" title={ i18n.t("containedViewPopover") }>
                 {cvList && cvList.length > 0 && cvList.map(it => { return it; }) }
                 {!cvList || cvList.length === 0 ? (<span className="cvList">{i18n.t("contained_view_nowhere")}</span>) : null}
             </Popover>}>

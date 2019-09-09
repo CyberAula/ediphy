@@ -30,7 +30,7 @@ export function BasicText() {
                                     max: 100,
                                 },
                                 backgroundColor: {
-                                    __name: Ediphy.i18n.t('BasicText.background_color'),
+                                    __name: Ediphy.i18n.t('BasicText.backgroundColor'),
                                     type: 'color',
                                     value: 'rgba(255,255,255,0)',
                                 },

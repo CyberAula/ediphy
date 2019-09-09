@@ -3,7 +3,7 @@ export const DEFINITION = {
     * viewName: [<Nombre del tema en inglés>, <Nombre del tema es español>],
     * font: Fuente principal del tema (tiene que ser de Google Fonts),
     * background: [
-    *   Insertar colores o url a las imágenes del tema. Por ejemplo: 'url(/themes/orange/background_images/orange0.jpg)',...
+    *   Insertar colores o url a las imágenes del tema. Por ejemplo: 'url(/themes/orange/backgroundImages/orange0.jpg)',...
     * ],
     * colors: {
     *   themeColor1: color principal del tema,
@@ -22,7 +22,7 @@ export const DEFINITION = {
     font: 'Libre Franklin',
     background: {
         f16_9: [
-            'url(./themes/desktop/background_images/desktop_169.jpg)',
+            'url(./themes/desktop/backgroundImages/desktop_169.jpg)',
             '#FDFDFD',
         ],
         f4_3: [

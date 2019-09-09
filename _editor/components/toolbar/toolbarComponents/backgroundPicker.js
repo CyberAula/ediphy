@@ -52,7 +52,7 @@ export const BackgroundPicker = (button, props, toolbarProps, id, defaultBackgro
     );
     return (
         <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
-            <ControlLabel key={'label1_' + button.__name}>{i18n.t('background.background_color')}</ControlLabel>
+            <ControlLabel key={'label1_' + button.__name}>{i18n.t('background.backgroundColor')}</ControlLabel>
             <ColorPicker
                 key={'cpicker_' + props.label}
                 value={(isColor && props.value) ? props.value.background : defaultBackground}
@@ -60,17 +60,17 @@ export const BackgroundPicker = (button, props, toolbarProps, id, defaultBackgro
             />
             {isSli && ImagePicker}
             {(!isColor && background_attr !== "full") && [
-                <ControlLabel key={'label_zoom'}>{i18n.t('background.background_zoom')}</ControlLabel>,
+                <ControlLabel key={'label_zoom'}>{i18n.t('background.backgroundZoom')}</ControlLabel>,
                 <span className="rangeOutput" style={{ marginTop: 0 }}>{background_attr_zoom}%</span>,
                 <input key="image_display_zoom" name='image_display_zoom' type='range' min={1} max={200}
                     value={background_attr_zoom} style={{ display: isColor ? "none" : "block" }}
                     onChange={onChange}/>,
             ]}
             <br key={'br'}/>
-            <ControlLabel key={'label_' + button.__name}>{i18n.t('background.reset_background')}</ControlLabel>
+            <ControlLabel key={'label_' + button.__name}>{i18n.t('background.resetBackground')}</ControlLabel>
             <Button key={'button_' + button.__name} value={defaultBackground} onClick={onChange}
                 className={'toolbarButton'}>
-                <div key={props.label}>{i18n.t('background.reset_background')}</div>
+                <div key={props.label}>{i18n.t('background.resetBackground')}</div>
             </Button>
         </FormGroup>
     );

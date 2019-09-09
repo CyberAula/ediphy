@@ -69,7 +69,7 @@ export function MultipleChoice() {
                                     max: 100,
                                 },
                                 backgroundColor: {
-                                    __name: Ediphy.i18n.t('HotspotImages.background_color'),
+                                    __name: Ediphy.i18n.t('HotspotImages.backgroundColor'),
                                     type: 'color',
                                     value: '#ffffff',
                                 },

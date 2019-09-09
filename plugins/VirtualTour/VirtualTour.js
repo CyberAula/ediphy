@@ -59,7 +59,7 @@ export function VirtualTour(base) {
                                     max: 100,
                                 },
                                 backgroundColor: {
-                                    __name: Ediphy.i18n.t('VirtualTour.background_color'),
+                                    __name: Ediphy.i18n.t('VirtualTour.backgroundColor'),
                                     type: 'color',
                                     value: '#ffffff',
                                 },

@@ -1,6 +1,6 @@
 module.exports = {
     "VirtualTour": {
-        "background_color": "Background color",
+        "backgroundColor": "Background color",
         "border_color": "Border color",
         "border_size": "Border Size",
         "border_style": "Border Style",
