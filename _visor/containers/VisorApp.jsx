@@ -1,27 +1,26 @@
 import { serialize } from '../../reducers/serializer';
-
-if (global && !global._babelPolyfill) {
-    require('babel-polyfill');
-}
-
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Row, Col, Button } from 'react-bootstrap';
+import { Button, Col, Grid, Row } from 'react-bootstrap';
 import VisorCanvas from '../components/canvas/VisorCanvas';
 import VisorContainedCanvas from '../components/canvas/VisorContainedCanvas';
 import VisorSideNav from '../components/navigation/VisorSideNav';
 import VisorPlayer from './../components/navigation/VisorPlayer';
 
-import { isContainedView, isView, isSection, isPage } from '../../common/utils';
+import { isContainedView, isPage, isSection, isView } from '../../common/utils';
 import ScormComponent from '../components/score/GradeComponent';
 import i18n from '../../locales/i18n';
-
-require('es6-promise').polyfill();
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
 import './../../sass/style.scss';
 import '../../core/visor/visorEntrypoint';
+
+if (global && !global._babelPolyfill) {
+    require('babel-polyfill');
+}
+
+require('es6-promise').polyfill();
 
 /**
  * Visor app main component
@@ -86,7 +85,7 @@ export default class Visor extends Component {
         this.setState({ mouseOnPlayer: false });
     };
 
-    _onMouseMove = (e) => {
+    _onMouseMove = () => {
         if(!this.state.mouseMoving) {
             this.setState({ mouseMoving: true });
         }
@@ -106,7 +105,7 @@ export default class Visor extends Component {
             this.setState({ triggeredMarks: [] });
         }
 
-        if (this.state.currentView.length > 1 && this.state.currentView.filter((i, v, a) => i.indexOf("pa-") !== -1).length > 1) {
+        if (this.state.currentView.length > 1 && this.state.currentView.filter((i) => i.indexOf("pa-") !== -1).length > 1) {
             this.setState({ currentView: [this.state.currentView[this.state.currentView.length - 1]] });
         }
 
@@ -200,11 +199,11 @@ export default class Visor extends Component {
         if (window.State) {
             Ediphy.State = serialize({ "present": { ...window.State } }).present;
         }
-        let { boxSelected, navItemsIds, globalConfig, styleConfig, containedViewsById, boxesById, marksById, navItemsById, viewToolbarsById, pluginToolbarsById } = Ediphy.State;
+        let { navItemsIds, globalConfig, styleConfig, containedViewsById, boxesById, marksById, navItemsById, viewToolbarsById, pluginToolbarsById } = Ediphy.State;
         let ediphy_document_id = Ediphy.State.id;
         let ediphy_platform = Ediphy.State.platform;
         let exercises = {};
-        Object.keys(Ediphy.State.exercises).map((exercise, index)=>{
+        Object.keys(Ediphy.State.exercises).map(exercise=>{
             if (containedViewsById[exercise] || (navItemsById[exercise] && !navItemsById[exercise].hidden)) {
                 exercises[exercise] = Ediphy.State.exercises[exercise];
             }
@@ -315,7 +314,7 @@ export default class Visor extends Component {
                                     <Button id="visorNavButton"
                                         className={toggleColor + visorNavButtonClass}
                                         bsStyle="primary"
-                                        onClick={e => {
+                                        onClick={() => {
                                             this.setState({ toggledSidebar: !this.state.toggledSidebar });
                                             document.activeElement.blur();
                                         }}>
@@ -343,11 +342,11 @@ export default class Visor extends Component {
     }
 
     /**
-   * Export to HTML or PDF
-   * @param format
-   * @param callback
-   * @param selfContained
-   */
+     * Export to HTML or PDF
+     * @param format
+     * @param callback
+     * @param options
+     */
     export(format, callback, options = false) {
         if(format === "PDF") {
             printToPDF(Ediphy.State, callback, options);
@@ -387,24 +386,24 @@ export default class Visor extends Component {
 
     /**
      * This is used to get initial view and make sure is either containedView or NavItem
-     * @param {string} NISelected - selected NavItem
+     * @param NIselected
+     * @param CVselected
      */
     getCurrentView(NIselected, CVselected) {
         let navItemSelected = 0;
         if (Ediphy.State.navItemsById[NIselected] && !Ediphy.State.navItemsById[NIselected].hidden) {
             navItemSelected = NIselected;
         }
-        let currentView = (CVselected === 0) ? navItemSelected : CVselected;
-        return currentView;
+        return (CVselected === 0) ? navItemSelected : CVselected;
     }
 
     /* Marks functions*/
 
     /**
      * Make sure if mark value exists
-     * @param {Array} - Array of marks
-     * @param {string}
      * @return {boolean} -  whether the mark exists or not in the array
+     * @param marks
+     * @param mark_value
      */
     containsMarkValue(marks, mark_value) {
         let exists = false;
@@ -575,15 +574,15 @@ export default class Visor extends Component {
      * @param triggered_event
      * @param richStateselement
      */
-    clearStateElements(triggered_event, richStateselement) {
-        if(richStateselement[triggered_event.id] !== undefined && parseFloat(triggered_event.value) > parseFloat(richStateselement[triggered_event.id]) + 1) {
-            let newElementState = JSON.parse(JSON.stringify(richStateselement));
-            newElementState[triggered_event.id] = undefined;
-            return newElementState;
-        }
-
-        return richStateselement;
-    }
+    // clearStateElements(triggered_event, richStateselement) {
+    //     if(richStateselement[triggered_event.id] !== undefined && parseFloat(triggered_event.value) > parseFloat(richStateselement[triggered_event.id]) + 1) {
+    //         let newElementState = JSON.parse(JSON.stringify(richStateselement));
+    //         newElementState[triggered_event.id] = undefined;
+    //         return newElementState;
+    //     }
+    //
+    //     return richStateselement;
+    // }
 
     /**
      * Get all marks triggered in the same event
@@ -654,7 +653,7 @@ export default class Visor extends Component {
         return marks;
     }
 
-    putMarksOnHold(triggered_marks, mark_event) {
+    putMarksOnHold(triggered_marks) {
         let anyTriggeredMarks = false;
         let anyPendingMarks = false;
 
@@ -760,9 +759,10 @@ export default class Visor extends Component {
      *
      */
     isNotInStateElement(triggered_event, richElementsState) {
-        /* if(richElementsState[triggered_event.id] === triggered_event.value) {
-            return false;
-        }*/
+        if(richElementsState[triggered_event.id] === triggered_event.value) {
+            // return false
+            return true;
+        }
         return true;
     }
 
