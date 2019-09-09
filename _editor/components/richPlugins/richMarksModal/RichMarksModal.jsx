@@ -8,11 +8,12 @@ import Picker from 'rc-color-picker';
 import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Radio } from 'react-bootstrap';
 
 import Alert from './../../common/alert/Alert';
-import TemplatesModalRich from '../templatesModal/TemplatesModalRich';
+import TemplatesModalRich from '../templatesModal/DEPRECATED_TemplatesModalRich';
 import { isSection, isContainedView, nextAvailName, makeBoxes } from '../../../../common/utils';
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../common/constants';
 
 import './_richMarksModal.scss';
+import TemplatesModal from "../../carousel/templatesModal/TemplatesModal";
 
 /**
  * Modal component to edit marks' configuration
@@ -374,7 +375,8 @@ class RichMarksModal extends Component {
                     closeButton onClose={()=>{this.setState({ showAlert: false });}}>
                     <span> {this.state.alertMsg} </span>
                 </Alert>
-                <TemplatesModalRich
+                <TemplatesModal
+                    fromRich
                     show={this.state.showTemplates}
                     close={this.toggleTemplatesModal}
                     navItems={this.props.navItems}
@@ -385,6 +387,17 @@ class RichMarksModal extends Component {
                     calculatePosition={this.calculatePosition}
                     templateClick={this.templateClick}
                     idSlide = {newId || ""}/>
+                {/* <TemplatesModalRich*/}
+                {/*    show={this.state.showTemplates}*/}
+                {/*    close={this.toggleTemplatesModal}*/}
+                {/*    navItems={this.props.navItems}*/}
+                {/*    boxes={this.props.boxes}*/}
+                {/*    onIndexSelected={this.props.onIndexSelected}*/}
+                {/*    indexSelected={this.props.indexSelected}*/}
+                {/*    onBoxAdded={this.props.onBoxAdded}*/}
+                {/*    calculatePosition={this.calculatePosition}*/}
+                {/*    templateClick={this.templateClick}*/}
+                {/*    idSlide = {newId || ""}/>*/}
             </Modal>
         );
 

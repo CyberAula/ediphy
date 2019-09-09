@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
-import { ID_PREFIX_BOX, ID_PREFIX_PAGE, PAGE_TYPES } from '../../../../common/constants';
+import { Modal, Button } from 'react-bootstrap';
 import i18n from 'i18next';
-import { templates } from "./templates/templates";
-import './_templatesModal.scss';
-import { isSection, makeBoxes } from "../../../../common/utils";
-import Ediphy from "../../../../core/editor/main";
-import { ADD_BOX } from "../../../../common/actions";
-import TemplateThumbnail from "./TemplateThumbnail";
-import { createBox } from "../../../../common/commonTools";
-import { getThemeTemplates } from "../../../../common/themes/themeLoader";
-
 import { connect } from "react-redux";
+
+import { ID_PREFIX_PAGE, PAGE_TYPES } from '../../../../common/constants';
+import { templates } from "./templates/templates";
+import { makeBoxes } from "../../../../common/utils";
+import TemplateThumbnail from "./TemplateThumbnail";
+
+import { getThemeTemplates } from "../../../../common/themes/themeLoader";
+import './_templatesModal.scss';
 
 class TemplatesModal extends Component {
     constructor(props) {
@@ -41,12 +39,12 @@ class TemplatesModal extends Component {
                             className="template_item"
                             key="-1"
                             style={{ width: '120px', height: '80px', border: this.state.itemSelected === -1 ? "solid #17CFC8 3px" : "solid #eee 1px", position: 'relative' }}
-                            onClick={e => {
+                            onClick={() => {
                                 this.setState({
                                     itemSelected: -1,
                                 });
                             }}
-                            onDoubleClick={e => {
+                            onDoubleClick={() => {
                                 this.setState({
                                     itemSelected: -1,
                                 });
@@ -57,8 +55,8 @@ class TemplatesModal extends Component {
                             let border = this.state.itemSelected === index ? "solid #17CFC8 3px" : "solid #eee 1px";
                             let backgroundColor = item.hasOwnProperty('backgroundColor') ? item.backgroundColor : '#ffffff';
                             return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: '120px', height: '80px', backgroundColor: backgroundColor }}
-                                onClick={e => { this.setState({ itemSelected: index });}}
-                                onDoubleClick={e => {
+                                onClick={() => { this.setState({ itemSelected: index });}}
+                                onDoubleClick={() => {
                                     this.setState({ itemSelected: index });
                                     this.AddNavItem(index);
                                 }}>
@@ -74,7 +72,13 @@ class TemplatesModal extends Component {
                         this.closeModal(); e.preventDefault();
                     }}>{i18n.t("importFile.footer.cancel")}</Button>
                     <Button bsStyle="primary" id="cancel_button" onClick={ (e) => {
-                        this.AddNavItem(this.state.itemSelected); e.preventDefault(); e.stopPropagation();
+                        if(this.props.fromRich) {
+                            this.getBoxes(this.state.itemSelected);
+                            this.closeModal();
+                        } else {
+                            this.AddNavItem(this.state.itemSelected);
+                        }
+                        e.preventDefault(); e.stopPropagation();
                     }} onDoubleClick={ (e) => {
                         // this.AddNavItem(this.state.itemSelected);
                         e.preventDefault(); e.stopPropagation();
@@ -92,6 +96,16 @@ class TemplatesModal extends Component {
         this.setState({ itemSelected: -1 });
         this.props.close();
     }
+
+    getBoxes(itemSelected) {
+        let boxes = [];
+        if (itemSelected !== -1) {
+            let selectedTemplate = this.templates[itemSelected];
+            boxes = selectedTemplate.boxes;
+        }
+        this.props.templateClick(boxes);
+    }
+
     /**
      * Add Slide
      */
@@ -161,4 +175,12 @@ TemplatesModal.propTypes = {
      *  General style config
      */
     styleConfig: PropTypes.object,
+    /**
+     * Function for getting template ID
+     */
+    templateClick: PropTypes.func.isRequired,
+    /**
+     * Comes from RichMarks Modal
+     */
+    fromRich: PropTypes.bool,
 };

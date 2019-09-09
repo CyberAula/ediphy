@@ -135,9 +135,10 @@ export function TrueFalse() {
                     }
 
                 };
+                console.log(props.exercises);
                 answers.push(<div key={i + 1} className={"row answerRow"}>
                     <div className={"col-xs-2 answerPlaceholder"}>
-                        <input type="radio" className="radioQuiz" name={props.id + "_" + i} value={"true"} checked={props.exercises && props.exercises.correctAnswer[i] === "true" || props.exercises && props.exercises.correctAnswer[i] === true}
+                        <input type="radio" className="radioQuiz" name={props.id + "_" + i} value={"true"} checked={props.exercises.correctAnswer[i] === "true" || props.exercises && props.exercises.correctAnswer[i] === true}
                             onChange={()=>{clickHandler(i, "true");}} />
                         <input type="radio" className="radioQuiz" name={props.id + "_" + i} value={"false"} checked={props.exercises && props.exercises.correctAnswer[i] === "false" || props.exercises && props.exercises.correctAnswer[i] === false}
                             onChange={()=>{clickHandler(i, "false");}} />
