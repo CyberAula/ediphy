@@ -43,7 +43,7 @@ export default class VisorPlayer extends Component {
                                 <Button className="playerButton"
                                     bsStyle="primary"
                                     disabled={index === 0 || maxIndex === 0}
-                                    onClick={(e)=>{this.props.changeCurrentView(navItemsIds[0]);}}>
+                                    onClick={()=>{this.props.changeCurrentView(navItemsIds[0]);}}>
                                     <i className="material-icons">first_page</i>
                                 </Button>
                             </OverlayTrigger>
@@ -52,7 +52,7 @@ export default class VisorPlayer extends Component {
                                 <Button className="playerButton"
                                     bsStyle="primary"
                                     disabled={index === 0 || maxIndex === 0}
-                                    onClick={(e)=>{this.props.changeCurrentView(navItemsIds[Math.max(index - 1, 0)], true);}}>
+                                    onClick={()=>{this.props.changeCurrentView(navItemsIds[Math.max(index - 1, 0)], true);}}>
                                     <i className="material-icons">chevron_left</i>
                                 </Button>
                             </OverlayTrigger>
@@ -70,7 +70,7 @@ export default class VisorPlayer extends Component {
                                 <Button className="playerButton"
                                     bsStyle="primary"
                                     disabled={index === maxIndex - 1 || maxIndex === 0}
-                                    onClick={(e)=>{this.props.changeCurrentView(navItemsIds[Math.min(index + 1, maxIndex - 1)], false);}}>
+                                    onClick={()=>{this.props.changeCurrentView(navItemsIds[Math.min(index + 1, maxIndex - 1)], false);}}>
                                     <i className="material-icons">chevron_right</i>
                                 </Button>
                             </OverlayTrigger>
@@ -78,7 +78,7 @@ export default class VisorPlayer extends Component {
                                 <Button className="playerButton"
                                     bsStyle="primary"
                                     disabled={index === maxIndex - 1 || maxIndex === 0}
-                                    onClick={(e)=>{this.props.changeCurrentView(navItemsIds[maxIndex - 1]);}}>
+                                    onClick={()=>{this.props.changeCurrentView(navItemsIds[maxIndex - 1]);}}>
                                     <i className="material-icons">last_page</i>
                                 </Button>
                             </OverlayTrigger>
@@ -88,7 +88,7 @@ export default class VisorPlayer extends Component {
                     <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose overlay={this.createTooltip("fullscreen", i18n.t("messages.fullscreen"))}>
                         <Button className="playerButton fullScreenButton"
                             bsStyle="primary"
-                            onClick={(e)=> {
+                            onClick={()=> {
                                 let el = document.getElementById('root');
                                 // let el = document.documentElement;
                                 screenfull.toggle(el);
