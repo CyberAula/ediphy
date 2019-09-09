@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
+import i18n from 'i18next';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import Alert from './../../common/alert/Alert';
+import './../../../../node_modules/rc-color-picker/assets/index.css';
+import { connect } from "react-redux";
 import Picker from 'rc-color-picker';
 import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Radio } from 'react-bootstrap';
-import { Typeahead } from 'react-bootstrap-typeahead';
-import {
-    ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES,
-    ID_PREFIX_PAGE, ID_PREFIX_BOX,
-} from '../../../../common/constants';
-import i18n from 'i18next';
-import { isSection, isContainedView, nextAvailName } from '../../../../common/utils';
-import './_richMarksModal.scss';
-import './../../../../node_modules/rc-color-picker/assets/index.css';
-import Ediphy from '../../../../core/editor/main';
-import { connect } from "react-redux";
 
+import Alert from './../../common/alert/Alert';
 import TemplatesModalRich from '../templatesModal/TemplatesModalRich';
+import { isSection, isContainedView, nextAvailName, makeBoxes } from '../../../../common/utils';
 import { createBox } from "../../../../common/commonTools";
+import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES, ID_PREFIX_BOX } from '../../../../common/constants';
+
+import './_richMarksModal.scss';
+
 /**
  * Modal component to edit marks' configuration
  */
@@ -79,16 +76,10 @@ class RichMarksModal extends Component {
      * @returns {code}
      */
     render() {
-        let richMarkValue = null;
-        let marksType = this.props.pluginToolbar
-                        && this.props.pluginToolbar.pluginId
-                        && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId)
-                        && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig()
-                        && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig().marksType
+        // TODO refactor con ? ??
+        let marksType = this.props.pluginToolbar?.pluginId
+                        && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId)?.getConfig()?.marksType
             ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig().marksType : {};
-        function getRichMarkInput(value) {
-            richMarkValue = value;
-        }
         let current = this.props.currentRichMark;
         let selected = this.state.existingSelected && (this.props.containedViews[this.state.existingSelected] || this.props.navItems[this.state.existingSelected]) ? (isContainedView(this.state.existingSelected) ? { label: this.props.containedViews[this.state.existingSelected].name, id: this.state.existingSelected } :
             { label: this.props.navItems[this.state.existingSelected].name, id: this.state.existingSelected }) : this.returnAllViews(this.props)[0] || [];
@@ -155,26 +146,26 @@ class RichMarksModal extends Component {
                                 <Radio value="new"
                                     name="connect_mode"
                                     checked={this.state.connectMode === "new"}
-                                    onChange={e => {
+                                    onChange={() => {
                                         this.setState({ connectMode: "new" });
                                     }}>{i18n.t("marks.new_content")}</Radio>
                                 <Radio value="existing"
                                     name="connect_mode"
                                     disabled={!this.returnAllViews(this.props).length > 0}
                                     checked={this.state.connectMode === "existing"}
-                                    onChange={e => {
+                                    onChange={() => {
                                         this.setState({ connectMode: "existing" });
                                     }}>{i18n.t("marks.existing_content")}</Radio>
                                 <Radio value="external"
                                     name="connect_mode"
                                     checked={this.state.connectMode === "external"}
-                                    onChange={e => {
+                                    onChange={() => {
                                         this.setState({ connectMode: "external" });
                                     }}>{i18n.t("marks.external_url")}</Radio>
                                 <Radio value="popup"
                                     name="connect_mode"
                                     checked={this.state.connectMode === "popup"}
-                                    onChange={e => {
+                                    onChange={() => {
                                         this.setState({ connectMode: "popup" });
                                     }}>{i18n.t("marks.popup")}</Radio>
 
@@ -253,11 +244,11 @@ class RichMarksModal extends Component {
 
                 <Modal.Footer>
                     {/* <span>También puedes arrastrar el icono <i className="material-icons">room</i> dentro del plugin del vídeo para añadir una nueva marca</span>*/}
-                    <Button onClick={e => {
+                    <Button onClick={() => {
                         this.props.handleMarks.onRichMarksModalToggled();
                         this.restoreDefaultTemplate();
                     }}>Cancel</Button>
-                    <Button bsStyle="primary" onClick={e => {
+                    <Button bsStyle="primary" onClick={() => {
                         let title = ReactDOM.findDOMNode(this.refs.title).value;
                         newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
                         let newMark = current && current.id ? current.id : ID_PREFIX_RICH_MARK + Date.now();
@@ -270,7 +261,6 @@ class RichMarksModal extends Component {
                         title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.marks, 'title');
                         let markState;
 
-                        let displayMode = this.state.displayMode;
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
                         // let value = this.props.markCursorValue;
                         // First of all we need to check if the plugin creator has provided a function to check if the input value is allowed
@@ -458,7 +448,7 @@ class RichMarksModal extends Component {
      * Shows/Hides the Import file modal
      */
     toggleTemplatesModal = () => {
-        this.setState((prevState, props) => ({
+        this.setState((prevState) => ({
             showTemplates: !prevState.showTemplates,
         }));
     };
@@ -477,31 +467,7 @@ class RichMarksModal extends Component {
 
     generateTemplateBoxes = (boxes, newId) => {
         if(boxes.length > 0) {
-            boxes.map((item, index) => {
-                let position = {
-                    x: item.box.x,
-                    y: item.box.y,
-                    type: 'absolute',
-                };
-                let initialParams = {
-                    id: ID_PREFIX_BOX + Date.now() + "_" + index,
-                    parent: newId,
-                    container: 0,
-                    col: 0, row: 0,
-                    width: item.box.width,
-                    height: item.box.height,
-                    position: position,
-                    name: item.toolbar.name,
-                    isDefaultPlugin: true,
-                    page: newId,
-                };
-                if (item.toolbar.text) {
-                    initialParams.text = item.toolbar.text;
-                } else if (item.toolbar.url) {
-                    initialParams.url = item.toolbar.url;
-                }
-                createBox(initialParams, item.toolbar.name, true, this.props.onBoxAdded, this.props.boxes, item.toolbar.style);
-            });
+            makeBoxes(boxes, newId, this.props);
         }
     };
 
@@ -511,7 +477,6 @@ class RichMarksModal extends Component {
     componentWillUnmount() {
         window.removeEventListener('keyup', this.toggleModal);
     }
-
 }
 
 function mapStateToProps(state) {

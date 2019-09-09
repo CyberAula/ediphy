@@ -1,5 +1,6 @@
 import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_FILE,
     ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from './constants';
+import { createBox } from "./commonTools";
 
 export default {
     // This would be a good post to explore if we don't want to use JSON Stringify: http://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
@@ -495,4 +496,32 @@ export function vendorTransform(obj, val) {
       obj.msTransform =
         obj.OTransform =
           obj.transform = val;
+}
+
+export function makeBoxes(boxes, newId, props) {
+    boxes.map((item, index) => {
+        let position = {
+            x: item.box.x,
+            y: item.box.y,
+            type: 'absolute',
+        };
+        let initialParams = {
+            id: ID_PREFIX_BOX + Date.now() + "_" + index,
+            parent: newId,
+            container: 0,
+            col: 0, row: 0,
+            width: item.box.width,
+            height: item.box.height,
+            position: position,
+            name: item.toolbar.name,
+            isDefaultPlugin: true,
+            page: newId,
+        };
+        if (item.toolbar.text) {
+            initialParams.text = item.toolbar.text;
+        } else if (item.toolbar.url) {
+            initialParams.url = item.toolbar.url;
+        }
+        createBox(initialParams, item.toolbar.name, true, props.onBoxAdded, props.boxes, item.toolbar.style);
+    });
 }

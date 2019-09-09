@@ -5,7 +5,7 @@ import { ID_PREFIX_BOX, ID_PREFIX_PAGE, PAGE_TYPES } from '../../../../common/co
 import i18n from 'i18next';
 import { templates } from "./templates/templates";
 import './_templatesModal.scss';
-import { isSection } from "../../../../common/utils";
+import { isSection, makeBoxes } from "../../../../common/utils";
 import Ediphy from "../../../../core/editor/main";
 import { ADD_BOX } from "../../../../common/actions";
 import TemplateThumbnail from "./TemplateThumbnail";
@@ -117,31 +117,7 @@ class TemplatesModal extends Component {
                 let selectedTemplate = templatesCopy[template];
                 let boxes = selectedTemplate.boxes;
 
-                boxes.map((item, index) => {
-                    let position = {
-                        x: item.box.x,
-                        y: item.box.y,
-                        type: 'absolute',
-                    };
-                    let initialParams = {
-                        id: ID_PREFIX_BOX + Date.now() + "_" + index,
-                        parent: newId,
-                        container: 0,
-                        col: 0, row: 0,
-                        width: item.box.width,
-                        height: item.box.height,
-                        position: position,
-                        name: item.toolbar.name,
-                        isDefaultPlugin: true,
-                        page: newId,
-                    };
-                    if (item.toolbar.text) {
-                        initialParams.text = item.toolbar.text;
-                    } else if (item.toolbar.url) {
-                        initialParams.url = item.toolbar.url;
-                    }
-                    createBox(initialParams, item.toolbar.name, true, this.props.onBoxAdded, this.props.boxes, item.toolbar.style);
-                });
+                makeBoxes(boxes, newId, this.props);
             }
             // reset state
             this.setState({
