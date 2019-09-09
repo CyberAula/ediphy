@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Alert from '../../common/alert/Alert';
-import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
+import { Modal, Grid, Row, Col, FormGroup, ControlLabel, Radio, Button } from 'react-bootstrap';
 import Panel from 'react-bootstrap/lib/Panel';
 import PanelGroup from 'react-bootstrap/lib/PanelGroup';
 
@@ -12,7 +12,6 @@ let spinner = require('../../../../dist/images/spinner.svg');
 
 import { templatesSliDoc, templatesSli, templatesDoc } from "./templates/templates";
 import TemplateThumbnailPrint from "./TemplateThumbnailPrint";
-import { createBox } from "../../../../common/commonTools";
 import { connect } from "react-redux";
 
 /**
@@ -109,10 +108,10 @@ class ExportModal extends Component {
                                     </Alert>) : null}
                                     <FormGroup >
                                         <ControlLabel> {i18n.t("messages.export_to_label")}</ControlLabel><br/>
-                                        {this.state.showLoader ? (<img className="spinnerFloat" src={spinner}/>) : null}
+                                        {this.state.showLoader ? (<img className="spinnerFloat" src={spinner} alt={'loading'}/>) : null}
                                         {exportFormats.map((format, i) => {
                                             return (<Radio key={i} name="radioGroup" className="radioExportScorm" checked={this.state.format === i}
-                                                onChange={e => {this.setState({ format: i });}}>
+                                                onChange={() => {this.setState({ format: i });}}>
                                                 {format.formatRender || format.format}<br/>
                                             </Radio>);
                                         })}
@@ -140,7 +139,7 @@ class ExportModal extends Component {
                                                                     let border = (this.state.itemSelected === index && this.state.settingType === 1) ? "solid #17CFC8 3px" : "solid #eee 1px";
                                                                     return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: (index === 0 || index === 2) ? '110px' : '80px', height: (index === 0 || index === 2) ? '80px' : '110px' }}>
                                                                         <TemplateThumbnailPrint key={index} index={index}
-                                                                            onClick={e => {
+                                                                            onClick={() => {
                                                                                 this.setState({ itemSelected: index });
                                                                                 switch (index) {
                                                                                 case 0:
@@ -174,7 +173,7 @@ class ExportModal extends Component {
                                                                         width: isChrome ? ((index === 0) ? '100px' : ((index === 1 || index === 4) ? '100px' : '70px')) : (index === 0 || index === 1 || index === 4) ? '110px' : '80px',
                                                                         height: isChrome ? ((index === 0) ? (aspectRatio === (16 / 9) ? '60px' : '75px') : ((index === 1 || index === 4) ? '70px' : '100px')) : (index === 0 || index === 1 || index === 4) ? '80px' : '110px' }}>
                                                                         <TemplateThumbnailPrint key={index} index={index}
-                                                                            onClick={e => {
+                                                                            onClick={() => {
                                                                                 this.setState({ itemSelected: index });
 
                                                                                 switch (index) {
@@ -217,7 +216,7 @@ class ExportModal extends Component {
                                                                     let border = (this.state.itemSelected === index && this.state.settingType === 3) ? "solid #17CFC8 3px" : "solid #eee 1px";
                                                                     return (<div key={index} className="template_item" style={{ display: ((isSafari || isFirefox) && (index === 1)) ? 'none' : 'flex', position: 'relative', border: border, width: index % 2 === 1 ? '110px' : '80px', height: index % 2 === 1 ? '80px' : '110px' }}>
                                                                         <TemplateThumbnailPrint key={index} index={index}
-                                                                            onClick={e => {
+                                                                            onClick={() => {
                                                                                 this.setState({ itemSelected: index });
                                                                                 switch (index) {
                                                                                 case 0:
