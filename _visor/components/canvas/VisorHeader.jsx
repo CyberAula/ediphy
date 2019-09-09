@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Breadcrumb, BreadcrumbItem } from 'react-bootstrap';
-import i18n from 'i18next';
-import { isView, isContainedView } from '../../../common/utils';
+import { isContainedView } from '../../../common/utils';
 
 export default class VisorHeader extends Component {
 
@@ -20,15 +19,11 @@ export default class VisorHeader extends Component {
         }
 
         let content;
-        let unidad;
         // breadcrumb
         if(!isContainedView(this.props.currentView)) {
             if (element !== undefined) {
                 if (element.breadcrumb === 'reduced') {
                     let titleList = this.props.titles;
-
-                    let actualTitle = titleList[titleList.length - 1];
-                    unidad = titleList[0];
                     content = React.createElement("div", { className: "subheader" },
                         React.createElement(Breadcrumb, { style: { margin: 0, backgroundColor: 'inherit' } },
                             titleList.map((item, index) => {
