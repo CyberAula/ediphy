@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
+import { Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, Button } from 'react-bootstrap';
 import i18n from 'i18next';
-import FileInput from "../../../common/fileInput/FileInput";
-import { ADD_BOX } from "../../../../../common/actions";
 import { isContainedView, isSlide } from "../../../../../common/utils";
 import { randomPositionGenerator } from "../../../clipboard/clipboard.utils";
 import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from '../../../../../common/constants';
-import Ediphy from "../../../../../core/editor/main";
+
 // styles
 import { createBox } from '../../../../../common/commonTools';
 let spinner = require('../../../../../dist/images/spinner.svg');
@@ -60,8 +58,8 @@ export default class PDFHandler extends Component {
 
     start = () => {
         require.ensure([], function() {
-            let worker;
-            worker = require('./pdf.worker.js');
+            // let worker;
+            // worker = require('./pdf.worker.js');
         });
         if(this.props.url) {
             let loadingTask = pdflib.getDocument(this.props.url);
@@ -120,12 +118,12 @@ export default class PDFHandler extends Component {
                 </div>
                 <Row style={{ display: 'block' }}>
                     <Col xs={12} md={6} lg={6}>
-                        <img id='FilePreview' src={spinner} style={{ width: 'auto', padding: '25%' }}/>
+                        <img id='FilePreview' src={spinner} alt={'PDF preview'} style={{ width: 'auto', padding: '25%' }}/>
                     </Col>
                     <Col xs={12} md={6} lg={6}>
                         <FormGroup>
                             <ControlLabel>{i18n.t("importFile.pages.title")}</ControlLabel>
-                            <Radio name="radioPages" inline onChange={e => {this.setState({ PagesFrom: 1, PagesTo: this.state.FilePages });}} defaultChecked>
+                            <Radio name="radioPages" inline onChange={() => {this.setState({ PagesFrom: 1, PagesTo: this.state.FilePages });}} defaultChecked>
                                 {i18n.t("importFile.pages.whole_file")} ({ this.state.FilePages })
                             </Radio>
                             <Radio name="radioPages" inline>
@@ -153,16 +151,16 @@ export default class PDFHandler extends Component {
                         </FormGroup>
                         <FormGroup>
                             <ControlLabel>{i18n.t("importFile.importAs.title")}</ControlLabel>
-                            <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'SliBackground' });}} >
+                            <Radio name="radioImport" inline onChange={() => {this.setState({ ImportAs: 'SliBackground' });}} >
                                 {i18n.t("importFile.importAs.slideBackground")}
                             </Radio>
-                            <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'Image' });}}>
+                            <Radio name="radioImport" inline onChange={() => {this.setState({ ImportAs: 'Image' });}}>
                                 {i18n.t("importFile.importAs.images")}
                             </Radio>
-                            <Radio name="radioImport" inline defaultChecked onChange={e => {this.setState({ ImportAs: 'Custom' });}}>
+                            <Radio name="radioImport" inline defaultChecked onChange={() => {this.setState({ ImportAs: 'Custom' });}}>
                                 {i18n.t("importFile.importAs.customSize")}
                             </Radio>
-                            <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'PDFViewer' });}}>
+                            <Radio name="radioImport" inline onChange={() => {this.setState({ ImportAs: 'PDFViewer' });}}>
                                 {i18n.t("importFile.importAs.PDFViewer")}
                             </Radio>
                         </FormGroup>
@@ -334,53 +332,53 @@ export default class PDFHandler extends Component {
         }
     };
 
-    fileLoad = (event) => {
-        let file = event.target.files[0];
-        let pdfURL = URL.createObjectURL(file);
-
-        if (file.type === 'application/pdf') {
-            let loadingTask = pdflib.getDocument(pdfURL);
-            loadingTask.promise.then((pdfDocument)=> {
-                let numPages = pdfDocument.numPages;
-                this.setState({
-                    FileURL: pdfURL,
-                    FileLoaded: true,
-                    FileName: file.name,
-                    FilePages: numPages,
-                    FileType: '(.pdf)',
-                    ImportAs: 'Custom' });
-                // Request pages
-                let page;
-                for (let i = 1; i <= numPages; i++) {
-                    page = pdfDocument.getPage(i).then((pdfPage) =>{
-                        // Display page on the existing canvas with 100% scale.
-                        let viewport = pdfPage.getViewport(1.0);
-                        let canvas = document.createElement('canvas');
-                        document.body.appendChild(canvas);
-                        canvas.id = "can" + i;
-                        canvas.style.visibility = "hidden";
-                        canvas.width = viewport.width;
-                        canvas.height = viewport.height;
-                        let ctx = canvas.getContext('2d');
-                        let renderTask = pdfPage.render({
-                            canvasContext: ctx,
-                            viewport: viewport,
-                        });
-                        if (i === 1) {
-                            renderTask.promise.then(() => {
-                                this.PreviewFile(i);
-                            });
-                        }
-                        return renderTask.promise;
-                    });
-                }
-                return page;
-            }).catch(function(reason) {
-                // eslint-disable-next-line no-console
-                console.error('Error: ' + reason);
-            });
-        }
-    };
+    // fileLoad = (event) => {
+    //     let file = event.target.files[0];
+    //     let pdfURL = URL.createObjectURL(file);
+    //
+    //     if (file.type === 'application/pdf') {
+    //         let loadingTask = pdflib.getDocument(pdfURL);
+    //         loadingTask.promise.then((pdfDocument)=> {
+    //             let numPages = pdfDocument.numPages;
+    //             this.setState({
+    //                 FileURL: pdfURL,
+    //                 FileLoaded: true,
+    //                 FileName: file.name,
+    //                 FilePages: numPages,
+    //                 FileType: '(.pdf)',
+    //                 ImportAs: 'Custom' });
+    //             // Request pages
+    //             let page;
+    //             for (let i = 1; i <= numPages; i++) {
+    //                 page = pdfDocument.getPage(i).then((pdfPage) =>{
+    //                     // Display page on the existing canvas with 100% scale.
+    //                     let viewport = pdfPage.getViewport(1.0);
+    //                     let canvas = document.createElement('canvas');
+    //                     document.body.appendChild(canvas);
+    //                     canvas.id = "can" + i;
+    //                     canvas.style.visibility = "hidden";
+    //                     canvas.width = viewport.width;
+    //                     canvas.height = viewport.height;
+    //                     let ctx = canvas.getContext('2d');
+    //                     let renderTask = pdfPage.render({
+    //                         canvasContext: ctx,
+    //                         viewport: viewport,
+    //                     });
+    //                     if (i === 1) {
+    //                         renderTask.promise.then(() => {
+    //                             this.PreviewFile(i);
+    //                         });
+    //                     }
+    //                     return renderTask.promise;
+    //                 });
+    //             }
+    //             return page;
+    //         }).catch(function(reason) {
+    //             // eslint-disable-next-line no-console
+    //             console.error('Error: ' + reason);
+    //         });
+    //     }
+    // };
 
     /**
      * Close modal
