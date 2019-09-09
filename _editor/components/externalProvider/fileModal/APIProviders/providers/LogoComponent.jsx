@@ -1,12 +1,7 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button, ModalBody } from 'react-bootstrap';
-import Ediphy from '../../../../../../core/editor/main';
-import i18n from 'i18next';
+import React from 'react';
+import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import SearchComponent from '../common/SearchComponent';
 import ImageComponent from '../common/ImageComponent';
-import { extensionHandlers as extensions } from '../../FileHandlers/FileHandlers';
 
 export default class LogoComponent extends React.Component {
     render() {
