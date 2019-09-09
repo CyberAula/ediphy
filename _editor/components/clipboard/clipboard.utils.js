@@ -6,11 +6,11 @@
 /**
  * Async function for retrieving an image from the clipboard
  * @param pasteEvent Paste event captured
+ * @param uploadFunction
  * @param callback Callback function for when finishing parsing the image
- * @param imageFormat Resulting image format
  * @returns {boolean} True if there is images in the clipboard. False otherwise
  */
-export function retrieveImageFromClipboardAsBase64(pasteEvent, uploadFunction, callback, imageFormat) {
+export function retrieveImageFromClipboardAsBase64(pasteEvent, uploadFunction, callback) {
     // TODO link with VISH
     if(pasteEvent.clipboardData === false) {
         if(typeof(callback) === "function") {
@@ -30,10 +30,10 @@ export function retrieveImageFromClipboardAsBase64(pasteEvent, uploadFunction, c
             // Retrieve image on clipboard as blob
             let blob = items[i].getAsFile();
             // Create an abstract canvas and get context
-            let mycanvas = document.createElement("canvas");
-            let ctx = mycanvas.getContext('2d');
+            // let mycanvas = document.createElement("canvas");
+            // let ctx = mycanvas.getContext('2d');
             // Create an image
-            let img = new Image();
+            // let img = new Image();
             // Once the image loads, render the img on the canvas
 
             if(typeof(uploadFunction) === "function") {
@@ -120,14 +120,15 @@ export function randomPositionGenerator(min, max) {
 
 /**
  * Adapt the text from the clipboard to HTML that the CKEditor recognizes
- * @param data Clipboard data in HTML or plain text
  * @returns {string} Resulting CKEditor content
+ * @param str
+ * @param p1
  */
 
 function replacerPt(str, p1) {
     return "" + Math.round(p1 * 2 / 21 * 1000) / 1000 + "em";
 }
-function replacerPx(str, p1, p2, offset, s) {
+function replacerPx(str, p1) {
     return "" + Math.round(p1 / 14 * 1000) / 1000 + "em";
 }
 
@@ -144,12 +145,12 @@ export function getCKEDITORAdaptedContent(data) {
     // parsedHTML = parsedHTML.replace(/([1-9]\d*(\.\d+)?)px/gim, replacerPx)
     // parsedHTML = parsedHTML.replace(/([1-9]\d*(\.\d+)?)pt/gim, replacerPt)
 
-    parsedHTML = parsedHTML.replace(/style=\"(.*;)*\"/gim, function(str, p1, p2) {
+    parsedHTML = parsedHTML.replace(/style=\"(.*;)*\"/gim, function(str, p1) {
         let styled = (p1.replace(/([0-9]\d*(\.\d+)?)pt/gim, replacerPt));
         styled = styled.replace(/([0-9]\d*(\.\d+)?)px/gim, replacerPx);
         return "style=\"" + styled + "\"";
     });
-    parsedHTML = parsedHTML.replace(/<style>(.*;)*<\/style>/gim, function(str, p1, p2) {
+    parsedHTML = parsedHTML.replace(/<style>(.*;)*<\/style>/gim, function(str, p1) {
         let styled = (p1.replace(/([0-9]\d*(\.\d+)?)pt/gim, replacerPt));
         styled = styled.replace(/([0-9]\d*(\.\d+)?)px/gim, replacerPx);
         return "<style>" + styled + "</style>";

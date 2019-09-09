@@ -307,8 +307,7 @@ class Clipboard extends Component {
                                 createBox(initialParams, "HotspotImages", isTargetSlide, onBoxAdded, this.props.boxes);
                                 return;
                             }
-                        }
-                        , false);
+                        });
                     } catch (err) {
                         // eslint-disable-next-line no-console
                         console.log(err);
