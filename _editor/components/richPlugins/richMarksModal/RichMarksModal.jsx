@@ -8,7 +8,6 @@ import Picker from 'rc-color-picker';
 import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Radio } from 'react-bootstrap';
 
 import Alert from './../../common/alert/Alert';
-import TemplatesModalRich from '../templatesModal/DEPRECATED_TemplatesModalRich';
 import { isSection, isContainedView, nextAvailName, makeBoxes } from '../../../../common/utils';
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../common/constants';
 

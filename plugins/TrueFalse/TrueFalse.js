@@ -135,7 +135,6 @@ export function TrueFalse() {
                     }
 
                 };
-                console.log(props.exercises);
                 answers.push(<div key={i + 1} className={"row answerRow"}>
                     <div className={"col-xs-2 answerPlaceholder"}>
                         <input type="radio" className="radioQuiz" name={props.id + "_" + i} value={"true"} checked={props.exercises.correctAnswer[i] === "true" || props.exercises && props.exercises.correctAnswer[i] === true}

@@ -2,14 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Ediphy from '../../../core/editor/main';
 import Alert from '../common/alert/Alert';
-import { isContainedView, isSlide, isBox, isSortableBox, isView, isSortableContainer } from '../../../common/utils';
-import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_RICH_MARK } from '../../../common/constants';
-import { ADD_BOX } from '../../../common/actions';
-import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent, isURL, copyText } from './clipboard.utils';
+import {
+    isContainedView,
+    isSlide,
+    isBox,
+    isSortableBox,
+    isView,
+    getIndex,
+} from '../../../common/utils';
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../common/constants';
+import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, isURL, copyText } from './clipboard.utils';
 import i18n from 'i18next';
 import { instanceExists, scrollElement, findBox, createBox } from '../../../common/commonTools';
 import { connect } from 'react-redux';
-import { uploadVishResourceAsync, uploadEdiphyResourceAsync, deleteBox, addBox, pasteBox } from '../../../common/actions';
+import { uploadVishResourceAsync, uploadEdiphyResourceAsync, addBox, pasteBox } from '../../../common/actions';
 
 /**
  * Component for managing the clipboard
@@ -76,12 +82,7 @@ class Clipboard extends Component {
         return false;
     };
 
-    /**
-     * Copy Button
-     * @param event
-     * @returns {boolean}
-     */
-    copyButtonListener = (event) => {
+    copyButtonListener = () => {
         let activeElement = document.activeElement;
         if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
             if (!this.containsCKEDitorText(activeElement) || (this.props.boxes[this.props.boxSelected] && !this.props.boxes[this.props.boxSelected].showTextEditor)) {
@@ -137,7 +138,7 @@ class Clipboard extends Component {
             parent = this.props.boxes[this.props.boxSelected].parent;
             container = this.props.boxes[this.props.boxSelected].container;
             // isTargetSlide = container === 0;
-            newInd = this.getIndex(parent, container);
+            newInd = getIndex(parent, container, this.props);
         }
         let ids = { id, parent, container, page: page ? page.id : 0 };
         this.pasteBox(data, ids, isTargetSlide, newInd);
@@ -255,7 +256,7 @@ class Clipboard extends Component {
                     // isTargetSlide = container === 0;
                     row = this.props.boxes[this.props.boxSelected].row;
                     col = this.props.boxes[this.props.boxSelected].col;
-                    newInd = this.getIndex(parent, container);
+                    newInd = this.getIndex(parent, container, this.props);
                 }
 
                 let ids = { id, parent, container, row, col, page: page ? page.id : 0 };
@@ -280,7 +281,6 @@ class Clipboard extends Component {
                 // Copied data is not an EditorBox
                 } else if (!this.containsCKEDitorText(activeElement)) {
                     event.preventDefault();
-                    let imageBlob;
                     let initialParams = {
                         id: ID_PREFIX_BOX + Date.now(),
                         parent: parent, //
@@ -383,7 +383,7 @@ class Clipboard extends Component {
     /**
      * Modifies pasted box so it adapts to its new parent
      */
-    transformBox = (box, ids, isTargetSlide, isOriginSlide) => {
+    transformBox = (box, ids, isTargetSlide) => {
         let samePage = isTargetSlide && box.parent === ids.parent;
         let newIds = {};
         let newContainerBoxes = {};
@@ -445,16 +445,6 @@ class Clipboard extends Component {
         }
         return newToolbar;
 
-    };
-
-    getIndex = (parent, container) => {
-        let newInd;
-        if(isSortableContainer(container)) {
-            let children = this.props.boxes[parent].sortableContainers[container].children;
-            newInd = children.indexOf(this.props.boxSelected) + 1;
-            newInd = newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
-        }
-        return newInd;
     };
 
     /**

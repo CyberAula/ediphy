@@ -169,16 +169,6 @@ class FileModal extends React.Component {
             (this.props.navItemSelected !== 0 ? this.props.navItems[this.props.navItemSelected] : null);
     };
 
-    getIndex = (parent, container) => {
-        let newInd;
-        if(isSortableContainer(container)) {
-            let children = this.props.boxes[parent].sortableContainers[container].children;
-            newInd = children.indexOf(this.props.boxSelected) + 1;
-            newInd = newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
-        }
-        return newInd;
-    };
-
     close = (fileModalResult) => {
         this.setState({ ...initialState });
         this.props.dispatch((updateUI({
