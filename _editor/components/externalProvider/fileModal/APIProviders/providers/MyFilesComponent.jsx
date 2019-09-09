@@ -78,9 +78,8 @@ export default class MyFilesComponent extends React.Component {
                 </FormGroup>
             </div>
             <Grid>
-                <Row className="myFilesRow" onClick={e=>{this.setState({ preview: false }); this.props.onElementSelected(undefined, undefined, undefined);}}>
+                <Row className="myFilesRow" onClick={()=>{this.setState({ preview: false }); this.props.onElementSelected(undefined, undefined, undefined);}}>
                     {files.map((file, i)=>{
-                        let split = file.name.split('.');
                         let filetype = file.type; // ? file.type : ((split && (split.length > 1)? split[split.length-1]:'application'));
                         let isActive = (file.id === this.props.idSelected);
                         return (<Col key={i} className={"myFile" + (file.hide ? ' hidden' : '')} xs={12} sm={6} md={4} lg={3}>
@@ -89,7 +88,7 @@ export default class MyFilesComponent extends React.Component {
                                 e.stopPropagation();}}>
                                 <i className="material-icons">delete</i>
                             </Button> : null}
-                            {isActive ? <Button className="downloadButton" onClick={(e)=>{
+                            {isActive ? <Button className="downloadButton" onClick={()=>{
                                 download.action();}}>
                                 <i className="material-icons">cloud_download</i>
                             </Button> : null}
@@ -149,14 +148,13 @@ export default class MyFilesComponent extends React.Component {
             this.setState({ extensionFilter: nextProps.show });
         }
     }
-    UNSAFE_componentWillUpdate(nextProps, nextState) {
+    UNSAFE_componentWillUpdate(nextProps) {
         if ((nextProps.filesUploaded && this.props.filesUploaded && nextProps.filesUploaded.length !== this.props.filesUploaded.length)
         /* || nextState.filter !== this.state.filter || nextState.extensionFilter !== this.state.extensionFilter*/) {
             // this.props.onElementSelected( undefined, undefined, undefined);
         }
     }
     generatePreview = () => {
-        let item = this.props.elementSelected;
         switch(this.props.elementSelectedType) {
         case "webapp":
         case "pdf":
