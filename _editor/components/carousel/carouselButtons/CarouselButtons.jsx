@@ -4,16 +4,12 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Tooltip, Button, OverlayTrigger, Popover, Overlay } from 'react-bootstrap';
 import {
-    selectContainedView,
-    addNavItem, addBox,
-    expandNavItem, updateViewToolbar,
-    reorderNavItem,
+    addNavItem,
     selectIndex,
     deleteContainedView, deleteNavItem } from '../../../../common/actions';
 
 import { ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../common/constants';
-import { isSection, isContainedView, calculateNewIdOrder, getDescendantLinkedBoxes, getDescendantBoxes, getDescendantViews } from '../../../../common/utils';
-import Ediphy from '../../../../core/editor/main';
+import { isSection, isContainedView, getDescendantLinkedBoxes, getDescendantBoxes, getDescendantViews } from '../../../../common/utils';
 import { connect } from 'react-redux';
 import './_carouselButtons.scss';
 import TemplatesModal from "../templatesModal/TemplatesModal";
@@ -133,7 +129,7 @@ class CarouselButtons extends Component {
                 tooltip: i18n.t('DuplicateNavItem'),
                 name: "duplicateNav",
                 disabled: indexSelected === 0 || isContainedView(indexSelected) || isSection(indexSelected),
-                onClick: e => onNavItemDuplicated(indexSelected),
+                onClick: () => onNavItemDuplicated(indexSelected),
                 icon: "control_point_duplicate",
             },
             {
@@ -217,7 +213,7 @@ class CarouselButtons extends Component {
      * Shows/Hides the Import file modal
      */
     toggleTemplatesModal = () => {
-        this.setState((prevState, props) => ({
+        this.setState((prevState) => ({
             showTemplates: !prevState.showTemplates,
         }));
     };
@@ -251,7 +247,7 @@ class CarouselButtons extends Component {
         e.stopPropagation();
     };
 
-    deleteItem = (e) => {
+    deleteItem = () => {
         const { boxes, containedViews, indexSelected, navItems } = this.props;
         if(indexSelected !== 0) {
             if (isContainedView(indexSelected) /* && this.canDeleteContainedView(this.props.indexSelected)*/) {
