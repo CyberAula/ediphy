@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, ModalBody, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
-import Ediphy from '../../../../../../core/editor/main';
+import { Modal, ModalBody, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
-import ReactDOM from 'react-dom';
 import SearchComponent from '../common/SearchComponent';
 
 import placeholder from '../logos/soundcloud_placeholder.png';
@@ -42,11 +40,10 @@ export default class PolyComponent extends React.Component {
                             {this.state.results.map((item, index) => {
                                 let border = item.url === this.props.elementSelected ? "solid #17CFC8 2px" : "solid transparent 2px";
                                 let background = item.url === this.props.elementSelected ? "rgba(23,207,200,0.1)" : "transparent";
-                                let duration = new Date(item.duration);
                                 return (
                                     <div
                                         className={"audioItem"} key={index} style={{ border: border, backgroundColor: background }}
-                                        onClick={e => {
+                                        onClick={() => {
                                             this.props.onElementSelected(item.title, item.url, 'webapp');
                                         }}>
                                         <img key={index} src={item.thumbnail || placeholder} className={'polyObj'} onError={(e)=>{
