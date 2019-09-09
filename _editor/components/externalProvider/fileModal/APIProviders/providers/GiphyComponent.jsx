@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, FormControl, Col, Form, FormGroup, InputGroup, Glyphicon, ControlLabel, Button } from 'react-bootstrap';
-import Ediphy from '../../../../../../core/editor/main';
+import { Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
-import ReactDOM from 'react-dom';
 import SearchComponent from '../common/SearchComponent';
 import ImageComponent from '../common/ImageComponent';
 import attribution from '../logos/PoweredBy_200px-White_HorizText.png';
@@ -36,12 +34,11 @@ export default class GiphyComponent extends React.Component {
             <Form className={"ExternalResults"}>
 
                 {this.state.results.length > 0 ?
-                    ([<img key="0" className="attribution" src={attribution}/>,
+                    ([<img key="0" className="attribution" src={attribution} alt={'attribution'}/>,
                         <FormGroup key="1">
                             <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                             <br />
-                            {this.state.results.map((item, index) => {
-                                let border = item.url === this.props.elementSelected ? "solid #17CFC8 3px" : "solid transparent 3px";
+                            {this.state.results.map((item) => {
                                 return (<ImageComponent item={item} title={item.title} url={item.url} thumbnail={item.thumbnail} onElementSelected={this.props.onElementSelected} isSelected={item.url === this.props.elementSelected} />
                                 );
                             })}
