@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
-import { Button, Row, Col, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { Button, Row, Col, FormGroup } from 'react-bootstrap';
 import ExternalDropzone from '../common/ExternalDropzone';
 import { extensionHandlers as extensions } from '../../FileHandlers/FileHandlers';
 import '../../../../navBar/globalConfig/_reactTags.scss';
-import { ID_PREFIX_FILE, FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../../common/constants';
+import { FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../../common/constants';
 import { isFile } from '../../../../../../common/utils';
 let spinner = require('../../../../../../dist/images/spinner.svg');
 
@@ -53,7 +53,7 @@ export default class UploadComponent extends React.Component {
                         <div id="fileNameTitle">
                             <span>{this.state.file ? this.state.file.name : ""}</span><br/><br/>
                             <Button disabled={!this.state.allowed} bsStyle="primary" style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={this.uploadHandler}><i className="material-icons">file_upload</i> {i18n.t("FileModal.APIProviders.upload")}</Button>
-                            <Button style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={(e)=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false, allowed: true, forbidden: false });}}><i className="material-icons">clear</i> {i18n.t("FileModal.APIProviders.clear")}</Button>
+                            <Button style={{ display: (!this.state.file || this.state.uploaded) ? 'none' : 'inline-block' }} onClick={()=>{this.setState({ file: undefined, uploaded: false, error: false, uploading: false, allowed: true, forbidden: false });}}><i className="material-icons">clear</i> {i18n.t("FileModal.APIProviders.clear")}</Button>
                         </div>
                         {this.state.uploading ? <div id="spinnerFloatContainer"><img className="spinnerFloat" src={spinner} alt=""/></div> : null}
                         {/* <ControlLabel>{i18n.t('globalConfig.keywords')}</ControlLabel><br/>
@@ -70,7 +70,7 @@ export default class UploadComponent extends React.Component {
                         <Button
                             style={{ display: (this.state.uploaded) ? 'inline-block' : 'none' }}
                             bsStyle="primary"
-                            onClick={(e)=>{
+                            onClick={()=>{
                                 this.props.onElementSelected(undefined, undefined, undefined, undefined);
                                 this.setState({ file: undefined, uploaded: false, error: false, uploading: false, allowed: true });}}>
                             {i18n.t("FileModal.APIProviders.UploadNewFile")}</Button>
@@ -100,7 +100,7 @@ export default class UploadComponent extends React.Component {
                         extension = ext.value;
                     }
                     if (newFile.mimetype === 'application/vnd.ms-excel') {
-                        extension === 'csv';
+                        // ????? extension === 'csv';
                     }
 
                 }
