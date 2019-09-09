@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import html2canvas from 'html2canvas';
 import PropTypes from 'prop-types';
-import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
+import { Modal, Grid, Row, Col, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 
 import { updateUI, changeStyleConfig } from "../../../../common/actions";
@@ -20,7 +19,6 @@ import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
 import 'react-select/dist/react-select.css';
 import './_globalConfig.scss';
 import { getThemeFont } from "../../../../common/themes/themeLoader";
-import ThemeCSS from "../../../../common/themes/ThemeCSS";
 import ThemePreview from "../../../../common/themes/ThemePreview";
 import TransitionPicker from "../../common/transitionPicker/TransitionPicker";
 
@@ -46,7 +44,7 @@ class StyleConfig extends Component {
                     show={this.props.show}
                     backdrop={'static'} bsSize="large"
                     // aria-labelledby="contained-modal-title-lg"
-                    onHide={e => {
+                    onHide={() => {
                     // If anything has changed after last save show an alert, otherwise just leave
                         if (this.state.modifiedState) {
                             this.setState({ showAlert: true });
@@ -64,9 +62,13 @@ class StyleConfig extends Component {
                         closeButton
                         cancelButton
                         acceptButtonText={'OK'}
-                        onClose={(bool) => {
+                        onClose={ok => {
                         // If Accept button clicked, state is saved, otherwise close without saving
-                            bool ? this.saveState() : this.cancel();
+                            if(ok) {
+                                this.saveState();
+                            } else {
+                                this.cancel();
+                            }
                             // Anyway close the alert
                             this.setState({ showAlert: false });
                         // this.props.close();
@@ -107,7 +109,7 @@ class StyleConfig extends Component {
                                         </div>
                                     </FormGroup>
                                     <FormGroup>
-                                        <Button style={{ width: '100%' }} bsStyle="primary" id="cancel_insert_plugin_config_modal" onClick={e => {
+                                        <Button style={{ width: '100%' }} bsStyle="primary" id="cancel_insert_plugin_config_modal" onClick={() => {
                                             this.setState({ modifiedState: true, font: getThemeFont(this.state.theme), color: getThemeColors(this.state.theme).themeColor1 });
                                             document.activeElement.blur();
                                         }}>{i18n.t("Style.restore_theme_setup")}</Button>
@@ -154,7 +156,7 @@ class StyleConfig extends Component {
         this.props.dispatch(changeStyleConfig("STATE", this.state));
         this.close();
         e.preventDefault();
-    }
+    };
 
     /**
      * Discard configuration changes
