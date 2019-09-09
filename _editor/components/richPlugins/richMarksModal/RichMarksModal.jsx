@@ -10,8 +10,7 @@ import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Radio } 
 import Alert from './../../common/alert/Alert';
 import TemplatesModalRich from '../templatesModal/TemplatesModalRich';
 import { isSection, isContainedView, nextAvailName, makeBoxes } from '../../../../common/utils';
-import { createBox } from "../../../../common/commonTools";
-import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES, ID_PREFIX_BOX } from '../../../../common/constants';
+import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../common/constants';
 
 import './_richMarksModal.scss';
 
