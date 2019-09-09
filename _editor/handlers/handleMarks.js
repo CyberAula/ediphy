@@ -1,15 +1,11 @@
 import {
     addRichMark,
-    deleteContainedView,
     deleteRichMark,
     editRichMark,
     moveRichMark, selectBox,
     updateUI,
 } from "../../common/actions";
-import { getDescendantBoxes, isContainedView } from "../../common/utils";
-import i18n from "i18next";
-import Alert from "../components/common/alert/Alert";
-import ToggleSwitch from "@trendmicro/react-toggle-switch";
+import { isContainedView } from "../../common/utils";
 
 export default function(self) {
     return {
@@ -36,7 +32,6 @@ export default function(self) {
             if (isContainedView(cvid)) {
                 let selfcv = self.props.containedViews[cvid];
                 if (Object.keys(selfcv.parent).length === 1) {
-                    let confirmText = i18n.t("messages.confirm_delete_CV_also_1") + self.props.viewToolbars[cvid].viewName + i18n.t("messages.confirm_delete_CV_also_2");
                     self.props.dispatch(updateUI({ showCVAlert: true, markInfo: id }));
                     return;
                 }
