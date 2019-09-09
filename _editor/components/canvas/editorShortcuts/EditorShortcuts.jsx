@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import Ediphy from '../../../../core/editor/main';
 import { Tooltip, OverlayTrigger, Button, Popover, Overlay } from 'react-bootstrap';
-import { UPDATE_BOX } from '../../../../common/actions';
 import i18n from 'i18next';
+import { connect } from "react-redux";
+
+import Ediphy from '../../../../core/editor/main';
 import { isSortableBox, isSortableContainer } from '../../../../common/utils';
 import { blurCKEditor, findBox } from '../../../../common/commonTools';
-import { connect } from "react-redux";
 
 /**
  * EditorShortcuts component
@@ -104,9 +104,7 @@ class EditorShortcuts extends Component {
                                     <i className="material-icons">search</i>
                                 </button>
                             </OverlayTrigger>
-                        ) : (
-                            null
-                        )
+                        ) : null
                     }
                     {
                         (hasURL) ? (
@@ -117,16 +115,14 @@ class EditorShortcuts extends Component {
                                     </Tooltip>
                                 }>
                                 <button id="open_conf" className={"editorTitleButton"}
-                                    onClick={(e) => {
+                                    onClick={() => {
                                         this.props.openFileModal(box.id, accept);
                                         this.setState({ open: true, callbackKey });
                                     }}>
                                     <i className="material-icons">search</i>
                                 </button>
                             </OverlayTrigger>
-                        ) : (
-                            null
-                        )
+                        ) : null
                     }
                     {
                         config.isRich ?
@@ -152,7 +148,7 @@ class EditorShortcuts extends Component {
                                     </Tooltip>
                                 }>
                                 <button className="editorTitleButton"
-                                    onClick={(e) => {
+                                    onClick={() => {
                                         if (toolbar && toolbar.structure) {
                                             let currentWidth = toolbar.structure.width;
                                             let currentWidthUnit = toolbar.structure.widthUnit;
@@ -173,9 +169,7 @@ class EditorShortcuts extends Component {
                                     <i className="material-icons">code</i>
                                 </button>
                             </OverlayTrigger>
-                        ) : (
-                            null
-                        )
+                        ) : null
                     }
                     {
                         (config && config.needsTextEdition) ? (
@@ -194,9 +188,7 @@ class EditorShortcuts extends Component {
                                     <i className="material-icons">mode_edit</i>
                                 </button>
                             </OverlayTrigger>
-                        ) : (
-                            null
-                        )
+                        ) : null
                     }
                     {
                         (config && config.needsConfigModal) ? (
@@ -207,7 +199,7 @@ class EditorShortcuts extends Component {
                                     </Tooltip>
                                 }>
                                 <button id="open_conf" className={"editorTitleButton"}
-                                    onClick={(e) => {
+                                    onClick={() => {
                                         // TODO Cambiar!
                                         this.props.openConfigModal(toolbar.id);
                                         // Ediphy.Plugins.get(toolbar.pluginId).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
@@ -215,9 +207,7 @@ class EditorShortcuts extends Component {
                                     <i className="material-icons">build</i>
                                 </button>
                             </OverlayTrigger>
-                        ) : (
-                            null
-                        )
+                        ) : null
                     }
                     {
                         (toolbar && config && config.needsPointerEventsAllowed) ? (
@@ -234,16 +224,18 @@ class EditorShortcuts extends Component {
                                         e.stopPropagation();
                                         let bool = boxEl.classList.contains('pointerEventsEnabled');
                                         if (this.props.pointerEventsCallback) {
-                                            this.props.pointerEventsCallback(bool ? 'enableAll' : 'disableAll', ttoolbar);
+                                            this.props.pointerEventsCallback(bool ? 'enableAll' : 'disableAll', toolbar);
                                         }
-                                        bool && but ? but.classList.add('dtbSelected') : but.classList.remove('dtbSelected');
+                                        if(bool && but) {
+                                            but.classList.add('dtbSelected');
+                                        } else {
+                                            but.classList.remove('dtbSelected');
+                                        }
                                     }}>
                                     <i className="material-icons">pan_tool</i>
                                 </button>
                             </OverlayTrigger>
-                        ) : (
-                            null
-                        )
+                        ) : null
                     }
                     {
                         (toolbar && toolbar.state && toolbar.state.nBoxes) ? (
@@ -262,9 +254,7 @@ class EditorShortcuts extends Component {
                                         <i className="material-icons">{nBox.icon}</i>
                                     </button>
                                 </OverlayTrigger>);})
-                        ) : (
-                            null
-                        )
+                        ) : null
                     }
                     <OverlayTrigger placement="top"
                         overlay={
@@ -307,8 +297,6 @@ class EditorShortcuts extends Component {
         let nextProps = (fromUpdate === 'fromUpdate') ? newProps : this.props;
         if (nextProps && nextProps.box) {
             let box = findBox(nextProps.box.id);
-            let toolbar = nextProps.pluginToolbar;
-            let rotation = toolbar.structure.rotation;
             // box = box && box.parentNode ? box.parentNode : box;
             let element = ReactDOM.findDOMNode(this.refs.innerContainer);
             let left = 0;
@@ -336,9 +324,9 @@ class EditorShortcuts extends Component {
                 } else {
                     width = box.getBoundingClientRect().width;
                 }
-                let w = boxRect.width / 2;
-                let h = boxRect.height / 2;
-                let R = 1 / 2 * Math.sqrt(h * h + w * w);
+                // let w = boxRect.width / 2;
+                // let h = boxRect.height / 2;
+                // let R = 1 / 2 * Math.sqrt(h * h + w * w);
                 // left = left + w / 2 - R * Math.cos(rotation * Math.PI / 180 + Math.atan2(h, w));
 
                 box.classList.remove('norotate');
@@ -411,7 +399,6 @@ class EditorShortcuts extends Component {
     componentWillUnmount() {
         let boxEl = findBox((this.props.box ? this.props.box.id : ''));
         if (boxEl) {
-            let bool = boxEl.classList.contains('pointerEventsEnabled');
             if (this.props.pointerEventsCallback) {
                 this.props.pointerEventsCallback('disableAll', this.props.pluginToolbar);
             }
