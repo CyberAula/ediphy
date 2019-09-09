@@ -6,7 +6,7 @@ import interact from 'interactjs';
 import Alert from './../../common/alert/Alert';
 import EditorBox from '../editorBox/EditorBox';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
-import { isSortableBox, isBox } from '../../../../common/utils';
+import { isSortableBox } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 
@@ -177,8 +177,8 @@ class EditorBoxSortable extends Component {
         );
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        this.props.boxes[this.props.id].children.map(id => {
+    componentDidUpdate() {
+        this.props.boxes[this.props.id].children.map(() => {
             // this.configureResizable(this.refs[id]);
         });
     }
@@ -187,14 +187,14 @@ class EditorBoxSortable extends Component {
         this.configureDropZone(ReactDOM.findDOMNode(this), "newContainer", ".rib");
         // this.configureDropZone(".editorBoxSortableContainer", "existingContainer", ".rib");
 
-        this.props.boxes[this.props.id].children.map(id => {
+        this.props.boxes[this.props.id].children.map(() => {
             // this.configureResizable(this.refs[id]);
         });
 
         let list = jQuery(this.refs.sortableContainer);
         list.sortable({
             handle: '.drag-handle',
-            start: (event, ui) => {
+            start: () => {
                 // Hide EditorShortcuts
                 let bar = this.props.containedViewSelected === 0 ?
                     document.getElementById('editorBoxIcons') :
@@ -204,8 +204,7 @@ class EditorBoxSortable extends Component {
                     bar.classList.add('hidden');
                 }
             },
-            stop: (event, ui) => {
-
+            stop: () => {
                 let indexes = [];
                 let children = list[0].children;
                 for (let i = 0; i < children.length; i++) {
