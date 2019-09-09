@@ -1,12 +1,6 @@
 import {
-    addBox, changeCols, changeRows,
-    deleteBox, deleteContainedView,
-    dropBox,
-    increaseBoxLevel,
-    moveBox,
-    reorderBoxes,
-    resizeBox,
-    selectBox, selectContainedView, updateViewToolbar, verticallyAlignBox,
+    deleteContainedView,
+    selectContainedView, updateViewToolbar,
 } from "../../common/actions";
 import { getDescendantBoxes } from "../../common/utils";
 
