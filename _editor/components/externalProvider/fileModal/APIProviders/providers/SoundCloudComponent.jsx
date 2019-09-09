@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button, ModalBody } from 'react-bootstrap';
-import Ediphy from '../../../../../../core/editor/main';
+import { Modal, Col, Form, FormGroup, ControlLabel, Button, ModalBody } from 'react-bootstrap';
 import i18n from 'i18next';
-import ReactDOM from 'react-dom';
 import SearchComponent from '../common/SearchComponent';
 
 import placeholder from '../logos/soundcloud_placeholder.png';
@@ -47,7 +45,7 @@ export default class SoundCloudComponent extends React.Component {
                                 return (
                                     <div
                                         className={"audioItem"} key={index} style={{ border: border, backgroundColor: background }}
-                                        onClick={e => {
+                                        onClick={() => {
                                             this.props.onElementSelected(item.title, item.url, 'audio');
                                             this.setState({ preview: false });
                                         }}>
