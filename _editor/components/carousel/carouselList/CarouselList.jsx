@@ -9,12 +9,12 @@ import iconPDF from './../../../../dist/images/file-pdf.svg';
 import { connect } from 'react-redux';
 import Ediphy from '../../../../core/editor/main';
 import {
-    selectContainedView,
     addNavItem,
     expandNavItem, updateViewToolbar,
     reorderNavItem,
     selectIndex,
-    selectNavItem } from '../../../../common/actions';
+    selectNavItem, addBox,
+} from '../../../../common/actions';
 /**
  * Ediphy CarouselList Component
  * List of all the course's views and contained views
@@ -104,7 +104,7 @@ class CarouselList extends Component {
                                     <span style={{ marginLeft: 20 * (this.props.navItems[id].level - 1) }}>
                                         {(this.props.navItems[id].customSize === 0) ?
                                             <i className="material-icons fileIcon">{isSlide(this.props.navItems[id].type) ? "slideshow" : "insert_drive_file"}</i>
-                                            : <img className="svgIcon" src={iconPDF}/>}
+                                            : <img className="svgIcon" src={iconPDF} alt={'icon'}/>}
                                         <EditorIndexTitle
                                             id={id}
                                             scrollW={widthScroll}
@@ -135,7 +135,7 @@ class CarouselList extends Component {
                     <div className="empty-info" style={{ display: (containedViewsIncluded) ? "none" : "block" }}>{i18n.t("empty.cv_empty")}</div>
 
                     {
-                        Object.keys(this.props.containedViews).map((id, key)=>{
+                        Object.keys(this.props.containedViews).map((id)=>{
                             let classIndexSelected = id === this.props.indexSelected ? ' classIndexSelected ' : ' ';
                             let containedViewSelected = id === this.props.containedViewSelected ? ' selected ' : ' notSelected ';
                             return (
@@ -191,13 +191,13 @@ class CarouselList extends Component {
             appendTo: '.carList',
             // helper: 'clone',
             scroll: true,
-            over: (event, ui) => {
+            over: () => {
                 $(".carList").css("border-left", "3px solid #F47920");
             },
-            out: (event, ui) => {
+            out: () => {
                 $(".carList").css("border-left", "none");
             },
-            stop: (event, ui) => {
+            stop: () => {
                 // This is called when:
                 // - An item is dragged from this items's children to another item
                 // - A direct child changes it position at the same level
