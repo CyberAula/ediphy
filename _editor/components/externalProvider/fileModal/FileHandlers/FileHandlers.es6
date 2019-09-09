@@ -2,7 +2,17 @@ import React from 'react';
 import { createBox } from '../../../../../common/commonTools';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../common/constants';
 import { randomPositionGenerator } from '../../../clipboard/clipboard.utils';
-import { isSlide, isBox, isContainedView, isPage, isSortableBox, isDataURL, dataURItoBlob, isCanvasElement } from '../../../../../common/utils';
+import {
+    isSlide,
+    isBox,
+    isContainedView,
+    isPage,
+    isSortableBox,
+    isDataURL,
+    dataURItoBlob,
+    isCanvasElement,
+    getIndex,
+} from '../../../../../common/utils';
 import i18n from 'i18next';
 import { importEdiphy, importExcursion } from '../APIProviders/providers/_edi';
 import './_ImportFile.scss';
@@ -175,7 +185,7 @@ function getInitialParams(self, page) {
             isTargetSlide = container === 0;
             row = self.props.boxes[self.props.boxSelected].row;
             col = self.props.boxes[self.props.boxSelected].col;
-            newInd = self.getIndex(parent, container);
+            newInd = getIndex(parent, container, self.props);
         }
 
         ids = { id, parent, container, row, col, page: page ? page.id : 0 };

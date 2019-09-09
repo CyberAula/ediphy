@@ -4,12 +4,11 @@ import PropTypes from 'prop-types';
 import MarkCreator from '../../richPlugins/markCreator/MarkCreator';
 import interact from 'interactjs';
 import PluginPlaceholder from '../pluginPlaceholder/PluginPlaceholder';
-import { EDIT_PLUGIN_TEXT } from '../../../../common/actions';
 import { releaseClick, findBox } from '../../../../common/commonTools';
 import { isUnitlessNumber } from '../../../../common/cssNonUnitProps';
 import Ediphy from '../../../../core/editor/main';
 import {
-    isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView, isBox,
+    isSortableContainer, isAncestorOrSibling, isContainedView, isBox,
     vendorTransform,
 } from '../../../../common/utils';
 import './_editorBox.scss';
@@ -312,7 +311,7 @@ class EditorBox extends Component {
      * @param prevProps React previous props
      * @param prevState React previous state
      */
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         let toolbar = this.props.pluginToolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
         let node = ReactDOM.findDOMNode(this);
@@ -357,7 +356,6 @@ class EditorBox extends Component {
         let toolbar = this.props.pluginToolbars[this.props.id];
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let box = this.props.boxes[this.props.id];
-        let container = box.container;
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
@@ -397,7 +395,6 @@ class EditorBox extends Component {
                     if (this.props.boxSelected !== this.props.id) {
                         this.props.handleBoxes.onBoxSelected(this.props.id);
                     }
-                    container = this.props.boxes[this.props.id].container;
                     // If contained in smth different from ContainedCanvas (sortableContainer || PluginPlaceHolder), clone the node and hide the original
                     if (isSortableContainer(box.container)) {
                         let original = event.target;
@@ -596,7 +593,6 @@ class EditorBox extends Component {
                     if (sb && sb[0] && ('box-' + this.props.boxSelected) === sb[0].getAttribute('id') && !document.getElementById('sizing')) {
                         let span = document.createElement("span");
                         span.setAttribute("id", "sizing");
-                        let t = document.createTextNode(" ");
                         sb[0].appendChild(span);
 
                     }
