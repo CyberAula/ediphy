@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import screenfull from 'screenfull';
 import { changeGlobalConfig, selectBox } from '../../../../common/actions';
 import Ediphy from '../../../../core/editor/main';
-import { isContainedView, isSection } from '../../../../common/utils';
+import { isSection } from '../../../../common/utils';
 import ReactDOM from "react-dom";
 import { Button, Popover, Overlay, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { ActionCreators } from 'redux-undo';
@@ -66,7 +66,7 @@ class NavActionButtons extends Component {
                         <div style={{ clear: "both" }} />
                     </Popover>
                 </Overlay>
-                {buttons.map((item, index) => {
+                {buttons.map((item) => {
                     return !item.display ? null : (
                         <OverlayTrigger placement="bottom" key={item.name} overlay={
                             <Tooltip id={"navButtonTooltip"}>{item.tooltip}</Tooltip>}>
@@ -113,7 +113,7 @@ class NavActionButtons extends Component {
     /**
      * Checks if the browser is in fullscreen mode and updates the state
      */
-    checkFullScreen = (e) => {
+    checkFullScreen = () => {
         this.setState({ isFullScreenOn: screenfull.isFullscreen });
     };
 
@@ -214,9 +214,9 @@ class NavActionButtons extends Component {
         ];
     };
 
-    hideOverlay = (e) => this.setState({ showOverlay: false });
+    hideOverlay = () => this.setState({ showOverlay: false });
 
-    publish = (e) => {
+    publish = () => {
         // acciones de publicar
         window.exitFlag = true;
         const win = window.open('', '_self');
