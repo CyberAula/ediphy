@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button, ModalBody } from 'react-bootstrap';
-import Ediphy from '../../../../../../core/editor/main';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
+
 import SearchComponent from '../common/SearchComponent';
-import ImageComponent from '../common/ImageComponent';
 import { extensionHandlers as extensions } from '../../FileHandlers/FileHandlers';
 
 const categories = {
@@ -46,7 +44,6 @@ export default class SearchVishComponent extends React.Component {
         };
     }
     render() {
-        let type = categories[this.state.types] ? categories[this.state.types].type : "*";
         let previewButton = null;
         switch(this.props.elementSelectedType) {
         case "webapp":
@@ -88,7 +85,7 @@ export default class SearchVishComponent extends React.Component {
                         </FormControl>
                         {Ediphy.Config.includeVishProfile ? <div className="myResourcesFormGroup">
                             <label htmlFor="myResources">Only my resources</label>
-                            <input name="myResources" type="checkbox" value={this.state.onlyMyResources} onChange={e=>{this.setState({ onlyMyResources: !this.state.onlyMyResources });}}/>
+                            <input name="myResources" type="checkbox" value={this.state.onlyMyResources} onChange={()=>{this.setState({ onlyMyResources: !this.state.onlyMyResources });}}/>
 
                         </div> : null}
                     </h5>
@@ -123,7 +120,7 @@ export default class SearchVishComponent extends React.Component {
                                     return (
                                         <div
                                             className={"videoItem"} key={index} style={{ border: border, backgroundColor: background }}
-                                            onClick={e => {
+                                            onClick={() => {
                                                 this.setState({ preview: false });
                                                 let allowClone = item.allow_clone || item.allow_clone === undefined;
                                                 this.props.onElementSelected(item.title, url, (item.type && categories[item.type]) ? categories[item.type].type : undefined, undefined, { allowClone });
@@ -168,7 +165,6 @@ export default class SearchVishComponent extends React.Component {
             let nextEl = nextState.results[0];
             let type = (nextEl.type && categories[nextEl.type]) ? categories[nextEl.type].type : undefined;
             let allowClone = nextEl.allow_clone || nextEl.allow_clone === undefined;
-            let url = nextEl.url_full || nextEl.file_url;
             this.props.onElementSelected(nextEl.title,
                 nextEl.file_url,
                 type, undefined, { allowClone });
@@ -177,9 +173,6 @@ export default class SearchVishComponent extends React.Component {
 
         }
     }
-    resetState = () => {
-        this.props.onElementSelected(undefined, undefined, undefined, undefined, undefined);
-    };
 
     onSearch = (text) => {
         let query = encodeURI(Ediphy.Config.search_vish_url +
@@ -217,23 +210,23 @@ export default class SearchVishComponent extends React.Component {
     };
 
     generatePreview = () => {
-        let item = this.props.elementSelected;
+        const item = this.props.elementSelected;
         switch(this.props.elementSelectedType) {
         case "vish":
         case "edi":
-            return <iframe src={this.props.elementSelected + ".full"} frameBorder="0" width={'100%'} height={"400"} />;
+            return <iframe src={item + ".full"} frameBorder="0" width={'100%'} height={"400"} />;
         case "webapp":
         case "pdf":
         case "scormpackage":
-            return <iframe src={this.props.elementSelected} frameBorder="0" width={'100%'} height={"400"} />;
+            return <iframe src={item} frameBorder="0" width={'100%'} height={"400"} />;
         case "image":
             return null;
         case "audio":
-            return <audio src={this.props.elementSelected} controls width={'100%'} height={"400"} style={{ width: '100%' }} />;
+            return <audio src={item} controls width={'100%'} height={"400"} style={{ width: '100%' }} />;
         case "video":
-            return <video src={this.props.elementSelected} controls width={'100%'} height={"400"} />;
+            return <video src={item} controls width={'100%'} height={"400"} />;
         case "swf":
-            return <embed src={this.props.elementSelected} wmode="opaque" width={'100%'} height={"400"} />;
+            return <embed src={item} wmode="opaque" width={'100%'} height={"400"} />;
         default:
             return null;
         }
