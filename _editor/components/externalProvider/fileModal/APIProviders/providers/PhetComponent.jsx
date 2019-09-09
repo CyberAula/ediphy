@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
-import Ediphy from '../../../../../../core/editor/main';
+import { Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
-import ReactDOM from 'react-dom';
 import SearchComponent from '../common/SearchComponent';
 import ImageComponent from '../common/ImageComponent';
 
@@ -53,7 +51,7 @@ export default class PhetComponent extends React.Component {
         </div>;
     }
 
-    onSearch = (text) => {
+    onSearch = () => {
 
         let PhetURL = "https://phet.colorado.edu/en/simulations/category/html";
         /* $.getJSON('https://phet.colorado.edu/en/simulations/category/html&callback=?', function(response) {
