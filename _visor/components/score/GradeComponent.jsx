@@ -87,8 +87,9 @@ export default class ScormComponent extends Component {
         window.addEventListener("load", this.onLoad);
         window.addEventListener("beforeunload", this.onUnload);
     }
-    onLoad = (event) => {
+    onLoad = () => {
         let DEBUG = Ediphy.Config.debug_scorm;
+        // eslint-disable-next-line no-unused-vars
         let scorm = new API.init(DEBUG, DEBUG);
 
         if(API.isConnected()) {
@@ -145,7 +146,7 @@ export default class ScormComponent extends Component {
 
     };
 
-    onUnload = (event) => {
+    onUnload = () => {
         if(API.isConnected()) {
             API.finish();
         }
