@@ -93,7 +93,7 @@ export default function SCORM_API(options) {
         if(settings) {
             msg = settings.prefix + ": " + msg;
             if(settings.debug) {
-                if(settings.windowDebug == true) {
+                if(settings.windowDebug) {
                     windowDebug(msg, lvl);
                 } else {
                     _debug(msg, lvl);
@@ -162,7 +162,7 @@ export default function SCORM_API(options) {
             isDebugWindowShown = true;
         }
 
-        if(isDebugWindowShown == false) {
+        if(!isDebugWindowShown) {
             // pop-up window blocked
             // Disable windowDebug
             settings.windowDebug = false;
