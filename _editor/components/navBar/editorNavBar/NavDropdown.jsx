@@ -29,7 +29,6 @@ class NavDropdown extends Component
      * @returns {code}
      */
     render() {
-        let isBusy = this.props.isBusy.toString(); // Only to trigger render
         return (
             <Dropdown id="dropdown-menu" style={{ float: 'right' }}>
                 <Dropdown.Toggle noCaret className="navButton">
@@ -41,7 +40,7 @@ class NavDropdown extends Component
                     <MenuItem eventKey="6" key="6">
                         <button className="dropdownButton"
                             disabled={this.props.undoDisabled}
-                            onClick={(e) => {
+                            onClick={() => {
                                 this.props.save();
                                 this.props.dispatch(updateUI(UI.serverModal, true));
                             }}>
@@ -85,7 +84,7 @@ class NavDropdown extends Component
                     [<MenuItem divider key="div_5"/>,
                         <MenuItem eventKey="5" key="5">
                             <button className="dropdownButton"
-                                onClick={(e) => {
+                                onClick={() => {
                                     this.props.dispatch(updateUI(UI.serverModal, true));
                                     this.props.dispatch(importStateAsync());
                                 }}>
@@ -111,7 +110,7 @@ class NavDropdown extends Component
                     <MenuItem disabled={false} eventKey="8" key="8">
                         <button className="dropdownButton" title={i18n.t('messages.help')}
                             disabled={false}
-                            onClick={(e) => {
+                            onClick={() => {
                                 this.props.dispatch(updateUI(UI.showExitModal, true));
                             }}><i className="material-icons">exit_to_app</i>
                             {i18n.t('messages.exit')}
@@ -154,7 +153,7 @@ class NavDropdown extends Component
                                 }
                                 window.parent.location = response.url;
                             })
-                            .catch(e =>{
+                            .catch(() =>{
                                 alert("There was an error");
                             });
                     }
@@ -203,10 +202,6 @@ NavDropdown.propTypes = {
      * Enables the "undo" feature
      */
     undoDisabled: PropTypes.bool,
-    /**
-   * Indicates if there is a current server operation
-   */
-    isBusy: PropTypes.any,
     /**
      * Redux actions trigger
      */
