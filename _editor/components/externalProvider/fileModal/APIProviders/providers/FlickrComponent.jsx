@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
-import Ediphy from '../../../../../../core/editor/main';
+import { Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
-import ReactDOM from 'react-dom';
+
 import SearchComponent from '../common/SearchComponent';
 import ImageComponent from '../common/ImageComponent';
 
@@ -40,7 +39,12 @@ export default class FlickrComponent extends React.Component {
                             <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                             <br />
                             {this.state.results.map((item, index) => {
-                                return (<ImageComponent key={index} url={item.url} title={item.title} onElementSelected={this.props.onElementSelected} isSelected={item.url === this.props.elementSelected}/>);
+                                return (<ImageComponent
+                                    key={index}
+                                    url={item.url}
+                                    title={item.title}
+                                    onElementSelected={this.props.onElementSelected}
+                                    isSelected={item.url === this.props.elementSelected}/>);
                             })}
                         </FormGroup>
                     ) :
