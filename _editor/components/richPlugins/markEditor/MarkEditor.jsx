@@ -86,7 +86,7 @@ export default class MarkEditor extends Component {
                 onMouseDown={this.start}
                 onTouchStart={this.start}
                 onMouseUp={()=>{this.end();}}
-                onMouseEnter={(e)=>{
+                onMouseEnter={()=>{
                     this.props.base.pointerEventsCallback('mouseenter', this.props.state);
                 }}
                 onMouseLeave={(e)=>{
@@ -126,25 +126,20 @@ export default class MarkEditor extends Component {
         let cursor_x_offset = 12;
         let cursor_y_offset = 20;
         let component = this;
-        // overlay.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
-        // document.body.style.cursor =  'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
-        // document.getElementsByClassName('boxSelected')[0].style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
 
         let base = this.props.base;
         let toolbarState = this.props.state;
-        let marks = this.props.marks;
         let parseRichMarkInput = base.parseRichMarkInput;
-        let editing = this.state.editing;
         const id = this.props.mark;
 
-        let keyListener = function(e) {
+        let keyListener = (e) => {
             const ESCAPE_KEY_CODE = 27;
             if (e.keyCode === ESCAPE_KEY_CODE) {
                 exitFunction();
             }
         };
 
-        let exitFunction = function() {
+        let exitFunction = () => {
             document.body.style.cursor = 'default';
             boxStyle.classList.remove('norotate');
             window.removeEventListener('keyup', keyListener);
@@ -158,7 +153,7 @@ export default class MarkEditor extends Component {
             }
         };
 
-        let clickOutside = function(e) {
+        let clickOutside = (e) => {
             // this function will be always called if a click happens,
             // even if stopImmediatePropagation is used on the event target
             if (e.target && e.target.id === 'overlay') {
@@ -239,10 +234,6 @@ MarkEditor.propTypes = {
       * Marks
       */
     children: PropTypes.any,
-    /**
-     * Marks object
-     */
-    marks: PropTypes.any,
     /**
      * Function to move a mark
      */
