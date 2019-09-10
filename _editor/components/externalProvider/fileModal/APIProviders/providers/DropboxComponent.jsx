@@ -191,7 +191,6 @@ export default class DropboxComponent extends React.Component {
     }
 
     generatePreview = () => {
-        let item = this.props.elementSelected;
         switch(this.props.elementSelectedType) {
         case "vish":
         case "edi":
@@ -229,7 +228,7 @@ export default class DropboxComponent extends React.Component {
                         extension = ext.value;
                     }
                     if (newFile.mimetype === 'application/vnd.ms-excel') {
-                        extension === 'csv';
+                        // extension === 'csv';
                     }
                 }
                 this.props.onElementSelected(newFile.name, newFile.url, extension, nextProps.isBusy.msg);
