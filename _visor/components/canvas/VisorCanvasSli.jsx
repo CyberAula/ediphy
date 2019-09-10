@@ -10,7 +10,6 @@ import { aspectRatio, changeFontBase } from '../../../common/commonTools';
 import ReactResizeDetector from 'react-resize-detector';
 import { isContainedView, isView } from '../../../common/utils';
 import i18n from 'i18next';
-import ReactDOM from 'react-dom';
 import { Animated } from "react-animated-css";
 
 import { loadBackgroundStyle } from "../../../common/themes/backgroundLoader";
@@ -57,19 +56,10 @@ export default class VisorCanvasSli extends Component {
             titles.reverse();
         }
 
-        let maincontent = isCV ? document.getElementById('contained_maincontent') : document.getElementById('maincontent');
-        let actualHeight;
-        if (maincontent) {
-            actualHeight = parseInt(maincontent.scrollHeight, 10);
-            actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
-        }
-
         let boxes = isCV ? containedViews[currentView].boxes || [] : navItems[currentView].boxes || [];
-        let thisView = viewsArray && viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(viewsArray[viewsArray.length - 2]) ? viewToolbars[viewsArray[viewsArray.length - 2]].viewName : viewToolbars[viewsArray[viewsArray.length - 2]].viewName)) : i18n.t('messages.go_back');
+        let thisView = viewsArray?.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(viewsArray[viewsArray.length - 2]) ? viewToolbars[viewsArray[viewsArray.length - 2]].viewName : viewToolbars[viewsArray[viewsArray.length - 2]].viewName)) : i18n.t('messages.go_back');
 
-        const tooltip = (
-            <Tooltip id="tooltip">{thisView}</Tooltip>
-        );
+        const tooltip = (<Tooltip id="tooltip">{thisView}</Tooltip>);
         let viewExercises = exercises[currentView];
 
         return (
@@ -166,7 +156,7 @@ export default class VisorCanvasSli extends Component {
                         currentView={this.props.currentView}
                     />) : null}
 
-                <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
+                <ReactResizeDetector handleWidth handleHeight onResize={()=>{
                     if (!this.props.fromPDF) {
                         let calculated = this.aspectRatio(this.props, this.state);
                         this.setState({ fontBase: changeFontBase(calculated.width) });
