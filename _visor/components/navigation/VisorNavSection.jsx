@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import Ediphy from '../../../core/editor/main';
 import { isSlide, isSection, findDescendantNavItems } from '../../../common/utils';
+
 import iconPDF from './../../../dist/images/file-pdf.svg';
 import ProgressBall from './ProgressBall';
+
 export default class VisorNavSection extends Component {
     state = { toggled: true };
 
@@ -33,7 +36,7 @@ export default class VisorNavSection extends Component {
                 let isVisited = this.props.progress[page];
 
                 return (<li key={page} id={'nav-' + page}
-                    onClick={(e)=>{this.props.changeCurrentView(page);}}
+                    onClick={()=>{this.props.changeCurrentView(page);}}
                     className={this.state.toggled ? "visorNavListEl" : "visorNavListEl hiddenNavVisor"}>
                     <span className={"progressBall"}><ProgressBall isVisited={isVisited} isTop={page === this.props.first} isBottom={page === this.props.last} /></span>
                     <a style={{ paddingLeft: margin }}
@@ -42,7 +45,7 @@ export default class VisorNavSection extends Component {
 
                         {(this.props.navItemsById[page].customSize === 0) ?
                             <i className="material-icons">{isSlide(this.props.navItemsById[page].type) ? "slideshow" : "insert_drive_file"}</i>
-                            : <img className="svgIcon" src={iconPDF}/>}
+                            : <img className="svgIcon" src={iconPDF} alt={'PDF'}/>}
                         <span>{this.props.viewToolbars[page].viewName}</span>
                     </a>
                 </li>);
@@ -54,7 +57,7 @@ export default class VisorNavSection extends Component {
         let last = (descendants.indexOf(this.props.last) > -1 && !this.state.toggled) ? this.props.pageName : this.props.last;
         return (
             <ul className={classes} id={'nav-' + this.props.pageName}>
-                <li className=" " onClick={(e)=>{
+                <li className=" " onClick={()=>{
                     if (Ediphy.Config.sections_have_content) {
                         this.props.changeCurrentView(this.props.pageName);
                     } else {
@@ -63,7 +66,7 @@ export default class VisorNavSection extends Component {
                     <span className={"progressBall"}><ProgressBall isTop={this.props.pageName === this.props.first} isBottom={this.props.pageName === last} isVisited={isSectionVisited}/></span>
                     <a className={this.props.navItemSelected === this.props.pageName ? "indexElementTitle selectedNavItemVisor" : "indexElementTitle  "} style={{ paddingLeft: marginUl }} href="#">
                         {this.state.toggled ?
-                            (<i onClick={(e)=>{this.setState({ toggled: !this.state.toggled });}} className="material-icons arrowSection">keyboard_arrow_down</i>) : (<i onClick={(e)=>{this.setState({ toggled: !this.state.toggled });}} className="material-icons arrowSection">keyboard_arrow_right</i>)}
+                            (<i onClick={()=>{this.setState({ toggled: !this.state.toggled });}} className="material-icons arrowSection">keyboard_arrow_down</i>) : (<i onClick={()=>{this.setState({ toggled: !this.state.toggled });}} className="material-icons arrowSection">keyboard_arrow_right</i>)}
 
                         <span> {name} </span>
                     </a>
