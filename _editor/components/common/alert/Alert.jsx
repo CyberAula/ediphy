@@ -34,12 +34,12 @@ export default class Alert extends Component {
                 }}
                 backdrop={this.props.backdrop === undefined ? true : this.props.backdrop}
                 show={this.props.show}
-                onHide={e=>{this.props.onClose(false);}}>
+                onHide={()=>{this.props.onClose(false);}}>
                 { this.props.hasHeader ?
                     (<Modal.Header closeButton={this.props.closeButton}>
                         { this.props.title }
                     </Modal.Header>) :
-                    (null)}
+                    null}
                 <Modal.Body>
                     { this.props.children }
                 </Modal.Body>
@@ -48,13 +48,13 @@ export default class Alert extends Component {
                         <Button bsStyle={this.props.bsStyle || 'default'}
                             name='cancelButton'
                             className="popupFooterButton"
-                            onClick={e=>{this.props.onClose(false);}}>
+                            onClick={()=>{this.props.onClose(false);}}>
                             { this.props.cancelButtonText || i18n.t('messages.Cancel') }
                         </Button>) : null }
                     <Button bsStyle={this.props.bsStyle || 'primary'}
                         name='okButton'
                         className="popupFooterButton"
-                        onClick={e=>{this.props.onClose(true);}}>
+                        onClick={()=>{this.props.onClose(true);}}>
                         { this.props.acceptButtonText || i18n.t('messages.OK') }
                     </Button>
                 </Modal.Footer>
@@ -106,7 +106,7 @@ Alert.propTypes = {
      */
     cancelButtonText: PropTypes.string,
     /**
-     * Closes the alertta
+     * Closes the alert
      */
     onClose: PropTypes.func.isRequired,
     /**
