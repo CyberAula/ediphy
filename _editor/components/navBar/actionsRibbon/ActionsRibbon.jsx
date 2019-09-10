@@ -5,7 +5,7 @@ import i18n from "i18next";
 import './_ActionsRibbon.scss';
 import Alert from '../../common/alert/Alert';
 import Clipboard from '../../clipboard/Clipboard';
-import { isSlide, isBox, isSortableBox } from '../../../../common/utils';
+import { isSlide, isBox } from '../../../../common/utils';
 import { connect } from 'react-redux';
 import { changeBoxLayer, updateUI } from '../../../../common/actions';
 
@@ -24,7 +24,7 @@ class ActionsRibbon extends Component {
      */
     render() {
 
-        let onClick = (e)=>{this.setState({ clipboardAlert: !this.state.clipboardAlert }); return true;};
+        let onClick = ()=>{this.setState({ clipboardAlert: !this.state.clipboardAlert }); return true;};
         // TODO document.queryCommandSupported(act.key)
         let clipboardActions = [
             { key: "copy", disabled: !(this.props.boxSelected && isBox(this.props.boxSelected)), icon: "content_copy", i18nkey: "clipboard.copy", onClick: ()=> {} },
@@ -67,7 +67,7 @@ class ActionsRibbon extends Component {
             "separator",
 
         ];
-        let button = (act, ind) => {
+        let button = (act) => {
             return <button key={act.key}
                 className={(act.key === "Grid" && this.props.grid) ? "ActionBtn active" : "ActionBtn"}
                 disabled={act.disabled}
