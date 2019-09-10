@@ -46,7 +46,7 @@ export default class VisorSideNav extends Component {
                             }
 
                             return (<li key={page} id={'nav-' + page}
-                                onClick={(e)=>{this.props.changeCurrentView(page);}}
+                                onClick={()=>{this.props.changeCurrentView(page);}}
                                 className="visorNavListEl">
                                 <span className={"progressBall"}><ProgressBall isVisited={isVisited} isTop={first === page} isBottom={last === page} /> </span>
                                 <a style={{ paddingLeft: marginPage }}
@@ -55,7 +55,7 @@ export default class VisorSideNav extends Component {
 
                                     {(this.props.navItemsById[page].customSize === 0) ?
                                         <i className="material-icons">{isSlide(this.props.navItemsById[page].type) ? "slideshow" : "insert_drive_file"}</i>
-                                        : <img className="svgIcon" src={iconPDF}/>}
+                                        : <img className="svgIcon" src={iconPDF} alt={'PDF'}/>}
                                     <span>{this.props.viewToolbars[page].viewName}</span>
                                 </a>
                             </li>);
@@ -79,7 +79,6 @@ export default class VisorSideNav extends Component {
         this.props.navItemsIds.map(nav => {
             let navItsEx = Object.keys(this.props.exercises);
             let ind = navItsEx.indexOf(nav);
-            let complete = false;
             if (ind === -1) { // This means it is a section with no content => We need to find out if all its children are complete
                 pending.push(nav);
             } else {
