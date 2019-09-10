@@ -39,7 +39,7 @@ export default class EdiphyTour extends React.Component {
                     placement: 'bottom',
                     offset: 30,
                     tooltipOptions: { footer: null },
-                    callback: (e)=>{
+                    callback: ()=>{
                         if(document.getElementById('insideribbon').classList.contains('noButtons')) {
                             document.querySelector('.navButtonPlug').click();
                             setTimeout(()=>{
@@ -140,7 +140,6 @@ export default class EdiphyTour extends React.Component {
         const { action, index, type } = tour;
         if (this.refs.joyride) {
             if (index || index === 0) {
-                let undone = !(this.state.doneSteps.has(index));
                 if (tour.step && tour.step.callback && type === 'tooltip' /* && undone*/) {
                     let doneSteps = (new Set(this.state.doneSteps)).add(index);
                     tour.step.callback();
