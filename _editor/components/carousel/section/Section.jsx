@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+import Ediphy from '../../../../core/editor/main';
 import EditorIndexTitle from '../editorIndexTitle/EditorIndexTitle';
 import { isPage, isSection, isSlide, calculateNewIdOrder } from '../../../../common/utils';
-import Ediphy from '../../../../core/editor/main';
 import iconPDF from './../../../../dist/images/file-pdf.svg';
 
 /**
@@ -112,7 +113,7 @@ export default class Section extends Component {
                                     <span style={{ marginLeft: 20 * (this.props.navItems[id].level - 1) }}>
                                         {(this.props.navItems[id].customSize === 0) ?
                                             <i className="material-icons fileIcon">{isSlide(this.props.navItems[id].type) ? "slideshow" : "insert_drive_file"}</i>
-                                            : <img className="svgIcon" src={iconPDF}/>}
+                                            : <img className="svgIcon" src={iconPDF} alt={'PDF'}/>}
                                         <EditorIndexTitle id={id}
                                             index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id) + 1 + '.'}
                                             title={this.props.viewToolbars[id].viewName}
@@ -141,16 +142,16 @@ export default class Section extends Component {
             appendTo: '.carList',
             // helper: 'clone',
             scroll: true,
-            over: (event, ui) => {
+            over: (event) => {
                 $(".carList").css("border-left", "none");
                 $(".sectionList").removeClass("dragIntoHelper");
                 $(event.target).addClass("dragIntoHelper");
             },
-            out: (event, ui) => {
+            out: () => {
                 $(".carList").css("border-left", "none");
                 $(".sectionList").removeClass("dragIntoHelper");
             },
-            stop: (event, ui) => {
+            stop: () => {
                 // This is called when:
                 // - An item is dragged from this items's children to another item
                 // - A direct child changes it position at the same level
