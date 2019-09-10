@@ -28,24 +28,22 @@ class EditorHeader extends Component {
 
         if (navItem || containedView) {
             let currentNavItem = containedView !== 0 ? containedViews[containedView] : navItems[navItem];
-            let toolbar = (this.props.viewToolbars[currentNavItem.id]) ? this.props.viewToolbars[currentNavItem.id] : undefined;
+            let toolbar = this.props.viewToolbars[currentNavItem.id] ?? undefined;
 
             let docTitle, subTitle, pagenumber = "";
 
-            if (currentNavItem !== undefined && currentNavItem.id !== 0 && toolbar) {
+            if (currentNavItem.id !== 0 && toolbar) {
                 docTitle = (toolbar.documentTitle !== "" && (toolbar.documentTitleContent !== "")) ? toolbar.documentTitleContent : toolbar.viewName;
                 subTitle = toolbar.documentSubtitle !== "" && (toolbar.documentSubtitleContent !== i18n.t('subtitle')) ? toolbar.documentSubtitleContent : i18n.t('subtitle');
                 pagenumber = toolbar.numPageContent !== "" ? toolbar.numPageContent : "";
             }
 
             let content;
-            let unidad = "";
             // breadcrumb
             if (this.props.containedView === 0) {
                 if (toolbar !== undefined) {
                     if (toolbar.breadcrumb === 'reduced') {
                         let titleList = this.props.titles;
-                        unidad = titleList[0];
                         content = React.createElement("div", { className: "subheader" },
                             React.createElement(Breadcrumb, { style: { margin: 0, backgroundColor: 'inherit' } },
                                 titleList.map((item, index) => {
@@ -61,7 +59,6 @@ class EditorHeader extends Component {
                         content = React.createElement("div", { className: "subheader" },
                             titles.map((text, index) => {
                                 if (index === 0) {
-                                    unidad = text;
                                 } else {
                                     let nivel = (index > 4) ? 6 : index + 2;
                                     return React.createElement("h" + nivel, {
@@ -141,7 +138,7 @@ class EditorHeader extends Component {
                                                     /* Save it on component state, not Redux*/
                                                     this.setState({ currentTitle: e.target.value });
                                                 }}
-                                                onBlur={e => {
+                                                onBlur={() => {
                                                     /* Change to non-edition mode*/
                                                     this.setState({ editingTitle: !this.state.editingTitle });
                                                     onTitleChanged(courseTitle, (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
@@ -184,7 +181,7 @@ class EditorHeader extends Component {
                                                     /* Save it on component state, not Redux*/
                                                     this.setState({ currentNavTitle: e.target.value });
                                                 }}
-                                                onBlur={e => {
+                                                onBlur={() => {
                                                     /* Change to non-edition mode*/
                                                     this.setState({ editingNavTitle: !this.state.editingNavTitle });
                                                     onViewTitleChanged(currentNavItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
@@ -235,7 +232,7 @@ class EditorHeader extends Component {
                                                     /* Save it on component state, not Redux*/
                                                     this.setState({ currentNavSubTitle: e.target.value });
                                                 }}
-                                                onBlur={e => {
+                                                onBlur={() => {
                                                     /* Change to non-edition mode*/
                                                     this.setState({ editingNavSubTitle: !this.state.editingNavSubTitle });
                                                     this.props.onViewTitleChanged(currentNavItem.id, { documentSubtitleContent: (this.state.currentNavSubTitle.length > 0) ? this.state.currentNavSubTitle : this.getDefaultValue() });
@@ -265,6 +262,7 @@ class EditorHeader extends Component {
      * @param level
      * @returns {*} Index
      */
+    /*
     getActualIndex(size = 1, level = 0) {
         // Default values are stored in this variables
         let actual_parent = this.props.navItems[this.props.navItem.parent];
@@ -303,6 +301,7 @@ class EditorHeader extends Component {
         }
         return "";
     }
+*/
 
 }
 
