@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import './ItemRenderer.scss';
+import './carouselList/_carouselList.scss';
+
 import EditorIndexTitle from "./editorIndexTitle/EditorIndexTitle";
 import { isSlide } from "../../../common/utils";
 import iconPDF from "../../../dist/images/file-pdf.svg";

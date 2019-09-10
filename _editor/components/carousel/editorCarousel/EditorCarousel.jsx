@@ -7,7 +7,6 @@ import FileTree from "../FileTree";
 
 import { connect } from "react-redux";
 import { updateUI } from "../../../../common/actions";
-import { UI } from "../../../../common/UI.es6";
 
 /**
  * Index wrapper container
