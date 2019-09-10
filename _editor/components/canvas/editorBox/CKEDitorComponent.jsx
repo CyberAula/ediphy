@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
-import { scrollElement, findBox, blurCKEditor, fontString } from '../../../../common/commonTools';
+import { blurCKEditor, fontString } from '../../../../common/commonTools';
 
 export default class CKEDitorComponent extends Component {
 
@@ -58,7 +58,7 @@ export default class CKEDitorComponent extends Component {
 
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
       if (this.props.toolbars[this.props.id].showTextEditor && prevProps.toolbars[prevProps.id] && !prevProps.toolbars[prevProps.id].showTextEditor) {
           this.refs.textarea.focus();
           // Focus cursor at end of content
