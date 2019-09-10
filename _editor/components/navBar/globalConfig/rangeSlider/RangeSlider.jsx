@@ -30,7 +30,7 @@ export default class RangeSlider extends Component {
      * Keep state in sync if we get new props
      * @param props
      */
-    UNSAFE_componentWillReceiveProps(props) {
+    UNSAFE_componentWillReceiveProps() {
         let min = this.props.minValue || this.props.min;
         let max = this.props.maxValue || this.props.max;
 
@@ -39,7 +39,7 @@ export default class RangeSlider extends Component {
         this.setState({ min: min, max: max });
     }
 
-    UNSAFE_componentWillMount(props) {
+    UNSAFE_componentWillMount() {
         let min = this.props.minValue || this.props.min;
         let max = this.props.maxValue || this.props.max;
 
