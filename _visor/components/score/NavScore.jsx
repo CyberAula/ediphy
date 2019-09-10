@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default class NavScore extends React.Component {
 
     render() {
-        let { userName, totalScore, totalWeight, isPassed, completionProgress } = this.props.scoreInfo;
+        let { userName, totalScore, totalWeight, completionProgress } = this.props.scoreInfo;
         let score = Math.round((totalScore / (totalWeight || 1)) * 10000) / 100 + "%";
         let progress = Math.round(completionProgress * 10000) / 100 + '%';
         if (this.props.show) {
