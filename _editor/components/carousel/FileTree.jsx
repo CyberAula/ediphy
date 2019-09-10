@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Sortly, { findDescendants, convert } from 'react-sortly';
 import update from 'immutability-helper';
 
-import ItemRenderer from './ItemRenderer';
+import CarouselItemRenderer from './CarouselItemRenderer';
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import i18n from "i18next";
@@ -108,7 +108,7 @@ class FileTree extends Component {
         }
     };
 
-    renderItem = (props) => { return <ItemRenderer {...props}
+    renderItem = (props) => { return <CarouselItemRenderer {...props}
         onToggleCollapse={this.handleToggleCollapse}
         onIndexSelected = {this.props.onIndexSelected}
         onNavItemSelected={this.props.handleNavItems.onNavItemSelected}
@@ -129,7 +129,6 @@ class FileTree extends Component {
             return "calc(50%)";
         }
         return "calc(100% - 124px)";
-
     }
 
     render() {

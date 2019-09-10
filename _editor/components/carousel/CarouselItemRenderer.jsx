@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import style from './ItemRenderer.scss';
+import './ItemRenderer.scss';
 import EditorIndexTitle from "./editorIndexTitle/EditorIndexTitle";
 import { isSlide } from "../../../common/utils";
 import iconPDF from "../../../dist/images/file-pdf.svg";
 
-const Folder = ({ name, collapsed, index, path, onToggleCollapse, id, navItems, onNavItemNameChanged, viewToolbars, indexSelected, containedViewSelected }) => {
+const Folder = ({ collapsed, index, path, onToggleCollapse, id, navItems, onNavItemNameChanged, viewToolbars, indexSelected }) => {
     const handleClick = () => {
         onToggleCollapse(index);
     };
@@ -31,7 +31,7 @@ const Folder = ({ name, collapsed, index, path, onToggleCollapse, id, navItems, 
     );
 };
 
-const File = ({ name, collapsed, id, path, navItems, onNavItemNameChanged, viewToolbars, indexSelected, containedViewSelected }) => {
+const File = ({ collapsed, id, path, navItems, onNavItemNameChanged, viewToolbars, indexSelected, containedViewSelected }) => {
     const classCollapsed = collapsed ? 'collapsed' : '';
     const classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
     const classContainedViewSelected = id === containedViewSelected ? ' selected ' : ' notSelected ';
@@ -39,7 +39,7 @@ const File = ({ name, collapsed, id, path, navItems, onNavItemNameChanged, viewT
         style={{ marginLeft: path.length * 20 } } >
         {(navItems[id].customSize === 0) ?
             <i className="material-icons fileIcon">{isSlide(navItems[id].type) ? "slideshow" : "insert_drive_file"}</i>
-            : <img className="svgIcon" src={iconPDF}/>}
+            : <img className="svgIcon" src={iconPDF} alt={'PDF'}/>}
         <EditorIndexTitle id={id}
             index={navItems[navItems[id].parent].children.indexOf(id) + 1 + '.'}
             title={viewToolbars[id].viewName}
@@ -49,7 +49,7 @@ const File = ({ name, collapsed, id, path, navItems, onNavItemNameChanged, viewT
     </div>);
 };
 
-class ItemRenderer extends Component {
+class CarouselItemRenderer extends Component {
 
     render() {
         const { id, navItemSelected, connectDragSource, connectDragPreview, connectDropTarget, type } = this.props;
@@ -66,7 +66,7 @@ class ItemRenderer extends Component {
         )));
     }
 
-    onMouseDown = e => this.props.onIndexSelected(this.props.id);
+    onMouseDown = () => this.props.onIndexSelected(this.props.id);
 
     onDoubleClick = e => {
         this.props.onNavItemSelected(this.props.id);
@@ -74,7 +74,7 @@ class ItemRenderer extends Component {
     };
 }
 
-ItemRenderer.propTypes = {
+CarouselItemRenderer.propTypes = {
     /**
      * Global parent of navItems (0)
      */
@@ -187,10 +187,6 @@ Folder.propTypes = {
      */
     id: PropTypes.string,
     /**
-     * Name of the current sortable element
-     */
-    name: PropTypes.string,
-    /**
      * Indicates if current sortable element is collapsed
      */
     collapsed: PropTypes.bool,
@@ -222,20 +218,12 @@ Folder.propTypes = {
      * View/Contained view selected at the index
      */
     indexSelected: PropTypes.any,
-    /**
-     * Selected contained view
-     */
-    containedViewSelected: PropTypes.any,
 };
 File.propTypes = {
     /**
      * Id of the current sortable element
      */
     id: PropTypes.string,
-    /**
-     * Name of the current sortable element
-     */
-    name: PropTypes.string,
     /**
      * Indicates if current sortable element is collapsed
      */
@@ -266,4 +254,4 @@ File.propTypes = {
     containedViewSelected: PropTypes.any,
 };
 
-export default ItemRenderer;
+export default CarouselItemRenderer;
