@@ -19,7 +19,6 @@ export default class TemplateThumbnailPrint extends React.Component {
                 // let config = Ediphy.Plugins.get(name).getConfig();
                 // let icon = config.icon;
                 // let iconFromUrl = config.iconFromUrl;
-                let lineHeight = (parseFloat(box.heightTemplate || box.height) / 100 * 80) + 'px';
 
                 return (<div key={index} style={{ position: 'absolute',
                     backgroundColor: thumbnail.color,

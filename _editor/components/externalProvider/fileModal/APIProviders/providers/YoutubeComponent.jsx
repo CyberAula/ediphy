@@ -42,7 +42,7 @@ export default class YoutubeComponent extends React.Component {
                                 return (
                                     <div
                                         className={"videoItem"} key={index} style={{ border: border, backgroundColor: background }}
-                                        onClick={e => {
+                                        onClick={() => {
                                             this.props.onElementSelected(item.title, item.url, 'video');
                                         }}>
                                         <div className={"videoGroupFlex"}><img key={index} src={item.thumbnail} className={'youtubeVideo'}/>

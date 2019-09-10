@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'react-bootstrap';
+import { connect } from "react-redux";
+import screenfull from 'screenfull';
+
 import GlobalConfig from '../globalConfig/GlobalConfig';
 import NavActionButtons from './NavActionButtons.jsx';
 import NavDropdown from './NavDropdown.jsx';
 import PluginsMenu from './PluginsMenu.jsx';
-import './_navBar.scss';
-import screenfull from 'screenfull';
-import { selectNavItem } from "../../../../common/actions";
 import ExportModal from '../export/ExportModal';
 import StyleConfig from '../styleConfig/StyleConfig';
-import { connect } from "react-redux";
 import { updateUI } from "../../../../common/actions";
 import { UI } from "../../../../common/UI.es6";
+
+import './_navBar.scss';
 
 /**
  * Upper navigation bar component

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import FileInput from '../../../../common/fileInput/FileInput';
 import PropTypes from 'prop-types';
+
+import FileInput from '../../../../common/fileInput/FileInput';
 
 /**
  * VISH Dropzone component
@@ -32,8 +33,6 @@ export default class ExternalDropzone extends Component {
      * @returns {code}
      */
     render() {
-        let file = this.state.file;
-
         let dropStyle = {
             borderColor: "#92B0B3",
             borderStyle: "dashed",

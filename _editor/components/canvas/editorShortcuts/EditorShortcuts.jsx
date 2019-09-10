@@ -355,7 +355,7 @@ class EditorShortcuts extends Component {
             this.setState({ open: false, callbackKey: undefined });
         }
     }
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         let { width, top, left } = this.resize();
         if (this.state.width !== width || this.state.top !== top || this.state.left !== left) {
             // eslint-disable-next-line react/no-did-update-set-state

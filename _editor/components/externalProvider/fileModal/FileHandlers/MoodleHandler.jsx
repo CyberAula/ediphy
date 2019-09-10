@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Button } from 'react-bootstrap';
 import i18n from 'i18next';
+import { DataTable } from 'react-datatable-bs';
+
+import Ediphy from "../../../../../core/editor/main";
+import { parseMoodleXML } from "./moodleXML";
 import { isBox, isContainedView, isPage, isSlide, isSortableBox } from "../../../../../common/utils";
 import { randomPositionGenerator } from "../../../clipboard/clipboard.utils";
+import { createBox } from '../../../../../common/commonTools';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../common/constants';
-import Ediphy from "../../../../../core/editor/main";
+
 import './_MoodleXMLDataTable.scss';
-import { DataTable } from 'react-datatable-bs';
-import { parseMoodleXML } from "./moodleXML";
 require('react-datatable-bs/css/table-twbs.css');
 
-import { createBox } from '../../../../../common/commonTools';
 export default class MoodleHandler extends Component {
     constructor(props) {
         super(props);
@@ -28,20 +30,20 @@ export default class MoodleHandler extends Component {
         ];
     }
 
-    selectAllRows = (select) => {
+    /* selectAllRows = (select) => {
         let selectedQuestions = [...this.state.selectedQuestions];
         [].forEach.call(document.getElementsByClassName('moodleXMLquestion'), (el) => {
             selectedQuestions[parseInt(el.dataset.id, 10)] = select;
         });
         this.setState({ selectedQuestions });
         this.forceResetSearch();
-    };
+    };*/
 
     componentDidMount() {
         this.start();
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if(prevProps.element !== this.props.element) {
             this.start();
         }

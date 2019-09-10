@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 import { ActionCreators } from 'redux-undo';
@@ -6,7 +6,7 @@ import printToPDF from "../../../../core/editor/print";
 import { isSortableBox } from "../../../../common/utils";
 import { updateUI } from "../../../../common/actions";
 
-class KeyListener extends Component {
+class KeyListener extends React.Component {
 
     render() {
         return null;

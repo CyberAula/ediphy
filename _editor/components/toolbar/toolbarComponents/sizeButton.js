@@ -40,5 +40,7 @@ export const SizeButton = (toolbar_plugin_state, buttonKey, toolbarProps, id, pr
         props.max = toolbar_plugin_state.structure[buttonKey + "Unit"] === '%' ? 100 : 100000;
         props.disabled = auto;
         return Size(button, handler, props, accordionKeys, buttonKey, toolbar_plugin_state, toolbarProps, auto, autoSizeHandler, unitsHandler);
+    default:
+        return null;
     }
 };

@@ -11,7 +11,7 @@ export default class ColorPicker extends Component {
         this.state = { displayColorPicker: false, color: this.getRGBAComponents(this.props.value) };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         const didReceiveColor = nextProps.value;
         if (didReceiveColor) {
             const color = nextProps.value;

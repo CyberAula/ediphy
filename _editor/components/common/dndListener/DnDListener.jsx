@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 
 import { updateUI } from "../../../../common/actions";
 
-class DnDListener extends Component {
+class DnDListener extends React.Component {
 
     render() {
         return null;
