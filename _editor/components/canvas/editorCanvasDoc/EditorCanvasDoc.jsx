@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import EditorBox from '../editorBox/EditorBox';
+import { Col } from 'react-bootstrap';
+import { connect } from "react-redux";
+
+import Ediphy from '../../../../core/editor/main';
 import EditorBoxSortable from '../editorBoxSortable/EditorBoxSortable';
 import EditorShortcuts from '../editorShortcuts/EditorShortcuts';
-import { Col } from 'react-bootstrap';
 import EditorHeader from '../editorHeader/EditorHeader';
-import Ediphy from '../../../../core/editor/main';
-import { getTitles, isSortableBox, has, hasIt } from '../../../../common/utils';
+import { getTitles, isSortableBox } from '../../../../common/utils';
+
 import ThemeCSS from "../../../../common/themes/ThemeCSS";
 import { getThemeColors } from "../../../../common/themes/themeLoader";
-import { connect } from "react-redux";
 
 class EditorCanvasDoc extends Component {
     render() {
