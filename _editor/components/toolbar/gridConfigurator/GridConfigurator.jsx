@@ -69,7 +69,7 @@ export default class GridConfigurator extends Component {
                             <ToggleSwitch
                                 key="height"
                                 checked={height === 'auto'}
-                                onChange={e => {
+                                onChange={() => {
                                     let current = height === 'auto';
                                     let newHeight = current ? parseFloat(document.getElementById(this.props.id).clientHeight, 10) : 'auto';
                                     this.props.onSortableContainerResized(this.props.id, this.props.parentId, newHeight);

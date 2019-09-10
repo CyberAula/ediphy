@@ -19,7 +19,7 @@ export default class Watermark extends Component {
         let allowedDomain = false;
         allowedDomains.map((domain, i)=>{
             if (windowUrl.indexOf(domain) > -1) {
-                let match = windowUrl.match(/ediphy_documents\/(\d+)/);
+                // let match = windowUrl.match(/ediphy_documents\/(\d+)/);
                 /* if(match && match[1]) {
                     allowedDomain = allowedDomainsHref[i](match[1]);
                 } else {*/
