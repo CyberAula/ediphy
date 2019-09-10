@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
-import i18n from 'i18next';
 import PropTypes from 'prop-types';
 
 export default class ToolbarFileProvider extends Component {

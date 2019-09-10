@@ -87,6 +87,7 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
         );
     }
     return (
+        // eslint-disable-next-line react/prop-types
         <Panel className={"panelPluginToolbar"}{...props}>{props.header}
             <Panel.Body collapsible>{children}</Panel.Body>
         </Panel>);
@@ -150,6 +151,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
             // TODO What is __position button???
             commitChanges(value);
+            // eslint-disable-next-line no-console
             console.err('handler has not been implemented yet for ' + buttonKey);
         },
     };
