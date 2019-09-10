@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import './transition_picker.scss';
 
-import { THEMES } from '../../../../common/themes/themeLoader';
 import { TRANSITIONS } from "../../../../common/themes/transitions/transitions";
 
 export default class TransitionPicker extends React.Component {
