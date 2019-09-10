@@ -1,15 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import i18n from 'i18next';
-import { ID_PREFIX_RICH_MARK, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../common/constants';
-import { nextAvailName } from '../../../../common/utils';
 import { findBox } from '../../../../common/commonTools';
 
 /**
  * Mark Creator overlay component
  */
-export default class MarkCreator extends Component {
+export default class MarkCreator extends React.Component {
 
     state = {
         onCreation: false,
@@ -24,9 +21,7 @@ export default class MarkCreator extends Component {
      * @returns {code}
      */
     render() {
-        return (
-            null
-        );
+        return null;
     }
 
     /**
@@ -61,7 +56,6 @@ export default class MarkCreator extends Component {
                 if (thisBox) {
                     thisBox.style.cursor = cursorStyle;
                 }
-                let markCreatorId = this.props.markCreatorId;
 
                 document.body.style.cursor = cursorStyle;
                 // overlay.parentNode.style.cursor = cursorStyle;
@@ -93,7 +87,6 @@ export default class MarkCreator extends Component {
                     let width = square.right - square.left;
                     let height = square.bottom - square.top;
 
-                    let richMarkValues = [];
                     let value = parseRichMarkInput(x, y, width, height, toolbarState, boxSelected);
                     component.setState({ value: value });
                     component.props.onRichMarksModalToggled(value, boxSelected);
@@ -111,7 +104,7 @@ export default class MarkCreator extends Component {
     clickOutside = (e) => {
         // this function will be always called if a click happens,
         // even if stopImmediatePropagation is used on the event target
-        if (e.target && (e.target.id === 'markOverlay' || e.target.id === 'markCreatorButton' || (e.target.classList && e.target.classList.contains('popupFooterButton') !== -1))) {
+        if (e.target && (e.target.id === 'markOverlay' || e.target.id === 'markCreatorButton' || (e.target.classList?.contains('popupFooterButton')))) {
             return;
         }
 
@@ -152,7 +145,7 @@ export default class MarkCreator extends Component {
      * Mark name entered callback
      * @param exit
      */
-    processPrompt = (exit) => {
+    /* processPrompt = (exit) => {
         let connectMode = 'new';
         let title = i18n.t('marks.new_mark');
         let type = this.props.pageType;
@@ -202,9 +195,9 @@ export default class MarkCreator extends Component {
         if(type === PAGE_TYPES.DOCUMENT) {
             this.props.onBoxAdded({ parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now() }, false, false);
         }
-        /* This is to delete all elements involved */
+        /!* This is to delete all elements involved *!/
         this.exitFunction();
-    };
+    };*/
 
 }
 
@@ -212,11 +205,11 @@ MarkCreator.propTypes = {
     /**
      * Add a new mark
      */
-    addMarkShortcut: PropTypes.func.isRequired,
+    // addMarkShortcut: PropTypes.func.isRequired,
     /**
      * Add a new box (used to add an EditorBoxSortable if a document contained view is created)
      */
-    onBoxAdded: PropTypes.func.isRequired,
+    // onBoxAdded: PropTypes.func.isRequired,
     /**
      * Selected box
      */
@@ -224,7 +217,7 @@ MarkCreator.propTypes = {
     /**
      * Object containing all contained views (identified by its ID)
      */
-    containedViews: PropTypes.object.isRequired,
+    // containedViews: PropTypes.object.isRequired,
     /**
      * Box selected Toolbar
      */
@@ -248,5 +241,5 @@ MarkCreator.propTypes = {
     /**
      * Type of current page
      */
-    pageType: PropTypes.string.isRequired,
+    // pageType: PropTypes.string.isRequired,
 };
