@@ -164,14 +164,6 @@ TemplatesModal.propTypes = {
      */
     onNavItemAdded: PropTypes.func.isRequired,
     /**
-     *  Object containing all created boxes (by id)
-     */
-    boxes: PropTypes.object.isRequired,
-    /**
-     * Function for adding a new box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
-    /**
      *  General style config
      */
     styleConfig: PropTypes.object,

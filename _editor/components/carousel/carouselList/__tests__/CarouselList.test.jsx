@@ -3,8 +3,6 @@ import expect from 'expect';
 import { shallow, mount } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
 
-import sortable from 'jquery-ui/ui/widgets/sortable';
-
 let CarouselList;
 
 // Dependencies' mocks
@@ -205,11 +203,6 @@ describe('CarouselList - Sortable items', () => {
 
     it('should create a new section entry for every child of type "section" in the list\'s navItem', () => {
         const mockedChildren = ['se-1', 'se-2'];
-        const requiredViewToolbars = {
-            [placeholderProps.containedViewSelected]: { viewName: 'VN_MOCK_0' },
-            [mockedChildren[0]]: { viewName: 'VN_MOCK_1' },
-            [mockedChildren[1]]: { viewName: 'VN_MOCK_2' },
-        };
 
         mockIsPage = false;
         mockIsSection = true;
