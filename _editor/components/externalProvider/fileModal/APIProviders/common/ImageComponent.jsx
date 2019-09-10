@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
 export default class ImageComponent extends React.Component {
 
     render() {
@@ -11,7 +10,7 @@ export default class ImageComponent extends React.Component {
         }} src={avatar}
         className={'catalogImage ' + (this.props.isSelected ? 'catalogImageSelected' : '')}
         title={title}
-        onClick={e => {
+        onClick={() => {
             this.props.onElementSelected(title, url, 'image');
         }}
         /> : null;
