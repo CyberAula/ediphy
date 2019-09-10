@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Button, Row, Col, ListGroupItem, ListGroup } from 'react-bootstrap';
+import { Modal, Button, ListGroupItem, ListGroup } from 'react-bootstrap';
 import './_fileModal.scss';
 import '../_external.scss';
-import { isContainedView, isSortableContainer } from '../../../../common/utils';
+import { isContainedView } from '../../../../common/utils';
 import FileHandlers from './FileHandlers/FileHandlers';
 import APIProviders from './APIProviders/APIProviders';
 import PDFHandler from "./FileHandlers/PDFHandler";
@@ -145,7 +145,7 @@ class FileModal extends React.Component {
 
     /**
      * Selects menu left
-     * @param i
+     * @param menu
      */
     clickHandler = (menu) => {
         this.setState({ ...initialState, menu });
@@ -256,10 +256,6 @@ FileModal.propTypes = {
      * Object containing all the boxes
      */
     boxes: PropTypes.object.isRequired,
-    /**
-     * Current selected box
-     */
-    boxSelected: PropTypes.any.isRequired,
     /**
      * Collection of callbacks for nav items handling
      */
