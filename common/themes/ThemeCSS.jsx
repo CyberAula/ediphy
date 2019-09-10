@@ -131,8 +131,7 @@ export default class ThemeCSS extends React.Component {
                 previewZone.style.setProperty(property, newValue);
             }
         } else if(this.props.fromPDF) {
-            let canvas = document.getElementsByClassName(this.props.currentView);
-            canvas?.item(0)?.style?.setProperty(property, newValue);
+            document.getElementsByClassName(this.props.currentView)?.item(0)?.style?.setProperty(property, newValue);
         } else {
             document.documentElement.style.setProperty(property, newValue);
         }

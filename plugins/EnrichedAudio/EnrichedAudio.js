@@ -5,7 +5,7 @@ import { convertSecondsToHMS } from "../../common/commonTools";
 require('./EnrichedAudio.scss');
 /* eslint-disable react/prop-types */
 
-export function EnrichedAudio() {
+export function EnrichedAudio(base) {
     return {
         getConfig: function() {
             return {
