@@ -3,20 +3,17 @@ import PluginPlaceholder from '../../_editor/components/canvas/pluginPlaceholder
 import i18n from 'i18next';
 import './_freeResponse.scss';
 import { generateCustomColors } from "../../common/themes/themeLoader";
-import { QUIZ_STYLE } from "../../common/quizzes";
+import { QUIZ_CONFIG, QUIZ_STYLE } from "../../common/quizzes";
 /* eslint-disable react/prop-types */
 
 export function FreeResponse() {
     return {
         getConfig: function() {
             return {
+                ...QUIZ_CONFIG,
                 name: 'FreeResponse',
                 displayName: i18n.t('FreeResponse.PluginName'),
-                category: 'evaluation',
                 icon: 'message',
-                initialWidth: '60%',
-                flavor: 'react',
-                isComplex: true,
                 defaultCorrectAnswer: "",
             };
         },

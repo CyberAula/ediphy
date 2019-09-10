@@ -4,20 +4,17 @@ import i18n from 'i18next';
 import './_multipleAnswer.scss';
 import { letterFromNumber } from '../../common/commonTools';
 import { generateCustomColors } from "../../common/themes/themeLoader";
-import { QUIZ_STYLE } from "../../common/quizzes";
+import { QUIZ_CONFIG, QUIZ_STYLE } from "../../common/quizzes";
 /* eslint-disable react/prop-types */
 
 export function MultipleAnswer() {
     return {
         getConfig: function() {
             return {
+                ...QUIZ_CONFIG,
                 name: 'MultipleAnswer',
                 displayName: Ediphy.i18n.t('MultipleAnswer.PluginName'),
-                category: 'evaluation',
                 icon: 'check_box',
-                initialWidth: '60%',
-                flavor: 'react',
-                isComplex: true,
                 defaultCorrectAnswer: [],
             };
         },

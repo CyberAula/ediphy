@@ -49,3 +49,10 @@ export const QUIZ_STYLE = {
         },
     },
 };
+
+export const QUIZ_CONFIG = {
+    category: 'evaluation',
+    initialWidth: '60%',
+    flavor: 'react',
+    isComplex: true,
+};

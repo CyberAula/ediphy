@@ -4,20 +4,17 @@ import './_ordering.scss';
 import i18n from 'i18next';
 import { letterFromNumber } from '../../common/commonTools';
 import { generateCustomColors } from "../../common/themes/themeLoader";
-import { QUIZ_STYLE } from "../../common/quizzes";
+import { QUIZ_CONFIG, QUIZ_STYLE } from "../../common/quizzes";
 /* eslint-disable react/prop-types */
 
 export function Ordering() {
     return {
         getConfig: function() {
             return {
+                ...QUIZ_CONFIG,
                 name: 'Ordering',
                 displayName: Ediphy.i18n.t('Ordering.PluginName'),
-                category: 'evaluation',
                 icon: 'format_list_numbered',
-                initialWidth: '60%',
-                flavor: 'react',
-                isComplex: true,
                 defaultCorrectAnswer: 0,
                 defaultCurrentAnswer: false,
             };

@@ -3,20 +3,17 @@ import PluginPlaceholder from '../../_editor/components/canvas/pluginPlaceholder
 import './_truefalse.scss';
 import i18n from 'i18next';
 import { generateCustomColors } from "../../common/themes/themeLoader";
-import { QUIZ_STYLE } from "../../common/quizzes";
+import { QUIZ_CONFIG, QUIZ_STYLE } from "../../common/quizzes";
 /* eslint-disable react/prop-types */
 
 export function TrueFalse() {
     return {
         getConfig: function() {
             return {
+                ...QUIZ_CONFIG,
                 name: 'TrueFalse',
                 displayName: Ediphy.i18n.t('TrueFalse.PluginName'),
-                category: 'evaluation',
                 icon: 'check_circle',
-                initialWidth: '60%',
-                flavor: 'react',
-                isComplex: true,
                 defaultCorrectAnswer: ["false", "false", "false"],
                 defaultCurrentAnswer: ["", "", ""],
             };

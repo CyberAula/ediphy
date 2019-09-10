@@ -4,7 +4,7 @@ import './_multipleChoice.scss';
 import i18n from 'i18next';
 import { letterFromNumber } from '../../common/commonTools';
 import { generateCustomColors } from "../../common/themes/themeLoader";
-import { QUIZ_STYLE } from "../../common/quizzes";
+import { QUIZ_CONFIG, QUIZ_STYLE } from "../../common/quizzes";
 
 /* eslint-disable react/prop-types */
 
@@ -12,13 +12,10 @@ export function MultipleChoice() {
     return {
         getConfig: function() {
             return {
+                ...QUIZ_CONFIG,
                 name: 'MultipleChoice',
                 displayName: Ediphy.i18n.t('MultipleChoice.PluginName'),
-                category: 'evaluation',
                 icon: 'radio_button_checked',
-                initialWidth: '60%',
-                flavor: 'react',
-                isComplex: true,
                 defaultCorrectAnswer: 0,
                 defaultCurrentAnswer: false,
             };

@@ -1,6 +1,7 @@
 import React from 'react';
 import './_inputText.scss';
 import i18n from 'i18next';
+import { QUIZ_CONFIG } from "../../common/quizzes";
 
 /* eslint-disable react/prop-types */
 
@@ -8,13 +9,11 @@ export function InputText() {
     return {
         getConfig: function() {
             return {
+                ...QUIZ_CONFIG,
                 name: 'InputText',
                 displayName: Ediphy.i18n.t('InputText.PluginName'),
-                category: 'evaluation',
                 icon: 'space_bar',
                 initialWidth: 'auto',
-                flavor: 'react',
-                isComplex: true,
                 defaultCorrectAnswer: "",
             };
         },
