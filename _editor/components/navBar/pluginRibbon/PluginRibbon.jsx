@@ -95,6 +95,12 @@ class PluginRibbon extends Component {
      * Reset interact container
      */
     componentDidUpdate() {
+        let container;
+        if(this.props.containedViewSelected !== 0) {
+            container = "containedCanvas";
+        }else{
+            container = "canvas";
+        }
         interact(".rib")
             .draggable({
                 enabled: !this.props.disabled,
@@ -209,6 +215,7 @@ class PluginRibbon extends Component {
         holder.removeEventListener('mousewheel', this.handleScroll);
 
         interact('.rib').unset();
+
     }
 
     onTabHide = () => {
