@@ -3,7 +3,6 @@ import {
     addNavItems, deleteNavItem,
     duplicateNavItem, expandNavItem, reorderNavItem,
     selectNavItem, toggleNavItem,
-    updateUI,
     updateViewToolbar,
 } from "../../common/actions";
 import Ediphy from "../../core/editor/main";
