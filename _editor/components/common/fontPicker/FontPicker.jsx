@@ -1,5 +1,4 @@
 import { FontManager } from 'font-picker';
-import throttle from 'lodash.throttle';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
@@ -29,7 +28,6 @@ const propTypes = {
         sort: PropTypes.oneOf(['alphabetical', 'popularity']),
     }),
 };
-const THROTTLE_INTERVAL = 250;
 
 /**
  * React interface for the font picker
