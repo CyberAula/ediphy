@@ -58,15 +58,15 @@ class PluginConfigModal extends Component {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button bsStyle="default" onClick={e => {
+                    <Button bsStyle="default" onClick={() => {
                         this.closeConfigModal();
                         this.setState({ currentStep: 1 });
                     }}>{i18n.t("Cancel")}</Button>
-                    { (this.state.currentStep > 1) ? <Button bsStyle="default" onClick={e => {
+                    { (this.state.currentStep > 1) ? <Button bsStyle="default" onClick={() => {
                         this.setState({ currentStep: this.state.currentStep - 1 });
                     }}>{"< " + i18n.t("step_previous")}</Button> : null}
                     <Button ref="plugin_insertion" bsStyle="primary" id="insert_plugin_config_modal" disabled={this.state.disabledButton}
-                        onClick={e => {
+                        onClick={() => {
                             if (this.state.currentStep < stepsnumber) {
                                 this.setState({ currentStep: this.state.currentStep + 1 });
                             }else{
