@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 import i18n from 'i18next';
-import { isSortableBox, isBox, isCanvasElement, isContainedView } from '../../../../common/utils';
+
+import { isSortableBox, isBox, isCanvasElement } from '../../../../common/utils';
 
 /**
  *  Contained View mark information
@@ -13,12 +14,6 @@ export default class CVInfo extends Component {
         let cvList = [];
         let marks = this.props.marks;
         let containedView = this.props.containedView;
-        let mark_views = Object.keys(marks).map(mark => {
-            if(marks[mark].connection === containedView.id) {
-                return marks[mark].id;
-            }
-            return 0;
-        }).filter(item => typeof item === 'string');
         let boxMarks = {};
         for (let id in containedView.parent) {
             boxMarks[containedView.parent[id]] = [...(boxMarks[containedView.parent[id]] || []), id];
@@ -32,7 +27,6 @@ export default class CVInfo extends Component {
                 markName += marks[boxMarks[box][m]].title + ', ';
             }
             markName = markName.slice(0, markName.length - 2) + " " + at + " ";
-            let parentName;
             if (isSortableBox(el.parent)) {
                 let origin = this.props.boxes[el.parent].parent;
                 from = this.props.viewToolbars[origin].viewName;
