@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
+import { Col } from 'react-bootstrap';
+import interact from 'interactjs';
+import ReactResizeDetector from 'react-resize-detector';
+import i18n from 'i18next';
+
 import EditorBox from '../editorBox/EditorBox';
 import EditorShortcuts from '../editorShortcuts/EditorShortcuts';
 import Alert from './../../common/alert/Alert';
-import { Col, Button } from 'react-bootstrap';
 import EditorHeader from '../editorHeader/EditorHeader';
-import interact from 'interactjs';
 import { getTitles, isSlide } from '../../../../common/utils';
 import { aspectRatio, createBox, instanceExists, changeFontBase } from '../../../../common/commonTools';
 import Ediphy from '../../../../core/editor/main';
-import ReactResizeDetector from 'react-resize-detector';
-import i18n from 'i18next';
 import { SnapGrid } from './SnapGrid';
 import { ID_PREFIX_BOX } from '../../../../common/constants';
 
@@ -215,7 +216,7 @@ class EditorCanvasSli extends Component {
     interactDrop = event => {
 
         let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
-        let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
+        // let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
         let rect = event.target.getBoundingClientRect();
         let x = (event.dragEvent.clientX - rect.left - mc.offsetLeft) * 100 / mc.offsetWidth;
         let y = (event.dragEvent.clientY - rect.top + mc.scrollTop /* - parseFloat(al.style.marginTop)*/) * 100 / mc.offsetHeight;
@@ -282,7 +283,7 @@ class EditorCanvasSli extends Component {
         event.dragEvent.stopPropagation();
     };
 
-    onResize = e => {
+    onResize = () => {
         let calculated = this.aspectRatio(this.props, this.state);
         this.setState({ fontBase: changeFontBase(calculated.width) });
     };
