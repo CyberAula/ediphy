@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { isPage, isSection } from '../../../../common/utils';
-import { FormControl } from 'react-bootstrap';
-import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
+import { FormControl } from 'react-bootstrap';
+
+import Ediphy from '../../../../core/editor/main';
+import { isPage, isSection } from '../../../../common/utils';
 
 import './_editorIndexTitle.scss';
 
@@ -27,7 +28,7 @@ export default class EditorIndexTitle extends Component {
         };
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
+    shouldComponentUpdate(nextProps, nextState) {
         return ((this.props.selected === this.props.id && nextProps.selected !== this.props.id)
             || (this.props.selected !== this.props.id && nextProps.selected === this.props.id)
             || (this.props.title !== nextProps.title)
@@ -40,7 +41,7 @@ export default class EditorIndexTitle extends Component {
             || (this.state.secondClick !== nextState.secondClick));
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps) {
         if(this.props.courseTitle && this.props.title !== prevProps.title) {
             // If doc title changed from GlobalConfig
             // eslint-disable-next-line react/no-did-update-set-state
@@ -71,7 +72,7 @@ export default class EditorIndexTitle extends Component {
                     (<div className="actualSectionTitle" id={'title_' + this.props.id}
                         style={{ textDecoration: this.props.hidden ? "line-through" : "initial",
                             cursor: this.props.selected === this.props.id || this.props.courseTitle ? 'text' : 'pointer' }}
-                        onClick={ e => {
+                        onClick={ () => {
                             if (this.state.secondClick && !this.state.editing && (this.props.selected === this.props.id) || this.props.courseTitle) {
                                 this.setState({ editing: true });
                             } else {
