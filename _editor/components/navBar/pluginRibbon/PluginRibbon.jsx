@@ -2,18 +2,21 @@ import React, { Component } from 'react';
 import { Button, Col } from 'react-bootstrap';
 import interact from 'interactjs';
 import PropTypes from 'prop-types';
-import Ediphy from '../../../../core/editor/main';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
-import './_pluginRibbon.scss';
-import { isSortableBox, isSlide, isBox, isContainedView, isSortableContainer } from '../../../../common/utils';
+import { connect } from "react-redux";
+
+import Ediphy from '../../../../core/editor/main';
 import Alert from './../../common/alert/Alert';
+
+import { isSlide, isBox, isContainedView, isSortableContainer } from '../../../../common/utils';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import { randomPositionGenerator } from './../../clipboard/clipboard.utils';
 import { createBox, instanceExists, releaseClick } from '../../../../common/commonTools';
 
-import { connect } from "react-redux";
 import { updateUI } from "../../../../common/actions";
+
+import './_pluginRibbon.scss';
 
 /**
  * Plugin ribbon inside toolbar
@@ -89,25 +92,9 @@ class PluginRibbon extends Component {
     };
 
     /**
-     * Before component unmounts
-     */
-    componentWillUnmount() {
-        const holder = ReactDOM.findDOMNode(this.refs.holder);
-        holder.removeEventListener('mousewheel', this.handleScroll);
-    }
-
-    /**
      * Reset interact container
-     * @param nextProps
-     * @param nextState
      */
     componentDidUpdate() {
-        let container;
-        if(this.props.containedViewSelected !== 0) {
-            container = "containedCanvas";
-        }else{
-            container = "canvas";
-        }
         interact(".rib")
             .draggable({
                 enabled: !this.props.disabled,
@@ -133,14 +120,6 @@ class PluginRibbon extends Component {
         const holder = ReactDOM.findDOMNode(this.refs.holder);
         holder.addEventListener('mousewheel', this.handleScroll);
 
-        let container;
-
-        if (this.props.containedViewSelected !== 0) {
-            container = "containedCanvas";
-        } else {
-            container = "canvas";
-        }
-        let elContainer = document.getElementById(container);
         interact.dynamicDrop(true);
         interact(".rib")
             .draggable({
@@ -187,7 +166,6 @@ class PluginRibbon extends Component {
                     changeOverflow(false);
                     let original = event.target;
                     let parent = original.parentNode;
-                    let dw = original.offsetWidth;
                     let clone = document.getElementById('clone');
                     if (clone) {
                         let name = clone.getAttribute('name');
@@ -227,6 +205,9 @@ class PluginRibbon extends Component {
      * Remove interact reference and listeners
      */
     componentWillUnmount() {
+        const holder = ReactDOM.findDOMNode(this.refs.holder);
+        holder.removeEventListener('mousewheel', this.handleScroll);
+
         interact('.rib').unset();
     }
 
