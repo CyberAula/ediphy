@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import i18n from 'i18next';
 import './_score.scss';
 export default class GlobalScore extends Component {
 
     render() {
-        let { userName, totalScore, totalWeight, isPassed, completionProgress } = this.props.scoreInfo;
+        let { userName, totalScore, totalWeight, completionProgress } = this.props.scoreInfo;
         let score = Math.round((totalScore / (totalWeight || 1)) * 10000) / 100 + "%";
         let progress = Math.round(completionProgress * 10000) / 100 + '%';
         if (this.props.show) {

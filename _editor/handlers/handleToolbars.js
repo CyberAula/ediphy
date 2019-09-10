@@ -1,4 +1,4 @@
-import { addBox, updateBox, updatePluginToolbar, updateUI, updateViewToolbar } from "../../common/actions";
+import { addBox, updateBox, updatePluginToolbar, updateViewToolbar } from "../../common/actions";
 import { parsePluginContainers, parsePluginContainersReact } from "../../common/pluginsInsidePlugins";
 import Ediphy from '../../core/editor/main';
 import { isBox, isSortableBox } from "../../common/utils";
