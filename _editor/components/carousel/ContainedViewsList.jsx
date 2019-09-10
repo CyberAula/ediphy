@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import i18n from "i18next";
+import PropTypes from "prop-types";
+
 import { isSlide } from "../../../common/utils";
 import EditorIndexTitle from "./editorIndexTitle/EditorIndexTitle";
-import PropTypes from "prop-types";
-import CarouselList from "./carouselList/CarouselList";
 
 export default class ContainedViewsList extends Component {
 
@@ -18,7 +18,7 @@ export default class ContainedViewsList extends Component {
             <div className="empty-info" style={{ display: (containedViewsIncluded) ? "none" : "block" }}>{i18n.t("empty.cv_empty")}</div>
 
             {
-                Object.keys(containedViews).map((id, key)=>{
+                Object.keys(containedViews).map((id)=>{
                     let classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
                     let isContainedViewSelected = id === containedViewSelected ? ' selected ' : ' ';
                     return (
@@ -29,7 +29,7 @@ export default class ContainedViewsList extends Component {
                                     onContainedViewSelected(id);
                                     e.stopPropagation();
                                 }}
-                                onMouseDown={e => {
+                                onMouseDown={() => {
                                     onIndexSelected(id);
                                 }}>
                                 <i className="material-icons fileIcon">{isSlide(containedViews[id].type) ? "slideshow" : "insert_drive_file"}</i>
