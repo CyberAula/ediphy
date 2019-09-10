@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Modal, Button, Row } from 'react-bootstrap';
+import React from 'react';
+import { Modal, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
 
