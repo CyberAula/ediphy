@@ -70,12 +70,10 @@ export default class ThemeCSS extends React.Component {
         let colors = isCustomColor ? this.props.toolbar.colors : { themeColor1: this.props.styleConfig.color };
 
         this.loadColorsCustomProperties(colors);
-
         this.updateCustomProperty('--themePrimaryFont', font);
     }
 
     loadCSS = () => {
-
         // TODO check si carga
         fetch(`./theme.css`) // Webpack output CSS
             .then(res => {
@@ -131,6 +129,7 @@ export default class ThemeCSS extends React.Component {
                 previewZone.style.setProperty(property, newValue);
             }
         } else if(this.props.fromPDF) {
+            // eslint-disable-next-line no-unused-expressions
             document.getElementsByClassName(this.props.currentView)?.item(0)?.style?.setProperty(property, newValue);
         } else {
             document.documentElement.style.setProperty(property, newValue);
