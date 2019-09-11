@@ -677,6 +677,7 @@ describe('# nav_items_by_id reducer', ()=>{
             expect(nav_items_by_id(state, action)).toEqual(newState);
 
         });
+        // eslint-disable-next-line jest/no-disabled-tests
         test.skip('If box pasted to cv slide with mark to navItem', () => {
             let ids = {
                 "id": "bo-4",

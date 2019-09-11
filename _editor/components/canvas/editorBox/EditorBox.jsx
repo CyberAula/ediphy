@@ -281,8 +281,7 @@ class EditorBox extends Component {
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let config = apiPlugin.getConfig();
         let box = this.props.boxes[this.props.id];
-        if (box && toolbar && toolbar.structure && (toolbar.structure.aspectRatio === true
-        /* &&( toolbar.structure.height === 'auto' || toolbar.structure.width === 'auto')*/)) {
+        if (box && (toolbar?.structure?.aspectRatio === true)) {
             return true;
         }
 
@@ -310,7 +309,6 @@ class EditorBox extends Component {
     /**
      * After component updates
      * @param prevProps React previous props
-     * @param prevState React previous state
      */
     componentDidUpdate(prevProps) {
         let toolbar = this.props.pluginToolbars[this.props.id];

@@ -21,8 +21,10 @@ export default class InitModal extends React.Component {
                 title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
                 cancelButton
                 acceptButtonText={i18n.t("joyride.start")}
-                onClose={(bool)=>{
-                    bool && this.props.showTour();
+                onClose={(open)=>{
+                    if(open) {
+                        this.props.showTour();
+                    }
                     this.setState({ initModal: false });
                 }}>
                 <div className="welcomeModalDiv">

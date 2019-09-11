@@ -29,7 +29,7 @@ class Toolbar extends Component {
                 onBackgroundChanged={this.onBackgroundChanged}
                 open={this.state.open}
                 exercises={exercises}
-                onScoreConfig={(id, button, value, page) => {this.props.onScoreConfig(id, button, value, this.props.navItemSelected);}}
+                onScoreConfig={(id, button, value) => {this.props.onScoreConfig(id, button, value, this.props.navItemSelected);}}
                 toggleToolbar={()=>this.toggleToolbar()} />;
 
             title = ((isSlide(this.props.navItems[this.props.navItemSelected].type) ? (this.props.navItems[this.props.navItemSelected].customSize === 0 ? i18n.t('slide') : "PDF") : i18n.t('page')) || "");

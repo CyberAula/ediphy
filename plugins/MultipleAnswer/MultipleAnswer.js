@@ -61,15 +61,13 @@ export const MultipleAnswer = () => ({
             },
         };
     },
-    getInitialState: function() {
-        return {
-            nBoxes: 3,
-            showFeedback: true,
-            letters: i18n.t("MultipleAnswer.ShowLetters"),
-            allowPartialScore: false,
-            quizColor: { color: 'rgba(0, 173, 156, 1)', custom: false },
-        };
-    },
+    getInitialState: () =>({
+        nBoxes: 3,
+        showFeedback: true,
+        letters: i18n.t("MultipleAnswer.ShowLetters"),
+        allowPartialScore: false,
+        quizColor: { color: 'rgba(0, 173, 156, 1)', custom: false },
+    }),
     getRenderTemplate: function(state, props = {}) {
 
         let answers = [];
@@ -85,7 +83,6 @@ export const MultipleAnswer = () => ({
             return s.substring(0, s.length - 1);
         }
         for (let i = 0; i < state.nBoxes; i++) {
-            console.log(props.exercises);
             let checked = (props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1);
             answers.push(<div key={i + 1} className={"row answerRow"}>
                 <div className={"col-xs-2 answerPlaceholder"}>

@@ -77,7 +77,11 @@ class PluginsMenu extends Component {
 
     selectCategory = (event, category) => {
         const isSelected = this.props.reactUI.pluginTab === category.name;
-        isSelected ? this.openPlugin('') : this.openPlugin(category.name);
+        if(isSelected) {
+            this.openPlugin('');
+        } else {
+            this.openPlugin(category.name);
+        }
         event.stopPropagation();
     };
 

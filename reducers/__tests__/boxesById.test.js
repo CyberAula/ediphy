@@ -554,6 +554,7 @@ describe('# boxes_by_id reducer', () => {
     });
     // TODO: Error with contained view "cv-1511252975055"
     describe('handle PASTE_BOX', () => {
+        // eslint-disable-next-line jest/no-disabled-tests
         test.skip('If box pasted to document', () => {
 
             const boxPasted = {
