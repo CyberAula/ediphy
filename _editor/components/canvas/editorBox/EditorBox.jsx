@@ -109,6 +109,7 @@ class EditorBox extends Component {
                     this.props.setCorrectAnswer(this.props.id, correctAnswer, this.props.page);
                 }
             },
+            exercises: this.props.exercises?.[this.props.page]?.exercises?.[this.props.id] ?? undefined,
         };
         let content = config.flavor === "react" ? (
             <div style={style} className={"boxStyle " + classNames} ref={"content"}>
