@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import i18n from "i18next";
 import { Modal } from "react-bootstrap";
 import help from "../joyride/help.svg";
-import InitModal from "./InitModal";
 import { updateUI } from "../../../common/actions";
 
 import { connect } from "react-redux";

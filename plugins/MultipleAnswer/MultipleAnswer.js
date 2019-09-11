@@ -85,6 +85,7 @@ export const MultipleAnswer = () => ({
             return s.substring(0, s.length - 1);
         }
         for (let i = 0; i < state.nBoxes; i++) {
+            console.log(props.exercises);
             let checked = (props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1);
             answers.push(<div key={i + 1} className={"row answerRow"}>
                 <div className={"col-xs-2 answerPlaceholder"}>

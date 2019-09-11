@@ -39,7 +39,7 @@ class Toolbar extends Component {
                 onBackgroundChanged={this.onBackgroundChanged}
                 open={this.state.open}
                 exercises={exercises}
-                onScoreConfig={(id, button, value, page) => {this.props.onScoreConfig(id, button, value, this.props.navItemSelected);}}
+                onScoreConfig={(id, button, value) => {this.props.onScoreConfig(id, button, value, this.props.navItemSelected);}}
                 toggleToolbar={this.toggleToolbar}
                 openConfigModal={this.props.handleModals.openConfigModal} />;
             let tb = this.props.pluginToolbars[this.props.box.id];

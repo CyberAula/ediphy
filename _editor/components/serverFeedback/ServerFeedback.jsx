@@ -38,7 +38,7 @@ class ServerFeedback extends Component {
         );
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (prevProps.isBusy.msg !== this.props.isBusy.msg) {
             if (this.props.isBusy.msg === i18n.t("success_transaction")) {
                 setTimeout(this.closeServerModal, 2000);

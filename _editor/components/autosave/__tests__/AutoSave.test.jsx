@@ -48,8 +48,6 @@ describe('AutoSave - General', () => {
     });
 
     it('should set the interval with period specified in the global config and the timer', () => {
-        const component = shallow(<AutoSave {...placeholderProps} />);
-
         expect(setInterval).toHaveBeenCalled();
         expect(setInterval).toHaveBeenCalledWith(expect.any(Function), mockConfig.autosave_time);
     });

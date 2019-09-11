@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Modal, FormControl, Col, Form, FormGroup, InputGroup, Glyphicon, ControlLabel, Button } from 'react-bootstrap';
+import { FormControl, InputGroup, Glyphicon } from 'react-bootstrap';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
 

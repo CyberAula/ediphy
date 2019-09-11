@@ -2,7 +2,7 @@ let webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 let path = require('path');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = merge.smart(common, {
     entry: {

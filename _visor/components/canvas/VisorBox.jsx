@@ -11,7 +11,7 @@ export default class VisorBox extends Component {
             show: this.props.show,
         };
     }
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate() {
         let toolbar = this.props.toolbars[this.props.id];
         let pluginAPI = Ediphy.Visor.Plugins[toolbar.pluginId];
         let config = pluginAPI.getConfig(toolbar.pluginId);

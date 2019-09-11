@@ -1,6 +1,6 @@
 import React from 'react';
 import expect from 'expect';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
 
 import Alert from '../Alert';
