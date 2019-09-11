@@ -256,7 +256,7 @@ class Clipboard extends Component {
                     // isTargetSlide = container === 0;
                     row = this.props.boxes[this.props.boxSelected].row;
                     col = this.props.boxes[this.props.boxSelected].col;
-                    newInd = this.getIndex(parent, container, this.props);
+                    newInd = getIndex(parent, container, this.props);
                 }
 
                 let ids = { id, parent, container, row, col, page: page ? page.id : 0 };

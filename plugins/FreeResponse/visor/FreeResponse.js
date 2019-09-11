@@ -7,7 +7,7 @@ import { generateCustomColors } from "../../../common/themes/themeLoader";
 
 /* eslint-disable react/prop-types */
 
-export function FreeResponse() {
+export const FreeResponse = () => {
     return {
         getRenderTemplate: function(state, props) {
             let attempted = props.exercises && props.exercises.attempted;
@@ -47,5 +47,5 @@ export function FreeResponse() {
             return state.correct ? correctLongAnswer(current, correct, !state.characters) : ((current && current.length && current.length > 1) ? 1 : 0);
         },
     };
-}
+};
 /* eslint-enable react/prop-types */
