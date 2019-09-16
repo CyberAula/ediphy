@@ -1,6 +1,15 @@
-import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_FILE,
-    ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from './constants';
-import { createBox } from "./commonTools";
+import {
+    ID_PREFIX_BOX,
+    ID_PREFIX_CONTAINED_VIEW,
+    ID_PREFIX_FILE,
+    ID_PREFIX_PAGE,
+    ID_PREFIX_SECTION,
+    ID_PREFIX_SORTABLE_BOX,
+    ID_PREFIX_SORTABLE_CONTAINER,
+    PAGE_TYPES,
+} from './constants';
+import { createBox, releaseClick } from "./commonTools";
+import Ediphy from "../core/editor/main";
 
 export default {
     // This would be a good post to explore if we don't want to use JSON Stringify: http://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
@@ -423,8 +432,7 @@ export function dataURItoBlob(dataURI) {
     }
 
     // write the ArrayBuffer to a blob, and you're done
-    let blob = new Blob([ab], { type: mimeString });
-    return blob;
+    return new Blob([ab], { type: mimeString });
 
 }
 
@@ -534,4 +542,20 @@ export function getIndex(parent, container, props) {
         newInd = newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
     }
     return newInd;
+}
+
+export function getIndexFromPoint(boxes, parent, container, x, y, forbidden, currentBox) {
+    let rc = document.elementFromPoint(x, y);
+    let children = boxes[parent].sortableContainers[container].children;
+    let bid = releaseClick(rc, 'box-');
+    let newInd = children.indexOf(bid);
+    if (forbidden) {
+        newInd = children.indexOf(currentBox);
+    }
+    return newInd === 0 ? 0 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
+}
+
+export function isComplex(pluginName) {
+    let plug = Ediphy.Plugins.get(pluginName);
+    return plug && (plug.getConfig().isComplex || plug.getConfig().category === 'evaluation');
 }
