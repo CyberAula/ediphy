@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import interact from "interactjs";
+import { connect } from "react-redux";
 import Ediphy from "../../../../core/editor/main";
 import { getIndexFromPoint, isBox, isComplex, isSortableContainer } from "../../../../common/utils";
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
 import { createBox, instanceExists } from "../../../../common/commonTools";
-import Alert from "../../common/alert/Alert";
-import i18n from "i18next";
 import PropTypes from "prop-types";
 
-export default class Cell extends Component {
+class Cell extends Component {
     render = () => (
-        <div key={this.props.keyCell} style={{ width: "100%", height: this.props.row + "%", position: 'relative' }}>
+        <div style={{ width: "100%", height: this.props.row + "%", position: 'relative' }}>
             {this.props.children}
         </div>);
 
@@ -22,9 +21,8 @@ export default class Cell extends Component {
             ondropactivate: e => {
                 let pluginDraggingFromRibbonIsNotComplex = e.relatedTarget.className.indexOf("rib") === -1 || !e.relatedTarget.getAttribute("name") ||
                     !isComplex(e.relatedTarget.getAttribute("name"));
-                let pluginDraggingFromCanvasIsNotComplex = e.relatedTarget.className.indexOf("rib") !== -1 || (this.props.pluginToolbars[this.props.boxSelected ] &&
-                    this.props.pluginToolbars[this.props.boxSelected ].pluginId &&
-                    !isComplex(this.props.pluginToolbars[this.props.boxSelected ].pluginId));
+                let pluginDraggingFromCanvasIsNotComplex = e.relatedTarget.className.indexOf("rib") !== -1 ||
+                    (this.props.pluginToolbars[this.props.boxSelected]?.pluginId && !isComplex(this.props.pluginToolbars[this.props.boxSelected].pluginId));
                 let notYourself = e.relatedTarget.className.indexOf("rib") !== -1 || this.props.parentBox.id !== this.props.boxSelected;
                 if (notYourself && pluginDraggingFromRibbonIsNotComplex && pluginDraggingFromCanvasIsNotComplex) {
                     e.target.classList.add('drop-active');
@@ -70,22 +68,10 @@ export default class Cell extends Component {
             if (!apiPlugin) {
                 return;
             }
-            if (config.limitToOneInstance) {
-                if (instanceExists(event.relatedTarget.getAttribute("name"))) {
-                    let alert = (<Alert className="pageModal"
-                        show
-                        hasHeader
-                        backdrop={false}
-                        title={<span><i className="material-icons alert-warning" >
-                                        warning</i>{i18n.t("messages.alert")}</span>}
-                        closeButton onClose={() => {this.setState({ alert: null });}}>
-                        <span> {i18n.t('messages.instance_limit')} </span>
-                    </Alert>);
-                    this.setState({ alert: alert });
-                    return;
-                }
+            if (config.limitToOneInstance && instanceExists(event.relatedTarget.getAttribute("name"))) {
+                this.props.showAlert();
+                return;
             }
-
             let slide = this.props.parentBox.resizable;
             createBox(initialParams, name, slide, this.props.handleBoxes.onBoxAdded, this.props.boxes);
 
@@ -93,9 +79,16 @@ export default class Cell extends Component {
             let boxDragged = this.props.boxes[this.props.boxSelected];
             // If box being dragged is dropped in a different column or row, change its value
             if (this.props.parentBox.id !== this.props.boxSelected) {
-                // initialParams.position = { type: 'relative', x: 0, y: 0 };
-                this.props.handleBoxes.onBoxDropped(boxDragged.id, initialParams.row, initialParams.col, initialParams.parent,
-                    initialParams.container, boxDragged.parent, boxDragged.container, initialParams.position, newInd);
+                this.props.handleBoxes.onBoxDropped(
+                    boxDragged.id,
+                    initialParams.row,
+                    initialParams.col,
+                    initialParams.parent,
+                    initialParams.container,
+                    boxDragged.parent,
+                    boxDragged.container,
+                    initialParams.position,
+                    newInd);
                 let clone = document.getElementById('clone');
                 if (clone) {
                     clone.parentElement.removeChild(clone);
@@ -111,13 +104,18 @@ export default class Cell extends Component {
         interact(".editorBoxSortableContainer").unset();
     }
 
-    idConvert(id) {
-        if (isSortableContainer(id)) {
-            return id;
-        }
-        return ID_PREFIX_SORTABLE_CONTAINER + id;
-    }
+    idConvert = (id) => isSortableContainer(id) ? id : ID_PREFIX_SORTABLE_CONTAINER + id;
 }
+
+function mapStateToProps(state) {
+    return {
+        boxes: state.undoGroup.present.boxesById,
+        boxSelected: state.undoGroup.present.boxSelected,
+        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+    };
+}
+
+export default connect(mapStateToProps)(Cell);
 
 Cell.propTypes = {
     /**
@@ -153,13 +151,13 @@ Cell.propTypes = {
      */
     extraParams: PropTypes.object,
     /**
-     * Key of the rendered cell
-     */
-    keyCell: PropTypes.string,
-    /**
      * Row
      */
     row: PropTypes.any,
+    /**
+     * Display alert modal
+     */
+    showAlert: PropTypes.func,
     /**
      * Children
      */

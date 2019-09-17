@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import interact from 'interactjs';
+import { connect } from "react-redux";
 
 import Ediphy from '../../../../core/editor/main';
 import EditorBox from '../editorBox/EditorBox';
@@ -11,8 +12,10 @@ import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 
 import './_pluginPlaceHolder.scss';
 import Cell from "./Cell";
+import i18n from "i18next";
+import Alert from "../../common/alert/Alert";
 
-export default class PluginPlaceholder extends Component {
+class PluginPlaceholder extends Component {
 
     state = {
         alert: null,
@@ -43,14 +46,22 @@ export default class PluginPlaceholder extends Component {
                             style={{ width: col + "%", height: '100%', display: "table-cell", verticalAlign: "top" }}>
                             {container.cols[i].map((row, j) => {
                                 return (
-                                    <Cell
-                                        {...this.props}
-                                        keyCell={j}
+                                    <Cell key={j}
                                         row={row}
-                                        boxSelected={this.props.boxSelected}
                                         container={container}
-                                        extraParams={{ i: i, j: j }}>
-                                        {this.state.alert}
+                                        extraParams={{ i: i, j: j }}
+                                        handleBoxes={this.props.handleBoxes}
+                                        parentBox={this.props.parentBox}
+                                        page={this.props.page}
+                                        pluginContainer={this.props.pluginContainer}
+                                        showAlert={() => this.setState({ alert: true })}
+                                    >
+                                        <Alert className="pageModal" show={this.state.alert} hasHeader backdrop={false}
+                                            title={<span><i className="material-icons alert-warning" >
+                                        warning</i>{i18n.t("messages.alert")}</span>}
+                                            closeButton onClose={() => {this.setState({ alert: false });}}>
+                                            <span> {i18n.t('messages.instance_limit')} </span>
+                                        </Alert>
                                         {container.children.map((idBox, index) => {
                                             if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
                                                 return (<EditorBox id={idBox}
@@ -116,6 +127,23 @@ export default class PluginPlaceholder extends Component {
         return ID_PREFIX_SORTABLE_CONTAINER + id;
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        boxes: state.undoGroup.present.boxesById,
+        boxSelected: state.undoGroup.present.boxSelected,
+        boxLevelSelected: state.undoGroup.present.boxLevelSelected,
+        containedViews: state.undoGroup.present.containedViewsById,
+        containedViewSelected: state.undoGroup.present.containedViewSelected,
+        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+        marks: state.undoGroup.present.marksById,
+        exercises: state.undoGroup.present.exercises,
+        markCreatorId: state.reactUI.markCreatorVisible,
+        lastActionDispatched: state.undoGroup.present.lastActionDispatched || "",
+    };
+}
+
+export default connect(mapStateToProps)(PluginPlaceholder);
 
 PluginPlaceholder.propTypes = {
     /**
