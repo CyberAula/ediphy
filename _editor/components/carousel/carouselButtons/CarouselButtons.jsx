@@ -13,6 +13,9 @@ import { isSection, isContainedView, getDescendantLinkedBoxes, getDescendantBoxe
 import { connect } from 'react-redux';
 import './_carouselButtons.scss';
 import TemplatesModal from "../templatesModal/TemplatesModal";
+import handleBoxes from "../../../handlers/handleBoxes";
+import handleNavItems from "../../../handlers/handleNavItems";
+import handleCanvas from "../../../handlers/handleCanvas";
 
 /**
  * Ediphy CarouselButtons Component
@@ -48,7 +51,7 @@ class CarouselButtons extends Component {
 
         for (let child of children) {
             if (this.props.navItems[child].type !== 'section') {
-                this.props.handleNavItems.onNavItemExpanded(child, true);
+                handleNavItems(this).onNavItemExpanded(child, true);
             }
         }
     };
@@ -102,7 +105,6 @@ class CarouselButtons extends Component {
     */
     render() {
         const { boxes, indexSelected, navItems, carouselShow } = this.props;
-        const { onNavItemAdded, onNavItemDuplicated } = this.props.handleNavItems;
         const buttons = [
             {
                 tooltip: i18n.t('create new folder'),
@@ -129,7 +131,7 @@ class CarouselButtons extends Component {
                 tooltip: i18n.t('DuplicateNavItem'),
                 name: "duplicateNav",
                 disabled: indexSelected === 0 || isContainedView(indexSelected) || isSection(indexSelected),
-                onClick: () => onNavItemDuplicated(indexSelected),
+                onClick: () => handleNavItems(this).onNavItemDuplicated(indexSelected),
                 icon: "control_point_duplicate",
             },
             {
@@ -200,11 +202,11 @@ class CarouselButtons extends Component {
                     navItems={navItems}
                     boxes={boxes}
                     onNavItemAdded={(id, name, type, color, num, extra) => {
-                        onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra);
+                        handleNavItems(this).onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra);
                         this.expandSiblings(this.getParent().id);}}
-                    onIndexSelected={this.props.onIndexSelected}
+                    onIndexSelected={handleCanvas(this).onIndexSelected}
                     indexSelected={indexSelected}
-                    onBoxAdded={this.props.onBoxAdded}
+                    onBoxAdded={handleBoxes(this).onBoxAdded}
                     calculatePosition={this.calculatePosition}/>
             </div>
         );
@@ -321,19 +323,7 @@ CarouselButtons.propTypes = {
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
-     * Callback for adding a box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
-    /**
-     * Selects a view/contained view in the index's context
-     */
-    onIndexSelected: PropTypes.func.isRequired,
-    /**
      * Index displayed indicator
      */
     carouselShow: PropTypes.bool.isRequired,
-    /**
-     * Collection of callbacks for nav items handling
-     */
-    handleNavItems: PropTypes.object.isRequired,
 };

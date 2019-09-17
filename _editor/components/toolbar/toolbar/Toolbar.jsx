@@ -10,39 +10,41 @@ import ViewToolbar from '../viewToolbar/ViewToolbar';
 
 import { isCanvasElement, isSlide } from "../../../../common/utils";
 import { changeBackground } from "../../../../common/actions";
+import handleModals from "../../../handlers/handleModals";
+import handleExercises from "../../../handlers/handleExercises";
 
 class Toolbar extends Component {
 
     state = { open: false };
 
     render() {
-        let exercises = {};
+
+        const { box, boxSelected, carouselShow, exercises, navItems, navItemSelected, pluginToolbars, top } = this.props;
+
         let toolbar = null;
         let title = "";
-        let noBoxSelected = this.props.boxSelected === -1 && isCanvasElement(this.props.navItemSelected, Ediphy.Config.sections_have_content);
+        let noBoxSelected = boxSelected === -1 && isCanvasElement(navItemSelected, Ediphy.Config.sections_have_content);
         let noPageSelected = false;
-        if (!this.props.exercises[this.props.navItemSelected]) {
+        if (!exercises[navItemSelected]) {
             noPageSelected = true;
         } else if(noBoxSelected) {
-            exercises = this.props.exercises[this.props.navItemSelected];
             toolbar = <ViewToolbar {...this.props}
                 onBackgroundChanged={this.onBackgroundChanged}
                 open={this.state.open}
-                exercises={exercises}
-                onScoreConfig={(id, button, value) => {this.props.onScoreConfig(id, button, value, this.props.navItemSelected);}}
-                toggleToolbar={()=>this.toggleToolbar()} />;
+                exercises={exercises[navItemSelected]}
+                onScoreConfig={this.onScoreConfig}
+                toggleToolbar={this.toggleToolbar} />;
 
-            title = ((isSlide(this.props.navItems[this.props.navItemSelected].type) ? (this.props.navItems[this.props.navItemSelected].customSize === 0 ? i18n.t('slide') : "PDF") : i18n.t('page')) || "");
+            title = ((isSlide(navItems[navItemSelected].type) ? (navItems[navItemSelected].customSize === 0 ? i18n.t('slide') : "PDF") : i18n.t('page')) || "");
         } else {
-            exercises = this.props.exercises[this.props.navItemSelected].exercises[this.props.boxSelected];
             toolbar = <PluginToolbar {...this.props}
                 onBackgroundChanged={this.onBackgroundChanged}
                 open={this.state.open}
-                exercises={exercises}
-                onScoreConfig={(id, button, value) => {this.props.onScoreConfig(id, button, value, this.props.navItemSelected);}}
+                exercises={exercises[navItemSelected].exercises[boxSelected]}
+                onScoreConfig={this.onScoreConfig}
                 toggleToolbar={this.toggleToolbar}
-                openConfigModal={this.props.handleModals.openConfigModal} />;
-            let tb = this.props.pluginToolbars[this.props.box.id];
+                openConfigModal={handleModals(this).openConfigModal} />;
+            let tb = pluginToolbars[box.id];
             let apiPlugin = Ediphy.Plugins.get(tb.pluginId);
             let config = apiPlugin ? apiPlugin.getConfig() : {};
             title = (config.displayName || "");
@@ -53,7 +55,7 @@ class Toolbar extends Component {
                 className="wrapper"
                 style={{
                     right: '0px',
-                    top: this.props.top,
+                    top: top,
                 }}>
                 <div className="pestana" id="toolbarFlap"
                     onClick={this.toggleToolbar}/>
@@ -70,7 +72,7 @@ class Toolbar extends Component {
                             </Tooltip>
                         }>
                         <div onClick={this.toggleToolbar}
-                            style={{ display: this.props.carouselShow ? 'block' : 'block' }}
+                            style={{ display: carouselShow ? 'block' : 'block' }}
                             className={open ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
                             <div className="toolbarTitle">
                                 <i id="wheel" className="material-icons">settings</i>
@@ -93,12 +95,11 @@ class Toolbar extends Component {
         );
     }
 
-    toggleToolbar = () => {
-        this.setState({ open: !this.state.open });
-    };
-
     onBackgroundChanged = (id, background) => this.props.dispatch(changeBackground(id, background));
 
+    onScoreConfig = (id, button, value) => handleExercises(this).onScoreConfig(id, button, value, this.props.navItemSelected);
+
+    toggleToolbar = () => this.setState({ open: !this.state.open });
 }
 
 function mapStateToProps(state) {
@@ -116,6 +117,7 @@ function mapStateToProps(state) {
         marks: state.undoGroup.present.marksById,
         exercises: state.undoGroup.present.exercises,
         fileModalResult: state.reactUI.fileModalResult,
+        reactUI: state.reactUI,
     };
 }
 

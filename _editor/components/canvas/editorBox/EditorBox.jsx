@@ -34,9 +34,7 @@ class EditorBox extends Component {
      * @returns {code} React rendered component
      */
     render() {
-
         const { onBoxAdded, onBoxSelected } = this.props.handleBoxes;
-
         const { addMarkShortcut, deleteMarkCreator, onRichMarksModalToggled } = this.props.handleMarks;
 
         const cornerSize = 15;
@@ -47,7 +45,6 @@ class EditorBox extends Component {
             visibility: (toolbar.showTextEditor ? 'hidden' : 'visible'),
             overflow: 'hidden',
         };
-
         let textareaStyle = {
             height: (toolbar.showTextEditor ? '100%' : '100%'),
             display: (toolbar.showTextEditor ? 'block' : 'none'),

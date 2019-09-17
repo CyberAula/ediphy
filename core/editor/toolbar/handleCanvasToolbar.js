@@ -8,7 +8,8 @@ import { getBackground } from "../../../common/themes/backgroundLoader";
  * @param accordions
  * @param toolbarProps
  */
-export function handleCanvasToolbar(name, value, accordions, toolbarProps) {
+export function handleCanvasToolbar(name, value, accordions, toolbar) {
+    let toolbarProps = toolbar.props;
     let themeToolbar = sanitizeThemeToolbar(toolbarProps.viewToolbars[toolbarProps.navItemSelected]);
     switch (name) {
     // change page/slide title

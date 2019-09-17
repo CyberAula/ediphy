@@ -76,7 +76,7 @@ export const BackgroundPicker = (button, props, toolbarProps, id, defaultBackgro
     );
 };
 
-export function handleBackground(e, toolbarProps, accordion, buttonKey, commitChanges, button, id) {
+export function handleBackground(e, toolbar, accordion, buttonKey, commitChanges, button, id) {
     let value;
     if (e.color) {
         value = { background: e.color, backgroundAttr: 'full', backgroundZoom: 100, customBackground: true };
@@ -128,7 +128,7 @@ export function handleBackground(e, toolbarProps, accordion, buttonKey, commitCh
                         backgroundAttr: 'full',
                         backgroundZoom: 100,
                         customBackground: true,
-                    }, accordion, toolbarProps);
+                    }, accordion, toolbar);
                 };
                 img.src = data;
             };

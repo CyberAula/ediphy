@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import EditorIndexTitle from '../editorIndexTitle/EditorIndexTitle';
 import i18n from 'i18next';
 import './_carouselHeader.scss';
+import handleCanvas from "../../../handlers/handleCanvas";
 
 /**
  * Carousel's header, containing the course's title and the expand/collapse buttons
@@ -30,7 +31,14 @@ export default class CarouselHeader extends Component {
                 {!this.props.carouselShow ? <br/> : null}
 
                 <div className="navBarSpace" style={{ display: (this.props.carouselShow ? 'block' : 'none') }}>
-                    <EditorIndexTitle id="coursetit" scrollW={widthScroll} className="tituloCurso" title={this.props.courseTitle} courseTitle onNameChanged={this.props.onTitleChanged}/>
+                    <EditorIndexTitle
+                        id="coursetit"
+                        scrollW={widthScroll}
+                        className="tituloCurso"
+                        title={this.props.courseTitle}
+                        courseTitle
+                        onNameChanged={handleCanvas(this).onTitleChanged}
+                    />
                 </div>
 
                 <div className="clear" />
@@ -49,9 +57,10 @@ CarouselHeader.propTypes = {
      */
     courseTitle: PropTypes.string,
     /**
-     * Modifies the course's title
+     * Redux action dispatcher
      */
-    onTitleChanged: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    dispatch: PropTypes.func.isRequired,
     /**
      * Modifies the index's width
      */

@@ -167,7 +167,7 @@ class ViewToolbar extends Component {
                                 [accordionKey],
                                 toolbar,
                                 ind,
-                                this.props
+                                this
                             );
                         })}
                     </PanelGroup>

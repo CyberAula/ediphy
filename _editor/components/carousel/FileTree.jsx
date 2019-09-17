@@ -8,6 +8,9 @@ import HTML5Backend from "react-dnd-html5-backend";
 import i18n from "i18next";
 import ContainedViewsList from "./ContainedViewsList";
 import PropTypes from "prop-types";
+import handleNavItems from "../../handlers/handleNavItems";
+import handleContainedViews from "../../handlers/handleContainedViews";
+import handleCanvas from "../../handlers/handleCanvas";
 
 class FileTree extends Component {
 
@@ -78,9 +81,9 @@ class FileTree extends Component {
 
         if (newParentId !== 0) {
             let shouldChildExpand = movedItem.type === 'file' && this.props.navItems[newParentId].isExpanded;
-            this.props.handleNavItems.onNavItemExpanded(movedItem.id, shouldChildExpand);
+            handleNavItems(this).onNavItemExpanded(movedItem.id, shouldChildExpand);
         }
-        this.props.handleNavItems.onNavItemReordered(movedItem.id, newParentId, oldParentId, idsInOrder, childrenInOrder);
+        handleNavItems(this).onNavItemReordered(movedItem.id, newParentId, oldParentId, idsInOrder, childrenInOrder);
     };
 
     getImmediateDescendants = (items, parentId) => {
@@ -96,23 +99,23 @@ class FileTree extends Component {
         const expandedItemId = items[index].id;
         const expands = items[index].collapsed;
 
-        this.props.handleNavItems.onNavItemExpanded(expandedItemId, expands);
+        handleNavItems(this).onNavItemExpanded(expandedItemId, expands);
 
         if (!expands) {
-            descendants.forEach(item => this.props.handleNavItems.onNavItemExpanded(item.id, expands));
+            descendants.forEach(item => handleNavItems(this).onNavItemExpanded(item.id, expands));
         } else {
             descendants.forEach(item => {
                 const immediateChild = item.path.slice(-1)[0] === parentId;
-                if (immediateChild && item.type !== "folder") { this.props.handleNavItems.onNavItemExpanded(item.id, expands); }
+                if (immediateChild && item.type !== "folder") { handleNavItems(this).onNavItemExpanded(item.id, expands); }
             });
         }
     };
 
     renderItem = (props) => { return <CarouselItemRenderer {...props}
         onToggleCollapse={this.handleToggleCollapse}
-        onIndexSelected = {this.props.onIndexSelected}
-        onNavItemSelected={this.props.handleNavItems.onNavItemSelected}
-        onNavItemNameChanged={this.props.handleNavItems.onNavItemNameChanged}
+        onIndexSelected = {handleCanvas(this).onIndexSelected}
+        onNavItemSelected={handleNavItems(this).onNavItemSelected}
+        onNavItemNameChanged={handleNavItems(this).onNavItemNameChanged}
         navItems={this.props.navItems}
         viewToolbars={this.props.viewToolbars}
         containedViewSelected={this.props.containedViewSelected}
@@ -174,8 +177,8 @@ class FileTree extends Component {
                     containedViews={this.props.containedViews}
                     containedViewSelected={this.props.containedViewSelected}
                     indexSelected={this.props.indexSelected}
-                    handleContainedViews={this.props.handleContainedViews}
-                    onIndexSelected={this.props.onIndexSelected}
+                    handleContainedViews={handleContainedViews(this)}
+                    onIndexSelected={handleCanvas(this).onIndexSelected}
                     viewToolbars={this.props.viewToolbars}
                 />
             </div>
@@ -217,21 +220,9 @@ FileTree.propTypes = {
      */
     containedViewSelected: PropTypes.any,
     /**
-     * Collection of callbacks for nav items handling
-     */
-    handleNavItems: PropTypes.object.isRequired,
-    /**
-     * Collection of callbacks for contained views handling
-     */
-    handleContainedViews: PropTypes.object.isRequired,
-    /**
      * View/Contained view selected at the index
      */
     indexSelected: PropTypes.any,
-    /**
-     * Selects a view/contained view in the index's context
-     */
-    onIndexSelected: PropTypes.func.isRequired,
     /**
      * Dictionary containing all created views, each one with its *id* as the key
      */

@@ -91,7 +91,7 @@ export default class PluginToolbar extends Component {
                                 [accordionKey],
                                 controls,
                                 ind,
-                                this.props
+                                this
                             );
                         })}
                         { children.map((id, ind) => {

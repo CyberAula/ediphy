@@ -27,32 +27,27 @@ class EditorCarousel extends Component
                     overflowX: this.props.carouselFull ? 'hidden' : '',
                 }}>
                 <CarouselHeader
+                    dispatch={this.props.dispatch}
                     carouselFull={this.props.carouselFull}
                     carouselShow={this.props.carouselShow}
                     courseTitle={this.props.title}
-                    onTitleChanged={this.props.handleCanvas.onTitleChanged}
                     onToggleWidth={this.onToggleWidth}
                 />
                 <FileTree
+                    boxes={this.props.boxes}
                     carouselShow={this.props.carouselShow}
                     containedViews={this.props.containedViews}
                     containedViewSelected={this.props.containedViewSelected}
-                    boxes={this.props.boxes}
+                    dispatch={this.props.dispatch}
                     navItemsIds={this.props.navItemsIds}
                     navItems={this.props.navItems}
                     navItemSelected={this.props.navItemSelected}
                     indexSelected={this.props.indexSelected}
                     onBoxAdded={this.props.onBoxAdded}
-                    onIndexSelected={this.props.handleCanvas.onIndexSelected}
-                    handleContainedViews={this.props.handleContainedViews}
-                    handleNavItems = {this.props.handleNavItems}
                     viewToolbars={this.props.viewToolbars}
                 />
                 <CarouselButtons
                     carouselShow={this.props.carouselShow}
-                    onBoxAdded={this.props.onBoxAdded}
-                    onIndexSelected={this.props.handleCanvas.onIndexSelected}
-                    handleNavItems={this.props.handleNavItems}
                 />
             </div>
         );

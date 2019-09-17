@@ -78,15 +78,12 @@ class EditorApp extends Component {
                         showTour={reactUI.showTour}
                         toggleTour={this.handleModals.toggleTour}
                     />
-                    <HelpModal
-                        showTour={this.handleModals.showTour}
-                    />
+                    <HelpModal/>
                     <InitModal
                         showTour={this.handleModals.showTour}
                     />
                     <ServerFeedback/>
                     <AlertModal/>
-
                     <EditorNavBar
                         globalConfig={{ ...globalConfig, status, everPublished }}
                         handleExportImport={this.handleExportImport}
