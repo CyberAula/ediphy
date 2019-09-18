@@ -10,9 +10,6 @@ import _handlers from "../../../_editor/handlers/_handlers";
  * @param toolbar
  */
 export function handleCanvasToolbar(name, value, accordions, toolbar) {
-    console.log('hello');
-    console.log(name);
-    console.log(value);
     let toolbarProps = toolbar.props;
     let h = _handlers(toolbar);
     let themeToolbar = sanitizeThemeToolbar(toolbarProps.viewToolbars[toolbarProps.navItemSelected]);
@@ -77,7 +74,7 @@ export function handleCanvasToolbar(name, value, accordions, toolbar) {
         });
         break;
     case 'weight':
-        h.onScoreConfig(toolbarProps.navItemSelected, 'weight', value);
+        h.onScoreConfig(toolbarProps.navItemSelected, 'weight', value, toolbarProps.navItemSelected);
         break;
     default:
         break;

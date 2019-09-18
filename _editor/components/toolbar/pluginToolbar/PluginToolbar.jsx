@@ -55,7 +55,7 @@ export default class PluginToolbar extends Component {
                         className={toolbar.showTextEditor ? 'toolbarButton textediting' : 'toolbarButton'}
                         onClick={() => {
                             blurCKEditor(toolbar.id, (text, content)=>{
-                                this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, text, content);});
+                                this.h.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, text, content);});
                         }}>
                         <i className="toolbarIcons material-icons">mode_edit</i>
                         {i18n.t("edit_text")}1
@@ -141,18 +141,6 @@ PluginToolbar.propTypes = {
    * Selected box
    */
     box: PropTypes.object,
-    /**
-     * Collection of callbacks for sortable containers handling
-     */
-    handleSortableContainers: PropTypes.object.isRequired,
-    /**
-     * Collection of callbacks for boxes handling
-     */
-    handleBoxes: PropTypes.object.isRequired,
-    /**
-   * Callback for toggling the CKEDitor
-   */
-    onTextEditorToggled: PropTypes.func.isRequired,
     /**
      * Callback for opening global configuration modal
      */

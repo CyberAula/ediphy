@@ -134,10 +134,6 @@ Toolbar.propTypes = {
      */
     dispatch: PropTypes.func,
     /**
-     * Collection of callbacks for modals handling
-     */
-    handleModals: PropTypes.object.isRequired,
-    /**
      * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any,

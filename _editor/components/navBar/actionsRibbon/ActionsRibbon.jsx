@@ -176,8 +176,4 @@ ActionsRibbon.propTypes = {
      * Object containing all created boxes (by id)
      */
     boxes: PropTypes.any,
-    /**
-      * Callback for deleting a box
-      */
-    onBoxDeleted: PropTypes.any,
 };

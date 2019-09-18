@@ -137,6 +137,7 @@ export function deleteProp(object, key) {
     // rest of properties are stored in a new object (rest) -> state is not mutated!!
 
     let {
+        // eslint-disable-next-line no-unused-vars
         [key]: omit,
         ...rest
     } = object;

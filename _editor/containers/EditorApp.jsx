@@ -45,7 +45,7 @@ class EditorApp extends Component {
 
     render() {
         const currentState = this.props.store.getState();
-        const { boxSelected, navItemSelected, containedViewSelected, isBusy, pluginToolbars,
+        const { boxSelected, navItemSelected, containedViewSelected, pluginToolbars,
             globalConfig, reactUI, status, everPublished } = this.props;
 
         const ribbonHeight = reactUI.hideTab === 'hide' ? 0 : 50;
@@ -124,15 +124,6 @@ class EditorApp extends Component {
                         status: currentState.status }}
                 />
                 <Toolbar
-                    // handleBoxes={this.handleBoxes}
-                    // handleContainedViews={this.handleContainedViews}
-                    // handleMarks={this.handleMarks}
-                    // handleModals={this.handleModals}
-                    // handleNavItems={this.handleNavItems}
-                    // handleSortableContainers={this.handleSortableContainers}
-                    // handleToolbars={this.handleToolbars}
-                    // onScoreConfig={this.handleExercises.onScoreConfig}
-                    // onTextEditorToggled={this.handleCanvas.onTextEditorToggled}
                     top={(60 + ribbonHeight) + 'px'}
                 />
                 <PluginConfigModal id={reactUI.pluginConfigModal}

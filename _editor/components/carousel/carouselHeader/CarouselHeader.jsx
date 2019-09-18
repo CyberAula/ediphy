@@ -87,8 +87,4 @@ CarouselHeader.propTypes = {
      */
     // eslint-disable-next-line react/no-unused-prop-types
     dispatch: PropTypes.func.isRequired,
-    /**
-     * Modifies the index's width
-     */
-    onToggleWidth: PropTypes.func.isRequired,
 };

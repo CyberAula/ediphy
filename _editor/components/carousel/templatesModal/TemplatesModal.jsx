@@ -170,7 +170,7 @@ TemplatesModal.propTypes = {
     /**
      * Function for getting template ID
      */
-    templateClick: PropTypes.func.isRequired,
+    templateClick: PropTypes.func,
     /**
      * Comes from RichMarks Modal
      */

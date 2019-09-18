@@ -13,7 +13,7 @@ import LogoComponent from './providers/LogoComponent';
 // import AudioBlocksComponent from './AudioBlocksComponent';
 // import PhetComponent from './PhetComponent';
 import OpenClipArtComponent from './providers/OpenClipArtComponent';
-import GiphyComponent from './providers/GiphyComponent';
+// import GiphyComponent from './providers/GiphyComponent';
 
 import VISHIcon from './logos/vish.svg';
 import FlickrIcon from './logos/flickrsvg.svg';
@@ -24,7 +24,7 @@ import DropboxIcon from './logos/Dropboxlogo.png';
 // import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
 import PolyIcon from './logos/PolyLogo.png';
 import OpenClipArtIcon from './logos/openclipart.svg';
-import GiphyIcon from './logos/giphy.png';
+// import GiphyIcon from './logos/giphy.png';
 import LogoIcon from './logos/avatar-gallery.png';
 
 import i18n from 'i18next';
