@@ -12,6 +12,7 @@ import {
 import i18n from 'i18next';
 import { importEdiphy, importExcursion } from '../APIProviders/providers/_edi';
 import './_ImportFile.scss';
+import _handlers from "../../../../handlers/_handlers";
 
 export const extensionHandlers = {
     'all': { label: i18n.t("vish_search_types.All"), value: '', icon: 'attach_file' },
@@ -77,7 +78,7 @@ export default function handlers(self) {
                             }
                         } else {
                             initialParams.initialState = { [key]: self.state.element };
-                            createBox(initialParams, pluginName, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                            createBox(initialParams, pluginName, isTargetSlide, _handlers(self).onBoxAdded, self.props.boxes);
                             self.close();
                         }
 

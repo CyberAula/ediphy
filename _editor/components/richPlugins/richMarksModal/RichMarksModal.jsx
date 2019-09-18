@@ -13,6 +13,8 @@ import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, 
 
 import './_richMarksModal.scss';
 import TemplatesModal from "../../carousel/templatesModal/TemplatesModal";
+import handleMarks from "../../../handlers/handleMarks";
+import handleBoxes from "../../../handlers/handleBoxes";
 
 /**
  * Modal component to edit marks' configuration
@@ -32,6 +34,8 @@ class RichMarksModal extends Component {
             showTemplates: false,
             boxes: [],
         };
+        this.handleMarks = handleMarks(this);
+        this.handleBoxes = handleBoxes(this);
     }
 
     /**
@@ -244,7 +248,7 @@ class RichMarksModal extends Component {
                 <Modal.Footer>
                     {/* <span>También puedes arrastrar el icono <i className="material-icons">room</i> dentro del plugin del vídeo para añadir una nueva marca</span>*/}
                     <Button onClick={() => {
-                        this.props.handleMarks.onRichMarksModalToggled();
+                        this.handleMarks.onRichMarksModalToggled();
                         this.restoreDefaultTemplate();
                     }}>Cancel</Button>
                     <Button bsStyle="primary" onClick={() => {
@@ -358,13 +362,13 @@ class RichMarksModal extends Component {
                             break;
                         }
                         if(this.props.marks[newMark] === undefined) {
-                            this.props.handleMarks.onRichMarkAdded(markState.mark, markState.view, markState.viewToolbar);
+                            this.handleMarks.onRichMarkAdded(markState.mark, markState.view, markState.viewToolbar);
                         } else{
-                            this.props.handleMarks.onRichMarkUpdated(markState.mark, markState.view, markState.viewToolbar);
+                            this.handleMarks.onRichMarkUpdated(markState.mark, markState.view, markState.viewToolbar);
                         }
                         this.generateTemplateBoxes(this.state.boxes, newId);
                         this.restoreDefaultTemplate();
-                        this.props.handleMarks.onRichMarksModalToggled();
+                        this.handleMarks.onRichMarksModalToggled();
                     }}>{i18n.t("marks.save_changes")}</Button>
                 </Modal.Footer>
                 <Alert className="pageModal"
@@ -382,7 +386,7 @@ class RichMarksModal extends Component {
                     boxes={this.props.boxes}
                     onIndexSelected={this.props.onIndexSelected}
                     indexSelected={this.props.indexSelected}
-                    onBoxAdded={this.props.onBoxAdded}
+                    onBoxAdded={this.handleBoxes.onBoxAdded}
                     calculatePosition={this.calculatePosition}
                     templateClick={this.templateClick}
                     idSlide = {newId || ""}/>
@@ -451,7 +455,7 @@ class RichMarksModal extends Component {
     toggleModal = (e) => {
         let key = e.keyCode ? e.keyCode : e.which;
         if (key === 27 && this.props.visible) {
-            this.props.handleMarks.onRichMarksModalToggled();
+            this.handleMarks.onRichMarksModalToggled();
         }
     };
 
@@ -556,10 +560,6 @@ RichMarksModal.propTypes = {
      */
     boxes: PropTypes.object,
     /**
-     * Function for adding a new box
-     */
-    onBoxAdded: PropTypes.func,
-    /**
      * Function for getting the id of the selected template
      */
     onIndexSelected: PropTypes.func,
@@ -567,8 +567,4 @@ RichMarksModal.propTypes = {
      * Contains the id of the selected template
      */
     indexSelected: PropTypes.func,
-    /**
-     * Collection of callbacks for marks handling
-     */
-    handleMarks: PropTypes.object.isRequired,
 };

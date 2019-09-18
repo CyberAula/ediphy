@@ -27,7 +27,7 @@ import Visor from '../../_visor/containers/Visor';
 
 import { isSection } from '../../common/utils';
 import { handleBoxes, handleContainedViews, handleSortableContainers, handleMarks,
-    handleModals, handleNavItems, handleToolbars, handleExercises, handleCanvas,
+    handleModals, handleToolbars, handleExercises, handleCanvas,
     handleExportImport } from "../handlers";
 
 const cookies = new Cookies();
@@ -123,30 +123,17 @@ class EditorApp extends Component {
                         filesUploaded: currentState.filesUploaded,
                         status: currentState.status }}
                 />
-                <Toolbar
-                    top={(60 + ribbonHeight) + 'px'}
-                />
-                <PluginConfigModal id={reactUI.pluginConfigModal}
-                    openFileModal={this.handleModals.openFileModal}
-                    updatePluginToolbar={this.handleToolbars.onPluginToolbarUpdated}
-                />
+                <Toolbar top={(60 + ribbonHeight) + 'px'}/>
+                <PluginConfigModal id={reactUI.pluginConfigModal}/>
                 <RichMarksModal
                     defaultValueMark={defaultMarkValue}
-                    handleMarks={this.handleMarks}
-                    onBoxAdded={this.handleBoxes.onBoxAdded}
                     validateValueInput={validateMarkValueInput}
                 />
                 <FileModal
                     disabled={disabled}
                     handleExportImport={this.handleExportImport}
-                    handleNavItems={this.handleNavItems}
-                    onBoxAdded={this.handleBoxes.onBoxAdded}
-                    onIndexSelected={this.handleCanvas.onIndexSelected}
                 />
-                <KeyListener
-                    handleBoxes={this.handleBoxes}
-                    handleNavItems={this.handleNavItems}
-                />
+                <KeyListener/>
                 <DnDListener/>
             </Grid>
         );
@@ -178,7 +165,6 @@ class EditorApp extends Component {
         this.handleExportImport = handleExportImport(this);
         this.handleModals = handleModals(this);
         this.handleMarks = handleMarks(this);
-        this.handleNavItems = handleNavItems(this);
         this.handleSortableContainers = handleSortableContainers(this);
         this.handleToolbars = handleToolbars(this);
         this.handleCanvas = handleCanvas(this);

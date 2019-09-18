@@ -12,6 +12,7 @@ import MoodleHandler from "./FileHandlers/MoodleHandler";
 import { connect } from "react-redux";
 import i18n from 'i18next';
 import { updateUI } from "../../../../common/actions";
+import _handlers from "../../../handlers/_handlers";
 
 const initialState = {
     menu: 0,
@@ -38,6 +39,8 @@ class FileModal extends React.Component {
         moodleSelected: false,
         options: {},
     };
+
+    h = _handlers(this);
 
     render() {
 
@@ -79,11 +82,11 @@ class FileModal extends React.Component {
                                     <div id="drawerContent">
                                         <PDFHandler navItemSelected={this.props.navItemSelected}
                                             boxes={this.props.boxes}
-                                            onBoxAdded={this.props.onBoxAdded}
-                                            onNavItemAdded={this.props.handleNavItems.onNavItemAdded}
-                                            onNavItemsAdded={this.props.handleNavItems.onNavItemsAdded}
-                                            onIndexSelected={this.props.onIndexSelected}
-                                            onNavItemSelected={this.props.handleNavItems.onNavItemSelected}
+                                            onBoxAdded={this.h.onBoxAdded}
+                                            onNavItemAdded={this.h.onNavItemAdded}
+                                            onNavItemsAdded={this.h.onNavItemsAdded}
+                                            onIndexSelected={this.h.onIndexSelected}
+                                            onNavItemSelected={this.h.onNavItemSelected}
                                             navItemsIds={this.props.navItemsIds}
                                             navItems={this.props.navItems}
                                             containedViews={this.props.containedViews}
@@ -101,11 +104,11 @@ class FileModal extends React.Component {
                                         <MoodleHandler navItemSelected={this.props.navItemSelected}
                                             self={this}
                                             boxes={this.props.boxes}
-                                            onBoxAdded={this.props.onBoxAdded}
-                                            onNavItemAdded={this.props.handleNavItems.onNavItemAdded}
-                                            onNavItemsAdded={this.props.handleNavItems.onNavItemsAdded}
-                                            onIndexSelected={this.props.onIndexSelected}
-                                            onNavItemSelected={this.props.handleNavItems.onNavItemSelected}
+                                            onBoxAdded={this.h.onBoxAdded}
+                                            onNavItemAdded={this.h.onNavItemAdded}
+                                            onNavItemsAdded={this.h.onNavItemsAdded}
+                                            onIndexSelected={this.h.onIndexSelected}
+                                            onNavItemSelected={this.h.onNavItemSelected}
                                             navItemsIds={this.props.navItemsIds}
                                             navItems={this.props.navItems}
                                             containedViews={this.props.containedViews}
@@ -221,14 +224,6 @@ FileModal.propTypes = {
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
-     * Callback for adding a new box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
-    /**
-     * Function for selecting a view in the index
-     */
-    onIndexSelected: PropTypes.func.isRequired,
-    /**
      * Array containing the ids of all the views
      */
     navItemsIds: PropTypes.array.isRequired,
@@ -256,9 +251,5 @@ FileModal.propTypes = {
      * Object containing all the boxes
      */
     boxes: PropTypes.object.isRequired,
-    /**
-     * Collection of callbacks for nav items handling
-     */
-    handleNavItems: PropTypes.object.isRequired,
 
 };

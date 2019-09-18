@@ -5,6 +5,7 @@ import i18n from 'i18next';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { updateUI } from "../../../common/actions";
+import _handlers from "../../handlers/_handlers";
 
 /**
  * Configuration modal for plugins that require it
@@ -19,6 +20,8 @@ class PluginConfigModal extends Component {
         currentStep: 1,
     };
 
+    h = _handlers(this);
+
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (!this.props.id && nextProps.id) {
             this.setState({ pluginState: nextProps.state });
@@ -30,7 +33,7 @@ class PluginConfigModal extends Component {
      */
     render() {
         let props = {
-            openFileModal: this.props.openFileModal,
+            openFileModal: this.h.openFileModal,
             fileModalResult: this.props.fileModalResult,
         };
         let stepsnumber = 0;
@@ -70,7 +73,7 @@ class PluginConfigModal extends Component {
                             if (this.state.currentStep < stepsnumber) {
                                 this.setState({ currentStep: this.state.currentStep + 1 });
                             }else{
-                                this.props.updatePluginToolbar(this.props.id, this.state.pluginState);
+                                this.h.onPluginToolbarUpdated(this.props.id, this.state.pluginState);
                                 this.closeConfigModal();
                                 this.setState({ currentStep: 1 });
                             }
@@ -116,15 +119,7 @@ PluginConfigModal.propTypes = {
      */
     state: PropTypes.object.isRequired,
     /**
-     * Updates plugin toolbar
-     */
-    updatePluginToolbar: PropTypes.func.isRequired,
-    /**
      * Last files uploaded to server or searched in modal
      */
     fileModalResult: PropTypes.object,
-    /**
-     * Function that opens the file search modal
-     */
-    openFileModal: PropTypes.func.isRequired,
 };
