@@ -74,14 +74,9 @@ class EditorApp extends Component {
         return (
             <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }} ref={'app'}>
                 <Row className="navBar">
-                    <EdiphyTour
-                        showTour={reactUI.showTour}
-                        toggleTour={this.handleModals.toggleTour}
-                    />
+                    <EdiphyTour/>
                     <HelpModal/>
-                    <InitModal
-                        showTour={this.handleModals.showTour}
-                    />
+                    <InitModal showTour={this.handleModals.showTour}/>
                     <ServerFeedback/>
                     <AlertModal/>
                     <EditorNavBar
@@ -90,24 +85,17 @@ class EditorApp extends Component {
                     />
                     {Ediphy.Config.autosave_time > 1000 &&
                     <AutoSave
-                        isBusy={isBusy}
                         save={this.handleExportImport.save}
                     />})
                 </Row>
                 <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
-                    <EditorCarousel
-                        handleCanvas={this.handleCanvas}
-                        handleContainedViews={this.handleContainedViews}
-                        handleNavItems={this.handleNavItems}
-                        onBoxAdded={this.handleBoxes.onBoxAdded}
-                    />
+                    <EditorCarousel/>
 
                     <Col id="colRight" xs={12}
                         style={{ height: (reactUI.carouselFull ? 0 : '100%'),
                             width: (reactUI.carouselShow ? 'calc(100% - 212px)' : 'calc(100% - 80px)') }}>
                         <Row id="actionsRibbon">
                             <ActionsRibbon
-                                onBoxDeleted={this.handleBoxes.onBoxDeleted}
                                 ribbonHeight={ ribbonHeight + 'px'}
                             />
                         </Row>
@@ -115,7 +103,6 @@ class EditorApp extends Component {
                         <Row id="ribbonRow" style={{ top: '-1px', left: (reactUI.carouselShow ? '15px' : '147px') }}>
                             <PluginRibbon
                                 disabled={disabled}
-                                onBoxAdded={this.handleBoxes.onBoxAdded}
                                 ribbonHeight={ ribbonHeight + 'px'}
                             />
                         </Row>
@@ -137,15 +124,15 @@ class EditorApp extends Component {
                         status: currentState.status }}
                 />
                 <Toolbar
-                    handleBoxes={this.handleBoxes}
-                    handleContainedViews={this.handleContainedViews}
-                    handleMarks={this.handleMarks}
-                    handleModals={this.handleModals}
-                    handleNavItems={this.handleNavItems}
-                    handleSortableContainers={this.handleSortableContainers}
-                    handleToolbars={this.handleToolbars}
-                    onScoreConfig={this.handleExercises.onScoreConfig}
-                    onTextEditorToggled={this.handleCanvas.onTextEditorToggled}
+                    // handleBoxes={this.handleBoxes}
+                    // handleContainedViews={this.handleContainedViews}
+                    // handleMarks={this.handleMarks}
+                    // handleModals={this.handleModals}
+                    // handleNavItems={this.handleNavItems}
+                    // handleSortableContainers={this.handleSortableContainers}
+                    // handleToolbars={this.handleToolbars}
+                    // onScoreConfig={this.handleExercises.onScoreConfig}
+                    // onTextEditorToggled={this.handleCanvas.onTextEditorToggled}
                     top={(60 + ribbonHeight) + 'px'}
                 />
                 <PluginConfigModal id={reactUI.pluginConfigModal}

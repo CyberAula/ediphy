@@ -12,11 +12,15 @@ import { renderAccordion } from "../../../../core/editor/toolbar/toolbarRenderer
 import { blurCKEditor } from '../../../../common/commonTools';
 
 import './_pluginToolbar.scss';
+import _handlers from "../../../handlers/_handlers";
 
 /**
  * Toolbar component for configuring boxes or pages
  */
 export default class PluginToolbar extends Component {
+
+    h = _handlers(this);
+
     /**
      * Render React component
      * @returns {code}
@@ -112,11 +116,11 @@ export default class PluginToolbar extends Component {
                                             <GridConfigurator id={id}
                                                 parentId={this.props.box.id}
                                                 container={container}
-                                                onColsChanged={this.props.handleBoxes.onColsChanged}
-                                                onRowsChanged={this.props.handleBoxes.onRowsChanged}
+                                                onColsChanged={this.h.onColsChanged}
+                                                onRowsChanged={this.h.onRowsChanged}
                                                 sortableProps={this.props.box.sortableContainers[id]}
-                                                onSortablePropsChanged={this.props.handleSortableContainers.onSortablePropsChanged}
-                                                onSortableContainerResized={this.props.handleSortableContainers.onSortableContainerResized}/>
+                                                onSortablePropsChanged={this.h.onSortablePropsChanged}
+                                                onSortableContainerResized={this.h.onSortableContainerResized}/>
                                         </Panel.Body>
                                     </Panel>);
                             }

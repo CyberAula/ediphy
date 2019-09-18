@@ -20,6 +20,7 @@ import ToolbarFileProvider from "../../externalProvider/fileModal/APIProviders/c
 import Select from "react-select";
 import RadioButtonFormGroup from "../radioButtonFormGroup/RadioButtonFormGroup";
 import React from "react";
+import handleModals from "../../../handlers/handleModals";
 
 export const Checkbox = (button, onChange, props) => {
     return (
@@ -167,15 +168,16 @@ export const Size = (button, onChange, props, accordionKeys, buttonKey, toolbar_
     return null;
 };
 
-export const External = (button, props, toolbar_props, onChange) => {
+export const External = (button, props, toolbar, onChange) => {
+    let hM = handleModals(toolbar);
     return (
         <ToolbarFileProvider
-            id={toolbar_props.boxSelected}
+            id={toolbar.props.boxSelected}
             key={button.__name}
             formControlProps={props}
-            openModal={toolbar_props.handleModals.openFileModal}
+            openModal={hM.openFileModal}
             buttontext={i18n.t('importFile.title')}
-            fileModalResult={toolbar_props.fileModalResult}
+            fileModalResult={toolbar.props.fileModalResult}
             onChange={onChange}
             accept={button.accept}
             hide={button.hide}

@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 import handleNavItems from "../../handlers/handleNavItems";
 import handleContainedViews from "../../handlers/handleContainedViews";
 import handleCanvas from "../../handlers/handleCanvas";
+import { connect } from "react-redux";
 
 class FileTree extends Component {
 
@@ -202,6 +203,23 @@ const overrideDropCaptureHandler = (manager) => {
     return backend;
 };
 
+function mapStateToProps(state) {
+    return {
+        boxes: state.undoGroup.present.boxesById,
+        carouselShow: state.reactUI.carouselShow,
+        containedViews: state.undoGroup.present.containedViewsById,
+        containedViewSelected: state.undoGroup.present.containedViewSelected,
+        indexSelected: state.undoGroup.present.indexSelected,
+        navItemsIds: state.undoGroup.present.navItemsIds,
+        navItems: state.undoGroup.present.navItemsById,
+        navItemSelected: state.undoGroup.present.navItemSelected,
+        viewToolbars: state.undoGroup.present.viewToolbarsById,
+
+    };
+}
+
+export default DragDropContext(overrideDropCaptureHandler)(connect(mapStateToProps)(FileTree));
+
 FileTree.propTypes = {
     /**
      * Global parent of navItems (0)
@@ -220,6 +238,10 @@ FileTree.propTypes = {
      */
     containedViewSelected: PropTypes.any,
     /**
+     * Redux action dispatcher
+     */
+    dispatch: PropTypes.func,
+    /**
      * View/Contained view selected at the index
      */
     indexSelected: PropTypes.any,
@@ -235,10 +257,6 @@ FileTree.propTypes = {
      *  View/Contained view selected at the index
      */
     navItemsIds: PropTypes.array,
-    /**
-     * Callback for adding a new box
-     */
-    onBoxAdded: PropTypes.func,
     /**
      * Callback for selecting contained view
      */
@@ -286,4 +304,3 @@ FileTree.propTypes = {
 
 };
 
-export default DragDropContext(overrideDropCaptureHandler)(FileTree);

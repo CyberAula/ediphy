@@ -9,8 +9,7 @@ import { BackgroundPicker, handleBackground } from "../../../_editor/components/
 import { handleCanvasToolbar } from "./handleCanvasToolbar";
 import { getCurrentColor, getThemes } from "../../../common/themes/themeLoader";
 import { loadBackground } from "../../../common/themes/backgroundLoader";
-import handleMarks from "../../../_editor/handlers/handleMarks";
-import handleToolbars from "../../../_editor/handlers/handleToolbars";
+import _handlers from "../../../_editor/handlers/_handlers";
 
 /**
  * Render toolbar accordion
@@ -22,6 +21,8 @@ import handleToolbars from "../../../_editor/handlers/handleToolbars";
  * @param toolbar
  */
 export function renderAccordion(accordion, tabKey, accordionKeys, state, key, toolbar) {
+    let h = _handlers(toolbar);
+
     if (accordionKeys[0] === 'z__extra') {
         return null;
     }
@@ -63,9 +64,9 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
                 state={toolbarProps.marks}
                 viewToolbars={toolbarProps.viewToolbars}
                 box_id={toolbarProps.box.id}
-                onRichMarksModalToggled={handleMarks(toolbar).onRichMarksModalToggled}
-                onRichMarkEditPressed={handleMarks(toolbar).onRichMarkEditPressed}
-                onRichMarkDeleted={handleMarks(toolbar).onRichMarkDeleted}
+                onRichMarksModalToggled={h.onRichMarksModalToggled}
+                onRichMarkEditPressed={h.onRichMarkEditPressed}
+                onRichMarkDeleted={h.onRichMarkDeleted}
             />,
         );
     }
@@ -106,6 +107,7 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
 export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key, toolbar) {
     let button = accordion.buttons[buttonKey];
     let toolbarProps = toolbar.props;
+    let h = _handlers(toolbar);
     let id = (toolbarProps.boxSelected !== -1) ? toolbarProps.boxSelected : (toolbarProps.containedViewSelected || toolbarProps.navItemSelected);
     let currentElement = (["structure", "style", "z__extra", "__marks_list", "__score"].indexOf(accordionKeys[0]) === -1) ? "state" : accordionKeys[0];
     let toolbarPluginState = toolbarProps.boxSelected !== -1 ? toolbarProps.pluginToolbars[toolbarProps.boxSelected] : undefined;
@@ -114,12 +116,12 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         if (toolbarProps.boxSelected === -1) {
             handleCanvasToolbar(buttonKey, val, accordion, toolbar, buttonKey);
         } else if (currentElement === '__score') {
-            toolbarProps.onScoreConfig(id, buttonKey, val);
+            h.onScoreConfig(id, buttonKey, val);
             if (!button.__defaultField) {
-                handleToolbars(toolbar).onToolbarUpdated(id, tabKey, 'state', buttonKey, val);
+                h.onToolbarUpdated(id, tabKey, 'state', buttonKey, val);
             }
         } else {
-            handleToolbars(toolbar).onToolbarUpdated(id, tabKey, currentElement, buttonKey, val);
+            h.onToolbarUpdated(id, tabKey, currentElement, buttonKey, val);
         }
     };
 
@@ -167,7 +169,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     if (buttonKey === 'width' || buttonKey === 'height' || buttonKey === 'aspectRatio') {
         return SizeButton(toolbarPluginState, buttonKey, toolbarProps, id, props, button, accordionKeys);
     }
-
     switch (button.type) {
     case 'checkbox':
         handler = () => commitChanges(!button.checked);
@@ -206,7 +207,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     case 'text':
         return Text(button, defaultHandler, props);
     case 'externalProvider':
-        return External(button, props, toolbarProps, defaultHandler);
+        return External(button, props, toolbar, defaultHandler);
     case 'range':
         return Range(button, props, defaultHandler);
     case 'conditionalText':
@@ -230,18 +231,18 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     case 'background_picker':
         let default_background = loadBackground(theme, 0);
         handler = e => handleBackground(e, toolbar, accordion, buttonKey, commitChanges, button, id);
-        return BackgroundPicker(button, props, toolbarProps, id, default_background, handler);
+        return BackgroundPicker(button, props, toolbar, id, default_background, handler);
     case 'number':
         handler = e => {
             newValue = (typeof e.target !== 'undefined') ? e.target.value : e.value;
             // If there's any problem when parsing (NaN) -> take min value if defined; otherwise take 0
             if (!(newValue && newValue.length >= 1 && (newValue.charAt(newValue.length - 1) === '.' || newValue.charAt(newValue.length - 1) === ',' || newValue === 0))) {
                 newValue = parseFloat(newValue) || button.min || 0;
-                if (button.max && value > button.max) {
+                if (button.max && newValue > button.max) {
                     newValue = button.max;
                 }
             }
-            commitChanges(value);
+            commitChanges(newValue);
         };
         return DefaultComponent(button, props, handler);
 

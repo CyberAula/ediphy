@@ -87,6 +87,7 @@ class AutoSave extends Component {
 
 function mapStateToProps(state) {
     return {
+        isBusy: state.undoGroup.present.isBusy,
         lastAction: state.undoGroup.present.lastActionDispatched,
         visorVisible: state.reactUI.visorVisible,
     };

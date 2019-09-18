@@ -13,9 +13,7 @@ import { isSection, isContainedView, getDescendantLinkedBoxes, getDescendantBoxe
 import { connect } from 'react-redux';
 import './_carouselButtons.scss';
 import TemplatesModal from "../templatesModal/TemplatesModal";
-import handleBoxes from "../../../handlers/handleBoxes";
-import handleNavItems from "../../../handlers/handleNavItems";
-import handleCanvas from "../../../handlers/handleCanvas";
+import _handlers from "../../../handlers/_handlers";
 
 /**
  * Ediphy CarouselButtons Component
@@ -27,6 +25,8 @@ class CarouselButtons extends Component {
         showOverlay: false,
         showTemplates: false,
     };
+
+    h = _handlers(this);
 
     /**
      * Get the parent of the currently selected navItem
@@ -51,7 +51,7 @@ class CarouselButtons extends Component {
 
         for (let child of children) {
             if (this.props.navItems[child].type !== 'section') {
-                handleNavItems(this).onNavItemExpanded(child, true);
+                this.h.onNavItemExpanded(child, true);
             }
         }
     };
@@ -131,7 +131,7 @@ class CarouselButtons extends Component {
                 tooltip: i18n.t('DuplicateNavItem'),
                 name: "duplicateNav",
                 disabled: indexSelected === 0 || isContainedView(indexSelected) || isSection(indexSelected),
-                onClick: () => handleNavItems(this).onNavItemDuplicated(indexSelected),
+                onClick: () => this.h.onNavItemDuplicated(indexSelected),
                 icon: "control_point_duplicate",
             },
             {
@@ -202,11 +202,11 @@ class CarouselButtons extends Component {
                     navItems={navItems}
                     boxes={boxes}
                     onNavItemAdded={(id, name, type, color, num, extra) => {
-                        handleNavItems(this).onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra);
+                        this.h.onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra);
                         this.expandSiblings(this.getParent().id);}}
-                    onIndexSelected={handleCanvas(this).onIndexSelected}
+                    onIndexSelected={this.h.onIndexSelected}
                     indexSelected={indexSelected}
-                    onBoxAdded={handleBoxes(this).onBoxAdded}
+                    onBoxAdded={this.h.onBoxAdded}
                     calculatePosition={this.calculatePosition}/>
             </div>
         );
@@ -290,6 +290,7 @@ export default connect(mapStateToProps)(CarouselButtons);
 function mapStateToProps(state) {
     return {
         boxes: state.undoGroup.present.boxesById,
+        carouselShow: state.reactUI.carouselShow,
         containedViews: state.undoGroup.present.containedViewsById,
         indexSelected: state.undoGroup.present.indexSelected,
         navItems: state.undoGroup.present.navItemsById,

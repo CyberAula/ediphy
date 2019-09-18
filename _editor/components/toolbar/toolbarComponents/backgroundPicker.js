@@ -7,13 +7,14 @@ import ColorPicker from "../../common/colorPicker/ColorPicker";
 
 import { handleCanvasToolbar } from "../../../../core/editor/toolbar/handleCanvasToolbar";
 import { isColor, isSlide, isURI } from "../../../../common/utils";
+import _handlers from "../../../handlers/_handlers";
 /* eslint-disable react/prop-types */
-export const BackgroundPicker = (button, props, toolbarProps, id, defaultBackground, onChange) => {
+export const BackgroundPicker = (button, props, toolbar, id, defaultBackground, onChange) => {
 
-    let isSli = isSlide(toolbarProps.navItems[id].type);
-    let background_attr = toolbarProps.viewToolbars[id].backgroundAttr;
-    let background_attr_zoom = toolbarProps.viewToolbars[id].backgroundZoom ?? 100;
-
+    let isSli = isSlide(toolbar.props.navItems[id].type);
+    let background_attr = toolbar.props.viewToolbars[id].backgroundAttr;
+    let background_attr_zoom = toolbar.props.viewToolbars[id].backgroundZoom ?? 100;
+    let h = _handlers(toolbar);
     const ImageDisplay = (options) => {
         return (
             <div key={'radioDislay'}>
@@ -35,13 +36,13 @@ export const BackgroundPicker = (button, props, toolbarProps, id, defaultBackgro
         <div key={'container_' + button.__name} style={{ display: 'block' }}>
             <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
                 <ToolbarFileProvider
-                    id={toolbarProps.navItemSelected}
+                    id={toolbar.props.navItemSelected}
                     key={button.__name}
                     formControlProps={{ ...props }}
                     label={'URL'}
                     value={(isURI || isColor || (props.value?.match && !props.value.match('http'))) ? '' : props.value.background}
-                    openModal={toolbarProps.handleModals.openFileModal}
-                    fileModalResult={toolbarProps.fileModalResult}
+                    openModal={h.openFileModal}
+                    fileModalResult={toolbar.props.fileModalResult}
                     buttontext={i18n.t('importFile.title')}
                     onChange={onChange}
                     accept={"image/*"}
@@ -108,7 +109,7 @@ export function handleBackground(e, toolbar, accordion, buttonKey, commitChanges
     if (e.target?.name === "image_display_zoom") {
         value = {
             background: button.value.background,
-            backgroundAttr: (toolbarProps.viewToolbars[id].backgroundAttr) ? toolbarProps.viewToolbars[id].backgroundAttr : 'repeat',
+            backgroundAttr: (toolbar.props.viewToolbars[id].backgroundAttr) ? toolbar.props.viewToolbars[id].backgroundAttr : 'repeat',
             backgroundZoom: e.target.value,
         };
     }

@@ -10,12 +10,12 @@ import ViewToolbar from '../viewToolbar/ViewToolbar';
 
 import { isCanvasElement, isSlide } from "../../../../common/utils";
 import { changeBackground } from "../../../../common/actions";
-import handleModals from "../../../handlers/handleModals";
-import handleExercises from "../../../handlers/handleExercises";
+import _handlers from "../../../handlers/_handlers";
 
 class Toolbar extends Component {
 
     state = { open: false };
+    h = _handlers(this);
 
     render() {
 
@@ -43,7 +43,7 @@ class Toolbar extends Component {
                 exercises={exercises[navItemSelected].exercises[boxSelected]}
                 onScoreConfig={this.onScoreConfig}
                 toggleToolbar={this.toggleToolbar}
-                openConfigModal={handleModals(this).openConfigModal} />;
+                openConfigModal={this.h.openConfigModal} />;
             let tb = pluginToolbars[box.id];
             let apiPlugin = Ediphy.Plugins.get(tb.pluginId);
             let config = apiPlugin ? apiPlugin.getConfig() : {};
@@ -97,7 +97,7 @@ class Toolbar extends Component {
 
     onBackgroundChanged = (id, background) => this.props.dispatch(changeBackground(id, background));
 
-    onScoreConfig = (id, button, value) => handleExercises(this).onScoreConfig(id, button, value, this.props.navItemSelected);
+    onScoreConfig = (id, button, value) => this.h.onScoreConfig(id, button, value, this.props.navItemSelected);
 
     toggleToolbar = () => this.setState({ open: !this.state.open });
 }
@@ -107,6 +107,7 @@ function mapStateToProps(state) {
         pluginToolbars: state.undoGroup.present.pluginToolbarsById,
         viewToolbars: state.undoGroup.present.viewToolbarsById,
         box: state.undoGroup.present.boxesById[state.undoGroup.present.boxSelected],
+        boxes: state.undoGroup.present.boxesById,
         boxSelected: state.undoGroup.present.boxSelected,
         containedViews: state.undoGroup.present.containedViewsById,
         containedViewSelected: state.undoGroup.present.containedViewSelected,

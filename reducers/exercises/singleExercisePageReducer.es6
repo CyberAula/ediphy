@@ -45,6 +45,7 @@ export function singleExercisePageReducer(state = {}, action = {}) {
         if (isBox(action.payload.id)) {
             return changeProp(state, "exercises", exercisesReducer(state.exercises, action));
         }
+        console.log(action);
         return Object.assign({}, state, { [action.payload.button]: action.payload.value });
     default:
         return state;

@@ -8,11 +8,12 @@ import Clipboard from '../../clipboard/Clipboard';
 import { isSlide, isBox } from '../../../../common/utils';
 import { connect } from 'react-redux';
 import { changeBoxLayer, updateUI } from '../../../../common/actions';
+import handleBoxes from "../../../handlers/handleBoxes";
 
 class ActionsRibbon extends Component {
 
     state = { buttons: [], clipboardAlert: false };
-
+    hB = handleBoxes(this);
     isPage = () => {
         return this.props.containedViews[this.props.containedViewSelected] ? this.props.containedViews[this.props.containedViewSelected] : (
             this.props.navItems[this.props.navItemSelected] ? this.props.navItems[this.props.navItemSelected] : null
@@ -91,7 +92,7 @@ class ActionsRibbon extends Component {
                         return button(act, ind);}) : null }
                     <Clipboard
                         key="clipboard"
-                        onBoxDeleted={this.props.onBoxDeleted}>
+                        onBoxDeleted={this.hB.onBoxDeleted}>
                         { clipboardActions.map((act, ind)=>{
                             return button(act, ind);
                         })}

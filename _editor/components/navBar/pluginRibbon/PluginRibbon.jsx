@@ -17,6 +17,7 @@ import { createBox, instanceExists, releaseClick } from '../../../../common/comm
 import { updateUI } from "../../../../common/actions";
 
 import './_pluginRibbon.scss';
+import handleBoxes from "../../../handlers/handleBoxes";
 
 /**
  * Plugin ribbon inside toolbar
@@ -26,16 +27,14 @@ class PluginRibbon extends Component {
      * Constructor
      * @param props
      */
-    constructor(props) {
-        super(props);
-        this.state = {
-            buttons: [],
-            clipboardAlert: false,
-            showed: true,
-            alert: null,
-        };
-    }
+    state = {
+        buttons: [],
+        clipboardAlert: false,
+        showed: true,
+        alert: null,
+    };
 
+    hB = handleBoxes(this);
     /**
      * Render React Component
      * @returns {code}
@@ -284,7 +283,7 @@ class PluginRibbon extends Component {
                 }
             }
         }
-        createBox(initialParams, name, inASlide, this.props.onBoxAdded, this.props.boxes);
+        createBox(initialParams, name, inASlide, this.hB.onBoxAdded, this.props.boxes);
         this.onTabHide();
         event.stopPropagation();
         event.preventDefault();

@@ -1,15 +1,20 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 
 import EditorIndexTitle from '../editorIndexTitle/EditorIndexTitle';
 import i18n from 'i18next';
 import './_carouselHeader.scss';
 import handleCanvas from "../../../handlers/handleCanvas";
+import { updateUI } from "../../../../common/actions";
 
 /**
  * Carousel's header, containing the course's title and the expand/collapse buttons
  */
-export default class CarouselHeader extends Component {
+class CarouselHeader extends Component {
+    // Initialize handlers
+    hC = handleCanvas(this);
+
     /**
      * Render React Component
      * @returns {code}
@@ -25,7 +30,7 @@ export default class CarouselHeader extends Component {
                 display: 'flex',
             }}
             className={'carouselListTitle ' + (this.props.carouselShow ? 'toolbarSpread' : 'toolbarHide')}>
-                <button className="btnToggleCarousel" onClick={() => this.props.onToggleWidth()}>
+                <button className="btnToggleCarousel" onClick={() => this.onToggleWidth()}>
                     <i style={{ fontSize: this.props.carouselShow ? '16px' : '28px' }} className="material-icons">format_list_numbered</i>
                 </button>
                 {!this.props.carouselShow ? <br/> : null}
@@ -37,7 +42,7 @@ export default class CarouselHeader extends Component {
                         className="tituloCurso"
                         title={this.props.courseTitle}
                         courseTitle
-                        onNameChanged={handleCanvas(this).onTitleChanged}
+                        onNameChanged={this.hC.onTitleChanged}
                     />
                 </div>
 
@@ -45,7 +50,28 @@ export default class CarouselHeader extends Component {
             </div>
         );
     }
+
+    onToggleWidth = () => {
+        if(this.props.carouselShow) {
+            this.props.dispatch(updateUI({
+                carouselShow: false,
+                carouselFull: false,
+            }));
+        } else {
+            this.props.dispatch(updateUI({ carouselShow: true }));
+        }
+    };
 }
+
+function mapStateToProps(state) {
+    return {
+        carouselFull: state.reactUI.carouselFull,
+        carouselShow: state.reactUI.carouselShow,
+        courseTitle: state.undoGroup.present.globalConfig.title || '---',
+    };
+}
+
+export default connect(mapStateToProps)(CarouselHeader);
 
 CarouselHeader.propTypes = {
     /**
