@@ -116,7 +116,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         if (toolbarProps.boxSelected === -1) {
             handleCanvasToolbar(buttonKey, val, accordion, toolbar, buttonKey);
         } else if (currentElement === '__score') {
-            h.onScoreConfig(id, buttonKey, val);
+            h.onScoreConfig(id, buttonKey, val, toolbarProps.navItemSelected);
             if (!button.__defaultField) {
                 h.onToolbarUpdated(id, tabKey, 'state', buttonKey, val);
             }

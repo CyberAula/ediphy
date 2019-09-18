@@ -32,7 +32,6 @@ class Toolbar extends Component {
                 onBackgroundChanged={this.onBackgroundChanged}
                 open={this.state.open}
                 exercises={exercises[navItemSelected]}
-                onScoreConfig={this.onScoreConfig}
                 toggleToolbar={this.toggleToolbar} />;
 
             title = ((isSlide(navItems[navItemSelected].type) ? (navItems[navItemSelected].customSize === 0 ? i18n.t('slide') : "PDF") : i18n.t('page')) || "");
@@ -41,7 +40,6 @@ class Toolbar extends Component {
                 onBackgroundChanged={this.onBackgroundChanged}
                 open={this.state.open}
                 exercises={exercises[navItemSelected].exercises[boxSelected]}
-                onScoreConfig={this.onScoreConfig}
                 toggleToolbar={this.toggleToolbar}
                 openConfigModal={this.h.openConfigModal} />;
             let tb = pluginToolbars[box.id];
@@ -96,9 +94,6 @@ class Toolbar extends Component {
     }
 
     onBackgroundChanged = (id, background) => this.props.dispatch(changeBackground(id, background));
-
-    onScoreConfig = (id, button, value) => this.h.onScoreConfig(id, button, value, this.props.navItemSelected);
-
     toggleToolbar = () => this.setState({ open: !this.state.open });
 }
 
@@ -137,10 +132,6 @@ Toolbar.propTypes = {
      * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any,
-    /**
-     * Function for configuring the scoring settings of a page or exercise
-     */
-    onScoreConfig: PropTypes.func,
     /**
      * View toolbars
      */
