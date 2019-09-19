@@ -28,7 +28,6 @@ export default (self) => ({
     },
 
     onBoxSelected: (id) => {
-        // console.log(self)
         self.props.dispatch(selectBox(id, self.props.boxesById[id]));
     },
 

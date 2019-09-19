@@ -25,8 +25,7 @@ class EditorHeader extends Component {
         this.h = _handlers(this);
     }
     render() {
-        const { boxesById, containedViewSelected, containedViewsById, courseTitle, marksById, navItemSelected, navItemsById, onTitleChanged,
-            onViewTitleChanged, pluginToolbarsById, titles, viewToolbarsById } = this.props;
+        const { containedViewSelected, containedViewsById, courseTitle, navItemSelected, navItemsById, titles, viewToolbarsById } = this.props;
 
         if (navItemSelected || containedViewSelected) {
             let currentNavItem = containedViewSelected !== 0 ? containedViewsById[containedViewSelected] : navItemsById[navItemSelected];
@@ -107,7 +106,7 @@ class EditorHeader extends Component {
                                             (<h1 onClick={e => {
                                                 this.setState({ editingTitle: !this.state.editingTitle });
                                                 if (this.state.editingTitle) { /* Save changes to Redux state*/
-                                                    onTitleChanged(courseTitle, this.state.currentTitle);
+                                                    this.h.onTitleChanged(courseTitle, this.state.currentTitle);
                                                     // Synchronize current component state with Redux state when entering edition mode
                                                 } else {
                                                     this.setState({ currentTitle: courseTitle });
@@ -143,14 +142,14 @@ class EditorHeader extends Component {
                                                 onBlur={() => {
                                                     /* Change to non-edition mode*/
                                                     this.setState({ editingTitle: !this.state.editingTitle });
-                                                    onTitleChanged(courseTitle, (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
+                                                    this.h.onTitleChanged(courseTitle, (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
                                                 }} />)}
                                         {/* NavItem title */}
                                         {!this.state.editingNavTitle ?
                                             (<h2 onClick={e => {
                                                 this.setState({ editingNavTitle: !this.state.editingNavTitle });
                                                 if (this.state.editingNavTitle) { /* Save changes to Redux state*/
-                                                    onViewTitleChanged(currentNavItem.id, { documentTitleContent: this.state.currentNavTitle });
+                                                    this.h.onViewTitleChanged(currentNavItem.id, { documentTitleContent: this.state.currentNavTitle });
                                                     // Synchronize current component state with Redux state when entering edition mode
                                                 } else {
                                                     this.setState({ currentNavTitle: docTitle });
@@ -168,7 +167,7 @@ class EditorHeader extends Component {
                                                 onKeyDown={e=> {
                                                     if (e.keyCode === 13) { // Enter Key
                                                         this.setState({ editingNavTitle: !this.state.editingNavTitle });
-                                                        onViewTitleChanged(currentNavItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
+                                                        this.h.onViewTitleChanged(currentNavItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
                                                     }
                                                     if (e.keyCode === 27) { // Escape key
                                                         this.setState({ editingNavTitle: !this.state.editingNavTitle });
@@ -186,7 +185,7 @@ class EditorHeader extends Component {
                                                 onBlur={() => {
                                                     /* Change to non-edition mode*/
                                                     this.setState({ editingNavTitle: !this.state.editingNavTitle });
-                                                    onViewTitleChanged(currentNavItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
+                                                    this.h.onViewTitleChanged(currentNavItem.id, { documentTitleContent: (this.state.currentNavTitle.length > 0) ? this.state.currentNavTitle : this.getDefaultValue() });
                                                 }} />)}
                                         {containedViewSelected !== 0 && <CVInfo/>}
                                         {!this.state.editingNavSubTitle ?
@@ -287,31 +286,11 @@ EditorHeader.propTypes = {
      */
     containedViewsById: PropTypes.object.isRequired,
     /**
-     *  Object containing all created boxes (by id)
-     */
-    boxesById: PropTypes.object.isRequired,
-    /**
-     * Callback for modify course title
-     */
-    onTitleChanged: PropTypes.func.isRequired,
-    /**
-     * Callback for modify navitem title and subtitle
-     */
-    onViewTitleChanged: PropTypes.func.isRequired,
-    /**
      * Object containing all the navitem toolbars (by navitem ID)
      */
     viewToolbarsById: PropTypes.object.isRequired,
     /**
-     * Object containing box marks
-     */
-    marksById: PropTypes.object,
-    /**
      * Course title
      */
     courseTitle: PropTypes.string,
-    /**
-       * Plugin toolbars
-       */
-    pluginToolbarsById: PropTypes.object,
 };

@@ -95,25 +95,16 @@ class EditorApp extends Component {
                         style={{ height: (reactUI.carouselFull ? 0 : '100%'),
                             width: (reactUI.carouselShow ? 'calc(100% - 212px)' : 'calc(100% - 80px)') }}>
                         <Row id="actionsRibbon">
-                            <ActionsRibbon
-                                ribbonHeight={ ribbonHeight + 'px'}
-                            />
+                            <ActionsRibbon ribbonHeight={ ribbonHeight + 'px'}/>
                         </Row>
 
                         <Row id="ribbonRow" style={{ top: '-1px', left: (reactUI.carouselShow ? '15px' : '147px') }}>
-                            <PluginRibbon
-                                disabled={disabled}
-                                ribbonHeight={ ribbonHeight + 'px'}
-                            />
+                            <PluginRibbon disabled={disabled} ribbonHeight={ ribbonHeight + 'px'}/>
                         </Row>
 
                         <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
-                            <EditorCanvas
-                                {...canvasProps}
-                            />
-                            <ContainedCanvas
-                                {...canvasProps}
-                            />
+                            <EditorCanvas {...canvasProps}/>
+                            <ContainedCanvas {...canvasProps}/>
                         </Row>
                     </Col>
                 </Row>

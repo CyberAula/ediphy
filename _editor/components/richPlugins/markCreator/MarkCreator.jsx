@@ -39,7 +39,7 @@ class MarkCreator extends React.Component {
             let dom_element = ReactDOM.findDOMNode(element);
             let dropableElement = dom_element.getElementsByClassName('dropableRichZone')[0];
 
-            if(!nextState.onCreation && nextProps.markCreatorId !== false && this.props.currentId === nextProps.markCreatorId) {
+            if(!nextState.onCreation && nextProps.markCreatorVisible !== false && this.props.currentId === nextProps.markCreatorVisible) {
                 /* find dropableRichZone*/
 
                 let overlay = document.createElement("div");
@@ -56,7 +56,7 @@ class MarkCreator extends React.Component {
                 let cursor_x_offset = 12;
                 let cursor_y_offset = 20;
                 let cursorStyle = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
-                let thisBox = findBox(this.props.markCreatorId);
+                let thisBox = findBox(this.props.markCreatorVisible);
                 if (thisBox) {
                     thisBox.style.cursor = cursorStyle;
                 }
@@ -170,7 +170,7 @@ MarkCreator.propTypes = {
     /**
      * Marks creator identifier
      */
-    markCreatorId: PropTypes.any.isRequired,
+    markCreatorVisible: PropTypes.any.isRequired,
     /**
      * Selected box
      */

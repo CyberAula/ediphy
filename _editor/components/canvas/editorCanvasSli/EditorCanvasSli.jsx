@@ -11,7 +11,7 @@ import EditorShortcuts from '../editorShortcuts/EditorShortcuts';
 import Alert from './../../common/alert/Alert';
 import EditorHeader from '../editorHeader/EditorHeader';
 import { getTitles, isSlide } from '../../../../common/utils';
-import { aspectRatio, createBox, instanceExists, changeFontBase } from '../../../../common/commonTools';
+import { aspectRatio as aspectRatioFunction, createBox, instanceExists, changeFontBase } from '../../../../common/commonTools';
 import Ediphy from '../../../../core/editor/main';
 import { SnapGrid } from './SnapGrid';
 import { ID_PREFIX_BOX } from '../../../../common/constants';
@@ -39,14 +39,17 @@ class EditorCanvasSli extends Component {
 
     render() {
         // eslint-disable-next-line no-shadow
-        const { aspectRatio, boxSelected, containedViewSelected, fromCV, grid, navItemSelected, navItems,
-            pluginToolbars, showCanvas, styleConfig, title, viewToolbars } = this.props;
+        const { boxSelected, containedViewsById, containedViewSelected, fromCV, grid, globalConfig, navItemSelected,
+            navItemsById, pluginToolbarsById, styleConfig, viewToolbarsById } = this.props;
 
-        const itemSelected = fromCV ? containedViewSelected : navItemSelected;
-        const titles = getTitles(itemSelected, viewToolbars, navItems, fromCV);
+        const itemSelected = fromCV ? containedViewsById[containedViewSelected] : navItemsById[navItemSelected];
+        const titles = getTitles(itemSelected, viewToolbarsById, navItemsById, fromCV);
+        const title = globalConfig.title || '---';
+        const aspectRatio = globalConfig.canvasRatio;
         const overlayHeight = this.getOverlayHeight(fromCV);
+        const showCanvas = navItemSelected !== 0;
 
-        let toolbar = viewToolbars[itemSelected.id];
+        let toolbar = viewToolbarsById[itemSelected.id];
         let theme = toolbar && toolbar.theme ? toolbar.theme : styleConfig && styleConfig.theme ? styleConfig.theme : 'default';
         let itemBoxes = itemSelected ? itemSelected.boxes : [];
 
@@ -115,11 +118,11 @@ class EditorCanvasSli extends Component {
                     onToolbarUpdated={this.h.onToolbarUpdated}
                     openFileModal={this.h.openFileModal}
                     pointerEventsCallback={
-                        pluginToolbars[boxSelected]
-                        && pluginToolbars[boxSelected].config
-                        && pluginToolbars[boxSelected].config.name
-                        && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name)
-                            ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).pointerEventsCallback : null}
+                        pluginToolbarsById[boxSelected]
+                        && pluginToolbarsById[boxSelected].config
+                        && pluginToolbarsById[boxSelected].config.name
+                        && Ediphy.Plugins.get(pluginToolbarsById[boxSelected].config.name)
+                            ? Ediphy.Plugins.get(pluginToolbarsById[boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={this.h.onMarkCreatorToggled}
                 />
             </Col>
@@ -157,8 +160,8 @@ class EditorCanvasSli extends Component {
     }
 
     UNSAFE_componentWillUpdate(nextProps, nextState) {
-        if (this.props.aspectRatio !== nextProps.aspectRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
-            window.canvasRatio = nextProps.aspectRatio;
+        if (this.props.globalConfig.canvasRatio !== nextProps.globalConfig.canvasRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
+            window.canvasRatio = nextProps.globalConfig.canvasRatio;
             let calculated = this.aspectRatio(nextProps, nextState);
             this.setState({ fontBase: changeFontBase(calculated.width) });
         }
@@ -171,11 +174,11 @@ class EditorCanvasSli extends Component {
     };
 
     aspectRatio = (props = this.props, state = this.state) => {
-        let ar = props.aspectRatio;
+        let ar = props.globalConfig.canvasRatio;
         let fromCV = props.fromCV;
         let itemSelected = fromCV ? props.containedViewSelected : props.navItemSelected;
         let customSize = itemSelected.customSize;
-        let calculated = aspectRatio(ar, fromCV ? 'airlayer_cv' : 'airlayer', fromCV ? 'containedCanvas' : 'canvas', customSize);
+        let calculated = aspectRatioFunction(ar, fromCV ? 'airlayer_cv' : 'airlayer', fromCV ? 'containedCanvas' : 'canvas', customSize);
         let { width, height, marginTop, marginBottom } = state;
         let current = { width, height, marginTop, marginBottom };
         if (JSON.stringify(calculated) !== JSON.stringify(current)) {
@@ -247,7 +250,7 @@ class EditorCanvasSli extends Component {
                     return;
                 }
             }
-            let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
+            let itemSelected = this.props.fromCV ? this.props.containedViewsById[this.props.containedViewSelected] : this.props.navItemsById[this.props.navItemSelected];
             let page = itemSelected.id;
             let ids = {
                 parent: page,
@@ -260,7 +263,7 @@ class EditorCanvasSli extends Component {
 
         } else {
             let boxDragged = this.props.boxesById[this.props.boxSelected];
-            let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
+            let itemSelected = this.props.fromCV ? this.props.containedViewsById[this.props.containedViewSelected] : this.props.navItemsById[this.props.navItemSelected];
             if (boxDragged.parent !== itemSelected.id && (itemSelected.id !== boxDragged.parent || !isSlide(itemSelected.id))) {
                 this.h.onBoxDropped(this.props.boxSelected,
                     0, 0, itemSelected.id, 0, boxDragged.parent, boxDragged.container, position);
@@ -295,10 +298,6 @@ EditorCanvasSli.propTypes = {
      */
     fromCV: PropTypes.bool,
     /**
-     * Canvas show flag in current selected view
-     */
-    showCanvas: PropTypes.bool,
-    /**
      *  Object containing all created boxes (by id)
      */
     boxesById: PropTypes.object.isRequired,
@@ -309,37 +308,37 @@ EditorCanvasSli.propTypes = {
     /**
      * Object containing all views (by id)
      */
-    navItems: PropTypes.object.isRequired,
+    navItemsById: PropTypes.object.isRequired,
     /**
      * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
+     * Object containing all contained views (by id)
+     */
+    containedViewsById: PropTypes.object.isRequired,
+    /**
      * Selected contained view (by ID)
      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
-     * Course title
-     */
-    title: PropTypes.string.isRequired,
-    /**
      * Object containing every view toolbar (by id)
      */
-    viewToolbars: PropTypes.object.isRequired,
+    viewToolbarsById: PropTypes.object.isRequired,
     /**
      * Object containing every plugin toolbar (by id)
      */
-    pluginToolbars: PropTypes.object.isRequired,
+    pluginToolbarsById: PropTypes.object.isRequired,
     /**
      * Whether or not the grid is activated for slides
      */
     grid: PropTypes.bool,
     /**
-     * Aspect ratio of slides
-     */
-    aspectRatio: PropTypes.number,
-    /**
      * Style config params
      */
     styleConfig: PropTypes.object,
+    /**
+     * Config
+     */
+    globalConfig: PropTypes.object,
 };

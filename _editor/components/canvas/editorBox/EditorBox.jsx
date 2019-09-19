@@ -40,7 +40,7 @@ class EditorBox extends Component {
     render() {
         const cornerSize = 15;
         const box = this.props.boxesById[this.props.id];
-        const toolbar = this.props.pluginToolbars[this.props.id];
+        const toolbar = this.props.pluginToolbarsById[this.props.id];
         const vis = this.props.boxSelected === this.props.id;
         let style = {
             visibility: (toolbar.showTextEditor ? 'hidden' : 'visible'),
@@ -50,7 +50,7 @@ class EditorBox extends Component {
             height: (toolbar.showTextEditor ? '100%' : '100%'),
             display: (toolbar.showTextEditor ? 'block' : 'none'),
         };
-        let marks = this.getMarks(this.props.marks, this.props.id);
+        let marks = this.getMarks(this.props.marksById, this.props.id);
         let { width, height, widthUnit, heightUnit } = toolbar.structure;
         let classNames = "";
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
@@ -88,7 +88,7 @@ class EditorBox extends Component {
         };
 
         let rotate = 'rotate(0deg)';
-        if (!(this.props.markCreatorId && this.props.id === this.props.boxSelected)) {
+        if (!(this.props.markCreatorVisible && this.props.id === this.props.boxSelected)) {
             if (toolbar.structure.rotation && toolbar.structure.rotation) {
                 rotate = 'rotate(' + toolbar.structure.rotation + 'deg)';
             }
@@ -97,7 +97,7 @@ class EditorBox extends Component {
         vendorTransform(wholeBoxStyle, rotate);
         let props = { ...this.props,
             marks: marks,
-            allMarks: this.props.marks,
+            allMarks: this.props.marksById,
             update: (key, value) => {
                 this.h.onToolbarUpdated(this.props.id, "main", "state", key, value);
             },
@@ -179,14 +179,14 @@ class EditorBox extends Component {
                 {border}
                 {toolbar.showTextEditor ? null : content }
                 {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxesById[this.props.id]}
-                    style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.pluginToolbars} id={this.props.id}
+                    style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.pluginToolbarsById} id={this.props.id}
                     onBlur={this.blurTextarea}/> : null}
                 <div className="boxOverlay" style={{ display: showOverlay }} />
                 <MarkCreator
                     boxSelected={this.props.boxSelected}
                     toolbar={toolbar ? toolbar : {}}
                     parseRichMarkInput={Ediphy.Plugins.get(toolbar.pluginId).parseRichMarkInput}
-                    markCreatorId={this.props.markCreatorId}
+                    markCreatorVisible={this.props.markCreatorVisible}
                     currentId={this.props.id}
                     pageType={this.props.pageType}
                 />
@@ -271,7 +271,7 @@ class EditorBox extends Component {
      * @returns {boolean} true if aspect ratio shoud be kept, false otherwise
      */
     checkAspectRatioValue() {
-        let toolbar = this.props.pluginToolbars[this.props.id];
+        let toolbar = this.props.pluginToolbarsById[this.props.id];
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let config = apiPlugin.getConfig();
         let box = this.props.boxesById[this.props.id];
@@ -305,7 +305,7 @@ class EditorBox extends Component {
      * @param prevProps React previous props
      */
     componentDidUpdate(prevProps) {
-        let toolbar = this.props.pluginToolbars[this.props.id];
+        let toolbar = this.props.pluginToolbarsById[this.props.id];
         let box = this.props.boxesById[this.props.id];
         let node = ReactDOM.findDOMNode(this);
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
@@ -325,7 +325,7 @@ class EditorBox extends Component {
             ] };
         }
 
-        if (prevProps.pluginToolbars[this.props.id] && (toolbar.showTextEditor !== prevProps.pluginToolbars[this.props.id].showTextEditor) && box.draggable) {
+        if (prevProps.pluginToolbarsById[this.props.id] && (toolbar.showTextEditor !== prevProps.pluginToolbarsById[this.props.id].showTextEditor) && box.draggable) {
             interact(node).draggable({ enabled: !toolbar.showTextEditor, snap: snapD });
         } else {
             interact(node).draggable({ snap: snapD });
@@ -346,7 +346,7 @@ class EditorBox extends Component {
      * Set interact listeners for box manipulation
      */
     componentDidMount() {
-        let toolbar = this.props.pluginToolbars[this.props.id];
+        let toolbar = this.props.pluginToolbarsById[this.props.id];
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let box = this.props.boxesById[this.props.id];
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
@@ -602,7 +602,7 @@ class EditorBox extends Component {
                     // update the element's style
                     let w = event.rect.width;
                     let h = event.rect.height;
-                    toolbar = this.props.pluginToolbars[this.props.id];
+                    toolbar = this.props.pluginToolbarsById[this.props.id];
                     let cos = Math.cos(toolbar.structure.rotation * Math.PI / 180);
                     let sin = Math.sin(toolbar.structure.rotation * Math.PI / 180);
                     let r = cos * cos - sin * sin;
@@ -630,7 +630,7 @@ class EditorBox extends Component {
                     }
                     // Calculate new button values
                     let target = event.target;
-                    let structure = this.props.pluginToolbars[this.props.id].structure;
+                    let structure = this.props.pluginToolbarsById[this.props.id].structure;
                     let widthButton = Object.assign({}, { value: structure.width, units: structure.widthUnit });
                     let heightButton = Object.assign({}, { value: structure.height, units: structure.heightUnit });
 
@@ -726,8 +726,8 @@ class EditorBox extends Component {
 
     rotate = () => {
         let rotate = 'rotate(0deg) ';
-        let toolbar = this.props.pluginToolbars[this.props.id];
-        if (!(this.props.markCreatorId && this.props.id === this.props.boxSelected)) {
+        let toolbar = this.props.pluginToolbarsById[this.props.id];
+        if (!(this.props.markCreatorVisible && this.props.id === this.props.boxSelected)) {
             if (toolbar.structure.rotation && toolbar.structure.rotation) {
                 rotate = ' rotate(' + toolbar.structure.rotation + 'deg) ';
             }
@@ -737,17 +737,19 @@ class EditorBox extends Component {
 }
 
 function mapStateToProps(state) {
+    const { boxesById, boxSelected, boxLevelSelected, containedViewsById, containedViewSelected, pluginToolbarsById,
+        marksById, exercises, lastActionDispatched } = state.undoGroup.present;
     return {
-        boxesById: state.undoGroup.present.boxesById,
-        boxSelected: state.undoGroup.present.boxSelected,
-        boxLevelSelected: state.undoGroup.present.boxLevelSelected,
-        containedViews: state.undoGroup.present.containedViewsById,
-        containedViewSelected: state.undoGroup.present.containedViewSelected,
-        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
-        marks: state.undoGroup.present.marksById,
-        exercises: state.undoGroup.present.exercises,
-        markCreatorId: state.reactUI.markCreatorVisible,
-        lastActionDispatched: state.undoGroup.present.lastActionDispatched || "",
+        boxesById,
+        boxSelected,
+        boxLevelSelected,
+        containedViewsById,
+        containedViewSelected,
+        pluginToolbarsById,
+        marksById,
+        exercises,
+        markCreatorVisible: state.reactUI.markCreatorVisible,
+        lastActionDispatched,
     };
 }
 
@@ -777,15 +779,15 @@ EditorBox.propTypes = {
     /**
      * Object containing all the toolbars
      */
-    pluginToolbars: PropTypes.object.isRequired,
+    pluginToolbarsById: PropTypes.object.isRequired,
     /**
      * Identifier of the box that is currently in process of creating a mark
      */
-    markCreatorId: PropTypes.any.isRequired,
+    markCreatorVisible: PropTypes.any.isRequired,
     /**
      * Object containing box marks
      */
-    marks: PropTypes.object,
+    marksById: PropTypes.object,
     /**
      * Page type the box is at
      */
