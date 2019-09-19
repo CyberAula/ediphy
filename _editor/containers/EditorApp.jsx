@@ -45,7 +45,7 @@ class EditorApp extends Component {
 
     render() {
         const currentState = this.props.store.getState();
-        const { boxSelected, navItemSelected, containedViewSelected, pluginToolbars,
+        const { boxSelected, navItemSelected, containedViewSelected, pluginToolbarsById,
             globalConfig, reactUI, status, everPublished } = this.props;
 
         const ribbonHeight = reactUI.hideTab === 'hide' ? 0 : 50;
@@ -54,7 +54,7 @@ class EditorApp extends Component {
 
         let pluginSelected = false;
         try {
-            pluginSelected = Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name);
+            pluginSelected = Ediphy.Plugins.get(pluginToolbarsById[boxSelected].config.name);
         } catch(e) {
         }
         const defaultMarkValue = pluginSelected ? pluginSelected.getConfig()?.defaultMarkValue : 0;
@@ -172,63 +172,24 @@ class EditorApp extends Component {
 }
 
 function mapStateToProps(state) {
+    const { reactUI, status, everPublished } = state;
+    const { boxSelected, navItemSelected, containedViewSelected, pluginToolbarsById, globalConfig } = state.undoGroup.present;
     return {
-        boxes: state.undoGroup.present.boxesById,
-        boxLevelSelected: state.undoGroup.present.boxLevelSelected,
-        boxSelected: state.undoGroup.present.boxSelected,
-        containedViews: state.undoGroup.present.containedViewsById,
-        containedViewSelected: state.undoGroup.present.containedViewSelected,
-        displayMode: state.undoGroup.present.displayMode,
-        everPublished: state.everPublished,
-        exercises: state.undoGroup.present.exercises,
-        filesUploaded: state.filesUploaded,
-        globalConfig: state.undoGroup.present.globalConfig,
-        indexSelected: state.undoGroup.present.indexSelected,
-        isBusy: state.undoGroup.present.isBusy,
-        lastActionDispatched: state.undoGroup.present.lastActionDispatched || "",
-        marks: state.undoGroup.present.marksById,
-        navItems: state.undoGroup.present.navItemsById,
-        navItemsIds: state.undoGroup.present.navItemsIds,
-        navItemSelected: state.undoGroup.present.navItemSelected,
-        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
-        reactUI: state.reactUI,
-        redoDisabled: state.undoGroup.future.length === 0,
-        status: state.status,
-        title: state.undoGroup.present.globalConfig.title || '---',
-        undoDisabled: state.undoGroup.past.length === 0,
-        version: state.undoGroup.present.version,
-        viewToolbars: state.undoGroup.present.viewToolbarsById,
+        boxSelected, containedViewSelected, navItemSelected, pluginToolbarsById, globalConfig, reactUI, status, everPublished,
     };
 }
 
 export default connect(mapStateToProps)(EditorApp);
 
 EditorApp.propTypes = {
-    boxes: PropTypes.object.isRequired,
-    boxLevelSelected: PropTypes.number,
     boxSelected: PropTypes.any,
-    containedViews: PropTypes.object.isRequired,
     containedViewSelected: PropTypes.any,
     dispatch: PropTypes.func.isRequired,
-    displayMode: PropTypes.any,
     everPublished: PropTypes.bool,
-    exercises: PropTypes.object.isRequired,
-    filesUploaded: PropTypes.any,
     globalConfig: PropTypes.object.isRequired,
-    indexSelected: PropTypes.any,
-    isBusy: PropTypes.any,
-    lastActionDispatched: PropTypes.string,
-    marks: PropTypes.object,
-    navItems: PropTypes.object.isRequired,
-    navItemsIds: PropTypes.array.isRequired,
     navItemSelected: PropTypes.any,
-    pluginToolbars: PropTypes.object,
+    pluginToolbarsById: PropTypes.object,
     reactUI: PropTypes.object,
-    redoDisabled: PropTypes.bool,
     status: PropTypes.string,
-    store: PropTypes.any,
-    title: PropTypes.string,
-    undoDisabled: PropTypes.bool,
-    version: PropTypes.any,
-    viewToolbars: PropTypes.object.isRequired,
+    store: PropTypes.object,
 };

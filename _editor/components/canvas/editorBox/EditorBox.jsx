@@ -18,6 +18,7 @@ const SNAP_DRAG = 5;
 const SNAP_SIZE = 2;
 let html2json = require('html2json').html2json;
 import { connect } from "react-redux";
+import _handlers from "../../../handlers/_handlers";
 
 /**
  * Ediphy Box component.
@@ -29,16 +30,16 @@ class EditorBox extends Component {
      * @param props React component props
      */
     state = { borderSize: 2 };
+
+    h = _handlers(this);
+
     /**
      * Renders React Component
      * @returns {code} React rendered component
      */
     render() {
-        const { onBoxAdded, onBoxSelected } = this.props.handleBoxes;
-        const { addMarkShortcut, deleteMarkCreator, onRichMarksModalToggled } = this.props.handleMarks;
-
         const cornerSize = 15;
-        const box = this.props.boxes[this.props.id];
+        const box = this.props.boxesById[this.props.id];
         const toolbar = this.props.pluginToolbars[this.props.id];
         const vis = this.props.boxSelected === this.props.id;
         let style = {
@@ -98,12 +99,12 @@ class EditorBox extends Component {
             marks: marks,
             allMarks: this.props.marks,
             update: (key, value) => {
-                this.props.onToolbarUpdated(this.props.id, "main", "state", key, value);
+                this.h.onToolbarUpdated(this.props.id, "main", "state", key, value);
             },
-            parentBox: this.props.boxes[this.props.id],
+            parentBox: this.props.boxesById[this.props.id],
             setCorrectAnswer: (correctAnswer) => {
                 if (this.props.exercises.correctAnswer !== correctAnswer) {
-                    this.props.setCorrectAnswer(this.props.id, correctAnswer, this.props.page);
+                    this.h.setCorrectAnswer(this.props.id, correctAnswer, this.props.page);
                 }
             },
             exercises: this.props.exercises?.[this.props.page]?.exercises?.[this.props.id] ?? undefined,
@@ -158,41 +159,37 @@ class EditorBox extends Component {
                 onClick={e => {
                     if (this.props.boxSelected !== this.props.id) {
                         // Do not stop propagation if we are not allowed to select this box because of its level, so it selects the parent instead of itself
-                        if (!isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes) && isBox(box.parent)) {
+                        if (!isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxesById) && isBox(box.parent)) {
                             return;
                         }
                         // If it is a box inside another box, you are only allowed to select it if you have its parent box selected
-                        if (box.level < 1 || box.level < this.props.boxLevelSelected || isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
-                            onBoxSelected(this.props.id);
+                        if (box.level < 1 || box.level < this.props.boxLevelSelected || isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxesById)) {
+                            this.h.onBoxSelected(this.props.id);
                         }
                     }
                     e.stopPropagation();
                 }}
                 onDoubleClick={(e)=> {
                     if(config && config.needsTextEdition && this.props.id === this.props.boxSelected) {
-                        this.props.onTextEditorToggled(this.props.id, true);
+                        this.h.onTextEditorToggled(this.props.id, true);
                         e.stopPropagation();
                     }
                 }}
                 style={wholeBoxStyle}>
                 {border}
                 {toolbar.showTextEditor ? null : content }
-                {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxes[this.props.id]}
+                {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxesById[this.props.id]}
                     style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.pluginToolbars} id={this.props.id}
                     onBlur={this.blurTextarea}/> : null}
                 <div className="boxOverlay" style={{ display: showOverlay }} />
                 <MarkCreator
-                    addMarkShortcut={addMarkShortcut}
-                    deleteMarkCreator={deleteMarkCreator}
-                    onBoxAdded={onBoxAdded}
                     boxSelected={this.props.boxSelected}
-                    containedViews={this.props.containedViews}
                     toolbar={toolbar ? toolbar : {}}
                     parseRichMarkInput={Ediphy.Plugins.get(toolbar.pluginId).parseRichMarkInput}
                     markCreatorId={this.props.markCreatorId}
                     currentId={this.props.id}
                     pageType={this.props.pageType}
-                    onRichMarksModalToggled={onRichMarksModalToggled} />
+                />
             </div>
         );
     }
@@ -219,7 +216,7 @@ class EditorBox extends Component {
                 props = Object.assign({}, props, {
                     pluginContainer: markup.attr["plugin-container"],
                     resizable: resizable,
-                    parentBox: this.props.boxes[this.props.id],
+                    parentBox: this.props.boxesById[this.props.id],
                 });
             } else {
                 component = markup.tag;
@@ -266,7 +263,7 @@ class EditorBox extends Component {
      * Blurs text area and saves data
      */
     blurTextarea = (text, data) => {
-        this.props.onTextEditorToggled(this.props.id, false, text, data);
+        this.h.onTextEditorToggled(this.props.id, false, text, data);
     };
 
     /**
@@ -277,7 +274,7 @@ class EditorBox extends Component {
         let toolbar = this.props.pluginToolbars[this.props.id];
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let config = apiPlugin.getConfig();
-        let box = this.props.boxes[this.props.id];
+        let box = this.props.boxesById[this.props.id];
         if (box && (toolbar?.structure?.aspectRatio === true)) {
             return true;
         }
@@ -309,7 +306,7 @@ class EditorBox extends Component {
      */
     componentDidUpdate(prevProps) {
         let toolbar = this.props.pluginToolbars[this.props.id];
-        let box = this.props.boxes[this.props.id];
+        let box = this.props.boxesById[this.props.id];
         let node = ReactDOM.findDOMNode(this);
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
         let leftO = offsetEl.left || 0;
@@ -351,7 +348,7 @@ class EditorBox extends Component {
     componentDidMount() {
         let toolbar = this.props.pluginToolbars[this.props.id];
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
-        let box = this.props.boxes[this.props.id];
+        let box = this.props.boxesById[this.props.id];
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
@@ -389,7 +386,7 @@ class EditorBox extends Component {
                 onstart: (event) => {
                     event.stopPropagation();
                     if (this.props.boxSelected !== this.props.id) {
-                        this.props.handleBoxes.onBoxSelected(this.props.id);
+                        this.h.onBoxSelected(this.props.id);
                     }
                     // If contained in smth different from ContainedCanvas (sortableContainer || PluginPlaceHolder), clone the node and hide the original
                     if (isSortableContainer(box.container)) {
@@ -499,7 +496,7 @@ class EditorBox extends Component {
                     // Unhide EditorShortcuts
 
                     // Get position and if contained in sortableContainer || PluginPlaceHolder, convert to %
-                    let pos = this.props.boxes[this.props.id].position.type;
+                    let pos = this.props.boxesById[this.props.id].position.type;
                     let actualLeft = pos === 'relative' ? target.style.left : target.getAttribute('data-x');
                     let actualTop = pos === 'relative' ? target.style.top : target.getAttribute('data-y');
                     let absoluteLeft = (((parseFloat(target.style.left) * 100) / target.parentElement.offsetWidth) > 100) ?
@@ -545,11 +542,11 @@ class EditorBox extends Component {
                     let containerHoverID = releaseClick(releaseClickEl, 'sc-');
                     // TODO Comentar?
                     if (box.container === 0) {
-                        this.props.handleBoxes.onBoxMoved(
+                        this.h.onBoxMoved(
                             this.props.id,
                             isSortableContainer(box.container) ? left : absoluteLeft,
                             isSortableContainer(box.container) ? top : absoluteTop,
-                            this.props.boxes[this.props.id].position.type,
+                            this.props.boxesById[this.props.id].position.type,
                             box.parent,
                             containerHoverID ? ('sc-' + containerHoverID) : containerId,
                             disposition
@@ -664,7 +661,7 @@ class EditorBox extends Component {
                     target.style.width = widthButton.value === 'auto' ? 'auto' : widthButton.value + widthButton.units;
                     target.style.height = heightButton.value === 'auto' ? 'auto' : heightButton.value + heightButton.units;
 
-                    this.props.handleBoxes.onBoxResized(this.props.id, {
+                    this.h.onBoxResized(this.props.id, {
                         width: widthButton.value,
                         widthUnit: widthButton.units,
                         height: heightButton.value,
@@ -741,7 +738,7 @@ class EditorBox extends Component {
 
 function mapStateToProps(state) {
     return {
-        boxes: state.undoGroup.present.boxesById,
+        boxesById: state.undoGroup.present.boxesById,
         boxSelected: state.undoGroup.present.boxSelected,
         boxLevelSelected: state.undoGroup.present.boxLevelSelected,
         containedViews: state.undoGroup.present.containedViewsById,
@@ -764,7 +761,7 @@ EditorBox.propTypes = {
     /**
      * Object containing all created boxes (by id)
      */
-    boxes: PropTypes.object.isRequired,
+    boxesById: PropTypes.object.isRequired,
     /**
      * Box selected. If there is none selected the value is, -1
      */
@@ -774,21 +771,9 @@ EditorBox.propTypes = {
      */
     boxLevelSelected: PropTypes.number.isRequired,
     /**
-     * Object containing all contained views (identified by its ID)
-     */
-    containedViews: PropTypes.object.isRequired,
-    /**
      * Selected contained view
      */
     containedViewSelected: PropTypes.any.isRequired,
-    /**
-     * Collection of callbacks for boxes handling
-     */
-    handleBoxes: PropTypes.object.isRequired,
-    /**
-     * Collection of callbacks for marks handling
-     */
-    handleMarks: PropTypes.object.isRequired,
     /**
      * Object containing all the toolbars
      */
@@ -802,10 +787,6 @@ EditorBox.propTypes = {
      */
     marks: PropTypes.object,
     /**
-     * Callback for toggling the CKEDitor
-     */
-    onTextEditorToggled: PropTypes.func.isRequired,
-    /**
      * Page type the box is at
      */
     pageType: PropTypes.string.isRequired,
@@ -818,15 +799,7 @@ EditorBox.propTypes = {
        */
     exercises: PropTypes.object,
     /**
-    * Function for setting the right answer of an exercise
-    */
-    setCorrectAnswer: PropTypes.func.isRequired,
-    /**
       * Current page
       */
     page: PropTypes.any,
-    /**
-    * Function that updates the toolbar of a view
-    */
-    onToolbarUpdated: PropTypes.func,
 };

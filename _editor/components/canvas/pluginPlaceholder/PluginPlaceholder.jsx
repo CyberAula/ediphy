@@ -14,12 +14,15 @@ import './_pluginPlaceHolder.scss';
 import Cell from "./Cell";
 import i18n from "i18next";
 import Alert from "../../common/alert/Alert";
+import _handlers from "../../../handlers/_handlers";
 
 class PluginPlaceholder extends Component {
 
     state = {
         alert: null,
     };
+
+    h = _handlers(this);
 
     render() {
         let container = this.props.parentBox.sortableContainers[this.idConvert(this.props.pluginContainer)] || {};
@@ -47,10 +50,7 @@ class PluginPlaceholder extends Component {
                             {container.cols[i].map((row, j) => {
                                 return (
                                     <Cell key={j}
-                                        row={row}
-                                        container={container}
-                                        extraParams={{ i: i, j: j }}
-                                        handleBoxes={this.props.handleBoxes}
+                                        extraParams={{ i: i, j: j, row: row }}
                                         parentBox={this.props.parentBox}
                                         page={this.props.page}
                                         pluginContainer={this.props.pluginContainer}
@@ -66,23 +66,18 @@ class PluginPlaceholder extends Component {
                                             if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
                                                 return (<EditorBox id={idBox}
                                                     key={index}
-                                                    boxes={this.props.boxes}
-                                                    handleBoxes={this.props.handleBoxes}
-                                                    handleMarks={this.props.handleMarks}
-                                                    boxSelected={this.props.boxSelected}
-                                                    boxLevelSelected={this.props.boxLevelSelected}
-                                                    containedViewSelected={this.props.containedViewSelected}
-                                                    pluginToolbars={this.props.pluginToolbars}
-                                                    lastActionDispatched={this.props.lastActionDispatched}
-                                                    markCreatorId={this.props.markCreatorId}
-                                                    onSortableContainerResized={this.props.onSortableContainerResized}
-                                                    onToolbarUpdated={this.props.onToolbarUpdated}
+                                                    // boxes={this.props.boxes}
+                                                    // boxSelected={this.props.boxSelected}
+                                                    // boxLevelSelected={this.props.boxLevelSelected}
+                                                    // containedViewSelected={this.props.containedViewSelected}
+                                                    // pluginToolbars={this.props.pluginToolbars}
+                                                    // lastActionDispatched={this.props.lastActionDispatched}
+                                                    // markCreatorId={this.props.markCreatorId}
                                                     page={this.props.page}
                                                     pageType={this.props.pageType}
-                                                    marks={this.props.allMarks}
-                                                    containedViews={this.props.containedViews}
-                                                    setCorrectAnswer={this.props.setCorrectAnswer}
-                                                    onTextEditorToggled={this.props.onTextEditorToggled}/>);
+                                                    // marks={this.props.allMarks}
+                                                    // containedViews={this.props.containedViews}
+                                                />);
                                             } else if (index === container.children.length - 1) {
                                                 return (<span><br/><br/></span>);
                                             }
@@ -115,7 +110,7 @@ class PluginPlaceholder extends Component {
                 onend: (event) => {
                     // TODO Revew how to resize sortable containers
                     let toolbar = this.props.pluginToolbars[this.props.parentBox.id];
-                    this.props.onSortableContainerResized(this.idConvert(this.props.pluginContainer), this.props.parentBox.id, parseInt(event.target.style.height, 10));
+                    this.h.onSortableContainerResized(this.idConvert(this.props.pluginContainer), this.props.parentBox.id, parseInt(event.target.style.height, 10));
                     Ediphy.Plugins.get(toolbar.pluginId).forceUpdate(toolbar.state, this.props.parentBox.id, RESIZE_SORTABLE_CONTAINER);
                 },
             });
@@ -159,67 +154,15 @@ PluginPlaceholder.propTypes = {
      */
     boxes: PropTypes.object,
     /**
-     * Current Box selected. If there isn't, -1
-     */
-    boxSelected: PropTypes.any,
-    /**
-     * Selected box level (only plugins inside plugins)
-     */
-    boxLevelSelected: PropTypes.any,
-    /**
      * Object containing every plugin toolbar (by id)
      */
     pluginToolbars: PropTypes.object,
-    /**
-     * Last action dispatched in Redux
-     */
-    lastActionDispatched: PropTypes.any,
-    /**
-     * Selected contained view (by ID)
-     */
-    containedViewSelected: PropTypes.any,
-    /**
-     * Callback for resizing a sortable container
-     */
-    onSortableContainerResized: PropTypes.func,
-    /**
-     * Callback for toggling CKEditor
-     */
-    onTextEditorToggled: PropTypes.func,
-    /**
-      * Identifier of the box that is creating a mark
-      */
-    markCreatorId: PropTypes.any,
     /**
      *  View type
      */
     pageType: PropTypes.string,
     /**
-     * Object containing all contained views (identified by its ID)
-     */
-    containedViews: PropTypes.object,
-    /**
-     * Sets the correct answer of an exercise
-     */
-    setCorrectAnswer: PropTypes.func,
-    /**
      * Current page
      */
     page: PropTypes.any,
-    /**
-     * Object containing all the marks in the course
-     */
-    allMarks: PropTypes.object,
-    /**
-   * Function that updates the toolbar of a view
-   */
-    onToolbarUpdated: PropTypes.func,
-    /**
-     * Collection of callbacks for boxes handling
-     */
-    handleBoxes: PropTypes.object,
-    /**
-     * Collection of callbacks for marks handling
-     */
-    handleMarks: PropTypes.object,
 };

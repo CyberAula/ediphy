@@ -5,6 +5,7 @@ import Mark from '../../common/components/mark/Mark';
 import img_placeholder from './../../dist/images/placeholder.svg';
 import './_hotspotsImages.scss';
 import Image from "./Image";
+import _handlers from "../../_editor/handlers/_handlers";
 /* eslint-disable react/prop-types */
 
 export const HotspotImages = (base) => ({
@@ -147,7 +148,7 @@ export const HotspotImages = (base) => ({
                 position = [0, 0];
             }
             return (
-                <MarkEditor key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} time={1.5} onRichMarkMoved={props.handleMarks.onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
+                <MarkEditor key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} time={1.5} onRichMarkMoved={_handlers({ props }).onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
                     <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} idKey={id} title={title} />
                 </MarkEditor>
             );

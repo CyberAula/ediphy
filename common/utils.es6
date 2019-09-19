@@ -560,3 +560,4 @@ export function isComplex(pluginName) {
     let plug = Ediphy.Plugins.get(pluginName);
     return plug && (plug.getConfig().isComplex || plug.getConfig().category === 'evaluation');
 }
+

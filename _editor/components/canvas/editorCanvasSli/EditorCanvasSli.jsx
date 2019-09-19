@@ -21,6 +21,7 @@ import ThemeCSS from '../../../../common/themes/ThemeCSS';
 import { loadBackgroundStyle } from "../../../../common/themes/backgroundLoader";
 
 import { connect } from "react-redux";
+import _handlers from "../../../handlers/_handlers";
 
 /**
  * EditorCanvasSli component
@@ -34,15 +35,12 @@ class EditorCanvasSli extends Component {
         fontBase: 14,
     };
 
+    h = _handlers(this);
+
     render() {
         // eslint-disable-next-line no-shadow
-        const { aspectRatio, boxSelected, containedViewSelected, fromCV, grid, navItemSelected, navItems, onToolbarUpdated, pluginToolbars,
-            setCorrectAnswer, showCanvas, styleConfig, title, viewToolbars } = this.props;
-
-        const { onBoxSelected, onBoxResized, onBoxDeleted } = this.props.handleBoxes;
-        const { onMarkCreatorToggled } = this.props.handleMarks;
-        const { openConfigModal, openFileModal } = this.props.handleModals;
-        const { onTextEditorToggled, onTitleChanged, onViewTitleChanged } = this.props.handleCanvas;
+        const { aspectRatio, boxSelected, containedViewSelected, fromCV, grid, navItemSelected, navItems,
+            pluginToolbars, showCanvas, styleConfig, title, viewToolbars } = this.props;
 
         const itemSelected = fromCV ? containedViewSelected : navItemSelected;
         const titles = getTitles(itemSelected, viewToolbars, navItems, fromCV);
@@ -75,10 +73,7 @@ class EditorCanvasSli extends Component {
                         {gridOn ? <div style={{ zIndex: '-1' }} onClick={this.deselectBoxes}><SnapGrid key={fromCV}/></div> : null}
                         <EditorHeader
                             titles={titles}
-                            onBoxSelected={onBoxSelected}
                             courseTitle={title}
-                            onTitleChanged={onTitleChanged}
-                            onViewTitleChanged={onViewTitleChanged}
                         />
 
                         <br/>
@@ -98,11 +93,6 @@ class EditorCanvasSli extends Component {
                             return <EditorBox
                                 key={id} id={id} grid={gridOn}
                                 page={itemSelected ? itemSelected.id : 0}
-                                handleMarks={this.props.handleMarks}
-                                handleBoxes={this.props.handleBoxes}
-                                onToolbarUpdated={onToolbarUpdated}
-                                onTextEditorToggled={onTextEditorToggled}
-                                setCorrectAnswer={setCorrectAnswer}
                                 themeColors={toolbar.colors ? toolbar.colors : getThemeColors(theme)}
                                 pageType={itemSelected.type || 0}
                             />;
@@ -117,20 +107,20 @@ class EditorCanvasSli extends Component {
                 />
                 <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
                 <EditorShortcuts
-                    openConfigModal={openConfigModal}
+                    openConfigModal={this.h.openConfigModal}
                     isContained={fromCV}
-                    onTextEditorToggled={onTextEditorToggled}
-                    onBoxResized={onBoxResized}
-                    onBoxDeleted={onBoxDeleted}
-                    onToolbarUpdated={onToolbarUpdated}
-                    openFileModal={openFileModal}
+                    onTextEditorToggled={this.h.onTextEditorToggled}
+                    onBoxResized={this.h.onBoxResized}
+                    onBoxDeleted={this.h.onBoxDeleted}
+                    onToolbarUpdated={this.h.onToolbarUpdated}
+                    openFileModal={this.h.openFileModal}
                     pointerEventsCallback={
                         pluginToolbars[boxSelected]
                         && pluginToolbars[boxSelected].config
                         && pluginToolbars[boxSelected].config.name
                         && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name)
                             ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).pointerEventsCallback : null}
-                    onMarkCreatorToggled={onMarkCreatorToggled}
+                    onMarkCreatorToggled={this.h.onMarkCreatorToggled}
                 />
             </Col>
         );
@@ -195,11 +185,11 @@ class EditorCanvasSli extends Component {
     };
 
     getOverlayHeight = (fromCV) => {
-        let maincontent = document.getElementById(fromCV ? "contained_maincontent" : "maincontent");
+        let mainContent = document.getElementById(fromCV ? "contained_maincontent" : "maincontent");
         let actualHeight;
-        if (maincontent) {
-            actualHeight = parseInt(maincontent.scrollHeight, 10);
-            actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
+        if (mainContent) {
+            actualHeight = parseInt(mainContent.scrollHeight, 10);
+            actualHeight = (parseInt(mainContent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
         }
 
         return actualHeight ? actualHeight : '100%';
@@ -207,7 +197,7 @@ class EditorCanvasSli extends Component {
 
     hideTitle = e => {
         if (e.target === e.currentTarget) {
-            this.props.handleBoxes.onBoxSelected(-1);
+            this.h.onBoxSelected(-1);
             this.setState({ showTitle: false });
         }
         e.stopPropagation();
@@ -266,13 +256,13 @@ class EditorCanvasSli extends Component {
                 id: (ID_PREFIX_BOX + Date.now()),
                 page: page,
             };
-            createBox(ids, name, true, this.props.handleBoxes.onBoxAdded, this.props.boxes);
+            createBox(ids, name, true, this.h.onBoxAdded, this.props.boxesById);
 
         } else {
-            let boxDragged = this.props.boxes[this.props.boxSelected];
+            let boxDragged = this.props.boxesById[this.props.boxSelected];
             let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
             if (boxDragged.parent !== itemSelected.id && (itemSelected.id !== boxDragged.parent || !isSlide(itemSelected.id))) {
-                this.props.handleBoxes.onBoxDropped(this.props.boxSelected,
+                this.h.onBoxDropped(this.props.boxSelected,
                     0, 0, itemSelected.id, 0, boxDragged.parent, boxDragged.container, position);
             }
             let clone = document.getElementById('clone');
@@ -288,14 +278,15 @@ class EditorCanvasSli extends Component {
         this.setState({ fontBase: changeFontBase(calculated.width) });
     };
 
-    deselectBoxes = () => this.props.handleBoxes.onBoxSelected(-1);
+    deselectBoxes = () => this.h.onBoxSelected(-1);
 }
 
 export default connect(mapStateToProps)(EditorCanvasSli);
 
 function mapStateToProps(state) {
+    const { styleConfig } = state.undoGroup.present;
     return {
-        styleConfig: state.undoGroup.present.styleConfig,
+        styleConfig,
     };
 }
 EditorCanvasSli.propTypes = {
@@ -310,7 +301,7 @@ EditorCanvasSli.propTypes = {
     /**
      *  Object containing all created boxes (by id)
      */
-    boxes: PropTypes.object.isRequired,
+    boxesById: PropTypes.object.isRequired,
     /**
      * Current Box selected. If there isn't, -1
      */
@@ -344,14 +335,6 @@ EditorCanvasSli.propTypes = {
      */
     grid: PropTypes.bool,
     /**
-   * Function for setting the right answer of an exercise
-   */
-    setCorrectAnswer: PropTypes.func.isRequired,
-    /**
-   * Function that updates the toolbar of a view
-   */
-    onToolbarUpdated: PropTypes.func,
-    /**
      * Aspect ratio of slides
      */
     aspectRatio: PropTypes.number,
@@ -359,20 +342,4 @@ EditorCanvasSli.propTypes = {
      * Style config params
      */
     styleConfig: PropTypes.object,
-    /**
-     * Collection of callbacks for boxes handling
-     */
-    handleBoxes: PropTypes.object.isRequired,
-    /**
-     * Collection of callbacks for marks handling
-     */
-    handleMarks: PropTypes.object.isRequired,
-    /**
-     * Collection of callbacks for modals handling
-     */
-    handleModals: PropTypes.object.isRequired,
-    /**
-     * Collection of callbacks for text and titles handling
-     */
-    handleCanvas: PropTypes.object.isRequired,
 };

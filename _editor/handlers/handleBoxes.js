@@ -27,7 +27,10 @@ export default (self) => ({
             page));
     },
 
-    onBoxSelected: (id) => self.props.dispatch(selectBox(id, self.props.boxes[id])),
+    onBoxSelected: (id) => {
+        // console.log(self)
+        self.props.dispatch(selectBox(id, self.props.boxesById[id]));
+    },
 
     onBoxLevelIncreased: () => self.props.dispatch(increaseBoxLevel()),
 

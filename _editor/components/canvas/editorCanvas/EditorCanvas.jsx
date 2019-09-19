@@ -31,7 +31,7 @@ class EditorCanvas extends Component {
 function mapStateToProps(state) {
     return{
         aspectRatio: state.undoGroup.present.globalConfig.canvasRatio,
-        boxes: state.undoGroup.present.boxesById,
+        boxesById: state.undoGroup.present.boxesById,
         boxLevelSelected: state.undoGroup.present.boxLevelSelected,
         boxSelected: state.undoGroup.present.boxSelected,
         containedViews: state.undoGroup.present.containedViewsById,

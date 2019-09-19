@@ -7,10 +7,12 @@ import { getIndexFromPoint, isBox, isComplex, isSortableContainer } from "../../
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
 import { createBox, instanceExists } from "../../../../common/commonTools";
 import PropTypes from "prop-types";
+import handleBoxes from "../../../handlers/handleBoxes";
 
 class Cell extends Component {
+    h = handleBoxes(this);
     render = () => (
-        <div style={{ width: "100%", height: this.props.row + "%", position: 'relative' }}>
+        <div style={{ width: "100%", height: this.props.extraParams.row + "%", position: 'relative' }}>
             {this.props.children}
         </div>);
 
@@ -73,13 +75,13 @@ class Cell extends Component {
                 return;
             }
             let slide = this.props.parentBox.resizable;
-            createBox(initialParams, name, slide, this.props.handleBoxes.onBoxAdded, this.props.boxes);
+            createBox(initialParams, name, slide, this.h.onBoxAdded, this.props.boxes);
 
         } else if (!(config.isComplex && (initialParams.container === 0))) {
             let boxDragged = this.props.boxes[this.props.boxSelected];
             // If box being dragged is dropped in a different column or row, change its value
             if (this.props.parentBox.id !== this.props.boxSelected) {
-                this.props.handleBoxes.onBoxDropped(
+                this.h.onBoxDropped(
                     boxDragged.id,
                     initialParams.row,
                     initialParams.col,
@@ -143,17 +145,9 @@ Cell.propTypes = {
      */
     page: PropTypes.any,
     /**
-     * Collection of callbacks for boxes handling
-     */
-    handleBoxes: PropTypes.object,
-    /**
      * Coordinates of the cell
      */
     extraParams: PropTypes.object,
-    /**
-     * Row
-     */
-    row: PropTypes.any,
     /**
      * Display alert modal
      */
