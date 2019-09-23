@@ -12,17 +12,18 @@ import './_canvas.scss';
  */
 class EditorCanvas extends Component {
     render() {
-        return (!this.props.navItemSelected
-                || !this.props.navItemSelected.type
-                || isSlide(this.props.navItemSelected.type)) ?
+        let itemSelected = this.props.navItemsById[this.props.navItemSelected];
+        return (!itemSelected || !itemSelected.type || isSlide(itemSelected.type)) ?
             (<EditorCanvasSli fromCV={false} {...this.props} />) :
             (<EditorCanvasDoc fromCV={false} {...this.props} />);
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        if ((this.props.navItemSelected) && (this.props.navItemSelected.id)
-            && (nextProps.navItemSelected) && (nextProps.navItemSelected.id)
-            && (this.props.navItemSelected.id !== nextProps.navItemSelected.id)) {
+        let itemSelected = this.props.navItemsById[this.props.navItemSelected];
+        let nextItemSelected = nextProps.navItemsById[nextProps.navItemSelected];
+        if ((itemSelected) && (itemSelected.id)
+            && (nextItemSelected) && (nextItemSelected.id)
+            && (itemSelected.id !== nextItemSelected.id)) {
             document.getElementById('maincontent').scrollTop = 0;
         }
     }

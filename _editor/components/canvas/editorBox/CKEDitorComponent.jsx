@@ -21,7 +21,7 @@ export default class CKEDitorComponent extends Component {
   }
 
   componentDidMount() {
-      let toolbar = this.props.toolbars[this.props.id];
+      let toolbar = this.props.pluginToolbarsById[this.props.id];
       let config = Ediphy.Plugins.get(toolbar.pluginId).getConfig();
       if (config && config.needsTextEdition) {
           CKEDITOR.disableAutoInline = true;
@@ -59,7 +59,7 @@ export default class CKEDitorComponent extends Component {
   }
 
   componentDidUpdate(prevProps) {
-      if (this.props.toolbars[this.props.id].showTextEditor && prevProps.toolbars[prevProps.id] && !prevProps.toolbars[prevProps.id].showTextEditor) {
+      if (this.props.pluginToolbarsById[this.props.id].showTextEditor && prevProps.pluginToolbarsById[prevProps.id] && !prevProps.pluginToolbarsById[prevProps.id].showTextEditor) {
           this.refs.textarea.focus();
           // Focus cursor at end of content
           // https://recalll.co/ask/v/topic/fckeditor-How-to-set-cursor-position-to-end-of-text-in-CKEditor/5541ec6304ce0209458b9107#59f908ff1126f4577eec64ec
@@ -68,7 +68,7 @@ export default class CKEDitorComponent extends Component {
           // Obtain the current selection & range
 
           if (myEditor) {
-              myEditor.setData(decodeURI(this.props.toolbars[this.props.id].state.__text));
+              myEditor.setData(decodeURI(this.props.pluginToolbarsById[this.props.id].state.__text));
               let range = myEditor.createRange();
               if (range && range.root) {
                   range.moveToElementEditEnd(range.root);
@@ -87,27 +87,27 @@ export default class CKEDitorComponent extends Component {
           }
           CKEDITOR.inlineAll();
           for (let editor in CKEDITOR.instances) {
-              if (this.props.toolbars[editor].state.__text) {
-                  CKEDITOR.instances[editor].setData(decodeURI(this.props.toolbars[editor].state.__text));
+              if (this.props.pluginToolbarsById[editor].state.__text) {
+                  CKEDITOR.instances[editor].setData(decodeURI(this.props.pluginToolbarsById[editor].state.__text));
               }
           }
       }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-      if (this.props.boxSelected === this.props.id && nextProps.boxSelected !== nextProps.id && this.props.toolbars[this.props.id].showTextEditor) {
+      if (this.props.boxSelected === this.props.id && nextProps.boxSelected !== nextProps.id && this.props.pluginToolbarsById[this.props.id].showTextEditor) {
           this.onBlur();
       }
       if (nextProps.boxSelected === nextProps.id) {
-          if (this.props.toolbars[this.props.id].showTextEditor === true && nextProps.toolbars[nextProps.id].showTextEditor === false) {
+          if (this.props.pluginToolbarsById[this.props.id].showTextEditor === true && nextProps.pluginToolbarsById[nextProps.id].showTextEditor === false) {
               // this.onBlur();
-          } else if (this.props.toolbars[this.props.id].showTextEditor === false && nextProps.toolbars[nextProps.id].showTextEditor === true) {
+          } else if (this.props.pluginToolbarsById[this.props.id].showTextEditor === false && nextProps.pluginToolbarsById[nextProps.id].showTextEditor === true) {
               let CKstring = CKEDITOR.instances[nextProps.id].getData();
               let initString = '<p>' + i18n.t('text_here') + '</p>\n';
               if (CKstring === initString) {
                   CKEDITOR.instances[nextProps.id].setData('');
               } else {
-                  CKEDITOR.instances[nextProps.id].setData(decodeURI(nextProps.toolbars[nextProps.id].state.__text));
+                  CKEDITOR.instances[nextProps.id].setData(decodeURI(nextProps.pluginToolbarsById[nextProps.id].state.__text));
               }
 
           }
@@ -135,7 +135,7 @@ CKEDitorComponent.propTypes = {
     /**
    * Toolbars
    */
-    toolbars: PropTypes.object,
+    pluginToolbarsById: PropTypes.object,
     /**
    * Box id
    */

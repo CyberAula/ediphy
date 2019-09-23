@@ -79,14 +79,8 @@ class EditorApp extends Component {
                     <InitModal showTour={this.handleModals.showTour}/>
                     <ServerFeedback/>
                     <AlertModal/>
-                    <EditorNavBar
-                        globalConfig={{ ...globalConfig, status, everPublished }}
-                        handleExportImport={this.handleExportImport}
-                    />
-                    {Ediphy.Config.autosave_time > 1000 &&
-                    <AutoSave
-                        save={this.handleExportImport.save}
-                    />})
+                    <EditorNavBar globalConfig={{ ...globalConfig, status, everPublished }} handleExportImport={this.handleExportImport}/>
+                    {Ediphy.Config.autosave_time > 1000 && <AutoSave save={this.handleExportImport.save}/>})
                 </Row>
                 <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
                     <EditorCarousel/>

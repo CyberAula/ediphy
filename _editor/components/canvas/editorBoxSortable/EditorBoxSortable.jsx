@@ -243,8 +243,6 @@ class EditorBoxSortable extends Component {
     }
 
     configureDropZone(node, dropArea, selector, extraParams) {
-        const { onBoxAdded, onBoxDropped } = this.props.handleBoxes;
-
         interact(node).dropzone({
             accept: selector,
             overlap: 'pointer',
@@ -296,12 +294,12 @@ class EditorBoxSortable extends Component {
                             page: page,
                             id: (ID_PREFIX_BOX + Date.now()),
                         };
-                        createBox(initialParams, name, false, onBoxAdded, this.props.boxesById);
+                        createBox(initialParams, name, false, this.h.onBoxAdded, this.props.boxesById);
                         e.dragEvent.stopPropagation();
                     } else {
                         let boxDragged = this.props.boxesById[this.props.boxSelected];
                         if (boxDragged) {
-                            onBoxDropped(this.props.boxSelected,
+                            this.h.onBoxDropped(this.props.boxSelected,
                                 extraParams.j,
                                 extraParams.i,
                                 this.props.id,
@@ -336,7 +334,7 @@ class EditorBoxSortable extends Component {
                     }
                     initialParams.id = (ID_PREFIX_BOX + Date.now());
                     initialParams.name = name;
-                    createBox(initialParams, name, false, onBoxAdded, this.props.boxesById);
+                    createBox(initialParams, name, false, this.h.onBoxAdded, this.props.boxesById);
                     e.dragEvent.stopPropagation();
 
                 }
@@ -473,8 +471,4 @@ EditorBoxSortable.propTypes = {
      * Object containing current theme colors
      */
     themeColors: PropTypes.object,
-    /**
-     * Collection of callbacks for boxes handling
-     */
-    handleBoxes: PropTypes.object.isRequired,
 };

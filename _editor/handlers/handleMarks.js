@@ -26,10 +26,10 @@ export default (self) => ({
     onRichMarkMoved: (mark, value) => self.props.dispatch(moveRichMark(mark, value)),
 
     onRichMarkDeleted: (id) => {
-        let cvid = self.props.marks[id].connection;
+        let cvid = self.props.marksById[id].connection;
         // This checks if the deleted mark leaves an orphan contained view, and displays a message asking if the user would like to delete it as well
         if (isContainedView(cvid)) {
-            let selfcv = self.props.containedViews[cvid];
+            let selfcv = self.props.containedViewsById[cvid];
             if (Object.keys(selfcv.parent).length === 1) {
                 self.props.dispatch(updateUI({ showCVAlert: true, markInfo: id }));
                 return;

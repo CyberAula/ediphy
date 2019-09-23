@@ -179,7 +179,7 @@ class EditorBox extends Component {
                 {border}
                 {toolbar.showTextEditor ? null : content }
                 {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxesById[this.props.id]}
-                    style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.pluginToolbarsById} id={this.props.id}
+                    style={textareaStyle} className={classNames + " textAreaStyle"} pluginToolbarsById={this.props.pluginToolbarsById} id={this.props.id}
                     onBlur={this.blurTextarea}/> : null}
                 <div className="boxOverlay" style={{ display: showOverlay }} />
                 <MarkCreator
