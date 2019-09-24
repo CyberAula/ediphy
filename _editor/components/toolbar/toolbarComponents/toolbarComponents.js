@@ -47,7 +47,7 @@ export const Color = (button, onChange, props) => {
 };
 
 export const PluginColor = (button, onChange, props, toolbarProps, id) => {
-    let theme = toolbarProps.viewToolbars[id] && toolbarProps.viewToolbars[id].theme ? toolbarProps.viewToolbars[id].theme : 'default';
+    let theme = toolbarProps.viewToolbarsById[id] && toolbarProps.viewToolbarsById[id].theme ? toolbarProps.viewToolbarsById[id].theme : 'default';
     return (
         <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
             <ControlLabel key={'label_' + button.__name}> Color </ControlLabel>
@@ -128,7 +128,7 @@ export const Size = (button, onChange, props, accordionKeys, buttonKey, toolbar_
                     checked={toolbar_plugin_state.structure[buttonKey] === "auto"}
                     onChange={autoSizeChange}/>
                 {/* Disable px size in slides*/}
-                {isSlide(toolbar_props.navItems[toolbar_props.navItemSelected].type) ?
+                {isSlide(toolbar_props.navItemsById[toolbar_props.navItemSelected].type) ?
                     (<span/>) :
                     (<div><br/>
                         <ControlLabel>{i18n.t("Units")}</ControlLabel>

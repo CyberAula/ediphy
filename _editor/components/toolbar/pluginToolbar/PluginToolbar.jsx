@@ -26,7 +26,7 @@ export default class PluginToolbar extends Component {
      * @returns {code}
      */
     render() {
-        let toolbar = this.props.pluginToolbars[this.props.box.id];
+        let toolbar = this.props.pluginToolbarsById[this.props.box.id];
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let config = apiPlugin ? apiPlugin.getConfig() : {};
         let controls = apiPlugin ? apiPlugin.getToolbar(toolbar.state) : {};
@@ -148,7 +148,7 @@ PluginToolbar.propTypes = {
     /**
      * Plugin toolbars
      */
-    pluginToolbars: PropTypes.object,
+    pluginToolbarsById: PropTypes.object,
     /**
      * Object containing all exercises
      */

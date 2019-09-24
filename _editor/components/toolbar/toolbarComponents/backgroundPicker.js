@@ -11,9 +11,9 @@ import _handlers from "../../../handlers/_handlers";
 /* eslint-disable react/prop-types */
 export const BackgroundPicker = (button, props, toolbar, id, defaultBackground, onChange) => {
 
-    let isSli = isSlide(toolbar.props.navItems[id].type);
-    let background_attr = toolbar.props.viewToolbars[id].backgroundAttr;
-    let background_attr_zoom = toolbar.props.viewToolbars[id].backgroundZoom ?? 100;
+    let isSli = isSlide(toolbar.props.navItemsById[id].type);
+    let background_attr = toolbar.props.viewToolbarsById[id].backgroundAttr;
+    let background_attr_zoom = toolbar.props.viewToolbarsById[id].backgroundZoom ?? 100;
     let h = _handlers(toolbar);
     const ImageDisplay = (options) => {
         return (
@@ -109,7 +109,7 @@ export function handleBackground(e, toolbar, accordion, buttonKey, commitChanges
     if (e.target?.name === "image_display_zoom") {
         value = {
             background: button.value.background,
-            backgroundAttr: (toolbar.props.viewToolbars[id].backgroundAttr) ? toolbar.props.viewToolbars[id].backgroundAttr : 'repeat',
+            backgroundAttr: (toolbar.props.viewToolbarsById[id].backgroundAttr) ? toolbar.props.viewToolbarsById[id].backgroundAttr : 'repeat',
             backgroundZoom: e.target.value,
         };
     }

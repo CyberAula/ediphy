@@ -62,7 +62,7 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
         children.push(
             <MarksList key="marks_list"
                 state={toolbarProps.marks}
-                viewToolbars={toolbarProps.viewToolbars}
+                viewToolbarsById={toolbarProps.viewToolbarsById}
                 box_id={toolbarProps.box.id}
                 onRichMarksModalToggled={h.onRichMarksModalToggled}
                 onRichMarkEditPressed={h.onRichMarkEditPressed}
@@ -110,7 +110,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     let h = _handlers(toolbar);
     let id = (toolbarProps.boxSelected !== -1) ? toolbarProps.boxSelected : (toolbarProps.containedViewSelected || toolbarProps.navItemSelected);
     let currentElement = (["structure", "style", "z__extra", "__marks_list", "__score"].indexOf(accordionKeys[0]) === -1) ? "state" : accordionKeys[0];
-    let toolbarPluginState = toolbarProps.boxSelected !== -1 ? toolbarProps.pluginToolbars[toolbarProps.boxSelected] : undefined;
+    let toolbarPluginState = toolbarProps.boxSelected !== -1 ? toolbarProps.pluginToolbarsById[toolbarProps.boxSelected] : undefined;
 
     let commitChanges = (val) => {
         if (toolbarProps.boxSelected === -1) {
@@ -159,7 +159,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
     let newValue, handler;
     let navItemSelected = toolbarProps.navItemSelected;
-    let theme = toolbarProps.viewToolbars[navItemSelected]?.theme ?? 'default';
+    let theme = toolbarProps.viewToolbarsById[navItemSelected]?.theme ?? 'default';
 
     let defaultHandler = (e) => {
         let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
@@ -188,7 +188,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         return Color(button, handler, props);
     case 'custom_color_plugin':
         handler = e => {
-            theme = toolbarProps.viewToolbars[toolbarProps.navItemSelected].theme ?? 'default';
+            theme = toolbarProps.viewToolbarsById[toolbarProps.navItemSelected].theme ?? 'default';
             const restore = e.currentTarget?.type === 'button';
             newValue = restore ? { color: getCurrentColor(theme), custom: false } :
                 e.color ? { color: e.color, custom: true } : newValue;

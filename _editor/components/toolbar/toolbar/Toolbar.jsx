@@ -19,7 +19,7 @@ class Toolbar extends Component {
 
     render() {
 
-        const { box, boxSelected, carouselShow, exercises, navItems, navItemSelected, pluginToolbars, top } = this.props;
+        const { box, boxSelected, carouselShow, exercises, navItemsById, navItemSelected, pluginToolbarsById, top } = this.props;
 
         let toolbar = null;
         let title = "";
@@ -34,7 +34,7 @@ class Toolbar extends Component {
                 exercises={exercises[navItemSelected]}
                 toggleToolbar={this.toggleToolbar} />;
 
-            title = ((isSlide(navItems[navItemSelected].type) ? (navItems[navItemSelected].customSize === 0 ? i18n.t('slide') : "PDF") : i18n.t('page')) || "");
+            title = ((isSlide(navItemsById[navItemSelected].type) ? (navItemsById[navItemSelected].customSize === 0 ? i18n.t('slide') : "PDF") : i18n.t('page')) || "");
         } else {
             toolbar = <PluginToolbar {...this.props}
                 onBackgroundChanged={this.onBackgroundChanged}
@@ -42,7 +42,7 @@ class Toolbar extends Component {
                 exercises={exercises[navItemSelected].exercises[boxSelected]}
                 toggleToolbar={this.toggleToolbar}
                 openConfigModal={this.h.openConfigModal} />;
-            let tb = pluginToolbars[box.id];
+            let tb = pluginToolbarsById[box.id];
             let apiPlugin = Ediphy.Plugins.get(tb.pluginId);
             let config = apiPlugin ? apiPlugin.getConfig() : {};
             title = (config.displayName || "");
@@ -99,15 +99,15 @@ class Toolbar extends Component {
 
 function mapStateToProps(state) {
     return {
-        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
-        viewToolbars: state.undoGroup.present.viewToolbarsById,
+        pluginToolbarsById: state.undoGroup.present.pluginToolbarsById,
+        viewToolbarsById: state.undoGroup.present.viewToolbarsById,
         box: state.undoGroup.present.boxesById[state.undoGroup.present.boxSelected],
         boxes: state.undoGroup.present.boxesById,
         boxSelected: state.undoGroup.present.boxSelected,
-        containedViews: state.undoGroup.present.containedViewsById,
+        containedViewsById: state.undoGroup.present.containedViewsById,
         containedViewSelected: state.undoGroup.present.containedViewSelected,
         navItemSelected: state.undoGroup.present.containedViewSelected !== 0 ? state.undoGroup.present.containedViewSelected : state.undoGroup.present.navItemSelected,
-        navItems: state.undoGroup.present.containedViewSelected !== 0 ? state.undoGroup.present.containedViewsById : state.undoGroup.present.navItemsById,
+        navItemsById: state.undoGroup.present.containedViewSelected !== 0 ? state.undoGroup.present.containedViewsById : state.undoGroup.present.navItemsById,
         carouselShow: state.reactUI.carouselShow,
         isBusy: state.undoGroup.present.isBusy,
         marks: state.undoGroup.present.marksById,
@@ -139,7 +139,7 @@ Toolbar.propTypes = {
     /**
      * Plugin toolbars
      */
-    pluginToolbars: PropTypes.object,
+    pluginToolbarsById: PropTypes.object,
     /**
      * Object containing the current box
      */
@@ -159,5 +159,9 @@ Toolbar.propTypes = {
     /**
      * Object containing all views (by id)
      */
-    navItems: PropTypes.object.isRequired,
+    navItemsById: PropTypes.object.isRequired,
+    /**
+     * Object containing all contained views (by id)
+     */
+    containedViewsById: PropTypes.object.isRequired,
 };
