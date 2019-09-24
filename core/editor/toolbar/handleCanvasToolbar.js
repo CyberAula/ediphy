@@ -12,7 +12,7 @@ import _handlers from "../../../_editor/handlers/_handlers";
 export function handleCanvasToolbar(name, value, accordions, toolbar) {
     let toolbarProps = toolbar.props;
     let h = _handlers(toolbar);
-    let themeToolbar = sanitizeThemeToolbar(toolbarProps.viewToolbars[toolbarProps.navItemSelected]);
+    let themeToolbar = sanitizeThemeToolbar(toolbarProps.viewToolbarsById[toolbarProps.navItemSelected]);
     switch (name) {
     // change page/slide title
     case "background":
@@ -42,7 +42,7 @@ export function handleCanvasToolbar(name, value, accordions, toolbar) {
         });
         break;
     case 'theme':
-        const currentView = toolbarProps.viewToolbars[toolbarProps.navItemSelected];
+        const currentView = toolbarProps.viewToolbarsById[toolbarProps.navItemSelected];
         const hasTheme = currentView.hasOwnProperty('theme');
         const wasCustomFont = hasTheme && currentView.hasOwnProperty('font') && (currentView.font !== getThemeFont(currentView.theme));
         const wasCustomColor = hasTheme && currentView.hasOwnProperty('colors') && currentView.colors.themeColor1 !== getThemeColors(currentView.theme).themeColor1;

@@ -24,7 +24,7 @@ class KeyListener extends React.Component {
     }
 
     keyListener = (e) => {
-        let key = e.keyCode ? e.keyCode : e.which;
+        let key = e.keyCode ?? e.which;
         if (key === 9) {
             e.preventDefault();
             return;
@@ -63,8 +63,8 @@ class KeyListener extends React.Component {
             if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
                 // If it is not an input or any other kind of text edition AND there is a box selected, it deletes said box
                 if (notText) {
-                    let box = this.props.boxes[this.props.boxSelected];
-                    let toolbar = this.props.pluginToolbars[this.props.boxSelected];
+                    let box = this.props.boxesById[this.props.boxSelected];
+                    let toolbar = this.props.pluginToolbarsById[this.props.boxSelected];
                     if (!toolbar.showTextEditor) {
                         this.h.onBoxDeleted(box.id, box.parent, box.container, this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected);
                     }
@@ -85,13 +85,15 @@ class KeyListener extends React.Component {
 }
 
 function mapStateToProps(state) {
+    const { boxSelected, boxesById, containedViewSelected, navItemSelected, pluginToolbarsById } = state.undoGroup.present;
     return {
-        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
-        boxSelected: state.undoGroup.present.boxSelected,
-        boxes: state.undoGroup.present.boxesById,
-        containedViewSelected: state.undoGroup.present.containedViewSelected,
-        navItemSelected: state.undoGroup.present.navItemSelected,
+        boxSelected,
+        boxesById,
+        containedViewSelected,
         fullState: state.undoGroup.present,
+        navItemSelected,
+        pluginToolbarsById,
+
     };
 }
 
@@ -101,7 +103,7 @@ KeyListener.propTypes = {
     /**
      * Object containing every existing box (by id)
      */
-    boxes: PropTypes.object.isRequired,
+    boxesById: PropTypes.object.isRequired,
     /**
      * Selected box
      */
@@ -125,6 +127,6 @@ KeyListener.propTypes = {
     /**
      * Plugin toolbars
      */
-    pluginToolbars: PropTypes.object,
+    pluginToolbarsById: PropTypes.object,
 
 };

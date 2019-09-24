@@ -101,8 +101,9 @@ class EditorCanvasDoc extends Component {
 export default connect(mapStateToProps)(EditorCanvasDoc);
 
 function mapStateToProps(state) {
+    const { styleConfig } = state.undoGroup.present;
     return {
-        styleConfig: state.undoGroup.present.styleConfig,
+        styleConfig,
     };
 }
 
