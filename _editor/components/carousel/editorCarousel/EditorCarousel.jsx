@@ -18,12 +18,13 @@ class EditorCarousel extends Component
      * @returns {code}
      */
     render() {
+        const { carouselFull, carouselShow } = this.props;
 
         return (
             <div id="colLeft" className="wrapperCarousel"
                 style={{
-                    maxWidth: this.props.carouselShow ? (this.props.carouselFull ? '100%' : '212px') : '80px',
-                    overflowX: this.props.carouselFull ? 'hidden' : '',
+                    maxWidth: carouselShow ? (carouselFull ? '100%' : '212px') : '80px',
+                    overflowX: carouselFull ? 'hidden' : '',
                 }}>
                 <CarouselHeader/>
                 <FileTree/>
@@ -34,10 +35,8 @@ class EditorCarousel extends Component
 }
 
 function mapStateToProps(state) {
-    return {
-        carouselShow: state.reactUI.carouselShow,
-        carouselFull: state.reactUI.carouselFull,
-    };
+    const { carouselShow, carouselFull } = state.reactUI;
+    return { carouselShow, carouselFull };
 }
 
 export default connect(mapStateToProps)(EditorCarousel);

@@ -9,16 +9,16 @@ export default class ContainedViewsList extends Component {
 
     render() {
 
-        const { containedViews, showContainedViews, showSortableItems, indexSelected, containedViewSelected, viewToolbars, onIndexSelected } = this.props;
+        const { containedViewsById, showContainedViews, showSortableItems, indexSelected, containedViewSelected, viewToolbarsById, onIndexSelected } = this.props;
         const { onContainedViewNameChanged, onContainedViewSelected } = this.props.handleContainedViews;
 
-        let containedViewsIncluded = Object.keys(containedViews).length > 0;
-        return (<div className="containedViewsList" style={{ height: (showContainedViews) ? ((showSortableItems) ? "calc(50% - 126px)" : "calc(100% - 126px)") : "0px",
+        let containedViewsByIdIncluded = Object.keys(containedViewsById).length > 0;
+        return (<div className="containedViewsByIdList" style={{ height: (showContainedViews) ? ((showSortableItems) ? "calc(50% - 126px)" : "calc(100% - 126px)") : "0px",
             display: 'block', overflowY: 'auto', overflowX: 'hidden' }}>
-            <div className="empty-info" style={{ display: (containedViewsIncluded) ? "none" : "block" }}>{i18n.t("empty.cv_empty")}</div>
+            <div className="empty-info" style={{ display: (containedViewsByIdIncluded) ? "none" : "block" }}>{i18n.t("empty.cv_empty")}</div>
 
             {
-                Object.keys(containedViews).map((id)=>{
+                Object.keys(containedViewsById).map((id)=>{
                     let classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
                     let isContainedViewSelected = id === containedViewSelected ? ' selected ' : ' ';
                     return (
@@ -32,10 +32,10 @@ export default class ContainedViewsList extends Component {
                                 onMouseDown={() => {
                                     onIndexSelected(id);
                                 }}>
-                                <i className="material-icons fileIcon">{isSlide(containedViews[id].type) ? "slideshow" : "insert_drive_file"}</i>
+                                <i className="material-icons fileIcon">{isSlide(containedViewsById[id].type) ? "slideshow" : "insert_drive_file"}</i>
                                 <EditorIndexTitle
                                     id={id}
-                                    title={viewToolbars[id].viewName}
+                                    title={viewToolbarsById[id].viewName}
                                     index={1}
                                     hidden={false}
                                     selected = {containedViewSelected}
@@ -55,7 +55,7 @@ ContainedViewsList.propTypes = {
     /**
      *  Object containing all contained views (identified by its ID)
      */
-    containedViews: PropTypes.object.isRequired,
+    containedViewsById: PropTypes.object.isRequired,
     /**
      * Selected contained view
      */
@@ -75,7 +75,7 @@ ContainedViewsList.propTypes = {
     /**
      * Object containing all the pages' toolbars
      */
-    viewToolbars: PropTypes.object.isRequired,
+    viewToolbarsById: PropTypes.object.isRequired,
     /**
      * Indicates if contained views should be displayed
      */

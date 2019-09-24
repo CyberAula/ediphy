@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
 import interact from "interactjs";
 import { connect } from "react-redux";
+
 import Ediphy from "../../../../core/editor/main";
-import { getIndexFromPoint, isBox, isComplex, isSortableContainer } from "../../../../common/utils";
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
+import { getIndexFromPoint, isBox, isComplex, isSortableContainer } from "../../../../common/utils";
 import { createBox, instanceExists } from "../../../../common/commonTools";
-import PropTypes from "prop-types";
 import handleBoxes from "../../../handlers/handleBoxes";
 
 class Cell extends Component {
@@ -24,7 +25,7 @@ class Cell extends Component {
                 let pluginDraggingFromRibbonIsNotComplex = e.relatedTarget.className.indexOf("rib") === -1 || !e.relatedTarget.getAttribute("name") ||
                     !isComplex(e.relatedTarget.getAttribute("name"));
                 let pluginDraggingFromCanvasIsNotComplex = e.relatedTarget.className.indexOf("rib") !== -1 ||
-                    (this.props.pluginToolbars[this.props.boxSelected]?.pluginId && !isComplex(this.props.pluginToolbars[this.props.boxSelected].pluginId));
+                    (this.props.pluginToolbarsById[this.props.boxSelected]?.pluginId && !isComplex(this.props.pluginToolbarsById[this.props.boxSelected].pluginId));
                 let notYourself = e.relatedTarget.className.indexOf("rib") !== -1 || this.props.parentBox.id !== this.props.boxSelected;
                 if (notYourself && pluginDraggingFromRibbonIsNotComplex && pluginDraggingFromCanvasIsNotComplex) {
                     e.target.classList.add('drop-active');
@@ -46,7 +47,7 @@ class Cell extends Component {
 
     interactDrop = (e, extraParams) => {
         let draggingFromRibbon = e.relatedTarget.className.indexOf("rib") !== -1;
-        let name = (draggingFromRibbon) ? e.relatedTarget.getAttribute("name") : this.props.pluginToolbars[this.props.boxSelected].pluginId;
+        let name = (draggingFromRibbon) ? e.relatedTarget.getAttribute("name") : this.props.pluginToolbarsById[this.props.boxSelected].pluginId;
         let parent = forbidden ? this.props.parentBox.parent : this.props.parentBox.id;
         let container = forbidden ? this.props.parentBox.container : this.idConvert(this.props.pluginContainer);
         let config = Ediphy.Plugins.get(name).getConfig();
@@ -62,7 +63,7 @@ class Cell extends Component {
             position: { type: 'relative', x: 0, y: 0 },
         };
 
-        let newInd = initialParams.container === 0 ? undefined : getIndexFromPoint(this.props.boxes, initialParams.parent, initialParams.container, e.dragEvent.clientX, e.dragEvent.clientY, forbidden, this.props.parentBox.id);
+        let newInd = initialParams.container === 0 ? undefined : getIndexFromPoint(this.props.boxesById, initialParams.parent, initialParams.container, e.dragEvent.clientX, e.dragEvent.clientY, forbidden, this.props.parentBox.id);
         initialParams.index = newInd;
 
         if (draggingFromRibbon) {
@@ -75,10 +76,10 @@ class Cell extends Component {
                 return;
             }
             let slide = this.props.parentBox.resizable;
-            createBox(initialParams, name, slide, this.h.onBoxAdded, this.props.boxes);
+            createBox(initialParams, name, slide, this.h.onBoxAdded, this.props.boxesById);
 
         } else if (!(config.isComplex && (initialParams.container === 0))) {
-            let boxDragged = this.props.boxes[this.props.boxSelected];
+            let boxDragged = this.props.boxesById[this.props.boxSelected];
             // If box being dragged is dropped in a different column or row, change its value
             if (this.props.parentBox.id !== this.props.boxSelected) {
                 this.h.onBoxDropped(
@@ -110,10 +111,11 @@ class Cell extends Component {
 }
 
 function mapStateToProps(state) {
+    const { boxesById, boxSelected, pluginToolbarsById } = state.undoGroup.present;
     return {
-        boxes: state.undoGroup.present.boxesById,
-        boxSelected: state.undoGroup.present.boxSelected,
-        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+        boxesById,
+        boxSelected,
+        pluginToolbarsById,
     };
 }
 
@@ -129,9 +131,9 @@ Cell.propTypes = {
      */
     parentBox: PropTypes.any,
     /**
-     * Object containing all created boxes (by id)
+     * Object containing all created boxesById (by id)
      */
-    boxes: PropTypes.object,
+    boxesById: PropTypes.object,
     /**
      * Current Box selected. If there isn't, -1
      */
@@ -139,7 +141,7 @@ Cell.propTypes = {
     /**
      * Object containing every plugin toolbar (by id)
      */
-    pluginToolbars: PropTypes.object,
+    pluginToolbarsById: PropTypes.object,
     /**
      * Current page
      */

@@ -18,10 +18,7 @@ import _handlers from "../../../handlers/_handlers";
 
 class PluginPlaceholder extends Component {
 
-    state = {
-        alert: null,
-    };
-
+    state = { alert: null };
     h = _handlers(this);
 
     render() {
@@ -63,20 +60,11 @@ class PluginPlaceholder extends Component {
                                             <span> {i18n.t('messages.instance_limit')} </span>
                                         </Alert>
                                         {container.children.map((idBox, index) => {
-                                            if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
+                                            if (this.props.boxesById[idBox].col === i && this.props.boxesById[idBox].row === j) {
                                                 return (<EditorBox id={idBox}
                                                     key={index}
-                                                    // boxes={this.props.boxes}
-                                                    // boxSelected={this.props.boxSelected}
-                                                    // boxLevelSelected={this.props.boxLevelSelected}
-                                                    // containedViewSelected={this.props.containedViewSelected}
-                                                    // pluginToolbars={this.props.pluginToolbars}
-                                                    // lastActionDispatched={this.props.lastActionDispatched}
-                                                    // markCreatorId={this.props.markCreatorId}
                                                     page={this.props.page}
                                                     pageType={this.props.pageType}
-                                                    // marks={this.props.allMarks}
-                                                    // containedViews={this.props.containedViews}
                                                 />);
                                             } else if (index === container.children.length - 1) {
                                                 return (<span><br/><br/></span>);
@@ -109,7 +97,7 @@ class PluginPlaceholder extends Component {
                 },
                 onend: (event) => {
                     // TODO Revew how to resize sortable containers
-                    let toolbar = this.props.pluginToolbars[this.props.parentBox.id];
+                    let toolbar = this.props.pluginToolbarsById[this.props.parentBox.id];
                     this.h.onSortableContainerResized(this.idConvert(this.props.pluginContainer), this.props.parentBox.id, parseInt(event.target.style.height, 10));
                     Ediphy.Plugins.get(toolbar.pluginId).forceUpdate(toolbar.state, this.props.parentBox.id, RESIZE_SORTABLE_CONTAINER);
                 },
@@ -124,17 +112,19 @@ class PluginPlaceholder extends Component {
 }
 
 function mapStateToProps(state) {
+    const { boxesById, boxSelected, boxLevelSelected, containedViewsById, containedViewSelected, pluginToolbarsById,
+        marksById, exercises, lastActionDispatched } = state.undoGroup.present;
+
     return {
-        boxes: state.undoGroup.present.boxesById,
-        boxSelected: state.undoGroup.present.boxSelected,
-        boxLevelSelected: state.undoGroup.present.boxLevelSelected,
-        containedViews: state.undoGroup.present.containedViewsById,
-        containedViewSelected: state.undoGroup.present.containedViewSelected,
-        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
-        marks: state.undoGroup.present.marksById,
-        exercises: state.undoGroup.present.exercises,
-        markCreatorId: state.reactUI.markCreatorVisible,
-        lastActionDispatched: state.undoGroup.present.lastActionDispatched || "",
+        boxesById,
+        boxSelected,
+        boxLevelSelected,
+        containedViewsById,
+        containedViewSelected,
+        pluginToolbarsById,
+        marksById,
+        exercises,
+        lastActionDispatched,
     };
 }
 
@@ -150,13 +140,13 @@ PluginPlaceholder.propTypes = {
      */
     parentBox: PropTypes.any,
     /**
-     * Object containing all created boxes (by id)
+     * Object containing all created boxesById (by id)
      */
-    boxes: PropTypes.object,
+    boxesById: PropTypes.object,
     /**
      * Object containing every plugin toolbar (by id)
      */
-    pluginToolbars: PropTypes.object,
+    pluginToolbarsById: PropTypes.object,
     /**
      *  View type
      */

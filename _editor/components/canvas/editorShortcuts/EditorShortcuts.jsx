@@ -15,11 +15,13 @@ import _handlers from "../../../handlers/_handlers";
  * Floating tools that help edit EditorBoxes more easily
  */
 class EditorShortcuts extends Component {
+
     state = { left: 0, top: 0, width: 0, open: false, showOverlay: false, urlValue: "" };
     h = _handlers(this);
+
     render() {
         let box = this.props.boxesById[this.props.boxSelected];
-        let toolbar = this.props.pluginToolbar;
+        let toolbar = this.props.pluginToolbarsById[this.props.boxSelected];
 
         if (!box || !toolbar || toolbar.pluginId === "sortable_container") {
             return null;
@@ -29,8 +31,7 @@ class EditorShortcuts extends Component {
             return null;
         }
         let config = apiPlugin.getConfig();
-        let hasURL = false;
-        let hasURLnotextprov = false;
+        let { hasURL, hasURLnotextprov } = false;
         let accept = '*';
         let callbackKey = "url";
         let createFromLibrary = config.createFromLibrary;
@@ -201,9 +202,7 @@ class EditorShortcuts extends Component {
                                 }>
                                 <button id="open_conf" className={"editorTitleButton"}
                                     onClick={() => {
-                                        // TODO Cambiar!
                                         this.props.openConfigModal(toolbar.id);
-                                        // Ediphy.Plugins.get(toolbar.pluginId).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
                                     }}>
                                     <i className="material-icons">build</i>
                                 </button>
@@ -272,9 +271,7 @@ class EditorShortcuts extends Component {
             </div>
         );
     }
-    // handleChange(e) {
-    //     this.setState({ urlValue: e.target.value });
-    // }
+
     resizeAndSetState = (fromUpdate, newProps) => {
         let { width, top, left } = this.resize(fromUpdate, newProps);
         this.setState({ left: left, top: top, width: width });
@@ -370,6 +367,7 @@ class EditorShortcuts extends Component {
     UNSAFE_componentWillUpdate(nextProps) {
         const box = this.props.boxesById[this.props.boxSelected];
         const nextBox = nextProps.boxesById[nextProps.boxSelected];
+        const toolbar = this.props.pluginToolbarsById[this.props.boxSelected];
 
         if (nextProps !== this.props) {
             if (nextBox) {
@@ -378,7 +376,7 @@ class EditorShortcuts extends Component {
                     let boxEl = findBox((box?.id ?? ''));
                     if (boxEl) {
                         if (this.props.pointerEventsCallback) {
-                            this.props.pointerEventsCallback('disableAll', this.props.pluginToolbar);
+                            this.props.pointerEventsCallback('disableAll', toolbar);
                         }
                         boxEl.classList.remove('pointerEventsEnabled');
                     }
@@ -408,7 +406,7 @@ class EditorShortcuts extends Component {
         const boxEl = findBox((box?.id ?? ''));
         if (boxEl) {
             if (this.props.pointerEventsCallback) {
-                this.props.pointerEventsCallback('disableAll', this.props.pluginToolbar);
+                this.props.pointerEventsCallback('disableAll', this.props.pluginToolbarsById[this.props.boxSelected]);
             }
             boxEl.classList.remove('pointerEventsEnabled');
         }
@@ -427,7 +425,6 @@ function mapStateToProps(state) {
 
     const { boxesById, boxSelected, containedViewsById, containedViewSelected, navItemsById, navItemSelected, pluginToolbarsById } = state.undoGroup.present;
     return {
-        box: boxesById[boxSelected],
         boxesById,
         boxSelected,
         containedViewsById,
@@ -435,17 +432,13 @@ function mapStateToProps(state) {
         navItemsById,
         navItemSelected,
         fileModalResult: state.reactUI.fileModalResult,
-        pluginToolbar: pluginToolbarsById[boxSelected],
+        pluginToolbarsById,
 
     };
 }
 export default connect(mapStateToProps)(EditorShortcuts);
 
 EditorShortcuts.propTypes = {
-    /**
-     * Selected box
-     */
-    box: PropTypes.any,
     /**
      * Object containing all boxes (by ID)
      */
@@ -481,7 +474,7 @@ EditorShortcuts.propTypes = {
     /**
      * Object containing all the plugins' toolbars
      */
-    pluginToolbar: PropTypes.object,
+    pluginToolbarsById: PropTypes.object,
     /**
      * Function that opens a configuration modal
      */

@@ -64,11 +64,9 @@ class CarouselHeader extends Component {
 }
 
 function mapStateToProps(state) {
-    return {
-        carouselFull: state.reactUI.carouselFull,
-        carouselShow: state.reactUI.carouselShow,
-        courseTitle: state.undoGroup.present.globalConfig.title || '---',
-    };
+    const { carouselFull, carouselShow } = state.reactUI;
+    const courseTitle = state.undoGroup.present.globalConfig.title;
+    return { carouselFull, carouselShow, courseTitle };
 }
 
 export default connect(mapStateToProps)(CarouselHeader);

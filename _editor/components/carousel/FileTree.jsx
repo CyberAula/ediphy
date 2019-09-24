@@ -21,12 +21,12 @@ class FileTree extends Component {
     };
 
     shouldComponentUpdate(nextProps, nextState) {
-        return (nextProps.navItems !== this.props.navItems
+        return (nextProps.navItemsById !== this.props.navItemsById
             || nextProps.navItemsIds !== this.props.navItemsIds
-            || nextProps.viewToolbars !== this.props.viewToolbars
+            || nextProps.viewToolbarsById !== this.props.viewToolbarsById
             || nextProps.carouselShow !== this.props.carouselShow
             || nextProps.indexSelected !== this.props.indexSelected
-            || nextProps.containedViews !== this.props.containedViews
+            || nextProps.containedViewsById !== this.props.containedViewsById
             || nextProps.containedViewSelected !== this.props.containedViewSelected
             || nextState.showSortableItems !== this.state.showSortableItems
             || nextState.showContainedViews !== this.state.showContainedViews);
@@ -75,13 +75,13 @@ class FileTree extends Component {
     handleChange = (items) => {
         let movedItem = items.find(i => i.id === this.props.indexSelected);
 
-        let oldParentId = this.props.navItems[movedItem.id].parent;
+        let oldParentId = this.props.navItemsById[movedItem.id].parent;
         let newParentId = movedItem.path[movedItem.path.length - 1] || 0;
         let idsInOrder = items.map(item => item.id);
         let childrenInOrder = this.getImmediateDescendants(items, newParentId);
 
         if (newParentId !== 0) {
-            let shouldChildExpand = movedItem.type === 'file' && this.props.navItems[newParentId].isExpanded;
+            let shouldChildExpand = movedItem.type === 'file' && this.props.navItemsById[newParentId].isExpanded;
             handleNavItems(this).onNavItemExpanded(movedItem.id, shouldChildExpand);
         }
         handleNavItems(this).onNavItemReordered(movedItem.id, newParentId, oldParentId, idsInOrder, childrenInOrder);
@@ -94,7 +94,7 @@ class FileTree extends Component {
     };
 
     handleToggleCollapse = (index) => {
-        let items = this.ediphyNavItemsToSortlyItems(this.props.navItems, this.props.navItemsIds, this.props.viewToolbars);
+        let items = this.ediphyNavItemsToSortlyItems(this.props.navItemsById, this.props.navItemsIds, this.props.viewToolbarsById);
         const descendants = findDescendants(items, index);
         const parentId = items[index].id;
         const expandedItemId = items[index].id;
@@ -117,8 +117,8 @@ class FileTree extends Component {
         onIndexSelected = {handleCanvas(this).onIndexSelected}
         onNavItemSelected={handleNavItems(this).onNavItemSelected}
         onNavItemNameChanged={handleNavItems(this).onNavItemNameChanged}
-        navItems={this.props.navItems}
-        viewToolbars={this.props.viewToolbars}
+        navItemsById={this.props.navItemsById}
+        viewToolbarsById={this.props.viewToolbarsById}
         containedViewSelected={this.props.containedViewSelected}
         navItemSelected={this.props.navItemSelected}
         indexSelected={this.props.indexSelected}
@@ -154,7 +154,7 @@ class FileTree extends Component {
                         <div className="row" style={{ display: 'flex', flex: 1 }}>
                             <div className="col-12 col-lg-8 col-xl-6" style={{ width: '100%' }}>
                                 <Sortly
-                                    items={this.ediphyNavItemsToSortlyItems(this.props.navItems, this.props.navItemsIds, this.props.viewToolbars)}
+                                    items={this.ediphyNavItemsToSortlyItems(this.props.navItemsById, this.props.navItemsIds, this.props.viewToolbarsById)}
                                     itemRenderer={this.renderItem}
                                     onMove={this.handleMove}
                                     onChange={this.handleChange}
@@ -163,7 +163,7 @@ class FileTree extends Component {
                         </div>
                     </section>
                 </div>
-                <div id="scontainedViewsCollapse" style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
+                <div id="scontainedViewsByIdCollapse" style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
                     this.setState({ showContainedViews: !this.state.showContainedViews });
                 }}>
                     {(this.state.showContainedViews) ?
@@ -175,12 +175,12 @@ class FileTree extends Component {
                 <ContainedViewsList
                     showContainedViews = {this.state.showContainedViews}
                     showSortableItems = {this.state.showSortableItems}
-                    containedViews={this.props.containedViews}
+                    containedViewsById={this.props.containedViewsById}
                     containedViewSelected={this.props.containedViewSelected}
                     indexSelected={this.props.indexSelected}
                     handleContainedViews={handleContainedViews(this)}
                     onIndexSelected={handleCanvas(this).onIndexSelected}
-                    viewToolbars={this.props.viewToolbars}
+                    viewToolbarsById={this.props.viewToolbarsById}
                 />
             </div>
         );
@@ -204,17 +204,19 @@ const overrideDropCaptureHandler = (manager) => {
 };
 
 function mapStateToProps(state) {
+    const { boxesById, containedViewsById, containedViewSelected, indexSelected,
+        navItemsIds, navItemsById, navItemSelected, viewToolbarsById } = state.undoGroup.present;
+    const { carouselShow } = state.reactUI;
     return {
-        boxes: state.undoGroup.present.boxesById,
-        carouselShow: state.reactUI.carouselShow,
-        containedViews: state.undoGroup.present.containedViewsById,
-        containedViewSelected: state.undoGroup.present.containedViewSelected,
-        indexSelected: state.undoGroup.present.indexSelected,
-        navItemsIds: state.undoGroup.present.navItemsIds,
-        navItems: state.undoGroup.present.navItemsById,
-        navItemSelected: state.undoGroup.present.navItemSelected,
-        viewToolbars: state.undoGroup.present.viewToolbarsById,
-
+        boxesById,
+        carouselShow,
+        containedViewsById,
+        containedViewSelected,
+        indexSelected,
+        navItemsIds,
+        navItemsById,
+        navItemSelected,
+        viewToolbarsById,
     };
 }
 
@@ -222,7 +224,7 @@ export default DragDropContext(overrideDropCaptureHandler)(connect(mapStateToPro
 
 FileTree.propTypes = {
     /**
-     * Global parent of navItems (0)
+     * Global parent of navItemsById (0)
      */
     id: PropTypes.number,
     /**
@@ -232,7 +234,7 @@ FileTree.propTypes = {
     /**
      *  Object containing all contained views (identified by its ID)
      */
-    containedViews: PropTypes.object,
+    containedViewsById: PropTypes.object,
     /**
      * Selected contained view
      */
@@ -248,7 +250,7 @@ FileTree.propTypes = {
     /**
      * Dictionary containing all created views, each one with its *id* as the key
      */
-    navItems: PropTypes.object,
+    navItemsById: PropTypes.object,
     /**
      * Current selected view (by ID)
      */
@@ -268,7 +270,7 @@ FileTree.propTypes = {
     /**
      * Object containing all the pages' toolbars
      */
-    viewToolbars: PropTypes.object,
+    viewToolbarsById: PropTypes.object,
     /**
      * Object containing all the pages' toolbars
      */
@@ -298,9 +300,9 @@ FileTree.propTypes = {
      */
     isDragging: PropTypes.bool,
     /**
-     *  Object containing all created boxes (by id)
+     *  Object containing all created boxesById (by id)
      */
-    boxes: PropTypes.object,
+    boxesById: PropTypes.object,
 
 };
 

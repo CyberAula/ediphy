@@ -11,9 +11,12 @@ import _handlers from "../../../handlers/_handlers";
 /* eslint-disable react/prop-types */
 export const BackgroundPicker = (button, props, toolbar, id, defaultBackground, onChange) => {
 
-    let isSli = isSlide(toolbar.props.navItemsById[id].type);
-    let background_attr = toolbar.props.viewToolbarsById[id].backgroundAttr;
-    let background_attr_zoom = toolbar.props.viewToolbarsById[id].backgroundZoom ?? 100;
+    const isSli = isSlide(toolbar.props.navItemsById[id].type);
+    const isBackURI = isURI(props.value.background);
+    const isBackColor = isColor(props.value.background);
+
+    const { backgroundAttr, backgroundZoom = 100 } = toolbar.props.viewToolbarsById[id];
+
     let h = _handlers(toolbar);
     const ImageDisplay = (options) => {
         return (
@@ -22,8 +25,8 @@ export const BackgroundPicker = (button, props, toolbar, id, defaultBackground, 
                     return (
                         <Radio key={i + '_' + option}
                             name={'image_display'}
-                            checked={background_attr === option}
-                            style={{ display: isColor ? "none" : "block" }}
+                            checked={backgroundAttr === option}
+                            style={{ display: isBackColor ? "none" : "block" }}
                             onChange={onChange} value={option}>
                             {i18n.t(`background.${option}`)}
                         </Radio>
@@ -40,7 +43,7 @@ export const BackgroundPicker = (button, props, toolbar, id, defaultBackground, 
                     key={button.__name}
                     formControlProps={{ ...props }}
                     label={'URL'}
-                    value={(isURI || isColor || (props.value?.match && !props.value.match('http'))) ? '' : props.value.background}
+                    value={(isBackURI || isBackColor || (props.value?.match && !props.value.match('http'))) ? '' : props.value.background}
                     openModal={h.openFileModal}
                     fileModalResult={toolbar.props.fileModalResult}
                     buttontext={i18n.t('importFile.title')}
@@ -48,7 +51,7 @@ export const BackgroundPicker = (button, props, toolbar, id, defaultBackground, 
                     accept={"image/*"}
                 />
             </FormGroup>
-            {!isColor && ImageDisplay(['full', 'repeat', 'centered'])}
+            {!isColor(props.value.background) && ImageDisplay(['full', 'repeat', 'centered'])}
         </div>
     );
     return (
@@ -56,15 +59,15 @@ export const BackgroundPicker = (button, props, toolbar, id, defaultBackground, 
             <ControlLabel key={'label1_' + button.__name}>{i18n.t('background.backgroundColor')}</ControlLabel>
             <ColorPicker
                 key={'cpicker_' + props.label}
-                value={(isColor && props.value) ? props.value.background : defaultBackground}
+                value={(isBackColor && props.value) ? props.value.background : defaultBackground}
                 onChange={onChange}
             />
             {isSli && ImagePicker}
-            {(!isColor && background_attr !== "full") && [
+            {(!isBackColor && backgroundAttr !== "full") && [
                 <ControlLabel key={'label_zoom'}>{i18n.t('background.backgroundZoom')}</ControlLabel>,
-                <span className="rangeOutput" style={{ marginTop: 0 }}>{background_attr_zoom}%</span>,
+                <span className="rangeOutput" style={{ marginTop: 0 }}>{backgroundZoom}%</span>,
                 <input key="image_display_zoom" name='image_display_zoom' type='range' min={1} max={200}
-                    value={background_attr_zoom} style={{ display: isColor ? "none" : "block" }}
+                    value={backgroundZoom} style={{ display: isBackColor ? "none" : "block" }}
                     onChange={onChange}/>,
             ]}
             <br key={'br'}/>

@@ -8,7 +8,7 @@ import EditorIndexTitle from "./editorIndexTitle/EditorIndexTitle";
 import { isSlide } from "../../../common/utils";
 import iconPDF from "../../../dist/images/file-pdf.svg";
 
-const Folder = ({ collapsed, index, path, onToggleCollapse, id, navItems, onNavItemNameChanged, viewToolbars, indexSelected }) => {
+const Folder = ({ collapsed, index, path, onToggleCollapse, id, navItemsById, onNavItemNameChanged, viewToolbarsById, indexSelected }) => {
     const handleClick = () => {
         onToggleCollapse(index);
     };
@@ -24,28 +24,28 @@ const Folder = ({ collapsed, index, path, onToggleCollapse, id, navItems, onNavI
                 </i>
             </button>
             <EditorIndexTitle id={id}
-                index={navItems[navItems[id].parent].children.indexOf(id) + 1 + '.'}
-                title={viewToolbars[id].viewName}
-                hidden={navItems[id].hidden}
+                index={navItemsById[navItemsById[id].parent].children.indexOf(id) + 1 + '.'}
+                title={viewToolbarsById[id].viewName}
+                hidden={navItemsById[id].hidden}
                 selected={ indexSelected }
                 onNameChanged={onNavItemNameChanged} />
         </div>
     );
 };
 
-const File = ({ collapsed, id, path, navItems, onNavItemNameChanged, viewToolbars, indexSelected, containedViewSelected }) => {
+const File = ({ collapsed, id, path, navItemsById, onNavItemNameChanged, viewToolbarsById, indexSelected, containedViewSelected }) => {
     const classCollapsed = collapsed ? 'collapsed' : '';
     const classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
     const classContainedViewSelected = id === containedViewSelected ? ' selected ' : ' notSelected ';
     return (<div className={ 'file navItemBlock ' + classCollapsed + classIndexSelected + classContainedViewSelected }
         style={{ marginLeft: path.length * 20 } } >
-        {(navItems[id].customSize === 0) ?
-            <i className="material-icons fileIcon">{isSlide(navItems[id].type) ? "slideshow" : "insert_drive_file"}</i>
+        {(navItemsById[id].customSize === 0) ?
+            <i className="material-icons fileIcon">{isSlide(navItemsById[id].type) ? "slideshow" : "insert_drive_file"}</i>
             : <img className="svgIcon" src={iconPDF} alt={'PDF'}/>}
         <EditorIndexTitle id={id}
-            index={navItems[navItems[id].parent].children.indexOf(id) + 1 + '.'}
-            title={viewToolbars[id].viewName}
-            hidden={navItems[id].hidden}
+            index={navItemsById[navItemsById[id].parent].children.indexOf(id) + 1 + '.'}
+            title={viewToolbarsById[id].viewName}
+            hidden={navItemsById[id].hidden}
             selected={ indexSelected }
             onNameChanged={onNavItemNameChanged}/>
     </div>);
@@ -78,7 +78,7 @@ class CarouselItemRenderer extends Component {
 
 CarouselItemRenderer.propTypes = {
     /**
-     * Global parent of navItems (0)
+     * Global parent of navItemsById (0)
      */
     id: PropTypes.any,
     /**
@@ -88,7 +88,7 @@ CarouselItemRenderer.propTypes = {
     /**
      *  Object containing all contained views (identified by its ID)
      */
-    containedViews: PropTypes.object,
+    containedViewsById: PropTypes.object,
     /**
      * Selected contained view
      */
@@ -100,7 +100,7 @@ CarouselItemRenderer.propTypes = {
     /**
      * Dictionary containing all created views, each one with its *id* as the key
      */
-    navItems: PropTypes.object,
+    navItemsById: PropTypes.object,
     /**
      * Current selected view (by ID)
      */
@@ -138,7 +138,7 @@ CarouselItemRenderer.propTypes = {
      */
     onNavItemNameChanged: PropTypes.func,
     /**
-     * Callback for reordering navItems
+     * Callback for reordering navItemsById
      */
     onNavItemReordered: PropTypes.func,
     /**
@@ -148,7 +148,7 @@ CarouselItemRenderer.propTypes = {
     /**
      * Object containing all the pages' toolbars
      */
-    viewToolbars: PropTypes.object,
+    viewToolbarsById: PropTypes.object,
     /**
      * Object containing all the pages' toolbars
      */
@@ -178,7 +178,7 @@ CarouselItemRenderer.propTypes = {
      */
     isDragging: PropTypes.bool,
     /**
-     *  Array of navItems path in tree to current navItem
+     *  Array of navItemsById path in tree to current navItem
      */
     path: PropTypes.array,
 };
@@ -201,13 +201,13 @@ Folder.propTypes = {
      */
     onToggleCollapse: PropTypes.func,
     /**
-     *  Array of navItems path in tree to current navItem
+     *  Array of navItemsById path in tree to current navItem
      */
     path: PropTypes.array,
     /**
      * Dictionary containing all created views, each one with its *id* as the key
      */
-    navItems: PropTypes.object,
+    navItemsById: PropTypes.object,
     /**
      * Callback for renaming view
      */
@@ -215,7 +215,7 @@ Folder.propTypes = {
     /**
      * Object containing all the pages' toolbars
      */
-    viewToolbars: PropTypes.object,
+    viewToolbarsById: PropTypes.object,
     /**
      * View/Contained view selected at the index
      */
@@ -231,13 +231,13 @@ File.propTypes = {
      */
     collapsed: PropTypes.bool,
     /**
-     *  Array of navItems path in tree to current navItem
+     *  Array of navItemsById path in tree to current navItem
      */
     path: PropTypes.array,
     /**
      * Dictionary containing all created views, each one with its *id* as the key
      */
-    navItems: PropTypes.object,
+    navItemsById: PropTypes.object,
     /**
      * Callback for renaming view
      */
@@ -245,7 +245,7 @@ File.propTypes = {
     /**
      * Object containing all the pages' toolbars
      */
-    viewToolbars: PropTypes.object,
+    viewToolbarsById: PropTypes.object,
     /**
      * View/Contained view selected at the index
      */

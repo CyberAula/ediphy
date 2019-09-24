@@ -27,6 +27,12 @@ class TemplatesModal extends Component {
 
         this.hN = handleNavItems(this);
     }
+
+    unselect = () => this.setState({ itemSelected: -1 });
+    doubleClickAdd = () => {
+        this.unselect();
+        this.AddNavItem(-1);
+    };
     render() {
         let templatesCopy = JSON.parse(JSON.stringify(this.templates));
         let themeTemplates = getThemeTemplates(this.props.styleConfig.theme);
@@ -47,12 +53,8 @@ class TemplatesModal extends Component {
                                     itemSelected: -1,
                                 });
                             }}
-                            onDoubleClick={() => {
-                                this.setState({
-                                    itemSelected: -1,
-                                });
-                                this.AddNavItem(-1);
-                            }}><div className={'template_name'} style={{ display: this.state.itemSelected === -1 ? 'block' : 'none' }}>{i18n.t('templates.template0')}</div>
+                            onDoubleClick={this.doubleClickAdd}>
+                            <div className={'template_name'} style={{ display: this.state.itemSelected === -1 ? 'block' : 'none' }}>{i18n.t('templates.template0')}</div>
                         </div>
                         {templatesCopy.map((item, index) => {
                             let border = this.state.itemSelected === index ? "solid #17CFC8 3px" : "solid #eee 1px";
@@ -83,8 +85,8 @@ class TemplatesModal extends Component {
                         }
                         e.preventDefault(); e.stopPropagation();
                     }} onDoubleClick={ (e) => {
-                        // this.AddNavItem(this.state.itemSelected);
-                        e.preventDefault(); e.stopPropagation();
+                        e.preventDefault();
+                        e.stopPropagation();
                     }}>{i18n.t("importFile.footer.ok")}</Button>
                 </Modal.Footer>
             </Modal>
