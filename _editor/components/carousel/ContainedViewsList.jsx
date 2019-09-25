@@ -4,16 +4,17 @@ import PropTypes from "prop-types";
 
 import { isSlide } from "../../../common/utils";
 import EditorIndexTitle from "./editorIndexTitle/EditorIndexTitle";
+import _handlers from "../../handlers/_handlers";
 
 export default class ContainedViewsList extends Component {
+    h = _handlers(this);
 
     render() {
 
-        const { containedViewsById, showContainedViews, showSortableItems, indexSelected, containedViewSelected, viewToolbarsById, onIndexSelected } = this.props;
-        const { onContainedViewNameChanged, onContainedViewSelected } = this.props.handleContainedViews;
+        const { containedViewsById, showContainedViews, showSortableItems, indexSelected, containedViewSelected, viewToolbarsById } = this.props;
 
         let containedViewsByIdIncluded = Object.keys(containedViewsById).length > 0;
-        return (<div className="containedViewsByIdList" style={{ height: (showContainedViews) ? ((showSortableItems) ? "calc(50% - 126px)" : "calc(100% - 126px)") : "0px",
+        return (<div className="containedViewsList" style={{ height: (showContainedViews) ? ((showSortableItems) ? "calc(50% - 126px)" : "calc(100% - 126px)") : "0px",
             display: 'block', overflowY: 'auto', overflowX: 'hidden' }}>
             <div className="empty-info" style={{ display: (containedViewsByIdIncluded) ? "none" : "block" }}>{i18n.t("empty.cv_empty")}</div>
 
@@ -26,12 +27,10 @@ export default class ContainedViewsList extends Component {
                             <div key={id}
                                 className={'file navItemBlock ' + classIndexSelected }
                                 onDoubleClick={e => {
-                                    onContainedViewSelected(id);
+                                    this.h.onContainedViewSelected(id);
                                     e.stopPropagation();
                                 }}
-                                onMouseDown={() => {
-                                    onIndexSelected(id);
-                                }}>
+                                onMouseDown={() => this.h.onIndexSelected(id)}>
                                 <i className="material-icons fileIcon">{isSlide(containedViewsById[id].type) ? "slideshow" : "insert_drive_file"}</i>
                                 <EditorIndexTitle
                                     id={id}
@@ -39,7 +38,7 @@ export default class ContainedViewsList extends Component {
                                     index={1}
                                     hidden={false}
                                     selected = {containedViewSelected}
-                                    onNameChanged={onContainedViewNameChanged} />
+                                    onNameChanged={this.h.onContainedViewNameChanged} />
                             </div>
                         </div>
                     );
@@ -64,14 +63,6 @@ ContainedViewsList.propTypes = {
      * View/Contained view selected at the index
      */
     indexSelected: PropTypes.any,
-    /**
-     * Collection of callbacks for contained views handling
-     */
-    handleContainedViews: PropTypes.object.isRequired,
-    /**
-     * Callback for renaming view
-     */
-    onIndexSelected: PropTypes.func.isRequired,
     /**
      * Object containing all the pages' toolbars
      */

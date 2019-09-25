@@ -299,9 +299,9 @@ class EditorShortcuts extends Component {
     resize = (fromUpdate, newProps) => {
         let nextProps = (fromUpdate === 'fromUpdate') ? newProps : this.props;
         const containedViewSelected = this.props.containedViewsById[this.props.containedViewSelected] || 0;
-
-        if (nextProps?.box) {
-            let box = findBox(nextProps.box.id);
+        let nextBox = nextProps?.boxesById?.[nextProps?.boxSelected];
+        if (nextBox) {
+            let box = findBox(nextBox.id);
             // box = box && box.parentNode ? box.parentNode : box;
             let element = ReactDOM.findDOMNode(this.refs.innerContainer);
             let left = 0;
