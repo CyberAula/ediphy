@@ -224,6 +224,7 @@ class PluginRibbon extends Component {
     };
 
     clickAddBox = (event, name) => {
+        const { boxesById, boxSelected, containedViewsById, containedViewSelected, navItemsById, navItemSelected } = this.props;
         let alert = (msg) => {return <Alert key="alert" className="pageModal"
             show
             hasHeader
@@ -233,15 +234,20 @@ class PluginRibbon extends Component {
             <span> {msg} </span>
         </Alert>;};
 
-        let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected.id);
-        let cvslide = cv && isSlide(this.props.containedViewSelected.type);
-        let cvdoc = cv && !isSlide(this.props.containedViewSelected.type);
+        let selectedBox = boxesById[boxSelected];
+        let selectedNavItem = navItemsById[navItemSelected];
+        let selectedContainedView = containedViewsById[containedViewSelected] || containedViewSelected;
+
+        let cv = containedViewSelected !== 0 && isContainedView(selectedContainedView.id);
+        let cvslide = cv && isSlide(selectedContainedView.type);
+        let cvdoc = cv && !isSlide(selectedContainedView.type);
         let config = Ediphy.Plugins.get(name).getConfig();
         if (!config) {
             return;
         }
-        let isBoxSelected = (this.props.boxSelected && isBox(this.props.boxSelected.id));
-        if (isBoxSelected && isBox(this.props.boxSelected.parent) && config.isComplex) {
+
+        let isBoxSelected = (selectedBox && isBox(selectedBox.id));
+        if (isBoxSelected && isBox(selectedBox.parent) && config.isComplex) {
             this.setState({ alert: alert(i18n.t('messages.depth_limit')) });
             event.stopPropagation();
             return;
@@ -252,13 +258,13 @@ class PluginRibbon extends Component {
             event.stopPropagation();
             return;
         }
-        let inASlide = (!cv && isSlide(this.props.navItemSelected.type)) || cvslide;
+        let inASlide = (!cv && isSlide(selectedNavItem.type)) || cvslide;
 
-        let SelectedNav = inASlide ? (cvslide ? this.props.containedViewSelected.id : this.props.navItemSelected.id) : 0;
-        let parentBox = inASlide ? 0 : (cvdoc ? this.props.containedViewSelected.boxes[0] : this.props.navItemSelected.boxes[0]);
+        let SelectedNav = inASlide ? (cvslide ? selectedContainedView.id : selectedNavItem.id) : 0;
+        let parentBox = inASlide ? 0 : (cvdoc ? selectedContainedView.boxes[0] : selectedNavItem.boxes[0]);
 
-        let parent = isBoxSelected ? this.props.boxSelected.parent : (inASlide ? SelectedNav : parentBox);
-        let container = isBoxSelected ? this.props.boxSelected.container : (inASlide ? 0 : (ID_PREFIX_SORTABLE_CONTAINER + Date.now()));
+        let parent = isBoxSelected ? selectedBox.parent : (inASlide ? SelectedNav : parentBox);
+        let container = isBoxSelected ? selectedBox.container : (inASlide ? 0 : (ID_PREFIX_SORTABLE_CONTAINER + Date.now()));
         let position = container === 0 ? {
             x: randomPositionGenerator(20, 40),
             y: randomPositionGenerator(20, 40),
@@ -270,20 +276,20 @@ class PluginRibbon extends Component {
             name,
             position: position,
             id: ID_PREFIX_BOX + Date.now(),
-            page: cv ? this.props.containedViewSelected.id : (this.props.navItemSelected ? this.props.navItemSelected.id : 0),
+            page: cv ? selectedContainedView.id : (navItemSelected ? selectedNavItem.id : 0),
         };
         if (!inASlide) {
             if (isBoxSelected) {
                 let newInd;
                 if(isSortableContainer(initialParams.container)) {
-                    let children = this.props.boxes[initialParams.parent].sortableContainers[initialParams.container].children;
-                    newInd = children.indexOf(this.props.boxSelected.id) + 1;
+                    let children = boxesById[initialParams.parent].sortableContainers[initialParams.container].children;
+                    newInd = children.indexOf(selectedBox.id) + 1;
                     newInd = newInd === 0 ? 1 : ((newInd === 0 || newInd >= children.length) ? (children.length) : newInd);
                     initialParams.index = newInd; initialParams.col = 0; initialParams.row = 0;
                 }
             }
         }
-        createBox(initialParams, name, inASlide, this.hB.onBoxAdded, this.props.boxes);
+        createBox(initialParams, name, inASlide, this.hB.onBoxAdded, boxesById);
         this.onTabHide();
         event.stopPropagation();
         event.preventDefault();
@@ -305,12 +311,14 @@ function changeOverflow(bool) {
 }
 
 function mapStateToProps(state) {
+    const { boxesById, boxSelected, containedViewsById, containedViewSelected, navItemSelected, navItemsById } = state.undoGroup.present;
     return {
-        boxSelected: state.undoGroup.present.boxesById[state.undoGroup.present.boxSelected],
-        navItemSelected: state.undoGroup.present.navItemsById[state.undoGroup.present.navItemSelected],
-        navItems: state.undoGroup.present.navItemsById,
-        containedViewSelected: state.undoGroup.present.containedViewsById[state.undoGroup.present.containedViewSelected] || state.undoGroup.present.containedViewSelected,
-        boxes: state.undoGroup.present.boxesById,
+        boxSelected,
+        boxesById,
+        navItemSelected,
+        navItemsById,
+        containedViewSelected,
+        containedViewsById,
         category: state.reactUI.pluginTab,
         hideTab: state.reactUI.hideTab,
     };
@@ -346,6 +354,14 @@ PluginRibbon.propTypes = {
     /**
       * Object containing all created boxes (by id)
       */
-    boxes: PropTypes.object,
+    boxesById: PropTypes.object,
+    /**
+     * Object containing all created views (by id)
+     */
+    navItemsById: PropTypes.object,
+    /**
+     * Object containing all created contained views (by id)
+     */
+    containedViewsById: PropTypes.object,
 };
 

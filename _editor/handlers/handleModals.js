@@ -5,7 +5,7 @@ export default (self) => ({
         self.props.dispatch((updateUI({
             showFileUpload: accept,
             fileUploadTab: 1,
-            fileModalResult: { id, value: undefined },
+            fileModalResult: { id },
         })));
     },
 

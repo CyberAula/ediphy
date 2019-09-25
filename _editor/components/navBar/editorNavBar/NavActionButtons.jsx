@@ -177,12 +177,12 @@ class NavActionButtons extends Component {
                 description: i18n.t('Preview'),
                 tooltip: i18n.t('messages.preview'),
                 display: true,
-                disabled: ((this.props.navItemSelected === 0 || (!this.props.navItems[this.props.navItemSelected] || this.props.navItems[this.props.navItemSelected].hidden) || (this.props.navItemSelected && !Ediphy.Config.sections_have_content && isSection(this.props.navItemSelected)))),
+                disabled: ((this.props.navItemSelected === 0 || (!this.props.navItemsById[this.props.navItemSelected] || this.props.navItemsById[this.props.navItemSelected].hidden) || (this.props.navItemSelected && !Ediphy.Config.sections_have_content && isSection(this.props.navItemSelected)))),
                 icon: 'visibility',
                 onClick: () => {
                     if (this.props.boxSelected !== 0) {
                         // this.props.onTextEditorToggled(this.props.boxSelected, false);
-                        this.props.dispatch(selectBox(-1, this.props.boxes[-1]));
+                        this.props.dispatch(selectBox(-1, this.props.boxesById[-1]));
                     }
                     this.props.dispatch(updateUI(UI.visorVisible, true));
                 },
@@ -229,14 +229,15 @@ class NavActionButtons extends Component {
 export default connect(mapStateToProps)(NavActionButtons);
 
 function mapStateToProps(state) {
+    const { boxesById, boxSelected, globalConfig, navItemSelected, navItemsById } = state.undoGroup.present;
     return {
+        boxesById,
+        boxSelected,
+        globalConfig,
+        navItemsById,
+        navItemSelected,
         status: state.status,
-        boxes: state.undoGroup.present.boxesById,
         everPublished: state.everPublished,
-        globalConfig: state.undoGroup.present.globalConfig,
-        navItemSelected: state.undoGroup.present.navItemSelected,
-        navItems: state.undoGroup.present.navItemsById,
-        boxSelected: state.undoGroup.present.boxSelected,
         undoDisabled: state.undoGroup.past.length === 0,
         redoDisabled: state.undoGroup.future.length === 0,
     };
@@ -258,7 +259,7 @@ NavActionButtons.propTypes = {
     /**
      * Object that contains all created views (identified by its *id*)
      */
-    navItems: PropTypes.object.isRequired,
+    navItemsById: PropTypes.object.isRequired,
     /**
      * Toggles the "redo" feature
      */
@@ -282,5 +283,5 @@ NavActionButtons.propTypes = {
     /**
      * Object containing all boxes
      */
-    boxes: PropTypes.object,
+    boxesById: PropTypes.object,
 };

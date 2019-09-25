@@ -22,8 +22,8 @@ export default class Image extends React.Component {
         let translateX = (state.translate ? state.translate.x : 0) || 0;
         let translateY = (state.translate ? state.translate.y : 0) || 0;
         let transform = `translate(${translateX + "%"},${translateY + "%" }) scale(${scale})`;
-        let url = Array.isArray(state.url) ? state.url[0] : state.url;
-        let isCustom = url.indexOf('templates/template') === -1;
+        let url = Array.isArray(state.url) ? state.url[0] : state.url ?? 'url(/images/placeholder.svg)';
+        let isCustom = url?.indexOf('templates/template') === -1;
         let errorUrl = (url.replace(/ /g, '') === '' || url.indexOf('base64') !== -1) ? 'url(/images/placeholder.svg)' : 'url(/images/broken_link.png)';
         let customImage = isCustom ? {
             '--photoUrl': this.state.error ? errorUrl : 'url(' + url + ')',

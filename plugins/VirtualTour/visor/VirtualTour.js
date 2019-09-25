@@ -26,7 +26,7 @@ export function VirtualTour() {
             }
 
             let marks = props.marks || {};
-            let box_id = props.id;
+            let boxId = props.id;
 
             let markElements = Object.keys(marks).map((e) =>{
                 let position = marks[e].value.split(',');
@@ -42,7 +42,7 @@ export function VirtualTour() {
                         isVisor={isVisor}
                         markConnection={marks[e].connection}
                         markValue={marks[e].value}
-                        boxID={box_id}
+                        boxID={boxId}
                         onMarkClicked={props.onMarkClicked}/>
                 );
             });

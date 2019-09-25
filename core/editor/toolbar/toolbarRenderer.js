@@ -63,7 +63,7 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
             <MarksList key="marks_list"
                 state={toolbarProps.marks}
                 viewToolbarsById={toolbarProps.viewToolbarsById}
-                box_id={toolbarProps.box.id}
+                boxId={toolbarProps.box.id}
                 onRichMarksModalToggled={h.onRichMarksModalToggled}
                 onRichMarkEditPressed={h.onRichMarkEditPressed}
                 onRichMarkDeleted={h.onRichMarkDeleted}

@@ -10,7 +10,7 @@ export default class MarksList extends Component {
                 <Button
                     className='toolbarButton marksListButton'
                     onClick={e => {
-                        this.props.onRichMarksModalToggled(0, this.props.box_id);
+                        this.props.onRichMarksModalToggled(0, this.props.boxId);
                         e.stopPropagation();
                     }}>
                     {i18n.t("marks.add_mark")}
@@ -19,7 +19,7 @@ export default class MarksList extends Component {
                 {this.props.state !== undefined &&
                     Object.keys(this.props.state).map(id => {
                         let mark = this.props.state[id];
-                        if(this.props.box_id !== mark.origin) {
+                        if(this.props.boxId !== mark.origin) {
                             return null;
                         }
                         let name = mark.connection;
@@ -28,10 +28,10 @@ export default class MarksList extends Component {
                         try {
                             switch (mark.connectMode) {
                             case "new":
-                                name = this.props.viewToolbars[mark.connection].viewName;
+                                name = this.props.viewToolbarsById[mark.connection].viewName;
                                 break;
                             case "existing":
-                                name = this.props.viewToolbars[mark.connection].viewName;
+                                name = this.props.viewToolbarsById[mark.connection].viewName;
                                 break;
                             case "external":
                                 name = mark.connection.length > 25 ? (mark.connection.substring(0, 25) + '...') : mark.connection;
@@ -91,7 +91,7 @@ MarksList.propTypes = {
     /**
      * Id of the box to which the marks belong
      */
-    box_id: PropTypes.any,
+    boxId: PropTypes.any,
     /**
      *  State marks object
      */
@@ -99,7 +99,7 @@ MarksList.propTypes = {
     /**
      * Object including view toolbars (identified by its *id*)
      */
-    viewToolbars: PropTypes.object.isRequired,
+    viewToolbarsById: PropTypes.object.isRequired,
     /**
      * Muestra/oculta el modal de edición de marcas
      */

@@ -11,25 +11,14 @@ export default class FileInput extends React.Component {
      * @returns {code}
      */
     render() {
-        const { name = 'file',
-            disabled,
-            accept,
-            onChange = function() { return null; },
-            style = {},
-            className = '',
-            children } = this.props;
+        const { name = 'file', disabled, accept, onChange = function() { return null; },
+            style = {}, className = '', children } = this.props;
 
         style.position = "relative";
         style.display = 'inline-block';
         return (
             <div style={ style } className={className}>
-                <input
-                    ref = "fileInput"
-                    type="file"
-                    name={name}
-                    onChange={onChange}
-                    disabled={disabled}
-                    accept={accept}
+                <input ref = "fileInput" type="file" name={name} onChange={onChange} disabled={disabled} accept={accept}
                     style={{
                         position: 'absolute',
                         top: 0,

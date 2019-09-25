@@ -4,13 +4,6 @@ import i18n from 'i18next';
 import PropTypes from 'prop-types';
 
 export default class ExitModal extends React.Component {
-    constructor(props) {
-        super(props);
-        /**
-         * Component's initial state
-         * @type {{show: boolean, pluginActive: string, reason: null, disabledButton: boolean}}
-         */
-    }
     UNSAFE_componentWillUpdate(nextProps) {
         if(nextProps.showExitModal && !this.props.showExitModal) {
             // this.props.publishing(true);
@@ -44,7 +37,7 @@ export default class ExitModal extends React.Component {
                                     window.parent.location.href = exit_url;
                                 }
                             }}>{i18n.t('exitModal.leave_without_changes')}</Button>
-                            <Button onClick={()=>this.props.closeExitModal()}>{i18n.t('exitModal.cancel')}</Button>
+                            <Button onClick={this.props.closeExitModal}>{i18n.t('exitModal.cancel')}</Button>
                         </Modal.Footer>
                     </Modal.Dialog>
                 </div> : null

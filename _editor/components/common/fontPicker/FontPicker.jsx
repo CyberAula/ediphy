@@ -2,33 +2,6 @@ import { FontManager } from 'font-picker';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-const propTypes = {
-    /**
-     * a
-     */
-    apiKey: PropTypes.string.isRequired,
-    /**
-     * a
-     */
-    activeFont: PropTypes.string.isRequired,
-    /**
-     * a
-     */
-    onChange: PropTypes.func.isRequired,
-    /**
-     * a
-     */
-    options: PropTypes.shape({
-        name: PropTypes.string,
-        themeFont: PropTypes.string,
-        families: PropTypes.arrayOf(PropTypes.string),
-        categories: PropTypes.arrayOf(PropTypes.string),
-        variants: PropTypes.arrayOf(PropTypes.string),
-        limit: PropTypes.number,
-        sort: PropTypes.oneOf(['alphabetical', 'popularity']),
-    }),
-};
-
 /**
  * React interface for the font picker
  * @see README.md
@@ -247,4 +220,29 @@ export default class FontPicker extends Component {
     }
 }
 
-FontPicker.propTypes = propTypes;
+FontPicker.propTypes = {
+    /**
+     * a
+     */
+    apiKey: PropTypes.string.isRequired,
+    /**
+     * a
+     */
+    activeFont: PropTypes.string.isRequired,
+    /**
+     * a
+     */
+    onChange: PropTypes.func.isRequired,
+    /**
+     * a
+     */
+    options: PropTypes.shape({
+        name: PropTypes.string,
+        themeFont: PropTypes.string,
+        families: PropTypes.arrayOf(PropTypes.string),
+        categories: PropTypes.arrayOf(PropTypes.string),
+        variants: PropTypes.arrayOf(PropTypes.string),
+        limit: PropTypes.number,
+        sort: PropTypes.oneOf(['alphabetical', 'popularity']),
+    }),
+};

@@ -20,7 +20,7 @@ class ContainedCanvas extends Component {
      * @returns {*}
      */
     render() {
-        const containedViewSelected = this.props.containedViewSelected;
+        const containedViewSelected = this.props.containedViewsById[this.props.containedViewSelected];
 
         let canvasContent;
         if (containedViewSelected && containedViewSelected !== 0) {
@@ -56,39 +56,36 @@ class ContainedCanvas extends Component {
 }
 
 function mapStateToProps(state) {
+    const { boxesById, boxLevelSelected, boxSelected, containedViewsById, containedViewSelected, exercises, globalConfig, lastActionDispatched,
+        marksById, navItemsById, navItemSelected, pluginToolbarsById, viewToolbarsById } = state.undoGroup.present;
+    const { grid, markCreatorVisible, fileModalResult } = state.reactUI;
     return{
-        title: state.undoGroup.present.globalConfig.title || '---',
-        boxes: state.undoGroup.present.boxesById,
-        grid: state.reactUI.grid,
-        boxSelected: state.undoGroup.present.boxSelected,
-        boxLevelSelected: state.undoGroup.present.boxLevelSelected,
-        lastActionDispatched: state.undoGroup.present.lastActionDispatched,
-        marks: state.undoGroup.present.marksById,
-        navItems: state.undoGroup.present.navItemsById,
-        navItemSelected: state.undoGroup.present.navItemsById[state.undoGroup.present.navItemSelected],
-        containedViews: state.undoGroup.present.containedViewsById,
-        containedViewSelected: state.undoGroup.present.containedViewsById[state.undoGroup.present.containedViewSelected] || 0,
-        showCanvas: state.undoGroup.present.navItemSelected !== 0,
-        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
-        viewToolbars: state.undoGroup.present.viewToolbarsById,
-        aspectRatio: state.undoGroup.present.globalConfig.canvasRatio,
-        markCreatorId: state.reactUI.markCreatorVisible,
-        exercises: state.undoGroup.present.exercises,
-        fileModalResult: state.reactUI.fileModalResult,
+        aspectRatio: globalConfig.canvasRatio,
+        boxesById,
+        boxLevelSelected,
+        boxSelected,
+        containedViewsById,
+        containedViewSelected,
+        exercises,
+        fileModalResult,
+        globalConfig,
+        grid,
+        lastActionDispatched,
+        markCreatorVisible,
+        marksById,
+        navItemsById,
+        navItemSelected,
+        pluginToolbarsById,
+        viewToolbarsById,
     };
 }
-
 export default connect(mapStateToProps)(ContainedCanvas);
 
 ContainedCanvas.propTypes = {
     /**
-     * Indicador de si se muestra el canvas (tiene qu haber un navItem seleccionado)
-     */
-    showCanvas: PropTypes.bool,
-    /**
      * Object containing all created boxes (by id)
      */
-    boxes: PropTypes.object.isRequired,
+    boxesById: PropTypes.object.isRequired,
     /**
      * Caja seleccionada en el momento. Si no hay ninguna, -1
      */
@@ -100,7 +97,7 @@ ContainedCanvas.propTypes = {
     /**
      * Object containing all views (by id)
      */
-    navItems: PropTypes.object.isRequired,
+    navItemsById: PropTypes.object.isRequired,
     /** *
      * Current selected view (by ID)
      */
@@ -108,7 +105,7 @@ ContainedCanvas.propTypes = {
     /**
      * Object containing all contained views (identified by its ID)
      */
-    containedViews: PropTypes.object.isRequired,
+    containedViewsById: PropTypes.object.isRequired,
     /** *
      * Selected contained view
      */
@@ -120,11 +117,11 @@ ContainedCanvas.propTypes = {
     /**
      * Diccionario que contiene todas las istas creadas , accesibles por su *id*
      */
-    viewToolbars: PropTypes.object.isRequired,
+    viewToolbarsById: PropTypes.object.isRequired,
     /**
      * Diccionario que contiene todos los valores de cajas, accesibles por su *id*
      */
-    pluginToolbars: PropTypes.object.isRequired,
+    pluginToolbarsById: PropTypes.object.isRequired,
     /**
      * Última acción realizada en Redux
      */
@@ -132,11 +129,7 @@ ContainedCanvas.propTypes = {
     /**
      * Identificador de la caja en la que se va a crear una marca
      */
-    markCreatorId: PropTypes.any.isRequired,
-    /**
-     *  Callback for selecting contained view
-     */
-    onContainedViewSelected: PropTypes.func.isRequired,
+    markCreatorVisible: PropTypes.any.isRequired,
     /**
      * Whether or not the grid is activated for slides
      */

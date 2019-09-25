@@ -78,7 +78,7 @@ export default function handlers(self) {
                             }
                         } else {
                             initialParams.initialState = { [key]: self.state.element };
-                            createBox(initialParams, pluginName, isTargetSlide, _handlers(self).onBoxAdded, self.props.boxes);
+                            createBox(initialParams, pluginName, isTargetSlide, _handlers(self).onBoxAdded, self.props.boxesById);
                             self.close();
                         }
 
@@ -90,7 +90,7 @@ export default function handlers(self) {
                     title: i18n.t('FileModal.FileHandlers.embed'),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || self.state.name.match(/\.edi$/) || (self.props.fileModalResult && self.props.fileModalResult.id),
                     action: ()=>{
-                        createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                        createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxesById);
                         self.close();
                         return;
 
@@ -116,7 +116,7 @@ export default function handlers(self) {
                     title: i18n.t('FileModal.FileHandlers.embed'),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
                     action: () => {
-                        createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                        createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxesById);
                         self.close();
                         return;
                     },
@@ -172,12 +172,12 @@ function getInitialParams(self, page) {
         let col = 0;
         let container = isTargetSlide ? 0 : containerId;
         let newInd;
-        if (self.props.boxSelected && self.props.boxes[self.props.boxSelected] && isBox(self.props.boxSelected)) {
-            parent = self.props.boxes[self.props.boxSelected].parent;
-            container = self.props.boxes[self.props.boxSelected].container;
+        if (self.props.boxSelected && self.props.boxesById[self.props.boxSelected] && isBox(self.props.boxSelected)) {
+            parent = self.props.boxesById[self.props.boxSelected].parent;
+            container = self.props.boxesById[self.props.boxSelected].container;
             isTargetSlide = container === 0;
-            row = self.props.boxes[self.props.boxSelected].row;
-            col = self.props.boxes[self.props.boxSelected].col;
+            row = self.props.boxesById[self.props.boxSelected].row;
+            col = self.props.boxesById[self.props.boxSelected].col;
             newInd = getIndex(parent, container, self.props);
         }
 
@@ -297,7 +297,7 @@ function dataToState(e, self, format, initialParams, isTargetSlide, plugin) {
 
         if (self.props.fileModalResult && !self.props.fileModalResult.id) {
             initialParams.initialState = value;
-            createBox(initialParams, plugin, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+            createBox(initialParams, plugin, isTargetSlide, self.props.onBoxAdded, self.props.boxesById);
         }else {
             self.close({ id: self.props.fileModalResult.id, value });
         }

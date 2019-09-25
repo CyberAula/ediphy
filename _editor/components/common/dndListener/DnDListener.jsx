@@ -65,10 +65,11 @@ class DnDListener extends React.Component {
 }
 
 function mapStateToProps(state) {
+    const { blockDrag, fileUploadTab, showFileUpload } = state.reactUI;
     return {
-        showFileUpload: state.reactUI.showFileUpload,
-        blockDrag: state.reactUI.blockDrag,
-        fileUploadTab: state.reactUI.fileUploadTab,
+        showFileUpload,
+        blockDrag,
+        fileUploadTab,
     };
 }
 

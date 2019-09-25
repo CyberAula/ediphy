@@ -19,10 +19,10 @@ export default class TransitionPicker extends React.Component {
 
     render() {
 
-        let transitions = TRANSITIONS.map((trans, index) => {
-            let isActive = index === this.state.activeTransition;
-            let activeClass = isActive ? " active " : " ";
-            let className = " transition_template " + activeClass;
+        const transitions = TRANSITIONS.map((trans, index) => {
+            const isActive = index === this.state.activeTransition;
+            const activeClass = isActive ? " active " : " ";
+            const className = " transition_template " + activeClass;
             return (
                 <div key={index} className={className} onClick={() => this.handleChange(index)}>
                     <img src={trans.image} style={{ height: '60%' }}/>

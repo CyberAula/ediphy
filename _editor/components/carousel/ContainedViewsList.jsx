@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import i18n from "i18next";
 import PropTypes from "prop-types";
+import { connect } from 'react-redux';
 
 import { isSlide } from "../../../common/utils";
 import EditorIndexTitle from "./editorIndexTitle/EditorIndexTitle";
 import _handlers from "../../handlers/_handlers";
 
-export default class ContainedViewsList extends Component {
+class ContainedViewsList extends Component {
     h = _handlers(this);
 
     render() {
@@ -49,6 +50,17 @@ export default class ContainedViewsList extends Component {
 
     }
 }
+
+function mapStateToProps(state) {
+    const { containedViewsById, containedViewSelected, viewToolbarsById } = state.undoGroup.present;
+    return {
+        containedViewsById,
+        containedViewSelected,
+        viewToolbarsById,
+    };
+}
+
+export default connect(mapStateToProps)(ContainedViewsList);
 
 ContainedViewsList.propTypes = {
     /**

@@ -29,7 +29,7 @@ import LogoIcon from './logos/avatar-gallery.png';
 
 import i18n from 'i18next';
 export default function menus(self) {
-    let allowedMIME = self.props.visible || "";
+    let allowedMIME = self.props.showFileUpload || "";
     let commonProps = {
         onElementSelected: (name, element, type, id, options = {}) => {
             self.setState({ name, element, type, id, options }); },

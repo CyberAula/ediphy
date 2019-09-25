@@ -25,37 +25,39 @@ export default class Alert extends Component {
      * @returns {code}
      */
     render() {
+        const { acceptButtonText, backdrop, bsStyle, cancelButton, cancelButtonText, children,
+            className, closeButton, hasHeader, onClose, show, title } = this.props;
         return(
-            <Modal id="alertModal" className={this.props.className || 'popupAlert'}
+            <Modal id="alertModal" className={className || 'popupAlert'}
                 onKeyUp={(e)=>{
                     if (e.keyCode === 13) {
-                        this.props.onClose(true);
+                        onClose(true);
                     }
                 }}
-                backdrop={this.props.backdrop === undefined ? true : this.props.backdrop}
-                show={this.props.show}
-                onHide={()=>{this.props.onClose(false);}}>
-                { this.props.hasHeader ?
-                    (<Modal.Header closeButton={this.props.closeButton}>
-                        { this.props.title }
+                backdrop={backdrop ?? true}
+                show={show}
+                onHide={()=>{onClose(false);}}>
+                { hasHeader ?
+                    (<Modal.Header closeButton={closeButton}>
+                        { title }
                     </Modal.Header>) :
                     null}
                 <Modal.Body>
-                    { this.props.children }
+                    { children }
                 </Modal.Body>
                 <Modal.Footer>
-                    { this.props.cancelButton ? (
-                        <Button bsStyle={this.props.bsStyle || 'default'}
+                    { cancelButton ? (
+                        <Button bsStyle={bsStyle || 'default'}
                             name='cancelButton'
                             className="popupFooterButton"
-                            onClick={()=>{this.props.onClose(false);}}>
-                            { this.props.cancelButtonText || i18n.t('messages.Cancel') }
+                            onClick={()=>{onClose(false);}}>
+                            { cancelButtonText || i18n.t('messages.Cancel') }
                         </Button>) : null }
-                    <Button bsStyle={this.props.bsStyle || 'primary'}
+                    <Button bsStyle={bsStyle || 'primary'}
                         name='okButton'
                         className="popupFooterButton"
-                        onClick={()=>{this.props.onClose(true);}}>
-                        { this.props.acceptButtonText || i18n.t('messages.OK') }
+                        onClick={()=>{onClose(true);}}>
+                        { acceptButtonText || i18n.t('messages.OK') }
                     </Button>
                 </Modal.Footer>
             </Modal>

@@ -8,6 +8,7 @@ import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES
 
 // styles
 import { createBox } from '../../../../../common/commonTools';
+import _handlers from "../../../../handlers/_handlers";
 let spinner = require('../../../../../dist/images/spinner.svg');
 
 // PDF Library conf.
@@ -33,6 +34,8 @@ export default class PDFHandler extends Component {
         PagesFrom: 1,
         PagesTo: 1,
     };
+
+    h = _handlers(this);
 
     componentWillUnmount() {
         for (let i = 1; i <= this.state.FilePages; i++) {
@@ -221,9 +224,9 @@ export default class PDFHandler extends Component {
     AddAsPDFViewer() {
         // insert image plugins
         let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected);
-        let cvSli = cv && isSlide(this.props.containedViews[this.props.containedViewSelected].type);
-        let cvDoc = cv && !isSlide(this.props.containedViews[this.props.containedViewSelected].type);
-        let inASlide = (this.props.navItemSelected !== 0 && isSlide(this.props.navItems[this.props.navItemSelected].type)) || cvSli;
+        let cvSli = cv && isSlide(this.props.containedViewsById[this.props.containedViewSelected].type);
+        let cvDoc = cv && !isSlide(this.props.containedViewsById[this.props.containedViewSelected].type);
+        let inASlide = (this.props.navItemSelected !== 0 && isSlide(this.props.navItemsById[this.props.navItemSelected].type)) || cvSli;
         let page = cv ? this.props.containedViewSelected : this.props.navItemSelected;
         let initialParams;
         // If slide
@@ -242,14 +245,14 @@ export default class PDFHandler extends Component {
             };
         } else {
             initialParams = {
-                parent: cvDoc ? this.props.containedViews[this.props.containedViewSelected].boxes[0] : this.props.navItems[this.props.navItemSelected].boxes[0],
+                parent: cvDoc ? this.props.containedViewsById[this.props.containedViewSelected].boxes[0] : this.props.navItemsById[this.props.navItemSelected].boxes[0],
                 container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
                 url: this.props.url,
                 page,
             };
         }
         initialParams.id = ID_PREFIX_BOX + Date.now();
-        createBox(initialParams, "EnrichedPDF", inASlide, this.props.onBoxAdded, this.props.boxes);
+        createBox(initialParams, "EnrichedPDF", inASlide, this.h.onBoxAdded, this.props.boxesById);
 
     }
 
@@ -272,10 +275,10 @@ export default class PDFHandler extends Component {
             };
             navs.push(nav);
         }
-        this.props.onNavItemsAdded(navs, 0);
+        this.h.onNavItemsAdded(navs, 0);
         if (navs.length > 0) {
-            this.props.onIndexSelected(navs[navs.length - 1].id);
-            this.props.onNavItemSelected(navs[navs.length - 1].id);
+            this.h.onIndexSelected(navs[navs.length - 1].id);
+            this.h.onNavItemSelected(navs[navs.length - 1].id);
         }
     };
 
@@ -299,9 +302,9 @@ export default class PDFHandler extends Component {
     AddPlugins = () => {
         // insert image plugins
         let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected);
-        let cvSli = cv && isSlide(this.props.containedViews[this.props.containedViewSelected].type);
-        let cvDoc = cv && !isSlide(this.props.containedViews[this.props.containedViewSelected].type);
-        let inASlide = (!cv && isSlide(this.props.navItems[this.props.navItemSelected].type)) || cvSli;
+        let cvSli = cv && isSlide(this.props.containedViewsById[this.props.containedViewSelected].type);
+        let cvDoc = cv && !isSlide(this.props.containedViewsById[this.props.containedViewSelected].type);
+        let inASlide = (!cv && isSlide(this.props.navItemsById[this.props.navItemSelected].type)) || cvSli;
         let page = cv ? this.props.containedViewSelected : this.props.navItemSelected;
         for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
             let canvas = document.getElementById('can' + i);
@@ -322,63 +325,15 @@ export default class PDFHandler extends Component {
                 };
             } else {
                 initialParams = {
-                    parent: cvDoc ? this.props.containedViews[this.props.containedViewSelected].boxes[0] : this.props.navItems[this.props.navItemSelected].boxes[0],
+                    parent: cvDoc ? this.props.containedViewsById[this.props.containedViewSelected].boxes[0] : this.props.navItemsById[this.props.navItemSelected].boxes[0],
                     container: ID_PREFIX_SORTABLE_CONTAINER + Date.now() + '_' + i,
                     url: dataURL, page,
                 };
             }
             initialParams.id = ID_PREFIX_BOX + Date.now() + '_' + i;
-            createBox(initialParams, "HotspotImages", inASlide, this.props.onBoxAdded, this.props.boxes);
+            createBox(initialParams, "HotspotImages", inASlide, this.h.onBoxAdded, this.props.boxesById);
         }
     };
-
-    // fileLoad = (event) => {
-    //     let file = event.target.files[0];
-    //     let pdfURL = URL.createObjectURL(file);
-    //
-    //     if (file.type === 'application/pdf') {
-    //         let loadingTask = pdflib.getDocument(pdfURL);
-    //         loadingTask.promise.then((pdfDocument)=> {
-    //             let numPages = pdfDocument.numPages;
-    //             this.setState({
-    //                 FileURL: pdfURL,
-    //                 FileLoaded: true,
-    //                 FileName: file.name,
-    //                 FilePages: numPages,
-    //                 FileType: '(.pdf)',
-    //                 ImportAs: 'Custom' });
-    //             // Request pages
-    //             let page;
-    //             for (let i = 1; i <= numPages; i++) {
-    //                 page = pdfDocument.getPage(i).then((pdfPage) =>{
-    //                     // Display page on the existing canvas with 100% scale.
-    //                     let viewport = pdfPage.getViewport(1.0);
-    //                     let canvas = document.createElement('canvas');
-    //                     document.body.appendChild(canvas);
-    //                     canvas.id = "can" + i;
-    //                     canvas.style.visibility = "hidden";
-    //                     canvas.width = viewport.width;
-    //                     canvas.height = viewport.height;
-    //                     let ctx = canvas.getContext('2d');
-    //                     let renderTask = pdfPage.render({
-    //                         canvasContext: ctx,
-    //                         viewport: viewport,
-    //                     });
-    //                     if (i === 1) {
-    //                         renderTask.promise.then(() => {
-    //                             this.PreviewFile(i);
-    //                         });
-    //                     }
-    //                     return renderTask.promise;
-    //                 });
-    //             }
-    //             return page;
-    //         }).catch(function(reason) {
-    //             // eslint-disable-next-line no-console
-    //             console.error('Error: ' + reason);
-    //         });
-    //     }
-    // };
 
     /**
      * Close modal
@@ -411,25 +366,13 @@ PDFHandler.propTypes = {
      */
     close: PropTypes.func.isRequired,
     /**
-      * Add several views
-      */
-    onNavItemsAdded: PropTypes.func.isRequired,
-    /**
-     * Select view/contained view in the index context
-     */
-    onIndexSelected: PropTypes.func.isRequired,
-    /**
-     * Select view
-     */
-    onNavItemSelected: PropTypes.func.isRequired,
-    /**
      * Objects Array that contains all created views (identified by its *id*)
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
      * Object that contains all created views (identified by its *id*)
      */
-    navItems: PropTypes.object.isRequired,
+    navItemsById: PropTypes.object.isRequired,
     /**
      * Current selected view (by ID)
      */
@@ -437,7 +380,7 @@ PDFHandler.propTypes = {
     /**
      * Object containing all contained views (identified by its ID)
      */
-    containedViews: PropTypes.object.isRequired,
+    containedViewsById: PropTypes.object.isRequired,
     /**
      * Selected contained view (by ID)
      */
@@ -445,11 +388,7 @@ PDFHandler.propTypes = {
     /**
      * Object containing all created boxes (by id)
      */
-    boxes: PropTypes.object,
-    /**
-     * Callback for adding a box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
+    boxesById: PropTypes.object,
     /**
      * PDF File URL
      */

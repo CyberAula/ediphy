@@ -737,7 +737,7 @@ let components = {
         "onRichMarksModalToggled": "Muestra/oculta el modal de edición de marcas ",
     },
     "MarksList": {
-        "box_id": "Identificador de la caja seleccionada",
+        "boxId": "Identificador de la caja seleccionada",
         "state": "Objeto de marcas del estado del plugin",
         "viewToolbars": "Objeto que contiene todas las toolbars de las vistas",
         "onRichMarksModalToggled": "Muestra/oculta el modal de añadir marcas",

@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 export default class ImageComponent extends React.Component {
 
     render() {
-        let { url, title, thumbnail } = this.props;
+        let { isSelected, title, thumbnail, onElementSelected, url } = this.props;
         let avatar = thumbnail || url;
         return url ? <img onError={(e)=>{
             e.target.style.display = 'none';
         }} src={avatar}
-        className={'catalogImage ' + (this.props.isSelected ? 'catalogImageSelected' : '')}
+        className={'catalogImage ' + (isSelected ? 'catalogImageSelected' : '')}
         title={title}
         onClick={() => {
-            this.props.onElementSelected(title, url, 'image');
+            onElementSelected(title, url, 'image');
         }}
         /> : null;
 

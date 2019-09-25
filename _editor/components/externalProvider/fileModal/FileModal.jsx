@@ -49,7 +49,7 @@ class FileModal extends React.Component {
         return(
             <Modal className="pageModal fileModal"
                 backdrop bsSize="large"
-                show={!!this.props.visible}
+                show={!!this.props.showFileUpload}
                 onHide={this.close}>
                 <Modal.Header closeButton>
                     <Modal.Title>{i18n.t("FileModal.Title")}</Modal.Title>
@@ -80,16 +80,12 @@ class FileModal extends React.Component {
                                         <button onClick={()=>{this.closeSideBar(false);}}><i className="material-icons">keyboard_arrow_right</i></button>
                                     </div>
                                     <div id="drawerContent">
-                                        <PDFHandler navItemSelected={this.props.navItemSelected}
-                                            boxes={this.props.boxes}
-                                            onBoxAdded={this.h.onBoxAdded}
-                                            onNavItemAdded={this.h.onNavItemAdded}
-                                            onNavItemsAdded={this.h.onNavItemsAdded}
-                                            onIndexSelected={this.h.onIndexSelected}
-                                            onNavItemSelected={this.h.onNavItemSelected}
+                                        <PDFHandler
+                                            navItemSelected={this.props.navItemSelected}
+                                            boxesById={this.props.boxesById}
                                             navItemsIds={this.props.navItemsIds}
-                                            navItems={this.props.navItems}
-                                            containedViews={this.props.containedViews}
+                                            navItemsById={this.props.navItemsById}
+                                            containedViewsById={this.props.containedViewsById}
                                             containedViewSelected={this.props.containedViewSelected}
                                             show
                                             url={this.state.element}
@@ -101,19 +97,9 @@ class FileModal extends React.Component {
                                         <button onClick={()=>{this.closeSideBar(false);}}><i className="material-icons">keyboard_arrow_right</i></button>
                                     </div>
                                     <div id="drawerContent">
-                                        <MoodleHandler navItemSelected={this.props.navItemSelected}
+                                        <MoodleHandler
                                             self={this}
-                                            boxes={this.props.boxes}
-                                            onBoxAdded={this.h.onBoxAdded}
-                                            onNavItemAdded={this.h.onNavItemAdded}
-                                            onNavItemsAdded={this.h.onNavItemsAdded}
-                                            onIndexSelected={this.h.onIndexSelected}
-                                            onNavItemSelected={this.h.onNavItemSelected}
-                                            navItemsIds={this.props.navItemsIds}
-                                            navItems={this.props.navItems}
-                                            containedViews={this.props.containedViews}
-                                            containedViewSelected={this.props.containedViewSelected}
-                                            show
+                                            boxesById={this.props.boxesById}
                                             element={this.state.element}
                                             close={this.closeSideBar}
                                         /></div>
@@ -155,7 +141,7 @@ class FileModal extends React.Component {
     };
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        if (nextProps.visible !== this.props.visible && this.props.fileModalResult.id !== nextProps.fileModalResult.id) {
+        if (nextProps.showFileUpload !== this.props.showFileUpload && this.props.fileModalResult.id !== nextProps.fileModalResult.id) {
             this.setState({ menu: 0, element: undefined, index: undefined, type: undefined });
         }
         if (this.props.fileUploadTab !== nextProps.fileUploadTab) {
@@ -168,8 +154,8 @@ class FileModal extends React.Component {
      */
     currentPage = () => {
         return isContainedView(this.props.containedViewSelected) ?
-            this.props.containedViews[this.props.containedViewSelected] :
-            (this.props.navItemSelected !== 0 ? this.props.navItems[this.props.navItemSelected] : null);
+            this.props.containedViewsById[this.props.containedViewSelected] :
+            (this.props.navItemSelected !== 0 ? this.props.navItemsById[this.props.navItemSelected] : null);
     };
 
     close = (fileModalResult) => {
@@ -190,21 +176,24 @@ class FileModal extends React.Component {
 }
 
 function mapStateToProps(state) {
+    const { boxSelected, boxesById, isBusy, navItemsIds, navItemsById, containedViewsById, containedViewSelected,
+        navItemSelected, pluginToolbarsById, marksById } = state.undoGroup.present;
+    const { showFileUpload, fileModalResult, fileUploadTab } = state.reactUI;
     return {
-        visible: state.reactUI.showFileUpload,
-        boxSelected: state.undoGroup.present.boxSelected,
-        boxes: state.undoGroup.present.boxesById,
-        isBusy: state.undoGroup.present.isBusy,
-        fileModalResult: state.reactUI.fileModalResult,
-        navItemsIds: state.undoGroup.present.navItemsIds,
-        navItems: state.undoGroup.present.navItemsById,
-        containedViews: state.undoGroup.present.containedViewsById,
-        containedViewSelected: state.undoGroup.present.containedViewSelected,
-        navItemSelected: state.undoGroup.present.navItemSelected,
+        showFileUpload,
+        boxSelected,
+        boxesById,
+        isBusy,
+        fileModalResult,
+        navItemsIds,
+        navItemsById,
+        containedViewsById,
+        containedViewSelected,
+        navItemSelected,
         filesUploaded: state.filesUploaded,
-        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
-        marks: state.undoGroup.present.marksById,
-        fileUploadTab: state.reactUI.fileUploadTab,
+        pluginToolbarsById,
+        marksById,
+        fileUploadTab,
     };
 }
 
@@ -216,9 +205,9 @@ FileModal.propTypes = {
      */
     dispatch: PropTypes.func.isRequired,
     /**
-     * Whether the file modal is visible or not
+     * Whether the file modal is showFileUpload or not
      */
-    visible: PropTypes.any.isRequired,
+    showFileUpload: PropTypes.any.isRequired,
     /**
      * Current selected view (by ID)
      */
@@ -230,11 +219,11 @@ FileModal.propTypes = {
     /**
      * Object containing all views (by id)
      */
-    navItems: PropTypes.object.isRequired,
+    navItemsById: PropTypes.object.isRequired,
     /**
      * Object containing all contained views
      */
-    containedViews: PropTypes.object.isRequired,
+    containedViewsById: PropTypes.object.isRequired,
     /**
      * Selected contained view
      */
@@ -250,6 +239,6 @@ FileModal.propTypes = {
     /**
      * Object containing all the boxes
      */
-    boxes: PropTypes.object.isRequired,
+    boxesById: PropTypes.object.isRequired,
 
 };
