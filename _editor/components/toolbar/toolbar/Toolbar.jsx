@@ -98,11 +98,12 @@ class Toolbar extends Component {
 }
 
 function mapStateToProps(state) {
+    const { pluginToolbarsById, viewToolbarsById, boxesById, boxSelected, containedViewsById, containedViewSelected, navItemSelected, na } = state.undoGroup.present;
     return {
         pluginToolbarsById: state.undoGroup.present.pluginToolbarsById,
         viewToolbarsById: state.undoGroup.present.viewToolbarsById,
         box: state.undoGroup.present.boxesById[state.undoGroup.present.boxSelected],
-        boxes: state.undoGroup.present.boxesById,
+        boxesById: state.undoGroup.present.boxesById,
         boxSelected: state.undoGroup.present.boxSelected,
         containedViewsById: state.undoGroup.present.containedViewsById,
         containedViewSelected: state.undoGroup.present.containedViewSelected,
@@ -135,7 +136,7 @@ Toolbar.propTypes = {
     /**
      * View toolbars
      */
-    viewToolbars: PropTypes.object,
+    viewToolbarsById: PropTypes.object,
     /**
      * Plugin toolbars
      */

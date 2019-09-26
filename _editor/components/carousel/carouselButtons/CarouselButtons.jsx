@@ -102,6 +102,7 @@ class CarouselButtons extends Component {
     * @returns {code}
     */
     render() {
+        throw new Error();
         const { boxesById, indexSelected, navItemsById, carouselShow } = this.props;
         const buttons = [
             {

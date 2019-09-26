@@ -19,7 +19,6 @@ class EditorCarousel extends Component
      */
     render() {
         const { carouselFull, carouselShow } = this.props;
-
         return (
             <div id="colLeft" className="wrapperCarousel"
                 style={{

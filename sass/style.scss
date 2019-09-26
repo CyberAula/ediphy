@@ -319,3 +319,20 @@ input[type="radio"]{
     transition: opacity .5s ease-in;
 }
 
+.errorView{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: grey;
+    color: white;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    .errorIcon{
+        font-size: 4rem;
+    }
+    p {
+        font-size: 2rem;
+    }
+}

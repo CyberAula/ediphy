@@ -29,6 +29,7 @@ import { isSection } from '../../common/utils';
 import { handleBoxes, handleContainedViews, handleSortableContainers, handleMarks,
     handleModals, handleToolbars, handleExercises, handleCanvas,
     handleExportImport } from "../handlers";
+import ErrorBoundary from "./ErrorBoundary";
 
 const cookies = new Cookies();
 
@@ -41,6 +42,12 @@ class EditorApp extends Component {
         super(props);
         this.state = { alert: null };
         this.initializeHandlers();
+    }
+
+    componentDidCatch(error, errorInfo) {
+        console.log('Something went wrong');
+        console.log(error);
+        console.log(errorInfo.componentStack);
     }
 
     render() {
@@ -72,55 +79,57 @@ class EditorApp extends Component {
         };
 
         return (
-            <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }} ref={'app'}>
-                <Row className="navBar">
-                    <EdiphyTour/>
-                    <HelpModal/>
-                    <InitModal showTour={this.handleModals.showTour}/>
-                    <ServerFeedback/>
-                    <AlertModal/>
-                    <EditorNavBar globalConfig={{ ...globalConfig, status, everPublished }} handleExportImport={this.handleExportImport}/>
-                    {Ediphy.Config.autosave_time > 1000 && <AutoSave save={this.handleExportImport.save}/>})
-                </Row>
-                <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
-                    <EditorCarousel/>
+            <ErrorBoundary>
+                <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }} ref={'app'}>
+                    <Row className="navBar">
+                        <EdiphyTour/>
+                        <HelpModal/>
+                        <InitModal showTour={this.handleModals.showTour}/>
+                        <ServerFeedback/>
+                        <AlertModal/>
+                        <EditorNavBar globalConfig={{ ...globalConfig, status, everPublished }} handleExportImport={this.handleExportImport}/>
+                        {Ediphy.Config.autosave_time > 1000 && <AutoSave save={this.handleExportImport.save}/>})
+                    </Row>
+                    <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
+                        <EditorCarousel/>
 
-                    <Col id="colRight" xs={12}
-                        style={{ height: (reactUI.carouselFull ? 0 : '100%'),
-                            width: (reactUI.carouselShow ? 'calc(100% - 212px)' : 'calc(100% - 80px)') }}>
-                        <Row id="actionsRibbon">
-                            <ActionsRibbon ribbonHeight={ ribbonHeight + 'px'}/>
-                        </Row>
+                        <Col id="colRight" xs={12}
+                            style={{ height: (reactUI.carouselFull ? 0 : '100%'),
+                                width: (reactUI.carouselShow ? 'calc(100% - 212px)' : 'calc(100% - 80px)') }}>
+                            <Row id="actionsRibbon">
+                                <ActionsRibbon ribbonHeight={ ribbonHeight + 'px'}/>
+                            </Row>
 
-                        <Row id="ribbonRow" style={{ top: '-1px', left: (reactUI.carouselShow ? '15px' : '147px') }}>
-                            <PluginRibbon disabled={disabled} ribbonHeight={ ribbonHeight + 'px'}/>
-                        </Row>
+                            <Row id="ribbonRow" style={{ top: '-1px', left: (reactUI.carouselShow ? '15px' : '147px') }}>
+                                <PluginRibbon disabled={disabled} ribbonHeight={ ribbonHeight + 'px'}/>
+                            </Row>
 
-                        <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
-                            <EditorCanvas {...canvasProps}/>
-                            <ContainedCanvas {...canvasProps}/>
-                        </Row>
-                    </Col>
-                </Row>
-                <Visor id="visor"
-                    state={{
-                        ...currentState.undoGroup.present,
-                        filesUploaded: currentState.filesUploaded,
-                        status: currentState.status }}
-                />
-                <Toolbar top={(60 + ribbonHeight) + 'px'}/>
-                <PluginConfigModal id={reactUI.pluginConfigModal}/>
-                <RichMarksModal
-                    defaultValueMark={defaultMarkValue}
-                    validateValueInput={validateMarkValueInput}
-                />
-                <FileModal
-                    disabled={disabled}
-                    handleExportImport={this.handleExportImport}
-                />
-                <KeyListener/>
-                <DnDListener/>
-            </Grid>
+                            <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
+                                <EditorCanvas {...canvasProps}/>
+                                <ContainedCanvas {...canvasProps}/>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Visor id="visor"
+                        state={{
+                            ...currentState.undoGroup.present,
+                            filesUploaded: currentState.filesUploaded,
+                            status: currentState.status }}
+                    />
+                    <Toolbar top={(60 + ribbonHeight) + 'px'}/>
+                    <PluginConfigModal id={reactUI.pluginConfigModal}/>
+                    <RichMarksModal
+                        defaultValueMark={defaultMarkValue}
+                        validateValueInput={validateMarkValueInput}
+                    />
+                    <FileModal
+                        disabled={disabled}
+                        handleExportImport={this.handleExportImport}
+                    />
+                    <KeyListener/>
+                    <DnDListener/>
+                </Grid>
+            </ErrorBoundary>
         );
     }
 
