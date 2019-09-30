@@ -5,7 +5,7 @@ import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup
 import i18n from 'i18next';
 import RangeSlider from './rangeSlider/RangeSlider';
 import Select from 'react-select';
-import { WithContext as ReactTags } from 'react-tag-input';
+import { WithOutContext as ReactTags } from 'react-tag-input';
 import { suggestions, statusOptions, contextOptions, languages, difLevels, rightsOptions } from './globalOptions';
 import Alert from './../../common/alert/Alert';
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
