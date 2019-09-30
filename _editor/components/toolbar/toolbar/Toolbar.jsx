@@ -98,15 +98,15 @@ class Toolbar extends Component {
 }
 
 function mapStateToProps(state) {
-    const { pluginToolbarsById, viewToolbarsById, boxesById, boxSelected, containedViewsById, containedViewSelected, navItemSelected, na } = state.undoGroup.present;
+    const { pluginToolbarsById, viewToolbarsById, boxesById, boxSelected, containedViewsById, containedViewSelected } = state.undoGroup.present;
     return {
-        pluginToolbarsById: state.undoGroup.present.pluginToolbarsById,
-        viewToolbarsById: state.undoGroup.present.viewToolbarsById,
+        pluginToolbarsById,
+        viewToolbarsById,
         box: state.undoGroup.present.boxesById[state.undoGroup.present.boxSelected],
-        boxesById: state.undoGroup.present.boxesById,
-        boxSelected: state.undoGroup.present.boxSelected,
-        containedViewsById: state.undoGroup.present.containedViewsById,
-        containedViewSelected: state.undoGroup.present.containedViewSelected,
+        boxesById,
+        boxSelected,
+        containedViewsById,
+        containedViewSelected,
         navItemSelected: state.undoGroup.present.containedViewSelected !== 0 ? state.undoGroup.present.containedViewSelected : state.undoGroup.present.navItemSelected,
         navItemsById: state.undoGroup.present.containedViewSelected !== 0 ? state.undoGroup.present.containedViewsById : state.undoGroup.present.navItemsById,
         carouselShow: state.reactUI.carouselShow,

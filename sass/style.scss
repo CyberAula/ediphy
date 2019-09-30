@@ -323,16 +323,23 @@ input[type="radio"]{
     display: flex;
     width: 100%;
     height: 100%;
-    background-color: grey;
-    color: white;
+    background-color: #262626;
+    color: $blueprimary;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     font-size: 4rem;
-    .errorIcon{
-        font-size: 4rem;
+    span {
+        display: flex;
+        align-items: center;
+        .errorIcon {
+            color: $blueprimary;
+            font-size: 4rem;
+            margin-right: 1rem;
+        }
     }
     p {
         font-size: 2rem;
+        color: lightgrey;
     }
 }

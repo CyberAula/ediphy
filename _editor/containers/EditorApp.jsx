@@ -44,12 +44,6 @@ class EditorApp extends Component {
         this.initializeHandlers();
     }
 
-    componentDidCatch(error, errorInfo) {
-        console.log('Something went wrong');
-        console.log(error);
-        console.log(errorInfo.componentStack);
-    }
-
     render() {
         const currentState = this.props.store.getState();
         const { boxSelected, navItemSelected, containedViewSelected, pluginToolbarsById,
@@ -79,16 +73,18 @@ class EditorApp extends Component {
         };
 
         return (
-            <ErrorBoundary>
+            <ErrorBoundary context={'app'}>
                 <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }} ref={'app'}>
                     <Row className="navBar">
-                        <EdiphyTour/>
-                        <HelpModal/>
-                        <InitModal showTour={this.handleModals.showTour}/>
-                        <ServerFeedback/>
-                        <AlertModal/>
-                        <EditorNavBar globalConfig={{ ...globalConfig, status, everPublished }} handleExportImport={this.handleExportImport}/>
-                        {Ediphy.Config.autosave_time > 1000 && <AutoSave save={this.handleExportImport.save}/>})
+                        <ErrorBoundary context={'navBar'}>
+                            <EdiphyTour/>
+                            <HelpModal/>
+                            <InitModal showTour={this.handleModals.showTour}/>
+                            <ServerFeedback/>
+                            <AlertModal/>
+                            <EditorNavBar globalConfig={{ ...globalConfig, status, everPublished }} handleExportImport={this.handleExportImport}/>
+                            {Ediphy.Config.autosave_time > 1000 && <AutoSave save={this.handleExportImport.save}/>})
+                        </ErrorBoundary>
                     </Row>
                     <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
                         <EditorCarousel/>

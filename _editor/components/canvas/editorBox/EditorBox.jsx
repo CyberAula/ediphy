@@ -33,11 +33,6 @@ class EditorBox extends Component {
 
     h = _handlers(this);
 
-    componentDidCatch(error, errorInfo) {
-        console.log(error);
-        console.log(errorInfo);
-    }
-
     /**
      * Renders React Component
      * @returns {code} React rendered component

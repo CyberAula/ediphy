@@ -4,6 +4,16 @@ let dependency_loader = require('./webpack_plugins/dependencies_loader.js');
 let path = require('path');
 let ProgressBarPlugin = require('progress-bar-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
+const dotenv = require('dotenv');
+
+// call dotenv and it will return an Object with a parsed key
+const env = dotenv.config().parsed;
+
+// reduce it to a nice object, the same as before
+const envKeys = Object.keys(env).reduce((prev, next) => {
+    prev[`process.env.${next}`] = JSON.stringify(env[next]);
+    return prev;
+}, {});
 
 module.exports = {
     node: {
@@ -107,6 +117,7 @@ module.exports = {
         new ExtractTextPlugin({ filename: '[name].css' }),
         new ProgressBarPlugin({}),
         new webpack.ContextReplacementPlugin(/package\.json$/, "./plugins/"),
+        new webpack.DefinePlugin(envKeys),
         new webpack.ProvidePlugin(Object.assign({
             '$': 'jquery',
             'jQuery': 'jquery',
