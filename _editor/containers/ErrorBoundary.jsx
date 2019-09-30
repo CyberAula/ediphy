@@ -32,20 +32,44 @@ class ErrorBoundary extends React.Component {
                 body: JSON.stringify(parsedError), // data can be `string` or {object}!
                 headers: { 'Content-Type': 'application/json' },
                 mode: 'no-cors',
-            }).then(res => res.json())
+            })
             // eslint-disable-next-line no-console
-                .catch(err => console.error('Error:', err))
-                // eslint-disable-next-line no-console
-                .then(response => console.log('Success:', response));
+                .catch(err => console.error('Error:', err));
+        }
+    }
+
+    getErrorTemplate = (context) => {
+        switch (context) {
+        case 'navBar':
+            return (
+                <div className={"errorView"}>
+                    <div className={'errorTitle'}>
+                        <span style={{ color: '#17CFC8', display: 'flex', alignItems: 'center' }}><i className="material-icons errorIcon" style={{ color: '#17CFC8', marginRight: '1rem' }}>error</i> Something crashed in navBar: see logs for further information</span>
+                    </div>
+                </div>
+            );
+        case 'carousel':
+            return (
+                <div className={"errorView"} style={{ justifyContent: 'flex-end' }}>
+                    <div className={'errorTitle'} style={{ display: 'flex', flexDirection: 'column', marginLeft: '0.5rem', color: '#17CFC8' }}>
+                        <i className="material-icons errorIcon" style={{ color: '#17CFC8', marginRight: '1rem', fontSize: '2em' }}>error</i>
+                        <p style={{ fontSize: '1.5rem', color: '#17CFC8' }}>Something crashed in carousel: see logs for further information</p>
+                    </div>
+                </div>
+            );
+        default:
+            return (<div className={"errorView"}>
+                <div className={'errorTitle'}>
+                    <span><i className="material-icons errorIcon">error</i> Something went wrong</span>
+                </div>
+                <p>Please refresh page</p>
+                <p>{this.props.context}</p>
+            </div>);
         }
     }
 
     render() {
-        let errorView = (<div className={"errorView"}>
-            <span><i className="material-icons errorIcon">error</i> Something went wrong</span>
-            <p>Please refresh page</p>
-        </div>);
-        return this.state.hasError ? errorView : this.props.children;
+        return this.state.hasError ? this.getErrorTemplate(this.props.context) : this.props.children;
     }
 }
 

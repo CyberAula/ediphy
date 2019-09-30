@@ -30,6 +30,8 @@ import { handleBoxes, handleContainedViews, handleSortableContainers, handleMark
     handleModals, handleToolbars, handleExercises, handleCanvas,
     handleExportImport } from "../handlers";
 import ErrorBoundary from "./ErrorBoundary";
+import HTML5Backend from "react-dnd-html5-backend";
+import { DragDropContext } from "react-dnd";
 
 const cookies = new Cookies();
 
@@ -88,7 +90,6 @@ class EditorApp extends Component {
                     </Row>
                     <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
                         <EditorCarousel/>
-
                         <Col id="colRight" xs={12}
                             style={{ height: (reactUI.carouselFull ? 0 : '100%'),
                                 width: (reactUI.carouselShow ? 'calc(100% - 212px)' : 'calc(100% - 80px)') }}>
@@ -169,7 +170,22 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(EditorApp);
+const overrideDropCaptureHandler = (manager) => {
+    const backend = HTML5Backend(manager);
+    const orgTopDropCapture = backend.handleTopDropCapture;
+
+    backend.handleTopDropCapture = (e) => {
+        let classes = e.target.className.split(' ');
+        if (e.target.tagName === 'INPUT' && e.target.type === 'file') {
+            e.stopPropagation();
+        } else if (classes.includes('file') || classes.includes('folder')) {
+            orgTopDropCapture.call(backend, e);
+        }
+    };
+
+    return backend;
+};
+export default DragDropContext(overrideDropCaptureHandler)(connect(mapStateToProps)(EditorApp));
 
 EditorApp.propTypes = {
     boxSelected: PropTypes.any,

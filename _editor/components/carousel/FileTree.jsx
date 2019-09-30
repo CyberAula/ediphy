@@ -187,22 +187,6 @@ class FileTree extends Component {
     }
 }
 
-const overrideDropCaptureHandler = (manager) => {
-    const backend = HTML5Backend(manager);
-    const orgTopDropCapture = backend.handleTopDropCapture;
-
-    backend.handleTopDropCapture = (e) => {
-        let classes = e.target.className.split(' ');
-        if (e.target.tagName === 'INPUT' && e.target.type === 'file') {
-            e.stopPropagation();
-        } else if (classes.includes('file') || classes.includes('folder')) {
-            orgTopDropCapture.call(backend, e);
-        }
-    };
-
-    return backend;
-};
-
 function mapStateToProps(state) {
     const { boxesById, containedViewsById, containedViewSelected, indexSelected,
         navItemsIds, navItemsById, navItemSelected, viewToolbarsById } = state.undoGroup.present;
@@ -220,7 +204,7 @@ function mapStateToProps(state) {
     };
 }
 
-export default DragDropContext(overrideDropCaptureHandler)(connect(mapStateToProps)(FileTree));
+export default connect(mapStateToProps)(FileTree);
 
 FileTree.propTypes = {
     /**
