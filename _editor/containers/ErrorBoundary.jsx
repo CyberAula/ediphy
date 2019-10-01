@@ -19,9 +19,17 @@ class ErrorBoundary extends React.Component {
             date: new Date().toString(),
             version: Ediphy.Config.version,
             context: this.props.context,
-            state: this.props.state,
+            state: {
+                ...this.props.state,
+                undoGroup: {
+                    ...this.props.state.undoGroup,
+                    past: this.props.state.undoGroup.past[this.props.state.undoGroup.past.length - 1],
+                    history: null,
+                },
+            },
             action: this.props.lastActionDispatched,
             browser: get_browser(),
+            plugin: this.props.context === 'plugin' ? this.props.pluginName : null,
         };
 
         const url = process.env.CRASH_SERVICE;
@@ -44,10 +52,25 @@ class ErrorBoundary extends React.Component {
             return (
                 <div className={"errorView"}>
                     <div className={'errorTitle'}>
-                        <span style={{ color: '#17CFC8', display: 'flex', alignItems: 'center' }}><i className="material-icons errorIcon" style={{ color: '#17CFC8', marginRight: '1rem' }}>error</i> Something crashed in navBar: see logs for further information</span>
+                        <span style={{ color: '#17CFC8', display: 'flex', alignItems: 'center' }}><i className="material-icons errorIcon" style={{ color: '#17CFC8', marginRight: '1rem' }}>error</i> Something crashed in {context}: see logs for further information</span>
                     </div>
                 </div>
             );
+        case 'plugin':
+            return (
+                <div className={"errorView"} style={{ padding: '10px' }}>
+                    <div className={'errorTitle'}>
+                        <span style={{ color: '#17CFC8', display: 'flex', alignItems: 'center' }}><i className="material-icons errorIcon" style={{ color: '#17CFC8', marginRight: '1rem', marginLeft: '1re' }}>error</i> Something crashed in {this.props.pluginName}: see logs for further information</span>
+                    </div>
+                </div>
+            );
+        case 'toolbar':
+            return (<div className={"errorView"} style={{ width: '200px', justifyContent: 'flex-end' }}>
+                <div className={'errorTitle'} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', color: '#17CFC8' }}>
+                    <i className="material-icons errorIcon" style={{ color: '#17CFC8', marginRight: '1rem', marginBottom: '0.5rem', fontSize: '2em' }}>error</i>
+                    <p style={{ fontSize: '1.5rem', color: '#17CFC8', textAlign: 'end', marginRight: '1rem' }}>Something crashed in carousel: see logs for further information</p>
+                </div>
+            </div>);
         case 'carousel':
             return (
                 <div className={"errorView"} style={{ justifyContent: 'flex-end' }}>
@@ -63,10 +86,9 @@ class ErrorBoundary extends React.Component {
                     <span><i className="material-icons errorIcon">error</i> Something went wrong</span>
                 </div>
                 <p>Please refresh page</p>
-                <p>{this.props.context}</p>
             </div>);
         }
-    }
+    };
 
     render() {
         return this.state.hasError ? this.getErrorTemplate(this.props.context) : this.props.children;

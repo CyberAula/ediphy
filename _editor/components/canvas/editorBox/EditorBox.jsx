@@ -19,6 +19,8 @@ const SNAP_SIZE = 2;
 let html2json = require('html2json').html2json;
 import { connect } from "react-redux";
 import _handlers from "../../../handlers/_handlers";
+import ErrorBoundary from "../../../containers/ErrorBoundary";
+import BoxContent from "./BoxContent";
 
 /**
  * Ediphy Box component.
@@ -109,15 +111,7 @@ class EditorBox extends Component {
             },
             exercises: this.props.exercises?.[this.props.page]?.exercises?.[this.props.id] ?? undefined,
         };
-        let content = config.flavor === "react" ? (
-            <div style={style} className={"boxStyle " + classNames} ref={"content"}>
-                {Ediphy.Plugins.get(toolbar.pluginId).getRenderTemplate(toolbar.state, props)}
-            </div>
-        ) : (
-            <div style={style} className={"boxStyle " + classNames} ref={"content"}>
-                {this.renderChildren(html2json(Ediphy.Plugins.get(toolbar.pluginId).getRenderTemplate(toolbar.state, props)))}
-            </div>
-        );
+
         let border = (
             <div style={{ visibility: (vis ? 'visible' : 'hidden') }}>
                 <div style={{
@@ -176,20 +170,30 @@ class EditorBox extends Component {
                     }
                 }}
                 style={wholeBoxStyle}>
-                {border}
-                {toolbar.showTextEditor ? null : content }
-                {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxesById[this.props.id]}
-                    style={textareaStyle} className={classNames + " textAreaStyle"} pluginToolbarsById={this.props.pluginToolbarsById} id={this.props.id}
-                    onBlur={this.blurTextarea}/> : null}
                 <div className="boxOverlay" style={{ display: showOverlay }} />
-                <MarkCreator
-                    boxSelected={this.props.boxSelected}
-                    toolbar={toolbar ? toolbar : {}}
-                    parseRichMarkInput={Ediphy.Plugins.get(toolbar.pluginId).parseRichMarkInput}
-                    markCreatorVisible={this.props.markCreatorVisible}
-                    currentId={this.props.id}
-                    pageType={this.props.pageType}
-                />
+                {border}
+                <ErrorBoundary context={'plugin'} pluginName={toolbar.pluginId}>
+                    {toolbar.showTextEditor ? null :
+                        <BoxContent
+                            style={style}
+                            toolbar={toolbar}
+                            props={props}
+                            config={config}
+                            classNames={classNames}
+                            renderChildren={this.renderChildren}
+                        /> }
+                    {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxesById[this.props.id]}
+                        style={textareaStyle} className={classNames + " textAreaStyle"} pluginToolbarsById={this.props.pluginToolbarsById} id={this.props.id}
+                        onBlur={this.blurTextarea}/> : null}
+                    <MarkCreator
+                        boxSelected={this.props.boxSelected}
+                        toolbar={toolbar ?? {}}
+                        parseRichMarkInput={Ediphy.Plugins.get(toolbar.pluginId).parseRichMarkInput}
+                        markCreatorVisible={this.props.markCreatorVisible}
+                        currentId={this.props.id}
+                        pageType={this.props.pageType}
+                    />
+                </ErrorBoundary>
             </div>
         );
     }
