@@ -50,8 +50,8 @@ class EditorApp extends Component {
         const currentState = this.props.store.getState();
         const { boxSelected, navItemSelected, containedViewSelected, pluginToolbarsById,
             globalConfig, reactUI, status, everPublished } = this.props;
-
         const ribbonHeight = reactUI.hideTab === 'hide' ? 0 : 50;
+        console.log(ribbonHeight);
         const disabled = (navItemSelected === 0 && containedViewSelected === 0)
             || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected));
 
@@ -93,7 +93,7 @@ class EditorApp extends Component {
                         <Col id="colRight" xs={12}
                             style={{ height: (reactUI.carouselFull ? 0 : '100%'),
                                 width: (reactUI.carouselShow ? 'calc(100% - 212px)' : 'calc(100% - 80px)') }}>
-                            <Row id="actionsRibbon">
+                            <Row id="actionsRibbon" style={{ marginTop: '0px' }}>
                                 <ActionsRibbon ribbonHeight={ ribbonHeight + 'px'}/>
                             </Row>
 

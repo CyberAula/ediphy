@@ -538,7 +538,7 @@ export function makeBoxes(boxes, newId, props) {
 export function getIndex(parent, container, props) {
     let newInd;
     if(isSortableContainer(container)) {
-        let children = props.boxes[parent].sortableContainers[container].children;
+        let children = props.boxesById[parent].sortableContainers[container].children;
         newInd = children.indexOf(props.boxSelected) + 1;
         newInd = newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
     }

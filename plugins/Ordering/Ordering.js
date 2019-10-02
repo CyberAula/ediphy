@@ -60,6 +60,7 @@ export const Ordering = () => ({
     }),
     getRenderTemplate: (state, props = {}) => {
         let answers = [];
+        let correctAnswers = "";
 
         let quizColor = state.quizColor.color;
         let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
