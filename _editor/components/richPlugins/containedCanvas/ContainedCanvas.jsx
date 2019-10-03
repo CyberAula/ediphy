@@ -21,9 +21,8 @@ class ContainedCanvas extends Component {
      */
     render() {
         const containedViewSelected = this.props.containedViewsById[this.props.containedViewSelected];
-
         let canvasContent;
-        if (containedViewSelected && containedViewSelected !== 0) {
+        if (containedViewSelected && this.props.containedViewSelected !== 0) {
             if (isSlide(containedViewSelected.type)) {
                 canvasContent = (<EditorCanvasSli fromCV {...this.props} />);
             } else {
@@ -34,7 +33,7 @@ class ContainedCanvas extends Component {
                 style={{
                     height: "100%",
                     padding: 0,
-                    display: containedViewSelected !== 0 ? 'initial' : 'none',
+                    display: this.props.containedViewSelected !== 0 ? 'initial' : 'none',
                 }} />);
 
         }
