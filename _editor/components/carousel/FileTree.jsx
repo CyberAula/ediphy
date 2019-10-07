@@ -3,8 +3,6 @@ import Sortly, { findDescendants, convert } from 'react-sortly';
 import update from 'immutability-helper';
 
 import CarouselItemRenderer from './CarouselItemRenderer';
-import { DragDropContext } from "react-dnd";
-import HTML5Backend from "react-dnd-html5-backend";
 import i18n from "i18next";
 import ContainedViewsList from "./ContainedViewsList";
 import PropTypes from "prop-types";

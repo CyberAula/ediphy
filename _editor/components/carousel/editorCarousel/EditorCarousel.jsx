@@ -7,7 +7,6 @@ import FileTree from "../FileTree";
 
 import { connect } from "react-redux";
 import ErrorBoundary from "../../../containers/ErrorBoundary";
-import { Row } from "react-bootstrap";
 
 /**
  * Index wrapper container

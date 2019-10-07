@@ -116,7 +116,7 @@ ErrorBoundary.propTypes = {
     /**
      * Error boundary context
      */
-    context: PropTypes.str,
+    context: PropTypes.any,
     /**
      * React children
      */
@@ -124,5 +124,5 @@ ErrorBoundary.propTypes = {
     /**
      * Name of the plugin throwing the error
      */
-    pluginName: PropTypes.str,
+    pluginName: PropTypes.any,
 };

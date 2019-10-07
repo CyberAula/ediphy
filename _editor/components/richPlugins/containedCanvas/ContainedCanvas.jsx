@@ -112,7 +112,7 @@ ContainedCanvas.propTypes = {
     /**
      * Título del curso
      */
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     /**
      * Diccionario que contiene todas las istas creadas , accesibles por su *id*
      */

@@ -16,7 +16,6 @@ import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import CKEDitorComponent from './CKEDitorComponent';
 const SNAP_DRAG = 5;
 const SNAP_SIZE = 2;
-let html2json = require('html2json').html2json;
 import { connect } from "react-redux";
 import _handlers from "../../../handlers/_handlers";
 import ErrorBoundary from "../../../containers/ErrorBoundary";

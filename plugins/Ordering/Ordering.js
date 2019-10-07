@@ -60,6 +60,7 @@ export const Ordering = () => ({
     }),
     getRenderTemplate: (state, props = {}) => {
         let answers = [];
+        // eslint-disable-next-line no-unused-vars
         let correctAnswers = "";
 
         let quizColor = state.quizColor.color;
