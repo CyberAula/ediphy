@@ -6,14 +6,36 @@ let ProgressBarPlugin = require('progress-bar-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
 const dotenv = require('dotenv');
 
-// call dotenv and it will return an Object with a parsed key
-const env = dotenv.config().parsed;
+let envKeys;
+let plugins = [
+    new ExtractTextPlugin({ filename: '[name].css' }),
+    new ProgressBarPlugin({}),
+    new webpack.ContextReplacementPlugin(/package\.json$/, "./plugins/"),
+    new webpack.ProvidePlugin(Object.assign({
+        '$': 'jquery',
+        'jQuery': 'jquery',
+        'window.jQuery': 'jquery',
+        'window.$': 'jquery',
+    }, dependency_loader.getPluginProvider())), // Wraps module with variable and injects wherever it's needed
+    new ZipBundlePlugin(), // Compile automatically zips
+    new webpack.NormalModuleReplacementPlugin(
+        /pdf\.worker(\.min)?\.js$/,
+        path.join(__dirname, 'node_modules', 'pdfjs-dist', 'build', 'pdf.worker.min.js')),
+];
 
-// reduce it to a nice object, the same as before
-const envKeys = Object.keys(env).reduce((prev, next) => {
-    prev[`process.env.${next}`] = JSON.stringify(env[next]);
-    return prev;
-}, {});
+try {
+    // call dotenv and it will return an Object with a parsed key
+    const env = dotenv.config().parsed;
+    // reduce it to a nice object, the same as before
+    envKeys = Object.keys(env).reduce((prev, next) => {
+        prev[`process.env.${next}`] = JSON.stringify(env[next]);
+        return prev;
+    }, {});
+    plugins.push(new webpack.DefinePlugin(envKeys));
+} catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn('No .env file was found');
+}
 
 module.exports = {
     node: {
@@ -112,23 +134,7 @@ module.exports = {
         // resolve.alias could be useful for resolving certain modules easily
         extensions: ['.js', '.jsx', '.es6'],
     },
-
-    plugins: [
-        new ExtractTextPlugin({ filename: '[name].css' }),
-        new ProgressBarPlugin({}),
-        new webpack.ContextReplacementPlugin(/package\.json$/, "./plugins/"),
-        new webpack.DefinePlugin(envKeys),
-        new webpack.ProvidePlugin(Object.assign({
-            '$': 'jquery',
-            'jQuery': 'jquery',
-            'window.jQuery': 'jquery',
-            'window.$': 'jquery',
-        }, dependency_loader.getPluginProvider())), // Wraps module with variable and injects wherever it's needed
-        new ZipBundlePlugin(), // Compile automatically zips
-        new webpack.NormalModuleReplacementPlugin(
-            /pdf\.worker(\.min)?\.js$/,
-            path.join(__dirname, 'node_modules', 'pdfjs-dist', 'build', 'pdf.worker.min.js')),
-    ],
+    plugins: plugins,
 };
 
 // 'webpack-dev-server/client?http://localhost:8080', // WebpackDevServer host and port

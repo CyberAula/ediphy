@@ -8,6 +8,9 @@ import { get_browser } from "../../common/utils";
 
 class ErrorBoundary extends React.Component {
     state = { hasError: false };
+    render() {
+        return this.state.hasError ? this.getErrorTemplate(this.props.context) : this.props.children;
+    }
 
     componentDidCatch(error) {
         this.setState({ hasError: true });
@@ -90,10 +93,6 @@ class ErrorBoundary extends React.Component {
             </div>);
         }
     };
-
-    render() {
-        return this.state.hasError ? this.getErrorTemplate(this.props.context) : this.props.children;
-    }
 }
 
 function mapStateToProps(state) {
