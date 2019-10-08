@@ -73,11 +73,6 @@ export function BasicText() {
                                     value: 'var(--themeColor6)',
                                     hide: true,
                                 },
-                                /* ,
-                                className: {
-                                    __name: Ediphy.i18n.t('BasicText.classname'),
-                                    type: 'text',
-                                },*/
                             },
                         },
                     },

@@ -8,7 +8,10 @@ import { generateCustomColors } from "../../../common/themes/themeLoader";
 
 export const TrueFalse = () => ({
     getRenderTemplate: (state, props) => {
-        let content = [];
+        let answers = [];
+        let quizColor = state.quizColor.color || 'rgba(0, 173, 156, 1)';
+        let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
+
         let attempted = props.exercises && props.exercises.attempted;
         let score = props.exercises.score || 0;
         score = Math.round(score * 100) / 100;
@@ -24,15 +27,11 @@ export const TrueFalse = () => ({
                 feedbackText === encodeURI('<p>' + i18n.t("TrueFalse.FeedbackMsg") + '</p>\n') ||
                 feedbackText === '<p>' + i18n.t("TrueFalse.FeedbackMsg") + '</p>';
 
-        let quizColor = state.quizColor.color || 'rgba(0, 173, 156, 1)';
-        let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
-
         for (let i = 0; i < state.nBoxes; i++) {
             let correct = attempted && props.exercises.correctAnswer[i] === props.exercises.currentAnswer[i];
             let incorrect = attempted && !correct;
             let clickHandler = (index, value)=>{
                 if(props.exercises && props.exercises.currentAnswer && (props.exercises.currentAnswer instanceof Array)) {
-
                     let nBoxes = Array(state.nBoxes).fill("");
                     let newAnswer = nBoxes.map((ans, ind)=>{
                         if (index === ind) {
@@ -44,7 +43,7 @@ export const TrueFalse = () => ({
                 }
 
             };
-            content.push(
+            answers.push(
                 <div key={i + 1} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : "")}>
                     <div className={"col-xs-2 answerPlaceholder"}>
                         <input type="radio" disabled={attempted} className="radioQuiz" name={props.id + '_' + i}
@@ -76,7 +75,7 @@ export const TrueFalse = () => ({
                     <i className="material-icons false">clear</i></div>
                 <div className={"col-xs-10"} />
             </div>
-            {content}
+            {answers}
             {checkEmptyFeedback ? null : <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
                 <div className={"col-xs-12 feedback"}>
                     <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
