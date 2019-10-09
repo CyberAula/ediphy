@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const DETAIL_GREEN = '#39B54A';
 export const LIGHT_RED = '#E30B0B';
 
-export const AnswerPlaceholder = styled.div`
+export const AnswerInput = styled.div`
       padding: 0;
       font-size: 1.5em;
       width: 3em;
@@ -27,10 +27,10 @@ export const Feedback = styled.div`
 export const FeedbackRow = styled.div`
       padding: 0.8em;
       margin:0;
-      display: ${props => props.show ? 'block' : 'none'}
+      display: ${props => props.show ? 'block' : 'none'};
 `;
-
 export const IconCol = styled.div`
+      width: 16.666%
       display: flex;
       justify-content: space-between;
       width: 4.5em;
@@ -84,8 +84,29 @@ export const AnswerRow = styled.div`
       }
 `;
 
+export const AnswerText = styled.div`
+      padding: 0;
+      width: 83.333%;
+`;
+
 export const TrueFalsePlugin = styled.div`
       text-align: left;
       display: flex;
       flex-direction: column;
+`;
+
+export const ExerciseScore = styled.div`
+      display: ${props => props.attempted ? 'block' : 'none'};
+      text-align: right;
+      color: var(--themeColor1);
+      font-size: 0.8em;
+`;
+
+export const RadioStyleDangerous = (className) => `
+        .${className} input[type="radio"]  {
+          background-color: transparent;
+        }
+        .${className} input[type="radio"]:checked:after {
+          background-color: var(--themeColor1);
+        }
 `;

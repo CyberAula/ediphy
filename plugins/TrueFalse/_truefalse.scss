@@ -41,18 +41,21 @@
       font-size: 1.3em;
     }
   }
-  .exerciseScore {
-    display: none;
-    text-align: right;
-  }
-  &.attempted  .exerciseScore{
-    display: block;
-    color: var(--themeColor1);
-    font-size: 0.8em;
-  }
-
   .truefalse {
     word-break: keep-all;
+  }
+}
+
+.feedbackRow {
+  padding:0.8em;
+  margin:0;
+  .feedback {
+    background-color: var(--themeColor1Transparent);
+    margin:0;
+    border: 0.07em solid var(--themeColor1);
+    color: var(--themeColor1);
+    border-radius: 0.2em;
+    padding:0;
   }
 }
 

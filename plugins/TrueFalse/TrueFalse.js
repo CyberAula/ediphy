@@ -5,13 +5,13 @@ import i18n from 'i18next';
 import { generateCustomColors } from "../../common/themes/themeLoader";
 import { QUIZ_CONFIG, QUIZ_STYLE } from "../../common/quizzes";
 import {
-    AnswerPlaceholder,
-    AnswerRow,
+    AnswerInput,
+    AnswerRow, AnswerText,
     Feedback,
     FeedbackRow,
     IconCol,
     QuestionRow,
-    RadioInput,
+    RadioInput, RadioStyleDangerous,
     TFRow,
     TrueFalsePlugin,
 } from "./Styles";
@@ -72,10 +72,9 @@ export const TrueFalse = () => ({
         let quizColor = state.quizColor.color || 'rgba(0, 173, 156, 1)';
         let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
 
-        const clickHandler = (index, value)=>{
+        const clickHandler = (ind, val) => {
             if(props.exercises?.correctAnswer instanceof Array) {
-                let nBoxes = Array(state.nBoxes).fill("");
-                let newAnswer = nBoxes.map((ans, ind) => (index === ind) ? value : props.exercises.correctAnswer[ind]);
+                let newAnswer = [...Array(state.nBoxes)].map((a, i) => (ind === i) ? val : props.exercises.correctAnswer[i]);
                 props.setCorrectAnswer(newAnswer);
             }
         };
@@ -85,33 +84,33 @@ export const TrueFalse = () => ({
 
         const Answer = i => {
             return (<AnswerRow key={i + 1}>
-                <AnswerPlaceholder className={"col-xs-2"}>
+                <AnswerInput className={"col-xs-2"}>
                     <RadioInput name={props.id + "_" + i} value={"true"} checked={isChecked(true, i)}
                         onChange={()=>{clickHandler(i, "true");}} />
                     <RadioInput name={props.id + "_" + i} value={"false"} checked={isChecked(false, i)}
                         onChange={()=>{clickHandler(i, "false");}} />
-                </AnswerPlaceholder>
-                <div className={"col-xs-10"}>
+                </AnswerInput>
+                <AnswerText>
                     <PluginPlaceholder {...props} key={i + 1}
                         pluginContainerName={i18n.t("TrueFalse.Answer") + " " + (i + 1)}
                         pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("TrueFalse.Answer") + " " + (1 + i) + '</p>' } }]}
                         pluginContainer={"Answer" + i} />
-                </div>
+                </AnswerText>
             </AnswerRow>);
         };
 
         let answers = [...Array(state.nBoxes)].map((a, i) => Answer(i));
 
         return (
-            <TrueFalsePlugin className={"exercisePlugin"} style={ state.quizColor.custom ? customStyle : null}>
-                <QuestionRow className={"row"} key={-1}>
+            <TrueFalsePlugin className="truefalsePlugin" style={ customStyle }>
+                <QuestionRow key={-1}>
                     <PluginPlaceholder {...props} key="1"
                         pluginContainerName={i18n.t("TrueFalse.Question")}
                         pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("TrueFalse.Statement") + '</p>' } }]}
                         pluginContainer={"Question"} />
                 </QuestionRow>
                 <TFRow key={0}>
-                    <IconCol className={"col-xs-2"}>
+                    <IconCol>
                         <i className="material-icons true">done</i>
                         <i className="material-icons false">clear</i>
                     </IconCol>
@@ -125,16 +124,7 @@ export const TrueFalse = () => ({
                             pluginContainer={"Feedback"} />
                     </Feedback>
                 </FeedbackRow>
-                <style dangerouslySetInnerHTML={{
-                    __html: `
-                    .truefalsePlugin input[type="radio"]  {
-                      background-color: transparent;
-                    }
-                   .truefalsePlugin input[type="radio"]:checked:after {
-                      background-color: var(--themeColor1);
-                    }
-                  `,
-                }} />
+                <style dangerouslySetInnerHTML={{ __html: RadioStyleDangerous('truefalsePlugin') }} />
             </TrueFalsePlugin>);
 
     },
