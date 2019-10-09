@@ -7,6 +7,7 @@ import {
     AnswerInput, AnswerRow, AnswerText, ExerciseScore, Feedback, FeedbackRow, IconCol,
     QuestionRow, RadioInput, RadioStyleDangerous, TFRow, TrueFalsePlugin,
 } from "../Styles";
+import { checkFeedback } from "../../../common/utils";
 
 /* eslint-disable react/prop-types */
 
@@ -22,14 +23,7 @@ export const TrueFalse = () => ({
         score = (props.exercises.weight === 0) ? i18n.t("TrueFalse.notCount") : ((score) + "/" + (props.exercises.weight));
 
         let showFeedback = attempted && state.showFeedback;
-        let feedbackText = toolbars[boxes[id].sortableContainers['sc-Feedback'].children[0]].state.__text;
-        const checkEmptyFeedback = !boxes[id].sortableContainers['sc-Feedback'].children ||
-            boxes[id].sortableContainers['sc-Feedback'].children.length === 0 ||
-                feedbackText === "<p>" + i18n.t("text_here") + "</p>" ||
-                feedbackText === encodeURI("<p>" + i18n.t("text_here") + "</p>") ||
-                feedbackText === encodeURI("<p>" + i18n.t("text_here") + "</p>\n") ||
-                feedbackText === encodeURI('<p>' + i18n.t("TrueFalse.FeedbackMsg") + '</p>\n') ||
-                feedbackText === '<p>' + i18n.t("TrueFalse.FeedbackMsg") + '</p>';
+        const checkEmptyFeedback = checkFeedback('TrueFalse', props);
         const clickHandler = (ind, val) => {
             if(exercises?.currentAnswer instanceof Array) {
                 let newAnswer = [...Array(state.nBoxes)].map((a, i) => (ind === i) ? val : exercises.currentAnswer[i]);

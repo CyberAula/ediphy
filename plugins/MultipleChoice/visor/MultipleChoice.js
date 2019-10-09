@@ -3,6 +3,7 @@ import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPlugi
 import i18n from 'i18next';
 import { letterFromNumber } from '../../../common/commonTools';
 import { generateCustomColors } from "../../../common/themes/themeLoader";
+import { checkFeedback } from "../../../common/utils";
 /* eslint-disable react/prop-types */
 
 export function MultipleChoice() {
@@ -17,14 +18,7 @@ export function MultipleChoice() {
             score = (props.exercises.weight === 0) ? i18n.t("MultipleChoice.notCount") : ((score) + "/" + (props.exercises.weight));
 
             let showFeedback = attempted && state.showFeedback;
-            let feedbackText = props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text;
-            let checkEmptyFeedback = !props.boxes[props.id].sortableContainers['sc-Feedback'].children ||
-                props.boxes[props.id].sortableContainers['sc-Feedback'].children.length === 0 ||
-                feedbackText === "<p>" + i18n.t("text_here") + "</p>" ||
-                feedbackText === encodeURI("<p>" + i18n.t("text_here") + "</p>") ||
-                feedbackText === encodeURI("<p>" + i18n.t("text_here") + "</p>\n") ||
-                feedbackText === encodeURI('<p>' + i18n.t("MultipleChoice.FeedbackMsg") + '</p>\n') ||
-                feedbackText === '<p>' + i18n.t("MultipleChoice.FeedbackMsg") + '</p>';
+            const checkEmptyFeedback = checkFeedback('MultipleChoice', props);
 
             let quizColor = state.quizColor.color || 'rgba(0, 173, 156, 1)';
             let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;

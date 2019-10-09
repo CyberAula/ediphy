@@ -10,6 +10,7 @@ import {
 } from './constants';
 import { createBox, releaseClick } from "./commonTools";
 import Ediphy from "../core/editor/main";
+import i18n from "i18next";
 
 export default {
     // This would be a good post to explore if we don't want to use JSON Stringify: http://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
@@ -579,3 +580,13 @@ export function get_browser() {
     };
 }
 
+export function checkFeedback(pluginName, props) {
+    let feedbackText = props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text;
+    return !props.boxes[props.id].sortableContainers['sc-Feedback'].children ||
+        props.boxes[props.id].sortableContainers['sc-Feedback'].children.length === 0 ||
+        feedbackText === "<p>" + i18n.t("text_here") + "</p>" ||
+        feedbackText === encodeURI("<p>" + i18n.t("text_here") + "</p>") ||
+        feedbackText === encodeURI("<p>" + i18n.t("text_here") + "</p>\n") ||
+        feedbackText === encodeURI('<p>' + i18n.t(`${pluginName}.FeedbackMsg`) + '</p>\n') ||
+        feedbackText === '<p>' + i18n.t(`${pluginName}.FeedbackMsg`) + '</p>';
+}
