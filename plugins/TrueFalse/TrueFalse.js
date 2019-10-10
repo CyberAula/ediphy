@@ -10,11 +10,11 @@ import {
     Feedback,
     FeedbackRow,
     IconCol,
-    QuestionRow,
-    RadioInput, RadioStyleDangerous,
+    RadioInput,
     TFRow,
     TrueFalsePlugin,
 } from "./Styles";
+import { QuestionRow, RadioStyleDangerous } from "../../sass/exercises";
 /* eslint-disable react/prop-types */
 
 export const TrueFalse = () => ({
@@ -107,7 +107,7 @@ export const TrueFalse = () => ({
                     <PluginPlaceholder {...props} key="1"
                         pluginContainerName={i18n.t("TrueFalse.Question")}
                         pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("TrueFalse.Statement") + '</p>' } }]}
-                        pluginContainer={"Question"} />
+                        pluginContainer={"Question"}/>
                 </QuestionRow>
                 <TFRow key={0}>
                     <IconCol>
@@ -121,7 +121,7 @@ export const TrueFalse = () => ({
                         <PluginPlaceholder {...props} key="-2"
                             pluginContainerName={i18n.t("TrueFalse.Feedback")}
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("TrueFalse.FeedbackMsg") + '</p>' } }]}
-                            pluginContainer={"Feedback"} />
+                            pluginContainer={"Feedback"}/>
                     </Feedback>
                 </FeedbackRow>
                 <style dangerouslySetInnerHTML={{ __html: RadioStyleDangerous('truefalsePlugin') }} />

@@ -590,3 +590,9 @@ export function checkFeedback(pluginName, props) {
         feedbackText === encodeURI('<p>' + i18n.t(`${pluginName}.FeedbackMsg`) + '</p>\n') ||
         feedbackText === '<p>' + i18n.t(`${pluginName}.FeedbackMsg`) + '</p>';
 }
+
+export function getScore(pluginName, props) {
+    let score = props.exercises.score || 0;
+    score = Math.round(score * 100) / 100;
+    return (props.exercises.weight === 0) ? i18n.t(`${pluginName}.notCount`) : ((score) + "/" + (props.exercises.weight));
+}

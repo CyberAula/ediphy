@@ -3,6 +3,13 @@ import styled from 'styled-components';
 export const DETAIL_GREEN = '#39B54A';
 export const LIGHT_RED = '#E30B0B';
 
+export const TrueFalsePlugin = styled.div`
+      font-family: var(--themePrimaryFont);
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+`;
+
 export const AnswerInput = styled.div`
       padding: 0;
       font-size: 1.5em;
@@ -65,10 +72,6 @@ export const TFRow = styled.div`
       }
 `;
 
-export const QuestionRow = styled.div`
-      margin: 0 !important;
-`;
-
 export const AnswerRow = styled.div`
       margin: 0 1em;
       display: flex;
@@ -89,12 +92,6 @@ export const AnswerText = styled.div`
       width: 83.333%;
 `;
 
-export const TrueFalsePlugin = styled.div`
-      text-align: left;
-      display: flex;
-      flex-direction: column;
-`;
-
 export const ExerciseScore = styled.div`
       display: ${props => props.attempted ? 'block' : 'none'};
       text-align: right;
@@ -102,11 +99,3 @@ export const ExerciseScore = styled.div`
       font-size: 0.8em;
 `;
 
-export const RadioStyleDangerous = (className) => `
-        .${className} input[type="radio"]  {
-          background-color: transparent;
-        }
-        .${className} input[type="radio"]:checked:after {
-          background-color: var(--themeColor1);
-        }
-`;

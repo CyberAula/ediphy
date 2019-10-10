@@ -1,29 +1,27 @@
 import React from 'react';
 import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPluginPlaceholder';
-import i18n from 'i18next';
 import { correctArrayOrdered } from '../../../core/visor/correctionFunctions';
 import { generateCustomColors } from "../../../common/themes/themeLoader";
 import {
-    AnswerInput, AnswerRow, AnswerText, ExerciseScore, Feedback, FeedbackRow, IconCol,
-    QuestionRow, RadioInput, RadioStyleDangerous, TFRow, TrueFalsePlugin,
+    AnswerInput, AnswerRow, AnswerText, ExerciseScore, Feedback, FeedbackRow, IconCol, RadioInput, TFRow, TrueFalsePlugin,
 } from "../Styles";
-import { checkFeedback } from "../../../common/utils";
+import { checkFeedback, getScore } from "../../../common/utils";
+import { QuestionRow, RadioStyleDangerous } from "../../../sass/exercises";
 
 /* eslint-disable react/prop-types */
 
 export const TrueFalse = () => ({
     getRenderTemplate: (state, props) => {
-        const { exercises, id, boxes, toolbars, setAnswer } = props;
+        const { exercises, setAnswer } = props;
         let quizColor = state.quizColor.color || 'rgba(0, 173, 156, 1)';
         let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
 
         let attempted = exercises?.attempted;
-        let score = exercises.score || 0;
-        score = Math.round(score * 100) / 100;
-        score = (props.exercises.weight === 0) ? i18n.t("TrueFalse.notCount") : ((score) + "/" + (props.exercises.weight));
+        let score = getScore('TrueFalse', props);
 
         let showFeedback = attempted && state.showFeedback;
         const checkEmptyFeedback = checkFeedback('TrueFalse', props);
+
         const clickHandler = (ind, val) => {
             if(exercises?.currentAnswer instanceof Array) {
                 let newAnswer = [...Array(state.nBoxes)].map((a, i) => (ind === i) ? val : exercises.currentAnswer[i]);
