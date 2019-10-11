@@ -9,6 +9,12 @@ export const RadioStyleDangerous = (className) => `
         }
 `;
 
+export const CheckBoxStyleDangerous = className => `
+        .${className} input[type="checkbox"]:checked:after {
+          color: var(--themeColor1);
+        }
+`;
+
 export const ExerciseScore = styled.div`
       display: ${props => props.attempted ? 'block' : 'none'};
       text-align: right;
@@ -29,6 +35,16 @@ export const FeedbackRow = styled.div`
       padding: 0.8em;
       margin:0;
       display: ${props => props.show ? 'block' : 'none'};
+`;
+
+export const CorrectAnswerFeedback = styled.div`
+    display: ${props => props.show ? 'block' : 'none'};
+    text-align: left;
+    text-transform: uppercase;
+`;
+
+export const CorrectAnswerLabel = styled.span`
+    text-transform: none;
 `;
 
 export const QuestionRow = styled.div`

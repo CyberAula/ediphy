@@ -91,11 +91,3 @@ export const AnswerText = styled.div`
       padding: 0;
       width: 83.333%;
 `;
-
-export const ExerciseScore = styled.div`
-      display: ${props => props.attempted ? 'block' : 'none'};
-      text-align: right;
-      color: var(--themeColor1);
-      font-size: 0.8em;
-`;
-

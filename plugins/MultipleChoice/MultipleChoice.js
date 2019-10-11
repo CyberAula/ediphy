@@ -5,14 +5,20 @@ import i18n from 'i18next';
 import { letterFromNumber } from '../../common/commonTools';
 import { generateCustomColors } from "../../common/themes/themeLoader";
 import { QUIZ_CONFIG, QUIZ_STYLE } from "../../common/quizzes";
-import { Feedback, FeedbackRow, QuestionRow, RadioStyleDangerous } from "../../sass/exercises";
+import {
+    CorrectAnswerFeedback,
+    CorrectAnswerLabel,
+    Feedback,
+    FeedbackRow,
+    QuestionRow,
+    RadioStyleDangerous,
+} from "../../sass/exercises";
 import {
     AnswerInput,
     AnswerLetter,
     AnswerRow,
     AnswerText,
-    CorrectAnswerFeedback,
-    CorrectAnswerLabel, MultipleChoicePlugin,
+    MultipleChoicePlugin,
     RadioInput,
 } from "./Styles";
 

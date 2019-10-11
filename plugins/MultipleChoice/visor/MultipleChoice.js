@@ -4,14 +4,21 @@ import i18n from 'i18next';
 import { letterFromNumber } from '../../../common/commonTools';
 import { generateCustomColors } from "../../../common/themes/themeLoader";
 import { checkFeedback, getScore } from "../../../common/utils";
-import { ExerciseScore, Feedback, FeedbackRow, QuestionRow, RadioStyleDangerous } from "../../../sass/exercises";
+import {
+    CorrectAnswerFeedback,
+    CorrectAnswerLabel,
+    ExerciseScore,
+    Feedback,
+    FeedbackRow,
+    QuestionRow,
+    RadioStyleDangerous,
+} from "../../../sass/exercises";
 import {
     AnswerInput,
     AnswerLetter,
     AnswerRow,
     AnswerText,
-    CorrectAnswerFeedback,
-    CorrectAnswerLabel, MultipleChoicePlugin,
+    MultipleChoicePlugin,
     RadioInput,
 } from "../Styles";
 /* eslint-disable react/prop-types */

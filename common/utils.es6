@@ -596,3 +596,7 @@ export function getScore(pluginName, props) {
     score = Math.round(score * 100) / 100;
     return (props.exercises.weight === 0) ? i18n.t(`${pluginName}.notCount`) : ((score) + "/" + (props.exercises.weight));
 }
+
+export function removeLastChar(s) {
+    return (!s || s.length === 0) ? s : s.substring(0, s.length - 1);
+}

@@ -3,10 +3,10 @@ import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPlugi
 import { correctArrayOrdered } from '../../../core/visor/correctionFunctions';
 import { generateCustomColors } from "../../../common/themes/themeLoader";
 import {
-    AnswerInput, AnswerRow, AnswerText, ExerciseScore, Feedback, FeedbackRow, IconCol, RadioInput, TFRow, TrueFalsePlugin,
+    AnswerInput, AnswerRow, AnswerText, Feedback, FeedbackRow, IconCol, RadioInput, TFRow, TrueFalsePlugin,
 } from "../Styles";
 import { checkFeedback, getScore } from "../../../common/utils";
-import { QuestionRow, RadioStyleDangerous } from "../../../sass/exercises";
+import { ExerciseScore, QuestionRow, RadioStyleDangerous } from "../../../sass/exercises";
 
 /* eslint-disable react/prop-types */
 

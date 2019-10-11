@@ -7,16 +7,6 @@ export const MultipleChoicePlugin = styled.div`
       font-family: var(--themePrimaryFont);
 `;
 
-export const CorrectAnswerFeedback = styled.div`
-    display: ${props => props.show ? 'block' : 'none'};
-    text-align: left;
-    text-transform: uppercase;
-`;
-
-export const CorrectAnswerLabel = styled.span`
-    text-transform: none;
-`;
-
 export const AnswerRow = styled.div`
     display: flex;
     flex-direction: row;
