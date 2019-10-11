@@ -5,7 +5,7 @@ import i18n from 'i18next';
 import { letterFromNumber } from '../../common/commonTools';
 import { generateCustomColors } from "../../common/themes/themeLoader";
 import { QUIZ_CONFIG, QUIZ_STYLE } from "../../common/quizzes";
-import { OrderingPlugin, AnswerRow } from "./Styles";
+import { OrderingPlugin, AnswerLetter, AnswerRow, AnswerPlaceholder, AnswerText } from "./Styles";
 import { Feedback, FeedbackRow, QuestionRow } from "../../sass/exercises";
 /* eslint-disable react/prop-types */
 
@@ -61,29 +61,31 @@ export const Ordering = () => ({
         allowPartialScore: false,
     }),
     getRenderTemplate: (state, props = {}) => {
-        let answers = [];
         // eslint-disable-next-line no-unused-vars
         let correctAnswers = "";
-        let quizColor = state.quizColor.color;
-        let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
+        const quizColor = state.quizColor.color;
+        const customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
+        const showLetters = state.letters === i18n.t("Ordering.ShowLetters");
+        const Answer = i => (
+            <AnswerRow key={i + 1}>
+                <AnswerPlaceholder>
+                    <AnswerLetter>{ (i + 1)}</AnswerLetter>
+                </AnswerPlaceholder>
+                <AnswerText>
+                    <PluginPlaceholder {...props} key={i + 1}
+                        pluginContainerName={i18n.t("Ordering.Answer") + " " + (i + 1)}
+                        pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("Ordering.Answer") + " " + (1 + i) + '</p>' } }]}
+                        pluginContainer={"Answer" + i} />
+                </AnswerText>
+            </AnswerRow>
+        );
 
-        for (let i = 0; i < state.nBoxes; i++) {
-            let isCorrect = props.exercises.correctAnswer === i;
-            answers.push(
-                <AnswerRow key={i + 1}>
-                    <div className={"col-xs-2 answerPlaceholder"} >
-                        <div className={"answer_letter"}>{ (i + 1)}</div>
-                    </div>
-                    <div className={"col-xs-10"} >
-                        <PluginPlaceholder {...props} key={i + 1}
-                            pluginContainerName={i18n.t("Ordering.Answer") + " " + (i + 1)}
-                            pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("Ordering.Answer") + " " + (1 + i) + '</p>' } }]}
-                            pluginContainer={"Answer" + i} />
-                    </div>
-                </AnswerRow>
-            );
-            if (isCorrect) {correctAnswers += state.letters === i18n.t("Ordering.ShowLetters") ? letterFromNumber(i) : (i + 1);}
-        }
+        const answers = [...Array(state.nBoxes)].map((a, i) => {
+            const isCorrect = props.exercises.correctAnswer === i;
+            if (isCorrect) {correctAnswers += showLetters ? letterFromNumber(i) : (i + 1);}
+            return Answer(i);
+        });
+
         return (
             <OrderingPlugin className={"orderingPlugin"} style={customStyle}>
                 <QuestionRow>
@@ -104,7 +106,6 @@ export const Ordering = () => ({
                 </FeedbackRow>
             </OrderingPlugin>
         );
-
     },
 });
 /* eslint-enable react/prop-types */
