@@ -5,8 +5,8 @@ import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup
 import i18n from 'i18next';
 import RangeSlider from './rangeSlider/RangeSlider';
 import Select from 'react-select';
-import { WithOutContext as ReactTags } from 'react-tag-input';
-import { suggestions, statusOptions, contextOptions, languages, difLevels, rightsOptions } from './globalOptions';
+// import { WithOutContext as ReactTags } from 'react-tag-input';
+import { statusOptions, contextOptions, languages, difLevels, rightsOptions } from './globalOptions';
 import Alert from './../../common/alert/Alert';
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
 import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
@@ -23,6 +23,7 @@ import 'react-select/dist/react-select.css';
 import './_globalConfig.scss';
 import './_reactTags.scss';
 import { UI } from "../../../../common/UI.es6";
+import CustomTags from "./CustomTags";
 
 /**
  * Global course configuration modal
@@ -64,7 +65,7 @@ class GlobalConfig extends Component {
      * @returns {code}
      */
   render() {
-      const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, keywords, status, context, allowDownload, allowClone, allowComments } = this.state;
+      const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, status, context, allowDownload, allowClone, allowComments } = this.state;
       const { reactUI } = this.props;
       return (
           <Modal className="pageModal"
@@ -178,13 +179,7 @@ class GlobalConfig extends Component {
                                   </FormGroup>
                                   <FormGroup >
                                       <ControlLabel>{i18n.t('globalConfig.keywords')}</ControlLabel><br/>
-                                      <ReactTags tags={(keywords || []).map((text, id) => (typeof text === "string") ? { id: id.toString(), text } : text)}
-                                          suggestions={suggestions()}
-                                          placeholder={i18n.t('globalConfig.keyw.Add_tag')}
-                                          delimiters={[188, 13]}
-                                          handleDelete={this.handleDelete}
-                                          handleAddition={this.handleAddition}
-                                          handleDrag={this.handleDrag} />
+                                      <CustomTags handleTagsChange={this.handleTagsChange}/>
                                   </FormGroup>
                                   <FormGroup >
                                       <ControlLabel>{i18n.t('globalConfig.recom_age')}</ControlLabel>
@@ -344,9 +339,7 @@ class GlobalConfig extends Component {
      * Keyword added callback
      * @param tag Keyword name
      */
-    handleAddition = (tag) => {
-        let tags = Object.assign([], this.state.keywords);
-        tags.push(tag.text);
+    handleTagsChange = (tags) => {
         this.setState({ modifiedState: true, keywords: tags });
     };
 
@@ -420,28 +413,6 @@ class GlobalConfig extends Component {
             },
             useCORS: true });
     };
-
-    /* fileChanged = (event) => {
-        let files = event.target.files;
-        let file = files[0];
-        let gc = this;
-        let reader = new FileReader();
-        reader.onload = () => {
-            let data = reader.result;
-            let img = new Image();
-            img.onload = ()=>{
-                let canvas = document.createElement('canvas');
-                let ctx = canvas.getContext('2d');
-                canvas.width = 500;
-                canvas.height = canvas.width * (img.height / img.width);
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-                gc.setState({ modifiedState: true, thumbnail: canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
-            };
-            img.src = data;
-        };
-        reader.readAsDataURL(file);
-    };*/
 
     /**
      * Discard configuration changes

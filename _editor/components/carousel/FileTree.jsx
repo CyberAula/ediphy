@@ -18,6 +18,7 @@ class FileTree extends Component {
         showContainedViews: true,
     };
 
+    // TODO Algunas de estas condiciones NUNCA se van a cumplir
     shouldComponentUpdate(nextProps, nextState) {
         return (nextProps.navItemsById !== this.props.navItemsById
             || nextProps.navItemsIds !== this.props.navItemsIds
