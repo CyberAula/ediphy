@@ -8,7 +8,7 @@ import EditorIndexTitle from "./editorIndexTitle/EditorIndexTitle";
 import { isSlide } from "../../../common/utils";
 import iconPDF from "../../../dist/images/file-pdf.svg";
 
-const Folder = ({ collapsed, index, path, onToggleCollapse, id, navItemsById, onNavItemNameChanged, viewToolbarsById, indexSelected }) => {
+const Folder = ({ collapsed, index, depth, onToggleCollapse, id, navItemsById, onNavItemNameChanged, viewToolbarsById, indexSelected }) => {
     const handleClick = () => {
         onToggleCollapse(index);
     };
@@ -16,7 +16,7 @@ const Folder = ({ collapsed, index, path, onToggleCollapse, id, navItemsById, on
     const classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
     return (
         <div className={ 'folder navItemBlock ' + classCollapsed + classIndexSelected }
-            style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: path.length * 20 }}
+            style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: depth.length * 20 }}
         >
             <button className={'toggleCollapseHandle' } onClick={handleClick}>
                 <i className={collapsed ? "material-icons collapsed" : "material-icons "}>
@@ -33,12 +33,12 @@ const Folder = ({ collapsed, index, path, onToggleCollapse, id, navItemsById, on
     );
 };
 
-const File = ({ collapsed, id, path, navItemsById, onNavItemNameChanged, viewToolbarsById, indexSelected, containedViewSelected }) => {
+const File = ({ collapsed, id, depth, navItemsById, onNavItemNameChanged, viewToolbarsById, indexSelected, containedViewSelected }) => {
     const classCollapsed = collapsed ? 'collapsed' : '';
     const classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
     const classContainedViewSelected = id === containedViewSelected ? ' selected ' : ' notSelected ';
     return (<div className={ 'file navItemBlock ' + classCollapsed + classIndexSelected + classContainedViewSelected }
-        style={{ marginLeft: path.length * 20 } } >
+        style={{ marginLeft: depth.length * 20 } } >
         {(navItemsById[id].customSize === 0) ?
             <i className="material-icons fileIcon">{isSlide(navItemsById[id].type) ? "slideshow" : "insert_drive_file"}</i>
             : <img className="svgIcon" src={iconPDF} alt={'PDF'}/>}
@@ -51,30 +51,28 @@ const File = ({ collapsed, id, path, navItemsById, onNavItemNameChanged, viewToo
     </div>);
 };
 
-class CarouselItemRenderer extends Component {
+const CarouselItemRenderer = (props) => {
+    // console.log(props);
+    const { data: { id, type }, navItemSelected, drag, drop } = props;
+    const collapsed = props.collapsed ? 'collapsed ' : '';
+    const selected = type === 'file' && id === navItemSelected ? 'selected ' : ' ';
+    const ref = React.useRef(null);
+    drag(drop(ref));
+    const onMouseDown = () => props.onIndexSelected(props.id);
 
-    render() {
-        const { id, navItemSelected, connectDragSource, connectDragPreview, connectDropTarget, type } = this.props;
-        const collapsed = this.props.collapsed ? 'collapsed ' : '';
-        const selected = type === 'file' && id === navItemSelected ? 'selected ' : ' ';
-
-        return connectDragSource(connectDragPreview(connectDropTarget(
-            <div className={"carousselContainer " + collapsed + selected + 'is' + type}
-                onMouseDown={this.onMouseDown}
-                onDoubleClick={this.onDoubleClick}>
-                {type === 'folder' && <Folder {...this.props} />}
-                {type === 'file' && <File {...this.props} />}
-            </div>,
-        )));
-    }
-
-    onMouseDown = () => this.props.onIndexSelected(this.props.id);
-
-    onDoubleClick = e => {
-        this.props.onNavItemSelected(this.props.id);
+    const onDoubleClick = e => {
+        props.onNavItemSelected(props.id);
         e.stopPropagation();
     };
-}
+    return (
+        <div ref={ref} className={"carousselContainer " + collapsed + selected + 'is' + type}
+            onMouseDown={onMouseDown}
+            onDoubleClick={onDoubleClick}>
+            {type === 'folder' && <Folder {...props} />}
+            {type === 'file' && <File {...props} {...props.data}/>}
+        </div>
+    );
+};
 
 CarouselItemRenderer.propTypes = {
     /**

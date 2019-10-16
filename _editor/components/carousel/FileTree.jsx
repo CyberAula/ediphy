@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Sortly, { findDescendants, convert } from 'react-sortly';
+import Sortly, { findDescendants, convert, ContextProvider } from 'react-sortly';
 import update from 'immutability-helper';
 
 import CarouselItemRenderer from './CarouselItemRenderer';
@@ -10,6 +10,7 @@ import handleNavItems from "../../handlers/handleNavItems";
 import handleContainedViews from "../../handlers/handleContainedViews";
 import handleCanvas from "../../handlers/handleCanvas";
 import { connect } from "react-redux";
+import { MySortableTree } from "./Index";
 
 class FileTree extends Component {
 
@@ -32,8 +33,9 @@ class FileTree extends Component {
     }
 
     handleMove = (items, index, newIndex) => {
-        const { path } = items[newIndex];
-        const parent = items.find(item => item.id === path[path.length - 1]);
+        console.log('move');
+        const { depth } = items[newIndex];
+        const parent = items.find(item => item.id === depth[depth.length - 1]);
 
         // parent should not be file
         if (parent && parent.type === 'file') {
@@ -72,10 +74,11 @@ class FileTree extends Component {
     };
 
     handleChange = (items) => {
+        console.log(items);
         let movedItem = items.find(i => i.id === this.props.indexSelected);
 
         let oldParentId = this.props.navItemsById[movedItem.id].parent;
-        let newParentId = movedItem.path[movedItem.path.length - 1] || 0;
+        let newParentId = movedItem.depth[movedItem.depth.length - 1] || 0;
         let idsInOrder = items.map(item => item.id);
         let childrenInOrder = this.getImmediateDescendants(items, newParentId);
 
@@ -88,8 +91,8 @@ class FileTree extends Component {
 
     getImmediateDescendants = (items, parentId) => {
         return parentId === 0 ?
-            items.filter(i => i.path.length === 0).map(i => i.id) :
-            findDescendants(items, items.findIndex(i => i.id === parentId)).filter(i => i.path.slice(-1)[0] === parentId).map(i => i.id);
+            items.filter(i => i.depth.length === 0).map(i => i.id) :
+            findDescendants(items, items.findIndex(i => i.id === parentId)).filter(i => i.depth.slice(-1)[0] === parentId).map(i => i.id);
     };
 
     handleToggleCollapse = (index) => {
@@ -105,7 +108,7 @@ class FileTree extends Component {
             descendants.forEach(item => handleNavItems(this).onNavItemExpanded(item.id, expands));
         } else {
             descendants.forEach(item => {
-                const immediateChild = item.path.slice(-1)[0] === parentId;
+                const immediateChild = item.depth.slice(-1)[0] === parentId;
                 if (immediateChild && item.type !== "folder") { handleNavItems(this).onNavItemExpanded(item.id, expands); }
             });
         }
@@ -135,6 +138,7 @@ class FileTree extends Component {
     }
 
     render() {
+        console.log(this.ediphyNavItemsToSortlyItems(this.props.navItemsById, this.props.navItemsIds, this.props.viewToolbarsById));
         if (!this.props.carouselShow) { return (<div style={{ height: "100%" }}><br /></div>); }
         return (
             <div className={"carousselListContainer"} style={{ height: '100%' }}>
@@ -152,11 +156,23 @@ class FileTree extends Component {
                     <section style={{ display: 'flex', flex: 1, overflowX: 'hidden' }}>
                         <div className="row" style={{ display: 'flex', flex: 1 }}>
                             <div className="col-12 col-lg-8 col-xl-6" style={{ width: '100%' }}>
-                                <Sortly
+                                {/* <ContextProvider>*/}
+                                {/*    <Sortly items={this.ediphyNavItemsToSortlyItems(this.props.navItemsById, this.props.navItemsIds, this.props.viewToolbarsById)}*/}
+                                {/*        onMove={this.handleMove}*/}
+                                {/*        onChange={this.handleChange}*/}
+                                {/*    >*/}
+                                {/*        /!* eslint-disable-next-line no-shadow *!/*/}
+                                {/*        {(props) => this.renderItem(props)}*/}
+                                {/*    </Sortly>*/}
+                                {/* </ContextProvider>*/}
+                                {/* <Index*/}
+                                {/*    items={this.ediphyNavItemsToSortlyItems(this.props.navItemsById, this.props.navItemsIds, this.props.viewToolbarsById)}*/}
+                                {/*    renderItem={this.renderItem}*/}
+                                {/*    {...this.props}*/}
+                                {/* />*/}
+                                <MySortableTree
+                                    selected={this.props.navItemSelected}
                                     items={this.ediphyNavItemsToSortlyItems(this.props.navItemsById, this.props.navItemsIds, this.props.viewToolbarsById)}
-                                    itemRenderer={this.renderItem}
-                                    onMove={this.handleMove}
-                                    onChange={this.handleChange}
                                 />
                             </div>
                         </div>
