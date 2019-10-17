@@ -5,6 +5,14 @@ import i18n from 'i18next';
 import sortable from 'jquery-ui/ui/widgets/sortable';
 import { generateCustomColors } from "../../common/themes/themeLoader";
 import { checkFeedback } from "../../common/utils";
+import { AnswerLetter, AnswerPlaceholder, AnswerRow, AnswerText, OrderingPlugin } from "./Styles";
+import {
+    ExerciseScore,
+    Feedback,
+    FeedbackRow,
+    QuestionRow,
+} from "../../sass/exercises";
+
 /* eslint-disable react/prop-types */
 export default class OrderVisor extends React.Component {
     constructor(props) {
@@ -34,51 +42,40 @@ export default class OrderVisor extends React.Component {
             let incorrect = attempted && (j != i);
 
             content.push(
-                <div key={j + 1} data-id={i} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")}>
-                    <div className={"col-xs-2 answerPlaceholder"}>
-                        <div className={"answer_letter"}>{parseInt(j, 10) + 1}</div>
-                    </div>
-                    <div className={"col-xs-10 answerCol"} >
+                <AnswerRow key={j + 1} data-id={i} className={"row answerRow " + (correct ? "correct " : " ") + (incorrect ? "incorrect " : " ")}>
+                    <AnswerPlaceholder>
+                        <AnswerLetter>{parseInt(j, 10) + 1}</AnswerLetter>
+                    </AnswerPlaceholder>
+                    <AnswerText className={"col-xs-10 answerCol"} >
                         <div data-id={i} className="orderable">
                             <i className="material-icons order-drag-handle btnDrag">swap_vert</i>
                             <VisorPluginPlaceholder {...props} key={i + 1} pluginContainer={"Answer" + i} /></div>
-                    </div>
+                    </AnswerText>
                     {(correct) ? <i className={ "material-icons correct"}>done</i> : null}
                     {(incorrect) ? <i className={ "material-icons incorrect"}>clear</i> : null}
-                </div>);
+                </AnswerRow>);
 
         }
 
         const checkEmptyFeedback = checkFeedback('Ordering', props);
 
         let exClassName = "exercisePlugin orderingPlugin" + (attempted ? " attempted " : " ") + (props.exercises.showFeedback ? "showFeedback" : "");
-        return (<div className={ exClassName } style={ customStyle }>
-            <div className={"row"} key={0} >
-                <div className={"col-xs-12"}>
+        return (
+            <OrderingPlugin className={ exClassName } style={ customStyle }>
+                <QuestionRow key={0} >
                     <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Question"}/>
+                </QuestionRow>
+                <div id={props.id + "-" + "sortable"}>
+                    {content}
                 </div>
-            </div>
-            <div id={props.id + "-" + "sortable"}>
-                {content}
-            </div>
-            {checkEmptyFeedback ? null : <div className={"row feedbackRow"} key={-2} style={{ display: showFeedback ? 'block' : 'none' }}>
-                <div className={"col-xs-12 feedback"}>
-                    <VisorPluginPlaceholder {...props} key="0" pluginContainer={"Feedback"}/>
-                </div>
-            </div>}
-
-            <div className={"exerciseScore"}>{score}</div>
-            <style dangerouslySetInnerHTML={{
-                __html: `
-                            .orderingPlugin input[type="radio"]  {
-                              background-color: transparent;
-                            }
-                           .orderingPlugin input[type="radio"]:checked:after {
-                              background-color: var(--themeColor1);
-                            }
-                          `,
-            }} />
-        </div>);
+                <FeedbackRow show={showFeedback && !checkEmptyFeedback} key={-2}>
+                    <Feedback>
+                        <VisorPluginPlaceholder {...props} key="0"
+                            pluginContainer={"Feedback"}/>
+                    </Feedback>
+                </FeedbackRow>
+                <ExerciseScore attempted={attempted}>{score}</ExerciseScore>
+            </OrderingPlugin>);
 
     }
     shuffle(array) {
