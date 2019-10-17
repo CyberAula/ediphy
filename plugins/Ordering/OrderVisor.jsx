@@ -1,6 +1,8 @@
 import React from 'react';
 import VisorPluginPlaceholder from '../../_visor/components/canvas/VisorPluginPlaceholder';
 import i18n from 'i18next';
+// eslint-disable-next-line no-unused-vars
+import sortable from 'jquery-ui/ui/widgets/sortable';
 import { generateCustomColors } from "../../common/themes/themeLoader";
 import { checkFeedback } from "../../common/utils";
 /* eslint-disable react/prop-types */
@@ -111,7 +113,6 @@ export default class OrderVisor extends React.Component {
         if (!attempted) {
             let id = this.props.props.id + "-" + "sortable";
             let list = $("#" + id);
-            console.log(list);
             setTimeout(()=>{
                 list.sortable({
                     handle: '.order-drag-handle',
