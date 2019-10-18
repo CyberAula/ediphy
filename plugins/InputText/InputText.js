@@ -78,13 +78,14 @@ export function InputText() {
             return (
                 <InputTextPlugin className={"exercisePlugin inputTextPlugin"} >
                     <GenericInput
+                        className={'inputText'}
                         placeholder={i18n.t("InputText.Placeholder")}
                         type={state.type}
                         style={{ fontSize: fs }}
                         name={props.id}
                         value={props.exercises.correctAnswer}
                         onChange={clickHandler}/>
-                    <DragHandleInputPlugin style={{ fontSize: fs }}>
+                    <DragHandleInputPlugin className='dragHandleInputPlugin' style={{ fontSize: fs }}>
                         <i className="material-icons">reorder</i>
                     </DragHandleInputPlugin>
                 </InputTextPlugin>);

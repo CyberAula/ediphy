@@ -19,7 +19,7 @@ export const InputTextPlugin = styled.div`
 export const GenericInput = styled.input`
     width:100%;
     resize: horizontal;
-    pointer-events: none;
+    pointer-events: all !important;
     border-radius: 0px;
     min-height: 2em;
     border: 0.1em solid #ccc;
@@ -44,4 +44,15 @@ export const DragHandleInputPlugin = styled.div`
       vertical-align: middle;
       color: $grismedio;
     }
+`;
+
+export const ExerciseScore = styled.div`
+    display: ${ props => props.show ? 'flex' : 'none' };
+    color: var(--themeColor1);
+    font-size: 1em;
+    width: auto;
+    padding-left: 0.25em;
+    height: 100%;
+    word-break: keep-all;
+    text-align: right;
 `;
