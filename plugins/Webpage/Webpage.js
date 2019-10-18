@@ -1,4 +1,5 @@
 import React from 'react';
+import { WebPlugin } from "./Styles";
 /* eslint-disable react/prop-types */
 export function Webpage() {
     return {
@@ -103,9 +104,12 @@ export function Webpage() {
         },
         getRenderTemplate: function(state) {
             if (state.url && state.url.match("poly.google.com")) {
-                return(<iframe width="100%" height="100%" src={state.url} frameBorder="0" style={{ width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0, border: '1px solid grey' }} allowvr="yes" allow="vr; xr; accelerometer; magnetometer; gyroscope; autoplay;" allowFullScreen mozallowfullscreen="true" webkitallowfullscreen="true" onMouseWheel="" scrolling={"no"}/>);
+                return(
+                    <WebPlugin width="100%" height="100%" src={state.url} frameBorder="0"
+                        allowvr="yes" allow="vr; xr; accelerometer; magnetometer; gyroscope; autoplay;" allowFullScreen
+                        mozallowfullscreen="true" webkitallowfullscreen="true" onMouseWheel="" scrolling={"no"}/>);
             }
-            return <iframe style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none', border: '1px solid grey' }} scrolling={state.fixedPosition ? 'no' : 'yes'} src={state.url}/>;
+            return <WebPlugin scrolling={state.fixedPosition ? 'no' : 'yes'} src={state.url}/>;
 
         },
 
