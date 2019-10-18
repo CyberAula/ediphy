@@ -59,7 +59,6 @@ export default class Map extends React.Component {
                     onPlacesChanged={() => {
                         // this.props.update(places.lat, places.lng, 15, true);
                     }}/> : null}
-
             </DroppableRichZone>
 
         );

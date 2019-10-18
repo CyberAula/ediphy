@@ -15,3 +15,44 @@ export const DroppableRichZone = styled.div`
     position:absolute !important;
   }
 `;
+
+export const SearchBoxContainer = styled.div`
+  max-width:98%;
+  max-width:calc(99% - 0.3em);
+  overflow: hidden;
+  width:12em;
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
+  border-radius: 0;
+  pointer-events: all;
+`;
+
+export const MiddleAlign = styled.div`
+    vertical-align: middle;
+    position: absolute;
+    display:block;
+    top:50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    margin:auto;
+`;
+
+export const NoInternetBox = styled.div`
+  width: 100%;
+  height: 100%;
+  minHeight: 50;
+  minWidth: 50;
+   div {
+    position:absolute !important;
+  }
+  font-size: 1.2em;
+  color: white;
+  text-align: center;
+  background-color: #c4c4c4;
+  word-break: normal;
+`;

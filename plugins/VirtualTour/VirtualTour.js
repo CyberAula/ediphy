@@ -3,7 +3,7 @@ import i18n from 'i18next';
 import Map from './components/Map';
 import MarkEditor from "../../_editor/components/richPlugins/markEditor/MarkEditor";
 import Mark from '../../common/components/mark/Mark';
-import { MapPlugin } from "./Styles";
+import { MapPlugin, MiddleAlign, NoInternetBox } from "./Styles";
 require('./_virtualTour.scss');
 window.mapList = [];
 /* eslint-disable react/prop-types */
@@ -128,12 +128,12 @@ export function VirtualTour(base) {
             let marks = props.marks || {};
             if (!window.google || !window.navigator.onLine) {
                 return (
-                    <div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%', minHeight: '50px' }}>
-                        <div className="middleAlign">
-                            <i className="material-icons dark">signal_wifi_off</i><br/>
+                    <NoInternetBox>
+                        <MiddleAlign>
+                            <i className="material-icons" style={{ color: '#555555' }}>signal_wifi_off</i><br/>
                             {i18n.t('messages.no_internet')}
-                        </div>
-                    </div>);
+                        </MiddleAlign>
+                    </NoInternetBox>);
             }
             let markElements = Object.keys(marks).map((idKey) => {
                 let value = marks[idKey].value;
