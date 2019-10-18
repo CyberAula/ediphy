@@ -55,7 +55,10 @@ export default class Map extends React.Component {
                 {this.props.searchBox ? <SearchBox
                     num={num}
                     id={this.props.id}
-                    placeholder={this.props.placeholder} /> : null}
+                    placeholder={this.props.placeholder}
+                    onPlacesChanged={() => {
+                        // this.props.update(places.lat, places.lng, 15, true);
+                    }}/> : null}
 
             </DroppableRichZone>
 
