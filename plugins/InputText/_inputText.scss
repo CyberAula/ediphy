@@ -19,7 +19,6 @@
     line-height: 1;
   }
 
-
   &.attempted.showFeedback {
     &.correct .inputText {
       border: 0.2em solid $detailgreen;
@@ -28,27 +27,6 @@
     &.incorrect  .inputText{
       border: 0.2em solid $lightred;
     }
-  }
-
-  .dragHandleInputPlugin {
-    visibility: hidden;
-    position: absolute;
-    right: 0;
-    padding: 0.2em 0;
-    line-height: 1.25em;
-    padding-right: 0em;
-    margin-right: -0.5em;
-    cursor: move;
-    .material-icons {
-      font-size: inherit;
-      vertical-align: middle;
-      color: $grismedio;
-    }
-/*    min-height: 29px;
-    min-width: 29px;*/
-    min-height: 2em;
-    min-width: 2em;
-    vertical-align: top;
   }
   .exerciseScore {
     display: none;
