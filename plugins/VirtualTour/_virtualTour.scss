@@ -1,17 +1,3 @@
-.virtualMap {
-  pointer-events: none;
-  width: 100%;
-  height:100%;
-
-    .dropableRichZone {
-      width: 100%;
-      height:100%;
-       div {
-        position:absolute !important;
-      }
-
-    }
-}
 .pointerEventsEnabled .virtualMap {
   pointer-events: all !important ;
   touch-action: manipulation !important;
