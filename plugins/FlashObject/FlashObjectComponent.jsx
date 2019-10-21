@@ -1,5 +1,4 @@
 import React from 'react';
-import './_flashObject.scss';
 import { FlashObjectPlugin } from "./Styles";
 /* eslint-disable react/prop-types */
 
