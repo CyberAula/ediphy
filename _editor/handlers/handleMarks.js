@@ -23,7 +23,11 @@ export default (self) => ({
 
     onRichMarkAdded: (mark, view, viewToolbar) => self.props.dispatch(addRichMark(mark, view, viewToolbar)),
 
-    onRichMarkMoved: (mark, value) => self.props.dispatch(moveRichMark(mark, value)),
+    onRichMarkMoved: (mark, value) => {
+        // Inside plugin or not
+        let dispatch = self.props?.props?.dispatch ?? self.props.dispatch;
+        dispatch(moveRichMark(mark, value));
+    },
 
     onRichMarkDeleted: (id) => {
         let cvid = self.props.marksById[id].connection;

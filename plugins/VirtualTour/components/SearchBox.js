@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { FormGroup, InputGroup, FormControl } from 'react-bootstrap';
+import { InputGroup, FormControl } from 'react-bootstrap';
 import { SearchBoxContainer } from "../Styles";
 export default class SearchBox extends React.Component {
     constructor(props) {

@@ -9,6 +9,8 @@ const pdfjsWorkerBlob = new Blob([pdfjsWorker]);
 const pdfjsWorkerBlobURL = URL.createObjectURL(pdfjsWorkerBlob);
 pdflib.PDFJS.workerSrc = pdfjsWorkerBlobURL;
 import { setOptions, Document, Page } from 'react-pdf';
+import { PageNumber, PDFButton, PDFContainer, TopBar } from "../Styles";
+import _handlers from "../../../_editor/handlers/_handlers";
 setOptions({
     workerSrc: pdflib.PDFJS.workerSrc,
 });
@@ -26,6 +28,7 @@ export default class EnrichedPDFPluginEditor extends React.Component {
         };
         this.buttonBack = this.buttonBack.bind(this);
         this.buttonNext = this.buttonNext.bind(this);
+        this.h = _handlers(this);
     }
 
     buttonNext() {
@@ -70,8 +73,7 @@ export default class EnrichedPDFPluginEditor extends React.Component {
                         style={{ left: x, top: y, position: "absolute" }}
                         time={1.5}
                         mark={id}
-                        // marks={marks}
-                        onRichMarkMoved={this.props.props.handleMarks.onRichMarkMoved}
+                        onRichMarkMoved={this.h.onRichMarkMoved}
                         state={this.props.state}
                         base={this.props.base}>
                         <Mark
@@ -82,18 +84,16 @@ export default class EnrichedPDFPluginEditor extends React.Component {
                     </MarkEditor> : null);
         });
         return (
-            <div style={{ width: "100%", height: "100%" }} className={"pdfDiv"}>
-                <div className="topBar editorTopBar">
-                    <button className={"PDFback"} onClick={this.buttonBack}>
+            <PDFContainer>
+                <TopBar>
+                    <PDFButton onClick={this.buttonBack}>
                         <i className={"material-icons"}>keyboard_arrow_left</i>
-                    </button>
-                    <span className={"PDFnumPages"}>
-                        {this.state.pageNumber} of {this.state.numPages}
-                    </span>
-                    <button className={"PDFnext"} onClick={this.buttonNext}>
+                    </PDFButton>
+                    <PageNumber> {this.state.pageNumber} of {this.state.numPages} </PageNumber>
+                    <PDFButton onClick={this.buttonNext}>
                         <i className={"material-icons"}>keyboard_arrow_right</i>
-                    </button>
-                </div>
+                    </PDFButton>
+                </TopBar>
                 <Document className={"react-pdf__Document "} style={{ width: "100%", height: "100%" }}
                     file = {this.props.state.url}
                     onLoadSuccess={this.onDocumentLoad}>
@@ -101,11 +101,9 @@ export default class EnrichedPDFPluginEditor extends React.Component {
                         <Page pageNumber={this.state.pageNumber} className="pdfPage">
                             {markElements}
                         </Page>
-
                     </div>
-
                 </Document>
-            </div>
+            </PDFContainer>
         );
 
     }
