@@ -12,10 +12,11 @@ pdflib.PDFJS.workerSrc = pdfjsWorkerBlobURL;
 import { setOptions, Document, Page } from 'react-pdf';
 import {
     ButtonsContainer,
+    DroppableRichZone,
     FullScreen,
     PageNumber,
     PDFButton,
-    PDFContainer,
+    PDFContainer, PDFDocument, PDFPage,
     RotateL,
     RotateR,
     ScaleButton,
@@ -184,20 +185,18 @@ export default class EnrichedPDFPlugin extends React.Component {
                     </ButtonsContainer>
 
                 </TopBar>
-
-                <Document className={"react-pdf__Document"} style={{ width: "100%", height: "100%" }}
-                    file = {this.props.state.url} loading={<div>Please wait!</div>}
-                    onLoadSuccess={this.onDocumentLoad} rotate={this.state.rotate}>
-                    <div className="dropableRichZone">
-                        <Page className="pdfPage" scale={this.state.scale}
-                            pageNumber={this.state.pageNumber}
-                        >
-                            {this.state.rotate === 0 || this.state.rotate === 360 ? markElements : null}
-                        </Page>
-
-                    </div>
-
-                </Document>
+                <PDFDocument>
+                    <Document file = {this.props.state.url} loading={<div>Please wait!</div>}
+                        onLoadSuccess={this.onDocumentLoad} rotate={this.state.rotate}>
+                        <DroppableRichZone className={'dropableRichZone'}>
+                            <PDFPage>
+                                <Page className='pdfPage' scale={this.state.scale} pageNumber={this.state.pageNumber}>
+                                    {this.state.rotate === 0 || this.state.rotate === 360 ? markElements : null}
+                                </Page>
+                            </PDFPage>
+                        </DroppableRichZone>
+                    </Document>
+                </PDFDocument>
             </PDFContainer>
         );
     }

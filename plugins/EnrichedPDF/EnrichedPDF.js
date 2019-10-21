@@ -11,7 +11,6 @@ import { setOptions } from 'react-pdf';
 setOptions({
     workerSrc: pdflib.PDFJS.workerSrc,
 });
-import './EnrichedPDF.scss';
 import { PDFViewerPlugin } from "./Styles";
 
 export function EnrichedPDF(base) {

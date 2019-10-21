@@ -9,7 +9,7 @@ const pdfjsWorkerBlob = new Blob([pdfjsWorker]);
 const pdfjsWorkerBlobURL = URL.createObjectURL(pdfjsWorkerBlob);
 pdflib.PDFJS.workerSrc = pdfjsWorkerBlobURL;
 import { setOptions, Document, Page } from 'react-pdf';
-import { PageNumber, PDFButton, PDFContainer, TopBar } from "../Styles";
+import { DroppableRichZone, PageNumber, PDFButton, PDFContainer, PDFDocument, PDFPage, TopBar } from "../Styles";
 import _handlers from "../../../_editor/handlers/_handlers";
 setOptions({
     workerSrc: pdflib.PDFJS.workerSrc,
@@ -83,6 +83,7 @@ export default class EnrichedPDFPluginEditor extends React.Component {
                             title={title} />
                     </MarkEditor> : null);
         });
+
         return (
             <PDFContainer>
                 <TopBar>
@@ -94,15 +95,15 @@ export default class EnrichedPDFPluginEditor extends React.Component {
                         <i className={"material-icons"}>keyboard_arrow_right</i>
                     </PDFButton>
                 </TopBar>
-                <Document className={"react-pdf__Document "} style={{ width: "100%", height: "100%" }}
-                    file = {this.props.state.url}
-                    onLoadSuccess={this.onDocumentLoad}>
-                    <div className="dropableRichZone">
-                        <Page pageNumber={this.state.pageNumber} className="pdfPage">
-                            {markElements}
-                        </Page>
-                    </div>
-                </Document>
+                <PDFDocument>
+                    <Document file={this.props.state.url} onLoadSuccess={this.onDocumentLoad}>
+                        <DroppableRichZone className={'dropableRichZone'}>
+                            <PDFPage>
+                                <Page className='pdfPage' pageNumber={this.state.pageNumber}>{markElements}</Page>
+                            </PDFPage>
+                        </DroppableRichZone>
+                    </Document>
+                </PDFDocument>
             </PDFContainer>
         );
 

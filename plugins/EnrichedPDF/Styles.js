@@ -76,3 +76,60 @@ export const PageNumber = styled.span`
     vertical-align: top;
     line-height: 3.1em;
 `;
+
+export const PDFDocument = styled.div`
+    height: 100%;
+    width: 100%;
+    background-color: grey;
+    overflow: auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .react-pdf__message {
+      color: #333;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+`;
+
+export const PDFPage = styled.div`
+    height: auto; 
+    width: auto; 
+    display:inline-block;
+    .react-pdf__Page__canvas{
+        margin:auto;
+    }
+    .react-pdf__Page__annotations{
+        display: none;
+    }
+    a.mapMarker {
+        position: absolute;
+        pointer-events: all !important;
+        top: -26px;
+        left: -12px;
+        width: 24px;
+        height: 26px;
+        i.material-icons {
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            pointer-events: all;
+            font-size: 24px;
+        }
+    }
+`;
+
+export const DroppableRichZone = styled.div`
+     height: auto; 
+     width: auto; 
+     display:inline-block;
+     margin:auto;
+     &.rich_overlay {
+       max-height: 100%;
+       max-width: 100%;
+     }
+     .overlay {
+       overflow: hidden;
+     }
+`;
