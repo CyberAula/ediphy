@@ -1,6 +1,5 @@
 import React from 'react';
 import EnrichedAudioPlugin from '../components/EnrichedAudioPlugin.js';
-require('./../EnrichedAudio.scss');
 
 export function EnrichedAudio() {
     return {

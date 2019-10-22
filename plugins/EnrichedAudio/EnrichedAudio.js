@@ -2,7 +2,6 @@ import React from "react";
 import EnrichedAudioPluginEditor from './components/EnrichedAudioPluginEditorWS.js';
 import i18n from 'i18next';
 import { convertSecondsToHMS } from "../../common/commonTools";
-require('./EnrichedAudio.scss');
 /* eslint-disable react/prop-types */
 
 export function EnrichedAudio(base) {

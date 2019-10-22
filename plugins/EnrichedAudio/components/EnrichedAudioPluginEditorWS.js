@@ -21,7 +21,7 @@ import {
     MarkBar,
     AudioMark,
 } from "../Styles";
-import { PlayerPlugin } from "../../EnrichedPlayer/Styles";
+
 import _handlers from "../../../_editor/handlers/_handlers";
 /* eslint-disable react/prop-types */
 

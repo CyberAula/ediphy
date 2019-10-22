@@ -3,7 +3,6 @@ import { convertHMStoSeconds, pad, setRgbaAlpha } from '../../../common/commonTo
 import ReactWavesurfer from 'react-wavesurfer';
 import Mark from '../../../common/components/mark/Mark';
 import { AudioPlugin, WaveSurferContainer, VisorControls, Duration, AudioMark, MarkBar, Volume, Play } from "../Styles";
-import { PlayerPlugin } from "../../EnrichedPlayer/Styles";
 /* eslint-disable react/prop-types */
 
 export default class BasicAudioPlugin extends React.Component {
