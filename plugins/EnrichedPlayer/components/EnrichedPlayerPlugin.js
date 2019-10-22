@@ -14,7 +14,7 @@ import {
     FullScreen,
     Duration,
     Volume,
-    MainSlider,
+    MainSlider, VideoMark,
 } from "../Styles";
 /* eslint-disable react/prop-types */
 
@@ -139,7 +139,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let noTrigger = false;
             let isVisor = true;
             return(
-                <div key={id} className="videoMark" style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
+                <VideoMark key={id} style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
                     <Mark style={{ position: 'relative', top: "-1.7em", left: "-0.75em" }}
                         color={color || "#17CFC8"}
                         idKey={id}
@@ -150,7 +150,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                         noTrigger={noTrigger}
                         onMarkClicked={()=>{this.props.props.onMarkClicked(this.props.props.id, marks[id].value, true);}}
                     />
-                </div>
+                </VideoMark>
             );
         });
 

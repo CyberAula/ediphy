@@ -15,7 +15,7 @@ import {
     FullScreen,
     Duration,
     Volume,
-    MainSlider,
+    MainSlider, VideoMark,
 } from "../Styles";
 import _handlers from "../../../_editor/handlers/_handlers";
 
@@ -81,9 +81,9 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
             let color = marks[id].color;
             return(
                 <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.3em" }} dispatch={this.props.props.dispatch} boxId={this.props.props.id} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.h.onRichMarkMoved} state={this.props.state} base={this.props.base}>
-                    <div className="videoMark" style={{ background: color || "#17CFC8" }}>
+                    <VideoMark style={{ background: color || "#17CFC8" }}>
                         <Mark style={{ position: 'relative', top: "-1.7em", left: "-0.75em" }} color={color || "#17CFC8"} idKey={id} title={title} />
-                    </div>
+                    </VideoMark>
                 </MarkEditor>);
         });
 

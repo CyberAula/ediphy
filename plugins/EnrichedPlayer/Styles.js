@@ -12,26 +12,6 @@ export const PlayerPlugin = styled.div`
     margin-bottom: -0.25em;
   }
 
-  .videoMark{
-    width: 0.75em;
-    top: -0.1em;
-    height: 0.75em;
-    border-radius: 1.4em;
-    border: 0.1em solid white;
-    position: relative;
-    a.mapMarker {
-     // left:-0.5em;
-      top: -1.9em;
-      left: -0.7em;
-      width: 1.9em;
-      height: 1.9em;
-      text-align: center;
-    }
-    &:hover{
-        transform: scale(1.2);
-    }
-  }
-
   &:hover {
     .visorControls {
       opacity:1;
@@ -43,7 +23,6 @@ export const PlayerPlugin = styled.div`
     width: 10%;
     margin: 0.55em 2.5%;
     height: 0.7777em;
-
   }
 
   input[type=range]:focus {
@@ -231,4 +210,24 @@ export const MainSlider = styled.div.attrs({ className: 'mainSlider' })`
       margin-top: -0.1em;
       z-index: 9999;
       top: 0.3em;
+`;
+
+export const VideoMark = styled.div`
+    width: 0.75em;
+    top: -0.1em;
+    height: 0.75em;
+    border-radius: 1.4em;
+    border: 0.1em solid white;
+    position: relative;
+    a.mapMarker {
+     // left:-0.5em;
+      top: -1.9em;
+      left: -0.7em;
+      width: 1.9em;
+      height: 1.9em;
+      text-align: center;
+    }
+    &:hover{
+        transform: scale(1.2);
+    }
 `;
