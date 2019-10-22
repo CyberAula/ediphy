@@ -1,35 +1,42 @@
-//variables & mixins
-//**************************************
+import styled from 'styled-components';
 
-$blueprimary: #17CFC8;
-$track-width: 54% !default;
-// generic transform
-@mixin transform($transforms) {
-  -moz-transform: $transforms;
-  -o-transform: $transforms;
-  -ms-transform: $transforms;
-  -webkit-transform: $transforms;
-  transform: $transforms;
-}
-@mixin scale($scale) {
-  @include transform(scale($scale));
-}
-@mixin gradient {
-  background: #222; /* For browsers that do not support gradients */
-/*  background: -webkit-linear-gradient(transparent, black); !* For Safari 5.1 to 6.0 *!
-  background: -o-linear-gradient(transparent, black); !* For Opera 11.1 to 12.0 *!
-  background: -moz-linear-gradient(transparent, black); !* For Firefox 3.6 to 15 *!
-  background: linear-gradient(transparent, black); !* Standard syntax *!*/
-}
+export const BLUE_PRIMARY = '#17cfc8';
 
-@mixin transition {
-  -webkit-transition: all ease .3s;
-  -moz-transition: all ease .3s;
-  -o-transition: all ease .3s;
-  -ms-transition: all ease .3s;
-  transition: all ease .3s;
-}
-@mixin custom_range {
+export const PlayerPlugin = styled.div`
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  cursor: default;
+  iframe{
+    margin-bottom: -0.25em;
+  }
+
+  .videoMark{
+    width: 0.75em;
+    top: -0.1em;
+    height: 0.75em;
+    border-radius: 1.4em;
+    border: 0.1em solid white;
+    position: relative;
+    a.mapMarker {
+     // left:-0.5em;
+      top: -1.9em;
+      left: -0.7em;
+      width: 1.9em;
+      height: 1.9em;
+      text-align: center;
+    }
+    &:hover{
+        transform: scale(1.2);
+    }
+  }
+
+  &:hover {
+    .visorControls {
+      opacity:1;
+    }
+  }
   input[type=range] {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -119,28 +126,17 @@ $track-width: 54% !default;
   input[type=range]:focus::-ms-fill-upper {
     background: rgba(89, 89, 89, 0.82);
   }
+`;
 
-
-}
-
-
-//player
-//**************************************
-
-.enriched-player-wrapper{
-  overflow: hidden;
-  cursor: default;
-  iframe{
-    margin-bottom: -0.25em;
-  }
-
-  .player-media-controls{
+export const MediaControls = styled.div`
     position: absolute;
+    background: #222;
     bottom: 0;
     width: 100%;
     padding: 0.3em;
     margin: 0;
-
+    display: flex;
+    align-content: center;
     @include gradient;
     height: 2.5em;
     opacity: 0.7;
@@ -149,31 +145,33 @@ $track-width: 54% !default;
     -o-transition: opacity .3s;
     -ms-transition: opacity .3s;
     transition: opacity .3s;
+    pointer-events: all;
     &:hover{
       opacity: 1;
     }
 
-    &.flexControls {
-      display: flex;
-      align-content: center;
-      .flexControlElement {
+`;
 
-      }
-    }
-  }
+export const VisorControls = styled(MediaControls)`
+    opacity: 0;
+    -webkit-transition: opacity .3s;
+    -moz-transition: opacity .3s;
+    -o-transition: opacity .3s;
+    -ms-transition: opacity .3s;
+    transition: opacity .3s;
+`;
 
-  button {
+export const PlayerButton = styled.button`
     border: 0;
     color: white;
-    //@include transition;
     &:hover{
       cursor: pointer;
       color: white;
-      background-color: $blueprimary;
+      background-color: ${BLUE_PRIMARY};
     }
-  }
+`;
 
-  .play-player-button {
+export const Play = styled(PlayerButton)`
     background-color: transparent;
     float:left;
     height:100%;
@@ -181,57 +179,51 @@ $track-width: 54% !default;
     .material-icons {
       font-size: 2em;
     }
-  }
-  .fullscreen-player-button{
-    background-color: transparent;
-    float:right;
-    height:100%;
-    width:10%;
-    .material-icons {
-      font-size: 2em;
-    }
-  }
+`;
 
-  .videoMark{
-    width: 0.75em;
-    top: -0.1em;
-    height: 0.75em;
-    border-radius: 1.4em;
-    border: 0.1em solid white;
+export const Progress = styled.div.attrs({ className: 'progress-player-input dropableRichZone' })`
+    height: 1.7em;
     position: relative;
-    a.mapMarker {
-     // left:-0.5em;
-      top: -1.9em;
-      left: -0.7em;
-      width: 1.9em;
-      height: 1.9em;
-      text-align: center;
-    }
-    &:hover{
-      @include scale(1.2);
-    }
-  }
-
-  .volume-player-input{
-    float:left;
-  }
-
-  @include custom_range;
-  .durationField {
-    color:white;
-    font-size: 0.8em;
-    line-height: 1.8;
-    padding: 0 0.3em;
-  }
-  .progress-player-input {
+    bottom: 0.3em;
     background: transparent;
     float:left;
     -webkit-appearance: none;
     margin: 0.7em 2.5%;
-    //width: $track-width;
     height: 0.65em;
     flex:1;
-    .mainSlider{
+`;
+
+export const FakeProgress = styled.div.attrs({ className: "fakeProgress" })`
+      border: 1px solid #ccc;
+      margin: 0.2em;
+      position: absolute;
+      width: 100%;
+      z-index: ${props => props.visor ? '0' : undefined};
+      top: ${props => props.visor ? '0' : '0.3em'};
+`;
+
+export const FullScreen = styled(PlayerButton)`
+      background-color: transparent;
+      float:right;
+      height:100%;
+      width:10%;
+      .material-icons {
+        font-size: 2em;
+      }
+`;
+
+export const Duration = styled.div`
+      color:white;
+      font-size: 0.8em;
+      line-height: 1.8;
+      padding: 0 0.3em;
+`;
+
+export const Volume = styled.input.attrs({ type: 'range', min: '0', max: '1', step: 'any' })`
+    float:left;
+`;
+
+export const MainSlider = styled.div.attrs({ className: 'mainSlider' })`
       width: 0.3em;
       height: 0.8em;
       background: white;
@@ -239,36 +231,4 @@ $track-width: 54% !default;
       margin-top: -0.1em;
       z-index: 9999;
       top: 0.3em;
-    }
-    .fakeProgress{
-      border: 1px solid #ccc;
-      margin: 0.2em;
-      position: absolute;
-      width: 100%;
-      top: 0.3em;
-    }
-
-  }
-
-/*  video{
-    object-fit: inherit;
-  }*/
-  .visorControls {
-    opacity: 0;
-    -webkit-transition: opacity .3s;
-    -moz-transition: opacity .3s;
-    -o-transition: opacity .3s;
-    -ms-transition: opacity .3s;
-    transition: opacity .3s;
-  }
-  &:hover {
-    .visorControls {
-      opacity:1;
-
-    }
-  }
-}
-
-.progress-player-input .dropableRichZone {
-
-}
+`;

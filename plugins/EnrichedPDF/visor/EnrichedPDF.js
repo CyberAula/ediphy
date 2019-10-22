@@ -21,6 +21,5 @@ export function EnrichedPDF(base) {
                 </PDFViewerPlugin>
             );
         },
-
     };
 }

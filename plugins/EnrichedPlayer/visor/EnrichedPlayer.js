@@ -1,6 +1,5 @@
 import React from 'react';
 import EnrichedPlayerPlugin from '../components/EnrichedPlayerPlugin.js';
-require('./../EnrichedPlayer.scss');
 
 export function EnrichedPlayer() {
     return {
