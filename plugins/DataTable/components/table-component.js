@@ -1,5 +1,6 @@
 import React from "react";
 import { DataTable } from 'react-datatable-bs';
+import { TableContainer } from "../Styles";
 require('react-datatable-bs/css/table-twbs.css');
 /* eslint-disable react/prop-types */
 
@@ -32,7 +33,7 @@ export default class TableComponent extends React.Component {
         }
         let prop = realKeys.indexOf(options.initialSort) !== -1 ? realKeys.indexOf(options.initialSort) : 0;
         return (
-            <div className={"tableContainer theme-" + options.theme}>
+            <TableContainer className={"tableContainer theme-" + options.theme}>
                 <DataTable key={this.state.key || 0}
                     keys="name"
                     columns={cols}
@@ -49,10 +50,8 @@ export default class TableComponent extends React.Component {
                     paginationBottom
                     initialSortBy={{ prop: prop, order: options.initialOrder } /* { prop: cols[0].title, order: 'descending' }*/}
                 />
-            </div>
-
+            </TableContainer>
         );
-
     }
     insert(element, array) {
         array.splice(this.locationOf(element, array) + 1, 0, element);
@@ -70,12 +69,5 @@ export default class TableComponent extends React.Component {
         return this.locationOf(element, array, start, pivot);
 
     }
-    componentDidUpdate() {
-
-    }
-    componentDidMount() {
-
-    }
-
 }
 /* eslint-enable react/prop-types */

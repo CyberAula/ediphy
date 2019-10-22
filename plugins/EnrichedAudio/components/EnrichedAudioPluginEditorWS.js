@@ -1,4 +1,3 @@
-// components/waveform.js
 import React from 'react';
 import ReactDOM from 'react-dom';
 import WaveSurfer from 'wavesurfer.js';
