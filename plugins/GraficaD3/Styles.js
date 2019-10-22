@@ -1,31 +1,8 @@
-.d3Options, .d3Axes{
-    padding-left: 0.15em;
-}
-.form-group div p{
-    font-weight: bold;
-}
-.svgContainer{
-    padding: 0px;
-    position: fixed;
-    //right: 0.15em;
-    z-index: 10;
-}
+import styled from 'styled-components';
 
-.clearCol{
-    color: #bbb;
-    text-align: center;
-    cursor: pointer;
-}
-.clearRow{
-    color: white;
-    position: absolute;
-    right: 2.6em;
-    cursor: pointer;
-    background-color: gray;
-    padding: 0.2em;
-    line-height: 1.2em;
- }
-
+export const ChartContainer = styled.div`
+height: 100%;
+width: 100%;
 .recharts-default-tooltip{
   border-radius: 0.3em;
   text-align: left;
@@ -49,3 +26,4 @@
     }
   }
 }
+`;
