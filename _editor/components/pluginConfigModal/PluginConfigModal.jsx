@@ -92,10 +92,13 @@ class PluginConfigModal extends Component {
 }
 
 function mapStateToProps(state) {
+    const { pluginToolbarsById } = state.undoGroup.present;
     return {
+        reactUI: state.reactUI,
         fileModalResult: state.reactUI.fileModalResult,
-        name: state.undoGroup.present.pluginToolbarsById[state.reactUI.pluginConfigModal] ? state.undoGroup.present.pluginToolbarsById[state.reactUI.pluginConfigModal].pluginId : "",
-        state: state.undoGroup.present.pluginToolbarsById[state.reactUI.pluginConfigModal] ? state.undoGroup.present.pluginToolbarsById[state.reactUI.pluginConfigModal].state : {},
+        pluginToolbarsById: pluginToolbarsById,
+        name: pluginToolbarsById[state.reactUI.pluginConfigModal] ? pluginToolbarsById[state.reactUI.pluginConfigModal].pluginId : "",
+        state: pluginToolbarsById[state.reactUI.pluginConfigModal] ? pluginToolbarsById[state.reactUI.pluginConfigModal].state : {},
     };
 }
 

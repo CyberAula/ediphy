@@ -33,36 +33,23 @@ export default class Config extends React.Component {
                     </Col>
                 </Row>
             </Grid>
-
         );
     }
-    constructor(props) {
-        super(props);
-        this.dataChanged = this.dataChanged.bind(this);
-        this.setOptions = this.setOptions.bind(this);
-        this.optionsChanged = this.optionsChanged.bind(this);
-        this.editButtonClicked = this.editButtonClicked.bind(this);
-    }
 
-    dataChanged(values) {
+    dataChanged = (values) => {
         let { data, keys, options } = this.setOptions(values.data, values.keys);
         this.props.updateState({ ...this.props.state, data, keys, options, editing: false });
-    }
+    };
 
-    setOptions(data, keys) {
+    setOptions = (data, keys) => {
         let options = this.props.state.options;
         return { data, keys, options };
-    }
+    };
 
-    optionsChanged(newOptions) {
+    optionsChanged = (newOptions) => {
         let options = { ...this.props.state.options, ...newOptions, key: Math.random() };
         this.props.updateState({ ...this.props.state, options });
-    }
-
-    editButtonClicked() {
-        this.props.updateState({ ...this.props.state, editing: true });
-    }
-
+    };
 }
 
 /* eslint-enable react/prop-types */
