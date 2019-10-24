@@ -1,5 +1,4 @@
 import React from 'react';
-import './_inputText.scss';
 import i18n from 'i18next';
 import { QUIZ_CONFIG } from "../../common/quizzes";
 import { DragHandleInputPlugin, GenericInput, InputTextPlugin } from "./Styles";
@@ -75,6 +74,8 @@ export function InputText() {
                 props.setCorrectAnswer(e.target.value);
             };
             let fs = state.fontSize / 14 + 'em';
+            const isSelected = props.id === props.boxSelected;
+
             return (
                 <InputTextPlugin className={"exercisePlugin inputTextPlugin"} >
                     <GenericInput
@@ -85,7 +86,7 @@ export function InputText() {
                         name={props.id}
                         value={props.exercises.correctAnswer}
                         onChange={clickHandler}/>
-                    <DragHandleInputPlugin className='dragHandleInputPlugin' style={{ fontSize: fs }}>
+                    <DragHandleInputPlugin className='dragHandleInputPlugin' show={isSelected} style={{ fontSize: fs }}>
                         <i className="material-icons">reorder</i>
                     </DragHandleInputPlugin>
                 </InputTextPlugin>);

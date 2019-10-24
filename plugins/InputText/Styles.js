@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 
+export const GRIS_MEDIO = '#9A9A9A';
+
 export const InputTextPlugin = styled.div`
   height:100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   overflow: hidden;
   &.attempted.showFeedback {
@@ -28,9 +31,7 @@ export const GenericInput = styled.input`
 `;
 
 export const DragHandleInputPlugin = styled.div`
-    visibility: hidden;
-    position: absolute;
-    right: 0;
+    display: ${props => props.show ? 'block' : 'none' };
     padding: 0.2em 0;
     line-height: 1.25em;
     padding-right: 0em;
@@ -42,7 +43,7 @@ export const DragHandleInputPlugin = styled.div`
     .material-icons {
       font-size: inherit;
       vertical-align: middle;
-      color: $grismedio;
+      color: ${GRIS_MEDIO};
     }
 `;
 
