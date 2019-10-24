@@ -5,7 +5,7 @@ import i18n from 'i18next';
 import sortable from 'jquery-ui/ui/widgets/sortable';
 import { generateCustomColors } from "../../common/themes/themeLoader";
 import { checkFeedback } from "../../common/utils";
-import { AnswerLetter, AnswerPlaceholder, AnswerRow, AnswerText, OrderingPlugin } from "./Styles";
+import { AnswerLetter, AnswerPlaceholder, AnswerRow, AnswerText, Orderable, OrderingPlugin } from "./Styles";
 import {
     ExerciseScore,
     Feedback,
@@ -47,9 +47,9 @@ export default class OrderVisor extends React.Component {
                         <AnswerLetter>{parseInt(j, 10) + 1}</AnswerLetter>
                     </AnswerPlaceholder>
                     <AnswerText className={"col-xs-10 answerCol"} >
-                        <div data-id={i} className="orderable">
+                        <Orderable data-id={i}>
                             <i className="material-icons order-drag-handle btnDrag">swap_vert</i>
-                            <VisorPluginPlaceholder {...props} key={i + 1} pluginContainer={"Answer" + i} /></div>
+                            <VisorPluginPlaceholder {...props} key={i + 1} pluginContainer={"Answer" + i} /></Orderable>
                     </AnswerText>
                     {(correct) ? <i className={ "material-icons correct"}>done</i> : null}
                     {(incorrect) ? <i className={ "material-icons incorrect"}>clear</i> : null}

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { DETAIL_GREEN, LIGHT_RED } from "../../sass/colors";
 
 export const OrderingPlugin = styled.div`
     font-family: var(--themePrimaryFont);
@@ -8,6 +9,25 @@ export const AnswerRow = styled.div`
     display: flex;
     flex-direction: row;
     margin: 0;
+    .col-xs-10{
+      padding: 0;
+    }
+    .order-drag-handle {
+      position: absolute;
+      left: 0;
+      margin-left: -1em;
+      margin-top: 0.3em;
+      font-size: 2em;
+      cursor: move;
+    }
+    i:not(.order-drag-handle){
+      &.correct{
+        color: ${DETAIL_GREEN};
+      }
+      &.incorrect{
+        color: ${LIGHT_RED};
+      }
+    }
 `;
 
 export const AnswerPlaceholder = styled.div`
@@ -37,4 +57,14 @@ export const AnswerLetter = styled.div`
 export const AnswerText = styled.div`
       padding: 0;
       width: 83.333%;
+`;
+
+export const Orderable = styled.div.attrs({ className: 'orderable' })`
+    display: flex;
+    flex-direction: row;
+    box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.06);
+    &.hoveringOrder {
+      background-color: #ccc;
+      width:100%;
+    }
 `;
