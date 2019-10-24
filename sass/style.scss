@@ -359,3 +359,14 @@ input[type="radio"]{
     line-height: 1.2em;
 }
 
+.pointerEventsEnabled {
+    .dropableRichZone {
+        z-index: -1;
+    }
+    img {
+        pointer-events: all !important;
+    }
+    .draggableImage {
+        pointer-events: all !important;
+    }
+}

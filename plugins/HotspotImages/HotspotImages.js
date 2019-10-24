@@ -3,7 +3,6 @@ import i18n from 'i18next';
 import MarkEditor from '../../_editor/components/richPlugins/markEditor/MarkEditor';
 import Mark from '../../common/components/mark/Mark';
 import img_placeholder from './../../dist/images/placeholder.svg';
-import './_hotspotsImages.scss';
 import Image from "./Image";
 import _handlers from "../../_editor/handlers/_handlers";
 /* eslint-disable react/prop-types */

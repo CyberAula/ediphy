@@ -1,5 +1,6 @@
 import React from 'react';
 import { isURL } from "../../../_editor/components/clipboard/clipboard.utils";
+import { BasicImage, ImagePluginVisor, Link } from "../Styles";
 /* eslint-disable react/prop-types */
 
 export default class Image extends React.Component {
@@ -24,10 +25,9 @@ export default class Image extends React.Component {
             { content: 'var(--' + state.url.replace(/\//g, '_') + ')' };
 
         return(
-            <div style={{ overflow: "hidden", height: "100%", width: "100%" }} className="draggableImageVisor" ref="draggableImageVisor">
-                <a href={hyperlink} target="_blank" style={{ pointerEvents: hyperlink ? "initial" : "none", overflow: "hidden", height: "100%", width: "100%" }}>
-                    <img ref="img"
-                        className="basicImageClass"
+            <ImagePluginVisor ref="draggableImageVisor">
+                <Link href={hyperlink} target="_blank" hyperlink={hyperlink}>
+                    <BasicImage ref="img"
                         style={{ ...customImage, width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto", transform, WebkitTransform: transform, MozTransform: transform }}
                         src={state.url}
                         onError={(e)=>{
@@ -37,8 +37,8 @@ export default class Image extends React.Component {
                             }
                         }}/>
                     {markElements}
-                </a>
-            </div>);
+                </Link>
+            </ImagePluginVisor>);
     }
 
     componentDidMount() {
