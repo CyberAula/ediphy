@@ -11,6 +11,7 @@ import {
 import { createBox, releaseClick } from "./commonTools";
 import Ediphy from "../core/editor/main";
 import i18n from "i18next";
+import { isURL } from "../_editor/components/clipboard/clipboard.utils";
 
 export default {
     // This would be a good post to explore if we don't want to use JSON Stringify: http://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
@@ -599,4 +600,22 @@ export function getScore(pluginName, props) {
 
 export function removeLastChar(s) {
     return (!s || s.length === 0) ? s : s.substring(0, s.length - 1);
+}
+
+// Checks if link is provided. If so, it formats it to 'http://www...' in case it was 'www...'. Returns false if no link is provided.
+export function checkHyperlink(hyperlink) {
+    if (hyperlink === null || hyperlink === undefined) {
+        return false;
+    }
+    hyperlink = hyperlink.replace(/\s/g, "");
+    if (hyperlink === "") {
+        return false;
+    }
+    if (hyperlink.substring(0, 4) === "www.") {
+        hyperlink = "http://" + hyperlink;
+    }
+    if (isURL(hyperlink)) {
+        return hyperlink;
+    }
+    return false;
 }

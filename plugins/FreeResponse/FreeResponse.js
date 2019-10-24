@@ -1,7 +1,6 @@
 import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/pluginPlaceholder/PluginPlaceholder';
 import i18n from 'i18next';
-import './_freeResponse.scss';
 import { generateCustomColors } from "../../common/themes/themeLoader";
 import { QUIZ_CONFIG, QUIZ_STYLE } from "../../common/quizzes";
 import { FreeResponsePlugin, AnswerRow, TextArea, ManyCharacters } from "./Styles";
@@ -79,7 +78,7 @@ export function FreeResponse() {
                         pluginContainerName={i18n.t('FreeResponse.Question') }
                         pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("FreeResponse.Statement") + '</p>' } }]}
                         pluginContainer={'Question'} />
-                    <TextArea disabled={!state.correct} className="form-control textAreaQuiz"
+                    <TextArea disabled={!state.correct}
                         placeholder={i18n.t('FreeResponse.PlaceholderEditor')} value={props.exercises.correctAnswer} onChange={clickHandler}/>
                     <ManyCharacters show={manyCharacters}>{i18n.t('FreeResponse.TooMany')}</ManyCharacters>
                 </AnswerRow>

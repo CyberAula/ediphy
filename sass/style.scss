@@ -370,3 +370,10 @@ input[type="radio"]{
         pointer-events: all !important;
     }
 }
+
+.wholebox.selectedBox .textAreaQuiz {
+    pointer-events: none;
+}
+#visorAppContent .textAreaQuiz {
+    pointer-events: all;
+}

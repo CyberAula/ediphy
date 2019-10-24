@@ -6,10 +6,7 @@ import { BasicImage, ImagePlugin } from "./Styles";
 /* eslint-disable react/prop-types */
 
 export default class Image extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { error: false };
-    }
+    state = { error: false };
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         if(nextProps.state.url !== this.props.state.url) {

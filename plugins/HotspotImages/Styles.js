@@ -16,7 +16,6 @@ export const ImagePluginVisor = styled.div.attrs({ className: 'draggableImageVis
     img {
         transform-origin: 0 0;
     }
-
     a {
         display: block;
         position: relative;
