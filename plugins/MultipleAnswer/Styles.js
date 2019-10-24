@@ -1,9 +1,28 @@
 import styled from 'styled-components';
 
+export const DETAIL_GREEN = '#39B54A';
+export const LIGHT_RED = '#e30b0b';
+
 export const AnswerRow = styled.div`
     display: flex;
     flex-direction: row;
     margin: 0;
+    .col-xs-10{
+      margin: 0.2em 0;
+      padding: 0;
+      width: 75%;
+    }
+    i{
+      margin: 0.5em -1em;
+      &.correct{
+        color: ${DETAIL_GREEN};
+        font-size: 1.7em;
+      }
+      &.incorrect{
+        color: ${LIGHT_RED};
+        font-size: 1.7em;
+      }
+    }
 `;
 
 export const AnswerInput = styled.div`
@@ -78,7 +97,7 @@ export const CheckboxInput = styled.input.attrs({ type: 'checkbox' })`
     }
 `;
 
-export const MultipleAnswerPlugin = styled.div`
+export const MultipleAnswerPlugin = styled.div.attrs({ className: 'multipleAnswerPlugin' })`
      display: flex;
      flex-direction: column;
      padding: 0.8em;

@@ -1,7 +1,6 @@
 import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/pluginPlaceholder/PluginPlaceholder';
 import i18n from 'i18next';
-import './_multipleAnswer.scss';
 import { letterFromNumber } from '../../common/commonTools';
 import { generateCustomColors } from "../../common/themes/themeLoader";
 import { QUIZ_CONFIG, QUIZ_STYLE } from "../../common/quizzes";
@@ -132,7 +131,7 @@ export const MultipleAnswer = () => ({
         }
 
         return (
-            <MultipleAnswerPlugin className={"multipleAnswerPlugin"} style={customStyle}>
+            <MultipleAnswerPlugin style={customStyle}>
                 <QuestionRow key={0}>
                     <PluginPlaceholder {...props} key="0"
                         pluginContainerName={i18n.t("MultipleAnswer.Question")}
