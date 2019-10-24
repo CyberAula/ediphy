@@ -1,7 +1,5 @@
 import styled from 'styled-components';
-
-export const DETAIL_GREEN = '#39B54A';
-export const LIGHT_RED = '#E30B0B';
+import { DETAIL_GREEN, LIGHT_RED } from "../../sass/colors";
 
 export const MultipleChoicePlugin = styled.div`
       font-family: var(--themePrimaryFont);
@@ -14,10 +12,10 @@ export const AnswerRow = styled.div`
     i{
       margin: 0.5em -1em;
       &.correct{
-        color: $detailgreen;
+        color: ${DETAIL_GREEN};
       }
       &.incorrect{
-        color: $lightred;
+        color: ${LIGHT_RED};
       }
     }
 `;

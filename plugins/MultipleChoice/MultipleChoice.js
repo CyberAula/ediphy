@@ -1,6 +1,5 @@
 import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/pluginPlaceholder/PluginPlaceholder';
-import './_multipleChoice.scss';
 import i18n from 'i18next';
 import { letterFromNumber } from '../../common/commonTools';
 import { generateCustomColors } from "../../common/themes/themeLoader";

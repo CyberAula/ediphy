@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-
-export const GRIS_MEDIO = '#9A9A9A';
+import { GRIS_MEDIO } from "../../sass/colors";
 
 export const InputTextPlugin = styled.div`
   height:100%;
