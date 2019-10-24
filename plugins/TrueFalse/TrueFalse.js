@@ -1,17 +1,16 @@
 import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/pluginPlaceholder/PluginPlaceholder';
-import './_truefalse.scss';
 import i18n from 'i18next';
 import { generateCustomColors } from "../../common/themes/themeLoader";
 import { QUIZ_CONFIG, QUIZ_STYLE } from "../../common/quizzes";
 import {
     AnswerInput,
-    AnswerRow, AnswerText,
+    AnswerRow, AnswerText, False,
     Feedback,
     FeedbackRow,
     IconCol,
     RadioInput,
-    TFRow,
+    TFRow, True,
     TrueFalsePlugin,
 } from "./Styles";
 import { QuestionRow, RadioStyleDangerous } from "../../sass/exercises";
@@ -111,8 +110,8 @@ export const TrueFalse = () => ({
                 </QuestionRow>
                 <TFRow key={0}>
                     <IconCol>
-                        <i className="material-icons true">done</i>
-                        <i className="material-icons false">clear</i>
+                        <True className="material-icons true">done</True>
+                        <False className="material-icons false">clear</False>
                     </IconCol>
                 </TFRow>
                 {answers}

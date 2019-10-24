@@ -3,7 +3,7 @@ import VisorPluginPlaceholder from '../../../_visor/components/canvas/VisorPlugi
 import { correctArrayOrdered } from '../../../core/visor/correctionFunctions';
 import { generateCustomColors } from "../../../common/themes/themeLoader";
 import {
-    AnswerInput, AnswerRow, AnswerText, Feedback, FeedbackRow, IconCol, RadioInput, TFRow, TrueFalsePlugin,
+    AnswerInput, AnswerRow, AnswerText, False, Feedback, FeedbackRow, IconCol, RadioInput, TFRow, True, TrueFalsePlugin,
 } from "../Styles";
 import { checkFeedback, getScore } from "../../../common/utils";
 import { ExerciseScore, QuestionRow, RadioStyleDangerous } from "../../../sass/exercises";
@@ -59,8 +59,8 @@ export const TrueFalse = () => ({
                 </QuestionRow>
                 <TFRow key={0}>
                     <IconCol>
-                        <i className="material-icons true">done</i>
-                        <i className="material-icons false">clear</i>
+                        <True className="material-icons true">done</True>
+                        <False className="material-icons false">clear</False>
                     </IconCol>
                 </TFRow>
                 {answers}

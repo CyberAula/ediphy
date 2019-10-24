@@ -91,3 +91,17 @@ export const AnswerText = styled.div`
       padding: 0;
       width: 83.333%;
 `;
+
+export const True = styled.i`
+      background-color: ${DETAIL_GREEN};
+      color: white;
+      border-radius: 0.2em;
+      padding: 0.2em;
+`;
+
+export const False = styled.i`
+      background-color: ${LIGHT_RED};
+      color: white;
+      border-radius: 0.2em;
+      padding: 0.2em;
+`;
