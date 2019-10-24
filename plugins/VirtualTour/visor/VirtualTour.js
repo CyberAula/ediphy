@@ -4,7 +4,6 @@ import Mark from '../../../common/components/mark/Mark';
 import i18n from 'i18next';
 import { MiddleAlign, NoInternetBox } from "../Styles";
 import { MapPlugin } from "VirtualTour/Styles";
-require('./../_virtualTour.scss');
 
 window.mapsVisor = [];
 /* eslint-disable react/prop-types */

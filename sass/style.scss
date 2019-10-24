@@ -371,9 +371,22 @@ input[type="radio"]{
     }
 }
 
+.pointerEventsEnabled .virtualMap {
+    pointer-events: all !important ;
+    touch-action: manipulation !important;
+}
+
+
 .wholebox.selectedBox .textAreaQuiz {
     pointer-events: none;
 }
 #visorAppContent .textAreaQuiz {
     pointer-events: all;
 }
+#visorAppContent .virtualMap {
+    pointer-events: all !important;
+}
+.dropableRichZone.rich_overlay  {
+    pointer-events: all !important;
+}
+

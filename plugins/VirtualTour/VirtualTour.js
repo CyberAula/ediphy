@@ -4,7 +4,6 @@ import Map from './components/Map';
 import MarkEditor from "../../_editor/components/richPlugins/markEditor/MarkEditor";
 import Mark from '../../common/components/mark/Mark';
 import { MapPlugin, MiddleAlign, NoInternetBox } from "./Styles";
-require('./_virtualTour.scss');
 window.mapList = [];
 /* eslint-disable react/prop-types */
 
