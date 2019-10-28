@@ -12,6 +12,7 @@ import { isCanvasElement, isSlide } from "../../../../common/utils";
 import { changeBackground } from "../../../../common/actions";
 import _handlers from "../../../handlers/_handlers";
 import ErrorBoundary from "../../../containers/ErrorBoundary";
+import { Flap, Wrapper } from "../Styles";
 
 class Toolbar extends Component {
 
@@ -50,15 +51,9 @@ class Toolbar extends Component {
         }
         let open = (!noPageSelected && this.state.open);
         return (
-            <div id="wrap"
-                className="wrapper"
-                style={{
-                    right: '0px',
-                    top: top,
-                }}>
+            <Wrapper top={top} >
                 <ErrorBoundary context={'toolbar'}>
-                    <div className="pestana" id="toolbarFlap"
-                        onClick={this.toggleToolbar}/>
+                    <Flap onClick={this.toggleToolbar}/>
                     <div id="tools"
                         style={{
                             width: open ? '250px' : '40px',
@@ -92,7 +87,7 @@ class Toolbar extends Component {
                         </div>
                     </div>
                 </ErrorBoundary>
-            </div>
+            </Wrapper>
         );
     }
 
