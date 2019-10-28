@@ -31,7 +31,7 @@
 .Select-control {
   background-color: #fff;
   border-color: #d9d9d9 #ccc #b3b3b3;
- 
+
   border: 1px solid #ccc;
   color: #333;
   cursor: default;
@@ -229,7 +229,7 @@
   }
 }
 .Select-menu-outer {
- 
+
   border: 1px solid #ccc;
   border-top-color: #e6e6e6;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
@@ -370,31 +370,3 @@
     -webkit-transform: rotate(1turn);
   }
 }
-
-/*.colorPicker {
-  text-align:center;
-  .color {
-    width: 36px;
-    height: 14px;
-    border-radius: 2px;
-  }
-  .swatch {
-    padding: 5px;
-    background: #fff;
-    border-radius: 1px;
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
-    display: inline-block;
-    cursor: pointer;
-  }
-  .popover2 {
-    position: absolute;
-    z-index: 2;
-  }
-  .cover {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-}*/
