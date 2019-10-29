@@ -90,7 +90,6 @@ class Toolbar extends Component {
             </Wrapper>
         );
     }
-
     onBackgroundChanged = (id, background) => this.props.dispatch(changeBackground(id, background));
     toggleToolbar = () => this.setState({ open: !this.state.open });
 }
