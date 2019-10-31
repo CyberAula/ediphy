@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+
 // Green
 export const ADAMS_GREEN = '#133329';
 export const DISABLED_GREEN = 'rgba(255,255,255,0.5)';
@@ -42,3 +44,4 @@ export const DARK_INPUT = '#FFFFFF';
 // Box border
 export const BOX_BORDER_WIDTH = '1px';
 
+export const MatIcon = styled.i.attrs({ className: 'material-icons' })``;

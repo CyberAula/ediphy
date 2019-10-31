@@ -12,15 +12,9 @@
     &:hover {
         color: #fff !important;
     }
-    .toolbarTitle {
-        .material-icons:hover {
-            @include rotate(180);
-        }
-    }
     .material-icons {
         padding: 10px;
         &:hover{@include scale(1.2);}
-
     }
     .btnToggleCarousel, .btnFullCarousel {
         cursor: pointer;

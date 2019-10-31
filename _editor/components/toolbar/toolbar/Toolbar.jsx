@@ -12,7 +12,17 @@ import { isCanvasElement, isSlide } from "../../../../common/utils";
 import { changeBackground } from "../../../../common/actions";
 import _handlers from "../../../handlers/_handlers";
 import ErrorBoundary from "../../../containers/ErrorBoundary";
-import { Flap, Wrapper } from "../Styles";
+import {
+    Flap,
+    InsideTools,
+    PluginTitle,
+    TitleText,
+    ToolbarHeader,
+    ToolbarTabs,
+    ToolbarTitle, Tools,
+    Wheel,
+    Wrapper,
+} from "../Styles";
 
 class Toolbar extends Component {
 
@@ -21,7 +31,7 @@ class Toolbar extends Component {
 
     render() {
 
-        const { box, boxSelected, carouselShow, exercises, navItemsById, navItemSelected, pluginToolbarsById, top } = this.props;
+        const { box, boxSelected, exercises, navItemsById, navItemSelected, pluginToolbarsById, top } = this.props;
 
         let toolbar = null;
         let title = "";
@@ -50,42 +60,29 @@ class Toolbar extends Component {
             title = (config.displayName || "");
         }
         let open = (!noPageSelected && this.state.open);
+        const overlay = <Tooltip className={open ? 'hidden' : ''} id="tooltip_props">{i18n.t('Properties')}</Tooltip>;
         return (
-            <Wrapper top={top} >
+            <Wrapper top={top}>
                 <ErrorBoundary context={'toolbar'}>
                     <Flap onClick={this.toggleToolbar}/>
-                    <div id="tools"
-                        style={{
-                            width: open ? '250px' : '40px',
-                        }}
-                        className={open ? 'toolbox toolsSpread' : 'toolbox'}>
-                        <OverlayTrigger placement="left"
-                            overlay={
-                                <Tooltip className={open ? 'hidden' : ''}
-                                    id="tooltip_props">
-                                    {i18n.t('Properties')}
-                                </Tooltip>
-                            }>
-                            <div onClick={this.toggleToolbar}
-                                style={{ display: carouselShow ? 'block' : 'block' }}
-                                className={open ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
-                                <div className="toolbarTitle">
-                                    <i id="wheel" className="material-icons">settings</i>
-                                    <span className="toolbarTitletxt">
-                                        {i18n.t('Properties')}
-                                    </span>
-                                </div>
-                                <div className="pluginTitleInToolbar">
+
+                    <Tools open={open}>
+                        <OverlayTrigger placement="left" overlay={overlay}>
+                            <ToolbarHeader onClick={this.toggleToolbar}>
+                                <ToolbarTitle>
+                                    <Wheel>settings</Wheel>
+                                    <TitleText open={open}> {i18n.t('Properties')} </TitleText>
+                                </ToolbarTitle>
+                                <PluginTitle open={open}>
                                     {title}
-                                </div>
-                            </div>
+                                </PluginTitle>
+                            </ToolbarHeader>
                         </OverlayTrigger>
-                        <div id="insidetools" style={{ display: open ? 'block' : 'none' }}>
-                            <div className="toolbarTabs">
-                                {toolbar}
-                            </div>
-                        </div>
-                    </div>
+
+                        <InsideTools open={open}>
+                            <ToolbarTabs children={toolbar}/>
+                        </InsideTools>
+                    </Tools>
                 </ErrorBoundary>
             </Wrapper>
         );

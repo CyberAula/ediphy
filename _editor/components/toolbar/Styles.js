@@ -1,5 +1,12 @@
 import styled from 'styled-components';
-import { ADAMS_GREEN, DARKEST_GREY } from "../../../sass/general/constants";
+import {
+    ADAMS_GREEN,
+    ADAMS_ORANGE,
+    DARKEST_GREY,
+    LIGHT_GREY,
+    LIGTHEST_GREY, MatIcon,
+    PRIMARY_BLUE,
+} from "../../../sass/general/constants";
 
 export const Wrapper = styled.div.attrs({
     id: 'wrap', className: 'wrapper',
@@ -13,7 +20,7 @@ export const Wrapper = styled.div.attrs({
 `;
 
 export const Flap = styled.div.attrs({
-    id: 'toolbarFlap', className: 'pestan',
+    id: 'toolbarFlap',
 })`
   border-width: 8px;
   border-style: solid;
@@ -29,10 +36,11 @@ export const Flap = styled.div.attrs({
   cursor: pointer;
 `;
 
-export const Tools = styled.div.attrs({ id: 'tools' })`
+export const Tools = styled.div.attrs({ className: 'tools' })`
   width: ${ props => props.open ? '250px' : '40px' };
+  transition: width 0.3s ease-in;
   height: 100%;
-  background-color: $darkest;
+  background-color: ${DARKEST_GREY};
   display: inline-block;
   vertical-align: baseline;
   overflow-x: hidden;
@@ -50,7 +58,7 @@ export const Tools = styled.div.attrs({ id: 'tools' })`
     height:auto;
     border: 0;
     padding: 10px 12px;
-    background-color: $darkinput;
+    background-color: white;
     color: black;
     &:active, &:focus {
       border-color: orange;
@@ -82,7 +90,7 @@ export const Tools = styled.div.attrs({ id: 'tools' })`
   }
   .toolbarButton {
     border-radius: 0;
-    background-color: $blueprimary;
+    background-color: ${PRIMARY_BLUE};
     color: white;
     border: 0;
     width: 100%;
@@ -90,39 +98,224 @@ export const Tools = styled.div.attrs({ id: 'tools' })`
 
     /*Edit text button when CKEditor is active */
     &.textediting {
-      background-color: darken($blueprimary,20%);
+      background-color: darken(${PRIMARY_BLUE},20%);
     }
     &:hover {
-      background-color: darken($blueprimary,20%);
+      background-color: darken(${PRIMARY_BLUE},20%);
     }
+  }
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    padding: 0 10px 0 0
+    //margin: 5.7px 0;
+  }
+  input[type=range]:focus {
+    outline: none !important;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4.6px;
+    cursor: pointer;
+    box-shadow: 0px 0px 0.6px #ffffff, 0px 0px 0px #ffffff;
+    background: #cccccc;
+    border-radius: 25px;
+    border: 0px solid #ffffff;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    box-shadow: 0px 0px 0px rgba(255, 255, 255, 0), 0px 0px 0px rgba(255, 255, 255, 0);
+    border: 1px solid #999999;
+    height: 16px;
+    width: 16px;
+    border-radius: 50px;
+    background: #ffffff;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -5.7px;
+  }
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #cccccc;
+  }
+  input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 4.6px;
+    cursor: pointer;
+    box-shadow: 0px 0px 0.6px #ffffff, 0px 0px 0px #ffffff;
+    background: #cccccc;
+    border-radius: 25px;
+    border: 0px solid #ffffff;
+  }
+  input[type=range]::-moz-range-thumb {
+    box-shadow: 0px 0px 0px rgba(255, 255, 255, 0), 0px 0px 0px rgba(255, 255, 255, 0);
+    border: 1px solid #999999;
+    height: 16px;
+    width: 16px;
+    border-radius: 50px;
+    background: #ffffff;
+    cursor: pointer;
+  }
+  input[type=range]::-ms-track {
+    width: 100%;
+    height: 4.6px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  input[type=range]::-ms-fill-lower {
+    background: #cccccc;
+    border: 0px solid #ffffff;
+    border-radius: 50px;
+    box-shadow: 0px 0px 0.6px #ffffff, 0px 0px 0px #ffffff;
+  }
+  input[type=range]::-ms-fill-upper {
+    background: #cccccc;
+    border: 0px solid #ffffff;
+    border-radius: 50px;
+    box-shadow: 0px 0px 0.6px #ffffff, 0px 0px 0px #ffffff;
+  }
+  input[type=range]::-ms-thumb {
+    box-shadow: 0px 0px 0px rgba(255, 255, 255, 0), 0px 0px 0px rgba(255, 255, 255, 0);
+    border: 1px solid #999999;
+    height: 16px;
+    width: 16px;
+    border-radius: 50px;
+    background: #ffffff;
+    cursor: pointer;
+    height: 4.6px;
+  }
+  input[type=range]:focus::-ms-fill-lower {
+    background: #cccccc;
+  }
+  input[type=range]:focus::-ms-fill-upper {
+    background: #cccccc;
   }
 
-  .font-picker-container{
-    .dropdown-button{
-      background-color: white;
-    }
-    button{
-      //background-color: red;
-      background-color: #fcfcfc;
-      &:hover{
-        background-color: $blueprimarytransparent;
-      }
-    }
-    .active-font{
-      background-color: #dddddd;
-    }
-  }
+  input.form-control[type="range"] {
+    background-color: transparent;
+    outline: none !important;
 
-  .theme-picker-container{
-    .owl-nav{
-      display: flex;
-      flex-direction: row;
-      button{
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+  }
+  input[type='range'],
+  input[type='range']:focus,
+  input[type='range']:active,
+  input[type='range']::-moz-focus-inner,
+  input[type='range']:-moz-focusring {
+    border: 0 !important;
+    outline: none !important;
+  }
+  input[type=range]::-moz-focus-outer {
+    border: 0;
+  }
+`;
+
+export const ToolbarTabs = styled.div.attrs({ className: 'toolbarTabs' })`
+/*Navigation Tabs*/
+  color: ${LIGTHEST_GREY};
+  .toolbarTab{
+    .panel-group{
+      margin-bottom: 5px;
+    }
+  }
+  li {
+    padding-bottom: 0;
+    a {
+      border-color: transparent;
+      color: ${LIGTHEST_GREY};
+      border-radius: 0;
+      padding: 10px 12px;
+      cursor: pointer;
+      &:hover {
+        border-color: transparent;
+        background-color: transparent;
+        color: ${ADAMS_ORANGE};
       }
     }
   }
+`;
+
+export const ToolbarTitle = styled.div`
+`;
+
+export const Title = styled.div`
+    display: ${ props => props.open ? 'inline-block' : 'block' };
+    margin-top: ${ props => props.open ? '0px' : '8px' };
+    cursor: pointer;
+    color: ${LIGHT_GREY};
+    * {
+        transition: all 0.2s ease-in;
+    }
+    &:hover {
+        color: #fff !important;
+    }
+    .material-icons {
+        padding: 10px;
+        &:hover{
+            transform: scale(1.2);
+        }
+    }
+    .btnToggleCarousel, .btnFullCarousel {
+        cursor: pointer;
+        color: white;
+        background-color: transparent;
+        border: none;
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+    .btnFullCarousel {
+        right: 0;
+    }
+`;
+
+export const PluginTitle = styled.div`
+    display: ${ props => props.open ? 'block' : 'none' };
+    margin: -8px 6px 8px;
+    color: ${ PRIMARY_BLUE };
+    font-weight: 500;
+`;
+
+export const TitleText = styled.span`
+    display: ${ props => props.open ? 'block' : 'none' };
+    padding: 8px;
+`;
+
+export const ToolbarHeader = styled.div`
+    display: block;
+    cursor: pointer;
+    color: ${LIGHT_GREY};
+`;
+
+export const InsideTools = styled.div`
+    display:${ props => props.open ? 'block' : 'none' };
+    width: 250px;
+    transition: width 0.3s ease-in;
+    .btn-group, .pluginToolbarMainButton {
+      background-color: ${DARKEST_GREY};
+      border: 0;
+      color: white;
+      font-weight: lighter !important;
+    }
+
+    .tablist {
+      li {
+        .active {
+          color: ${LIGTHEST_GREY};
+        }
+      }
+    }
+
+    border-left: 2px solid ${DARKEST_GREY};
+    border-right: 2px solid ${DARKEST_GREY};
+`;
+
+export const Wheel = styled(MatIcon)`
+    padding: 10px;
+    float: left;
+    font-size: 20px;
+    margin-top: 8px;
+    transition: all 0.2s ease-in;
+    &:hover{
+        transform: rotate(180deg);
+    }
 `;

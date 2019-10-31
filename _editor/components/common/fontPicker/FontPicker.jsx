@@ -1,6 +1,7 @@
 import { FontManager } from 'font-picker';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { FontPickerContainer } from "./Styles";
 
 /**
  * React interface for the font picker
@@ -203,7 +204,7 @@ export default class FontPicker extends Component {
         let activeFontId = this.props.activeFont.replace(/\s+/g, '-').toLowerCase();
 
         return (
-            <div id={`font-picker${this.pickerSuffix}`} className={"font-picker-container"} title={this.state.errorText} style={{ width: '100%', color: 'black' }}>
+            <FontPickerContainer id={`font-picker${this.pickerSuffix}`} title={this.state.errorText}>
                 <button
                     type="button"
                     className={`dropdown-button ${this.state.expanded ? 'expanded' : ''}`}
@@ -215,7 +216,7 @@ export default class FontPicker extends Component {
                     <div className={`dropdown-icon ${this.state.loadingStatus}`} />
                 </button>
                 {this.state.loadingStatus === 'finished' && fontList}
-            </div>
+            </FontPickerContainer>
         );
     }
 }

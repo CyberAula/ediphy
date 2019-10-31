@@ -7,6 +7,7 @@ import 'owl.carousel/dist/assets/owl.theme.default.css';
 import './themePicker.scss';
 
 import { THEMES } from '../../../../common/themes/themeLoader';
+import { ThemePickerContainer } from "./Styles";
 
 export default class ThemePicker extends React.Component {
 
@@ -20,7 +21,7 @@ export default class ThemePicker extends React.Component {
     render() {
         const selectedIndex = Object.keys(THEMES).indexOf(this.props.currentTheme);
         return(
-            <div key={`carousel_${this.state.activeThemeIndex}_${this.props.currentTheme}`} className={"theme-picker-container"} style={{ width: '100%' }} onChange={this.props.onChange}>
+            <ThemePickerContainer key={`carousel_${this.state.activeThemeIndex}_${this.props.currentTheme}`} onChange={this.props.onChange}>
                 <OwlCarousel ref={"car"} className="owl-theme owl-container" margin={10} items={2}
                     startPosition = { selectedIndex } nav center lazyload={'true'} dots = {false}
                     navText={["<i class='material-icons'>chevron_left</i>", "<i class='material-icons'>chevron_right</i>"]}
@@ -33,6 +34,7 @@ export default class ThemePicker extends React.Component {
                         return (
                             <img
                                 key={index}
+                                alt={key}
                                 className={"item" + selected + toolbar }
                                 onClick={()=>this.handleChange(index)}
                                 src = {`./themes/${key}/thumbnail.jpg`}
@@ -41,7 +43,7 @@ export default class ThemePicker extends React.Component {
                         );
                     })}
                 </OwlCarousel>
-            </div>
+            </ThemePickerContainer>
         );
     }
 }
