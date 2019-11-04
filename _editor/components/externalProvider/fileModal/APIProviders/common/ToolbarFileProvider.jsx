@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { ToolbarButton } from "../../../../toolbar/toolbarComponents/Styles";
 
 export default class ToolbarFileProvider extends Component {
 
@@ -19,10 +20,10 @@ export default class ToolbarFileProvider extends Component {
                     <FormControl key={2}{...props} onChange={e => {
                         onChange({ value: e.target.value });
                     }}/>] : null}
-                <Button className={'toolbarButton'}
+                <ToolbarButton
                     onClick={() => {
                         openModal(id, accept);
-                    }}>{buttontext}</Button>
+                    }}>{buttontext}</ToolbarButton>
             </FormGroup>);
     }
     UNSAFE_componentWillReceiveProps(nextProps) {

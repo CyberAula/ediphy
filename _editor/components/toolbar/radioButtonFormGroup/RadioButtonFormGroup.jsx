@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, ControlLabel, Tooltip, OverlayTrigger } from 'react-bootstrap';
 
-import './_radiobuttonformgroup.scss';
+import { RadioButtonCustom } from "./Styles";
 /** *
  * Radio Button component that displays material icons instead of plain text options
  * @example <RadioButtonFormGroup
@@ -40,18 +40,11 @@ export default class RadioButtonFormGroup extends Component {
                 .map((option, index) => {
                     const overlay = this.props.tooltips ? this.tooltip(this.props.tooltips[index]) : this.tooltip(option);
                     return (
-                        <OverlayTrigger
-                            placement="top"
-                            key={'item_' + index}
-                            overlay={overlay}
-                        >
-                            <button
-                                value={option}
-                                className={ this.props.selected === option ? 'radioButtonCustom selectedAlignment' : 'radioButtonCustom unselectedAlignment'}
-                                onClick={this.handleClick}
-                            >
+                        <OverlayTrigger placement="top" key={'item_' + index} overlay={overlay}>
+                            <RadioButtonCustom value={option} selected={ this.props.selected === option }
+                                onClick={this.handleClick}>
                                 <i className="material-icons">{this.props.icons[index]}</i>
-                            </button>
+                            </RadioButtonCustom>
                         </OverlayTrigger>);
                 })
         );

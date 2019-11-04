@@ -11,8 +11,9 @@ import { toolbarMapper, toolbarFiller } from "../../../../core/editor/toolbar/to
 import { renderAccordion } from "../../../../core/editor/toolbar/toolbarRenderer";
 import { blurCKEditor } from '../../../../common/commonTools';
 
-import './_pluginToolbar.scss';
 import _handlers from "../../../handlers/_handlers";
+import { Accordion, ToolbarIcon } from "../Styles";
+import { ToolbarButton } from "../toolbarComponents/Styles";
 
 /**
  * Toolbar component for configuring boxes or pages
@@ -51,15 +52,15 @@ export default class PluginToolbar extends Component {
         if (config.needsTextEdition) {
             textButton = (
                 <div className="panel-body">
-                    <Button key={'text'}
-                        className={toolbar.showTextEditor ? 'toolbarButton textediting' : 'toolbarButton'}
+                    <ToolbarButton key={'text'}
+                        className={toolbar.showTextEditor ? ' textediting' : ''}
                         onClick={() => {
                             blurCKEditor(toolbar.id, (text, content)=>{
                                 this.h.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, text, content);});
                         }}>
-                        <i className="toolbarIcons material-icons">mode_edit</i>
+                        <ToolbarIcon>mode_edit</ToolbarIcon>
                         {i18n.t("edit_text")}1
-                    </Button>
+                    </ToolbarButton>
                 </div>
             );
         }
@@ -68,14 +69,13 @@ export default class PluginToolbar extends Component {
         if (config && config.needsConfigModal) {
             configButton = (
                 <div className="panel-body">
-                    <Button key={'config'}
-                        className='toolbarButton'
+                    <ToolbarButton key={'config'}
                         onClick={() => {
                             this.props.openConfigModal(toolbar.id);
                         }}>
-                        <i className="toolbarIcons material-icons">build</i>
+                        <ToolbarIcon>build</ToolbarIcon>
                         {i18n.t('open_conf')}
-                    </Button>
+                    </ToolbarButton>
                 </div>
             );
         }
@@ -102,10 +102,10 @@ export default class PluginToolbar extends Component {
                             let container = this.props.box.sortableContainers[id];
                             if (tabKey === "main") {
                                 return (
-                                    <Panel key={'panel_' + id} className={"panelPluginToolbar"}>
+                                    <Accordion key={'panel_' + id} className={"panelPluginToolbar"}>
                                         <Panel.Heading key={'panel_' + id} className={"panel-heading"}>
                                             <Panel.Title toggle className={"titleA"} style={{ color: 'white', paddingTop: '0', paddingBottom: '0', paddingLeft: '0', fontSize: '14.4px' }}>
-                                                <i className="toolbarIcons material-icons">web_asset</i>
+                                                <ToolbarIcon>web_asset</ToolbarIcon>
                                                 {(toolbar.state.__pluginContainerIds && toolbar.state.__pluginContainerIds[container.key].name) ?
                                                     toolbar.state.__pluginContainerIds[container.key].name :
                                                     (i18n.t('Block') + ' ' + (ind + 1))
@@ -122,7 +122,8 @@ export default class PluginToolbar extends Component {
                                                 onSortablePropsChanged={this.h.onSortablePropsChanged}
                                                 onSortableContainerResized={this.h.onSortableContainerResized}/>
                                         </Panel.Body>
-                                    </Panel>);
+                                    </Accordion>
+                                );
                             }
                             return null;
                         })}

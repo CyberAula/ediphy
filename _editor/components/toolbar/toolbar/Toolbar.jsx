@@ -12,17 +12,8 @@ import { isCanvasElement, isSlide } from "../../../../common/utils";
 import { changeBackground } from "../../../../common/actions";
 import _handlers from "../../../handlers/_handlers";
 import ErrorBoundary from "../../../containers/ErrorBoundary";
-import {
-    Flap,
-    InsideTools,
-    PluginTitle,
-    TitleText,
-    ToolbarHeader,
-    ToolbarTabs,
-    ToolbarTitle, Tools,
-    Wheel,
-    Wrapper,
-} from "../Styles";
+import { ToolbarTabs, ToolbarTitle } from "../Styles";
+import { Flap, InsideTools, PluginTitle, TitleText, ToolbarHeader, Tools, Wheel, Wrapper } from "./Styles";
 
 class Toolbar extends Component {
 
@@ -65,7 +56,6 @@ class Toolbar extends Component {
             <Wrapper top={top}>
                 <ErrorBoundary context={'toolbar'}>
                     <Flap onClick={this.toggleToolbar}/>
-
                     <Tools open={open}>
                         <OverlayTrigger placement="left" overlay={overlay}>
                             <ToolbarHeader onClick={this.toggleToolbar}>

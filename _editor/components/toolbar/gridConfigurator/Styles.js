@@ -1,24 +1,20 @@
-@import "../../../../sass/general/_variables.scss";
+import styled from 'styled-components';
+import { PRIMARY_BLUE } from "../../../../sass/general/constants";
 
-/*******************Edit configuration advanced icon**********************/
-/*Icon*/
+export const GridConfiguratorContainer = styled.div.attrs({ className: 'gridConfiguratorContainer' })`
+width: 100%;
 .gridconficons {
   height: auto;
   width: auto;
   font-size: 14px !important;
   border-radius: 0px;
 }
-
-/*Input Addon*/
 .gc_addon {
   border-radius: 0px;
   border: 0;
   background-color: white;
   cursor: pointer;
 }
-
-/******************GRID LAYOUT*******************/
-/*Container*/
 .configurator {
   width: 100%;
   height: 100px;
@@ -27,26 +23,19 @@
   overflow: hidden;
   border: 1px solid white;
 }
-
-/*Columns*/
 .gc_columns {
   display: inline-block;
   height: 100%;
 }
-
-/*Rows*/
 .gc_rows {
   border: 2px solid white;
   width: 100%;
-  background-color: $blueprimary;
+  background-color: ${PRIMARY_BLUE};
 }
-
-/*Titles that group inputs*/
 .sortableToolbarTitle {
   font-size: 1em;
   font-weight: bold;
   color: #aaa;
   padding: 0px;
 }
-
-
+`;

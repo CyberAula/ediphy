@@ -1,6 +1,6 @@
 import React from "react";
 import i18n from "i18next";
-import { Button, ControlLabel, FormGroup, Radio } from "react-bootstrap";
+import { ControlLabel, FormGroup, Radio } from "react-bootstrap";
 
 import ToolbarFileProvider from "../../externalProvider/fileModal/APIProviders/common/ToolbarFileProvider";
 import ColorPicker from "../../common/colorPicker/ColorPicker";
@@ -8,6 +8,7 @@ import ColorPicker from "../../common/colorPicker/ColorPicker";
 import { handleCanvasToolbar } from "../../../../core/editor/toolbar/handleCanvasToolbar";
 import { isColor, isSlide, isURI } from "../../../../common/utils";
 import _handlers from "../../../handlers/_handlers";
+import { RangeOutput, ToolbarButton } from "./Styles";
 /* eslint-disable react/prop-types */
 export const BackgroundPicker = (button, props, toolbar, id, defaultBackground, onChange) => {
 
@@ -65,17 +66,16 @@ export const BackgroundPicker = (button, props, toolbar, id, defaultBackground, 
             {isSli && ImagePicker}
             {(!isBackColor && backgroundAttr !== "full") && [
                 <ControlLabel key={'label_zoom'}>{i18n.t('background.backgroundZoom')}</ControlLabel>,
-                <span className="rangeOutput" style={{ marginTop: 0 }}>{backgroundZoom}%</span>,
+                <RangeOutput style={{ marginTop: 0 }}>{backgroundZoom}%</RangeOutput>,
                 <input key="image_display_zoom" name='image_display_zoom' type='range' min={1} max={200}
                     value={backgroundZoom} style={{ display: isBackColor ? "none" : "block" }}
                     onChange={onChange}/>,
             ]}
             <br key={'br'}/>
             <ControlLabel key={'label_' + button.__name}>{i18n.t('background.resetBackground')}</ControlLabel>
-            <Button key={'button_' + button.__name} value={defaultBackground} onClick={onChange}
-                className={'toolbarButton'}>
+            <ToolbarButton key={'button_' + button.__name} value={defaultBackground} onClick={onChange}>
                 <div key={props.label}>{i18n.t('background.resetBackground')}</div>
-            </Button>
+            </ToolbarButton>
         </FormGroup>
     );
 };

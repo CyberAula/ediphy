@@ -10,6 +10,7 @@ import { handleCanvasToolbar } from "./handleCanvasToolbar";
 import { getCurrentColor, getThemes } from "../../../common/themes/themeLoader";
 import { loadBackground } from "../../../common/themes/backgroundLoader";
 import _handlers from "../../../_editor/handlers/_handlers";
+import { Accordion, ToolbarIcon } from "../../../_editor/components/toolbar/Styles";
 
 /**
  * Render toolbar accordion
@@ -72,7 +73,7 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
     }
     return (
         // eslint-disable-next-line react/prop-types
-        <Panel className={"panelPluginToolbar"}{...props}>
+        <Accordion className={"panelPluginToolbar"}{...props}>
             <Panel.Heading key={'span' + key} className={"panel-heading"}>
                 <Panel.Title toggle>
                     <p className={"titleA"} style={{
@@ -82,14 +83,15 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
                         paddingLeft: '0',
                         fontSize: '14.4px',
                     }}>
-                        <i className="toolbarIcons material-icons">
-                            {accordion.icon ? accordion.icon : <span className="toolbarIcons"/>}
-                        </i>{accordion.__name}
+                        <ToolbarIcon>
+                            {accordion.icon ? accordion.icon : null}
+                        </ToolbarIcon>{accordion.__name}
                     </p>
                 </Panel.Title>
             </Panel.Heading>
             <Panel.Body collapsible>{children}</Panel.Body>
-        </Panel>);
+        </Accordion>
+    );
     // React.createElement(Panel, props, children);
 }
 

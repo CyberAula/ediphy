@@ -10,7 +10,7 @@ import { isCanvasElement, isPage, isSection, isSlide } from "../../../../common/
 import { renderAccordion } from "../../../../core/editor/toolbar/toolbarRenderer";
 import { getThemes, sanitizeThemeToolbar } from "../../../../common/themes/themeLoader";
 
-import './_viewToolbar.scss';
+import { ToolbarTab } from "../Styles";
 
 class ViewToolbar extends Component {
 
@@ -158,7 +158,7 @@ class ViewToolbar extends Component {
         return Object.keys(controls).map((tabKey, index) => {
             let tab = controls[tabKey];
             return (
-                <div key={'key_' + index} className="toolbarTab">
+                <ToolbarTab key={'key_' + index}>
                     <PanelGroup id="panel-group">
                         {Object.keys(tab.accordions).sort().map((accordionKey, ind) => {
                             return renderAccordion(
@@ -171,7 +171,7 @@ class ViewToolbar extends Component {
                             );
                         })}
                     </PanelGroup>
-                </div>
+                </ToolbarTab>
             );
         });
     }

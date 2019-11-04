@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import {
-    Button,
     ControlLabel,
     FormControl,
     FormGroup,
@@ -21,16 +20,17 @@ import Select from "react-select";
 import RadioButtonFormGroup from "../radioButtonFormGroup/RadioButtonFormGroup";
 import React from "react";
 import handleModals from "../../../handlers/handleModals";
+import { RangeOutput, ToolbarButton } from "./Styles";
 
 export const Checkbox = (button, onChange, props) => {
     return (
-        <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
+        <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'flex' }}>
             <ToggleSwitch
                 key={'sw_' + button.__name}
                 {...props}
                 onChange={onChange}
             />
-            <label key={props.label} style={{ display: 'inline-block' }}>{props.label}</label>
+            <label key={props.label} style={{ display: 'inline-block', alignSelf: 'center' }}>{props.label}</label>
         </FormGroup>);
 };
 
@@ -56,14 +56,13 @@ export const PluginColor = (button, onChange, props, toolbarProps, id) => {
                 value={(props.value && props.value.color && props.value.custom) ? props.value.color : getCurrentColor(theme)}
                 onChange={onChange}
             />
-            <Button
+            <ToolbarButton
                 value={getColor(theme)}
                 key={'button_' + button.__name}
                 onClick={onChange}
-                className={"toolbarButton"}
             >
                 <div key={props.label}>{i18n.t('Style.restore_theme_color')}</div>
-            </Button>
+            </ToolbarButton>
         </FormGroup>);
 };
 
@@ -111,9 +110,9 @@ export const ConditionalText = (button, props, onChange) => {
     return (
         <FormGroup key={button.__name} style={{ display: (props.accordionChecked ? "block" : "none") }}>
             {button.displayName && <ControlLabel key={'label_' + button.__name}>{button.__name}</ControlLabel>}
-            <span key={'output_span_' + button.__name} className={'rangeOutput'}>
+            <RangeOutput key={'output_span_' + button.__name}>
                 {button.actualType === 'range' ? button.value : null}
-            </span>
+            </RangeOutput>
             {delete props.accordionChecked}
             <FormControl {...props} onChange={onChange}/>
         </FormGroup>
@@ -189,8 +188,9 @@ export const Range = (button, props, onChange) => {
     return (
         <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
             <ControlLabel key={'label_' + button.__name}> {button.__name} </ControlLabel>
-            <span key={'output_span' + button.__name}
-                className={'rangeOutput'}>{button.type === 'range' ? button.value : null}</span>
+            <RangeOutput key={'output_span' + button.__name}>
+                {button.type === 'range' ? button.value : null}
+            </RangeOutput>
             <FormControl
                 {...props}
                 onChange={onChange}

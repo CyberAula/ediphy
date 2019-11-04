@@ -6,7 +6,8 @@ import i18n from 'i18next';
 import RadioButtonFormGroup from '../radioButtonFormGroup/RadioButtonFormGroup';
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
 import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
-import './_gridConfigurator.scss';
+import { GridConfiguratorContainer } from "./Styles";
+import { RangeOutput } from "../toolbarComponents/Styles";
 
 /**
  * Toolbar structure component for Sortable Containers
@@ -59,7 +60,7 @@ export default class GridConfigurator extends Component {
         let height = this.props.sortableProps.height;
 
         return (
-            <div style={{ width: '100%' }}>
+            <GridConfiguratorContainer>
                 <h4 className="sortableToolbarTitle">{i18n.t('Structure')}</h4>
                 <FormGroup>
                     <OverlayTrigger rootClose trigger="click" placement="left"
@@ -216,9 +217,9 @@ export default class GridConfigurator extends Component {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>{i18n.t('styles.opacity')}</ControlLabel>
-                    <span className='rangeOutput'>
+                    <RangeOutput>
                         {this.props.container.style ? this.props.container.style.opacity : 1 + '%'}
-                    </span>
+                    </RangeOutput>
                     <FormControl type="range" className="rangeInput"
                         value={this.props.container.style ? this.props.container.style.opacity : 1 + '%'}
                         style={{ width: '100%' }}
@@ -245,7 +246,7 @@ export default class GridConfigurator extends Component {
                                     { key: 'child_' + index, value: option }, option));
                             }))])
                 }
-            </div>
+            </GridConfiguratorContainer>
         );
     }
 }
