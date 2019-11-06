@@ -7,6 +7,7 @@ import i18n from 'i18next';
 import './_carouselHeader.scss';
 import handleCanvas from "../../../handlers/handleCanvas";
 import { updateUI } from "../../../../common/actions";
+import { CarouselTitleContainer } from "./Styles";
 
 /**
  * Carousel's header, containing the course's title and the expand/collapse buttons
@@ -35,16 +36,15 @@ class CarouselHeader extends Component {
                 </button>
                 {!this.props.carouselShow ? <br/> : null}
 
-                <div className="navBarSpace" style={{ display: (this.props.carouselShow ? 'block' : 'none') }}>
+                <CarouselTitleContainer show={this.props.carouselShow }>
                     <EditorIndexTitle
                         id="coursetit"
                         scrollW={widthScroll}
-                        className="tituloCurso"
                         title={this.props.courseTitle}
                         courseTitle
                         onNameChanged={this.hC.onTitleChanged}
                     />
-                </div>
+                </CarouselTitleContainer>
 
                 <div className="clear" />
             </div>

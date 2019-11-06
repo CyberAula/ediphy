@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { updateUI } from "../../../../common/actions";
 import { connect } from "react-redux";
+import { PluginButton, PluginIcon, PluginName, PluginsMenus } from "./Styles";
 
 /**
  * Plugin menu in the editor's navbar
@@ -46,22 +47,22 @@ class PluginsMenu extends Component {
 
         ];
         return (
-            <div className="pluginsMenu" onClick={()=> this.openPlugin("")}>
+            <PluginsMenus onClick={()=> this.openPlugin("")}>
                 {categories.map((cat, ind)=>{
                     if (this.state.categories.indexOf(cat.name) > -1) {
                         return (
-                            <button key={ind}
+                            <PluginButton key={ind}
                                 className={ reactUI.hideTab === 'show' && reactUI.pluginTab === cat.name ? 'navButtonPlug active' : 'navButtonPlug' }
                                 title={cat.displayName}
-                                disabled={false /* disablePlugins*/}
+                                disabled={false}
                                 onClick={(e) => this.selectCategory(e, cat)}>
-                                <i className="material-icons showonresize">{cat.icon}</i>
-                                <span className="hideonresize"> {cat.displayName}</span>
-                            </button>);
+                                <PluginIcon children={cat.icon}/>
+                                <PluginName children={cat.displayName}/>
+                            </PluginButton>);
                     }
                     return null;
                 })}
-            </div>
+            </PluginsMenus>
         );
     }
 
