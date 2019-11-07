@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import {
     ADAMS_ORANGE,
-    DARKEST_GREY, GREY_INSIDE_PANELS,
+    GREY_INSIDE_PANELS,
     LIGHT_GREY,
     LIGTHEST_GREY, MatIcon,
     PRIMARY_BLUE,

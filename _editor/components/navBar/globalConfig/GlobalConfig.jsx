@@ -20,9 +20,17 @@ import {
 import { connect } from "react-redux";
 // Styles
 import 'react-select/dist/react-select.css';
-import './_globalConfig.scss';
-import './_reactTags.scss';
 import { UI } from "../../../../common/UI.es6";
+import { Keywords } from "./StylesTags";
+import {
+    ConfigAllowance,
+    ConfigAspectRatio,
+    ConfigDescription, ConfigInlineLabel,
+    ConfigInputGroup,
+    ConfigMiniIcon,
+    InsideInputBox,
+    OutsideInputBox,
+} from "./Styles";
 
 /**
  * Global course configuration modal
@@ -132,14 +140,14 @@ class GlobalConfig extends Component {
                                           placeholder={i18n.t('globalConfig.course_title')}
                                           onChange={e => {this.setState({ modifiedState: true, title: e.target.value });}}/>
                                   </FormGroup>
-                                  <FormGroup >
+                                  <ConfigDescription>
                                       <ControlLabel>{i18n.t('globalConfig.description')}</ControlLabel>
                                       <FormControl id="descTA"
                                           componentClass="textarea"
                                           placeholder={i18n.t('globalConfig.description_placeholder')}
                                           value={description}
                                           onChange={e => {this.setState({ modifiedState: true, description: e.target.value });}} />
-                                  </FormGroup>
+                                  </ConfigDescription>
                                   <FormGroup >
                                       <ControlLabel>{i18n.t('globalConfig.author')}</ControlLabel>
                                       <FormControl type="text"
@@ -164,11 +172,8 @@ class GlobalConfig extends Component {
                                               {i18n.t('globalConfig.rights_short_txt')}
                                               <a target="_blank" href={"https://creativecommons.org/licenses/?lang=" + i18n.t('currentLang')}> [{i18n.t('Read_more')}] </a>
                                           </Popover>}>
-                                          <a className="miniIcon" id="helpIcon"><i className="material-icons">help</i></a>
+                                          <ConfigMiniIcon><i className="material-icons">help</i></ConfigMiniIcon>
                                       </OverlayTrigger>
-                                      {/*
-                                        <a className="miniIcon" target="_blank" href={"https://creativecommons.org/licenses/?lang="+i18n.t('currentLang')}><i className="material-icons">help</i></a>
-                                         */}
                                       <br/>
                                       <Select disabled={status === 'final' || this.state.everPublished} className={(status === 'final' || this.state.everPublished) ? 'select-disabled' : ''} title={(status === 'final' || this.state.everPublished) ? i18n.t("messages.forbidden") : undefined}
                                           name="form-field-name-rights"
@@ -176,7 +181,7 @@ class GlobalConfig extends Component {
                                           options={rightsOptions()}
                                           onChange={e => {this.setState({ modifiedState: true, rights: e.value });}} />
                                   </FormGroup>
-                                  <FormGroup >
+                                  <Keywords>
                                       <ControlLabel>{i18n.t('globalConfig.keywords')}</ControlLabel><br/>
                                       <ReactTags tags={(keywords || []).map((text, id) => (typeof text === "string") ? { id: id.toString(), text } : text)}
                                           suggestions={suggestions()}
@@ -185,7 +190,7 @@ class GlobalConfig extends Component {
                                           handleDelete={this.handleDelete}
                                           handleAddition={this.handleAddition}
                                           handleDrag={this.handleDrag} />
-                                  </FormGroup>
+                                  </Keywords>
                                   <FormGroup >
                                       <ControlLabel>{i18n.t('globalConfig.recom_age')}</ControlLabel>
                                       <RangeSlider
@@ -210,9 +215,9 @@ class GlobalConfig extends Component {
                                           <div className="D(ib) C(#4e5b65)">{i18n.t('globalConfig.dif.' + difficulty)}</div>
                                           <div className="D(ib) Fl(end) C(#4e5b65)" />
                                           <div className="range-slider Pos(r) Ta(c) H(35px)">
-                                              <div id="outsideInputBox" style={{ position: 'absolute', boxSizing: 'border-box', width: '100%' }}>
-                                                  <div id="insideInputBox" style={{ marginLeft: '0%', width: difLevels.indexOf(difficulty) * 25 + '%', backgroundColor: 'rgb(95, 204, 199)' }} />
-                                              </div>
+                                              <OutsideInputBox style={{ position: 'absolute', boxSizing: 'border-box', width: '100%' }}>
+                                                  <InsideInputBox style={{ marginLeft: '0%', width: difLevels.indexOf(difficulty) * 25 + '%', backgroundColor: 'rgb(95, 204, 199)' }} />
+                                              </OutsideInputBox>
                                               <input type="range" step="1" min="0" max="4" value={difLevels.indexOf(difficulty)} onChange={e =>{this.setState({ modifiedState: true, difficulty: difLevels[e.target.value] }); }}/>
                                           </div>
                                       </div>
@@ -220,7 +225,7 @@ class GlobalConfig extends Component {
 
                                   <FormGroup >
                                       <ControlLabel>{i18n.t('globalConfig.typicalLearningTime')}</ControlLabel><br/>
-                                      <InputGroup className="inputGroup">
+                                      <ConfigInputGroup>
                                           <FormControl type="number"
                                               value={typicalLearningTime.h}
                                               min={0}
@@ -228,8 +233,8 @@ class GlobalConfig extends Component {
                                               placeholder="h"
                                               onChange={e => {this.setState({ modifiedState: true, typicalLearningTime: { h: e.target.value, m: typicalLearningTime.m, s: typicalLearningTime.s } });}}/>
                                           <InputGroup.Addon>h</InputGroup.Addon>
-                                      </InputGroup>
-                                      <InputGroup className="inputGroup">
+                                      </ConfigInputGroup>
+                                      <ConfigInputGroup>
                                           <FormControl type="number"
                                               value={typicalLearningTime.m}
                                               min={0}
@@ -237,17 +242,17 @@ class GlobalConfig extends Component {
                                               placeholder="m"
                                               onChange={e => {this.setState({ modifiedState: true, typicalLearningTime: { h: typicalLearningTime.h, m: e.target.value, s: typicalLearningTime.s } });}}/>
                                           <InputGroup.Addon>m</InputGroup.Addon>
-                                      </InputGroup>
+                                      </ConfigInputGroup>
                                   </FormGroup>
 
                                   <FormGroup >
-                                      <ControlLabel className="inlineLabel">{i18n.t('globalConfig.hideGlobalScore')}</ControlLabel>
+                                      <ConfigInlineLabel>{i18n.t('globalConfig.hideGlobalScore')}</ConfigInlineLabel>
                                       <ToggleSwitch onChange={()=>{this.setState({ modifiedState: true, hideGlobalScore: !this.state.hideGlobalScore });}} checked={!hideGlobalScore}/>
 
                                   </FormGroup>
                                   <FormGroup >
                                       <ControlLabel>{i18n.t('globalConfig.minTimeProgress')}</ControlLabel><br/>
-                                      <InputGroup className="inputGroup">
+                                      <ConfigInputGroup>
                                           <FormControl type="number"
                                               value={minTimeProgress}
                                               min={1}
@@ -255,7 +260,7 @@ class GlobalConfig extends Component {
                                               placeholder="s"
                                               onChange={e => {this.setState({ modifiedState: true, minTimeProgress: e.target.value });}}/>
                                           <InputGroup.Addon>s</InputGroup.Addon>
-                                      </InputGroup>
+                                      </ConfigInputGroup>
 
                                   </FormGroup>
 
@@ -269,18 +274,17 @@ class GlobalConfig extends Component {
                                   </FormGroup>
                                   <FormGroup >
                                       <ControlLabel>{i18n.t('globalConfig.aspect_ratio')}</ControlLabel><br/>
-                                      <div className={"aspectRatioGroup"}>
+                                      <ConfigAspectRatio>
                                           <Radio name="radioGroup" inline checked={canvasRatio === 16 / 9 } onChange={() => {this.setState({ modifiedState: true, canvasRatio: 16 / 9 });}}>
                                                 16/9
                                           </Radio>
                                           <Radio name="radioGroup" inline checked={canvasRatio === 4 / 3 } onChange={() => {this.setState({ modifiedState: true, canvasRatio: 4 / 3 });}}>
                                                 4/3
                                           </Radio>
-
-                                      </div>
+                                      </ConfigAspectRatio>
 
                                   </FormGroup>
-                                  <FormGroup className={"allowance"}>
+                                  <ConfigAllowance>
                                       <ControlLabel>{i18n.t('globalConfig.visor_nav.title')}</ControlLabel><br/>
                                       <ToggleSwitch onChange={()=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, player: !visorNav.player, fixedPlayer: !visorNav.player } });}} checked={visorNav.player}/>
                                       { i18n.t('globalConfig.visor_nav.player') } <br/>
@@ -290,7 +294,7 @@ class GlobalConfig extends Component {
                                       { i18n.t('globalConfig.visor_nav.fixedPlayer') } <br/>
                                       <ToggleSwitch onChange={()=>{this.setState({ modifiedState: true, visorNav: { ...visorNav, keyBindings: !visorNav.keyBindings } });}} checked={visorNav.keyBindings}/>
                                       { i18n.t('globalConfig.visor_nav.keybindings') }
-                                  </FormGroup>
+                                  </ConfigAllowance>
                                   <FormGroup >
                                       <ControlLabel>{i18n.t('globalConfig.status')}</ControlLabel><br/>
                                       <Select
@@ -299,7 +303,7 @@ class GlobalConfig extends Component {
                                           options={statusOptions()}
                                           onChange={e => {this.setState({ modifiedState: true, status: e.value }); }} />
                                   </FormGroup>
-                                  {(process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? <FormGroup className="allowance">
+                                  {(process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? <ConfigAllowance>
                                       <ControlLabel>{i18n.t('globalConfig.permissions.title')}</ControlLabel><br/>
                                       <ToggleSwitch onChange={()=>{this.setState({ modifiedState: true, allowClone: !allowClone });}} checked={allowClone}/>
                                       { i18n.t('globalConfig.permissions.allow_clone') }<br/>
@@ -307,7 +311,7 @@ class GlobalConfig extends Component {
                                       { i18n.t('globalConfig.permissions.allow_comments') }<br/>
                                       <ToggleSwitch onChange={()=>{this.setState({ modifiedState: true, allowDownload: !allowDownload });}} checked={allowDownload}/>
                                       { i18n.t('globalConfig.permissions.allow_download') }
-                                  </FormGroup> : null }
+                                  </ConfigAllowance> : null }
                               </Col>
                           </Row>
                       </form>

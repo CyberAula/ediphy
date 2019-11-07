@@ -1,3 +1,7 @@
+import styled from 'styled-components';
+import { FormGroup } from "react-bootstrap";
+
+export const Keywords = styled(FormGroup)`
 /* Example Styles for React Tags*/
 div.ReactTags__tags {
     position: relative;
@@ -104,3 +108,4 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
     background: #b7cfe0;
     cursor: pointer;
 }
+`;

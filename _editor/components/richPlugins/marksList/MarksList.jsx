@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import i18n from 'i18next';
 import { MarkListBox } from "./Styles";
 import { ToolbarButton } from "../../toolbar/toolbarComponents/Styles";

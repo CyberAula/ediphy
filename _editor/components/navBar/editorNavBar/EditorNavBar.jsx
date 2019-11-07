@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col } from 'react-bootstrap';
 import { connect } from "react-redux";
 import screenfull from 'screenfull';
 

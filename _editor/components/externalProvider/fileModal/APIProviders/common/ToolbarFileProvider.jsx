@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { ToolbarButton } from "../../../../toolbar/toolbarComponents/Styles";
 
