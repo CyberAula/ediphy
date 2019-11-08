@@ -259,11 +259,11 @@ class CarouselButtons extends Component {
 
                 this.props.dispatch(deleteContainedView([indexSelected], boxesByIdRemoving, containedViewsById[cvId].parent));
             } else {
-                let viewRemoving = [indexSelected].concat(getDescendantViews(navItemsById[indexSelected]));
+                let viewRemoving = [indexSelected].concat(getDescendantViews(navItemsById[indexSelected], navItemsById));
                 let boxesByIdRemoving = [];
                 let containedRemoving = {};
                 viewRemoving.map(id => {
-                    navItemsById[id].boxesById.map(boxId => {
+                    navItemsById[id].boxes.map(boxId => {
                         boxesByIdRemoving.push(boxId);
                         boxesByIdRemoving = boxesByIdRemoving.concat(getDescendantBoxes(boxesById[boxId], boxesById));
                     });

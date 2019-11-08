@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Col } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import interact from 'interactjs';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
@@ -16,8 +16,8 @@ import { createBox, instanceExists, releaseClick } from '../../../../common/comm
 
 import { updateUI } from "../../../../common/actions";
 
-import './_pluginRibbon.scss';
 import handleBoxes from "../../../handlers/handleBoxes";
+import { Container } from "./Styles";
 
 /**
  * Plugin ribbon inside toolbar
@@ -41,7 +41,7 @@ class PluginRibbon extends Component {
      */
     render() {
         return (
-            <Col id="ribbon" md={12} xs={12} ref="holder" >
+            <Container id="ribbon" md={12} xs={12} ref="holder" >
                 <div id="insideribbon" className={this.props.category === '' ? 'noButtons' : ''}>
                     <div id="ribbonList">
                         {this.state.alert}
@@ -73,7 +73,7 @@ class PluginRibbon extends Component {
                         })}
                     </div>
                 </div>
-            </Col>
+            </Container>
         );
     }
 

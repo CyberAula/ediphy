@@ -1,9 +1,21 @@
 @import "../../../../sass/general/_variables.scss";
-@import "../../navBar/pluginRibbon/_pluginRibbon.scss";
 
 /*Each title mode button*/
 .editorTitleButton {
-  @extend .ribShortcut;
+  width: 32px;
+  height: 32px;
+  margin: 4px;
+  padding: 8px;
+  border: 0;
+  color: $verdeoscurogrisaceo;
+  background-color: $lightestgrey;
+  display: inline-block;
+  &:hover {
+    color: $detailgreen;
+  }
+  .material-icons {
+    font-size: 16px;
+  }
   background-color: $grismedio !important;
   color: white !important;
   border-radius: 3px;

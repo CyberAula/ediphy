@@ -33,6 +33,7 @@ import ErrorBoundary from "./ErrorBoundary";
 import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContext } from "react-dnd";
 import { NavBar } from "../components/navBar/editorNavBar/Styles";
+import { RibbonRow } from "../components/navBar/pluginRibbon/Styles";
 
 const cookies = new Cookies();
 
@@ -97,9 +98,9 @@ class EditorApp extends Component {
                                 <ActionsRibbon ribbonHeight={ ribbonHeight + 'px'}/>
                             </Row>
 
-                            <Row id="ribbonRow" style={{ top: '-1px', left: (reactUI.carouselShow ? '15px' : '147px') }}>
+                            <RibbonRow style={{ top: '-1px', left: (reactUI.carouselShow ? '15px' : '147px') }}>
                                 <PluginRibbon disabled={disabled} ribbonHeight={ ribbonHeight + 'px'}/>
-                            </Row>
+                            </RibbonRow>
 
                             <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
                                 <EditorCanvas {...canvasProps}/>
