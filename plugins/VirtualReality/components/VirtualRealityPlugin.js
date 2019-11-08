@@ -29,6 +29,7 @@ export default class VirtualRealityPlugin extends React.Component {
             // console.log(data);
             if (!this.windowSource && data.msg === 'LOAD' && data.id === this.props.id) {
                 this.windowSource = e.source;
+                console.log(e.source);
                 this.toolbarUpdateValue();
             }
             if (this.windowSource && data.msg === 'MARK' && data.id === this.props.id) {
@@ -37,7 +38,6 @@ export default class VirtualRealityPlugin extends React.Component {
         } catch (err) {
             console.error(err);
         }
-
     }
     toolbarUpdateValue(props = this.props) {
         console.log(props);
@@ -51,6 +51,5 @@ export default class VirtualRealityPlugin extends React.Component {
             receiverWindow.postMessage({ msg: 'DATA', imagenBack, urlBack, audioBack: { play: audioBack },
                 imgs, showPanel: { show: showPanel }, marks: props.marks }, "*");
         }
-
     }
 }
