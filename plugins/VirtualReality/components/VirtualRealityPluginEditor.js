@@ -23,6 +23,7 @@ export default class VirtualRealityPluginEditor extends React.Component {
     }
     receiver(e) {
         try{
+            console.log(e.data);
             let data = JSON.parse(e.data);
             // console.log(data);
             if (!this.windowSource && data.msg === 'LOAD' && data.id === this.props.id) {

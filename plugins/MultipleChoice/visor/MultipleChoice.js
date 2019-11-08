@@ -78,9 +78,6 @@ export function MultipleChoice() {
                         <CorrectAnswerLabel> {i18n.t("MultipleChoice.correctAnswerFeedback") }:</CorrectAnswerLabel> {correctAnswers}
                     </CorrectAnswerFeedback>
                     <ExerciseScore attempted={attempted}>{score}</ExerciseScore>
-                    <style dangerouslySetInnerHTML={{
-                        __html: RadioStyleDangerous('multipleChoicePlugin'),
-                    }}/>
                 </MultipleChoicePlugin>
             );
         },

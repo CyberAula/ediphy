@@ -71,7 +71,6 @@ export const TrueFalse = () => ({
                     </Feedback>
                 </FeedbackRow>
                 <ExerciseScore attempted={attempted}>{score}</ExerciseScore>
-                <style dangerouslySetInnerHTML={{ __html: RadioStyleDangerous('truefalsePlugin') }}/>
             </TrueFalsePlugin>);
     },
     checkAnswer(current, correct, state) {

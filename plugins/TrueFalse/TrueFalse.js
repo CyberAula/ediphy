@@ -123,7 +123,6 @@ export const TrueFalse = () => ({
                             pluginContainer={"Feedback"}/>
                     </Feedback>
                 </FeedbackRow>
-                <style dangerouslySetInnerHTML={{ __html: RadioStyleDangerous('truefalsePlugin') }} />
             </TrueFalsePlugin>);
 
     },

@@ -48,6 +48,7 @@ class ExportModal extends Component {
    */
     render() {
         let callback = (fail)=> {
+            console.log(fail);
             this.setState({ showLoader: false });
             if(fail === "nullPrint") {
                 this.setState({ showLoader: false, showPrintAlert: true });
@@ -65,7 +66,7 @@ class ExportModal extends Component {
         let aspectRatio = this.props.aspectRatio;
 
         let cancelEvent = new Event('canceled');
-
+        console.log(this.props);
         let exportFormats = [
             { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false, callback, this.state.selfContained); } },
             { format: "SCORM 2004", handler: ()=> {this.props.scorm(true, callback, this.state.selfContained); } },

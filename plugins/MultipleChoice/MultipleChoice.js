@@ -132,9 +132,6 @@ export const MultipleChoice = () => ({
                 <CorrectAnswerFeedback>
                     <CorrectAnswerLabel className="correctAnswerLabel"> {i18n.t("MultipleChoice.correctAnswerFeedback") }:</CorrectAnswerLabel> {correctAnswers}
                 </CorrectAnswerFeedback>
-                <style dangerouslySetInnerHTML={{
-                    __html: RadioStyleDangerous('multipleChoicePlugin'),
-                }}/>
             </MultipleChoicePlugin>);
     },
 });
