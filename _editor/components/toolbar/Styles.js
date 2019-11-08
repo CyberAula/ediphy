@@ -3,18 +3,18 @@ import {
     ADAMS_ORANGE,
     GREY_INSIDE_PANELS,
     LIGHT_GREY,
-    LIGTHEST_GREY, MatIcon,
+    LIGHTEST_GREY, MatIcon,
     PRIMARY_BLUE,
 } from "../../../sass/general/constants";
 import { Panel } from "react-bootstrap";
 
 export const ToolbarTabs = styled.div.attrs({ className: 'toolbarTabs' })`
-  color: ${LIGTHEST_GREY};
+  color: ${LIGHTEST_GREY};
   li {
     padding-bottom: 0;
     a {
       border-color: transparent;
-      color: ${LIGTHEST_GREY};
+      color: ${LIGHTEST_GREY};
       border-radius: 0;
       padding: 10px 12px;
       cursor: pointer;
@@ -94,7 +94,7 @@ export const Accordion = styled(Panel).attrs({ className: 'panelTab' })`
         padding: 0;
         border: 0;
         border-radius: 0;
-        color: ${LIGTHEST_GREY};
+        color: ${LIGHTEST_GREY};
         background-color: #121212;
         .collapsed{
             border-left: 0px solid transparent !important;

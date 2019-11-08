@@ -3,7 +3,7 @@ import { Col, Dropdown, Row } from "react-bootstrap";
 import {
     DARKEST_GREY,
     GREY, GREY_PANEL_HEADINGS, LIGHT_GREY,
-    LIGTHEST_GREY, MatIcon,
+    LIGHTEST_GREY, MatIcon,
     MEDIUM_BLUE,
     PRIMARY_BLUE,
     PRIMARY_BLUE_DARK,
@@ -66,7 +66,7 @@ export const NavButton = styled.button`
   &:active {
     border-bottom: 0px solid ${LIGHT_GREY};
     color: white;
-    background: ${LIGTHEST_GREY};
+    background: ${LIGHTEST_GREY};
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
@@ -164,7 +164,7 @@ export const PluginName = styled.span`
 `;
 
 export const NavBar = styled(Row).attrs({ className: 'navBar' })`
-  background-color: ${LIGTHEST_GREY};
+  background-color: ${LIGHTEST_GREY};
   height: 60px;
   z-index: 9999999 !important;
   .hideonresize {
@@ -243,7 +243,7 @@ export const EDDropDown = styled(Dropdown)`
     &:active {
       border-bottom: 0px solid ${LIGHT_GREY};
       color: white;
-      background: ${LIGTHEST_GREY};
+      background: ${LIGHTEST_GREY};
       -webkit-box-shadow: none;
       -moz-box-shadow: none;
       box-shadow: none;

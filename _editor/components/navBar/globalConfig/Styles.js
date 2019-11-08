@@ -1,5 +1,92 @@
 import styled from 'styled-components';
 import { ControlLabel, FormGroup, InputGroup, Modal } from "react-bootstrap";
+import { LIGHTEST_GREY } from "../../../../sass/general/constants";
+import { EDRadio } from "../../../../sass/general/EDInputs";
+
+export const ConfigRange = `
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    top: -5px;
+    pointer-events: all;
+    border: 2px solid #CCD2DB;
+    box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.10);
+    border-radius: 4px;
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    position: relative;
+    z-index: 1;
+    outline: 0;
+    height: 15px;
+    width: 15px;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    background-color: transparent;
+    height: 6px;
+    border-radius: 13px;
+    border: 1px solid #EDEEF0;
+}
+
+/* Styles for Firefox */
+input[type=range]::-moz-range-thumb {
+    -moz-appearance: none;
+    pointer-events: all;
+    border: 2px solid #CCD2DB;
+    box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.10);
+    border-radius: 4px;
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    position: relative;
+    z-index: 100;
+    outline: 0;
+    height: 12px;
+    width: 12px;
+}
+
+input[type=range]::-moz-range-track {
+    position: relative;
+    z-index: -1;
+    background: none transparent;
+    height: 6px;
+    border-radius: 13px;
+    border: 1px solid #EDEEF0;
+}
+
+/* extra fixes for Firefox */
+input[type=range]:last-of-type::-moz-range-track {
+    -moz-appearance: none;
+    background: none transparent;
+    border: 0;
+}
+
+input[type=range]::-moz-focus-outer {
+    border: 0;
+}
+.C\\(\\#4e5b65\\) {
+  color: #4e5b65;
+}
+.D\\(ib\\) {
+  display: inline-block;
+}
+.Fl\\(end\\) {
+  float: right;
+}
+.H\\(35px\\) {
+  height: 20px;
+}
+.Pos\\(r\\) {
+  position: relative;
+}
+.Ta\\(c\\) {
+  text-align: center;
+}
+.W\\(100\\%\\) {
+  width: 100%;
+}
+`;
 
 export const GlobalConfigModal = styled(Modal).attrs({ className: 'pageModal' })`
 .gcModalBody {
@@ -47,10 +134,7 @@ overflow-y: auto;
   &:focus, .is-focused {
       border-color: #66afe9;
       outline: 0;
-      -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
-      -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
       box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
-
     }
     .Select-control {
         border: none;
@@ -58,16 +142,17 @@ overflow-y: auto;
 }
 }
 .advanced-block{
-      background-color: $lightestgrey;
+    background-color: ${LIGHTEST_GREY};
 }
 .control-label {
-color: #444 !important;
+    color: #444 !important;
 }
-   .avatarButtons {
-     margin-bottom:3px;
-     width: 100%;
-   }
-
+.avatarButtons {
+    margin-bottom:3px;
+    width: 100%;
+}
+${ConfigRange}
+${EDRadio}
 }
 `;
 
@@ -118,3 +203,21 @@ export const ConfigInlineLabel = styled(ControlLabel)`
   display: inline;
   margin-right: 10px !important;
 `;
+
+export const ConfigDifficulty = styled.div`
+${ConfigRange}
+input{
+    pointer-events: none;
+    position: absolute;
+    overflow: hidden;
+    left: 0;
+    width: 100%;
+    outline: none;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    appearance: none;
+    background-color: transparent;
+    }
+`;
+

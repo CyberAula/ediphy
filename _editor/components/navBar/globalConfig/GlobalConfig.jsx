@@ -25,9 +25,9 @@ import { Keywords } from "./StylesTags";
 import {
     ConfigAllowance,
     ConfigAspectRatio,
-    ConfigDescription, ConfigInlineLabel,
+    ConfigDescription, ConfigDifficulty, ConfigInlineLabel,
     ConfigInputGroup,
-    ConfigMiniIcon,
+    ConfigMiniIcon, GlobalConfigModal,
     InsideInputBox,
     OutsideInputBox,
 } from "./Styles";
@@ -75,7 +75,7 @@ class GlobalConfig extends Component {
       const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, keywords, status, context, allowDownload, allowClone, allowComments } = this.state;
       const { reactUI } = this.props;
       return (
-          <Modal className="pageModal"
+          <GlobalConfigModal className="pageModal"
               show={reactUI.showGlobalConfig}
               backdrop={'static'} bsSize="large"
               aria-labelledby="contained-modal-title-lg"
@@ -214,12 +214,12 @@ class GlobalConfig extends Component {
                                       <div className=" W(100%)">
                                           <div className="D(ib) C(#4e5b65)">{i18n.t('globalConfig.dif.' + difficulty)}</div>
                                           <div className="D(ib) Fl(end) C(#4e5b65)" />
-                                          <div className="range-slider Pos(r) Ta(c) H(35px)">
+                                          <ConfigDifficulty className="range-slider Pos(r) Ta(c) H(35px)">
                                               <OutsideInputBox style={{ position: 'absolute', boxSizing: 'border-box', width: '100%' }}>
                                                   <InsideInputBox style={{ marginLeft: '0%', width: difLevels.indexOf(difficulty) * 25 + '%', backgroundColor: 'rgb(95, 204, 199)' }} />
                                               </OutsideInputBox>
                                               <input type="range" step="1" min="0" max="4" value={difLevels.indexOf(difficulty)} onChange={e =>{this.setState({ modifiedState: true, difficulty: difLevels[e.target.value] }); }}/>
-                                          </div>
+                                          </ConfigDifficulty>
                                       </div>
                                   </FormGroup>
 
@@ -325,7 +325,7 @@ class GlobalConfig extends Component {
                       this.saveState(); e.preventDefault();
                   }}>{i18n.t("globalConfig.Accept")}</Button>{'   '}
               </Modal.Footer>
-          </Modal>
+          </GlobalConfigModal>
       );
   }
 
