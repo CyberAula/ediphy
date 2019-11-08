@@ -62,6 +62,7 @@ export default {
         // 'Rating',
         'AudioCue',
         // 'Google3DPolyObject',
+        'VirtualReality',
     ],
     themeList: [
         'default',
@@ -91,6 +92,7 @@ export default {
         'vish10',
         'vish11',
         'vish12',
+        // 'ScormPackage',
     ],
     availableLanguages: [
         'en',

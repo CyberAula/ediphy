@@ -1,0 +1,24 @@
+.VRPlugin {
+  .VR {
+    pointer-events: none;
+  }
+  .dropableRichZone{
+    display:none;
+    &.rich_overlay {
+      z-index: 999;
+      display:block;
+    }
+  }
+  iframe{
+    border: none;
+  }
+}
+
+.VRvisor{
+  border: none;
+}
+
+.pointerEventsEnabled .VR {
+   pointer-events: all !important ;
+   touch-action: manipulation !important;
+ }

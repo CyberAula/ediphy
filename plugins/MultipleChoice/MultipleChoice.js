@@ -82,9 +82,13 @@ export const MultipleChoice = () => ({
         let customColor = generateCustomColors(quizColor, 1, true);
         let customStyle = { ...customColor };
 
-        const clickHandler = e => props.setCorrectAnswer(parseInt(e.target.value, 10));
+        const clickHandler = e => {
+            console.log(e.target.value);
+            props.setCorrectAnswer(parseInt(e.target.value, 10));
+        };
         const isCorrect = i => props.exercises.correctAnswer === i;
-
+        console.log(props);
+        console.log(correctAnswers);
         const Answer = i => (
             <AnswerRow key={i + 1} className={"row answerRow"}>
                 <AnswerInput>
@@ -103,6 +107,7 @@ export const MultipleChoice = () => ({
 
         const answers = [...Array(state.nBoxes)].map((a, i) => {
             if (isCorrect(i)) {correctAnswers += state.letters === i18n.t("MultipleChoice.ShowLetters") ? letterFromNumber(i) : (i + 1);}
+            console.log(isCorrect(i));
             return Answer(i);
         });
 

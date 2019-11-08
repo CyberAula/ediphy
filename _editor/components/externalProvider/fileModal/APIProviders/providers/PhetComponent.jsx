@@ -76,9 +76,10 @@ export default class PhetComponent extends React.Component {
                         let results = imgs.items.map(img=>{
                             return {
                                 title: img.title,
-                                url: img.media.m.replace(/_m/i, ""),
+                                url: img.media.m.replace(/_m/i, "_h"),
                             };
                         });
+
                         this.setState({ results, msg: results.length > 0 ? '' : i18n.t("FileModal.APIProviders.no_files") });
                     }
                 }
