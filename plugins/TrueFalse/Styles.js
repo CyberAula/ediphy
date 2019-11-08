@@ -58,11 +58,21 @@ export const RadioInput = styled.input.attrs({ type: 'radio' })`
       width: 1em;
       border: 0.1em solid #ccc;
       -webkit-appearance: none;
-      &:after {
-        margin:0;
+       &:after {
+        border-radius: 50%;
+        content: "";
+        display: block;
+        height: 60%;
+        left: 20%;
+        top: 20%;
+        width: 60%;
+        text-rendering: optimizeLegibility;
+        position: relative;
+      }
+        &:checked:after {
+        background-color: var(--themeColor1);
       }
 `;
-
 export const TFRow = styled.div`
       margin: 0.8em 1em;
       display: flex;

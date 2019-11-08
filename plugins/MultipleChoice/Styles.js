@@ -62,7 +62,18 @@ export const RadioInput = styled.input.attrs({ type: 'radio' })`
       border: 0.1em solid #ccc;
       -webkit-appearance: none;
       &:after {
-        margin:0;
+        border-radius: 50%;
+        content: "";
+        display: block;
+        height: 60%;
+        left: 20%;
+        top: 20%;
+        width: 60%;
+        text-rendering: optimizeLegibility;
+        position: relative;
+      }
+        &:checked:after {
+        background-color: var(--themeColor1);
       }
       &:checked:after {
         background-color: blue;
