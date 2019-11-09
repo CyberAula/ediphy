@@ -34,3 +34,4 @@ coverage
 ediphy_server/public/*
 !ediphy_server/public/.gitkeep
 .DS_Store
+.env
